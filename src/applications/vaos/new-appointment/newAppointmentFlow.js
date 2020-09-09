@@ -65,6 +65,42 @@ function isPodiatry(state) {
   return getFormData(state).typeOfCareId === PODIATRY;
 }
 
+async function checkCommunityCareEligibility(state, dispatch) {
+  const communityCareEnabled = vaosCommunityCare(state);
+  const useVSP = vaosVSPAppointmentNew(state);
+
+  if (!communityCareEnabled) {
+    return false;
+  }
+
+  try {
+    // Check if user registered systems support community care...
+    const siteIds = selectSystemIds(state);
+    const parentIds = await getOrganizations({ siteIds, useVSP });
+    const ccSites = await getSitesSupportingVAR(parentIds);
+    const ccEnabledSystems = parentIds.filter(parent =>
+      ccSites.some(site => site.id === getSiteIdFromOrganization(parent)),
+    );
+    dispatch(updateCCEnabledSystems(ccEnabledSystems, parentIds));
+
+    // Reroute to VA facility page if none of the user's registered systems support community care.
+    if (ccEnabledSystems.length) {
+      const response = await getCommunityCare(getCCEType(state));
+
+      dispatch(updateCCEligibility(response.eligible));
+
+      return response.eligible;
+    }
+  } catch (e) {
+    captureError(e);
+    Sentry.captureMessage(
+      'Community Care eligibility check failed with errors',
+    );
+  }
+
+  return false;
+}
+
 export default {
   home: {
     url: '/',
@@ -79,54 +115,23 @@ export default {
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
-      const communityCareEnabled = vaosCommunityCare(state);
-      const useVSP = vaosVSPAppointmentNew(state);
-
       if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
         return 'typeOfSleepCare';
       } else if (isEyeCare(state)) {
         return 'typeOfEyeCare';
       } else if (isCommunityCare(state)) {
-        try {
-          if (communityCareEnabled) {
-            // Check if user registered systems support community care...
-            const siteIds = selectSystemIds(state);
-            const parentIds = await getOrganizations({ siteIds, useVSP });
-            const ccSites = await getSitesSupportingVAR(parentIds);
-            const ccEnabledSystems = parentIds.filter(parent =>
-              ccSites.some(
-                site => site.id === getSiteIdFromOrganization(parent),
-              ),
-            );
-            dispatch(updateCCEnabledSystems(ccEnabledSystems, parentIds));
+        const isEligible = await checkCommunityCareEligibility(state, dispatch);
 
-            // Reroute to VA facility page if none of the user's registered systems support community care.
-            if (ccEnabledSystems.length) {
-              const response = await getCommunityCare(getCCEType(state));
-
-              dispatch(updateCCEligibility(response.eligible));
-
-              if (response.eligible) {
-                // If CC enabled systems and toc is podiatry, skip typeOfFacility
-                if (isPodiatry(state)) {
-                  dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
-                  dispatch(startRequestAppointmentFlow(true));
-                  return 'requestDateTime';
-                }
-                return 'typeOfFacility';
-              }
-            }
-          }
-        } catch (e) {
-          captureError(e);
-          Sentry.captureMessage(
-            'Community Care eligibility check failed with errors',
-          );
-        }
-
-        // If no CC enabled systems and toc is podiatry, show modal
-        if (isPodiatry(state)) {
+        if (isEligible && isPodiatry(state)) {
+          // If CC enabled systems and toc is podiatry, skip typeOfFacility
+          dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+          dispatch(startRequestAppointmentFlow(true));
+          return 'requestDateTime';
+        } else if (isEligible) {
+          return 'typeOfFacility';
+        } else if (isPodiatry(state)) {
+          // If no CC enabled systems and toc is podiatry, show modal
           dispatch(showTypeOfCareUnavailableModal());
           return 'typeOfCare';
         }
@@ -169,40 +174,13 @@ export default {
     url: '/new-appointment/choose-eye-care',
     async next(state, dispatch) {
       const data = getFormData(state);
-      const communityCareEnabled = vaosCommunityCare(state);
-      const useVSP = vaosVSPAppointmentNew(state);
 
       // check that the result does have a ccId
-      if (getTypeOfCare(data)?.ccId !== undefined) {
-        try {
-          if (communityCareEnabled) {
-            // Check if user registered systems support community care...
-            const siteIds = selectSystemIds(state);
-            const parentIds = await getOrganizations({ siteIds, useVSP });
-            const ccSites = await getSitesSupportingVAR(parentIds);
-            const ccEnabledSystems = parentIds.filter(parent =>
-              ccSites.some(
-                site => site.id === getSiteIdFromOrganization(parent),
-              ),
-            );
-            dispatch(updateCCEnabledSystems(ccEnabledSystems, parentIds));
+      if (getTypeOfCare(data)?.ccId) {
+        const isEligible = await checkCommunityCareEligibility(state, dispatch);
 
-            // Reroute to VA facility page if none of the user's registered systems support community care.
-            if (ccEnabledSystems.length) {
-              const response = await getCommunityCare(getCCEType(state));
-
-              dispatch(updateCCEligibility(response.eligible));
-
-              if (response.eligible) {
-                return 'typeOfFacility';
-              }
-            }
-          }
-        } catch (e) {
-          captureError(e);
-          Sentry.captureMessage(
-            'Community Care eligibility check failed with errors',
-          );
+        if (isEligible) {
+          return 'typeOfFacility';
         }
       }
 
