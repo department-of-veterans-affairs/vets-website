@@ -39,7 +39,7 @@ const HowDoIPayV2 = () => (
       {'.'}
     </p>
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By mail</h3>
-    <p className="vads-u-margin-top--0">
+    <p className="vads-u-margin-y--0">
       Find instructions on how to pay by mail in the demand letter sent to your
       address or you can <Link to="/debt-letters">download them online</Link>.
     </p>

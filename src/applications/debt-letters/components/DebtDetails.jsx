@@ -53,7 +53,7 @@ class DebtDetails extends Component {
                 <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
                   Date of first notice:
                 </p>
-                <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
+                <p className="vads-u-margin-y--1 vads-u-font-weight--bold">
                   Original debt amount:
                 </p>
                 <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
@@ -91,14 +91,14 @@ class DebtDetails extends Component {
 
             <h2
               id="debtLetterHistory"
-              className="vads-u-font-size--h3 vads-u-margin-top--5"
+              className="vads-u-margin-top--5 vads-u-margin-bottom--0"
             >
               Debt letter history
             </h2>
             <p className="vads-u-margin-y--2">
               You can view the status or download the letters for this debt.
             </p>
-            <p className="vads-u-margin-top--0">
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <strong>Note:</strong> The content of the debt letters below may
               not include recent updates to your debt reflected above. If you
               have any questions about your debt history, please contact the
@@ -108,7 +108,7 @@ class DebtDetails extends Component {
               </a>
               {'.'}
             </p>
-            <table className="vads-u-margin-bottom--1">
+            <table className="vads-u-margin-y--4">
               <thead>
                 <tr>
                   <td className="vads-u-font-weight--bold">Date</td>
@@ -131,7 +131,9 @@ class DebtDetails extends Component {
                 ))}
               </tbody>
             </table>
-            <h3 id="downloadDebtLetters">Download debt letters</h3>
+            <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
+              Download debt letters
+            </h3>
             <p className="vads-u-margin-bottom--0">
               You can download some of your letters for education, compensation
               and pension debt.
