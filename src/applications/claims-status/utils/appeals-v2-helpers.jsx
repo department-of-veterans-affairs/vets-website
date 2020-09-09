@@ -318,18 +318,18 @@ export function getStatusContents(appeal, name = {}) {
           <p>
             You’ll have to take one of these actions within 60 days from the
             date on the Statement of the Case:
-            <ul>
-              <li>
-                Submit VA Form 9 to continue your appeal to the Board of
-                Veterans’ Appeals, <strong>or</strong>
-              </li>
-              <li>
-                <a href={DECISION_REVIEW_URL}>
-                  Opt in to the new decision review process
-                </a>
-              </li>
-            </ul>
           </p>
+          <ul>
+            <li>
+              Submit VA Form 9 to continue your appeal to the Board of Veterans’
+              Appeals, <strong>or</strong>
+            </li>
+            <li>
+              <a href={DECISION_REVIEW_URL}>
+                Opt in to the new decision review process
+              </a>
+            </li>
+          </ul>
         </div>
       );
       break;
