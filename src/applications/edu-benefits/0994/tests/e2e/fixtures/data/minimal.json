@@ -1,30 +1,38 @@
 {
   "data": {
-    "view:phoneAndEmail": {
-      "dayTimePhone": "5555555555",
-      "emailAddress": "test@email.com"
-    },
-    "mailingAddress": {
-      "street": "555 Fake St",
-      "city": "Tampa",
-      "country": "USA",
-      "state": "FL",
-      "postalCode": "33543"
-    },
-    "view:contactInfoNote": {},
-    "appliedForVaEducationBenefits": true,
     "currentHighTechnologyEmployment": false,
     "pastHighTechnologyEmployment": false,
-    "activeDuty": true,
-    "view:activeDutyNotice": {},
+    "activeDuty": false,
     "view:benefitNotice": {},
-    "applicantFullName": { "first": "Test", "last": "User" },
-    "applicantSocialSecurityNumber": "111223333",
-    "dateOfBirth": "1980-01-01",
+    "appliedForVaEducationBenefits": false,
+    "view:eligibilityInstructions": {},
+    "applicantFullName": {
+      "first": "Manuel",
+      "middle": "Null",
+      "last": "Jensen"
+    },
+    "applicantSocialSecurityNumber": "796127519",
+    "dateOfBirth": "1944-11-26",
+    "applicantGender": "M",
     "view:noProgramsYet": {},
+    "view:phoneAndEmail": {
+      "dayTimePhone": "9898989898",
+      "emailAddress": "myemail81566668@unattended.com"
+    },
+    "mailingAddress": {
+      "street": "Kenmore Ave 4846",
+      "city": "Santo Amaro",
+      "country": "STP"
+    },
+    "view:contactInfoNote": {},
     "view:descriptionWithoutInfo": {},
-    "view:bankAccount": { "bankAccount": {} },
+    "view:bankAccount": {
+      "bankAccount": {},
+      "view:hasBankInformation": false
+    },
     "view:bankInfoNote": {},
-    "view:bankInfoHelpText": {}
+    "view:bankInfoHelpText": {},
+    "dayTimePhone": "9898989898",
+    "emailAddress": "myemail81566668@unattended.com"
   }
 }

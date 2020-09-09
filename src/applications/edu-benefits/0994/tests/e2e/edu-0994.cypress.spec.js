@@ -37,9 +37,7 @@ const form = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/Start the VET TEC application/i, {
-            selector: 'button',
-          })
+          cy.findAllByText(/start/i, { selector: 'button' })
             .first()
             .click();
         });
