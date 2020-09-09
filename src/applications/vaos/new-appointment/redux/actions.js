@@ -1,4 +1,5 @@
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -19,6 +20,7 @@ import {
   getRootIdForChosenFacility,
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
+  getCCEType,
 } from '../../utils/selectors';
 import {
   getPreferences,
@@ -26,10 +28,13 @@ import {
   submitRequest,
   submitAppointment,
   sendRequestMessage,
-} from '../../api';
+  getSitesSupportingVAR,
+  getCommunityCare,
+} from '../../services/var';
 import {
   getOrganizations,
   getIdOfRootOrganization,
+  getSiteIdFromOrganization,
 } from '../../services/organization';
 import { getLocation } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
@@ -124,12 +129,8 @@ export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED';
 export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
-export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
-  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN';
-export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
-  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED';
-export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED =
-  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED';
+export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED =
+  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED';
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
@@ -164,13 +165,6 @@ export function updateFormData(page, uiSchema, data) {
     page,
     uiSchema,
     data,
-  };
-}
-
-export function updateCCEnabledSystems(ccEnabledSystems) {
-  return {
-    type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
-    ccEnabledSystems,
   };
 }
 
@@ -615,44 +609,59 @@ export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
 }
 
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
-  return async (dispatch, getState) => {
-    const useVSP = vaosVSPAppointmentNew(getState());
-    const newAppointment = getState().newAppointment;
-    const siteIds = newAppointment.ccEnabledSystems;
-    let parentFacilities = newAppointment.parentFacilities;
-
-    dispatch({
-      type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
-    });
-
-    try {
-      if (!newAppointment.parentFacilities) {
-        parentFacilities = await getOrganizations({
-          siteIds,
-          useVSP,
-        });
-      }
-
-      dispatch({
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
-        page,
-        uiSchema,
-        schema,
-        parentFacilities,
-      });
-    } catch (e) {
-      captureError(e);
-      dispatch({
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
-      });
-    }
+  return {
+    type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
+    page,
+    uiSchema,
+    schema,
   };
 }
 
-export function updateCCEligibility(isEligible) {
-  return {
-    type: FORM_UPDATE_CC_ELIGIBILITY,
-    isEligible,
+export function checkCommunityCareEligibility() {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const communityCareEnabled = vaosCommunityCare(state);
+    const useVSP = vaosVSPAppointmentNew(state);
+
+    if (!communityCareEnabled) {
+      return false;
+    }
+
+    try {
+      // Check if user registered systems support community care...
+      const siteIds = selectSystemIds(state);
+      const parentFacilities = await getOrganizations({ siteIds, useVSP });
+      const ccSites = await getSitesSupportingVAR(
+        parentFacilities.map(parent => getSiteIdFromOrganization(parent)),
+      );
+      const ccEnabledSystems = parentFacilities.filter(parent =>
+        ccSites.some(site => site.id === getSiteIdFromOrganization(parent)),
+      );
+      dispatch({
+        type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
+        ccEnabledSystems,
+        parentFacilities,
+      });
+
+      // Reroute to VA facility page if none of the user's registered systems support community care.
+      if (ccEnabledSystems.length) {
+        const response = await getCommunityCare(getCCEType(state));
+
+        dispatch({
+          type: FORM_UPDATE_CC_ELIGIBILITY,
+          isEligible: response.eligible,
+        });
+
+        return response.eligible;
+      }
+    } catch (e) {
+      captureError(e);
+      Sentry.captureMessage(
+        'Community Care eligibility check failed with errors',
+      );
+    }
+
+    return false;
   };
 }
 

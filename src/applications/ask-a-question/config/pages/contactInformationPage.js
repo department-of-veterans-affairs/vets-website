@@ -1,11 +1,11 @@
 import set from 'platform/utilities/data/set';
-
 import { countries } from 'platform/forms/address';
-
-import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
-import fullSchema from '../../0873-schema.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
+
+import fullSchema from '../../0873-schema.json';
+import pageDescription from '../../content/PageDescription';
 
 const countryValues = countries.map(object => object.value);
 const countryNames = countries.map(object => object.label);
@@ -28,17 +28,10 @@ const formFields = {
 
 const contactInformationPage = {
   uiSchema: {
-    [formFields.fullName]: {
-      title: {
-        'ui:title': 'Title',
-        'ui:options': {
-          widgetClassNames: 'form-select-medium',
-        },
-      },
-      ...fullNameUI,
-    },
+    'ui:description': pageDescription('Your contact info'),
+    [formFields.fullName]: fullNameUI,
     [formFields.relationshipToVeteran]: {
-      'ui:title': 'I am asking about benefits/services',
+      'ui:title': 'My message is about benefits/services',
     },
     [formFields.branchOfService]: {
       'ui:title': 'Branch of service',
@@ -52,19 +45,19 @@ const contactInformationPage = {
           relationshipToVeteran.enum.slice(-1)[0],
       },
     },
-    [formFields.country]: {
-      'ui:title': 'Country',
-    },
-    [formFields.preferredContactMethod]: {
-      'ui:title': 'How would you like to be contacted?',
-      'ui:widget': 'radio',
-    },
     [formFields.email]: set(
       'ui:required',
       (formData, _index) => formData.preferredContactMethod === 'email',
       emailUI(),
     ),
     [formFields.verifyEmail]: confirmationEmailUI('', formFields.email),
+    [formFields.country]: {
+      'ui:title': 'Country',
+    },
+    [formFields.preferredContactMethod]: {
+      'ui:title': 'How should we get in touch with you?',
+      'ui:widget': 'radio',
+    },
   },
   schema: {
     type: 'object',
@@ -78,6 +71,10 @@ const contactInformationPage = {
       [formFields.fullName]: fullName,
       [formFields.relationshipToVeteran]: relationshipToVeteran,
       [formFields.branchOfService]: branchOfService,
+      [formFields.email]: email,
+      [formFields.verifyEmail]: {
+        type: 'string',
+      },
       [formFields.country]: {
         default: 'USA',
         type: 'string',
@@ -85,10 +82,6 @@ const contactInformationPage = {
         enumNames: countryNames,
       },
       [formFields.preferredContactMethod]: preferredContactMethod,
-      [formFields.email]: email,
-      [formFields.verifyEmail]: {
-        type: 'string',
-      },
     },
   },
 };
