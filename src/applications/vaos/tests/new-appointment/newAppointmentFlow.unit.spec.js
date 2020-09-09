@@ -54,7 +54,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const dispatch = sinon.spy();
+        const getState = () => state;
+        const dispatch = action =>
+          typeof action === 'function' ? action(sinon.spy(), getState) : null;
         const nextState = await newAppointmentFlow.typeOfCare.next(
           state,
           dispatch,
@@ -82,7 +84,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const dispatch = sinon.spy();
+        const getState = () => state;
+        const dispatch = action =>
+          typeof action === 'function' ? action(sinon.spy(), getState) : null;
         const nextState = await newAppointmentFlow.typeOfCare.next(
           state,
           dispatch,
@@ -110,7 +114,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const dispatch = sinon.spy();
+        const getState = () => state;
+        const dispatch = action =>
+          typeof action === 'function' ? action(sinon.spy(), getState) : null;
         const nextState = await newAppointmentFlow.typeOfCare.next(
           state,
           dispatch,
@@ -138,7 +144,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const dispatch = sinon.spy();
+        const getState = () => state;
+        const dispatch = action =>
+          typeof action === 'function' ? action(sinon.spy(), getState) : null;
         const nextState = await newAppointmentFlow.typeOfCare.next(
           state,
           dispatch,
@@ -169,7 +177,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const dispatch = sinon.spy();
+        const getState = () => state;
+        const dispatch = action =>
+          typeof action === 'function' ? action(sinon.spy(), getState) : null;
         const nextState = await newAppointmentFlow.typeOfCare.next(
           state,
           dispatch,
@@ -223,7 +233,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const dispatch = sinon.spy();
+        const getState = () => state;
+        const dispatch = action =>
+          typeof action === 'function' ? action(sinon.spy(), getState) : null;
         const nextState = await newAppointmentFlow.typeOfCare.next(
           state,
           dispatch,
@@ -828,7 +840,9 @@ describe('VAOS newAppointmentFlow', () => {
         },
       };
 
-      const dispatch = sinon.spy();
+      const getState = () => state;
+      const dispatch = action =>
+        typeof action === 'function' ? action(sinon.spy(), getState) : null;
       const nextState = await newAppointmentFlow.typeOfEyeCare.next(
         state,
         dispatch,
@@ -862,7 +876,9 @@ describe('VAOS newAppointmentFlow', () => {
         },
       };
 
-      const dispatch = sinon.spy();
+      const getState = () => state;
+      const dispatch = action =>
+        typeof action === 'function' ? action(sinon.spy(), getState) : null;
       const nextState = await newAppointmentFlow.typeOfEyeCare.next(
         state,
         dispatch,
