@@ -17,6 +17,14 @@ class Dropdown extends React.Component {
     }
   };
 
+  renderLabel = () => {
+    return typeof this.props.label === 'string' ? (
+      <label htmlFor={this.props.name}>{this.props.label}</label>
+    ) : (
+      <div className="vads-u-margin-top--3">{this.props.label}</div>
+    );
+  };
+
   render() {
     if (!this.props.visible) {
       return null;
@@ -29,31 +37,7 @@ class Dropdown extends React.Component {
         className={(this.props.className, disabledClass)}
         id={this.dropdownId}
       >
-        {this.props.learnMore ? (
-          <span className="vads-u-margin--0 vads-u-display--inline-block ">
-            <label
-              className="vads-u-display--inline-block vads-u-margin-right--0p5"
-              htmlFor={this.props.name}
-            >
-              {this.props.label}
-            </label>
-            <span className="vads-u-margin--0 vads-u-display--inline-block ">
-              (
-              <button
-                aria-label={this.props.learnMore}
-                type="button"
-                className="va-button-link learn-more-button vads-u-margin--0"
-                onClick={this.props.showModal.bind(this, this.props.modal)}
-              >
-                Learn more
-              </button>
-              )
-            </span>
-          </span>
-        ) : (
-          <label htmlFor={this.props.name}>{this.props.label}</label>
-        )}
-
+        {this.renderLabel()}
         <select
           className={hideArrowsClass}
           id={this.props.name}

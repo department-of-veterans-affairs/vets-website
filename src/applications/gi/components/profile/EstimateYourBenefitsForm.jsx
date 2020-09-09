@@ -642,7 +642,11 @@ class EstimateYourBenefitsForm extends React.Component {
 
     return (
       <Dropdown
-        label="Enrolled"
+        label={this.renderLearnMoreLabel({
+          text: 'Enrolled',
+          modal: 'calcEnrolled',
+          ariaLabel: ariaLabels.learnMore.calcEnrolled,
+        })}
         name={name}
         alt="Enrolled"
         options={options}
@@ -651,9 +655,6 @@ class EstimateYourBenefitsForm extends React.Component {
         onChange={this.handleInputChange}
         onBlur={this.handleInputBlur}
         onFocus={this.handleEYBInputFocus}
-        learnMore={ariaLabels.learnMore.calcEnrolled}
-        modal="calcEnrolled"
-        showModal={this.props.showModal}
       />
     );
   };
@@ -709,7 +710,11 @@ class EstimateYourBenefitsForm extends React.Component {
       <div>
         <ExpandingGroup open={this.props.inputs.calendar === 'nontraditional'}>
           <Dropdown
-            label="School Calendar"
+            label={this.renderLearnMoreLabel({
+              text: 'School Calendar',
+              modal: 'calcSchoolCalendar',
+              ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
+            })}
             name="calendar"
             alt="School calendar"
             options={[
@@ -722,9 +727,6 @@ class EstimateYourBenefitsForm extends React.Component {
             onChange={this.handleInputChange}
             onBlur={this.handleInputBlur}
             onFocus={this.handleEYBInputFocus}
-            learnMore={ariaLabels.learnMore.calcSchoolCalendar}
-            modal="calcSchoolCalendar"
-            showModal={this.props.showModal}
           />
           {dependentDropdowns}
         </ExpandingGroup>
