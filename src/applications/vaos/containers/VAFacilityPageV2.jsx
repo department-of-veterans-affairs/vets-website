@@ -13,12 +13,8 @@ import { getFacilityPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
-  required: ['vaParent', 'vaFacility'],
+  required: ['vaFacility'],
   properties: {
-    vaParent: {
-      type: 'string',
-      enum: [],
-    },
     vaFacility: {
       type: 'string',
       enum: [],
