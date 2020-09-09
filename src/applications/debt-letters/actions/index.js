@@ -40,38 +40,6 @@ export const setActiveDebt = debt => ({
   debt,
 });
 
-export const fetchDebtLetters = () => async dispatch => {
-  dispatch(fetchDebtsInitiated());
-  try {
-    const options = {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-      },
-    };
-    const response = isVet360Configured()
-      ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
-      : await debtLettersSuccess();
-
-    if (Object.keys(response).includes('error')) {
-      return dispatch(fetchDebtLettersFailure());
-    }
-
-    const approvedDeductionCodes = Object.keys(deductionCodes);
-    // remove any debts that do not have approved deductionCodes or
-    // that have a current amount owed of 0
-    const filteredResponse = response.debts
-      .filter(res => approvedDeductionCodes.includes(res.deductionCode))
-      .filter(debt => debt.currentAr > 0);
-    return dispatch(fetchDebtLettersSuccess(filteredResponse));
-  } catch (error) {
-    return dispatch(fetchDebtLettersFailure());
-  }
-};
-
 export const fetchDebtLettersVBMS = () => async dispatch => {
   dispatch(fetchDebtLettersInitiated());
   try {
@@ -102,5 +70,42 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
     return dispatch(fetchDebtLettersVBMSSuccess(filteredResponse));
   } catch (error) {
     return dispatch(fetchDebtLettersVBMSFailure());
+  }
+};
+
+export const fetchDebtLetters = () => async dispatch => {
+  dispatch(fetchDebtsInitiated());
+  try {
+    const options = {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+    };
+    const response = isVet360Configured()
+      ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
+      : await debtLettersSuccess();
+
+    if (Object.keys(response).includes('error')) {
+      return dispatch(fetchDebtLettersFailure());
+    }
+
+    const approvedDeductionCodes = Object.keys(deductionCodes);
+    // remove any debts that do not have approved deductionCodes or
+    // that have a current amount owed of 0
+    const filteredResponse = response.debts
+      .filter(res => approvedDeductionCodes.includes(res.deductionCode))
+      .filter(debt => debt.currentAr > 0);
+
+    // suppress VBMS call if they have dependent debt
+    if (!response.hasDependentDebt) {
+      dispatch(fetchDebtLettersVBMS());
+    }
+    return dispatch(fetchDebtLettersSuccess(filteredResponse));
+  } catch (error) {
+    return dispatch(fetchDebtLettersFailure());
   }
 };
