@@ -144,8 +144,9 @@
             <h2 class="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
               {% assign linkTeasersHeader = 'Helpful links' %}
               {% if fieldVaFormLinkTeasers.length > 0 %}
-                Helpful links related to VA Form {{ fieldVaFormNumber }}
+                {% assign linkTeasersHeader = 'Helpful links related to VA Form ' | append: fieldVaFormNumber %}
               {% endif %}
+              {{ linkTeasersHeader }}
             </h2>
             <ul class="usa-unstyled-list">
               {% if fieldVaFormLinkTeasers.length > 0 %}

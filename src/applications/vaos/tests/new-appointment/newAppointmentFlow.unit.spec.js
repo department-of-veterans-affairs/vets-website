@@ -8,9 +8,9 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
-import past from '../../api/past.json';
-import supportedSites from '../../api/sites-supporting-var.json';
-import parentFacilities from '../../api/facilities.json';
+import past from '../../services/mocks/var/past.json';
+import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
+import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
