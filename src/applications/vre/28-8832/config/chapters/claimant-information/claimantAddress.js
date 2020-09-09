@@ -33,7 +33,7 @@ export const schema = {
 };
 
 export const uiSchema = {
-  claimantAddress: addressUISchema(true, 'dependentAddress', () => true),
+  claimantAddress: addressUISchema(true, 'claimantAddress', () => true),
   claimantPhoneNumber: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
