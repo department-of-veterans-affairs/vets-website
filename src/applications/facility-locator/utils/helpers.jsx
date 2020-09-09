@@ -5,6 +5,8 @@ import { first, includes, last, split, toLower } from 'lodash';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 import UrgentCareAlert from '../containers/UrgentCareAlert';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 export const setFocus = selector => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
@@ -242,4 +244,23 @@ export const showDialogUrgCare = currentQuery => {
   }
 
   return null;
+};
+
+/**
+ * Helper method to record Markers PIN action events for GA
+ *
+ * @param {object} r - Facility Attributes
+ */
+export const recordMarkerEvents = r => {
+  const { classification, name, facilityType } = r.attributes;
+  const distance = r.distance;
+  recordEvent({ event: 'fl-map-pin-click' });
+  if (classification && name && facilityType && distance) {
+    recordEvent({ 'fl-facility-type': facilityType });
+    recordEvent({ 'fl-facility-classification': classification });
+    recordEvent({ 'fl-facility-name': name });
+    recordEvent({ 'fl-facility-distance-from-search': distance });
+  }
+  // Pin GA records
+  // console.log({ r });
 };
