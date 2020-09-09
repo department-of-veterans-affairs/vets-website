@@ -70,6 +70,7 @@ describe('Schemaform review <ArrayField>', () => {
           },
         },
       },
+      additionalItems: {},
     };
     const uiSchema = {
       'ui:title': 'List of things',
@@ -324,6 +325,7 @@ describe('Schemaform review <ArrayField>', () => {
           },
         },
       },
+      additionalItems: {},
     };
     const uiSchema = {
       'ui:title': 'List of things',
