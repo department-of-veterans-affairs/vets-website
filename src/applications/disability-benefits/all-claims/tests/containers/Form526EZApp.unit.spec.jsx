@@ -7,7 +7,6 @@ import { combineReducers, createStore } from 'redux';
 
 import { commonReducer } from 'platform/startup/store';
 import localStorage from 'platform/utilities/storage/localStorage';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 
 import Form526Entry, { serviceRequired, idRequired } from '../../Form526EZApp';
@@ -32,10 +31,6 @@ const fakeSipsIntro = user => {
 };
 
 describe('Form 526EZ Entry Page', () => {
-  before(() => {
-    sessionStorageSetup();
-  });
-
   const testPage = ({
     verified = false,
     currentlyLoggedIn = true,

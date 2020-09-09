@@ -8,15 +8,9 @@ import {
   WIZARD_STATUS_COMPLETE,
   NO_BENEFIT_REFERRED,
 } from 'applications/static-pages/wizard';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Wizard Container', () => {
-  let mockStore = {};
   let setWizardStatus;
-
-  before(() => {
-    mockStore = sessionStorageSetup(mockStore);
-  });
 
   beforeEach(() => {
     setWizardStatus = value => {

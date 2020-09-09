@@ -33,15 +33,13 @@ const initialState = {
   },
 };
 
-const oldSessionStorage = window.sessionStorage;
 describe('VAOS <VAOSApp>', () => {
   beforeEach(() => {
     mockFetch();
-    window.sessionStorage = {};
   });
+
   afterEach(() => {
     resetFetch();
-    window.sessionStorage = oldSessionStorage;
   });
 
   it('should render child content when logged in', async () => {

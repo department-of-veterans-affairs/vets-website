@@ -11,7 +11,7 @@ import {
   selectSystemIds,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
-import { getCommunityCare, getSitesSupportingVAR } from '../api';
+import { getCommunityCare, getSitesSupportingVAR } from '../services/var';
 import {
   showTypeOfCareUnavailableModal,
   startDirectScheduleFlow,

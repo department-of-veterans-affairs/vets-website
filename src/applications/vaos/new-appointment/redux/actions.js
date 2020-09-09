@@ -26,7 +26,7 @@ import {
   submitRequest,
   submitAppointment,
   sendRequestMessage,
-} from '../../api';
+} from '../../services/var';
 import {
   getOrganizations,
   getIdOfRootOrganization,
