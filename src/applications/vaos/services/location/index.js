@@ -6,8 +6,8 @@ import {
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
   getFacilitiesInfo,
-} from '../../api';
-import { mapToFHIRErrors } from '../../utils/fhir';
+} from '../var';
+import { mapToFHIRErrors } from '../utils';
 import {
   transformDSFacilities,
   transformFacilities,

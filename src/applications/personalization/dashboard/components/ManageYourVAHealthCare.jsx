@@ -167,8 +167,7 @@ const mapStateToProps = state => {
   const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
   const showServerError = hasESRServerError(state);
-  const showCernerWidget =
-    !environment.isProduction() && selectIsCernerPatient(state);
+  const showCernerWidget = selectIsCernerPatient(state);
   const {
     applicationDate,
     enrollmentDate,
