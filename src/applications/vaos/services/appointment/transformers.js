@@ -543,7 +543,9 @@ export function transformConfirmedAppointments(appointments) {
       minutesDuration,
       comment:
         appt.instructionsToVeteran ||
-        appt.vdsAppointments?.[0]?.bookingNote ||
+        (!appt.communityCare
+          ? appt.vdsAppointments?.[0]?.bookingNote
+          : 'vistaCC') ||
         appt.vvsAppointments?.[0]?.instructionsTitle,
       participant: setParticipant(appt),
       contained: setContained(appt),

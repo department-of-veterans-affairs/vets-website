@@ -51,15 +51,18 @@ export default function ConfirmedAppointmentListItem({
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
 
   const showInstructions =
-    (isCommunityCare && appointment.contained[0].address) ||
+    isCommunityCare ||
     (isInPersonVAAppointment &&
       PURPOSE_TEXT.some(purpose =>
         appointment?.comment?.startsWith(purpose.short),
       ));
 
   let instructionText;
+  // if showInstructions is true and address exists
   if (showInstructions) {
     instructionText = appointment.comment;
+    console.log('instructionText: ' + instructionText);
+    debugger;
   } else if (isVideo && appointment.comment) {
     instructionText = getVideoInstructionText(appointment.comment);
   }

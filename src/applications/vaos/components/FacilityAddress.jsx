@@ -29,7 +29,7 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      {!address && (
+      {/* {!address && (
         <>
           This appointment is scheduled with a community care provider. Please
           do not report to your local VA facility. If you have questions, please
@@ -40,7 +40,7 @@ export default function FacilityAddress({
           community care staff at your local VA.
           <br />
         </>
-      )}
+      )} */}
 
       {showDirectionsLink && (
         <>
