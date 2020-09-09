@@ -6,17 +6,8 @@ import {
   WIZARD_STATUS_COMPLETE,
   getWizardStatus,
 } from 'applications/static-pages/wizard';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Edu-Benefit 0994 Introduction Page', () => {
-  before(() => {
-    sessionStorageSetup();
-  });
-
-  afterEach(() => {
-    sessionStorage.clear();
-  });
-
   it('should show the wizard if showWizard is set to true', () => {
     const fakeStore = {
       getState: () => ({

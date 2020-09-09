@@ -3,8 +3,6 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import { sessionStorageSetup } from 'platform/testing/utilities';
-
 import { IntroductionPage } from '../../components/IntroductionPage';
 import formConfig from '../../config/form';
 import {
@@ -14,7 +12,6 @@ import {
 } from '../../constants';
 
 describe('<IntroductionPage/>', () => {
-  sessionStorageSetup();
   const { formId, prefillEnabled } = formConfig;
   const defaultProps = {
     formId,
@@ -31,10 +28,6 @@ describe('<IntroductionPage/>', () => {
       },
     },
   };
-
-  afterEach(() => {
-    sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-  });
 
   const originalClaimsProps = allow => ({
     ...defaultProps,

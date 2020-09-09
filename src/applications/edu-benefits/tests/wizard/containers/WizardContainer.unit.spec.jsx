@@ -2,7 +2,6 @@ import React from 'react';
 import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 import {
   getReferredBenefit,
   getWizardStatus,
@@ -12,12 +11,7 @@ import {
 } from 'applications/static-pages/wizard';
 
 describe('the Wizard Container', () => {
-  let mockStore = {};
   let setWizardStatus;
-
-  before(() => {
-    mockStore = sessionStorageSetup(mockStore);
-  });
 
   beforeEach(() => {
     setWizardStatus = value => {
