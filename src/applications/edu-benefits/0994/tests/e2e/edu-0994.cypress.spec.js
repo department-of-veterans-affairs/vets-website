@@ -3,7 +3,6 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import mockUser from './fixtures/mocks/mock-user.json';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
@@ -21,7 +20,7 @@ const form = createTestConfig(
     },
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      cy.login(mockUser);
+      cy.login();
       cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
       cy.route('POST', '/v0/education_benefits_claims/0994', {
         data: {
