@@ -22,6 +22,9 @@
             {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
             {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
           {% endfor %}
+          {% for fieldButton in fieldButtons  %}
+            {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+          {% endfor %}
         </article>
       </div>
     </div>
