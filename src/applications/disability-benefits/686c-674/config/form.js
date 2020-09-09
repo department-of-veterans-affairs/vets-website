@@ -302,11 +302,7 @@ const formConfig = {
       pages: {
         formerSpouseDetails: {
           depends: formData =>
-            // if addSpouse is selected, divorce should not appear since the information is the same.
-            // otherwise, show reportDivorce.
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse)
-              ? false
-              : isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+            isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
           title: 'Information needed to report a divorce',
           path: 'report-a-divorce',
           uiSchema: formerSpouseInformation.uiSchema,

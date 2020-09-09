@@ -33,10 +33,6 @@ describe('<InstitutionSearchForm>', () => {
       type: { PRIVATE: 1 },
       state: { NC: 1 },
       country: [{ name: 'USA', count: 1 }],
-      menonly: { true: null, false: null },
-      womenonly: { true: null, false: null },
-      hbcu: { true: null, false: null },
-      relaffil: { '71': 1 },
     },
     links: {},
     results: [
@@ -48,21 +44,11 @@ describe('<InstitutionSearchForm>', () => {
         state: 'NC',
         zip: '27401',
         country: 'USA',
-        hbcu: 1,
-        menonly: 0,
-        relaffil: 71,
-        womenonly: 1,
       },
     ],
   };
   const autocomplete = {
     suggestions: [],
-  };
-  const filters = {
-    relaffil: '71',
-    womenonly: true,
-    hbcu: true,
-    menonly: false,
   };
   const eligibility = {
     onlineClasses: 'no',
@@ -75,8 +61,7 @@ describe('<InstitutionSearchForm>', () => {
         search={search}
         autocomplete={autocomplete}
         eligibility={eligibility}
-        filters={filters}
-        gibctCh33BenefitRateUpdate
+        filters
         showModal={() => {}}
         hideModal={() => {}}
         clearAutocompleteSuggestions={() => {}}
@@ -89,33 +74,6 @@ describe('<InstitutionSearchForm>', () => {
 
     const html = wrapper.html();
     expect(html).to.not.be.undefined;
-    wrapper.unmount();
-  });
-
-  it('should render html including filter components when gibctFilterEnhancement feature flag is enabled', () => {
-    const wrapper = shallow(
-      <InstitutionSearchForm
-        filtersClass={filtersClass}
-        search={search}
-        autocomplete={autocomplete}
-        eligibility={eligibility}
-        filters={filters}
-        gibctFilterEnhancement
-        gibctCh33BenefitRateUpdate
-        showModal={() => {}}
-        hideModal={() => {}}
-        clearAutocompleteSuggestions={() => {}}
-        fetchAutocompleteSuggestions={() => {}}
-        toggleFilter={() => {}}
-        updateAutocompleteSearchTerm={() => {}}
-        handleFilterChange={() => {}}
-      />,
-    );
-
-    const html = wrapper.html();
-    expect(html).to.include('Gender');
-    expect(html).to.include('Specialized mission');
-    expect(html).to.include('Religious affiliation');
     wrapper.unmount();
   });
 });

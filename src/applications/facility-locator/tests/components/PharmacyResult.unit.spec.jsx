@@ -19,7 +19,6 @@ describe('PharmacyResult', () => {
     expect(wrapper.find('#provider-name').text()).to.equal('CVS');
     expect(wrapper.find('#provider-name a').length).to.equal(0);
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
-
     wrapper.unmount();
   });
 });

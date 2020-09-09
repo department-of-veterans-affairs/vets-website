@@ -4,6 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import * as actions from 'platform/monitoring/DowntimeNotification/actions';
+import FullWidthLayout from './FullWidthLayout';
 
 const appTitle = 'VA online scheduling tool';
 
@@ -17,28 +18,23 @@ function DowntimeMessage({
 }) {
   if (status === externalServiceStatus.down) {
     return (
-      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0">
-        <div className="vads-l-row">
-          <div className="vads-l-col--12">
-            <AlertBox
-              className="vads-u-margin-bottom--4"
-              headline="The VA appointments tool is down for maintenance"
-              isVisible
-              status="warning"
-            >
-              <p>
-                We’re making updates to the tool on{' '}
-                {startTime.format('MMMM Do')} between {startTime.format('LT')}{' '}
-                and {endTime.format('LT')}. We’re sorry it’s not working right
-                now. If you need to request or confirm an appointment during
-                this time, please call your local VA medical center. Use the{' '}
-                <a href="/find-locations">VA facility locator</a> to find
-                contact information for your medical center.
-              </p>
-            </AlertBox>
-          </div>
-        </div>
-      </div>
+      <FullWidthLayout>
+        <AlertBox
+          className="vads-u-margin-bottom--4"
+          headline="The VA appointments tool is down for maintenance"
+          isVisible
+          status="warning"
+        >
+          <p>
+            We’re making updates to the tool on {startTime.format('MMMM Do')}{' '}
+            between {startTime.format('LT')} and {endTime.format('LT')}. We’re
+            sorry it’s not working right now. If you need to request or confirm
+            an appointment during this time, please call your local VA medical
+            center. Use the <a href="/find-locations">VA facility locator</a> to
+            find contact information for your medical center.
+          </p>
+        </AlertBox>
+      </FullWidthLayout>
     );
   }
 

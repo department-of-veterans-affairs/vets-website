@@ -9,10 +9,10 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import recordEvent from 'platform/monitoring/record-event';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { isLOA3, isMultifactorEnabled } from 'platform/user/selectors';
 import { usePrevious } from 'platform/utilities/react-hooks';
-
 import {
   editModalToggled,
   savePaymentInformation as savePaymentInformationAction,
@@ -155,6 +155,11 @@ export const DirectDepositContent = ({
         aria-label={'Edit your direct deposit bank information'}
         ref={editBankInfoButton}
         onClick={() => {
+          recordEvent({
+            event: 'profile-navigation',
+            'profile-action': 'edit-link',
+            'profile-section': 'direct-deposit-information',
+          });
           toggleEditState();
         }}
       >
@@ -169,6 +174,11 @@ export const DirectDepositContent = ({
       className="va-button-link"
       ref={editBankInfoButton}
       onClick={() => {
+        recordEvent({
+          event: 'profile-navigation',
+          'profile-action': 'add-link',
+          'profile-section': 'direct-deposit-information',
+        });
         toggleEditState();
       }}
     >

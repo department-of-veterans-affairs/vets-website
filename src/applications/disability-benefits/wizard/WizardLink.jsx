@@ -14,13 +14,10 @@ const WizardLink = ({ showWizard, module }) => {
   const { Wizard, pages } = module.default;
   return showWizard ? (
     <a href={manifest.rootUrl} className="usa-button-primary va-button-primary">
-      Let&apos;s get started{' '}
-      <img
-        src="/img/arrow-right-white.svg"
-        aria-hidden="true"
-        alt=""
-        style={{ height: '13px', verticalAlign: 'baseline' }}
-      />
+      Let&apos;s get started
+      <span role="img" aria-hidden="true" className="button-icon">
+        &nbsp;»
+      </span>
     </a>
   ) : (
     <Wizard pages={pages} expander buttonText="Let's get started" />

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-
+import { changeDropdown } from '../helpers/index.js';
 import {
   DefinitionTester,
   fillData,
@@ -30,7 +30,7 @@ describe('686 report the marriage of a child', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
@@ -46,7 +46,7 @@ describe('686 report the marriage of a child', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -65,6 +65,10 @@ describe('686 report the marriage of a child', () => {
     fillData(form, 'input#root_childMarriage_fullName_first', 'john');
     const month = form.find('select#root_childMarriage_dateMarriedMonth');
     const day = form.find('select#root_childMarriage_dateMarriedDay');
+    fillData(form, 'input#root_childMarriage_ssn', '123211234');
+    changeDropdown(form, 'select#root_childMarriage_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_childMarriage_birthDateDay', 1);
+    fillData(form, 'input#root_childMarriage_birthDateYear', '2010');
     month.simulate('change', {
       target: { value: '1' },
     });
@@ -92,6 +96,10 @@ describe('686 report the marriage of a child', () => {
     );
     fillData(form, 'input#root_childMarriage_fullName_first', 'john');
     fillData(form, 'input#root_childMarriage_fullName_last', 'doe');
+    fillData(form, 'input#root_childMarriage_ssn', '123211234');
+    changeDropdown(form, 'select#root_childMarriage_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_childMarriage_birthDateDay', 1);
+    fillData(form, 'input#root_childMarriage_birthDateYear', '2010');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
@@ -111,6 +119,10 @@ describe('686 report the marriage of a child', () => {
     );
     fillData(form, 'input#root_childMarriage_fullName_first', 'john');
     fillData(form, 'input#root_childMarriage_fullName_last', 'doe');
+    fillData(form, 'input#root_childMarriage_ssn', '123211234');
+    changeDropdown(form, 'select#root_childMarriage_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_childMarriage_birthDateDay', 1);
+    fillData(form, 'input#root_childMarriage_birthDateYear', '2010');
     const month = form.find('select#root_childMarriage_dateMarriedMonth');
     const day = form.find('select#root_childMarriage_dateMarriedDay');
     month.simulate('change', {
@@ -143,6 +155,10 @@ describe('686 report the marriage of a child', () => {
     suffix.simulate('change', {
       target: { value: 'II' },
     });
+    fillData(form, 'input#root_childMarriage_ssn', '123211234');
+    changeDropdown(form, 'select#root_childMarriage_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_childMarriage_birthDateDay', 1);
+    fillData(form, 'input#root_childMarriage_birthDateYear', '2010');
     const month = form.find('select#root_childMarriage_dateMarriedMonth');
     const day = form.find('select#root_childMarriage_dateMarriedDay');
     month.simulate('change', {

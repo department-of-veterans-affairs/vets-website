@@ -9,7 +9,7 @@ import {
   fetchFacilityDetails,
 } from '../new-appointment/redux/actions';
 import { transformPendingAppointments } from '../services/appointment/transformers';
-import ExpressCareCard from '../components/ExpressCareCard';
+import ExpressCareCard from '../appointment-list/components/cards/express-care/ExpressCareCard';
 
 const pageTitle = 'You’ve successfully submitted your Express Care request';
 

@@ -7,13 +7,18 @@
   }
   .covid-screener-date {
     margin: 2em 0 2em 0;
-    h2,
-    h3,
-    h4 {
-      margin: 0;
+    line-height: normal;
+    .covid-screener-200 {
+      font-size: 200%;
     }
-    h4 {
-      font-size: 150%;
+    .covid-screener-300 {
+      font-size: 300%;
+    }
+    .covid-screener-400 {
+      font-size: 400%;
+    }
+    .covid-screener-500 {
+      font-size: 500%;
     }
   }
   .covid-screener-results {

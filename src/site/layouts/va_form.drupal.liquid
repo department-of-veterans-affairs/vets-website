@@ -102,7 +102,9 @@
         {% if fieldVaFormToolUrl %}
           <h3>Online tool</h3>
           <p>{{ fieldVaFormToolIntro }}</p>
-          <a href="{{ fieldVaFormToolUrl.uri }}" class="usa-button-primary va-button-primary">
+          <a
+            href="{{ fieldVaFormToolUrl.uri }}" class="usa-button-primary va-button-primary"
+            onclick="recordEvent({ event: 'cta-primary-button-click' });">
             Go to the online tool <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
           </a>
         {% endif %}
@@ -140,18 +142,21 @@
         <section>
           <div class="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--4">
             <h2 class="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+              {% assign linkTeasersHeader = 'Helpful links' %}
               {% if fieldVaFormLinkTeasers.length > 0 %}
-                Helpful links related to VA Form {{ fieldVaFormNumber }}
-              {% else %}
-                Helpful links
+                {% assign linkTeasersHeader = 'Helpful links related to VA Form ' | append: fieldVaFormNumber %}
               {% endif %}
+              {{ linkTeasersHeader }}
             </h2>
             <ul class="usa-unstyled-list">
               {% if fieldVaFormLinkTeasers.length > 0 %}
                 {% for vaFormLinkTeaser in fieldVaFormLinkTeasers %}
                   <li>
                     <h3 class="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-font-family--sans">
-                      <a class="vads-u-text-decoration--none" href="{{ vaFormLinkTeaser.entity.fieldLink.url.path }}">
+                      <a
+                        class="vads-u-text-decoration--none"
+                        href="{{ vaFormLinkTeaser.entity.fieldLink.url.path }}"
+                        onclick="recordEvent({ event: 'nav-linkslist', 'links-list-header': '{{ vaFormLinkTeaser.entity.fieldLink.title | escape }}', 'links-list-section-header': '{{ linkTeasersHeader | escape }}' })">
                         {{ vaFormLinkTeaser.entity.fieldLink.title }}
                       </a>
                     </h3>
@@ -162,7 +167,10 @@
                 {% comment %} The default related links if custom links aren't defined {% endcomment %}
                 <li>
                   <h3 class="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-font-family--sans">
-                    <a class="vads-u-text-decoration--none" href="/change-direct-deposit">
+                    <a
+                      class="vads-u-text-decoration--none"
+                      href="/change-direct-deposit"
+                      onclick="recordEvent({ event: 'nav-linkslist', 'links-list-header': 'Change your direct deposit information', 'links-list-section-header': '{{ linkTeasersHeader | escape }}' })">
                       Change your direct deposit information
                     </a>
                   </h3>
@@ -170,7 +178,10 @@
                 </li>
                 <li>
                   <h3 class="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-font-family--sans">
-                    <a class="vads-u-text-decoration--none" href="/change-address">
+                    <a
+                      class="vads-u-text-decoration--none"
+                      href="/change-address"
+                      onclick="recordEvent({ event: 'nav-linkslist', 'links-list-header': 'Change your address', 'links-list-section-header': '{{ linkTeasersHeader | escape }}' })">
                       Change your address
                     </a>
                   </h3>
@@ -178,7 +189,10 @@
                 </li>
                 <li>
                   <h3 class="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-font-family--sans">
-                    <a class="vads-u-text-decoration--none" href="/records/get-military-service-records/">
+                    <a
+                      class="vads-u-text-decoration--none"
+                      href="/records/get-military-service-records/"
+                      onclick="recordEvent({ event: 'nav-linkslist', 'links-list-header': 'Request your military records, including DD214', 'links-list-section-header': '{{ linkTeasersHeader | escape }}' })">
                       Request your military records, including DD214
                     </a>
                   </h3>
@@ -186,7 +200,10 @@
                 </li>
                 <li>
                   <h3 class="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-font-family--sans">
-                    <a class="vads-u-text-decoration--none" href="/records/">
+                    <a
+                      class="vads-u-text-decoration--none"
+                      href="/records/"
+                      onclick="recordEvent({ event: 'nav-linkslist', 'links-list-header': 'Get your VA records and documents online', 'links-list-section-header': '{{ linkTeasersHeader | escape }}' })">
                       Get your VA records and documents online
                     </a>
                   </h3>

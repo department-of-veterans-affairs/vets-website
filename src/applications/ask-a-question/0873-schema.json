@@ -11,9 +11,6 @@
           "minLength": 1,
           "maxLength": 30
         },
-        "middle": {
-          "type": "string"
-        },
         "last": {
           "type": "string",
           "minLength": 1,
@@ -38,9 +35,14 @@
     "preferredContactMethod": {
       "type": "string",
       "enum": [
-        "mail",
         "email",
+        "mail",
         "phone"
+      ],
+      "enumNames": [
+        "Email",
+        "Mail",
+        "Phone"
       ]
     },
     "email": {
@@ -273,8 +275,69 @@
     "topic": {
       "type": "string",
       "enum": [
-        "Policy Questions",
-        "Question about Women Veterans Programs"
+        "Policy Question",
+        "Question about Women Veterans Programs",
+        "Compensation Request",
+        "All Other Burial Benefit Inquiries",
+        "Pre-Need Burial Eligibility Determination",
+        "Headstones & Markers",
+        "Presidential Memorial Certificates",
+        "General Caregiver Support/Education",
+        "Comprehensive Family Caregiver Program",
+        "VA Supportive Services",
+        "Can't Register (Not in DEERS msg.)",
+        "About eBenefits",
+        "Error messages",
+        "eBenefits Accounts and Passwords",
+        "Need help navigating eBenefits Site",
+        "Home Loan/Mortgage Certificates of Elig",
+        "Homeloan VIP Portal Access",
+        "Web Page Issues",
+        "Dividends",
+        "Insurance Claims",
+        "Insurance Premiums",
+        "Insurance Web Site Technical Issues",
+        "Online Policy Access Issues",
+        "Other Issue",
+        "Policy Loan",
+        "Service Disabled Veterans’ Life Insuranc",
+        "Servicemembers Group Life Ins (SGLI)",
+        "SGLI Family Coverage",
+        "Veterans’ Group Life Insurance (VGLI)",
+        "Veterans’ Mortgage Life Insurance",
+        "Filing for pension benefits",
+        "Issues/Questions about pension received",
+        "Apply for Direct Deposit",
+        "Change Direct Deposit Destination",
+        "Aid and Attendance Benefits",
+        "Guardianship/Custodianship Issues",
+        "Orientation",
+        "Servicemembers",
+        "Cannot Login",
+        "Address Issue",
+        "Claim Access Issue",
+        "Other Technical Issue",
+        "Home Loan Guaranty VIP Portal Access",
+        "Home Loan Guaranty Web Page Issues",
+        "E-Benefits Website Technical Issue",
+        "MyHealtheVet Website Technical Issue",
+        "VA Dept Website - Report Broken Links (provide link inform",
+        "VA Dept Website - Unable to access web page",
+        "Can I get a link on VA site to my site",
+        "Correction to posted information needed",
+        "May I link to www.va.gov",
+        "Use of VA logo or VA seal",
+        "Use of images on VA websites",
+        "All other Web related technical issues",
+        "VBA Website - Report Broken Links (provide link inform",
+        "VBA Website - Unable to access web page",
+        "Can I get a link on VBA site to my site",
+        "E-Benefits Password/Access Problem",
+        "Education Password/Access Problems",
+        "VBA Homeloan VIP Portal Access",
+        "Life Insurance Password/Access Problem",
+        "MyHealtheVet Password/Access Problem",
+        "VONAPP Password/Access Problem"
       ]
     },
     "inquiryType": {
@@ -306,6 +369,45 @@
     },
     "address": {
       "$ref": "#/definitions/address"
+    },
+    "relationshipToVeteran": {
+      "type": "string",
+      "enum": [
+        "For myself as a Veteran",
+        "On behalf of a Veteran",
+        "For the dependent of a Veteran",
+        "A general question"
+      ]
+    },
+    "branchOfService": {
+      "type": "string",
+      "enum": [
+        "Air Force",
+        "Air Force Reserves",
+        "Air Force National Guard",
+        "Air Force Nursing Corps (AFNC)",
+        "Army",
+        "Army National Guard",
+        "Army Reserves",
+        "Coast Guard",
+        "Coast Guard Women's Reserve (SPARS)",
+        "Environmental Services Administration",
+        "Marine Corps",
+        "Marine Corps Reserves",
+        "Natl Oceanic & Atmospheric Admin (NOAA)",
+        "Navy",
+        "Navy Reserves",
+        "Navy Nursing Corps (NNC)",
+        "Philippines Guerilla",
+        "Philippines Scout",
+        "Public Health Service",
+        "U. S. Merchant Marine",
+        "Women's Air Force Service Pilots (WASPS)",
+        "Women's Army Auxiliary Corps (WAAC)",
+        "Women's Army Corps (WACs)",
+        "Womens Voluntary Emerg Srv (WAVES)",
+        "Other"
+      ]
     },
     "privacyAgreementAccepted": {
       "$ref": "#/definitions/privacyAgreementAccepted"
