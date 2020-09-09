@@ -16,7 +16,6 @@ import {
 } from './chapters/claimant-information';
 import { isDependent } from './helpers';
 
-
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/api',
