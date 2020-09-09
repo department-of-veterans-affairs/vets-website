@@ -13,6 +13,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 
 import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewDOBField from '../containers/CustomReviewDOBField';
+import CustomReviewRadio from '../containers/customReviewRadio';
 import CustomReviewYesNo from '../containers/customReviewYesNo';
 
 export const uiSchema = {
@@ -63,6 +64,7 @@ export const uiSchema = {
         <strong>Have you ever been diagnosed with COVID-19?</strong>
       </span>
     ),
+    'ui:reviewField': CustomReviewYesNo,
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: '',
@@ -81,7 +83,7 @@ export const uiSchema = {
         </p>
       </span>
     ),
-    'ui:reviewField': CustomReviewYesNo,
+    'ui:reviewField': CustomReviewRadio,
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -101,6 +103,7 @@ export const uiSchema = {
         </strong>
       </span>
     ),
+    'ui:reviewField': CustomReviewYesNo,
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: '',
@@ -115,6 +118,7 @@ export const uiSchema = {
         </strong>
       </span>
     ),
+    'ui:reviewField': CustomReviewYesNo,
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: '',
@@ -276,6 +280,7 @@ export const uiSchema = {
       </span>
     ),
     'ui:widget': 'radio',
+    'ui:reviewField': CustomReviewRadio,
     'ui:options': {
       labels: {
         ONE_TWO: '1 to 2',
@@ -299,7 +304,7 @@ export const uiSchema = {
         </p>
       </span>
     ),
-    'ui:reviewField': CustomReviewYesNo,
+    'ui:reviewField': CustomReviewRadio,
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
