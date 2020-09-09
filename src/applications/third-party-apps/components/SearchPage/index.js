@@ -5,17 +5,7 @@ import SearchForm from '../../containers/SearchForm';
 import SearchResults from '../../containers/SearchResults';
 
 export const SearchPage = () => (
-  <div className="medium-screen:vads-l-col--8">
-    {/* Title */}
-    <h1>Find apps to use</h1>
-
-    <p className="va-introtext">
-      Below, you&apos;ll find a list of third-party websites and applications
-      you can link to your personal VA data, like health or service records.
-      Third-party services are created by developers that aren&apos;t VA. It is
-      never required to use them.
-    </p>
-
+  <div>
     {/* Search Form */}
     <SearchForm />
 
@@ -34,10 +24,6 @@ export const SearchPage = () => (
         Go to connected apps FAQs
       </a>
     </div>
-
-    {/* Last Updated */}
-    <hr />
-    <p>Last updated May 22, 2020</p>
   </div>
 );
 

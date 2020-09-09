@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 // Relative imports.
 import CATEGORIES from '../../constants/CATEGORIES';
 import PLATFORMS from '../../constants/PLATFORMS';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
 
 export class SearchForm extends Component {
@@ -60,9 +59,6 @@ export class SearchForm extends Component {
       page: 1,
       trackSearch: true,
     });
-
-    // Scroll to top.
-    scrollToTop();
   };
 
   render() {
