@@ -12,7 +12,7 @@ Cypress.config('waitForAnimations', true);
 
 const form = createTestConfig(
   {
-    dataPrefix: 'data',
+    dataPrefix: 'testData',
     dataSets: ['minimal'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
