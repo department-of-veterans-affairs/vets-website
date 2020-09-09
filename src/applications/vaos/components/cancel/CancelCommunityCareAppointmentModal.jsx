@@ -14,22 +14,25 @@ export default function CancelCommunityCareAppointmentModal({
   const phone = location.telecom?.find(item => item.system === 'phone')?.value;
   const address = location.address;
 
+  const title = location.address
+    ? 'You need to call your community care provider to cancel this appointment'
+    : 'You need to call your community care staff at your local VA facility to cancel this appointment';
+
   return (
     <Modal
       id="cancelAppt"
       status="warning"
       visible
       onClose={onClose}
-      title="You need to call your community care provider to cancel this appointment"
+      title={title}
     >
       Community care appointments can’t be canceled online.{' '}
       {!address && (
         <>
-          If you have questions, please contact{' '}
+          Please contact your facility community care staff at{' '}
           <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            your facility
-          </a>{' '}
-          community care staff at your local VA.
+            your local VA.
+          </a>
           <br />
         </>
       )}

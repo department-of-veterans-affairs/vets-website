@@ -58,11 +58,8 @@ export default function ConfirmedAppointmentListItem({
       ));
 
   let instructionText;
-  // if showInstructions is true and address exists
   if (showInstructions) {
     instructionText = appointment.comment;
-    console.log('instructionText: ' + instructionText);
-    debugger;
   } else if (isVideo && appointment.comment) {
     instructionText = getVideoInstructionText(appointment.comment);
   }

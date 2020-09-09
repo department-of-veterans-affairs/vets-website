@@ -167,10 +167,7 @@ function getConfirmedStatus(appointment, isPast) {
  * @returns {Object} Returns appointment datetime as moment object
  */
 function getMomentConfirmedDate(appt) {
-  if (
-    isCommunityCare(appt) &&
-    (appt.communityCare === undefined || appt.communityCare === null)
-  ) {
+  if (isCommunityCare(appt) && appt.timeZone) {
     const zoneSplit = appt.timeZone.split(' ');
     const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
     return moment
@@ -543,9 +540,9 @@ export function transformConfirmedAppointments(appointments) {
       minutesDuration,
       comment:
         appt.instructionsToVeteran ||
-        (!appt.communityCare
-          ? appt.vdsAppointments?.[0]?.bookingNote
-          : 'vistaCC') ||
+        (appt.communityCare
+          ? 'vistaCCAppt'
+          : appt.vdsAppointments?.[0]?.bookingNote) ||
         appt.vvsAppointments?.[0]?.instructionsTitle,
       participant: setParticipant(appt),
       contained: setContained(appt),
