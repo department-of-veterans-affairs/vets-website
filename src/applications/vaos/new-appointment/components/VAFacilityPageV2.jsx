@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 import {
   openFacilityPage,
   updateFacilityPageData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../new-appointment/redux/actions';
-import { getFacilityPageInfo } from '../utils/selectors';
+} from '../redux/actions';
+import { getFacilityPageInfo } from '../../utils/selectors';
 
 const initialSchema = {
   type: 'object',
