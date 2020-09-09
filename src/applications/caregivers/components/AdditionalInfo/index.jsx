@@ -179,7 +179,7 @@ const CaregiverSupportInfo = () => (
 );
 
 const PrimaryHealthCoverage = ({ pageTitle }) => (
-  <>
+  <section>
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
     <div className="vads-u-margin-bottom--4 vads-u-margin-top--2">
@@ -188,21 +188,25 @@ const PrimaryHealthCoverage = ({ pageTitle }) => (
         Caregiver’s health coverage.
       </p>
     </div>
-  </>
+  </section>
 );
 
 const PleaseSelectVAFacility = () => (
-  <div>
+  <section>
+    <h3 className="vads-u-font-size--h4">VA health care services</h3>
+
     <p>
-      Please select the VA medical center or clinic where the Veteran receives
-      or plans to receive health care services.
+      Please select the VA medical center or clinic where the
+      <b className="vads-u-margin-left--0p5">
+        Veteran receives or plans to receive health care services.
+      </b>
     </p>
 
     <p>
       A Caregiver Support Coordinator at this VA medical center will review your
       application.
     </p>
-  </div>
+  </section>
 );
 
 const ReviewInfo = () => (

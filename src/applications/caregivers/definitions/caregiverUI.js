@@ -88,8 +88,17 @@ export default {
       'ui:title': ' ',
       'ui:order': ['name', 'type'],
       name: {
-        'ui:title':
-          'Please enter the name of the medical facility where the Veteran last received medical treatment.',
+        'ui:title': (
+          <div>
+            <h3 className="vads-u-font-size--h4"> </h3>
+            <p>
+              Please enter the name of the medical facility where the Veteran
+              <b className="vads-u-margin-left--0p5">
+                last received medical treatment.
+              </b>
+            </p>
+          </div>
+        ),
       },
       type: {
         'ui:title': 'Was this a hospital or clinic?',
