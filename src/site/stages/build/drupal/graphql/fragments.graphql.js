@@ -18,6 +18,7 @@ const alertParagraph = require('./paragraph-fragments/alert.paragraph.graphql');
 const table = require('./paragraph-fragments/table.paragraph.graphql');
 const downloadableFile = require('./paragraph-fragments/downloadableFile.paragraph.graphql');
 const embeddedImage = require('./paragraph-fragments/media.paragraph.graphql');
+const button = require('./paragraph-fragments/button.paragraph.graphql');
 
 module.exports = `
   ${alert}
@@ -38,4 +39,5 @@ module.exports = `
   ${table}
   ${downloadableFile}
   ${embeddedImage}
+  ${button}
 `;
