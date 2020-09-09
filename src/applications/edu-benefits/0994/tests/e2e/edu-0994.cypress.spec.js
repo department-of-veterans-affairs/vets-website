@@ -16,6 +16,7 @@ const form = createTestConfig(
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
     setupPerTest: () => {
+      window.sessionStorage.clear();
       cy.login(mockUser);
       cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
       cy.route('POST', '/v0/education_benefits_claims/0994', {
@@ -41,9 +42,8 @@ const form = createTestConfig(
         cy.get('#ClaimingBenefitOwnService-0').check();
         cy.get('#NationalCallToService-1').click();
         cy.get('#VetTec-0').click();
-        cy.get('#apply-now-link').click();
-
         afterHook(() => {
+          cy.get('#apply-now-link').click();
           cy.findAllByText(/Start the VET TEC application/i, {
             selector: 'button',
           })
