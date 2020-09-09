@@ -63,7 +63,7 @@ export const fetchDebtLetters = () => async dispatch => {
     const approvedDeductionCodes = Object.keys(deductionCodes);
     // remove any debts that do not have approved deductionCodes or
     // that have a current amount owed of 0
-    const filteredResponse = response
+    const filteredResponse = response.debts
       .filter(res => approvedDeductionCodes.includes(res.deductionCode))
       .filter(debt => debt.currentAr > 0);
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
