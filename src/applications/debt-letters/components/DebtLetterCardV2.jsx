@@ -22,7 +22,7 @@ const DebtLetterCardV2 = props => {
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
       <h3 className="vads-u-margin--0">{debtCardHeading}</h3>
       {mostRecentHistory && (
-        <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
           Updated on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
         </p>
       )}

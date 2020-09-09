@@ -55,7 +55,9 @@ const DebtCardsListV2 = ({ debts, isError }) => {
                 />
               ))}
             </div>
-            <h3>What if I don't see a debt?</h3>
+            <h3 className="vads-u-font-size--h4">
+              What if I don't see a debt?
+            </h3>
             <p className="vads-u-font-family--sans">
               If you’ve received a letter about a VA debt, but don’t see it
               listed here call the Debt Management Center (DMC) at{' '}
@@ -64,11 +66,16 @@ const DebtCardsListV2 = ({ debts, isError }) => {
               </a>
               {'.'}
             </p>
-            <p className="vads-u-font-family--sans">
+            <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
               For medical co-payment debt, please go to Pay your VA copay bill
               to learn about your payment options.
             </p>
-            <h3 id="downloadDebtLetters">Download debt letters</h3>
+            <h3
+              id="downloadDebtLetters"
+              className="vads-u-margin-top--4 vads-u-font-size--h2"
+            >
+              Download debt letters
+            </h3>
             <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
               You can download some of your letters for education, compensation
               and pension debt.

@@ -33,9 +33,9 @@ class DebtDetails extends Component {
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <Breadcrumbs className="vads-u-font-family--sans">
           <a href="/">Home</a>
-          <a href="/debt-letters">Manage your VA debt</a>
-          <a href="/debt-letters/debt-list">Your VA debt</a>
-          <a href="/debt-letters/debt-list">Your VA debt</a>
+          <a href="/manage-va-debt">Manage your VA debt</a>
+          <a href="/manage-va-debt/your-debt">Your VA debt</a>
+          <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
         </Breadcrumbs>
         <h1 className="vads-u-font-family--serif vads-u-margin-bottom--2">
           Your {deductionCodes[selectedDebt.deductionCode]}
@@ -131,7 +131,7 @@ class DebtDetails extends Component {
                 ))}
               </tbody>
             </table>
-            <h3>Download debt letters</h3>
+            <h3 id="downloadDebtLetters">Download debt letters</h3>
             <p className="vads-u-margin-bottom--0">
               You can download some of your letters for education, compensation
               and pension debt.
