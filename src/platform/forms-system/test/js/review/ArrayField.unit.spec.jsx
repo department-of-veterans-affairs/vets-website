@@ -397,7 +397,7 @@ describe('Schemaform review <ArrayField>', () => {
         idSchema={idSchema}
         registry={registry}
         formContext={formContext}
-        pageTitle=""
+        pageTitle="Page Title"
         requiredSchema={requiredSchema}
       />,
     );
