@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { GA_PREFIX, APPOINTMENT_TYPES } from '../../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../../utils/events';
-import { selectSystemIds } from '../../utils/selectors';
+import { selectSystemIds, vaosExpressCare } from '../../utils/selectors';
 
 import {
   getCancelReasons,
@@ -11,7 +11,7 @@ import {
   getRequestMessages,
   updateAppointment,
   updateRequest,
-} from '../../api';
+} from '../../services/var';
 
 import { getLocations } from '../../services/location';
 
@@ -134,9 +134,17 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 }
 
 export function fetchFutureAppointments() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
+    });
+
+    recordEvent({
+      event: `${GA_PREFIX}-get-future-appointments-started`,
+    });
+
+    recordEvent({
+      event: `${GA_PREFIX}-get-pending-appointments-started`,
     });
 
     try {
@@ -158,9 +166,28 @@ export function fetchFutureAppointments() {
               type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
               data: requests,
             });
+
+            const requestSuccessEvent = {
+              event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
+            };
+
+            const expressCareRequests = requests.filter(
+              appt => appt.vaos.isExpressCare,
+            );
+
+            if (vaosExpressCare(getState()) && expressCareRequests.length) {
+              requestSuccessEvent[`${GA_PREFIX}-express-care-number-of-cards`] =
+                expressCareRequests.length;
+            }
+
+            recordEvent(requestSuccessEvent);
+            resetDataLayer();
             return requests;
           })
           .catch(resp => {
+            recordEvent({
+              event: `${GA_PREFIX}-get-pending-appointments-failed`,
+            });
             dispatch({
               type: FETCH_PENDING_APPOINTMENTS_FAILED,
             });
@@ -168,6 +195,12 @@ export function fetchFutureAppointments() {
             return Promise.reject(resp);
           }),
       ]);
+
+      recordEvent({
+        event: `${GA_PREFIX}-get-future-appointments-retrieved`,
+        [`${GA_PREFIX}-upcoming-number-of-cards`]: data[0]?.length,
+      });
+      resetDataLayer();
 
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
@@ -190,6 +223,9 @@ export function fetchFutureAppointments() {
       }
     } catch (error) {
       captureError(error);
+      recordEvent({
+        event: `${GA_PREFIX}-get-future-appointments-failed`,
+      });
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_FAILED,
         error,
@@ -205,6 +241,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       selectedIndex,
     });
 
+    recordEvent({
+      event: `${GA_PREFIX}-get-past-appointments-started`,
+    });
+
     try {
       const data = await getBookedAppointments({
         startDate,
@@ -216,6 +256,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         data,
         startDate,
         endDate,
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-get-past-appointments-retrieved`,
       });
 
       try {
@@ -237,6 +281,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_FAILED,
         error,
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-get-past-appointments-failed`,
       });
     }
   };

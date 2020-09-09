@@ -30,7 +30,7 @@ export default Object.freeze({
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
-  gibctCh33BenefitRateUpdate: 'gibctCh33BenefitRateUpdate',
+  gibctFilterEnhancement: 'gibctFilterEnhancement',
   gibctBenefitFilterEnhancement: 'gibctBenefitFilterEnhancement',
   form996HigherLevelReview: 'form996HigherLevelReview',
   debtLettersShowLetters: 'debtLettersShowLetters',
