@@ -3,7 +3,10 @@ import { Link } from 'react-router';
 
 const HowDoIPayV2 = () => (
   <div className="vads-u-font-family--sans">
-    <h3 id="howDoIPay" className="vads-u-margin-top--4 vads-u-margin-bottom-2">
+    <h3
+      id="howDoIPay"
+      className="vads-u-margin-top--4 vads-u-margin-bottom-2 vads-u-font-size--h2"
+    >
       How do I pay my VA debt?
     </h3>
     <p className="vads-u-margin-top--0">
