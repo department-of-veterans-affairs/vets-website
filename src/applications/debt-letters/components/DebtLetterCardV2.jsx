@@ -44,7 +44,7 @@ const DebtLetterCardV2 = props => {
       <Link
         className="usa-button"
         onClick={() => props.setActiveDebt(debt)}
-        to="/view-details"
+        to="/debt-detail"
       >
         Go to debt details{' '}
         <i className="fa fa-chevron-right vads-u-font-size--sm" />

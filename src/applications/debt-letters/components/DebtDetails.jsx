@@ -35,13 +35,14 @@ class DebtDetails extends Component {
           <a href="/">Home</a>
           <a href="/debt-letters">Manage your VA debt</a>
           <a href="/debt-letters/debt-list">Your VA debt</a>
+          <a href="/debt-letters/debt-list">Your VA debt</a>
         </Breadcrumbs>
         <h1 className="vads-u-font-family--serif vads-u-margin-bottom--2">
-          Your {deductionCodes[selectedDebt.deductionCode]} debt
+          Your {deductionCodes[selectedDebt.deductionCode]}
         </h1>
         <div className="vads-l-row">
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 medium-screen:vads-l-col--8 vads-u-font-family--sans">
-            <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-margin-top--0">
+            <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-weight--normal">
               Updated on{' '}
               {moment(last(selectedDebt.debtHistory).date).format(
                 'MMMM D, YYYY',
@@ -135,7 +136,7 @@ class DebtDetails extends Component {
               You can download some of your letters for education, compensation
               and pension debt.
             </p>
-            <Link to="download-letters" className="vads-u-margin-top--1">
+            <Link to="debt-letters" className="vads-u-margin-top--1">
               Download letters related to your VA debt
             </Link>
             <HowDoIPayV2 />
