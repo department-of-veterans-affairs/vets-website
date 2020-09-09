@@ -1,5 +1,5 @@
 import React from 'react';
-import last from 'lodash/last';
+import head from 'lodash/head';
 import moment from 'moment';
 import { Link } from 'react-router';
 import { deductionCodes } from '../const';
@@ -15,7 +15,7 @@ const DebtLetterCardV2 = props => {
     minimumFractionDigits: 2,
   });
   const { debt } = props;
-  const mostRecentHistory = last(debt.debtHistory);
+  const mostRecentHistory = head(debt.debtHistory);
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
   return (
@@ -32,7 +32,7 @@ const DebtLetterCardV2 = props => {
       </p>
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Status: </strong>
-        Status info goes here
+        {mostRecentHistory.status}
       </p>
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Next Step: </strong>
