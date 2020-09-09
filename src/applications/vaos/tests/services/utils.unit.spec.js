@@ -7,7 +7,7 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import { mapToFHIRErrors, fhirSearch } from '../../services/utils';
-import mockData from '../../services/organization/mock.json';
+import mockData from '../../services/mocks/fhir/mock_organizations.json';
 
 describe('VAOS FHIR utils', () => {
   describe('mapToFHIRError', () => {

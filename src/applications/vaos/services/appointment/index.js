@@ -1,10 +1,10 @@
 import moment from 'moment';
-import { getConfirmedAppointments, getPendingAppointments } from '../../api';
+import { getConfirmedAppointments, getPendingAppointments } from '../var';
 import {
   transformConfirmedAppointments,
   transformPendingAppointments,
 } from './transformers';
-import { mapToFHIRErrors } from '../../utils/fhir';
+import { mapToFHIRErrors } from '../utils';
 import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,

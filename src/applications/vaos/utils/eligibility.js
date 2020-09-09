@@ -5,7 +5,7 @@ import {
   checkPastVisits,
   getRequestLimits,
   getLongTermAppointmentHistory,
-} from '../api';
+} from '../services/var';
 import { getFacilityIdFromLocation } from '../services/location';
 import { getAvailableHealthcareServices } from '../services/healthcare-service';
 
