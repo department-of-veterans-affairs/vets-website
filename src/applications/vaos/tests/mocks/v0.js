@@ -290,3 +290,14 @@ export function getExpressCareRequestCriteriaMock(id, schedulingDays) {
     },
   ];
 }
+
+export function getCommunityCareSitesMock(id) {
+  return {
+    id,
+    type: 'object_type',
+    attributes: {
+      name: 'fake',
+      timezone: 'fake',
+    },
+  };
+}

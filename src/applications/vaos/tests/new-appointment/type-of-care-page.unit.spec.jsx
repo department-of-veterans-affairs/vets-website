@@ -17,7 +17,7 @@ import {
   mockAppointmentSlotFetch,
 } from '../mocks/helpers';
 
-import TypeOfCarePage from '../../containers/TypeOfCarePage';
+import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 
 const initialState = {
   featureToggles: {
@@ -73,15 +73,33 @@ describe.only('VAOS integration: type of care pages', () => {
 
     fireEvent.click(await screen.findByLabelText(/podiatry/i));
     fireEvent.click(screen.getByText(/Continue/));
-    const unavailableWarning = await screen.findByText(
+    await screen.findByText(
       /podiatry appointments can only be scheduled online for community care/i,
     );
     fireEvent.click(screen.getByText('Ok'));
-    await waitForElementToBeRemoved(unavailableWarning);
+
+    await waitFor(
+      () => expect(screen.queryByText(/podiatry appointments/i)).not.to.exist,
+    );
+    expect(screen.getByText(/please choose a type of care/i)).to.exist;
+  });
+  it('should open facility type page when CC eligible', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfCarePage} />,
+      { store },
+    );
+
+    fireEvent.click(await screen.findByLabelText(/primary care/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/type-of-facility',
+      ),
+    );
   });
   it('should show eye care type of care page', () => {});
   it('should show audiology type of care page', () => {});
   it('should show sleep medicine type of care page', () => {});
-  it('should open facility type page when CC eligible', () => {});
   it('should show update address modal when no address', () => {});
 });
