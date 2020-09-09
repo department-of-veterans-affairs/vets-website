@@ -297,11 +297,11 @@ describe('Schemaform review <ArrayField>', () => {
       expect(tree.everySubTree('SchemaForm').length).to.equal(2);
     });
     it('enforces max items', () => {
-      expect(tree.subTree('.edit-btn').props.disabled).to.be.false;
+      expect(tree.subTree('.add-btn').props.disabled).to.be.false;
 
       tree.getMountedInstance().handleAdd();
 
-      expect(tree.subTree('.edit-btn').props.disabled).to.be.true;
+      expect(tree.subTree('.add-btn').props.disabled).to.be.true;
     });
     it('remove', () => {
       expect(tree.everySubTree('SchemaForm').length).to.equal(1);
