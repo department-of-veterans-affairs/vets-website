@@ -15,7 +15,7 @@ export default (store, widgetType) => {
     return;
   }
 
-  // webpackChunkName: "third-party-apps"
+  // webpackChunkName: "third-party-app-directory"
   import('./third-party-apps-entry').then(module => {
     const { App } = module.default;
     ReactDOM.render(

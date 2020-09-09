@@ -65,7 +65,7 @@ import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusCh
 
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
-} from '../third-party-apps/createThirdPartyApps';
+} from '../third-party-app-directory/createThirdPartyApps';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -141,7 +141,7 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 
 // App Directory third party applications widget
-createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APPS);
+createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
 
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsInvalidPdfAlert(

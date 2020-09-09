@@ -2,9 +2,7 @@
 import E2eHelpers from 'platform/testing/e2e/helpers';
 import Timeouts from 'platform/testing/e2e/timeouts';
 import createMockEndpoint from 'platform/testing/e2e/mock-helpers';
-import manifest from './manifest.json';
 import stub from './api/stub.js';
-import environments from 'site/constants/environments';
 
 const SELECTORS = {
   APP: '[data-e2e-id="app"]',
@@ -13,6 +11,7 @@ const SELECTORS = {
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
 };
 
+// TODO: Update e2e tests when app directory is integrated into Learning Center
 const runTest = browser => {
   // Open the URL.
   browser.openUrl(`${E2eHelpers.baseUrl}/third-party-applications/`);
@@ -74,7 +73,3 @@ module.exports = E2eHelpers.createE2eTest(browser => {
     });
   });
 });
-
-// TODO: Remove this when CI builds temporary landing pages to run e2e tests
-module.exports['@disabled'] =
-  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;

@@ -9,8 +9,8 @@ import {
 
 describe('Constants', () => {
   it('should be scoped', () => {
-    expect(FETCH_RESULTS).to.include('third-party-apps');
-    expect(FETCH_RESULTS_FAILURE).to.include('third-party-apps');
-    expect(FETCH_RESULTS_SUCCESS).to.include('third-party-apps');
+    expect(FETCH_RESULTS).to.include('third-party-app-directory');
+    expect(FETCH_RESULTS_FAILURE).to.include('third-party-app-directory');
+    expect(FETCH_RESULTS_SUCCESS).to.include('third-party-app-directory');
   });
 });
