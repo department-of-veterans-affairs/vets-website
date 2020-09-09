@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import schemas from 'vets-json-schema/dist/schemas';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 const path = require('path');
@@ -250,8 +249,6 @@ const validCustomText = ({ customText }) => {
 };
 
 describe('form:', () => {
-  sessionStorageSetup();
-
   // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
     /config\/form\.js.?$/,
