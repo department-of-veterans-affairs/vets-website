@@ -4,6 +4,10 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user.json';
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_COMPLETE,
+} from 'applications/static-pages/wizard';
 
 Cypress.config('waitForAnimations', true);
 
@@ -16,7 +20,7 @@ const form = createTestConfig(
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
     setupPerTest: () => {
-      window.sessionStorage.clear();
+      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.login(mockUser);
       cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
       cy.route('POST', '/v0/education_benefits_claims/0994', {
@@ -33,17 +37,7 @@ const form = createTestConfig(
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
-        cy.findByText(/Find the right application form/i, {
-          selector: 'button',
-        })
-          .first()
-          .click();
-        cy.get('#NewBenefit-0').check();
-        cy.get('#ClaimingBenefitOwnService-0').check();
-        cy.get('#NationalCallToService-1').click();
-        cy.get('#VetTec-0').click();
         afterHook(() => {
-          cy.get('#apply-now-link').click();
           cy.findAllByText(/Start the VET TEC application/i, {
             selector: 'button',
           })
