@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 
-import { sessionStorageSetup } from 'platform/testing/utilities';
 import { SAVED_SEPARATION_DATE } from '../../all-claims/constants';
 import {
   makeSchemaForNewDisabilities,
@@ -995,9 +994,6 @@ describe('526 v2 depends functions', () => {
   });
 
   describe('isBDD', () => {
-    before(() => {
-      sessionStorageSetup();
-    });
     afterEach(() => {
       sessionStorage.removeItem(SAVED_SEPARATION_DATE);
     });

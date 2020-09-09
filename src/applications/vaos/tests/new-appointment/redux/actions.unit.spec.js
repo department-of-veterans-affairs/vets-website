@@ -45,9 +45,7 @@ import {
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
-  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
-  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
-  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -1047,68 +1045,20 @@ describe('VAOS newAppointment actions', () => {
       type: 'object',
       properties: {},
     };
-    const defaultState = {
-      newAppointment: {
-        data: {
-          typeOfCareId: '323',
-        },
-        pages: {},
-        parentFacilitiesStatus: FETCH_STATUS.notStarted,
-        ccEnabledSystems: ['983', '984'],
-      },
-    };
 
-    beforeEach(() => {
-      mockFetch();
-      setFetchJSONResponse(global.fetch, parentFacilities);
-    });
-
-    afterEach(() => {
-      resetFetch();
-    });
-
-    it('should fetch parentFacilities', async () => {
-      const dispatch = sinon.spy();
-      const getState = () => defaultState;
-
-      const thunk = openCommunityCarePreferencesPage(
+    it('should set up CC prefs page', async () => {
+      const succeededAction = openCommunityCarePreferencesPage(
         'ccPreferences',
         {},
         defaultSchema,
       );
-      await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
-      );
-      const succeededAction = dispatch.lastCall.args[0];
       expect(succeededAction).to.deep.equal({
-        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
         schema: defaultSchema,
         page: 'ccPreferences',
         uiSchema: {},
-        parentFacilities: parentFacilitiesParsed,
       });
-    });
-
-    it('should send fail action when fetch fails', async () => {
-      setFetchJSONFailure(global.fetch, {});
-      const dispatch = sinon.spy();
-      const getState = () => defaultState;
-
-      const thunk = openCommunityCarePreferencesPage(
-        'ccPreferences',
-        {},
-        defaultSchema,
-      );
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
-      );
-      expect(dispatch.lastCall.args[0].type).to.equal(
-        FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
-      );
     });
   });
 
@@ -1217,7 +1167,7 @@ describe('VAOS newAppointment actions', () => {
           },
         },
         newAppointment: {
-          parentFacilities: [
+          ccEnabledSystems: [
             {
               id: 'var983',
               identifier: [
