@@ -3,18 +3,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { selectShowAuthenticatedHomepage } from 'applications/static-pages/authenticated-homepage/selectors';
+import UnauthenticatedHomepage from './UnauthenticatedHomepage';
+import AuthenticatedHomepage from './AuthenticatedHomepage';
+
+import { selectShowAuthenticatedHomepage } from 'applications/static-pages/homepage/selectors';
 import environment from 'platform/utilities/environment';
 
 export const App = ({ showAuthHomePage }) => {
-  const homepage = document.getElementById('homepage');
+  const homepage = document.getElementById('homepage-wrapper');
+  const { cards, hubs, promos } = window?.homepage;
 
   if (environment.isProduction() || !showAuthHomePage || !homepage) {
-    return null;
+    return (
+      <UnauthenticatedHomepage cards={cards} hubs={hubs} promos={promos} />
+    );
   }
 
-  homepage.style.display = 'none';
-  return <div>This is the new authenticated homepage.</div>;
+  console.log('Should show authenticated');
+
+  return <AuthenticatedHomepage />;
 };
 
 App.propTypes = {

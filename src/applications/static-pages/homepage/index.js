@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "authenticated-homepage" */
+    import(/* webpackChunkName: "homepage" */
     './components/App/App').then(module => {
       const App = module.default;
       ReactDOM.render(
