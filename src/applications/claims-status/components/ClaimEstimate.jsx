@@ -2,8 +2,33 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-export default function ClaimEstimate({ maxDate, id }) {
+export default function ClaimEstimate({
+  maxDate,
+  id,
+  showCovidMessage = true,
+}) {
+  // Hide until estimates are accurate
+  if (showCovidMessage) {
+    return (
+      <AlertBox status="warning" headline="Completion estimate is unavailable">
+        <p>
+          The estimated claim completion date feature has been temporarily
+          removed. Due to the impact COVID-19 has bad on the availability and
+          scheduling of required in-person medical disability exams, the
+          estimated completion date is not accurate at this time. VA is
+          coordinating efforts to ensure all exams are scheduled and conducted
+          as soon as it is safe in each area. You can{' '}
+          <a href="https://benefits.va.gov/compensation/claimexam.asp">
+            review the status of exams in your area
+          </a>
+          .
+        </p>
+      </AlertBox>
+    );
+  }
+
   const estimatedDate = moment(maxDate);
   const today = moment().startOf('day');
 
