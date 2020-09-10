@@ -3,7 +3,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 // platform
 import createCommonStore from 'platform/startup/store';
@@ -76,22 +76,22 @@ describe('SavableErrorMessage component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <SavableErrorMessage
-          testId="12345"
-          formConfig={formConfig}
-        />
+        <SavableErrorMessage testId="12345" formConfig={formConfig} />
       </Provider>,
     );
 
-    console.log(tree.debug());
+    expect(
+      tree.getByText(
+        "We’re sorry. We can't submit your application right now.",
+      ),
+    ).to.not.be.null;
 
-    // expect(tree.getByText("We’re sorry. We can't submit your application right now.")).to.not.be.null;
     tree.unmount();
   });
 
   it('should render a custom error', () => {
     const formConfig = createFormConfig({
-      submissionError: props => <div data-testid={'12345'} />,
+      submissionError: () => <div data-testid={'12345'} />,
     });
     const goBack = sinon.spy();
     const onSubmit = sinon.spy();

@@ -4,15 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 // platform - forms - actions
-import { 
-  saveErrors, 
-  saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction 
+import {
+  saveErrors,
+  saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction,
 } from 'platform/forms/save-in-progress/actions';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
-import {
-  APP_TYPE_DEFAULT,
-} from 'platform/forms-system/src/js/constants';
+import { APP_TYPE_DEFAULT } from 'platform/forms-system/src/js/constants';
 
 // platform - forms components
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
@@ -32,14 +30,7 @@ import {
 import { defaultProps } from 'recompose';
 
 function SavableErrorMessage(props) {
-  const {
-    route,
-    formConfig,
-    user,
-    form,
-    location,
-    showLoginModal,
-  } = props;
+  const { route, formConfig, user, form, location, showLoginModal } = props;
 
   const savedStatus = form?.savedStatus;
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
@@ -81,12 +72,11 @@ function SavableErrorMessage(props) {
     return (
       <ErrorMessage
         active
-        title="We’re sorry. We can't submit your {appType} right now."
+        title={`We’re sorry. We can't submit your ${appType} right now.`}
       >
         <p>
-          We’re working to fix the problem. Please make sure you’re
-          connected to the Internet, and then try saving your {appType}{' '}
-          again. {saveLink}.
+          We’re working to fix the problem. Please make sure you’re connected to
+          the Internet, and then try saving your {appType} again. {saveLink}.
         </p>
         {!user.login.currentlyLoggedIn && (
           <p>
@@ -104,7 +94,7 @@ function SavableErrorMessage(props) {
   ) : (
     <DefaultErrorMessage />
   );
-};
+}
 
 const mapDispatchToProps = {
   saveAndRedirectToReturnUrl: saveAndRedirectToReturnUrlAction,
