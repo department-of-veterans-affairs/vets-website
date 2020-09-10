@@ -1,18 +1,19 @@
 import React from 'react';
 import _ from 'lodash/fp';
 
-function getEmptyState() {
+function getInitialState(height) {
   return {
     value: {
-      feet: null,
-      inches: null,
+      feet: height ? Math.floor(parseInt(height, 10) / 12) : null,
+      inches: height ? parseInt(height, 10) % 12 : null,
     },
     touched: {
-      feet: false,
-      inches: false,
+      feet: !!height,
+      inches: !!height,
     },
   };
 }
+
 function setLabelStyles(newState) {
   let labelMarginLeftClass = 'vads-u-margin-left--1';
   if (
@@ -27,8 +28,15 @@ function setLabelStyles(newState) {
 const calculateHeight = ({ feet, inches }) =>
   (parseInt(feet, 10) || 0) * 12 + (parseInt(inches, 10) || 0);
 
+const formatHeightString = height => {
+  const feet = Math.floor(parseInt(height, 10) / 12);
+  const inches = parseInt(height, 10) % 12;
+  return `${feet} ft. ${inches} in.`;
+};
+
 export default class HeightWidget extends React.Component {
-  state = getEmptyState();
+  state = getInitialState(this.props.value);
+
   labelStyleClasses = setLabelStyles();
 
   isTouched = ({ feet, inches }) => feet && inches;
@@ -59,14 +67,19 @@ export default class HeightWidget extends React.Component {
   };
 
   render() {
-    const { id } = this.props;
+    const { id, formContext } = this.props;
     const { feet, inches } = this.state.value;
-    return (
+    const inReviewMode = formContext.onReviewPage && formContext.reviewMode;
+
+    const displayValue = inReviewMode ? (
+      <div>{formatHeightString(this.props.value)}</div>
+    ) : (
       <div className="vads-l-grid-container--full">
         <div className="vads-l-row">
           <div className="vads-l-col--2">
             <input
               type="number"
+              min="0"
               name={`${id}Feet`}
               id={`${id}Feet`}
               value={feet}
@@ -93,6 +106,7 @@ export default class HeightWidget extends React.Component {
         </div>
       </div>
     );
+    return <span>{displayValue}</span>;
   }
 }
 HeightWidget.propTypes = {};

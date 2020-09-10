@@ -20,18 +20,17 @@ describe('Coronavirus Research Volunteer Form', () => {
     closeContactPositive: 'UNSURE',
     hospitalized: true,
     smokeOrVape: false,
-    healthHistory: {
-      ALLERGY_VACCINE: true,
-      LUNG_DISEASE: true,
-      NONE_OF_ABOVE: false,
+    HEALTH_HISTORY: {
+      'HEALTH_HISTORY::ALLERGY_VACCINE': true,
+      'HEALTH_HISTORY::LUNG_DISEASE': true,
+      'HEALTH_HISTORY::NONE_OF_ABOVE': false,
     },
-    employmentStatus: { STUDENT: true },
-    transportation: { NONE_OF_ABOVE: true },
+    EMPLOYMENT_STATUS: { 'EMPLOYMENT_STATUS::STUDENT': true },
+    TRANSPORTATION: { 'TRANSPORTATION::NONE_OF_ABOVE': true },
     residentsInHome: 'ONE_TWO',
     closeContact: 'ZERO',
     veteranFullName: { first: 'testFName', last: 'testLName' },
     email: 'test@test.com',
-    'view:confirmEmail': 'test@test.com',
     phone: '5554443322',
     zipCode: '99988',
     veteranDateOfBirth: '1980-09-24',
@@ -39,8 +38,8 @@ describe('Coronavirus Research Volunteer Form', () => {
     heightInches: 8,
     height: 68,
     weight: '200',
-    gender: { SELF_IDENTIFY: true, NONE_OF_ABOVE: false },
-    raceEthnicityOrigin: { NONE_OF_ABOVE: true },
+    GENDER: { 'GENDER::SELF_IDENTIFY': true, 'GENDER::NONE_OF_ABOVE': false },
+    RACE_ETHNICITY_ORIGIN: { 'RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE': true },
   });
   it('should render', () => {
     const form = mount(
@@ -52,7 +51,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(69);
+    expect(form.find('input').length).to.equal(68);
     form.unmount();
   });
 
@@ -106,28 +105,6 @@ describe('Coronavirus Research Volunteer Form', () => {
       />,
     );
     fillData(form, 'input#root_email', 'notAnEmail');
-    fillData(form, '[name="root_view:confirmEmail"]', 'notAnEmail');
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(form.find('.input-error-date').length).to.equal(0);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-  it('should confirm identical email and confirm email', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        pagePerItemIndex={0}
-        schema={schema}
-        data={volunteerData()}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    fillData(form, 'input#root_email', 'test@test.com');
-    fillData(form, '[name="root_view:confirmEmail"]', 'not_test@test.com');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -227,8 +204,16 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectCheckbox(form, 'root_healthHistory_ALLERGY_VACCINE', false);
-    selectCheckbox(form, 'root_healthHistory_LUNG_DISEASE', false);
+    selectCheckbox(
+      form,
+      'root_HEALTH_HISTORY_HEALTH_HISTORY::ALLERGY_VACCINE',
+      false,
+    );
+    selectCheckbox(
+      form,
+      'root_HEALTH_HISTORY_HEALTH_HISTORY::LUNG_DISEASE',
+      false,
+    );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -248,7 +233,11 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectCheckbox(form, 'root_employmentStatus_STUDENT', false);
+    selectCheckbox(
+      form,
+      'root_EMPLOYMENT_STATUS_EMPLOYMENT_STATUS::STUDENT',
+      false,
+    );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -268,7 +257,11 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectCheckbox(form, 'root_transportation_NONE_OF_ABOVE', false);
+    selectCheckbox(
+      form,
+      'root_TRANSPORTATION_TRANSPORTATION::NONE_OF_ABOVE',
+      false,
+    );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -288,7 +281,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectCheckbox(form, 'root_gender_SELF_IDENTIFY', false);
+    selectCheckbox(form, 'root_GENDER_GENDER::SELF_IDENTIFY', false);
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -308,7 +301,11 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectCheckbox(form, 'root_raceEthnicityOrigin_NONE_OF_ABOVE', false);
+    selectCheckbox(
+      form,
+      'root_RACE_ETHNICITY_ORIGIN_RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE',
+      false,
+    );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
