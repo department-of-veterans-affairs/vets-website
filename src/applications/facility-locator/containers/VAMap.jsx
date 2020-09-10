@@ -26,6 +26,7 @@ import {
   setFocus,
   recordMarkerEvents,
   setZoomEvents,
+  recordDistanceSearchMove,
 } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
@@ -341,6 +342,9 @@ class VAMap extends Component {
       lat: position.latitude,
       lng: position.longitude,
     };
+    if (center && currentQuery.searchCoords) {
+      recordDistanceSearchMove(currentQuery.searchCoords, center);
+    }
     let boundsArray = currentQuery.bounds;
     let zoom = currentQuery.zoomLevel;
     if (zoom) recordEvent({ 'fl-map-zoom-depth': zoom });

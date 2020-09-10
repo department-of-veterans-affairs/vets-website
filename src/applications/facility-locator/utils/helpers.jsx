@@ -6,6 +6,7 @@ import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 import UrgentCareAlert from '../containers/UrgentCareAlert';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { distBetween } from '../utils/facilityDistance';
 
 export const setFocus = selector => {
   const el =
@@ -17,7 +18,7 @@ export const setFocus = selector => {
 };
 
 /**
- * Helper method to set click listeners to record map zoom events
+ * Helper fn to set click listeners for recording map zoom events +/-
  */
 export const setZoomEvents = () => {
   const recordZoomIn = () => recordEvent({ event: 'fl-map-zoom-in' });
@@ -259,9 +260,7 @@ export const showDialogUrgCare = currentQuery => {
 };
 
 /**
- * Helper method to record Markers PIN action events for GA
- *
- * @param {object} r - Facility Attributes
+ * Helper fn to record Markers PIN action events for GA
  */
 export const recordMarkerEvents = r => {
   const { classification, name, facilityType } = r.attributes;
@@ -273,6 +272,17 @@ export const recordMarkerEvents = r => {
     recordEvent({ 'fl-facility-name': name });
     recordEvent({ 'fl-facility-distance-from-search': distance });
   }
-  // Pin GA records
-  // console.log({ r });
+};
+
+/**
+ * Helper fn to record map movement after search
+ */
+export const recordDistanceSearchMove = (searchCoords, center) => {
+  const distanceAfterMove = distBetween(
+    searchCoords.lat,
+    searchCoords.lng,
+    center.lat,
+    center.lng,
+  );
+  recordEvent({ 'fl-map-miles-moved': distanceAfterMove });
 };
