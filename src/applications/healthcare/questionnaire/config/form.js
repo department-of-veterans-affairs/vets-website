@@ -5,8 +5,9 @@ import React from 'react';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AppointmentInfoBox from '../components/AppointmentInfoBox';
-import ReasonForVisitView from '../components/reason-for-visit/ReasonForVisitView';
-import ReasonForVisitReview from '../components/reason-for-visit/ReasonForVisitReview';
+// import ReasonForVisitField from '../components/reason-for-visit/ReasonForVisitField';
+// import ReasonForVisitReview from '../components/reason-for-visit/ReasonForVisitReview';
+import ReasonForVisit from '../components/reason-for-visit';
 import environment from 'platform/utilities/environment';
 
 // const { } = fullSchema.properties;
@@ -71,9 +72,9 @@ const formConfig = {
           title: 'Reason for visit and concerns',
           uiSchema: {
             reasonForVisit: {
-              'ui:widget': ReasonForVisitView,
+              'ui:widget': ReasonForVisit.field,
               'ui:title': ' ',
-              'ui:reviewField': ReasonForVisitReview,
+              'ui:reviewField': ReasonForVisit.review,
             },
             chiefComplaint: {},
             lifeEvents: {
