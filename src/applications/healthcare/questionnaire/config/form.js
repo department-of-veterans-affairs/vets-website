@@ -108,7 +108,6 @@ const formConfig = {
                   return <>{formData.formData.additionalQuestions}</>;
                 },
               },
-              // 'ui:reviewField': AdditionalQuestions.review,
               'ui:title': (
                 <span style={{ fontWeight: 'normal' }}>
                   Do you have any other additional questions you want to discuss
