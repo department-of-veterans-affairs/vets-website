@@ -70,7 +70,16 @@ const formConfig = {
           title: 'Reason for Visit 1',
           uiSchema: {
             chiefComplaint: {},
-            descriptionOfComplaint: {},
+            lifeEvents: {
+              'ui:widget': 'textarea',
+              'ui:title': (
+                <span>
+                  Are there any <strong>life events</strong> that are positively
+                  or negatively affecting your health (e.g. marriage, divorce,
+                  new job, retirement, parenthood, or finances)?
+                </span>
+              ),
+            },
             questions: {
               'ui:options': {
                 // eslint-disable-next-line no-unused-vars
@@ -80,7 +89,7 @@ const formConfig = {
                 },
               },
               'ui:title':
-                'Do you have any other additional questions for this visit?',
+                'Do you have any other additional questions you want to discuss with your provider?',
             },
           },
           schema: {
@@ -90,7 +99,7 @@ const formConfig = {
               chiefComplaint: {
                 type: 'string',
               },
-              descriptionOfComplaint: {
+              lifeEvents: {
                 type: 'string',
               },
               questions: {
