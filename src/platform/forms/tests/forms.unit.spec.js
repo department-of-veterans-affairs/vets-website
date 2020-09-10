@@ -129,8 +129,8 @@ const validFormConfigKeys = formConfig => {
   Object.keys(formConfig).forEach(key => {
     const warning =
       `${formConfig.formId} has an unknown property "${key}". ` +
-      '\nPlease check that property name is correct.' +
-      '\nIf this is a new property please update https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/documentation/src/pages/forms/config-options.mdx' +
+      '\nPlease check that the property name is correct.' +
+      '\nIf this is a new property please update https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/forms/config-options/' +
       ' and add a test to src/platform/forms/tests/forms.unit.spec.js for this property.\n';
     expect(formConfigKeys).to.include(key, warning);
   });
