@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 
 import SegmentedProgressBar from './SegmentedProgressBar';
@@ -14,6 +14,8 @@ import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
   const { formConfig, currentPath, formData } = props;
+
+  const [showHeader, setShowHeader] = useState(true);
 
   // This is converting the config into a list of pages with chapter keys,
   // finding the current page, then getting the chapter name using the key
@@ -52,6 +54,19 @@ export default function FormNav(props) {
 
   const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
 
+  // The goal with this is to quickly "remove" the header from the DOM, and
+  // immediately re-renderthe componet with the header included. This should
+  // ensure that VoiceOver on iOS will pick up on the new <h2>
+  useEffect(
+    () => {
+      if (current > 1) {
+        setShowHeader(false);
+      }
+      setShowHeader(true);
+    },
+    [current],
+  );
+
   return (
     <div>
       <SegmentedProgressBar total={chapters.length} current={current} />
@@ -63,7 +78,7 @@ export default function FormNav(props) {
           aria-valuemax={chapters.length}
           className="nav-header nav-header-schemaform"
         >
-          <h2 className="vads-u-font-size--h4">{stepText}</h2>
+          {showHeader && <h2 className="vads-u-font-size--h4">{stepText}</h2>}
         </div>
       </div>
     </div>
