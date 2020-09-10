@@ -22,7 +22,13 @@ export const schema = {
 };
 
 export const uiSchema = {
-  claimantAddress: addressUISchema(true, 'claimantAddress', () => true),
+  // Need to overwrite the default title brought over from addressUISchema() because it defaults to "They live..."
+  claimantAddress: {
+    ...addressUISchema(true, 'claimantAddress', () => true),
+    'view:livesOnMilitaryBase': {
+      'ui:title': 'I live on a United States military base outside of the U.S.',
+    },
+  },
   claimantPhoneNumber: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',

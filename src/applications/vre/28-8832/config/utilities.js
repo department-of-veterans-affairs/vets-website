@@ -6,7 +6,7 @@ const {
   claimantAddress,
   claimantPhoneNumber,
   claimantEmailAddress,
-  statusSelection,
+  status,
   veteranInformation,
 } = fullSchema.properties;
 
@@ -16,6 +16,6 @@ export {
   claimantAddress,
   claimantPhoneNumber,
   claimantEmailAddress,
-  statusSelection,
+  status,
   veteranInformation,
 };
