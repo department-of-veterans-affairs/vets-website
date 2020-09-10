@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const ReasonForVisitField = ({ reasonForVisit = '' }) => {
+const ReasonForVisitField = ({ reasonForVisit }) => {
   if (reasonForVisit) {
     return (
       <>
@@ -14,7 +14,7 @@ const ReasonForVisitField = ({ reasonForVisit = '' }) => {
 };
 
 const mapStateToProps = () => ({
-  reasonForVisit: '',
+  reasonForVisit: 'routine or follow-up visit',
 });
 
 export default connect(
