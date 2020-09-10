@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
 const ChiefComplaintField = props => {
+  const { onReviewPage, reviewMode } = props.formContext;
+  const currentValue = props.value;
+
   const editField = () => {
     return (
       <div>
@@ -12,7 +15,13 @@ const ChiefComplaintField = props => {
     );
   };
 
-  return editField();
+  if (onReviewPage && reviewMode) {
+    return <>{currentValue}</>;
+  } else if (onReviewPage && !reviewMode) {
+    return editField();
+  } else {
+    return editField();
+  }
 };
 
 const mapStateToProps = () => ({

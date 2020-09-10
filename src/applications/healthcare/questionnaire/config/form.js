@@ -105,7 +105,6 @@ const formConfig = {
                 doNotScrollOnAdd: true,
                 keepInPageOnReview: true,
                 itemName: 'Question',
-                // eslint-disable-next-line no-unused-vars
                 viewField: formData => {
                   return <>{formData.formData.additionalQuestions}</>;
                 },
