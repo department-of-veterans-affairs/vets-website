@@ -1,13 +1,22 @@
-import React from 'react';
-import { mount } from 'enzyme';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-
+import React from 'react';
 import ConfirmationRequestInfo from '../../../../new-appointment/components/ConfirmationPage/ConfirmationRequestInfo';
+import reducers from '../../../../redux/reducer';
+import { renderWithStoreAndRouter } from '../../../mocks/setup';
+
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
+  },
+};
 
 describe('VAOS <ConfirmationRequestInfo>', () => {
   it('should render VA request', () => {
     const data = {
-      visitType: 'office',
+      typeOfCareId: '323',
       bestTimeToCall: {
         morning: true,
         afternoon: true,
@@ -28,32 +37,30 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
     const pageTitle = 'Your appointment request has been submitted';
 
-    const tree = mount(
+    const screen = renderWithStoreAndRouter(
       <ConfirmationRequestInfo
         data={data}
         facilityDetails={facilityDetails}
         pageTitle={pageTitle}
       />,
+      {
+        initialState,
+        reducers,
+      },
     );
 
-    const text = tree.text();
-
-    const heading = tree.find('h1');
-
-    expect(text).not.to.contain('Community Care');
-    expect(text).to.contain('CHYSHR-Sidney VA Clinic');
-    expect(text).to.contain('Cheyenne, WY');
-
-    expect(tree.find('AlertBox').exists()).to.be.true;
-    expect(tree);
-    expect(heading.exists()).to.be.true;
-    expect(heading.text()).to.equal(pageTitle);
-
-    tree.unmount();
+    screen.getByText(/Your appointment request has been submitted./i);
+    screen.getByText(/VA appointment/i);
+    screen.getByText(/Primary care appointment/i);
+    screen.getByText(/Pending/i);
+    screen.getByText(/CHYSHR-Sidney VA Clinic/i);
+    screen.getByText(/Cheyenne, WY/i);
+    screen.getByText(/December 20, 2019 in the morning/i);
   });
 
   it('should render CC request', () => {
     const data = {
+      typeOfCareId: '323',
       facilityType: 'communityCare',
       distanceWillingToTravel: '25',
       preferredLanguage: 'english',
@@ -90,34 +97,33 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
 
     const pageTitle = 'Your appointment request has been submitted';
-    const tree = mount(
+    const screen = renderWithStoreAndRouter(
       <ConfirmationRequestInfo
         data={data}
         facilityDetails={facilityDetails}
         vaCityState="Cheyenne, WY"
         pageTitle={pageTitle}
       />,
+      {
+        initialState,
+        reducers,
+      },
     );
 
-    const text = tree.text();
-    const heading = tree.find('h1');
-
-    expect(text).to.contain('Community Care');
-    expect(text).not.to.contain('CHYSHR-Sidney VA Clinic');
-    expect(text).to.contain('Jane Doe');
-    expect(text).to.contain('5555555555');
-    expect(text).to.contain('Northampton, MA');
-
-    expect(tree.find('AlertBox').exists()).to.be.true;
-    expect(tree.find('h1').exists()).to.be.true;
-    expect(heading.exists()).to.be.true;
-    expect(heading.text()).to.equal(pageTitle);
-
-    tree.unmount();
+    screen.getByText(/Your appointment request has been submitted./i);
+    screen.getByText(/Community Care/i);
+    screen.getByText(/Primary care appointment/i);
+    screen.getByText(/Pending/i);
+    screen.getByText(/Jane Doe/i);
+    screen.getByText(/555555555/i);
+    screen.getByText(/123 Test/i);
+    screen.getByText(/Northampton, MA 01060/i);
+    screen.getByText(/December 20, 2019 in the morning/i);
   });
 
   it('should render CC request without provider', () => {
     const data = {
+      typeOfCareId: '323',
       facilityType: 'communityCare',
       distanceWillingToTravel: '25',
       preferredLanguage: 'english',
@@ -143,32 +149,34 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
 
     const pageTitle = 'Your appointment request has been submitted';
-    const tree = mount(
+    const screen = renderWithStoreAndRouter(
       <ConfirmationRequestInfo
         data={data}
         facilityDetails={facilityDetails}
         vaCityState="Cheyenne, WY"
         pageTitle={pageTitle}
       />,
+      {
+        initialState,
+        reducers,
+      },
     );
 
-    const text = tree.text();
-    const heading = tree.find('h1');
+    screen.getByText(/Your appointment request has been submitted./i);
+    screen.getByText(/Community Care/i);
+    screen.getByText(/Primary care appointment/i);
+    screen.getByText(/Pending/i);
+    screen.getByText(/No preference/i);
 
-    expect(text).to.contain('Community Care');
-    expect(text).not.to.contain('CHYSHR-Sidney VA Clinic');
-    expect(text).to.contain('No preference');
-
-    expect(tree.find('AlertBox').exists()).to.be.true;
-    expect(tree.find('h1').exists()).to.be.true;
-    expect(heading.exists()).to.be.true;
-    expect(heading.text()).to.equal(pageTitle);
-
-    tree.unmount();
+    expect(screen.queryByText(/CHYSHR-Sidney VA Clinic/i)).to.be.null;
   });
 
   it('should render single time', () => {
     const data = {
+      phoneNumber: '1234567890',
+      email: 'joeblow@gmail.com',
+      reasonForAppointment: 'routine-follow-up',
+      reasonAdditionalInfo: 'Additional info',
       visitType: 'office',
       bestTimeToCall: {
         evening: true,
@@ -189,30 +197,39 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
     const pageTitle = 'Your appointment request has been submitted';
 
-    const tree = mount(
+    const screen = renderWithStoreAndRouter(
       <ConfirmationRequestInfo
         data={data}
         facilityDetails={facilityDetails}
         pageTitle={pageTitle}
       />,
+      {
+        initialState,
+        reducers,
+      },
     );
 
-    tree
-      .find('AdditionalInfo')
-      .find('button')
-      .simulate('click');
-    tree.setProps();
+    // Simulate user clicking the "Show more" button
+    const button = screen.getByRole('button', { name: 'Show more' });
+    userEvent.click(button);
 
-    const text = tree.text();
+    // Button text should change to "Show less"
+    screen.getByRole('button', { name: 'Show less' });
 
-    expect(text).to.contain('Evening');
-    expect(text).to.contain('Show less');
-
-    tree.unmount();
+    // The following additional information should be displayed
+    screen.getByText(/Follow-up\/Routine/i);
+    screen.getByText(/Additional info/i);
+    screen.getByText(/joeblow@gmail.com/i);
+    screen.getByText(/1234567890/i);
+    screen.getByText(/Evening/i);
   });
 
   it('should render message for all times', () => {
     const data = {
+      phoneNumber: '1234567890',
+      email: 'joeblow@gmail.com',
+      reasonForAppointment: 'routine-follow-up',
+      reasonAdditionalInfo: 'Additional info',
       visitType: 'office',
       bestTimeToCall: {
         evening: true,
@@ -235,24 +252,30 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     };
     const pageTitle = 'Your appointment request has been submitted';
 
-    const tree = mount(
+    const screen = renderWithStoreAndRouter(
       <ConfirmationRequestInfo
         data={data}
         facilityDetails={facilityDetails}
         pageTitle={pageTitle}
       />,
+      {
+        initialState,
+        reducers,
+      },
     );
 
-    tree
-      .find('AdditionalInfo')
-      .find('button')
-      .simulate('click');
-    tree.setProps();
+    // Simulate user clicking the "Show more" button
+    const button = screen.getByRole('button', { name: 'Show more' });
+    userEvent.click(button);
 
-    const text = tree.text();
+    // Button text should change to "Show less"
+    screen.getByRole('button', { name: 'Show less' });
 
-    expect(text).to.contain('Anytime during the day');
-    expect(tree.find('.vaos-u-word-break--break-word').exists()).to.be.true;
-    tree.unmount();
+    // The following additional information should be displayed
+    screen.getByText(/Follow-up\/Routine/i);
+    screen.getByText(/Additional info/i);
+    screen.getByText(/joeblow@gmail.com/i);
+    screen.getByText(/1234567890/i);
+    screen.getByText(/Anytime during the day/i);
   });
 });
