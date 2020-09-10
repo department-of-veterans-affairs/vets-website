@@ -847,6 +847,7 @@ export function routeToPageInFlow(flow, history, current, action) {
       type: FORM_PAGE_CHANGE_STARTED,
     });
 
+    const state = getState();
     let nextPage;
 
     if (action === 'next') {
@@ -856,22 +857,24 @@ export function routeToPageInFlow(flow, history, current, action) {
         nextPage = flow[nextAction];
       } else {
         const nextStateKey = await nextAction(getState(), dispatch);
+        if (Object.keys(state.newAppointment.previousPages).length <= 0) {
+          Object.assign(state.newAppointment.previousPages, { home: current });
+        }
+        Object.assign(state.newAppointment.previousPages, {
+          [current]: nextStateKey,
+        });
         nextPage = flow[nextStateKey];
       }
     } else {
-      const state = getState();
-      const previousPage =
-        state.newAppointment.previousPages[
-          state.newAppointment.previousPages.length - 1
-        ];
+      const previousPage = Object.keys(state.newAppointment.previousPages).find(
+        key => state.newAppointment.previousPages[key] === current,
+      );
       nextPage = flow[previousPage];
     }
 
     if (nextPage?.url) {
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
-        pageKey: current,
-        direction: action,
       });
       history.push(nextPage.url);
     } else if (nextPage) {

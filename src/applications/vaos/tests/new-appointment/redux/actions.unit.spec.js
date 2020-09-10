@@ -166,8 +166,6 @@ describe('VAOS newAppointment actions', () => {
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_COMPLETED,
-        pageKey: 'page1',
-        direction: 'next',
       });
       expect(history.push.firstCall.args[0]).to.equal('/page2');
     });
@@ -177,7 +175,11 @@ describe('VAOS newAppointment actions', () => {
         push: sinon.spy(),
       };
       const dispatch = sinon.spy();
-      const state = {};
+      const state = {
+        newAppointment: {
+          previousPages: { home: 'page1', page1: 'home' },
+        },
+      };
       const getState = () => state;
 
       const thunk = routeToPageInFlow(testFlow, history, 'page2', 'next');
@@ -215,7 +217,7 @@ describe('VAOS newAppointment actions', () => {
       const dispatch = sinon.spy();
       const state = {
         newAppointment: {
-          previousPages: ['page2', 'page3'],
+          previousPages: { home: 'page2', page2: 'page3' },
         },
       };
       const getState = () => state;
@@ -228,10 +230,8 @@ describe('VAOS newAppointment actions', () => {
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_COMPLETED,
-        pageKey: 'page3',
-        direction: 'previous',
       });
-      expect(history.push.firstCall.args[0]).to.equal('/page3');
+      expect(history.push.firstCall.args[0]).to.equal('/page2');
     });
   });
 
