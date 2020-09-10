@@ -267,20 +267,22 @@ export const recordMarkerEvents = r => {
  * Helper fn to record map zoom and panning events for GA
  */
 export const recordZoomPanEvents = (e, searchCoords, currentZoomLevel) => {
-  if (e.zoom > currentZoomLevel) {
+  if (currentZoomLevel && e.zoom > currentZoomLevel) {
     recordEvent({ event: 'fl-map-zoom-in' });
-  } else if (e.zoom < currentZoomLevel) {
+  } else if (currentZoomLevel && e.zoom < currentZoomLevel) {
     recordEvent({ event: 'fl-map-zoom-out' });
   }
 
-  const distanceAfterMove = distBetween(
-    searchCoords.lat,
-    searchCoords.lng,
-    e.center[0],
-    e.center[1],
-  );
+  if (searchCoords && searchCoords.lat && searchCoords.lng) {
+    const distanceAfterMove = distBetween(
+      searchCoords.lat,
+      searchCoords.lng,
+      e.center[0],
+      e.center[1],
+    );
 
-  if (distanceAfterMove > 0) {
-    recordEvent({ 'fl-map-miles-moved': distanceAfterMove });
+    if (distanceAfterMove > 0) {
+      recordEvent({ 'fl-map-miles-moved': distanceAfterMove });
+    }
   }
 };
