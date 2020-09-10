@@ -2,21 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { IntroductionPage } from 'applications/edu-benefits/1995/containers/IntroductionPage';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 import {
   WIZARD_STATUS_COMPLETE,
   getWizardStatus,
 } from 'applications/static-pages/wizard';
 
 describe('the Edu-Benefit 1995 Introduction Page', () => {
-  before(() => {
-    sessionStorageSetup();
-  });
-
-  afterEach(() => {
-    sessionStorage.clear();
-  });
-
   it('should show the wizard on initial render if shouldEduBenefits1995WizardShow is set to true', () => {
     const fakeStore = {
       getState: () => ({

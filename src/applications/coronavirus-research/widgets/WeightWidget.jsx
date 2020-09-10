@@ -7,8 +7,14 @@ export default function WeightWidget(props) {
     props.value,
     props.formContext.touched.root_weight,
   );
-
-  return (
+  const { formContext } = props;
+  // inReviewMode = true (review page view, not in edit mode)
+  // inReviewMode = false (in edit mode)
+  const onReviewPage = formContext.onReviewPage;
+  const inReviewMode = onReviewPage && formContext.reviewMode;
+  const displayValue = inReviewMode ? (
+    <div>{props.value} lbs.</div>
+  ) : (
     <div className="vads-l-grid-container--full">
       <div className="vads-l-row">
         <div className="vads-l-col--2">
@@ -18,4 +24,5 @@ export default function WeightWidget(props) {
       </div>
     </div>
   );
+  return <span>{displayValue}</span>;
 }
