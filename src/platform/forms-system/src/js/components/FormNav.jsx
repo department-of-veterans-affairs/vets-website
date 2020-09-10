@@ -15,7 +15,7 @@ import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 export default function FormNav(props) {
   const { formConfig, currentPath, formData } = props;
 
-  const [, forceUpdate] = useReducer(x => x + 1);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   // This is converting the config into a list of pages with chapter keys,
   // finding the current page, then getting the chapter name using the key
