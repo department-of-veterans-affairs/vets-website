@@ -15,7 +15,7 @@ export default function ClaimEstimate({
       <AlertBox status="warning" headline="Completion estimate is unavailable">
         <p>
           The estimated claim completion date feature has been temporarily
-          removed. Due to the impact COVID-19 has bad on the availability and
+          removed. Due to the impact COVID-19 has had on the availability and
           scheduling of required in-person medical disability exams, the
           estimated completion date is not accurate at this time. VA is
           coordinating efforts to ensure all exams are scheduled and conducted
