@@ -7,7 +7,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import AppointmentInfoBox from '../components/AppointmentInfoBox';
 import ReasonForVisit from '../components/reason-for-visit';
 import ChiefComplaint from '../components/chief-complaint';
-// import AdditionalQuestions from '../components/additional-questions'
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -120,7 +119,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['chiefComplaint'],
+            // required: ['chiefComplaint'],
             properties: {
               reasonForVisit: {
                 type: 'string',
