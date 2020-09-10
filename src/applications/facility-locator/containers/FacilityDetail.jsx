@@ -176,7 +176,7 @@ class FacilityDetail extends Component {
         <div className="usa-width-one-third medium-4 columns">
           <div>
             <LocationMap info={facility} />
-            <div className="mb2">
+            <div className="vads-u-margin-bottom--4">
               <LocationHours location={facility} />
             </div>
           </div>

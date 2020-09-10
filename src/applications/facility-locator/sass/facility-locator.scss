@@ -19,16 +19,6 @@ $facility-locator-color-gray: #ccc;
     margin: 0;
   }
 
-  // TODO(css): Fix when #content .section h* is fixed
-  .highlight {
-    margin-bottom: 0.5em !important;
-  }
-
-  // TODO(css): Fix when #content .section h* is fixed
-  h4 {
-    padding: 0 !important;
-  }
-
   .title-section {
     padding: 0.5rem 0;
 
@@ -40,30 +30,6 @@ $facility-locator-color-gray: #ccc;
 
   .facility-introtext {
     padding: 0 15px 15px;
-  }
-
-  .flex-center {
-    display: flex;
-    align-items: center;
-  }
-
-  .leaflet-container {
-    height: 500px;
-    width: 100%;
-    z-index: 0;
-  }
-
-  .facility-phone-table {
-    border-collapse: collapse;
-  }
-
-  .pointer {
-    cursor: pointer;
-  }
-
-  .facility-phone-table td {
-    border: none;
-    outline: none;
   }
 
   .p1 {
@@ -173,10 +139,6 @@ $facility-locator-color-gray: #ccc;
     }
   }
 
-  .text-center {
-    text-align: center;
-  }
-
   .tab {
     border-color: $color-black;
     text-align: center;
@@ -274,17 +236,7 @@ $facility-locator-color-gray: #ccc;
     margin: 0.5em 0;
   }
 
-  .map-marker {
-    background-position: center center;
-    font-size: 15px;
-    height: 60px;
-    margin-left: -25px;
-    margin-top: -25px;
-    text-align: center;
-    width: 60px;
-    z-index: 999;
-    color: $color-white;
-  }
+  // These icons can probably be deleted. Waiting for confirmation from design.
 
   .benefits-icon {
     background-image: url("/img/icons/benefits-pin.svg");
@@ -384,64 +336,6 @@ $facility-locator-color-gray: #ccc;
       }
     }
 
-  }
-
-  .mb2 {
-    margin-bottom: 2em;
-  }
-
-  .scroller-left{
-    position: fixed;
-    left: 0;
-    background: $facility-locator-color-gray;
-  }
-
-
-  //TODO(css): Make this less specific
-  #content .section h4 {
-    padding: 0 0 .25em 0;
-  }
-
-  hr.light {
-    color: $color-gray-light;
-    margin: 0;
-    border: 1px solid $color-gray-light;
-  }
-
-  hr.title {
-    color: $color-primary-darker;
-    margin: 0 0 2rem;
-    border: 1px solid $color-primary-darker;
-  }
-
-  ul {
-    margin: 0;
-  }
-
-  input.full-width {
-    width: 100%;
-  }
-
-  ul {
-    margin: 0;
-  }
-
-  .facility-contact-link {
-    font-size: 2rem;
-    text-decoration: none;
-
-    i {
-      margin-right: 1rem;
-      width: 18px;
-    }
-  }
-
-  .facility-back-link {
-    margin-bottom: 1.5em;
-
-    i {
-      margin-right: 0.75rem;
-    }
   }
 
   .facility-detail {
@@ -577,10 +471,6 @@ $facility-locator-color-gray: #ccc;
   text-decoration: none;
 }
 
-#urgent-care-link {
-  font-weight: bold;
-}
-
 .current-pos-pin {
   border-radius: 50%;
   width: 23px;
@@ -632,28 +522,12 @@ $facility-locator-color-gray: #ccc;
   }
 }
 
-.no-marg-right {
-  margin-right: 0 !important;
-}
-
 .no-marg-top {
   margin-top: 0 !important;
 }
 
-.width-35 {
-  width: 27% !important;
-}
-
 .bor-rad {
   border-radius: 5px;
-}
-
-.bor-none {
-  border: none !important;
-}
-
-.top-z {
-  z-index: 1000 !important;
 }
 
 .va-nav-breadcrumbs:focus {
@@ -668,6 +542,7 @@ $facility-locator-color-gray: #ccc;
   font-size: 16px;
   font-family: 'Source Sans Pro', sans-serif !important;
 }
+
 .notice-marg-pad {
   padding: 0.5rem !important;
   margin-top: 0;
@@ -676,6 +551,7 @@ $facility-locator-color-gray: #ccc;
   width: 280px;
   height: 40px;
 }
+
 .icon-base {
   color: $color-base !important;
 }
@@ -683,10 +559,6 @@ $facility-locator-color-gray: #ccc;
 .facility-phone-group {
   display: flex;
   flex-direction: column;
-}
-
-.row:after {
-  display: block;
 }
 
 #other-tools {
