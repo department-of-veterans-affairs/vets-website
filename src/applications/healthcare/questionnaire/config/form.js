@@ -27,7 +27,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Upcoming Visit questionnaire.',
   },
-  title: 'Reason fort visit clipboard',
+  title: 'Reason for visit clipboard',
   defaultDefinitions: {},
   chapters: {
     chapter1: {
