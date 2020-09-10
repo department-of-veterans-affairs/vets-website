@@ -17,7 +17,7 @@ export const schema = {
     claimantAddress,
     claimantPhoneNumber,
     claimantEmailAddress,
-    'view:claimantConfirmEmailAddress': claimantEmailAddress,
+    claimantConfirmEmailAddress: claimantEmailAddress,
   },
 };
 
@@ -42,7 +42,7 @@ export const uiSchema = {
     ...emailUI(),
     'ui:required': () => true,
   },
-  'view:claimantConfirmEmailAddress': {
+  claimantConfirmEmailAddress: {
     ...emailUI(),
     'ui:title': 'Confirm email address',
     'ui:required': () => true,
@@ -51,7 +51,7 @@ export const uiSchema = {
         validator: (errors, fieldData, formData) => {
           if (
             formData.claimantEmailAddress !==
-            formData['view:claimantConfirmEmailAddress']
+            formData.claimantConfirmEmailAddress
           ) {
             errors.addError(
               'This email does not match your previously entered email',
