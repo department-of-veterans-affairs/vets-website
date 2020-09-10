@@ -390,13 +390,14 @@ module.exports = function registerFilters() {
     return fieldLink;
   };
 
-  liquid.filters.pathBCFormat = (bc, string) => {
-    const last = { url: { path: bc.path, routed: true }, text: string };
-    if (bc.length > 0) {
-      bc.push(last);
-    }
+  liquid.filters.deriveLastBreadcrumbFromPath = (breadcrumbs, string) => {
+    const last = {
+      url: { path: breadcrumbs.path, routed: true },
+      text: string,
+    };
+    breadcrumbs.push(last);
 
-    return bc;
+    return breadcrumbs;
   };
 
   // used to get a base url path of a health care region from entityUrl.path

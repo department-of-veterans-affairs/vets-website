@@ -1,8 +1,8 @@
 <nav data-template="includes/breadcrumbs" aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     {% assign crumbs = entityUrl.breadcrumb %}
-    {% if pathBreadcrumb = true %}
-    {% assign crumbs = entityUrl.breadcrumb | pathBCFormat: title %}
+    {% if deriveBreadcrumbsFromUrl == true %}
+    {% assign crumbs = entityUrl.breadcrumb | deriveLastBreadcrumbFromPath: title %}
     {% endif %}
     {% for crumb in crumbs %}
       {% if forloop.last == true %}
