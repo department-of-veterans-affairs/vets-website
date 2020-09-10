@@ -83,7 +83,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
-  formId: VA_FORM_IDS.FORM_COVID_RESEARCH_VOLUNTEER,
+  formId: VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL,
   version: 0,
   prefillEnabled: true,
   customText: {
