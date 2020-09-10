@@ -118,13 +118,16 @@ class VAPEditView extends Component {
           >
             Update
           </LoadingButton>
-          <button
-            type="button"
-            className="usa-button-secondary vads-u-margin-top--0 vads-u-width--auto"
-            onClick={onCancel}
-          >
-            Cancel
-          </button>
+
+          {!isLoading && (
+            <button
+              type="button"
+              className="usa-button-secondary vads-u-margin-top--0 vads-u-width--auto"
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+          )}
         </div>
       </VAPEditModalActionButtons>
     );
