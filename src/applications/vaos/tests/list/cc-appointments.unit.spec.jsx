@@ -103,7 +103,7 @@ describe('VAOS integration: upcoming CC appointments', () => {
 
     expect(dateHeader).to.have.tagName('h3');
     expect(queryByText(/directions/i)).not.to.exist;
-    expect(baseElement).to.contain.text('Special instructions');
+    expect(baseElement).not.to.contain.text('Special instructions');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
   });
