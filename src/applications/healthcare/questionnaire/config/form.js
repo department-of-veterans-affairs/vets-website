@@ -5,6 +5,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import AppointmentInfoBox from '../components/AppointmentInfoBox';
 
 import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 // const { } = fullSchema.properties;
 
@@ -16,7 +17,7 @@ const formConfig = {
   trackingPrefix: 'healthcare-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'HC-QSTNR',
+  formId: VA_FORM_IDS.FORM_HC_QSTNR,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
