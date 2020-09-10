@@ -46,7 +46,7 @@ describe('VAOS <ConfirmationPage>', () => {
     );
 
     screen.getByText(/Your appointment has been scheduled./i);
-    screen.getByText(moment().format('MMMM D, YYYY [at] h:mm a CT'));
+    screen.getByText(moment(start).format('MMMM D, YYYY [at] h:mm a CT'));
   });
 
   it('should render appointment request view', async () => {
