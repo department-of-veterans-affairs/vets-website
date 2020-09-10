@@ -1,8 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { expect } from 'chai';
-
 import ConfirmationDirectScheduleInfo from '../../../../new-appointment/components/ConfirmationPage/ConfirmationDirectScheduleInfo';
+import reducers from '../../../../redux/reducer';
+import { renderWithStoreAndRouter } from '../../../mocks/setup';
+
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
+  },
+};
 
 describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
   it('should render', () => {
@@ -18,6 +25,10 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
         },
       },
       data: {
+        phoneNumber: '1234567890',
+        email: 'joeblow@gmail.com',
+        reasonForAppointment: 'routine-follow-up',
+        reasonAdditionalInfo: 'Additional info',
         calendarData: {
           selectedDates: [{ datetime: '2019-12-20T10:00:00' }],
         },
@@ -30,16 +41,25 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
     };
     const pageTitle = 'Your appointment has been scheduled';
 
-    const tree = mount(
+    const screen = renderWithStoreAndRouter(
       <ConfirmationDirectScheduleInfo {...props} pageTitle={pageTitle} />,
+      {
+        initialState,
+        reducers,
+      },
     );
 
-    expect(tree.text()).to.contain('December 20, 2019 at 10:00 a.m. MT');
+    screen.getByText(/Your appointment has been scheduled./i);
+    screen.getByText(/December 20, 2019 at 10:00 a.m. MT/i);
+    screen.getByText(/Cheyenne VA Medical Center/i);
+    screen.getByText(/2360 East Pershing Boulevard/i);
+    screen.getByText(/Cheyenne, WY 82001-5356/i);
+    screen.getByText(/Follow-up\/Routine/i);
+    screen.getByText(/Additional info/i);
 
-    expect(tree.find('h1').text()).to.equal(pageTitle);
-
-    expect(tree.find('.vaos-u-word-break--break-word').exists()).to.be.true;
-
-    tree.unmount();
+    // Simulate user clicking the "Add to calendar" button
+    screen.getByRole('link', {
+      name: 'Add December 20, 2019 appointment to your calendar',
+    });
   });
 });
