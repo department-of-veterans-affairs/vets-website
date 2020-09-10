@@ -173,7 +173,7 @@ const validMigrations = formConfig => {
   }
 };
 
-const validTitle = ({ title }) => {
+const validFormTitle = ({ title }) => {
   const formTitle =
     typeof title === 'function' ? title({ formData: {} }) : title;
   expect(formTitle).to.be.a('string', 'title does not return a string');
@@ -259,6 +259,7 @@ describe('form:', () => {
 
   Object.values(configFiles).forEach(configFilePath => {
     it(`${configFilePath.replace(root, '')}:`, () => {
+      // This return is needed in order for failing expects within the promise to actually trigger a failure of the test
       return expect(
         // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
@@ -272,7 +273,7 @@ describe('form:', () => {
           validBooleanProperty(formConfig, 'prefillEnabled', false);
           validFunctionProperty(formConfig, 'prefillTransformer', false);
           validStringProperty(formConfig, 'trackingPrefix');
-          validTitle(formConfig);
+          validFormTitle(formConfig);
           validStringProperty(formConfig, 'subTitle', false);
           validStringProperty(formConfig, 'urlPrefix', false);
           validStringProperty(formConfig, 'submitUrl', false);
@@ -292,6 +293,9 @@ describe('form:', () => {
           validAuthorization(formConfig);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
+          // This return true is needed for the to.eventually.be.ok a few lines down
+          // If any of the expects in the above functions fail,
+          // the test for the configFilePath fails as expected
           return true;
         }),
       ).to.eventually.be.ok;
