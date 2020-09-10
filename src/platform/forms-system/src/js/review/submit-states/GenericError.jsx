@@ -1,8 +1,12 @@
+// libs
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Column, Row } from 'platform/forms/components/common/grid';
+
+// components
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
+import SavableErrorMessage from 'platform/forms/components/review/SavableErrorMessage';
+import { Column, Row } from 'platform/forms/components/common/grid';
 
 export default function GenericError(props) {
   const { appType, formConfig, renderErrorMessage, onSubmit, testId } = props;
@@ -10,7 +14,7 @@ export default function GenericError(props) {
   let submitMessage;
 
   if (renderErrorMessage) {
-    submitMessage = renderErrorMessage();
+    submitMessage = <SavableErrorMessage formConfig={formConfig} />; // renderErrorMessage();
   } else {
     submitMessage = (
       <ErrorMessage
@@ -53,6 +57,6 @@ export default function GenericError(props) {
 GenericError.propTypes = {
   appType: PropTypes.string,
   formConfig: PropTypes.object,
-  renderErrorMessage: PropTypes.func,
+  renderErrorMessage: PropTypes.bool,
   onSubmit: PropTypes.func,
 };

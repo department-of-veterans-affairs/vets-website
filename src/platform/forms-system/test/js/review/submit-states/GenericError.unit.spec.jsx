@@ -199,23 +199,21 @@ describe('Schemaform review: <GenericError />', () => {
     const store = createStore();
     store.injectReducer('form', formReducer);
 
-    const renderErrorMessage = () => {
-      return <span className="message">Error message</span>;
-    };
-
     const tree = render(
       <Provider store={store}>
         <GenericError
           appType="test"
           formConfig={formConfig}
           onSubmit={onSubmit}
-          renderErrorMessage={renderErrorMessage}
+          renderErrorMessage
           testId="12345"
         />
       </Provider>,
     );
 
-    expect(tree.getByText('Error message')).to.not.be.null;
+    expect(
+      tree.getByText("We’re sorry. We can't submit your {appType} right now."),
+    ).to.not.be.null;
 
     tree.unmount();
   });

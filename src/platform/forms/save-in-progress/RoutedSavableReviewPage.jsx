@@ -63,84 +63,6 @@ class RoutedSavableReviewPage extends React.Component {
     }
   };
 
-  renderErrorMessage = () => {
-    const {
-      route,
-      formConfig,
-      user,
-      form,
-      location,
-      showLoginModal,
-    } = this.props;
-    const savedStatus = form.savedStatus;
-    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
-    const CustomSubmissionError = formConfig?.submissionError;
-    const errorText = formConfig?.errorText;
-    const saveLink = (
-      <SaveFormLink
-        locationPathname={location.pathname}
-        form={form}
-        formConfig={route?.formConfig}
-        pageList={route.pageList}
-        user={user}
-        showLoginModal={showLoginModal}
-        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-        toggleLoginModal={this.props.toggleLoginModal}
-      >
-        Save your {appType}
-      </SaveFormLink>
-    );
-
-    if (saveErrors.has(savedStatus)) {
-      return saveLink;
-    }
-
-    const DefaultErrorMessage = () => {
-      let InlineErrorComponent;
-      if (typeof errorText === 'function') {
-        InlineErrorComponent = errorText;
-      } else if (typeof errorText === 'string') {
-        InlineErrorComponent = () => <p>{errorText}</p>;
-      } else {
-        InlineErrorComponent = () => (
-          <p>
-            If it still doesn’t work, please <CallHRC />
-          </p>
-        );
-      }
-
-      return (
-        <div className="usa-alert usa-alert-error schemaform-failure-alert">
-          <div className="usa-alert-body">
-            <p className="schemaform-warning-header">
-              <strong>
-                We’re sorry. We can't submit your {appType} right now.
-              </strong>
-            </p>
-            <p>
-              We’re working to fix the problem. Please make sure you’re
-              connected to the Internet, and then try saving your {appType}{' '}
-              again. {saveLink}.
-            </p>
-            {!user.login.currentlyLoggedIn && (
-              <p>
-                If you don’t have an account, you’ll have to start over. Try
-                submitting your {appType} again tomorrow.
-              </p>
-            )}
-            <InlineErrorComponent />
-          </div>
-        </div>
-      );
-    };
-
-    return CustomSubmissionError ? (
-      <CustomSubmissionError location={location} form={form} user={user} />
-    ) : (
-      <DefaultErrorMessage />
-    );
-  };
-
   renderDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.formConfig.downtime.message || DowntimeMessage;
@@ -183,7 +105,7 @@ class RoutedSavableReviewPage extends React.Component {
             formConfig={formConfig}
             pageList={pageList}
             path={path}
-            renderErrorMessage={this.renderErrorMessage}
+            renderErrorMessage
           />
         </DowntimeNotification>
         <SaveStatus
