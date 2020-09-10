@@ -289,6 +289,7 @@ export function recordEligibilityGAEvents(eligibilityData) {
  * This function logs information about eligibility to the console, to help with
  * testing in non-production environments
  */
+/* istanbul ignore next */
 export function logEligibilityExplanation(
   eligibilityData,
   typeOfCareId,
@@ -298,7 +299,6 @@ export function logEligibilityExplanation(
     return;
   }
 
-  /* istanbul ignore next */
   try {
     /* eslint-disable no-console */
     console.log('----');
