@@ -390,9 +390,13 @@ module.exports = function registerFilters() {
     return fieldLink;
   };
 
-  liquid.filters.deriveLastBreadcrumbFromPath = (breadcrumbs, string) => {
+  liquid.filters.deriveLastBreadcrumbFromPath = (
+    breadcrumbs,
+    string,
+    currentPath,
+  ) => {
     const last = {
-      url: { path: breadcrumbs.path, routed: true },
+      url: { path: currentPath, routed: true },
       text: string,
     };
     breadcrumbs.push(last);
