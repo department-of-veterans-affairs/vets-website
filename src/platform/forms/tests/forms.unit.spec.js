@@ -17,6 +17,7 @@ import fullSchema686 from 'applications/disability-benefits/686c-674/config/form
 import fullSchemaFeedbackTool from 'applications/edu-benefits/feedback-tool/config/form';
 import fullSchema1010CG from 'applications/caregivers/config/form';
 import fullSchemaMDOT from 'applications/disability-benefits/2346/config/form';
+import fullSchema8832 from 'applications/vre/28-8832/config/form';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -42,6 +43,7 @@ const mappedIds = [
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_10_10CG,
   VA_FORM_IDS.FORM_VA_2346A, // MDOT
+  VA_FORM_IDS.FORM_28_8832,
 ];
 
 const configs = [
@@ -65,6 +67,7 @@ const configs = [
   fullSchemaFeedbackTool,
   fullSchema1010CG,
   fullSchemaMDOT,
+  fullSchema8832,
 ];
 
 // These forms do not have formConfig but are found in vets-json-schema/dist/schemas
@@ -72,7 +75,6 @@ const excludedForms = new Set([
   '21-526EZ', // v1 of form 526
   '21-686C', // Old version of the 21-686C. Present in vets-json-schema, but will be removed in a future pull request.
   '28-1900',
-  '28-8832',
   '24-0296',
   '10-10CG-example',
   VA_FORM_IDS.FORM_22_1995S,
