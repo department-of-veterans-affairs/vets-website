@@ -25,8 +25,7 @@ import {
   areGeocodeEqual,
   setFocus,
   recordMarkerEvents,
-  setZoomEvents,
-  recordDistanceSearchMove,
+  recordZoomPanEvents,
 } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
@@ -37,7 +36,6 @@ import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import vaDebounce from 'platform/utilities/data/debounce';
 import PaginationWrapper from '../components/PaginationWrapper';
-import recordEvent from 'platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -73,8 +71,6 @@ class VAMap extends Component {
     const { facilityType } = currentQuery;
 
     window.addEventListener('resize', this.debouncedResize);
-
-    setZoomEvents();
 
     // navigating back from *Detail page preserves previous search results
     if (!isEmpty(this.props.results)) {
@@ -342,12 +338,8 @@ class VAMap extends Component {
       lat: position.latitude,
       lng: position.longitude,
     };
-    if (center && currentQuery.searchCoords) {
-      recordDistanceSearchMove(currentQuery.searchCoords, center);
-    }
     let boundsArray = currentQuery.bounds;
     let zoom = currentQuery.zoomLevel;
-    if (zoom) recordEvent({ 'fl-map-zoom-depth': zoom });
     if (this.refs.map) {
       center = leafletElement.getCenter();
       zoom = leafletElement.getZoom();
@@ -525,6 +517,13 @@ class VAMap extends Component {
               <Map
                 ref="map"
                 center={position}
+                onViewportChanged={e =>
+                  recordZoomPanEvents(
+                    e,
+                    currentQuery.searchCoords,
+                    currentQuery.zoomLevel,
+                  )
+                }
                 zoom={parseInt(currentQuery.zoomLevel, 10)}
                 style={{ width: '100%', maxHeight: '55vh' }}
                 scrollWheelZoom={false}
@@ -602,6 +601,13 @@ class VAMap extends Component {
           <Map
             ref="map"
             center={position}
+            onViewportChanged={e =>
+              recordZoomPanEvents(
+                e,
+                currentQuery.searchCoords,
+                currentQuery.zoomLevel,
+              )
+            }
             zoomSnap={1}
             zoomDelta={1}
             zoom={parseInt(currentQuery.zoomLevel, 10)}

@@ -18,18 +18,6 @@ export const setFocus = selector => {
 };
 
 /**
- * Helper fn to set click listeners for recording map zoom events +/-
- */
-export const setZoomEvents = () => {
-  const recordZoomIn = () => recordEvent({ event: 'fl-map-zoom-in' });
-  const recordZoomOut = () => recordEvent({ event: 'fl-map-zoom-out' });
-  const zoomIn = document.querySelector('.leaflet-control-zoom-in');
-  if (zoomIn) zoomIn.addEventListener('click', recordZoomIn);
-  const zoomOut = document.querySelector('.leaflet-control-zoom-out');
-  if (zoomOut) zoomOut.addEventListener('click', recordZoomOut);
-};
-
-/**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *
  * @param {Object} pos1
@@ -260,12 +248,13 @@ export const showDialogUrgCare = currentQuery => {
 };
 
 /**
- * Helper fn to record Markers PIN action events for GA
+ * Helper fn to record Markers events for GA
  */
 export const recordMarkerEvents = r => {
   const { classification, name, facilityType } = r.attributes;
   const distance = r.distance;
   recordEvent({ event: 'fl-map-pin-click' });
+
   if (classification && name && facilityType && distance) {
     recordEvent({ 'fl-facility-type': facilityType });
     recordEvent({ 'fl-facility-classification': classification });
@@ -275,14 +264,23 @@ export const recordMarkerEvents = r => {
 };
 
 /**
- * Helper fn to record map movement after search
+ * Helper fn to record map zoom and panning events for GA
  */
-export const recordDistanceSearchMove = (searchCoords, center) => {
+export const recordZoomPanEvents = (e, searchCoords, currentZoomLevel) => {
+  if (e.zoom > currentZoomLevel) {
+    recordEvent({ event: 'fl-map-zoom-in' });
+  } else if (e.zoom < currentZoomLevel) {
+    recordEvent({ event: 'fl-map-zoom-out' });
+  }
+
   const distanceAfterMove = distBetween(
     searchCoords.lat,
     searchCoords.lng,
-    center.lat,
-    center.lng,
+    e.center[0],
+    e.center[1],
   );
-  recordEvent({ 'fl-map-miles-moved': distanceAfterMove });
+
+  if (distanceAfterMove > 0) {
+    recordEvent({ 'fl-map-miles-moved': distanceAfterMove });
+  }
 };
