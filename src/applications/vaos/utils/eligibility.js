@@ -294,105 +294,110 @@ export function logEligibilityExplanation(
   typeOfCareId,
   locationId,
 ) {
-  if (environment.isProduction()) {
+  if (environment.isProduction() || navigator.userAgent === 'node.js') {
     return;
   }
 
-  /* eslint-disable no-console */
-  console.log('----');
-  console.log(
-    `%cEligibility checks for location ${locationId.replace(
-      'var',
-      '',
-    )} and type of care ${typeOfCareId}`,
-    'font-weight: bold',
-  );
-  const requestMessages = [];
-  const directMessages = [];
-  if (eligibilityData.requestSupported && !eligibilityData.requestFailed) {
-    if (!isUnderRequestLimit(eligibilityData)) {
-      requestMessages.push(
-        'The var-resources request limit service indicated that there are too many outstanding requests',
-      );
-    }
-
-    if (!hasVisitedInPastMonthsRequest(eligibilityData)) {
-      requestMessages.push(
-        `The var-resources visited in past months service indicated that there has not been a recent visit (past ${
-          eligibilityData.requestPastVisit.durationInMonths
-        } months) for this facility and type of care`,
-      );
-    }
-  } else {
-    if (eligibilityData.requestFailed) {
-      requestMessages.push(
-        'There were errors trying to determine eligibility for making requests',
-      );
-    }
-    if (!eligibilityData.requestSupported) {
-      requestMessages.push(
-        'VATS has requests disabled for this facility and type of care',
-      );
-    }
-  }
-
-  if (
-    eligibilityData.directEnabled &&
-    eligibilityData.directSupported &&
-    !eligibilityData.directFailed
-  ) {
-    if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
-      directMessages.push(
-        `The var-resources visited in past months service indicated that there has not been a recent visit (past ${
-          eligibilityData.requestPastVisit.durationInMonths
-        } months)`,
-      );
-    }
-
-    if (!eligibilityData.clinics?.length) {
-      directMessages.push(
-        `The var-resources clinics service did not return any clinics for this facility and type of care`,
-      );
-    } else if (!eligibilityData.hasMatchingClinics) {
-      directMessages.push(
-        `The FE could not find any of the following clinic ids in the past 24 months of appointments: ${eligibilityData.clinics
-          .map(clinic => clinic.id)
-          .join(', ')}`,
-      );
-    }
-  } else if (eligibilityData.directEnabled) {
-    if (eligibilityData.directFailed) {
-      directMessages.push(
-        'There were errors trying to determine eligibility for direct scheduling',
-      );
-    }
-    if (!eligibilityData.directSupported) {
-      directMessages.push(
-        'VATS has direct scheduling disabled for this facility and type of care',
-      );
-    }
-  } else {
-    directMessages.push(
-      'Direct scheduling is disabled by feature toggle in the UI',
+  /* istanbul ignore next */
+  try {
+    /* eslint-disable no-console */
+    console.log('----');
+    console.log(
+      `%cEligibility checks for location ${locationId.replace(
+        'var',
+        '',
+      )} and type of care ${typeOfCareId}`,
+      'font-weight: bold',
     );
-  }
+    const requestMessages = [];
+    const directMessages = [];
+    if (eligibilityData.requestSupported && !eligibilityData.requestFailed) {
+      if (!isUnderRequestLimit(eligibilityData)) {
+        requestMessages.push(
+          'The var-resources request limit service indicated that there are too many outstanding requests',
+        );
+      }
 
-  if (directMessages.length) {
-    console.log('%cUser not eligible for direct scheduling:', 'color: red');
-    directMessages.forEach(message => {
-      console.log(`  ${message}`);
-    });
-  } else {
-    console.log('%cUser passed checks for direct scheduling', 'color: green');
-  }
+      if (!hasVisitedInPastMonthsRequest(eligibilityData)) {
+        requestMessages.push(
+          `The var-resources visited in past months service indicated that there has not been a recent visit (past ${
+            eligibilityData.requestPastVisit.durationInMonths
+          } months) for this facility and type of care`,
+        );
+      }
+    } else {
+      if (eligibilityData.requestFailed) {
+        requestMessages.push(
+          'There were errors trying to determine eligibility for making requests',
+        );
+      }
+      if (!eligibilityData.requestSupported) {
+        requestMessages.push(
+          'VATS has requests disabled for this facility and type of care',
+        );
+      }
+    }
 
-  if (requestMessages.length) {
-    console.log('%cUser not eligible for requests:', 'color: red');
-    requestMessages.forEach(message => {
-      console.log(`  ${message}`);
-    });
-  } else {
-    console.log('%cUser passed checks for requests', 'color: green');
+    if (
+      eligibilityData.directEnabled &&
+      eligibilityData.directSupported &&
+      !eligibilityData.directFailed
+    ) {
+      if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
+        directMessages.push(
+          `The var-resources visited in past months service indicated that there has not been a recent visit (past ${
+            eligibilityData.requestPastVisit.durationInMonths
+          } months)`,
+        );
+      }
+
+      if (!eligibilityData.clinics?.length) {
+        directMessages.push(
+          `The var-resources clinics service did not return any clinics for this facility and type of care`,
+        );
+      } else if (!eligibilityData.hasMatchingClinics) {
+        directMessages.push(
+          `The FE could not find any of the following clinic ids in the past 24 months of appointments: ${eligibilityData.clinics
+            .map(clinic => clinic.id)
+            .join(', ')}`,
+        );
+      }
+    } else if (eligibilityData.directEnabled) {
+      if (eligibilityData.directFailed) {
+        directMessages.push(
+          'There were errors trying to determine eligibility for direct scheduling',
+        );
+      }
+      if (!eligibilityData.directSupported) {
+        directMessages.push(
+          'VATS has direct scheduling disabled for this facility and type of care',
+        );
+      }
+    } else {
+      directMessages.push(
+        'Direct scheduling is disabled by feature toggle in the UI',
+      );
+    }
+
+    if (directMessages.length) {
+      console.log('%cUser not eligible for direct scheduling:', 'color: red');
+      directMessages.forEach(message => {
+        console.log(`  ${message}`);
+      });
+    } else {
+      console.log('%cUser passed checks for direct scheduling', 'color: green');
+    }
+
+    if (requestMessages.length) {
+      console.log('%cUser not eligible for requests:', 'color: red');
+      requestMessages.forEach(message => {
+        console.log(`  ${message}`);
+      });
+    } else {
+      console.log('%cUser passed checks for requests', 'color: green');
+    }
+  } catch (e) {
+    captureError(e);
   }
   /* eslint-enable no-console */
 }
