@@ -5,9 +5,8 @@ import React from 'react';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AppointmentInfoBox from '../components/AppointmentInfoBox';
-// import ReasonForVisitField from '../components/reason-for-visit/ReasonForVisitField';
-// import ReasonForVisitReview from '../components/reason-for-visit/ReasonForVisitReview';
 import ReasonForVisit from '../components/reason-for-visit';
+import ChiefComplaint from '../components/chief-complaint';
 import environment from 'platform/utilities/environment';
 
 // const { } = fullSchema.properties;
@@ -76,7 +75,10 @@ const formConfig = {
               'ui:title': ' ',
               'ui:reviewField': ReasonForVisit.review,
             },
-            chiefComplaint: {},
+            chiefComplaint: {
+              'ui:widget': ChiefComplaint.field,
+              'ui:title': ' ',
+            },
             lifeEvents: {
               'ui:widget': 'textarea',
               'ui:title': (
@@ -101,7 +103,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['chiefComplaint'],
+            // required: ['chiefComplaint'],
             properties: {
               reasonForVisit: {
                 type: 'string',
