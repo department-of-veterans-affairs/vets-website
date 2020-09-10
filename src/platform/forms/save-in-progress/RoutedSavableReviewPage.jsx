@@ -5,14 +5,12 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import {
   FINISH_APP_LATER_DEFAULT_MESSAGE,
-  APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
 import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 
-import CallHRC from '../../static-data/CallHRC';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
@@ -24,7 +22,6 @@ import SaveStatus from './SaveStatus';
 import {
   autoSaveForm,
   saveAndRedirectToReturnUrl,
-  saveErrors,
 } from './actions';
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
