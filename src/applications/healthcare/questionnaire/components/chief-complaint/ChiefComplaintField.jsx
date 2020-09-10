@@ -1,8 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const ChiefComplaintField = ({ chiefComplaint }) => {
-  return <div>{chiefComplaint}</div>;
+import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+
+const ChiefComplaintField = props => {
+  const editField = () => {
+    return (
+      <div>
+        <TextWidget {...props} />
+      </div>
+    );
+  };
+
+  return editField();
 };
 
 const mapStateToProps = () => ({

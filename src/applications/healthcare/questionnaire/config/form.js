@@ -27,7 +27,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Upcoming Visit questionnaire.',
   },
-  title: 'Healthcare Questionnaire',
+  title: 'Reason fort visit clipboard',
   defaultDefinitions: {},
   chapters: {
     chapter1: {
@@ -77,7 +77,13 @@ const formConfig = {
             },
             chiefComplaint: {
               'ui:widget': ChiefComplaint.field,
-              'ui:title': ' ',
+              'ui:title': (
+                <span>
+                  Are there any <strong>additional details</strong> you’d like
+                  to share with your provider about{' '}
+                  <strong>this appointment</strong>?
+                </span>
+              ),
             },
             lifeEvents: {
               'ui:widget': 'textarea',
@@ -97,8 +103,12 @@ const formConfig = {
                   return <>BOOOP</>;
                 },
               },
-              'ui:title':
-                'Do you have any other additional questions you want to discuss with your provider?',
+              'ui:title': (
+                <span style={{ fontWeight: 'normal' }}>
+                  Do you have any other additional questions you want to discuss
+                  with your provider?
+                </span>
+              ),
             },
           },
           schema: {

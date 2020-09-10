@@ -9,7 +9,7 @@ const ReasonForVisitField = ({ reasonForVisit = '' }) => {
       </>
     );
   } else {
-    return <>no reason to visit... </>;
+    return <></>;
   }
 };
 
