@@ -118,7 +118,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            // required: ['chiefComplaint'],
+            required: ['chiefComplaint'],
             properties: {
               reasonForVisit: {
                 type: 'string',
