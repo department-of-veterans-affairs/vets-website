@@ -162,7 +162,9 @@ const validMigrations = formConfig => {
   if (migrations || formConfig.version > 0) {
     expect(migrations.length).to.equal(
       formConfig.version,
-      'migrations length does not match version number',
+      `Expected a migration for each version change. The form is at version ${
+        formConfig.version
+      }, but found ${migrations.length} migrations.`,
     );
     validArrayProperty({ migrations }, 'migrations');
     expect(
