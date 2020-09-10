@@ -17,6 +17,18 @@ export const setFocus = selector => {
 };
 
 /**
+ * Helper method to set click listeners to record map zoom events
+ */
+export const setZoomEvents = () => {
+  const recordZoomIn = recordEvent({ event: 'fl-map-zoom-in' });
+  const recordZoomOut = recordEvent({ event: 'fl-map-zoom-out' });
+  const zoomIn = document.querySelector('.leaflet-control-zoom-in');
+  if (zoomIn) zoomIn.addEventListener('click', recordZoomIn);
+  const zoomOut = document.querySelector('.leaflet-control-zoom-in');
+  if (zoomOut) zoomOut.add.addEventListener('click', recordZoomOut);
+};
+
+/**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *
  * @param {Object} pos1

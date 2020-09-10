@@ -25,6 +25,7 @@ import {
   areGeocodeEqual,
   setFocus,
   recordMarkerEvents,
+  setZoomEvents,
 } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
@@ -70,6 +71,8 @@ class VAMap extends Component {
     const { facilityType } = currentQuery;
 
     window.addEventListener('resize', this.debouncedResize);
+
+    setZoomEvents();
 
     // navigating back from *Detail page preserves previous search results
     if (!isEmpty(this.props.results)) {
