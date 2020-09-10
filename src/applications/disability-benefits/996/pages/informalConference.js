@@ -70,9 +70,6 @@ const informalConference = {
           pattern: patternMessages.representativePhone,
           required: errorMessages.informalConferenceContactPhone,
         },
-        'ui:options': {
-          inputType: 'tel',
-        },
       },
       'view:TimesForRep': {
         'ui:description': () => InformalConferenceTimes({ isRep: true }),

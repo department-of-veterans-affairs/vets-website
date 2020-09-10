@@ -15,6 +15,9 @@ describe('healthcare questionnaire -- demographics -- phone numbers', () => {
     });
   });
   it('all default phone numbers', () => {
+    cy.findByTestId('homePhone-label').contains('Home phone', {
+      matchCase: false,
+    });
     cy.findByTestId('homePhone').contains('503-222-2222', {
       matchCase: false,
     });

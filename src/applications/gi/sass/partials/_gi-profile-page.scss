@@ -4,8 +4,8 @@
     margin-top: 0;
   }
   .info-flag {
-    color: #323a45;
-    background-color: #d6d7d9;
+    color: $color-gray-dark;
+    background-color: $color-gray-lighter;
     font-size: 0.9em;
     display: inline-block;
     padding: 0.1em 0.5em;
@@ -368,15 +368,17 @@
   }
 
   .eyb-button {
-    &.usa-accordion-button[aria-expanded='false'] {
-      background-image: url('/img/arrow-up.png');
-      background-image: url('/img/arrow-up.svg');
+    &.usa-accordion-button[aria-expanded="false"] {
+      background-image: url("/img/arrow-up.png");
+      background-image: url("/img/arrow-up.svg");
     }
-    &.usa-accordion-button[aria-expanded='true'] {
-      background-image: url('/img/arrow-down.png');
-      background-image: url('/img/arrow-down.svg');
+    &.usa-accordion-button[aria-expanded="true"] {
+      background-image: url("/img/arrow-down.png");
+      background-image: url("/img/arrow-down.svg");
     }
   }
+
+  $shadow: rgba(0, 0, 0, 0.15);
 
   .eyb-sheet {
     background-color: $color-gray-lightest;
@@ -386,7 +388,7 @@
     width: 100%;
     z-index: 401;
     overflow: hidden;
-    box-shadow: -1px -1px 16px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: -1px -1px 16px 0 $shadow;
     max-height: 0%;
     // OUT
     transition: max-height 1.5s ease-in-out;
