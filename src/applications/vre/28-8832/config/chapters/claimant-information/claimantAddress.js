@@ -3,6 +3,7 @@ import {
   buildAddressSchema,
   addressUISchema,
 } from 'applications/disability-benefits/686c-674/config/address-schema';
+import { claimantEmailAddress, claimantPhoneNumber } from '../../utilities';
 
 const claimantAddress = buildAddressSchema(true);
 // reset boolean type for checkbox
@@ -14,21 +15,9 @@ export const schema = {
   type: 'object',
   properties: {
     claimantAddress,
-    claimantPhoneNumber: {
-      type: 'string',
-      minLength: 7,
-      maxLength: 10,
-    },
-    claimantEmailAddress: {
-      type: 'string',
-      minLength: 6,
-      maxLength: 80,
-    },
-    claimantConfirmEmailAddress: {
-      type: 'string',
-      minLength: 6,
-      maxLength: 80,
-    },
+    claimantPhoneNumber,
+    claimantEmailAddress,
+    'view:claimantConfirmEmailAddress': claimantEmailAddress,
   },
 };
 
@@ -47,7 +36,7 @@ export const uiSchema = {
     ...emailUI(),
     'ui:required': () => true,
   },
-  claimantConfirmEmailAddress: {
+  'view:claimantConfirmEmailAddress': {
     ...emailUI(),
     'ui:title': 'Confirm email address',
     'ui:required': () => true,
@@ -55,8 +44,8 @@ export const uiSchema = {
       {
         validator: (errors, fieldData, formData) => {
           if (
-            formData.dependentEmailAddress !==
-            formData.dependentConfirmEmailAddress
+            formData.claimantEmailAddress !==
+            formData['view:claimantConfirmEmailAddress']
           ) {
             errors.addError(
               'This email does not match your previously entered email',

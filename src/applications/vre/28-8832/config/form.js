@@ -1,5 +1,4 @@
-// import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
-
+import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -32,7 +31,7 @@ const formConfig = {
       'Please sign in again to continue your application for Planning and career guidance.',
   },
   title: '28-8832-planning-and-guidance',
-  defaultDefinitions: {},
+  defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     claimantInformation: {
       title: 'Claimant Information',
