@@ -546,11 +546,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/special_benefit_allowances_2018.asp",
-    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/gibill/education_programs.asp",
     "dest": "/education/"
   },
