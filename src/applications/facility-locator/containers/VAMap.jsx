@@ -36,6 +36,7 @@ import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import vaDebounce from 'platform/utilities/data/debounce';
 import PaginationWrapper from '../components/PaginationWrapper';
+import recordEvent from 'platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -342,7 +343,7 @@ class VAMap extends Component {
     };
     let boundsArray = currentQuery.bounds;
     let zoom = currentQuery.zoomLevel;
-
+    if (zoom) recordEvent({ 'fl-map-zoom-depth': zoom });
     if (this.refs.map) {
       center = leafletElement.getCenter();
       zoom = leafletElement.getZoom();
