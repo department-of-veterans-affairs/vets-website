@@ -3,9 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
-import {
-  FINISH_APP_LATER_DEFAULT_MESSAGE,
-} from '../../forms-system/src/js/constants';
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../../forms-system/src/js/constants';
 import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
@@ -19,10 +17,7 @@ import { focusElement } from '../../utilities/ui';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
-import {
-  autoSaveForm,
-  saveAndRedirectToReturnUrl,
-} from './actions';
+import { autoSaveForm, saveAndRedirectToReturnUrl } from './actions';
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 
