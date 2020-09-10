@@ -194,7 +194,7 @@ const validDowntime = ({ downtime }) => {
     dependencies.forEach(dependency => {
       expect(Object.values(externalServices)).to.include(
         dependency,
-        `${dependency} is not a valid dependency. Please see platform/monitoring/DowntimeNotification for a list of dependencies`,
+        `${dependency} is not a valid dependency. Please see src/platform/monitoring/DowntimeNotification/config/externalServices.js for a list of dependencies`,
       );
     });
   }
