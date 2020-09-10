@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 
 import SegmentedProgressBar from './SegmentedProgressBar';
@@ -15,7 +15,7 @@ import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 export default function FormNav(props) {
   const { formConfig, currentPath, formData } = props;
 
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const [index, setIndex] = useState(0);
 
   // This is converting the config into a list of pages with chapter keys,
   // finding the current page, then getting the chapter name using the key
@@ -53,18 +53,23 @@ export default function FormNav(props) {
   }
 
   const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
+  const onNewChapter = Math.abs(current - index) === 1;
+
+  // console.log(current, index);
+  // console.log('New Chapter:', onNewChapter);
 
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included. This should
   // ensure that VoiceOver on iOS will pick up on the new <h2>
   useEffect(
     () => {
-      if (current > 1) {
-        document.querySelector('#nav-form-header').remove();
-        forceUpdate();
+      if (current > index + 1) {
+        setIndex(index + 1);
+      } else if (current === index) {
+        setIndex(index - 1);
       }
     },
-    [current],
+    [current, index],
   );
 
   return (
@@ -78,9 +83,15 @@ export default function FormNav(props) {
           aria-valuemax={chapters.length}
           className="nav-header nav-header-schemaform"
         >
-          <h2 id="nav-form-header" className="vads-u-font-size--h4">
-            {stepText}
-          </h2>
+          {onNewChapter && (
+            <h2 id="nav-form-header" className="vads-u-font-size--h4">
+              {stepText}
+            </h2>
+          )}
+
+          {!onNewChapter && (
+            <div className="vads-u-font-size--h4">Loading...</div>
+          )}
         </div>
       </div>
     </div>
