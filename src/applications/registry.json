@@ -832,7 +832,18 @@
     "rootUrl": "/coronavirus-research/volunteer",
     "template": {
       "vagovprod": false,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "coronavirus-research/",
+          "name": "Participating in coronavirus research at VA"
+        },
+        {
+          "path": "coronavirus-research/volunteer/",
+          "name": "Sign up to volunteer"
+        }
+      ]
     }
   },
   {

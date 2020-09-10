@@ -6,7 +6,7 @@ import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import VAFacilityPage from '../../containers/VAFacilityPage';
+import VAFacilityPage from '../../new-appointment/components/VAFacilityPage';
 import {
   getParentSiteMock,
   getFacilityMock,

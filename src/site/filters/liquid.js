@@ -390,6 +390,20 @@ module.exports = function registerFilters() {
     return fieldLink;
   };
 
+  liquid.filters.deriveLastBreadcrumbFromPath = (
+    breadcrumbs,
+    string,
+    currentPath,
+  ) => {
+    const last = {
+      url: { path: currentPath, routed: true },
+      text: string,
+    };
+    breadcrumbs.push(last);
+
+    return breadcrumbs;
+  };
+
   // used to get a base url path of a health care region from entityUrl.path
   liquid.filters.regionBasePath = path => path.split('/')[1];
 

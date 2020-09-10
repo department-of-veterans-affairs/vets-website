@@ -11,6 +11,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const {
   veteranFullName,
@@ -51,7 +52,7 @@ const formConfig = {
   trackingPrefix: 'form-2122-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-22',
+  formId: VA_FORM_IDS.FORM_21_22,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
