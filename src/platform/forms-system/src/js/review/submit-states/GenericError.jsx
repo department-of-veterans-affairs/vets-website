@@ -14,7 +14,7 @@ export default function GenericError(props) {
   let submitMessage;
 
   if (renderErrorMessage) {
-    submitMessage = <SavableErrorMessage formConfig={formConfig} />; // renderErrorMessage();
+    submitMessage = <SavableErrorMessage formConfig={formConfig} />;
   } else {
     submitMessage = (
       <ErrorMessage
