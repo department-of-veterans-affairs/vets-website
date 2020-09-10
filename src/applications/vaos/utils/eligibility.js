@@ -322,7 +322,7 @@ export function logEligibilityExplanation(
         requestMessages.push(
           `The var-resources visited in past months service indicated that there has not been a recent visit (past ${
             eligibilityData.requestPastVisit.durationInMonths
-          } months) for this facility and type of care`,
+          } months)`,
         );
       }
     } else {
@@ -353,12 +353,12 @@ export function logEligibilityExplanation(
 
       if (!eligibilityData.clinics?.length) {
         directMessages.push(
-          `The var-resources clinics service did not return any clinics for this facility and type of care`,
+          `The var-resources clinics service did not return any clinics`,
         );
       } else if (!eligibilityData.hasMatchingClinics) {
         directMessages.push(
-          `The FE could not find any of the following clinic ids in the past 24 months of appointments: ${eligibilityData.clinics
-            .map(clinic => clinic.id)
+          `The FE could not find any of the clinics returned by var-resources in the past 24 months of appointments: ${eligibilityData.clinics
+            .map(clinic => `${clinic.serviceName} (${clinic.id})`)
             .join(', ')}`,
         );
       }
@@ -375,7 +375,7 @@ export function logEligibilityExplanation(
       }
     } else {
       directMessages.push(
-        'Direct scheduling is disabled by feature toggle in the UI',
+        'The FE has disabled direct scheduling via feature toggle',
       );
     }
 
