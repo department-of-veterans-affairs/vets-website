@@ -42,7 +42,10 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   };
   return (
     <div>
-      <h1 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+      <h1
+        id="downloadDebtLetters"
+        className="vads-u-margin-top--4 vads-u-margin-bottom--2"
+      >
         Download debt letters{' '}
       </h1>
       <h2 className="vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2">
