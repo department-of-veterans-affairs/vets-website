@@ -96,11 +96,18 @@ const formConfig = {
               ),
             },
             questions: {
+              items: {
+                additionalQuestions: {
+                  'ui:title': ' ',
+                },
+              },
               'ui:options': {
+                doNotScrollOnAdd: true,
+                keepInPageOnReview: true,
+                itemName: 'Question',
                 // eslint-disable-next-line no-unused-vars
                 viewField: formData => {
-                  // console.log({ formData });
-                  return <>BOOOP</>;
+                  return <>{formData.formData.additionalQuestions}</>;
                 },
               },
               'ui:title': (
