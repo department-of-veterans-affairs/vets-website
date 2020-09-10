@@ -90,7 +90,7 @@ export default function FormNav(props) {
           )}
 
           {!onNewChapter && (
-            <div className="vads-u-font-size--h4">Loading...</div>
+            <div className="vads-u-font-size--h4">{stepText}</div>
           )}
         </div>
       </div>
