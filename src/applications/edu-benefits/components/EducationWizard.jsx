@@ -487,7 +487,7 @@ export class EducationWizard extends React.Component {
                             })
                           }
                         >
-                          Check remaining benefits
+                          Check your remaining benefits
                         </a>
                       </li>
                     </ul>
