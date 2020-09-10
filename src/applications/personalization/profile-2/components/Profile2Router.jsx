@@ -136,15 +136,6 @@ class Profile2Router extends Component {
                   );
                 }
 
-                if (route.path === PROFILE_PATHS.MILITARY_INFORMATION) {
-                  return (
-                    <Redirect
-                      to={PROFILE_PATHS.PROFILE_ROOT}
-                      key={route.path}
-                    />
-                  );
-                }
-
                 return (
                   <Route
                     component={route.component}
