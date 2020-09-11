@@ -27,9 +27,11 @@
           {% endif %}
 
           {% if fieldButtonsRepeat %}
-            {% for fieldButton in fieldButtons  %}
-              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-            {% endfor %}
+            <div class="vads-u-margin-y--3">
+              {% for fieldButton in fieldButtons  %}
+                {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+              {% endfor %}
+            </div>
           {% endif %}
 
           {% if fieldTableOfContentsBoolean %}
@@ -65,9 +67,11 @@
             </div>
           {% endfor %}
 
-          {% for fieldButton in fieldButtons  %}
-            {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-          {% endfor %}
+          <div class="vads-u-margin-y--3">
+            {% for fieldButton in fieldButtons  %}
+              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+            {% endfor %}
+          </div>
         </article>
       </div>
     </div>
