@@ -263,6 +263,10 @@
         }
       }
     },
+    "date": {
+      "format": "date",
+      "type": "string"
+    },
     "privacyAgreementAccepted": {
       "type": "boolean",
       "enum": [
@@ -413,6 +417,9 @@
     },
     "veteranIsDeceased": {
       "type": "boolean"
+    },
+    "dateOfDeath": {
+      "$ref": "#/definitions/date"
     },
     "branchOfService": {
       "type": "string",

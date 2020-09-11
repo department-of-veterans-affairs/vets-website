@@ -2,6 +2,7 @@ import set from 'platform/utilities/data/set';
 import { countries } from 'platform/forms/address';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
 
 import fullSchema from '../../0873-schema.json';
@@ -17,6 +18,7 @@ const {
   isDependent,
   relationshipToVeteran,
   veteranIsDeceased,
+  dateOfDeath,
   branchOfService,
 } = fullSchema.properties;
 
@@ -31,6 +33,7 @@ const formFields = {
   isDependent: 'isDependent',
   relationshipToVeteran: 'relationshipToVeteran',
   veteranIsDeceased: 'veteranIsDeceased',
+  dateOfDeath: 'dateOfDeath',
   branchOfService: 'branchOfService',
   country: 'country',
 };
@@ -75,6 +78,16 @@ const contactInformationPage = {
         expandUnderCondition: requireVetRelationship,
       },
     },
+    [formFields.dateOfDeath]: {
+      ...currentOrPastDateUI('Date of Death if known'),
+      ...{
+        'ui:required': formData => formData.veteranIsDeceased,
+        'ui:options': {
+          expandUnder: 'veteranStatus',
+          hideIf: formData => !formData.veteranIsDeceased,
+        },
+      },
+    },
     [formFields.branchOfService]: {
       'ui:title': 'Branch of service',
       'ui:required': formData => requireServiceInfo(formData.veteranStatus),
@@ -110,6 +123,7 @@ const contactInformationPage = {
       [formFields.isDependent]: isDependent,
       [formFields.relationshipToVeteran]: relationshipToVeteran,
       [formFields.veteranIsDeceased]: veteranIsDeceased,
+      [formFields.dateOfDeath]: dateOfDeath,
       [formFields.branchOfService]: branchOfService,
       [formFields.email]: email,
       [formFields.verifyEmail]: {
