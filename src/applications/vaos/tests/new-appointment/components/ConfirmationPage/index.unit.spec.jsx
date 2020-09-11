@@ -4,7 +4,6 @@ import moment from 'moment';
 import React from 'react';
 import sinon from 'sinon';
 import { ConfirmationPage } from '../../../../new-appointment/components/ConfirmationPage';
-import reducers from '../../../../redux/reducer';
 import { FLOW_TYPES } from '../../../../utils/constants';
 import { renderWithStoreAndRouter } from '../../../mocks/setup';
 
@@ -55,7 +54,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -111,7 +109,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -172,7 +169,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -224,7 +220,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -271,7 +266,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -310,7 +304,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -344,7 +337,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -374,7 +366,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -405,7 +396,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -434,7 +424,6 @@ describe('VAOS <ConfirmationPage>', () => {
       />,
       {
         initialState,
-        reducers,
       },
     );
 
