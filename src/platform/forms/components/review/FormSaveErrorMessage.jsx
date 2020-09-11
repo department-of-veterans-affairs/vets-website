@@ -28,7 +28,7 @@ import {
   userSelector,
 } from 'platform/forms/selectors/review';
 
-function SavableErrorMessage(props) {
+function FormSaveErrorMessage(props) {
   const { route, formConfig, user, form, location, showLoginModal } = props;
 
   const savedStatus = form?.savedStatus;
@@ -114,5 +114,5 @@ export default withRouter(
       };
     },
     mapDispatchToProps,
-  )(SavableErrorMessage),
+  )(FormSaveErrorMessage),
 );

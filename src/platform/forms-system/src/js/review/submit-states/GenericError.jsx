@@ -5,16 +5,16 @@ import PropTypes from 'prop-types';
 // components
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
-import SavableErrorMessage from 'platform/forms/components/review/SavableErrorMessage';
+import FormSaveErrorMessage from 'platform/forms/components/review/FormSaveErrorMessage';
 import { Column, Row } from 'platform/forms/components/common/grid';
-
+// const FormSaveErrorMessage = props => props?.children;
 export default function GenericError(props) {
   const { appType, formConfig, renderErrorMessage, onSubmit, testId } = props;
   let submitButton;
   let submitMessage;
 
   if (renderErrorMessage) {
-    submitMessage = <SavableErrorMessage formConfig={formConfig} />;
+    submitMessage = <FormSaveErrorMessage formConfig={formConfig} />;
   } else {
     submitMessage = (
       <ErrorMessage

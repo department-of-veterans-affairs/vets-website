@@ -7,7 +7,7 @@ import { render } from '@testing-library/react';
 
 // platform
 import createCommonStore from 'platform/startup/store';
-import SavableErrorMessage from 'platform/forms/components/review/SavableErrorMessage';
+import FormSaveErrorMessage from 'platform/forms/components/review/FormSaveErrorMessage';
 
 // Return fresh objects from templates for use with individual tests
 // Default setup: Valid (but empty) form, privacy agreement not set
@@ -69,14 +69,14 @@ const createStore = (options = {}) => {
   });
 };
 
-describe('SavableErrorMessage component', () => {
+describe('FormSaveErrorMessage component', () => {
   it('should render', () => {
     const formConfig = createFormConfig();
     const store = createStore();
 
     const tree = render(
       <Provider store={store}>
-        <SavableErrorMessage testId="12345" formConfig={formConfig} />
+        <FormSaveErrorMessage testId="12345" formConfig={formConfig} />
       </Provider>,
     );
 
@@ -102,7 +102,7 @@ describe('SavableErrorMessage component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <SavableErrorMessage
+        <FormSaveErrorMessage
           testId="12345"
           formConfig={formConfig}
           goBack={goBack}
