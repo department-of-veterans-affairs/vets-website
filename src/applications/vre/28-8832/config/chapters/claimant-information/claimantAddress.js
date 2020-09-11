@@ -3,6 +3,7 @@ import {
   buildAddressSchema,
   addressUISchema,
 } from 'applications/disability-benefits/686c-674/config/address-schema';
+import { claimantEmailAddress, claimantPhoneNumber } from '../../utilities';
 
 const claimantAddress = buildAddressSchema(true);
 // reset boolean type for checkbox
@@ -14,26 +15,20 @@ export const schema = {
   type: 'object',
   properties: {
     claimantAddress,
-    claimantPhoneNumber: {
-      type: 'string',
-      minLength: 7,
-      maxLength: 10,
-    },
-    claimantEmailAddress: {
-      type: 'string',
-      minLength: 6,
-      maxLength: 80,
-    },
-    claimantConfirmEmailAddress: {
-      type: 'string',
-      minLength: 6,
-      maxLength: 80,
-    },
+    claimantPhoneNumber,
+    claimantEmailAddress,
+    claimantConfirmEmailAddress: claimantEmailAddress,
   },
 };
 
 export const uiSchema = {
-  claimantAddress: addressUISchema(true, 'claimantAddress', () => true),
+  // Need to overwrite the default title brought over from addressUISchema() because it defaults to "They live..."
+  claimantAddress: {
+    ...addressUISchema(true, 'claimantAddress', () => true),
+    'view:livesOnMilitaryBase': {
+      'ui:title': 'I live on a United States military base outside of the U.S.',
+    },
+  },
   claimantPhoneNumber: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
@@ -55,8 +50,8 @@ export const uiSchema = {
       {
         validator: (errors, fieldData, formData) => {
           if (
-            formData.dependentEmailAddress !==
-            formData.dependentConfirmEmailAddress
+            formData.claimantEmailAddress !==
+            formData.claimantConfirmEmailAddress
           ) {
             errors.addError(
               'This email does not match your previously entered email',

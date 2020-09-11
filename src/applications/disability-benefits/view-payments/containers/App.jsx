@@ -18,14 +18,14 @@ export default function App() {
             <ViewPaymentsHeader />
             <ViewPaymentsLists />
             <p className="vads-u-font-size--lg vads-u-font-weight--bold">
-              What if I find a check I thought was missing?
+              What if I find a check that I reported missing?
             </p>
             <p>
-              If the original check is found or received, you must return the
-              original check to the Treasury Department and await receipt of the
-              replacement check. If both checks are negotiated, then you will be
-              responsible for the duplicate payment. You will receive a letter
-              from the Debt Management Center with instructions concerning
+              If you reported a check missing and found it later, you must
+              return the original check to the U.S. Department of the Treasury
+              and wait to receive your replacement check. If you endorse both
+              the original and replacement check, you'll get a double payment.
+              If this happens, VA Debt Management Center will contact you about
               collection.
             </p>
           </div>
