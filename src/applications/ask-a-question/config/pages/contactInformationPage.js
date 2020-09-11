@@ -16,6 +16,7 @@ const {
   veteranStatus,
   isDependent,
   relationshipToVeteran,
+  veteranIsDeceased,
   branchOfService,
 } = fullSchema.properties;
 
@@ -29,6 +30,7 @@ const formFields = {
   veteranStatus: 'veteranStatus',
   isDependent: 'isDependent',
   relationshipToVeteran: 'relationshipToVeteran',
+  veteranIsDeceased: 'veteranIsDeceased',
   branchOfService: 'branchOfService',
   country: 'country',
 };
@@ -48,7 +50,7 @@ const contactInformationPage = {
       'ui:title': 'My message is about benefits/services',
     },
     [formFields.isDependent]: {
-      'ui:title': 'Are you the dependent',
+      'ui:title': 'Are you the dependent?',
       'ui:widget': 'yesNo',
       'ui:required': formData => formData.veteranStatus === 'dependent',
       'ui:options': {
@@ -58,6 +60,15 @@ const contactInformationPage = {
     },
     [formFields.relationshipToVeteran]: {
       'ui:title': 'Your relationship to the Veteran',
+      'ui:required': formData => requireVetRelationship(formData.veteranStatus),
+      'ui:options': {
+        expandUnder: 'veteranStatus',
+        expandUnderCondition: requireVetRelationship,
+      },
+    },
+    [formFields.veteranIsDeceased]: {
+      'ui:title': 'Is the Veteran deceased?',
+      'ui:widget': 'yesNo',
       'ui:required': formData => requireVetRelationship(formData.veteranStatus),
       'ui:options': {
         expandUnder: 'veteranStatus',
@@ -98,6 +109,7 @@ const contactInformationPage = {
       [formFields.veteranStatus]: veteranStatus,
       [formFields.isDependent]: isDependent,
       [formFields.relationshipToVeteran]: relationshipToVeteran,
+      [formFields.veteranIsDeceased]: veteranIsDeceased,
       [formFields.branchOfService]: branchOfService,
       [formFields.email]: email,
       [formFields.verifyEmail]: {

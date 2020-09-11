@@ -411,6 +411,9 @@
         "VSO"
       ]
     },
+    "veteranIsDeceased": {
+      "type": "boolean"
+    },
     "branchOfService": {
       "type": "string",
       "enum": [
