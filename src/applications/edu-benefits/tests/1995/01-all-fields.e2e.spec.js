@@ -38,15 +38,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
-  // STEM page
-  client.waitForElementVisible(
-    'label[for="root_isEdithNourseRogersScholarshipYes"',
-    Timeouts.slow,
-  );
-  Edu1995Helpers.completeStemSelection(client);
-  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/benefits/stem');
-
   // Service periods page.
   client.waitForElementVisible(
     'label[for="root_view:newServiceYes"]',
