@@ -93,8 +93,6 @@ export default {
     },
     emailUI: {
       'ui:title': 'Email address',
-      'ui:description':
-        "We'll send an order confirmation email with a tracking number to this email address.",
       'ui:widget': 'email',
       'ui:errorMessages': {
         pattern: 'Please enter an email address using this format: X@X.com',
