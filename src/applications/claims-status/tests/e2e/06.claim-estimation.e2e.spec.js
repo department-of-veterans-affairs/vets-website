@@ -20,7 +20,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.claim-title', Timeouts.normal)
     .axeCheck('.main');
 
-  /* Disabled unit COVID-19 message removed
+  /* Disabled until COVID-19 message removed
   const selector = '.claim-estimate-link';
 
   client

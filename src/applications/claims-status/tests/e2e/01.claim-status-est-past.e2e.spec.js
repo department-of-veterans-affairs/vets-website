@@ -35,9 +35,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.assert.urlContains('/your-claims/11/status');
 
   client.expect
-    .element('.claim-completion-desc')
-    // Disabled unit COVID-19 message removed
+    // Disabled until COVID-19 message removed
+    // .element('.claim-completion-desc')
     // .text.to.contain('We estimated your claim would be completed by now');
+    .element('.usa-alert-text')
     .text.to.contain('COVID-19 has had on the availability');
 
   client.end();
