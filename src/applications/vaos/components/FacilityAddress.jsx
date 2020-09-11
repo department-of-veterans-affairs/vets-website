@@ -17,14 +17,18 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      {address?.line?.map(line => (
-        <React.Fragment key={line}>
-          {line}
+      {!!address && (
+        <>
+          {address?.line?.map(line => (
+            <React.Fragment key={line}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))}
+          {address.city}, {address.state} {address.postalCode}
           <br />
-        </React.Fragment>
-      ))}
-      {address.city}, {address.state} {address.postalCode}
-      <br />
+        </>
+      )}
       {showDirectionsLink && (
         <>
           <FacilityDirectionsLink location={facility} />
