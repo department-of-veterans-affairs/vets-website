@@ -10,22 +10,22 @@ import {
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
-import TypeOfCarePage from '../containers/TypeOfCarePage';
-import ContactInfoPage from '../containers/ContactInfoPage';
-import TypeOfVisitPage from '../containers/TypeOfVisitPage';
-import TypeOfSleepCarePage from '../containers/TypeOfSleepCarePage';
-import TypeOfEyeCarePage from '../containers/TypeOfEyeCarePage';
-import TypeOfAudiologyCarePage from '../containers/TypeOfAudiologyCarePage';
-import PreferredDatePage from '../containers/PreferredDatePage';
-import DateTimeRequestPage from '../containers/DateTimeRequestPage';
-import DateTimeSelectPage from '../containers/DateTimeSelectPage';
-import VAFacilityPage from '../containers/VAFacilityPage';
-import CommunityCarePreferencesPage from '../containers/CommunityCarePreferencesPage';
-import ClinicChoicePage from '../containers/ClinicChoicePage';
-import ReasonForAppointmentPage from '../containers/ReasonForAppointmentPage';
-import ReviewPage from '../containers/ReviewPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-import TypeOfFacilityPage from '../containers/TypeOfFacilityPage';
+import TypeOfCarePage from './components/TypeOfCarePage';
+import ContactInfoPage from './components/ContactInfoPage';
+import TypeOfVisitPage from './components/TypeOfVisitPage';
+import TypeOfSleepCarePage from './components/TypeOfSleepCarePage';
+import TypeOfEyeCarePage from './components/TypeOfEyeCarePage';
+import TypeOfAudiologyCarePage from './components/TypeOfAudiologyCarePage';
+import PreferredDatePage from './components/PreferredDatePage';
+import DateTimeRequestPage from './components/DateTimeRequestPage';
+import DateTimeSelectPage from './components/DateTimeSelectPage';
+import VAFacilityPage from './components/VAFacilityPage';
+import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
+import ClinicChoicePage from './components/ClinicChoicePage';
+import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
+import ReviewPage from './components/ReviewPage';
+import ConfirmationPage from './components/ConfirmationPage';
+import TypeOfFacilityPage from './components/TypeOfFacilityPage';
 
 function onBeforeUnload(e) {
   const expirationDate = localStorage.getItem('sessionExpiration');

@@ -14,7 +14,7 @@ import {
   getChosenClinicInfo,
   getChosenFacilityInfo,
   getSiteIdForChosenFacility,
-  getChosenParentInfo,
+  getChosenCCSystemId,
   getChosenSlot,
   selectExpressCareFormData,
 } from './selectors';
@@ -175,8 +175,8 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVet360ResidentialAddress(state);
-  const organization = getChosenParentInfo(state, data.communityCareSystemId);
-  const siteId = getSiteIdFromOrganization(organization);
+  const organization = getChosenCCSystemId(state);
+  const parentFacilityId = getSiteIdFromOrganization(organization);
   let cityState;
 
   if (
@@ -202,8 +202,8 @@ export function transformFormToCCRequest(state) {
     appointmentType: typeOfCare.name,
     facility: {
       name: organization.name,
-      facilityCode: siteId,
-      parentSiteCode: siteId,
+      facilityCode: parentFacilityId,
+      parentSiteCode: parentFacilityId.substring(0, 3),
     },
     purposeOfVisit: CC_PURPOSE,
     phoneNumber: data.phoneNumber,

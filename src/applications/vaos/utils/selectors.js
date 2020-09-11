@@ -126,6 +126,18 @@ export function getChosenParentInfo(state, parentId) {
   );
 }
 
+export function getChosenCCSystemId(state) {
+  const communityCareSystemId = getFormData(state).communityCareSystemId;
+
+  if (!communityCareSystemId) {
+    return null;
+  }
+
+  return getNewAppointment(state).ccEnabledSystems.find(
+    facility => facility.id === communityCareSystemId,
+  );
+}
+
 export function getRootOrganizationFromChosenParent(state, parentId) {
   return getRootOrganization(
     getParentFacilities(state),

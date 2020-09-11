@@ -70,6 +70,7 @@ describe('Schemaform review <ArrayField>', () => {
           },
         },
       },
+      additionalItems: {},
     };
     const uiSchema = {
       'ui:title': 'List of things',
@@ -324,6 +325,7 @@ describe('Schemaform review <ArrayField>', () => {
           },
         },
       },
+      additionalItems: {},
     };
     const uiSchema = {
       'ui:title': 'List of things',
@@ -362,5 +364,88 @@ describe('Schemaform review <ArrayField>', () => {
 
     expect(instance.state.items).to.eql(newProps.arrayData);
     expect(instance.state.editing).to.eql([]);
+  });
+  it('should render reviewTitle first', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {},
+      'ui:options': {
+        viewField: f => f,
+        reviewTitle: 'My List',
+      },
+    };
+    const arrayData = [];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle="Page Title"
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
+      uiSchema['ui:options'].reviewTitle,
+    );
+    expect(tree.everySubTree('SchemaForm')).to.be.empty;
+  });
+  it('should render page title', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': ' ',
+      items: {},
+      'ui:options': {
+        viewField: f => f,
+      },
+    };
+    const arrayData = [];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle="Page Title"
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
+      'Page Title',
+    );
+    expect(tree.everySubTree('SchemaForm')).to.be.empty;
   });
 });

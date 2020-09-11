@@ -845,6 +845,7 @@ $facility-locator-color-gray: #ccc;
 #other-tools {
   text-align: center;
   margin: 22px auto;
+  clear: both;
 
   @media(max-width: $small-screen) {
     width: 260px;
