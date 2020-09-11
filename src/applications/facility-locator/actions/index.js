@@ -10,6 +10,9 @@ import {
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_RESULTS,
+  GEOCODE_STARTED,
+  GEOCODE_COMPLETE,
+  GEOCODE_FAILED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
@@ -214,7 +217,7 @@ export const genBBoxFromAddress = query => {
   }
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED });
+    dispatch({ type: GEOCODE_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = ['place', 'region', 'postcode', 'locality'];
@@ -229,7 +232,7 @@ export const genBBoxFromAddress = query => {
       .forwardGeocode({
         countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
         types,
-        autocomplete: false,
+        autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
         query: query.searchString,
       })
       .send()
@@ -239,6 +242,11 @@ export const genBBoxFromAddress = query => {
         const coordinates = features[0].center;
         const zipCode = zip.text || features[0].place_name;
         const featureBox = features[0].box;
+
+        dispatch({
+          type: GEOCODE_COMPLETE,
+          payload: features,
+        });
 
         let minBounds = [
           coordinates[0] - BOUNDING_RADIUS,
@@ -276,6 +284,7 @@ export const genBBoxFromAddress = query => {
         });
       })
       .catch(_ => {
+        dispatch({ type: GEOCODE_FAILED });
         dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
       });
   };
