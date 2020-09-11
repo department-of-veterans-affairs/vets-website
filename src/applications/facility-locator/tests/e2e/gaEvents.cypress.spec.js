@@ -1,6 +1,6 @@
 import path from 'path';
 
-describe('Ga Events', () => {
+describe('Google Analytics FL Events', () => {
   before(() => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
