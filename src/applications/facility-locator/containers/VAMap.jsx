@@ -600,6 +600,7 @@ class VAMap extends Component {
         <div className="desktop-map-container">
           <Map
             ref="map"
+            id="map-id"
             center={position}
             onViewportChanged={e =>
               recordZoomPanEvents(
