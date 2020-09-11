@@ -27,7 +27,6 @@ import {
   showLoginModalSelector,
   userSelector,
 } from 'platform/forms/selectors/review';
-import { defaultProps } from 'recompose';
 
 function SavableErrorMessage(props) {
   const { route, formConfig, user, form, location, showLoginModal } = props;
@@ -44,8 +43,8 @@ function SavableErrorMessage(props) {
       formConfig={route?.formConfig}
       user={user}
       showLoginModal={showLoginModal}
-      saveAndRedirectToReturnUrl={defaultProps.saveAndRedirectToReturnUrl}
-      toggleLoginModal={defaultProps.toggleLoginModal}
+      saveAndRedirectToReturnUrl={props.saveAndRedirectToReturnUrl}
+      toggleLoginModal={props.toggleLoginModal}
     >
       Save your {appType}
     </SaveFormLink>
