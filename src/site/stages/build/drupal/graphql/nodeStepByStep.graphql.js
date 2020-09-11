@@ -50,6 +50,11 @@ fragment nodeStepByStep on NodeStepByStep {
       }
     }
   }
+  fieldRelatedLinks {
+    entity {
+      ... listOfLinkTeasers
+    }
+  }
 }
 `;
 
