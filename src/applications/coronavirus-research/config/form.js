@@ -8,6 +8,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { uiSchema } from '../pages/covidResearchUISchema';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 
@@ -82,7 +83,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
-  formId: 'COVID-RESEARCH-VOLUNTEER',
+  formId: VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL,
   version: 0,
   prefillEnabled: true,
   customText: {

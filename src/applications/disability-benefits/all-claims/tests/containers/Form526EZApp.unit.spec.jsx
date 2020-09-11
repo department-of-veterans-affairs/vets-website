@@ -82,7 +82,9 @@ describe('Form 526EZ Entry Page', () => {
           user={initialState.user}
           showWizard={initialState.showWizard}
         >
-          <main>{fakeSipsIntro(initialState.user)}</main>
+          <main>
+            <h1>{fakeSipsIntro(initialState.user)}</h1>
+          </main>
         </Form526Entry>
       </Provider>,
     );
@@ -94,6 +96,7 @@ describe('Form 526EZ Entry Page', () => {
     const tree = testPage({
       currentlyLoggedIn: false,
     });
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('RoutedSavableApp')).to.have.lengthOf(1);
     expect(tree.find('main').text()).to.contain('Log in');
     tree.unmount();
@@ -108,6 +111,7 @@ describe('Form 526EZ Entry Page', () => {
       services: [],
     });
     expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('AlertBox')).to.have.lengthOf(1);
     expect(tree.find('AlertBox').text()).to.contain('BIRLS ID');
     tree.unmount();
@@ -123,6 +127,7 @@ describe('Form 526EZ Entry Page', () => {
       services: [idRequired[0]],
     });
     expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('AlertBox')).to.have.lengthOf(1);
     expect(tree.find('AlertBox').text()).to.contain('need some information');
     tree.unmount();
@@ -136,6 +141,7 @@ describe('Form 526EZ Entry Page', () => {
       verified: true,
       services: serviceRequired,
     });
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('main').text()).to.contain('Start the form');
     tree.unmount();
   });
@@ -150,6 +156,7 @@ describe('Form 526EZ Entry Page', () => {
       services: serviceRequired,
     });
     localStorage.removeItem('hasSession');
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('main').text()).to.contain('Need to be verified');
 
     tree.unmount();
@@ -166,6 +173,7 @@ describe('Form 526EZ Entry Page', () => {
       mvi: MVI_ADD_INITIATED,
     });
     localStorage.removeItem('hasSession');
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('main')).to.have.lengthOf(0);
     expect(tree.find('LoadingIndicator')).to.have.lengthOf(1);
     expect(tree.find('LoadingIndicator').text()).to.contain('additional work');
@@ -184,6 +192,7 @@ describe('Form 526EZ Entry Page', () => {
       mvi: MVI_ADD_SUCCEEDED,
     });
     localStorage.removeItem('hasSession');
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('main').text()).to.contain('Start the form');
     tree.unmount();
   });
@@ -197,6 +206,7 @@ describe('Form 526EZ Entry Page', () => {
       services: ['add-person'],
       mvi: MVI_ADD_FAILED,
     });
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('main')).to.have.lengthOf(0);
     expect(tree.find('AlertBox')).to.have.lengthOf(1);
     expect(tree.find('AlertBox p').text()).to.contain(
@@ -211,6 +221,7 @@ describe('Form 526EZ Entry Page', () => {
     const tree = testPage({
       currentlyLoggedIn: false,
     });
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('WizardContainer')).to.have.lengthOf(1);
     tree.unmount();
   });
@@ -221,6 +232,7 @@ describe('Form 526EZ Entry Page', () => {
       currentlyLoggedIn: false,
     });
     localStorage.removeItem('hasSession');
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('WizardContainer')).to.have.lengthOf(1);
     tree.unmount();
   });
@@ -230,6 +242,7 @@ describe('Form 526EZ Entry Page', () => {
       currentlyLoggedIn: false,
       show526Wizard: false,
     });
+    expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('WizardContainer')).to.have.lengthOf(0);
     tree.unmount();
   });
