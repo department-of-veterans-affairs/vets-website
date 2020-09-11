@@ -13,18 +13,6 @@ export const fields = [
     label: 'Type',
     value: 'type',
   },
-  {
-    label: 'Method',
-    value: 'method',
-  },
-  {
-    label: 'Bank name',
-    value: 'bank',
-  },
-  {
-    label: 'Account',
-    value: 'account',
-  },
 ];
 
 export const clientServerErrorContent = receivedOrReturned => (
