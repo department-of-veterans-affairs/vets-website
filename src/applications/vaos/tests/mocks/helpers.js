@@ -460,8 +460,9 @@ export function setupExpressCareMocks({
 
 export function mockCommunityCareEligibility({
   parentSites,
-  supportedParentSites,
+  supportedSites,
   careType,
+  eligible = true,
 }) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -472,13 +473,26 @@ export function mockCommunityCareEligibility({
         .join('&')}`,
     ),
     {
-      data: supportedParentSites.map(parent => ({
+      data: (supportedSites || parentSites).map(parent => ({
         id: parent,
         attributes: {
           name: 'fake',
           timezone: 'fake',
         },
       })),
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/community_care/eligibility/${careType}`,
+    ),
+    {
+      data: {
+        id: careType,
+        attributes: {
+          eligible,
+        },
+      },
     },
   );
 }
