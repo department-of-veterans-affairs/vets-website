@@ -263,16 +263,24 @@ export function isValidForm(form, pageList) {
             formData,
           );
           // Remove the excluded array itemSchemas
-          // NOTE: This will only work when arrayPath isn't a nested path.
+          //
+          // NOTE: This will only work when `arrayPath` isn't a nested path.
           // This is consistent with other uses of arrayPath throughout the
           // library.
-          schema.properties[arrayPath] = _.set(
-            'items',
-            schema.properties[arrayPath].items.filter(
-              (item, index) => itemsToKeep[index],
-            ),
-            formData,
-          );
+          if (Array.isArray(schema.properties[arrayPath].items)) {
+            // `items` may be an array if the individual item schemas can be
+            // different, or a single object to describe every item. We only
+            // want to filter the schemas if they can be different. This ensures
+            // the data still matches its corresponding schema if we filtered
+            // out some data with `itemFilter`.
+            schema.properties[arrayPath] = _.set(
+              'items',
+              schema.properties[arrayPath].items.filter(
+                (item, index) => itemsToKeep[index],
+              ),
+              formData,
+            );
+          }
         } else {
           formData = _.unset(arrayPath, formData);
         }
