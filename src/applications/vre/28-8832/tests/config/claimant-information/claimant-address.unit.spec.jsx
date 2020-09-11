@@ -69,7 +69,7 @@ describe('Chapter 36 Claimant Address', () => {
     fillData(form, 'input#root_claimantEmailAddress', 'someEmail@email.com');
 
     // inccorect confirmation email address should fail
-    fillData(form, 'input#root_claimantEmailAddress', 'derp@email.com');
+    fillData(form, 'input#root_claimantConfirmEmailAddress', 'derp@email.com');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
