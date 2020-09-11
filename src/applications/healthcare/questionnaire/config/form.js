@@ -7,6 +7,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import AppointmentInfoBox from '../components/AppointmentInfoBox';
 import ReasonForVisit from '../components/reason-for-visit';
 import ChiefComplaint from '../components/chief-complaint';
+// import AdditionalQuestions from '../components/additional-questions'
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -108,6 +109,7 @@ const formConfig = {
                   return <>{formData.formData.additionalQuestions}</>;
                 },
               },
+              // 'ui:reviewField': AdditionalQuestions.review,
               'ui:title': (
                 <span style={{ fontWeight: 'normal' }}>
                   Do you have any other additional questions you want to discuss
