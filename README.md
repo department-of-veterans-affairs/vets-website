@@ -66,17 +66,17 @@ When testing changes to static pages, or to see what your application looks like
 on VA.gov, you'll need to build these static pages using the following commands:
 
 ```yarn build``` (```—pull-drupal``` runs by default)
-- needs active socks connection
-- run once to pull the latest Drupal content 
-- need to do this when adding new templates based on new Drupal entities
+- needs active socks proxy connection
+- run once to pull the latest Drupal content and build the static HTML files 
+- need to run this again when adding new templates based on new Drupal entities
 
 ```yarn watch:content```
 - watches for changes to liquid templates or CSS
 - separated from ```yarn watch``` because of JS memory issues
 
 ```yarn preview```
-- watches for template/CSS changes (same as watch:content ???), and adds local routes to the 
-preview server, which is needed to view pages managed by Drupal.
+- You can run this concurrently with `yarn watch`. It adds local routes needed to preview Drupal nodes
+(e.g. `/preview?nodeId=XX`).
 
 If you do not have access to the SOCKS proxy, you can **fetch the latest cached version 
 of the content** with the following:
