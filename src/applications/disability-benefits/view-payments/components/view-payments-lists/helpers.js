@@ -1,17 +1,36 @@
 import React from 'react';
 
-export const fields = [
+export const paymentsReceivedFields = [
   {
     label: 'Date',
-    value: 'date',
+    value: 'payCheckDt',
   },
   {
     label: 'Amount',
-    value: 'amount',
+    value: 'payCheckAmount',
   },
   {
     label: 'Type',
-    value: 'type',
+    value: 'payCheckType',
+  },
+];
+
+export const paymentsReturnedFields = [
+  {
+    label: 'Issue Date',
+    value: 'returnedCheckIssueDt',
+  },
+  {
+    label: 'Cancel Date',
+    value: 'returnedCheckCancelDt',
+  },
+  {
+    label: 'Amount',
+    value: 'returnedCheckAmount',
+  },
+  {
+    label: 'Type',
+    value: 'returnedCheckType',
   },
 ];
 

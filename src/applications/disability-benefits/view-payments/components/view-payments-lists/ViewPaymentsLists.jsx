@@ -4,9 +4,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Payments from './payments/Payments.jsx';
 import {
-  fields,
+  paymentsReturnedFields,
   paymentsRecievedContent,
   paymentsReturnedContent,
+  paymentsReceivedFields,
 } from './helpers';
 import { getAllPayments } from '../../actions';
 import {
@@ -34,17 +35,27 @@ class ViewPaymentsLists extends Component {
         : ServerErrorAlertContent;
       content = <AlertBox content={alertContent} status={status} isVisible />;
     } else if (!this.props.isLoading && this.props.payments) {
+      const { payments, returnPayments } = this.props.payments;
+      // remove all entries with all null property values
+      const filteredReturnPayments = returnPayments.filter(payment => {
+        for (const [key] of Object.entries(payment)) {
+          if (payment[key] !== null) {
+            return true;
+          }
+        }
+        return false;
+      });
       paymentsReceivedTableContent = (
         <Payments
-          fields={fields}
-          data={this.props.hasPaymentsReceived}
+          fields={paymentsReceivedFields}
+          data={payments}
           textContent={paymentsRecievedContent}
         />
       );
       paymentsReturnedTableContent = (
         <Payments
-          fields={fields}
-          data={this.props.hasPaymentsReturned}
+          fields={paymentsReturnedFields}
+          data={filteredReturnPayments}
           textContent={paymentsReturnedContent}
         />
       );
