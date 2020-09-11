@@ -3,25 +3,27 @@ import _ from 'lodash';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 import HeightWidget from '../widgets/HeightWidget';
+import WeightWidget from '../widgets/WeightWidget';
 
-import {
-  validateMatch,
-  validateBooleanGroup,
-} from 'platform/forms-system/src/js/validation';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
+import CustomReviewField from '../containers/CustomReviewField';
+import CustomReviewDOBField from '../containers/CustomReviewDOBField';
+import CustomReviewRadio from '../containers/customReviewRadio';
+import CustomReviewYesNo from '../containers/customReviewYesNo';
+
 export const uiSchema = {
-  'ui:validations': [validateMatch('email', 'view:confirmEmail')],
   descriptionText: {
     'view:descriptionText': {
       'ui:description': (
         <span>
           Thank you for your interest in participating in coronavirus research
           at VA. Please answer the questions below, and we’ll add you to our
-          volunteer registry. If we think you may be eligible for one of our
+          volunteer list. If we think you may be eligible for one of our
           COVID-19 studies, we’ll contact you to tell you more about it so you
           can decide if you want to join. You don’t need to be a Veteran to
           volunteer.
@@ -62,6 +64,7 @@ export const uiSchema = {
         <strong>Have you ever been diagnosed with COVID-19?</strong>
       </span>
     ),
+    'ui:reviewField': CustomReviewYesNo,
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: '',
@@ -80,6 +83,7 @@ export const uiSchema = {
         </p>
       </span>
     ),
+    'ui:reviewField': CustomReviewRadio,
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -99,6 +103,7 @@ export const uiSchema = {
         </strong>
       </span>
     ),
+    'ui:reviewField': CustomReviewYesNo,
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: '',
@@ -113,12 +118,13 @@ export const uiSchema = {
         </strong>
       </span>
     ),
+    'ui:reviewField': CustomReviewYesNo,
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: '',
     },
   },
-  healthHistory: {
+  HEALTH_HISTORY: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -132,41 +138,53 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    ALLERGY_VACCINE: {
+    'HEALTH_HISTORY::ALLERGY_VACCINE': {
       'ui:title': 'Allergy to any vaccines',
+      'ui:reviewField': CustomReviewField,
     },
-    AUTOIMMUNE_DISEASE: {
+    'HEALTH_HISTORY::AUTOIMMUNE_DISEASE': {
       'ui:title': 'Autoimmune disease (like rheumatoid arthritis or lupus)',
+      'ui:reviewField': CustomReviewField,
     },
-    CANCER: {
+    'HEALTH_HISTORY::CANCER': {
       'ui:title': 'Cancer',
+      'ui:reviewField': CustomReviewField,
     },
-    IMMUNOCOMPROMISED: {
+    'HEALTH_HISTORY::IMMUNOCOMPROMISED': {
       'ui:title': 'Compromised immune system (including due to HIV/AIDS)',
+      'ui:reviewField': CustomReviewField,
     },
-    DIABETES: {
+    'HEALTH_HISTORY::DIABETES': {
       'ui:title': 'Diabetes (Type 1 or 2)',
+      'ui:reviewField': CustomReviewField,
     },
-    HEART_DISEASE: {
+    'HEALTH_HISTORY::HEART_DISEASE': {
       'ui:title': 'Heart disease',
+      'ui:reviewField': CustomReviewField,
     },
-    HIGH_BLOOD_PRESSURE: {
+    'HEALTH_HISTORY::HIGH_BLOOD_PRESSURE': {
       'ui:title': 'High blood pressure',
+      'ui:reviewField': CustomReviewField,
     },
-    KIDNEY_LIVER_DISEASE: {
+    'HEALTH_HISTORY::KIDNEY_LIVER_DISEASE': {
       'ui:title': 'Kidney or liver disease',
+      'ui:reviewField': CustomReviewField,
     },
-    LUNG_DISEASE: {
+    'HEALTH_HISTORY::LUNG_DISEASE': {
       'ui:title': 'Lung disease',
+      'ui:reviewField': CustomReviewField,
     },
-    STROKE: {
+    'HEALTH_HISTORY::STROKE': {
       'ui:title': 'Stroke',
+      'ui:reviewField': CustomReviewField,
     },
-    ANOTHER_SERIOUS_CHRONIC_ILLNESS: {
+    'HEALTH_HISTORY::ANOTHER_SERIOUS_CHRONIC_ILLNESS': {
       'ui:title': 'Another serious chronic (long-term) illness',
+      'ui:reviewField': CustomReviewField,
     },
-    NONE_OF_ABOVE: {
+    'HEALTH_HISTORY::NONE_OF_ABOVE': {
       'ui:title': 'None of the above',
+      'ui:reviewField': CustomReviewField,
     },
   },
   exposureRiskHeaderText: {
@@ -178,7 +196,7 @@ export const uiSchema = {
       },
     },
   },
-  employmentStatus: {
+  EMPLOYMENT_STATUS: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -190,29 +208,36 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    EMPLOYED_HOME: {
+    'EMPLOYMENT_STATUS::EMPLOYED_HOME': {
       'ui:title': 'Employed (working from home)',
+      'ui:reviewField': CustomReviewField,
     },
-    EMPLOYED_OUTSIDE_OF_HOME: {
+    'EMPLOYMENT_STATUS::EMPLOYED_OUTSIDE_OF_HOME': {
       'ui:title': 'Employed (working outside the home)',
+      'ui:reviewField': CustomReviewField,
     },
-    FRONTLINE_WORKER: {
+    'EMPLOYMENT_STATUS::FRONTLINE_WORKER': {
       'ui:title': 'Frontline health care provider',
+      'ui:reviewField': CustomReviewField,
     },
-    FURLOUGHED_UNEMPLOYED: {
+    'EMPLOYMENT_STATUS::FURLOUGHED_UNEMPLOYED': {
       'ui:title': 'Furloughed or unemployed',
+      'ui:reviewField': CustomReviewField,
     },
-    RETIRED: {
+    'EMPLOYMENT_STATUS::RETIRED': {
       'ui:title': 'Retired',
+      'ui:reviewField': CustomReviewField,
     },
-    STUDENT: {
+    'EMPLOYMENT_STATUS::STUDENT': {
       'ui:title': 'Student',
+      'ui:reviewField': CustomReviewField,
     },
-    NONE_OF_ABOVE: {
+    'EMPLOYMENT_STATUS::NONE_OF_ABOVE': {
       'ui:title': 'None of the above',
+      'ui:reviewField': CustomReviewField,
     },
   },
-  transportation: {
+  TRANSPORTATION: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -223,23 +248,29 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    CAR: {
+    'TRANSPORTATION::CAR': {
       'ui:title': 'Car',
+      'ui:reviewField': CustomReviewField,
     },
-    FREQUENT_AIR_TRAVEL: {
+    'TRANSPORTATION::FREQUENT_AIR_TRAVEL': {
       'ui:title': 'Frequent air travel',
+      'ui:reviewField': CustomReviewField,
     },
-    PUBLIC_TRANSPORT: {
+    'TRANSPORTATION::PUBLIC_TRANSPORT': {
       'ui:title': 'Public transporation (bus, train, subway)',
+      'ui:reviewField': CustomReviewField,
     },
-    WALK_BIKE: {
+    'TRANSPORTATION::WALK_BIKE': {
       'ui:title': 'Walk or bike',
+      'ui:reviewField': CustomReviewField,
     },
-    WORK_FROM_HOME: {
+    'TRANSPORTATION::WORK_FROM_HOME': {
       'ui:title': 'Work from home',
+      'ui:reviewField': CustomReviewField,
     },
-    NONE_OF_ABOVE: {
+    'TRANSPORTATION::NONE_OF_ABOVE': {
       'ui:title': 'None of the above',
+      'ui:reviewField': CustomReviewField,
     },
   },
   residentsInHome: {
@@ -249,6 +280,7 @@ export const uiSchema = {
       </span>
     ),
     'ui:widget': 'radio',
+    'ui:reviewField': CustomReviewRadio,
     'ui:options': {
       labels: {
         ONE_TWO: '1 to 2',
@@ -272,6 +304,7 @@ export const uiSchema = {
         </p>
       </span>
     ),
+    'ui:reviewField': CustomReviewRadio,
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -302,14 +335,19 @@ export const uiSchema = {
     },
     middle: {
       'ui:title': 'Middle name',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     suffix: {
       'ui:title': 'Suffix',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     'ui:order': ['first', 'middle', 'last', 'suffix'],
   }),
   email: emailUI(),
-  'view:confirmEmail': emailUI('Re-enter email address'),
   phone: {
     ...phoneUI(),
     'ui:options': {
@@ -324,9 +362,10 @@ export const uiSchema = {
         in research.
       </span>
     ),
+    'ui:reviewField': CustomReviewDOBField,
   },
   zipCode: {
-    'ui:title': 'Zip code',
+    'ui:title': 'Zip code where you currently live',
     'ui:errorMessages': {
       required: 'Please enter a zip code',
       pattern: 'Please enter a valid 5- or 9-digit zip code (dashes allowed)',
@@ -338,22 +377,25 @@ export const uiSchema = {
   height: {
     'ui:title': 'Height',
     'ui:widget': HeightWidget,
+    'ui:errorMessages': {
+      required: 'Please enter your height',
+      pattern: 'Please enter a valid height (feet and inches)',
+    },
   },
   weight: {
-    'ui:title': 'Weight (pounds)',
-    'ui:options': {
-      classNames: 'input-width',
-    },
+    'ui:title': 'Weight',
+    'ui:widget': WeightWidget,
     'ui:errorMessages': {
       required: 'Please enter your weight',
       pattern: 'Please enter a valid weight (decimals allowed)',
     },
   },
-  gender: {
+  GENDER: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
     },
+
     'ui:title': (
       <span>
         <strong>Current gender identity</strong> (Please check all that apply)
@@ -364,30 +406,37 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    FEMALE: {
+    'GENDER::FEMALE': {
       'ui:title': 'Female',
+      'ui:reviewField': CustomReviewField,
     },
-    MALE: {
+    'GENDER::MALE': {
       'ui:title': 'Male',
+      'ui:reviewField': CustomReviewField,
     },
-    TRANSGENDER_FEMALE: {
+    'GENDER::TRANSGENDER_FEMALE': {
       'ui:title': 'Transgender female',
+      'ui:reviewField': CustomReviewField,
     },
-    TRANSGENDER_MALE: {
+    'GENDER::TRANSGENDER_MALE': {
       'ui:title': 'Transgender male',
+      'ui:reviewField': CustomReviewField,
     },
-    GENDER_VARIANT: {
+    'GENDER::GENDER_VARIANT': {
       'ui:title':
         'Gender variant/nonbinary (neither exclusively female nor male)',
+      'ui:reviewField': CustomReviewField,
     },
-    SELF_IDENTIFY: {
+    'GENDER::SELF_IDENTIFY': {
       'ui:title': 'Prefer to self-identify',
+      'ui:reviewField': CustomReviewField,
     },
-    NONE_OF_ABOVE: {
+    'GENDER::NONE_OF_ABOVE': {
       'ui:title': 'Prefer not to answer',
+      'ui:reviewField': CustomReviewField,
     },
   },
-  raceEthnicityOrigin: {
+  RACE_ETHNICITY_ORIGIN: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -402,29 +451,37 @@ export const uiSchema = {
         include a diverse range of people in our research studies.
       </span>
     ),
-    AMERICAN_INDIAN_ALASKA_NATIVE: {
+    'RACE_ETHNICITY_ORIGIN::AMERICAN_INDIAN_ALASKA_NATIVE': {
       'ui:title': 'American Indian or Alaska Native',
+      'ui:reviewField': CustomReviewField,
     },
-    ASIAN: {
+    'RACE_ETHNICITY_ORIGIN::ASIAN': {
       'ui:title': 'Asian',
+      'ui:reviewField': CustomReviewField,
     },
-    BLACK_AFRICAN_AMERICAN: {
+    'RACE_ETHNICITY_ORIGIN::BLACK_AFRICAN_AMERICAN': {
       'ui:title': 'Black or African American',
+      'ui:reviewField': CustomReviewField,
     },
-    HISPANIC_LATINO_SPANISH_ORIGIN: {
+    'RACE_ETHNICITY_ORIGIN::HISPANIC_LATINO_SPANISH_ORIGIN': {
       'ui:title': 'Hispanic, Latino, or Spanish origin',
+      'ui:reviewField': CustomReviewField,
     },
-    HAWAIIAN_PACIFIC_ISLANDER: {
+    'RACE_ETHNICITY_ORIGIN::HAWAIIAN_PACIFIC_ISLANDER': {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
+      'ui:reviewField': CustomReviewField,
     },
-    WHITE: {
+    'RACE_ETHNICITY_ORIGIN::WHITE': {
       'ui:title': 'White',
+      'ui:reviewField': CustomReviewField,
     },
-    OTHER_RACE_ETHNICITY: {
+    'RACE_ETHNICITY_ORIGIN::OTHER_RACE_ETHNICITY': {
       'ui:title': 'Another race or ethnicity',
+      'ui:reviewField': CustomReviewField,
     },
-    NONE_OF_ABOVE: {
+    'RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE': {
       'ui:title': 'Prefer not to answer',
+      'ui:reviewField': CustomReviewField,
     },
   },
 };

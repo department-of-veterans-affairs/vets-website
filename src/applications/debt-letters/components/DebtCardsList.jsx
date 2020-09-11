@@ -1,10 +1,12 @@
 import React from 'react';
-import reverse from 'lodash/reverse';
 import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
 import DebtLetterCard from './DebtLetterCard';
+import DebtLetterCardV2 from './DebtLetterCardV2';
 
-const DebtCardsList = ({ debts, isError }) => {
+const DebtCardsList = ({ debts, isError, showDebtLettersV2 }) => {
   const renderAlert = () => (
     <div
       className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
@@ -34,6 +36,8 @@ const DebtCardsList = ({ debts, isError }) => {
       </div>
     </div>
   );
+
+  const Card = showDebtLettersV2 ? DebtLetterCardV2 : DebtLetterCard;
   return (
     <>
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
@@ -55,13 +59,11 @@ const DebtCardsList = ({ debts, isError }) => {
               <a href="tel: 800-827-0648" aria-label="8 0 0. 8 2 7. 0 6 4 8.">
                 800-827-0648
               </a>
+              {'.'}
             </p>
             <div className="vads-u-margin-top--3">
-              {reverse(debts).map((debt, index) => (
-                <DebtLetterCard
-                  key={`${index}-${debt.fileNumber}`}
-                  debt={debt}
-                />
+              {debts.map((debt, index) => (
+                <Card key={`${index}-${debt.fileNumber}`} debt={debt} />
               ))}
             </div>
           </>
@@ -94,6 +96,9 @@ const DebtCardsList = ({ debts, isError }) => {
 const mapStateToProps = state => ({
   debts: state.debtLetters.debts,
   isError: state.debtLetters.isError,
+  showDebtLettersV2: toggleValues(state)[
+    FEATURE_FLAG_NAMES.debtLettersShowLettersV2
+  ],
 });
 
 DebtCardsList.propTypes = {

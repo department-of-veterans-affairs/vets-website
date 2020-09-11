@@ -91,7 +91,8 @@ export const renderAdditionalInfo = deductionCode => {
             decision resulting in this debt, please call the Education office at{' '}
             <a href="tel: 888-442-4551" aria-label="888. 4 4 2. 4551.">
               888-442-4551
-            </a>{' '}
+            </a>
+            {'. '}
             We're here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
           <p>
@@ -135,7 +136,8 @@ export const renderAdditionalInfo = deductionCode => {
             decision resulting in this debt, please call the Education office at{' '}
             <a href="tel: 888-442-4551" aria-label="888. 4 4 2. 4551.">
               888-442-4551
-            </a>{' '}
+            </a>
+            {'. '}
             We're here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
           <p>
@@ -151,3 +153,25 @@ export const renderAdditionalInfo = deductionCode => {
       return null;
   }
 };
+
+export const CoronaVirusAlert = () => (
+  <>
+    <h3 className="vads-u-font-family--serif vads-u-margin-top--0">
+      VA debt collection is on hold due to the coronavirus
+    </h3>
+    <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+      We’ve taken action to stop collection on newly established Veteran debt
+      and make it easier for Veterans to request extended repayment plans and
+      address other financial needs during this time.
+    </p>
+    <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+      You won’t receive any debt collection letters in the mail until after
+      December 31, 2020. For the latest information about managing VA debt,
+      visit our{' '}
+      <a href="http://va.gov/coronavirus-veteran-frequently-asked-questions/">
+        coronavirus FAQs
+      </a>
+      {'.'}
+    </p>
+  </>
+);

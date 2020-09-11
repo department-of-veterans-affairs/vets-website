@@ -77,113 +77,108 @@ module.exports = {
   type: 'object',
   properties: {
     contentModelType: { enum: ['node-health_care_region_page'] },
-    entity: {
+
+    entityType: { enum: ['node'] },
+    entityBundle: { enum: ['health_care_region_page'] },
+    title: { type: 'string' },
+    entityUrl: { $ref: 'EntityUrl' },
+    fieldNicknameForThisFacility: { type: ['string', 'null'] },
+    fieldLinkFacilityEmergList: {
+      type: ['object', 'null'],
+      properties: {
+        url: {
+          type: 'object',
+          properties: {
+            path: { type: 'string' },
+          },
+        },
+      },
+      required: ['url'],
+    },
+    fieldRelatedLinks: {
+      $ref: 'output/paragraph-list_of_link_teasers',
+    },
+    fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
+    entityMetaTags: { $ref: 'MetaTags' },
+    fieldLeadership: {
+      type: 'array',
+      items: {
+        /* eslint-disable react-hooks/rules-of-hooks */
+        entity: usePartialSchema(personProfileSchema, [
+          'entityPublished',
+          'title',
+          'fieldNameFirst',
+          'fieldLastName',
+          'fieldSuffix',
+          'fieldEmailAddress',
+          'fieldPhoneNumber',
+          'fieldDescription',
+          'fieldOffice',
+          'fieldIntroText',
+          'fieldPhotoAllowHiresDownload',
+          'fieldMedia',
+          'fieldBody',
+          'changed',
+          'entityUrl',
+        ]),
+      },
+    },
+    reverseFieldRegionPageNode: {
       type: 'object',
       properties: {
-        entityType: { enum: ['node'] },
-        entityBundle: { enum: ['health_care_region_page'] },
-        title: { type: 'string' },
-        entityUrl: { $ref: 'EntityUrl' },
-        fieldNicknameForThisFacility: { type: ['string', 'null'] },
-        fieldLinkFacilityEmergList: {
-          type: ['object', 'null'],
-          properties: {
-            url: {
-              type: 'object',
-              properties: {
-                path: { type: 'string' },
-              },
-            },
-          },
-          required: ['url'],
-        },
-        fieldRelatedLinks: {
-          $ref: 'output/paragraph-list_of_link_teasers',
-        },
-        fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
-        entityMetaTags: { $ref: 'MetaTags' },
-        fieldLeadership: {
+        entities: {
           type: 'array',
           items: {
-            /* eslint-disable react-hooks/rules-of-hooks */
-            entity: usePartialSchema(personProfileSchema, [
-              'entityPublished',
+            entity: usePartialSchema(healthCareLocalFacilitySchema, [
               'title',
-              'fieldNameFirst',
-              'fieldLastName',
-              'fieldSuffix',
-              'fieldEmailAddress',
-              'fieldPhoneNumber',
-              'fieldDescription',
-              'fieldOffice',
-              'fieldIntroText',
-              'fieldPhotoAllowHiresDownload',
-              'fieldMedia',
-              'fieldBody',
-              'changed',
+              'fieldOperatingStatusFacility',
+            ]),
+          },
+        },
+      },
+    },
+    newsStoryTeasers: newsTeasersSchema(2),
+    allNewsStoryTeasers: newsTeasersSchema(500),
+    eventTeasers: eventTeasersSchema(2),
+    allEventTeasers: eventTeasersSchema(500),
+    allPressReleaseTeasers: {
+      type: 'object',
+      properties: {
+        entities: {
+          type: 'array',
+          maxItems: 100,
+          items: {
+            entity: usePartialSchema(pressRelease, [
+              'title',
+              'fieldReleaseDate',
               'entityUrl',
             ]),
           },
         },
-        reverseFieldRegionPageNode: {
-          type: 'object',
-          properties: {
-            entities: {
-              type: 'array',
-              items: {
-                entity: usePartialSchema(healthCareLocalFacilitySchema, [
-                  'title',
-                  'fieldOperatingStatusFacility',
-                ]),
-              },
-            },
-          },
-        },
-        newsStoryTeasers: newsTeasersSchema(2),
-        allNewsStoryTeasers: newsTeasersSchema(500),
-        eventTeasers: eventTeasersSchema(2),
-        allEventTeasers: eventTeasersSchema(500),
-        allPressReleaseTeasers: {
-          type: 'object',
-          properties: {
-            entities: {
-              type: 'array',
-              maxItems: 100,
-              items: {
-                entity: usePartialSchema(pressRelease, [
-                  'title',
-                  'fieldReleaseDate',
-                  'entityUrl',
-                ]),
-              },
-            },
-          },
-        },
-        mainFacilities: facilitiesSchema,
-        otherFacilities: facilitiesSchema,
-        eventTeasersAll: eventTeasersSchema(1000),
-        eventTeasersFeatured: eventTeasersSchema(1000),
-        newsStoryTeasersFeatured: newsTeasersSchema(1000),
       },
-      required: [
-        'title',
-        'fieldNicknameForThisFacility',
-        'fieldLinkFacilityEmergList',
-        'fieldPressReleaseBlurb',
-        'fieldLeadership',
-        'reverseFieldRegionPageNode',
-        'newsStoryTeasers',
-        'allNewsStoryTeasers',
-        'eventTeasers',
-        'allEventTeasers',
-        'allPressReleaseTeasers',
-        'mainFacilities',
-        'otherFacilities',
-        'eventTeasersAll',
-        'eventTeasersFeatured',
-        'newsStoryTeasersFeatured',
-      ],
     },
+    mainFacilities: facilitiesSchema,
+    otherFacilities: facilitiesSchema,
+    eventTeasersAll: eventTeasersSchema(1000),
+    eventTeasersFeatured: eventTeasersSchema(1000),
+    newsStoryTeasersFeatured: newsTeasersSchema(1000),
   },
-  required: ['entity'],
+  required: [
+    'title',
+    'fieldNicknameForThisFacility',
+    'fieldLinkFacilityEmergList',
+    'fieldPressReleaseBlurb',
+    'fieldLeadership',
+    'reverseFieldRegionPageNode',
+    'newsStoryTeasers',
+    'allNewsStoryTeasers',
+    'eventTeasers',
+    'allEventTeasers',
+    'allPressReleaseTeasers',
+    'mainFacilities',
+    'otherFacilities',
+    'eventTeasersAll',
+    'eventTeasersFeatured',
+    'newsStoryTeasersFeatured',
+  ],
 };

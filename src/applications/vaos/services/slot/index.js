@@ -2,10 +2,9 @@
  * Functions in here should map a var-resources API request to a similar response from
  * a FHIR resource request
  */
-import { getAvailableSlots } from '../../api';
+import { getAvailableSlots } from '../var';
 import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
-import { generateMockFHIRSlots } from '../../utils/calendar';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
@@ -36,12 +35,6 @@ export async function getSlots({
   if (useVSP) {
     return fhirSearch({
       query: `Slot?schedule.actor=HealthcareService/${clinicId}&start=lt${endDate}&start=ge${startDate}`,
-      mock: async () => {
-        const mod = await import('./mock_slots.json');
-        const slotData = mod.default ? mod.default : mod;
-        slotData.entry = generateMockFHIRSlots();
-        return slotData;
-      },
     });
   } else {
     try {

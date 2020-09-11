@@ -2,22 +2,22 @@
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import AppointmentInfoBox from '../components/AppointmentInfoBox';
+
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
 
-const formFields = {
-  firstName: 'firstName',
-};
-
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/v0/healthcare_questionnaire`,
   trackingPrefix: 'healthcare-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'HC-QSTNR',
+  formId: VA_FORM_IDS.FORM_HC_QSTNR,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
@@ -29,22 +29,32 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     chapter1: {
-      title: 'Personal Information',
+      title: "Veteran's Information",
       pages: {
-        page1: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
+        demographicsPage: {
+          path: 'demographics',
+          hideHeaderRow: true,
+          title: 'Veteran Information',
           uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
+            'view:veteranInfo': {
+              'ui:field': AppointmentInfoBox,
+              'ui:reviewField': AppointmentInfoBox,
+              'ui:options': {
+                viewComponent: AppointmentInfoBox,
+              },
+              seen: {},
             },
           },
           schema: {
-            required: [formFields.firstName],
             type: 'object',
             properties: {
-              [formFields.firstName]: {
-                type: 'string',
+              'view:veteranInfo': {
+                type: 'object',
+                properties: {
+                  seen: {
+                    type: 'string',
+                  },
+                },
               },
             },
           },

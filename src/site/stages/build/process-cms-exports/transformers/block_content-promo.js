@@ -2,7 +2,7 @@ const transform = entity => ({
   entity: {
     entityType: 'block_content',
     entityBundle: 'promo',
-    fieldImage: entity.fieldImage[0],
+    fieldImage: { entity: entity.fieldImage[0] },
     fieldPromoLink: entity.fieldPromoLink[0],
   },
 });

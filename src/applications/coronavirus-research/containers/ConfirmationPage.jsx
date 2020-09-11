@@ -29,7 +29,7 @@ export class ConfirmationPage extends React.Component {
           We appreciate your commitment to helping others through this important
           research effort.
         </p>
-        <div className="inset">
+        <div>
           <h2>
             If we think you may be eligible for one of our research studies
           </h2>
@@ -51,7 +51,7 @@ export class ConfirmationPage extends React.Component {
             </a>
           </p>
         </div>
-        <div className="inset">
+        <div>
           <h2>If we don’t think you may be eligible for any studies</h2>
           <p>
             We won’t contact you. But we’ll keep your information on file for

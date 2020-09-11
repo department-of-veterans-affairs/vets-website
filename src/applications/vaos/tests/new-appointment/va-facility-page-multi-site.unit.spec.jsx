@@ -1,19 +1,22 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import { Route } from 'react-router-dom';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
-import VAFacilityPage from '../../containers/VAFacilityPage';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import VAFacilityPage from '../../new-appointment/components/VAFacilityPage';
 import {
   getParentSiteMock,
   getFacilityMock,
   getVAFacilityMock,
 } from '../mocks/v0';
-import { createTestStore, setTypeOfCare } from '../mocks/setup';
+import {
+  createTestStore,
+  setTypeOfCare,
+  renderWithStoreAndRouter,
+} from '../mocks/setup';
 import {
   mockEligibilityFetches,
   mockParentSites,
@@ -87,10 +90,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -150,11 +150,8 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
 
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const { findByText, getByLabelText, getByText } = renderInReduxProvider(
-      <VAFacilityPage router={router} />,
+    const { findByText, getByLabelText, getByText } = renderWithStoreAndRouter(
+      <VAFacilityPage />,
       {
         store,
       },
@@ -203,10 +200,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    let screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -221,7 +215,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
 
     await cleanup();
 
-    screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -271,10 +265,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -325,10 +316,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -387,10 +375,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -441,10 +426,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -482,10 +464,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -506,10 +485,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -550,10 +526,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -620,10 +593,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
 
@@ -691,12 +661,12 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const router = {
-      push: sinon.spy(),
-    };
-    const screen = renderInReduxProvider(<VAFacilityPage router={router} />, {
-      store,
-    });
+    const screen = renderWithStoreAndRouter(
+      <Route component={VAFacilityPage} />,
+      {
+        store,
+      },
+    );
 
     await screen.findByText(/registered at the following VA/i);
 
@@ -712,7 +682,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     );
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(router.push.firstCall.args[0]).to.equal(
+      expect(screen.history.push.firstCall.args[0]).to.equal(
         '/new-appointment/request-date',
       ),
     );

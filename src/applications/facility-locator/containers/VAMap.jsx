@@ -26,29 +26,17 @@ import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
 } from '../utils/selectors';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
+import vaDebounce from 'platform/utilities/data/debounce';
+import PaginationWrapper from '../components/PaginationWrapper';
 
 const mbxClient = mbxGeo(mapboxClient);
-
-const otherToolsLink = (
-  <p>
-    Can’t find what you’re looking for?&nbsp;&nbsp;
-    <a href="https://www.va.gov/directory/guide/home.asp">
-      Try using our other tools to search.
-    </a>
-  </p>
-);
-
-// See https://design.va.gov/design/breakpoints
-const isMobile = window.innerWidth <= 481;
 
 class VAMap extends Component {
   constructor(props) {
     super(props);
-    this.refInput = React.createRef();
     this.zoomOut = debounce(
       () => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS),
       2500,
@@ -59,15 +47,25 @@ class VAMap extends Component {
       this.syncStateWithLocation(location);
     });
     this.searchResultTitle = React.createRef();
+    this.debouncedResize = vaDebounce(250, this.setIsMobile);
+    this.state = {
+      isMobile: this.getMobile(),
+    };
   }
 
-  getRefInput = () => {
-    return this.refInput;
+  getMobile = () => {
+    return window.innerWidth <= 481;
+  };
+
+  setIsMobile = () => {
+    this.setState({ isMobile: this.getMobile() });
   };
 
   componentDidMount() {
     const { location, currentQuery } = this.props;
     const { facilityType } = currentQuery;
+
+    window.addEventListener('resize', this.debouncedResize);
 
     // navigating back from *Detail page preserves previous search results
     if (!isEmpty(this.props.results)) {
@@ -100,6 +98,7 @@ class VAMap extends Component {
       });
     }
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { currentQuery } = this.props;
@@ -194,7 +193,7 @@ class VAMap extends Component {
       !updatedQuery.error;
 
     if (shouldZoomOut) {
-      if (isMobile) {
+      if (this.state.isMobile) {
         // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
@@ -221,26 +220,9 @@ class VAMap extends Component {
   componentWillUnmount() {
     // call the func returned by browserHistory.listen to unbind the listener
     this.listener();
-  }
 
-  /**
-   * Helper method to compare search parameters between
-   * component updates/renders.
-   *
-   * Currently compares search string, location type,
-   * service type, and map bounding box.
-   *
-   * @param {object} previous Previous component props
-   * @param {object} current Current componet props
-   */
-  /* didParamsChange = (previous, current) => {
-    return (
-      current.searchString !== previous.searchString ||
-      current.facilityType !== previous.facilityType ||
-      current.serviceType !== previous.serviceType ||
-      !areBoundsEqual(current.bounds, previous.bounds)
-    );
-  }; */
+    window.removeEventListener('resize', this.debouncedResize);
+  }
 
   /**
    * Presumably handles the case if a user manually makes a change to the
@@ -470,13 +452,22 @@ class VAMap extends Component {
     />
   );
 
+  renderSearchControls = currentQuery => (
+    <SearchControls
+      currentQuery={currentQuery}
+      onChange={this.props.updateSearchQuery}
+      onSubmit={this.handleSearch}
+      suppressCCP={this.props.suppressCCP}
+      suppressPharmacies={this.props.suppressPharmacies}
+    />
+  );
+
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const {
       currentQuery,
       selectedResult,
-      suppressCCP,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
@@ -486,24 +477,17 @@ class VAMap extends Component {
     const queryContext = currentQuery.context;
 
     return (
-      <div>
+      <>
+        {this.renderSearchControls(currentQuery)}
+        <div id="search-results-title" ref={this.searchResultTitle}>
+          {this.renderResultsHeader(
+            results,
+            facilityType,
+            serviceType,
+            queryContext,
+          )}
+        </div>
         <div className="columns small-12">
-          <SearchControls
-            currentQuery={currentQuery}
-            onChange={this.props.updateSearchQuery}
-            onSubmit={this.handleSearch}
-            suppressCCP={suppressCCP}
-            isMobile
-            getRefInput={this.getRefInput}
-          />
-          <div ref={this.searchResultTitle}>
-            {this.renderResultsHeader(
-              results,
-              facilityType,
-              serviceType,
-              queryContext,
-            )}
-          </div>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -513,17 +497,16 @@ class VAMap extends Component {
               <div className="facility-search-results">
                 <ResultsList
                   updateUrlParams={this.updateUrlParams}
-                  query={this.props.currentQuery}
+                  query={currentQuery}
                 />
               </div>
-              {results &&
-                results.length > 0 && (
-                  <Pagination
-                    onPageSelect={this.handlePageSelect}
-                    page={currentPage}
-                    pages={totalPages}
-                  />
-                )}
+              <PaginationWrapper
+                handlePageSelect={this.handlePageSelect}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                results={results}
+                inProgress={currentQuery.inProgress}
+              />
             </TabPanel>
             <TabPanel>
               <Map
@@ -561,9 +544,8 @@ class VAMap extends Component {
               )}
             </TabPanel>
           </Tabs>
-          {otherToolsLink}
         </div>
-      </div>
+      </>
     );
   };
 
@@ -571,8 +553,6 @@ class VAMap extends Component {
     // defaults to White House coordinates initially
     const {
       currentQuery,
-      suppressCCP,
-      suppressPharmacies,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
@@ -585,17 +565,8 @@ class VAMap extends Component {
     const facilityLocatorMarkers = this.renderMapMarkers();
     return (
       <div className="desktop-container">
-        <div>
-          <SearchControls
-            currentQuery={currentQuery}
-            onChange={this.props.updateSearchQuery}
-            onSubmit={this.handleSearch}
-            suppressCCP={suppressCCP}
-            suppressPharmacies={suppressPharmacies}
-            getRefInput={this.getRefInput}
-          />
-        </div>
-        <div ref={this.searchResultTitle}>
+        {this.renderSearchControls(currentQuery)}
+        <div id="search-results-title" ref={this.searchResultTitle}>
           {this.renderResultsHeader(
             results,
             facilityType,
@@ -603,65 +574,67 @@ class VAMap extends Component {
             queryContext,
           )}
         </div>
-        <div className="row">
-          <div
-            className="columns search-results-container medium-4 small-12"
-            style={{ maxHeight: '78vh', overflowY: 'auto' }}
-            id="searchResultsContainer"
-          >
-            <div className="facility-search-results">
-              <div>
-                <ResultsList
-                  updateUrlParams={this.updateUrlParams}
-                  query={this.props.currentQuery}
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            className="columns usa-width-two-thirds medium-8 small-12"
-            style={{ minHeight: '75vh', paddingLeft: '0px' }}
-          >
-            <Map
-              ref="map"
-              center={position}
-              zoomSnap={1}
-              zoomDelta={1}
-              zoom={parseInt(currentQuery.zoomLevel, 10)}
-              style={{ minHeight: '75vh', width: '100%' }}
-              scrollWheelZoom={false}
-              onMoveEnd={this.handleBoundsChanged}
-            >
-              <TileLayer
-                url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
-                  <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
-                  Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
-              />
-              {facilityLocatorMarkers &&
-                facilityLocatorMarkers.length > 0 && (
-                  <FeatureGroup ref="facilityMarkers">
-                    {facilityLocatorMarkers}
-                  </FeatureGroup>
-                )}
-            </Map>
-            {otherToolsLink}
+        <div
+          className="columns search-results-container medium-4 small-12"
+          id="searchResultsContainer"
+        >
+          <div className="facility-search-results">
+            <ResultsList
+              updateUrlParams={this.updateUrlParams}
+              query={this.props.currentQuery}
+            />
           </div>
         </div>
-        {currentPage &&
-          results &&
-          results.length > 0 && (
-            <Pagination
-              onPageSelect={this.handlePageSelect}
-              page={currentPage}
-              pages={totalPages}
+        <div className="desktop-map-container">
+          <Map
+            ref="map"
+            center={position}
+            zoomSnap={1}
+            zoomDelta={1}
+            zoom={parseInt(currentQuery.zoomLevel, 10)}
+            style={{ minHeight: '78vh', width: '100%' }} // TODO - move this into CSS
+            scrollWheelZoom={false}
+            onMoveEnd={this.handleBoundsChanged}
+          >
+            <TileLayer
+              url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
+              attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
+                <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
+                Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
             />
-          )}
+            {facilityLocatorMarkers &&
+              facilityLocatorMarkers.length > 0 && (
+                <FeatureGroup ref="facilityMarkers">
+                  {facilityLocatorMarkers}
+                </FeatureGroup>
+              )}
+          </Map>
+        </div>
+        <PaginationWrapper
+          handlePageSelect={this.handlePageSelect}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          results={results}
+          inProgress={currentQuery.inProgress}
+        />
       </div>
     );
   };
 
+  otherToolsLink = () => (
+    <div id="other-tools">
+      Can’t find what you’re looking for?&nbsp;&nbsp;
+      {/* Add a line break for mobile, which uses white-space: pre-line */}
+      {'\n'}
+      <a href="https://www.va.gov/directory/guide/home.asp">
+        Try using our other tools to search.
+      </a>
+    </div>
+  );
+
   render() {
+    const results = this.props.results;
+
     const coronavirusUpdate = (
       <>
         Please call first to confirm services or ask about getting help by phone
@@ -675,23 +648,28 @@ class VAMap extends Component {
     );
 
     return (
-      <div>
-        <div className="title-section">
-          <h1>Find VA locations</h1>
-        </div>
+      <>
+        <div>
+          <div className="title-section">
+            <h1>Find VA locations</h1>
+          </div>
 
-        <div className="facility-introtext">
-          <p>
-            Find a VA location or in-network community care provider. For
-            same-day care for minor illnesses or injuries, select Urgent care
-            for facility type.
-          </p>
-          <p>
-            <strong>Coronavirus update:</strong> {coronavirusUpdate}
-          </p>
+          <div className="facility-introtext">
+            <p>
+              Find a VA location or in-network community care provider. For
+              same-day care for minor illnesses or injuries, select Urgent care
+              for facility type.
+            </p>
+            <p>
+              <strong>Coronavirus update:</strong> {coronavirusUpdate}
+            </p>
+          </div>
+          {this.state.isMobile
+            ? this.renderMobileView()
+            : this.renderDesktopView()}
         </div>
-        {isMobile ? this.renderMobileView() : this.renderDesktopView()}
-      </div>
+        {results && results.length > 0 && this.otherToolsLink()}
+      </>
     );
   }
 }

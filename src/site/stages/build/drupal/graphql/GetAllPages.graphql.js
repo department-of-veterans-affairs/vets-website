@@ -9,6 +9,7 @@ const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.gra
 const fragments = require('./fragments.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const vaFormPage = require('./vaFormPage.graphql');
+const qaPage = require('./nodeQa.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const alertsQuery = require('./alerts.graphql');
 const bannerAlertsQuery = require('./bannerAlerts.graphql');
@@ -71,6 +72,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${healthServicesListingPage}
   ${pressReleasesListingPage}
   ${locationListingPage}
+  ${qaPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -103,6 +105,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... healthServicesListingPage
         ... locationListingPage
         ... vaFormPage
+        ... nodeQa
       }
     }`;
 

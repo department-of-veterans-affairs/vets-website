@@ -3,6 +3,7 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { CoronaVirusAlert } from '../const';
 import { connect } from 'react-redux';
 
 const DebtLettersList = ({ debtLinks, isVBMSError }) => {
@@ -118,24 +119,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
       {!isVBMSError &&
         debtLinks.length < 1 && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-            <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
-              Our records show that you don't have any debt letters
-            </h4>
-            <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-              Debt collection has been put on hold due to the COVID-19 pandemic.
-              If you received a debt after March 2020, debt collection letters
-              haven't been mailed to your address. For more information about
-              your debt, call the Debt Management Center at{' '}
-              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-                800-827-0648
-              </a>
-              {'.'}
-            </p>
-            <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-              For medical copayment debts, visit{' '}
-              <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a>{' '}
-              to learn about your payment options.
-            </p>
+            <CoronaVirusAlert />
           </div>
         )}
       <div className="vads-u-margin-bottom--6 vads-u-margin-top--3">
@@ -147,7 +131,8 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
           listed here call the VA Debt Management Center at{' '}
           <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
             800-827-0648
-          </a>{' '}
+          </a>
+          {'. '}
           You can also call the DMC to get information about your resolved debts
           For VA health care copay debt, please go to our{' '}
           <a href="/health-care/pay-copay-bill/">pay your VA copay bill</a> page

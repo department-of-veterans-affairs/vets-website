@@ -40,7 +40,7 @@ describe('Appointment List', () => {
       url: /.*\/v0\/appointments.*type=va$/,
       response: createPastVAAppointments(),
     });
-    cy.findByText(/Past appointments/i).click();
+    cy.get('#tabpast').click();
     cy.findByText(/three day clinic name/i).should('exist');
     cy.findByLabelText(/select a date range/i).select('1');
     cy.findByText('Update').click();
