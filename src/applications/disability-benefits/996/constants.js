@@ -4,6 +4,9 @@ export const BASE_URL =
 
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf';
 
+export const COVID_FAQ_URL =
+  'https://www.va.gov/coronavirus-veteran-frequently-asked-questions/#more-benefit-and-claim-questio';
+
 export const errorMessages = {
   savedFormNotFound: 'Please start over to request a Higher-Level Review',
   savedFormNoAuth:

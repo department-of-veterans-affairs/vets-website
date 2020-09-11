@@ -7,13 +7,20 @@ import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
 
 export const AuthContent = () => (
   <>
-    <div className="usa-alert usa-alert-info" role="alert">
+    <div
+      className="usa-alert usa-alert-info"
+      data-testid="cerner-content"
+      role="alert"
+    >
       <div className="usa-alert-body">
-        <h3 className="usa-alert-heading" id="due-to-covid-19-you-can-only-r">
+        <h2
+          className="usa-alert-heading vads-u-font-size--h3"
+          id="due-to-covid-19-you-can-only-r"
+        >
           Due to COVID-19, we&apos;ll need to contact you to confirm your
           appointment
-        </h3>
-        <p>
+        </h2>
+        <p className="vads-u-margin--0">
           You can still use our online appointments tool to request an
           appointment. We'll then contact you to confirm the date, time, and
           location.

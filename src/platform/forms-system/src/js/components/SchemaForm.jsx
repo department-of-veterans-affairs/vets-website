@@ -171,6 +171,7 @@ class SchemaForm extends React.Component {
       data,
       schema,
       uiSchema,
+      idSchema,
       reviewMode,
       editModeOnReviewPage,
       children,
@@ -196,6 +197,7 @@ class SchemaForm extends React.Component {
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
+        idSchema={idSchema}
         validate={_.once(this.validate)}
         showErrorList={false}
         formData={data}

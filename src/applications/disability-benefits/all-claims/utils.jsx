@@ -20,6 +20,7 @@ import {
 } from './validations';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import {
   DATA_PATHS,
@@ -39,6 +40,10 @@ import {
   itfStatuses,
   NULL_CONDITION_STRING,
   DATE_FORMAT,
+  SAVED_SEPARATION_DATE,
+  PAGE_TITLES,
+  START_TEXT,
+  FORM_STATUS_BDD,
 } from './constants';
 
 /**
@@ -73,7 +78,7 @@ export const srSubstitute = (srIgnored, substitutionText) => (
 
 export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
-  return m.isValid() ? m.format(format) : null;
+  return date && m.isValid() ? m.format(format) : 'Unknown';
 };
 
 export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
@@ -82,7 +87,7 @@ export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
         dateRange.to,
         format,
       )}`
-    : null;
+    : 'Unknown';
 
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
@@ -835,24 +840,51 @@ export const DISABILITY_SHARED_CONFIG = {
 
 export const isBDD = formData => {
   const servicePeriods = formData?.serviceInformation?.servicePeriods;
+  // separation date entered in the wizard
+  const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
+  // this flag helps maintain the correct form title within a session
+  window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
-  if (!servicePeriods || !Array.isArray(servicePeriods)) {
+  if ((!servicePeriods || !Array.isArray(servicePeriods)) && !separationDate) {
     return false;
   }
 
-  const mostRecentDate = servicePeriods
-    .filter(({ dateRange }) => dateRange?.to)
-    .map(({ dateRange }) => moment(dateRange.to))
-    .sort((dateA, dateB) => dateB - dateA)[0];
+  const mostRecentDate = separationDate
+    ? moment(separationDate)
+    : servicePeriods
+        .filter(({ dateRange }) => dateRange?.to)
+        .map(({ dateRange }) => moment(dateRange.to))
+        .sort((dateA, dateB) => dateB - dateA)[0];
 
   if (!mostRecentDate) {
     return false;
   }
 
-  return (
+  const result =
     mostRecentDate.isAfter(moment().add(89, 'days')) &&
-    !mostRecentDate.isAfter(moment().add(180, 'days'))
-  );
+    !mostRecentDate.isAfter(moment().add(180, 'days'));
+  if (result) {
+    // this flag helps maintain the correct form title within a session
+    window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
+  }
+  return result;
+};
+
+export const getPageTitle = formData => {
+  const showBDDTitle =
+    formData === true ||
+    isBDD(formData) ||
+    window.sessionStorage.getItem(FORM_STATUS_BDD) === 'true';
+  return PAGE_TITLES[showBDDTitle ? 'BDD' : 'ALL'];
+};
+
+// Intro page doesn't have formData
+export const getStartText = isBDDForm => {
+  const showBDDText =
+    isBDDForm ||
+    isBDD() ||
+    window.sessionStorage.getItem(FORM_STATUS_BDD) === 'true';
+  return START_TEXT[showBDDText ? 'BDD' : 'ALL'];
 };
 
 export const showSeparationLocation = formData => {
@@ -876,3 +908,5 @@ export const showSeparationLocation = formData => {
     !mostRecentDate.isAfter(moment().add(180, 'days'))
   );
 };
+
+export const show526Wizard = state => toggleValues(state).show526Wizard;

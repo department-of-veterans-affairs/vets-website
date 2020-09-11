@@ -15,7 +15,6 @@ import {
   renderWithProfileReducers,
   wait,
 } from '../../unit-test-helpers';
-import { beforeEach } from 'mocha';
 
 const ui = (
   <MemoryRouter>

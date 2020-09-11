@@ -23,7 +23,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
     buttonText = 'DS Logon';
   }
 
-  if (signInServiceName === 'mhv') {
+  if (signInServiceName === 'mhv' || signInServiceName === 'myhealthevet') {
     link = 'https://www.myhealth.va.gov';
     buttonText = 'My HealtheVet';
   }
@@ -42,11 +42,11 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
                 </p>
                 <p>
                   Your contact email may be different than the email you use to
-                  sign in. To view or update your sign in email, go to the
+                  sign in. To view or update your sign-in email, go to the
                   website where you manage your account information.
                 </p>
                 <a href={link} target="_blank" rel="noopener noreferrer">
-                  Update sign in email address on {buttonText}
+                  Update sign-in email address on {buttonText}
                 </a>
               </>
             ),

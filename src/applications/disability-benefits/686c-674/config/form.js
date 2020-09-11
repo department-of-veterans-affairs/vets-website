@@ -81,7 +81,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
-  title: 'Add or remove dependents from your VA benefits',
+  title: 'Add or remove a dependent on your VA disability benefits',
   subTitle: 'VA Form 21-686c (and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
   transformForSubmit: customTransformForSubmit,
@@ -302,11 +302,7 @@ const formConfig = {
       pages: {
         formerSpouseDetails: {
           depends: formData =>
-            // if addSpouse is selected, divorce should not appear since the information is the same.
-            // otherwise, show reportDivorce.
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse)
-              ? false
-              : isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+            isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
           title: 'Information needed to report a divorce',
           path: 'report-a-divorce',
           uiSchema: formerSpouseInformation.uiSchema,

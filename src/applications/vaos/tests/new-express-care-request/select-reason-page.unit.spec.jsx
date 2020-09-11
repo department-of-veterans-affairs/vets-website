@@ -1,12 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 
-import { createTestStore, setExpressCareFacility } from '../mocks/setup';
+import {
+  createTestStore,
+  setExpressCareFacility,
+  renderWithStoreAndRouter,
+} from '../mocks/setup';
 import { setupExpressCareMocks } from '../mocks/helpers';
 import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 
@@ -27,21 +29,16 @@ describe('VAOS integration: Express Care form', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const router = {
-      push: sinon.spy(),
-      replace: sinon.spy(),
-    };
-    await setExpressCareFacility({ store, router });
-    const screen = renderInReduxProvider(
-      <ExpressCareReasonPage router={router} />,
-      {
-        store,
-      },
-    );
+    await setExpressCareFacility({ store });
+    const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
+      store,
+    });
+
     await screen.findByText('Select a reason for your Express Care request');
-    const radio = screen.getByLabelText('Cough');
-    fireEvent.click(radio);
-    expect(radio.checked).to.be.true;
+    fireEvent.click(screen.getByLabelText('Cough'));
+    await waitFor(
+      () => expect(screen.getByLabelText('Cough').checked).to.be.true,
+    );
     expect(screen.baseElement).to.contain.text(
       'If you need a mental health appointment today',
     );

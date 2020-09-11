@@ -85,6 +85,7 @@ function mapStateToProps(state) {
   return {
     selectedResult: state.searchResult.selectedResult,
     searchQuery: state.searchQuery,
+    results: state.searchResult.results,
   };
 }
 

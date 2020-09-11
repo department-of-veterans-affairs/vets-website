@@ -15,7 +15,7 @@ const EmailAddressNotification = ({ signInServiceName }) => {
     buttonText = 'DS Logon';
   }
 
-  if (signInServiceName === 'mhv') {
+  if (signInServiceName === 'mhv' || signInServiceName === 'myhealthevet') {
     link = 'https://www.myhealth.va.gov';
     buttonText = 'My HealtheVet';
   }
@@ -23,13 +23,13 @@ const EmailAddressNotification = ({ signInServiceName }) => {
   return (
     <>
       <p className="vads-u-margin--0">
-        To view or update your sign in email, go to the website where you manage
+        To view or update your sign-in email, go to the website where you manage
         your account information. Any email updates you make there will
         automatically update on VA.gov.
       </p>
       <p className="vads-u-margin-bottom--0">
         <a href={link} target="_blank" rel="noopener noreferrer">
-          Update sign in email address on {buttonText}
+          Update sign-in email address on {buttonText}
         </a>
       </p>
     </>

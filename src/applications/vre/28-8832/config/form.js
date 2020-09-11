@@ -1,21 +1,30 @@
-// import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
-
+import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import GetFormHelp from '../components/GetFormHelp';
+import { hasSession } from 'platform/user/profile/utilities';
+
+import { statusSelection } from './chapters/status-selection';
 import { veteranInformation } from './chapters/veteran-information';
-import { militaryHistory } from './chapters/military-history';
-import { dependentInformation } from './chapters/dependent-information';
-import { additionalInformation } from './chapters/additional-information';
+
+import {
+  claimantInformation,
+  claimantAddress,
+  staticClaimantInformation,
+} from './chapters/claimant-information';
+import { isDependent } from './helpers';
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: '/v0/education_career_counseling_claims',
   trackingPrefix: '28-8832-planning-and-career-guidance-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '28-8832',
+  formId: VA_FORM_IDS.FORM_28_8832,
   version: 0,
+  getHelp: GetFormHelp,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',
@@ -23,49 +32,48 @@ const formConfig = {
       'Please sign in again to continue your application for Planning and career guidance.',
   },
   title: '28-8832-planning-and-guidance',
-  defaultDefinitions: {},
+  defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
-    veteranDetails: {
-      title: 'Personal Information',
+    claimantInformation: {
+      title: 'Claimant Information',
+      pages: {
+        claimantInformation: {
+          depends: () => !hasSession(),
+          path: 'basic-information',
+          title: 'Claimant Information',
+          uiSchema: claimantInformation.uiSchema,
+          schema: claimantInformation.schema,
+        },
+        claimantStaticInformation: {
+          depends: () => hasSession(),
+          path: 'claimant-information',
+          title: 'Claimant Information',
+          uiSchema: staticClaimantInformation.uiSchema,
+          schema: staticClaimantInformation.schema,
+        },
+        claimantAddress: {
+          path: 'claimant-address',
+          title: 'Claimant Address',
+          uiSchema: claimantAddress.uiSchema,
+          schema: claimantAddress.schema,
+        },
+        statusSelection: {
+          path: 'status-selection',
+          title: 'Claimant Status',
+          uiSchema: statusSelection.uiSchema,
+          schema: statusSelection.schema,
+        },
+      },
+    },
+    veteranInformation: {
+      title: 'Veteran or service member information',
       pages: {
         veteranInformation: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
+          depends: formData => isDependent(formData),
+          path: 'veteran-information',
+          title: 'Veteran or service member information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
-        },
-      },
-    },
-    militaryHistory: {
-      title: 'MIlitary History',
-      pages: {
-        militaryHistory: {
-          path: 'military-history',
-          title: 'Military History',
-          uiSchema: militaryHistory.uiSchema,
-          schema: militaryHistory.schema,
-        },
-      },
-    },
-    dependentInformation: {
-      title: 'Dependent Information',
-      pages: {
-        dependentInformation: {
-          path: 'dependent-information',
-          title: 'Dependent Information',
-          uiSchema: dependentInformation.uiSchema,
-          schema: dependentInformation.schema,
-        },
-      },
-    },
-    additionalInformation: {
-      title: 'Additional Information',
-      pages: {
-        additionalInformation: {
-          path: 'additional-information',
-          title: 'Additional Information',
-          uiSchema: additionalInformation.uiSchema,
-          schema: additionalInformation.schema,
         },
       },
     },

@@ -2,15 +2,29 @@
 
 .covid-screener {
   *:not(.fas) {
-    font-family: Source Sans Pro,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+    font-family: Source Sans Pro, Helvetica Neue, Helvetica, Roboto, Arial,
+      sans-serif;
   }
   .covid-screener-date {
     margin: 2em 0 2em 0;
-    h2,h3,h4 { margin: 0; }
-    h4 { font-size: 150%; }
+    line-height: normal;
+    .covid-screener-200 {
+      font-size: 200%;
+    }
+    .covid-screener-300 {
+      font-size: 300%;
+    }
+    .covid-screener-400 {
+      font-size: 400%;
+    }
+    .covid-screener-500 {
+      font-size: 500%;
+    }
   }
   .covid-screener-results {
-    h3 { font-size: 300%; }
+    h3 {
+      font-size: 300%;
+    }
     background-color: $color-primary-alt-lightest;
     p {
       font-weight: bold !important;
@@ -19,8 +33,10 @@
     color: $color-primary-darkest;
   }
   .covid-screener-results-pass {
-    i {font-size: 10em;}
-    background-color: $color-primary;
+    i {
+      font-size: 10em;
+    }
+    background-color: $color-primary-darkest;
     color: $color-white;
   }
 }

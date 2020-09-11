@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import reducers from '../../reducers';
-import { getCCAppointmentMock } from '../mocks/v0';
+import reducers from '../../redux/reducer';
+import { getCCAppointmentMock, getVAAppointmentMock } from '../mocks/v0';
 import { mockAppointmentInfo } from '../mocks/helpers';
+import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import FutureAppointmentsList from '../../components/FutureAppointmentsList';
+import FutureAppointmentsList from '../../appointment-list/components/FutureAppointmentsList';
 
 const initialState = {
   featureToggles: {
@@ -43,9 +43,8 @@ describe('VAOS integration: upcoming CC appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderInReduxProvider(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
       initialState,
-      reducers,
     });
 
     const dateHeader = await findByText(
@@ -72,6 +71,43 @@ describe('VAOS integration: upcoming CC appointments', () => {
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
   });
 
+  it('should display Community Care header for Vista CC appts', async () => {
+    const appointmentTime = moment().add(1, 'days');
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: appointmentTime.format(),
+      communityCare: true,
+      vdsAppointments: { bookingNote: 'scheduler note' },
+    };
+
+    mockAppointmentInfo({ cc: [appointment] });
+    const {
+      findByText,
+      baseElement,
+      getByText,
+      queryByText,
+    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    const dateHeader = await findByText(
+      new RegExp(appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'), 'i'),
+    );
+
+    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(baseElement).to.contain.text('Community Care');
+    expect(baseElement).to.contain.text('Confirmed');
+    expect(baseElement).to.contain('.fa-check-circle');
+
+    expect(dateHeader).to.have.tagName('h3');
+    expect(queryByText(/directions/i)).not.to.exist;
+    expect(baseElement).not.to.contain.text('Special instructions');
+    expect(getByText(/add to calendar/i)).to.have.tagName('a');
+    expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+  });
+
   it('should not display when over 13 months away', () => {
     const appointment = getCCAppointmentMock();
     appointment.attributes = {
@@ -83,10 +119,12 @@ describe('VAOS integration: upcoming CC appointments', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-      initialState,
-      reducers,
-    });
+    const { findByText } = renderWithStoreAndRouter(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+      },
+    );
 
     return expect(findByText(/You don’t have any appointments/i)).to.eventually
       .be.ok;
@@ -102,10 +140,12 @@ describe('VAOS integration: upcoming CC appointments', () => {
     };
 
     mockAppointmentInfo({ cc: [appointment] });
-    const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-      initialState,
-      reducers,
-    });
+    const { findByText } = renderWithStoreAndRouter(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+      },
+    );
 
     const dateHeader = await findByText(
       new RegExp(appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'), 'i'),

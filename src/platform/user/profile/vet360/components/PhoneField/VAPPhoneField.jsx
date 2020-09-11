@@ -52,9 +52,6 @@ const uiSchema = {
   },
   inputPhoneNumber: {
     'ui:widget': PhoneNumberWidget,
-    'ui:options': {
-      inputType: 'tel',
-    },
     'ui:title': 'Number',
     'ui:errorMessages': {
       pattern: 'Please enter a valid phone number.',
@@ -141,17 +138,17 @@ export default class PhoneField extends React.Component {
       const { areaCode, phoneNumber, extension } = data;
 
       return (
-        <>
+        <div>
           <Telephone
             contact={`${areaCode}${phoneNumber}`}
             extension={extension}
-            className="non-clickable-link"
+            notClickable
           />
 
           {this.props.fieldName === FIELD_NAMES.MOBILE_PHONE && (
             <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
           )}
-        </>
+        </div>
       );
     };
 

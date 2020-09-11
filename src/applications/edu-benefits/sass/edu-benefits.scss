@@ -22,16 +22,6 @@
   position: relative;
 }
 
-.edu-review-hr {
-  border: none;
-  height: 1px;
-  margin-right: -6px;
-  margin-top: 1.5em;
-  /* Set the hr color */
-  color: #a4a7ac; /* old IE */
-  background-color: #a4a7ac; /* Modern Browsers */
-}
-
 .edu-benefits-alert {
   margin-bottom: 23px;
 }
@@ -171,6 +161,6 @@
 
 div[data-chapter="benefitSelection"]{
   .form-review-panel-page {
-    margin-bottom:0px;
+    margin-bottom: 0px;
   }
 }

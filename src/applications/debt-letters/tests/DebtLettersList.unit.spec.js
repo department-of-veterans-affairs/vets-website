@@ -90,21 +90,7 @@ describe('DebtLettersList', () => {
     };
     const wrapper = shallow(<DebtLettersList store={fakeStoreEmptyState} />);
     expect(wrapper.dive().find(`table`).length).to.equal(0);
-    expect(
-      wrapper
-        .dive()
-        .find('h4')
-        .text(),
-    ).to.equal("Our records show that you don't have any debt letters");
-    expect(
-      wrapper
-        .dive()
-        .find('p')
-        .at(2)
-        .text(),
-    ).to.equal(
-      'If you’ve received a letter about a VA debt, but don’t see the letter listed here call the VA Debt Management Center at 800-827-0648 You can also call the DMC to get information about your resolved debts For VA health care copay debt, please go to our pay your VA copay bill page to learn about your payment options.',
-    );
+    expect(wrapper.dive().find('CoronaVirusAlert').length).to.equal(1);
     wrapper.unmount();
   });
 });

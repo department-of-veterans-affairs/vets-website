@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -8,9 +9,12 @@ import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
 import TextareaWidget from '../components/TextareaWidget';
 import { validateWhiteSpace } from 'platform/forms/validations';
-import { getExpressCareFormPageInfo } from '../utils/selectors';
+import {
+  selectExpressCare,
+  getExpressCareFormPageInfo,
+} from '../utils/selectors';
 
-import * as actions from '../actions/expressCare';
+import * as actions from '../express-care/redux/actions';
 
 const pageKey = 'details';
 const pageTitle = 'Express Care request details';
@@ -92,7 +96,6 @@ function ExpressCareDetailsPage({
   data,
   localWindowString,
   openAdditionalDetailsPage,
-  router,
   routeToPreviousAppointmentPage,
   schema,
   submitErrorReason,
@@ -100,14 +103,15 @@ function ExpressCareDetailsPage({
   submitStatus,
   updateFormData,
 }) {
+  const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
 
     if (!data.reason) {
-      router.replace('/new-express-care-request');
+      history.replace('/new-express-care-request');
     } else {
-      openAdditionalDetailsPage(pageKey, uiSchema, initialSchema, router);
+      openAdditionalDetailsPage(pageKey, uiSchema, initialSchema, history);
     }
   }, []);
 
@@ -119,7 +123,7 @@ function ExpressCareDetailsPage({
         title="Type of appointment"
         schema={schema || initialSchema}
         uiSchema={uiSchema}
-        onSubmit={() => submitExpressCareRequest(router)}
+        onSubmit={() => submitExpressCareRequest(history)}
         onChange={newData => updateFormData(pageKey, uiSchema, newData)}
         data={data}
       >
@@ -129,7 +133,7 @@ function ExpressCareDetailsPage({
           pageChangeInProgress={submitStatus === FETCH_STATUS.loading}
           disabled={submitStatus === FETCH_STATUS.failed}
           loadingText="Submitting your Express Care request"
-          onBack={() => routeToPreviousAppointmentPage(router, pageKey)}
+          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
         />
         {submitStatus === FETCH_STATUS.failed && (
           <>
@@ -176,7 +180,7 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
   return {
-    ...state.expressCare,
+    ...selectExpressCare(state),
     ...getExpressCareFormPageInfo(state, pageKey),
   };
 }

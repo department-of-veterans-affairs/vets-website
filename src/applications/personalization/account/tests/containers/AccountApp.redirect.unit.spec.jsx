@@ -12,11 +12,8 @@ import AccountApp from '../../containers/AccountApp';
 
 describe('<AccountApp>', () => {
   let wrapper;
-  let oldLocation;
 
   function setUp(featureFlag = true) {
-    oldLocation = window.location;
-    delete window.location;
     window.location = { replace: sinon.spy() };
     const initialState = {
       user: {
@@ -42,7 +39,7 @@ describe('<AccountApp>', () => {
   }
 
   afterEach(() => {
-    window.location = oldLocation;
+    localStorage.clear();
     wrapper.unmount();
   });
 

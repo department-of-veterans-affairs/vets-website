@@ -641,8 +641,8 @@ describe('VAOS selectors', () => {
         .add('1', 'minutes')
         .tz('America/Denver');
       const state = {
-        expressCare: {
-          supportedFacilities: [
+        appointments: {
+          expressCareFacilities: [
             {
               facilityId: '983',
               days: [
@@ -678,8 +678,8 @@ describe('VAOS selectors', () => {
         .subtract('1', 'minutes')
         .tz('America/Denver');
       const state = {
-        expressCare: {
-          supportedFacilities: [
+        appointments: {
+          expressCareFacilities: [
             {
               facilityId: '983',
               days: [
@@ -711,8 +711,8 @@ describe('VAOS selectors', () => {
         .add('2', 'minutes')
         .tz('America/Denver');
       const state = {
-        expressCare: {
-          supportedFacilities: [
+        appointments: {
+          expressCareFacilities: [
             {
               facilityId: '983',
               days: [
@@ -754,8 +754,8 @@ describe('VAOS selectors', () => {
         .subtract(1, 'minutes')
         .tz('America/Denver');
       const state = {
-        expressCare: {
-          supportedFacilities: [
+        appointments: {
+          expressCareFacilities: [
             {
               facilityId: '983',
               days: [
@@ -800,8 +800,8 @@ describe('VAOS selectors', () => {
         .add(-1, 'minutes')
         .tz('America/Denver');
       const state = {
-        expressCare: {
-          supportedFacilities: [
+        appointments: {
+          expressCareFacilities: [
             {
               facilityId: '983',
               days: [

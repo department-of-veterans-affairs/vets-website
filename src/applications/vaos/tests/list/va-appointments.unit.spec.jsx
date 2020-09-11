@@ -1,14 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
-import reducers from '../../reducers';
+import reducers from '../../redux/reducer';
 import { getVAAppointmentMock, getVAFacilityMock } from '../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
-
-import FutureAppointmentsList from '../../components/FutureAppointmentsList';
+import { renderWithStoreAndRouter } from '../mocks/setup';
+import FutureAppointmentsList from '../../appointment-list/components/FutureAppointmentsList';
 
 const initialState = {
   featureToggles: {
@@ -36,7 +35,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderInReduxProvider(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -63,12 +62,6 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(baseElement).not.to.contain.text('Some random note');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
-
-    expect(
-      global.window.dataLayer.find(ev => ev['tab-text'] === 'Upcoming')?.[
-        'vaos-upcoming-number-of-cards'
-      ],
-    ).to.equal(1);
   });
 
   it('should show information with facility details', async () => {
@@ -104,7 +97,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
 
-    const { findByText, baseElement } = renderInReduxProvider(
+    const { findByText, baseElement } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
@@ -140,7 +133,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
       'Follow-up/Routine: Instructions';
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, baseElement } = renderInReduxProvider(
+    const { findByText, baseElement } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
@@ -161,7 +154,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'some comment';
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, baseElement } = renderInReduxProvider(
+    const { findByText, baseElement } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
@@ -181,7 +174,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
       'CANCELLED BY CLINIC';
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, baseElement } = renderInReduxProvider(
+    const { findByText, baseElement } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
@@ -203,10 +196,13 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
 
     mockAppointmentInfo({ va: [appointment] });
-    const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-      initialState,
-      reducers,
-    });
+    const { findByText } = renderWithStoreAndRouter(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
 
     return expect(findByText(/You don’t have any appointments/i)).to.eventually
       .be.ok;
@@ -220,10 +216,13 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
     mockAppointmentInfo({ va: [appointment] });
-    const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-      initialState,
-      reducers,
-    });
+    const { findByText } = renderWithStoreAndRouter(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
 
     return expect(findByText(/You don’t have any appointments/i)).to.eventually
       .be.ok;
@@ -241,10 +240,13 @@ describe('VAOS integration: upcoming VA appointments', () => {
       { errors: [] },
     );
 
-    const { findByText } = renderInReduxProvider(<FutureAppointmentsList />, {
-      initialState,
-      reducers,
-    });
+    const { findByText } = renderWithStoreAndRouter(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
 
     expect(
       await findByText(

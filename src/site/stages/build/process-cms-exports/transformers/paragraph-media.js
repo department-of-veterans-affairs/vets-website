@@ -7,7 +7,10 @@ const transform = entity => ({
     fieldAllowClicksOnThisImage:
       // OpenAPI spec says this defaults to false
       getDrupalValue(entity.fieldAllowClicksOnThisImage) || false,
-    fieldMedia: entity.fieldMedia[0] || null,
+    fieldMedia:
+      entity.fieldMedia && entity.fieldMedia.length
+        ? { entity: entity.fieldMedia[0] }
+        : null,
   },
 });
 
