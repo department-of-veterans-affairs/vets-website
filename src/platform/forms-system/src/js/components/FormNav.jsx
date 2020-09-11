@@ -55,7 +55,7 @@ export default function FormNav(props) {
   }
 
   const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
-  const onNewChapter = Math.abs(current - index) === 1;
+  const showHeader = Math.abs(current - index) === 1;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included. This should
@@ -86,13 +86,13 @@ export default function FormNav(props) {
           aria-valuemax={chapters.length}
           className="nav-header nav-header-schemaform"
         >
-          {onNewChapter && (
+          {showHeader && (
             <h2 id="nav-form-header" className="vads-u-font-size--h4">
               {stepText}
             </h2>
           )}
 
-          {!onNewChapter && (
+          {!showHeader && (
             <div className="vads-u-font-size--h4">{stepText}</div>
           )}
         </div>
