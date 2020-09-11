@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { CoronaVirusAlert } from '../const';
 import { connect } from 'react-redux';
+import orderBy from 'lodash/orderBy';
 
 const DebtLettersList = ({ debtLinks, isVBMSError }) => {
+  const [sortBy, setSortBy] = useState('date');
+  const [direction, setDirection] = useState('desc');
+
+  const sortedDebtLinks = orderBy(debtLinks, [sortBy], direction);
+
+  const toggleDirection = column => {
+    if (column !== sortBy) {
+      setSortBy(column);
+    }
+    if (direction === 'desc') {
+      return setDirection('asc');
+    }
+    return setDirection('desc');
+  };
+
   const renderAlert = () => (
     <div
       className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
@@ -48,7 +64,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
       </h2>
       {isVBMSError && renderAlert()}
       {!isVBMSError &&
-        debtLinks.length > 0 && (
+        sortedDebtLinks.length > 0 && (
           <>
             <p className="vads-u-margin-y--0 vads-u-font-family--sans">
               You can view a list of letters sent to your address and download
@@ -57,15 +73,23 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
             <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
               <thead>
                 <tr>
-                  <th className="vads-u-border--0 vads-u-padding-left--3">
-                    Date
+                  <th
+                    className="vads-u-border--0 vads-u-padding-left--3"
+                    onClick={() => toggleDirection('date')}
+                  >
+                    Date <i className="fas fa-sort vads-u-margin-left--0p5" />
                   </th>
-                  <th className="vads-u-border--0">Type</th>
+                  <th
+                    className="vads-u-border--0"
+                    onClick={() => toggleDirection('typeDescription')}
+                  >
+                    Type <i className="fas fa-sort vads-u-margin-left--0p5" />
+                  </th>
                   <th className="vads-u-border--0">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {debtLinks.map(debtLetter => (
+                {sortedDebtLinks.map(debtLetter => (
                   <tr
                     key={debtLetter.documentId}
                     className="vads-u-border-top--1px vads-u-border-bottom--1px"
