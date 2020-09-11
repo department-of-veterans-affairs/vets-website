@@ -9,14 +9,49 @@
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
         {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info" >
+          <div class="usa-alert usa-alert-info">
             <div class="usa-alert-body">
               <p class="usa-alert-text">You are viewing a draft.</p>
             </div>
           </div>
         {% endif %}
+
         <article class="usa-content">
+          <!-- Title -->
           <h1>{{ title }}</h1>
+
+          <!-- Intro -->
+          <p>{{ fieldIntroTextLimitedHtml.processed }}</p>
+
+          <!-- Alert -->
+          {% if fieldAlertSingle %}
+            {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
+          {% endif %}
+
+          <!-- Buttons -->
+          {% for fieldButton in fieldButtons  %}
+            {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+          {% endfor %}
+
+
+          <!-- Steps -->
+          <h2>Step-by-step</h2>
+          <ol class="process">
+            {% assign count = 1 %}
+            {% for fieldStep in fieldSteps.entity.fieldStep %}
+              <li class="process-step list-{{ count | numToWord }}">
+                {{ fieldStep.entity.fieldWysiwyg.processed }}<br/>
+                <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}" src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
+              </li>
+              {% assign count = count | plus: 1 %}
+            {% endfor %}
+          </ol>
+
+          <!-- Buttons -->
+          {% for fieldButton in fieldButtons  %}
+            {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+          {% endfor %}
+
         </article>
       </div>
     </div>
