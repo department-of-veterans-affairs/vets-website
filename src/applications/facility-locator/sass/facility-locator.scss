@@ -236,56 +236,6 @@ $facility-locator-color-gray: #ccc;
     margin: 0.5em 0;
   }
 
-  // These icons can probably be deleted. Waiting for confirmation from design.
-
-  .benefits-icon {
-    background-image: url("/img/icons/benefits-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .cemetery-icon {
-    background-image: url("/img/icons/cemetery-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .health-icon {
-    background-image: url("/img/icons/health-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .cc-provider-icon {
-    background-image: url("/img/icons/cc-provider-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .vet-center-icon {
-    background-image: url("/img/icons/vet-centers-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .numbered-icon {
-    height: 32px;
-    margin-left: -12px;
-    margin-top: -12px;
-    text-align: center;
-    padding-top: 3px;
-    width: 32px;
-    z-index: 999;
-    background: url("/img/icons/map-pin.svg") no-repeat center center;
-    background-size: contain;
-    color: $color-white;
-  }
-
-  .current-position-icon {
-    background: url("/img/icons/current-location-pin.svg") no-repeat center center;
-    background-size: contain;
-  }
-
   .clearfix {
     content: "";
     display: block;
