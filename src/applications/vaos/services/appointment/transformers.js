@@ -27,7 +27,7 @@ function getAppointmentType(appt) {
     return APPOINTMENT_TYPES.request;
   } else if (
     appt.vvsAppointments?.length ||
-    (appt.clinicId && appt.communityCare === false)
+    (appt.clinicId && !appt.communityCare)
   ) {
     return APPOINTMENT_TYPES.vaAppointment;
   } else if (appt.appointmentTime || appt.communityCare === true) {
