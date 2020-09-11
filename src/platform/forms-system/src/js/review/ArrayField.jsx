@@ -189,8 +189,11 @@ class ArrayField extends React.Component {
 
     const uiOptions = uiSchema['ui:options'] || {};
     const fieldName = path[path.length - 1];
+    const schemaTitle = _.get('ui:title', uiSchema);
     const title =
-      _.get('ui:title', uiSchema) || uiOptions.reviewTitle || pageTitle;
+      uiOptions.reviewTitle ||
+      (typeof schemaTitle === 'string' ? schemaTitle.trim() : schemaTitle) ||
+      pageTitle;
 
     // TODO: Make this better; it’s super hacky for now.
     const itemCountLocked = this.isLocked();
@@ -206,7 +209,9 @@ class ArrayField extends React.Component {
       <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
         {title && (
           <div className="form-review-panel-page-header-row">
-            <h3 className="form-review-panel-page-header">{title}</h3>
+            <h3 className="form-review-panel-page-header vads-u-font-size--h4">
+              {title}
+            </h3>
             {itemsNeeded && (
               <span className="schemaform-review-array-warning-icon" />
             )}

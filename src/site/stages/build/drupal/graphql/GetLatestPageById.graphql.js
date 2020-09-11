@@ -13,6 +13,7 @@ const pressReleasePage = require('./pressReleasePage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
+const nodeStepByStep = require('./nodeStepByStep.graphql');
 const bioPage = require('./bioPage.graphql');
 const eventPage = require('./eventPage.graphql');
 const alertsQuery = require('./alerts.graphql');
@@ -50,6 +51,7 @@ module.exports = `
   ${vaFormPage}
   ${nodeQa}
   ${faqMultipleQa}
+  ${nodeStepByStep}
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -71,6 +73,7 @@ module.exports = `
         ... vaFormPage
         ... nodeQa
         ... faqMultipleQA
+        ... nodeStepByStep
       }
     }
     ${icsFileQuery}

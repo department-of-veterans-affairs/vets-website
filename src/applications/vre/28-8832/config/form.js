@@ -1,5 +1,5 @@
-// import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
-
+import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -22,7 +22,7 @@ const formConfig = {
   trackingPrefix: '28-8832-planning-and-career-guidance-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '28-8832',
+  formId: VA_FORM_IDS.FORM_28_8832,
   version: 0,
   getHelp: GetFormHelp,
   prefillEnabled: true,
@@ -32,7 +32,7 @@ const formConfig = {
       'Please sign in again to continue your application for Planning and career guidance.',
   },
   title: '28-8832-planning-and-guidance',
-  defaultDefinitions: {},
+  defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     claimantInformation: {
       title: 'Claimant Information',
