@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 
+import { SAVED_SEPARATION_DATE } from '../../all-claims/constants';
 import {
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
@@ -938,6 +939,7 @@ describe('526 v2 depends functions', () => {
     ratedDisabilities: [{}, {}],
     'view:claimType': {},
   };
+
   describe('newOnly', () => {
     it('should return true if only new conditions are claimed', () => {
       expect(newConditionsOnly(newOnlyData)).to.be.true;
@@ -967,9 +969,9 @@ describe('526 v2 depends functions', () => {
 
   describe('format date & date range', () => {
     it('should format dates with full month names', () => {
-      expect(formatDate(true)).to.be.null;
-      expect(formatDate('foobar')).to.be.null;
-      expect(formatDate('2020-02-31')).to.be.null;
+      expect(formatDate(true)).to.equal('Unknown');
+      expect(formatDate('foobar')).to.equal('Unknown');
+      expect(formatDate('2020-02-31')).to.equal('Unknown');
       expect(formatDate('2020-01-31')).to.equal('January 31, 2020');
       expect(formatDate('2020-04-05')).to.equal('April 5, 2020');
       expect(formatDate('2020-05-05')).to.equal('May 5, 2020');
@@ -992,6 +994,10 @@ describe('526 v2 depends functions', () => {
   });
 
   describe('isBDD', () => {
+    afterEach(() => {
+      sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+    });
+
     it('should return true if the most recent service period has a separation date 90 to 180 days from today', () => {
       expect(isBDD(isBDDTrueData)).to.be.true;
     });
@@ -999,6 +1005,24 @@ describe('526 v2 depends functions', () => {
       expect(isBDD(isBDDLessThan90Data)).to.be.false;
     });
     it('should return false if no service period is provided with a separation date', () => {
+      expect(isBDD(null)).to.be.false;
+    });
+    it('should return true if a valid date is added to session storage from the wizard', () => {
+      sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        moment()
+          .add(90, 'days')
+          .format('YYYY-MM-DD'),
+      );
+      expect(isBDD(null)).to.be.true;
+    });
+    it('should return false for invalid dates in session storage from the wizard', () => {
+      sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        moment()
+          .add(200, 'days')
+          .format('YYYY-MM-DD'),
+      );
       expect(isBDD(null)).to.be.false;
     });
   });

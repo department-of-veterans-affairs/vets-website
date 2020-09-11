@@ -16,9 +16,12 @@ import {
 const message =
   'We’re doing some additional work to enable you to file a claim...';
 
-const loading = (
-  <div className="vads-u-margin--3">
-    <LoadingIndicator message={message} />
+const loading = title => (
+  <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
+    <div className="usa-content">
+      <h1>{title}</h1>
+      <LoadingIndicator message={message} />
+    </div>
   </div>
 );
 
@@ -28,9 +31,9 @@ export const AddPerson = props => {
       props.addPerson();
       return null;
     case MVI_ADD_INITIATED:
-      return loading;
+      return loading(props.title);
     case MVI_ADD_FAILED:
-      return <MissingServices />;
+      return <MissingServices title={props.title} />;
     case MVI_ADD_SUCCEEDED:
       // remove 'add-person' user.profile.services here?
       return null;
@@ -41,6 +44,7 @@ export const AddPerson = props => {
 
 AddPerson.propTypes = {
   addPerson: PropTypes.func.isRequired,
+  title: PropTypes.string,
 };
 
 const mapDispatchToProps = {

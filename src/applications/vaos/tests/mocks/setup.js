@@ -15,18 +15,18 @@ import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import expressCareReducer from '../../express-care/redux/reducer';
 import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
-import TypeOfCarePage from '../../containers/TypeOfCarePage';
-import VAFacilityPage from '../../containers/VAFacilityPage';
+import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
+import VAFacilityPage from '../../new-appointment/components/VAFacilityPage';
 import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
 import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
-import ClinicChoicePage from '../../containers/ClinicChoicePage';
-import PreferredDatePage from '../../containers/PreferredDatePage';
+import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
+import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
 import { getParentSiteMock, getFacilityMock } from './v0';
 import { mockParentSites, mockSupportedFacilities } from './helpers';
 
 import createRoutesWithStore from '../../routes';
-import TypeOfEyeCarePage from '../../containers/TypeOfEyeCarePage';
+import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 
 export function createTestStore(initialState) {
   return createStore(

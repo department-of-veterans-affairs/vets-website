@@ -90,9 +90,6 @@ export class SearchPage extends React.Component {
       'preferredProvider',
       'excludeWarnings',
       'excludeCautionFlags',
-      'womenonly',
-      'menonly',
-      'hbcu',
     ];
 
     const stringFilterParams = [
@@ -101,7 +98,6 @@ export class SearchPage extends React.Component {
       'country',
       'state',
       'type',
-      'relaffil',
     ];
 
     const stringSearchParams = ['page', 'name'];
@@ -146,7 +142,7 @@ export class SearchPage extends React.Component {
   };
 
   handleFilterChange = (field, value, additionalFields = []) => {
-    const removedWhenAllFields = ['country', 'state', 'type', 'relaffil'];
+    const removedWhenAllFields = ['country', 'state', 'type'];
     additionalFields.push({ field, value });
     searchWithFilters(this.props, additionalFields, removedWhenAllFields);
   };
@@ -258,7 +254,7 @@ export class SearchPage extends React.Component {
         eligibilityChange={this.props.eligibilityChange}
         hideModal={this.props.hideModal}
         gibctFilterEnhancement={this.props.gibctFilterEnhancement}
-        gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
+        gibctBenefitFilterEnhancement={this.props.gibctBenefitFilterEnhancement}
       />
     </div>
   );
@@ -303,8 +299,8 @@ const mapStateToProps = state => ({
   gibctFilterEnhancement: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctFilterEnhancement
   ],
-  gibctCh33BenefitRateUpdate: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
+  gibctBenefitFilterEnhancement: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctBenefitFilterEnhancement
   ],
 });
 

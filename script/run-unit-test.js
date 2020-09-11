@@ -2,6 +2,8 @@ const printUnitTestHelp = require('./run-unit-test-help.js');
 const commandLineArgs = require('command-line-args');
 const { runCommand } = require('./utils');
 
+// For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
+
 const defaultPath = './src/**/*.unit.spec.js?(x)';
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
@@ -37,7 +39,7 @@ if (options.help) {
 }
 
 const mochaPath = 'BABEL_ENV=test mocha';
-const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} --reporter=lcov --reporter=text-summary mocha --reporter mocha-junit-reporter --no-color`;
+const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const mochaOpts =
   'src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js';

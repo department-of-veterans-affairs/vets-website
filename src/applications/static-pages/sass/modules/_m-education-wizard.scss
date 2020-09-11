@@ -53,7 +53,15 @@
     margin-left: -4rem;
   }
 }
-
+.circle-bullet {
+  list-style-type: circle;
+}
+.ul-styling {
+  margin: -2px;
+}
+li.li-styling{
+  margin-bottom: 0.2em;
+}
 .wizard-edith-nourse-content {
   @media (min-width: $medium-screen) {
     margin-right: 64px;

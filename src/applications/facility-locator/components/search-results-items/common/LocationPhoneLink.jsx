@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
-import { LocationType, CLINIC_URGENTCARE_SERVICE } from '../../../constants';
+import {
+  LocationType,
+  CLINIC_URGENTCARE_SERVICE,
+  PHARMACY_RETAIL_SERVICE,
+} from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
 const renderPhoneNumber = (title, subTitle = null, phone, from) => {
@@ -42,7 +46,8 @@ const LocationPhoneLink = ({ location, from, query }) => {
   const isCCProvider =
     query &&
     query.facilityType === LocationType.CC_PROVIDER &&
-    query.serviceType !== CLINIC_URGENTCARE_SERVICE;
+    query.serviceType !== CLINIC_URGENTCARE_SERVICE &&
+    query.serviceType !== PHARMACY_RETAIL_SERVICE;
 
   if (isProvider) {
     const { caresitePhone: phone } = location.attributes;
