@@ -589,7 +589,7 @@ describe('Schemaform validations', () => {
                   items: [
                     {
                       type: 'object',
-                      required: ['cause'],
+                      required: ['condition'],
                       properties: {
                         cause: { type: 'string' },
                         primaryDescription: { type: 'string' },
