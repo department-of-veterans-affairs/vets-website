@@ -105,6 +105,16 @@ export default function expressCareReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CHANGE_COMPLETED: {
+      if (Object.keys(state.newRequest.previousPages).length <= 0) {
+        Object.assign(state.newRequest.previousPages, {
+          [action.pageKey]: 'home',
+        });
+      }
+      if (action.direction === 'next') {
+        Object.assign(state.newRequest.previousPages, {
+          [action.pageKeyNext]: action.pageKey,
+        });
+      }
       return {
         ...state,
         newRequest: {

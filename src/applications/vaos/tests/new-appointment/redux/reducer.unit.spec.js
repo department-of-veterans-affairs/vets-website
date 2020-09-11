@@ -170,9 +170,13 @@ describe('VAOS reducer: newAppointment', () => {
     const currentState = {
       data: {},
       pageChangeInProgress: true,
+      previousPages: { page1: 'home', page2: 'page1', page3: 'page2' },
     };
     const action = {
       type: FORM_PAGE_CHANGE_COMPLETED,
+      pageKey: 'page2',
+      pageKeyNext: 'page3',
+      direction: 'next',
     };
 
     const newState = newAppointmentReducer(currentState, action);

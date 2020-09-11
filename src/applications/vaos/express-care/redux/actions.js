@@ -145,40 +145,29 @@ export function routeToPageInFlow(flow, history, current, action) {
       type: FORM_PAGE_CHANGE_STARTED,
     });
 
-    const state = getState();
     let nextPage;
+    let nextStateKey;
 
     if (action === 'next') {
       const nextAction = flow[current][action];
-
       if (typeof nextAction === 'string') {
         nextPage = flow[nextAction];
       } else {
-        const nextStateKey = await nextAction(getState(), dispatch);
-        if (
-          Object.keys(state.expressCare.newRequest.previousPages).length <= 0
-        ) {
-          Object.assign(state.expressCare.newRequest.previousPages, {
-            home: current,
-          });
-        }
-        Object.assign(state.expressCare.newRequest.previousPages, {
-          [current]: nextStateKey,
-        });
+        nextStateKey = await nextAction(getState(), dispatch);
         nextPage = flow[nextStateKey];
       }
     } else {
-      const previousPage = Object.keys(
-        state.expressCare.newRequest.previousPages,
-      ).find(
-        key => state.expressCare.newRequest.previousPages[key] === current,
-      );
+      const state = getState();
+      const previousPage = state.expressCare.newRequest.previousPages[current];
       nextPage = flow[previousPage];
     }
 
     if (nextPage?.url) {
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
+        pageKey: current,
+        pageKeyNext: nextStateKey,
+        direction: action,
       });
       history.push(nextPage.url);
     } else if (nextPage) {
