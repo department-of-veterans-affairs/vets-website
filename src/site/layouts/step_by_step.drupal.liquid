@@ -51,21 +51,21 @@
           {% for fieldButton in fieldButtons  %}
             {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
           {% endfor %}
-
-          <!-- Related Links -->
-          {% if fieldRelatedLinks != empty %}
-            <div class="row">
-              <div class="usa-content columns">
-                <aside class="va-nav-linkslist va-nav-linkslist--related">
-                  {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' with entity = fieldRelatedLinks.entity %}
-                </aside>
-              </div>
-            </div>
-          {%  endif %}
         </article>
       </div>
     </div>
   </main>
+
+  <!-- Related Links -->
+  {% if fieldRelatedLinks != empty %}
+    <div class="row">
+      <div class="usa-content columns">
+        <aside class="va-nav-linkslist va-nav-linkslist--related">
+          {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' with entity = fieldRelatedLinks.entity %}
+        </aside>
+      </div>
+    </div>
+  {% endif %}
 </div>
 
 {% include "src/site/includes/footer.html" %}
