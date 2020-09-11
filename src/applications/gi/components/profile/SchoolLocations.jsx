@@ -222,7 +222,6 @@ export class SchoolLocations extends React.Component {
       <div>
         <ResponsiveFacilityMapTable
           fields={fields}
-          maxRows={maxRows}
           mainRow={this.renderMainRow(main.institution)}
           branchesAndExtensionsRows={this.renderBranchesAndExtensionsRows(
             main,
