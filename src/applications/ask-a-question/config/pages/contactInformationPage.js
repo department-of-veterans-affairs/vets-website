@@ -12,7 +12,11 @@ const countryNames = countries.map(object => object.label);
 
 const { fullName, email, preferredContactMethod } = fullSchema.definitions;
 
-const { relationshipToVeteran, branchOfService } = fullSchema.properties;
+const {
+  veteranStatus,
+  relationshipToVeteran,
+  branchOfService,
+} = fullSchema.properties;
 
 const formFields = {
   preferredContactMethod: 'preferredContactMethod',
@@ -21,28 +25,39 @@ const formFields = {
   email: 'email',
   verifyEmail: 'view:email',
   phoneNumber: 'phoneNumber',
+  veteranStatus: 'veteranStatus',
   relationshipToVeteran: 'relationshipToVeteran',
   branchOfService: 'branchOfService',
   country: 'country',
 };
 
+const requireVetRelationship = selectedVeteranStatus =>
+  selectedVeteranStatus === 'behalf of vet' ||
+  selectedVeteranStatus === 'dependent';
+
+const requireServiceInfo = selectedVeteranStatus =>
+  selectedVeteranStatus && selectedVeteranStatus !== 'general';
+
 const contactInformationPage = {
   uiSchema: {
     'ui:description': pageDescription('Your contact info'),
     [formFields.fullName]: fullNameUI,
-    [formFields.relationshipToVeteran]: {
+    [formFields.veteranStatus]: {
       'ui:title': 'My message is about benefits/services',
+    },
+    [formFields.relationshipToVeteran]: {
+      'ui:title': 'Your relationship to the Veteran',
+      'ui:required': formData => requireVetRelationship(formData.veteranStatus),
+      'ui:options': {
+        expandUnder: 'veteranStatus',
+        expandUnderCondition: requireVetRelationship,
+      },
     },
     [formFields.branchOfService]: {
       'ui:title': 'Branch of service',
-      'ui:required': formData =>
-        formData.relationshipToVeteran !==
-        relationshipToVeteran.enum.slice(-1)[0],
+      'ui:required': formData => requireServiceInfo(formData.veteranStatus),
       'ui:options': {
-        expandUnder: 'relationshipToVeteran',
-        hideIf: formData =>
-          formData.relationshipToVeteran ===
-          relationshipToVeteran.enum.slice(-1)[0],
+        hideIf: formData => !requireServiceInfo(formData.veteranStatus),
       },
     },
     [formFields.email]: set(
@@ -64,11 +79,12 @@ const contactInformationPage = {
     required: [
       formFields.preferredContactMethod,
       formFields.fullName,
-      formFields.relationshipToVeteran,
+      formFields.veteranStatus,
       formFields.country,
     ],
     properties: {
       [formFields.fullName]: fullName,
+      [formFields.veteranStatus]: veteranStatus,
       [formFields.relationshipToVeteran]: relationshipToVeteran,
       [formFields.branchOfService]: branchOfService,
       [formFields.email]: email,
