@@ -68,7 +68,7 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
           Download debt letters
         </a>
       </Breadcrumbs>
-      <div className="vads-l-col--8">
+      <div className="large-screen:vads-l-col--8">
         <h1 id="downloadDebtLetters" className="vads-u-margin-bottom--2">
           Download debt letters{' '}
         </h1>
@@ -81,7 +81,7 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
           sortedDebtLinks.length > 0 && (
             <>
               <h3 className="vads-u-margin-bottom--0">Your debt letters</h3>
-              <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
+              <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0 responsive">
                 <thead>
                   <tr>
                     <th

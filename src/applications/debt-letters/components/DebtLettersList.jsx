@@ -70,7 +70,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
               You can view a list of letters sent to your address and download
               them.
             </p>
-            <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
+            <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0 responsive">
               <thead>
                 <tr>
                   <th
