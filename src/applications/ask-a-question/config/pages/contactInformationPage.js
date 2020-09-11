@@ -81,7 +81,6 @@ const contactInformationPage = {
     [formFields.dateOfDeath]: {
       ...currentOrPastDateUI('Date of Death if known'),
       ...{
-        'ui:required': formData => formData.veteranIsDeceased,
         'ui:options': {
           expandUnder: 'veteranStatus',
           hideIf: formData => !formData.veteranIsDeceased,
