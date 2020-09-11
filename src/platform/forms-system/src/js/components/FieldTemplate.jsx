@@ -94,6 +94,9 @@ export default function FieldTemplate(props) {
     </label>
   );
 
+  const HeaderComponent =
+    typeof uiSchema['ui:header'] === 'function' ? uiSchema['ui:header'] : null;
+
   // Don't render hidden or empty labels - prevents duplicate IDs on review &
   // submit page
   const showLabel =
@@ -102,6 +105,7 @@ export default function FieldTemplate(props) {
 
   const content = (
     <>
+      {HeaderComponent && <HeaderComponent />}
       {showLabel && labelElement}
       {textDescription && <p>{textDescription}</p>}
       {DescriptionField && (

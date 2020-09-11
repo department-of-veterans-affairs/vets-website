@@ -1,3 +1,4 @@
+import React from 'react';
 import { isValidEmail } from 'platform/forms/validations';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import AddressViewField from '../components/AddressViewField';
@@ -8,6 +9,18 @@ import { schemaFields } from '../constants';
 import { addressUISchema } from './address-schema';
 
 const { permanentAddressField, temporaryAddressField } = schemaFields;
+
+const EmailForOrderConfirmation = () => {
+  return (
+    <>
+      <h4>Email for Order Confirmation</h4>
+      <p>
+        We'll send an order confirmation email with a tracking number to this
+        email address.
+      </p>
+    </>
+  );
+};
 
 export default {
   'ui:title': fullSchema.title,
@@ -92,9 +105,8 @@ export default {
       },
     },
     emailUI: {
+      'ui:header': EmailForOrderConfirmation,
       'ui:title': 'Email address',
-      'ui:description':
-        "We'll send an order confirmation email with a tracking number to this email address.",
       'ui:widget': 'email',
       'ui:errorMessages': {
         pattern: 'Please enter an email address using this format: X@X.com',
