@@ -23,8 +23,8 @@ export const secondSidebarBlock = {
   content: (
     <>
       <p>
-        Please wait 3 business days (Monday-Friday) before contacting us to
-        report that you haven’t received a payment. We can’t trace payments
+        Please wait 3 business days (Monday through Friday) before contacting us
+        to report that you haven’t received a payment. We can’t trace payments
         before then.
       </p>
       <p>
