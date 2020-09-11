@@ -255,9 +255,22 @@ export function isValidForm(form, pageList) {
       if (showPagePerItem) {
         const arrayData = formData[arrayPath];
         if (arrayData) {
+          const itemsToKeep = arrayData.map(itemFilter || (() => true));
+          // Remove the excluded array data
           formData = _.set(
             arrayPath,
-            itemFilter ? arrayData.filter(itemFilter) : arrayData,
+            arrayData.filter((item, index) => itemsToKeep[index]),
+            formData,
+          );
+          // Remove the excluded array itemSchemas
+          // NOTE: This will only work when arrayPath isn't a nested path.
+          // This is consistent with other uses of arrayPath throughout the
+          // library.
+          schema.properties[arrayPath] = _.set(
+            'items',
+            schema.properties[arrayPath].items.filter(
+              (item, index) => itemsToKeep[index],
+            ),
             formData,
           );
         } else {
