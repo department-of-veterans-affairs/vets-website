@@ -573,66 +573,14 @@ describe('Schemaform validations', () => {
         data: {
           privacyAgreementAccepted: true,
           newDisabilities: [
-            {
-              condition: 'PTSD',
-              'view:descriptionInfo': {},
-            },
-            {
-              cause: 'NEW',
-              primaryDescription: 'while in service...',
-              'view:serviceConnectedDisability': {},
-              condition: 'TBI',
-              'view:descriptionInfo': {},
-            },
-            {
-              cause: 'SECONDARY',
-              'view:secondaryFollowUp': {
-                causedByDisability:
-                  'Intervertebral Disc Degeneration, Lumbosacral Region',
-                causedByDisabilityDescription: 'while in service...',
-              },
-              'view:serviceConnectedDisability': {},
-              condition: 'Cervicalgia',
-              'view:descriptionInfo': {},
-            },
+            { condition: 'PTSD' },
+            { cause: 'NEW', primaryDescription: 'while in service...' },
+            { cause: 'SECONDARY' },
           ],
         },
         pages: {
           newDisabilityFollowUp: {
-            uiSchema: {
-              'ui:title': 'Disability details',
-              newDisabilities: {
-                items: {
-                  cause: {
-                    'ui:title':
-                      'What caused this service-connected disability?',
-                    'ui:widget': 'radio',
-                    'ui:options': {
-                      labels: {
-                        NEW:
-                          'My disability was caused by an injury or exposure during my military service.',
-                        SECONDARY:
-                          'My disability was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
-                        WORSENED:
-                          'My disability or condition existed before I served in the military, but it got worse because of my military service.',
-                        VA:
-                          'My disability was caused by an injury or event that happened when I was receiving VA care.',
-                      },
-                    },
-                  },
-                  primaryDescription: {
-                    'ui:title':
-                      'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing. (400 characters maximum)',
-                    'ui:widget': 'textarea',
-                    'ui:options': {
-                      expandUnder: 'cause',
-                      expandUnderCondition: 'NEW',
-                    },
-                    'ui:validations': [null],
-                  },
-                },
-              },
-            },
+            uiSchema: {},
             schema: {
               type: 'object',
               properties: {
@@ -643,41 +591,24 @@ describe('Schemaform validations', () => {
                       type: 'object',
                       required: ['cause'],
                       properties: {
-                        cause: {
-                          type: 'string',
-                          enum: ['NEW', 'SECONDARY', 'WORSENED', 'VA'],
-                        },
-                        primaryDescription: {
-                          type: 'string',
-                          'ui:collapsed': true,
-                        },
+                        cause: { type: 'string' },
+                        primaryDescription: { type: 'string' },
                       },
                     },
                     {
                       type: 'object',
                       required: ['cause', 'primaryDescription'],
                       properties: {
-                        cause: {
-                          type: 'string',
-                          enum: ['NEW', 'SECONDARY', 'WORSENED', 'VA'],
-                        },
-                        primaryDescription: {
-                          type: 'string',
-                        },
+                        cause: { type: 'string' },
+                        primaryDescription: { type: 'string' },
                       },
                     },
                     {
                       type: 'object',
                       required: ['cause'],
                       properties: {
-                        cause: {
-                          type: 'string',
-                          enum: ['NEW', 'SECONDARY', 'WORSENED', 'VA'],
-                        },
-                        primaryDescription: {
-                          type: 'string',
-                          'ui:collapsed': true,
-                        },
+                        cause: { type: 'string' },
+                        primaryDescription: { type: 'string' },
                       },
                     },
                   ],
@@ -685,13 +616,8 @@ describe('Schemaform validations', () => {
                     type: 'object',
                     required: ['cause'],
                     properties: {
-                      cause: {
-                        type: 'string',
-                        enum: ['NEW', 'SECONDARY', 'WORSENED', 'VA'],
-                      },
-                      primaryDescription: {
-                        type: 'string',
-                      },
+                      cause: { type: 'string' },
+                      primaryDescription: { type: 'string' },
                     },
                   },
                 },
@@ -709,39 +635,7 @@ describe('Schemaform validations', () => {
           showPagePerItem: true,
           itemFilter: item => item.condition !== 'PTSD',
           arrayPath: 'newDisabilities',
-          uiSchema: {
-            'ui:title': 'Disability details',
-            newDisabilities: {
-              items: {
-                cause: {
-                  'ui:title': 'What caused this service-connected disability?',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      NEW:
-                        'My disability was caused by an injury or exposure during my military service.',
-                      SECONDARY:
-                        'My disability was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
-                      WORSENED:
-                        'My disability or condition existed before I served in the military, but it got worse because of my military service.',
-                      VA:
-                        'My disability was caused by an injury or event that happened when I was receiving VA care.',
-                    },
-                  },
-                },
-                primaryDescription: {
-                  'ui:title':
-                    'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing. (400 characters maximum)',
-                  'ui:widget': 'textarea',
-                  'ui:options': {
-                    expandUnder: 'cause',
-                    expandUnderCondition: 'NEW',
-                  },
-                  'ui:validations': [null],
-                },
-              },
-            },
-          },
+          uiSchema: {},
           schema: {
             type: 'object',
             properties: {
