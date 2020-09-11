@@ -32,6 +32,7 @@ fragment nodeStepByStep on NodeStepByStep {
                 entity {
                   ... on Media {
                     thumbnail {
+                      alt
                       url
                     }
                   }
