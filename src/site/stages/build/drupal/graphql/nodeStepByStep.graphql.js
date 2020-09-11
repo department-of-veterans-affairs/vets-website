@@ -22,22 +22,15 @@ fragment nodeStepByStep on NodeStepByStep {
   fieldSteps {
     entity {
       ... on ParagraphStepByStep {
-        entityLabel
-        entityId
-        entityBundle
         fieldStep {
           entity {
             ... on ParagraphStep {
-              entityId
-              entityLabel
-              entityBundle
               fieldWysiwyg {
                 processed
               }
               fieldMedia {
                 entity {
                   ... on Media {
-                    entityLabel
                     thumbnail {
                       url
                     }
