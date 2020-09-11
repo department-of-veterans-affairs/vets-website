@@ -14,6 +14,7 @@ const { fullName, email, preferredContactMethod } = fullSchema.definitions;
 
 const {
   veteranStatus,
+  isDependent,
   relationshipToVeteran,
   branchOfService,
 } = fullSchema.properties;
@@ -26,6 +27,7 @@ const formFields = {
   verifyEmail: 'view:email',
   phoneNumber: 'phoneNumber',
   veteranStatus: 'veteranStatus',
+  isDependent: 'isDependent',
   relationshipToVeteran: 'relationshipToVeteran',
   branchOfService: 'branchOfService',
   country: 'country',
@@ -44,6 +46,15 @@ const contactInformationPage = {
     [formFields.fullName]: fullNameUI,
     [formFields.veteranStatus]: {
       'ui:title': 'My message is about benefits/services',
+    },
+    [formFields.isDependent]: {
+      'ui:title': 'Are you the dependent',
+      'ui:widget': 'yesNo',
+      'ui:required': formData => formData.veteranStatus === 'dependent',
+      'ui:options': {
+        expandUnder: 'veteranStatus',
+        expandUnderCondition: 'dependent',
+      },
     },
     [formFields.relationshipToVeteran]: {
       'ui:title': 'Your relationship to the Veteran',
@@ -85,6 +96,7 @@ const contactInformationPage = {
     properties: {
       [formFields.fullName]: fullName,
       [formFields.veteranStatus]: veteranStatus,
+      [formFields.isDependent]: isDependent,
       [formFields.relationshipToVeteran]: relationshipToVeteran,
       [formFields.branchOfService]: branchOfService,
       [formFields.email]: email,

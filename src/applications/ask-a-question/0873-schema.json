@@ -385,6 +385,9 @@
         "A general question"
       ]
     },
+    "isDependent": {
+      "type": "boolean"
+    },
     "relationshipToVeteran": {
       "type": "string",
       "enum": [
