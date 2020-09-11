@@ -587,30 +587,12 @@ describe('Schemaform validations', () => {
                 newDisabilities: {
                   type: 'array',
                   items: [
-                    {
-                      type: 'object',
-                      required: ['condition'],
-                      properties: {
-                        cause: { type: 'string' },
-                        primaryDescription: { type: 'string' },
-                      },
-                    },
+                    { type: 'object', required: ['condition'] },
                     {
                       type: 'object',
                       required: ['cause', 'primaryDescription'],
-                      properties: {
-                        cause: { type: 'string' },
-                        primaryDescription: { type: 'string' },
-                      },
                     },
-                    {
-                      type: 'object',
-                      required: ['cause'],
-                      properties: {
-                        cause: { type: 'string' },
-                        primaryDescription: { type: 'string' },
-                      },
-                    },
+                    { type: 'object', required: ['cause'] },
                   ],
                   additionalItems: {
                     type: 'object',
