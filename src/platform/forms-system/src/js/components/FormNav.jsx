@@ -9,6 +9,8 @@ import {
   getActiveExpandedPages,
 } from '../helpers';
 
+import { focusElement } from '../utilities/ui';
+
 import PropTypes from 'prop-types';
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
@@ -55,9 +57,6 @@ export default function FormNav(props) {
   const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
   const onNewChapter = Math.abs(current - index) === 1;
 
-  // console.log(current, index);
-  // console.log('New Chapter:', onNewChapter);
-
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included. This should
   // ensure that VoiceOver on iOS will pick up on the new <h2>
@@ -68,6 +67,10 @@ export default function FormNav(props) {
       } else if (current === index) {
         setIndex(index - 1);
       }
+
+      return () => {
+        focusElement('.nav-header > h2');
+      };
     },
     [current, index],
   );
