@@ -626,6 +626,7 @@ describe('Schemaform validations', () => {
             editMode: [false, false, false],
             showPagePerItem: true,
             arrayPath: 'newDisabilities',
+            itemFilter: item => item.condition !== 'PTSD',
           },
         },
       };
@@ -633,7 +634,6 @@ describe('Schemaform validations', () => {
         {
           path: '/new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: item => item.condition !== 'PTSD',
           arrayPath: 'newDisabilities',
           uiSchema: {},
           schema: {
