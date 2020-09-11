@@ -72,7 +72,7 @@ function SavableErrorMessage(props) {
     return (
       <ErrorMessage
         active
-        title={`We’re sorry. We can't submit your ${appType} right now.`}
+        title={`We’re sorry. We can’t submit your ${appType} right now.`}
       >
         <p>
           We’re working to fix the problem. Please make sure you’re connected to
