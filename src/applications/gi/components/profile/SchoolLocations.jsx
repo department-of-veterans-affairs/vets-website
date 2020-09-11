@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
-import ResponsiveFacilityMapTable from '../ResponsiveFacilityMapTable';
+import ResponsiveFacilityMapTable from './ResponsiveFacilityMapTable';
 
 const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
 
