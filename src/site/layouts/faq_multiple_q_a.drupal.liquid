@@ -58,7 +58,9 @@
                        aria-hidden="true"
                       >
                       {% for block in fieldQA.entity.fieldAnswer %}
-                        {% include "src/site/paragraphs/wysiwyg.drupal.liquid" with entity = block.entity %}
+                        {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+                        {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                        {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
                       {% endfor %}
                     </div>
                   </li>

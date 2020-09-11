@@ -3,6 +3,7 @@ const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const WYSIWYG = '... wysiwyg';
 const BUTTON = '... button';
 const ALERT_SINGLE = '... alertSingle';
+const REACT_WIDGET = '... reactWidget';
 
 // faq_multiple_q_a, 6898
 module.exports = `
@@ -28,6 +29,7 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
                   entityType
                   entityBundle
                   ${WYSIWYG}
+                  ${REACT_WIDGET}
                 }
               }
             }
