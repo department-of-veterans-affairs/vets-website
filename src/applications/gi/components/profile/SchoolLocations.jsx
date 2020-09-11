@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
+import ResponsiveFacilityMapTable from '../ResponsiveFacilityMapTable';
 
 const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
 
@@ -208,111 +209,26 @@ export class SchoolLocations extends React.Component {
     return rows;
   };
 
-  renderFacilityMapTable = main => {
+  renderResponsiveFacilityMapTable = main => {
     const maxRows = this.state.viewableRowCount;
-    return (
-      <table className="locations-table">
-        <thead>
-          <tr>
-            <th>School Name</th>
-            <th>Location</th>
-            <th>Estimated housing</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.renderMainRow(main.institution)}
-          {this.renderBranchesAndExtensionsRows(main, maxRows)}
-        </tbody>
-      </table>
-    );
-  };
 
-  renderFacilityMapList = main => {
-    const maxRows = this.state.viewableRowCount;
-    return (
-      <div className="locations-list">
-        {this.renderMainListItem(main.institution)}
-        {this.renderBranchesAndExtensionsList(main, maxRows)}
-      </div>
-    );
-  };
-
-  renderMainListItem = institution =>
-    this.renderItem(
-      institution,
-      'main',
-      this.createLinkTo(
-        institution.facilityCode,
-        `${institution.institution} (Main Campus)`,
-      ),
-    );
-
-  renderBranchesAndExtensionsList = ({ branches, extensions }, maxRows) => {
-    const rows = [];
-    this.renderExtensionItems(rows, extensions, maxRows);
-    this.renderBranchItems(rows, branches, maxRows);
-    return rows;
-  };
-
-  renderBranchItems = (rows, branches, maxRows) => {
-    for (const branch of branches) {
-      // check if should add more rows
-      if (!this.state.viewAll && rows.length >= maxRows - 1) {
-        break;
-      }
-
-      const { institution } = branch;
-      const { facilityCode, institution: name } = institution;
-
-      rows.push(
-        this.renderItem(
-          institution,
-          'branch',
-          this.createLinkTo(facilityCode, name),
-        ),
-      );
-
-      this.renderExtensionItems(rows, branch.extensions, maxRows);
-    }
-  };
-
-  renderExtensionItems = (rows, extensions, maxRows) => {
-    for (const extension of extensions) {
-      // check if should add more rows
-      if (!this.state.viewAll && rows.length >= maxRows - 1) {
-        break;
-      }
-      const nameLabel = <span>{extension.institution}</span>;
-      rows.push(this.renderItem(extension, 'extension', nameLabel));
-    }
-  };
-
-  renderItem = (institution, type, name = institution.institution) => {
-    const {
-      facilityCode,
-      physicalCity,
-      physicalState,
-      physicalCountry,
-      physicalZip,
-    } = institution;
-    const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
-      <h6>{name}</h6>
-    ) : (
-      name
-    );
+    const fields = [
+      { label: 'School Name' },
+      { label: 'Location' },
+      { label: 'Estimated housing' },
+    ];
 
     return (
-      <div key={`${facilityCode}-${type}`} className={`${type} item`}>
-        <div>{nameLabel}</div>
-        <div className={'location-cell'}>
-          {this.schoolLocationTableInfo(
-            physicalCity,
-            physicalState,
-            physicalCountry,
-            physicalZip,
+      <div>
+        <ResponsiveFacilityMapTable
+          fields={fields}
+          maxRows={maxRows}
+          mainRow={this.renderMainRow(main.institution)}
+          branchesAndExtensionsRows={this.renderBranchesAndExtensionsRows(
+            main,
+            maxRows,
           )}
-        </div>
-        <div>Estimated housing: {this.estimatedHousingRow(institution)}</div>
+        />
       </div>
     );
   };
@@ -394,8 +310,7 @@ export class SchoolLocations extends React.Component {
             </span>
           )}
         </span>
-        {this.renderFacilityMapTable(main)}
-        {this.renderFacilityMapList(main)}
+        {this.renderResponsiveFacilityMapTable(main)}
         {this.renderViewCount()}
         {this.renderViewButtons()}
       </div>
