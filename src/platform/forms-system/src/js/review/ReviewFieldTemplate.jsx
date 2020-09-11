@@ -11,7 +11,10 @@ export default function ReviewFieldTemplate(props) {
   const DescriptionField =
     typeof description === 'function' ? uiSchema['ui:description'] : null;
 
-  if (schema.type === 'object' || schema.type === 'array') {
+  if (
+    (schema.type === 'object' || schema.type === 'array') &&
+    !uiSchema?.['ui:reviewField']
+  ) {
     return children;
   }
 

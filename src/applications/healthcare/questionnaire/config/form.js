@@ -7,6 +7,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import AppointmentInfoBox from '../components/AppointmentInfoBox';
 import ReasonForVisit from '../components/reason-for-visit';
 import ChiefComplaint from '../components/chief-complaint';
+// import AdditionalQuestions from '../components/additional-questions'
 import environment from 'platform/utilities/environment';
 
 // const { } = fullSchema.properties;
@@ -98,7 +99,7 @@ const formConfig = {
             questions: {
               items: {
                 additionalQuestions: {
-                  'ui:title': ' ',
+                  'ui:title': 'Question Title -- nested',
                 },
               },
               'ui:options': {
@@ -109,6 +110,7 @@ const formConfig = {
                   return <>{formData.formData.additionalQuestions}</>;
                 },
               },
+              // 'ui:reviewField': AdditionalQuestions.review,
               'ui:title': (
                 <span style={{ fontWeight: 'normal' }}>
                   Do you have any other additional questions you want to discuss
