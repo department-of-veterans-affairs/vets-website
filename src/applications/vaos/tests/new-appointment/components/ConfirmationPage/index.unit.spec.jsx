@@ -7,7 +7,7 @@ import { ConfirmationPage } from '../../../../new-appointment/components/Confirm
 import { FLOW_TYPES } from '../../../../utils/constants';
 import { renderWithStoreAndRouter } from '../../../mocks/setup';
 
-const start = moment.now();
+const start = moment();
 const end = start;
 
 const initialState = {
