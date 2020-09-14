@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 
 import createCommonStore from 'platform/startup/store';
 import { LandingPage } from '../../containers/LandingPage';
@@ -11,34 +12,19 @@ import reducer from '../../reducers';
 const defaultStore = createCommonStore(reducer);
 const defaultProps = {
   ...defaultStore.getState(),
-  showModal: sinon.spy(),
-  setPageTitle: sinon.spy(),
-  eligibilityChange: sinon.spy(),
+  dispatchShowModal: () => {},
+  dispatchSetPageTitle: () => {},
+  dispatchEligibilityChange: () => {},
 };
 
 describe('<LandingPage>', () => {
   it('should render', () => {
-    const tree = shallow(<LandingPage {...defaultProps} />);
-    expect(tree).to.not.be.undefined;
-    tree.unmount();
-  });
-
-  it('should handleSubmit correctly', () => {
-    const props = {
-      ...defaultProps,
-      router: { push: sinon.spy() },
-      location: { query: {} },
-      autocomplete: { searchTerm: 'foo' },
-      handleSubmit: sinon.spy(),
-    };
-
     const tree = mount(
-      <Provider store={defaultStore}>
-        <LandingPage {...props} />
-      </Provider>,
+      <MemoryRouter>
+        <LandingPage {...defaultProps} />
+      </MemoryRouter>,
     );
-    tree.find('form').simulate('submit');
-    expect(props.router.push.called).to.be.true;
+    expect(tree).to.not.be.undefined;
     tree.unmount();
   });
 
@@ -63,16 +49,16 @@ describe('<LandingPage>', () => {
       },
     };
     const tree = mount(
-      <Provider store={store}>
-        <LandingPage {...props} />
-      </Provider>,
+      <MemoryRouter>
+        <Provider store={store}>
+          <LandingPage {...props} />
+        </Provider>
+      </MemoryRouter>,
     );
 
-    const vetTecOption = tree
-      .find('LandingPageTypeOfInstitutionFilter')
-      .find('RadioButtons')
-      .find('span')
-      .find('button');
+    const vetTecOption = tree.find(
+      'LandingPageTypeOfInstitutionFilter RadioButtons span button',
+    );
     expect(vetTecOption.text()).to.equal('(Learn more)');
     tree.unmount();
   });
