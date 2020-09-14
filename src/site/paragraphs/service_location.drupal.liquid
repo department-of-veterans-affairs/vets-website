@@ -1,0 +1,97 @@
+<h3>Locations and contact information</h3>
+{% for singleLocation in locations %}
+  {% assign single = singleLocation.entity %}
+  {% include "src/site/components/service_address.drupal.liquid" %}
+
+  <h5>Hours</h5>
+
+  {% if single.fieldFacilityServiceHours.value and single.fieldHours == "2" %}
+    <table class="service-hours">
+      <thead class="vads-u-visibility--screen-reader"><th>day</th><th>hours</th></thead>
+      {% for hours in single.fieldFacilityServiceHours.value %}
+        {% if hours %}
+          <tr>
+            <td>{{ hours.0 }}</td>
+            <td>{{ hours.1 }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+  {% else %}
+    <table class="service-hours">
+      {% for hours in fieldFacilityHours.value %}
+        {% if hours %}
+          <tr>
+            <td>{{ hours.0 }}</td>
+            <td>{{ hours.1 }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  {% if single.fieldAdditionalHoursInfo %}
+    <p>{{ single.fieldAdditionalHoursInfo }}</p>
+  {% endif %}
+
+  {% include "src/site/components/phone.drupal.liquid" with numbers = single.fieldPhone %}
+
+  {% if single.fieldEmailContacts %}
+    {% for email in single.fieldEmailContacts %}
+      <p class="vads-u-margin-y--1">
+      {% if email.entity.fieldEmailLabel %}
+        <h5>{{ email.entity.fieldEmailLabel }}: </h5>
+      {% endif %}
+      <a aria-label="{{ email.entity.fieldEmailAddress }}"
+         href="{{ email.entity.fieldEmailAddress }}">{{ email.entity.fieldEmailAddress }}
+      </a>
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+{% if locationEntity.fieldReferralRequired or locationEntity.fieldWalkInsAccepted or locationEntity.fieldOnlineSchedulingAvailabl %}
+  <h3>Appointments</h3>
+  <p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your
+     primary care provider first.
+  </p>
+
+  {% assign appointmentPhoneNumber = locationEntity.fieldPhoneNumbersParagraph.0.entity.fieldPhoneNumber %}
+  {% assign appointmentPhoneExtension = locationEntity.fieldPhoneNumbersParagraph.0.entity.fieldPhoneExtension %}
+
+  {% if appointmentPhoneNumber %}
+    <div class="appointment-phone">
+      <h5>Phone:</h5>
+      <a class="vads-u-margin-bottom--1 vads-u-margin-left--1" aria-label="{{ appointmentPhoneNumber | accessibleNumber }}"
+         href="tel:{{ appointmentPhoneNumber }}{% if appointmentPhoneExtension %}p{{ appointmentPhoneExtension }}{% endif %}">
+        {{ appointmentPhoneNumber }}
+        {% if appointmentPhoneExtension %}
+          x {{ appointmentPhoneExtension }}
+        {% endif %}
+      </a>
+    </div>
+  {% endif %}
+
+  {% if locationEntity.fieldReferralRequired %}
+    <p class="vads-u-margin-bottom--0">
+      <strong>Referral required?</strong>
+      {% if locationEntity.fieldReferralRequired == '1' %}Yes{% else %}No{% endif %}
+    </p>
+  {% endif %}
+
+  {% if locationEntity.fieldWalkInsAccepted %}
+    <p class="vads-u-margin-bottom--0">
+      <strong>Walk-ins accepted?</strong>
+      {% if locationEntity.fieldWalkInsAccepted == '1' %}Yes{% else %}No{% endif %}
+    </p>
+  {% endif %}
+
+  {% if locationEntity.fieldOnlineSchedulingAvailabl == '1' %}
+    <a class="usa-button"
+       data-entity-substitution="canonical"
+       data-entity-type="node"
+       href="/health-care/schedule-view-va-appointments"
+       title="Schedule and view VA appointments online">
+      Schedule an appointment online
+    </a>
+  {% endif %}
+{% endif %}

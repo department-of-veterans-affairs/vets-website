@@ -65,8 +65,7 @@ VA.gov contains many pages that include content generated from a Drupal-based co
 When testing changes to static pages, or to see what your application looks like
 on VA.gov, you'll need to build these static pages using the following commands:
 
-```yarn build``` (```—pull-drupal``` runs by default)
-- needs active socks proxy connection
+```yarn build``` (add ```—pull-drupal``` to get the lateset content from production - needs active socks proxy connection)
 - run once to pull the latest Drupal content and build the static HTML files 
 - need to run this again when adding new templates based on new Drupal entities
 
