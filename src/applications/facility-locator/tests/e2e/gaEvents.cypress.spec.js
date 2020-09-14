@@ -63,6 +63,24 @@ describe('Google Analytics FL Events', () => {
       cy.get('#map-id', { timeout: 10000 }).should(() => {
         assert.isObject(win.dataLayer.find(d => d['fl-map-miles-moved']));
       });
+
+      cy.findByText(/austin va clinic/i, { selector: 'a' })
+        .first()
+        .click();
+
+      cy.get('#facility-detail-id', { timeout: 10000 }).should(() => {
+        assert.isObject(
+          win.dataLayer.find(d => d.event && d.event === 'fl-results-click'),
+        );
+        assert.isObject(win.dataLayer.find(d => d['fl-facility-name']));
+        assert.isObject(win.dataLayer.find(d => d['fl-facility-type']));
+        assert.isObject(
+          win.dataLayer.find(d => d['fl-facility-classification']),
+        );
+        assert.isObject(win.dataLayer.find(d => d['fl-facility-id']));
+        assert.isObject(win.dataLayer.find(d => d['fl-result-page-number']));
+        assert.isObject(win.dataLayer.find(d => d['fl-result-position']));
+      });
     });
   });
 });

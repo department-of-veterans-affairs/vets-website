@@ -294,13 +294,13 @@ export const recordResultEvents = (location, index) => {
   const { classification, name, facilityType, id } = location.attributes;
   const currentPage = location.currentPage;
   recordEvent({ event: 'fl-results-click' });
+  recordEvent({ 'fl-result-page-number': currentPage });
+  recordEvent({ 'fl-result-position': index + 1 });
 
-  if (classification && name && facilityType && id && index && currentPage) {
+  if (classification && name && facilityType && id) {
     recordEvent({ 'fl-facility-type': facilityType });
     recordEvent({ 'fl-facility-classification': classification });
     recordEvent({ 'fl-facility-name': name });
     recordEvent({ 'fl-facility-id': id });
-    recordEvent({ 'fl-result-page-number': currentPage });
-    recordEvent({ 'fl-result-position': index });
   }
 };
