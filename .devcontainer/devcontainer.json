@@ -6,5 +6,5 @@
     "extensions": [
 		"dbaeumer.vscode-eslint"
     ],
-    "postCreateCommand": "yarn install",
+    "postCreateCommand": "npm config delete prefix && nvm install && yarn install",
 }
