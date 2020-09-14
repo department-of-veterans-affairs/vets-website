@@ -14,7 +14,7 @@ const ReasonForVisitField = ({ reasonForVisit }) => {
 };
 
 const mapStateToProps = state => ({
-  reasonForVisit: state.clipboardAppointmentDetails.reasonForVisit,
+  reasonForVisit: state?.clipboardAppointmentDetails?.reasonForVisit,
 });
 
 export default connect(
