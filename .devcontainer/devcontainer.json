@@ -6,5 +6,6 @@
     "extensions": [
 		"dbaeumer.vscode-eslint"
     ],
-    "postCreateCommand": "npm config delete prefix && nvm install && yarn install",
+    "postCreateCommand": "zsh .devcontainer/postCreateCommand.sh",
+    "postStartCommand": "zsh .devcontainer/postStartCommand.sh",
 }
