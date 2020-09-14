@@ -335,7 +335,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#b9d877f5ab614e7f7ba847a4adbfab397b151401",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7dad82e608106d9cd07e78b9629b54b71037c5e1",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
