@@ -346,7 +346,7 @@ export function logEligibilityExplanation(
       if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
         directMessages.push(
           `The var-resources visited in past months service indicated that there has not been a recent visit (past ${
-            eligibilityData.requestPastVisit.durationInMonths
+            eligibilityData.directPastVisit.durationInMonths
           } months)`,
         );
       }

@@ -1,6 +1,7 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 const WYSIWYG = '... wysiwyg';
+const REACT_WIDGET = '... reactWidget';
 const BUTTON = '... button';
 const ALERT_SINGLE = '... alertSingle';
 
@@ -13,6 +14,7 @@ fragment nodeQa on NodeQA {
       entityType
       entityBundle
       ${WYSIWYG}
+      ${REACT_WIDGET}
     }
   }
   fieldAlertSingle {
