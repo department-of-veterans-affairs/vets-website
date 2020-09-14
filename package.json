@@ -220,7 +220,7 @@
     "morgan": "^1.10.0",
     "msw": "^0.19.4",
     "nightwatch": "^0.9.21",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "node-resemble-js": "^0.2.0",
     "node-sass": "^4.13.1",
     "null-loader": "^0.1.1",
@@ -335,7 +335,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ec2d8b3d8bb10b9a37c425c350cfeb694ea0d7af",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8e9e21b298749262367afa3fe20cc21572801f97",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

@@ -8,7 +8,7 @@ import Telephone, {
 import { getPageTitle } from '../utils';
 
 const Alert = ({ content }) => (
-  <div className="vads-l-grid-container vads-u-padding-bottom--5">
+  <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
     <div className="usa-content">
       <h1>{getPageTitle()}</h1>
       <AlertBox isVisible content={content} status="error" />
@@ -33,12 +33,7 @@ export const MissingServices = ({ title }) => {
       </p>
     </>
   );
-  return (
-    <>
-      <h1>{title}</h1>
-      <Alert content={content} />
-    </>
-  );
+  return <Alert content={content} />;
 };
 
 export const MissingId = ({ title }) => {

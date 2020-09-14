@@ -196,6 +196,7 @@ describe('526 ITFWrapper', () => {
       </ITFWrapper>,
     );
     const banner = tree.find('ITFBanner');
+    expect(tree.dive().find('h1')).to.have.lengthOf(1);
     expect(banner.length).to.equal(1);
     expect(banner.props().status).to.equal('error');
     tree.unmount();
@@ -224,6 +225,7 @@ describe('526 ITFWrapper', () => {
     expect(banner.length).to.equal(1);
     expect(bannerProps.status).to.equal('itf-found');
     expect(bannerProps.currentExpDate).to.equal(expirationDate);
+    expect(tree.find('h1')).to.have.lengthOf(1);
     tree.unmount();
   });
 
