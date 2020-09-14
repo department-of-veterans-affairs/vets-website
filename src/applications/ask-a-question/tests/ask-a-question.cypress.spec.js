@@ -10,7 +10,7 @@ import manifest from '../manifest.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['maximal-test'],
+    dataSets: ['minimal-test', 'maximal-test'],
     fixtures: {
       data: path.join(__dirname, 'data'),
     },
