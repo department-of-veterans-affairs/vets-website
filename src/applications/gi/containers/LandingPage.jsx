@@ -25,7 +25,7 @@ import { isVetTecSelected, useQueryParams } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import BenefitsForm from '../components/profile/BenefitsForm';
 
-function LandingPage({
+export function LandingPage({
   autocomplete,
   dispatchClearAutocompleteSuggestions,
   dispatchEligibilityChange,
@@ -71,7 +71,7 @@ function LandingPage({
     }
   };
 
-  const handleFilterChange = value => {
+  const doSearch = value => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
     setSearchError(!(isVetTecSelected(filters) || value));
@@ -83,7 +83,7 @@ function LandingPage({
 
   const handleSubmit = event => {
     event.preventDefault();
-    handleFilterChange(autocomplete.searchTerm);
+    doSearch(autocomplete.searchTerm);
   };
 
   const handleTypeOfInstitutionFilterChange = e => {
@@ -185,7 +185,7 @@ function LandingPage({
                 }
                 onFetchAutocompleteSuggestions={updateAutoCompleteSuggestions}
                 onFilterChange={(field, value) => {
-                  handleFilterChange(value);
+                  doSearch(value);
                 }}
                 onUpdateAutocompleteSearchTerm={
                   dispatchUpdateAutocompleteSearchTerm

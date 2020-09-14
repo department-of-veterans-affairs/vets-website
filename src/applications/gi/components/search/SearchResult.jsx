@@ -17,7 +17,7 @@ import {
 
 import ScorecardTags from '../../components/ScorecardTags';
 
-function SearchResult({
+export function SearchResult({
   gibctFilterEnhancement,
   schoolClosing,
   schoolClosingOn,

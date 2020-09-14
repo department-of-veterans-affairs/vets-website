@@ -15,7 +15,7 @@ import { useQueryParams } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
-function ProfilePage({
+export function ProfilePage({
   constants,
   profile,
   calculator,

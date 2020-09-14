@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
-
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
@@ -15,10 +16,7 @@ import ServiceError from '../components/ServiceError';
 import Covid19Banner from '../components/heading/Covid19Banner';
 import { useQueryParams } from '../utils/helpers';
 
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
-function GiBillApp({
+export function GiBillApp({
   children,
   constants,
   dispatchEnterPreviewMode,
@@ -65,9 +63,13 @@ function GiBillApp({
         <div className="columns small-12">
           {preview.display && <PreviewBanner version={preview.version} />}
           <GiBillBreadcrumbs searchQuery={search.query} />
-          <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
-            {constants.error ? <ServiceError /> : content}
-          </DowntimeNotification>
+          {constants.error ? (
+            <ServiceError />
+          ) : (
+            <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
+              {content}
+            </DowntimeNotification>
+          )}
           <AboutThisTool />
           <div className="row disclaimer">
             <p>

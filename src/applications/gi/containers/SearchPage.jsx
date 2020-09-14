@@ -33,7 +33,7 @@ import { searchWithFilters } from '../utils/search';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
-function SearchPage({
+export function SearchPage({
   autocomplete,
   dispatchClearAutocompleteSuggestions,
   dispatchEligibilityChange,
@@ -155,26 +155,20 @@ function SearchPage({
   };
 
   const handlePageSelect = page => {
-    queryParams.add('page', page);
-    history.push(queryParams.toString());
-    // this.props.router.push({
-    //   ...this.props.location,
-    //   search: { ...location.search, page },
-    // });
+    queryParams.set('page', page);
+    history.push({ pathname: '/search/', search: queryParams.toString() });
   };
 
-  const handleFilterChange = (field, value, additionalFields = []) => {
-    const removedWhenAllFields = ['country', 'state', 'type'];
-    additionalFields.push({ field, value });
-
-    const searchProps = {
-      search: { ...search },
-      location,
+  const handleFilterChange = (field, value) => {
+    searchWithFilters({
+      search,
+      field,
+      value,
       clearAutocompleteSuggestions: dispatchClearAutocompleteSuggestions,
-      router: history,
-    };
-
-    searchWithFilters(searchProps, additionalFields, removedWhenAllFields);
+      history,
+      query: queryParams.toString(),
+      pathname: '/search',
+    });
   };
 
   const searchResults = () => {

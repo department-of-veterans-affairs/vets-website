@@ -101,22 +101,23 @@ function VetTecSearchPage({
   };
 
   const handlePageSelect = page => {
-    queryParams.add('page', page);
-    history.push(queryParams.toString());
+    queryParams.set('page', page);
+    history.push({
+      pathname: '/program-search',
+      search: queryParams.toString(),
+    });
   };
 
-  const handleFilterChange = (field, value, additionalFields = []) => {
-    const removedWhenAllFields = ['country', 'state', 'type'];
-    additionalFields.push({ field, value });
-
-    const searchProps = {
-      search: { ...search },
-      location,
+  const handleFilterChange = (field, value) => {
+    searchWithFilters({
+      search,
+      field,
+      value,
       clearAutocompleteSuggestions: dispatchClearAutocompleteSuggestions,
-      router: history,
-    };
-
-    searchWithFilters(searchProps, additionalFields, removedWhenAllFields);
+      history,
+      query: queryParams.toString(),
+      pathname: '/program-search',
+    });
   };
 
   const handleProviderFilterChange = provider => {
