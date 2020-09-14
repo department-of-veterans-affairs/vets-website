@@ -1,6 +1,6 @@
 # Github Codespaces
 
-
+Support for Codespaces is a work in progress. 
 
 
 ## Getting Started
