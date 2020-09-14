@@ -6,10 +6,10 @@ export const FETCH_CONTESTABLE_ISSUES_SUCCEEDED =
 export const FETCH_CONTESTABLE_ISSUES_FAILED =
   'FETCH_CONTESTABLE_ISSUES_FAILED';
 
-export function getContestableIssues() {
+export function getContestableIssues({ benefitType = 'compensation' } = {}) {
   return dispatch => {
     dispatch({ type: FETCH_CONTESTABLE_ISSUES_INIT });
-    const url = '/appeals/contestable_issues';
+    const url = `/higher_level_reviews/contestable_issues/${benefitType}`;
     return apiRequest(url)
       .then(response =>
         dispatch({
