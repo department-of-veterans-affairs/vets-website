@@ -54,6 +54,10 @@ function isPodiatry(state) {
   return getFormData(state).typeOfCareId === PODIATRY;
 }
 
+function getFacilityPageKey(state) {
+  return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
+}
+
 export default {
   home: {
     url: '/',
@@ -91,7 +95,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
+      return getFacilityPageKey(state);
     },
     previous: 'home',
   },
@@ -107,7 +111,7 @@ export default {
         return 'requestDateTime';
       }
 
-      return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
+      return getFacilityPageKey(state);
     },
     previous(state) {
       //  check for eye care flow
@@ -121,7 +125,7 @@ export default {
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
     async next(state) {
-      return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
+      return getFacilityPageKey(state);
     },
     previous: 'typeOfCare',
   },
@@ -140,7 +144,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return 'vaFacility';
+      return getFacilityPageKey(state);
     },
     previous: 'typeOfCare',
   },
@@ -198,7 +202,9 @@ export default {
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
-    previous: 'vaFacility',
+    previous(state) {
+      return getFacilityPageKey(state);
+    },
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
         dispatch(startRequestAppointmentFlow());
@@ -240,7 +246,7 @@ export default {
         return 'typeOfFacility';
       }
 
-      return 'vaFacility';
+      return getFacilityPageKey(state);
     },
   },
   reasonForAppointment: {
@@ -275,7 +281,9 @@ export default {
   appointmentTime: {
     url: '/new-appointment/appointment-time',
     next: 'contactInfo',
-    previous: 'vaFacility',
+    previous(state) {
+      return getFacilityPageKey(state);
+    },
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
