@@ -12,7 +12,7 @@ export const UploadDescription = ({ uploadTitle }) => (
     </p>
     <ul>
       <li>File types you can upload: .pdf, .jpeg, or .png</li>
-      <li>Maximum file size: 25MB</li>
+      <li>Maximum file size: 50MB</li>
     </ul>
     <p>
       <em>
