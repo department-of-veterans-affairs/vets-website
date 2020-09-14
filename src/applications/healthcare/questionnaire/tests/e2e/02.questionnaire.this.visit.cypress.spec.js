@@ -23,14 +23,21 @@ const testConfig = createTestConfig(
       cy.login(basicUser);
     },
     pageHooks: {
-      introduction: ({ afterHook, pathname }) => {
-        cy.log(`Look, I'm on ${pathname}!`);
+      introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.findAllByText(/start/i, { selector: 'button' })
             .first()
             .click();
         });
       },
+      demographics: ({ afterHook }) => {
+        afterHook(() => {
+          cy.findAllByText(/continue/i, { selector: 'button' })
+            .first()
+            .click();
+        });
+      },
+      // 'reason-for-visit': ({ afterHook }) => {},
     },
   },
   manifest,

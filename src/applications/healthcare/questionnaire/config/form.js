@@ -100,7 +100,7 @@ const formConfig = {
             questions: {
               items: {
                 additionalQuestions: {
-                  'ui:title': ' ',
+                  'ui:title': 'Your Question',
                 },
               },
               'ui:options': {
