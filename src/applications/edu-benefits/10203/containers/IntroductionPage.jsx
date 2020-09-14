@@ -88,7 +88,7 @@ export class IntroductionPage extends React.Component {
         </p>
         {this.loginPrompt()}
         <h4>Follow the steps below to apply for this scholarship</h4>
-        <div className="process-1 schemaform-process">
+        <div className="process schemaform-process">
           <ol>
             <li
               className="process-step list-one"
