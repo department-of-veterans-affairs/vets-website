@@ -195,7 +195,6 @@ export default {
   },
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
-    // async next(state, dispatch) {},
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
