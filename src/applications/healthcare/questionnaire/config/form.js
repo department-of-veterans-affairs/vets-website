@@ -99,7 +99,7 @@ const formConfig = {
             questions: {
               items: {
                 additionalQuestions: {
-                  'ui:title': 'Question Title -- nested',
+                  'ui:title': ' ',
                 },
               },
               'ui:options': {

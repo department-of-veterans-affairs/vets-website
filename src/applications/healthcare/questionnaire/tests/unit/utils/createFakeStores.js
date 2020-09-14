@@ -1,4 +1,4 @@
-const createFakeStore = (
+const createFakeUserStore = (
   gender = 'M',
   useMailingAddress = true,
   useResidentialAddress = true,
@@ -161,4 +161,12 @@ const createFakeStore = (
   };
 };
 
-export { createFakeStore };
+const createFakeChiefComplaint = () => {
+  return {
+    getState: () => ({}),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
+export { createFakeUserStore, createFakeChiefComplaint };
