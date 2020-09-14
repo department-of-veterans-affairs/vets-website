@@ -4,7 +4,11 @@ import moment from 'moment';
 import classnames from 'classnames';
 import { scrollerTo } from '../lib';
 
-const Incomplete = () => <div>Please answer all the questions above.</div>;
+const Incomplete = () => (
+  <div data-testid="result-incomplete">
+    Please answer all the questions above.
+  </div>
+);
 
 function Complete({ children }) {
   return (
