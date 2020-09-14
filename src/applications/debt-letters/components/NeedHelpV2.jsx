@@ -4,7 +4,7 @@ const NeedHelpV2 = () => (
   <div id="howDoIGetHelp" className="vads-u-font-family--sans">
     <h3
       id="howDoIGetHelp"
-      className="vads-u-margin-top--4 vads-u-margin-bottom--0"
+      className="vads-u-margin-top--4 vads-u-margin-bottom--0 vads-u-font-size--h2"
     >
       How do I get financial help?
     </h3>
@@ -38,7 +38,7 @@ const NeedHelpV2 = () => (
     </a>
     <h3
       id="howDoIDispute"
-      className="vads-u-margin-top--4 vads-u-margin-bottom--0"
+      className="vads-u-margin-top--4 vads-u-margin-bottom--0 vads-u-font-size--h2"
     >
       How do I dispute a debt?
     </h3>

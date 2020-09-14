@@ -25,9 +25,12 @@ function getAppointmentType(appt) {
     return APPOINTMENT_TYPES.ccRequest;
   } else if (appt.typeOfCareId) {
     return APPOINTMENT_TYPES.request;
-  } else if (appt.clinicId || appt.vvsAppointments) {
+  } else if (
+    appt.vvsAppointments?.length ||
+    (appt.clinicId && !appt.communityCare)
+  ) {
     return APPOINTMENT_TYPES.vaAppointment;
-  } else if (appt.appointmentTime) {
+  } else if (appt.appointmentTime || appt.communityCare === true) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
 
@@ -164,7 +167,7 @@ function getConfirmedStatus(appointment, isPast) {
  * @returns {Object} Returns appointment datetime as moment object
  */
 function getMomentConfirmedDate(appt) {
-  if (isCommunityCare(appt)) {
+  if (isCommunityCare(appt) && appt.timeZone) {
     const zoneSplit = appt.timeZone.split(' ');
     const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
     return moment
@@ -528,7 +531,6 @@ export function transformConfirmedAppointments(appointments) {
     const start = getMomentConfirmedDate(appt).format();
     const isPast = isPastAppointment(appt);
     const isCC = isCommunityCare(appt);
-
     return {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
@@ -538,7 +540,7 @@ export function transformConfirmedAppointments(appointments) {
       minutesDuration,
       comment:
         appt.instructionsToVeteran ||
-        appt.vdsAppointments?.[0]?.bookingNote ||
+        (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
         appt.vvsAppointments?.[0]?.instructionsTitle,
       participant: setParticipant(appt),
       contained: setContained(appt),

@@ -182,6 +182,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
           value={outputs.totalPaidToYou.value}
           bold
           visible={outputs.totalPaidToYou.visible}
+          header
         />
       </div>
     </div>

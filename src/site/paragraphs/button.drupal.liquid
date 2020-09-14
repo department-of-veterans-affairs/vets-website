@@ -1,0 +1,18 @@
+{% comment %}
+  Example data:
+  "entity": {
+      "entityId": "12662",
+      "entityBundle": "button",
+      "fieldButtonLabel": "Sample button",
+      "fieldButtonLink": {
+          "url": {
+              "path": "/"
+          }
+      }
+  }
+{% endcomment %}
+<div data-template="paragraphs/button">
+  <a
+    class="usa-button-primary"
+    href="{{ entity.fieldButtonLink.url.path }}">{{ entity.fieldButtonLabel }}</a>
+</div>
