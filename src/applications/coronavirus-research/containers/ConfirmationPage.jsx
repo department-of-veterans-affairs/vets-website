@@ -69,8 +69,8 @@ export class ConfirmationPage extends React.Component {
             If you have questions about our coronavirus research volunteer list, call us at <a href="tel:+18664416075" aria-label="8 6 6. 4 4 1. 6 0 7 5.">866-441-6075</a>, select 1. We're here Monday through Friday, 8:00 a.m. to 6:00 p.m.           
           </p>
           <p>
-            You can decide to stop being part of this list at anytime. If you'd like to be removed from the list, send us an email at <a href="mailto:research@va.gov">research@va.gov</a>. 
-
+            You can decide to stop being part of this list at anytime. If you'd like to be removed from the list, send us an email at <a href="mailto:research@va.gov">research@va.gov</a>.
+        </div>
       </div>
       
     );
