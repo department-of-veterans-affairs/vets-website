@@ -1,5 +1,5 @@
 const data = {
-  hasDependentDebt: false,
+  hasDependentDebt: true,
   debts: [
     {
       adamKey: '1',
