@@ -74,8 +74,8 @@ export const uiSchema = {
     'ui:title': (
       <span>
         <strong>
-          In the past month, have you been in close contact with anyone who
-          you know tested positive for COVID-19?
+          In the past month, have you been in close contact with anyone who you
+          know tested positive for COVID-19?
         </strong>
         <p>
           <strong>Note:</strong> We define close contact as being within 6 feet
