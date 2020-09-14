@@ -81,7 +81,7 @@ export default function MultiQuestionForm({
   }
 
   function setQuestionValue({ event, questionId }) {
-    // sets the question value in question state
+    // sets the value in question state for a given questionId
     const index = questionState.findIndex(
       question => question.id === questionId,
     );
@@ -93,11 +93,12 @@ export default function MultiQuestionForm({
   const enabledQuestions = getEnabledQuestions({ questionState, customId });
 
   function handleClearValuesAfter(questionId) {
-    const newQuestionState = clearValuesAfter({
-      questionId,
-      questionState,
-    });
-    setQuestionState([...newQuestionState]);
+    setQuestionState([
+      ...clearValuesAfter({
+        questionId,
+        questionState,
+      }),
+    ]);
   }
 
   const formQuestions = enabledQuestions.map(
