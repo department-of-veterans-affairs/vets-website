@@ -23,7 +23,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <h2 className="confirmation-page-title">
-          Thank you for volunteering for COVID-19 research
+          Thank you for signing up for our coronavirus research volunteer list
         </h2>
         <p>
           We appreciate your commitment to helping others through this important
@@ -58,10 +58,21 @@ export class ConfirmationPage extends React.Component {
             future studies you may be eligible to join.
           </p>
           <a href="/coronavirus-research">
-            Learn more about participating in coronavirus research at VA
+            Learn more about volunteering for coronavirus research at VA
           </a>
         </div>
+        <div>
+          <h2>
+            If you have questions or would like to be removed from the volunteer list
+          </h2>
+          <p>
+            If you have questions about our coronavirus research volunteer list, call us at <a href="tel:+18664416075" aria-label="8 6 6. 4 4 1. 6 0 7 5.">866-441-6075</a>, select 1. We're here Monday through Friday, 8:00 a.m. to 6:00 p.m.           
+          </p>
+          <p>
+            You can decide to stop being part of this list at anytime. If you'd like to be removed from the list, send us an email at <a href="mailto:research@va.gov">research@va.gov</a>. 
+
       </div>
+      
     );
   }
 }
