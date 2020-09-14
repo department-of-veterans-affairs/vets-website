@@ -34,7 +34,6 @@ export function ProfilePage({
   const institutionName = _.get(profile, 'attributes.name');
 
   useEffect(() => {
-    // dispatchFetchProfile(facilityCode, version);
     return () => {
       dispatchHideModal();
     };
