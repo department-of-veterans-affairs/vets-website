@@ -9,17 +9,6 @@ export const PAYMENTS_RECEIVED_FAILED = 'PAYMENTS_RECEIVED_FAILED';
 
 const VIEW_PAYMENTS_URI = '/profile/payment_history';
 
-// function resolveAfter2Seconds() {
-//   return new Promise(resolve => {
-//     setTimeout(() => {
-//       recordEvent({
-//         event: `view-payment-history-started`,
-//       });
-//       resolve('resolved');
-//     }, 2000);
-//   });
-// }
-
 const retrievePayments = async () => {
   try {
     const response = await apiRequest(VIEW_PAYMENTS_URI);

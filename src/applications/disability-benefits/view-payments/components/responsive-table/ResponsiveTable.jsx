@@ -57,7 +57,7 @@ class ResponsiveTable extends Component {
             <td
               data-index={index}
               className={`${borderClasses} ${extraClass}`}
-              data-label={`${this.capitalizeFirstLetter(field.value)}:`}
+              data-label={`${this.capitalizeFirstLetter(field.label)}:`}
               key={`${idx}-${field.value}`}
             >
               {item[field.value] === null ? '---' : item[field.value]}

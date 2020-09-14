@@ -5,6 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
+import moment from 'moment';
 import Payments from './payments/Payments.jsx';
 import {
   paymentsReturnedFields,
@@ -38,15 +39,34 @@ class ViewPaymentsLists extends Component {
         : ServerErrorAlertContent;
       content = <AlertBox content={alertContent} status={status} isVisible />;
     } else if (!this.props.isLoading && this.props.payments) {
-      const { payments, returnPayments } = this.props.payments;
+      const { returnPayments } = this.props.payments;
+      let { payments } = this.props.payments;
       // remove all entries with all null property values
-      const filteredReturnPayments = returnPayments.filter(payment => {
+      let filteredReturnPayments = returnPayments.filter(payment => {
         for (const [key] of Object.entries(payment)) {
           if (payment[key] !== null) {
             return true;
           }
         }
         return false;
+      });
+      // convert date to more friendly format
+      payments = payments.map(payment => {
+        return {
+          ...payment,
+          payCheckDt: moment(payment.payCheckDt).format('MMMM D, YYYYY'),
+        };
+      });
+      filteredReturnPayments = filteredReturnPayments.map(payment => {
+        return {
+          ...payment,
+          returnedCheckCancelDt: payment.returnedCheckCancelDt
+            ? moment(payment.returnedCheckCancelDt).format('MMMM D, YYYY')
+            : null,
+          returnedCheckIssueDt: payment.returnedCheckIssueDt
+            ? moment(payment.returnedCheckIssueDt).format('MMMM D, YYYY')
+            : null,
+        };
       });
       paymentsReceivedTableContent = (
         <Payments
