@@ -1,6 +1,5 @@
 import React from 'react';
 
-// TODO: test
 export default function ReasonForVisitReview(props) {
   const widget = props.children.props;
   if (widget.formData) {
