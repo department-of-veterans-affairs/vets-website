@@ -135,12 +135,20 @@ export class SearchResults extends Component {
     // Show no results found message.
     if (!results.length) {
       return (
-        <h2
-          className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
-          data-display-results-header
-        >
-          No results found.
-        </h2>
+        <>
+          <h2
+            className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+            data-display-results-header
+          >
+            No schools found for your search criteria.
+          </h2>
+          <p>To find participating schools:</p>
+          <ul>
+            <li>Double-check your spelling.</li>
+            <li>Try fewer search terms.</li>
+            <li>Try more general search terms.</li>
+          </ul>
+        </>
       );
     }
 

@@ -3,8 +3,23 @@ import moment from 'moment';
 import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
 import { pageNames } from './pageList';
 
-import environment from 'platform/utilities/environment';
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
+import {
+  FORM_STATUS_BDD,
+  SAVED_SEPARATION_DATE,
+} from '../../all-claims/constants';
+
+const saveDischargeDate = date => {
+  if (date) {
+    const formattedDate = moment(date).format('YYYY-MM-DD');
+    window.sessionStorage.setItem(SAVED_SEPARATION_DATE, formattedDate);
+    // this flag helps maintain the correct form title within a session
+    window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
+  } else {
+    window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+    window.sessionStorage.removeItem(FORM_STATUS_BDD);
+  }
+};
 
 // Figure out which page to go to based on the date entered
 const findNextPage = state => {
@@ -19,10 +34,13 @@ const findNextPage = state => {
     dateDischarge.diff(dateToday, 'days') + 1;
 
   if (differenceBetweenDatesInDays < 90) {
+    saveDischargeDate(dateDischarge);
     return pageNames.fileClaimEarly;
   } else if (differenceBetweenDatesInDays <= 180) {
+    saveDischargeDate(dateDischarge);
     return pageNames.fileBDD;
   }
+  saveDischargeDate();
   return pageNames.unableToFileBDD;
 };
 
@@ -51,18 +69,20 @@ const isDateInFuture = date =>
     year: date.year.value,
   }).diff(moment()) > 0;
 
-const BDDPage = ({ setPageState, state = defaultState }) => {
-  if (environment.isProduction()) {
+const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
+  if (!allowBDD) {
     return <unableToFileBDDProduction.component />;
   }
 
-  const onChange = pageState =>
+  const onChange = pageState => {
+    saveDischargeDate();
     setPageState(
       pageState,
       isDateComplete(pageState) && isDateInFuture(pageState)
         ? findNextPage(pageState)
         : undefined,
     );
+  };
 
   return (
     <ErrorableDate
@@ -72,7 +92,7 @@ const BDDPage = ({ setPageState, state = defaultState }) => {
       date={state}
       validation={{
         valid: isDateInFuture(state),
-        message: 'A separation date must occur in the future',
+        message: 'Your separation date must be in the future',
       }}
     />
   );

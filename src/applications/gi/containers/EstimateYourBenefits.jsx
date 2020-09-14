@@ -12,8 +12,6 @@ import {
   eligibilityChange,
   updateEstimatedBenefits,
 } from '../actions';
-import { scroller } from 'react-scroll';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { getCalculatedBenefits } from '../selectors/calculator';
 import EstimateYourBenefitsForm from '../components/profile/EstimateYourBenefitsForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';

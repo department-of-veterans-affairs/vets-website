@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import facilities from '../../../api/facilities.json';
+import facilities from '../../../services/mocks/var/facilities.json';
 import { transformParentFacilities } from '../../../services/organization/transformers';
 
 const facilitiesParsed = facilities.data.map(f => ({
@@ -22,8 +22,10 @@ describe('VAOS Organization transformer', () => {
 
     it('should map address', () => {
       const data = transformParentFacilities(facilitiesParsed);
-      expect(data[1].address.city).to.equal(facilitiesParsed[1].city);
-      expect(data[1].address.state).to.equal(facilitiesParsed[1].stateAbbrev);
+      expect(data[1].address[0].city).to.equal(facilitiesParsed[1].city);
+      expect(data[1].address[0].state).to.equal(
+        facilitiesParsed[1].stateAbbrev,
+      );
     });
 
     it('should map partOf field for non-root parents', () => {

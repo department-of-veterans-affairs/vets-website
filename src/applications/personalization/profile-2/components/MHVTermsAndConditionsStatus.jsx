@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-
 import Verified from './Verified';
 
 const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
@@ -11,26 +10,26 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
 
   if (mhvAccount.termsAndConditionsAccepted) {
     return (
-      <>
+      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-width--full">
         <Verified>
           You’ve accepted the terms and conditions for using VA.gov health
           tools.
         </Verified>
-        <p className="vads-u-margin-bottom--0">
+        <p className="vads-u-margin-bottom--0 vads-u-padding-left--3 medium-screen:vads-u-padding-left--5">
           <a
             href={termsAndConditionsUrl}
             onClick={() =>
               recordEvent({
-                event: 'account-navigation',
-                'account-action': 'view-link',
-                'account-section': 'terms',
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'terms',
               })
             }
           >
             View terms and conditions for medical information
           </a>
         </p>
-      </>
+      </div>
     );
   } else if (mhvAccount.accountState === 'needs_terms_acceptance') {
     return (
@@ -47,9 +46,9 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
             href={termsAndConditionsUrl}
             onClick={() =>
               recordEvent({
-                event: 'account-navigation',
-                'account-action': 'view-link',
-                'account-section': 'terms',
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'terms',
               })
             }
           >

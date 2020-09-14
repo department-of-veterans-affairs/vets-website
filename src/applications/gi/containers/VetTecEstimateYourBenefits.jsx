@@ -36,17 +36,11 @@ export class VetTecEstimateYourBenefits extends React.Component {
     });
 
   renderCalculatorForm = () => {
-    const {
-      calculator: inputs,
-      calculated: { inputs: displayed },
-    } = this.props;
-
     return (
       <div className="calculator-inputs vads-u-margin-x--neg1p5">
         <div>
           <VetTecEstimateYourBenefitsForm
-            inputs={inputs}
-            displayedInputs={displayed}
+            inputs={this.props.calculator}
             showModal={this.props.showModal}
             institution={this.props.institution}
             selectedProgram={this.props.selectedProgram}
@@ -194,13 +188,19 @@ export class VetTecEstimateYourBenefits extends React.Component {
       return <LoadingIndicator message="Loading your estimated benefits..." />;
     }
     const { outputs } = this.props.calculated;
+
     return (
       <div className="vads-l-row calculate-your-benefits">
         <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
           {this.renderCalculatorForm()}
         </div>
         <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
-          <div className=" your-estimated-benefits">
+          <div
+            aria-atomic="true"
+            aria-live="polite"
+            role="status"
+            className="your-estimated-benefits"
+          >
             <h3
               id="estimated-benefits-header"
               className="estimated-benefits-header"

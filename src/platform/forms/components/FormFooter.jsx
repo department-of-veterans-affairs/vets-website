@@ -17,7 +17,7 @@ export default function FormFooter({ formConfig, currentLocation }) {
         <div className="help-footer-box">
           <h2 className="help-heading">Need help?</h2>
           <div>
-            <GetFormHelp />
+            <GetFormHelp formConfig={formConfig} />
           </div>
         </div>
       </div>

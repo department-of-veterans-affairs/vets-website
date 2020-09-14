@@ -28,6 +28,7 @@ class InstitutionFilterForm extends React.Component {
       onChange={this.handleDropdownChange}
       handleInputFocus={this.props.handleInputFocus}
       displayAllOption
+      gibctFilterEnhancement={this.props.gibctFilterEnhancement}
     />
   );
 
@@ -141,7 +142,11 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-        label="Institution type"
+        label={
+          this.props.gibctFilterEnhancement
+            ? 'Institution categories'
+            : 'Institution type'
+        }
         name="type"
         options={options}
         value={this.props.filters.type}
@@ -154,6 +159,27 @@ class InstitutionFilterForm extends React.Component {
   };
 
   render() {
+    if (this.props.gibctFilterEnhancement) {
+      return (
+        <div className="institution-filter-form">
+          {this.renderCountryFilter()}
+          {this.renderStateFilter()}
+
+          {
+            <CautionaryWarningsFilter
+              excludeCautionFlags={this.props.filters.excludeCautionFlags}
+              excludeWarnings={this.props.filters.excludeWarnings}
+              onChange={this.handleCheckboxChange}
+              showModal={this.props.showModal}
+              handleInputFocus={this.props.handleInputFocus}
+            />
+          }
+          {this.renderCategoryFilter()}
+          {this.renderTypeFilter()}
+          {this.renderProgramFilters()}
+        </div>
+      );
+    }
     return (
       <div className="institution-filter-form">
         <h2>Institution details</h2>

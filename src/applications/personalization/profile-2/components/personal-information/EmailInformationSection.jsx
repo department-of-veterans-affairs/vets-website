@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import React from 'react';
 
 import Email from 'vet360/components/VAPEmail';
 
@@ -24,7 +23,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
     buttonText = 'DS Logon';
   }
 
-  if (signInServiceName === 'mhv') {
+  if (signInServiceName === 'mhv' || signInServiceName === 'myhealthevet') {
     link = 'https://www.myhealth.va.gov';
     buttonText = 'My HealtheVet';
   }
@@ -42,11 +41,12 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
                   This is the email we’ll use to contact you.
                 </p>
                 <p>
-                  To update the email you use to sign in, go to the website
-                  where you manage your log in information.
+                  Your contact email may be different than the email you use to
+                  sign in. To view or update your sign-in email, go to the
+                  website where you manage your account information.
                 </p>
                 <a href={link} target="_blank" rel="noopener noreferrer">
-                  Update email address on {buttonText}
+                  Update sign-in email address on {buttonText}
                 </a>
               </>
             ),

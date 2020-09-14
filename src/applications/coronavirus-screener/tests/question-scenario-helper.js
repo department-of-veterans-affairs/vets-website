@@ -1,7 +1,7 @@
 import { normal, slow } from 'platform/testing/e2e/timeouts';
 
 // wait time before clicking
-const pause = 500;
+const pause = 1000;
 
 export function testQuestionScenario({ scenario, client }) {
   client.refresh().waitForElementVisible('body', normal);

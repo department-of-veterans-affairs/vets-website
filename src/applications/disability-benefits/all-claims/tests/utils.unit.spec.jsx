@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 
+import { SAVED_SEPARATION_DATE } from '../../all-claims/constants';
 import {
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
@@ -32,6 +33,8 @@ import {
   activeServicePeriods,
   formatDate,
   formatDateRange,
+  isBDD,
+  show526Wizard,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -873,6 +876,7 @@ describe('526 v2 depends functions', () => {
       'view:claimingIncrease': true,
       'view:claimingNew': false,
     },
+    ratedDisabilities: [{}],
   };
   const newOnlyData = {
     'view:claimType': {
@@ -885,6 +889,7 @@ describe('526 v2 depends functions', () => {
       'view:claimingIncrease': true,
       'view:claimingNew': true,
     },
+    ratedDisabilities: [{}],
   };
   // Shouldn't be possible, but worth testing anyhow
   const noneSelected = {
@@ -893,6 +898,48 @@ describe('526 v2 depends functions', () => {
       'view:claimingNew': false,
     },
   };
+  const isBDDTrueData = {
+    serviceInformation: {
+      servicePeriods: [
+        {
+          dateRange: {
+            to: moment().format('YYYY-MM-DD'),
+          },
+        },
+        {
+          dateRange: {
+            to: moment()
+              .add(90, 'days')
+              .format('YYYY-MM-DD'),
+          },
+        },
+      ],
+    },
+  };
+  const isBDDLessThan90Data = {
+    serviceInformation: {
+      servicePeriods: [
+        {
+          dateRange: {
+            to: moment().format('YYYY-MM-DD'),
+          },
+        },
+        {
+          dateRange: {
+            to: moment()
+              .add(89, 'days')
+              .format('YYYY-MM-DD'),
+          },
+        },
+      ],
+    },
+  };
+
+  const empty = {
+    ratedDisabilities: [{}, {}],
+    'view:claimType': {},
+  };
+
   describe('newOnly', () => {
     it('should return true if only new conditions are claimed', () => {
       expect(newConditionsOnly(newOnlyData)).to.be.true;
@@ -903,6 +950,7 @@ describe('526 v2 depends functions', () => {
     });
     it('should return false if no claim type is selected', () => {
       expect(newConditionsOnly(noneSelected)).to.be.false;
+      expect(newConditionsOnly(empty)).to.be.false;
     });
   });
   describe('increaseOnly', () => {
@@ -915,14 +963,15 @@ describe('526 v2 depends functions', () => {
     });
     it('should return false if no claim type is selected', () => {
       expect(increaseOnly(noneSelected)).to.be.false;
+      expect(increaseOnly(empty)).to.be.false;
     });
   });
 
   describe('format date & date range', () => {
     it('should format dates with full month names', () => {
-      expect(formatDate(true)).to.be.null;
-      expect(formatDate('foobar')).to.be.null;
-      expect(formatDate('2020-02-31')).to.be.null;
+      expect(formatDate(true)).to.equal('Unknown');
+      expect(formatDate('foobar')).to.equal('Unknown');
+      expect(formatDate('2020-02-31')).to.equal('Unknown');
       expect(formatDate('2020-01-31')).to.equal('January 31, 2020');
       expect(formatDate('2020-04-05')).to.equal('April 5, 2020');
       expect(formatDate('2020-05-05')).to.equal('May 5, 2020');
@@ -941,6 +990,51 @@ describe('526 v2 depends functions', () => {
       expect(
         formatDateRange({ from: '2020-06-15', to: '2020-12-31' }),
       ).to.equal('June 15, 2020 to December 31, 2020');
+    });
+  });
+
+  describe('isBDD', () => {
+    afterEach(() => {
+      sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+    });
+
+    it('should return true if the most recent service period has a separation date 90 to 180 days from today', () => {
+      expect(isBDD(isBDDTrueData)).to.be.true;
+    });
+    it('should return false if the most recent service period has a separation before 90 days from today', () => {
+      expect(isBDD(isBDDLessThan90Data)).to.be.false;
+    });
+    it('should return false if no service period is provided with a separation date', () => {
+      expect(isBDD(null)).to.be.false;
+    });
+    it('should return true if a valid date is added to session storage from the wizard', () => {
+      sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        moment()
+          .add(90, 'days')
+          .format('YYYY-MM-DD'),
+      );
+      expect(isBDD(null)).to.be.true;
+    });
+    it('should return false for invalid dates in session storage from the wizard', () => {
+      sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        moment()
+          .add(200, 'days')
+          .format('YYYY-MM-DD'),
+      );
+      expect(isBDD(null)).to.be.false;
+    });
+  });
+
+  describe('showWizard', () => {
+    it('should get wizard feature flag value of true', () => {
+      expect(show526Wizard({ featureToggles: { show526Wizard: true } })).to.be
+        .true;
+    });
+    it('should get wizard feature flag value of false', () => {
+      expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
+        .false;
     });
   });
 });

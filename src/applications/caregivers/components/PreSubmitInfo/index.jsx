@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import SignatureCheckbox from './components/SignatureBox';
+
+import SignatureCheckbox from './SignatureCheckbox';
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
-  const veteranLabel = `Enter Veteran's or service member\u2019s full name`;
+  const veteranLabel = `Enter Veteran\u2019s or service member\u2019s full name`;
   const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
   const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
   const secondaryTwoLabel =

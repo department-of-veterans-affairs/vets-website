@@ -255,7 +255,7 @@ describe('VAOS data transformation', () => {
         facilityDetails: {},
         clinics: {},
         eligibility: {},
-        parentFacilities: [
+        ccEnabledSystems: [
           {
             id: 'var983',
             identifier: [
@@ -284,7 +284,6 @@ describe('VAOS data transformation', () => {
             },
           },
         ],
-        ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
         parentFacilitiesStatus: FETCH_STATUS.succeeded,
         eligibilityStatus: FETCH_STATUS.succeeded,
@@ -303,7 +302,7 @@ describe('VAOS data transformation', () => {
         facilityCode: '983',
         parentSiteCode: '983',
       },
-      purposeOfVisit: 'routine-follow-up',
+      purposeOfVisit: 'other',
       phoneNumber: '5035551234',
       verifyPhoneNumber: '5035551234',
       bestTimetoCall: ['Afternoon'],
@@ -398,7 +397,7 @@ describe('VAOS data transformation', () => {
         facilityDetails: {},
         clinics: {},
         eligibility: {},
-        parentFacilities: [
+        ccEnabledSystems: [
           {
             id: 'var983',
             identifier: [
@@ -427,7 +426,6 @@ describe('VAOS data transformation', () => {
             },
           },
         ],
-        ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
         parentFacilitiesStatus: FETCH_STATUS.succeeded,
         eligibilityStatus: FETCH_STATUS.succeeded,
@@ -446,7 +444,7 @@ describe('VAOS data transformation', () => {
         facilityCode: '983',
         parentSiteCode: '983',
       },
-      purposeOfVisit: 'routine-follow-up',
+      purposeOfVisit: 'other',
       phoneNumber: '5035551234',
       verifyPhoneNumber: '5035551234',
       bestTimetoCall: ['Afternoon'],
@@ -576,6 +574,12 @@ describe('VAOS data transformation', () => {
             {
               id: 'var983_308',
               resourceType: 'HealthcareService',
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:healthcareservice:983:983:308',
+                },
+              ],
               serviceName: 'CHY PC KILPATRICK',
               characteristic: [
                 {

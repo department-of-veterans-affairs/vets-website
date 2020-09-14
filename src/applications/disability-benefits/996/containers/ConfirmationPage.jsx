@@ -5,6 +5,9 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -54,12 +57,10 @@ export class ConfirmationPage extends React.Component {
             Please print this page for your records.
           </em>
         </p>
-        <div className="inset" role="presentation">
+        <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Higher-Level Review{' '}
-            <span className="additional" role="presentation">
-              (Form {formId})
-            </span>
+            <span className="additional">(Form {formId})</span>
           </h3>
           for {fullName}
           {name.suffix && `, ${name.suffix}`}
@@ -68,9 +69,7 @@ export class ConfirmationPage extends React.Component {
               <p>
                 <strong>Date submitted</strong>
                 <br />
-                <span role="presentation">
-                  {moment(response.timestamp).format('MMM D, YYYY')}
-                </span>
+                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
               </p>
               <strong>
                 Issue
@@ -108,14 +107,7 @@ export class ConfirmationPage extends React.Component {
         <p>
           If you requested a decision review and haven’t heard back from VA yet,
           please don’t request another review. Call VA at{' '}
-          <a
-            href="tel:1-800-827-1000"
-            aria-label="8 0 0. 8 2 7. 1 0 0 0."
-            className="nowrap"
-          >
-            800-827-1000
-          </a>
-          .
+          <Telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
         <br />
         <a

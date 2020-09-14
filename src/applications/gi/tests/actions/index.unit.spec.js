@@ -436,6 +436,5 @@ describe('calculator input change', () => {
       value,
     };
     verifyAction(expectedAction, actualAction);
-    verifyGibctFormChange(field, value);
   });
 });

@@ -1,5 +1,3 @@
-const Timeouts = require('platform/testing/e2e/timeouts.js');
-
 function completeMilitaryService(client) {
   client.click('input#root_view\\:hasServiceBefore1978Yes');
 }
@@ -90,55 +88,9 @@ function completeDependents(client) {
     .click('input#root_serviceBefore1977_parentDependentYes');
 }
 
-function completeStemSelection(client) {
-  client.click('input[id="root_isEdithNourseRogersScholarshipNo"]');
-}
-
-function completeStemSelectionFor1995s(client) {
-  client.waitForElementVisible(
-    'label[for="root_isEdithNourseRogersScholarshipYes"',
-    Timeouts.slow,
-  );
-  client.click('input[id="root_isEdithNourseRogersScholarshipYes"]');
-}
-
-function completeStemEnrollmentSelection(client) {
-  client.waitForElementVisible(
-    'label[for="root_isEnrolledStemYes"]',
-    Timeouts.slow,
-  );
-  client.click('input[id="root_isEnrolledStemYes"]');
-}
-
-function completeExhaustionOfBenefits(client) {
-  client.waitForElementVisible(
-    'label[for="root_view:exhaustionOfBenefitsNo"]',
-    Timeouts.verySlow,
-  );
-  client.click('input[id="root_view:exhaustionOfBenefitsNo"]');
-}
-
-function completeStillApplyForStem(client) {
-  client.waitForElementVisible(
-    'label[for="root_determineEligibilityYes"]',
-    Timeouts.verySlow,
-  );
-  client.click('input[id="root_determineEligibilityYes"]');
-}
-
-function completeActiveDutySelection(client) {
-  client.click('input[id="root_isActiveDutyNo"]');
-}
-
 module.exports = {
   completeMilitaryService,
   completeNewSchool,
   completeOldSchool,
   completeDependents,
-  completeStemSelection,
-  completeStemSelectionFor1995s,
-  completeStemEnrollmentSelection,
-  completeExhaustionOfBenefits,
-  completeStillApplyForStem,
-  completeActiveDutySelection,
 };

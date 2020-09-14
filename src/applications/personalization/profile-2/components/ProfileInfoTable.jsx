@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
-const ProfileInfoTable = ({
-  data,
-  dataTransformer,
-  title,
-  className,
-  list,
-}) => {
+const ProfileInfoTable = ({ data, dataTransformer, title, className }) => {
   const titleClasses = prefixUtilityClasses([
     'background-color--gray-lightest',
     'border--1px',
@@ -49,10 +43,24 @@ const ProfileInfoTable = ({
     ['margin-bottom--0', 'margin-right--2'],
     'medium',
   );
-  const tableRowDataClasses = prefixUtilityClasses([
+
+  const tableRowValueClasses = prefixUtilityClasses([
     'margin--0',
     'width--full',
   ]);
+
+  const tableRowValueClassesMedium = prefixUtilityClasses(
+    ['padding-left--5'],
+    'medium',
+  );
+
+  const dataContainsVerified = data.some(row => row.verified === true);
+
+  // When a table includes a 'Verified' checkmark in any of its rows, we need to add left padding to its values
+  // so that the data lines up correctly
+  const computedTableRowValueClasses = dataContainsVerified
+    ? [...tableRowValueClasses, ...tableRowValueClassesMedium].join(' ')
+    : [...tableRowValueClasses].join(' ');
 
   // an object where each value is a string of space-separated class names that
   // can be passed directly to a `className` attribute
@@ -66,7 +74,6 @@ const ProfileInfoTable = ({
       ...tableRowTitleClasses,
       ...tableRowTitleClassesMedium,
     ].join(' '),
-    tableRowData: [...tableRowDataClasses].join(' '),
   };
 
   return (
@@ -85,7 +92,14 @@ const ProfileInfoTable = ({
                 <dfn className={classes.tableRowTitle}>{row.title}</dfn>
               )}
 
-              <span className={classes.tableRowData}>{row.value}</span>
+              {/* In Account Security, we have some rows that need a checkmark when verified  */}
+              {row.verified && row.value}
+
+              {!row.verified && (
+                <span className={computedTableRowValueClasses}>
+                  {row.value}
+                </span>
+              )}
             </li>
           ))}
       </ol>

@@ -2,16 +2,16 @@
  * Enum for the type attribute of a Facility/Provider search result
  */
 export const LocationType = {
-  ALL: 'all',
+  NONE: '',
   VA_FACILITIES: 'va_facilities',
-  CC_PROVIDER: 'cc_provider',
+  CC_PROVIDER: 'provider',
   // Subtypes of VA_FACILITIES
   HEALTH: 'health',
   BENEFITS: 'benefits',
   CEMETARY: 'cemetery',
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
-  URGENT_CARE_FARMACIES: 'cc_pharmacy',
+  URGENT_CARE_PHARMACIES: 'pharmacy',
 };
 
 /**
@@ -23,7 +23,7 @@ export const FacilityType = {
   VA_BENEFITS_FACILITY: 'va_benefits_facility',
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
-  URGENT_CARE_FARMACIES: 'cc_pharmacy',
+  URGENT_CARE_PHARMACIES: 'pharmacy',
 };
 
 /**
@@ -37,7 +37,7 @@ export const PinNames = {
   [FacilityType.VET_CENTER]: 'vet-centers',
   [FacilityType.URGENT_CARE]: 'health',
   [LocationType.CC_PROVIDER]: 'cc-provider',
-  [LocationType.URGENT_CARE_FARMACIES]: 'cc-provider',
+  [LocationType.URGENT_CARE_PHARMACIES]: 'cc-provider',
 };
 
 /**
@@ -70,4 +70,23 @@ export const OperatingStatus = {
   LIMITED: 'LIMITED',
   CLOSED: 'CLOSED',
   NOTICE: 'NOTICE',
+};
+
+/**
+ * Service type "Clinic/Center - Urgent Care" code
+ */
+export const CLINIC_URGENTCARE_SERVICE = '261QU0200X';
+
+/**
+ * Service type "Pharmacy - Community/Retail Pharmacy" code
+ */
+export const PHARMACY_RETAIL_SERVICE = '3336C0003X';
+
+/**
+ * Error Messages
+ */
+export const Error = {
+  DEFAULT: 'We’re sorry. Something went wrong on our end. Please try again.',
+  LOCATION:
+    'Something’s not quite right. Please enter a valid or different location and try your search again.',
 };

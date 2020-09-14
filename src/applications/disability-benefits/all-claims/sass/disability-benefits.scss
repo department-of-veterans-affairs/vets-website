@@ -23,6 +23,14 @@ ul.original-disability-list {
   }
 }
 
+.wizard-content-inner .fieldset-input:first-child {
+  margin-top: 0;
+}
+
+.row .usa-date-of-birth.row {
+  margin: unset;
+}
+
 .process-step:last-child {
   padding-bottom: 0;
 }
@@ -39,10 +47,6 @@ ul.original-disability-list {
   p {
     margin: 0.5em 0;
   }
-}
-
-.progress-box .va-growable button {
-  max-height: 2.3em;
 }
 
 // Bring the text of an element nested in a <label> up to the same line as the check box
@@ -90,6 +94,17 @@ ul.original-disability-list {
   }
 }
 
+// Supporting evidence legend (matches h4 style)
+#root_privateMedicalRecordAttachments-label {
+  font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+
+  .schemaform-required-span {
+    display: none;
+  }
+}
+
 // removes gap when using multiple widget-outlines
 .widget-outline-group {
   &:last-child {
@@ -117,6 +132,7 @@ ul.original-disability-list {
 }
 
 // Style fix for "Private medical records"
+dl.review,
 div.review {
   border-bottom: 1px solid $color-gray-light;
   .review-row {
@@ -129,7 +145,7 @@ div.review {
   }
   .review-row > dd {
     font-weight: bold;
-    text-align: right;
+    text-align: left;
   }
   .review-row > dt > p {
     margin-top: 0;
@@ -137,7 +153,14 @@ div.review {
   }
 }
 
+/* Remove bold on New Disability AdditionalInfo link in review #12678 */
+.usa-accordion > ul button.additional-info-button,
+.usa-accordion-bordered > ul button.additional-info-button {
+  font-weight: normal;
+}
+
 @media (min-width: 481px) {
+  dl.review,
   div.review {
     .review-row {
       flex-direction: row;
@@ -145,6 +168,7 @@ div.review {
     .review-row > dd {
       padding-left: 5px;
       min-width: 100px;
+      text-align: right;
     }
     .review-row > dt {
       max-width: 60%;

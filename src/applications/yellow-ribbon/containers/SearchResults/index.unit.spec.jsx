@@ -36,7 +36,7 @@ describe('Yellow Ribbon container <SearchResults>', () => {
   it('renders no results', () => {
     const tree = shallow(<SearchResults results={[]} />);
 
-    expect(tree.html()).to.include('No results');
+    expect(tree.html()).to.include('No schools found');
 
     tree.unmount();
   });

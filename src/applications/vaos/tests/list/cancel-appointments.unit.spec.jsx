@@ -1,12 +1,14 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import moment from 'moment';
-import { fireEvent } from '@testing-library/react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { fireEvent, waitFor } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
 import {
   setFetchJSONResponse,
   setFetchJSONFailure,
+  mockFetch,
+  resetFetch,
 } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
@@ -21,18 +23,23 @@ import {
   mockFacilitiesFetch,
   mockVACancelFetches,
 } from '../mocks/helpers';
+import { renderWithStoreAndRouter } from '../mocks/setup';
 
-import reducers from '../../reducers';
-import FutureAppointmentsList from '../../components/FutureAppointmentsList';
-import AppointmentsPage from '../../containers/AppointmentsPage';
+import reducers from '../../redux/reducer';
+import FutureAppointmentsList from '../../appointment-list/components/FutureAppointmentsList';
+import AppointmentsPage from '../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
   },
 };
 
 describe('VAOS integration appointment cancellation:', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
   it('video appointments should display modal with facility information', async () => {
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
@@ -74,12 +81,7 @@ describe('VAOS integration appointment cancellation:', () => {
     };
     mockFacilitiesFetch('vha_442', [facility]);
 
-    const {
-      getByRole,
-      getByText,
-      findAllByText,
-      findByText,
-    } = renderInReduxProvider(
+    const { getByRole, findByText } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -89,14 +91,12 @@ describe('VAOS integration appointment cancellation:', () => {
       },
     );
 
-    await findAllByText(/va video connect/i);
-
-    fireEvent.click(getByText(/cancel appointment/i));
+    fireEvent.click(await findByText(/cancel appointment/i));
 
     await findByText(/VA Video Connect appointments can’t be canceled online/i);
     const modal = getByRole('alertdialog');
 
-    expect(modal).to.contain.text('Cheyenne VA Medical Center');
+    await findByText(/Cheyenne VA Medical Center/);
     expect(modal).to.contain.text('307-778-7550');
   });
 
@@ -123,10 +123,9 @@ describe('VAOS integration appointment cancellation:', () => {
     const {
       getByText,
       getByRole,
-      findAllByText,
       findByText,
       queryByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -136,9 +135,7 @@ describe('VAOS integration appointment cancellation:', () => {
       },
     );
 
-    await findAllByText(/community care appointment/i);
-
-    fireEvent.click(getByText(/cancel appointment/i));
+    fireEvent.click(await findByText(/cancel appointment/i));
 
     await findByText(/Community Care appointments can’t be canceled online/i);
 
@@ -184,7 +181,7 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -288,7 +285,7 @@ describe('VAOS integration appointment cancellation:', () => {
       findByText,
       queryByRole,
       getByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -384,9 +381,8 @@ describe('VAOS integration appointment cancellation:', () => {
       findByRole,
       baseElement,
       findByText,
-      queryByRole,
       getByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -452,7 +448,7 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderInReduxProvider(
+    } = renderWithStoreAndRouter(
       <AppointmentsPage>
         <FutureAppointmentsList />
       </AppointmentsPage>,
@@ -491,5 +487,59 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
+  });
+
+  it('va appointments at Cerner site should direct users to portal', async () => {
+    const appointment = getVAAppointmentMock();
+    const appointmentTime = moment();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: appointmentTime.format(),
+      clinicId: '308',
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '668',
+      sta6aid: '668GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+
+    mockAppointmentInfo({ va: [appointment] });
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentsPage>
+        <FutureAppointmentsList />
+      </AppointmentsPage>,
+      {
+        initialState: {
+          ...initialState,
+          user: {
+            profile: {
+              facilities: [
+                { facilityId: '983', isCerner: false },
+                { facilityId: '668', isCerner: true },
+              ],
+              isCernerPatient: true,
+            },
+          },
+        },
+        reducers,
+      },
+    );
+
+    await screen.findByText(/cancel appointment/i);
+    expect(screen.baseElement).not.to.contain.text('Canceled');
+
+    fireEvent.click(screen.getByText(/cancel appointment/i));
+
+    await screen.findByRole('alertdialog');
+
+    await screen.findByText(
+      /You can’t cancel this appointment on the VA appointments tool/i,
+    );
+
+    sinon.spy(window, 'open');
+    fireEvent.click(screen.getByText('Go to My VA Health'));
+    await waitFor(() => expect(window.open.called).to.be.true);
+    await waitFor(() => expect(screen.queryByRole('alertdialog')).to.not.exist);
+    window.open.restore();
   });
 });

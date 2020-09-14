@@ -2,14 +2,32 @@
 // It uses setTimeout to simulate the delay of an AJAX call.
 // All calls return promises.
 import compact from 'lodash/compact';
-import { LocationType } from '../constants';
-import { facilityData } from '../constants/mock-facilities-data';
 import providerServices from '../constants/mock-provider-services.json';
-import { ccLocatorEnabled } from '../config';
 import facilityDataJson from '../constants/mock-facility-data.json';
+import providersDataJson from '../constants/mock-facility-data-v1.json';
+import urgentCareData from '../constants/mock-urgent-care-mashup-data.json';
+import { urgentCareServices } from '../config';
+import { CLINIC_URGENTCARE_SERVICE } from '../constants';
 
 // Immitate network delay
 const delay = 0;
+
+// Map facility type to attribute type
+const testVAFacilityTypes = {
+  health: 'va_health_facility',
+  cemetery: 'va_cemetery',
+  benefits: 'va_benefits_facility',
+  // eslint-disable-next-line camelcase
+  vet_center: 'vet_center',
+};
+
+const facilityResultType = 'facility';
+
+const pharmacyType = 'pharmacy';
+
+const ccProviderType = 'provider';
+
+const urgentCareType = 'urgent_care';
 
 class MockLocatorApi {
   /**
@@ -32,8 +50,7 @@ class MockLocatorApi {
     serviceType,
     page,
   ) {
-    const data = facilityData(locationType, serviceType);
-    const filterableLocations = ['health', 'benefits', 'cc_provider'];
+    const filterableLocations = ['health', 'benefits', 'provider'];
     const params = compact([
       address ? `address=${address}` : null,
       ...bounds.map(c => `bbox[]=${c}`),
@@ -51,16 +68,43 @@ class MockLocatorApi {
             reject('Random failure due to fail flag being set');
           }
 
-          let locations = {};
-          // Feature Flag
-          if (ccLocatorEnabled()) {
-            locations = { ...data };
+          let locationsData;
+          const locations = { ...facilityDataJson };
+          if (locationType === urgentCareType) {
+            if (
+              !serviceType ||
+              serviceType === Object.keys(urgentCareServices)[0]
+            ) {
+              locationsData = urgentCareData.data;
+            }
+            if (serviceType === Object.keys(urgentCareServices)[1]) {
+              locationsData = urgentCareData.data.filter(
+                loc => loc.type === facilityResultType,
+              );
+            }
+            if (serviceType === Object.keys(urgentCareServices)[2]) {
+              locationsData = urgentCareData.data.filter(
+                loc => loc.type === ccProviderType,
+              );
+            }
+          } else if (locationType === ccProviderType) {
+            if (serviceType === CLINIC_URGENTCARE_SERVICE) {
+              locationsData = [providersDataJson.data[12]];
+            } else {
+              locationsData = [providersDataJson.data[10]];
+            }
+          } else if (locationType === pharmacyType) {
+            locationsData = [providersDataJson.data[11]];
           } else {
-            const nonProviders = data.filter(
-              loc => loc.type !== LocationType.CC_PROVIDER,
+            locationsData = locations.data.filter(
+              loc =>
+                loc.attributes.facilityType ===
+                testVAFacilityTypes[locationType],
             );
-            locations = { ...data, data: nonProviders };
           }
+
+          locations.data = locationsData;
+
           resolve(locations);
         } else {
           reject('Invalid URL or query sent to API!');
@@ -105,11 +149,11 @@ class MockLocatorApi {
     });
   }
 
-  static getProviderSvcs(shouldFail = false) {
+  static getProviderSpecialties(shouldFail = false) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (!shouldFail) {
-          resolve(providerServices);
+          resolve(providerServices.map(specialty => specialty.attributes));
         } else {
           reject('Fail condition set, likely for testing reasons.');
         }

@@ -248,7 +248,7 @@ body.va-pos-fixed {
 }
 
 .vetnav-level2 {
-  background: $color-primary-darkest url(/img/arrow-right-white.svg) right 3rem
+  background: $color-primary-darkest url(/img/arrow-right-white.svg) right 2rem
     center no-repeat;
   background-size: 1.4rem auto;
   border-radius: 0;
@@ -492,6 +492,7 @@ body.va-pos-fixed {
 
     .mm-link-container {
       padding-left: 10px;
+      padding-right: 10px;
     }
   }
 

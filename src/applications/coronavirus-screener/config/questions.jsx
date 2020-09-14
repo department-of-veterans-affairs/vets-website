@@ -9,6 +9,11 @@ export const questions = [
     startQuestion: true,
   },
   {
+    id: 'test-results-hi',
+    text: 'Are you waiting for COVID-19 test results?',
+    customId: ['459', '459GE', '459GF', '459GH'],
+  },
+  {
     id: 'fever',
     text: 'In the past 24 hours, have you had a fever?',
   },
@@ -35,6 +40,12 @@ export const questions = [
     ),
   },
   {
+    id: 'household-exposure-526',
+    text:
+      "Has anyone who lives with you had any of the above symptoms that aren't clearly caused by another condition?",
+    customId: ['526'],
+  },
+  {
     id: 'congestion',
     text: 'Do you currently have a runny nose or nasal congestion?',
   },
@@ -50,7 +61,7 @@ export const questions = [
   {
     id: 'exposure-staff',
     text:
-      "In the past 14 days, have you had close contact with someone diagnosed with COVID-19 when you weren't wearing a face covering?",
+      "Have you had contact with someone diagnosed with COVID-19 that you haven't already reported to VA occupational health?",
     dependsOn: {
       id: 'isStaff',
       value: 'yes',
@@ -68,8 +79,7 @@ export const questions = [
   },
   {
     id: 'travel-459GF',
-    text:
-      'In the past 14 days, have you traveled outside of American Samoa (Faleomavaega Eni Faíauaía Hunkin)?',
+    text: 'In the past 14 days, have you traveled outside of American Samoa?',
     customId: ['459GF'],
   },
   {
@@ -77,6 +87,17 @@ export const questions = [
     text:
       'In the past 14 days, have you traveled outside of the Northern Mariana Islands?',
     customId: ['459GH'],
+  },
+  {
+    id: 'travel-new-england-ma-ct-ri',
+    text: 'In the past 14 days, have you traveled outside of New England?',
+    customId: ['523', '650', '689', '402', '405', '631', '518', '608', '478'],
+  },
+  {
+    id: 'travel-ny',
+    text:
+      'In the past 14 days, have you traveled outside of New York and its surrounding states?',
+    customId: ['526', '528', '620', '630', '632'],
   },
 ];
 

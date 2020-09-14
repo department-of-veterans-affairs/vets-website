@@ -25,7 +25,6 @@ jobs:
   unit-test:
     docker:
       - image: circleci/node:10.15.3
-    environment:
     steps:
       - checkout
       - restore_cache:
@@ -46,6 +45,49 @@ jobs:
           path: ./test-results
       - store_artifacts:
           path: ./test-results
+
+  contract-test:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: mkdir -p ./test-results
+      - run: mkdir -p ./pacts
+      - run: yarn test:contract
+      - run: yarn pact:publish
+      - persist_to_workspace:
+          root: .
+          paths:
+            - pacts
+      - store_test_results:
+          path: ./test-results
+      - store_artifacts:
+          path: ./test-results
+
+  can-i-deploy:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: yarn pact:can-i-deploy
 
   security-audit:
     docker:
@@ -187,6 +229,7 @@ jobs:
       - run:
           name: Build apps
           command: yarn build:webpack --env.buildtype vagovprod --env.scaffold
+          no_output_timeout: 15m
       - persist_to_workspace:
           root: ~/
           paths:
@@ -213,7 +256,6 @@ jobs:
       - run:
           name: Run Cypress Tests
           command: yarn cy:test:circle
-          no_output_timeout: 20m
       - store_test_results:
           path: ./test-results
       - store_artifacts:
@@ -243,8 +285,12 @@ workflows:
     jobs:
       - lint
       - unit-test
+      - contract-test
       - security-audit
       - build-e2e
+      - can-i-deploy:
+          requires:
+            - contract-test
       - build:
           requires:
             - lint

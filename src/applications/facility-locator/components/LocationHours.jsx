@@ -26,8 +26,8 @@ const LocationHours = ({ location }) => {
   const isVetCenter = facilityType === LocationType.VET_CENTER;
 
   return (
-    <div>
-      <h3 className="highlight">Hours of Operation</h3>
+    <div id="hours-op">
+      <h3 className="highlight">Hours of operation</h3>
 
       {/* Sunday */}
       {sunday && (

@@ -10,23 +10,25 @@ import { mockContestableIssues } from './hlr.cypress.helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: [
-      // disable all test until HLR is in production
-      // 'maximal-test',
-      // 'minimal-test',
-    ],
+
+    dataSets: ['maximal-test', 'minimal-test'],
+
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
+
     pageHooks: {
-      introduction: () => {
-        // Hit the start button
-        cy.findAllByText(/start/i, { selector: 'button' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          // Hit the start button
+          cy.findAllByText(/start/i, { selector: 'button' })
+            .first()
+            .click();
+        });
       },
     },
+
     setupPerTest: () => {
       cy.login();
 
@@ -42,8 +44,8 @@ const testConfig = createTestConfig(
         'fx:mocks/application-submit',
       );
 
-      cy.get('@testData').then(data => {
-        cy.route('GET', 'v0/in_progress_forms/20-0996', {
+      cy.get('@testData').then(() => {
+        cy.route('GET', '/v0/in_progress_forms/20-0996', {
           formData: {
             veteran: {
               phoneNumber: '5033333333',
@@ -67,6 +69,9 @@ const testConfig = createTestConfig(
         });
       });
     },
+
+    // disable all tests until HLR is in production
+    skip: true,
   },
   manifest,
   formConfig,

@@ -10,6 +10,7 @@ import * as TestHelpers from './test-helpers';
 const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
   TestHelpers.initApplicationSubmitMock(token);
+  TestHelpers.initValidVaFileNumberMock(token).then();
   // Login
   Auth.logIn(
     token,
@@ -36,46 +37,19 @@ const runTest = E2eHelpers.createE2eTest(client => {
     ],
     testData.data,
   );
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // veteran information
   E2eHelpers.expectLocation(client, '/veteran-information');
   client.axeCheck('.main');
   client.pause(Timeouts.normal);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // veteran address
   E2eHelpers.expectLocation(client, '/veteran-address');
   client.axeCheck('.main');
   TestHelpers.fillVeteranDomesticAddress(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // deceased name
-  E2eHelpers.expectLocation(client, '/686-report-dependent-death');
-  client.axeCheck('.main');
-  TestHelpers.fillDeceasedName(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // deceased details
-  E2eHelpers.expectLocation(
-    client,
-    '/686-report-dependent-death/0/additional-information',
-  );
-  client.axeCheck('.main');
-  TestHelpers.fillDeceasedDetails(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // report child marriage
-  E2eHelpers.expectLocation(client, '/686-report-marriage-of-child');
-  client.axeCheck('.main');
-  TestHelpers.fillChildMarriageDetails(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // report child stopped attending school
-  E2eHelpers.expectLocation(client, '/report-child-stopped-attending-school');
-  client.axeCheck('.main');
-  TestHelpers.fillChildStoppedAttendingDetails(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // report stepchild left household
   E2eHelpers.expectLocation(
@@ -84,7 +58,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fillStepchildName(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
 
   // report stepchild left household details
   E2eHelpers.expectLocation(
@@ -93,7 +67,34 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fillStepchildDetails(client, testData.data);
-  client.click('button[id="4-continueButton"]');
+  client.click('button[id="2-continueButton"]');
+
+  // deceased name
+  E2eHelpers.expectLocation(client, '/686-report-dependent-death');
+  client.axeCheck('.main');
+  TestHelpers.fillDeceasedName(client, testData.data);
+  client.click('button[id="2-continueButton"]');
+
+  // deceased details
+  E2eHelpers.expectLocation(
+    client,
+    '/686-report-dependent-death/0/additional-information',
+  );
+  client.axeCheck('.main');
+  TestHelpers.fillDeceasedDetails(client, testData.data);
+  client.click('button[id="2-continueButton"]');
+
+  // report child marriage
+  E2eHelpers.expectLocation(client, '/686-report-marriage-of-child');
+  client.axeCheck('.main');
+  TestHelpers.fillChildMarriageDetails(client, testData.data);
+  client.click('button[id="2-continueButton"]');
+
+  // report child stopped attending school
+  E2eHelpers.expectLocation(client, '/report-child-stopped-attending-school');
+  client.axeCheck('.main');
+  TestHelpers.fillChildStoppedAttendingDetails(client, testData.data);
+  client.click('button[id="2-continueButton"]');
 
   // review and submit
   E2eHelpers.expectLocation(client, '/review-and-submit');
@@ -112,11 +113,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.click('.form-checkbox input[name="privacyAgreementAccepted"]');
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectLocation(client, '/confirmation');
-
-  // confirmation
-  client.axeCheck('.main');
   client.end();
 });
 

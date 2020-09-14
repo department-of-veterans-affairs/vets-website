@@ -3,15 +3,11 @@
  * @module platform/startup
  */
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
 import { createHistory } from 'history';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
-
-import createCommonStore from './store';
-import startSitewideComponents from '../site-wide';
 import startReactApp from './react';
+import setUpCommonFunctionality from './setup';
 
 /**
  * Starts an application in the default element for standalone React
@@ -38,33 +34,20 @@ export default function startApp({
   analyticsEvents,
   entryName = 'unknown',
 }) {
-  // Set further errors to have the appropriate source tag
-  Sentry.setTag('source', entryName);
-
-  // Set the app name for use in the apiRequest helper
-  window.appName = entryName;
-
-  const store = createCommonStore(reducer, analyticsEvents);
-  connectFeatureToggle(store.dispatch);
+  const store = setUpCommonFunctionality({
+    entryName,
+    url,
+    reducer,
+    analyticsEvents,
+  });
 
   let history = browserHistory;
   if (url) {
-    if (url.endsWith('/')) {
-      throw new Error(
-        'Root urls should not end with a slash. Check your manifest.json file and application entry file.',
-      );
-    }
     // eslint-disable-next-line react-hooks/rules-of-hooks
     history = useRouterHistory(createHistory)({
       basename: url,
     });
   }
-
-  Sentry.withScope(scope => {
-    scope.setTag('source', 'site-wide');
-    startSitewideComponents(store);
-  });
-
   let content = component;
   if (createRoutesWithStore) {
     content = <Router history={history}>{createRoutesWithStore(store)}</Router>;

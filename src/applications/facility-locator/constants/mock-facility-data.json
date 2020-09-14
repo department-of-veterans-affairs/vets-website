@@ -1,55 +1,6 @@
 {
   "data": [
     {
-      "id": "nca_s1130",
-      "type": "va_facilities",
-      "attributes": {
-        "uniqueId": "s1130",
-        "name": "Washington State Veterans Cemetery Medical Lake",
-        "facilityType": "va_cemetery",
-        "classification": "State Cemetery",
-        "operatingStatus": {
-          "code": "NOTICE",
-          "additionalInfo": "Some additional NOTICE"
-        },
-        "website": "http://www.dva.wa.gov/cemetery",
-        "lat": 47.5862341059396,
-        "long": -117.713961630042,
-        "address": {
-          "physical": {
-            "address1": "21702 W Espanola Rd",
-            "address2": null,
-            "address3": null,
-            "city": "Medical Lake",
-            "state": "WA",
-            "zip": "99022"
-          },
-          "mailing": {}
-        },
-        "phone": {
-          "main": "509-299-6280",
-          "fax": ""
-        },
-        "hours": {
-          "monday": "Sunrise - Sunset",
-          "tuesday": "Sunrise - Sunset",
-          "wednesday": "Sunrise - Sunset",
-          "thursday": "Sunrise - Sunset",
-          "friday": "Sunrise - Sunset",
-          "saturday": "Sunrise - Sunset",
-          "sunday": "Sunrise - Sunset"
-        },
-        "services": {
-          "benefits": {
-            "other": "",
-            "standard": []
-          }
-        },
-        "feedback": {},
-        "access": {}
-      }
-    },
-    {
       "id": "vha_438GE",
       "type": "va_facilities",
       "attributes": {
@@ -149,116 +100,52 @@
       }
     },
     {
-      "id": "vha_691GE",
+      "id": "nca_s1130",
       "type": "va_facilities",
       "attributes": {
-        "uniqueId": "691GE",
-        "name": "Los Angeles VA Clinic",
-        "facilityType": "va_health_facility",
-        "classification": "Multi-Specialty CBOC",
+        "uniqueId": "s1130",
+        "name": "Washington State Veterans Cemetery Medical Lake",
+        "facilityType": "va_cemetery",
+        "classification": "State Cemetery",
         "operatingStatus": {
-          "code": "CLOSED",
-          "additionalInfo": "Some additional CLOSED"
+          "code": "NOTICE",
+          "additionalInfo": "Some additional NOTICE"
         },
-        "website": null,
-        "lat": 34.05171284,
-        "long": -118.23874096,
+        "website": "http://www.dva.wa.gov/cemetery",
+        "lat": 47.5862341059396,
+        "long": -117.713961630042,
         "address": {
           "physical": {
-            "address1": "351 East Temple Street",
+            "address1": "21702 W Espanola Rd",
             "address2": null,
             "address3": null,
-            "city": "Los Angeles",
-            "state": "CA",
-            "zip": "90012-3328"
+            "city": "Medical Lake",
+            "state": "WA",
+            "zip": "99022"
           },
           "mailing": {}
         },
         "phone": {
-          "main": "213-253-5000 x",
-          "fax": "213-253-5510 x",
-          "afterHours": "877-252-4866 x",
-          "patientAdvocate": "213-253-2677 x24111",
-          "enrollmentCoordinator": "213-253-2677 x24033",
-          "pharmacy": "800-952-4852 x",
-          "mentalHealthClinic": "310-268-4449"
+          "main": "509-299-6280",
+          "fax": ""
         },
         "hours": {
-          "monday": "700AM-530PM",
-          "tuesday": "700AM-530PM",
-          "wednesday": "700AM-530PM",
-          "thursday": "700AM-530PM",
-          "friday": "700AM-530PM",
-          "saturday": "-",
-          "sunday": "-"
+          "monday": "Sunrise - Sunset",
+          "tuesday": "Sunrise - Sunset",
+          "wednesday": "Sunrise - Sunset",
+          "thursday": "Sunrise - Sunset",
+          "friday": "Sunrise - Sunset",
+          "saturday": "Sunrise - Sunset",
+          "sunday": "Sunrise - Sunset"
         },
         "services": {
-          "lastUpdated": "2017-07-24",
-          "health": [
-            {
-              "sl1": [
-                "DentalServices"
-              ],
-              "sl2": []
-            },
-            {
-              "sl1": [
-                "MentalHealthCare"
-              ],
-              "sl2": []
-            },
-            {
-              "sl1": [
-                "PrimaryCare"
-              ],
-              "sl2": []
-            }
-          ]
-        },
-        "feedback": {
-          "health": {
-            "primaryCareUrgent": "0.78",
-            "primaryCareRoutine": "0.77",
-            "effectiveDate": "2017-03-24"
+          "benefits": {
+            "other": "",
+            "standard": []
           }
         },
-        "access": {
-          "health": {
-            "primaryCare": {
-              "new": 15,
-              "established": 3
-            },
-            "mentalHealth": {
-              "new": 12,
-              "established": 2
-            },
-            "womensHealth": {
-              "new": null,
-              "established": 9
-            },
-            "audiology": {
-              "new": 48,
-              "established": 0
-            },
-            "gastroenterology": {
-              "new": 7,
-              "established": null
-            },
-            "opthalmology": {
-              "new": 9,
-              "established": 6
-            },
-            "optometry": {
-              "new": 14,
-              "established": 5
-            },
-            "urologyClinic": {
-              "new": 23,
-              "established": 3
-            },
-            "effectiveDate": "2017-08-14"
-          }
-        }
+        "feedback": {},
+        "access": {}
       }
     },
     {
@@ -888,147 +775,253 @@
       }
     },
     {
-      "id": "ccp_1",
-      "type": "cc_provider",
+      "id": "vha_691GE",
+      "type": "va_facilities",
       "attributes": {
-        "uniqueId": "1",
-        "name": "Smith, Jones MD",
-        "orgName": "Jones Family Medicine",
-        "specialty": [
-          {
-            "name": "Family Medicine",
-            "desc": "Family Medicine is the medical specialty which is concerned with the total health care of the individual and the family. It is the specialty in breadth which integrates the biological, clinical, and behavioral sciences. The scope of family medicine is not limited by age, sex, organ system, or disease entity."
-          }
-        ],
-        "address": {
-          "street": "820 Chesapeake Street, Southeast",
-          "appt": "",
-          "city": "Washington",
-          "state": "DC",
-          "zip": "20032-3428",
-          "full": "820 Chesapeake Street, Southeast, Washington, DC 20032-3428"
+        "uniqueId": "691GE",
+        "name": "Los Angeles VA Clinic",
+        "facilityType": "va_health_facility",
+        "classification": "Multi-Specialty CBOC",
+        "operatingStatus": {
+          "code": "CLOSED",
+          "additionalInfo": "Some additional CLOSED"
         },
-        "email": "jones.smith@docs.gov",
-        "phone": "202-745-8685",
-        "schedPhone": "202-745-8000",
-        "fax": "202-562-8789",
-        "website": "http://example.com",
-        "prefContact": "phone",
-        "accNewPatients": true,
-        "gender": "Female",
-        "distance": 0.5,
-        "network": "TriWest",
-        "lat": 38.8292075900001,
-        "long": -76.99237091
+        "website": null,
+        "lat": 34.05171284,
+        "long": -118.23874096,
+        "address": {
+          "physical": {
+            "address1": "351 East Temple Street",
+            "address2": null,
+            "address3": null,
+            "city": "Los Angeles",
+            "state": "CA",
+            "zip": "90012-3328"
+          },
+          "mailing": {}
+        },
+        "phone": {
+          "main": "213-253-5000 x",
+          "fax": "213-253-5510 x",
+          "afterHours": "877-252-4866 x",
+          "patientAdvocate": "213-253-2677 x24111",
+          "enrollmentCoordinator": "213-253-2677 x24033",
+          "pharmacy": "800-952-4852 x",
+          "mentalHealthClinic": "310-268-4449"
+        },
+        "hours": {
+          "monday": "700AM-530PM",
+          "tuesday": "700AM-530PM",
+          "wednesday": "700AM-530PM",
+          "thursday": "700AM-530PM",
+          "friday": "700AM-530PM",
+          "saturday": "-",
+          "sunday": "-"
+        },
+        "services": {
+          "lastUpdated": "2017-07-24",
+          "health": [
+            {
+              "sl1": [
+                "DentalServices"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "MentalHealthCare"
+              ],
+              "sl2": []
+            },
+            {
+              "sl1": [
+                "PrimaryCare"
+              ],
+              "sl2": []
+            }
+          ]
+        },
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": "0.78",
+            "primaryCareRoutine": "0.77",
+            "effectiveDate": "2017-03-24"
+          }
+        },
+        "access": {
+          "health": {
+            "primaryCare": {
+              "new": 15,
+              "established": 3
+            },
+            "mentalHealth": {
+              "new": 12,
+              "established": 2
+            },
+            "womensHealth": {
+              "new": null,
+              "established": 9
+            },
+            "audiology": {
+              "new": 48,
+              "established": 0
+            },
+            "gastroenterology": {
+              "new": 7,
+              "established": null
+            },
+            "opthalmology": {
+              "new": 9,
+              "established": 6
+            },
+            "optometry": {
+              "new": 14,
+              "established": 5
+            },
+            "urologyClinic": {
+              "new": 23,
+              "established": 3
+            },
+            "effectiveDate": "2017-08-14"
+          }
+        }
       }
     },
-    {
-      "id": "ccp_2",
-      "type": "cc_provider",
+    {    "id": "vha_674BY",
+      "type": "facility",
       "attributes": {
-        "uniqueId": "2",
-        "name": "Franklin Street Dentist",
-        "orgName": null,
-        "specialty": [
-          {
-            "name": "Dentistry",
-            "desc": "A dentist is a person qualified by a doctorate in dental surgery (D.D.S.) or dental medicine (D.M.D.), licensed by the state to practice dentistry, and practicing within the scope of that license. There is no difference between the two degrees: dentists who have a DMD or DDS have the same education. Universities have the prerogative to determine what degree is awarded. Both degrees use the same curriculum requirements set by the American Dental Association's Commission on Dental Accreditation. Generally, three or more years of undergraduate education plus four years of dental school is required to graduate and become a general dentist. State licensing boards accept either degree as equivalent, and both degrees allow licensed individuals to practice the same scope of general dentistry. Additional post-graduate training is required to become a dental specialist."
-          },
-          {
-            "name": "Orthodontist",
-            "desc": "That area of dentistry concerned with the supervision, guidance and correction of the growing or mature dentofacial structures, including those conditions that require movement of teeth or correction of malrelationships and malformations of their related structures and the adjustment of relationships between and among teeth and facial bones by the application of forces and/or the stimulation and redirection of functional forces within the craniofacial complex. Major responsibilities of orthodontic practice include the diagnosis, prevention, interception and treatment of all forms of malocclusion of the teeth and associated alterations in their surrounding structures; the design, application and control of functional and corrective appliances; and the guidance of the dentition and its supporting structures to attain and maintain optimum occlusal relations in physiologic and esthetic harmony among facial and cranial structures."
-          }
-        ],
-        "address": {
-          "street": "1500 Franklin Street Northeast",
-          "appt": "",
-          "city": "Washington",
-          "state": "DC",
-          "zip": "20018-2000",
-          "full": "1500 Franklin Street Northeast, Washington, DC 20018-2000"
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": null,
+              "established": 0.714285
+            },
+            {
+              "service": "Dermatology",
+              "new": 6.294117,
+              "established": 8.69014
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 4.076923,
+              "established": 0
+            },
+            {
+              "service": "Gynecology",
+              "new": 65,
+              "established": 2.285714
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 1.612903,
+              "established": 4.621164
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 5,
+              "established": 7.301204
+            },
+            {
+              "service": "Optometry",
+              "new": 7.85,
+              "established": 4.489361
+            },
+            {
+              "service": "Orthopedics",
+              "new": 8.4,
+              "established": 1.34375
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 7.468085,
+              "established": 1.543234
+            },
+            {
+              "service": "SpecialtyCare",
+              "new": 5.631205,
+              "established": 7.435233
+            },
+            {
+              "service": "WomensHealth",
+              "new": 65,
+              "established": 2.285714
+            }
+          ],
+          "effectiveDate": "2020-07-27"
         },
-        "email": "franklin@dentist.med",
-        "phone": "202-636-7660",
-        "fax": "202-636-7661",
-        "website": "http://example.com",
-        "prefContact": "phone",
-        "accNewPatients": true,
-        "gender": "Male",
-        "distance": 5.15,
-        "network": "TriWest",
-        "lat": 38.925828,
-        "long": -76.9835070199999
-      }
-    },
-    {
-      "id": "ccp_3",
-      "type": "cc_provider",
-      "attributes": {
-        "uniqueId": "3",
-        "name": "University of Maryland Clinic",
-        "specialty": [
-          {
-            "name": "Vaccines",
-            "desc": "...shots..."
-          },
-          {
-            "name": "Check-ups",
-            "desc": "Physicals and whatnot..."
-          }
-        ],
+        "activeStatus": "A",
         "address": {
-          "street": "3511 University Blvd. East",
-          "appt": "",
-          "city": "Adelphi",
-          "state": "DC",
-          "zip": "20783",
-          "full": "3511 University Blvd. East, Adelphi, MD 20783"
-        },
-        "email": "clinic@uom.edu",
-        "phone": "240-684-2555",
-        "schedPhone": "866-606-8198",
-        "fax": "240-684-2301",
-        "website": "http://example.com",
-        "prefContact": "phone",
-        "accNewPatients": true,
-        "gender": "Male",
-        "distance": 5.15,
-        "network": "TriWest",
-        "lat": 38.9857684400001,
-        "long": -76.95675965
-      }
-    },
-    {
-      "id": "ccp_4",
-      "type": "cc_provider",
-      "attributes": {
-        "uniqueId": "4",
-        "name": "University of Broken Data",
-        "specialty": [
-          {
-            "name": "Bad Data",
-            "desc": "...b0rk..."
-          },
-          {
-            "name": "Eyyy Lmao",
-            "desc": "LUL IceCold..."
+          "mailing": {},
+          "physical": {
+            "zip": "78744-3111",
+            "city": "Austin",
+            "state": "TX",
+            "address1": "7901 Metropolis Drive",
+            "address2": null,
+            "address3": null
           }
-        ],
-        "address": {},
-        "email": "b0rkb0rk@br0k.edu",
-        "phone": "240-123-0199",
-        "schedPhone": "866-606-8198",
-        "fax": "240-123-0198",
-        "website": "http://b0rk.org",
-        "prefContact": "phone",
-        "accNewPatients": true,
-        "gender": "Male",
-        "distance": 3.65,
-        "network": "LHASNRM",
-        "lat": 38.9857684400001,
-        "long": -76.95675965
-      }
-    }
+        },
+        "classification": "Multi-Specialty CBOC",
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.550000011920929,
+            "primaryCareRoutine": 0.8700000047683716
+          },
+          "effectiveDate": "2020-04-16"
+        },
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "id": "vha_674BY",
+        "lat": 30.205656,
+        "long": -97.6903515,
+        "mobile": false,
+        "name": "Austin VA Clinic",
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "512-823-4125",
+          "main": "800-423-2111",
+          "pharmacy": "800-423-2111",
+          "afterHours": "254-778-4811",
+          "patientAdvocate": "512-823-4540",
+          "mentalHealthClinic": "512-823-4040",
+          "enrollmentCoordinator": "254-743-2420"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "DentalServices",
+            "Dermatology",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2020-07-27"
+        },
+        "uniqueId": "674BY",
+        "visn": "17",
+        "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
+      }}
+
   ],
   "links": {
     "self": "http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1",

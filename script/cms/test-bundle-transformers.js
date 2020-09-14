@@ -8,19 +8,18 @@ const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const { map } = require('lodash');
 
-const contentDir = path.resolve(
-  __dirname,
-  '../../.cache/localhost/cms-export-content',
-);
-
-const assembleEntityTree = require('../../src/site/stages/build/process-cms-exports')(
-  contentDir,
-);
+const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
 const {
   readEntity,
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
 
 const optionDefinitions = [
+  {
+    name: 'bundle',
+    type: String,
+    description:
+      'Transform all entities of the bundle type specified. For example, "page" or "block_content-alert"',
+  },
   {
     name: 'entity',
     alias: 'e',
@@ -47,10 +46,15 @@ const optionDefinitions = [
     description: 'Show this help.',
   },
   {
-    name: 'bundle',
+    name: 'transform-only-published',
+    type: Boolean,
+    description: 'Transform unpublished entities.',
+  },
+  {
+    name: 'buildtype',
     type: String,
-    description:
-      'Transform all entities of the bundle type specified. For example, "page" or "block_content-alert"',
+    description: 'The buildtype to test the transformers against.',
+    defaultValue: 'localhost',
   },
 ];
 
@@ -60,7 +64,15 @@ const {
   print: printIndex,
   bundle,
   help,
+  'transform-only-published': transformOnlyPublished,
+  buildtype,
 } = commandLineArgs(optionDefinitions);
+
+const contentDir = path.resolve(
+  __dirname,
+  `../../.cache/${buildtype}/cms-export-content`,
+);
+const assembleEntityTree = assembleEntityTreeFactory(contentDir);
 
 if (help) {
   console.log(
@@ -87,7 +99,10 @@ if (entityNames) {
       '--entity (or -e) needs to be the filename of an entity. E.g. node.<uuid>.json',
     );
 
-    return assembleEntityTree(readEntity(contentDir, ...nodeNamePieces));
+    return assembleEntityTree(
+      readEntity(contentDir, ...nodeNamePieces),
+      !transformOnlyPublished,
+    );
   });
   console.log(
     JSON.stringify(result.length === 1 ? result[0] : result, null, 2),
@@ -126,7 +141,9 @@ if (entityNames) {
     );
   }
 
-  const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
+  const modifiedEntities = map(entities, entity =>
+    assembleEntityTree(entity, !transformOnlyPublished),
+  ).filter(e => e);
 
   console.log(
     chalk.bold('Number of entities transformed:'),

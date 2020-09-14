@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import appendQuery from 'append-query';
 
-import environment from 'platform/utilities/environment';
 import {
   formatCurrency,
   isPresent,
   locationInfo,
   createId,
+  useQueryParams,
 } from '../../utils/helpers';
 import {
   renderPreferredProviderFlag,
@@ -15,8 +15,7 @@ import {
   renderSchoolClosingAlert,
 } from '../../utils/render';
 
-function VetTecProgramSearchResult(props) {
-  const { version, result, constants, id } = props;
+function VetTecProgramSearchResult({ result, constants, id }) {
   const {
     facilityCode,
     description,
@@ -32,28 +31,27 @@ function VetTecProgramSearchResult(props) {
     cautionFlags,
   } = result;
 
+  const queryParams = useQueryParams();
+  const version = queryParams.get('version');
   const tuition = isPresent(tuitionAmount)
     ? formatCurrency(tuitionAmount)
     : 'TBD';
 
   const displayHours = lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
 
-  const linkTo = environment.isProduction()
-    ? {
-        pathname: `/profile/${facilityCode}/${description}`,
-        query: version ? { version } : {},
-      }
-    : appendQuery(`/profile/${facilityCode}/${description}`, { version });
+  const profileLink = version
+    ? appendQuery(`/profile/${facilityCode}/${description}`, { version })
+    : `/profile/${facilityCode}/${description}`;
 
   return (
     <div id={`search-result-${createId(id)}`} className="search-result">
       <div className="outer">
         <div className="inner">
           <div className="row vads-u-padding-top--1p5">
-            <div className="small-12 medium-7 columns">
+            <div className="small-12 medium-6 columns">
               <h2>
                 <Link
-                  to={linkTo}
+                  to={profileLink}
                   aria-label={`${description} ${locationInfo(
                     city,
                     state,
@@ -65,7 +63,7 @@ function VetTecProgramSearchResult(props) {
               </h2>
             </div>
             <div className="small-12 medium-3 columns">
-              {renderPreferredProviderFlag(props.result)}
+              {renderPreferredProviderFlag(result)}
             </div>
           </div>
           {(schoolClosing || cautionFlags.length > 0) && (
@@ -119,12 +117,14 @@ function VetTecProgramSearchResult(props) {
               </div>
             </div>
           </div>
-          <div className="row vads-u-padding-top--1p5">
+          <div className="row ">
             <div className="view-details columns vads-u-display--inline-block">
               {isPresent(lengthInHours) && (
                 <div className="info-flag">{displayHours}</div>
               )}
-              <Link to={linkTo}>View details ›</Link>
+              <div className="vads-u-margin-top--1">
+                <Link to={profileLink}>View details ›</Link>
+              </div>
             </div>
           </div>
         </div>

@@ -1,40 +1,41 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
+import { useLastLocation } from 'react-router-last-location';
 import { connect } from 'react-redux';
-
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
+import PaymentInformationBlocked from 'applications/personalization/profile360/components/PaymentInformationBlocked';
 import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
-import { directDepositLoadError } from 'applications/personalization/profile360/selectors';
+import { directDepositIsBlocked } from 'applications/personalization/profile360/selectors';
 
 import PersonalInformationContent from './PersonalInformationContent';
 
-const MyAlert = () => (
-  <AlertBox
-    status="warning"
-    headline="We can’t access your direct deposit information right now"
-    className="vads-u-margin-bottom--4"
-  >
-    <p>
-      We’re sorry. Something went wrong on our end. Please refresh this page or
-      try again later.
-    </p>
-  </AlertBox>
-);
+import { PROFILE_PATHS } from '../../constants';
 
 const PersonalInformation = ({
-  showNotAllDataAvailableError,
+  showDirectDepositBlockedError,
   hasUnsavedEdits,
 }) => {
-  useEffect(() => {
-    focusElement('[data-focus-target]');
-  }, []);
+  const lastLocation = useLastLocation();
+  useEffect(
+    () => {
+      // Do not manage the focus if the user just came to this route via the
+      // root profile route. If a user got to the Profile via a link to /profile
+      // or /profile/ we want to focus on the "Your Profile" sub-nav H1, not the
+      // H2 on this page
+      const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
+      if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
+        return;
+      }
+      focusElement('[data-focus-target]');
+    },
+    [lastLocation],
+  );
 
   useEffect(
     () => {
@@ -66,7 +67,7 @@ const PersonalInformation = ({
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vet360]}
       >
-        {showNotAllDataAvailableError && <MyAlert />}
+        {showDirectDepositBlockedError && <PaymentInformationBlocked />}
         <PersonalInformationContent />
       </DowntimeNotification>
     </>
@@ -74,12 +75,12 @@ const PersonalInformation = ({
 };
 
 PersonalInformation.propTypes = {
-  showNotAllDataAvailableError: PropTypes.bool.isRequired,
+  showDirectDepositBlockedError: PropTypes.bool.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  showNotAllDataAvailableError: !!directDepositLoadError(state),
+  showDirectDepositBlockedError: !!directDepositIsBlocked(state),
   hasUnsavedEdits: state.vet360.hasUnsavedEdits,
 });
 

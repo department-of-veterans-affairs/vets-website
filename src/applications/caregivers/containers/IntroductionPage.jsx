@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
@@ -14,7 +17,7 @@ const IntroductionPage = ({ route, router }) => {
   }, []);
 
   const startForm = () => {
-    recordEvent({ event: 'no-login-start-form' });
+    recordEvent({ event: 'caregivers-10-10cg-start-form' });
     const pageList = route.pageList;
     return router.push(pageList[1].path);
   };
@@ -25,6 +28,7 @@ const IntroductionPage = ({ route, router }) => {
         Follow the steps below to apply for the Program of Comprehensive
         Assistance for Family Caregivers:
       </h2>
+
       <div className="process schemaform-process">
         <ol>
           {/* Prepare */}
@@ -36,14 +40,15 @@ const IntroductionPage = ({ route, router }) => {
               caregiver applicant will need to provide specific information.
               You’ll need:
             </p>
+
             <ul className="process-lists">
               <li>Address</li>
               <li>Telephone number</li>
               <li>Date of birth</li>
-              <li>Social Security Number or Tax Identification Number</li>
+              <li>Social Security number or Tax identification number</li>
             </ul>
 
-            <p>You will also need:</p>
+            <p>You’ll need:</p>
             <ul className="process-lists">
               <li>The VA medical center where the Veteran will receive care</li>
               <li>
@@ -64,13 +69,10 @@ const IntroductionPage = ({ route, router }) => {
               <ul className="process-lists">
                 <li>
                   Call us at
-                  <a
-                    href={links.VAHelpLine.label}
-                    aria-label={links.VAHelpLine.phoneAriaLabel}
+                  <Telephone
+                    contact={CONTACTS['222_VETS']}
                     className="vads-u-margin-x--0p5"
-                  >
-                    877-222-8387
-                  </a>
+                  />
                   and ask for help filling out the form
                 </li>
                 <li>
@@ -87,14 +89,10 @@ const IntroductionPage = ({ route, router }) => {
                 </li>
                 <li>
                   Contact the National Caregiver Support Line at
-                  <a
+                  <Telephone
                     className="vads-u-margin-x--0p5"
-                    href="tel:8552603274"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    855-260-3274
-                  </a>
+                    contact={CONTACTS.CAREGIVER}
+                  />
                   or a
                   <a
                     className="vads-u-margin-x--0p5"
@@ -158,13 +156,10 @@ const IntroductionPage = ({ route, router }) => {
               If you aren’t eligible for PCAFC you may be eligible for the
               Program of General Caregiver Support Services (PGCSS). To find out
               more, contact VA’s Caregiver Support Line at
-              <a
-                href={links.caregiverHelp.phoneLink}
-                aria-label={links.caregiverHelp.phoneAriaLabel}
+              <Telephone
+                contact={CONTACTS.CAREGIVER}
                 className="vads-u-margin-left--0p5"
-              >
-                {links.caregiverHelp.phoneLabel}
-              </a>
+              />
               , visit
               <a
                 target="_blank"
@@ -174,7 +169,7 @@ const IntroductionPage = ({ route, router }) => {
               >
                 www.caregiver.va.gov
               </a>
-              or discuss these options with your local Caregiver Support
+              ,or discuss these options with your local Caregiver Support
               Coordinator.
             </p>
           </li>
@@ -219,7 +214,7 @@ const IntroductionPage = ({ route, router }) => {
         className="usa-button vads-u-margin-bottom--3"
         onClick={startForm}
       >
-        Start your Application
+        Start your application
       </button>
       <div className="omb-info--container vads-u-padding-left--0">
         <OMBInfo resBurden={15} ombNumber="2900-0091" expDate="09/30/2021" />

@@ -1,6 +1,10 @@
 import _ from 'lodash/fp';
 import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilities.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import {
+  primaryCaregiverFields,
+  secondaryCaregiverFields,
+} from 'applications/caregivers/definitions/constants';
 
 // Merges all the state facilities into one object with values as keys
 // and labels as values
@@ -113,4 +117,18 @@ const submitTransform = (formConfig, form) => {
   });
 };
 
-export { medicalCenterLabels, medicalCentersByState, submitTransform };
+const hasSecondaryCaregiverOne = formData =>
+  formData[primaryCaregiverFields.hasSecondaryCaregiverOneView] === true;
+
+const hasSecondaryCaregiverTwo = formData =>
+  formData[
+    secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwoView
+  ] === true;
+
+export {
+  medicalCenterLabels,
+  medicalCentersByState,
+  submitTransform,
+  hasSecondaryCaregiverOne,
+  hasSecondaryCaregiverTwo,
+};

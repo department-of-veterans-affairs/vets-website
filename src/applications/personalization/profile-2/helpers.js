@@ -2,39 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import { USA_MILITARY_BRANCHES } from './constants';
 
-const asyncReturn = (returnValue, delay = 300) =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve(returnValue);
-    }, delay);
-  });
-
-export const asyncFetchMilitaryInformation = () =>
-  asyncReturn({
-    serviceHistory: [
-      {
-        branchOfService: 'Army',
-        beginDate: '2010-05-10',
-        endDate: '2010-08-15',
-      },
-      {
-        branchOfService: 'Air Force',
-        beginDate: '2010-01-31',
-        endDate: '2010-03-01',
-      },
-      {
-        branchOfService: 'Other',
-        beginDate: '2011-02-28',
-        endDate: '2011-12-25',
-      },
-      {
-        branchOfService: 'Marine Corps',
-        beginDate: '2012-04-01',
-        endDate: '2012-05-01',
-      },
-    ],
-  });
-
 /**
  * Prefixes the serviceBranch with 'United States' if it's a valid US military
  * branch. Otherwise it returns the original serviceBranch without changing it

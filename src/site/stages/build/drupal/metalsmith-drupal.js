@@ -31,6 +31,8 @@ const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 // should use the files in the cms-export directory
 const USE_CMS_EXPORT_BUILD_ARG = 'use-cms-export';
 const CMS_EXPORT_DIR_BUILD_ARG = 'cms-export-dir';
+const CMS_EXPORT_CACHE_FILENAME =
+  '.cache/localhost/drupal/pagesTransformed.json';
 
 const getDrupalCachePath = buildOptions =>
   buildOptions[USE_CMS_EXPORT_BUILD_ARG]
@@ -44,31 +46,11 @@ const shouldPullDrupal = buildOptions =>
   !fs.existsSync(getDrupalCachePath(buildOptions));
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
-  const {
-    data: {
-      nodeQuery: { entities: pages },
-    },
-  } = contentData;
-
-  const skippedContent = {
-    nullEntities: 0,
-    emptyEntities: 0,
-  };
+  const pages = contentData.data.nodeQuery.entities.filter(
+    e => e && Object.keys(e).length,
+  );
 
   for (const page of pages) {
-    // At this time, null values are returned for pages that are not yet published.
-    // Once the Content-Preview server is up and running, then unpublished pages should
-    // reliably return like any other page and we can delete this.
-    if (!page) {
-      skippedContent.nullEntities++;
-      continue;
-    }
-
-    if (!Object.keys(page).length) {
-      skippedContent.emptyEntities++;
-      continue;
-    }
-
     const {
       entityUrl: { path: drupalUrl },
       entityBundle,
@@ -148,13 +130,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     if (page.entityBundle === 'event_listing') {
       createPastEventListPages(pageCompiled, drupalPageDir, files);
     }
-  }
-
-  if (skippedContent.nullEntities) {
-    log(`Skipped ${skippedContent.nullEntities} null entities`);
-  }
-  if (skippedContent.emptyEntities) {
-    log(`Skipped ${skippedContent.emptyEntities} empty entities`);
   }
 }
 
@@ -249,6 +224,9 @@ async function loadDrupal(buildOptions) {
     ? await getContentFromExport(buildOptions)
     : await getContentViaGraphQL(buildOptions);
 
+  // Dynamic GraphQL from CMS build
+  fs.outputJsonSync(CMS_EXPORT_CACHE_FILENAME, drupalPages);
+
   log('Drupal successfully loaded!');
   return drupalPages;
 }
@@ -265,7 +243,9 @@ async function loadCachedDrupalFiles(buildOptions, files) {
         path.join(buildOptions.cacheDirectory, 'drupal/downloads'),
         file,
       );
-      log(`Loaded Drupal asset from cache: ${relativePath}`);
+      if (global.verbose) {
+        log(`Loaded Drupal asset from cache: ${relativePath}`);
+      }
       files[relativePath] = {
         path: relativePath,
         isDrupalAsset: true,

@@ -12,8 +12,8 @@ import {
   getParentOfLocation,
   getFacilityIdFromLocation,
 } from '../../../services/location';
-import facilities983 from '../../../api/facilities_983.json';
-import facilityDetails from '../../../api/facility_data.json';
+import facilities983 from '../../../services/mocks/var/facilities_983.json';
+import facilityDetails from '../../../services/mocks/var/facility_data.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 
 describe('VAOS Location service', () => {
@@ -24,7 +24,7 @@ describe('VAOS Location service', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilities983);
       data = await getSupportedLocationsByTypeOfCare({
-        rootOrgId: 'var983',
+        siteId: '983',
         parentId: 'var983A6',
         typeOfCareId: '123',
       });
@@ -39,7 +39,7 @@ describe('VAOS Location service', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilities983);
       data = await getSupportedLocationsByTypeOfCare({
-        rootOrgId: 'var983',
+        siteId: '983',
         parentId: 'var983A6',
         typeOfCareId: '123',
       });
@@ -60,7 +60,7 @@ describe('VAOS Location service', () => {
       let error;
       try {
         data = await getSupportedLocationsByTypeOfCare({
-          rootOrgId: 'var983',
+          siteId: '983',
           parentId: 'var983A6',
           typeOfCareId: '123',
         });

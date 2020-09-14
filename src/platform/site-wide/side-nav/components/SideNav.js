@@ -6,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { find, filter, get, map, orderBy } from 'lodash';
 // Relative
 import NavItem from './NavItem';
+import debounce from 'platform/utilities/data/debounce';
 
 class SideNav extends Component {
   static propTypes = {
@@ -14,10 +15,28 @@ class SideNav extends Component {
 
   constructor(props) {
     super(props);
+    this.debouncedResize = debounce(250, this.setIsDesktop);
     this.state = {
       active: false,
+      isDesktop: this.getDesktop(), // adding this to trigger re-render on window resize
       navItemsLookup: props.navItemsLookup,
     };
+  }
+
+  getDesktop = () => {
+    return window.innerWidth > 768;
+  };
+
+  setIsDesktop = () => {
+    this.setState({ isDesktop: this.getDesktop() });
+  };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.debouncedResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.debouncedResize);
   }
 
   trackEvents = id => {
@@ -85,6 +104,7 @@ class SideNav extends Component {
         renderChildItems={this.renderChildItems}
         sortedNavItems={sortedNavItems}
         trackEvents={this.trackEvents}
+        navExpanded={this.state.isDesktop ? true : !!this.state.active}
       />
     ));
   };
@@ -120,15 +140,17 @@ class SideNav extends Component {
       >
         <button
           type="button"
-          aria-describedby="va-sidenav-ul-container"
           className={classNames(
             'medium-screen:vads-u-display--none',
             'va-sidenav-default-trigger',
             'vads-u-color--primary',
           )}
           onClick={this.toggleUlClass}
+          id="sidenav-menu"
         >
-          In this section <i className="fa fa-bars" />
+          <span className="sr-only">View sub-navigation for </span>
+          In this section
+          <i className="fa fa-bars" aria-hidden="true" role="img" />
         </button>
         <ul
           id="va-sidenav-ul-container"

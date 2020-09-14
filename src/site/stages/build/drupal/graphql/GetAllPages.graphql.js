@@ -8,6 +8,10 @@ const pressReleasePage = require('./pressReleasePage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 const fragments = require('./fragments.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
+const vaFormPage = require('./vaFormPage.graphql');
+const qaPage = require('./nodeQa.graphql');
+const faqMultipleQaPage = require('./faqMultipleQa.graphql');
+const stepByStepPage = require('./nodeStepByStep.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const alertsQuery = require('./alerts.graphql');
 const bannerAlertsQuery = require('./bannerAlerts.graphql');
@@ -62,6 +66,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${eventPage}
   ${officePage}
   ${bioPage}
+  ${vaFormPage}
   ${benefitListingPage}
   ${eventListingPage}
   ${storyListingPage}
@@ -69,6 +74,9 @@ const buildQuery = ({ useTomeSync }) => {
   ${healthServicesListingPage}
   ${pressReleasesListingPage}
   ${locationListingPage}
+  ${qaPage}
+  ${faqMultipleQaPage}
+  ${stepByStepPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -100,6 +108,10 @@ const buildQuery = ({ useTomeSync }) => {
         ... pressReleasesListingPage
         ... healthServicesListingPage
         ... locationListingPage
+        ... vaFormPage
+        ... nodeQa
+        ... faqMultipleQA
+        ... nodeStepByStep
       }
     }`;
 
@@ -112,7 +124,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${nodeContentFragments}
 
   query GetAllPages(${todayQueryVar} $onlyPublishedContent: Boolean!) {
-      ${nodeQuery}
+    ${nodeQuery}
     ${icsFileQuery}
     ${sidebarQuery}
     ${facilitySidebarQuery}

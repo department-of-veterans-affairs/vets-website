@@ -14,6 +14,21 @@
       "state": "TN",
       "postalCode": "22312"
     },
+    "view:hasServiceBefore1978": true,
+    "view:newService": true,
+    "toursOfDuty": [
+      {
+        "serviceBranch": "Army",
+        "dateRange": {
+          "from": "1995-01-01",
+          "to": "1996-01-01"
+        }
+      },
+      {
+        "serviceBranch": "Navy",
+        "dateRange": {}
+      }
+    ],
     "view:otherContactInfo": {
       "email": "test2@test1.net",
       "view:confirmEmail": "test2@test1.net",
@@ -46,11 +61,6 @@
     },
     "trainingEndDate": "2018-03-02",
     "reasonForChange": "Stop reason",
-    "isActiveDuty": true,
-    "view:housingPaymentInfo": {},
-    "isEdithNourseRogersScholarship": false,
-    "isEnrolledStem": true,
-    "view:rogersStemScholarshipInfo": {},
     "benefit": "chapter33",
     "veteranFullName": {
       "first": "Greg",
@@ -59,8 +69,11 @@
       "suffix": "IV"
     },
     "veteranSocialSecurityNumber": "123333333",
-    "serviceBefore1977": {},
-    "privacyAgreementAccepted": true,
-    "view:determineEligibility": {}
+    "serviceBefore1977": {
+      "married": true,
+      "haveDependents": false,
+      "parentDependent": false
+    },
+    "privacyAgreementAccepted": true
   }
 }

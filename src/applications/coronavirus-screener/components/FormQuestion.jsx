@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import _ from 'lodash/fp';
 import classnames from 'classnames';
 import { Element } from 'react-scroll';
 import { scrollerTo } from '../lib';

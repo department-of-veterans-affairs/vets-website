@@ -94,7 +94,6 @@ class ProfileView extends React.Component {
       downtimeData: { appTitle },
       directDepositIsBlocked,
       showDirectDepositLink,
-      showReceiveTextNotifications,
     } = this.props;
 
     let content;

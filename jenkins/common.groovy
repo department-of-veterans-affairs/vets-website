@@ -87,13 +87,6 @@ def slackNotify() {
   }
 }
 
-def puppeteerNotification() {
-  message = "`${env.BRANCH_NAME}` failed the puppeteer tests. |${env.RUN_DISPLAY_URL}".stripMargin()
-  slackSend message: message,
-    color: 'danger',
-    failOnError: true
-}
-
 def slackIntegrationNotify() {
   message = "(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}".stripMargin()
   slackSend message: message,
@@ -194,7 +187,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath}"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
 	checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)

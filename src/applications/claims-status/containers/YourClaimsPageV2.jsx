@@ -138,7 +138,7 @@ class YourClaimsPageV2 extends React.Component {
     const bothRequestsLoaded = !claimsLoading && !appealsLoading;
     const bothRequestsLoading = claimsLoading && appealsLoading;
     const atLeastOneRequestLoading = claimsLoading || appealsLoading;
-    const emptyList = !list || !list.length;
+    const emptyList = !(list && list.length);
     if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
         <LoadingIndicator
@@ -169,7 +169,7 @@ class YourClaimsPageV2 extends React.Component {
             </div>
           </div>
         );
-      } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
+      } else if (bothRequestsLoaded) {
         content = <NoClaims />;
       }
       content = <div className="va-tab-content">{content}</div>;

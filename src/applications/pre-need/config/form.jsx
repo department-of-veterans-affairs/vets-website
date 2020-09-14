@@ -69,6 +69,7 @@ const {
   phone,
   files,
   centralMailVaFile,
+  race,
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = _.omit('required', fullName);
@@ -109,6 +110,7 @@ const formConfig = {
     date,
     dateRange,
     gender,
+    race,
     email,
     phone,
     files,
@@ -204,6 +206,7 @@ const formConfig = {
                           'vaClaimNumber',
                           'placeOfBirth',
                           'gender',
+                          'race',
                           'maritalStatus',
                           'militaryStatus',
                         ],
@@ -328,6 +331,7 @@ const formConfig = {
                         'vaClaimNumber',
                         'placeOfBirth',
                         'gender',
+                        'race',
                         'maritalStatus',
                         'militaryStatus',
                         'isDeceased',

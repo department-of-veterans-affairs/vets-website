@@ -4,16 +4,16 @@ const mock = require('../../../../platform/testing/e2e/mock-helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const Auth = require('../../../../platform/testing/e2e/auth');
 
-const confirmedVA = require('../../api/confirmed_va.json');
-const confirmedCC = require('../../api/confirmed_cc.json');
-const requests = require('../../api/requests.json');
-const cancelReasons = require('../../api/cancel_reasons.json');
-const supportedSites = require('../../api/sites-supporting-var.json');
-const facilities = require('../../api/facilities.json');
-const facilities983 = require('../../api/facilities_983.json');
-const clinicList983 = require('../../api/clinicList983.json');
-const slots = require('../../api/slots.json');
-const pact = require('../../api/pact.json');
+const confirmedVA = require('../../services/mocks/var/confirmed_va.json');
+const confirmedCC = require('../../services/mocks/var/confirmed_cc.json');
+const requests = require('../../services/mocks/var/requests.json');
+const cancelReasons = require('../../services/mocks/var/cancel_reasons.json');
+const supportedSites = require('../../services/mocks/var/sites-supporting-var.json');
+const facilities = require('../../services/mocks/var/facilities.json');
+const facilities983 = require('../../services/mocks/var/facilities_983.json');
+const clinicList983 = require('../../services/mocks/var/clinicList983.json');
+const slots = require('../../services/mocks/var/slots.json');
+const pact = require('../../services/mocks/var/pact.json');
 
 function updateConfirmedVADates(data) {
   data.data.forEach(item => {
@@ -102,6 +102,20 @@ function appointmentDateTimeTest(client, nextElement) {
 function appointmentReasonTest(client, nextElement) {
   client
     .selectRadio('root_reasonForAppointment', 'other')
+    .waitForElementPresent(
+      'textarea#root_reasonAdditionalInfo',
+      Timeouts.normal,
+    )
+    .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
+    .axeCheck('.main')
+    .click('.rjsf [type="submit"]')
+    .waitForElementPresent(nextElement, Timeouts.normal);
+
+  return client;
+}
+
+function appointmentReasonCommunityCareTest(client, nextElement) {
+  client
     .waitForElementPresent(
       'textarea#root_reasonAdditionalInfo',
       Timeouts.normal,
@@ -459,6 +473,7 @@ module.exports = {
   newAppointmentTest,
   appointmentDateTimeTest,
   appointmentReasonTest,
+  appointmentReasonCommunityCareTest,
   howToBeSeenTest,
   contactInformationTest,
   reviewAppointmentTest,

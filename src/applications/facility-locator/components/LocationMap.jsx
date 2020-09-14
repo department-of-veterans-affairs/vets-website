@@ -23,8 +23,8 @@ function LocationMap({ info }) {
   const mapUrl = `https://api.mapbox.com/v4/mapbox.streets/url-${pinURL}(${long},${lat})/${long},${lat},16/500x300.png?access_token=${mapboxToken}`;
 
   return (
-    <div className="mb2">
-      <h3 className="highlight">View on Map</h3>
+    <div className="vads-u-margin-bottom--4">
+      <h3 className="highlight">View on map</h3>
       <img src={mapUrl} alt="Static map" />
     </div>
   );

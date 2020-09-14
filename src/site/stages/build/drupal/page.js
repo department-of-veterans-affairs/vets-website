@@ -6,7 +6,7 @@ const set = require('lodash/fp/set');
 // Creates the file object to add to the file list using the page and layout
 function createFileObj(page, layout) {
   // Exclude some types from sitemap.
-  const privateTypes = ['outreach_asset', 'support_service'];
+  const privateTypes = ['outreach_asset', 'support_service', 'va_form'];
   let privStatus = false;
   if (privateTypes.indexOf(page.entityBundle) > -1) {
     privStatus = true;
@@ -269,7 +269,7 @@ function compilePage(page, contentData) {
 
   // Get page owner
   let owner;
-  if (page.fieldAdministration) {
+  if (page.fieldAdministration && page.fieldAdministration.entity) {
     owner = _.toLower(page.fieldAdministration.entity.name);
   }
   // Benefits hub side navs in an array to loop through later

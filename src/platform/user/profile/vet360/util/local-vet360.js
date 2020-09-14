@@ -2,15 +2,20 @@ import { uniqueId } from 'lodash';
 import * as VET360_CONSTANTS from '../constants';
 
 export function isVet360Configured() {
-  return [
-    'staging.vets.gov',
-    'www.vets.gov',
-    'dev.va.gov',
-    'preview.va.gov',
-    'staging.va.gov',
-    'va.gov',
-    'www.va.gov',
-  ].includes(document.location.hostname);
+  return (
+    // using the existence of VetsGov.pollTimeout as an indicator that we are
+    // running unit tests and therefore _do_ want the FE to make real API calls
+    window.VetsGov.pollTimeout ||
+    [
+      'staging.vets.gov',
+      'www.vets.gov',
+      'dev.va.gov',
+      'preview.va.gov',
+      'staging.va.gov',
+      'va.gov',
+      'www.va.gov',
+    ].includes(document.location.hostname)
+  );
 }
 
 export const mockContactInformation = {
@@ -238,6 +243,68 @@ export default {
           },
         ],
         validationKey: -245128725,
+      },
+      1000,
+    );
+  },
+  addressValidationSuccessSingleInternational() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: 'Great Russell Street',
+              addressType: 'INTERNATIONAL',
+              city: 'London',
+              countryName: 'United Kingdom',
+              countryCodeIso3: 'GBR',
+              internationalPostalCode: 'WC1B 3DG',
+            },
+            addressMetaData: {
+              confidenceScore: 96.0,
+              addressType: 'International',
+            },
+          },
+        ],
+        validationKey: 1520831034,
+      },
+      1000,
+    );
+  },
+  addressValidationSuccessTwoInternational() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '123 Great Russell Street',
+              addressType: 'INTERNATIONAL',
+              city: 'London',
+              countryName: 'United Kingdom',
+              countryCodeIso3: 'GBR',
+              internationalPostalCode: 'WC1B 3DG',
+            },
+            addressMetaData: {
+              confidenceScore: 96.0,
+              addressType: 'International',
+            },
+          },
+          {
+            address: {
+              addressLine1: '456 Great Russell Street',
+              addressType: 'INTERNATIONAL',
+              city: 'London',
+              countryName: 'United Kingdom',
+              countryCodeIso3: 'GBR',
+              internationalPostalCode: 'WC1B 3DG',
+            },
+            addressMetaData: {
+              confidenceScore: 96.0,
+              addressType: 'International',
+            },
+          },
+        ],
+        validationKey: 1520831034,
       },
       1000,
     );

@@ -156,8 +156,8 @@ module.exports = {
     ].filter(t => t.value);
   },
 
-  isPublished(moderationState) {
-    return moderationState === 'published';
+  isPublished(status) {
+    return status;
   },
 
   /**
@@ -183,7 +183,8 @@ module.exports = {
   usePartialSchema(schema, properties) {
     // Some sanity checking before we start
     assert(
-      schema.type === 'object',
+      schema.type === 'object' ||
+        (Array.isArray(schema.type) && schema.type.includes('object')),
       `Expected object schema. Found ${schema.type}`,
     );
     assert(

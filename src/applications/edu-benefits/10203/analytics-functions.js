@@ -1,35 +1,40 @@
 import recordEvent from 'platform/monitoring/record-event';
 
 export default {
-  ineligibilityStillApply: isStillApplying => {
+  currentlyUsedBenefits: formData => {
+    const benefits = formData['view:benefit'];
+    Object.keys(benefits)
+      .filter(b => benefits[b] === true)
+      .forEach(function(value) {
+        recordEvent({
+          event: 'edu-form-change',
+          'edu-form-field':
+            'Which benefit have you used or are you currently using?',
+          'edu-form-value': value,
+          'edu-form-action': 'clicked',
+        });
+      });
+  },
+  ineligibilityAlert: data => {
+    const {
+      isChapter33,
+      isEnrolledStem,
+      isPursuingTeachingCert,
+      benefitLeft,
+    } = data;
+    const enrolledStemAndTeaching = isEnrolledStem || isPursuingTeachingCert;
     recordEvent({
-      event: 'edu-form-change',
-      'edu-form-field': 'ineligibility-still-apply-radio-button',
-      'edu-form-value': isStillApplying ? 'Yes' : 'No',
+      event: 'edu-stem-scholarship-ineligibility-alert',
+      'edu-eligibility-criteria-post911-met': isChapter33,
+      'edu-eligibility-criteria-stem-or-teaching-met': enrolledStemAndTeaching,
+      'edu-eligibility-criteria-used-all-benefits-met':
+        benefitLeft !== 'moreThanSixMonths',
+      'edu-eligibility-criteria-months-remaining-for-use': benefitLeft,
     });
   },
-  exploreOtherBenefits: () => {
+  exitApplication: () => {
     recordEvent({
-      event: 'edu-navigation',
-      'edu-action': 'explore-other-benefits',
-    });
-  },
-  checkRemainingBenefits: () => {
-    recordEvent({
-      event: 'edu-navigation',
-      'edu-action': 'check-remaining-benefits', // or 'stem-scholarship',
-    });
-  },
-  navigateStemScholarship: () => {
-    recordEvent({
-      event: 'edu-navigation',
-      'edu-action': 'stem-scholarship',
-    });
-  },
-  seeApprovedStemPrograms: () => {
-    recordEvent({
-      event: 'edu-navigation',
-      'edu-action': 'see-approved-stem-programs',
+      event: 'cta-primary-button-click',
     });
   },
 };

@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import { focusElement } from 'platform/utilities/ui';
 import availableConnectedApps from './availableConnectedApps';
 
 export const AdditionalInfoSections = ({ activeApps }) => {
@@ -31,14 +30,14 @@ export const AdditionalInfoSections = ({ activeApps }) => {
   return (
     <>
       {showConnectToAvailableApps && (
-        <div className="vads-u-margin-y--2 available-connected-apps">
+        <div className="vads-u-margin-y--3 available-connected-apps">
           <AdditionalInfo
             triggerText={`What other third-party apps can I connect to my profile?`}
           >
             <p>
               <strong>At this time, you can connect any of these apps:</strong>
             </p>
-            <ul className="vads-u-margin-bottom--2 vads-u-margin-left--3">
+            <ul className="vads-u-margin-bottom--3 vads-u-margin-left--3">
               {filteredApps?.map(app => {
                 return (
                   <li key={app.name}>
@@ -57,7 +56,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
         </div>
       )}
 
-      <div className="vads-u-margin-bottom--2">
+      <div className="vads-u-margin-bottom--3">
         <AdditionalInfo
           triggerText={`How do I connect a third-party app to my profile?`}
         >
@@ -70,8 +69,9 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               it will ask you to sign in.
             </li>
             <li className="vads-u-padding-left--1">
-              Sign in with your preferred VA.gov account: DS Logon, My
-              HealtheVet, or ID.me.
+              Sign in with your preferred VA.gov account:{' '}
+              <strong>DS Logon</strong>, <strong>My HealtheVet</strong>, or{' '}
+              <strong>ID.me</strong>.
             </li>
             <li className="vads-u-padding-left--1">
               Review the information the app is asking to access.
@@ -85,7 +85,7 @@ export const AdditionalInfoSections = ({ activeApps }) => {
       </div>
 
       {hasConnectedApps && (
-        <div className="vads-u-margin-bottom--2">
+        <div className="vads-u-margin-bottom--3">
           <AdditionalInfo
             triggerText={`What should I do if my records are wrong or out of date in a connected app?`}
           >
@@ -110,8 +110,13 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               <li className="vads-u-padding-left--1">
                 <strong>If your information isn’t accurate:</strong> Call VA311
                 at <Telephone contact={CONTACTS.VA_311} />. If you have hearing
-                loss, call TTY: <a href="tel:711">711</a>. Or visit a VA health
-                facility near you and ask a staff member for help.{' '}
+                loss, call{' '}
+                <Telephone
+                  contact={CONTACTS['711']}
+                  pattern={PATTERNS['911']}
+                />
+                . Or visit a VA health facility near you and ask a staff member
+                for help.{' '}
                 <p>
                   <a href="/find-locations">
                     Find a VA health facility near you
@@ -120,10 +125,10 @@ export const AdditionalInfoSections = ({ activeApps }) => {
               </li>
               <li className="vads-u-padding-left--1">
                 <strong>If you’re getting an “unreadable data” message:</strong>{' '}
-                This means the This means the connected app has access to your
-                information, but isn’t using it in its interface. It’s nothing
-                to worry about. If you have questions about this, send feedback
-                directly to the app.
+                This means the connected app has access to your information, but
+                isn’t using it in its interface. It’s nothing to worry about. If
+                you have questions about this, send feedback directly to the
+                app.
               </li>
             </ul>
           </AdditionalInfo>

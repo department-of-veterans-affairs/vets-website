@@ -1,6 +1,5 @@
 import React from 'react';
 
-import EligibilityForm from './EligibilityForm';
 import InstitutionFilterForm from './InstitutionFilterForm';
 import KeywordSearch from './KeywordSearch';
 import OnlineClassesFilter from './OnlineClassesFilter';
@@ -11,7 +10,24 @@ import {
 } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
 
-function InstitutionSearchForm(props) {
+function InstitutionSearchForm({
+  autocomplete,
+  clearAutocompleteSuggestions,
+  eligibility,
+  eligibilityChange,
+  fetchAutocompleteSuggestions,
+  filters,
+  filtersClass,
+  gibctFilterEnhancement,
+  handleFilterChange,
+  hideModal,
+  location,
+  search,
+  searchResults,
+  showModal,
+  toggleFilter,
+  updateAutocompleteSearchTerm,
+}) {
   function handleInstitutionSearchInputFocus(fieldId) {
     // prod flag for bah-8821
     if (environment.isProduction() && isMobileView()) {
@@ -30,57 +46,58 @@ function InstitutionSearchForm(props) {
     }
   }
 
+  const header = gibctFilterEnhancement ? 'Refine search' : 'Keywords';
+  const keywordSearchLabel = gibctFilterEnhancement
+    ? 'Enter a school, location, or employer name'
+    : 'City, school, or employer';
+
   return (
     <div className="row">
-      <div id="institution-search" className={props.filtersClass}>
+      <div id="institution-search" className={filtersClass}>
         <div className="filters-sidebar-inner vads-u-margin-left--1p5">
-          {props.search.filterOpened && <h1>Filter your search</h1>}
-          <h2>Keywords</h2>
+          {search.filterOpened && <h1>Filter your search</h1>}
+          <h2>{header}</h2>
           <KeywordSearch
-            autocomplete={props.autocomplete}
-            label="City, school, or employer"
-            location={props.location}
-            onClearAutocompleteSuggestions={props.clearAutocompleteSuggestions}
-            onFetchAutocompleteSuggestions={props.fetchAutocompleteSuggestions}
-            onFilterChange={props.handleFilterChange}
-            onUpdateAutocompleteSearchTerm={props.updateAutocompleteSearchTerm}
+            autocomplete={autocomplete}
+            label={keywordSearchLabel}
+            location={location}
+            onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
+            onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
+            onFilterChange={handleFilterChange}
+            onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
           />
           <InstitutionFilterForm
-            search={props.search}
-            filters={props.filters}
-            handleFilterChange={props.handleFilterChange}
-            showModal={props.showModal}
+            search={search}
+            filters={filters}
+            handleFilterChange={handleFilterChange}
+            showModal={showModal}
             handleInputFocus={handleInstitutionSearchInputFocus}
+            gibctFilterEnhancement={gibctFilterEnhancement}
           />
-          {props.gibctEstimateYourBenefits ? (
-            <BenefitsForm
-              eligibilityChange={props.eligibilityChange}
-              {...props.eligibility}
-              hideModal={props.hideModal}
-              showModal={props.showModal}
-              showHeader
-              handleInputFocus={handleInstitutionSearchInputFocus}
-            />
-          ) : (
-            <EligibilityForm
-              eligibilityChange={props.eligibilityChange}
-              handleInputFocus={props.handleInputFocus}
-            />
-          )}
-          <OnlineClassesFilter
-            onlineClasses={props.eligibility.onlineClasses}
-            onChange={props.eligibilityChange}
-            showModal={props.showModal}
+          <BenefitsForm
+            eligibilityChange={eligibilityChange}
+            {...eligibility}
+            hideModal={hideModal}
+            showModal={showModal}
+            showHeader
             handleInputFocus={handleInstitutionSearchInputFocus}
+            gibctFilterEnhancement={gibctFilterEnhancement}
+          />
+          <OnlineClassesFilter
+            onlineClasses={eligibility.onlineClasses}
+            onChange={eligibilityChange}
+            showModal={showModal}
+            handleInputFocus={handleInstitutionSearchInputFocus}
+            gibctFilterEnhancement={gibctFilterEnhancement}
           />
         </div>
         <div id="see-results-button" className="results-button">
-          <button className="usa-button" onClick={props.toggleFilter}>
+          <button className="usa-button" onClick={toggleFilter}>
             See Results
           </button>
         </div>
       </div>
-      {props.searchResults}
+      {searchResults}
     </div>
   );
 }

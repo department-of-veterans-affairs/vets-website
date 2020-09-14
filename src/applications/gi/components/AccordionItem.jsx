@@ -42,15 +42,11 @@ class AccordionItem extends React.Component {
     }
 
     const event = expanded ? 'expand' : 'collapse';
-
-    if (section) {
-      recordEvent({
-        event: `nav-accordion-${event}`,
-        'accordion-size': 'small',
-      });
-    } else {
-      recordEvent({ event: `nav-accordion-${event}` });
-    }
+    const size = section ? 'small' : 'full-content-width';
+    recordEvent({
+      event: `nav-accordion-${event}`,
+      'accordion-size': size,
+    });
   };
 
   renderHeader = () => {
@@ -59,6 +55,7 @@ class AccordionItem extends React.Component {
     if (section) {
       return (
         <button
+          id={`${this.id}-button`}
           aria-expanded={expanded}
           aria-controls={this.id}
           onClick={this.toggle}
@@ -76,6 +73,7 @@ class AccordionItem extends React.Component {
     return (
       <h2 className={headerClasses}>
         <button
+          id={`${this.id}-button`}
           onClick={this.toggle}
           className="usa-accordion-button"
           aria-expanded={expanded}

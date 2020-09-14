@@ -1,14 +1,21 @@
+/* eslint-disable no-console */
+
 const chalk = require('chalk');
 const get = require('lodash/get');
+const cloneDeep = require('lodash/cloneDeep');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
+const { getCacheKey } = require('./get-cache-key');
 const { toId, readEntity, getContentModelType } = require('./helpers');
 
 const {
   validateRawEntity,
   validateTransformedEntity,
 } = require('./schema-validation');
+
+const transformedEntitiesCache = new Map();
+global.transformerCacheHits = 0;
 
 /**
  * An ancestor for an entity.
@@ -27,12 +34,12 @@ const findCircularReference = (entity, ancestors) => {
   const ancestorIds = ancestors.map(a => a.id);
   const a = ancestors.find(r => r.id === toId(entity));
   if (a) {
-    /* eslint-disable no-console */
     // This logging is to help debug if AJV fails on an unexpected circular
     // reference
-    console.log(`I'm my own grandpa! (${toId(entity)})`);
-    console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
-    /* eslint-enable no-console */
+    if (global.verbose) {
+      console.log(`I'm my own grandpa! (${toId(entity)})`);
+      console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
+    }
 
     // NOTE: If we find a circular reference, it needs to be addressed in the
     // transformer and accounted for in the transformed schema.
@@ -57,7 +64,6 @@ const validateInput = entity => {
   // Pre-transformation JSON schema validation
   const rawErrors = validateRawEntity(entity);
   if (rawErrors.length) {
-    /* eslint-disable no-console */
     console.warn(
       chalk.yellow(
         `${toId(entity)} (${getContentModelType(
@@ -73,7 +79,6 @@ const validateInput = entity => {
       );
     });
     console.warn(`-------------------`);
-    /* eslint-enable no-console */
 
     // Abort! (We may want to change this later)
     throw new Error(`${toId(entity)} is invalid before transformation`);
@@ -87,7 +92,6 @@ const validateInput = entity => {
 const validateOutput = (entity, transformedEntity) => {
   const transformedErrors = validateTransformedEntity(transformedEntity);
   if (transformedErrors.length) {
-    /* eslint-disable no-console */
     console.warn(
       chalk.yellow(
         `${toId(entity)} (${getContentModelType(
@@ -103,11 +107,48 @@ const validateOutput = (entity, transformedEntity) => {
       );
     });
     console.warn(`-------------------`);
-    /* eslint-enable no-console */
 
     // Abort! (We may want to change this later)
     throw new Error(`${toId(entity)} is invalid after transformation`);
   }
+};
+
+/**
+ * Add common properties to the transformed entity. Mutates `transformedEntity`
+ * to save memory.
+ * @param {Object} transformedEntity - The entity after transformation
+ * @param {Object} originalEntity - The entity before transformation
+ * @returns {void}
+ */
+const addCommonProperties = (transformedEntity, originalEntity) => {
+  /* eslint-disable no-param-reassign */
+  transformedEntity.contentModelType =
+    transformedEntity.contentModelType || getContentModelType(originalEntity);
+  const [
+    entityType,
+    entityBundle,
+  ] = transformedEntity.contentModelType.includes('-')
+    ? transformedEntity.contentModelType.split('-')
+    : [transformedEntity.contentModelType, transformedEntity.contentModelType];
+  transformedEntity.entityType = transformedEntity.entityType || entityType;
+  transformedEntity.entityBundle =
+    transformedEntity.entityBundle || entityBundle;
+  transformedEntity.entityUrl =
+    transformedEntity.entityUrl || originalEntity.entityUrl;
+  const entityId = (originalEntity.nid ||
+    originalEntity.tid ||
+    originalEntity.id ||
+    originalEntity.mid ||
+    originalEntity.fid)[0].value.toString();
+
+  // Always assign the entityId to the root object
+  transformedEntity.entityId = entityId;
+  // But also assign it to the .entity if available. The Liquid templates
+  // typically pass the .entity property when including template partials.
+  if (transformedEntity.entity) {
+    transformedEntity.entity.entityId = entityId;
+  }
+  /* eslint-enable no-param-reassign */
 };
 
 const entityAssemblerFactory = contentDir => {
@@ -117,27 +158,42 @@ const entityAssemblerFactory = contentDir => {
    * @param {function} assembleTree - The assembleEntityTree closure; defined as
    *                                  a parameter here because eslint didn't
    *                                  like using it before it was defined
+   * @param {bool} transformUnpublished - Whether or not to transform
+   *                                  unpublished entities.
    * @return {Object} The entity with the references filled in
    */
-  const expandEntityReferences = (entity, ancestors, assembleTree) => {
+  const expandEntityReferences = (
+    entity,
+    ancestors,
+    assembleTree,
+    transformUnpublished,
+  ) => {
     const filteredEntity = getFilteredEntity(entity);
 
     // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
-      // Properties with target_uuids are always arrays from tome-sync
-      if (Array.isArray(prop)) {
+      const isEntityArray =
+        Array.isArray(prop) &&
+        prop.some(e => e.target_uuid && e.target_type) &&
+        key !== 'image';
+      if (isEntityArray) {
         prop.forEach((item, index) => {
           const { target_uuid: targetUuid, target_type: targetType } = item;
 
-          // We found a reference! Override it with the expanded entity.
+          // We need to double-check every item in the "entity reference array"
+          // since sometimes items in the array are empty arrays themselves.
           if (targetUuid && targetType) {
             filteredEntity[key][index] = assembleTree(
               readEntity(contentDir, targetType, targetUuid),
+              transformUnpublished,
               ancestors.concat([{ id: toId(entity), entity }]),
               key,
             );
           }
         });
+
+        // Filter out all unpublished entities from the array
+        filteredEntity[key] = filteredEntity[key].filter(e => e);
       }
     }
 
@@ -149,44 +205,90 @@ const entityAssemblerFactory = contentDir => {
    * searches for references to other entities, and replaces the
    * references with the contents of those entities recursively.
    *
-   * TODO: Memoize this function if the build is slow because of this CMS
-   * content transformation process. If we do memoize this, make sure the
-   * memoized function is used in findMatchingEntities as well.
-   *
    * @param {Object} entity - The entity object.
    * @param {Array<Object>} ancestors - All the ancestors, each like:
    *                          { id: toId(entity), entity }
    * @param {string} parentFieldName - The name of the property of the
    *                          parent in which the current entity can
    *                          be found.
+   * @param {bool} transformUnpublished - Whether or not to transform
+   *                          unpublished entities.
    *
-   * @return {Object} - The entity with all the references filled in
-   *                    with the body of the referenced entities.
+   * @return {Object|null} - The entity with all the references filled in with
+   *                         the body of the referenced entities. If the entity
+   *                         is unpublished, return null.
    */
-  const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
-    // Handle circular references
-    const a = findCircularReference(entity, ancestors);
-    if (a) return a;
-
-    validateInput(entity);
-
-    const expandedEntity = expandEntityReferences(
-      entity,
-      ancestors,
-      assembleEntityTree,
-    );
-
-    // Post-transformation JSON schema validation
-    const transformedEntity = transformEntity(expandedEntity, {
+  const assembleEntityTree = (
+    entity,
+    transformUnpublished,
+    ancestors = [],
+    parentFieldName = '',
+  ) => {
+    const transformArgs = {
       uuid: entity.uuid[0].value,
       ancestors,
       parentFieldName,
       contentDir,
       assembleEntityTree,
-    });
+      transformUnpublished,
+    };
 
-    validateOutput(entity, transformedEntity);
+    const cacheKey = getCacheKey(entity, transformArgs);
 
+    if (transformedEntitiesCache.has(cacheKey)) {
+      global.transformerCacheHits++;
+      return cloneDeep(transformedEntitiesCache.get(cacheKey));
+    }
+
+    // If the entity is unpublished
+    if (!entity.status[0].value && !transformUnpublished) {
+      return null;
+    }
+
+    // Handle circular references
+    const a = findCircularReference(entity, ancestors);
+    if (a) return a.entity;
+
+    validateInput(entity);
+
+    let expandedEntity;
+    try {
+      expandedEntity = expandEntityReferences(
+        entity,
+        ancestors,
+        assembleEntityTree,
+        transformUnpublished,
+      );
+    } catch (e) {
+      console.log(
+        chalk.red(
+          `Error encountered while expanding entity references for ${toId(
+            entity,
+          )}`,
+        ),
+      );
+      throw e;
+    }
+
+    let transformedEntity;
+    try {
+      transformedEntity = transformEntity(expandedEntity, transformArgs);
+    } catch (e) {
+      console.log(
+        chalk.red(`Error encountered while transforming ${toId(entity)}`),
+      );
+      throw e;
+    }
+
+    // Mutates transformedEntity
+    addCommonProperties(transformedEntity, entity);
+
+    // Only run output schema validation on root entities
+    if (ancestors.length === 0) {
+      validateOutput(entity, transformedEntity);
+    }
+
+    transformedEntitiesCache.set(cacheKey, cloneDeep(transformedEntity));
     return transformedEntity;
   };
 

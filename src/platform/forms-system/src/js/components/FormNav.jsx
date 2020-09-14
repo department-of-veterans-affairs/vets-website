@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import shallowEqual from 'recompose/shallowEqual';
+import environment from 'platform/utilities/environment';
 
 import SegmentedProgressBar from './SegmentedProgressBar';
 
@@ -70,11 +71,17 @@ export default class FormNav extends React.Component {
             aria-valuemax={chapters.length}
             className="nav-header nav-header-schemaform"
           >
-            <h2 className="vads-u-font-size--h4">
-              <span className="form-process-step current">{current}</span>{' '}
-              <span className="form-process-total">of {chapters.length}</span>{' '}
-              {chapterName}
-            </h2>
+            {!environment.isProduction() ? (
+              <h2 className="vads-u-font-size--h4">
+                {`Step ${current} of ${chapters.length}: ${chapterName}`}
+              </h2>
+            ) : (
+              <h2 className="vads-u-font-size--h4">
+                <span className="form-process-step current">{current}</span>{' '}
+                <span className="form-process-total">of {chapters.length}</span>{' '}
+                {chapterName}
+              </h2>
+            )}
           </div>
         </div>
       </div>

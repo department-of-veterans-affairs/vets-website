@@ -1,5 +1,9 @@
 // Node modules.
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
@@ -12,17 +16,17 @@ export const LegacyContent = () => (
       role="alert"
     >
       <div className="usa-alert-body">
-        <h3 className="usa-alert-heading" id="due-to-covid-19-you-can-only-r">
-          Due to COVID-19, you can only request an appointment online
-        </h3>
-        <p>
-          You can’t directly schedule an appointment online at this time. Once
-          you request your appointment, a scheduler will get back to you to
-          confirm your request.
-        </p>
-        <p>
-          To help us address the most urgent needs first, we ask that you don’t
-          request routine appointments right now.
+        <h2
+          className="usa-alert-heading vads-u-font-size--h3 vads-u-margin-bottom--2"
+          id="due-to-covid-19-you-can-only-r"
+        >
+          Due to COVID-19, we&apos;ll need to contact you to confirm your
+          appointment
+        </h2>
+        <p className="vads-u-margin--0">
+          You can still use our online appointments tool to request an
+          appointment. We&apos;ll then contact you to confirm the date, time,
+          and location.
         </p>
       </div>
     </div>
@@ -34,9 +38,10 @@ export const LegacyContent = () => (
       <p>&nbsp;</p>
       <p>
         <strong>Please note:</strong> The fastest way to make all your VA
-        appointments is usually to call the VA health facility where you want to
-        receive care. If you can’t keep an existing appointment, please contact
-        the facility as soon as possible to reschedule or cancel.
+        appointments is usually to call the VA or community health facility
+        where you want to receive care. If you can’t keep an existing
+        appointment, please contact the facility as soon as possible to
+        reschedule or cancel.
         <br />
         <a href="/find-locations/">
           Find your VA health facility’s phone number
@@ -57,7 +62,7 @@ export const LegacyContent = () => (
         data-analytics-faq-text="How can VA appointment tools help me manage my health care?"
       >
         <h2 itemProp="name" id="how-can-va-appointment-tools-h">
-          How can VA appointment tools help me manage my health care?
+          How can the VA appointments tool help me manage my health care?
         </h2>
         <div
           data-entity-id={3461}
@@ -72,20 +77,22 @@ export const LegacyContent = () => (
               className="processed-content"
             >
               <p>
-                VA appointment&nbsp;tools offer a secure, online&nbsp;way to
-                schedule, view, and organize your VA appointments. The
-                appointments you can schedule online depends on your facility,
+                This tool offers a secure, online&nbsp;way to schedule, view,
+                and organize your VA and community care appointments. The
+                appointments you can schedule online depend on your facility,
                 the type of health service, and other factors.
               </p>
               <p>
-                <strong>You can use these tools to:</strong>
+                <strong>You can use this tool to:</strong>
               </p>
               <ul>
-                <li>Schedule some of your VA medical appointments online</li>
+                <li>Schedule some of your VA health appointments online</li>
+                <li>Request approved community care appointments online</li>
                 <li>Cancel appointments made online</li>
                 <li>View appointments on your health calendar</li>
                 <li>
-                  Find the location of the VA facility for your appointments
+                  Find the location of the VA or community care facility for
+                  your appointments
                 </li>
                 <li>Set up email reminders for upcoming appointments</li>
                 <li>Print a list of your future appointments</li>
@@ -101,10 +108,10 @@ export const LegacyContent = () => (
         data-template="paragraphs/q_a"
         data-entity-id={3464}
         data-analytics-faq-section
-        data-analytics-faq-text="Am I eligible to use the VA appointment tools?"
+        data-analytics-faq-text="Am I eligible to use this tool?"
       >
         <h2 itemProp="name" id="am-i-eligible-to-use-the-va-ap">
-          Am I eligible to use the VA appointment tools?
+          Am I eligible to use this tool?
         </h2>
         <div
           data-entity-id={3464}
@@ -119,15 +126,14 @@ export const LegacyContent = () => (
               className="processed-content"
             >
               <p>
-                You can use the&nbsp;online appointment tools if you meet all of
-                the requirements listed below.
+                You can use this tool if you meet all of the requirements listed
+                below.
               </p>
               <p>
-                <strong>All of these must be true:</strong>
+                <strong>All of these must be true. You&apos;re:</strong>
               </p>
               <ul>
                 <li>
-                  You're{' '}
                   <a
                     data-entity-substitution="canonical"
                     data-entity-type="node"
@@ -135,19 +141,22 @@ export const LegacyContent = () => (
                     href="/health-care/how-to-apply"
                     title="How to apply for VA health care"
                   >
-                    enrolled in VA health care
+                    Enrolled in VA health care
                   </a>
                   , <strong>and</strong>
                 </li>
                 <li>
-                  You're scheduling your appointment with a VA health facility
-                  that uses online scheduling, <strong>and</strong>
+                  Scheduling your appointment with a VA or community care health
+                  facility that uses online scheduling, <strong>and</strong>
                 </li>
                 <li>
-                  You're registered or you’ve had an appointment at that
-                  facility before
+                  Registered or you’ve had an appointment at that facility
+                  before
                 </li>
               </ul>
+              <a href="/health-care/how-to-apply/">
+                Find out how to apply for VA health care
+              </a>
               <p>
                 <strong>And, you must have one of these free accounts:</strong>
               </p>
@@ -242,7 +251,7 @@ export const LegacyContent = () => (
         data-analytics-faq-text="What types of medical appointments can I schedule online?"
       >
         <h2 itemProp="name" id="what-types-of-medical-appointm">
-          What types of medical appointments can I schedule online?
+          What types of health appointments can I schedule online?
         </h2>
         <div
           data-entity-id={3468}
@@ -298,7 +307,22 @@ export const LegacyContent = () => (
               data-entity-id={3471}
               className="processed-content"
             >
-              <p>No. At this time you can only schedule a VA appointment.</p>
+              <p>
+                Yes. If you’re eligible to receive care from a community
+                provider outside of VA, you can use this tool to submit
+                appointment requests. You must receive prior approval from us
+                before getting care from a community provider.
+              </p>
+              <p>
+                <a href="/communitycare/programs/veterans/index.asp">
+                  Learn more about community care
+                </a>
+              </p>
+              <p>
+                <a href="/find-locations">
+                  Find a community provider in the VA network
+                </a>
+              </p>
             </div>
           </div>
         </div>
@@ -380,14 +404,6 @@ export const LegacyContent = () => (
               <p>
                 If you print or download any messages, you’ll need to take
                 responsibility for protecting that information.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Get tips for protecting your personal health information
-                </a>
               </p>
             </div>
           </div>
@@ -404,55 +420,26 @@ export const LegacyContent = () => (
         <h2 itemProp="name" id="what-if-i-have-more-questions">
           What if I have more questions?
         </h2>
-        <div
-          data-entity-id={3476}
-          itemProp="acceptedAnswer"
-          itemScope
-          itemType="http://schema.org/Answer"
-        >
-          <div itemProp="text">
-            <div
-              data-template="paragraphs/wysiwyg"
-              data-entity-id={3477}
-              className="processed-content"
-            >
-              <p>
-                You can get answers to your questions about these tools within
-                our My HealtheVet web portal.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Read VA Appointments FAQs
-                </a>
-              </p>
-              <p>
-                You can also contact the My HealtheVet Help Desk.
-                <br />
-                <a
-                  href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Find out how to contact us online
-                </a>
-              </p>
-              <p>
-                Or call us at{' '}
-                <a aria-label="8 7 7. 3 2 7. 0 0 2 2." href="tel:18773270022">
-                  877-327-0022
-                </a>{' '}
-                (TTY:{' '}
-                <a aria-label="8 0 0. 8 7 7. 8 3 3 9." href="tel:18008778339">
-                  800-877-8339
-                </a>
-                ). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. CT.
-              </p>
-            </div>
-          </div>
-        </div>
+        <h3>For help scheduling a VA or community care appointment</h3>
+        <p>
+          Please call{' '}
+          <a href="tel:18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
+            877-470-5947
+          </a>{' '}
+          (TTY:{' '}
+          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
+        <h3>For questions about joining a VA Video Connect appointment</h3>
+        <p>
+          Please call{' '}
+          <a href="tel:18666513180" aria-label="8 6 6. 6 5 1. 3 1 8 0.">
+            866-651-3180
+          </a>{' '}
+          (TTY:{' '}
+          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+          ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
+        </p>
       </div>
     </div>
     <div className="row">
@@ -477,9 +464,9 @@ export const LegacyContent = () => (
                 data-links-list-section-header="More information about your benefits"
               >
                 <a href="/health-care/eligibility">
-                  <h4 className="va-nav-linkslist-title">
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
                     Health care benefits eligibility
-                  </h4>
+                  </h3>
                   <p className="va-nav-linkslist-description">
                     Not sure if you qualify? Find out if you can get VA health
                     care benefits.
@@ -493,9 +480,9 @@ export const LegacyContent = () => (
                 data-links-list-section-header="More information about your benefits"
               >
                 <a href="/health-care/how-to-apply">
-                  <h4 className="va-nav-linkslist-title">
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
                     How to apply for health care benefits
-                  </h4>
+                  </h3>
                   <p className="va-nav-linkslist-description">
                     Ready to apply? Get started now.
                   </p>
@@ -508,9 +495,9 @@ export const LegacyContent = () => (
                 data-links-list-section-header="More information about your benefits"
               >
                 <a href="/health-care/health-needs-conditions">
-                  <h4 className="va-nav-linkslist-title">
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
                     Health needs and conditions
-                  </h4>
+                  </h3>
                   <p className="va-nav-linkslist-description">
                     Learn how to access VA services for mental health, women’s
                     health, and other specific needs.
@@ -524,9 +511,9 @@ export const LegacyContent = () => (
                 data-links-list-section-header="More information about your benefits"
               >
                 <a href="/disability">
-                  <h4 className="va-nav-linkslist-title">
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
                     Disability benefits
-                  </h4>
+                  </h3>
                   <p className="va-nav-linkslist-description">
                     Have an illness or injury that was caused—or made worse—by
                     your active-duty service? Find out if you can get disability

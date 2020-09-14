@@ -5,17 +5,12 @@ import { LocationType } from '../constants';
 import {
   healthServices,
   benefitsServices,
-  vetCenterServices,
   urgentCareServices,
   facilityTypesOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
 
 class SearchControls extends Component {
-  handleEditSearch = () => {
-    this.props.onChange({ active: false });
-  };
-
   handleQueryChange = e => {
     this.props.onChange({ searchString: e.target.value });
   };
@@ -35,29 +30,55 @@ class SearchControls extends Component {
 
     const { facilityType, serviceType } = this.props.currentQuery;
 
-    if (facilityType === LocationType.CC_PROVIDER && !serviceType) {
-      focusElement('#service-type-ahead-input');
-      return;
+    let analyticsServiceType = serviceType;
+
+    if (facilityType === LocationType.CC_PROVIDER) {
+      if (!serviceType) {
+        focusElement('#service-type-ahead-input');
+
+        return;
+      }
+
+      analyticsServiceType = this.props.currentQuery.specialties[serviceType];
     }
 
     // Report event here to only send analytics event when a user clicks on the button
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': facilityType,
+      'fl-search-svc-type': analyticsServiceType,
     });
 
     this.props.onSubmit();
   };
 
+  renderLocationInputField = currentQuery => (
+    <>
+      <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
+        City, state or postal code
+      </label>
+      <input
+        id="street-city-state-zip"
+        name="street-city-state-zip"
+        style={{ fontWeight: 'bold' }}
+        type="text"
+        onChange={this.handleQueryChange}
+        value={currentQuery.searchString}
+        title="Your location: Street, City, State or Postal code"
+        required
+      />
+    </>
+  );
+
   renderFacilityTypeDropdown = () => {
-    const { showCommunityCares, suppressPharmacies } = this.props;
+    const { suppressCCP, suppressPharmacies } = this.props;
     const { facilityType } = this.props.currentQuery;
     const locationOptions = facilityTypesOptions;
     if (suppressPharmacies) {
-      delete locationOptions.cc_pharmacy;
+      delete locationOptions.pharmacy;
     }
-    if (!showCommunityCares) {
-      delete locationOptions.cc_provider;
+    if (suppressCCP) {
+      delete locationOptions.provider;
     }
     const options = Object.keys(locationOptions).map(facility => (
       <option key={facility} value={facility}>
@@ -66,9 +87,7 @@ class SearchControls extends Component {
     ));
     return (
       <span>
-        <label htmlFor="facility-type-dropdown">
-          Choose a VA facility type
-        </label>
+        <label htmlFor="facility-type-dropdown">Facility type</label>
         <select
           id="facility-type-dropdown"
           aria-label="Choose a facility type"
@@ -76,6 +95,7 @@ class SearchControls extends Component {
           className="bor-rad"
           onChange={this.handleFacilityTypeChange}
           style={{ fontWeight: 'bold' }}
+          required
         >
           {options}
         </select>
@@ -124,10 +144,10 @@ class SearchControls extends Component {
 
     return (
       <span>
-        <label htmlFor="service-type-dropdown">Choose a service type</label>
+        <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
-          disabled={disabled}
+          disabled={disabled || !facilityType}
           value={serviceType || ''}
           className="bor-rad"
           onChange={this.handleServiceTypeChange}
@@ -140,54 +160,17 @@ class SearchControls extends Component {
   };
 
   render() {
-    const { currentQuery, isMobile } = this.props;
-
-    if (currentQuery.active && isMobile) {
-      return (
-        <div className="search-controls-container">
-          <button className="small-12" onClick={this.handleEditSearch}>
-            Edit Search
-          </button>
-        </div>
-      );
-    }
+    const { currentQuery } = this.props;
 
     return (
       <div className="search-controls-container clearfix">
         <form id="facility-search-controls" onSubmit={this.handleSubmit}>
-          <div className="row">
-            <div className={isMobile ? 'columns' : 'columns marg-left'}>
-              <div className="row">
-                <div className="columns large-1-2">
-                  <label
-                    htmlFor="street-city-state-zip"
-                    id="street-city-state-zip-label"
-                  >
-                    Search by city, state or postal Code
-                  </label>
-                  <input
-                    id="street-city-state-zip"
-                    name="street-city-state-zip"
-                    style={{ fontWeight: 'bold' }}
-                    type="text"
-                    onChange={this.handleQueryChange}
-                    value={currentQuery.searchString}
-                    title="Your location: Street, City, State or Postal code"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="columns large-1-2">
-                  {this.renderFacilityTypeDropdown()}
-                </div>
-                <div className="columns large-1-2">
-                  {this.renderServiceTypeDropdown()}
-                </div>
-                <div className="columns medium-1-2">
-                  <input type="submit" value="Search" />
-                </div>
-              </div>
+          <div className={'columns'}>
+            {this.renderLocationInputField(currentQuery)}
+            <div id="search-controls-bottom-row">
+              {this.renderFacilityTypeDropdown()}
+              {this.renderServiceTypeDropdown()}
+              <input id="facility-search" type="submit" value="Search" />
             </div>
           </div>
         </form>

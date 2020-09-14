@@ -9,6 +9,7 @@ import formConfig from '../../config/form';
 
 const defaultProps = {
   getContestableIssues: () => {},
+  testHlr: true,
   user: {
     profile: {
       // need to have a saved form or else form will redirect to v2
@@ -71,7 +72,7 @@ describe('IntroductionPage', () => {
         issues: [],
         status: '',
         error: {
-          errors: [{ title: 'some server error' }],
+          errors: [{ title: 'We can’t load your issues' }],
         },
       },
     };
@@ -79,7 +80,7 @@ describe('IntroductionPage', () => {
     const tree = shallow(<IntroductionPage {...props} />);
 
     const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include('some server error');
+    expect(AlertBox.render().text()).to.include('can’t load your issues');
     tree.unmount();
   });
   it('should render alert showing no contestable issues', () => {
@@ -95,7 +96,9 @@ describe('IntroductionPage', () => {
     const tree = shallow(<IntroductionPage {...props} />);
 
     const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include('No Contestable Issues');
+    expect(AlertBox.render().text()).to.include(
+      'don’t have any issues on file for you',
+    );
     tree.unmount();
   });
   it('should render start button', () => {

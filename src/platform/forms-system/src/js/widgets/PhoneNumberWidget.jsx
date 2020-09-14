@@ -18,7 +18,7 @@ export default class PhoneNumberWidget extends React.Component {
   handleChange = val => {
     let stripped;
     if (val) {
-      stripped = val.replace(/[ \-()x+]/g, '');
+      stripped = val.replace(/[^0-9]/g, '');
     }
 
     this.setState({ val, firstUpdate: false }, () => {
@@ -30,7 +30,7 @@ export default class PhoneNumberWidget extends React.Component {
     return (
       <TextWidget
         {...this.props}
-        inputType={'tel'}
+        type={'tel'}
         value={this.state.val}
         onChange={this.handleChange}
       />

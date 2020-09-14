@@ -1,5 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
-import { getData, isServerError, isClientError } from '../util';
+import { getData } from '../util';
+import * as Sentry from '@sentry/browser';
 
 export const VERIFY_VA_FILE_NUMBER_STARTED = 'VERIFY_VA_FILE_NUMBER_STARTED';
 export const VERIFY_VA_FILE_NUMBER_SUCCEEDED =
@@ -13,20 +14,25 @@ async function getVaFileNumber() {
 
 export const verifyVaFileNumber = () => async dispatch => {
   dispatch({ type: VERIFY_VA_FILE_NUMBER_STARTED, response: true });
-  const response = await getVaFileNumber();
+  let response = await getVaFileNumber();
   if (response.errors) {
-    // TODO: fire off analytics event when endpoint is wired up.
-    //   const errCode = res.errors[0].code;
-    //   isServerError(errCode) ? recordEvent({}) : recordEvent({})
+    Sentry.captureMessage('disability-file-number-gate-failed');
     recordEvent({
       event: 'disability-file-number-gate-failed',
       'error-key': `${response.errors[0].code}_error_description`,
     });
     dispatch({ type: VERIFY_VA_FILE_NUMBER_FAILED, response });
   } else {
+    Sentry.captureMessage('disability-file-number-gate-successful');
     recordEvent({
       event: 'disability-file-number-gate-successful',
     });
+    // account for validVaFileNumber and validVAFileNumber inflection
+    const unifiedResponse = {};
+    for (const [key, value] of Object.entries(response)) {
+      unifiedResponse[key.toUpperCase()] = value;
+    }
+    response = unifiedResponse;
     dispatch({ type: VERIFY_VA_FILE_NUMBER_SUCCEEDED, response });
   }
 };

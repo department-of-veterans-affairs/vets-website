@@ -1,0 +1,16 @@
+{
+  "data": {
+    "fullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "relationshipToVeteran": "A general question",
+    "preferredContactMethod": "email",
+    "email": "jane.doe@va.gov",
+    "view:email": "jane.doe@va.gov",
+    "privacyAgreementAccepted": true,
+    "inquiryType": "Question",
+    "topic": "Policy Question",
+    "query": "Some question?"
+  }
+}

@@ -7,14 +7,19 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { focusElement } from 'platform/utilities/ui';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
+import { higherLevelReviewFeature } from '../helpers';
 import {
   noContestableIssuesFound,
   showContestableIssueError,
+  showWorkInProgress,
 } from '../content/contestableIssueAlerts';
 
 export class IntroductionPage extends React.Component {
@@ -52,10 +57,14 @@ export class IntroductionPage extends React.Component {
   };
 
   getCallToActionContent = () => {
-    const { route, contestableIssues } = this.props;
+    const { route, contestableIssues, allowHlr, testHlr } = this.props;
+    // check feature flag
+    if (!(allowHlr || testHlr)) {
+      return showWorkInProgress;
+    }
     const { formConfig } = route;
     if (contestableIssues?.error) {
-      return showContestableIssueError(contestableIssues.error.errors);
+      return showContestableIssueError;
     }
     return contestableIssues?.issues?.length > 0 ? (
       <SaveInProgressIntro
@@ -134,13 +143,7 @@ export class IntroductionPage extends React.Component {
                 If you need help requesting a Higher-Level Review, you can
                 contact a VA regional office and ask to speak to a
                 representative. To find the nearest regional office, please call{' '}
-                <a
-                  href="tel:1-800-827-1000"
-                  aria-label="8 0 0. 8 2 7. 1 0 0 0."
-                  className="nowrap"
-                >
-                  800-827-1000
-                </a>
+                <Telephone contact={CONTACTS.VA_BENEFITS} />
                 {' or '}
                 <a href="/find-locations">visit our facility locator tool</a>.
               </p>
@@ -183,10 +186,7 @@ export class IntroductionPage extends React.Component {
         </CallToActionWidget>
         {/* TODO: Remove inline style after I figure out why
           .omb-info--container has a left padding */}
-        <div
-          className="omb-info--container vads-u-padding-left--0"
-          role="presentation"
-        >
+        <div className="omb-info--container vads-u-padding-left--0">
           <OMBInfo resBurden={15} ombNumber="2900-0862" expDate="02/28/2022" />
         </div>
       </article>
@@ -200,6 +200,7 @@ function mapStateToProps(state) {
     form,
     user,
     contestableIssues,
+    allowHlr: higherLevelReviewFeature(state),
   };
 }
 

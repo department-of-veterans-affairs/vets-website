@@ -38,7 +38,7 @@ export class ConfirmationPage extends React.Component {
         </p>
         <div className="inset">
           <h4>
-            28-1900 Vocational Rehabilitation Claim{' '}
+            28-1900 Veteran Readiness and Employment Claim{' '}
             <span className="additional">(Form 21-1900)</span>
           </h4>
           <span>

@@ -21,10 +21,10 @@ newAddressUI['view:livesOnMilitaryBase']['ui:title'] =
   'I will live on a United States military base outside of the U.S.';
 
 const educationLabels = Object.entries(EDUCATION_LEVELS).map(
-  ([label, title]) => label,
+  ([label]) => label,
 );
 const educationTitles = Object.entries(EDUCATION_LEVELS).map(
-  ([label, title]) => title,
+  ([, title]) => title,
 );
 
 export const schema = {
@@ -50,6 +50,7 @@ export const uiSchema = {
       for this again when we process your application.
     </p>
   ),
+  'ui:title': 'Additional Information',
   educationLevel: {
     'ui:title': 'Highest education level',
   },

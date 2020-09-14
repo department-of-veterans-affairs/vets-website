@@ -1,16 +1,15 @@
 /* eslint-disable import/no-dynamic-require */
 
-const fs = require('fs');
 const path = require('path');
 
 const validate = require('./validator');
 const { getContentModelType, getAllImportsFrom } = require('./helpers');
 
 // Read all the schemas
-const rawSchemasDir = path.join(__dirname, 'schemas', 'raw');
-const transformedSchemasDir = path.join(__dirname, 'schemas', 'transformed');
+const rawSchemasDir = path.join(__dirname, 'schemas', 'input');
+const transformedSchemasDir = path.join(__dirname, 'schemas', 'output');
 
-const validateEntityFactory = schemasDir => {
+const validateEntityFactory = (schemasDir, schemaType) => {
   /**
    * { page: { <schema> }, ... }
    */
@@ -36,7 +35,7 @@ const validateEntityFactory = schemasDir => {
       if (!missingSchemas.has(contentModelType)) {
         missingSchemas.add(contentModelType);
         // eslint-disable-next-line no-console
-        console.warn(`Missing schema for ${contentModelType}`);
+        console.warn(`Missing ${schemaType} schema for ${contentModelType}`);
       }
       // Assume it's valid
       return [];
@@ -47,6 +46,9 @@ const validateEntityFactory = schemasDir => {
 };
 
 module.exports = {
-  validateRawEntity: validateEntityFactory(rawSchemasDir),
-  validateTransformedEntity: validateEntityFactory(transformedSchemasDir),
+  validateRawEntity: validateEntityFactory(rawSchemasDir, 'input'),
+  validateTransformedEntity: validateEntityFactory(
+    transformedSchemasDir,
+    'output',
+  ),
 };

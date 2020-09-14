@@ -9,10 +9,10 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import recordEvent from 'platform/monitoring/record-event';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { isLOA3, isMultifactorEnabled } from 'platform/user/selectors';
 import { usePrevious } from 'platform/utilities/react-hooks';
-
 import {
   editModalToggled,
   savePaymentInformation as savePaymentInformationAction,
@@ -155,6 +155,11 @@ export const DirectDepositContent = ({
         aria-label={'Edit your direct deposit bank information'}
         ref={editBankInfoButton}
         onClick={() => {
+          recordEvent({
+            event: 'profile-navigation',
+            'profile-action': 'edit-link',
+            'profile-section': 'direct-deposit-information',
+          });
           toggleEditState();
         }}
       >
@@ -169,6 +174,11 @@ export const DirectDepositContent = ({
       className="va-button-link"
       ref={editBankInfoButton}
       onClick={() => {
+        recordEvent({
+          event: 'profile-navigation',
+          'profile-action': 'add-link',
+          'profile-section': 'direct-deposit-information',
+        });
         toggleEditState();
       }}
     >
@@ -189,8 +199,8 @@ export const DirectDepositContent = ({
         )}
       </div>
       <p className="vads-u-margin-top--0">
-        Please provide your bank’s current routing number as well as your
-        current account number and type.
+        Please enter your bank’s routing and account numbers and your account
+        type.
       </p>
       <div className="vads-u-margin-bottom--2">
         <AdditionalInfo triggerText="Where can I find these numbers?">
@@ -249,14 +259,15 @@ export const DirectDepositContent = ({
       value: (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <p className="vads-u-margin-top--0">
-            You’ll need to sign in to the eBenefits website with your Premium DS
-            Logon account to change your direct deposit information for GI Bill
-            and other education benefits online.
+            You’ll need to sign in to the eBenefits website with your{' '}
+            <strong>Premium DS Logon</strong> account to change your direct
+            deposit information for GI Bill and other education benefits online.
           </p>{' '}
           <p>
-            If you don’t have a Premium DS Logon account, you can register for
-            one or upgrade your Basic account to Premium. Your MyHealtheVet or
-            ID.me credentials won’t work on eBenefits.
+            If you don’t have a <strong>Premium DS Logon</strong> account, you
+            can register for one or upgrade your Basic account to Premium. Your{' '}
+            <strong>MyHealtheVet</strong> or <strong>ID.me</strong> credentials
+            won’t work on eBenefits.
           </p>
           <a
             target="_blank"
@@ -317,7 +328,7 @@ export const DirectDepositContent = ({
         </button>
       </Modal>
       <Prompt
-        message="Are you sure you want to leave? If you leave, your in-progress work won't be saved."
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={!isEmptyForm}
       />
       <div id="success" role="alert" aria-atomic="true">
@@ -333,13 +344,17 @@ export const DirectDepositContent = ({
               status="success"
               backgroundOnly
               className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+              scrollOnShow
             >
               We’ve saved your direct deposit information.
             </AlertBox>
           )}
         </ReactCSSTransitionGroup>
       </div>
-      <ProfileInfoTable title="Bank information" data={directDepositData()} />
+      <ProfileInfoTable
+        title="Disability compensation and pension benefits"
+        data={directDepositData()}
+      />
       <FraudVictimAlert />
       <ProfileInfoTable
         title="Education benefits"
@@ -354,7 +369,7 @@ DirectDepositContent.propTypes = {
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
-    financialInstitutionName: PropTypes.string.isRequired,
+    financialInstitutionName: PropTypes.string,
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
