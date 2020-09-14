@@ -1,5 +1,7 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const socialMediaFields = require('./facilities-fragments/healthCareSocialMedia.fields.graphql');
+const serviceLocation = require('./paragraph-fragments/serviceLocation.paragraph.graphql');
+const appointmentItems = require('./file-fragments/appointmentItems.graphql');
 
 module.exports = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
@@ -109,6 +111,8 @@ module.exports = `
           fieldBody {
             processed
           }
+          ${serviceLocation}
+          ${appointmentItems}
           fieldRegionalHealthService
           {
             entity {
