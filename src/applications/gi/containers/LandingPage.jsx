@@ -57,6 +57,7 @@ export function LandingPage({
         queryParams.delete(key);
       }
     }
+    queryParams.set('category', filters.category);
     queryParams.set('name', value);
 
     if (isVetTecSelected(filters)) {
@@ -66,7 +67,7 @@ export function LandingPage({
         search: queryParams.toString(),
       });
     } else {
-      history.push({ pathname: 'search/', search: queryParams.toString() });
+      history.push({ pathname: 'search', search: queryParams.toString() });
     }
   };
 
