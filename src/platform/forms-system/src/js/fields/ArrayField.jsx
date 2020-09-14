@@ -105,6 +105,7 @@ export default class ArrayField extends React.Component {
   }
 
   scrollToRow(id) {
+    // TODO: Test
     if (!this.props.uiSchema['ui:options'].doNotScrollOnAdd) {
       setTimeout(() => {
         scroller.scrollTo(

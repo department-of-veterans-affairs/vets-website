@@ -7,6 +7,7 @@ import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 const ChiefComplaintField = props => {
   const { onReviewPage, reviewMode } = props.formContext;
   const currentValue = props.value;
+  // const { chiefComplaint } = props;
 
   const editField = () => {
     return (
