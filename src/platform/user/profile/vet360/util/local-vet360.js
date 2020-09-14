@@ -247,6 +247,68 @@ export default {
       1000,
     );
   },
+  addressValidationSuccessSingleInternational() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: 'Great Russell Street',
+              addressType: 'INTERNATIONAL',
+              city: 'London',
+              countryName: 'United Kingdom',
+              countryCodeIso3: 'GBR',
+              internationalPostalCode: 'WC1B 3DG',
+            },
+            addressMetaData: {
+              confidenceScore: 96.0,
+              addressType: 'International',
+            },
+          },
+        ],
+        validationKey: 1520831034,
+      },
+      1000,
+    );
+  },
+  addressValidationSuccessTwoInternational() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '123 Great Russell Street',
+              addressType: 'INTERNATIONAL',
+              city: 'London',
+              countryName: 'United Kingdom',
+              countryCodeIso3: 'GBR',
+              internationalPostalCode: 'WC1B 3DG',
+            },
+            addressMetaData: {
+              confidenceScore: 96.0,
+              addressType: 'International',
+            },
+          },
+          {
+            address: {
+              addressLine1: '456 Great Russell Street',
+              addressType: 'INTERNATIONAL',
+              city: 'London',
+              countryName: 'United Kingdom',
+              countryCodeIso3: 'GBR',
+              internationalPostalCode: 'WC1B 3DG',
+            },
+            addressMetaData: {
+              confidenceScore: 96.0,
+              addressType: 'International',
+            },
+          },
+        ],
+        validationKey: 1520831034,
+      },
+      1000,
+    );
+  },
   addressValidationSuccessTwoConfirmedSuggestions() {
     return asyncReturn(
       {
