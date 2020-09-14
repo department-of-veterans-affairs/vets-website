@@ -51,7 +51,7 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Tell us about you',
+      title: 'Tell us about yourself',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact-information',
