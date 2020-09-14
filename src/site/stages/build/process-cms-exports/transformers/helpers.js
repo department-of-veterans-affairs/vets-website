@@ -84,7 +84,7 @@ function getDrupalValue(arr) {
  */
 function getImageCrop(obj, imageStyle = null) {
   if (imageStyle !== null) {
-    const imageObj = obj;
+    const imageObj = Object.assign({}, obj);
     const image = mediaImageStyles.find(({ style }) => style === imageStyle);
     const url = `/img/styles/${image.machine}/${
       imageObj.image.derivative.url
