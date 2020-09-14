@@ -8,7 +8,11 @@
       "last": "Doe",
       "suffix": "IV"
     },
-    "relationshipToVeteran": "On behalf of a Veteran",
+    "veteranStatus": "For the dependent of a Veteran",
+    "isDependent": true,
+    "relationshipToVeteran": "Daughter",
+    "veteranIsDeceased": true,
+    "dateOfDeath": "2000-06-04",
     "branchOfService": "Army",
     "preferredContactMethod": "email",
     "email": "jane.doe@va.gov",
