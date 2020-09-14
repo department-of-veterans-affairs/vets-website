@@ -1,12 +1,10 @@
 import React from 'react';
 
-// TODO: test
 export default function ReasonForVisitReview(props) {
-  // const widget = { formData: 'booop' };
   const widget = props.children.props;
   if (widget.formData) {
     return (
-      <div className="review-row">
+      <div className="review-row" data-testid="reason-for-visit">
         <dt>Main reason for visit</dt>
         <dd>
           <span>{widget.formData}</span>
