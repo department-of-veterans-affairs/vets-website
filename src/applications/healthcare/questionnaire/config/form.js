@@ -14,6 +14,7 @@ import environment from 'platform/utilities/environment';
 
 // const { } = fullSchema.definitions;
 
+// TODO: form tester
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/healthcare_questionnaire`,

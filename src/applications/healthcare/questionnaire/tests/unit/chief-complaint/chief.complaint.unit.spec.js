@@ -5,11 +5,11 @@ import sinon from 'sinon';
 
 import ChiefComplaintField from '../../../components/chief-complaint/ChiefComplaintField';
 
-import { createFakeChiefComplaint } from '../utils/createFakeStores';
+import { createFakeChiefComplaintStore } from '../utils/createFakeStores';
 
 describe('healthcare-questionnaire - chief complaint -', () => {
   it('Chief Complaint -- parsing reason from state -- text widget is rendered by default', () => {
-    const fakeStore = createFakeChiefComplaint();
+    const fakeStore = createFakeChiefComplaintStore();
     const onChange = sinon.spy();
     const wrapper = mount(
       <ChiefComplaintField
@@ -26,7 +26,7 @@ describe('healthcare-questionnaire - chief complaint -', () => {
     wrapper.unmount();
   });
   it('Chief Complaint -- parsing reason from state -- text widget should not render on review page', () => {
-    const fakeStore = createFakeChiefComplaint();
+    const fakeStore = createFakeChiefComplaintStore();
     const onChange = sinon.spy();
     const wrapper = mount(
       <ChiefComplaintField
@@ -47,7 +47,7 @@ describe('healthcare-questionnaire - chief complaint -', () => {
     wrapper.unmount();
   });
   it('Chief Complaint -- parsing reason from state -- text widget should  render on review page and edit Mode', () => {
-    const fakeStore = createFakeChiefComplaint();
+    const fakeStore = createFakeChiefComplaintStore();
     const onChange = sinon.spy();
     const wrapper = mount(
       <ChiefComplaintField

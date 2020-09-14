@@ -161,7 +161,7 @@ const createFakeUserStore = (
   };
 };
 
-const createFakeChiefComplaint = () => {
+const createFakeChiefComplaintStore = () => {
   return {
     getState: () => ({}),
     subscribe: () => {},
@@ -169,4 +169,20 @@ const createFakeChiefComplaint = () => {
   };
 };
 
-export { createFakeUserStore, createFakeChiefComplaint };
+const createFakeReasonForVisitStore = ({ reason = '' }) => {
+  return {
+    getState: () => ({
+      clipboardAppointmentDetails: {
+        reasonForVisit: reason,
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
+export {
+  createFakeUserStore,
+  createFakeChiefComplaintStore,
+  createFakeReasonForVisitStore,
+};
