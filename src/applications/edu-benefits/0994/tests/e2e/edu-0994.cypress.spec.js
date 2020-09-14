@@ -43,7 +43,7 @@ const form = createTestConfig(
         });
       },
     },
-    skip: false,
+    skip: true,
   },
   manifest,
   formConfig,
