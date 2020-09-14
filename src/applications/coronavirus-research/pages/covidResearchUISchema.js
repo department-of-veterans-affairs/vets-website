@@ -257,7 +257,7 @@ export const uiSchema = {
       'ui:reviewField': CustomReviewField,
     },
     'TRANSPORTATION::PUBLIC_TRANSPORT': {
-      'ui:title': 'Public transporation (bus, train, subway)',
+      'ui:title': 'Public transportation (bus, train, subway)',
       'ui:reviewField': CustomReviewField,
     },
     'TRANSPORTATION::WALK_BIKE': {
