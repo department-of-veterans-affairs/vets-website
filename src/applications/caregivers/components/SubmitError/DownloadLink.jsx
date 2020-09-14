@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -14,18 +14,19 @@ import { createFormPageList } from 'platform/forms-system/src/js/helpers';
 const DownLoadLink = ({ form }) => {
   const [PDFLink, setPDFLink] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const formData = submitTransform(formConfig, form);
+  const getFormData = submitTransform(formConfig, form);
+  const [setFormData, formData] = useState(null);
   const veteranFullName = form.data.veteranFullName;
   const pageList = createFormPageList(formConfig);
   const isFormValid = isValidForm(form, pageList);
 
-  const downloadPDF = () => {
+  const downloadPDF = data => {
     setLoading(true);
     apiRequest(
       `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
       {
         method: 'POST',
-        body: formData,
+        body: data,
         headers: {
           'Content-Type': 'application/json',
           'Source-App-Name': 'caregivers-10-10cg-',
@@ -46,11 +47,19 @@ const DownLoadLink = ({ form }) => {
       });
   };
 
+  useEffect(
+    () => {
+      setFormData(getFormData);
+      const notSameData = formData !== getFormData;
+      if (isFormValid.isValid && notSameData) downloadPDF(formData);
+    },
+    [getFormData, isFormValid.isValid, setFormData],
+  );
+
   const renderPDFLink = () => {
     return (
       <div className="pdf-download-link--loaded vads-u-margin-top--2">
         <a
-          onClick={() => isFormValid.isValid && downloadPDF()}
           aria-label="Download 1010CG filled out PDF form"
           href={PDFLink}
           download={`10-10CG_${veteranFullName.first}_${veteranFullName.last}`}
