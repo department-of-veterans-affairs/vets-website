@@ -61,7 +61,7 @@ dev.va.gov.**
 
 ### Building static content
 
-VA.gov contains many pages that include content pulled from a Drupal-based CMS.
+VA.gov contains many pages that include content generated from a Drupal-based content model.
 When testing changes to static pages, or to see what your application looks like
 on VA.gov, you'll need to build these static pages using the following commands:
 
