@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
-// TODO: test
 const ChiefComplaintField = props => {
   const { onReviewPage, reviewMode } = props.formContext;
   const currentValue = props.value;

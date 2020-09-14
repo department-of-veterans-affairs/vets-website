@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// TODO: test
 const ReasonForVisitField = ({ reasonForVisit }) => {
   if (reasonForVisit) {
     return (
