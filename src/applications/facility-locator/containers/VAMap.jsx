@@ -21,7 +21,12 @@ import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
 import { BOUNDING_RADIUS, MARKER_LETTERS } from '../constants';
-import { areGeocodeEqual, setFocus } from '../utils/helpers';
+import {
+  areGeocodeEqual,
+  setFocus,
+  recordMarkerEvents,
+  recordZoomPanEvents,
+} from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
@@ -335,7 +340,6 @@ class VAMap extends Component {
     };
     let boundsArray = currentQuery.bounds;
     let zoom = currentQuery.zoomLevel;
-
     if (this.refs.map) {
       center = leafletElement.getCenter();
       zoom = leafletElement.getZoom();
@@ -406,7 +410,7 @@ class VAMap extends Component {
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance);
     const mapMarkers = sortedResults.map(r => {
-      const iconProps = {
+      const markerProps = {
         key: r.id,
         position: [r.attributes.lat, r.attributes.long],
         onClick: () => {
@@ -421,10 +425,11 @@ class VAMap extends Component {
             document.getElementById('searchResultsContainer').scrollTop =
               searchResult.offsetTop;
           }
+          recordMarkerEvents(r);
         },
         markerText: markers.next().value,
       };
-      return <FacilityMarker key={r.id} {...iconProps} />;
+      return <FacilityMarker key={r.id} {...markerProps} />;
     });
     if (this.props.currentQuery.searchCoords) {
       mapMarkers.push(
@@ -512,6 +517,13 @@ class VAMap extends Component {
               <Map
                 ref="map"
                 center={position}
+                onViewportChanged={e =>
+                  recordZoomPanEvents(
+                    e,
+                    currentQuery.searchCoords,
+                    currentQuery.zoomLevel,
+                  )
+                }
                 zoom={parseInt(currentQuery.zoomLevel, 10)}
                 style={{ width: '100%', maxHeight: '55vh' }}
                 scrollWheelZoom={false}
@@ -588,7 +600,15 @@ class VAMap extends Component {
         <div className="desktop-map-container">
           <Map
             ref="map"
+            id="map-id"
             center={position}
+            onViewportChanged={e =>
+              recordZoomPanEvents(
+                e,
+                currentQuery.searchCoords,
+                currentQuery.zoomLevel,
+              )
+            }
             zoomSnap={1}
             zoomDelta={1}
             zoom={parseInt(currentQuery.zoomLevel, 10)}

@@ -251,7 +251,7 @@ class AddressValidationView extends React.Component {
           </div>
         )}
         <AlertBox
-          className="vads-u-margin-bottom--1"
+          className="vads-u-margin-bottom--1 vads-u-margin-top--0"
           status="warning"
           headline={addressValidationMessage.headline}
           scrollOnShow
