@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import ListBestTimeToCall from '../../../../components/ListBestTimeToCall';
+import ListBestTimeToCall from './ListBestTimeToCall';
 import { sentenceCase } from '../../../../utils/formatters';
 import {
   getVAAppointmentLocationName,

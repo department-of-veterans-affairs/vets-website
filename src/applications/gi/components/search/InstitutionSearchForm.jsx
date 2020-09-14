@@ -18,7 +18,6 @@ function InstitutionSearchForm({
   fetchAutocompleteSuggestions,
   filters,
   filtersClass,
-  gibctCh33BenefitRateUpdate,
   gibctFilterEnhancement,
   handleFilterChange,
   hideModal,
@@ -83,7 +82,6 @@ function InstitutionSearchForm({
             showHeader
             handleInputFocus={handleInstitutionSearchInputFocus}
             gibctFilterEnhancement={gibctFilterEnhancement}
-            gibctCh33BenefitRateUpdate={gibctCh33BenefitRateUpdate}
           />
           <OnlineClassesFilter
             onlineClasses={eligibility.onlineClasses}

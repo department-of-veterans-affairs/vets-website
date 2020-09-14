@@ -9,8 +9,15 @@ export default function PhoneNumberView({ number }) {
   const phone = '###-###-####'.replace(/#/g, () => fullPhone[i++] || '');
   return (
     <p className="vads-u-margin--1px" data-testid="phoneNumber">
-      <span className=" vads-u-font-weight--bold">{number.label}: </span>
-      <span data-testid={`${number.label.toLowerCase()}Phone`}>{phone}</span>
+      <span data-testid={`${number.label.toLowerCase()}Phone-label`}>
+        {number.label} phone:{' '}
+      </span>
+      <span
+        data-testid={`${number.label.toLowerCase()}Phone`}
+        className=" vads-u-font-weight--bold"
+      >
+        {phone}
+      </span>
     </p>
   );
 }

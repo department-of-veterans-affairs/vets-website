@@ -37,7 +37,6 @@ export function LandingPage({
   dispatchUpdateAutocompleteSearchTerm,
   eligibility,
   filters,
-  gibctCh33BenefitRateUpdate,
   gibctSearchEnhancements,
 }) {
   useEffect(() => {
@@ -156,7 +155,6 @@ export function LandingPage({
               {...eligibility}
               hideModal={dispatchHideModal}
               showModal={dispatchShowModal}
-              gibctCh33BenefitRateUpdate={gibctCh33BenefitRateUpdate}
             />
             <LandingPageTypeOfInstitutionFilter
               category={filters.category}
@@ -215,9 +213,6 @@ const mapStateToProps = state => ({
   eligibility: state.eligibility,
   gibctSearchEnhancements: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSearchEnhancements
-  ],
-  gibctCh33BenefitRateUpdate: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
   ],
 });
 

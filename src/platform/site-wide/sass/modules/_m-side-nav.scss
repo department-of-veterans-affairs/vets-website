@@ -22,6 +22,18 @@ $side-nav-color-dark: #323a45;
     cursor: pointer;
     width: calc(100% - 45px);
     margin-left: 22px;
+
+    &::after {
+      content: "\A";
+      height: 1px;
+      width: 100%;
+      display: block;
+      margin: auto;
+      background: $color-gray-lighter;
+      position: relative;
+      top: 15px;
+    }
+
     i.fa {
       font-size: inherit;
       float: right;
@@ -29,10 +41,12 @@ $side-nav-color-dark: #323a45;
       right: 0;
     }
   }
+
   .va-sidenav {
     h2 {
-      margin-top: 0.5em;
+      margin-top: 0em;
     }
+
     li {
       list-style: none;
       margin: 0;
@@ -158,7 +172,15 @@ $side-nav-color-dark: #323a45;
       border-left: 2px solid $color-gray-lighter;
       padding-left: 15px;
     }
+
     .va-sidenav-level-1 {
+      margin-top: 2.3em;
+      &:first-child {
+        margin-top: .75em; // the wrapper already has top padding, so we don't need as much space here
+        @media(max-width: $medium-screen) {
+          margin-top: 2em; // to accomodate mobile menu
+        }
+      }
       &:last-child {
         .va-sidenav-level-2 {
           &:last-child {
@@ -171,9 +193,9 @@ $side-nav-color-dark: #323a45;
         }
       }
     }
+
     .va-sidenav-level-2 {
       &:last-child {
-        margin-bottom: 30px;
         &::after {
           content: "\A";
           height: 1px;

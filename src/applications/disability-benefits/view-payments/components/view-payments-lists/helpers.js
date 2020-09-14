@@ -38,10 +38,10 @@ export const paymentsRecievedContent = (
   <>
     <h3 className="vads-u-font-size--xl">Payments you received</h3>
     <p>
-      VA pays benefits on the first day of the month for the previous month. If
-      the first day of the month is a weekend or holiday, VA pays benefits on
-      the last business day before the 1st. For example, if May 1st is a
-      Saturday, benefits would be paid on Friday, April 30.
+      We pay benefits on the first day of the month for the previous month. If
+      the first day of the month is a weekend or holiday, we pay benefits on the
+      last business day before the 1st. For example, if May 1 is a Saturday,
+      we’d pay benefits on Friday, April 30.
     </p>
   </>
 );

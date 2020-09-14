@@ -20,7 +20,7 @@ export default class ITFBanner extends React.Component {
 
   render() {
     if (this.state.messageDismissed) {
-      return <>{this.props.children}</>;
+      return this.props.children;
     }
 
     let message;
@@ -55,8 +55,8 @@ export default class ITFBanner extends React.Component {
     }
 
     return (
-      <div className="row">
-        <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--2">
+      <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
+        <div className="usa-content">
           <h1>{this.props.title}</h1>
           {message}
           {this.props.status !== 'error' && (

@@ -5,13 +5,12 @@ import { bindActionCreators } from 'redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
-import { fetchDebtLetters, fetchDebtLettersVBMS } from '../actions';
+import { fetchDebtLetters } from '../actions';
 
 class DebtLettersWrapper extends Component {
   componentDidMount() {
     if (this.props.showDebtLetters !== false) {
       this.props.fetchDebtLetters();
-      this.props.fetchDebtLettersVBMS();
     }
   }
 
@@ -49,7 +48,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ fetchDebtLetters, fetchDebtLettersVBMS }, dispatch),
+  ...bindActionCreators({ fetchDebtLetters }, dispatch),
 });
 
 DebtLettersWrapper.propTypes = {

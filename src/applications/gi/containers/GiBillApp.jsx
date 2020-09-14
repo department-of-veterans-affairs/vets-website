@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
@@ -22,7 +20,6 @@ export function GiBillApp({
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
-  gibctCh33BenefitRateUpdate,
   preview,
   search,
 }) {
@@ -91,7 +88,7 @@ export function GiBillApp({
               .
             </p>
           </div>
-          <Modals gibctCh33BenefitRateUpdate={gibctCh33BenefitRateUpdate} />
+          <Modals />
         </div>
       </div>
     </div>
@@ -108,9 +105,6 @@ const mapStateToProps = state => {
     constants,
     preview,
     search,
-    gibctCh33BenefitRateUpdate: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
-    ],
   };
 };
 

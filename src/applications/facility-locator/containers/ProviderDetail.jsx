@@ -129,7 +129,7 @@ class ProviderDetail extends Component {
         <div className="usa-width-one-third medium-4 columns">
           <div>
             <LocationMap info={location} />
-            <div className="mb2">
+            <div className="vads-u-margin-bottom--4">
               <h4 className="highlight">About Community Care</h4>
               <div>
                 <a

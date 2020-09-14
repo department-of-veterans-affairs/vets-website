@@ -64,7 +64,7 @@ export default {
     genderUI: label => ({
       'ui:title': `${label}  sex`,
       'ui:widget': 'radio',
-      'ui:options': { labels: { F: 'Female', M: 'Male', U: 'Unknown' } },
+      'ui:options': { labels: { F: 'Female', M: 'Male' } },
     }),
     vetRelationshipUI: label => ({
       'ui:title': `What is the ${label}  relationship to the Veteran?`,
@@ -227,14 +227,6 @@ export default {
 export const confirmationEmailUI = (label, dataConstant) => ({
   'ui:title': `Re-enter ${label}  email address`,
   'ui:widget': 'email',
-  'ui:errorMessages': {
-    pattern: 'Please enter an email address using this format: X@X.com',
-    required: 'Please enter an email address',
-  },
-  'ui:options': {
-    widgetClassNames: 'va-input-large',
-    inputType: 'email',
-  },
   'ui:required': formData => !!formData[dataConstant],
   'ui:validations': [
     {
