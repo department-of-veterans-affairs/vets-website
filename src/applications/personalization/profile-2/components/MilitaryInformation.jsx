@@ -138,24 +138,30 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
   );
 };
 
-const MilitaryInformation = ({ militaryInformation }) => (
-  <>
-    <h2
-      tabIndex="-1"
-      className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-      data-focus-target
-    >
-      Military information
-    </h2>
-    <DowntimeNotification
-      appTitle="Military Information"
-      render={handleDowntimeForSection('military service')}
-      dependencies={[externalServices.emis]}
-    >
-      <MilitaryInformationContent militaryInformation={militaryInformation} />
-    </DowntimeNotification>
-  </>
-);
+const MilitaryInformation = ({ militaryInformation }) => {
+  useEffect(() => {
+    document.title = `Military Information | Veterans Affairs`;
+  }, []);
+
+  return (
+    <>
+      <h2
+        tabIndex="-1"
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
+        data-focus-target
+      >
+        Military information
+      </h2>
+      <DowntimeNotification
+        appTitle="Military Information"
+        render={handleDowntimeForSection('military service')}
+        dependencies={[externalServices.emis]}
+      >
+        <MilitaryInformationContent militaryInformation={militaryInformation} />
+      </DowntimeNotification>
+    </>
+  );
+};
 
 MilitaryInformation.propTypes = {
   militaryInformation: PropTypes.shape({
