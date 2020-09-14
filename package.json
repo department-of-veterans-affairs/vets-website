@@ -166,7 +166,7 @@
     "concurrently": "^5.2.0",
     "copy-webpack-plugin": "^6.0.2",
     "cors": "^2.7.1",
-    "css-loader": "^0.28.10",
+    "css-loader": "^4.3.0",
     "cypress": "^4.8.0",
     "cypress-axe": "^0.8.1",
     "cypress-multi-reporters": "^1.4.0",
