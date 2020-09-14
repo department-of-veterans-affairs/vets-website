@@ -1,7 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import { isServerError, isClientError } from '../utils';
-// import { getData, isServerError, isClientError } from '../util';
 
 export const PAYMENTS_RECEIVED_STARTED = 'PAYMENTS_RECEIVED_STARTED';
 export const PAYMENTS_RECEIVED_SUCCEEDED = 'PAYMENTS_RECEIVED_SUCCEEDED';

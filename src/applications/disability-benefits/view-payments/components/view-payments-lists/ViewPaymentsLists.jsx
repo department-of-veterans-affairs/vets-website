@@ -9,9 +9,9 @@ import moment from 'moment';
 import Payments from './payments/Payments.jsx';
 import {
   paymentsReturnedFields,
+  paymentsReceivedFields,
   paymentsRecievedContent,
   paymentsReturnedContent,
-  paymentsReceivedFields,
 } from './helpers';
 import { getAllPayments } from '../../actions';
 import {
