@@ -213,7 +213,7 @@ describe('Schemaform review: <GenericError />', () => {
 
     expect(
       tree.getByText(
-        "We’re sorry. We can't submit your application right now.",
+        "We’re sorry. We can’t submit your application right now.",
       ),
     ).to.not.be.null;
 
