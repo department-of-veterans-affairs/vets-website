@@ -13,6 +13,9 @@ describe('healthcare-questionnaire - reason for visit - review -', () => {
     );
     expect(wrapper.find('[data-testid="reason-for-visit"]').exists()).to.be
       .true;
+    expect(
+      wrapper.find('[data-testid="reason-for-visit"]').hasClass('review-row'),
+    ).to.be.true;
     wrapper.unmount();
   });
   it('reason for visit does not exist', () => {
