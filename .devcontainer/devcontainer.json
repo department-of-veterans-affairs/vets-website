@@ -1,11 +1,11 @@
 {
     "name": "vets-website",
     "settings": { 
-		"terminal.integrated.shell.linux": "/bin/zsh"
+		"terminal.integrated.shell.linux": "/bin/bash"
     },
     "extensions": [
 		"dbaeumer.vscode-eslint"
     ],
     "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
-    "postStartCommand": "./.devcontainer/postStartCommand.sh",
+    // "postStartCommand": "./.devcontainer/postStartCommand.sh",
 }

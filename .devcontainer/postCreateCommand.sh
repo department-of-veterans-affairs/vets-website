@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # configure NVM
 npm config delete prefix
