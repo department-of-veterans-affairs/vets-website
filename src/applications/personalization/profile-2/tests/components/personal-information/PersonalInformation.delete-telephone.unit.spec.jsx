@@ -67,15 +67,15 @@ async function testQuickSuccess(numberName) {
     phoneNumberInput,
   } = deletePhoneNumber(numberName);
 
-  // Buttons should be disabled while the delete transaction is pending...
+  // Button should be disabled while the delete transaction is pending...
   // Waiting 10ms to make this check so that it happens _after_ the initial
-  // delete transaction request is created. We had a UX bug where the buttons
-  // were disabled while the initial transaction request was being created but
-  // were enabled again while polling the transaction status. This test was
+  // delete transaction request is created. We had a UX bug where the button
+  // was disabled while the initial transaction request was being created but
+  // was enabled again while polling the transaction status. This test was
   // added to prevent regressing back to that poor experience where users were
   // able to interact with buttons that created duplicate XHRs.
   await wait(10);
-  expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
+  expect(cancelDeleteButton).to.not.be.visible;
   expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
   expect(confirmDeleteButton)
     .to.have.descendant('i')
