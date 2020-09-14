@@ -19,6 +19,7 @@ import { ConnectedApp } from './ConnectedApp';
 export class ConnectedApps extends Component {
   componentDidMount() {
     focusElement('[data-focus-target]');
+    document.title = `Connected Apps | Veterans Affairs`;
     this.props.loadConnectedApps();
   }
 
