@@ -15,18 +15,18 @@ const DownLoadLink = ({ form }) => {
   const [PDFLink, setPDFLink] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const getFormData = submitTransform(formConfig, form);
-  const [setFormData, formData] = useState(null);
+  const [formData, setFormData] = useState(null);
   const veteranFullName = form.data.veteranFullName;
   const pageList = createFormPageList(formConfig);
   const isFormValid = isValidForm(form, pageList);
 
-  const downloadPDF = data => {
+  const downloadPDF = transformedData => {
     setLoading(true);
     apiRequest(
       `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
       {
         method: 'POST',
-        body: data,
+        body: transformedData,
         headers: {
           'Content-Type': 'application/json',
           'Source-App-Name': 'caregivers-10-10cg-',
@@ -51,9 +51,9 @@ const DownLoadLink = ({ form }) => {
     () => {
       setFormData(getFormData);
       const notSameData = formData !== getFormData;
-      if (isFormValid.isValid && notSameData) downloadPDF(formData);
+      if (isFormValid.isValid && notSameData) downloadPDF(getFormData);
     },
-    [getFormData, isFormValid.isValid, setFormData],
+    [getFormData, isFormValid.isValid, setFormData, formData],
   );
 
   const renderPDFLink = () => {
