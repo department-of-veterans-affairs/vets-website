@@ -1,0 +1,10 @@
+{
+    "name": "vets-website",
+    "settings": { 
+		"terminal.integrated.shell.linux": "/bin/zsh"
+    },
+    "extensions": [
+		"dbaeumer.vscode-eslint"
+    ],
+    "postCreateCommand": "yarn install",
+}
