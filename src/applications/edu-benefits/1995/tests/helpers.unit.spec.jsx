@@ -7,8 +7,8 @@ import {
   buildSubmitEventData,
 } from '../../1995/helpers';
 
-import minimalData from './schema/minimal-test.json';
-import maximalData from './schema/maximal-test.json';
+import minimalData from '../tests/e2e/fixtures/data/minimal.json';
+import maximalData from '../tests/e2e/fixtures/data/maximal.json';
 
 const defaultForm = {
   benefit: 'chapter33',
