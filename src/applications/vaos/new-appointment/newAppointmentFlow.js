@@ -4,6 +4,7 @@ import {
   getEligibilityStatus,
   vaosCommunityCare,
   getTypeOfCare,
+  vaosFlatFacilityPage,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import {
@@ -90,7 +91,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return 'vaFacility';
+      return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
     },
     previous: 'home',
   },
@@ -106,7 +107,7 @@ export default {
         return 'requestDateTime';
       }
 
-      return 'vaFacility';
+      return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
     },
     previous(state) {
       //  check for eye care flow
@@ -119,7 +120,9 @@ export default {
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
-    next: 'vaFacility',
+    async next(state) {
+      return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
+    },
     previous: 'typeOfCare',
   },
   typeOfEyeCare: {
@@ -189,6 +192,10 @@ export default {
 
       return nextState;
     },
+  },
+  vaFacilityV2: {
+    url: '/new-appointment/va-facility-2',
+    // async next(state, dispatch) {},
   },
   clinicChoice: {
     url: '/new-appointment/clinics',

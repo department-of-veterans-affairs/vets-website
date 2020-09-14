@@ -20,6 +20,7 @@ import PreferredDatePage from './components/PreferredDatePage';
 import DateTimeRequestPage from './components/DateTimeRequestPage';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
 import VAFacilityPage from './components/VAFacilityPage';
+import VAFacilityPageV2 from './components/VAFacilityPageV2';
 import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
@@ -117,6 +118,10 @@ function NewAppointmentSection({ isCernerOnlyPatient }) {
           component={DateTimeSelectPage}
         />
         <Route path={`${match.url}/va-facility`} component={VAFacilityPage} />
+        <Route
+          path={`${match.url}/va-facility-2`}
+          component={VAFacilityPageV2}
+        />
         <Route
           path={`${match.url}/community-care-preferences`}
           component={CommunityCarePreferencesPage}
