@@ -46,4 +46,25 @@ describe('healthcare-questionnaire - chief complaint -', () => {
     expect(wrapper.find('[data-testid="editField"]').exists()).to.be.false;
     wrapper.unmount();
   });
+  it('Chief Complaint -- parsing reason from state -- text widget should  render on review page and edit Mode', () => {
+    const fakeStore = createFakeChiefComplaint();
+    const onChange = sinon.spy();
+    const wrapper = mount(
+      <ChiefComplaintField
+        store={fakeStore}
+        id="1"
+        schema={{ type: 'string' }}
+        formContext={{
+          onReviewPage: true,
+          reviewMode: false,
+        }}
+        value={'something'}
+        onChange={onChange}
+        options={{}}
+      />,
+    );
+
+    expect(wrapper.find('[data-testid="editField"]').exists()).to.be.true;
+    wrapper.unmount();
+  });
 });
