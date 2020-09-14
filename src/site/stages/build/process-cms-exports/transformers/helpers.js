@@ -86,14 +86,17 @@ function getImageCrop(obj, imageStyle = null) {
   if (imageStyle !== null) {
     const imageObj = Object.assign({}, obj);
     const image = mediaImageStyles.find(({ style }) => style === imageStyle);
-    const url = `/img/styles/${image.machine}/${
-      imageObj.image.derivative.url
-    }`.replace('public:/', 'public');
-    imageObj.image.url = url;
-    imageObj.image.derivative.url = url;
-    imageObj.image.derivative.width = image.width;
-    imageObj.image.derivative.height = image.height;
-    return imageObj;
+    // If imageStyle is not found, it will return the raw obj
+    if (image) {
+      const url = `/img/styles/${image.machine}/${
+        imageObj.image.derivative.url
+      }`.replace('public:/', 'public');
+      imageObj.image.url = url;
+      imageObj.image.derivative.url = url;
+      imageObj.image.derivative.width = image.width;
+      imageObj.image.derivative.height = image.height;
+      return imageObj;
+    }
   }
   return obj;
 }
