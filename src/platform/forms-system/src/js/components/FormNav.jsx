@@ -73,7 +73,9 @@ export default function FormNav(props) {
       }
 
       return () => {
-        focusElement('.nav-header > h2');
+        if (!environment.isProduction()) {
+          focusElement('.nav-header > h2');
+        }
       };
     },
     [current, index],
