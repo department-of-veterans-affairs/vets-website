@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import environment from 'platform/utilities/environment';
 
 import SegmentedProgressBar from './SegmentedProgressBar';
 
@@ -86,14 +87,23 @@ export default function FormNav(props) {
           aria-valuemax={chapters.length}
           className="nav-header nav-header-schemaform"
         >
-          {showHeader && (
-            <h2 id="nav-form-header" className="vads-u-font-size--h4">
-              {stepText}
-            </h2>
-          )}
+          {!environment.isProduction() &&
+            showHeader && (
+              <h2 id="nav-form-header" className="vads-u-font-size--h4">
+                {stepText}
+              </h2>
+            )}
+          {!environment.isProduction() &&
+            !showHeader && (
+              <div className="vads-u-font-size--h4">{stepText}</div>
+            )}
 
-          {!showHeader && (
-            <div className="vads-u-font-size--h4">{stepText}</div>
+          {environment.isProduction() && (
+            <h2 className="vads-u-font-size--h4">
+              <span className="form-process-step current">{current}</span>{' '}
+              <span className="form-process-total">of {chapters.length}</span>{' '}
+              {chapterName}
+            </h2>
           )}
         </div>
       </div>
