@@ -18,21 +18,15 @@ const defaultProps = {
 
 describe('<GiBillApp>', () => {
   it('should render', () => {
-    const props = {
-      ...defaultProps,
-      constants: {
-        ...defaultProps.constants,
-      },
-    };
     const tree = mount(
       <MemoryRouter>
         <Provider store={defaultStore}>
-          <GiBillApp {...props} />
+          <GiBillApp {...defaultProps} />
         </Provider>
       </MemoryRouter>,
     );
 
-    expect(tree.find('.gi-app').length).to.eq(1);
+    expect(tree.find('div.gi-app').length).to.eq(1);
     tree.unmount();
   });
 
