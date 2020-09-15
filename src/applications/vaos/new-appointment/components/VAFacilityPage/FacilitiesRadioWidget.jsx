@@ -31,14 +31,12 @@ export default function FacilitiesRadioWidget({
               onChange={_ => onChange(option.value)}
             />
             <label htmlFor={`${id}_${i}`}>
-              <>
-                <span className="vads-u-display--block vads-u-font-weight--bold">
-                  {facility.name}
-                </span>
-                <span className="vads-u-display--block vads-u-font-size--sm">
-                  {facility.address?.city}, {facility.address?.state}
-                </span>
-              </>
+              <span className="vads-u-display--block vads-u-font-weight--bold">
+                {facility.name}
+              </span>
+              <span className="vads-u-display--block vads-u-font-size--sm">
+                {facility.address?.city}, {facility.address?.state}
+              </span>
             </label>
           </div>
         );
