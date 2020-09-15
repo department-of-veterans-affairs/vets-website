@@ -304,3 +304,46 @@ export const recordResultEvents = (location, index) => {
     recordEvent({ 'fl-facility-id': id });
   }
 };
+
+/**
+ * Helper fn to record search data layer
+ */
+export const recordSearchEvents = (data, meta) => {
+  if (data && data.length > 0) {
+    recordEvent({ event: 'fl-search-results' });
+    recordEvent({ 'fl-results-returned': true });
+  } else if (data.length === 0) {
+    recordEvent({ 'fl-results-returned': false });
+  }
+
+  if (meta.pagination.totalEntries) {
+    recordEvent({ 'fl-total-number-of-results': meta.pagination.totalEntries });
+  }
+
+  if (meta.pagination.totalPages) {
+    recordEvent({
+      'fl-total-number-of-result-pages': meta.pagination.totalPages,
+    });
+  }
+};
+
+/**
+ * Helper fn to record mapBox data layer events
+ */
+export const recordMapBoxEvents = res => {
+  const { body } = res;
+
+  if (body.query && Array.isArray(body.query)) {
+    recordEvent({ 'fl-searched-query': body.query.join(' ') });
+  }
+
+  body.features.forEach(f => {
+    if (f.place_name) {
+      recordEvent({ 'fl-mapbox-returned-place-name': f.place_name });
+    }
+
+    if (f.place_type && Array.isArray(f.place_type)) {
+      recordEvent({ 'fl-mapbox-returned-place-type': f.place_type.join(' ') });
+    }
+  });
+};
