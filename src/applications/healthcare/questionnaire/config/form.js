@@ -76,9 +76,6 @@ const formConfig = {
               'ui:field': ReasonForVisit.field,
               'ui:title': ' ',
               'ui:reviewField': ReasonForVisit.review,
-              'ui:errorMessages': {
-                required: 'This needs a required message!',
-              },
             },
             chiefComplaint: {
               'ui:widget': ChiefComplaint.field,
