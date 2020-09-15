@@ -5,7 +5,7 @@ import React from 'react';
  * code to disable certain options. This isn't currently supported by the
  * form system.
  */
-export default function SystemsRadioWidget({
+export default function FacilitiesRadioWidget({
   options,
   value,
   onChange,
