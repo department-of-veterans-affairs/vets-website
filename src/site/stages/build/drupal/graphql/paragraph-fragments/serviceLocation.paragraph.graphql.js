@@ -10,6 +10,10 @@ module.exports = `
         fieldServiceLocationAddress {
           entity {
             ... on ParagraphServiceLocationAddress {
+              fieldUseFacilityAddress
+              fieldClinicName
+              fieldBuildingNameNumber
+              fieldWingFloorOrRoomNumber
               fieldAddress {
                 addressLine1
                 addressLine2
