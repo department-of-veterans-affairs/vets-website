@@ -9,6 +9,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { uiSchema } from '../pages/covidResearchUISchema';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import {
+  ConsentNotice,
+  ConsentLabel,
+  ConsentError,
+} from '../containers/ConsentFormContent';
 
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 
@@ -98,6 +103,13 @@ const formConfig = {
   },
   title: 'Sign up for our coronavirus research volunteer list',
   defaultDefinitions: {},
+  preSubmitInfo: {
+    required: true,
+    field: 'consentAgreementAccepted',
+    label: ConsentLabel,
+    notice: ConsentNotice,
+    error: ConsentError,
+  },
   chapters: {
     chapter1: {
       title: 'Your information',
