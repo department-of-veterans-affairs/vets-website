@@ -7,9 +7,6 @@ import { ConfirmationPage } from '../../../../new-appointment/components/Confirm
 import { FLOW_TYPES } from '../../../../utils/constants';
 import { renderWithStoreAndRouter } from '../../../mocks/setup';
 
-const start = moment();
-const end = start;
-
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
@@ -24,6 +21,8 @@ const startNewAppointmentFlow = sinon.spy();
 
 describe('VAOS <ConfirmationPage>', () => {
   it('should render appointment direct schedule view', async () => {
+    const start = moment().tz('America/Denver');
+    const end = start;
     const flowType = FLOW_TYPES.DIRECT;
     const data = {
       typeOfCareId: '323',
@@ -379,6 +378,8 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should render appointment list page when "View your appointments" button is clicked', () => {
+    const start = moment().tz('America/Denver');
+    const end = start;
     const flowType = FLOW_TYPES.DIRECT;
     const data = {
       typeOfCareId: '323',
