@@ -66,10 +66,12 @@ export default function FormNav(props) {
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
   useEffect(
     () => {
-      if (current > index + 1) {
-        setIndex(index + 1);
-      } else if (current === index) {
-        setIndex(index - 1);
+      if (!environment.isProduction()) {
+        if (current > index + 1) {
+          setIndex(index + 1);
+        } else if (current === index) {
+          setIndex(index - 1);
+        }
       }
 
       return () => {
