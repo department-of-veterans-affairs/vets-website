@@ -5,7 +5,6 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
-import { customTransformForSubmit } from './utilities';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
@@ -86,7 +85,6 @@ const formConfig = {
   title: 'Add or remove a dependent on your VA disability benefits',
   subTitle: 'VA Form 21-686c (and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
-  transformForSubmit: customTransformForSubmit,
   chapters: {
     optionSelection: {
       title: 'What do you want to do?',
