@@ -29,7 +29,7 @@ const Chapter36CTA = props => {
 };
 
 const mapStateToProps = store => ({
-  includedInFlipper: toggleValues(store)[FEATURE_FLAG_NAMES.chapter36Access],
+  includedInFlipper: toggleValues(store)[FEATURE_FLAG_NAMES.showChapter36],
 });
 
 export default connect(mapStateToProps)(Chapter36CTA);
