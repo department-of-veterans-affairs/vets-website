@@ -31,14 +31,37 @@ const testConfig = createTestConfig(
         });
       },
       demographics: ({ afterHook }) => {
+        cy.findByTestId('fullName').contains('Calvin C Fletcher', {
+          matchCase: true,
+        });
         afterHook(() => {
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
             .click();
         });
       },
-      // 'reason-for-visit': ({ afterHook }) => {},
+      // 'reason-for-visit': ({afterHook}) => {  },
+      'review-and-submit': () => {
+        cy.route({
+          method: 'POST',
+          url: '/v0/healthcare_questionnaire',
+          status: 200,
+          response: {
+            body: {
+              data: {
+                id: '',
+                type: 'clipboard_submission',
+                attributes: {
+                  submittedAt: '2020-08-06T19:18:11+00:00',
+                },
+              },
+            },
+          },
+        });
+      },
     },
+    // disable all tests until we out of proof of concept stage
+    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
