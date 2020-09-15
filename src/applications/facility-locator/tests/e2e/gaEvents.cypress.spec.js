@@ -1,4 +1,5 @@
 import path from 'path';
+import { assertDataLayerEvent, assertDataLayerItem } from './utils';
 
 describe('Google Analytics FL Events', () => {
   before(() => {
@@ -19,12 +20,8 @@ describe('Google Analytics FL Events', () => {
       cy.axeCheck();
 
       cy.get('#map-id', { timeout: 10000 }).should(() => {
-        assert.isObject(
-          win.dataLayer.find(d => d.event && d.event === 'fl-search'),
-        );
-        assert.isObject(
-          win.dataLayer.find(d => d.event && d.event === 'fl-search-results'),
-        );
+        assertDataLayerEvent(win, 'fl-search');
+        assertDataLayerEvent(win, 'fl-search-results');
       });
 
       cy.get('#marker-id')
@@ -32,28 +29,22 @@ describe('Google Analytics FL Events', () => {
         .click()
         .as('markerClick')
         .then(() => {
-          assert.isObject(
-            win.dataLayer.find(d => d.event && d.event === 'fl-map-pin-click'),
-          );
-          assert.isObject(win.dataLayer.find(d => d['fl-facility-type']));
-          assert.isObject(
-            win.dataLayer.find(d => d['fl-facility-classification']),
-          );
-          assert.isObject(win.dataLayer.find(d => d['fl-facility-name']));
+          assertDataLayerEvent(win, 'fl-map-pin-click');
+          [
+            'fl-facility-type',
+            'fl-facility-classification',
+            'fl-facility-name',
+          ].forEach(a => assertDataLayerItem(win, a));
         });
 
       cy.get('.leaflet-control-zoom-in').click();
       cy.get('#map-id', { timeout: 10000 }).should(() => {
-        assert.isObject(
-          win.dataLayer.find(d => d.event && d.event === 'fl-map-zoom-in'),
-        );
+        assertDataLayerEvent(win, 'fl-map-zoom-in');
       });
 
       cy.get('.leaflet-control-zoom-out').click();
       cy.get('#map-id', { timeout: 10000 }).should(() => {
-        assert.isObject(
-          win.dataLayer.find(d => d.event && d.event === 'fl-map-zoom-out'),
-        );
+        assertDataLayerEvent(win, 'fl-map-zoom-out');
       });
 
       cy.get('#map-id').dragMapFromCenter({
@@ -61,7 +52,7 @@ describe('Google Analytics FL Events', () => {
         yMoveFactor: 1 / 3,
       });
       cy.get('#map-id', { timeout: 10000 }).should(() => {
-        assert.isObject(win.dataLayer.find(d => d['fl-map-miles-moved']));
+        assertDataLayerItem(win, 'fl-map-miles-moved');
       });
 
       cy.findByText(/austin va clinic/i, { selector: 'a' })
@@ -69,17 +60,15 @@ describe('Google Analytics FL Events', () => {
         .click();
 
       cy.get('#facility-detail-id', { timeout: 10000 }).should(() => {
-        assert.isObject(
-          win.dataLayer.find(d => d.event && d.event === 'fl-results-click'),
-        );
-        assert.isObject(win.dataLayer.find(d => d['fl-facility-name']));
-        assert.isObject(win.dataLayer.find(d => d['fl-facility-type']));
-        assert.isObject(
-          win.dataLayer.find(d => d['fl-facility-classification']),
-        );
-        assert.isObject(win.dataLayer.find(d => d['fl-facility-id']));
-        assert.isObject(win.dataLayer.find(d => d['fl-result-page-number']));
-        assert.isObject(win.dataLayer.find(d => d['fl-result-position']));
+        assertDataLayerEvent(win, 'fl-results-click');
+        [
+          'fl-facility-name',
+          'fl-facility-type',
+          'fl-facility-classification',
+          'fl-facility-id',
+          'fl-result-page-number',
+          'fl-result-position',
+        ].forEach(a => assertDataLayerItem(win, a));
       });
     });
   });
