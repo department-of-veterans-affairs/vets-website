@@ -113,6 +113,7 @@ class SearchControls extends Component {
     ].includes(facilityType);
 
     let services;
+    let servicesOptions;
     // Determine what service types to display for the location type (if any).
     switch (facilityType) {
       case LocationType.HEALTH:
@@ -135,12 +136,26 @@ class SearchControls extends Component {
         services = {};
     }
 
-    // Create option elements for each VA service type.
-    const options = Object.keys(services).map(service => (
-      <option key={service} value={service} style={{ fontWeight: 'bold' }}>
-        {services[service]}
-      </option>
-    ));
+    if (!Object.keys(services).length) {
+      servicesOptions = [
+        <option
+          key="none"
+          selected="true"
+          disabled="disabled"
+          value=""
+          style={{ fontWeight: 'bold' }}
+        >
+          Choose a service type
+        </option>,
+      ];
+    } else {
+      // Create option elements for each VA service type.
+      servicesOptions = Object.keys(services).map(service => (
+        <option key={service} value={service} style={{ fontWeight: 'bold' }}>
+          {services[service]}
+        </option>
+      ));
+    }
 
     return (
       <span>
@@ -153,7 +168,7 @@ class SearchControls extends Component {
           onChange={this.handleServiceTypeChange}
           style={{ fontWeight: 'bold' }}
         >
-          {options}
+          {servicesOptions}
         </select>
       </span>
     );

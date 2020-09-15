@@ -7,3 +7,7 @@ Feature: Search functionality
     And location information must be entered or enabled through browser before search can be initiated
     And facility type must be selected before search can be initiated
 
+  Scenario: Veteran selects VA health facility option
+    Given I am on the facility locator
+    When "VA health" is selected as the facility type
+    Then The VA health options are shown in the service type drop-down

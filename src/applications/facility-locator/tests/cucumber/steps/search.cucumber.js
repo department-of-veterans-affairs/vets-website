@@ -1,4 +1,4 @@
-import { Given, Then, And } from 'cypress-cucumber-preprocessor/steps';
+import { Given, Then, And, When } from 'cypress-cucumber-preprocessor/steps';
 
 Given('I am on the facility locator', () => {
   cy.visit('/find-locations');
@@ -39,4 +39,38 @@ And(
 And('facility type must be selected before search can be initiated', () => {
   cy.get('#facility-search').click();
   cy.get('#facility-type-dropdown').should('have.attr', 'required');
+});
+
+When('{string} is selected as the facility type', healthOption => {
+  cy.get('#service-type-dropdown')
+    .first()
+    .contains('Choose a service type');
+  cy.get('#facility-type-dropdown').select(healthOption);
+});
+
+Then('The VA health options are shown in the service type drop-down', () => {
+  const healthServicesOptions = [
+    'All VA health services',
+    'Primary care',
+    'Mental health care',
+    'Dental services',
+    'Urgent care',
+    'Emergency care',
+    'Audiology',
+    'Cardiology',
+    'Dermatology',
+    'Gastroenterology',
+    'Gynecology',
+    'Ophthalmology',
+    'Optometry',
+    'Orthopedics',
+    'Urology',
+    "Women's health",
+  ];
+  healthServicesOptions.forEach(option =>
+    cy
+      .get('#service-type-dropdown')
+      .findByText(option, { selector: 'option' })
+      .should('exist'),
+  );
 });
