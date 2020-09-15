@@ -73,9 +73,16 @@ class ViewPaymentsLists extends Component {
         );
       } else {
         paymentsReceivedTableContent = (
-          <p className="vads-u-padding--2 vads-u-background-color--gray-lightest">
-            We have no record of returned payments for you.
-          </p>
+          <div className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-padding-x--3 vads-u-background-color--gray-lightest">
+            <h3 className="vads-u-margin-top--0">
+              We don’t have a record of returned payments
+            </h3>
+            <p className="vads-u-margin-bottom--0p5">
+              We can’t find any returned VA payments. If you think this is an
+              error, or if you have questions about your payment history, please
+              call <Telephone contact={CONTACTS.VA_BENEFITS} />.
+            </p>
+          </div>
         );
       }
       if (payments.length > 0) {
@@ -94,9 +101,16 @@ class ViewPaymentsLists extends Component {
         );
       } else {
         paymentsReceivedTableContent = (
-          <p className="vads-u-padding--2 vads-u-background-color--gray-lightest">
-            We have no record of payments you received.
-          </p>
+          <div className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-padding-x--3 vads-u-background-color--gray-lightest">
+            <h3 className="vads-u-margin-top--0">
+              We don’t have a record of VA payments made to you
+            </h3>
+            <p className="vads-u-margin-bottom--0p5">
+              We can’t find any VA payments made to you. If you think this is an
+              error, or if you have questions about your payment history, please
+              call <Telephone contact={CONTACTS.VA_BENEFITS} />.
+            </p>
+          </div>
         );
       }
 
