@@ -88,6 +88,10 @@ class SchemaForm extends React.Component {
     return true;
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeoutID);
+  }
+
   onError() {
     const formContext = _.set('submitted', true, this.state.formContext);
     this.setState({ formContext });
@@ -97,7 +101,13 @@ class SchemaForm extends React.Component {
   onBlur(id) {
     if (!this.state.formContext.touched[id]) {
       const formContext = _.set(['touched', id], true, this.state.formContext);
-      this.setState({ formContext });
+      if (window.VetsGov.scroll?.duration === 0) {
+        this.setState({ formContext });
+      } else {
+        this.timeoutID = setTimeout(() => {
+          this.setState({ formContext });
+        }, 100);
+      }
     }
   }
 
