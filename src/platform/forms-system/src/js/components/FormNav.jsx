@@ -59,8 +59,11 @@ export default function FormNav(props) {
   const showHeader = Math.abs(current - index) === 1;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
-  // immediately re-render the component with the header included. This should
+  // immediately re-render the component with the header included.
+  // `current` changes when the form chapter changes, and when this happens
+  // we want to force react to remove the <h2> and re-render it. This should
   // ensure that VoiceOver on iOS will pick up on the new <h2>
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
   useEffect(
     () => {
       if (current > index + 1) {
