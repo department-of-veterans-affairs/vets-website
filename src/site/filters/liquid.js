@@ -390,6 +390,12 @@ module.exports = function registerFilters() {
     return fieldLink;
   };
 
+  liquid.filters.accessibleNumber = data =>
+    data
+      .split('')
+      .join(' ')
+      .replace(/ -/g, '.');
+
   liquid.filters.deriveLastBreadcrumbFromPath = (
     breadcrumbs,
     string,

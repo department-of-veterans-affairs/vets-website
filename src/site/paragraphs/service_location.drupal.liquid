@@ -1,0 +1,54 @@
+{% for singleLocation in locations %}
+{% assign single = singleLocation.entity %}
+<div class="service-local-input">
+
+  {% include "src/site/components/service_address.drupal.liquid" %}
+  {% include "src/site/components/phone.drupal.liquid" with numbers = single.fieldPhone %}
+
+  {% if single.fieldEmailContacts %}
+  {% for email in single.fieldEmailContacts %}
+  <p class="vads-u-margin-y--1">
+    {% if email.entity.fieldEmailLabel %}
+    <strong>{{email.entity.fieldEmailLabel}}: </strong>
+    {% endif %}<a aria-label="{{email.entity.fieldEmailAddress}}"
+      href="{{email.entity.fieldEmailAddress}}">{{email.entity.fieldEmailAddress}}</a>
+  </p>
+  {% endfor %}
+  {% endif %}
+
+  {% if single.fieldFacilityServiceHours.value and single.fieldHours == "2" %}
+  <p class="vads-u-margin-bottom--0">
+  <h4>Clinical Hours </h4>
+  <ul class="va-c-facility-hours-list">
+    {% for hours in single.fieldFacilityServiceHours.value %}
+    {% if hours %}
+    <li>{{ hours | replace: ",", ": "}}</li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+  </p>
+  {% endif %}
+
+</div>
+{% endfor %}
+
+{% include "src/site/components/phone.drupal.liquid" with numbers = locationEntity.fieldPhoneNumbersParagraph %}
+
+{% if locationEntity.fieldReferralRequired or locationEntity.fieldWalkInsAccepted or locationEntity.fieldOnlineSchedulingAvailabl %}
+<h3>Appointments</h3>
+
+{% if locationEntity.fieldReferralRequired %}<p class="vads-u-margin-bottom--0">
+  <strong>Referral required?
+  </strong>{% if locationEntity.fieldReferralRequired == '1' %}Yes{% else %}No{% endif %}
+</p>{% endif %}
+
+{% if locationEntity.fieldWalkInsAccepted %}<p class="vads-u-margin-bottom--0">
+  <strong>Walk-ins accepted?
+  </strong>{% if locationEntity.fieldWalkInsAccepted == '1' %}Yes{% else %}No{% endif %}
+</p>{% endif %}
+
+{% if locationEntity.fieldOnlineSchedulingAvailabl %}<p>
+  <strong>Online Scheduling Available?
+  </strong>{% if locationEntity.fieldOnlineSchedulingAvailabl == '1' %}Yes{% else %}No{% endif %}
+</p>{% endif %}
+{% endif %}
