@@ -18,8 +18,11 @@ function clickSubNavButton(buttonLabel, mobile) {
  * This helper:
  * - loads the Profile, confirms the user is redirected to the correct URL,
  *   performs an aXe scan, and checks that focus is managed correctly
- * - clicks through each item in the sub-nav, checks that the URL is correct,
- *   performs an aXe scan, and checks that focus is managed correctly
+ * - clicks through each item in the sub-nav and:
+ *   - checks that the URL is correct
+ *   - checks that the document title is correct
+ *   - performs an aXe scan
+ *   - checks that focus is managed correctly
  */
 function checkAllPages(mobile = false) {
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
@@ -44,6 +47,10 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
   );
+  cy.title().should(
+    'eq',
+    'Personal And Contact Information | Veterans Affairs',
+  );
 
   // focus should be on the sub-nav's h1 when redirected from /profile/
   cy.focused()
@@ -61,6 +68,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.MILITARY_INFORMATION}`,
   );
+  cy.title().should('eq', 'Military Information | Veterans Affairs');
   cy.axeCheck();
   // focus should be on the section's h2
   cy.focused()
@@ -74,6 +82,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
   );
+  cy.title().should('eq', 'Direct Deposit | Veterans Affairs');
   cy.axeCheck();
   // focus should be on the section's h2
   cy.focused()
@@ -87,6 +96,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
   );
+  cy.title().should('eq', 'Account Security | Veterans Affairs');
   cy.axeCheck();
   // focus should be on the section's h2
   cy.focused()
@@ -100,6 +110,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONNECTED_APPLICATIONS}`,
   );
+  cy.title().should('eq', 'Connected Apps | Veterans Affairs');
   // wait for this section's loading spinner to disappear...
   cy.findByRole('progressbar').should('not.exist');
   cy.axeCheck();

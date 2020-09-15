@@ -12,6 +12,7 @@ import DirectDepositContent from './DirectDepositContent';
 const DirectDeposit = () => {
   useEffect(() => {
     focusElement('[data-focus-target]');
+    document.title = `Direct Deposit | Veterans Affairs`;
   }, []);
 
   return (
