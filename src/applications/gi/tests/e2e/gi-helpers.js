@@ -2,11 +2,8 @@ import { clickButton, expectLocation, FORCE_OPTION } from './cypress-helpers';
 import { createId } from '../../utils/helpers';
 
 export const typeOfInstitution = value => {
-  cy.enterData({
-    type: 'radio',
-    key: 'category',
-    data: value,
-  });
+  const selector = `input[name="category"][value="${value}"]`;
+  cy.get(selector).check(FORCE_OPTION);
 };
 
 export const search = () => {
