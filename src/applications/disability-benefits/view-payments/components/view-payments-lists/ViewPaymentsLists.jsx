@@ -41,47 +41,65 @@ class ViewPaymentsLists extends Component {
     } else if (!this.props.isLoading && this.props.payments) {
       const { returnPayments } = this.props.payments;
       let { payments } = this.props.payments;
-      // remove all entries with all null property values
-      let filteredReturnPayments = returnPayments.filter(payment => {
-        for (const [key] of Object.entries(payment)) {
-          if (payment[key] !== null) {
-            return true;
+      // handle no payments returned
+      if (returnPayments.length > 0) {
+        // remove all entries with all null property values
+        let filteredReturnPayments = returnPayments.filter(payment => {
+          for (const [key] of Object.entries(payment)) {
+            if (payment[key] !== null) {
+              return true;
+            }
           }
-        }
-        return false;
-      });
-      // convert date to more friendly format
-      payments = payments.map(payment => {
-        return {
-          ...payment,
-          payCheckDt: moment(payment.payCheckDt).format('MMMM D, YYYYY'),
-        };
-      });
-      filteredReturnPayments = filteredReturnPayments.map(payment => {
-        return {
-          ...payment,
-          returnedCheckCancelDt: payment.returnedCheckCancelDt
-            ? moment(payment.returnedCheckCancelDt).format('MMMM D, YYYY')
-            : null,
-          returnedCheckIssueDt: payment.returnedCheckIssueDt
-            ? moment(payment.returnedCheckIssueDt).format('MMMM D, YYYY')
-            : null,
-        };
-      });
-      paymentsReceivedTableContent = (
-        <Payments
-          fields={paymentsReceivedFields}
-          data={payments}
-          textContent={paymentsRecievedContent}
-        />
-      );
-      paymentsReturnedTableContent = (
-        <Payments
-          fields={paymentsReturnedFields}
-          data={filteredReturnPayments}
-          textContent={paymentsReturnedContent}
-        />
-      );
+          return false;
+        });
+        // convert date to more friendly format
+        filteredReturnPayments = filteredReturnPayments.map(payment => {
+          return {
+            ...payment,
+            returnedCheckCancelDt: payment.returnedCheckCancelDt
+              ? moment(payment.returnedCheckCancelDt).format('MMMM D, YYYY')
+              : null,
+            returnedCheckIssueDt: payment.returnedCheckIssueDt
+              ? moment(payment.returnedCheckIssueDt).format('MMMM D, YYYY')
+              : null,
+          };
+        });
+        paymentsReturnedTableContent = (
+          <Payments
+            fields={paymentsReturnedFields}
+            data={filteredReturnPayments}
+            textContent={paymentsReturnedContent}
+          />
+        );
+      } else {
+        paymentsReceivedTableContent = (
+          <p className="vads-u-padding--2 vads-u-background-color--gray-lightest">
+            We have no record of returned payments for you.
+          </p>
+        );
+      }
+      if (payments.length > 0) {
+        payments = payments.map(payment => {
+          return {
+            ...payment,
+            payCheckDt: moment(payment.payCheckDt).format('MMMM D, YYYYY'),
+          };
+        });
+        paymentsReceivedTableContent = (
+          <Payments
+            fields={paymentsReceivedFields}
+            data={payments}
+            textContent={paymentsRecievedContent}
+          />
+        );
+      } else {
+        paymentsReceivedTableContent = (
+          <p className="vads-u-padding--2 vads-u-background-color--gray-lightest">
+            We have no record of payments you received.
+          </p>
+        );
+      }
+
       content = (
         <>
           {paymentsReceivedTableContent}
