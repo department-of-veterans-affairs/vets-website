@@ -153,15 +153,14 @@ div.review {
   }
 }
 
-<<<<<<< HEAD
 /* Remove bold on New Disability AdditionalInfo link in review #12678 */
 .usa-accordion > ul button.additional-info-button,
 .usa-accordion-bordered > ul button.additional-info-button {
   font-weight: normal;
-=======
+}
+
 .capitalize-first-letter::first-letter {
   text-transform: capitalize;
->>>>>>> Update new condition rending on review page
 }
 
 @media (min-width: 481px) {
