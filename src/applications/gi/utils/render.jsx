@@ -102,7 +102,7 @@ export const renderLearnMoreLabel = ({
             Learn more
           </label>
         )}
-        {!labelFor && <>Learn More</>}
+        {!labelFor && <>Learn more</>}
       </button>
       )
     </span>
