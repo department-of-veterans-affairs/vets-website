@@ -10,6 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import GetFormHelp from '../components/GetFormHelp.jsx';
+import { customSubmit686 } from '../analytics/helpers';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -63,7 +64,8 @@ const formConfig = {
   // All e2e tests will be disabled until then. If you need to run an e2e test, temporarily change
   // dependents_appilcations to 21-686c.
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
-  trackingPrefix: 'disability-21-686c',
+  submit: customSubmit686,
+  trackingPrefix: 'disability-21-686c-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: CustomPreSubmitInfo,
