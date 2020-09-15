@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
-import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
+// import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
+import fullSchema from './temp.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 
@@ -21,6 +22,7 @@ const checkBoxElements = [
   'HEALTH_HISTORY',
   'TRANSPORTATION',
   'EMPLOYMENT_STATUS',
+  'VETERAN',
   'GENDER',
   'RACE_ETHNICITY_ORIGIN',
 ];
@@ -121,6 +123,7 @@ const formConfig = {
           uiSchema,
           schema: {
             required: fullSchema.required,
+            // required: [],
             type: 'object',
             properties: {
               descriptionText: {
@@ -182,8 +185,7 @@ const formConfig = {
               phone: usaPhone,
               zipCode: usaPostalCode,
               veteranDateOfBirth: date,
-              height: fullSchema.properties.height,
-              weight: fullSchema.properties.weight,
+              VETERAN: fullSchema.properties.VETERAN,
               GENDER: fullSchema.properties.GENDER,
               RACE_ETHNICITY_ORIGIN:
                 fullSchema.properties.RACE_ETHNICITY_ORIGIN,

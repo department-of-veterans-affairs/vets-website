@@ -2,15 +2,10 @@ import React from 'react';
 import _ from 'lodash';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
-import HeightWidget from '../widgets/HeightWidget';
-import WeightWidget from '../widgets/WeightWidget';
-
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-
 import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewDOBField from '../containers/CustomReviewDOBField';
 import CustomReviewRadio from '../containers/customReviewRadio';
@@ -374,20 +369,41 @@ export const uiSchema = {
       classNames: 'input-width',
     },
   },
-  height: {
-    'ui:title': 'Height',
-    'ui:widget': HeightWidget,
-    'ui:errorMessages': {
-      required: 'Please enter your height',
-      pattern: 'Please enter a valid height (feet and inches)',
+  VETERAN: {
+    'ui:validations': [validateBooleanGroup],
+    'ui:options': {
+      showFieldLabel: true,
     },
-  },
-  weight: {
-    'ui:title': 'Weight',
-    'ui:widget': WeightWidget,
-    'ui:errorMessages': {
-      required: 'Please enter your weight',
-      pattern: 'Please enter a valid weight (decimals allowed)',
+    'ui:title': (
+      <span>
+        <strong>What is your relationship to the VA?</strong> (Please check all
+        that apply)
+        <br />
+      </span>
+    ),
+    'VETERAN::VETERAN': {
+      'ui:title': 'I am a Veteran',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::NON_VETERAN': {
+      'ui:title': 'I am a non-Veteran',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::VA_EMPLOYEE': {
+      'ui:title': 'I am a VA employee',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::RELATED_TO_VETERAN': {
+      'ui:title': 'I am related to a Veteran',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::RECEIVE_CARE_AT_VA': {
+      'ui:title': 'I receive some or all of my care at VHA facility',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::NONE_OF_ABOVE': {
+      'ui:title': 'None of the above',
+      'ui:reviewField': CustomReviewField,
     },
   },
   GENDER: {
@@ -398,7 +414,7 @@ export const uiSchema = {
 
     'ui:title': (
       <span>
-        <strong>Current gender identity</strong> (Please check all that apply)
+        <strong>What is your gender?</strong> (Please check all that apply)
         <br />
         <br />
         <strong>Note:</strong> We ask for this information to help make sure we
@@ -406,29 +422,24 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    'GENDER::FEMALE': {
-      'ui:title': 'Female',
-      'ui:reviewField': CustomReviewField,
-    },
     'GENDER::MALE': {
-      'ui:title': 'Male',
+      'ui:title': 'Man',
       'ui:reviewField': CustomReviewField,
     },
-    'GENDER::TRANSGENDER_FEMALE': {
-      'ui:title': 'Transgender female',
+    'GENDER::FEMALE': {
+      'ui:title': 'Woman',
       'ui:reviewField': CustomReviewField,
     },
     'GENDER::TRANSGENDER_MALE': {
-      'ui:title': 'Transgender male',
+      'ui:title': 'Transgender man',
       'ui:reviewField': CustomReviewField,
     },
-    'GENDER::GENDER_VARIANT': {
-      'ui:title':
-        'Gender variant/nonbinary (neither exclusively female nor male)',
+    'GENDER::TRANSGENDER_FEMALE': {
+      'ui:title': 'Transgender woman',
       'ui:reviewField': CustomReviewField,
     },
     'GENDER::SELF_IDENTIFY': {
-      'ui:title': 'Prefer to self-identify',
+      'ui:title': 'Prefer to self-describe',
       'ui:reviewField': CustomReviewField,
     },
     'GENDER::NONE_OF_ABOVE': {
@@ -443,8 +454,8 @@ export const uiSchema = {
     },
     'ui:title': (
       <span>
-        <strong>Race, ethnicity, and origin</strong> (Please check all that
-        apply)
+        <strong>What is your race, ethnicity, or origin?</strong> (Please check
+        all that apply)
         <br />
         <br />
         <strong>Note:</strong> We ask for this information to help make sure we
