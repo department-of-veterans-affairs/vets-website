@@ -25,10 +25,6 @@ export const buildEventData = formData => {
 export const customSubmit686 = (form, formConfig) => {
   const body = customTransformForSubmit(formConfig, form);
 
-  console.log('you submitted');
-
-  console.log(body);
-
   return submitToUrl(
     body,
     formConfig.submitUrl,
