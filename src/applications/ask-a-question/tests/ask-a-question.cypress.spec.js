@@ -14,7 +14,7 @@ const testConfig = createTestConfig(
     fixtures: {
       data: path.join(__dirname, 'data'),
     },
-    skip: false,
+    skip: true,
   },
   manifest,
   formConfig,
