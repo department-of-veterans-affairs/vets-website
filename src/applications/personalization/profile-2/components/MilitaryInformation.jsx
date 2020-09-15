@@ -21,10 +21,21 @@ import facilityLocator from 'applications/facility-locator/manifest.json';
 import ProfileInfoTable from './ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../helpers';
 
-const MilitaryInformationContent = ({ militaryInformation }) => {
+const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
   useEffect(() => {
     focusElement('[data-focus-target]');
   }, []);
+
+  if (!veteranStatus) {
+    return (
+      <AlertBox
+        isVisible
+        status="warning"
+        headline="We can’t access your veteran status"
+        content={<p>We’re sorry. We can’t access your veteran status.</p>}
+      />
+    );
+  }
 
   const {
     serviceHistory: { serviceHistory, error },
@@ -179,6 +190,7 @@ MilitaryInformation.propTypes = {
 
 const mapStateToProps = state => ({
   militaryInformation: state.vaProfile?.militaryInformation,
+  veteranStatus: state.vaProfile?.veteranStatus,
 });
 
 export default connect(mapStateToProps)(MilitaryInformation);

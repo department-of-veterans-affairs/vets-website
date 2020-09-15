@@ -17,6 +17,9 @@ function createBasicInitialState() {
       dismissedDowntimeWarnings: [],
     },
     vaProfile: {
+      veteranStatus: {
+        servedInMilitary: true,
+      },
       militaryInformation: {
         serviceHistory: {
           serviceHistory: [
@@ -180,6 +183,20 @@ describe('MilitaryInformation', () => {
     });
   });
   describe('when the military history is empty', () => {
+    it('should show the correct error', () => {
+      initialState = createBasicInitialState();
+      initialState.vaProfile.veteranStatus = null;
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+
+      expect(view.getByText(/We can’t access your veteran status/i)).to.exist;
+      expect(
+        view.getByText(/We’re sorry. We can’t access your veteran status./i),
+      ).to.exist;
+    });
+  });
+  describe('when the military service history is empty', () => {
     it('should show the correct error', () => {
       initialState = createBasicInitialState();
       initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory = [];
