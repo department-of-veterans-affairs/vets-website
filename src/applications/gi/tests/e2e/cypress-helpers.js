@@ -1,7 +1,7 @@
-const calculatorConstantsJson = require('../data/calculator-constants.json');
-const autocomplete = require('../data/autocomplete.json');
-const institutionProfile = require('../data/institution-profile.json');
-const searchResults = require('../data/search-results.json');
+import calculatorConstantsJson from '../data/calculator-constants.json';
+import autocomplete from '../data/autocomplete.json';
+import institutionProfile from '../data/institution-profile.json';
+import searchResults from '../data/search-results.json';
 
 Cypress.on('uncaught:exception', (_err, _runnable) => {
   // returning false here prevents Cypress from
