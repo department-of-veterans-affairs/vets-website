@@ -12,7 +12,7 @@ export const isClientError = errCode => CLIENT_ERROR_REGEX.test(errCode);
 
 export const ClientErrorAlertContent = (
   <>
-    <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2 className="vads-u-margin-y--0 vads-u-font-size--h3">
       We don’t have a record of VA payments made to you
     </h2>
     <p>
@@ -30,7 +30,7 @@ export const ClientErrorAlertContent = (
 
 export const ServerErrorAlertContent = (
   <>
-    <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2 className="vads-u-margin-y--0 vads-u-font-size--h3">
       We’re sorry. Something went wrong on our end
     </h2>
     <p>
@@ -39,15 +39,9 @@ export const ServerErrorAlertContent = (
     </p>
     <p>
       If you get this error again, please call the VA.gov help desk at{' '}
-      <a
-        href="tel:8446982311"
-        aria-label="8 4 4. 6 9 8. 2 3 1 1."
-        title="Dial the telephone number 844-698-2311"
-      >
-        844-698-2311
-      </a>{' '}
+      <Telephone contact={8446982311} />
       (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-      ). We’re here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
+      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET
     </p>
   </>
 );

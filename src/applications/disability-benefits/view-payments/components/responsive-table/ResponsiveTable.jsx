@@ -40,11 +40,11 @@ class ResponsiveTable extends Component {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  renderRow = (item, idx) => {
+  renderRow = (item, rowIndex) => {
     const { fields } = this.props;
     let extraClass = '';
     return (
-      <tr key={idx} className={`${borderClasses} ${rowPaddingClass}`}>
+      <tr key={rowIndex} className={`${borderClasses} ${rowPaddingClass}`}>
         {fields.map((field, index) => {
           // This is to right align the amount field and account number fields
           // since they are numeric
@@ -58,7 +58,7 @@ class ResponsiveTable extends Component {
               data-index={index}
               className={`${borderClasses} ${extraClass}`}
               data-label={`${this.capitalizeFirstLetter(field.label)}:`}
-              key={`${idx}-${field.value}`}
+              key={`${rowIndex}-${field.value}`}
             >
               {item[field.value] === null ? '---' : item[field.value]}
             </td>

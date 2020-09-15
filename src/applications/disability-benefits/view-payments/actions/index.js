@@ -21,18 +21,18 @@ export const getAllPayments = () => async dispatch => {
   dispatch({ type: PAYMENTS_RECEIVED_STARTED });
   const response = await retrievePayments();
   if (response.errors) {
-    if (isServerError(response.errors[0].status)) {
+    const error = response.errors[0];
+    if (isServerError(error.status)) {
       recordEvent({
         event: `view-payment-history-failed`,
-        'error-key': `${response.errors[0].status}_server_error`,
+        'error-key': `${error.status}_server_error`,
       });
-    } else if (isClientError(response.errors)) {
+    } else if (isClientError(error.status)) {
       recordEvent({
         event: `view-payment-history-failed`,
-        'error-key': `${response.errors[0].status}_client_error`,
+        'error-key': `${error.status}_client_error`,
       });
     }
-    const error = response?.errors?.[0];
     dispatch({ type: PAYMENTS_RECEIVED_FAILED, response: error });
   } else {
     recordEvent({
