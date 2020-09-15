@@ -6,6 +6,6 @@
     "extensions": [
 		"dbaeumer.vscode-eslint"
     ],
-    "postCreateCommand": "nvm install && yarn install",
+    "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
     // "postStartCommand": "./.devcontainer/postStartCommand.sh",
 }

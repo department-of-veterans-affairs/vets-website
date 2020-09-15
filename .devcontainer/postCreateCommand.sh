@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # configure NVM
-npm config delete prefix
-nvm install
+nvm install || true # ignore exit code due to npm prefix
+nvm use --delete-prefix
 yarn install
