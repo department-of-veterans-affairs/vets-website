@@ -2,11 +2,11 @@ import { join, sep } from 'path';
 
 import get from 'platform/utilities/data/get';
 
-export const APP_SELECTOR = '#react-root';
-export const ARRAY_ITEM_SELECTOR =
+const APP_SELECTOR = '#react-root';
+const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
-export const FIELD_SELECTOR = 'input, select, textarea';
-export const LOADING_SELECTOR = '.loading-indicator';
+const FIELD_SELECTOR = 'input, select, textarea';
+const LOADING_SELECTOR = '.loading-indicator';
 
 // Force interactions on elements, skipping the default checks for the
 // "user interactive" state of an element, potentially saving some time.
@@ -14,15 +14,15 @@ export const LOADING_SELECTOR = '.loading-indicator';
 // selected element, which overrides the default behavior that simulates
 // how a real user might try to interact with a target element that has moved.
 // https://github.com/cypress-io/cypress/issues/6165
-export const FORCE_OPTION = { force: true };
+const FORCE_OPTION = { force: true };
 
 // Cypress does not officially support typing without delay.
 // See the main support file for more details.
-export const NO_DELAY_OPTION = { delay: 0 };
+const NO_DELAY_OPTION = { delay: 0 };
 
 // Suppress logs for most commands, particularly calls to wrap and get
 // that are mainly there to support more specific operations.
-export const NO_LOG_OPTION = { log: false };
+const NO_LOG_OPTION = { log: false };
 
 /**
  * Builds an object from a form field with attributes that are used

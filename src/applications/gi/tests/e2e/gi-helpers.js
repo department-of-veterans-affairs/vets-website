@@ -1,5 +1,4 @@
-import { clickButton, expectLocation } from './cypress-helpers';
-import { FORCE_OPTION } from 'platform/testing/e2e/cypress/support/form-tester';
+import { clickButton, expectLocation, FORCE_OPTION } from './cypress-helpers';
 import { createId } from '../../utils/helpers';
 
 export const typeOfInstitution = value => {
