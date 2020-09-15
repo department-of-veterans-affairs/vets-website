@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-// import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -9,8 +8,7 @@ import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
-// import FormButtons from '../../../components/FormButtons';
-// import NoValidVAFacilities from './NoValidVAFacilities';
+import FormButtons from '../../../components/FormButtons';
 
 const initialSchema = {
   type: 'object',
@@ -41,8 +39,9 @@ function VAFacilityPageV2({
   openFacilityPageV2,
   updateFacilityPageV2Data,
   typeOfCare,
+  routeToPreviousAppointmentPage,
+  pageChangeInProgress,
 }) {
-  // const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -74,34 +73,11 @@ function VAFacilityPageV2({
           data={data}
           formContext={{ facilities }}
         >
-          {/* {notEligibleAtChosenFacility && (
-              <div className="vads-u-margin-top--2">
-                <EligibilityCheckMessage
-                  facilityDetails={facilityDetails}
-                  eligibility={eligibility}
-                />
-              </div>
-            )} */}
-          {/* <FormButtons
-              onBack={this.goBack}
-              continueLabel=""
-              disabled={disableSubmitButton}
-              pageChangeInProgress={loadingEligibility || pageChangeInProgress}
-              loadingText={
-                loadingEligibility
-                  ? 'Checking eligibility requirements'
-                  : 'Page change in progress'
-              }
-            />
-            {/* (loadingEligibility || pageChangeInProgress) && (
-              <div aria-atomic="true" aria-live="assertive">
-                <AlertBox isVisible status="info" headline="Please wait">
-                  We’re checking if we can create an appointment for you at this
-                  facility. This may take up to a minute. Thank you for your
-                  patience.
-                </AlertBox>
-              </div>
-            ) */}
+          <FormButtons
+            continueLabel=""
+            pageChangeInProgress={pageChangeInProgress}
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+          />
         </SchemaForm>
       )}
     </div>
