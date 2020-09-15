@@ -276,6 +276,21 @@ export function selectCernerOrgIds(state) {
     .map(facility => facility.id);
 }
 
+export function getFacilityPageV2Info(state) {
+  const formInfo = getFormPageInfo(state, 'vaFacilityV2');
+  const data = getFormData(state);
+  const newAppointment = getNewAppointment(state);
+  const typeOfCare = getTypeOfCare(data);
+
+  return {
+    ...formInfo,
+    typeOfCare: typeOfCare?.name,
+    childFacilitiesStatus: newAppointment.childFacilitiesStatus,
+    eligibilityStatus: newAppointment.eligibilityStatus,
+    facilities: newAppointment.facilities[(typeOfCare?.id)],
+  };
+}
+
 export function getFacilityPageInfo(state) {
   const formInfo = getFormPageInfo(state, 'vaFacility');
   const data = getFormData(state);
