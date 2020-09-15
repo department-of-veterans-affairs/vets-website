@@ -83,9 +83,11 @@ export default function ConfirmedAppointmentListItem({
     const address = appointment.contained.find(
       res => res.resourceType === 'Location',
     )?.address;
-    location = `${address.line[0]} ${address.city}, ${address.state} ${
-      address.postalCode
-    }`;
+    if (address) {
+      location = `${address.line[0]} ${address.city}, ${address.state} ${
+        address.postalCode
+      }`;
+    }
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;

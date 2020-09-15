@@ -1,32 +1,33 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
-
+import { MemoryRouter } from 'react-router-dom';
+import { mount } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
 import { GiBillApp } from 'applications/gi/containers/GiBillApp';
 import reducer from '../../reducers';
+import { Provider } from 'react-redux';
 
-const defaultProps = createCommonStore(reducer).getState();
-const location = {
-  pathname: '/',
-  search: '',
-  hash: '',
-  action: 'POP',
-  key: null,
-  basename: '/gi-bill-comparison-tool',
-  query: {},
-};
-const params = {
-  facilityCode: '00000000',
+const defaultStore = createCommonStore(reducer);
+
+const defaultProps = {
+  ...defaultStore.getState(),
+  dispatchFetchConstants: () => {},
+  dispatchEnterPreviewMode: () => {},
+  dispatchExitPreviewMode: () => {},
 };
 
 describe('<GiBillApp>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(
-      <GiBillApp {...defaultProps} location={location} params={params} />,
+    const tree = mount(
+      <MemoryRouter>
+        <Provider store={defaultStore}>
+          <GiBillApp {...defaultProps} />
+        </Provider>
+      </MemoryRouter>,
     );
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+
+    expect(tree.find('div.gi-app').length).to.eq(1);
+    tree.unmount();
   });
 
   it('should render LoadingIndicator', () => {
@@ -37,10 +38,16 @@ describe('<GiBillApp>', () => {
         inProgress: true,
       },
     };
-    const tree = SkinDeep.shallowRender(
-      <GiBillApp {...props} location={location} params={params} />,
+    const tree = mount(
+      <MemoryRouter>
+        <Provider store={defaultStore}>
+          <GiBillApp {...props} />
+        </Provider>
+      </MemoryRouter>,
     );
-    expect(tree.subTree('LoadingIndicator')).to.be.ok;
+
+    expect(tree.find('.loading-indicator-container').length).to.eq(1);
+    tree.unmount();
   });
 
   it('should render error message when constants fail', () => {
@@ -52,9 +59,14 @@ describe('<GiBillApp>', () => {
         error: 'Service Unavailable',
       },
     };
-    const tree = SkinDeep.shallowRender(
-      <GiBillApp {...errorProps} location={location} params={params} />,
+    const tree = mount(
+      <MemoryRouter>
+        <Provider store={defaultStore}>
+          <GiBillApp {...errorProps} />
+        </Provider>
+      </MemoryRouter>,
     );
-    expect(tree.subTree('ServiceError')).to.be.ok;
+    expect(tree.find('ServiceError').length).to.eq(1);
+    tree.unmount();
   });
 });

@@ -14,7 +14,7 @@ import {
   fetchExpressCareWindows,
 } from '../redux/actions';
 import { startNewExpressCareFlow } from '../../express-care/redux/actions';
-import CancelAppointmentModal from '../../components/cancel/CancelAppointmentModal';
+import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
   vaosRequests,

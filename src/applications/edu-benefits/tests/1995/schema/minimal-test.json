@@ -16,8 +16,6 @@
     "newSchoolAddress": {
       "country": "USA"
     },
-    "isEdithNourseRogersScholarship": false,
-    "view:rogersStemScholarshipInfo": {},
     "veteranFullName": {
       "first": "asdf",
       "last": "asdf"
@@ -29,7 +27,6 @@
       }
     },
     "serviceBefore1977": {},
-    "privacyAgreementAccepted": true,
-    "view:determineEligibility": {}
+    "privacyAgreementAccepted": true
   }
 }

@@ -17,8 +17,8 @@ describe('healthcare questionnaire -- demographics -- basic information', () => 
 
   it('basic information', () => {
     cy.get('.schemaform-title>h1').contains('Healthcare Questionnaire');
-    cy.findByTestId('fullName').contains('CALVIN C FLETCHER', {
-      matchCase: false,
+    cy.findByTestId('fullName').contains('Calvin C Fletcher', {
+      matchCase: true,
     });
     cy.findByTestId('dateOfBirth').contains('December 19, 1924', {
       matchCase: false,
