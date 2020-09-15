@@ -102,9 +102,9 @@ class SchemaForm extends React.Component {
     if (!this.state.formContext.touched[id]) {
       const formContext = _.set(['touched', id], true, this.state.formContext);
       // If we are running in a unit test environment, immediately update the
-      // state. I don't believe we have a more direct method of checking to see
-      // if we're running unit tests or not
-      if (window.VetsGov.scroll?.duration === 0) {
+      // state. I don't believe we have a clearer method of checking to see if
+      // we're running unit tests or not
+      if (navigator.userAgent === 'node.js') {
         this.setState({ formContext });
       } else {
         // Using a timeout of 100ms as that is long enough that a form can be
