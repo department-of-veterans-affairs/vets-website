@@ -1,9 +1,6 @@
 import './axeCheck';
 import './enterData';
-import './execHook';
 import './expandAccordions';
-import './fillPage';
-import './findData';
 import './login';
 import './syncFixtures';
 import './upload';

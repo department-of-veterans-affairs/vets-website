@@ -1,4 +1,14 @@
-import { FORCE_OPTION, NO_DELAY_OPTION } from '../index';
+// Force interactions on elements, skipping the default checks for the
+// "user interactive" state of an element, potentially saving some time.
+// More importantly, this ensures the interaction will target the actual
+// selected element, which overrides the default behavior that simulates
+// how a real user might try to interact with a target element that has moved.
+// https://github.com/cypress-io/cypress/issues/6165
+const FORCE_OPTION = { force: true };
+
+// Cypress does not officially support typing without delay.
+// See the main support file for more details.
+const NO_DELAY_OPTION = { delay: 0 };
 
 /**
  * Enters data for a field.
