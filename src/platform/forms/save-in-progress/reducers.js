@@ -132,6 +132,7 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     prefillTransformer: formConfig.prefillTransformer,
     trackingPrefix: formConfig.trackingPrefix,
     additionalRoutes: formConfig.additionalRoutes,
+    formErrors: formConfig.formErrors,
   });
 }
 

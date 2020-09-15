@@ -21,6 +21,7 @@ export default function SubmitButtons(props) {
     renderErrorMessage,
     submission,
     formConfig,
+    formErrors = {},
   } = props;
 
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
@@ -66,6 +67,7 @@ export default function SubmitButtons(props) {
       <ValidationError
         appType={appType}
         formConfig={formConfig}
+        formErrors={formErrors}
         onBack={onBack}
         onSubmit={onSubmit}
       />

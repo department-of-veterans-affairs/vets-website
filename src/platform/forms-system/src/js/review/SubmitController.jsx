@@ -8,7 +8,14 @@ import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
 import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
 import recordEvent from 'platform/monitoring/record-event';
-import { setPreSubmit, setSubmission, submitForm } from '../actions';
+import { reduceErrors } from '../utilities/data/reduceErrors';
+
+import {
+  setPreSubmit,
+  setSubmission,
+  submitForm,
+  setFormErrors,
+} from '../actions';
 
 class SubmitController extends Component {
   /* eslint-disable-next-line camelcase */
@@ -63,6 +70,13 @@ class SubmitController extends Component {
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
     const { isValid, errors } = isValidForm(form, pageList);
+    if (this.props.setFormErrors) {
+      this.props.setFormErrors({
+        rawErrors: errors,
+        errors: reduceErrors(errors, pageList),
+      });
+    }
+
     if (!isValid) {
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
@@ -83,7 +97,12 @@ class SubmitController extends Component {
   };
 
   render() {
-    const { form, formConfig, renderErrorMessage } = this.props;
+    const {
+      form,
+      formConfig,
+      renderErrorMessage,
+      formErrors = {},
+    } = this.props;
 
     return (
       <SubmitButtons
@@ -92,6 +111,7 @@ class SubmitController extends Component {
         onSubmit={this.handleSubmit}
         submission={form.submission}
         renderErrorMessage={renderErrorMessage}
+        formErrors={formErrors}
       />
     );
   }
@@ -107,6 +127,7 @@ function mapStateToProps(state, ownProps) {
   const submission = form.submission;
   const showPreSubmitError = submission.hasAttemptedSubmit;
   const inProgressFormId = form.loadedData?.metadata?.inProgressFormId;
+  const formErrors = form.formErrors;
 
   return {
     form,
@@ -119,6 +140,7 @@ function mapStateToProps(state, ownProps) {
     showPreSubmitError,
     trackingPrefix,
     inProgressFormId,
+    formErrors,
   };
 }
 
@@ -126,6 +148,7 @@ const mapDispatchToProps = {
   setPreSubmit,
   setSubmission,
   submitForm,
+  setFormErrors,
 };
 
 SubmitController.propTypes = {

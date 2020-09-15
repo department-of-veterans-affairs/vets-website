@@ -38,6 +38,16 @@ class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
     this.isLocked = this.isLocked.bind(this);
   }
+
+  componentDidMount() {
+    const { formContext, arrayData = [], editing } = this.props;
+    // Automatically add a new item when editing & no data
+    // called when the review page error link is used
+    if (editing && arrayData.length === 0 && formContext?.onReviewPage) {
+      this.handleAdd();
+    }
+  }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     if (newProps.arrayData !== this.props.arrayData) {

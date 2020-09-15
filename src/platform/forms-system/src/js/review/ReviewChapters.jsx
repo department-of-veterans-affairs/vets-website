@@ -17,9 +17,12 @@ import {
   openReviewChapter,
   setData,
   setEditMode,
+  setFormErrors,
   setViewedPages,
   uploadFile,
 } from '../actions';
+import { isValidForm } from '../validation';
+import { reduceErrors } from '../utilities/data/reduceErrors';
 
 const scroller = Scroll.scroller;
 class ReviewChapters extends React.Component {
@@ -64,6 +67,15 @@ class ReviewChapters extends React.Component {
     }
   };
 
+  checkValidation = () => {
+    const { form, pageList } = this.props;
+    const { errors } = isValidForm(form, pageList);
+    this.props.setFormErrors({
+      rawErrors: errors,
+      errors: reduceErrors(errors, pageList),
+    });
+  };
+
   render() {
     const { chapters, form, formContext, setValid, viewedPages } = this.props;
 
@@ -83,6 +95,7 @@ class ReviewChapters extends React.Component {
               pageKeys={chapter.pageKeys}
               setData={(...args) => this.handleSetData(...args)}
               setValid={setValid}
+              checkValidation={this.checkValidation}
               showUnviewedPageWarning={chapter.showUnviewedPageWarning}
               toggleButtonClicked={() => this.handleToggleChapter(chapter)}
               uploadFile={this.props.uploadFile}
@@ -114,7 +127,12 @@ export function mapStateToProps(state, ownProps) {
     const chapterFormConfig = formConfig.chapters[chapterName];
     const open = openChapters.includes(chapterName);
     const pageKeys = getPageKeys(pages, formData);
-    const showUnviewedPageWarning = pageKeys.some(key => !viewedPages.has(key));
+
+    const hasErrors = state.form.formErrors?.errors.some(err =>
+      pageKeys.includes(err.pageKey),
+    );
+    const showUnviewedPageWarning =
+      hasErrors || pageKeys.some(key => !viewedPages.has(key));
 
     return {
       expandedPages: expandedPages.map(
@@ -148,6 +166,7 @@ const mapDispatchToProps = {
   setData,
   setEditMode,
   setViewedPages,
+  setFormErrors,
   uploadFile,
 };
 
@@ -164,6 +183,7 @@ ReviewChapters.propTypes = {
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,
   setViewedPages: PropTypes.func.isRequired,
+  setFormErrors: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
   viewedPages: PropTypes.object.isRequired,
 };
