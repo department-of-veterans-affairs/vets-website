@@ -85,6 +85,7 @@ export const renderLearnMoreLabel = ({
   ariaLabel,
   showModal,
   component,
+  labelFor,
 }) => (
   <span className="vads-u-margin--0 vads-u-display--inline-block ">
     {text && <React.Fragment>{text} </React.Fragment>}
@@ -96,7 +97,12 @@ export const renderLearnMoreLabel = ({
         className="va-button-link learn-more-button vads-u-margin--0"
         onClick={showModal.bind(component, modal)}
       >
-        Learn more
+        {labelFor && (
+          <label className="vads-u-margin--0" htmlFor={labelFor}>
+            Learn more
+          </label>
+        )}
+        {!labelFor && <>Learn More</>}
       </button>
       )
     </span>
