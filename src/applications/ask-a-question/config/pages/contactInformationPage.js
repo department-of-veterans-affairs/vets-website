@@ -19,12 +19,6 @@ const formFields = {
   email: 'email',
   verifyEmail: 'view:email',
   phoneNumber: 'phoneNumber',
-  veteranStatus: 'veteranStatus',
-  isDependent: 'isDependent',
-  relationshipToVeteran: 'relationshipToVeteran',
-  veteranIsDeceased: 'veteranIsDeceased',
-  dateOfDeath: 'dateOfDeath',
-  branchOfService: 'branchOfService',
   country: 'country',
   veteranStatusSection: 'veteranStatusSection',
 };
@@ -61,13 +55,13 @@ const contactInformationPage = {
       [formFields.verifyEmail]: {
         type: 'string',
       },
-      [formFields.preferredContactMethod]: preferredContactMethod,
       [formFields.country]: {
         default: 'USA',
         type: 'string',
         enum: countryValues,
         enumNames: countryNames,
       },
+      [formFields.preferredContactMethod]: preferredContactMethod,
       [formFields.veteranStatusSection]: { ...veteranStatusSection.schema },
     },
   },

@@ -45,7 +45,8 @@ export const veteranStatusSection = {
     },
     [formFields.relationshipToVeteran]: {
       'ui:title': 'Your relationship to the Veteran',
-      'ui:required': formData => requireVetRelationship(formData.veteranStatus),
+      'ui:required': formData =>
+        requireVetRelationship(formData.veteranStatusSection.veteranStatus),
       'ui:options': {
         expandUnder: 'veteranStatus',
         expandUnderCondition: requireVetRelationship,
@@ -54,7 +55,8 @@ export const veteranStatusSection = {
     [formFields.veteranIsDeceased]: {
       'ui:title': 'Is the Veteran deceased?',
       'ui:widget': 'yesNo',
-      'ui:required': formData => requireVetRelationship(formData.veteranStatus),
+      'ui:required': formData =>
+        requireVetRelationship(formData.veteranStatusSection.veteranStatus),
       'ui:options': {
         expandUnder: 'veteranStatus',
         expandUnderCondition: requireVetRelationship,
@@ -65,15 +67,17 @@ export const veteranStatusSection = {
       ...{
         'ui:options': {
           expandUnder: 'veteranStatus',
-          hideIf: formData => !formData.veteranIsDeceased,
+          hideIf: formData => !formData.veteranStatusSection.veteranIsDeceased,
         },
       },
     },
     [formFields.branchOfService]: {
       'ui:title': 'Branch of service',
-      'ui:required': formData => requireServiceInfo(formData.veteranStatus),
+      'ui:required': formData =>
+        requireServiceInfo(formData.veteranStatusSection.veteranStatus),
       'ui:options': {
-        hideIf: formData => !requireServiceInfo(formData.veteranStatus),
+        hideIf: formData =>
+          !requireServiceInfo(formData.veteranStatusSection.veteranStatus),
       },
     },
   },
