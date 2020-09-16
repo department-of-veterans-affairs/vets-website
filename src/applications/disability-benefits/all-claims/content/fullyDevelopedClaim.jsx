@@ -60,8 +60,8 @@ export const noFDCWarning = (
           </li>
           <li>
             Call Veterans Benefits Assistance at{' '}
-            <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday – Friday, 8:30
-            a.m. – 4:30 p.m. ET.
+            <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+            8:00 a.m. to 9:00 p.m. ET.
           </li>
           <li>
             Save your application and return to it later when you have your
