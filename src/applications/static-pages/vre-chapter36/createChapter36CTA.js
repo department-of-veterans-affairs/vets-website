@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 export default function createChapter36CTA(store, widgetType) {
-  const root = document.querySelector(`[data-widget-type]="${widgetType}"`);
+  const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
     import('./Chapter36CTA').then(module => {
       const Chapter36CTA = module.default;

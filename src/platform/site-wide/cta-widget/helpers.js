@@ -312,7 +312,7 @@ export const serviceDescription = appId => {
       return 'change your address';
 
     case widgetTypes.CHAPTER_36_CTA:
-      return 'view your VA payment history';
+      return 'apply for career counseling';
 
     default:
       return 'use this service';
