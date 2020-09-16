@@ -167,7 +167,7 @@
   }
 }
 
-.tooltiptext {
+.tooltip-text {
   visibility: hidden;
   width: 120px;
   background-color: $color-gray;
@@ -180,6 +180,6 @@
   right: 0;
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip:hover .tooltip-text {
   visibility: visible;
 }

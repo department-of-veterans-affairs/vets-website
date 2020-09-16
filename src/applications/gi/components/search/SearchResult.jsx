@@ -59,7 +59,8 @@ export function SearchResult({
     <ToolTip
       id={`search-result-${facilityCode}`}
       className="search-result"
-      text={environment.isProduction() ? null : alias}
+      text={alias}
+      disabled={environment.isProduction()}
     >
       <div className="outer">
         <div className="inner">
