@@ -252,7 +252,7 @@ export const uiSchema = {
       'ui:reviewField': CustomReviewField,
     },
     'TRANSPORTATION::PUBLIC_TRANSPORT': {
-      'ui:title': 'Public transporation (bus, train, subway)',
+      'ui:title': 'Public transportation (bus, train, subway)',
       'ui:reviewField': CustomReviewField,
     },
     'TRANSPORTATION::WALK_BIKE': {
@@ -271,7 +271,7 @@ export const uiSchema = {
   residentsInHome: {
     'ui:title': (
       <span>
-        <strong>How many people live in your home?</strong>
+        <strong>How many people, including you, live in your home?</strong>
       </span>
     ),
     'ui:widget': 'radio',
