@@ -106,6 +106,7 @@ const mapStateToProps = state => ({
     { label: 'Work', data: state.user?.profile?.vet360?.workPhone },
     { label: 'Temporary', data: state.user?.profile?.vet360?.temporaryPhone },
   ],
+  appointment: state.questionnaireData?.context?.appointment,
 });
 
 export default connect(
