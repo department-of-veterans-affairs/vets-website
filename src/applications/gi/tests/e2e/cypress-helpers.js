@@ -50,7 +50,7 @@ export const expectLocation = urlSubstring => {
   cy.axeCheck();
 };
 
-export const expectParms = params => {
+export const expectParams = params => {
   const paramSubString = Object.values(params).map(
     (key, value) => `${key}=${value.replace(/\\s/g, '%20')}`,
   );
