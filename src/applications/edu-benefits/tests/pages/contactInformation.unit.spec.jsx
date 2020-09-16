@@ -29,7 +29,10 @@ const pageTests = (page, addressType = 'veteran') => {
     expect(
       inputs.filter(input => input.id.startsWith('root_preferredContactMethod'))
         .length,
-    ).to.equal(3);
+    ).to.equal(
+      Object.keys(page.uiSchema.preferredContactMethod['ui:options'].labels)
+        .length,
+    );
     expect(
       inputs.filter(input => input.id.startsWith(`root_${addressType}Address`))
         .length,
