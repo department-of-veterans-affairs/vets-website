@@ -11,16 +11,18 @@ import {
 
 const App = props => {
   const { location, children } = props;
-  const { setLoading, setLoadedAppointment } = props;
+  const { setLoading, setLoadedAppointment, isLoggedIn } = props;
 
   useEffect(
     () => {
-      setLoading();
-      setTimeout(() => {
-        setLoadedAppointment({ hello: 'world' });
-      }, 3000);
+      if (isLoggedIn) {
+        setLoading();
+        setTimeout(() => {
+          setLoadedAppointment({ hello: 'world' });
+        }, 3000);
+      }
     },
-    [setLoading, setLoadedAppointment],
+    [setLoading, setLoadedAppointment, isLoggedIn],
   );
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -32,6 +34,7 @@ const App = props => {
 const mapStateToProps = state => ({
   showApplication: true,
   questionnaire: state?.questionnaireData,
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 const mapDispatchToProps = dispatch => {
   return {

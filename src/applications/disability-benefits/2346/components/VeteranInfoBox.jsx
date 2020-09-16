@@ -76,6 +76,7 @@ const mapStateToProps = state => ({
   dateOfBirth: state.form?.data?.dateOfBirth,
   gender: state.form?.data?.gender,
   ssnLastFour: state.form?.data?.ssnLastFour,
+  appointment: state.questionnaireData?.context?.appointment,
 });
 
 export default connect(
