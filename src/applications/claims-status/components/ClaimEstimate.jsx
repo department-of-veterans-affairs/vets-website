@@ -12,16 +12,17 @@ export default function ClaimEstimate({
   // Hide until estimates are accurate
   if (showCovidMessage) {
     return (
-      <AlertBox status="warning" headline="Completion estimate is unavailable">
+      <AlertBox
+        status="warning"
+        headline="Claim completion dates aren’t available right now"
+      >
         <p>
-          The estimated claim completion date feature has been temporarily
-          removed. Due to the impact COVID-19 has had on the availability and
-          scheduling of required in-person medical disability exams, the
-          estimated completion date is not accurate at this time. VA is
-          coordinating efforts to ensure all exams are scheduled and conducted
-          as soon as it is safe in each area. You can{' '}
+          We can’t provide an estimated date on when your claim will be complete
+          due to the affect that COVID-19 has had on scheduling in-person claim
+          exams. We’re starting to schedule in-person exams again in many
+          locations. To see the status of claim exams in your area, you can{' '}
           <a href="https://benefits.va.gov/compensation/claimexam.asp">
-            review the status of exams in your area
+            review locations where we’re now offering in-person exams
           </a>
           .
         </p>
