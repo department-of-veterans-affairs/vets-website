@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import VAFacilityPage from '../../new-appointment/components/VAFacilityPageV2';
+import VAFacilityPage from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import { getParentSiteMock, getFacilityMock } from '../mocks/v0';
 import {
   createTestStore,
