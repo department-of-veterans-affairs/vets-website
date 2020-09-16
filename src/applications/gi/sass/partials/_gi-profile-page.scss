@@ -333,20 +333,6 @@
     padding-bottom: 1rem;
   }
 
-  .locations-list {
-    @media screen and (min-width: $medium-screen) {
-      display: none;
-    }
-
-    .item {
-      padding-top: 1em;
-    }
-
-    .extension.item {
-      padding-left: 1em;
-    }
-  }
-
   @include media-maxwidth($medium-screen - 1) {
     .locations-table {
       display: none;
