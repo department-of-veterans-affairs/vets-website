@@ -420,9 +420,11 @@ export function validateCurrentOrPastYear(errors, year) {
   }
 }
 
-export function validateMatch(field1, field2) {
+export function validateMatch(field1, field2, ignoreCase = false) {
   return (errors, formData) => {
-    if (formData[field1] !== formData[field2]) {
+    const flags = ignoreCase ? 'gi' : 'g';
+    const regexp = new RegExp(`^${formData[field2]}$`, flags);
+    if (!formData[field1]?.match(regexp)) {
       errors[field2].addError('Please ensure your entries match');
     }
   };
