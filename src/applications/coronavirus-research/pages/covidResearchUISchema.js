@@ -385,20 +385,24 @@ export const uiSchema = {
       'ui:title': 'I am a Veteran',
       'ui:reviewField': CustomReviewField,
     },
-    'VETERAN::NON_VETERAN': {
-      'ui:title': 'I am a non-Veteran',
+    'VETERAN::ACTIVE_DUTY': {
+      'ui:title': 'Active-duty service member',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::NATIONAL_GUARD_RESERVES': {
+      'ui:title': 'Member of the National Guard or Reserve',
       'ui:reviewField': CustomReviewField,
     },
     'VETERAN::VA_EMPLOYEE': {
-      'ui:title': 'I am a VA employee',
+      'ui:title': 'VA employee',
       'ui:reviewField': CustomReviewField,
     },
-    'VETERAN::RELATED_TO_VETERAN': {
-      'ui:title': 'I am related to a Veteran',
+    'VETERAN::FAMILY_MEMBER_CAREGIVER': {
+      'ui:title': 'Family member or caregiver of a Veteran or service member',
       'ui:reviewField': CustomReviewField,
     },
-    'VETERAN::RECEIVE_CARE_AT_VA': {
-      'ui:title': 'I receive some or all of my care at VHA facility',
+    'VETERAN::VA_HEALTHCARE_CHAMPVA': {
+      'ui:title': 'Enrolled in VA health care or CHAMPVA',
       'ui:reviewField': CustomReviewField,
     },
     'VETERAN::NONE_OF_ABOVE': {
@@ -445,6 +449,14 @@ export const uiSchema = {
     'GENDER::NONE_OF_ABOVE': {
       'ui:title': 'Prefer not to answer',
       'ui:reviewField': CustomReviewField,
+    },
+  },
+  GENDER_SELF_IDENTIFY_DETAILS: {
+    'ui:title': 'Provide your preferred description',
+    'ui:options': {
+      expandUnder: 'GENDER',
+      expandUnderCondition: formData =>
+        formData['GENDER::SELF_IDENTIFY'] === true,
     },
   },
   RACE_ETHNICITY_ORIGIN: {

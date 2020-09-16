@@ -35,7 +35,8 @@ describe('Coronavirus Research Volunteer Form', () => {
     zipCode: '99988',
     veteranDateOfBirth: '1980-09-24',
     VETERAN: { 'VETERAN::VETERAN': true, 'VETERAN::VA_EMPLOYEE': true },
-    GENDER: { 'GENDER::SELF_IDENTIFY': true, 'GENDER::NONE_OF_ABOVE': false },
+    GENDER: { 'GENDER::FEMALE': true, 'GENDER::NONE_OF_ABOVE': false },
+    GENDER_SELF_IDENTIFY_DETAILS: 'This is a gender self description',
     RACE_ETHNICITY_ORIGIN: { 'RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE': true },
   });
   it('should render', () => {
@@ -48,7 +49,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(70);
+    expect(form.find('input').length).to.equal(71);
     form.unmount();
   });
 
@@ -299,7 +300,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectCheckbox(form, 'root_GENDER_GENDER::SELF_IDENTIFY', false);
+    selectCheckbox(form, 'root_GENDER_GENDER::FEMALE', false);
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);

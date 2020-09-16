@@ -187,6 +187,8 @@ const formConfig = {
               veteranDateOfBirth: date,
               VETERAN: fullSchema.properties.VETERAN,
               GENDER: fullSchema.properties.GENDER,
+              GENDER_SELF_IDENTIFY_DETAILS:
+                fullSchema.properties.GENDER_SELF_IDENTIFY_DETAILS,
               RACE_ETHNICITY_ORIGIN:
                 fullSchema.properties.RACE_ETHNICITY_ORIGIN,
             },
