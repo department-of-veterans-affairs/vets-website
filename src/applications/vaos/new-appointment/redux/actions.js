@@ -854,13 +854,14 @@ export function routeToPageInFlow(flow, history, current, action) {
       const nextAction = flow[current][action];
       if (typeof nextAction === 'string') {
         nextPage = flow[nextAction];
+        nextStateKey = nextAction;
       } else {
         nextStateKey = await nextAction(getState(), dispatch);
         nextPage = flow[nextStateKey];
       }
     } else {
       const state = getState();
-      const previousPage = state.newAppointment.updatedPreviousPages[current];
+      const previousPage = state.newAppointment.previousPages[current];
       nextPage = flow[previousPage];
     }
 

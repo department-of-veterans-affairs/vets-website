@@ -77,7 +77,7 @@ const initialState = {
   parentFacilities: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
-  updatedPreviousPages: {},
+  previousPages: {},
   childFacilitiesStatus: FETCH_STATUS.notStarted,
   parentFacilitiesStatus: FETCH_STATUS.notStarted,
   eligibilityStatus: FETCH_STATUS.notStarted,
@@ -203,7 +203,7 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CHANGE_COMPLETED: {
-      let updatedPreviousPages = state.updatedPreviousPages;
+      let updatedPreviousPages = state.previousPages;
       if (!Object.keys(updatedPreviousPages).length) {
         updatedPreviousPages = {
           ...updatedPreviousPages,
@@ -219,7 +219,7 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         pageChangeInProgress: false,
-        updatedPreviousPages,
+        previousPages: updatedPreviousPages,
       };
     }
     case FORM_TYPE_OF_CARE_PAGE_OPENED: {
