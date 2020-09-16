@@ -16,6 +16,8 @@ import {
 } from '../../utils/render';
 
 import ScorecardTags from '../../components/ScorecardTags';
+import environment from 'platform/utilities/environment';
+import { ToolTip } from '../ToolTip';
 
 export function SearchResult({
   gibctFilterEnhancement,
@@ -33,6 +35,7 @@ export function SearchResult({
   womenOnly,
   hbcu,
   relAffil,
+  alias, // this is not used in production, this was added for testing of search to be able to view alias values in staging
 }) {
   const queryParams = useQueryParams();
   const estimate = ({ qualifier, value }) => {
@@ -53,7 +56,11 @@ export function SearchResult({
     : `/profile/${facilityCode}`;
 
   return (
-    <div id={`search-result-${facilityCode}`} className="search-result">
+    <ToolTip
+      id={`search-result-${facilityCode}`}
+      className="search-result"
+      text={environment.isProduction() ? null : alias}
+    >
       <div className="outer">
         <div className="inner">
           <div className="row">
@@ -138,7 +145,7 @@ export function SearchResult({
           </div>
         </div>
       </div>
-    </div>
+    </ToolTip>
   );
 }
 

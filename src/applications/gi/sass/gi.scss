@@ -166,3 +166,18 @@
     }
   }
 }
+
+.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: $color-gray;
+  color: $color-white;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  float: right;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

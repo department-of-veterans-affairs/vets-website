@@ -212,31 +212,9 @@ export function SearchPage({
             {search.results.map(result => (
               <SearchResult
                 key={result.facilityCode}
-                name={result.name}
-                facilityCode={result.facilityCode}
-                type={result.type}
-                city={result.city}
-                state={result.state}
-                zip={result.zip}
-                country={result.country}
-                cautionFlag={result.cautionFlag}
-                cautionFlags={result.cautionFlags}
-                studentCount={result.studentCount}
-                bah={result.bah}
-                dodBah={result.dodBah}
-                schoolClosing={result.schoolClosing}
-                schoolClosingOn={result.schoolClosingOn}
-                tuitionInState={result.tuitionInState}
-                tuitionOutOfState={result.tuitionOutOfState}
-                books={result.books}
-                studentVeteran={result.studentVeteran}
-                yr={result.yr}
-                poe={result.poe}
-                eightKeys={result.eightKeys}
                 menOnly={result.menonly}
                 womenOnly={result.womenonly}
-                hbcu={result.hbcu}
-                relAffil={result.relaffil}
+                {...result}
               />
             ))}
           </div>
