@@ -18,7 +18,9 @@
         <article class="usa-content">
           <h1>{{ title }}</h1>
           {% for block in fieldAnswer %}
-            {% include "src/site/paragraphs/wysiwyg.drupal.liquid" with entity = block.entity %}
+            {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+            {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+            {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
           {% endfor %}
 
           {% if fieldAlertSingle %}

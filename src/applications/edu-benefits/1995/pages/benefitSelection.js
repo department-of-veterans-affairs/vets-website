@@ -4,7 +4,6 @@ import { benefitsLabels } from '../../utils/labels';
 
 const { benefit } = fullSchema.properties;
 
-// 1995-STEM related
 const displayBenefit = {
   ...benefit,
   enum: [...benefit.enum],

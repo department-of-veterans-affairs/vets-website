@@ -54,14 +54,21 @@ class ResultsList extends Component {
    * @returns [] list of results
    */
   renderResultItems(query, results) {
-    return results.map(r => {
+    return results.map((r, index) => {
       let item;
       switch (query.facilityType) {
         case 'health':
         case 'cemetery':
         case 'benefits':
         case 'vet_center':
-          item = <VaFacilityResult location={r} query={query} key={r.id} />;
+          item = (
+            <VaFacilityResult
+              location={r}
+              query={query}
+              key={r.id}
+              index={index}
+            />
+          );
           break;
         case 'provider':
           // Support non va urgent care search through ccp option
@@ -80,7 +87,14 @@ class ResultsList extends Component {
           if (r.type === LocationType.CC_PROVIDER) {
             item = <UrgentCareResult provider={r} query={query} key={r.id} />;
           } else {
-            item = <VaFacilityResult location={r} query={query} key={r.id} />;
+            item = (
+              <VaFacilityResult
+                location={r}
+                query={query}
+                key={r.id}
+                index={index}
+              />
+            );
           }
           break;
         default:
@@ -98,6 +112,7 @@ class ResultsList extends Component {
       searchString,
       results,
       error,
+      pagination: { currentPage },
       currentQuery,
       query,
     } = this.props;
@@ -173,6 +188,7 @@ class ResultsList extends Component {
           distance,
           resultItem: true,
           searchString,
+          currentPage,
         };
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance)
