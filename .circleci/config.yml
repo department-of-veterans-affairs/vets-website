@@ -265,6 +265,23 @@ jobs:
       - store_artifacts:
           path: ./cypress/screenshots
 
+  validate-content-builds:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: git clone https://github.com/department-of-veterans-affairs/content-build
+      - run: yarn validate-content-builds
+
 workflows:
   version: 2
   flag-for-manual-review:
