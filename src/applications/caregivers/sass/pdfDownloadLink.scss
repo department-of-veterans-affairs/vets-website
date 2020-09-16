@@ -24,3 +24,9 @@
     align-self: center;
   }
 }
+
+.pdf-download-link--error {
+  a {
+    cursor: not-allowed;
+  }
+}

@@ -14,6 +14,7 @@ import { createFormPageList } from 'platform/forms-system/src/js/helpers';
 const DownLoadLink = ({ form }) => {
   const [PDFLink, setPDFLink] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  const [hasError, setError] = useState(false);
   const getFormData = submitTransform(formConfig, form);
   const veteranFullName = form.data.veteranFullName;
   const pageList = createFormPageList(formConfig);
@@ -37,10 +38,12 @@ const DownLoadLink = ({ form }) => {
         const url = URL.createObjectURL(blob);
         setPDFLink(url);
         setLoading(false);
+        setError(false);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       })
       .catch(error => {
         setLoading(false);
+        setError(true);
         Sentry.withScope(scope => scope.setExtra('error', error));
         recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
       });
@@ -53,16 +56,14 @@ const DownLoadLink = ({ form }) => {
     [getFormData, isFormValid.isValid],
   );
 
-  const renderPDFLink = () => {
+  const renderSuccessfulPDFLink = () => {
     return (
       <div className="pdf-download-link--loaded vads-u-margin-top--2">
         <a
           disabled
-          aria-label="Download 1010CG filled out PDF form"
+          aria-label="Download 1010-CG filled out PDF form"
           href={PDFLink}
           download={`10-10CG_${veteranFullName.first}_${veteranFullName.last}`}
-          target="_blank"
-          rel="noreferrer noopener"
         >
           <i
             aria-hidden="true"
@@ -81,6 +82,27 @@ const DownLoadLink = ({ form }) => {
     );
   };
 
+  const renderErrorPDFLink = () => {
+    return (
+      <div className="vads-u-margin-top--2 vads-u-color--secondary-dark pdf-download-link--error">
+        <a
+          aria-label="Error downloading 1010-CG PDF"
+          className="vads-u-color--gray-medium"
+        >
+          <i
+            aria-hidden="true"
+            role="img"
+            className="fas fa-exclamation-circle vads-u-padding-right--1"
+          />
+          Error downloading 1010-CG PDF
+          <span className="sr-only vads-u-margin-right--0p5">
+            `dated ${moment(Date.now()).format('MMM D, YYYY')}`
+          </span>
+        </a>
+      </div>
+    );
+  };
+
   const renderLoadingIndicator = () => {
     return (
       <div className="pdf-download-link--loading">
@@ -89,7 +111,11 @@ const DownLoadLink = ({ form }) => {
     );
   };
 
-  return isLoading ? renderLoadingIndicator() : renderPDFLink();
+  if (hasError) return renderErrorPDFLink();
+
+  if (isLoading) return renderLoadingIndicator();
+
+  return renderSuccessfulPDFLink();
 };
 
 export default DownLoadLink;
