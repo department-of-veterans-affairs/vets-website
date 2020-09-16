@@ -280,7 +280,6 @@
     "closeContact",
     "VETERAN",
     "GENDER",
-    "RACE_ETHNICITY_ORIGIN",
-    "consentAgreementAccepted"
+    "RACE_ETHNICITY_ORIGIN"
   ]
 }

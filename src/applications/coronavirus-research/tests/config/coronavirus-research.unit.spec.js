@@ -333,4 +333,48 @@ describe('Coronavirus Research Volunteer Form', () => {
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
+  it('should show Gender Detail Text box when Gender response is SELF_IDENTIFY', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        pagePerItemIndex={0}
+        schema={schema}
+        data={volunteerData()}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    selectCheckbox(form, 'root_GENDER_GENDER::SELF_IDENTIFY', true);
+
+    form.find('form').simulate('submit');
+    expect(
+      form.find('input#root_GENDER_SELF_IDENTIFY_DETAILS').length,
+    ).to.equal(1);
+    expect(form.find('.input-error-date').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+  it('should not show Gender Detail Text box when SELF_IDENTIFY is not selected', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        pagePerItemIndex={0}
+        schema={schema}
+        data={volunteerData()}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    selectCheckbox(form, 'root_GENDER_GENDER::SELF_IDENTIFY', false);
+
+    form.find('form').simulate('submit');
+    expect(
+      form.find('input#root_GENDER_SELF_IDENTIFY_DETAILS').length,
+    ).to.equal(0);
+    expect(form.find('.input-error-date').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
 });

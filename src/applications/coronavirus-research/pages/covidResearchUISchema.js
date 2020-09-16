@@ -456,7 +456,7 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'GENDER',
       expandUnderCondition: formData =>
-        formData['GENDER::SELF_IDENTIFY'] === true,
+        formData !== undefined && formData['GENDER::SELF_IDENTIFY'] === true,
     },
   },
   RACE_ETHNICITY_ORIGIN: {
