@@ -7,6 +7,8 @@ import { Pact } from '@pact-foundation/pact';
  * @param {string} consumer - String label for the consumer.
  * @param {string} provider - String label for the provider.
  * @param {function} test - Callback function for a test suite (describe block).
+ *                          Receives one argument: a function that returns the
+ *                          mock provider instance for the test.
  */
 const contractTest = (consumer, provider, test) => {
   describe(consumer, () => {
