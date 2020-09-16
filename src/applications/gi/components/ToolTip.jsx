@@ -5,7 +5,9 @@ export function ToolTip({ id, text, className, children }) {
   const classes = classNames({ tooltip: text }, className);
   return (
     <div id={id} className={classes}>
-      <span className="tooltiptext">{text}</span>
+      <span aria-hidden="true" className="tooltiptext">
+        {text}
+      </span>
       {children}
     </div>
   );
