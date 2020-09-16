@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 class ViewDependentsHeader extends Component {
   handleClick = () => {
     recordEvent({
-      event: 'cta-default-button-click',
+      event: 'cta-primary-button-click',
     });
   };
 

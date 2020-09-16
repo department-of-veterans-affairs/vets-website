@@ -33,6 +33,7 @@ export default Object.freeze({
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   gibctBenefitFilterEnhancement: 'gibctBenefitFilterEnhancement',
+  gibctSchoolRatings: 'gibctSchoolRatings',
   form996HigherLevelReview: 'form996HigherLevelReview',
   debtLettersShowLetters: 'debtLettersShowLetters',
   debtLettersShowLettersV2: 'debtLettersShowLettersV2',
