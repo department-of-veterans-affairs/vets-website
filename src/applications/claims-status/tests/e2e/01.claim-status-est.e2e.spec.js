@@ -39,7 +39,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     // .element('.claim-completion-desc')
     // .text.to.contain('base this on claims similar to yours');
     .element('.usa-alert-text')
-    .text.to.contain('COVID-19 has had on the availability');
+    .text.to.contain('COVID-19 has had on');
 
   client.end();
 });
