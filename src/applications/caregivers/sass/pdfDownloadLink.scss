@@ -26,7 +26,14 @@
 }
 
 .pdf-download-link--error {
+  display: flex;
+
+  i {
+    margin-top: 0.4em;
+  }
+
   a {
+    display: flex;
     cursor: not-allowed;
   }
 }

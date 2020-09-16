@@ -14,7 +14,7 @@ import { createFormPageList } from 'platform/forms-system/src/js/helpers';
 const DownLoadLink = ({ form }) => {
   const [PDFLink, setPDFLink] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const [hasError, setError] = useState(false);
+  const [errors, setErrors] = useState([]);
   const getFormData = submitTransform(formConfig, form);
   const veteranFullName = form.data.veteranFullName;
   const pageList = createFormPageList(formConfig);
@@ -38,12 +38,12 @@ const DownLoadLink = ({ form }) => {
         const url = URL.createObjectURL(blob);
         setPDFLink(url);
         setLoading(false);
-        setError(false);
+        setErrors([]);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       })
       .catch(error => {
         setLoading(false);
-        setError(true);
+        setErrors(error.errors);
         Sentry.withScope(scope => scope.setExtra('error', error));
         recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
       });
@@ -60,7 +60,6 @@ const DownLoadLink = ({ form }) => {
     return (
       <div className="pdf-download-link--loaded vads-u-margin-top--2">
         <a
-          disabled
           aria-label="Download 1010-CG filled out PDF form"
           href={PDFLink}
           download={`10-10CG_${veteranFullName.first}_${veteranFullName.last}`}
@@ -83,18 +82,32 @@ const DownLoadLink = ({ form }) => {
   };
 
   const renderErrorPDFLink = () => {
+    const getErrorMessage = () => {
+      const errorCodeType = errors[0].status.split('')[0];
+
+      switch (errorCodeType) {
+        case '4':
+          return `We're sorry. We couldn't download your form. Please check the data and try again.`;
+        case '5':
+          return `We're sorry. VA.gov is down right now. If you need help right now, please call us.`;
+        default:
+          return null;
+      }
+    };
+
     return (
       <div className="vads-u-margin-top--2 vads-u-color--secondary-dark pdf-download-link--error">
+        <i
+          aria-hidden="true"
+          role="img"
+          className="fas fa-exclamation-circle vads-u-padding-right--1 vads-u-color--gray-medium"
+        />
+
         <a
           aria-label="Error downloading 1010-CG PDF"
           className="vads-u-color--gray-medium"
         >
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-exclamation-circle vads-u-padding-right--1"
-          />
-          Error downloading 1010-CG PDF
+          {getErrorMessage()}
           <span className="sr-only vads-u-margin-right--0p5">
             `dated ${moment(Date.now()).format('MMM D, YYYY')}`
           </span>
@@ -111,7 +124,7 @@ const DownLoadLink = ({ form }) => {
     );
   };
 
-  if (hasError) return renderErrorPDFLink();
+  if (errors?.length > 0) return renderErrorPDFLink();
 
   if (isLoading) return renderLoadingIndicator();
 
