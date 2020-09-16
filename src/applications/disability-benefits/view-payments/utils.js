@@ -45,3 +45,24 @@ export const ServerErrorAlertContent = (
     </p>
   </>
 );
+
+export const NoPaymentsContent = (
+  <>
+    <h2 className="vads-u-margin-y--0 vads-u-font-size--h3">
+      We don’t have a record of VA payments for you
+    </h2>
+    <p>
+      We can’t find any VA payments made to you, or returned VA payments. Some
+      details about payments may not be available online. For example, payments
+      less than $1 for direct deposit, or $5 for mailed checks, will not show in
+      your online payment history. If you think this is an error, or if you have
+      questions about your payment history, please call{' '}
+      <Telephone contact={CONTACTS.VA_BENEFITS} />
+    </p>
+    <p>
+      VA pays benefits on the first day of the month for the previous month.
+      Please wait at least 3 business days (Monday-Friday) before reporting
+      non-receipt of a payment.
+    </p>
+  </>
+);
