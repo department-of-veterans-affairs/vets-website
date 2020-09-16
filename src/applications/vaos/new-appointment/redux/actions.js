@@ -36,7 +36,7 @@ import {
   getIdOfRootOrganization,
   getSiteIdFromOrganization,
 } from '../../services/organization';
-import { getLocation } from '../../services/location';
+import { getLocation, getParentOfLocation } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
 import {
@@ -321,8 +321,61 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 }
 
 export function updateFacilityPageV2Data(page, uiSchema, data) {
-  return async dispatch => {
-    dispatch(updateFormData(page, uiSchema, data));
+  return async (dispatch, getState) => {
+    const state = getState();
+    const prevState = state.newAppointment;
+    const useVSP = vaosVSPAppointmentNew(state);
+    const directSchedulingEnabled = vaosDirectScheduling(state);
+    const typeOfCare = getTypeOfCare(data);
+    const typeOfCareId = typeOfCare.id;
+    const locations = prevState.facilities[typeOfCareId];
+    const selectedLocationId = data.vaFacility;
+    const selectedLocation = locations.find(l => l.id === selectedLocationId);
+    const parentId = getParentOfLocation(
+      prevState.parentFacilities,
+      selectedLocation,
+    ).id;
+
+    dispatch(updateFormData(page, uiSchema, { ...data, vaParent: parentId }));
+    const siteId = getSiteIdForChosenFacility(state, parentId);
+    try {
+      const eligibilityData = await getEligibilityData(
+        selectedLocation,
+        typeOfCareId,
+        siteId,
+        directSchedulingEnabled,
+        useVSP,
+      );
+
+      recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
+      logEligibilityExplanation(
+        eligibilityData,
+        typeOfCareId,
+        selectedLocationId,
+      );
+
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+        typeOfCareId,
+        eligibilityData,
+      });
+
+      try {
+        const eligibility = getEligibilityStatus(getState());
+        if (!eligibility.direct && !eligibility.request) {
+          // Remove parse function when converting this call to FHIR service
+          const thunk = fetchFacilityDetails(selectedLocationId);
+          await thunk(dispatch, getState);
+        }
+      } catch (e) {
+        captureError(e);
+      }
+    } catch (e) {
+      captureError(e, false, 'facility page');
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS_FAILED,
+      });
+    }
   };
 }
 
