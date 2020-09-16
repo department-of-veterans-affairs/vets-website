@@ -61,7 +61,9 @@ export const expectParams = params => {
 };
 
 export const clickButton = selector => {
-  cy.get(`${selector}`).first.click(FORCE_OPTION);
+  cy.get(`${selector}`)
+    .first()
+    .click(FORCE_OPTION);
 };
 
 export const selectDropdown = (name, option) => {
