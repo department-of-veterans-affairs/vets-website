@@ -158,7 +158,8 @@ export function routeToPageInFlow(flow, history, current, action) {
       }
     } else {
       const state = getState();
-      const previousPage = state.expressCare.newRequest.previousPages[current];
+      const previousPage =
+        state.expressCare.newRequest.updatedPreviousPages[current];
       nextPage = flow[previousPage];
     }
 

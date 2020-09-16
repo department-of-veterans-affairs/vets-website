@@ -860,7 +860,7 @@ export function routeToPageInFlow(flow, history, current, action) {
       }
     } else {
       const state = getState();
-      const previousPage = state.newAppointment.previousPages[current];
+      const previousPage = state.newAppointment.updatedPreviousPages[current];
       nextPage = flow[previousPage];
     }
 
