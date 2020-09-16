@@ -5,11 +5,11 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
-import { customTransformForSubmit } from './utilities';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import GetFormHelp from '../components/GetFormHelp.jsx';
+import { customSubmit686 } from '../analytics/helpers';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -63,7 +63,8 @@ const formConfig = {
   // All e2e tests will be disabled until then. If you need to run an e2e test, temporarily change
   // dependents_appilcations to 21-686c.
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
-  trackingPrefix: 'disability-21-686c',
+  submit: customSubmit686,
+  trackingPrefix: 'disability-21-686c-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: CustomPreSubmitInfo,
@@ -84,7 +85,6 @@ const formConfig = {
   title: 'Add or remove a dependent on your VA disability benefits',
   subTitle: 'VA Form 21-686c (and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
-  transformForSubmit: customTransformForSubmit,
   chapters: {
     optionSelection: {
       title: 'What do you want to do?',
