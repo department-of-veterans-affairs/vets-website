@@ -61,8 +61,7 @@ describe('<ConnectedApps>', () => {
       errors: [
         {
           title: 'Record not found',
-          detail:
-            'The record identified by ba09187e35df4853a24e8397f5ac86e8 could not be found',
+          detail: 'The record identified by 0000 could not be found',
           code: '404',
           status: '404',
         },
