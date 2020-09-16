@@ -43,7 +43,12 @@ export class ConnectedApps extends Component {
     const activeApps = apps ? apps.filter(app => !app.deleted) : [];
 
     const allAppsDeleted = deletedApps?.length === apps?.length;
-    const showHasNoConnectedApps = !apps || (allAppsDeleted && !loading);
+    // We treat this 404 'Record not found' error as an empty apps array
+    const firstError = errors?.[0];
+    const recordNotFound =
+      firstError?.title === 'Record not found' && firstError?.status === '404';
+    const showHasNoConnectedApps =
+      !apps || (allAppsDeleted && !loading) || recordNotFound;
     const showHasConnectedApps = apps && !allAppsDeleted;
     // Check if any of the active apps have errors
     const disconnectErrorApps = activeApps.filter(app => !isEmpty(app.errors));
@@ -82,14 +87,15 @@ export class ConnectedApps extends Component {
           </>
         )}
 
-        {!isEmpty(errors) && (
-          <AlertBox
-            className="vads-u-margin-bottom--2"
-            headline="We couldn’t retrieve your connected apps"
-            status="warning"
-            content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
-          />
-        )}
+        {!isEmpty(errors) &&
+          !recordNotFound && (
+            <AlertBox
+              className="vads-u-margin-bottom--2"
+              headline="We couldn’t retrieve your connected apps"
+              status="warning"
+              content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
+            />
+          )}
 
         {deletedApps.map(app => (
           <AppDeletedAlert
