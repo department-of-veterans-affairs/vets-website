@@ -45,11 +45,26 @@ export const initApplicationMock = (
 
 export const expectLocation = urlSubstring => {
   cy.location().should(loc => {
-    expect(loc.pathname).to.includes(urlSubstring);
+    expect(loc.pathname).to.includes(urlSubstring.replace(/\s/g, '%20'));
   });
   cy.axeCheck();
 };
 
-export const clickButton = id => {
-  cy.get(`#${id}`).click(FORCE_OPTION);
+export const expectParms = params => {
+  const paramSubString = Object.values(params).map(
+    (key, value) => `${key}=${value.replace(/\\s/g, '%20')}`,
+  );
+  cy.location().should(loc => {
+    expect(loc.search).to.eq(`?${paramSubString}`);
+  });
+  cy.axeCheck();
+};
+
+export const clickButton = selector => {
+  cy.get(`${selector}`).first.click(FORCE_OPTION);
+};
+
+export const selectDropdown = (name, option) => {
+  const selector = `select[name="${name}"]`;
+  cy.get(selector).select(option);
 };
