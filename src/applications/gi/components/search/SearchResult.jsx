@@ -17,7 +17,7 @@ import {
 
 import ScorecardTags from '../../components/ScorecardTags';
 import environment from 'platform/utilities/environment';
-import { ToolTip } from '../ToolTip';
+import ToolTip from '../ToolTip';
 
 export function SearchResult({
   gibctFilterEnhancement,

@@ -14,3 +14,5 @@ export function ToolTip({ id, text, className, disabled, children }) {
     </div>
   );
 }
+
+export default ToolTip;
