@@ -319,3 +319,15 @@ workflows:
   additional-linting:
     jobs:
       - additional-linting
+
+  # https://circleci.com/docs/2.0/workflows/#nightly-example
+  nightly:
+    triggers:
+      - schedule:
+          cron: '0 4 * * *'
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - validate-content-builds
