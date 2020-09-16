@@ -227,7 +227,7 @@
     "nyc": "^15.1.0",
     "polyfill-function-prototype-bind": "0.0.1",
     "postcss-loader": "^3.0.0",
-    "prettier": "^1.14.3",
+    "prettier": "^2.1.2",
     "puppeteer": "^3.3.0",
     "quick_check": "^0.7.0",
     "react-test-renderer": "^16.13.1",
