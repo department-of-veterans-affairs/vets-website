@@ -15,7 +15,6 @@ const DownLoadLink = ({ form }) => {
   const [PDFLink, setPDFLink] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const getFormData = submitTransform(formConfig, form);
-  const [formData, setFormData] = useState(null);
   const veteranFullName = form.data.veteranFullName;
   const pageList = createFormPageList(formConfig);
   const isFormValid = isValidForm(form, pageList);
@@ -49,17 +48,16 @@ const DownLoadLink = ({ form }) => {
 
   useEffect(
     () => {
-      setFormData(getFormData);
-      const notSameData = formData !== getFormData;
-      if (isFormValid.isValid && notSameData) downloadPDF(getFormData);
+      if (isFormValid.isValid) downloadPDF(getFormData);
     },
-    [getFormData, isFormValid.isValid, setFormData, formData],
+    [getFormData, isFormValid.isValid],
   );
 
   const renderPDFLink = () => {
     return (
       <div className="pdf-download-link--loaded vads-u-margin-top--2">
         <a
+          disabled
           aria-label="Download 1010CG filled out PDF form"
           href={PDFLink}
           download={`10-10CG_${veteranFullName.first}_${veteranFullName.last}`}
