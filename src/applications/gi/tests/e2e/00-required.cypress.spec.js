@@ -1,9 +1,8 @@
-import { initMockProfile, expectLocation } from './cypress-helpers';
+import { initApplicationMock, expectLocation } from './cypress-helpers';
 import institutionProfile from '../data/institution-profile.json';
 import searchResults from '../data/search-results.json';
 import { createId } from '../../utils/helpers';
 import {
-  typeOfInstitution,
   search,
   selectSearchResult,
   displayLearnMoreModal,
@@ -21,7 +20,6 @@ describe('Institution', () => {
 
   it('Default institution profile flow with giBillChapter chapter 33', () => {
     // Landing Page
-    typeOfInstitution('school');
 
     cy.axeCheck();
     cy
