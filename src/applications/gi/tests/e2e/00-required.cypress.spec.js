@@ -1,12 +1,12 @@
-import { initApplicationMock, expectLocation } from './cypress-helpers';
+import { initApplicationMock } from './cypress-helpers';
 import institutionProfile from '../data/institution-profile.json';
 import searchResults from '../data/search-results.json';
-import { createId } from '../../utils/helpers';
 import {
   search,
   selectSearchResult,
   displayLearnMoreModal,
   collapseExpandAccordion,
+  checkSearchResults,
 } from './gi-helpers';
 
 const institutionAttributes = institutionProfile.data.attributes;
@@ -22,18 +22,10 @@ describe('Institution', () => {
     // Landing Page
 
     cy.axeCheck();
-    cy
-      .get('.keyword-search input[type="text"]')
-      .type(institutionAttributes.name).type;
-    search();
-    expectLocation('/search');
+    search(institutionAttributes.name);
 
     // Search Page
-    searchResults.data.forEach(result => {
-      const resultId = `#search-result-${result.attributes.facility_code}`;
-      cy.log(resultId);
-      cy.get(createId(resultId)).should('be.visible');
-    });
+    checkSearchResults(searchResults);
 
     const profileLink = `/profile/${
       searchResults.data[0].attributes.facility_code

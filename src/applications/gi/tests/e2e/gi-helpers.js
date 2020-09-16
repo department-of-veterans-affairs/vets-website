@@ -6,8 +6,15 @@ export const typeOfInstitution = value => {
   cy.get(selector).check(FORCE_OPTION);
 };
 
-export const search = () => {
+export const search = searchTerm => {
+  if (searchTerm) cy.get('.keyword-search input[type="text"]').type(searchTerm);
+
   clickButton('search-button');
+  if (searchTerm) {
+    expectLocation('/search');
+  } else {
+    expectLocation('/program-search');
+  }
 };
 
 export const selectSearchResult = (href, checkLocation = true) => {
@@ -68,4 +75,11 @@ export const collapseExpandAccordion = name => {
   checkAccordionIsNotExpanded(name);
   clickAccordion(name);
   checkAccordionIsExpanded(name);
+};
+
+export const checkSearchResults = searchResults => {
+  searchResults.data.forEach(result => {
+    const resultId = `#search-result-${result.attributes.facility_code}`;
+    cy.get(createId(resultId)).should('be.visible');
+  });
 };
