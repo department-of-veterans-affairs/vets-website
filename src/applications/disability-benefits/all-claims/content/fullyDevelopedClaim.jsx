@@ -11,22 +11,28 @@ export const FDCDescription = (
       uploaded all the supporting documents or additional forms needed to
       support your claim.
     </p>
-    <a
-      href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Learn more about the FDC program
-    </a>
-    .<br />
-    <a
-      href="/disability/how-to-file-claim/evidence-needed/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      View the evidence requirements for disability claims
-    </a>
-    .
+    <ul>
+      <li>
+        <a
+          href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn more about the FDC program
+        </a>
+        .
+      </li>
+      <li>
+        <a
+          href="/disability/how-to-file-claim/evidence-needed/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View the evidence requirements for disability claims
+        </a>
+        .
+      </li>
+    </ul>
   </div>
 );
 
