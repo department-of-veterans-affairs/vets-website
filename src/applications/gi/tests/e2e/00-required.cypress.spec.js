@@ -14,9 +14,7 @@ const institutionAttributes = institutionProfile.data.attributes;
 
 describe('Institution', () => {
   beforeEach(() => {
-    cy.route('/v0/gi/institutions/', searchResults);
-
-    initMockProfile(institutionProfile);
+    initApplicationMock();
     cy.visit('/gi-bill-comparison-tool').injectAxe();
     cy.axeCheck();
   });
