@@ -108,9 +108,9 @@ const formConfig = {
   preSubmitInfo: {
     required: true,
     field: 'consentAgreementAccepted',
-    label: ConsentLabel,
-    notice: ConsentNotice,
-    error: ConsentError,
+    label: ConsentLabel(),
+    notice: ConsentNotice(),
+    error: ConsentError(),
   },
   chapters: {
     chapter1: {

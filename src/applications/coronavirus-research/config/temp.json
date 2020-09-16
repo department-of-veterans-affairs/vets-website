@@ -244,6 +244,9 @@
         }
       }
     },
+    "consentAgreementAccepted": {
+      "type": "boolean"
+    },
     "email": {
       "$ref": "#/definitions/email"
     },
@@ -277,6 +280,7 @@
     "closeContact",
     "VETERAN",
     "GENDER",
-    "RACE_ETHNICITY_ORIGIN"
+    "RACE_ETHNICITY_ORIGIN",
+    "consentAgreementAccepted"
   ]
 }

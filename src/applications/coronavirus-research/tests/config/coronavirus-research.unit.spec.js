@@ -38,6 +38,7 @@ describe('Coronavirus Research Volunteer Form', () => {
     GENDER: { 'GENDER::FEMALE': true, 'GENDER::NONE_OF_ABOVE': false },
     GENDER_SELF_IDENTIFY_DETAILS: 'This is a gender self description',
     RACE_ETHNICITY_ORIGIN: { 'RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE': true },
+    consentAgreementAccepted: true,
   });
   it('should render', () => {
     const form = mount(
