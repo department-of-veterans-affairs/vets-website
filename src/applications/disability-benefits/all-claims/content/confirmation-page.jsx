@@ -18,7 +18,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
   const { first, last, middle, suffix } = fullName;
 
   const renderableContent =
-    typeof content === 'string' ? <p>{content}</p> : content;
+    typeof content === 'string' && content !== '' ? <p>{content}</p> : content;
 
   const alertBox = (
     <AlertBox
