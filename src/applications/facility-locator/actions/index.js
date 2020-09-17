@@ -248,7 +248,7 @@ export const genBBoxFromAddress = query => {
           payload: query.usePredictiveGeolocation
             ? features.map(feature => ({
                 placeName: feature.place_name,
-                placeType: feature.place_type,
+                placeType: feature.place_type[0],
                 bbox: feature.bbox,
                 center: feature.center,
               }))
