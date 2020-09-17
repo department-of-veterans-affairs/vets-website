@@ -29,17 +29,32 @@
           {% endif %}
 
           <!-- Buttons -->
-          {% for fieldButton in fieldButtons  %}
+          {% for fieldButton in fieldButtons %}
             {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
           {% endfor %}
 
           <!-- Videos List -->
+          <h2>Videos</h2>
+          <ul>
+            {% for mediaVideo in fieldMediaListVideos.fieldVideos %}
+              <h3>{{ mediaVideo.entity.name }}</h3>
+              <iframe
+                allowFullScreen
+                frameBorder="0"
+                src="{{ mediaVideo.entity.fieldMediaVideoEmbedField }}"
+                title="{{ mediaVideo.entity.name }}"
+                width="100%"
+              />
+              <p>{{ mediaVideo.entity.length }} · {{ mediaVideo.entity.created | humanizeTimestamp }}</p>
+              <p>{{ mediaEntity.entity.fieldDescription }}</p>
+            {% end %}
+          </ul>
 
 
           <!-- Buttons -->
           {% if fieldButtonsRepeat %}
             <div class="vads-u-margin-y--3">
-              {% for fieldButton in fieldButtons  %}
+              {% for fieldButton in fieldButtons %}
                 {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
               {% endfor %}
             </div>
