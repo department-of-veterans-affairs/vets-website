@@ -7,7 +7,6 @@ import {
   displayLearnMoreModal,
   collapseExpandAccordion,
   checkSearchResults,
-  // checkSubAccordion,
   checkSectionAccordion,
 } from './gi-helpers';
 
