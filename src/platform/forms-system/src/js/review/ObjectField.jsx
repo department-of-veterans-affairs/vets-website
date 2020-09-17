@@ -155,14 +155,18 @@ class ObjectField extends React.Component {
       const Tag = divWrapper ? 'div' : 'dl';
       const objectViewField = uiSchema?.['ui:objectViewField'];
 
-      const editButton = (
+      const defaultEditButton = ({
+        label = editLabel,
+        onEdit = formContext.onEdit,
+        text = 'Edit',
+      } = {}) => (
         <button
           type="button"
           className="edit-btn primary-outline"
-          aria-label={editLabel}
-          onClick={() => formContext.onEdit()}
+          aria-label={label}
+          onClick={onEdit}
         >
-          Edit
+          {text}
         </button>
       );
 
@@ -171,7 +175,7 @@ class ObjectField extends React.Component {
           ...this.props,
           renderedProperties,
           title,
-          editButton,
+          defaultEditButton,
         })
       ) : (
         <>
@@ -183,7 +187,7 @@ class ObjectField extends React.Component {
                     {title}
                   </h3>
                 )}
-              {editButton}
+              {defaultEditButton()}
             </div>
           )}
           <Tag className="review">{renderedProperties}</Tag>
