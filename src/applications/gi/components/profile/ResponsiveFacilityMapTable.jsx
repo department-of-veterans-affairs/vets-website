@@ -51,9 +51,9 @@ class ResponsiveFacilityMapTable extends Component {
     const headers = fields.map(this.renderHeader);
 
     return (
-      <table className="responsive">
+      <table className="responsive" role="table">
         <thead>
-          <tr>{headers}</tr>
+          <tr role="row">{headers}</tr>
         </thead>
         <tbody>
           {mainRow}
