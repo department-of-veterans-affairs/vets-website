@@ -17,6 +17,7 @@ const FACILITY_MENU_NAMES = [
   'va-erie-health-care',
   'va-lebanon',
   'va-montana-health-care',
+  'va-oklahoma-health-care',
   'va-philadelphia-health-care',
   'va-salt-lake-city-health-care',
   'va-sheridan-health-care',
