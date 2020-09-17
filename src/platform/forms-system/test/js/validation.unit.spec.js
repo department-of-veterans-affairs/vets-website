@@ -324,6 +324,15 @@ describe('Schemaform validations', () => {
 
       expect(errors.confirmEmail.addError.called).to.be.false;
     });
+    it('should not set message if emails match when ignoring case', () => {
+      const errors = { confirmEmail: { addError: sinon.spy() } };
+      validateMatch('email', 'confirmEmail', { ignoreCase: true })(errors, {
+        email: 'test@test.com',
+        confirmEmail: 'TEST@TEST.COM',
+      });
+
+      expect(errors.confirmEmail.addError.called).to.be.false;
+    });
   });
   describe('validateDateRange', () => {
     it('should not set message if date range is valid', () => {
