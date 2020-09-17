@@ -20,7 +20,7 @@
                 After new service location content has been populated, remove
                 the `1 == 2` check to allow for default handling.
                 {% endcomment %}
-                {% if locations.0.entity and 1 == 2 %}
+                {% if locations.0.entity %}
                     {% include "src/site/paragraphs/service_location.drupal.liquid" %}
                     {% else %}
                     <div>{{ localServiceDescription }}</div>

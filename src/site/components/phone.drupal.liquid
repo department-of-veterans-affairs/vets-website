@@ -1,12 +1,13 @@
 {% for number in numbers %}
 {% assign numType = 'Phone' %}
-{% if number.entity.fieldPhoneNumberType == 'fax' %}
+{% case numType %}
+{% when number.entity.fieldPhoneNumberType == 'fax' %}
 {% assign numType = 'Fax' %}
-{% elseif number.entity.fieldPhoneNumberType == 'sms' %}
+{% when number.entity.fieldPhoneNumberType == 'sms' %}
 {% assign numType = 'SMS' %}
-{% elseif number.entity.fieldPhoneNumberType == 'tty' %}
+{% when number.entity.fieldPhoneNumberType == 'tty' %}
 {% assign numType = 'TTY' %}
-{% endif %}
+{% endcase %}
 
 <p class="vads-u-margin-y--1">
   <strong>{{numType}}: </strong><a

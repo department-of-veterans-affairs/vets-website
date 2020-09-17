@@ -19,7 +19,7 @@
   {% if single.fieldFacilityServiceHours.value and single.fieldHours == "2" %}
   <p class="vads-u-margin-bottom--0">
   <h4>Clinical Hours </h4>
-  <ul class="va-c-facility-hours-list">
+  <ul class="va-c-facility-hours-list usa-unstyled-list">
     {% for hours in single.fieldFacilityServiceHours.value %}
     {% if hours %}
     <li>{{ hours | replace: ",", ": "}}</li>
