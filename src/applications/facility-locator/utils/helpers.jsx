@@ -309,11 +309,9 @@ export const recordResultEvents = (location, index) => {
  * Helper fn to record search data layer
  */
 export const recordSearchEvents = (data, meta) => {
-  if (data && data.length > 0) {
+  if (data) {
     recordEvent({ event: 'fl-search-results' });
-    recordEvent({ 'fl-results-returned': true });
-  } else if (data.length === 0) {
-    recordEvent({ 'fl-results-returned': false });
+    recordEvent({ 'fl-results-returned': !!data.length });
   }
 
   if (meta.pagination.totalEntries) {
