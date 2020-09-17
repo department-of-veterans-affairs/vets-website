@@ -21,6 +21,7 @@ const icsFileQuery = require('./file-fragments/ics.file.graphql');
 const leadershipListingPage = require('./leadershipListingPage.graphql');
 const locationListingPage = require('./locationsListingPage.graphql');
 const mediaListImages = require('./nodeMediaListImages.graphql');
+const mediaListVideos = require('./nodeMediaListVideos.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
@@ -81,6 +82,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${stepByStepPage}
   ${mediaListImages}
   ${checklistPage}
+  ${mediaListVideos}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -118,6 +120,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... nodeStepByStep
         ... nodeMediaListImages
         ... nodeChecklist
+        ... mediaListVideos
       }
     }`;
 
