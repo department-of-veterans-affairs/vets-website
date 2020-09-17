@@ -514,8 +514,12 @@
           "path": "education/"
         },
         {
-          "name": "How to apply",
-          "path": "education/how-to-apply/"
+          "name": "Other VA education benefits",
+          "path": "education/other-va-education-benefits/"
+        },
+        {
+          "name": "Edith Nourse Rogers STEM Scholarship",
+          "path": "education/other-va-education-benefits/stem-scholarship/"
         },
         {
           "name": "Apply for the Rogers STEM Scholarship",
