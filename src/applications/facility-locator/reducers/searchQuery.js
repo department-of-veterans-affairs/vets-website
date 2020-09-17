@@ -106,7 +106,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case GEOCODE_COMPLETE:
       return {
         ...state,
-        // TODO - filter out unnecessary data
         geocodeResults: action.payload,
         error: false,
         geocodeInProgress: false,

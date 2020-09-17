@@ -30,6 +30,7 @@ import {
 import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
+  facilityLocatorPredictiveLocationSearch,
 } from '../utils/selectors';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
@@ -67,7 +68,7 @@ class VAMap extends Component {
   };
 
   componentDidMount() {
-    const { location, currentQuery } = this.props;
+    const { location, currentQuery, usePredictiveGeolocation } = this.props;
     const { facilityType } = currentQuery;
 
     window.addEventListener('resize', this.debouncedResize);
@@ -89,6 +90,7 @@ class VAMap extends Component {
       this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
+        usePredictiveGeolocation,
       });
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(currentPosition => {
@@ -213,6 +215,7 @@ class VAMap extends Component {
       this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
+        usePredictiveGeolocation: this.props.usePredictiveGeolocation,
       });
     }
   };
@@ -288,12 +291,15 @@ class VAMap extends Component {
   };
 
   handleSearch = () => {
-    const { currentQuery } = this.props;
+    const { currentQuery, usePredictiveGeolocation } = this.props;
     this.updateUrlParams({
       address: currentQuery.searchString,
     });
 
-    this.props.genBBoxFromAddress(currentQuery);
+    this.props.genBBoxFromAddress({
+      ...currentQuery,
+      usePredictiveGeolocation,
+    });
   };
 
   handleBoundsChanged = () => {
@@ -671,6 +677,7 @@ function mapStateToProps(state) {
     currentQuery: state.searchQuery,
     suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
     suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
+    usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,

@@ -245,7 +245,14 @@ export const genBBoxFromAddress = query => {
 
         dispatch({
           type: GEOCODE_COMPLETE,
-          payload: features,
+          payload: query.usePredictiveGeolocation
+            ? features.map(feature => ({
+                placeName: feature.place_name,
+                placeType: feature.place_type,
+                bbox: feature.bbox,
+                center: feature.center,
+              }))
+            : [],
         });
 
         let minBounds = [
