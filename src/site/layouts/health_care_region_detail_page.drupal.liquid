@@ -126,9 +126,9 @@
               {% endif %}
             {% endfor %}
 
-            {% if fieldRelatedLinks and fieldRelatedLinks.entity.fieldVaParagraphs and fieldRelatedLinks.entity.fieldVaParagraphs.0.entity.fieldLink %}
+            {% if fieldRelatedLinks.0.entity.fieldVaParagraphs.0.entity.fieldLink %}
               <div class="va-nav-linkslist va-nav-linkslist--related">
-                {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.entity %}
+                {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.0.entity %}
               </div>
             {%  endif %}
 
