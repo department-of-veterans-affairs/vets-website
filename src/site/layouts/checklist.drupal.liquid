@@ -28,17 +28,44 @@
           {% endif %}
 
           <!-- Buttons -->
-          {% for fieldButton in fieldButtons  %}
+          {% for fieldButton in fieldButtons %}
             {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
           {% endfor %}
 
-          <!-- Checklist -->
+          <!-- Checklist sections -->
+          <h2>Checklist</h2>
+          {% assign checklistSectionIndex = 0 %}
+          {% for checklistSection in fieldChecklist.entity.fieldChecklistSections %}
 
+            <!-- Checklist section header -->
+            {% if checklistSection.entity.fieldSectionHeader %}
+              <h3>{{ checklistSection.entity.fieldSectionHeader }}</h3>
+            {% end %}
+
+            <!-- Checklist items -->
+            <ul>
+              {% assign checklistItemIndex = 0 %}
+              {% for checklistItem in checklistSection.entity.fieldChecklistItems %}
+
+                <!-- Checklist item -->
+                <li>
+                  <input type="checkbox" id="checkbox-{{ listchecklistItemIndex }}" name="{{ checklistItem }}">
+                  <label for="checkbox-{{ listchecklistItemIndex }}">{{ checklistItem }}</label>
+                </li>
+
+                <!-- Increment the checkbox's index -->
+                {% assign checklistItemIndex = checklistItemIndex + 1 %}
+              {% end %}
+            </ul>
+
+            <!-- Increment the section's index -->
+            {% assign checklistSectionIndex = checklistSectionIndex + 1 %}
+          {% end %}
 
           <!-- Buttons -->
           {% if fieldButtonsRepeat %}
             <div class="vads-u-margin-y--3">
-              {% for fieldButton in fieldButtons  %}
+              {% for fieldButton in fieldButtons %}
                 {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
               {% endfor %}
             </div>
