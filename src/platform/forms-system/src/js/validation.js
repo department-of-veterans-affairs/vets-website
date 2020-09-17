@@ -422,7 +422,7 @@ export function validateCurrentOrPastYear(errors, year) {
 
 export function validateMatch(field1, field2, ignoreCase = false) {
   return (errors, formData) => {
-    const transform = ignoreCase ? val => val.toLowerCase() : val => val;
+    const transform = ignoreCase ? val => val?.toLowerCase() : val => val;
     if (transform(formData[field1]) !== transform(formData[field2])) {
       errors[field2].addError('Please ensure your entries match');
     }
