@@ -8,12 +8,12 @@ const rowPaddingClass = 'vads-u-padding-y--2';
 class ResponsiveTable extends Component {
   renderHeader = field => {
     if (field.nonSortable) {
-      return <th key={field.value}>{field.label}</th>;
+      return <th key={`${field.value}-header`}>{field.label}</th>;
     }
 
     let sortIcon;
 
-    if (this.props.currentSort.value === field.value) {
+    if (this.props.currentSort?.value === field.value) {
       const iconClass = classNames({
         fa: true,
         'fas fa-caret-down': this.props.currentSort.order === 'DESC',
