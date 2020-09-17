@@ -61,10 +61,12 @@ class ResponsiveTable extends React.Component {
 
     return (
       <table className={classes} role="table">
-        <thead>
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <thead role="rowgroup">
           <tr role="row">{headers}</tr>
         </thead>
-        <tbody>
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <tbody role="rowgroup">
           {this.props.children}
           {rows}
         </tbody>
