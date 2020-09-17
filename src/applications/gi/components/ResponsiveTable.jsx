@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 const borderClasses =
   'vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0 vads-u-padding--0 vads-u-padding-y--0p5 medium-screen:vads-u-padding--1';
 const rowPaddingClass = 'vads-u-padding-y--2';
 
-class ResponsiveFacilityMapTable extends Component {
+class ResponsiveTable extends React.Component {
   renderHeader = field => {
     return (
-      <th key={field.label} className={borderClasses}>
-        {field.label}
+      <th key={field} className={borderClasses} role="columnheader">
+        {field}
       </th>
     );
   };
@@ -21,7 +23,11 @@ class ResponsiveFacilityMapTable extends Component {
     const { fields } = this.props;
     let extraClass = '';
     return (
-      <tr key={item.id} className={`${borderClasses} ${rowPaddingClass}`}>
+      <tr
+        key={item.id}
+        className={`${borderClasses} ${rowPaddingClass}`}
+        role="row"
+      >
         {fields.map((field, index) => {
           // This is to right align the amount field and account number fields
           // since they are numeric
@@ -35,10 +41,11 @@ class ResponsiveFacilityMapTable extends Component {
             <td
               data-index={index}
               className={`${borderClasses} ${extraClass}`}
-              data-label={`${this.capitalizeFirstLetter(field.value)}:`}
-              key={`${item.id}-${field.value}`}
+              data-label={`${this.capitalizeFirstLetter(field)}:`}
+              key={`${item.id}-${field}`}
+              role="cell"
             >
-              {item[field.value]}
+              {item[field]}
             </td>
           );
         })}
@@ -47,21 +54,33 @@ class ResponsiveFacilityMapTable extends Component {
   };
 
   render() {
-    const { fields, mainRow, branchesAndExtensionsRows } = this.props;
+    const { fields, data, tableClass } = this.props;
     const headers = fields.map(this.renderHeader);
+    const rows = data?.map(this.renderRow());
+    const classes = classNames('responsive', tableClass);
 
     return (
-      <table className="responsive" role="table">
+      <table className={classes} role="table">
         <thead>
           <tr role="row">{headers}</tr>
         </thead>
         <tbody>
-          {mainRow}
-          {branchesAndExtensionsRows}
+          {this.props.children}
+          {rows}
         </tbody>
       </table>
     );
   }
 }
 
-export default ResponsiveFacilityMapTable;
+ResponsiveTable.propTypes = {
+  fields: PropTypes.arrayOf(PropTypes.string),
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  ),
+  tableClass: PropTypes.string,
+};
+
+export default ResponsiveTable;

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
-import ResponsiveFacilityMapTable from './ResponsiveFacilityMapTable';
+import ResponsiveTable from '../ResponsiveTable';
 
 const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
 
@@ -137,11 +137,11 @@ export class SchoolLocations extends React.Component {
       name
     );
     return (
-      <tr key={`${facilityCode}-${type}`} className={`${type}-row`}>
-        <td tabIndex="-1" className="school-name-cell">
+      <tr key={`${facilityCode}-${type}`} className={`${type}-row`} role="row">
+        <td tabIndex="-1" className="school-name-cell" role="cell">
           {nameLabel}
         </td>
-        <td className={'location-cell'}>
+        <td className={'location-cell'} role="cell">
           {this.schoolLocationTableInfo(
             physicalCity,
             physicalState,
@@ -149,7 +149,7 @@ export class SchoolLocations extends React.Component {
             physicalZip,
           )}
         </td>
-        <td>
+        <td role="cell">
           {this.estimatedHousingRow(institution)}
           {month}
         </td>
@@ -209,25 +209,17 @@ export class SchoolLocations extends React.Component {
     return rows;
   };
 
-  renderResponsiveFacilityMapTable = main => {
+  renderFacilityTable = main => {
     const maxRows = this.state.viewableRowCount;
 
-    const fields = [
-      { label: 'School Name' },
-      { label: 'Location' },
-      { label: 'Estimated housing' },
-    ];
+    const fields = ['School Name', 'Location', 'Estimated housing'];
 
     return (
       <div>
-        <ResponsiveFacilityMapTable
-          fields={fields}
-          mainRow={this.renderMainRow(main.institution)}
-          branchesAndExtensionsRows={this.renderBranchesAndExtensionsRows(
-            main,
-            maxRows,
-          )}
-        />
+        <ResponsiveTable fields={fields} tableClass="school-locations">
+          {this.renderMainRow(main.institution)}
+          {this.renderBranchesAndExtensionsRows(main, maxRows)}
+        </ResponsiveTable>
       </div>
     );
   };
@@ -309,7 +301,7 @@ export class SchoolLocations extends React.Component {
             </span>
           )}
         </span>
-        {this.renderResponsiveFacilityMapTable(main)}
+        {this.renderFacilityTable(main)}
         {this.renderViewCount()}
         {this.renderViewButtons()}
       </div>
