@@ -1,20 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 
 const borderClasses =
   'vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0 vads-u-font-family--sans vads-u-padding--0 vads-u-padding-y--0p5 medium-screen:vads-u-padding--1';
 const rowPaddingClass = 'vads-u-padding-y--2';
 
-class ResponsiveTable extends React.Component {
+class ResponsiveTable extends Component {
   renderHeader = field => {
     if (field.nonSortable) {
-      return <th key={`${field.value}-header`}>{field.label}</th>;
+      return <th key={field.value}>{field.label}</th>;
     }
 
     let sortIcon;
 
-    if (this.props.currentSort?.value === field.value) {
+    if (this.props.currentSort.value === field.value) {
       const iconClass = classNames({
         fa: true,
         'fas fa-caret-down': this.props.currentSort.order === 'DESC',
@@ -84,20 +83,5 @@ class ResponsiveTable extends React.Component {
     );
   }
 }
-
-ResponsiveTable.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
-  fields: PropTypes.arrayOf(
-    PropTypes.shape({
-      nonSortable: PropTypes.bool,
-      value: PropTypes.string,
-      label: PropTypes.string,
-    }),
-  ),
-  currentSort: PropTypes.shape({
-    value: PropTypes.string,
-    order: PropTypes.oneOf(['DESC', 'ASC']),
-  }),
-};
 
 export default ResponsiveTable;

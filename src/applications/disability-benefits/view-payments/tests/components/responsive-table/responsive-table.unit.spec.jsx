@@ -1,11 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import ResponsiveTable from 'platform/forms-system/src/js/components/ResponsiveTable';
-import {
-  mockData,
-  fields,
-} from 'applications/disability-benefits/view-payments/tests/components/view-payments-lists/helpers';
+import ResponsiveTable from '../../../components/responsive-table/ResponsiveTable.jsx';
+import { mockData, fields } from '../view-payments-lists/helpers';
 
 describe('<ResponsiveTable />', () => {
   it('Should Render', () => {

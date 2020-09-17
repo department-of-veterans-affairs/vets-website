@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
-// import ResponsiveFacilityMapTable from './ResponsiveFacilityMapTable';
-import ResponsiveTable from 'platform/forms-system/src/js/components/ResponsiveTable';
+import ResponsiveFacilityMapTable from './ResponsiveFacilityMapTable';
 
 const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
 
@@ -210,22 +209,25 @@ export class SchoolLocations extends React.Component {
     return rows;
   };
 
-  renderResponsiveTable = main => {
+  renderResponsiveFacilityMapTable = main => {
     const maxRows = this.state.viewableRowCount;
 
     const fields = [
-      { label: 'School Name', value: 'school-name' },
-      { label: 'Location', value: 'location' },
-      { label: 'Estimated housing', value: 'estimated-housing' },
+      { label: 'School Name' },
+      { label: 'Location' },
+      { label: 'Estimated housing' },
     ];
-
-    const rows = this.renderBranchesAndExtensionsRows(main, maxRows).unshift(
-      this.renderMainRow(main.institution),
-    );
 
     return (
       <div>
-        <ResponsiveTable fields={fields} rows={rows} />
+        <ResponsiveFacilityMapTable
+          fields={fields}
+          mainRow={this.renderMainRow(main.institution)}
+          branchesAndExtensionsRows={this.renderBranchesAndExtensionsRows(
+            main,
+            maxRows,
+          )}
+        />
       </div>
     );
   };
@@ -307,7 +309,7 @@ export class SchoolLocations extends React.Component {
             </span>
           )}
         </span>
-        {this.renderResponsiveTable(main)}
+        {this.renderResponsiveFacilityMapTable(main)}
         {this.renderViewCount()}
         {this.renderViewButtons()}
       </div>
