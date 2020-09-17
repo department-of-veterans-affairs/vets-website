@@ -21,4 +21,4 @@ yarn install-repos
 yarn fetch-drupal-cache
 
 # build content
-yarn build
+# yarn build
