@@ -326,7 +326,7 @@ describe('Schemaform validations', () => {
     });
     it('should not set message if emails match when ignoring case', () => {
       const errors = { confirmEmail: { addError: sinon.spy() } };
-      validateMatch('email', 'confirmEmail', { ignoreCase: true })(errors, {
+      validateMatch('email', 'confirmEmail', true)(errors, {
         email: 'test@test.com',
         confirmEmail: 'TEST@TEST.COM',
       });
