@@ -7,6 +7,8 @@ import {
   displayLearnMoreModal,
   collapseExpandAccordion,
   checkSearchResults,
+  // checkSubAccordion,
+  checkSectionAccordion,
 } from './gi-helpers';
 
 const institutionAttributes = institutionProfile.data.attributes;
@@ -38,6 +40,12 @@ describe('Institution', () => {
 
     // Estimate your benefits
     collapseExpandAccordion('Estimate your benefits');
+
+    // Estimate your benefits section accordions
+    checkSectionAccordion(false, 'yourMilitaryDetails');
+    checkSectionAccordion(true, 'schoolCostsAndCalendar');
+    checkSectionAccordion(true, 'learningFormat');
+    checkSectionAccordion(true, 'scholarshipsAndOtherVAFunding');
 
     // Veteran programs
     collapseExpandAccordion('Veteran programs');

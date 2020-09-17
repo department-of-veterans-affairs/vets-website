@@ -1,5 +1,11 @@
-import { clickButton, expectLocation, FORCE_OPTION } from './cypress-helpers';
-import { createId } from '../../utils/helpers';
+import {
+  clickButton,
+  expectLocation,
+  FORCE_OPTION,
+  selectDropdown,
+} from './cypress-helpers';
+import { createId, formatCurrency } from '../../utils/helpers';
+import calculatorConstantsJson from '../data/calculator-constants.json';
 
 export const typeOfInstitution = value => {
   const selector = `input[name="category"][value="${value}"]`;
@@ -9,7 +15,7 @@ export const typeOfInstitution = value => {
 export const search = searchTerm => {
   if (searchTerm) cy.get('.keyword-search input[type="text"]').type(searchTerm);
 
-  clickButton('search-button');
+  clickButton('#search-button');
   if (searchTerm) {
     expectLocation('/search');
   } else {
@@ -18,11 +24,8 @@ export const search = searchTerm => {
 };
 
 export const selectSearchResult = (href, checkLocation = true) => {
-  cy.get(`a[href*="${href}"]`)
-    .first()
-    .click(FORCE_OPTION);
-
-  if (checkLocation) expectLocation(href.replace(/\s/g, '%20'));
+  clickButton(`a[href*="${href}"]`);
+  if (checkLocation) expectLocation(href);
   cy.axeCheck();
 };
 
@@ -75,6 +78,103 @@ export const collapseExpandAccordion = name => {
   checkAccordionIsNotExpanded(name);
   clickAccordion(name);
   checkAccordionIsExpanded(name);
+};
+
+/**
+ * Select option for "Which GI Bill benefit do you want to use?"
+ * @param option
+ */
+export const giBillChapter = option => {
+  selectDropdown('giBillChapter', option);
+};
+
+export const formatNumberHalf = value => {
+  const halfVal = Math.round(value / 2);
+  return formatCurrency(halfVal);
+};
+
+export const formatCurrencyHalf = value => formatNumberHalf(Math.round(+value));
+
+const createCalculatorConstants = () => {
+  const constantsList = [];
+  calculatorConstantsJson.data.forEach(c => {
+    constantsList[c.attributes.name] = c.attributes.value;
+  });
+  return constantsList;
+};
+export const calculatorConstants = createCalculatorConstants();
+
+/**
+ * Click the Calculate Benefits button in EYB
+ */
+export const calculateBenefits = () => {
+  clickButton('.calculate-button');
+};
+
+/**
+ * Verifies Housing Rate on Desktop
+ * @param housingRate
+ */
+export const checkProfileHousingRate = housingRate => {
+  const housingRateId = `#calculator-result-row-${createId(
+    'Housing allowance',
+  )} h5`;
+
+  cy.get(housingRateId).should('include', formatCurrency(housingRate));
+};
+
+/**
+ * Verifies Housing Rate after selecting an option for "Enrolled"
+ * Used if selected GI Bill benefit is ch30 or 1606 or ch35
+ * Or if 31 is selected and No is answered to "Are you eligible for the Post-9/11 GI Bill?"
+ * @param option
+ * @param housingRate
+ */
+export const enrolledOld = (option, housingRate) => {
+  selectDropdown('enrolledOld', option);
+  calculateBenefits();
+  checkProfileHousingRate(housingRate);
+};
+
+export const breadCrumb = breadCrumbHref => {
+  const id = `.va-nav-breadcrumbs a[href='${breadCrumbHref}']`;
+  clickButton(id);
+  expectLocation(breadCrumbHref);
+};
+
+const eybSections = {
+  yourMilitaryDetails: 'Your military details',
+  schoolCostsAndCalendar: 'School costs and calendar',
+  learningFormat: 'Learning format and location',
+  scholarshipsAndOtherVAFunding: 'Scholarships and other VA funding',
+};
+
+const eybAccordionExpandedCheck = (sections, section) => {
+  checkAccordionIsExpanded(section);
+  Object.values(sections)
+    .filter(value => value !== section)
+    .forEach(value => checkAccordionIsNotExpanded(value));
+};
+
+/**
+ * Opens section and performs generic checks
+ * Should NOT include question checks
+ * @param clickToOpen
+ * @param sectionName
+ * @param sections
+ */
+export const checkSectionAccordion = (
+  clickToOpen,
+  sectionName,
+  sections = eybSections,
+) => {
+  if (clickToOpen) {
+    clickAccordion(sections[sectionName]);
+  } else {
+    const id = createAccordionButtonId(sections[sectionName]);
+    cy.get(id).axeCheck();
+  }
+  eybAccordionExpandedCheck(sections, sections[sectionName]);
 };
 
 export const checkSearchResults = searchResults => {
