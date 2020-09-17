@@ -647,7 +647,7 @@ class EstimateYourBenefitsForm extends React.Component {
           text: 'Enrolled',
           modal: 'calcEnrolled',
           ariaLabel: ariaLabels.learnMore.calcEnrolled,
-          labelFor: 'enrolled',
+          labelFor: name,
         })}
         name={name}
         alt="Enrolled"
