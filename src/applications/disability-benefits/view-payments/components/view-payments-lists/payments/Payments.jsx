@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import ResponsiveTable from '../../responsive-table/ResponsiveTable';
+import ResponsiveTable from 'platform/forms-system/src/js/components/ResponsiveTable';
 import { clientServerErrorContent } from '../helpers';
 import { chunk } from 'lodash';
 
