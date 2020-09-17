@@ -120,7 +120,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... nodeStepByStep
         ... nodeMediaListImages
         ... nodeChecklist
-        ... mediaListVideos
+        ... nodeMediaListVideos
       }
     }`;
 
