@@ -14,6 +14,9 @@ yarn --version
 # install dependencies
 yarn install
 
+# download content repo
+yarn install-repos
+
 # download drupal cache
 yarn fetch-drupal-cache
 
