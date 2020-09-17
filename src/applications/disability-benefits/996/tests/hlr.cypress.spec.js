@@ -34,13 +34,17 @@ const testConfig = createTestConfig(
 
       cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
 
-      cy.route('GET', '/v0/appeals/contestable_issues', mockContestableIssues);
+      cy.route(
+        'GET',
+        '/v0/higher_level_reviews/contestable_issues/compensation',
+        mockContestableIssues,
+      );
 
       cy.route('PUT', '/v0/in_progress_forms/*', 'fx:mocks/in-progress-forms');
 
       cy.route(
         'POST',
-        '/v0/appeals/higher_level_reviews',
+        '/v0/higher_level_reviews',
         'fx:mocks/application-submit',
       );
 

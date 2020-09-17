@@ -20,7 +20,14 @@ const transform = entity => ({
   fieldVaFormName: getDrupalValue(entity.fieldVaFormName),
   fieldVaFormNumber: getDrupalValue(entity.fieldVaFormNumber),
   fieldVaFormNumPages: getDrupalValue(entity.fieldVaFormNumPages),
-  fieldVaFormRelatedForms: entity.fieldVaFormRelatedForms,
+  fieldVaFormRelatedForms: entity.fieldVaFormRelatedForms.map(n => ({
+    entity: {
+      fieldVaFormName: n.fieldVaFormName,
+      fieldVaFormNumber: n.fieldVaFormNumber,
+      fieldVaFormUsage: n.fieldVaFormUsage,
+      fieldVaFormUrl: n.fieldVaFormUrl,
+    },
+  })),
   fieldVaFormRevisionDate: getDrupalValue(entity.fieldVaFormRevisionDate),
   fieldVaFormTitle: getDrupalValue(entity.fieldVaFormTitle),
   fieldVaFormToolIntro: getDrupalValue(entity.fieldVaFormToolIntro),

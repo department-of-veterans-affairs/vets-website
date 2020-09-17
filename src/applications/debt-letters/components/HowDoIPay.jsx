@@ -35,7 +35,6 @@ const HowDoIPay = () => (
       {'.'}
     </p>
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By mail</h3>
-    {/* ToDo: hyperlink the download text */}
     <p className="vads-u-margin-top--0">
       Find instructions on how to pay by mail in the demand letters sent to your
       address or download your most recent letter.

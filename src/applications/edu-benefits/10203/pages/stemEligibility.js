@@ -32,8 +32,8 @@ export const uiSchema = {
     'ui:options': {
       labels: {
         moreThanSixMonths: 'More than 6 months',
-        sixMonthsOrLess: 'Less than 6 months',
-        none: "None. I've used all of my education benefit",
+        sixMonthsOrLess: '6 months or less',
+        none: "None. I've used all of my education benefit.",
       },
     },
     'ui:widget': 'radio',

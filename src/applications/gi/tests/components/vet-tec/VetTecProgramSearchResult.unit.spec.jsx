@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
+
 import VetTecProgramSearchResult from '../../../components/vet-tec/VetTecProgramSearchResult';
 import { formatCurrency, locationInfo } from '../../../utils/helpers';
 
@@ -28,7 +30,12 @@ const defaultProps = {
 
 describe('<VetTecProgramSearchResult>', () => {
   it('should render correct data', () => {
-    const wrapper = mount(<VetTecProgramSearchResult {...defaultProps} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <VetTecProgramSearchResult {...defaultProps} />
+      </MemoryRouter>,
+    );
+
     expect(wrapper.find('h2').text()).to.eq(defaultProps.result.description);
     expect(wrapper.find('.institution-name').text()).to.eq(
       defaultProps.result.institutionName,
@@ -65,7 +72,11 @@ describe('<VetTecProgramSearchResult>', () => {
         preferredProvider: true,
       },
     };
-    const wrapper = mount(<VetTecProgramSearchResult {...props} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <VetTecProgramSearchResult {...props} />
+      </MemoryRouter>,
+    );
     expect(wrapper.find('.preferred-flag')).to.have.lengthOf(1);
     wrapper.unmount();
   });
@@ -78,7 +89,11 @@ describe('<VetTecProgramSearchResult>', () => {
         lengthInHours: '0',
       },
     };
-    const wrapper = mount(<VetTecProgramSearchResult {...props} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <VetTecProgramSearchResult {...props} />
+      </MemoryRouter>,
+    );
     expect(wrapper.find('.info-flag').text()).to.eq('TBD');
     wrapper.unmount();
   });
@@ -92,7 +107,11 @@ describe('<VetTecProgramSearchResult>', () => {
         cautionFlags: [{ title: 'reason for caution', id: '1' }],
       },
     };
-    const wrapper = mount(<VetTecProgramSearchResult {...props} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <VetTecProgramSearchResult {...props} />
+      </MemoryRouter>,
+    );
     expect(wrapper.find('.usa-alert')).to.have.lengthOf(2);
     wrapper.unmount();
   });
@@ -110,7 +129,11 @@ describe('<VetTecProgramSearchResult>', () => {
         ],
       },
     };
-    const wrapper = mount(<VetTecProgramSearchResult {...props} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <VetTecProgramSearchResult {...props} />
+      </MemoryRouter>,
+    );
     const reasonList = wrapper.find('.usa-alert-text').find('ul');
     expect(reasonList.children()).to.have.lengthOf(4);
     wrapper.unmount();

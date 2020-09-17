@@ -1,4 +1,4 @@
-import { getAvailableClinics } from '../../api';
+import { getAvailableClinics } from '../var';
 import { transformAvailableClinics } from './transformers';
 import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { getSupportedLocationsByTypeOfCare } from '../location';
@@ -31,10 +31,6 @@ export async function getAvailableHealthcareServices({
       query:
         `HealthcareService?location:Location.identifier=${facilityId}` +
         '&characteristic=PATIENTDS_ENABLED',
-      mock: () =>
-        facilityId === '983'
-          ? import('./mock_healthcare_system_983.json')
-          : import('./mock_healthcare_system_984.json'),
     });
   } else {
     try {
@@ -90,10 +86,6 @@ export async function getSupportedHealthcareServicesAndLocations({
       query:
         `HealthcareService?organization:Organization.identifier=${siteId}` +
         '&characteristic=PATIENTDS_ENABLED&_include=HealthcareService:location',
-      mock: () =>
-        siteId === '983'
-          ? import('./mock_locations_983.json')
-          : import('./mock_locations_984.json'),
     });
   }
 

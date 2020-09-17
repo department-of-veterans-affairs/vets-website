@@ -9,7 +9,16 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~uswds/src/stylesheets/core/utilities";
 
+.process {
+  #circle li {
+    list-style: circle;
+    #re li {
+      margin-bottom: -2em;
+    }
+  }
+}
 .form-checkbox > input[type="checkbox"] + .schemaform-label {
   // TODO: add > to .schemaform-first-field .schemaform-label, .schemaform-first-field > .usa-input-error in us-forms-system
   margin-top: 0;
@@ -20,16 +29,6 @@
   font-size: 1em;
   line-height: 0;
   position: relative;
-}
-
-.edu-review-hr {
-  border: none;
-  height: 1px;
-  margin-right: -6px;
-  margin-top: 1.5em;
-  /* Set the hr color */
-  color: #a4a7ac; /* old IE */
-  background-color: #a4a7ac; /* Modern Browsers */
 }
 
 .edu-benefits-alert {
@@ -153,11 +152,18 @@
   text-indent: -9999em;
   width: 1em;
 }
-.program-details{
+.program-details {
   margin-top: 2em;
 }
 
-.wizard-button[aria-expanded=true]:after {
+.ul-styling {
+  margin: -2px;
+}
+li.li-styling {
+  margin-bottom: 0.2em;
+}
+
+.wizard-button[aria-expanded="true"]:after {
   background-image: url(/img/arrow-up-white.svg);
 }
 
@@ -172,9 +178,9 @@
   }
 }
 
-div[data-chapter="benefitSelection"]{
+div[data-chapter="benefitSelection"] {
   .form-review-panel-page {
-    margin-bottom:0px;
+    margin-bottom: 0px;
   }
 }
 
@@ -184,7 +190,7 @@ div[data-chapter="programDetails"] {
   }
 }
 
-div[data-chapter="personalInformation"]{
+div[data-chapter="personalInformation"] {
   .form-review-panel-page {
     margin-bottom: 0px;
   }

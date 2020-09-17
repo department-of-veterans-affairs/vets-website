@@ -20,7 +20,7 @@ import {
   mockAppointmentSlotFetch,
 } from '../mocks/helpers';
 
-import DateTimeSelectPage from '../../containers/DateTimeSelectPage';
+import DateTimeSelectPage from '../../new-appointment/components/DateTimeSelectPage';
 
 const initialState = {
   featureToggles: {

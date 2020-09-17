@@ -1,6 +1,9 @@
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
-import fullSchema from '../../0873-schema.json';
 import { validateWhiteSpace } from 'platform/forms/validations';
+
+import fullSchema from '../../0873-schema.json';
+import pageDescription from '../../content/PageDescription';
+import reviewField from '../../content/inquiryPage';
 
 const { topic, inquiryType, query } = fullSchema.properties;
 
@@ -18,28 +21,31 @@ const getOptions = allOptions => {
   };
 };
 
-const inquiryPage = {
-  uiSchema: {
-    [formFields.inquiryType]: autoSuggestUiSchema(
-      'Type of inquiry',
-      getOptions(inquiryType.enum),
-      {
-        'ui:options': { queryForResults: true, freeInput: true },
-        'ui:errorMessages': {
-          maxLength: 'Please enter a name with fewer than 100 characters.',
-          pattern: 'Please enter a valid name.',
-        },
-      },
-    ),
-    [formFields.topic]: autoSuggestUiSchema('Topic', getOptions(topic.enum), {
+const topicUiSchema = {
+  ...autoSuggestUiSchema(
+    'Which topic best describes your question or message?',
+    getOptions(topic.enum),
+    {
       'ui:options': { queryForResults: true, freeInput: true },
       'ui:errorMessages': {
-        maxLength: 'Please enter a name with fewer than 100 characters.',
-        pattern: 'Please enter a valid name.',
+        pattern: 'Please enter a valid topic.',
       },
-    }),
+    },
+  ),
+  'ui:description':
+    'Please start typing below. If you do not find a match, type space to see all possible categories',
+  'ui:reviewField': reviewField,
+};
+
+const inquiryPage = {
+  uiSchema: {
+    'ui:description': pageDescription('Your message'),
+    [formFields.inquiryType]: {
+      'ui:title': "Tell us the reason you're contacting us",
+    },
+    [formFields.topic]: topicUiSchema,
     [formFields.query]: {
-      'ui:title': 'Enter your message here',
+      'ui:title': 'Please enter your question or message below',
       'ui:widget': 'textarea',
       'ui:validations': [validateWhiteSpace],
     },
@@ -48,8 +54,8 @@ const inquiryPage = {
     type: 'object',
     required: [formFields.inquiryType, formFields.topic, formFields.query],
     properties: {
-      [formFields.inquiryType]: inquiryType,
       [formFields.topic]: topic,
+      [formFields.inquiryType]: inquiryType,
       [formFields.query]: query,
     },
   },

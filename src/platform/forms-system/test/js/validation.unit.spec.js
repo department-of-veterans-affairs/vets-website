@@ -565,6 +565,88 @@ describe('Schemaform validations', () => {
       expect(isValidForm(form, pageList).isValid).to.be.true;
       expect(pageList[1].depends.calledWith(form.data)).to.be.true;
     });
+    it('should match array itemSchema entries with formData array items', () => {
+      // The array items have different required fields, but some items are
+      // filtered out for the page. This test ensures that the corresponding
+      // schemas are also removed because they may be different.
+      const form = {
+        data: {
+          privacyAgreementAccepted: true,
+          newDisabilities: [
+            { condition: 'PTSD' },
+            { cause: 'NEW', primaryDescription: 'while in service...' },
+            { cause: 'SECONDARY' },
+          ],
+        },
+        pages: {
+          newDisabilityFollowUp: {
+            uiSchema: {},
+            schema: {
+              type: 'object',
+              properties: {
+                newDisabilities: {
+                  type: 'array',
+                  items: [
+                    { type: 'object', required: ['condition'] },
+                    {
+                      type: 'object',
+                      required: ['cause', 'primaryDescription'],
+                    },
+                    { type: 'object', required: ['cause'] },
+                  ],
+                  additionalItems: {
+                    type: 'object',
+                    required: ['cause'],
+                    properties: {
+                      cause: { type: 'string' },
+                      primaryDescription: { type: 'string' },
+                    },
+                  },
+                },
+              },
+            },
+            editMode: [false, false, false],
+            showPagePerItem: true,
+            arrayPath: 'newDisabilities',
+            itemFilter: item => item.condition !== 'PTSD',
+          },
+        },
+      };
+      const pageList = [
+        {
+          path: '/new-disabilities/follow-up/:index',
+          showPagePerItem: true,
+          arrayPath: 'newDisabilities',
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {
+              newDisabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: ['cause'],
+                  properties: {
+                    cause: {
+                      type: 'string',
+                      enum: ['NEW', 'SECONDARY', 'WORSENED', 'VA'],
+                    },
+                    primaryDescription: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          chapterTitle: 'Disabilities',
+          chapterKey: 'disabilities',
+          pageKey: 'newDisabilityFollowUp',
+        },
+      ];
+
+      expect(isValidForm(form, pageList).isValid).to.be.true;
+    });
   });
   describe('validateMonthYear', () => {
     it('should validate month and year', () => {

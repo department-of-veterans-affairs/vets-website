@@ -82,17 +82,6 @@ describe('mapStateToProps', () => {
 });
 
 describe('<DowntimeNotification/>', () => {
-  let oldSessionStorage;
-
-  beforeEach(() => {
-    oldSessionStorage = window.sessionStorage;
-    window.sessionStorage = {};
-  });
-
-  afterEach(() => {
-    window.sessionStorage = oldSessionStorage;
-  });
-
   it('calls getGlobalDowntime and getScheduledDowntime when rendered', () => {
     const props = {
       dependencies: [],

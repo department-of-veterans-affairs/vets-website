@@ -792,7 +792,7 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": true,
+      "vagovprod": false,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }
@@ -809,7 +809,7 @@
   {
     "appName": "28-8832-planning-and-guidance",
     "entryName": "28-8832-planning-and-career-guidance",
-    "rootUrl": "/education-and-career-counseling/apply-career-guidance-form-28-8832/",
+    "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
@@ -832,7 +832,18 @@
     "rootUrl": "/coronavirus-research/volunteer",
     "template": {
       "vagovprod": false,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "coronavirus-research/",
+          "name": "Participating in coronavirus research at VA"
+        },
+        {
+          "path": "coronavirus-research/volunteer/",
+          "name": "Sign up to volunteer"
+        }
+      ]
     }
   },
   {
