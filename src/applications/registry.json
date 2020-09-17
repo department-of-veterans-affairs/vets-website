@@ -815,8 +815,20 @@
     "entryName": "28-8832-planning-and-career-guidance",
     "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
     "template": {
+      "title": "Personalized Career Planning and Guidance Chapter 36 Form 28-8832",
       "vagovprod": false,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "careers-employment/education-and-career-counseling/",
+          "name": "Personalized Career Planning and Guidance"
+        },
+        {
+          "path": "careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/introduction",
+          "name": "Apply for PCPG Form 28-8832"
+        }
+      ]
     }
   },
   {
