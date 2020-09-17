@@ -149,7 +149,7 @@ export class SchoolLocations extends React.Component {
             physicalZip,
           )}
         </td>
-        <td role="cell">
+        <td className={'estimated-housing-cell'} role="cell">
           {this.estimatedHousingRow(institution)}
           {month}
         </td>

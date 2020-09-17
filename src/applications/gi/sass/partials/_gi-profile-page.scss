@@ -343,6 +343,16 @@
       td:last-child {
         border: none;
       }
+
+      .extension-row {
+        .location-cell {
+          padding-left: 1.3em;
+        }
+
+        .estimated-housing-cell {
+          padding-left: 1.3em;
+        }
+      }
     }
   }
 
