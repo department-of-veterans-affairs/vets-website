@@ -7,6 +7,7 @@ const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMa
 const bannerAlertsQuery = require('./bannerAlerts.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const bioPage = require('./bioPage.graphql');
+const checklistPage = require('./nodeChecklist.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
 const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
@@ -79,6 +80,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${faqMultipleQaPage}
   ${stepByStepPage}
   ${mediaListImages}
+  ${checklistPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -115,6 +117,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... faqMultipleQA
         ... nodeStepByStep
         ... nodeMediaListImages
+        ... checklistPage
       }
     }`;
 
