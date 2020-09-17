@@ -20,7 +20,7 @@ describe('GI Bill Comparison Tool mobile view', () => {
     typeOfInstitution('school');
     cy.axeCheck();
 
-    search('DODGE CITY COMMUNITY COLLEGE');
+    search(searchResults.data[0].attributes.name);
     cy.axeCheck();
 
     // Search Page
