@@ -57,7 +57,9 @@ export class ConfirmationPage extends React.Component {
             We won’t contact you. But we’ll keep your information on file for
             future studies you may be eligible to join.
           </p>
-          Learn more about participating in coronavirus research at VA
+          <a href="/coronavirus-research">
+            Learn more about participating in coronavirus research at VA
+          </a>
         </div>
       </div>
     );

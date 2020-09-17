@@ -24,8 +24,11 @@ export const uiSchema = {
           volunteer.
           <p>
             <b>Note:</b> We won’t share your information with anyone outside of
-            VA. To learn more before volunteering, read about participating in
-            coronavirus research at VA .
+            VA. To learn more before volunteering, read about{' '}
+            <a href="/coronavirus-research">
+              participating in coronavirus research at VA
+            </a>
+            .
           </p>
         </span>
       ),

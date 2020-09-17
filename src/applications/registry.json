@@ -847,7 +847,7 @@
     "entryName": "coronavirus-research",
     "rootUrl": "/coronavirus-research/volunteer",
     "template": {
-      "vagovprod": true,
+      "vagovprod": false,
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
