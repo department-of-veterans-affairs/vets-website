@@ -168,7 +168,7 @@ class ObjectField extends React.Component {
 
       return typeof objectViewField === 'function' ? (
         objectViewField({
-          props: this.props,
+          ...this.props,
           renderedProperties,
           title,
           editButton,

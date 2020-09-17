@@ -596,7 +596,7 @@ describe('Schemaform review: ObjectField', () => {
     );
     expect(tree.subTree('SchemaField')).not.to.be.empty;
     expect(tree.subTree('.test-title').text()).to.equal('Blah');
-    expect(tree.subTree('.test-edit')).to.exist;
+    expect(tree.subTree('.test-edit')).to.not.be.empty;
     expect(tree.subTree('.test-props').subTree('SchemaField')).not.to.be.empty;
   });
 });
