@@ -87,9 +87,9 @@ export const renderLearnMoreLabel = ({
   component,
   labelFor,
 }) => {
-  let label = text && <React.Fragment>{text} </React.Fragment>;
+  let displayText = text && <React.Fragment>{text} </React.Fragment>;
   if (labelFor && text) {
-    label = (
+    displayText = (
       <label
         className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block"
         htmlFor={labelFor}
@@ -98,9 +98,20 @@ export const renderLearnMoreLabel = ({
       </label>
     );
   }
+
+  let learnMore = 'Learn more';
+
+  if (!text && labelFor) {
+    learnMore = (
+      <label className="vads-u-margin--0" htmlFor={labelFor}>
+        Learn more
+      </label>
+    );
+  }
+
   return (
     <span className="vads-u-margin--0 vads-u-display--inline-block ">
-      {label}
+      {displayText}
       <span className="vads-u-margin--0 vads-u-display--inline-block ">
         (
         <button
@@ -109,7 +120,7 @@ export const renderLearnMoreLabel = ({
           className="va-button-link learn-more-button vads-u-margin--0"
           onClick={showModal.bind(component, modal)}
         >
-          Learn more
+          {learnMore}
         </button>
         )
       </span>
