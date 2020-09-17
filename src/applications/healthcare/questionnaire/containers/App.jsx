@@ -21,7 +21,7 @@ const App = props => {
     isLoggedIn,
   } = props;
   const [isLoading, setIsLoading] = useState(true);
-  
+
   useEffect(
     () => {
       if (isLoggedIn) {

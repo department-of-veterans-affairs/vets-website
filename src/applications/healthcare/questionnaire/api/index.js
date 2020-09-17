@@ -1,8 +1,7 @@
-// import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-const USE_MOCK_DATA =
-  environment.isLocalhost() && !environment.API_URL.includes('review.vetsgov');
+const USE_MOCK_DATA = environment.isLocalhost() || environment.isStaging();
 
 const loadAppointment = async () => {
   let promise;
@@ -12,10 +11,10 @@ const loadAppointment = async () => {
         import('./appointment-data.json').then(module => {
           resolve(module.default);
         });
-      }, 3000);
+      }, 2000);
     });
   } else {
-    // console.log('using real data');
+    promise = apiRequest('/v0/health_quest');
   }
   return promise;
 };
