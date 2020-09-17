@@ -12,7 +12,6 @@ import formConfig5490 from '../../5490/config/form';
 import formConfig1990e from '../../1990e/config/form';
 import formConfig1990n from '../../1990n/config/form';
 import formConfig1995 from '../../1995/config/form';
-import formConfig10203 from '../../10203/config/form';
 
 const pageTests = (page, addressType = 'veteran') => {
   const { schema, uiSchema } = page;
@@ -29,10 +28,7 @@ const pageTests = (page, addressType = 'veteran') => {
     expect(
       inputs.filter(input => input.id.startsWith('root_preferredContactMethod'))
         .length,
-    ).to.equal(
-      Object.keys(page.uiSchema.preferredContactMethod['ui:options'].labels)
-        .length,
-    );
+    ).to.equal(3);
     expect(
       inputs.filter(input => input.id.startsWith(`root_${addressType}Address`))
         .length,
@@ -181,9 +177,5 @@ describe('Edu contactInformationPage', () => {
   describe('1995', () =>
     pageTests(
       formConfig1995.chapters.personalInformation.pages.contactInformation,
-    ));
-  describe('10203', () =>
-    pageTests(
-      formConfig10203.chapters.personalInformation.pages.contactInformation,
     ));
 });
