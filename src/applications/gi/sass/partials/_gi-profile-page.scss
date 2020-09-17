@@ -292,6 +292,8 @@
   }
 
   .school-locations {
+    padding-bottom: 1rem;
+
     table {
       border: hidden;
       margin-top: 1.5em;
@@ -330,7 +332,18 @@
       white-space: nowrap;
     }
 
-    padding-bottom: 1rem;
+    @media screen and (max-width: $medium-screen) {
+      tr {
+        border: none;
+        &:first-child {
+          border: none !important;
+        }
+      }
+
+      td:last-child {
+        border: none;
+      }
+    }
   }
 
   @include media-maxwidth($medium-screen - 1) {

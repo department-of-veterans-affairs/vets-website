@@ -1,5 +1,3 @@
-$responsive-table-width-medium: 600px;
-
 table.responsive {
   font-family: "Open Sans", sans-serif;
   border-collapse: collapse;
@@ -21,7 +19,7 @@ table.responsive {
   }
 }
 
-@media screen and (max-width: $responsive-table-width-medium) {
+@media screen and (max-width: $medium-screen) {
   
   table.responsive {
     border: 0;
