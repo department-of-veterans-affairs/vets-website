@@ -11,5 +11,11 @@ node --version
 echo "yarn version: "
 yarn --version
 
-# install
+# install dependencies
 yarn install
+
+# download drupal cache
+yarn fetch-drupal-cache
+
+# build content
+yarn build
