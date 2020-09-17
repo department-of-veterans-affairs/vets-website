@@ -29,17 +29,30 @@
           {% endif %}
 
           <!-- Buttons -->
-          {% for fieldButton in fieldButtons  %}
+          {% for fieldButton in fieldButtons %}
             {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
           {% endfor %}
 
           <!-- Images List -->
+          <ul>
+            {% for mediaImage in fieldMediaListImages.entity.fieldImages %}
+              <li className="vads-u-display--flex vads-u-margin-bottom--2">
+                <img alt="{{ mediaImage.entity.image.alt }}" height="{{ mediaImage.entity.image.height }}" width="{{ mediaImage.entity.image.width }}" src="{{ mediaImage.entity.image.url }}" />
+                <div className="vads-u-display--flex vads-u-flex-direction--column">
+                  <h2 className="vads-u-font-size--h3">{{ mediaImage.entity.entityLabel }}</h2>
+                  {% if mediaImage.entity.fieldDescription %}
+                    <p>{{ mediaImage.entity.fieldDescription }}</p>
+                  {% end %}
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
 
 
           <!-- Buttons -->
           {% if fieldButtonsRepeat %}
             <div class="vads-u-margin-y--3">
-              {% for fieldButton in fieldButtons  %}
+              {% for fieldButton in fieldButtons %}
                 {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
               {% endfor %}
             </div>
