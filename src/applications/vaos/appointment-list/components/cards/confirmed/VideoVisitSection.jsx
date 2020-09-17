@@ -2,7 +2,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
-import { isVideoGFE } from '../../../../services/appointment';
+import { isVideoGFE, isAtlasLocation } from '../../../../services/appointment';
+import FacilityDirectionsLink from '../../../../components/FacilityDirectionsLink';
+
+function JoinVideoInstructions({ appointment }) {
+  if (isAtlasLocation(appointment)) {
+    const vvsAppointment = appointment.legacyVAR.apiData.vvsAppointments[0];
+    const facility = {
+      address: {
+        ...vvsAppointment.tasInfo.address,
+        street: vvsAppointment.tasInfo.address.streetAddress,
+      },
+    };
+
+    return (
+      <span
+        id={`description-join-link-${appointment.id}`}
+        className="vads-u-display--block"
+      >
+        You must join this video meeting from the ATLAS (non-VA) location listed
+        below.
+        <br />
+        <br />
+        {vvsAppointment.tasInfo.address.streetAddress},{' '}
+        {vvsAppointment.tasInfo.address.city},{' '}
+        {vvsAppointment.tasInfo.address.state}{' '}
+        {vvsAppointment.tasInfo.address.zipCode}
+        <br />
+        <FacilityDirectionsLink location={facility} />
+      </span>
+    );
+  } else {
+    return null;
+  }
+}
 
 export default function VideoVisitSection({ appointment }) {
   let linkContent = <span>Video visit link unavailable</span>;
@@ -15,6 +48,8 @@ export default function VideoVisitSection({ appointment }) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );
+  } else if (isAtlasLocation(appointment)) {
+    linkContent = <JoinVideoInstructions appointment={appointment} />;
   } else if (
     appointment.contained?.[0]?.telecom?.find(tele => tele.system === 'url')
       ?.value
@@ -63,9 +98,38 @@ export default function VideoVisitSection({ appointment }) {
   return (
     <dl className="vads-u-margin--0">
       <dt className="vads-u-font-weight--bold">
-        How to join your virtual session
+        How to join your{' '}
+        {isAtlasLocation(appointment) ? 'video appointment' : 'virtual session'}
       </dt>
-      <dd>{linkContent}</dd>
+      <dd>
+        {linkContent}
+        {isAtlasLocation(appointment) && (
+          <div>
+            <p>
+              <span className="vads-u-font-weight--bold">
+                Appointment Code:{' '}
+                {
+                  appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo
+                    .confirmationCode
+                }
+              </span>
+              <br />
+              <span>
+                You will use this code to find your appointment using the
+                computer provided at the site.
+              </span>
+            </p>
+            <span className="vads-u-font-weight--bold">
+              You'll be meeting with
+            </span>
+            <br />
+            {
+              appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo
+                .contacts[0].name
+            }
+          </div>
+        )}
+      </dd>
     </dl>
   );
 }

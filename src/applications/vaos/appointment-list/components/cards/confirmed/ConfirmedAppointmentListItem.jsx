@@ -15,6 +15,7 @@ import {
   getVARFacilityId,
   getVAAppointmentLocationId,
   isVideoAppointment,
+  isAtlasLocation,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
 import {
@@ -73,6 +74,13 @@ export default function ConfirmedAppointmentListItem({
     },
   );
 
+  const getVideoLocation = () => {
+    if (isAtlasLocation(appointment)) {
+      return 'at an ATLAS location';
+    }
+    return null;
+  };
+
   let header;
   let location;
   if (isVideo) {
@@ -107,12 +115,25 @@ export default function ConfirmedAppointmentListItem({
         {header}
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
+        {isAtlasLocation(appointment) && (
+          <span>Video appointment {getVideoLocation()}</span>
+        )}
+        {!isAtlasLocation(appointment) && (
+          <AppointmentDateTime
+            appointmentDate={moment.parseZone(appointment.start)}
+            timezone={appointment.vaos.timeZone}
+            facilityId={getVARFacilityId(appointment)}
+          />
+        )}
+      </h3>
+      {isAtlasLocation(appointment) && (
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
           facilityId={getVARFacilityId(appointment)}
+          isAtlas
         />
-      </h3>
+      )}
       <AppointmentStatus
         status={appointment.status}
         isPastAppointment={isPastAppointment}
@@ -145,6 +166,9 @@ export default function ConfirmedAppointmentListItem({
           </>
         )}
       </div>
+      {isAtlasLocation(appointment) && (
+        <hr aria-hidden="true" className="vads-u-margin-y--1" />
+      )}
 
       {!cancelled &&
         !isPastAppointment && (
