@@ -36,10 +36,8 @@ export function getAppointmentTimezoneDescription(timezone, facilityId) {
 }
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
-  const startOfToday = today
-    .clone()
-    .startOf('day');
-    
+  const startOfToday = today.clone().startOf('day');
+
   // Past 3 months
   const options = [
     {
