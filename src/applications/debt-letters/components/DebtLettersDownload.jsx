@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { DebtLettersTable } from './DebtLettersTable';
+import { MobileTableView } from './MobileTableView';
 
 const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   const renderAlert = () => (
@@ -57,6 +58,7 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
             <>
               <h3 className="vads-u-margin-bottom--0">Your debt letters</h3>
               <DebtLettersTable debtLinks={debtLinks} />
+              <MobileTableView debtLinks={debtLinks} />
             </>
           )}
         {!isVBMSError &&

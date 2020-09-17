@@ -29,7 +29,7 @@ export const DebtLettersTable = ({ debtLinks }) => {
   };
 
   return (
-    <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0 responsive">
+    <table className="vads-u-display--none vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0 medium-screen:vads-u-display--block">
       <thead>
         <tr>
           <th

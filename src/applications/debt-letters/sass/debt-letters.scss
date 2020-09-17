@@ -15,50 +15,19 @@ a i {
   margin-bottom: 1px;
 }
 
-@media screen and (max-width: 600px) {
+.mobile-button {
+  padding: 4px;
+  border: 2px solid #0071bc;
+  border-radius: 5px;
+  background-color: #ffffff;
+  background-size: cover;
+  font-size: 16px;
+  color: #0071bc;
+  text-decoration: none solid rgb(0, 113, 188);
+  text-align: center;
 
-  table.responsive {
-    border: 0;
+  &:visited {
+    color: #0071bc;
   }
 
-  table.responsive thead {
-    border: none;
-    clip: rect(0, 0, 0, 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-  }
-
-  table.responsive tr {
-    display: block;
-    border-bottom: 1px solid #757575;
-
-    &:first-child {
-      border-top: 1px solid #757575 !important;
-    }
-  }
-
-  table.responsive td {
-    display: block;
-    border: none;
-    font-size: 16px;
-  }
-
-  table.responsive td::before {
-    /*
-* aria-label has no advantage, it won't be read inside a table
-content: attr(aria-label);
-*/
-    content: attr(data-label);
-    float: left;
-    font-weight: bold;
-    padding-right: 4px;
-  }
-
-  table.responsive td:last-child {
-    border-bottom: 0;
-  }
 }
