@@ -420,7 +420,11 @@ export function validateCurrentOrPastYear(errors, year) {
   }
 }
 
-export function validateMatch(field1, field2, ignoreCase = false) {
+export function validateMatch(
+  field1,
+  field2,
+  { ignoreCase } = { ignoreCase: false },
+) {
   return (errors, formData) => {
     const transform = ignoreCase ? val => val?.toLowerCase() : val => val;
     if (transform(formData[field1]) !== transform(formData[field2])) {
