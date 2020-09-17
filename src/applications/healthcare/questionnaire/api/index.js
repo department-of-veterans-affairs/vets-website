@@ -11,7 +11,7 @@ const loadAppointment = async () => {
         import('./appointment-data.json').then(module => {
           resolve(module.default);
         });
-      }, 2000);
+      }, 0);
     });
   } else {
     promise = apiRequest('/v0/health_quest');
