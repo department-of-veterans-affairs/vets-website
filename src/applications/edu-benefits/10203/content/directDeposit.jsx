@@ -5,7 +5,7 @@ export const directDepositDescription = () => {
   return (
     <div>
       <p>
-        VA makes payments only through direct deposit, also called electronic
+        We make payments only through direct deposit, also called electronic
         funds transfer (EFT). If you’re approved for the Rogers STEM
         Scholarship, we’ll need to know where to deposit the funds.
       </p>
@@ -69,7 +69,7 @@ export const bankInfoHelpText = (
           {' '}
           Call{' '}
           <a className="help-phone-number-link" href="tel:1-800-333-1795">
-            1-800-333-1795
+            800-333-1795
           </a>
         </li>
       </ul>
@@ -78,7 +78,7 @@ export const bankInfoHelpText = (
       If you choose not to enroll, you’ll need to call the Department of the
       Treasury at{' '}
       <a className="help-phone-number-link" href="tel:1-888-224-2950">
-        1-888-224-2950
+        888-224-2950
       </a>{' '}
       and speak to a representative handling waiver requests. They’ll encourage
       you to participate in EFT and address any questions or concerns you have.

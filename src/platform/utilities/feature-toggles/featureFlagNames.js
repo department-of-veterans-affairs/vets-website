@@ -33,6 +33,7 @@ export default Object.freeze({
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   gibctBenefitFilterEnhancement: 'gibctBenefitFilterEnhancement',
+  gibctSchoolRatings: 'gibctSchoolRatings',
   form996HigherLevelReview: 'form996HigherLevelReview',
   debtLettersShowLetters: 'debtLettersShowLetters',
   debtLettersShowLettersV2: 'debtLettersShowLettersV2',
@@ -55,4 +56,5 @@ export default Object.freeze({
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   show526Wizard: 'show526Wizard',
+  showChapter36: 'show_chapter_36',
 });

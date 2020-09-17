@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HowDoIPayV2 from './HowDoIPayV2';
@@ -118,10 +117,8 @@ class DebtLettersSummaryV2 extends Component {
                     status="info"
                     isVisible
                   />
-                  <CallToActionWidget appId="debt-letters">
-                    <OnThisPageLinks />
-                    <DebtCardsListV2 />
-                  </CallToActionWidget>
+                  <OnThisPageLinks />
+                  <DebtCardsListV2 />
                 </>
               )}
               <HowDoIPayV2 />
