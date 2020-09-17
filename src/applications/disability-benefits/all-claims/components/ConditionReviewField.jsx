@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ObjectViewField = props => {
+const ConditionReviewField = props => {
   const { renderedProperties, defaultEditButton } = props;
   if (!renderedProperties) {
     return null;
@@ -15,4 +15,4 @@ const ObjectViewField = props => {
   );
 };
 
-export default ObjectViewField;
+export default ConditionReviewField;

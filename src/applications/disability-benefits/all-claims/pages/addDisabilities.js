@@ -11,7 +11,7 @@ import {
 } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
-import ObjectViewField from '../components/ObjectViewField';
+import ConditionReviewField from '../components/ConditionReviewField';
 import { validateDisabilityName, requireDisability } from '../validations';
 import {
   newConditionsOnly,
@@ -81,7 +81,7 @@ export const uiSchema = {
       'view:descriptionInfo': {
         'ui:description': descriptionInfo,
       },
-      'ui:objectViewField': ObjectViewField,
+      'ui:objectViewField': ConditionReviewField,
       'ui:options': {
         ariaLabelForEditButtonOnReview: 'Edit New condition',
       },
