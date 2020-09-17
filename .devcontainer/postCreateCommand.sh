@@ -2,11 +2,13 @@
 
 # configure NVM
 source $NVM_DIR/nvm.sh
-nvm install --lts || true # ignore exit code due to npm prefix
+nvm install || true # ignore exit code due to npm prefix
 nvm use --delete-prefix
 
 # check versions
+echo "node version: "
 node --version
+echo "yarn version: "
 yarn --version
 
 # install
