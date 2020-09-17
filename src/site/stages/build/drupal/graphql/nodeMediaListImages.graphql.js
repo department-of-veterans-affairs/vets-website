@@ -34,6 +34,8 @@ fragment nodeStepByStep on NodeStepByStep {
         fieldImages {
           entity {
             ... on MediaImage {
+              entityLabel
+              fieldDescription
               image {
                 alt
                 height
