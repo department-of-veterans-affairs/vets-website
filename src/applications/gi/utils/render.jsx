@@ -99,16 +99,6 @@ export const renderLearnMoreLabel = ({
     );
   }
 
-  let learnMore = 'Learn more';
-
-  if (!text && labelFor) {
-    learnMore = (
-      <label className="vads-u-margin--0" htmlFor={labelFor}>
-        Learn more
-      </label>
-    );
-  }
-
   return (
     <span className="vads-u-margin--0 vads-u-display--inline-block ">
       {displayText}
@@ -120,7 +110,7 @@ export const renderLearnMoreLabel = ({
           className="va-button-link learn-more-button vads-u-margin--0"
           onClick={showModal.bind(component, modal)}
         >
-          {learnMore}
+          Learn more
         </button>
         )
       </span>
