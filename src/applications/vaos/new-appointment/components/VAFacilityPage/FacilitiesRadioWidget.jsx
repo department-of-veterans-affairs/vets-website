@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 /*
  * This is a copy of the form system RadioWidget, but with custom
@@ -13,10 +13,18 @@ export default function FacilitiesRadioWidget({
   formContext,
 }) {
   const { enumOptions } = options;
+  const selectedIndex = enumOptions.findIndex(o => o.value === value);
+
+  // If user has already selected a value, and the index of that value is > 4,
+  // show this view already expanded
+  const [displayAll, setDisplayAll] = useState(selectedIndex > 4);
+
   const { facilities } = formContext;
+  const displayedOptions = displayAll ? enumOptions : enumOptions.slice(0, 4);
+
   return (
     <div>
-      {enumOptions.map((option, i) => {
+      {displayedOptions.map((option, i) => {
         const facility = facilities.find(f => f.id === option.value);
         const checked = option.value === value;
 
@@ -41,6 +49,19 @@ export default function FacilitiesRadioWidget({
           </div>
         );
       })}
+
+      {!displayAll && (
+        <button
+          type="button"
+          className="additional-info-button va-button-link vads-u-display--block"
+          onClick={() => setDisplayAll(!displayAll)}
+        >
+          <span className="additional-info-title">
+            + {enumOptions.length - 4} more locations
+            <i className="fas fa-angle-down" />
+          </span>
+        </button>
+      )}
     </div>
   );
 }
