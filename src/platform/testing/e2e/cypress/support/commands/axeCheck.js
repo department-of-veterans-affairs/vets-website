@@ -33,6 +33,10 @@ Cypress.Commands.add('axeCheck', (context = 'main') => {
 
   const options = {
     includedImpacts: ['critical'],
+    runOnly: {
+      type: 'tag',
+      values: ['wcag2a', 'wcag2aa'],
+    },
   };
 
   cy.checkA11y(context, options, processAxeCheckResults);
