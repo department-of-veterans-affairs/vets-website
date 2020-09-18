@@ -16,6 +16,7 @@ import AccountSecurityContent from './AccountSecurityContent';
 class AccountSecurity extends Component {
   componentDidMount() {
     focusElement('[data-focus-target]');
+    document.title = `Account Security | Veterans Affairs`;
   }
 
   render() {

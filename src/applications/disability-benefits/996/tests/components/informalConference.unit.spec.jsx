@@ -117,7 +117,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         data={{
           informalConference: 'me',
           informalConferenceTimes: {
-            time1000to1200: true,
+            time1000to1230: true,
           },
         }}
         formData={{}}
@@ -146,7 +146,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
             phone: '8005551212',
           },
           informalConferenceTimes: {
-            time1000to1200: true,
+            time1000to1230: true,
           },
         }}
         formData={{}}
@@ -215,7 +215,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
           informalConference: 'me',
           informalConferenceTimes: {
             time0800to1000: true,
-            time1000to1200: true,
+            time1000to1230: true,
             time1230to1400: true,
             time1400to1630: true,
           },
