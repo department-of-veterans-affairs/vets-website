@@ -24,18 +24,24 @@ export class SearchResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      learnIcon: 'down',
       show: false,
     };
   }
 
   setShow = show => {
+    if (show) {
+      this.setState({ learnIcon: 'up' });
+    } else {
+      this.setState({ learnIcon: 'down' });
+    }
     this.setState({ show });
   };
 
   render() {
     const { item } = this.props;
     const { setShow } = this;
-    const { show } = this.state;
+    const { learnIcon, show } = this.state;
 
     return (
       <li className="third-party-app vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px">
@@ -83,7 +89,8 @@ export class SearchResult extends Component {
             onClick={() => setShow(!show)}
             type="button"
           >
-            Learn about {item?.name} <i className="fa fa-cenvron-down" />
+            Learn about {item?.name}{' '}
+            <i className={`fa fa-chevron-${learnIcon}`} />
           </button>
         </div>
 

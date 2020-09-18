@@ -1,18 +1,11 @@
-/* eslint-disable camelcase */
-
 // Node modules.
 import appendQuery from 'append-query';
 // Relative imports.
 import { apiRequest } from 'platform/utilities/api';
 import { createMockResults, normalizeResponse } from '../helpers';
 
-export const fetchResultsApi = async (options = {}) => {
-  // Derive options properties.
-  const category = options?.category;
-  const platform = options?.platform;
-  const mockRequest = options?.mockRequest;
-  const page = options?.page;
-  const per_page = options?.perPage;
+export const fetchResultsApi = async options => {
+  const { category, platform, mockRequest, page = 1, perPage = 10 } = options;
 
   // Construct the URL and stub the response.
   const RESULTS_URL = appendQuery(
@@ -21,7 +14,7 @@ export const fetchResultsApi = async (options = {}) => {
       category,
       platform,
       page,
-      per_page,
+      perPage,
     },
     { removeNull: true },
   );
