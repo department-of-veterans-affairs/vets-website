@@ -6,6 +6,5 @@
     "extensions": [
 		"dbaeumer.vscode-eslint"
     ],
-    "postCreateCommand": "/bin/bash ./.devcontainer/postCreateCommand.sh 2>&1 | tee ~/post-create.log"
-    // "postStartCommand": "./.devcontainer/postStartCommand.sh",
+    "postCreateCommand": "/bin/bash ./.devcontainer/post-create.sh 2>&1 | tee ~/post-create.log"
 }
