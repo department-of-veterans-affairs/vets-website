@@ -92,13 +92,15 @@ export default {
       name: {
         'ui:title': (
           <div>
-            <h3 className="vads-u-font-size--h4"> </h3>
+            <h3 className="vads-u-font-size--h4">Recent medical care</h3>
             <p>
               Please enter the name of the medical facility where the Veteran
               <b className="vads-u-margin-left--0p5">
                 last received medical treatment.
               </b>
             </p>
+
+            <p>Name of medical facility</p>
           </div>
         ),
       },
