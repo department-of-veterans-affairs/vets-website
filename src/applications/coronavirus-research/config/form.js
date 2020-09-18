@@ -23,7 +23,7 @@ const checkBoxElements = [
   'EMPLOYMENT_STATUS',
   'VETERAN',
   'GENDER',
-  'RACE_ETHNICITY_ORIGIN',
+  'RACE_ETHNICITY',
 ];
 const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
@@ -188,8 +188,7 @@ const formConfig = {
               GENDER: fullSchema.properties.GENDER,
               GENDER_SELF_IDENTIFY_DETAILS:
                 fullSchema.properties.GENDER_SELF_IDENTIFY_DETAILS,
-              RACE_ETHNICITY_ORIGIN:
-                fullSchema.properties.RACE_ETHNICITY_ORIGIN,
+              RACE_ETHNICITY: fullSchema.properties.RACE_ETHNICITY,
             },
           },
         },

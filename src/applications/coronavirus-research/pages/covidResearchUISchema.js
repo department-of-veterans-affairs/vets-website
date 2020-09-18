@@ -456,7 +456,7 @@ export const uiSchema = {
         formData !== undefined && formData['GENDER::SELF_IDENTIFY'] === true,
     },
   },
-  RACE_ETHNICITY_ORIGIN: {
+  RACE_ETHNICITY: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -471,35 +471,35 @@ export const uiSchema = {
         include a diverse range of people in our research studies.
       </span>
     ),
-    'RACE_ETHNICITY_ORIGIN::AMERICAN_INDIAN_ALASKA_NATIVE': {
+    'RACE_ETHNICITY::AMERICAN_INDIAN_ALASKA_NATIVE': {
       'ui:title': 'American Indian or Alaska Native',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::ASIAN': {
+    'RACE_ETHNICITY::ASIAN': {
       'ui:title': 'Asian',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::BLACK_AFRICAN_AMERICAN': {
+    'RACE_ETHNICITY::BLACK_AFRICAN_AMERICAN': {
       'ui:title': 'Black or African American',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::HISPANIC_LATINO_SPANISH_ORIGIN': {
+    'RACE_ETHNICITY::HISPANIC_LATINO_SPANISH_ORIGIN': {
       'ui:title': 'Hispanic, Latino, or Spanish origin',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::HAWAIIAN_PACIFIC_ISLANDER': {
+    'RACE_ETHNICITY::HAWAIIAN_PACIFIC_ISLANDER': {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::WHITE': {
+    'RACE_ETHNICITY::WHITE': {
       'ui:title': 'White',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::OTHER_RACE_ETHNICITY': {
+    'RACE_ETHNICITY::OTHER_RACE_ETHNICITY': {
       'ui:title': 'Another race or ethnicity',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE': {
+    'RACE_ETHNICITY::NONE_OF_ABOVE': {
       'ui:title': 'Prefer not to answer',
       'ui:reviewField': CustomReviewField,
     },
