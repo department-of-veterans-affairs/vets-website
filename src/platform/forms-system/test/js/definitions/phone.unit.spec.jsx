@@ -35,7 +35,7 @@ describe('Schemaform definition phone', () => {
 
     expect(formDOM.querySelector('label').textContent).to.equal('My phone');
   });
-  it('should render phone error', () => {
+  it('should render minLength phone error', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester schema={schema} uiSchema={uiSchema()} />,
     );
@@ -43,13 +43,17 @@ describe('Schemaform definition phone', () => {
     const formDOM = findDOMNode(form);
     ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {
       target: {
-        value: 'asdf',
+        value: '1asdf',
       },
     });
     ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
       preventDefault: f => f,
     });
 
-    expect(formDOM.querySelector('.usa-input-error-message')).to.not.be.null;
+    expect(
+      formDOM.querySelector('.usa-input-error-message').textContent,
+    ).to.include(
+      'Please enter a 10-digit phone number (with or without dashes)',
+    );
   });
 });

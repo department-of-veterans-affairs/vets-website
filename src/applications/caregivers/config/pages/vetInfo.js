@@ -19,12 +19,7 @@ const vetInfoPage = {
   },
   schema: {
     type: 'object',
-    required: [
-      vetFields.dateOfBirth,
-      vetFields.fullName,
-      vetFields.ssn,
-      vetFields.gender,
-    ],
+    required: [vetFields.dateOfBirth, vetFields.fullName, vetFields.ssn],
     properties: {
       [vetFields.fullName]: veteranProps.fullName,
       [vetFields.ssn]: veteranProps.ssnOrTin,

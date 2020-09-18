@@ -124,7 +124,7 @@ SubmitController.propTypes = {
   formConfig: PropTypes.object.isRequired,
   pagesByChapter: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
-  renderErrorMessage: PropTypes.func,
+  renderErrorMessage: PropTypes.bool,
   router: PropTypes.object.isRequired,
   setPreSubmit: PropTypes.func.isRequired,
   setSubmission: PropTypes.func.isRequired,

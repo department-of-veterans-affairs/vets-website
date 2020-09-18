@@ -70,7 +70,7 @@ describe('Facilities actions', () => {
       thunk(dispatch, getState)
         .then(() => {
           expect(global.fetch.args[0][0]).to.contain(
-            '/v0/facilities/va/vha_646',
+            '/v1/facilities/va/vha_646',
           );
           resetFetch();
           done();

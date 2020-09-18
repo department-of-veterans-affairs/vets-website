@@ -9,8 +9,8 @@ const routes = (
   <Route path="/">
     <Route component={DebtLettersWrapper} key="/main">
       <IndexRoute component={DebtLettersSummary} key="/debt-list" />
-      <Route component={DebtDetails} key="/view-details" path="/view-details" />
-      <Route component={DebtLettersDownload} path="/download-letters" />
+      <Route component={DebtDetails} key="/debt-detail" path="/debt-detail" />
+      <Route component={DebtLettersDownload} path="/debt-letters" />
     </Route>
   </Route>
 );

@@ -62,7 +62,7 @@ export const itfError = (
         something went wrong on our end. For help creating an Intent to File a
         Claim for Compensation, please call Veterans Benefits Assistance at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:00 a.m. to 9:00 a.m. ET. Or, you can fill out VA Form 21-0966 and
+        8:00 a.m. to 9:00 p.m. ET. Or, you can fill out VA Form 21-0966 and
         submit it to:
       </p>
       {claimsIntakeAddress}

@@ -11,8 +11,7 @@ describe('transform', () => {
   it(`should transform maximal.json correctly`, () => {
     const transformedResult = JSON.parse(transform(formConfig, maximalData));
     // copy over variables that change based on date & location
-    transformedResult.data.attributes.receiptDate = '2020-06-30';
-    transformedResult.data.attributes.timezone = 'America/Los_Angeles';
+    transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';
 
     expect(transformedResult).to.deep.equal(transformedMaximalData);
   });

@@ -53,9 +53,11 @@ describe('DebtLettersList', () => {
   });
   it('renders correct number of debt rows', () => {
     const wrapper = shallow(<DebtLettersList store={fakeStore} />);
-    expect(wrapper.dive().find(`td`).length).to.equal(12);
+    expect(wrapper.dive().find(`DebtLettersTable`).length).to.equal(1);
     expect(
       wrapper
+        .dive()
+        .find('DebtLettersTable')
         .dive()
         .find('td')
         .at(0)
@@ -63,6 +65,8 @@ describe('DebtLettersList', () => {
     ).to.equal('May 29, 2020');
     expect(
       wrapper
+        .dive()
+        .find('DebtLettersTable')
         .dive()
         .find('td')
         .at(1)
@@ -90,22 +94,7 @@ describe('DebtLettersList', () => {
     };
     const wrapper = shallow(<DebtLettersList store={fakeStoreEmptyState} />);
     expect(wrapper.dive().find(`table`).length).to.equal(0);
-    expect(
-      wrapper
-        .dive()
-        .find('h3')
-        .at(0)
-        .text(),
-    ).to.equal('VA debt collection is on hold due to the coronavirus');
-    expect(
-      wrapper
-        .dive()
-        .find('p')
-        .at(0)
-        .text(),
-    ).to.equal(
-      'We’ve taken action to stop collection on newly established Veteran debt and make it easier for Veterans to request extended repayment plans and address other financial needs during this time.',
-    );
+    expect(wrapper.dive().find('CoronaVirusAlert').length).to.equal(1);
     wrapper.unmount();
   });
 });

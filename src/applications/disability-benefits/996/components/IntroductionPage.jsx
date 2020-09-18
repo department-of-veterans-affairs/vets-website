@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { focusElement } from 'platform/utilities/ui';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { setData } from 'platform/forms-system/src/js/actions';
