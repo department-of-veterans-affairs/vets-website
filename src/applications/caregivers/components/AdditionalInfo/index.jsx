@@ -41,25 +41,10 @@ const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
       <section className="vads-u-margin-y--2p5">
         <AdditionalInfo triggerText="What's a Primary Family Caregiver?">
           <p>
-            A Family Member (defined herein), who is designated as a "primary
-            provider of personal care services" under
-            <a
-              href={links.caregiverDefinition.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="vads-u-margin-x--0p5"
-            >
-              {links.caregiverDefinition.label}
-            </a>
-            and who meets the requirements of
-            <a
-              href={links.familyCaregiver.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="vads-u-margin-x--0p5"
-            >
-              {links.familyCaregiver.label}
-            </a>
+            Family caregivers are approved and designated by VA as Primary
+            Family Caregivers and Secondary Family Caregivers to provide
+            personal care services. A Primary Family Caregiver is the main
+            caregiver for the eligible Veteran.
           </p>
 
           <>
@@ -73,11 +58,7 @@ const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
               <li>Spouse</li>
               <li>Son or daughter</li>
               <li>Step-family member</li>
-              <li>Extended family member</li>
-              <li>
-                Non-family member who lives with the Veteran or service member,
-                or will do so after approval
-              </li>
+              <li>Grandchild</li>
             </ul>
           </>
         </AdditionalInfo>

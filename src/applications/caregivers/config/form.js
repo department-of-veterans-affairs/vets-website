@@ -102,7 +102,7 @@ const formConfig = {
       },
     },
     primaryCaregiverChapter: {
-      title: 'Primary Family Caregiver information',
+      title: 'Primary Family Caregiver applicant information',
       pages: {
         primaryCaregiverInfoOne: {
           path: 'primary-1',
