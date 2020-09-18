@@ -35,9 +35,7 @@ export const UnauthContent = () => (
         appointment, please contact the facility as soon as possible to
         reschedule or cancel.
         <br />
-        <a href="/find-locations/">
-          Find your health facility’s phone number
-        </a>
+        <a href="/find-locations/">Find your health facility’s phone number</a>
       </p>
       <h2 id="view-schedule-or-cancel-a-va-a">
         View, schedule, or cancel a VA appointment online
@@ -164,8 +162,8 @@ export const UnauthContent = () => (
     </p>
     <p>
       <strong>Please note:</strong> The fastest way to schedule appointments is
-      usually to call the health facility where you get care. To reschedule
-      or cancel an existing appointment, please contact your facility as soon as
+      usually to call the health facility where you get care. To reschedule or
+      cancel an existing appointment, please contact your facility as soon as
       possible.
     </p>
     <a href="/find-locations">Find your health facility’s phone number</a>
@@ -187,13 +185,10 @@ export const UnauthContent = () => (
     </a>
     <h2>What if I have more questions?</h2>
     <h3>For questions about scheduling an appointment</h3>
+    <p>Please call your VA or community care health facility.</p>
     <p>
-      Please call your VA or community care health facility.
-     <br />
-     <a href="/find-locations/">
-       Find your health facility’s phone number
-     </a>
-     </p>
+      <a href="/find-locations/">Find your health facility’s phone number</a>
+    </p>
     <h3>For questions about the VA appointments tool</h3>
     <p>
       Please call{' '}

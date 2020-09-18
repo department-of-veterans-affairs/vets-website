@@ -36,9 +36,7 @@ export const AuthContent = () => (
         appointment, please contact the facility as soon as possible to
         reschedule or cancel.
         <br />
-        <a href="/find-locations/">
-          Find your health facility’s phone number
-        </a>
+        <a href="/find-locations/">Find your health facility’s phone number</a>
       </p>
       <h2 id="view-schedule-or-cancel-a-va-a">
         View, schedule, or cancel a VA appointment online
@@ -159,8 +157,8 @@ export const AuthContent = () => (
     </p>
     <p>
       <strong>Please note:</strong> The fastest way to schedule appointments is
-      usually to call the health facility where you get care. To reschedule
-      or cancel an existing appointment, please contact your facility as soon as
+      usually to call the health facility where you get care. To reschedule or
+      cancel an existing appointment, please contact your facility as soon as
       possible.
     </p>
     <p>
@@ -187,13 +185,10 @@ export const AuthContent = () => (
     </p>
     <h2>What if I have more questions?</h2>
     <h3>For questions about scheduling an appointment</h3>
+    <p>Please call your VA or community care health facility.</p>
     <p>
-      Please call your VA or community care health facility.
-     <br />
-     <a href="/find-locations/">
-       Find your health facility’s phone number
-     </a>
-     </p>
+      <a href="/find-locations/">Find your health facility’s phone number</a>
+    </p>
     <h3>For questions about the VA appointments tool</h3>
     <p>
       Please call{' '}
@@ -210,10 +205,10 @@ export const AuthContent = () => (
     <p>
       Call My VA Health support anytime at{' '}
       <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
-        {' '}
         800-962-1024
-      </a>    
-     </p>
+      </a>
+      .
+    </p>
     <h3>For questions about joining a VA Video Connect appointment</h3>
     <p>
       Please call{' '}
@@ -225,7 +220,7 @@ export const AuthContent = () => (
         TTY: 711
       </a>
       ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
-    </p>    
+    </p>
     <MoreInfoAboutBenefits />
   </>
 );
