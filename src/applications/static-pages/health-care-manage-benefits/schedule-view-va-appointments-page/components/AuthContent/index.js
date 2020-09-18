@@ -188,7 +188,7 @@ export const AuthContent = () => (
     <h2>What if I have more questions?</h2>
     <h3>For the VA appointments tool</h3>
     <p>
-      <strong>For help scheduling a VA or community care appointment,</strong>{' '}
+      <strong>For help with the VA appointments tool,</strong>{' '}
       please call{' '}
       <a href="tel: 18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
         877-470-5947
@@ -198,7 +198,7 @@ export const AuthContent = () => (
         TTY: 711
       </a>
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-    </p>
+    </p>   
     <p>
       <strong>
         For questions about joining a VA Video Connect appointment,
@@ -222,6 +222,14 @@ export const AuthContent = () => (
       </a>
       .
     </p>
+    <h3>For help with scheduling a VA or community care appointment</h3>
+    <p>
+      Call your VA health facility.
+     <br />
+     <a href="/find-locations/">
+       Find your VA health facility’s phone number
+     </a>
+     </p>
     <MoreInfoAboutBenefits />
   </>
 );
