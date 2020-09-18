@@ -54,7 +54,7 @@ const AppointmentInfoBox = props => {
                   className=" vads-u-font-weight--bold"
                   data-testid="gender"
                 >
-                  {gender ? genderLabels[gender] : 'UNKNOWN'}
+                  {genderLabels[gender] ? genderLabels[gender] : 'UNKNOWN'}
                 </span>
               </p>
             </>
