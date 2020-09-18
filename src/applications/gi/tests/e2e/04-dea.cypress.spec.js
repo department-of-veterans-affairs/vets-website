@@ -21,9 +21,9 @@ describe('DEA benefit', () => {
     const facilityCode = deaSearchResults.data[1].attributes.facility_code;
 
     initApplicationMock(institutionProfile, deaSearchResults);
+    cy.route('GET', `/v0/gi/institutions/${ojtFacilityCode}`, ojtProfile);
 
     // Landing page
-    cy.route('GET', `/v0/gi/institutions/${ojtFacilityCode}`, ojtProfile);
     cy.visit('/gi-bill-comparison-tool').injectAxe();
     cy.axeCheck();
 
