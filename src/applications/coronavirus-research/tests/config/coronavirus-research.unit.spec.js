@@ -37,7 +37,7 @@ describe('Coronavirus Research Volunteer Form', () => {
     VETERAN: { 'VETERAN::VETERAN': true, 'VETERAN::VA_EMPLOYEE': true },
     GENDER: { 'GENDER::FEMALE': true, 'GENDER::NONE_OF_ABOVE': false },
     GENDER_SELF_IDENTIFY_DETAILS: 'This is a gender self description',
-    RACE_ETHNICITY_ORIGIN: { 'RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE': true },
+    RACE_ETHNICITY: { 'RACE_ETHNICITY::NONE_OF_ABOVE': true },
     consentAgreementAccepted: true,
   });
   it('should render', () => {
@@ -323,7 +323,7 @@ describe('Coronavirus Research Volunteer Form', () => {
     );
     selectCheckbox(
       form,
-      'root_RACE_ETHNICITY_ORIGIN_RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE',
+      'root_RACE_ETHNICITY_RACE_ETHNICITY::NONE_OF_ABOVE',
       false,
     );
 
