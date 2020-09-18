@@ -186,15 +186,15 @@ export const UnauthContent = () => (
       Get tips for protecting your personal health information
     </a>
     <h2>What if I have more questions?</h2>
-    <h3>For help with scheduling a VA or community care appointment</h3>
+    <h3>For questions about scheduling an appointment</h3>
     <p>
-      Please call the VA or community care health facility.
+      Please call your VA or community care health facility.
      <br />
      <a href="/find-locations/">
        Find your health facility’s phone number
      </a>
      </p>
-    <h3>For help with the VA appointments tool</h3>
+    <h3>For questions about the VA appointments tool</h3>
     <p>
       Please call{' '}
       <a href="tel: 18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
