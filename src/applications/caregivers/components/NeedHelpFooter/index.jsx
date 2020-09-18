@@ -21,9 +21,10 @@ const NeedHelpFooter = () => {
         You can also call our main VA information line at
         <Telephone
           contact={CONTACTS['222_VETS']}
-          className="vads-u-margin-left--0p5"
+          className="vads-u-margin-x--0p5"
         />
-        , or contact your local Caregiver Support Coordinator.
+        if you have questions about completing your application, or you can
+        contact your local Caregiver Support Coordinator.
       </p>
 
       <span>

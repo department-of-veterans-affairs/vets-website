@@ -42,19 +42,28 @@ const IntroductionPage = ({ route, router }) => {
             </p>
 
             <ul className="process-lists">
-              <li>Address</li>
-              <li>Telephone number</li>
-              <li>Date of birth</li>
-              <li>Social Security number or Tax identification number</li>
-            </ul>
-
-            <p>You’ll need:</p>
-            <ul className="process-lists">
+              <li>
+                The address, telephone number, and date of birth for the Veteran
+                and each family caregiver applicant
+              </li>
               <li>The VA medical center where the Veteran will receive care</li>
               <li>
                 Health insurance information for the Primary Family Caregiver
               </li>
             </ul>
+
+            <div className="process-lists">
+              <p>
+                <b>Note: </b> You’ll need to have the Veteran’s Social Security
+                number or tax identification number to complete the online
+                application, but it’s not required to apply for the program. If
+                you would like to apply without providing the Veteran’s Social
+                Security number or tax identification number,
+                <a className="vads-u-margin-left--0p5" href="#">
+                  download the form.
+                </a>
+              </p>
+            </div>
 
             <div>
               <h4 className="vads-u-font-size--h6">
@@ -88,21 +97,11 @@ const IntroductionPage = ({ route, router }) => {
                   to find a coordinator at your nearest VA health care facility
                 </li>
                 <li>
-                  Contact the National Caregiver Support Line at
+                  Contact the VA National Caregiver Support Line by calling
                   <Telephone
                     className="vads-u-margin-x--0p5"
                     contact={CONTACTS.CAREGIVER}
                   />
-                  or a
-                  <a
-                    className="vads-u-margin-x--0p5"
-                    href="https://www.va.gov/disability/get-help-filing-claim/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Veterans Service Organization
-                  </a>
-                  to get help filling out the form
                 </li>
               </ul>
 
@@ -153,9 +152,16 @@ const IntroductionPage = ({ route, router }) => {
             </p>
 
             <p>
-              If you aren’t eligible for PCAFC you may be eligible for the
-              Program of General Caregiver Support Services (PGCSS). To find out
-              more, contact VA’s Caregiver Support Line at
+              If you aren’t eligible for PCAFC you have the right to appeal. You
+              can contact the patient advocate at your local VA medical center
+              to discuss the appeal process. Your Caregiver Support Coordinator
+              is also available if you have additional questions.
+            </p>
+
+            <p>
+              You may also be eligible for the Program of General Caregiver
+              Support Services (PGCSS). To find out more, call the VA Caregiver
+              Support Line at
               <Telephone
                 contact={CONTACTS.CAREGIVER}
                 className="vads-u-margin-left--0p5"
@@ -165,11 +171,11 @@ const IntroductionPage = ({ route, router }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={links.caregiverHelpPage.link}
-                className="vads-u-margin-x--0p5"
+                className="vads-u-margin-left--0p5"
               >
                 www.caregiver.va.gov
               </a>
-              ,or discuss these options with your local Caregiver Support
+              , or discuss your options with your local Caregiver Support
               Coordinator.
             </p>
           </li>
@@ -191,16 +197,6 @@ const IntroductionPage = ({ route, router }) => {
         We recognize the important role of family caregivers in supporting the
         health and wellness of Veterans.
       </p>
-
-      <a
-        href={links.caregiverHelpPage.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="vads-u-margin-x--0p5"
-      >
-        Learn more about the Program of Comprehensive Assistance for Family
-        Caregivers (PCAFC)
-      </a>
 
       <button
         style={{ display: 'inherit ' }}
