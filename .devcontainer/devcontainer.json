@@ -1,11 +1,12 @@
 {
   "name": "vets-website",
   "settings": {
-    "terminal.integrated.shell.linux": "/bin/zsh",
     "editor.formatOnSave": true,
     "[json]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "terminal.integrated.shell.linux": "/bin/zsh",
+    "workbench.startupEditor": "readme"
   },
   "extensions": [
     "davidanson.vscode-markdownlint",
