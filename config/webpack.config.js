@@ -41,6 +41,9 @@ const sharedModules = [
 const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
   style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
+  vaMedalliaStyles: getAbsolutePath(
+    'src/platform/site-wide/va-medallia-style.scss',
+  ),
   styleConsolidated: getAbsolutePath(
     'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
