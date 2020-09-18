@@ -1,11 +1,12 @@
 import {
-  clickButton,
+  forceClick,
   expectLocation,
   FORCE_OPTION,
   selectDropdown,
 } from './cypress-helpers';
 import { createId, formatCurrency } from '../../utils/helpers';
 import calculatorConstantsJson from '../data/calculator-constants.json';
+import searchResults from '../data/search-results.json';
 
 export const typeOfInstitution = value => {
   const selector = `input[name="category"][value="${value}"]`;
@@ -13,11 +14,11 @@ export const typeOfInstitution = value => {
 };
 
 export const search = () => {
-  clickButton('#search-button');
+  forceClick('#search-button');
 };
 
 export const selectSearchResult = (href, checkLocation = true) => {
-  clickButton(`a[href*="${href}"]`);
+  forceClick(`a[href*="${href}"]`);
   if (checkLocation) expectLocation(href);
   cy.axeCheck();
 };
@@ -101,7 +102,7 @@ export const calculatorConstants = createCalculatorConstants();
  * Click the Calculate Benefits button in EYB
  */
 export const calculateBenefits = () => {
-  clickButton('.calculate-button');
+  forceClick('.calculate-button');
 };
 
 /**
@@ -111,9 +112,11 @@ export const calculateBenefits = () => {
 export const checkProfileHousingRate = housingRate => {
   const housingRateId = `#calculator-result-row-${createId(
     'Housing allowance',
-  )} h5`;
+  )}`;
 
-  cy.get(housingRateId).should('include', formatCurrency(housingRate));
+  cy.get(housingRateId).should('be.visible');
+
+  cy.get(housingRateId).should('contain', formatCurrency(housingRate));
 };
 
 /**
@@ -131,18 +134,18 @@ export const enrolledOld = (option, housingRate) => {
 
 export const breadCrumb = breadCrumbHref => {
   const id = `.va-nav-breadcrumbs a[href='${breadCrumbHref}']`;
-  clickButton(id);
+  forceClick(id);
   expectLocation(breadCrumbHref);
 };
 
-const eybSections = {
+export const eybSections = {
   yourMilitaryDetails: 'Your military details',
   schoolCostsAndCalendar: 'School costs and calendar',
   learningFormat: 'Learning format and location',
   scholarshipsAndOtherVAFunding: 'Scholarships and other VA funding',
 };
 
-const eybAccordionExpandedCheck = (client, sections, section) => {
+const eybAccordionExpandedCheck = (sections, section) => {
   checkAccordionIsExpanded(section);
   Object.values(sections)
     .filter(value => value !== section)
@@ -168,4 +171,13 @@ export const checkSectionAccordion = (
     cy.get(id).axeCheck();
   }
   eybAccordionExpandedCheck(sections, sections[sectionName]);
+};
+
+export const verifySearchResults = (results = searchResults) => {
+  cy.url().should('include', `/search`);
+  cy.get('.search-page').should('be.visible');
+  results.data.forEach(({ attributes: profile }) => {
+    cy.get(`#search-result-${profile.facility_code}`).should('be.visible');
+  });
+  cy.axeCheck();
 };

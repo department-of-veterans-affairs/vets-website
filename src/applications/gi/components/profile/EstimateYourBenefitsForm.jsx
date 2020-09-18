@@ -318,11 +318,12 @@ class EstimateYourBenefitsForm extends React.Component {
    * @param ariaLabel
    * @returns {*}
    */
-  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) =>
     renderLearnMoreLabel({
       text,
       modal,
       ariaLabel,
+      labelFor,
       showModal: this.props.showModal,
       component: this,
     });
@@ -646,6 +647,7 @@ class EstimateYourBenefitsForm extends React.Component {
           text: 'Enrolled',
           modal: 'calcEnrolled',
           ariaLabel: ariaLabels.learnMore.calcEnrolled,
+          labelFor: name,
         })}
         name={name}
         alt="Enrolled"
@@ -714,6 +716,7 @@ class EstimateYourBenefitsForm extends React.Component {
               text: 'School Calendar',
               modal: 'calcSchoolCalendar',
               ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
+              labelFor: 'calendar',
             })}
             name="calendar"
             alt="School calendar"
@@ -974,6 +977,7 @@ class EstimateYourBenefitsForm extends React.Component {
           text: 'Will be working',
           modal: 'calcWorking',
           ariaLabel: ariaLabels.learnMore.calcWorking,
+          labelFor: 'working',
         })}
         name="working"
         alt="Will be working"
