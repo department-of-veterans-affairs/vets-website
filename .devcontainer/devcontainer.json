@@ -1,10 +1,15 @@
 {
     "name": "vets-website",
     "settings": { 
-		"terminal.integrated.shell.linux": "/bin/bash"
+      "terminal.integrated.shell.linux": "/bin/zsh",
+      "editor.formatOnSave": true,
+      "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
     },
     "extensions": [
-		"dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
     ],
     "postCreateCommand": "/bin/bash ./.devcontainer/post-create.sh 2>&1 | tee ~/post-create.log"
 }
