@@ -138,7 +138,7 @@ export const breadCrumb = breadCrumbHref => {
   expectLocation(breadCrumbHref);
 };
 
-export const eybSections = {
+const eybSections = {
   yourMilitaryDetails: 'Your military details',
   schoolCostsAndCalendar: 'School costs and calendar',
   learningFormat: 'Learning format and location',
