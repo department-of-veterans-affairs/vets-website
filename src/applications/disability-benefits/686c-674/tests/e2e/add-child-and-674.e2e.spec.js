@@ -3,7 +3,6 @@ const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const manifest = require('../../manifest.json');
 const testData = require('./686-test-data.json');
-const environments = require('site/constants/environments');
 
 import * as TestHelpers from './test-helpers';
 
@@ -156,5 +155,4 @@ const runTest = E2eHelpers.createE2eTest(client => {
 module.exports = runTest;
 
 // TODO: Remove this when CI builds temporary landing pages to run e2e tests
-module.exports['@disabled'] =
-  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;
+module.exports['@disabled'] = manifest.e2eTestsDisabled;
