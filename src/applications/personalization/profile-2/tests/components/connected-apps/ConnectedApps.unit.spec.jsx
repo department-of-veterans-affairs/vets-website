@@ -60,6 +60,12 @@ describe('<ConnectedApps>', () => {
     const defaultProps = {
       errors: [
         {
+          title: 'Some server error',
+          detail: 'Some server error',
+          code: '404',
+          status: '404',
+        },
+        {
           title: 'Record not found',
           detail: 'The record identified by 0000 could not be found',
           code: '404',
