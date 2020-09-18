@@ -36,7 +36,7 @@ export const UnauthContent = () => (
         reschedule or cancel.
         <br />
         <a href="/find-locations/">
-          Find your VA health facility’s phone number
+          Find your health facility’s phone number
         </a>
       </p>
       <h2 id="view-schedule-or-cancel-a-va-a">
@@ -164,11 +164,11 @@ export const UnauthContent = () => (
     </p>
     <p>
       <strong>Please note:</strong> The fastest way to schedule appointments is
-      usually to call the VA health facility where you get care. To reschedule
+      usually to call the health facility where you get care. To reschedule
       or cancel an existing appointment, please contact your facility as soon as
       possible.
     </p>
-    <a href="/find-locations">Find your VA health facility’s phone number</a>
+    <a href="/find-locations">Find your health facility’s phone number</a>
     <h2>Will my personal health information be protected?</h2>
     <p>
       Yes. This is a secure website. We follow strict security policies and
@@ -186,7 +186,15 @@ export const UnauthContent = () => (
       Get tips for protecting your personal health information
     </a>
     <h2>What if I have more questions?</h2>
-    <h3>For help scheduling a VA or community care appointment</h3>
+    <h3>For help with scheduling a VA or community care appointment</h3>
+    <p>
+      Please call the VA or community care health facility.
+     <br />
+     <a href="/find-locations/">
+       Find your health facility’s phone number
+     </a>
+     </p>
+    <h3>For help with the VA appointments tool</h3>
     <p>
       Please call{' '}
       <a href="tel: 18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
