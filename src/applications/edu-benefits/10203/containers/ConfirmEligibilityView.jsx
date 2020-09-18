@@ -71,7 +71,7 @@ export class ConfirmEligibilityView extends React.Component {
   };
 
   renderChecks = () => (
-    <div>
+    <div role="alert">
       <div className="vads-u-margin-top--neg2p5">
         <h4>Based on your responses, you may not be eligible</h4>
       </div>
