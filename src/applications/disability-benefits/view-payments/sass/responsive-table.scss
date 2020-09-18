@@ -50,6 +50,7 @@ table.responsive {
       content: attr(data-label);
       font-weight: bold;
       padding-right: 4px;
+      float: left;
     }
 
     td:last-child {
