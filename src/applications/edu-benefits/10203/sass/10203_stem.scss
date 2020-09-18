@@ -9,7 +9,16 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~uswds/src/stylesheets/core/utilities";
 
+.process {
+  #circle li {
+    list-style: circle;
+    #re li {
+      margin-bottom: -2em;
+    }
+  }
+}
 .form-checkbox > input[type="checkbox"] + .schemaform-label {
   // TODO: add > to .schemaform-first-field .schemaform-label, .schemaform-first-field > .usa-input-error in us-forms-system
   margin-top: 0;
@@ -145,6 +154,13 @@
 }
 .program-details {
   margin-top: 2em;
+}
+
+.ul-styling {
+  margin: -2px;
+}
+li.li-styling {
+  margin-bottom: 0.2em;
 }
 
 .wizard-button[aria-expanded="true"]:after {
