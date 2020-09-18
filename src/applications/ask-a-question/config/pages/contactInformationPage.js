@@ -2,12 +2,17 @@ import set from 'platform/utilities/data/set';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
-import { veteranStatusSection } from './veteranStatusSection';
+import { veteranStatusUI } from './veteranStatusUI';
 
 import fullSchema from '../../0873-schema.json';
 import pageDescription from '../../content/PageDescription';
 
-const { fullName, email, preferredContactMethod } = fullSchema.definitions;
+const { email } = fullSchema.definitions;
+const {
+  fullName,
+  preferredContactMethod,
+  veteranStatus,
+} = fullSchema.properties;
 
 const formFields = {
   preferredContactMethod: 'preferredContactMethod',
@@ -15,7 +20,7 @@ const formFields = {
   email: 'email',
   verifyEmail: 'view:email',
   phoneNumber: 'phoneNumber',
-  veteranStatusSection: 'veteranStatusSection',
+  veteranStatus: 'veteranStatus',
 };
 
 const contactInformationPage = {
@@ -32,7 +37,7 @@ const contactInformationPage = {
       'ui:title': 'How should we get in touch with you?',
       'ui:widget': 'radio',
     },
-    [formFields.veteranStatusSection]: { ...veteranStatusSection.uiSchema },
+    [formFields.veteranStatus]: veteranStatusUI,
   },
   schema: {
     type: 'object',
@@ -44,7 +49,7 @@ const contactInformationPage = {
         type: 'string',
       },
       [formFields.preferredContactMethod]: preferredContactMethod,
-      [formFields.veteranStatusSection]: { ...veteranStatusSection.schema },
+      [formFields.veteranStatus]: veteranStatus,
     },
   },
 };
