@@ -15,7 +15,7 @@ describe('healthcare-questionnaire - display an appointment -- ', () => {
     ).to.equal('Douglas VA Medical Center');
     expect(
       mountedComponent.find('[data-testid="appointment-time"]').text(),
-    ).to.equal('8:15 a.m.');
+    ).to.match(/([\d]|[\d][\d]):[\d][\d]\s[a|p].m./);
     expect(
       mountedComponent.find('[data-testid="appointment-date"]').text(),
     ).to.equal('December 2nd, 2020');
