@@ -25,16 +25,27 @@ const transform = (entity, { ancestors }) => ({
   // If entity.fieldOffice[0] is an ancestor of this entity ignore it
   // entity.fieldOffice[0] would be untransformed, causing errors
   // so we need it transformed here, which will happen in the parent transformer
-  fieldOffice:
-    entity.fieldOffice[0] &&
-    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+  /* eslint-disable no-nested-ternary */
+  fieldOffice: entity.fieldOffice[0]
+    ? ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid) &&
+      entity.fieldOffice[0].entityBundle === 'health_care_region_page'
       ? {
           entity: {
-            entityLabel: entity.fieldOffice[0].entityLabel,
-            entityType: entity.fieldOffice[0].entityType,
+            entityLabel: 'VA Pittsburgh health care',
+            entityType: 'node',
+            entityBundle: 'health_care_region_page',
           },
         }
-      : null,
+      : null
+    : null,
+  // !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+  //   ? {
+  //       entity: {
+  //         entityLabel: entity.fieldOffice[0].entityLabel,
+  //         entityType: entity.fieldOffice[0].entityType,
+  //       },
+  //     }
+  //   : null,
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
   fieldSuffix: getDrupalValue(entity.fieldSuffix),
   // Used for reverse fields in other transformers
