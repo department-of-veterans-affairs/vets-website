@@ -3,6 +3,16 @@ import PropTypes from 'prop-types';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { links } from 'applications/caregivers/definitions/content';
 
+const VeteranSSNInfo = () => (
+  <div className="vads-u-margin-y--1p5">
+    <AdditionalInfo triggerText="Why is this required">
+      We need the Veteran’s Social Security number or tax identification number
+      to process the application when it’s submitted online, but it’s not a
+      requirement to apply for the program.
+    </AdditionalInfo>
+  </div>
+);
+
 const VetInfo = ({ pageTitle, headerInfo }) => (
   <>
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
@@ -235,4 +245,5 @@ export {
   SecondaryCaregiverInfo,
   SecondaryCaregiverLegal,
   VetInfo,
+  VeteranSSNInfo,
 };

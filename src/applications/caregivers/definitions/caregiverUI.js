@@ -10,6 +10,7 @@ import {
   FacilityInfo,
   PleaseSelectVAFacility,
   AdditionalCaregiverInfo,
+  VeteranSSNInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
@@ -56,6 +57,7 @@ export default {
     ssnUI: label => ({
       ...ssnUI,
       'ui:title': `${label}  Social Security number or tax identification number`,
+      'ui:description': VeteranSSNInfo(),
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
