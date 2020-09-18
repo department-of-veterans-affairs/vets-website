@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
-import environment from 'platform/utilities/environment';
 
 import SegmentedProgressBar from './SegmentedProgressBar';
 
@@ -66,18 +65,14 @@ export default function FormNav(props) {
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
   useEffect(
     () => {
-      if (!environment.isProduction()) {
-        if (current > index + 1) {
-          setIndex(index + 1);
-        } else if (current === index) {
-          setIndex(index - 1);
-        }
+      if (current > index + 1) {
+        setIndex(index + 1);
+      } else if (current === index) {
+        setIndex(index - 1);
       }
 
       return () => {
-        if (!environment.isProduction()) {
-          focusElement('.nav-header > h2');
-        }
+        focusElement('.nav-header > h2');
       };
     },
     [current, index],
@@ -94,23 +89,13 @@ export default function FormNav(props) {
           aria-valuemax={chapters.length}
           className="nav-header nav-header-schemaform"
         >
-          {!environment.isProduction() &&
-            showHeader && (
-              <h2 id="nav-form-header" className="vads-u-font-size--h4">
-                {stepText}
-              </h2>
-            )}
-          {!environment.isProduction() &&
-            !showHeader && (
-              <div className="vads-u-font-size--h4">{stepText}</div>
-            )}
-
-          {environment.isProduction() && (
-            <h2 className="vads-u-font-size--h4">
-              <span className="form-process-step current">{current}</span>{' '}
-              <span className="form-process-total">of {chapters.length}</span>{' '}
-              {chapterName}
+          {showHeader && (
+            <h2 id="nav-form-header" className="vads-u-font-size--h4">
+              {stepText}
             </h2>
+          )}
+          {!showHeader && (
+            <div className="vads-u-font-size--h4">{stepText}</div>
           )}
         </div>
       </div>
