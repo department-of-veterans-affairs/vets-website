@@ -6,7 +6,6 @@ export const pageNames = {
   VRECounselorNotification: 'VRECounselorNotification',
   startForm: 'startForm',
   applyLaterNotification: 'applyLaterNotification',
-  chapter31Notification: 'chapter31Notification',
   VREBenefits: 'VREBenefits',
   beginFormNow: 'beginFormNow',
   dischargeStatus: 'dischargeStatus',

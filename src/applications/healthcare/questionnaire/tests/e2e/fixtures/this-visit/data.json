@@ -1,0 +1,14 @@
+{
+  "chiefComplaint": "details.....",
+  "lifeEvents": "life events happened....",
+  "questions": [
+    {
+      "additionalQuestions": "I have this question..."
+    },
+    {
+      "additionalQuestions": "I have this other question..."
+    },
+    {}
+  ],
+  "view:veteranInfo": {}
+}

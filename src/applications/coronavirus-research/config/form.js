@@ -9,6 +9,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { uiSchema } from '../pages/covidResearchUISchema';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import {
+  ConsentNotice,
+  ConsentLabel,
+  ConsentError,
+} from '../containers/ConsentFormContent';
 
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 
@@ -16,6 +21,7 @@ const checkBoxElements = [
   'HEALTH_HISTORY',
   'TRANSPORTATION',
   'EMPLOYMENT_STATUS',
+  'VETERAN',
   'GENDER',
   'RACE_ETHNICITY_ORIGIN',
 ];
@@ -98,6 +104,13 @@ const formConfig = {
   },
   title: 'Sign up for our coronavirus research volunteer list',
   defaultDefinitions: {},
+  preSubmitInfo: {
+    required: true,
+    field: 'consentAgreementAccepted',
+    label: ConsentLabel(),
+    notice: ConsentNotice(),
+    error: ConsentError(),
+  },
   chapters: {
     chapter1: {
       title: 'Your information',
@@ -109,6 +122,7 @@ const formConfig = {
           uiSchema,
           schema: {
             required: fullSchema.required,
+            // required: [],
             type: 'object',
             properties: {
               descriptionText: {
@@ -170,9 +184,10 @@ const formConfig = {
               phone: usaPhone,
               zipCode: usaPostalCode,
               veteranDateOfBirth: date,
-              height: fullSchema.properties.height,
-              weight: fullSchema.properties.weight,
+              VETERAN: fullSchema.properties.VETERAN,
               GENDER: fullSchema.properties.GENDER,
+              GENDER_SELF_IDENTIFY_DETAILS:
+                fullSchema.properties.GENDER_SELF_IDENTIFY_DETAILS,
               RACE_ETHNICITY_ORIGIN:
                 fullSchema.properties.RACE_ETHNICITY_ORIGIN,
             },
