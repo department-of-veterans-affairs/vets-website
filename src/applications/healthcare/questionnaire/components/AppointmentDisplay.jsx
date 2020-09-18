@@ -2,6 +2,9 @@ import React from 'react';
 import moment from 'moment';
 
 export default function AppointmentDisplay({ appointment }) {
+  if (!appointment) {
+    return <></>;
+  }
   const thisAppointment = appointment.vdsAppointments[0];
   const { clinic } = thisAppointment;
   return (
