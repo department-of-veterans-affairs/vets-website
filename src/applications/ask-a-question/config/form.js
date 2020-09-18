@@ -17,9 +17,8 @@ const formPages = {
 };
 
 const submitTransform = (formConfig, form) => {
-
   const formData = transformForSubmit(formConfig, form);
-  
+
   return JSON.stringify({
     inquiry: {
       form: formData,
