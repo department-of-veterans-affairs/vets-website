@@ -8,6 +8,9 @@ import {
   FETCH_SPECIALTIES,
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
+  GEOCODE_STARTED,
+  GEOCODE_FAILED,
+  GEOCODE_COMPLETE,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
@@ -25,6 +28,8 @@ const INITIAL_STATE = {
   inProgress: false,
   searchBoundsInProgress: false,
   fetchSvcsInProgress: false,
+  geocodeInProgress: false,
+  geocodeResults: [],
 };
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
@@ -85,6 +90,25 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         ...action.payload,
         error: false,
+      };
+    case GEOCODE_STARTED:
+      return {
+        ...state,
+        error: false,
+        geocodeInProgress: true,
+      };
+    case GEOCODE_FAILED:
+      return {
+        ...state,
+        error: true,
+        geocodeInProgress: false,
+      };
+    case GEOCODE_COMPLETE:
+      return {
+        ...state,
+        geocodeResults: action.payload,
+        error: false,
+        geocodeInProgress: false,
       };
     default:
       return state;
