@@ -50,7 +50,7 @@ const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
           <>
             <p>
               A Primary Family Caregiver is the main caregiver for the Veteran.
-              They can be the Veteran’s or service member’s:
+              They can be the Veteran’s:
             </p>
 
             <ul>
@@ -78,43 +78,23 @@ PrimaryCaregiverInfo.defaultProps = {
 
 const SecondaryCaregiverLegal = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="What's a Secondary Family Caregiver?">
+    <AdditionalInfo triggerText="What’s a Secondary Family Caregiver?">
       <p>
-        Secondary Family Caregivers are people approved as a “provider of
-        personal care services” for the eligible Veteran under
-        <a
-          href={links.caregiverDefinition.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="vads-u-margin-x--0p5"
-        >
-          {links.caregiverDefinition.label}
-        </a>
-        meets the requirements of
-        <a
-          href={links.familyCaregiver.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="vads-u-margin-x--0p5"
-        >
-          {links.familyCaregiver.label}
-        </a>
-        and generally serves as a backup to the Primary Family Caregiver.
+        Family caregivers are approved and designated by VA as Primary Family
+        Caregivers and Secondary Family Caregivers to provide personal care
+        services. A Secondary Family Caregiver generally serves as a backup to
+        the Primary Family Caregiver.
       </p>
 
       <>
-        <p>They can be the Veteran’s or service member’s:</p>
+        <p>They can be the Veteran's:</p>
 
         <ul>
           <li>Parent</li>
           <li>Spouse</li>
           <li>Son or daughter</li>
           <li>Step-family member</li>
-          <li>Extended family member</li>
-          <li>
-            Non-family member who lives with the Veteran or service member, or
-            will do so after approval
-          </li>
+          <li>Grandchild</li>
         </ul>
       </>
     </AdditionalInfo>

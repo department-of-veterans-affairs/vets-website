@@ -57,7 +57,7 @@ export default {
     ssnUI: label => ({
       ...ssnUI,
       'ui:title': `${label}  Social Security number or tax identification number`,
-      'ui:description': label === 'Veteran' && VeteranSSNInfo(),
+      'ui:description': label === 'Veteran\u2019s' && VeteranSSNInfo(),
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
@@ -231,9 +231,11 @@ export default {
   },
   secondaryCaregiversUI: {
     secondaryOneInputLabel: "Secondary Family Caregiver's",
-    secondaryOneChapterTitle: 'Secondary Family Caregiver information',
+    secondaryOneChapterTitle:
+      'Secondary Family Caregiver applicant information',
     secondaryTwoInputLabel: "Secondary Family Caregiver's (2)",
-    secondaryTwoChapterTitle: "Secondary Family Caregiver's (2) information",
+    secondaryTwoChapterTitle:
+      "Secondary Family Caregiver's (2) applicant information",
   },
 };
 

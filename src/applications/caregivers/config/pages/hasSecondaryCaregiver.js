@@ -8,7 +8,7 @@ const hasSecondaryCaregiverPage = {
   uiSchema: {
     'ui:description': SecondaryCaregiverInfo({
       additionalInfo: true,
-      headerInfo: true,
+      headerInfo: false,
     }),
     [primaryCaregiverFields.hasSecondaryCaregiverOneView]: hasSecondaryCaregiverOneUI,
   },
