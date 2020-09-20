@@ -1,6 +1,5 @@
 import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -15,7 +14,7 @@ import {
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
-import { primaryCaregiverFields, vetFields } from './constants';
+import { vetFields } from './constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
@@ -154,79 +153,10 @@ export default {
   },
   primaryCaregiverUI: {
     primaryInputLabel: "Primary Family Caregiver's",
-    medicaidEnrolledUI: {
-      'ui:title': 'Is the Primary Family Caregiver enrolled in Medicaid',
-      'ui:description': (
-        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
-          <AdditionalInfo triggerText="Learn more about Medicaid">
-            Medicaid is a government health program for eligible low-income
-            individuals and families and people with disabilities.
-          </AdditionalInfo>
-        </div>
-      ),
-      'ui:widget': 'yesNo',
-    },
-    medicareEnrolledUI: {
-      'ui:title': 'Is the Primary Family Caregiver enrolled in Medicare?',
-      'ui:description': (
-        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
-          <AdditionalInfo triggerText="Learn more about Medicare">
-            Medicare is a federal health insurance program providing coverage
-            for people who are 65 years or older or who meet special criteria.
-            Part A insurance covers hospital care, skilled nursing and nursing
-            home care, hospice, and home health services.
-          </AdditionalInfo>
-        </div>
-      ),
-      'ui:widget': 'yesNo',
-    },
-    tricareEnrolledUI: {
-      'ui:title': 'Is the Primary Family Caregiver enrolled in Tricare?',
-      'ui:description': (
-        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
-          <AdditionalInfo triggerText="Learn more about Tricare">
-            Tricare is a government health care program for service members,
-            veterans, and their families.
-          </AdditionalInfo>
-        </div>
-      ),
-      'ui:widget': 'yesNo',
-    },
-    champvaEnrolledUI: {
-      'ui:title': 'Is the Primary Family Caregiver enrolled in CHAMPVA?',
-      'ui:description': (
-        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
-          <AdditionalInfo triggerText="Learn more about CHAMPVA">
-            Civilian Health and Medical Program of the Department of Veterans
-            Affairs
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className="vads-u-margin-x--0p5"
-              href="https://www.va.gov/COMMUNITYCARE/programs/caregiver/index.asp"
-            >
-              (CHAMPVA)
-            </a>
-            is a cost-sharing program that covers the price of some health care
-            services and supplies.
-          </AdditionalInfo>
-        </div>
-      ),
-      'ui:widget': 'yesNo',
-    },
-    otherHealthInsuranceUI: {
+    hasHealthInsurance: {
       'ui:title':
-        'Is the Primary Family Caregiver enrolled in other health care insurance?',
+        'Does the Primary Family Caregiver applicant have health care coverage, such as Medicaid, Medicare, CHAMPVA, Tricare, or private insurance?',
       'ui:widget': 'yesNo',
-    },
-    otherHealthInsuranceNameUI: {
-      'ui:title':
-        'Name of health insurance (If there are multiple policies, please separate them with commas.)',
-      'ui:required': formData =>
-        formData[primaryCaregiverFields.otherHealthInsurance] === true,
-      'ui:options': {
-        expandUnder: primaryCaregiverFields.otherHealthInsurance,
-      },
     },
   },
   secondaryCaregiversUI: {

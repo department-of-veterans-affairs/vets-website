@@ -150,16 +150,7 @@ const CaregiverSupportInfo = () => (
 );
 
 const PrimaryHealthCoverage = ({ pageTitle }) => (
-  <section>
-    {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
-
-    <div className="vads-u-margin-bottom--4 vads-u-margin-top--2">
-      <p>
-        Please complete the following information about the Primary Family
-        Caregiver’s health coverage.
-      </p>
-    </div>
-  </section>
+  <>{pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}</>
 );
 
 const PleaseSelectVAFacility = () => (
