@@ -3,13 +3,10 @@ import React, { useEffect, useState } from 'react';
 import SignatureCheckbox from './SignatureCheckbox';
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
-  const veteranLabel = `Enter Veteran\u2019s full name`;
-  const primaryLabel =
-    'Enter Primary Family Caregiver applicant\u2019s full name';
-  const secondaryOneLabel =
-    'Enter Secondary Family Caregiver applicant\u2019s full name';
-  const secondaryTwoLabel =
-    'Enter Secondary Family Caregiver applicant\u2019s (2) full name';
+  const veteranLabel = `Enter Veteran's full name`;
+  const primaryLabel = `Enter Primary Family Caregiver applicant's full name`;
+  const secondaryOneLabel = `Enter Secondary Family Caregiver applicant's full name`;
+  const secondaryTwoLabel = `Enter Secondary Family Caregiver applicant's (2) full name`;
 
   const [signatures, setSignature] = useState({
     [veteranLabel]: false,
@@ -74,7 +71,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   );
 
   const SecondaryCaregiverCopy = ({ label }) => {
-    const header = title => `${title} or Family Member Statement of Truth`;
+    const header = title => `${title} Statement of Truth`;
     return (
       <div>
         <h3 className="vads-u-margin-top--4">{header(label)}</h3>
@@ -132,7 +129,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         isRequired
         showError={showError}
       >
-        <h3>Veteran statement of truth</h3>
+        <h3>Veteran's statement of truth</h3>
         <p>
           I certify that I give consent to the individual(s) named in this
           application to perform personal care services for me upon being
@@ -152,7 +149,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         showError={showError}
       >
         <h3 className="vads-u-margin-top--4">
-          Primary Family Caregiver applicant\u2019s statement of truth
+          Primary Family Caregiver applicant's statement of truth
         </h3>
 
         <p className="vads-u-margin-y--4">
@@ -196,7 +193,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           isRequired
           showError={showError}
         >
-          <SecondaryCaregiverCopy label="Secondary Family Caregiver" />
+          <SecondaryCaregiverCopy label="Secondary Family Caregiver applicant's" />
         </SignatureCheckbox>
       )}
 
@@ -209,7 +206,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           isRequired
           showError={showError}
         >
-          <SecondaryCaregiverCopy label="Secondary Family Caregiver (2)" />
+          <SecondaryCaregiverCopy label="Secondary Family Caregiver (2) applicant's" />
         </SignatureCheckbox>
       )}
 

@@ -57,7 +57,7 @@ export default {
     ssnUI: label => ({
       ...ssnUI,
       'ui:title': `${label}  Social Security number or tax identification number`,
-      'ui:description': label === 'Veteran\u2019s' && VeteranSSNInfo(),
+      'ui:description': label === "Veteran's" && VeteranSSNInfo(),
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
