@@ -33,7 +33,7 @@ export class ConfirmationPage extends React.Component {
             If we think you may be eligible for one of our research studies
           </h2>
           <p>
-            We’ll call you at the phone number you listed on the sign-up form. We'll tell you more about the study so you can decide if you
+            We’ll call you at the phone number you listed on the sign-up form. We'll tell you more about the study and any partner organizations we might work with to conduct it. We’ll also answer any questions you may have so you can decide if you want to join.
             want to join.
           </p>
           <p>
@@ -65,10 +65,10 @@ export class ConfirmationPage extends React.Component {
             If you have questions or would like us to remove you from the volunteer list
           </h2>
           <p>
-            If you have questions, call us at <a href="tel:+18664416075" aria-label="8 6 6. 4 4 1. 6 0 7 5.">866-441-6075</a>, select 1. We're here Monday through Friday, 8:00 a.m. to 6:00 p.m.           
+            Send us an email at <a href="mailto:research@va.gov">research@va.gov</a>.           
           </p>
           <p>
-            You can ask us to remove you from this list at any time. Send us an email at <a href="mailto:research@va.gov">research@va.gov</a>, and tell us your name and the phone number and email you listed on the sign-in form. We'll remove you from the list and we won't contact you again about these research studies.
+            You can ask us to remove you from the list at any time. In your email, tell us your name, phone number, and email you listed on the volunteer form. We'll remove you from the list and we won't contact you again about these research studies.
           </p>  
         </div>
       </div>
