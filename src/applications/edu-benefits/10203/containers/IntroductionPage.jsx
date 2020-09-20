@@ -97,7 +97,7 @@ export class IntroductionPage extends React.Component {
               itemType="http://schema.org/HowToSection"
             >
               <div itemProp="name">
-                <h5>Determine eligibility</h5>
+                <h5>Determine your eligibility</h5>
               </div>
               <div itemProp="itemListElement">
                 <div className="vads-u-font-weight--bold">
@@ -115,18 +115,31 @@ export class IntroductionPage extends React.Component {
                     Post-9/11 GI Bill or Fry Scholarship benefits.
                   </li>
                   <li>
-                    <b>STEM degree:</b> You're enrolled in a bachelor’s degree
-                    program for science, technology, engineering, or math
-                    (STEM), <b>or</b> have already earned a STEM bachelor’s
-                    degree and are pursuing a teaching certification.{' '}
-                    <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
-                      See eligible programs
-                    </a>
+                    <b>STEM degree:</b>
+                    <ul id="circle" className="vads-u-margin-bottom--neg2">
+                      <li className="li-styling">
+                        You're enrolled in a bachelor’s degree program for
+                        science, technology, engineering, or math (STEM),{' '}
+                        <b>or</b>
+                      </li>{' '}
+                      <li className="vads-u-margin-bottom--neg2">
+                        {' '}
+                        You've already earned a STEM bachelor’s degree and are
+                        pursuing a teaching certification.{' '}
+                        <a
+                          href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          See eligible degree programs
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                   <li>
                     <b>Remaining entitlement:</b> You've used all of your
-                    education benefits or are within 6 months of doing so when
-                    you submit your application.{' '}
+                    education benefits or are within 6 months of using all your
+                    benefits when you submit your application.{' '}
                     <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/">
                       Check your remaining benefits
                     </a>
@@ -184,14 +197,15 @@ export class IntroductionPage extends React.Component {
               </div>
               <div itemProp="itemListElement">
                 <p>
-                  We usually process claims within <b>30 days</b>. We’ll let you
-                  know by mail if we need more information.
+                  We usually decide on applications within <b>30 days</b>.
                 </p>
                 <p>
-                  We offer tools and counseling programs to help you make the
-                  most of your educational options.{' '}
-                  <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
-                    Learn about career counseling options
+                  You’ll get a Certificate of Eligibility (COE) or decision
+                  letter in the mail. If we’ve approved your application, you
+                  can bring the COE to the VA certifying official at your
+                  school.{' '}
+                  <a href="/education/after-you-apply/">
+                    Learn more about what happens after you apply
                   </a>
                 </p>
               </div>
@@ -224,7 +238,7 @@ export class IntroductionPage extends React.Component {
         <div
           className="omb-info--container"
           style={{ paddingLeft: '0px' }}
-          id="omb-info-container"
+          id="privacy_policy"
         >
           <OMBInfo resBurden={15} ombNumber="2900-0878" expDate="06/30/2023" />
         </div>

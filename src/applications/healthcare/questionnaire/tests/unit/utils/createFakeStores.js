@@ -1,4 +1,4 @@
-const createFakeStore = (
+const createFakeUserStore = (
   gender = 'M',
   useMailingAddress = true,
   useResidentialAddress = true,
@@ -161,4 +161,28 @@ const createFakeStore = (
   };
 };
 
-export { createFakeStore };
+const createFakeChiefComplaintStore = () => {
+  return {
+    getState: () => ({}),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
+const createFakeReasonForVisitStore = ({ reason = '' }) => {
+  return {
+    getState: () => ({
+      clipboardAppointmentDetails: {
+        reasonForVisit: reason,
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
+export {
+  createFakeUserStore,
+  createFakeChiefComplaintStore,
+  createFakeReasonForVisitStore,
+};

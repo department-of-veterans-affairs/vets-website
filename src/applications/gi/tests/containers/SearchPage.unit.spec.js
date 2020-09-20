@@ -2,8 +2,8 @@ import _ from 'lodash';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
-import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 
 import createCommonStore from 'platform/startup/store';
 import { SearchPage } from '../../containers/SearchPage';
@@ -12,17 +12,20 @@ import reducer from '../../reducers';
 const defaultStore = createCommonStore(reducer);
 const defaultProps = {
   ...defaultStore.getState(),
-  fetchInstitutionSearchResults: sinon.spy(),
-  setPageTitle: sinon.spy(),
-  institutionFilterChange: sinon.spy(),
-  eligibilityChange: sinon.spy(),
-  showModal: sinon.spy(),
-  location: {},
+  dispatchFetchInstitutionSearchResults: () => {},
+  dispatchSetPageTitle: () => {},
+  dispatchInstitutionFilterChange: () => {},
+  dispatchEligibilityChange: () => {},
+  dispatchShowModal: () => {},
 };
 
 describe('<SearchPage>', () => {
   it('should render', () => {
-    const tree = shallow(<SearchPage {...defaultProps} />);
+    const tree = mount(
+      <MemoryRouter>
+        <SearchPage {...defaultProps} />
+      </MemoryRouter>,
+    );
     expect(tree).to.not.be.undefined;
     tree.unmount();
   });
@@ -36,21 +39,10 @@ describe('<SearchPage>', () => {
       },
     };
 
-    const store = {
-      ...defaultStore,
-      state: {
-        ...defaultProps,
-        search: {
-          ...defaultProps.search,
-          inProgress: true,
-        },
-      },
-    };
-
     const tree = mount(
-      <Provider store={store}>
+      <MemoryRouter>
         <SearchPage {...props} />
-      </Provider>,
+      </MemoryRouter>,
     );
 
     expect(tree.find('LoadingIndicator').text()).to.equal(
@@ -60,39 +52,44 @@ describe('<SearchPage>', () => {
   });
 
   it('should call expected actions when mounted', () => {
+    const props = {
+      ...defaultProps,
+      dispatchFetchInstitutionSearchResults: sinon.spy(),
+      dispatchSetPageTitle: sinon.spy(),
+    };
+
     const tree = mount(
-      <Provider store={defaultStore}>
-        <SearchPage {...defaultProps} />
-      </Provider>,
+      <MemoryRouter>
+        <SearchPage {...props} />
+      </MemoryRouter>,
     );
 
-    expect(defaultProps.fetchInstitutionSearchResults.called).to.be.true;
-    expect(defaultProps.setPageTitle.called).to.be.true;
+    expect(props.dispatchFetchInstitutionSearchResults.called).to.be.true;
+    expect(props.dispatchSetPageTitle.called).to.be.true;
     tree.unmount();
   });
-});
 
-it('should render error message', () => {
-  const props = {
-    ...defaultProps,
-    search: {
-      ...defaultProps.search,
-      inProgress: true,
-      error: 'Service Unavailable',
-    },
-  };
-  const tree = mount(
-    <Provider store={defaultStore}>
-      <SearchPage {...props} />
-    </Provider>,
-  );
+  it('should render error message', () => {
+    const props = {
+      ...defaultProps,
+      search: {
+        ...defaultProps.search,
+        inProgress: true,
+        error: 'Service Unavailable',
+      },
+    };
 
-  expect(tree.find('ServiceError')).to.be.ok;
-  tree.unmount();
-});
+    const tree = mount(
+      <MemoryRouter>
+        <SearchPage {...props} />
+      </MemoryRouter>,
+    );
 
-describe('<SearchPage> functions', () => {
-  it('updateSearchResults should set store correctly', () => {
+    expect(tree.find('ServiceError')).to.be.ok;
+    tree.unmount();
+  });
+
+  it('should update search results from query when mounted', () => {
     const booleanFilterParams = [
       'distanceLearning',
       'studentVeteranGroup',
@@ -116,7 +113,7 @@ describe('<SearchPage> functions', () => {
 
     const stringSearchParams = ['page', 'name'];
 
-    const institutionFilterChange = institutionFilter => {
+    const dispatchInstitutionFilterChange = institutionFilter => {
       // Make sure searchParams are removed
       stringSearchParams.forEach(stringParam => {
         expect(Object.keys(institutionFilter).includes(stringParam)).to.be
@@ -158,7 +155,7 @@ describe('<SearchPage> functions', () => {
       .map(key => `${key}=${query[key]}`)
       .join('&')}`;
 
-    const fetchInstitutionSearchResults = queryStore => {
+    const dispatchFetchInstitutionSearchResults = queryStore => {
       const queryCheck = _.pick(query, [
         ...stringSearchParams,
         ...stringFilterParams,
@@ -169,23 +166,15 @@ describe('<SearchPage> functions', () => {
 
     const props = {
       ...defaultProps,
-      institutionFilterChange,
-      fetchInstitutionSearchResults,
-      location: {
-        action: 'POP',
-        basename: '/gi-bill-comparison-tool',
-        hash: '',
-        key: '1nwcws',
-        pathname: '/search',
-        query,
-        search,
-        state: undefined,
-      },
+      dispatchInstitutionFilterChange,
+      dispatchFetchInstitutionSearchResults,
     };
 
-    const tree = shallow(<SearchPage {...props} />);
-    const instance = tree.instance();
-    instance.updateSearchResults();
+    const tree = mount(
+      <MemoryRouter initialEntries={[`/search?${search}`]}>
+        <SearchPage {...props} />
+      </MemoryRouter>,
+    );
 
     tree.unmount();
   });

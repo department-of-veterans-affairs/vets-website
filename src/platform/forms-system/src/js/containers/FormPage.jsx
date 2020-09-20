@@ -6,8 +6,6 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
-import environment from 'platform/utilities/environment';
-
 import ProgressButton from '../components/ProgressButton';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
@@ -15,10 +13,7 @@ import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../utilities/ui';
 
 function focusForm() {
-  const selector = environment.isProduction()
-    ? '.nav-header'
-    : '.nav-header > h2';
-  focusElement(selector);
+  focusElement('.nav-header > h2');
 }
 
 const scroller = Scroll.scroller;

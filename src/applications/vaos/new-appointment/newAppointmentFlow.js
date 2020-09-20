@@ -1,24 +1,17 @@
-import * as Sentry from '@sentry/browser';
-import { captureError } from '../utils/error';
-
 import {
   getFormData,
   getNewAppointment,
   getEligibilityStatus,
   vaosCommunityCare,
-  getCCEType,
   getTypeOfCare,
-  selectSystemIds,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
-import { getCommunityCare, getSitesSupportingVAR } from '../services/var';
 import {
   showTypeOfCareUnavailableModal,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
   updateFacilityType,
-  updateCCEnabledSystems,
-  updateCCEligibility,
+  checkCommunityCareEligibility,
 } from './redux/actions';
 
 const AUDIOLOGY = '203';
@@ -74,50 +67,23 @@ export default {
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
-      const communityCareEnabled = vaosCommunityCare(state);
-
       if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
         return 'typeOfSleepCare';
       } else if (isEyeCare(state)) {
         return 'typeOfEyeCare';
       } else if (isCommunityCare(state)) {
-        try {
-          if (communityCareEnabled) {
-            // Check if user registered systems support community care...
-            const userSystemIds = selectSystemIds(state);
-            const ccSites = await getSitesSupportingVAR(userSystemIds);
-            const ccEnabledSystems = userSystemIds.filter(id =>
-              ccSites.some(site => site.id === id),
-            );
-            dispatch(updateCCEnabledSystems(ccEnabledSystems));
+        const isEligible = await dispatch(checkCommunityCareEligibility());
 
-            // Reroute to VA facility page if none of the user's registered systems support community care.
-            if (ccEnabledSystems.length) {
-              const response = await getCommunityCare(getCCEType(state));
-
-              dispatch(updateCCEligibility(response.eligible));
-
-              if (response.eligible) {
-                // If CC enabled systems and toc is podiatry, skip typeOfFacility
-                if (isPodiatry(state)) {
-                  dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
-                  dispatch(startRequestAppointmentFlow(true));
-                  return 'requestDateTime';
-                }
-                return 'typeOfFacility';
-              }
-            }
-          }
-        } catch (e) {
-          captureError(e);
-          Sentry.captureMessage(
-            'Community Care eligibility check failed with errors',
-          );
-        }
-
-        // If no CC enabled systems and toc is podiatry, show modal
-        if (isPodiatry(state)) {
+        if (isEligible && isPodiatry(state)) {
+          // If CC enabled systems and toc is podiatry, skip typeOfFacility
+          dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+          dispatch(startRequestAppointmentFlow(true));
+          return 'requestDateTime';
+        } else if (isEligible) {
+          return 'typeOfFacility';
+        } else if (isPodiatry(state)) {
+          // If no CC enabled systems and toc is podiatry, show modal
           dispatch(showTypeOfCareUnavailableModal());
           return 'typeOfCare';
         }
@@ -160,36 +126,13 @@ export default {
     url: '/new-appointment/choose-eye-care',
     async next(state, dispatch) {
       const data = getFormData(state);
-      const communityCareEnabled = vaosCommunityCare(state);
 
       // check that the result does have a ccId
-      if (getTypeOfCare(data)?.ccId !== undefined) {
-        try {
-          if (communityCareEnabled) {
-            // Check if user registered systems support community care...
-            const userSystemIds = selectSystemIds(state);
-            const ccSites = await getSitesSupportingVAR(userSystemIds);
-            const ccEnabledSystems = userSystemIds.filter(id =>
-              ccSites.some(site => site.id === id),
-            );
-            dispatch(updateCCEnabledSystems(ccEnabledSystems));
+      if (getTypeOfCare(data)?.ccId) {
+        const isEligible = await dispatch(checkCommunityCareEligibility());
 
-            // Reroute to VA facility page if none of the user's registered systems support community care.
-            if (ccEnabledSystems.length) {
-              const response = await getCommunityCare(getCCEType(state));
-
-              dispatch(updateCCEligibility(response.eligible));
-
-              if (response.eligible) {
-                return 'typeOfFacility';
-              }
-            }
-          }
-        } catch (e) {
-          captureError(e);
-          Sentry.captureMessage(
-            'Community Care eligibility check failed with errors',
-          );
+        if (isEligible) {
+          return 'typeOfFacility';
         }
       }
 

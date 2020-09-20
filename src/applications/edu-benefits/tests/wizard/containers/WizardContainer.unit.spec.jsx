@@ -5,22 +5,17 @@ import { shallow } from 'enzyme';
 import {
   getReferredBenefit,
   getWizardStatus,
+  WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
   NO_BENEFIT_REFERRED,
 } from 'applications/static-pages/wizard';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Wizard Container', () => {
-  let mockStore = {};
   let setWizardStatus;
-
-  before(() => {
-    mockStore = sessionStorageSetup(mockStore);
-  });
 
   beforeEach(() => {
     setWizardStatus = value => {
-      sessionStorage.setItem('wizardStatus', value);
+      sessionStorage.setItem(WIZARD_STATUS, value);
     };
   });
 
@@ -42,8 +37,8 @@ describe('the Wizard Container', () => {
     wrapper
       .find('.skip-wizard-link')
       .simulate('click', { preventDefault: () => {} });
-    const wizardStatus = getWizardStatus().then(() => {
-      expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+    const status = getWizardStatus().then(() => {
+      expect(status).to.equal(WIZARD_STATUS_COMPLETE);
     });
     const referredBenefit = getReferredBenefit().then(() => {
       // because this test is not running on a browser, it will return the default message

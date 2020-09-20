@@ -4,6 +4,7 @@ const {
   isPublished,
   utcToEpochTime,
   getWysiwygString,
+  getImageCrop,
 } = require('./helpers');
 
 const transform = (entity, { ancestors }) => ({
@@ -24,7 +25,7 @@ const transform = (entity, { ancestors }) => ({
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldMedia:
     entity.fieldMedia && entity.fieldMedia.length
-      ? { entity: entity.fieldMedia[0] }
+      ? { entity: getImageCrop(entity.fieldMedia[0], '_21MEDIUMTHUMBNAIL') }
       : null,
   fieldOffice:
     entity.fieldOffice &&

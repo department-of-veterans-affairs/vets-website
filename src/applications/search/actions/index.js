@@ -14,7 +14,7 @@ export function fetchSearchResults(query, page) {
       queryString = queryString.concat(`&page=${page}`);
     }
 
-    apiRequest(queryString)
+    return apiRequest(queryString)
       .then(response =>
         dispatch({
           type: FETCH_SEARCH_RESULTS_SUCCESS,

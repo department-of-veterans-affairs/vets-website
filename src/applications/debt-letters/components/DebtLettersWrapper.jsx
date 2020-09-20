@@ -5,25 +5,35 @@ import { bindActionCreators } from 'redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
-import { fetchDebtLetters, fetchDebtLettersVBMS } from '../actions';
+import { fetchDebtLetters } from '../actions';
 
 class DebtLettersWrapper extends Component {
   componentDidMount() {
     if (this.props.showDebtLetters !== false) {
       this.props.fetchDebtLetters();
-      this.props.fetchDebtLettersVBMS();
     }
   }
 
   render() {
-    const { isPending, isPendingVBMS, children, showDebtLetters } = this.props;
+    const {
+      isPending,
+      isPendingVBMS,
+      children,
+      showDebtLetters,
+      isProfileUpdating,
+      isLoggedIn,
+    } = this.props;
+
+    if (isPending || isPendingVBMS || isProfileUpdating) {
+      return <LoadingIndicator />;
+    }
 
     if (showDebtLetters === false) {
       return window.location.replace('/');
     }
 
-    if (isPending || isPendingVBMS) {
-      return <LoadingIndicator />;
+    if (isLoggedIn === false) {
+      return window.location.replace('/manage-va-debt');
     }
 
     return (
@@ -41,7 +51,9 @@ class DebtLettersWrapper extends Component {
 }
 
 const mapStateToProps = state => ({
+  isLoggedIn: state.user.login.currentlyLoggedIn,
   isPending: state.debtLetters.isPending,
+  isProfileUpdating: state.debtLetters.isProfileUpdating,
   isPendingVBMS: state.debtLetters.isPendingVBMS,
   showDebtLetters: toggleValues(state)[
     FEATURE_FLAG_NAMES.debtLettersShowLetters
@@ -49,7 +61,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ fetchDebtLetters, fetchDebtLettersVBMS }, dispatch),
+  ...bindActionCreators({ fetchDebtLetters }, dispatch),
 });
 
 DebtLettersWrapper.propTypes = {
