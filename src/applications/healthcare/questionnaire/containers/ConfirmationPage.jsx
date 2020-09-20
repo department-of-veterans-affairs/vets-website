@@ -21,9 +21,8 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data } = this.props.form;
+    const { submission } = this.props.form;
     const { response } = submission;
-    const name = data.veteranFullName;
 
     return (
       <div>
@@ -41,9 +40,6 @@ export class ConfirmationPage extends React.Component {
             Healthcare Questionnaire Claim{' '}
             <span className="additional">(Form HC-QSTNR)</span>
           </h4>
-          <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
-          </span>
 
           {response && (
             <ul className="claim-list">

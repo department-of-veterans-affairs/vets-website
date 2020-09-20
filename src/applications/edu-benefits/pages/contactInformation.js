@@ -36,7 +36,9 @@ export default function createContactInformationPage(
         'ui:title': 'Other contact information',
         'ui:description':
           'Please enter as much contact information as possible so we can get in touch with you, if necessary.',
-        'ui:validations': [validateMatch('email', 'view:confirmEmail')],
+        'ui:validations': [
+          validateMatch('email', 'view:confirmEmail', { ignoreCase: true }),
+        ],
         email: emailUI(),
         'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
           'ui:options': {

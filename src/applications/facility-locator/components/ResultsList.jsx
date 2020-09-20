@@ -34,10 +34,12 @@ class ResultsList extends Component {
     super(props);
     this.searchResultTitle = React.createRef();
   }
+
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.results !== this.props.results ||
-      nextProps.inProgress !== this.props.inProgress
+      nextProps.inProgress !== this.props.inProgress ||
+      nextProps.error !== this.props.error
     );
   }
 

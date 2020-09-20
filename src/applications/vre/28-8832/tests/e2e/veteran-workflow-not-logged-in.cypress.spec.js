@@ -17,7 +17,6 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         cy.get('#claimant-relationship-0').click();
-        cy.get('#disability-rating-1').click();
         cy.get('#vre-benefits-1').click();
         cy.get('#education-benefits-0').click();
         cy.get('#begin-form-now-0').click();

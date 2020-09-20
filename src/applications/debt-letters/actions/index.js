@@ -62,6 +62,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
         return {
           ...debtLetter,
           typeDescription: debtLetter.typeDescription.slice(6),
+          date: new Date(debtLetter.receivedAt),
         };
       }
       return debtLetter;

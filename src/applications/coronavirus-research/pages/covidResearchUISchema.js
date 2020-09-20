@@ -2,15 +2,10 @@ import React from 'react';
 import _ from 'lodash';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
-import HeightWidget from '../widgets/HeightWidget';
-import WeightWidget from '../widgets/WeightWidget';
-
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-
 import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewDOBField from '../containers/CustomReviewDOBField';
 import CustomReviewRadio from '../containers/customReviewRadio';
@@ -29,11 +24,8 @@ export const uiSchema = {
           volunteer.
           <p>
             <b>Note:</b> We won’t share your information with anyone outside of
-            VA. To learn more before volunteering, read about{' '}
-            <a href="/coronavirus-research">
-              participating in coronavirus research at VA
-            </a>
-            .
+            VA. To learn more before volunteering, read about participating in
+            coronavirus research at VA .
           </p>
         </span>
       ),
@@ -257,7 +249,7 @@ export const uiSchema = {
       'ui:reviewField': CustomReviewField,
     },
     'TRANSPORTATION::PUBLIC_TRANSPORT': {
-      'ui:title': 'Public transporation (bus, train, subway)',
+      'ui:title': 'Public transportation (bus, train, subway)',
       'ui:reviewField': CustomReviewField,
     },
     'TRANSPORTATION::WALK_BIKE': {
@@ -276,7 +268,7 @@ export const uiSchema = {
   residentsInHome: {
     'ui:title': (
       <span>
-        <strong>How many people live in your home?</strong>
+        <strong>How many people, including you, live in your home?</strong>
       </span>
     ),
     'ui:widget': 'radio',
@@ -374,20 +366,45 @@ export const uiSchema = {
       classNames: 'input-width',
     },
   },
-  height: {
-    'ui:title': 'Height',
-    'ui:widget': HeightWidget,
-    'ui:errorMessages': {
-      required: 'Please enter your height',
-      pattern: 'Please enter a valid height (feet and inches)',
+  VETERAN: {
+    'ui:validations': [validateBooleanGroup],
+    'ui:options': {
+      showFieldLabel: true,
     },
-  },
-  weight: {
-    'ui:title': 'Weight',
-    'ui:widget': WeightWidget,
-    'ui:errorMessages': {
-      required: 'Please enter your weight',
-      pattern: 'Please enter a valid weight (decimals allowed)',
+    'ui:title': (
+      <span>
+        <strong>What is your relationship to the VA?</strong> (Please check all
+        that apply)
+        <br />
+      </span>
+    ),
+    'VETERAN::VETERAN': {
+      'ui:title': 'I am a Veteran',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::ACTIVE_DUTY': {
+      'ui:title': 'Active-duty service member',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::NATIONAL_GUARD_RESERVES': {
+      'ui:title': 'Member of the National Guard or Reserve',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::VA_EMPLOYEE': {
+      'ui:title': 'VA employee',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::FAMILY_MEMBER_CAREGIVER': {
+      'ui:title': 'Family member or caregiver of a Veteran or service member',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::VA_HEALTHCARE_CHAMPVA': {
+      'ui:title': 'Enrolled in VA health care or CHAMPVA',
+      'ui:reviewField': CustomReviewField,
+    },
+    'VETERAN::NONE_OF_ABOVE': {
+      'ui:title': 'None of the above',
+      'ui:reviewField': CustomReviewField,
     },
   },
   GENDER: {
@@ -398,7 +415,7 @@ export const uiSchema = {
 
     'ui:title': (
       <span>
-        <strong>Current gender identity</strong> (Please check all that apply)
+        <strong>What is your gender?</strong> (Please check all that apply)
         <br />
         <br />
         <strong>Note:</strong> We ask for this information to help make sure we
@@ -406,29 +423,24 @@ export const uiSchema = {
         <br />
       </span>
     ),
-    'GENDER::FEMALE': {
-      'ui:title': 'Female',
-      'ui:reviewField': CustomReviewField,
-    },
     'GENDER::MALE': {
-      'ui:title': 'Male',
+      'ui:title': 'Man',
       'ui:reviewField': CustomReviewField,
     },
-    'GENDER::TRANSGENDER_FEMALE': {
-      'ui:title': 'Transgender female',
+    'GENDER::FEMALE': {
+      'ui:title': 'Woman',
       'ui:reviewField': CustomReviewField,
     },
     'GENDER::TRANSGENDER_MALE': {
-      'ui:title': 'Transgender male',
+      'ui:title': 'Transgender man',
       'ui:reviewField': CustomReviewField,
     },
-    'GENDER::GENDER_VARIANT': {
-      'ui:title':
-        'Gender variant/nonbinary (neither exclusively female nor male)',
+    'GENDER::TRANSGENDER_FEMALE': {
+      'ui:title': 'Transgender woman',
       'ui:reviewField': CustomReviewField,
     },
     'GENDER::SELF_IDENTIFY': {
-      'ui:title': 'Prefer to self-identify',
+      'ui:title': 'Prefer to self-describe',
       'ui:reviewField': CustomReviewField,
     },
     'GENDER::NONE_OF_ABOVE': {
@@ -436,50 +448,58 @@ export const uiSchema = {
       'ui:reviewField': CustomReviewField,
     },
   },
-  RACE_ETHNICITY_ORIGIN: {
+  GENDER_SELF_IDENTIFY_DETAILS: {
+    'ui:title': 'Provide your preferred description (50 characters or less)',
+    'ui:options': {
+      expandUnder: 'GENDER',
+      expandUnderCondition: formData =>
+        formData !== undefined && formData['GENDER::SELF_IDENTIFY'] === true,
+    },
+  },
+  RACE_ETHNICITY: {
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
     },
     'ui:title': (
       <span>
-        <strong>Race, ethnicity, and origin</strong> (Please check all that
-        apply)
+        <strong>What is your race, ethnicity, or origin?</strong> (Please check
+        all that apply)
         <br />
         <br />
         <strong>Note:</strong> We ask for this information to help make sure we
         include a diverse range of people in our research studies.
       </span>
     ),
-    'RACE_ETHNICITY_ORIGIN::AMERICAN_INDIAN_ALASKA_NATIVE': {
+    'RACE_ETHNICITY::AMERICAN_INDIAN_ALASKA_NATIVE': {
       'ui:title': 'American Indian or Alaska Native',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::ASIAN': {
+    'RACE_ETHNICITY::ASIAN': {
       'ui:title': 'Asian',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::BLACK_AFRICAN_AMERICAN': {
+    'RACE_ETHNICITY::BLACK_AFRICAN_AMERICAN': {
       'ui:title': 'Black or African American',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::HISPANIC_LATINO_SPANISH_ORIGIN': {
+    'RACE_ETHNICITY::HISPANIC_LATINO_SPANISH_ORIGIN': {
       'ui:title': 'Hispanic, Latino, or Spanish origin',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::HAWAIIAN_PACIFIC_ISLANDER': {
+    'RACE_ETHNICITY::HAWAIIAN_PACIFIC_ISLANDER': {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::WHITE': {
+    'RACE_ETHNICITY::WHITE': {
       'ui:title': 'White',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::OTHER_RACE_ETHNICITY': {
+    'RACE_ETHNICITY::OTHER_RACE_ETHNICITY': {
       'ui:title': 'Another race or ethnicity',
       'ui:reviewField': CustomReviewField,
     },
-    'RACE_ETHNICITY_ORIGIN::NONE_OF_ABOVE': {
+    'RACE_ETHNICITY::NONE_OF_ABOVE': {
       'ui:title': 'Prefer not to answer',
       'ui:reviewField': CustomReviewField,
     },
