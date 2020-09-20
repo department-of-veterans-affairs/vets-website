@@ -132,3 +132,31 @@ export {
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
 };
+
+const isSSNUnique = formData => {
+  const {
+    veteranSsnOrTin,
+    primarySsnOrTin,
+    secondaryOneSsnOrTin,
+    secondaryTwoSsnOrTin,
+  } = formData;
+
+  const allSSNs = [
+    veteranSsnOrTin,
+    primarySsnOrTin,
+    secondaryOneSsnOrTin,
+    secondaryTwoSsnOrTin,
+  ];
+
+  const allValidSSNs = allSSNs.filter(ssn => ssn !== undefined);
+
+  const checkIfArrayIsUnique = array => array.length === new Set(array).size;
+
+  return checkIfArrayIsUnique(allValidSSNs);
+};
+
+export function validateSSNIsUnique(errors, formData) {
+  if (!isSSNUnique(formData)) {
+    errors.addError('Please enter unique SSN');
+  }
+}
