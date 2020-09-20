@@ -8,7 +8,7 @@ import manifest from 'applications/caregivers/manifest.json';
 const veteranLabel = `Enter Veteran's full name`;
 const primaryLabel = `Enter Primary Family Caregiver applicant's full name`;
 const secondaryOneLabel = `Enter Secondary Family Caregiver applicant's full name`;
-const secondaryTwoLabel = `Enter Secondary Family Caregiver applicants (2) full name`;
+const secondaryTwoLabel = `Enter Secondary Family Caregiver applicant's (2) full name`;
 
 const testSecondaryTwo = createTestConfig(
   {
