@@ -38,21 +38,23 @@
 
           <ul class="usa-unstyled-list">
             {% for mediaVideo in fieldMediaListVideos.entity.fieldVideos %}
-              <h3>{{ mediaVideo.entity.name }}</h3>
-              <iframe
-                allowFullScreen
-                frameBorder="0"
-                src="{{ mediaVideo.entity.fieldMediaVideoEmbedField }}"
-                title="{{ mediaVideo.entity.name }}"
-                width="100%"
-              ></iframe>
-              {% comment %}
-                @Todo
-                Awaiting CMS implementation as The duration, date and description are maintained by YouTube.
-                https://github.com/department-of-veterans-affairs/va.gov-cms/issues/2454
-                <p>{{ mediaVideo.entity.created | humanizeTimestamp }}</p>
-                <p>{{ mediaEntity.entity.fieldDescription }}</p>
-              {% endcomment %}
+              <li>
+                <h3>{{ mediaVideo.entity.name }}</h3>
+                <iframe
+                  allowFullScreen
+                  frameBorder="0"
+                  src="{{ mediaVideo.entity.fieldMediaVideoEmbedField }}"
+                  title="{{ mediaVideo.entity.name }}"
+                  width="100%"
+                ></iframe>
+                {% comment %}
+                  @Todo
+                  Awaiting CMS implementation as The duration, date and description are maintained by YouTube.
+                  https://github.com/department-of-veterans-affairs/va.gov-cms/issues/2454
+                  <p>{{ mediaVideo.entity.created | humanizeTimestamp }}</p>
+                  <p>{{ mediaEntity.entity.fieldDescription }}</p>
+                {% endcomment %}
+              </li>
             {% endfor %}
           </ul>
 
