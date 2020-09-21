@@ -18,5 +18,16 @@ describe('Comparison Tool', () => {
 
     // Assert the correct number of tabbable elements in the form
     hasTabbableCount('#landing-page-form', 11);
+
+    // Assert skip navigation link works correctly
+    cy.get('body').tab();
+    cy.get('a.show-on-focus').should('have.focus');
+    cy.get('a.show-on-focus')
+      .type('{enter}')
+      .tab()
+      .tab()
+      .tab();
+    cy.focused();
+    cy.get('.va-nav-breadcrumbs-list > li > a').should('have.focus');
   });
 });
