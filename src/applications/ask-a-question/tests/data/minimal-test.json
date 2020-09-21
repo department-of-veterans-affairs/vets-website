@@ -4,7 +4,7 @@
       "first": "Jane",
       "last": "Doe"
     },
-    "veteranStatusSection": {
+    "veteranStatus": {
       "veteranStatus": "A general question"
     },
     "preferredContactMethod": "email",
