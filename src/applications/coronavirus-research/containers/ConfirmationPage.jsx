@@ -26,15 +26,18 @@ export class ConfirmationPage extends React.Component {
           Thank you for signing up for our coronavirus research volunteer list
         </h2>
         <p>
-          We appreciate your commitment to helping others through this important effort.
+          We appreciate your commitment to helping others through this important
+          effort.
         </p>
         <div>
           <h2>
             If we think you may be eligible for one of our research studies
           </h2>
           <p>
-            We’ll call you at the phone number you listed on the sign-up form. We'll tell you more about the study and any partner organizations we might work with to conduct it. We’ll also answer any questions you may have so you can decide if you want to join.
-            want to join.
+            We’ll call you at the phone number you listed on the sign-up form.
+            We'll tell you more about the study and any partner organizations we
+            might work with to conduct it. We’ll also answer any questions you
+            may have so you can decide if you want to join. want to join.
           </p>
           <p>
             Please understand that some studies have specific requirements. So
@@ -62,17 +65,21 @@ export class ConfirmationPage extends React.Component {
         </div>
         <div>
           <h2>
-            If you have questions or would like us to remove you from the volunteer list
+            If you have questions or would like us to remove you from the
+            volunteer list
           </h2>
           <p>
-            Send us an email at <a href="mailto:feedback@va.gov">feedback@va.gov</a>.
+            Send us an email at{' '}
+            <a href="mailto:feedback@va.gov">feedback@va.gov</a>.
           </p>
           <p>
-            You can ask us to remove you from the list at any time. In your email, tell us your name, phone number, and email you listed on the volunteer form. We'll remove you from the list and we won't contact you again about these research studies.
+            You can ask us to remove you from the list at any time. In your
+            email, tell us your name, phone number, and email you listed on the
+            volunteer form. We'll remove you from the list and we won't contact
+            you again about these research studies.
           </p>
         </div>
       </div>
-
     );
   }
 }
