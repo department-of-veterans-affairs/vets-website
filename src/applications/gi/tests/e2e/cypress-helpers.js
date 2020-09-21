@@ -70,3 +70,60 @@ export const selectDropdown = (name, option) => {
   const selector = `select[name="${name}"]`;
   cy.get(selector).select(option);
 };
+
+const focusableElements = [
+  'a[href]',
+  'button',
+  'details',
+  'input[type="text"]',
+  'input[type="email"]',
+  'input[type="password"]',
+  'input[type="search"]',
+  'input[type="tel"]',
+  'input[type="url"]',
+  'input[type="radio"]',
+  'input[type="checkbox"]',
+  'select',
+  'textarea',
+];
+
+/**
+ * Checks if the count of focusable elements is correct. Focusable elements are those
+ * in the normal tab order (native focusable elements or those with tabIndex 0).
+ * The count logic will break on tabindexes > 0 because we do not want to override the
+ * browser's base tab order.
+ *
+ * This solution is inspired by two blog posts:
+ * https://zellwk.com/blog/keyboard-focusable-elements/
+ * https://hiddedevries.nl/en/blog/2017-01-29-using-javascript-to-trap-focus-in-an-element
+ */
+export const hasFocusableCount = (selector, count) => {
+  const elements = focusableElements.concat([
+    '[tabindex="0"]',
+    '[tabindex="-1"]',
+  ]);
+  const msg = `Page does not contain ${count} focusable elements.`;
+  cy.get(selector).within(_el => {
+    cy.get(elements.join(', '))
+      .not('[disabled]')
+      .should(list => {
+        expect(list).have.length(count, msg);
+      });
+  });
+};
+
+/**
+ * Checks if the count of tabbable elements is correct. Tabbable elements are those
+ * in the normal tab order (native focusable elements or those with tabIndex >= 0).
+ */
+export const hasTabbableCount = (selector, count) => {
+  const msg = `Page does not contain ${count} tabbable elements.`;
+  cy.get(selector).within(_el => {
+    cy.get(focusableElements.join(', '))
+      .not('[disabled]')
+      .not('[tabindex="-1"]')
+      .should(list => {
+        expect(list).have.length(count, msg);
+      });
+  });
+};
