@@ -20,6 +20,7 @@ describe('Comparison Tool', () => {
     hasTabbableCount('#landing-page-form', 11);
 
     // Assert skip navigation link works correctly
+    // Comment out for local testing
     cy.get('body').tab();
     cy.get('a.show-on-focus').should('have.focus');
     cy.get('a.show-on-focus')
@@ -27,7 +28,11 @@ describe('Comparison Tool', () => {
       .tab()
       .tab()
       .tab();
-    cy.focused();
-    cy.get('.va-nav-breadcrumbs-list > li > a').should('have.focus');
+
+    cy.get('.va-nav-breadcrumbs-list > li > a')
+      .first()
+      // .focus() // uncomment for local testing
+      .should('have.focus')
+      .should('have.attr', 'href', '/');
   });
 });
