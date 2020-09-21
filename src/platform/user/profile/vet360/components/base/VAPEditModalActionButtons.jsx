@@ -92,14 +92,16 @@ class VAPEditModalActionButtons extends React.Component {
           >
             Confirm
           </LoadingButton>
-          <button
-            type="button"
-            className="usa-button-secondary"
-            onClick={this.cancelDeleteAction}
-            disabled={this.props.isLoading}
-          >
-            Cancel
-          </button>
+
+          {!this.props.isLoading && (
+            <button
+              type="button"
+              className="usa-button-secondary"
+              onClick={this.cancelDeleteAction}
+            >
+              Cancel
+            </button>
+          )}
         </div>
       </div>
     );
