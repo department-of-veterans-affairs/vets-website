@@ -3,6 +3,8 @@
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
+{% assign listchecklistItemIndex = 0 %}
+
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
@@ -43,13 +45,15 @@
             {% endif %}
 
             <!-- Checklist items -->
-            <ul>
+            <ul class="usa-unstyled-list">
               {% assign checklistItemIndex = 0 %}
               {% for checklistItem in checklistSection.entity.fieldChecklistItems %}
 
+              {% assign listchecklistItemIndex = listchecklistItemIndex | plus: 1 %}
+
                 <!-- Checklist item -->
                 <li>
-                  <input type="checkbox" id="checkbox-{{ listchecklistItemIndex }}" name="{{ checklistItem }}">
+                  <input type="checkbox" name="checkbox-{{ listchecklistItemIndex }}" name="checkbox-{{ listchecklistItemIndex }}">
                   <label for="checkbox-{{ listchecklistItemIndex }}">{{ checklistItem }}</label>
                 </li>
 
