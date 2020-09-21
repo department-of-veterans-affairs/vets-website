@@ -34,15 +34,23 @@
           {% endfor %}
 
           <!-- Images List -->
-          <ul>
+          <ul class="usa-unstyled-list">
             {% for mediaImage in fieldMediaListImages.entity.fieldImages %}
               <li className="vads-u-display--flex vads-u-margin-bottom--2">
-                <img alt="{{ mediaImage.entity.image.alt }}" height="{{ mediaImage.entity.image.height }}" width="{{ mediaImage.entity.image.width }}" src="{{ mediaImage.entity.image.url }}" />
+              {% assign alt = mediaImage.entity.image.alt %}
+              {% if alt == mediaImage.entity.entityLabel %}
+                {% assign alt = '' %}
+              {% endif %}
+                <img
+                  alt="{{ alt }}"
+                  height="{{ mediaImage.entity.image.height }}"
+                  width="{{ mediaImage.entity.image.width }}"
+                  src="{{ mediaImage.entity.image.url }}" />
                 <div className="vads-u-display--flex vads-u-flex-direction--column">
                   <h2 className="vads-u-font-size--h3">{{ mediaImage.entity.entityLabel }}</h2>
                   {% if mediaImage.entity.fieldDescription %}
                     <p>{{ mediaImage.entity.fieldDescription }}</p>
-                  {% end %}
+                  {% endif %}
                 </div>
               </li>
             {% endfor %}
