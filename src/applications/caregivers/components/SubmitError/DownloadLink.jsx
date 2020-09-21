@@ -51,7 +51,7 @@ const DownLoadLink = ({ form }) => {
 
   useEffect(
     () => {
-      downloadPDF(getFormData);
+      if (isFormValid) downloadPDF(getFormData);
     },
     [getFormData, isFormValid.isValid],
   );
@@ -112,14 +112,14 @@ const DownLoadLink = ({ form }) => {
           </span>
         </a>
 
-        <div className="error-note">
+        <div className="error-note vads-u-margin-top--3">
           <i
             aria-hidden="true"
             role="img"
             className="fas fa-exclamation-circle vads-u-padding-right--1"
           />
 
-          <p>{getErrorMessage()}</p>
+          <p className="vads-u-color--gray-dark">{getErrorMessage()}</p>
         </div>
       </div>
     );
