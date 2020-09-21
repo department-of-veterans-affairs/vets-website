@@ -8,6 +8,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+import { vaosFlatFacilityPage } from '../utils/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import TypeOfCarePage from './components/TypeOfCarePage';
@@ -41,7 +42,10 @@ function onBeforeUnload(e) {
   }
 }
 
-function NewAppointmentSection({ isCernerOnlyPatient }) {
+function NewAppointmentSection({
+  isCernerOnlyPatient,
+  flatFacilityPageEnabled,
+}) {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
@@ -117,11 +121,15 @@ function NewAppointmentSection({ isCernerOnlyPatient }) {
           path={`${match.url}/select-date`}
           component={DateTimeSelectPage}
         />
-        <Route path={`${match.url}/va-facility`} component={VAFacilityPage} />
-        <Route
-          path={`${match.url}/va-facility-2`}
-          component={VAFacilityPageV2}
-        />
+        {!flatFacilityPageEnabled && (
+          <Route path={`${match.url}/va-facility`} component={VAFacilityPage} />
+        )}
+        {flatFacilityPageEnabled && (
+          <Route
+            path={`${match.url}/va-facility-2`}
+            component={VAFacilityPageV2}
+          />
+        )}
         <Route
           path={`${match.url}/community-care-preferences`}
           component={CommunityCarePreferencesPage}
@@ -145,6 +153,7 @@ function NewAppointmentSection({ isCernerOnlyPatient }) {
 function mapStateToProps(state) {
   return {
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    flatFacilityPageEnabled: vaosFlatFacilityPage(state),
   };
 }
 
