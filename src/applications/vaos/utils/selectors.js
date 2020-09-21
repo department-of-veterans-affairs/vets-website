@@ -281,13 +281,38 @@ export function getFacilityPageV2Info(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCare = getTypeOfCare(data);
+  const parentFacilitiesStatus = newAppointment.parentFacilitiesStatus;
+  const childFacilitiesStatus = newAppointment.childFacilitiesStatus;
+  const facilities = newAppointment.facilities[(typeOfCare?.id)];
+  const eligibilityStatus = getEligibilityStatus(state);
 
   return {
     ...formInfo,
     typeOfCare: typeOfCare?.name,
-    childFacilitiesStatus: newAppointment.childFacilitiesStatus,
-    eligibilityStatus: newAppointment.eligibilityStatus,
-    facilities: newAppointment.facilities[(typeOfCare?.id)],
+    canScheduleAtChosenFacility:
+      eligibilityStatus.direct || eligibilityStatus.request,
+    childFacilitiesStatus,
+    eligibility: getEligibilityChecks(state),
+    facilities,
+    facility: data.vaFacility
+      ? facilities.find(f => f.id === data.vaFacility)
+      : undefined,
+    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
+    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
+    hasDataFetchingError:
+      parentFacilitiesStatus === FETCH_STATUS.failed ||
+      childFacilitiesStatus === FETCH_STATUS.failed ||
+      newAppointment.eligibilityStatus === FETCH_STATUS.failed,
+    loadingEligibilityStatus: newAppointment.eligibilityStatus,
+    noValidVAParentFacilities:
+      parentFacilitiesStatus === FETCH_STATUS.succeeded &&
+      newAppointment.parentFacilities.length === 0,
+    noValidVAFacilities:
+      childFacilitiesStatus === FETCH_STATUS.succeeded &&
+      (!facilities || !facilities.length),
+    parentDetails: newAppointment?.facilityDetails[data.vaParent],
+    parentFacilitiesStatus,
+    singleValidVALocation: facilities?.length === 1,
   };
 }
 

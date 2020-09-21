@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -8,11 +8,16 @@ import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
+import NoVASystems from './NoVASystems';
+// import NoValidVAFacilities from './NoValidVAFacilities';
+import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
+import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import FormButtons from '../../../components/FormButtons';
+import EligibilityModal from './EligibilityModal';
 
 const initialSchema = {
   type: 'object',
-  required: ['vaFacility'],
+  required: ['vaParent', 'vaFacility'],
   properties: {
     vaFacility: {
       type: 'string',
@@ -32,31 +37,128 @@ const pageKey = 'vaFacilityV2';
 const pageTitle = 'Choose a VA location for your appointment';
 
 function VAFacilityPageV2({
-  schema,
-  data,
-  facilities,
+  canScheduleAtChosenFacility,
   childFacilitiesStatus,
+  data,
+  eligibility,
+  facilities,
+  facility,
+  facilityDetails,
+  loadingEligibilityStatus,
+  noValidVAParentFacilities,
   openFacilityPageV2,
-  updateFacilityPageV2Data,
-  typeOfCare,
-  routeToPreviousAppointmentPage,
   pageChangeInProgress,
+  parentFacilitiesStatus,
+  routeToPreviousAppointmentPage,
+  routeToNextAppointmentPage,
+  schema,
+  singleValidVALocation,
+  typeOfCare,
+  updateFacilityPageV2Data,
 }) {
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    openFacilityPageV2(pageKey, uiSchema, initialSchema);
-  }, []);
+  const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
+  const loadingParents = parentFacilitiesStatus === FETCH_STATUS.loading;
+  const loadingFacilities = childFacilitiesStatus === FETCH_STATUS.loading;
 
-  if (childFacilitiesStatus === FETCH_STATUS.loading) {
-    return <LoadingIndicator message="Finding locations" />;
+  const [showEligibilityModal, setShowEligibilityModal] = useState(false);
+
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+      openFacilityPageV2(pageKey, uiSchema, initialSchema);
+    },
+    [openFacilityPageV2],
+  );
+
+  useEffect(
+    () => {
+      if (!loadingEligibility && canScheduleAtChosenFacility === false) {
+        setShowEligibilityModal(true);
+      }
+    },
+    [loadingEligibility, canScheduleAtChosenFacility],
+  );
+
+  const goBack = () => routeToPreviousAppointmentPage(history, pageKey);
+  const goForward = () => routeToNextAppointmentPage(history, pageKey);
+
+  const title = (
+    <h1 className="vads-u-font-size--h2">
+      Choose a VA location for your {typeOfCare} appointment
+    </h1>
+  );
+
+  if (
+    loadingParents ||
+    loadingFacilities ||
+    (singleValidVALocation && loadingEligibility)
+  ) {
+    return (
+      <div>
+        {title}
+        <LoadingIndicator message="Finding locations" />
+      </div>
+    );
+  }
+
+  if (noValidVAParentFacilities) {
+    return (
+      <div>
+        {title}
+        <NoVASystems />
+        <div className="vads-u-margin-top--2">
+          <FormButtons
+            onBack={goBack}
+            disabled
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (singleValidVALocation && !canScheduleAtChosenFacility) {
+    return (
+      <div>
+        {title}
+        <SingleFacilityEligibilityCheckMessage
+          eligibility={eligibility}
+          facility={facility}
+        />
+        <div className="vads-u-margin-top--2">
+          <FormButtons
+            onBack={goBack}
+            disabled
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (singleValidVALocation) {
+    return (
+      <div>
+        {title}
+        <VAFacilityInfoMessage facility={facility} />
+        <div className="vads-u-margin-top--2">
+          <FormButtons
+            onBack={goBack}
+            onSubmit={goForward}
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </div>
+      </div>
+    );
   }
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">
-        Choose a VA location for your {typeOfCare} appointment
-      </h1>
+      {title}
       <p>
         Below is a list of VA locations where you’re registered that offer{' '}
         {typeOfCare} appointments.
@@ -71,14 +173,32 @@ function VAFacilityPageV2({
             updateFacilityPageV2Data(pageKey, uiSchema, newData)
           }
           data={data}
-          formContext={{ facilities }}
+          formContext={{
+            facilities,
+            eligibility,
+            facilityDetails,
+          }}
         >
           <FormButtons
             continueLabel=""
             pageChangeInProgress={pageChangeInProgress}
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={goBack}
+            disabled={
+              loadingParents ||
+              loadingFacilities ||
+              loadingEligibility ||
+              !canScheduleAtChosenFacility
+            }
           />
         </SchemaForm>
+      )}
+
+      {showEligibilityModal && (
+        <EligibilityModal
+          onClose={() => setShowEligibilityModal(false)}
+          eligibility={eligibility}
+          facilityDetails={facilityDetails}
+        />
       )}
     </div>
   );
