@@ -56,6 +56,9 @@ Note: Support for Codespaces is a work in progress. During the beta all Codespac
    - Run command:
 
       `yarn watch`
+   - Note: `yarn build` is needed for full website content, however the current [Basic VM](https://docs.github.com/en/github/developing-online-with-codespaces/about-billing-for-codespaces) size has very limited resources. It is recommended to avoid `build` and to use a more specific `watch` command when possible:
+
+      `yarn watch --env.entry disability-benefits,static-pages`
    - Ctrl + click on localhost link in terminal to open webserver in new tab
 
 ## Customization
