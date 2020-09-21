@@ -16,8 +16,8 @@ describe('Google Analytics FL Events', () => {
       cy.get('#street-city-state-zip').type('Austin, TX');
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
-      cy.injectAxe();
-      cy.axeCheck();
+      // cy.injectAxe();
+      // cy.axeCheck();
 
       cy.get('#map-id', { timeout: 10000 }).should(() => {
         assertDataLayerEvent(win, 'fl-search');
