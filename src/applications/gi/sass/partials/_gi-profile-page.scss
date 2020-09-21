@@ -322,6 +322,10 @@
       vertical-align: top;
     }
 
+    td::first-letter {
+      text-transform: capitalize;
+    }
+
     .schoolName {
       margin-bottom: 0em;
       margin-top: 0em;

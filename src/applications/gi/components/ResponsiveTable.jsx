@@ -15,10 +15,6 @@ class ResponsiveTable extends React.Component {
     );
   };
 
-  capitalizeFirstLetter = string => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
   renderRow = item => {
     const { fields } = this.props;
     let extraClass = '';
@@ -41,7 +37,7 @@ class ResponsiveTable extends React.Component {
             <td
               data-index={index}
               className={`${borderClasses} ${extraClass}`}
-              data-label={`${this.capitalizeFirstLetter(field)}:`}
+              data-label={`${field}:`}
               key={`${item.id}-${field}`}
               role="cell"
             >

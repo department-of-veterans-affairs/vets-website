@@ -13,6 +13,10 @@ table.responsive {
     word-wrap: break-word;
     vertical-align: top;
   }
+
+  td::first-letter {
+    text-transform: capitalize;
+  }
 }
 
 @media screen and (max-width: $medium-screen) {
@@ -30,10 +34,10 @@ table.responsive {
     }
 
     tr {
-      border-bottom: 1px solid #757575;
+      border-bottom: 1px solid $color-gray-medium;
 
       &:first-child {
-        border-top: 1px solid #757575 !important;
+        border-top: 1px solid $color-gray-medium !important;
       }
     }
 
