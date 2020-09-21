@@ -155,8 +155,10 @@ const isSSNUnique = formData => {
   return checkIfArrayIsUnique(allValidSSNs);
 };
 
-export function validateSSNIsUnique(errors, formData) {
+export const validateSSNIsUnique = (errors, formData) => {
   if (!isSSNUnique(formData)) {
-    errors.addError('Please enter unique SSN');
+    errors.addError(
+      'Please enter an unique Social Security or tax identification number',
+    );
   }
-}
+};
