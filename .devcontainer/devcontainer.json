@@ -5,7 +5,7 @@
     "[json]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "terminal.integrated.shell.linux": "/bin/zsh",
+    "terminal.integrated.shell.linux": "/bin/bash",
     "workbench.startupEditor": "readme"
   },
   "extensions": [
