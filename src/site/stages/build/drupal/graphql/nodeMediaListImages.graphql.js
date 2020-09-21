@@ -1,7 +1,7 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 const fragment = `
-fragment mediaListImages on NodeMediaListImages {
+fragment nodeMediaListImages on NodeMediaListImages {
   ${entityElementsFromPages}
   entityBundle
 

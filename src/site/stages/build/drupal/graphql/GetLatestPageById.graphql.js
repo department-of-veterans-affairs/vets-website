@@ -15,7 +15,7 @@ const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
-const nodeMediaListImages = require('./mediaListImages.graphql');
+const nodeMediaListImages = require('./nodeMediaListImages.graphql');
 const nodeQa = require('./nodeQa.graphql');
 const nodeStepByStep = require('./nodeStepByStep.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
@@ -76,7 +76,7 @@ module.exports = `
         ... nodeQa
         ... faqMultipleQA
         ... nodeStepByStep
-        ... mediaListImages
+        ... nodeMediaListImages
       }
     }
     ${icsFileQuery}

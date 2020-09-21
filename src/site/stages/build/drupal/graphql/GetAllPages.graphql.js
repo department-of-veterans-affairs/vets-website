@@ -19,7 +19,7 @@ const homePageQuery = require('./homePage.graphql');
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
 const leadershipListingPage = require('./leadershipListingPage.graphql');
 const locationListingPage = require('./locationsListingPage.graphql');
-const mediaListImages = require('./mediaListImages.graphql');
+const mediaListImages = require('./nodeMediaListImages.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
@@ -114,7 +114,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... nodeQa
         ... faqMultipleQA
         ... nodeStepByStep
-        ... mediaListImages
+        ... nodeMediaListImages
       }
     }`;
 
