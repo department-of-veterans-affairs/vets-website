@@ -50,11 +50,12 @@
               {% for checklistItem in checklistSection.entity.fieldChecklistItems %}
 
               {% assign listchecklistItemIndex = listchecklistItemIndex | plus: 1 %}
+              {% assign checkboxId = "checkbox-" | append: listchecklistItemIndex %}
 
                 <!-- Checklist item -->
                 <li>
-                  <input type="checkbox" name="checkbox-{{ listchecklistItemIndex }}" name="checkbox-{{ listchecklistItemIndex }}">
-                  <label for="checkbox-{{ listchecklistItemIndex }}">{{ checklistItem }}</label>
+                  <input type="checkbox" id="{{ checkboxId }}" name="{{ checkboxId }}">
+                  <label for="{{ checkboxId }}">{{ checklistItem }}</label>
                 </li>
 
                 <!-- Increment the checkbox's index -->
