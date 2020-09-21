@@ -5,6 +5,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { educationWizard10203 } from '../selectors/educationWizard';
 import { connect } from 'react-redux';
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_COMPLETE,
+} from 'applications/static-pages/wizard';
 import environment from 'platform/utilities/environment';
 
 const levels = [
@@ -107,6 +111,7 @@ export class EducationWizard extends React.Component {
   };
 
   recordWizardValues = () => {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     recordEvent({
       event: 'edu-howToApply-applyNow',
       'edu-benefitUpdate': this.eduFormChange(this.state.newBenefit),
@@ -487,7 +492,7 @@ export class EducationWizard extends React.Component {
                             })
                           }
                         >
-                          Check remaining benefits
+                          Check your remaining benefits
                         </a>
                       </li>
                     </ul>

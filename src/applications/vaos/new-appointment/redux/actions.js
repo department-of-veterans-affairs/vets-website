@@ -55,6 +55,7 @@ import {
 import {
   getEligibilityData,
   recordEligibilityGAEvents,
+  logEligibilityExplanation,
 } from '../../utils/eligibility';
 
 import { recordEligibilityFailure, resetDataLayer } from '../../utils/events';
@@ -339,6 +340,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         );
 
         recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
+        logEligibilityExplanation(eligibilityData, typeOfCareId, locationId);
       }
 
       dispatch({
@@ -448,6 +450,11 @@ export function updateFacilityPageData(page, uiSchema, data) {
         );
 
         recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
+        logEligibilityExplanation(
+          eligibilityData,
+          typeOfCareId,
+          data.vaFacility,
+        );
 
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,

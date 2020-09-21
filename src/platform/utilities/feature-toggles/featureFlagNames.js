@@ -4,6 +4,8 @@ export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
+  facilityLocatorPredictiveLocationSearch:
+    'facilityLocatorPredictiveLocationSearch',
   profileShowProfile2: 'profile_show_profile_2.0',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
@@ -20,6 +22,7 @@ export default Object.freeze({
   vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
   vaOnlineSchedulingExpressCare: 'vaOnlineSchedulingExpressCare',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
+  vaOnlineSchedulingFlatFacilityPage: 'vaOnlineSchedulingFlatFacilityPage',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
@@ -32,6 +35,7 @@ export default Object.freeze({
   gibctSearchEnhancements: 'gibctSearchEnhancements',
   gibctFilterEnhancement: 'gibctFilterEnhancement',
   gibctBenefitFilterEnhancement: 'gibctBenefitFilterEnhancement',
+  gibctSchoolRatings: 'gibctSchoolRatings',
   form996HigherLevelReview: 'form996HigherLevelReview',
   debtLettersShowLetters: 'debtLettersShowLetters',
   debtLettersShowLettersV2: 'debtLettersShowLettersV2',
@@ -54,4 +58,5 @@ export default Object.freeze({
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   show526Wizard: 'show526Wizard',
+  showChapter36: 'show_chapter_36',
 });

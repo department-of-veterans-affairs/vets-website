@@ -3,7 +3,10 @@ import { Link } from 'react-router';
 
 const HowDoIPayV2 = () => (
   <div className="vads-u-font-family--sans">
-    <h3 id="howDoIPay" className="vads-u-margin-top--4 vads-u-margin-bottom-2">
+    <h3
+      id="howDoIPay"
+      className="vads-u-margin-top--4 vads-u-margin-bottom-2 vads-u-font-size--h2"
+    >
       How do I pay my VA debt?
     </h3>
     <p className="vads-u-margin-top--0">
@@ -36,10 +39,9 @@ const HowDoIPayV2 = () => (
       {'.'}
     </p>
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By mail</h3>
-    <p className="vads-u-margin-top--0">
+    <p className="vads-u-margin-y--0">
       Find instructions on how to pay by mail in the demand letter sent to your
-      address or you can{' '}
-      <Link to="/download-letters">download them online</Link>.
+      address or you can <Link to="/debt-letters">download them online</Link>.
     </p>
   </div>
 );

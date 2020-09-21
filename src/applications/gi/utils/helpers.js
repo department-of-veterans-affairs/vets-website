@@ -1,5 +1,7 @@
 import { snakeCase } from 'lodash';
 import constants from 'vets-json-schema/dist/constants.json';
+import URLSearchParams from 'url-search-params';
+import { useLocation } from 'react-router-dom';
 import { SMALL_SCREEN_WIDTH } from '../constants';
 
 export const formatNumber = value => {
@@ -133,3 +135,7 @@ export const handleInputFocusWithPotentialOverLap = (
     }
   }
 };
+
+export function useQueryParams() {
+  return new URLSearchParams(useLocation().search);
+}
