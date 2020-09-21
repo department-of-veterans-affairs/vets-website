@@ -21,6 +21,8 @@ const {
   getWebpackEntryPoints,
 } = require('./manifest-helpers');
 
+const vaMedaliaStylesFilename = 'va-medallia-styles';
+
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
 const timestamp = new Date().getTime();
@@ -41,7 +43,7 @@ const sharedModules = [
 const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
   style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
-  vaMedalliaStyles: getAbsolutePath(
+  [vaMedaliaStylesFilename]: getAbsolutePath(
     'src/platform/site-wide/sass/va-medallia-style.scss',
   ),
   styleConsolidated: getAbsolutePath(
@@ -239,9 +241,14 @@ module.exports = env => {
       }),
 
       new MiniCssExtractPlugin({
-        filename: !isOptimizedBuild
-          ? '[name].css'
-          : `[name].[contenthash]-${timestamp}.css`,
+        moduleFilename: ({ name, entryModule }) => {
+          const showHash = isOptimizedBuild && name !== vaMedaliaStylesFilename;
+          const { renderedHash } = entryModule;
+
+          return showHash
+            ? `${name}.${renderedHash}-${timestamp}.css`
+            : `${name}.css`;
+        },
       }),
 
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
