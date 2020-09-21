@@ -24,15 +24,22 @@ Support for Codespaces is a work in progress.
    - Download Drupal cache
    - See `/.devcontainer/post-create.sh` for full script
 
-   > While setup is in process the "Configure Codespace" step will be active. Click notifications (bell icon in bottom right corner) and "See progress logs" to view status. There is also a VS Code command: `>Codespaces: View Creation Log`
-   
+1. Click notifications (bell icon in bottom right corner) and "See progress logs" to view status. There is also a VS Code command: `>Codespaces: View Creation Log`
+
    |![see progress logs](./images/codespaces-progress-logs.png)|
    |-|
+
+1. While setup is in process the "Configure Codespace" step will be active.
    
-   |![creation logs](./images/codespaces-creation-log.png)   |
+   |![creation logs](./images/codespaces-creation-log.png)|
    |-|
 
-   *Full log available at `~/post-create.log`*
+1. Once setup is complete the "Configure Codespace" still will show as complete.
+   
+   |![creation logs](./images/codespace-configure-complete.png)|
+   |-|
+
+   *Full logs are available at `~/post-create.log`*
 
 1. Start the development server
    - Open terminal
