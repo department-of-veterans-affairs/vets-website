@@ -220,10 +220,6 @@
         }
       }
     },
-    "date": {
-      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
-      "type": "string"
-    },
     "privacyAgreementAccepted": {
       "type": "boolean",
       "enum": [
@@ -251,7 +247,11 @@
   ],
   "required": [
     "fullName",
-    "preferredContactMethod"
+    "preferredContactMethod",
+    "topic",
+    "inquiryType",
+    "query",
+    "veteranStatus"
   ],
   "properties": {
     "fullName": {
@@ -429,6 +429,10 @@
         "veteranIsDeceased": {
           "type": "boolean"
         },
+        "dateOfDeath": {
+          "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+          "type": "string"
+        },
         "branchOfService": {
           "type": "string",
           "enum": [
@@ -469,9 +473,6 @@
     },
     "address": {
       "$ref": "#/definitions/address"
-    },
-    "dateOfDeath": {
-      "$ref": "#/definitions/date"
     },
     "privacyAgreementAccepted": {
       "$ref": "#/definitions/privacyAgreementAccepted"
