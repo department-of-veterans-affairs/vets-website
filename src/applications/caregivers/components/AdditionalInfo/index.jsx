@@ -5,7 +5,7 @@ import { links } from 'applications/caregivers/definitions/content';
 
 const VeteranSSNInfo = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="Why is this required">
+    <AdditionalInfo triggerText="Why is this required?">
       We need the Veteran’s Social Security number or tax identification number
       to process the application when it’s submitted online, but it’s not a
       requirement to apply for the program.
@@ -57,8 +57,11 @@ const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
               <li>Parent</li>
               <li>Spouse</li>
               <li>Son or daughter</li>
-              <li>Step-family member</li>
+              <li>Stepfamily member</li>
               <li>Grandchild</li>
+              <li>Significant other</li>
+              <li>Friend or neighbor</li>
+              <li>Other relative</li>
             </ul>
           </>
         </AdditionalInfo>
@@ -93,8 +96,11 @@ const SecondaryCaregiverLegal = () => (
           <li>Parent</li>
           <li>Spouse</li>
           <li>Son or daughter</li>
-          <li>Step-family member</li>
+          <li>Stepfamily member</li>
           <li>Grandchild</li>
+          <li>Significant other</li>
+          <li>Friend or neighbor</li>
+          <li>Other relative</li>
         </ul>
       </>
     </AdditionalInfo>

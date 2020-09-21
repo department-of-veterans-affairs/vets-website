@@ -50,20 +50,17 @@ const IntroductionPage = ({ route, router }) => {
               <li>
                 Health insurance information for the Primary Family Caregiver
               </li>
-            </ul>
 
-            <div className="process-lists">
-              <p>
-                <b>Note: </b> You’ll need to have the Veteran’s Social Security
-                number or tax identification number to complete the online
-                application, but it’s not required to apply for the program. If
-                you would like to apply without providing the Veteran’s Social
-                Security number or tax identification number,
+              <li>
+                Veteran's Social Security number or tax identification number
+                (This is required for the online application only. If you’d like
+                to apply without providing this information, you can
                 <a className="vads-u-margin-left--0p5" href="#">
-                  download the form.
+                  [download the paper form (PDF)]
                 </a>
-              </p>
-            </div>
+                )
+              </li>
+            </ul>
 
             <div>
               <h4 className="vads-u-font-size--h6">

@@ -92,7 +92,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         <p>
           {`I understand that the Veteran or Veteran’s surrogate may initiate my
             revocation as a ${label} (PCAFC) at any time. I understand that my designation 
-            as a Primary Family Caregiver may be revoked or I may be discharged from the program 
+            as a Secondary Family Caregiver may be revoked or I may be discharged from the program 
             by the Secretary of Veterans Affairs or his designee, as set forth in 38 CFR 71.45. `}
         </p>
 

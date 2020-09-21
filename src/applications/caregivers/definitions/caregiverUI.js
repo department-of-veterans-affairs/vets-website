@@ -10,6 +10,7 @@ import {
   PleaseSelectVAFacility,
   AdditionalCaregiverInfo,
   VeteranSSNInfo,
+  SecondaryCaregiverInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
@@ -72,6 +73,10 @@ export default {
     }),
     hasSecondaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Secondary Family Caregiver?',
+      'ui:description': SecondaryCaregiverInfo({
+        additionalInfo: true,
+        headerInfo: false,
+      }),
       'ui:widget': 'yesNo',
     },
     hasSecondaryCaregiverTwoUI: {
