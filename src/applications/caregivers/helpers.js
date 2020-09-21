@@ -158,7 +158,7 @@ const isSSNUnique = formData => {
 export const validateSSNIsUnique = (errors, formData) => {
   if (!isSSNUnique(formData)) {
     errors.addError(
-      'Please enter a unique Social Security or tax identification number',
+      "We're sorry. You've already entered this number elsewhere. Please check your data and try again.",
     );
   }
 };
