@@ -127,7 +127,7 @@
     "rootUrl": "/view-change-dependents/view",
     "template": {
       "layout": "page-react.html",
-      "vagovprod": false
+      "vagovprod": true
     }
   },
   {
