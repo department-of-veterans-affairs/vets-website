@@ -150,7 +150,7 @@ export function LandingPage({
             Learn about education programs and compare benefits by school.
           </p>
 
-          <form onSubmit={handleSubmit}>
+          <form id="landing-page-form" onSubmit={handleSubmit}>
             <BenefitsForm
               eligibilityChange={handleEligibilityChange}
               {...eligibility}

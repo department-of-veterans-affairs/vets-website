@@ -71,21 +71,15 @@ export const selectDropdown = (name, option) => {
   cy.get(selector).select(option);
 };
 
-const focusableElements = [
-  'a[href]',
-  'button',
-  'details',
-  'input[type="text"]',
-  'input[type="email"]',
-  'input[type="password"]',
-  'input[type="search"]',
-  'input[type="tel"]',
-  'input[type="url"]',
-  'input[type="radio"]',
-  'input[type="checkbox"]',
-  'select',
-  'textarea',
-];
+const elementsWithinCount = (elements, selector, count, msg) => {
+  cy.get(selector).within(() => {
+    cy.get(elements.join(', '))
+      .not('[disabled]')
+      .should(list => {
+        expect(list).have.length(count, msg);
+      });
+  });
+};
 
 /**
  * Checks if the count of focusable elements is correct. Focusable elements are those
@@ -98,18 +92,25 @@ const focusableElements = [
  * https://hiddedevries.nl/en/blog/2017-01-29-using-javascript-to-trap-focus-in-an-element
  */
 export const hasFocusableCount = (selector, count) => {
-  const elements = focusableElements.concat([
+  const focusableElements = [
+    'a[href]',
+    'button',
+    'details',
+    'input[type="text"]',
+    'input[type="email"]',
+    'input[type="password"]',
+    'input[type="search"]',
+    'input[type="tel"]',
+    'input[type="url"]',
+    'input[type="radio"]',
+    'input[type="checkbox"]',
+    'select',
+    'textarea',
     '[tabindex="0"]',
     '[tabindex="-1"]',
-  ]);
+  ];
   const msg = `Page does not contain ${count} focusable elements.`;
-  cy.get(selector).within(_el => {
-    cy.get(elements.join(', '))
-      .not('[disabled]')
-      .should(list => {
-        expect(list).have.length(count, msg);
-      });
-  });
+  elementsWithinCount(focusableElements, selector, count, msg);
 };
 
 /**
@@ -117,13 +118,23 @@ export const hasFocusableCount = (selector, count) => {
  * in the normal tab order (native focusable elements or those with tabIndex >= 0).
  */
 export const hasTabbableCount = (selector, count) => {
+  const tabbableElements = [
+    'a[href]',
+    'button',
+    'details',
+    'input[type="text"]',
+    'input[type="email"]',
+    'input[type="password"]',
+    'input[type="search"]',
+    'input[type="tel"]',
+    'input[type="url"]',
+    'input[type="radio"]:checked',
+    'input[type="checkbox"]',
+    'select',
+    'textarea',
+    '[tabindex]:not([tabindex="-1"])',
+  ];
+
   const msg = `Page does not contain ${count} tabbable elements.`;
-  cy.get(selector).within(_el => {
-    cy.get(focusableElements.join(', '))
-      .not('[disabled]')
-      .not('[tabindex="-1"]')
-      .should(list => {
-        expect(list).have.length(count, msg);
-      });
-  });
+  elementsWithinCount(tabbableElements, selector, count, msg);
 };

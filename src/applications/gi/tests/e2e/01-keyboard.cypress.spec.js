@@ -14,9 +14,9 @@ describe('Comparison Tool', () => {
     cy.axeCheck();
 
     // Assert the correct number of focusable elements in the form
-    hasFocusableCount('div.usa-width-two-thirds form', 15);
+    hasFocusableCount('#landing-page-form', 15);
 
     // Assert the correct number of tabbable elements in the form
-    hasTabbableCount('div.usa-width-two-thirds form', 11);
+    hasTabbableCount('#landing-page-form', 11);
   });
 });
