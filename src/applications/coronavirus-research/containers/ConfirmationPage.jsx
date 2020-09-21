@@ -65,14 +65,14 @@ export class ConfirmationPage extends React.Component {
             If you have questions or would like us to remove you from the volunteer list
           </h2>
           <p>
-            Send us an email at <a href="mailto:research@va.gov">research@va.gov</a>.           
+            Send us an email at <a href="mailto:feedback@va.gov">feedback@va.gov</a>.
           </p>
           <p>
             You can ask us to remove you from the list at any time. In your email, tell us your name, phone number, and email you listed on the volunteer form. We'll remove you from the list and we won't contact you again about these research studies.
-          </p>  
+          </p>
         </div>
       </div>
-      
+
     );
   }
 }
