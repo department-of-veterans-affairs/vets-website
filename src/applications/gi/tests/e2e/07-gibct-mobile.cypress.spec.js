@@ -21,6 +21,7 @@ describe('GI Bill Comparison Tool mobile view', () => {
     cy.axeCheck();
 
     search(searchResults.data[0].attributes.name);
+
     cy.axeCheck();
 
     // Search Page
