@@ -27,7 +27,7 @@ describe('GI Bill Comparison Tool mobile view', () => {
     cy.axeCheck();
 
     // Search Page
-    cy.get('.filter-button').click();
+    cy.get('.filter-button').click(FORCE_OPTION);
     cy.axeCheck();
 
     cy.get('.usa-button').click(FORCE_OPTION);
