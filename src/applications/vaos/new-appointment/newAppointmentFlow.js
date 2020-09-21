@@ -2,7 +2,6 @@ import {
   getFormData,
   getNewAppointment,
   getEligibilityStatus,
-  vaosCommunityCare,
   getTypeOfCare,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
