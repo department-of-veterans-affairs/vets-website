@@ -14,12 +14,12 @@ const testConfig = createTestConfig(
 
     dataSets: [
       'full-781-781a-8940-test.json',
-      'maximal-test',
+      // 'maximal-test',
       'maximal-bdd-test',
       'minimal-test',
       'minimal-bdd-test',
-      'newOnly-test',
-      'secondary-new-test.json',
+      // 'newOnly-test',
+      // 'secondary-new-test.json',
       'upload-781-781a-8940-test.json',
     ],
 
