@@ -1,30 +1,20 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { expect } from 'chai';
-import {
-  fireEvent,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 
+import set from 'platform/utilities/data/set';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
+import { getParentSiteMock } from '../../mocks/v0';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
-  getClinicMock,
-  getAppointmentSlotMock,
-  getParentSiteMock,
-} from '../mocks/v0';
-import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
-import {
-  mockEligibilityFetches,
-  mockAppointmentSlotFetch,
   mockCommunityCareEligibility,
   mockParentSites,
-} from '../mocks/helpers';
+} from '../../mocks/helpers';
 
-import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
-import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
+import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 
 const initialState = {
   featureToggles: {
@@ -33,11 +23,16 @@ const initialState = {
   user: {
     profile: {
       facilities: [{ facilityId: '983', isCerner: false }],
+      vet360: {
+        residentialAddress: {
+          addressLine1: '123 big sky st',
+        },
+      },
     },
   },
 };
 
-describe.only('VAOS integration: type of care pages', () => {
+describe('VAOS <TypeOfCarePage>', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
   it('should show type of care page with all care types', async () => {
@@ -48,6 +43,13 @@ describe.only('VAOS integration: type of care pages', () => {
     );
 
     expect(screen.getAllByRole('radio').length).to.equal(11);
+    expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
+
+    fireEvent.click(screen.getByText(/Continue/));
+
+    expect(await screen.findByText('Please choose a type of care')).to.exist;
+    expect(screen.history.push.called).to.not.be.true;
+
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
@@ -56,6 +58,32 @@ describe.only('VAOS integration: type of care pages', () => {
       ),
     );
   });
+
+  it('should save type of care choice on page change', async () => {
+    const store = createTestStore(initialState);
+    let screen = renderWithStoreAndRouter(
+      <Route component={TypeOfCarePage} />,
+      { store },
+    );
+
+    fireEvent.click(await screen.findByLabelText(/primary care/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/new-appointment/va-facility',
+      ),
+    );
+    await cleanup();
+
+    screen = renderWithStoreAndRouter(<Route component={TypeOfCarePage} />, {
+      store,
+    });
+
+    expect(await screen.findByLabelText(/primary care/i)).to.have.attribute(
+      'checked',
+    );
+  });
+
   it('should show type of care page without podiatry when CC flag is off', () => {
     const store = createTestStore({
       ...initialState,
@@ -90,6 +118,7 @@ describe.only('VAOS integration: type of care pages', () => {
     );
     expect(screen.getByText(/please choose a type of care/i)).to.exist;
   });
+
   it('should open facility type page when CC eligible and has a support parent site', async () => {
     const parentSite983 = {
       id: '983',
@@ -132,7 +161,7 @@ describe.only('VAOS integration: type of care pages', () => {
 
   it('should show eye care type of care page', async () => {
     const store = createTestStore(initialState);
-    let screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouter(
       <Route component={TypeOfCarePage} />,
       { store },
     );
@@ -144,64 +173,100 @@ describe.only('VAOS integration: type of care pages', () => {
         '/new-appointment/choose-eye-care',
       ),
     );
-    await cleanup();
-
-    screen = renderWithStoreAndRouter(<Route component={TypeOfEyeCarePage} />, {
-      store,
-    });
-
-    fireEvent.click(await screen.findByLabelText(/ophthalmology/i));
-    fireEvent.click(screen.getByText(/Continue/));
-    await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/va-facility',
-      ),
-    );
   });
 
-  it('should facility type page when CC eligible and optometry is chosen', async () => {
-    const parentSite983 = {
-      id: '983',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983',
-        rootStationCode: '983',
-        parentStationCode: '983',
-      },
-    };
-    mockParentSites(['983'], [parentSite983]);
-    mockCommunityCareEligibility({
-      parentSites: ['983'],
-      careType: 'Optometry',
-    });
+  it('should show sleep medicine type of care page', async () => {
     const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfCarePage} />,
+      { store },
+    );
+
+    fireEvent.click(await screen.findByLabelText(/sleep/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/choose-sleep-care',
+      ),
+    );
+  });
+
+  it('should display alert message when residental address is missing', async () => {
+    const stateWithoutAddress = set(
+      'user.profile.vet360.residentialAddress',
+      null,
+      initialState,
+    );
+    const store = createTestStore(stateWithoutAddress);
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfCarePage} />,
+      { store },
+    );
+
+    expect(await screen.findByText(/You need to have a home address/i)).to
+      .exist;
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-update-address-alert-displayed',
+    );
+    fireEvent.click(screen.getByText('Update your address'));
+    await waitFor(
+      () =>
+        expect(screen.queryByText(/You need to have a home address/i)).to.not
+          .exist,
+    );
+    expect(global.window.dataLayer[1].event).to.equal(
+      'nav-warning-alert-box-content-link-click',
+    );
+    expect(global.window.dataLayer[1].alertBoxHeading).to.equal(
+      "You need to have a home address on file to use some of the tool's features",
+    );
+    expect(global.window.dataLayer[2].alertBoxHeading).to.equal(undefined);
+  });
+
+  it('should display alert message when residental address is a PO Box', async () => {
+    const stateWithPOBox = set(
+      'user.profile.vet360.residentialAddress',
+      {
+        addressLine1: 'PO Box 123',
+      },
+      initialState,
+    );
+    const store = createTestStore(stateWithPOBox);
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfCarePage} />,
+      { store },
+    );
+
+    expect(await screen.findByText(/You need to have a home address/i)).to
+      .exist;
+  });
+
+  it('should save adress modal dismissal after page change', async () => {
+    const stateWithoutAddress = set(
+      'user.profile.vet360.residentialAddress',
+      null,
+      initialState,
+    );
+    const store = createTestStore(stateWithoutAddress);
     let screen = renderWithStoreAndRouter(
       <Route component={TypeOfCarePage} />,
       { store },
     );
 
-    fireEvent.click(await screen.findByLabelText(/eye care/i));
-    fireEvent.click(screen.getByText(/Continue/));
-    await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-eye-care',
-      ),
+    expect(await screen.findByText(/You need to have a home address/i)).to
+      .exist;
+    fireEvent.click(screen.getByText('Update your address'));
+    await waitFor(
+      () =>
+        expect(screen.queryByText(/You need to have a home address/i)).to.not
+          .exist,
     );
     await cleanup();
 
-    screen = renderWithStoreAndRouter(<Route component={TypeOfEyeCarePage} />, {
+    screen = renderWithStoreAndRouter(<Route component={TypeOfCarePage} />, {
       store,
     });
 
-    fireEvent.click(await screen.findByLabelText(/optometry/i));
-    fireEvent.click(screen.getByText(/Continue/));
-    await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-facility-type',
-      ),
-    );
+    expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
   });
-  it('should show audiology type of care page', () => {});
-  it('should show sleep medicine type of care page', () => {});
-  it('should show update address modal when no address', () => {});
 });
