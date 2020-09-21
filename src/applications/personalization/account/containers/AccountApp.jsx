@@ -14,44 +14,47 @@ import { fetchMHVAccount } from 'platform/user/profile/actions';
 
 import { selectShowProfile2 } from 'applications/personalization/profile-2/selectors';
 
-function AccountApp(props) {
-  useEffect(
-    () => {
-      if (props.redirect) {
-        window.location.replace('/profile/account-security');
-      }
-    },
-    [props.redirect],
-  );
+function Redirect() {
+  useEffect(() => {
+    window.location.replace('/profile/account-security');
+  }, []);
 
+  return null;
+}
+
+function AccountApp(props) {
   return (
     <div>
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
         user={props.user}
       >
-        <DowntimeNotification
-          appTitle="user account page"
-          dependencies={[externalServices.mvi, externalServices.emis]}
-        >
-          <div className="row user-profile-row">
-            <div className="usa-width-two-thirds medium-8 small-12 columns">
-              <h1>Your VA.gov account settings</h1>
-              <div className="va-introtext">
-                <p>
-                  Below, you’ll find your current settings for signing in to{' '}
-                  VA.gov. Find out how to update your settings as needed to
-                  access more site tools or add extra security to your account.
-                </p>
+        {props.redirect && <Redirect />}
+        {!props.redirect && (
+          <DowntimeNotification
+            appTitle="user account page"
+            dependencies={[externalServices.mvi, externalServices.emis]}
+          >
+            <div className="row user-profile-row">
+              <div className="usa-width-two-thirds medium-8 small-12 columns">
+                <h1>Your VA.gov account settings</h1>
+                <div className="va-introtext">
+                  <p>
+                    Below, you’ll find your current settings for signing in to{' '}
+                    VA.gov. Find out how to update your settings as needed to
+                    access more site tools or add extra security to your
+                    account.
+                  </p>
+                </div>
+                <AccountMain
+                  login={props.login}
+                  profile={props.profile}
+                  fetchMHVAccount={props.fetchMHVAccount}
+                />
               </div>
-              <AccountMain
-                login={props.login}
-                profile={props.profile}
-                fetchMHVAccount={props.fetchMHVAccount}
-              />
             </div>
-          </div>
-        </DowntimeNotification>
+          </DowntimeNotification>
+        )}
       </RequiredLoginView>
     </div>
   );
