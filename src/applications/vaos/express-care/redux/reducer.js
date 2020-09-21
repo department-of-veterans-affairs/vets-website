@@ -96,11 +96,19 @@ export default function expressCareReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
+      let updatedPreviousPages = state.newRequest.previousPages;
+      if (!Object.keys(updatedPreviousPages).length) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKey]: 'home',
+        };
+      }
       return {
         ...state,
         newRequest: {
           ...state.newRequest,
           pageChangeInProgress: true,
+          previousPages: updatedPreviousPages,
         },
       };
     }

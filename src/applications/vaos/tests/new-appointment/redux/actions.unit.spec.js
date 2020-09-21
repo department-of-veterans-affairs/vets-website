@@ -163,6 +163,7 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_STARTED,
+        pageKey: 'page2',
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_COMPLETED,
@@ -226,6 +227,7 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_STARTED,
+        pageKey: 'page3',
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_COMPLETED,

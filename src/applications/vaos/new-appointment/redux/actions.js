@@ -845,6 +845,7 @@ export function routeToPageInFlow(flow, history, current, action) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
+      pageKey: current,
     });
 
     let nextPage;
