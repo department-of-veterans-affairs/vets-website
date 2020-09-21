@@ -91,9 +91,7 @@ describe('When enrolled in health care', () => {
   after(() => {
     server.close();
   });
-  // Skipping this test for now since it does not handle this case correctly
-  // TODO:
-  it.skip('should show an error if it is unable to create the transaction', async () => {
+  it('should show an error if it is unable to create the transaction', async () => {
     server.use(...mocks.createTransactionFailure);
     getCheckbox(view).click();
 

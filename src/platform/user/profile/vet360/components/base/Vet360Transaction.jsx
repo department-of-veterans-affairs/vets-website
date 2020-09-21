@@ -22,7 +22,10 @@ function Vet360Transaction(props) {
   } = props;
 
   const method = transactionRequest?.method || 'PUT';
-  const hasError = isFailedTransaction(transaction);
+  const updateInProgress =
+    isPendingTransaction(transaction) || transactionRequest?.isPending;
+  const hasError =
+    isFailedTransaction(transaction) || transactionRequest?.isFailed;
   const classes = classNames('vet360-profile-field-content', {
     'usa-input-error': hasError,
   });
@@ -30,7 +33,7 @@ function Vet360Transaction(props) {
   return (
     <div className={classes}>
       {hasError && <Vet360TransactionInlineErrorMessage {...props} />}
-      {isPendingTransaction(transaction) ? (
+      {updateInProgress ? (
         <div id={id}>
           <Vet360TransactionPending
             title={title}
