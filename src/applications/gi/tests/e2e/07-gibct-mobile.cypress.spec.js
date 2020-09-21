@@ -1,4 +1,4 @@
-import { initMockProfile } from './cypress-helpers';
+import { initMockProfile, FORCE_OPTION } from './cypress-helpers';
 import institutionProfile from '../data/institution-profile.json';
 import searchResults from '../data/search-results.json';
 import { typeOfInstitution, selectSearchResult } from './gi-helpers';
@@ -30,7 +30,7 @@ describe('GI Bill Comparison Tool mobile view', () => {
     cy.get('.filter-button').click();
     cy.axeCheck();
 
-    cy.get('[data-cy=see-results]').click();
+    cy.get('.usa-button').click(FORCE_OPTION);
     cy.axeCheck();
 
     const profileLink = `/profile/${
