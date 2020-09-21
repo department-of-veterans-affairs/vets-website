@@ -306,7 +306,12 @@ export default function formReducer(state = initialState, action) {
         };
       }
 
-      if (locations.length === 1) {
+      if (!locations.length) {
+        newData = {
+          ...newData,
+          vaParent: parentFacilities[0]?.id,
+        };
+      } else if (locations.length === 1) {
         newData = {
           ...newData,
           vaFacility: locations[0].id,

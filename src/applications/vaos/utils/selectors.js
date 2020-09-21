@@ -313,6 +313,7 @@ export function getFacilityPageV2Info(state) {
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentFacilitiesStatus,
     singleValidVALocation: facilities?.length === 1,
+    siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
   };
 }
 

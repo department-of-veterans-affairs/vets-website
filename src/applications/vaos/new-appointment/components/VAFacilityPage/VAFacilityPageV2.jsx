@@ -7,13 +7,13 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
+import EligibilityModal from './EligibilityModal';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
+import FormButtons from '../../../components/FormButtons';
+import NoValidVAFacilities from './NoValidVAFacilities';
 import NoVASystems from './NoVASystems';
-// import NoValidVAFacilities from './NoValidVAFacilities';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
-import FormButtons from '../../../components/FormButtons';
-import EligibilityModal from './EligibilityModal';
 
 const initialSchema = {
   type: 'object',
@@ -44,15 +44,19 @@ function VAFacilityPageV2({
   facilities,
   facility,
   facilityDetails,
+  facilityDetailsStatus,
   loadingEligibilityStatus,
   noValidVAParentFacilities,
+  noValidVAFacilities,
   openFacilityPageV2,
   pageChangeInProgress,
+  parentDetails,
   parentFacilitiesStatus,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   schema,
   singleValidVALocation,
+  siteId,
   typeOfCare,
   updateFacilityPageV2Data,
 }) {
@@ -107,6 +111,30 @@ function VAFacilityPageV2({
       <div>
         {title}
         <NoVASystems />
+        <div className="vads-u-margin-top--2">
+          <FormButtons
+            onBack={goBack}
+            disabled
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (noValidVAFacilities) {
+    return (
+      <div>
+        {title}
+        <NoValidVAFacilities
+          formContext={{
+            siteId,
+            typeOfCare,
+            facilityDetailsStatus,
+            parentDetails,
+          }}
+        />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}

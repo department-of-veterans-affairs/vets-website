@@ -271,7 +271,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const directSchedulingEnabled = vaosDirectScheduling(initialState);
       const newAppointment = initialState.newAppointment;
       const data = newAppointment.data;
-      const typeOfCareId = getTypeOfCare(data)?.id;
+      const typeOfCare = getTypeOfCare(newAppointment.data);
+      const typeOfCareId = typeOfCare.id;
       const userSiteIds = selectSystemIds(initialState);
       const useVSP = vaosVSPAppointmentNew(initialState);
       let parentFacilities = newAppointment.parentFacilities;
@@ -342,6 +343,17 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       if (eligibilityDataNeeded && !locationId) {
         locationId = locations[0].id;
       }
+
+      if (!locations?.length) {
+        parentFacilities.forEach(p => {
+          recordEligibilityFailure(
+            'supported-facilities',
+            typeOfCare.name,
+            parseFakeFHIRId(p.id),
+          );
+        });
+      }
+
       const eligibilityChecks =
         newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
 
@@ -372,6 +384,15 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         typeOfCareId,
         eligibilityData,
       });
+
+      if (!locations.length) {
+        try {
+          const thunk = fetchFacilityDetails(parentFacilities[0].id);
+          await thunk(dispatch, getState);
+        } catch (e) {
+          captureError(e);
+        }
+      }
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({
