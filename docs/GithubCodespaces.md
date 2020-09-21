@@ -8,8 +8,12 @@ Support for Codespaces is a work in progress.
 
 1. Click green "Code" button and select "Open with Codespaces"
 
+   ![code menu](./images/codespaces-menu.png)
+
 1. If this is your first time using Codespaces select "New codespace"
 
+   ![new codespace button](./images/codespaces-new-codespace.png)
+   
 1. On initial creation the Codespace will perform these actions:
 
    - Configure Node, NPM, NVM, and Yarn
@@ -18,8 +22,12 @@ Support for Codespaces is a work in progress.
    - Download Drupal cache
    - See `/.devcontainer/post-create.sh` for full script
 
-   > While setup is in process the "Configure Codespace" step will be active. Click notifications (bell icon in bottom right corner) "See progress logs" to view status, or run `>Codespaces: View Creation Log`  
-   > Full log is available at `~/post-create.log`
+   > While setup is in process the "Configure Codespace" step will be active. Click notifications (bell icon in bottom right corner) and "See progress logs" to view status. There is also a VS Code command: `>Codespaces: View Creation Log`
+   
+   ![see progress logs](./images/codespaces-progress-logs.png)
+   ![creation logs](./images/codespaces-creation-log.png)   
+
+   *Full log available at `~/post-create.log`*
 
 1. Start the development server
    - Open terminal
