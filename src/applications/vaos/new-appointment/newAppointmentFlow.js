@@ -58,6 +58,41 @@ function getFacilityPageKey(state) {
   return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
 }
 
+async function vaFacilityNext(state, dispatch) {
+  const eligibilityStatus = getEligibilityStatus(state);
+
+  if (eligibilityStatus.direct) {
+    dispatch(startDirectScheduleFlow());
+    return 'clinicChoice';
+  }
+
+  if (eligibilityStatus.request) {
+    dispatch(startRequestAppointmentFlow());
+    return 'requestDateTime';
+  }
+
+  throw new Error('Veteran not eligible for direct scheduling or requests');
+}
+
+function vaFacilityPrevious(state) {
+  let nextState = 'typeOfCare';
+  const communityCareEnabled = vaosCommunityCare(state);
+
+  if (isSleepCare(state)) {
+    nextState = 'typeOfSleepCare';
+  } else if (
+    communityCareEnabled &&
+    isCCEligible(state) &&
+    getTypeOfCare(getFormData(state))?.ccId !== undefined
+  ) {
+    nextState = 'typeOfFacility';
+  } else if (isEyeCare(state)) {
+    nextState = 'typeOfEyeCare';
+  }
+
+  return nextState;
+}
+
 export default {
   home: {
     url: '/',
@@ -163,42 +198,13 @@ export default {
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    async next(state, dispatch) {
-      const eligibilityStatus = getEligibilityStatus(state);
-
-      if (eligibilityStatus.direct) {
-        dispatch(startDirectScheduleFlow());
-        return 'clinicChoice';
-      }
-
-      if (eligibilityStatus.request) {
-        dispatch(startRequestAppointmentFlow());
-        return 'requestDateTime';
-      }
-
-      throw new Error('Veteran not eligible for direct scheduling or requests');
-    },
-    previous(state) {
-      let nextState = 'typeOfCare';
-      const communityCareEnabled = vaosCommunityCare(state);
-
-      if (isSleepCare(state)) {
-        nextState = 'typeOfSleepCare';
-      } else if (
-        communityCareEnabled &&
-        isCCEligible(state) &&
-        getTypeOfCare(getFormData(state))?.ccId !== undefined
-      ) {
-        nextState = 'typeOfFacility';
-      } else if (isEyeCare(state)) {
-        nextState = 'typeOfEyeCare';
-      }
-
-      return nextState;
-    },
+    next: vaFacilityNext,
+    previous: vaFacilityPrevious,
   },
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
+    next: vaFacilityNext,
+    previous: vaFacilityPrevious,
   },
   clinicChoice: {
     url: '/new-appointment/clinics',

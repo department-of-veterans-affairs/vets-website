@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -60,10 +61,10 @@ function VAFacilityPageV2({
   typeOfCare,
   updateFacilityPageV2Data,
 }) {
+  const history = useHistory();
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
   const loadingParents = parentFacilitiesStatus === FETCH_STATUS.loading;
   const loadingFacilities = childFacilitiesStatus === FETCH_STATUS.loading;
-
   const [showEligibilityModal, setShowEligibilityModal] = useState(false);
 
   useEffect(
@@ -200,6 +201,7 @@ function VAFacilityPageV2({
           onChange={newData =>
             updateFacilityPageV2Data(pageKey, uiSchema, newData)
           }
+          onSubmit={goForward}
           data={data}
           formContext={{
             facilities,

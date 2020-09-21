@@ -38,6 +38,26 @@ import {
   getVARFacilityId,
 } from '../services/appointment';
 
+export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
+export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
+export const vaosRequests = state =>
+  toggleValues(state).vaOnlineSchedulingRequests;
+export const vaosCommunityCare = state =>
+  toggleValues(state).vaOnlineSchedulingCommunityCare;
+export const vaosDirectScheduling = state =>
+  toggleValues(state).vaOnlineSchedulingDirect;
+export const vaosPastAppts = state =>
+  toggleValues(state).vaOnlineSchedulingPast;
+export const vaosVSPAppointmentNew = state =>
+  toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
+export const vaosExpressCare = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCare;
+export const vaosExpressCareNew = state =>
+  toggleValues(state).vaOnlineSchedulingExpressCareNew;
+export const vaosFlatFacilityPage = state =>
+  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
+export const selectFeatureToggleLoading = state => toggleValues(state).loading;
+
 export function getNewAppointment(state) {
   return state.newAppointment;
 }
@@ -107,8 +127,12 @@ export function getChosenFacilityInfo(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
+  const selectedTypeOfCareFacilities = vaosFlatFacilityPage(state)
+    ? facilities[`${typeOfCareId}`]
+    : facilities[`${typeOfCareId}_${data.vaParent}`];
+
   return (
-    facilities[`${typeOfCareId}_${data.vaParent}`]?.find(
+    selectedTypeOfCareFacilities?.find(
       facility => facility.id === data.vaFacility,
     ) || null
   );
@@ -294,9 +318,7 @@ export function getFacilityPageV2Info(state) {
     childFacilitiesStatus,
     eligibility: getEligibilityChecks(state),
     facilities,
-    facility: data.vaFacility
-      ? facilities.find(f => f.id === data.vaFacility)
-      : undefined,
+    facility: getChosenFacilityInfo(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     hasDataFetchingError:
@@ -451,26 +473,6 @@ export function getChosenVACityState(state) {
 
   return null;
 }
-
-export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
-export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
-export const vaosRequests = state =>
-  toggleValues(state).vaOnlineSchedulingRequests;
-export const vaosCommunityCare = state =>
-  toggleValues(state).vaOnlineSchedulingCommunityCare;
-export const vaosDirectScheduling = state =>
-  toggleValues(state).vaOnlineSchedulingDirect;
-export const vaosPastAppts = state =>
-  toggleValues(state).vaOnlineSchedulingPast;
-export const vaosVSPAppointmentNew = state =>
-  toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
-export const vaosExpressCare = state =>
-  toggleValues(state).vaOnlineSchedulingExpressCare;
-export const vaosExpressCareNew = state =>
-  toggleValues(state).vaOnlineSchedulingExpressCareNew;
-export const vaosFlatFacilityPage = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
-export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 
 export const isWelcomeModalDismissed = state =>
   state.announcements.dismissed.some(
