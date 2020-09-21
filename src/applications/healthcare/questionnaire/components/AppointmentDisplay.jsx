@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 export default function AppointmentDisplay({ appointment }) {
-  if (!appointment) {
+  if (!appointment?.vdsAppointments || !appointment.vdsAppointments[0]) {
     return <></>;
   }
   const thisAppointment = appointment.vdsAppointments[0];

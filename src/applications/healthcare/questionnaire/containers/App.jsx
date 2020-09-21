@@ -30,6 +30,8 @@ const App = props => {
           setLoadedAppointment(data);
           setIsLoading(false);
         });
+      } else {
+        setIsLoading(false);
       }
     },
     [setLoading, setLoadedAppointment, isLoggedIn],

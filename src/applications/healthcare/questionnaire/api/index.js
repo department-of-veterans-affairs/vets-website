@@ -15,7 +15,8 @@ const loadAppointment = async () => {
       }, 0);
     });
   } else {
-    promise = apiRequest('/v0/health_quest');
+    const url = '/health_quest/v0/appointments/123123';
+    promise = apiRequest(`${environment.API_URL}${url}`);
   }
   return promise;
 };
