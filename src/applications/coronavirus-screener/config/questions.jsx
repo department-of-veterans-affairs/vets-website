@@ -101,8 +101,7 @@ export const questions = [
   },
   {
     id: 'travel-self-pr',
-    text:
-      'Have you traveled out of Puerto Rico within the last 14 days?',
+    text: 'Have you traveled out of Puerto Rico within the last 14 days?',
     customId: ['672'],
   },
   {
@@ -113,8 +112,7 @@ export const questions = [
   },
   {
     id: 'travel-self-stvi',
-    text:
-      'Have you traveled out of St. Thomas within the last 14 days?',
+    text: 'Have you traveled out of St. Thomas within the last 14 days?',
     customId: ['672GB'],
   },
   {
@@ -125,8 +123,7 @@ export const questions = [
   },
   {
     id: 'travel-self-scvi',
-    text:
-      'Have you traveled out of St. Croix within the last 14 days?',
+    text: 'Have you traveled out of St. Croix within the last 14 days?',
     customId: ['672GA'],
   },
   {
@@ -134,7 +131,7 @@ export const questions = [
     text:
       'Have you had contact with someone who has traveled out of St. Croix within the last 14 days?',
     customId: ['672GA'],
-  }
+  },
 ];
 
 export const defaultOptions = [
