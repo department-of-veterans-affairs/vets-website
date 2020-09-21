@@ -38,6 +38,8 @@ function JoinVideoInstructions({ appointment }) {
 }
 
 export default function VideoVisitSection({ appointment }) {
+  const isAtlas = isAtlasLocation(appointment);
+
   let linkContent = <span>Video visit link unavailable</span>;
 
   if (appointment.vaos.isPastAppointment) {
@@ -48,7 +50,7 @@ export default function VideoVisitSection({ appointment }) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );
-  } else if (isAtlasLocation(appointment)) {
+  } else if (isAtlas) {
     linkContent = <JoinVideoInstructions appointment={appointment} />;
   } else if (
     appointment.contained?.[0]?.telecom?.find(tele => tele.system === 'url')
@@ -98,12 +100,11 @@ export default function VideoVisitSection({ appointment }) {
   return (
     <dl className="vads-u-margin--0">
       <dt className="vads-u-font-weight--bold">
-        How to join your{' '}
-        {isAtlasLocation(appointment) ? 'video appointment' : 'virtual session'}
+        How to join your {isAtlas ? 'video appointment' : 'virtual session'}
       </dt>
       <dd>
         {linkContent}
-        {isAtlasLocation(appointment) && (
+        {isAtlas && (
           <div>
             <p>
               <span className="vads-u-font-weight--bold">

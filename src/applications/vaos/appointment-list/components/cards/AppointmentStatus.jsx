@@ -52,7 +52,6 @@ export default function AppointmentStatus({
         <i
           aria-hidden="true"
           className={`fas ${iconClass} vads-u-line-height--4`}
-          style={{ color: '#2e8540' }}
         />
       </div>
       <span className="vads-u-font-weight--bold vads-u-flex--1">

@@ -476,11 +476,11 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     await screen.findByText(/Video appointment at an ATLAS location/i);
 
     // Should display appointment date
-    // expect(
-    //   screen.getByText((content, _element) =>
-    //     content.startsWith(startDate.format('dddd, MMMM D, YYYY ')),
-    //   ),
-    // ).to.be.ok;
+    expect(
+      screen.getByText((content, _element) =>
+        content.startsWith(startDate.format('dddd, MMMM D, YYYY ')),
+      ),
+    ).to.be.ok;
 
     // Should display appointment status
     expect(screen.getByText(/Confirmed/i)).to.be.ok;
@@ -495,6 +495,11 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
 
     // Should display appointment location address
     expect(screen.getByText(/114 Dewey Ave, Eureka, MT 59917/i)).to.be.ok;
+
+    // Should display directions to location
+    // TODO: enable test when it's determine what to use for location name
+    // expect(screen.getByRole('link', { name: 'Directions to undefined' })).to.be
+    //   .ok;
 
     // Should display appointment code
     expect(screen.getByText(/Appointment Code: 7VBBCA/i)).to.be.ok;
