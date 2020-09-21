@@ -32,7 +32,6 @@ Cypress.Commands.add('axeCheck', (context = 'main') => {
   Cypress.log();
 
   const options = {
-    includedImpacts: ['critical'],
     runOnly: {
       type: 'tag',
       values: ['wcag2a', 'wcag2aa'],
