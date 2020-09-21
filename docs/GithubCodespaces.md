@@ -1,6 +1,16 @@
 # Github Codespaces
 
-Support for Codespaces is a work in progress.
+## Introduction
+
+Github Codespaces provide an Integrated Development Environment (IDE) that is accessible entirely in a web browser. It is essentially a web based version of [VS Code ](https://code.visualstudio.com/) running on a cloud based virtual machine.
+
+Codespaces is [currently in beta](https://github.com/features/codespaces) and VA users have been given early access to test.
+
+If you are interested in helping test Codespaces please join `#codespaces` on dsva.slack.com
+
+Note: Support for Codespaces is a work in progress. During the beta all Codespaces are free, but restricted to the smallest size and can be quite slow. Codespaces auto pause after 30 min of inactivity, and there is a limite of 2 Codespaces per user.
+
+[Codespaces Documentation](https://docs.github.com/en/github/developing-online-with-codespaces/about-codespaces)
 
 ## Getting Started
 
