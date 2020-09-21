@@ -37,20 +37,30 @@
           <ul class="usa-unstyled-list">
             {% for mediaImage in fieldMediaListImages.entity.fieldImages %}
               <li className="vads-u-display--flex vads-u-margin-bottom--2">
-              {% assign alt = mediaImage.entity.image.alt %}
-              {% if alt == mediaImage.entity.entityLabel %}
-                {% assign alt = '' %}
-              {% endif %}
-                <img
-                  alt="{{ alt }}"
-                  height="{{ mediaImage.entity.image.height }}"
-                  width="{{ mediaImage.entity.image.width }}"
-                  src="{{ mediaImage.entity.image.url }}" />
-                <div className="vads-u-display--flex vads-u-flex-direction--column">
-                  <h2 className="vads-u-font-size--h3">{{ mediaImage.entity.entityLabel }}</h2>
-                  {% if mediaImage.entity.fieldDescription %}
-                    <p>{{ mediaImage.entity.fieldDescription }}</p>
-                  {% endif %}
+
+                {% assign alt = mediaImage.entity.image.alt %}
+                {% if alt == mediaImage.entity.entityLabel %}
+                  {% assign alt = '' %}
+                  {{ testing }}
+                {% endif %}
+
+                <div class="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-y--2">
+                  <div class="vads-l-row">
+                    <div class="vads-l-col--2">
+                      <img
+                        class="vads-u-border--1px vads-u-border-color--gray-light"
+                        alt="{{ alt }}"
+                        height="{{ mediaImage.entity.image.height }}"
+                        width="{{ mediaImage.entity.image.width }}"
+                        src="{{ mediaImage.entity.image.url }}" />
+                    </div>
+                    <div class="vads-l-col--10 vads-u-padding-left--2">
+                      <h2 class="vads-u-font-size--h3">{{ mediaImage.entity.entityLabel }}</h2>
+                      {% if mediaImage.entity.fieldDescription %}
+                        <p>{{ mediaImage.entity.fieldDescription }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
                 </div>
               </li>
             {% endfor %}
