@@ -40,9 +40,11 @@ const createAccordionButtonId = name => `#${createId(name)}-accordion-button`;
  * @param name button property of the AccordionItem
  */
 export const clickAccordion = name => {
-  cy.get(createAccordionButtonId(name))
+  const accordionButtonId = createAccordionButtonId(name);
+  cy.get(accordionButtonId).should('be.visible');
+  cy.get(accordionButtonId)
     .first()
-    .click(FORCE_OPTION);
+    .click();
   cy.axeCheck();
 };
 

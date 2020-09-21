@@ -15,18 +15,20 @@ const deaSearchResults = require('../data/dea-search-results.json');
 const ojtProfile = require('../data/ojt-profile.json');
 
 describe('DEA benefit', () => {
-  it('path is valid without errors', () => {
-    const searchTerm = 'WISCONSIN';
-    const ojtFacilityCode = deaSearchResults.data[0].attributes.facility_code;
-    const facilityCode = deaSearchResults.data[1].attributes.facility_code;
+  const ojtFacilityCode = deaSearchResults.data[0].attributes.facility_code;
+  const facilityCode = deaSearchResults.data[1].attributes.facility_code;
 
-    initApplicationMock(institutionProfile, deaSearchResults);
+  beforeEach(() => {
     cy.route('GET', `/v0/gi/institutions/${ojtFacilityCode}`, ojtProfile);
-
-    // Landing page
+    initApplicationMock(institutionProfile, deaSearchResults);
     cy.visit('/gi-bill-comparison-tool').injectAxe();
     cy.axeCheck();
+  });
 
+  it('path is valid without errors', () => {
+    const searchTerm = 'WISCONSIN';
+
+    // Landing page
     // Select DEA benefit and search
     cy.get('#giBillChapter').select('35');
     cy.get('.keyword-search input[type="text"]').type(searchTerm);
@@ -52,6 +54,14 @@ describe('DEA benefit', () => {
     cy.get('input[name="category"][value="ALL"]').check();
     cy.url().should('include', `/search?category=ALL&name=${searchTerm}`);
 
+    cy.get('#giBillChapter')
+      .invoke('val')
+      .should('eq', '35');
+
+    cy.get(`#search-result-${ojtFacilityCode} a`)
+      .first()
+      .scrollIntoView();
+
     // Click first result
     cy.get(`#search-result-${ojtFacilityCode} a`)
       .first()
@@ -60,14 +70,21 @@ describe('DEA benefit', () => {
     // Profile page
     cy.get('.profile-page').should('be.visible');
     cy.url().should('include', `/profile/${ojtFacilityCode}`);
-    cy.axeCheck();
 
     // Check accordions
     const eybSections = {
       yourMilitaryDetails: 'Your military details',
       learningFormat: 'Learning format and schedule',
     };
+
+    cy.get('#giBillChapter').should('be.visible');
+    cy.get('#giBillChapter').scrollIntoView();
+    cy.get('#giBillChapter')
+      .invoke('val')
+      .should('eq', '35');
+
     checkSectionAccordion(false, 'yourMilitaryDetails', eybSections);
+
     checkSectionAccordion(true, 'learningFormat', eybSections);
 
     // Verify enrollment values update housing benefit correctly
