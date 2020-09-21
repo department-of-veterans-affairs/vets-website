@@ -36,10 +36,6 @@ class ResponsiveTable extends Component {
     );
   };
 
-  capitalizeFirstLetter = string => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
   renderRow = (item, rowIndex) => {
     const { fields } = this.props;
     let extraClass = '';
@@ -57,7 +53,7 @@ class ResponsiveTable extends Component {
             <td
               data-index={index}
               className={`${borderClasses} ${extraClass}`}
-              data-label={`${this.capitalizeFirstLetter(field.label)}:`}
+              data-label={`${field.label}:`}
               key={`${rowIndex}-${field.value}`}
             >
               {item[field.value] === null ? '---' : item[field.value]}
