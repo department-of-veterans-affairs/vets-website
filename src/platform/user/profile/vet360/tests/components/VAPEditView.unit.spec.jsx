@@ -107,6 +107,24 @@ describe('<VAPEditView/>', () => {
     it('sets the LoadingButton to isLoading if the transaction is pending', () => {});
   });
 
+  describe('the cancel button', () => {
+    it('is hidden when the transactionRequest is pending', () => {
+      props.transactionRequest = { isPending: true };
+      props.render = actionButtons => actionButtons;
+      component = enzyme.mount(<VAPEditView {...props} />);
+      expect(component.text()).to.not.include('Cancel');
+      component.unmount();
+    });
+
+    it('is visible when the transactionRequest is not pending', () => {
+      props.transactionRequest = { isPending: false };
+      props.render = actionButtons => actionButtons;
+      component = enzyme.mount(<VAPEditView {...props} />);
+      expect(component.text()).to.include('Cancel');
+      component.unmount();
+    });
+  });
+
   describe('Vet360EditModalErrorMessage', () => {
     it("is not shown if there isn't an error", () => {
       component = enzyme.shallow(<VAPEditView {...props} />);

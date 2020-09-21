@@ -260,13 +260,9 @@
     "rootUrl": "/view-change-dependents/add-remove-form-686c",
     "template": {
       "layout": "page-react.html",
-      "vagovprod": false,
+      "vagovprod": true,
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
-        {
-          "path": "view-change-dependents/view",
-          "name": "View or change your dependents"
-        },
         {
           "path": "view-change-dependents/add-remove-form-686c/",
           "name": "Add or remove dependents form 21-686c"
