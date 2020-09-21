@@ -18,7 +18,7 @@ import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 
 const initialSchema = {
   type: 'object',
-  required: ['vaParent', 'vaFacility'],
+  required: ['vaFacility'],
   properties: {
     vaFacility: {
       type: 'string',
