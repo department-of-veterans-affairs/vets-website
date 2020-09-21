@@ -659,6 +659,12 @@ export function checkCommunityCareEligibility() {
           isEligible: response.eligible,
         });
 
+        if (response.eligible) {
+          recordEvent({
+            event: `${GA_PREFIX}-cc-eligible-yes`,
+          });
+        }
+
         return response.eligible;
       }
     } catch (e) {
