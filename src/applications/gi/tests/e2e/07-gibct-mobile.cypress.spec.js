@@ -1,7 +1,7 @@
 import { initMockProfile } from './cypress-helpers';
 import institutionProfile from '../data/institution-profile.json';
 import searchResults from '../data/search-results.json';
-import { typeOfInstitution, search, selectSearchResult } from './gi-helpers';
+import { typeOfInstitution, selectSearchResult } from './gi-helpers';
 
 describe('GI Bill Comparison Tool mobile view', () => {
   beforeEach(() => {
@@ -20,8 +20,10 @@ describe('GI Bill Comparison Tool mobile view', () => {
     typeOfInstitution('school');
     cy.axeCheck();
 
-    search(searchResults.data[0].attributes.name);
-
+    cy.get('.keyword-search input[type="text"]').type(
+      searchResults.data[0].attributes.name,
+    );
+    cy.get('#search-button').click();
     cy.axeCheck();
 
     // Search Page
@@ -29,6 +31,7 @@ describe('GI Bill Comparison Tool mobile view', () => {
     cy.axeCheck();
 
     cy.get('[data-cy=see-results]').click();
+    cy.axeCheck();
 
     const profileLink = `/profile/${
       searchResults.data[0].attributes.facility_code
