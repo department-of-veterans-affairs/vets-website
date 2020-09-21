@@ -205,8 +205,6 @@ function VAFacilityPageV2({
           data={data}
           formContext={{
             facilities,
-            eligibility,
-            facilityDetails,
           }}
         >
           <FormButtons

@@ -385,7 +385,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         eligibilityData,
       });
 
-      if (!locations.length) {
+      if (parentFacilities.length && !locations.length) {
         try {
           const thunk = fetchFacilityDetails(parentFacilities[0].id);
           await thunk(dispatch, getState);
