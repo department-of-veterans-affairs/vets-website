@@ -1,5 +1,9 @@
 import path from 'path';
-import { assertDataLayerEvent, assertDataLayerItem } from './utils';
+import {
+  assertDataLayerEvent,
+  assertDataLayerItem,
+  assertEventAndAttributes,
+} from './utils';
 
 describe('Google Analytics FL Events', () => {
   before(() => {
@@ -29,12 +33,13 @@ describe('Google Analytics FL Events', () => {
         .click()
         .as('markerClick')
         .then(() => {
-          assertDataLayerEvent(win, 'fl-map-pin-click');
-          [
+          assertEventAndAttributes(win, 'fl-map-pin-click', [
+            'event',
             'fl-facility-type',
             'fl-facility-classification',
             'fl-facility-name',
-          ].forEach(a => assertDataLayerItem(win, a));
+            'fl-facility-distance-from-search',
+          ]);
         });
 
       cy.get('.leaflet-control-zoom-in').click();
@@ -60,15 +65,14 @@ describe('Google Analytics FL Events', () => {
         .click();
 
       cy.get('#facility-detail-id', { timeout: 10000 }).should(() => {
-        assertDataLayerEvent(win, 'fl-results-click');
-        [
+        assertEventAndAttributes(win, 'fl-results-click', [
           'fl-facility-name',
           'fl-facility-type',
           'fl-facility-classification',
           'fl-facility-id',
           'fl-result-page-number',
           'fl-result-position',
-        ].forEach(a => assertDataLayerItem(win, a));
+        ]);
       });
     });
   });
