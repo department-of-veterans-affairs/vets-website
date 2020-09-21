@@ -40,7 +40,7 @@
             <!-- Checklist section header -->
             {% if checklistSection.entity.fieldSectionHeader %}
               <h3>{{ checklistSection.entity.fieldSectionHeader }}</h3>
-            {% end %}
+            {% endif %}
 
             <!-- Checklist items -->
             <ul>
@@ -55,12 +55,12 @@
 
                 <!-- Increment the checkbox's index -->
                 {% assign checklistItemIndex = checklistItemIndex + 1 %}
-              {% end %}
+              {% endfor %}
             </ul>
 
             <!-- Increment the section's index -->
             {% assign checklistSectionIndex = checklistSectionIndex + 1 %}
-          {% end %}
+          {% endfor %}
 
           <!-- Buttons -->
           {% if fieldButtonsRepeat %}
