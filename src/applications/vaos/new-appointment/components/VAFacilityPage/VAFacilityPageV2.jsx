@@ -203,9 +203,7 @@ function VAFacilityPageV2({
           }
           onSubmit={goForward}
           data={data}
-          formContext={{
-            facilities,
-          }}
+          formContext={{ facilities }}
         >
           <FormButtons
             continueLabel=""
