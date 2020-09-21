@@ -13,10 +13,7 @@ export const typeOfInstitution = value => {
 };
 
 export const search = searchTerm => {
-  if (searchTerm)
-    cy.get('.keyword-search input[type="text"]', { timeout: 10000 }).type(
-      searchTerm,
-    );
+  if (searchTerm) cy.get('.keyword-search input[type="text"]').type(searchTerm);
 
   clickButton('#search-button');
   if (searchTerm) {
