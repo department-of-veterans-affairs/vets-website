@@ -117,7 +117,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... faqMultipleQA
         ... nodeStepByStep
         ... nodeMediaListImages
-        ... checklistPage
+        ... nodeChecklist
       }
     }`;
 
