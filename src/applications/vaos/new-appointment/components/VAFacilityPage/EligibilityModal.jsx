@@ -4,7 +4,7 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 
-export default function CancelAppointmentConfirmationModal({
+export default function EligibilityModal({
   onClose,
   eligibility,
   facilityDetails,
