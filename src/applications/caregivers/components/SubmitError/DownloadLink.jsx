@@ -51,7 +51,7 @@ const DownLoadLink = ({ form }) => {
 
   useEffect(
     () => {
-      if (isFormValid.isValid) downloadPDF(getFormData);
+      downloadPDF(getFormData);
     },
     [getFormData, isFormValid.isValid],
   );
@@ -97,21 +97,30 @@ const DownLoadLink = ({ form }) => {
 
     return (
       <div className="vads-u-margin-top--2 vads-u-color--secondary-dark pdf-download-link--error">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-exclamation-circle vads-u-padding-right--1 vads-u-color--gray-medium"
-        />
-
         <a
           aria-label="Error downloading 1010-CG PDF"
           className="vads-u-color--gray-medium"
         >
-          {getErrorMessage()}
+          <i
+            aria-hidden="true"
+            role="img"
+            className="fas fa-download vads-u-padding-right--1"
+          />
+          Download your completed application
           <span className="sr-only vads-u-margin-right--0p5">
             `dated ${moment(Date.now()).format('MMM D, YYYY')}`
           </span>
         </a>
+
+        <div className="error-note">
+          <i
+            aria-hidden="true"
+            role="img"
+            className="fas fa-exclamation-circle vads-u-padding-right--1"
+          />
+
+          <p>{getErrorMessage()}</p>
+        </div>
       </div>
     );
   };

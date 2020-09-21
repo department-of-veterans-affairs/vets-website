@@ -27,13 +27,26 @@
 
 .pdf-download-link--error {
   display: flex;
+  flex-direction: column;
 
-  i {
-    margin-top: 0.4em;
+  .error-note {
+    display: flex;
+
+    i {
+      margin-top: 0.4em;
+    }
+
+    p {
+      margin: 0;
+    }
   }
 
   a {
     display: flex;
     cursor: not-allowed;
+
+    i {
+      margin-top: 0.4em;
+    }
   }
 }
