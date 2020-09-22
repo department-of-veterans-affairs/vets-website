@@ -294,13 +294,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         }),
       );
 
-      const facilities = responses
-        .reduce(function(arr, row) {
-          return arr.concat(row.locations);
-        }, [])
-        .sort((a, b) => {
-          return a.name < b.name ? -1 : 1;
-        });
+      const facilities = [].concat(...responses.map(r => r?.locations || []));
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,

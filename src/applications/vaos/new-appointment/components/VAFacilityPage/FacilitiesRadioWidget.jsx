@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const INITIAL_FACILITY_DISPLAY_COUNT = 5;
+
 /*
  * This is a copy of the form system RadioWidget, but with custom
  * code to disable certain options. This isn't currently supported by the
@@ -17,10 +19,16 @@ export default function FacilitiesRadioWidget({
 
   // If user has already selected a value, and the index of that value is > 4,
   // show this view already expanded
-  const [displayAll, setDisplayAll] = useState(selectedIndex > 4);
+  const [displayAll, setDisplayAll] = useState(
+    selectedIndex >= INITIAL_FACILITY_DISPLAY_COUNT,
+  );
 
   const { facilities } = formContext;
-  const displayedOptions = displayAll ? enumOptions : enumOptions.slice(0, 4);
+  const displayedOptions = displayAll
+    ? enumOptions
+    : enumOptions.slice(0, INITIAL_FACILITY_DISPLAY_COUNT);
+
+  const hiddenCount = enumOptions.length - INITIAL_FACILITY_DISPLAY_COUNT;
 
   return (
     <div>
@@ -57,7 +65,10 @@ export default function FacilitiesRadioWidget({
           onClick={() => setDisplayAll(!displayAll)}
         >
           <span className="additional-info-title">
-            + {enumOptions.length - 4} more locations
+            {`+ ${enumOptions.length -
+              INITIAL_FACILITY_DISPLAY_COUNT} more location${
+              hiddenCount === 1 ? '' : 's'
+            }`}
             <i className="fas fa-angle-down" />
           </span>
         </button>

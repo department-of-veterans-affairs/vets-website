@@ -281,19 +281,16 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
-      const facilities = action.facilities;
-      // newSchema = unset('properties.vaFacilityMessage', newSchema);
+      const facilities = action.facilities.sort((a, b) => {
+        return a.name < b.name ? -1 : 1;
+      });
+
       newSchema = set(
         'properties.vaFacility',
         {
           type: 'string',
           enum: facilities.map(facility => facility.id),
-          enumNames: facilities.map(
-            facility =>
-              `${facility.name} (${facility.address?.city}, ${
-                facility.address?.state
-              })`,
-          ),
+          enumNames: facilities,
         },
         newSchema,
       );
