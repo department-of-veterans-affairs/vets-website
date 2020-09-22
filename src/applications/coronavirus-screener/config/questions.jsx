@@ -47,7 +47,8 @@ export const questions = [
   },
   {
     id: 'congestion',
-    text: 'Do you currently have a runny nose or nasal congestion?',
+    text:
+      "Do you currently have a runny nose or congestion that's new and not related to allergies?",
   },
   {
     id: 'exposure',
