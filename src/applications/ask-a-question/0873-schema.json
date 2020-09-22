@@ -284,6 +284,7 @@
       ]
     },
     "preferredContactMethod": {
+      "default": "email",
       "type": "string",
       "enum": [
         "email",
@@ -292,7 +293,7 @@
       ],
       "enumNames": [
         "Email",
-        "Mail",
+        "US Mail",
         "Phone"
       ]
     },
