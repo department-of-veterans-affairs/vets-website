@@ -190,9 +190,12 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(view.getByText(/We can’t access your veteran status/i)).to.exist;
+      expect(view.getByText(/We don't seem to have your military records/i)).to
+        .exist;
       expect(
-        view.getByText(/We’re sorry. We can’t access your veteran status./i),
+        view.getByText(
+          /We're sorry. We can't match your information to our records./i,
+        ),
       ).to.exist;
     });
   });

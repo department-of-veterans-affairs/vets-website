@@ -7,6 +7,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -31,8 +32,25 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
       <AlertBox
         isVisible
         status="warning"
-        headline="We can’t access your veteran status"
-        content={<p>We’re sorry. We can’t access your veteran status.</p>}
+        headline="We don't seem to have your military records"
+        content={
+          <>
+            <p>
+              We're sorry. We can't match your information to our records. If
+              you think this is an error, please call the VA.gov help desk at{' '}
+              <Telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
+              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+              ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
+            </p>
+            <p>
+              Or you can learn how to{' '}
+              <a href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html">
+                update or correct your military service history
+              </a>
+              .
+            </p>
+          </>
+        }
       />
     );
   }
