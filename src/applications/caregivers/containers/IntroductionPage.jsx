@@ -51,30 +51,32 @@ const IntroductionPage = ({ route, router }) => {
                 Health insurance information for the Primary Family Caregiver
               </li>
 
-              <li>
+              <li className="call-to-action-bullet">
                 Veteran&apos;s Social Security number or tax identification
                 number (This is required for the online application only.) If
                 you’d like to apply without providing this information, you can
-                <a
-                  href="https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf"
-                  download="10-10CG.pdf"
-                  type="application/pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="vads-u-margin-x--0p5"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="fas fa-download vads-u-padding-right--1"
-                    role="img"
-                  />
-                  [download the paper form
-                  <dfn className="vads-u-margin-left--0p5">
-                    <abbr title="Portable Document Format">(PDF)</abbr> (934
-                    <abbr title="Kilobytes">KB</abbr>
-                    )]
-                  </dfn>
-                </a>
+                download the paper form
+                <p className="vads-u-margin-top--2">
+                  <a
+                    href="https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf"
+                    download="10-10CG.pdf"
+                    type="application/pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="fas fa-download vads-u-padding-right--1"
+                      role="img"
+                    />
+                    [download the paper form
+                    <dfn className="vads-u-margin-left--0p5">
+                      <abbr title="Portable Document Format">(PDF)</abbr> (934
+                      <abbr title="Kilobytes">KB</abbr>
+                      )]
+                    </dfn>
+                  </a>
+                </p>
               </li>
             </ul>
 
