@@ -820,30 +820,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     expect(screen.getByText(/Continue/)).to.have.attribute('disabled');
   });
 
-  it('should go back to previous page', async () => {
-    mockParentSites(['983'], []);
-    const store = createTestStore(initialState);
-    await setTypeOfCare(store, /primary care/i);
-
-    const screen = renderWithStoreAndRouter(
-      <Route component={VAFacilityPage} />,
-      {
-        store,
-      },
-    );
-
-    await screen.findByText(
-      /Sorry, we couldn't find any VA health systems you've been seen at/i,
-    );
-
-    fireEvent.click(screen.getByText('Back'));
-    await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment',
-      ),
-    );
-  });
-
   it('should use correct eligibility info after a split type of care is changed', async () => {
     mockParentSites(
       ['983'],

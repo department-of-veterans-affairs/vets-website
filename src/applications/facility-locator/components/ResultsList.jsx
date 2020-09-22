@@ -26,6 +26,7 @@ import CCProviderResult from './search-results-items/CCProviderResult';
 import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
 import SearchResultMessage from './SearchResultMessage';
+import recordEvent from 'platform/monitoring/record-event';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -34,10 +35,12 @@ class ResultsList extends Component {
     super(props);
     this.searchResultTitle = React.createRef();
   }
+
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.results !== this.props.results ||
-      nextProps.inProgress !== this.props.inProgress
+      nextProps.inProgress !== this.props.inProgress ||
+      nextProps.error !== this.props.error
     );
   }
 
@@ -54,14 +57,21 @@ class ResultsList extends Component {
    * @returns [] list of results
    */
   renderResultItems(query, results) {
-    return results.map(r => {
+    return results.map((r, index) => {
       let item;
       switch (query.facilityType) {
         case 'health':
         case 'cemetery':
         case 'benefits':
         case 'vet_center':
-          item = <VaFacilityResult location={r} query={query} key={r.id} />;
+          item = (
+            <VaFacilityResult
+              location={r}
+              query={query}
+              key={r.id}
+              index={index}
+            />
+          );
           break;
         case 'provider':
           // Support non va urgent care search through ccp option
@@ -80,12 +90,24 @@ class ResultsList extends Component {
           if (r.type === LocationType.CC_PROVIDER) {
             item = <UrgentCareResult provider={r} query={query} key={r.id} />;
           } else {
-            item = <VaFacilityResult location={r} query={query} key={r.id} />;
+            item = (
+              <VaFacilityResult
+                location={r}
+                query={query}
+                key={r.id}
+                index={index}
+              />
+            );
           }
           break;
         default:
           item = null;
       }
+
+      if (index === 0 && r.distance) {
+        recordEvent({ 'fl-closest-result-distance-miles': r.distance });
+      }
+
       return item;
     });
   }
@@ -98,6 +120,7 @@ class ResultsList extends Component {
       searchString,
       results,
       error,
+      pagination: { currentPage },
       currentQuery,
       query,
     } = this.props;
@@ -173,6 +196,7 @@ class ResultsList extends Component {
           distance,
           resultItem: true,
           searchString,
+          currentPage,
         };
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance)

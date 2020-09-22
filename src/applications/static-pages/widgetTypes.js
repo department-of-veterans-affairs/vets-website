@@ -23,4 +23,5 @@ export default {
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
   CHAPTER_31_WIZARD: 'chapter-31-Wizard',
+  CHAPTER_36_CTA: 'chapter-36-cta',
 };

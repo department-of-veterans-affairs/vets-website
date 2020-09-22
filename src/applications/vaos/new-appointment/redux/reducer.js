@@ -79,6 +79,7 @@ const initialState = {
   parentFacilities: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
+  previousPages: {},
   childFacilitiesStatus: FETCH_STATUS.notStarted,
   parentFacilitiesStatus: FETCH_STATUS.notStarted,
   eligibilityStatus: FETCH_STATUS.notStarted,
@@ -198,15 +199,37 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
+      let updatedPreviousPages = state.previousPages;
+      if (!Object.keys(updatedPreviousPages).length) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKey]: 'home',
+        };
+      }
       return {
         ...state,
         pageChangeInProgress: true,
+        previousPages: updatedPreviousPages,
       };
     }
     case FORM_PAGE_CHANGE_COMPLETED: {
+      let updatedPreviousPages = state.previousPages;
+      if (!Object.keys(updatedPreviousPages).length) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKey]: 'home',
+        };
+      }
+      if (action.direction === 'next') {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKeyNext]: action.pageKey,
+        };
+      }
       return {
         ...state,
         pageChangeInProgress: false,
+        previousPages: updatedPreviousPages,
       };
     }
     case FORM_TYPE_OF_CARE_PAGE_OPENED: {

@@ -18,6 +18,7 @@ import { primaryCaregiverFields, vetFields } from './constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
+  validateSSNIsUnique,
 } from 'applications/caregivers/helpers';
 
 const emptyFacilityList = [];
@@ -59,6 +60,19 @@ export default {
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
+      'ui:errorMessages': {
+        pattern:
+          'Please enter a valid Social Security or tax identification number',
+        required: 'Please enter a Social Security or tax identification number',
+      },
+      'ui:validations': [
+        ...ssnUI['ui:validations'],
+        {
+          validator: (errors, fieldData, formData) => {
+            validateSSNIsUnique(errors, formData);
+          },
+        },
+      ],
     }),
     emailUI: label => email(`${label}  email address`),
     genderUI: label => ({

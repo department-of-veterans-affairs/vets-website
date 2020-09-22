@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
+import ResponsiveTable from '../ResponsiveTable';
 
 const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
 
@@ -136,11 +137,11 @@ export class SchoolLocations extends React.Component {
       name
     );
     return (
-      <tr key={`${facilityCode}-${type}`} className={`${type}-row`}>
-        <td tabIndex="-1" className="school-name-cell">
+      <tr key={`${facilityCode}-${type}`} className={`${type}-row`} role="row">
+        <td tabIndex="-1" className="school-name-cell" role="cell">
           {nameLabel}
         </td>
-        <td className={'location-cell'}>
+        <td className={'location-cell'} role="cell">
           {this.schoolLocationTableInfo(
             physicalCity,
             physicalState,
@@ -148,7 +149,10 @@ export class SchoolLocations extends React.Component {
             physicalZip,
           )}
         </td>
-        <td>
+        <td className={'estimated-housing-cell'} role="cell">
+          <span className="estimated-housing-cell-title vads-u-margin--0 vads-u-margin-right--0p5">
+            Estimated housing:
+          </span>
           {this.estimatedHousingRow(institution)}
           {month}
         </td>
@@ -208,111 +212,17 @@ export class SchoolLocations extends React.Component {
     return rows;
   };
 
-  renderFacilityMapTable = main => {
+  renderFacilityTable = main => {
     const maxRows = this.state.viewableRowCount;
+
+    const fields = ['School Name', 'Location', 'Estimated housing'];
+
     return (
-      <table className="locations-table">
-        <thead>
-          <tr>
-            <th>School Name</th>
-            <th>Location</th>
-            <th>Estimated housing</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div>
+        <ResponsiveTable fields={fields} tableClass="school-locations">
           {this.renderMainRow(main.institution)}
           {this.renderBranchesAndExtensionsRows(main, maxRows)}
-        </tbody>
-      </table>
-    );
-  };
-
-  renderFacilityMapList = main => {
-    const maxRows = this.state.viewableRowCount;
-    return (
-      <div className="locations-list">
-        {this.renderMainListItem(main.institution)}
-        {this.renderBranchesAndExtensionsList(main, maxRows)}
-      </div>
-    );
-  };
-
-  renderMainListItem = institution =>
-    this.renderItem(
-      institution,
-      'main',
-      this.createLinkTo(
-        institution.facilityCode,
-        `${institution.institution} (Main Campus)`,
-      ),
-    );
-
-  renderBranchesAndExtensionsList = ({ branches, extensions }, maxRows) => {
-    const rows = [];
-    this.renderExtensionItems(rows, extensions, maxRows);
-    this.renderBranchItems(rows, branches, maxRows);
-    return rows;
-  };
-
-  renderBranchItems = (rows, branches, maxRows) => {
-    for (const branch of branches) {
-      // check if should add more rows
-      if (!this.state.viewAll && rows.length >= maxRows - 1) {
-        break;
-      }
-
-      const { institution } = branch;
-      const { facilityCode, institution: name } = institution;
-
-      rows.push(
-        this.renderItem(
-          institution,
-          'branch',
-          this.createLinkTo(facilityCode, name),
-        ),
-      );
-
-      this.renderExtensionItems(rows, branch.extensions, maxRows);
-    }
-  };
-
-  renderExtensionItems = (rows, extensions, maxRows) => {
-    for (const extension of extensions) {
-      // check if should add more rows
-      if (!this.state.viewAll && rows.length >= maxRows - 1) {
-        break;
-      }
-      const nameLabel = <span>{extension.institution}</span>;
-      rows.push(this.renderItem(extension, 'extension', nameLabel));
-    }
-  };
-
-  renderItem = (institution, type, name = institution.institution) => {
-    const {
-      facilityCode,
-      physicalCity,
-      physicalState,
-      physicalCountry,
-      physicalZip,
-    } = institution;
-    const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
-      <h6>{name}</h6>
-    ) : (
-      name
-    );
-
-    return (
-      <div key={`${facilityCode}-${type}`} className={`${type} item`}>
-        <div>{nameLabel}</div>
-        <div className={'location-cell'}>
-          {this.schoolLocationTableInfo(
-            physicalCity,
-            physicalState,
-            physicalCountry,
-            physicalZip,
-          )}
-        </div>
-        <div>Estimated housing: {this.estimatedHousingRow(institution)}</div>
+        </ResponsiveTable>
       </div>
     );
   };
@@ -394,8 +304,7 @@ export class SchoolLocations extends React.Component {
             </span>
           )}
         </span>
-        {this.renderFacilityMapTable(main)}
-        {this.renderFacilityMapList(main)}
+        {this.renderFacilityTable(main)}
         {this.renderViewCount()}
         {this.renderViewButtons()}
       </div>

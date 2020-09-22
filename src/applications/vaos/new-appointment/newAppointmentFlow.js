@@ -2,7 +2,6 @@ import {
   getFormData,
   getNewAppointment,
   getEligibilityStatus,
-  vaosCommunityCare,
   getTypeOfCare,
   vaosFlatFacilityPage,
 } from '../utils/selectors';
@@ -38,10 +37,6 @@ function isCCFacility(state) {
   return getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE;
 }
 
-function isCCEligible(state) {
-  return getNewAppointment(state).isCCEligible;
-}
-
 function isSleepCare(state) {
   return getFormData(state).typeOfCareId === SLEEP_CARE;
 }
@@ -67,7 +62,6 @@ export default {
     // Temporary stub for typeOfAppointment which will eventually be first step
     // Next will direct to type of care or provider once both flows are complete
     next: 'typeOfFacility',
-    previous: 'home',
   },
   typeOfCare: {
     url: '/new-appointment',
@@ -97,7 +91,6 @@ export default {
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
       return getFacilityPageKey(state);
     },
-    previous: 'home',
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
@@ -113,21 +106,12 @@ export default {
 
       return getFacilityPageKey(state);
     },
-    previous(state) {
-      //  check for eye care flow
-      if (isEyeCare(state)) {
-        return 'typeOfEyeCare';
-      }
-
-      return 'typeOfCare';
-    },
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
     async next(state) {
       return getFacilityPageKey(state);
     },
-    previous: 'typeOfCare',
   },
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',
@@ -146,7 +130,6 @@ export default {
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
       return getFacilityPageKey(state);
     },
-    previous: 'typeOfCare',
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
@@ -154,12 +137,10 @@ export default {
       dispatch(startRequestAppointmentFlow(true));
       return 'requestDateTime';
     },
-    previous: 'typeOfFacility',
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
     next: 'reasonForAppointment',
-    previous: 'requestDateTime',
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
@@ -178,33 +159,12 @@ export default {
 
       throw new Error('Veteran not eligible for direct scheduling or requests');
     },
-    previous(state) {
-      let nextState = 'typeOfCare';
-      const communityCareEnabled = vaosCommunityCare(state);
-
-      if (isSleepCare(state)) {
-        nextState = 'typeOfSleepCare';
-      } else if (
-        communityCareEnabled &&
-        isCCEligible(state) &&
-        getTypeOfCare(getFormData(state))?.ccId !== undefined
-      ) {
-        nextState = 'typeOfFacility';
-      } else if (isEyeCare(state)) {
-        nextState = 'typeOfEyeCare';
-      }
-
-      return nextState;
-    },
   },
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
-    previous(state) {
-      return getFacilityPageKey(state);
-    },
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
         dispatch(startRequestAppointmentFlow());
@@ -218,12 +178,10 @@ export default {
   preferredDate: {
     url: '/new-appointment/preferred-date',
     next: 'selectDateTime',
-    previous: 'clinicChoice',
   },
   selectDateTime: {
     url: '/new-appointment/select-date',
     next: 'reasonForAppointment',
-    previous: 'preferredDate',
   },
   requestDateTime: {
     url: '/new-appointment/request-date',
@@ -233,20 +191,6 @@ export default {
       }
 
       return 'reasonForAppointment';
-    },
-    previous(state) {
-      if (isPodiatry(state)) {
-        return 'typeOfCare';
-      }
-
-      if (isCCFacility(state)) {
-        if (isCCAudiology(state)) {
-          return 'audiologyCareType';
-        }
-        return 'typeOfFacility';
-      }
-
-      return getFacilityPageKey(state);
     },
   },
   reasonForAppointment: {
@@ -261,43 +205,18 @@ export default {
 
       return 'visitType';
     },
-    previous(state) {
-      if (isCCFacility(state)) {
-        return 'ccPreferences';
-      }
-
-      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
-        return 'selectDateTime';
-      }
-
-      return 'requestDateTime';
-    },
   },
   visitType: {
     url: '/new-appointment/choose-visit-type',
-    previous: 'reasonForAppointment',
     next: 'contactInfo',
   },
   appointmentTime: {
     url: '/new-appointment/appointment-time',
     next: 'contactInfo',
-    previous(state) {
-      return getFacilityPageKey(state);
-    },
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
     next: 'review',
-    previous(state) {
-      if (
-        isCCFacility(state) ||
-        getNewAppointment(state).flowType === FLOW_TYPES.DIRECT
-      ) {
-        return 'reasonForAppointment';
-      }
-
-      return 'visitType';
-    },
   },
   review: {
     url: '/new-appointment/review',
