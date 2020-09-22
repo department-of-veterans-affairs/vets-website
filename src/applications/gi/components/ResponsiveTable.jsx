@@ -2,15 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const borderClasses =
-  'vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0 vads-u-padding--0 vads-u-padding-y--0p5 medium-screen:vads-u-padding--1';
-
 class ResponsiveTable extends React.Component {
   renderHeader = column => {
     return (
       <th
         key={column.toLowerCase().replaceAll(' ', '-')}
-        className={borderClasses}
         role="columnheader"
         scope="col"
       >
