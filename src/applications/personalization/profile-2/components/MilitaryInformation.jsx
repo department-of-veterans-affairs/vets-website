@@ -171,7 +171,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
   );
 };
 
-const MilitaryInformation = ({ militaryInformation }) => {
+const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
   useEffect(() => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
@@ -190,7 +190,10 @@ const MilitaryInformation = ({ militaryInformation }) => {
         render={handleDowntimeForSection('military service')}
         dependencies={[externalServices.emis]}
       >
-        <MilitaryInformationContent militaryInformation={militaryInformation} />
+        <MilitaryInformationContent
+          militaryInformation={militaryInformation}
+          veteranStatus={veteranStatus}
+        />
       </DowntimeNotification>
     </>
   );
