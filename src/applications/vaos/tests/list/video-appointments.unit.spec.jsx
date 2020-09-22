@@ -494,12 +494,15 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     ).to.be.ok;
 
     // Should display appointment location address
-    expect(screen.getByText(/114 Dewey Ave, Eureka, MT 59917/i)).to.be.ok;
+    expect(screen.getByText(/114 Dewey Ave/i)).to.be.ok;
+    expect(screen.getByText(/Eureka, MT 59917/i)).to.be.ok;
 
     // Should display directions to location
-    // TODO: enable test when it's determine what to use for location name
-    // expect(screen.getByRole('link', { name: 'Directions to undefined' })).to.be
-    //   .ok;
+    expect(
+      screen.getByRole('link', {
+        name: 'Directions to ATLAS facility in Eureka, MT',
+      }),
+    ).to.be.ok;
 
     // Should display appointment code
     expect(screen.getByText(/Appointment Code: 7VBBCA/i)).to.be.ok;

@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 import { isVideoGFE, isAtlasLocation } from '../../../../services/appointment';
-import FacilityDirectionsLink from '../../../../components/FacilityDirectionsLink';
+import FacilityAddress from '../../../../components/FacilityAddress';
 
 function JoinVideoInstructions({ appointment }) {
   if (isAtlasLocation(appointment)) {
     const vvsAppointment = appointment.legacyVAR.apiData.vvsAppointments[0];
+    const name = `ATLAS facility in ${vvsAppointment.tasInfo.address.city}, ${
+      vvsAppointment.tasInfo.address.state
+    }`;
     const facility = {
+      name,
       address: {
         ...vvsAppointment.tasInfo.address,
-        street: vvsAppointment.tasInfo.address.streetAddress,
+        line: [vvsAppointment.tasInfo.address.streetAddress],
+        postalCode: vvsAppointment.tasInfo.address.zipCode,
       },
     };
 
@@ -24,12 +29,7 @@ function JoinVideoInstructions({ appointment }) {
         below.
         <br />
         <br />
-        {vvsAppointment.tasInfo.address.streetAddress},{' '}
-        {vvsAppointment.tasInfo.address.city},{' '}
-        {vvsAppointment.tasInfo.address.state}{' '}
-        {vvsAppointment.tasInfo.address.zipCode}
-        <br />
-        <FacilityDirectionsLink location={facility} />
+        <FacilityAddress facility={facility} showDirectionsLink />
       </span>
     );
   } else {
