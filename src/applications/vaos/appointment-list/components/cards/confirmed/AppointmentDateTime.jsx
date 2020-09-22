@@ -31,7 +31,10 @@ export default function AppointmentDateTime({
       {isAtlas && (
         <>
           {appointmentDate.format('dddd, MMMM D, YYYY')} <br />
-          {appointmentDate.format('h:mm a')}
+          {appointmentDate.format('h:mm a')}{' '}
+          <span aria-hidden="true">
+            {getAppointmentTimezoneAbbreviation(timezone, facilityId)}
+          </span>
         </>
       )}
     </>

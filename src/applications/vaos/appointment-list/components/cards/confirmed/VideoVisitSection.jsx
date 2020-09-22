@@ -108,7 +108,7 @@ export default function VideoVisitSection({ appointment }) {
           <div>
             <p>
               <span className="vads-u-font-weight--bold">
-                Appointment Code:{' '}
+                Appointment code:{' '}
                 {
                   appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo
                     .confirmationCode
@@ -120,14 +120,6 @@ export default function VideoVisitSection({ appointment }) {
                 computer provided at the site.
               </span>
             </p>
-            <span className="vads-u-font-weight--bold">
-              You'll be meeting with
-            </span>
-            <br />
-            {
-              appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo
-                .contacts[0].name
-            }
           </div>
         )}
       </dd>
