@@ -15,8 +15,7 @@ export default function EligibilityModal({
   if (eligibility.requestFailed) {
     title = 'We’re sorry. We’ve run into a problem';
     content = 'Something went wrong on our end. Please try again later.';
-  }
-  if (!eligibility.requestSupported) {
+  } else if (!eligibility.requestSupported) {
     title =
       'This facility does not allow online requests for this type of care';
     content = (
@@ -26,8 +25,7 @@ export default function EligibilityModal({
         types of care.
       </div>
     );
-  }
-  if (!eligibility.requestPastVisit) {
+  } else if (!eligibility.requestPastVisit) {
     title = 'We couldn’t find a recent appointment at this location';
     content = (
       <div aria-atomic="true" aria-live="assertive">
@@ -43,8 +41,7 @@ export default function EligibilityModal({
         </p>
       </div>
     );
-  }
-  if (!eligibility.requestLimit) {
+  } else if (!eligibility.requestLimit) {
     title =
       'You’ve reached the limit for appointment requests at this location';
     content = (
