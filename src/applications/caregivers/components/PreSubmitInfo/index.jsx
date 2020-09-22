@@ -211,9 +211,10 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       )}
 
       <p className="vads-u-margin-bottom--6">
-        <b>Note:</b> According to federal law, there are criminal penalties,
-        including a fine and/or imprisonment for up to 5 years, for withholding
-        information or providing incorrect information. (See 18 U.S.C. 1001)
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or providing incorrect information. (See 18
+        U.S.C. 1001)
       </p>
     </section>
   );

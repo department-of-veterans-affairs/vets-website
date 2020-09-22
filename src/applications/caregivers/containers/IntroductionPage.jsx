@@ -142,9 +142,9 @@ const IntroductionPage = ({ route, router }) => {
             </p>
 
             <p>
-              <b>Note:</b> If the Veteran isn’t enrolled in VA health care or is
-              currently on active duty with a medical discharge, they’ll need to
-              fill out an
+              <strong>Note:</strong> If the Veteran isn’t enrolled in VA health
+              care or is currently on active duty with a medical discharge,
+              they’ll need to fill out an
               <a
                 rel="noopener noreferrer"
                 target="_blank"

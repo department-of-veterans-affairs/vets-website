@@ -129,8 +129,8 @@ SecondaryCaregiverInfo.propTypes = {
 const FacilityInfo = () => (
   <div className="vads-u-margin-top--2p5">
     <div className="vads-u-margin-bottom--4">
-      <b>Note:</b> You should choose the medical center or clinic closest to
-      your home.
+      <strong>Note:</strong> You should choose the medical center or clinic
+      closest to your home.
     </div>
 
     <a
@@ -165,9 +165,9 @@ const PleaseSelectVAFacility = () => (
 
     <p>
       Please select the VA medical center or clinic where the
-      <b className="vads-u-margin-left--0p5">
+      <strong className="vads-u-margin-left--0p5">
         Veteran receives or plans to receive health care services.
-      </b>
+      </strong>
     </p>
 
     <p>
@@ -179,15 +179,16 @@ const PleaseSelectVAFacility = () => (
 
 const ReviewInfo = () => (
   <p>
-    <b>Note:</b> According to federal law, there are criminal penalties,
-    including a fine and/or imprisonment for up to 5 years, for withholding
-    information or providing incorrect information. (See 18 U.S.C. 1001)
+    <strong>Note:</strong> According to federal law, there are criminal
+    penalties, including a fine and/or imprisonment for up to 5 years, for
+    withholding information or providing incorrect information. (See 18 U.S.C.
+    1001)
   </p>
 );
 
 const AdditionalCaregiverInfo = () => (
   <>
-    <b>You can add up to 2 Secondary Family Caregivers.</b>
+    <strong>You can add up to 2 Secondary Family Caregivers.</strong>
     <p>Would you like to add another Secondary Family Caregiver?</p>
   </>
 );
