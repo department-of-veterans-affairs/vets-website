@@ -27,11 +27,12 @@ describe('GI Bill Comparison Tool mobile view', () => {
     cy.axeCheck();
 
     // Search Page
-    cy.get('.filter-button').should('be.visible');
-    cy.get('.filter-button').click();
+    cy.get('[data-cy=filter-button').should('be.visible');
+    cy.get('[data-cy=filter-button').click(FORCE_OPTION);
+
     cy.axeCheck();
 
-    cy.get('.usa-button').click(FORCE_OPTION);
+    cy.get('[data-cy=see-results]').click(FORCE_OPTION);
     cy.axeCheck();
 
     const profileLink = `/profile/${
