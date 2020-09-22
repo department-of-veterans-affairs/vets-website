@@ -53,12 +53,14 @@ const IntroductionPage = ({ route, router }) => {
 
               <li>
                 Veteran's Social Security number or tax identification number
-                (This is required for the online application only. If you’d like
-                to apply without providing this information, you can
-                <a className="vads-u-margin-left--0p5" href="#">
+                (This is required for the online application only.) If you’d
+                like to apply without providing this information, you can
+                <a
+                  className="vads-u-margin-left--0p5"
+                  href="https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf"
+                >
                   [download the paper form (PDF)]
                 </a>
-                )
               </li>
             </ul>
 
