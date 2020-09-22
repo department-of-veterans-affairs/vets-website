@@ -188,7 +188,7 @@ describe('MilitaryInformation', () => {
     it('should show the correct error', () => {
       initialState = createBasicInitialState();
       initialState.user.profile.veteranStatus = null;
-      initialState.vaProfile.militaryInformation = {};
+      initialState.vaProfile.militaryInformation = null;
       view = renderWithProfileReducers(<MilitaryInformation />, {
         initialState,
       });
