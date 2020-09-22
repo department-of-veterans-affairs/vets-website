@@ -27,7 +27,10 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
     focusElement('[data-focus-target]');
   }, []);
 
-  if (!veteranStatus) {
+  const invalidVeteranStatus =
+    !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+
+  if (invalidVeteranStatus && !militaryInformation) {
     return (
       <AlertBox
         isVisible
@@ -215,7 +218,7 @@ MilitaryInformation.propTypes = {
 
 const mapStateToProps = state => ({
   militaryInformation: state.vaProfile?.militaryInformation,
-  veteranStatus: state.vaProfile?.veteranStatus,
+  veteranStatus: state.user?.profile?.veteranStatus,
 });
 
 export default connect(mapStateToProps)(MilitaryInformation);

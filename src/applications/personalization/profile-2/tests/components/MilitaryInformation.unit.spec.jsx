@@ -16,6 +16,9 @@ function createBasicInitialState() {
       },
       dismissedDowntimeWarnings: [],
     },
+    user: {
+      profile: {},
+    },
     vaProfile: {
       veteranStatus: {
         servedInMilitary: true,
@@ -185,7 +188,8 @@ describe('MilitaryInformation', () => {
   describe('when the military history is empty', () => {
     it('should show the correct error', () => {
       initialState = createBasicInitialState();
-      initialState.vaProfile.veteranStatus = null;
+      initialState.user.profile.veteranStatus = null;
+      initialState.vaProfile.militaryInformation = {};
       view = renderWithProfileReducers(<MilitaryInformation />, {
         initialState,
       });
