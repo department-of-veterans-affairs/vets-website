@@ -288,13 +288,13 @@
       "type": "string",
       "enum": [
         "email",
-        "mail",
-        "phone"
+        "phone",
+        "mail"
       ],
       "enumNames": [
-        "Email",
-        "US Mail",
-        "Phone"
+        "Email (Recommended)",
+        "Phone",
+        "US Mail"
       ]
     },
     "topic": {

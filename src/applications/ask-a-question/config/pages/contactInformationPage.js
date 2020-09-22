@@ -1,12 +1,10 @@
-import _ from 'lodash';
-
 import set from 'platform/utilities/data/set';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
-import { veteranStatusUI } from './veteranStatusUI';
 
+import { veteranStatusUI } from './veteranStatusUI';
 import fullSchema from '../../0873-schema.json';
 import pageDescription from '../../content/PageDescription';
 import * as address from '../../contactInformation/address/address';
@@ -51,14 +49,7 @@ const contactInformationPage = {
       (formData, _index) => formData.preferredContactMethod === 'email',
       emailUI(),
     ),
-    [formFields.verifyEmail]: _.merge(
-      confirmationEmailUI('', formFields.email),
-      {
-        'ui:options': {
-          hideIf: formData => _.isEmpty(formData.email),
-        },
-      },
-    ),
+    [formFields.verifyEmail]: confirmationEmailUI('', formFields.email),
     [formFields.preferredContactMethod]: {
       'ui:title': 'How should we get in touch with you?',
       'ui:widget': 'radio',
@@ -70,13 +61,13 @@ const contactInformationPage = {
     required: [formFields.preferredContactMethod, formFields.fullName],
     properties: {
       [formFields.fullName]: fullName,
-      [formFields.address]: address.schema(fullSchema, false),
-      [formFields.phoneNumber]: phone,
+      [formFields.preferredContactMethod]: preferredContactMethod,
       [formFields.email]: email,
       [formFields.verifyEmail]: {
         type: 'string',
       },
-      [formFields.preferredContactMethod]: preferredContactMethod,
+      [formFields.phoneNumber]: phone,
+      [formFields.address]: address.schema(fullSchema, false),
       [formFields.veteranStatus]: veteranStatus,
     },
   },
