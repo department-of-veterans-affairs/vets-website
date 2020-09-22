@@ -6,7 +6,7 @@ import { createId } from '../utils/helpers';
 class ResponsiveTable extends React.Component {
   renderHeader = column => {
     return (
-      <th key={createId(column)} role="columnheader" scope="col">
+      <th key={`${createId(column)}`} role="columnheader" scope="col">
         {column}
       </th>
     );
@@ -38,7 +38,7 @@ class ResponsiveTable extends React.Component {
             <td
               className={`${cellName}-cell`}
               role="cell"
-              key={`${key || 'key'}-${cellName}`}
+              key={`${key}-${cellName}`}
             >
               {item[field]}
             </td>
