@@ -139,7 +139,7 @@ export class SchoolLocations extends React.Component {
 
     return {
       key: `${facilityCode}-${type}`,
-      className: `${type}-row`,
+      rowClassName: `${type}-row`,
       'School Name': nameLabel,
       Location: this.schoolLocationTableInfo(
         physicalCity,

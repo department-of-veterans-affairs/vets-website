@@ -9,7 +9,7 @@ class ResponsiveTable extends React.Component {
   renderHeader = column => {
     return (
       <th
-        key={column}
+        key={column.toLowerCase().replaceAll(' ', '-')}
         className={borderClasses}
         role="columnheader"
         scope="col"
@@ -21,25 +21,23 @@ class ResponsiveTable extends React.Component {
 
   renderRow = item => {
     const { columns } = this.props;
-    const { key, className } = item;
+    const { key, rowClassName } = item;
     return (
-      <tr key={key} className={className} role="row">
+      <tr key={key} className={rowClassName} role="row">
         {columns.map((field, index) => {
           const cellName = field.toLowerCase().replaceAll(' ', '-');
           if (index === 0) {
             return (
-              <>
-                <th
-                  className={`${cellName}-cell`}
-                  scope="row"
-                  /* eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role */
-                  role="cell"
-                  tabIndex="-1"
-                  key={`${key}-${cellName}`}
-                >
-                  {item[field]}
-                </th>
-              </>
+              <th
+                className={`${cellName}-cell`}
+                scope="row"
+                /* eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role */
+                role="cell"
+                tabIndex="-1"
+                key={`${key}-${cellName}`}
+              >
+                {item[field]}
+              </th>
             );
           }
 
