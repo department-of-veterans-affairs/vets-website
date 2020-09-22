@@ -17,12 +17,11 @@ function createBasicInitialState() {
       dismissedDowntimeWarnings: [],
     },
     user: {
-      profile: {},
+      profile: {
+        veteranStatus: 'OK',
+      },
     },
     vaProfile: {
-      veteranStatus: {
-        servedInMilitary: true,
-      },
       militaryInformation: {
         serviceHistory: {
           serviceHistory: [
