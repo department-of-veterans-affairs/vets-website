@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { createId } from '../utils/helpers';
 
 class ResponsiveTable extends React.Component {
   renderHeader = column => {
     return (
-      <th
-        key={column.toLowerCase().replaceAll(' ', '-')}
-        role="columnheader"
-        scope="col"
-      >
+      <th key={createId(column)} role="columnheader" scope="col">
         {column}
       </th>
     );
@@ -21,7 +18,7 @@ class ResponsiveTable extends React.Component {
     return (
       <tr key={key} className={rowClassName} role="row">
         {columns.map((field, index) => {
-          const cellName = field.toLowerCase().replaceAll(' ', '-');
+          const cellName = createId(field);
           if (index === 0) {
             return (
               <th
@@ -41,7 +38,7 @@ class ResponsiveTable extends React.Component {
             <td
               className={`${cellName}-cell`}
               role="cell"
-              key={`${key}-${cellName}`}
+              key={`${key || 'key'}-${cellName}`}
             >
               {item[field]}
             </td>
@@ -71,8 +68,8 @@ class ResponsiveTable extends React.Component {
 }
 
 ResponsiveTable.propTypes = {
-  columns: PropTypes.arrayOf(PropTypes.string).isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  columns: PropTypes.arrayOf(PropTypes.string),
+  data: PropTypes.arrayOf(PropTypes.object),
   tableClass: PropTypes.string,
 };
 

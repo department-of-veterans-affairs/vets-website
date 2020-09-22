@@ -3,6 +3,7 @@ import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
 import ResponsiveTable from '../ResponsiveTable';
+import { Link } from 'react-router-dom';
 
 const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
 
@@ -55,7 +56,7 @@ export class SchoolLocations extends React.Component {
     const { version } = this.props;
     const query = version ? `?version=${version}` : '';
 
-    return <a href={`${facilityCode}${query}`}>{name}</a>;
+    return <Link to={`${facilityCode}${query}`}>{name}</Link>;
   };
 
   handleViewAllClicked = async () => {
@@ -221,13 +222,11 @@ export class SchoolLocations extends React.Component {
     );
 
     return (
-      <div>
-        <ResponsiveTable
-          columns={fields}
-          tableClass="school-locations"
-          data={data}
-        />
-      </div>
+      <ResponsiveTable
+        columns={fields}
+        tableClass="school-locations"
+        data={data}
+      />
     );
   };
 
