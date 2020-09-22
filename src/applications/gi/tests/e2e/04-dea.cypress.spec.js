@@ -3,7 +3,6 @@ import {
   calculatorConstants,
   verifySearchResults,
   checkSectionAccordion,
-  calculateBenefits,
   checkProfileHousingRate,
   breadCrumb,
   enrolledOld,
@@ -40,10 +39,10 @@ describe('DEA benefit', () => {
     // verify search results and housing rates
     verifySearchResults(deaSearchResults);
     deaSearchResults.data.forEach(({ attributes: profile }) => {
-      let housingRate = calculatorConstants.DEARATEFULLTIME;
-      if (profile.type === 'OJT') {
-        housingRate = calculatorConstants.DEARATEOJT;
-      }
+      const housingRate =
+        profile.type === 'OJT'
+          ? calculatorConstants.DEARATEOJT
+          : calculatorConstants.DEARATEFULLTIME;
 
       cy.get(`#housing-value-${profile.facility_code}`).contains(
         formatCurrency(housingRate),
@@ -88,21 +87,15 @@ describe('DEA benefit', () => {
     checkSectionAccordion(true, 'learningFormat', eybSections);
 
     // Verify enrollment values update housing benefit correctly
-    const deaEnrolledMax = 30;
-    for (
-      let enrolledAmount = 2;
-      enrolledAmount <= deaEnrolledMax;
-      enrolledAmount += 2
-    ) {
+    [2, 16, 30].forEach(enrolledAmount => {
       const value = Math.round(
-        (enrolledAmount / deaEnrolledMax) *
-          formatNumber(calculatorConstants.DEARATEOJT),
+        (enrolledAmount / 30) * formatNumber(calculatorConstants.DEARATEOJT),
       );
 
       cy.get('select[name="working"]').select(enrolledAmount.toString());
-      calculateBenefits();
+      cy.get('.calculate-button').click();
       checkProfileHousingRate(value);
-    }
+    });
 
     // Back to the landing page
     breadCrumb('/gi-bill-comparison-tool/');

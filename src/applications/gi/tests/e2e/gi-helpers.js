@@ -1,5 +1,4 @@
 import {
-  forceClick,
   expectLocation,
   FORCE_OPTION,
   selectDropdown,
@@ -14,23 +13,25 @@ export const typeOfInstitution = value => {
 };
 
 export const search = () => {
-  forceClick('#search-button');
+  cy.get('#search-button').click();
 };
 
 export const selectSearchResult = (href, checkLocation = true) => {
-  forceClick(`a[href*="${href}"]`);
-  if (checkLocation) expectLocation(href);
+  cy.get(`a[href*="${href}"]`).click();
+  if (checkLocation) {
+    expectLocation(href);
+  }
   cy.axeCheck();
 };
 
 export const displayLearnMoreModal = () => {
   cy.get('.learn-more-button')
     .first()
-    .click(FORCE_OPTION);
+    .click();
   cy.axeCheck();
   cy.get('.va-modal-close')
     .first()
-    .click(FORCE_OPTION);
+    .click();
 };
 
 const createAccordionButtonId = name => `#${createId(name)}-accordion-button`;
@@ -104,7 +105,7 @@ export const calculatorConstants = createCalculatorConstants();
  * Click the Calculate Benefits button in EYB
  */
 export const calculateBenefits = () => {
-  forceClick('.calculate-button');
+  cy.get('.calculate-button').click();
 };
 
 /**
@@ -135,8 +136,7 @@ export const enrolledOld = (option, housingRate) => {
 };
 
 export const breadCrumb = breadCrumbHref => {
-  const id = `.va-nav-breadcrumbs a[href='${breadCrumbHref}']`;
-  forceClick(id);
+  cy.get(`.va-nav-breadcrumbs a[href='${breadCrumbHref}']`).click();
   expectLocation(breadCrumbHref);
 };
 
