@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
+
 /*
  * This is a copy of the form system RadioWidget, but with custom
  * code to disable certain options. This isn't currently supported by the

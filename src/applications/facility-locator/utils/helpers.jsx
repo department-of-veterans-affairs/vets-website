@@ -253,13 +253,15 @@ export const showDialogUrgCare = currentQuery => {
 export const recordMarkerEvents = r => {
   const { classification, name, facilityType } = r.attributes;
   const distance = r.distance;
-  recordEvent({ event: 'fl-map-pin-click' });
 
   if (classification && name && facilityType && distance) {
-    recordEvent({ 'fl-facility-type': facilityType });
-    recordEvent({ 'fl-facility-classification': classification });
-    recordEvent({ 'fl-facility-name': name });
-    recordEvent({ 'fl-facility-distance-from-search': distance });
+    recordEvent({
+      event: 'fl-map-pin-click',
+      'fl-facility-type': facilityType,
+      'fl-facility-classification': classification,
+      'fl-facility-name': name,
+      'fl-facility-distance-from-search': distance,
+    });
   }
 };
 
@@ -293,14 +295,61 @@ export const recordZoomPanEvents = (e, searchCoords, currentZoomLevel) => {
 export const recordResultEvents = (location, index) => {
   const { classification, name, facilityType, id } = location.attributes;
   const currentPage = location.currentPage;
-  recordEvent({ event: 'fl-results-click' });
-  recordEvent({ 'fl-result-page-number': currentPage });
-  recordEvent({ 'fl-result-position': index + 1 });
 
   if (classification && name && facilityType && id) {
-    recordEvent({ 'fl-facility-type': facilityType });
-    recordEvent({ 'fl-facility-classification': classification });
-    recordEvent({ 'fl-facility-name': name });
-    recordEvent({ 'fl-facility-id': id });
+    recordEvent({
+      event: 'fl-results-click',
+      'fl-result-page-number': currentPage,
+      'fl-result-position': index + 1,
+      'fl-facility-type': facilityType,
+      'fl-facility-classification': classification,
+      'fl-facility-name': name,
+      'fl-facility-id': id,
+    });
   }
+};
+
+/**
+ * Helper fn to record search data layer
+ */
+export const recordSearchEvents = (data, meta) => {
+  let dataPush = {};
+
+  if (data) {
+    dataPush = {
+      event: 'fl-search-results',
+      'fl-results-returned': !!data.length,
+    };
+
+    if (meta.pagination && meta.pagination.totalEntries) {
+      dataPush['fl-total-number-of-results'] = meta.pagination.totalEntries;
+    }
+
+    if (meta.pagination && meta.pagination.totalPages) {
+      dataPush['fl-total-number-of-result-pages'] = meta.pagination.totalPages;
+    }
+
+    recordEvent(dataPush);
+  }
+};
+
+/**
+ * Helper fn to record mapBox data layer events
+ */
+export const recordMapBoxEvents = res => {
+  const { body } = res;
+
+  if (body.query && Array.isArray(body.query)) {
+    recordEvent({ 'fl-searched-query': body.query.join(' ') });
+  }
+
+  body.features.forEach(f => {
+    if (f.place_name) {
+      recordEvent({ 'fl-mapbox-returned-place-name': f.place_name });
+    }
+
+    if (f.place_type && Array.isArray(f.place_type)) {
+      recordEvent({ 'fl-mapbox-returned-place-type': f.place_type.join(' ') });
+    }
+  });
 };

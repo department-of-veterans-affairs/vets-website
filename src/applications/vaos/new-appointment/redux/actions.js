@@ -323,13 +323,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
               });
             }),
           );
-          locations = responses
-            .reduce(function(arr, row) {
-              return arr.concat(row.locations);
-            }, [])
-            .sort((a, b) => {
-              return a.name < b.name ? -1 : 1;
-            });
+
+          locations = [].concat(...responses.map(r => r?.locations || []));
         } catch (err) {
           dispatch({
             type: FORM_FETCH_CHILD_FACILITIES_FAILED,
@@ -396,7 +391,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({
-        type: FORM_PAGE_FACILITY_OPEN_FAILED,
+        type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
       });
     }
   };
@@ -1054,21 +1049,33 @@ export function routeToPageInFlow(flow, history, current, action) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
+      pageKey: current,
     });
 
-    const nextAction = flow[current][action];
     let nextPage;
+    let nextStateKey;
 
-    if (typeof nextAction === 'string') {
-      nextPage = flow[nextAction];
+    if (action === 'next') {
+      const nextAction = flow[current][action];
+      if (typeof nextAction === 'string') {
+        nextPage = flow[nextAction];
+        nextStateKey = nextAction;
+      } else {
+        nextStateKey = await nextAction(getState(), dispatch);
+        nextPage = flow[nextStateKey];
+      }
     } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
-      nextPage = flow[nextStateKey];
+      const state = getState();
+      const previousPage = state.newAppointment.previousPages[current];
+      nextPage = flow[previousPage];
     }
 
     if (nextPage?.url) {
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
+        pageKey: current,
+        pageKeyNext: nextStateKey,
+        direction: action,
       });
       history.push(nextPage.url);
     } else if (nextPage) {
