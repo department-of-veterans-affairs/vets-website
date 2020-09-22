@@ -10,6 +10,7 @@ const fragments = require('./fragments.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const vaFormPage = require('./vaFormPage.graphql');
 const qaPage = require('./nodeQa.graphql');
+const faqMultipleQaPage = require('./faqMultipleQa.graphql');
 const stepByStepPage = require('./nodeStepByStep.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const alertsQuery = require('./alerts.graphql');
@@ -74,6 +75,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${pressReleasesListingPage}
   ${locationListingPage}
   ${qaPage}
+  ${faqMultipleQaPage}
   ${stepByStepPage}
 `;
 
@@ -108,6 +110,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... locationListingPage
         ... vaFormPage
         ... nodeQa
+        ... faqMultipleQA
         ... nodeStepByStep
       }
     }`;

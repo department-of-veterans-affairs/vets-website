@@ -237,7 +237,6 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 
 VetTecEstimateYourBenefitsForm.propTypes = {
   inputs: PropTypes.object,
-  displayedInputs: PropTypes.object,
   showModal: PropTypes.func,
   institution: PropTypes.object,
   selectedProgram: PropTypes.string,

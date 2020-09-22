@@ -1,15 +1,15 @@
 import React from 'react';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 
-const ScorecardTags = ({ styling, it }) => {
+const ScorecardTags = ({ styling, menOnly, womenOnly, relAffil, hbcu }) => {
   return (
     <div>
-      {it.menonly === 1 && <div className={styling}>Men Only</div>}
-      {it.womenonly === 1 && <div className={styling}>Women Only</div>}
-      {it.relaffil && (
-        <div className={styling}>{religiousAffiliations[it.relaffil]}</div>
+      {menOnly === 1 && <div className={styling}>Men Only</div>}
+      {womenOnly === 1 && <div className={styling}>Women Only</div>}
+      {relAffil && (
+        <div className={styling}>{religiousAffiliations[relAffil]}</div>
       )}
-      {it.hbcu === 1 && (
+      {hbcu === 1 && (
         <div className={styling}>Historically Black College or University</div>
       )}
     </div>

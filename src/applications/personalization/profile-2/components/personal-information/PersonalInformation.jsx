@@ -22,6 +22,10 @@ const PersonalInformation = ({
   hasUnsavedEdits,
 }) => {
   const lastLocation = useLastLocation();
+  useEffect(() => {
+    document.title = `Personal And Contact Information | Veterans Affairs`;
+  }, []);
+
   useEffect(
     () => {
       // Do not manage the focus if the user just came to this route via the

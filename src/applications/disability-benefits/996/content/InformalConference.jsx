@@ -46,7 +46,7 @@ export const InformalConferenceTimes = ({ isRep }) => (
 
 export const informalConferenceTimeAllLabels = {
   time0800to1000: '8:00 a.m. to 10:00 a.m. ET',
-  time1000to1200: '10:00 a.m. to 12:00 p.m. ET',
+  time1000to1230: '10:00 a.m. to 12:30 p.m. ET',
   time1230to1400: '12:30 p.m. to 2:00 p.m. ET',
   time1400to1630: '2:00 p.m. to 4:30 p.m. ET',
 };

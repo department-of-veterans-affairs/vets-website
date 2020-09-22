@@ -6,7 +6,7 @@ import fullSchema from '../0873-schema.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { contactInformationPage, inquiryPage } from './pages';
 
-const { fullName, phone } = fullSchema.definitions;
+const { fullName, phone, date } = fullSchema.definitions;
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
@@ -36,6 +36,7 @@ const formConfig = {
   defaultDefinitions: {
     fullName,
     phone,
+    date,
   },
   chapters: {
     topicChapter: {
@@ -50,7 +51,7 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Tell us about you',
+      title: 'Tell us about yourself',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact-information',
