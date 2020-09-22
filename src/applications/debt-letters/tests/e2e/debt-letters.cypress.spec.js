@@ -17,18 +17,29 @@ describe('Debt Letters', () => {
   });
 
   it('displays download debt letters', () => {
-    expect(true).to.equal(true);
+    cy.findByText(/Download debt letters/i, { selector: 'a' }).click();
+    cy.findByText(/Download letters related to your va debt/i, {
+      selector: 'a',
+    }).click();
+    cy.get('#downloadDebtLetters').contains('Download debt letters');
+    cy.axeCheck();
   });
 
-  // it('displays how do I pay my VA debt?', () => {
-  //   expect(true).to.equal(true);
-  // });
+  it('displays how do I pay my VA debt?', () => {
+    cy.findByText(/How do I pay my VA debt/i, { selector: 'a' }).click();
+    cy.get('#howDoIPay').contains('How do I pay my VA debt?');
+    cy.axeCheck();
+  });
 
-  // it('displays how do I get financial help?', () => {
-  //   expect(true).to.equal(true);
-  // });
+  it('displays how do I get financial help?', () => {
+    cy.findByText(/How do I get financial help/i, { selector: 'a' }).click();
+    cy.get('#howDoIGetHelp').contains('How do I get financial help?');
+    cy.axeCheck();
+  });
 
-  // it('displays how do I dispute a debt?', () => {
-  //   expect(true).to.equal(true);
-  // });
+  it('displays how do I dispute a debt?', () => {
+    cy.findByText(/How do I dispute a debt?/i, { selector: 'a' }).click();
+    cy.get('#howDoIDispute').contains('How do I dispute a debt?');
+    cy.axeCheck();
+  });
 });
