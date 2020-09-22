@@ -62,6 +62,8 @@ describe('VAOS integration: Express Care info page', () => {
       ),
     ).to.exist;
 
+    fireEvent.click(screen.getByText('Cancel'));
+
     fireEvent.click(screen.getByText(/^Continue/));
     await waitFor(
       () =>
