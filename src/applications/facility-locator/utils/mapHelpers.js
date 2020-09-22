@@ -91,4 +91,4 @@ export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
 };
 
 export const staticMapURL = (lat, long, mapboxToken) =>
-  `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l(${long},${lat})/${long},${lat},16/500x300?access_token=${mapboxToken}`;
+  `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l+e31c3d(${long},${lat})/${long},${lat},16/500x300?access_token=${mapboxToken}`;
