@@ -20,6 +20,8 @@ export default function FacilitiesRadioWidget({ options, value, onChange }) {
     ? enumOptions
     : enumOptions.slice(0, INITIAL_FACILITY_DISPLAY_COUNT);
 
+  const hiddenCount = enumOptions.length - INITIAL_FACILITY_DISPLAY_COUNT;
+
   return (
     <div>
       {displayedOptions.map((option, i) => {
@@ -55,7 +57,7 @@ export default function FacilitiesRadioWidget({ options, value, onChange }) {
           onClick={() => setDisplayAll(!displayAll)}
         >
           <span className="additional-info-title">
-            + {enumOptions.length - 4} more locations
+            {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
             <i className="fas fa-angle-down" />
           </span>
         </button>
