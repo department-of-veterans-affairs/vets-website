@@ -143,21 +143,33 @@ export function routeToPageInFlow(flow, history, current, action) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
+      pageKey: current,
     });
 
-    const nextAction = flow[current][action];
     let nextPage;
+    let nextStateKey;
 
-    if (typeof nextAction === 'string') {
-      nextPage = flow[nextAction];
+    if (action === 'next') {
+      const nextAction = flow[current][action];
+      if (typeof nextAction === 'string') {
+        nextPage = flow[nextAction];
+        nextStateKey = nextAction;
+      } else {
+        nextStateKey = await nextAction(getState(), dispatch);
+        nextPage = flow[nextStateKey];
+      }
     } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
-      nextPage = flow[nextStateKey];
+      const state = getState();
+      const previousPage = state.expressCare.newRequest.previousPages[current];
+      nextPage = flow[previousPage];
     }
 
     if (nextPage?.url) {
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
+        pageKey: current,
+        pageKeyNext: nextStateKey,
+        direction: action,
       });
       history.push(nextPage.url);
     } else if (nextPage) {
