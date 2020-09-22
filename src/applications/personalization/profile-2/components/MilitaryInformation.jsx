@@ -214,6 +214,7 @@ MilitaryInformation.propTypes = {
       ),
     }).isRequired,
   }).isRequired,
+  veteranStatus: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
