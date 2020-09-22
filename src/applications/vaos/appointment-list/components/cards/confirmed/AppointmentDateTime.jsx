@@ -35,6 +35,10 @@ export default function AppointmentDateTime({
           <span aria-hidden="true">
             {getAppointmentTimezoneAbbreviation(timezone, facilityId)}
           </span>
+          <span className="sr-only">
+            {' '}
+            {getAppointmentTimezoneDescription(timezone, facilityId)}
+          </span>
         </>
       )}
     </>
