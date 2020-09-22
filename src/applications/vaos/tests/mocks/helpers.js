@@ -161,6 +161,28 @@ export function mockParentSites(ids, data) {
   );
 }
 
+export function mockSupportedCCSites(ids, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/community_care/supported_sites?${ids
+        .map(id => `site_codes[]=${id}`)
+        .join('&')}`,
+    ),
+    { data },
+  );
+}
+
+export function mockCCEligibility(typeOfCare, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/community_care/eligibility/${typeOfCare}`,
+    ),
+    {
+      data,
+    },
+  );
+}
+
 export function mockSupportedFacilities({
   siteId,
   parentId,

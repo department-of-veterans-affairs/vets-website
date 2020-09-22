@@ -26,6 +26,7 @@ import CCProviderResult from './search-results-items/CCProviderResult';
 import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
 import SearchResultMessage from './SearchResultMessage';
+import recordEvent from 'platform/monitoring/record-event';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -34,10 +35,12 @@ class ResultsList extends Component {
     super(props);
     this.searchResultTitle = React.createRef();
   }
+
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.results !== this.props.results ||
-      nextProps.inProgress !== this.props.inProgress
+      nextProps.inProgress !== this.props.inProgress ||
+      nextProps.error !== this.props.error
     );
   }
 
@@ -100,6 +103,11 @@ class ResultsList extends Component {
         default:
           item = null;
       }
+
+      if (index === 0 && r.distance) {
+        recordEvent({ 'fl-closest-result-distance-miles': r.distance });
+      }
+
       return item;
     });
   }
