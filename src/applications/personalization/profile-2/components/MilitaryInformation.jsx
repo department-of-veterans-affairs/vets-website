@@ -44,7 +44,11 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
             </p>
             <p>
               Or you can learn how to{' '}
-              <a href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html">
+              <a
+                href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
+                target="blank"
+                rel="noopener noreferrer"
+              >
                 update or correct your military service history
               </a>
               .
