@@ -112,7 +112,7 @@ export default function VideoVisitSection({ appointment }) {
           <div>
             <p>
               <span className="vads-u-font-weight--bold">
-                Appointment Code:{' '}
+                Appointment code:{' '}
                 {
                   appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo
                     .confirmationCode
@@ -132,23 +132,6 @@ export default function VideoVisitSection({ appointment }) {
               appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo
                 .contacts[0].name
             }
-          </div>
-        )}
-        {isGFE && (
-          <div>
-            <p>
-              <span className="vads-u-font-weight--bold">
-                You'll be meeting with
-              </span>
-              <br />
-              {`${
-                appointment.legacyVAR.apiData.vvsAppointments[0].providers[0]
-                  .name.firstName
-              } ${
-                appointment.legacyVAR.apiData.vvsAppointments[0].providers[0]
-                  .name.lastName
-              }`}
-            </p>
           </div>
         )}
       </dd>
