@@ -425,3 +425,90 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(queryByText(/cancel appointment/i)).not.to.exist;
   });
 });
+
+describe('VAOS integration: upcoming ATLAS video appointments', () => {
+  it('should display ATLAS title', async () => {
+    const appointment = getVideoAppointmentMock();
+    const startDate = moment.utc().add(3, 'days');
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: startDate.format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: startDate.format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'ADHOC',
+      status: { description: 'F', code: 'FUTURE' },
+
+      tasInfo: {
+        siteCode: '9931',
+        slotId: 'Slot8',
+        confirmationCode: '7VBBCA',
+        address: {
+          streetAddress: '114 Dewey Ave',
+          city: 'Eureka',
+          state: 'MT',
+          zipCode: '59917',
+          country: 'USA',
+          longitude: null,
+          latitude: null,
+          additionalDetails: '',
+        },
+        contacts: [
+          {
+            name: 'Decker Konya',
+            phone: '5557582786',
+            email: 'Decker.Konya@va.gov',
+          },
+        ],
+      },
+    };
+
+    mockAppointmentInfo({ va: [appointment] });
+
+    const screen = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      initialState,
+    });
+
+    await screen.findByText(/Video appointment at an ATLAS location/i);
+
+    // Should display appointment date
+    expect(
+      screen.getByText((content, _element) =>
+        content.startsWith(startDate.format('dddd, MMMM D, YYYY ')),
+      ),
+    ).to.be.ok;
+
+    // Should display appointment status
+    expect(screen.getByText(/Confirmed/i)).to.be.ok;
+
+    // Should display how to join instructions
+    expect(screen.getByText(/How to join your video appointment/i)).to.be.ok;
+    expect(
+      screen.getByText(
+        /You must join this video meeting from the ATLAS \(non-VA\) location listed below./i,
+      ),
+    ).to.be.ok;
+
+    // Should display appointment location address
+    expect(screen.getByText(/114 Dewey Ave/i)).to.be.ok;
+    expect(screen.getByText(/Eureka, MT 59917/i)).to.be.ok;
+
+    // Should display directions to location
+    expect(
+      screen.getByRole('link', {
+        name: 'Directions to ATLAS facility in Eureka, MT',
+      }),
+    ).to.be.ok;
+
+    // Should display appointment code
+    expect(screen.getByText(/Appointment Code: 7VBBCA/i)).to.be.ok;
+
+    // Should display who you will be meeting with
+    expect(screen.getByText(/You'll be meeting with/i)).to.be.ok;
+    expect(screen.getByText(/Decker Konya/i)).to.be.ok;
+  });
+});
