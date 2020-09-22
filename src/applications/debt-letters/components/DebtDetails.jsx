@@ -43,7 +43,7 @@ class DebtDetails extends Component {
         </h1>
         <div className="vads-l-row">
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 medium-screen:vads-l-col--8 vads-u-font-family--sans">
-            <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-weight--normal">
+            <p className="va-introtext vads-u-margin-top--0">
               Updated on{' '}
               {moment(last(selectedDebt.debtHistory).date).format(
                 'MMMM D, YYYY',
