@@ -17,7 +17,9 @@ export const search = () => {
 };
 
 export const selectSearchResult = (href, checkLocation = true) => {
-  cy.get(`a[href*="${href}"]`).click();
+  cy.get(`a[href*="${href}"]`)
+    .first()
+    .click();
   if (checkLocation) {
     expectLocation(href);
   }
