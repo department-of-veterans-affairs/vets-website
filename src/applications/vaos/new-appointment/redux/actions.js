@@ -308,7 +308,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({
-        type: FORM_PAGE_FACILITY_OPEN_FAILED,
+        type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
       });
     }
   };
