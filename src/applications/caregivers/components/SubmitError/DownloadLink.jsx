@@ -51,7 +51,7 @@ const DownLoadLink = ({ form }) => {
 
   useEffect(
     () => {
-      if (isFormValid) downloadPDF(getFormData);
+      if (isFormValid.isValid) downloadPDF(getFormData);
     },
     [getFormData, isFormValid.isValid],
   );
