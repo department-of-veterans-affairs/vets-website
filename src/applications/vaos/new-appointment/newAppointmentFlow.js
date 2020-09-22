@@ -3,6 +3,7 @@ import {
   getNewAppointment,
   getEligibilityStatus,
   getTypeOfCare,
+  vaosFlatFacilityPage,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import {
@@ -48,6 +49,10 @@ function isPodiatry(state) {
   return getFormData(state).typeOfCareId === PODIATRY;
 }
 
+function getFacilityPageKey(state) {
+  return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
+}
+
 export default {
   home: {
     url: '/',
@@ -84,7 +89,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return 'vaFacility';
+      return getFacilityPageKey(state);
     },
   },
   typeOfFacility: {
@@ -99,12 +104,14 @@ export default {
         return 'requestDateTime';
       }
 
-      return 'vaFacility';
+      return getFacilityPageKey(state);
     },
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
-    next: 'vaFacility',
+    async next(state) {
+      return getFacilityPageKey(state);
+    },
   },
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',
@@ -121,7 +128,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return 'vaFacility';
+      return getFacilityPageKey(state);
     },
   },
   audiologyCareType: {
@@ -152,6 +159,9 @@ export default {
 
       throw new Error('Veteran not eligible for direct scheduling or requests');
     },
+  },
+  vaFacilityV2: {
+    url: '/new-appointment/va-facility-2',
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
