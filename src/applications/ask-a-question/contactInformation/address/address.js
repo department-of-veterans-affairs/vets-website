@@ -139,6 +139,7 @@ export function schema(
         maxLength: 51,
       },
       postalCode: {
+        title: 'Postal code',
         type: 'string',
         maxLength: 10,
       },
@@ -258,6 +259,26 @@ export function uiSchema(
         );
       }
 
+      if (
+        country === 'USA' &&
+        addressSchema.properties.postalCode.title !== 'Zip code'
+      ) {
+        schemaUpdate.properties = _.set(
+          'postalCode.title',
+          'Zip code',
+          schemaUpdate.properties,
+        );
+      } else if (
+        country !== 'USA' &&
+        addressSchema.properties.postalCode.title !== 'Postal code'
+      ) {
+        schemaUpdate.properties = _.set(
+          'postalCode.title',
+          'Postal code',
+          schemaUpdate.properties,
+        );
+      }
+
       // We constrain the state list when someone picks a city that’s a military base
       if (
         country === 'USA' &&
@@ -351,7 +372,6 @@ export function uiSchema(
       },
     },
     postalCode: {
-      'ui:title': 'Zip code',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
