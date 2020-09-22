@@ -76,7 +76,7 @@ const IntroductionPage = ({ route, router }) => {
                 <li>
                   Call us at
                   <Telephone
-                    contact={CONTACTS['222_VETS']}
+                    contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
                     className="vads-u-margin-x--0p5"
                   />
                   and ask for help filling out the form

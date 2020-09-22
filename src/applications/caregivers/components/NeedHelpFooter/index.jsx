@@ -20,7 +20,7 @@ const NeedHelpFooter = () => {
       <p>
         You can also call our main VA information line at
         <Telephone
-          contact={CONTACTS['222_VETS']}
+          contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
           className="vads-u-margin-x--0p5"
         />
         if you have questions about completing your application, or you can
