@@ -58,7 +58,7 @@ export default {
     ssnUI: label => ({
       ...ssnUI,
       'ui:title': `${label}  Social Security number or tax identification number`,
-      'ui:description': label === "Veteran's" && VeteranSSNInfo(),
+      'ui:description': label === 'Veteran\u2019s' && VeteranSSNInfo(),
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
@@ -103,7 +103,7 @@ export default {
     },
   },
   vetUI: {
-    vetInputLabel: "Veteran's",
+    vetInputLabel: 'Veteran\u2019s',
     previousTreatmentFacilityUI: {
       'ui:title': ' ',
       'ui:order': ['name', 'type'],
@@ -171,7 +171,7 @@ export default {
     },
   },
   primaryCaregiverUI: {
-    primaryInputLabel: "Primary Family Caregiver's",
+    primaryInputLabel: 'Primary Family Caregiver\u2019s',
     hasHealthInsurance: {
       'ui:title':
         'Does the Primary Family Caregiver applicant have health care coverage, such as Medicaid, Medicare, CHAMPVA, Tricare, or private insurance?',
@@ -179,12 +179,12 @@ export default {
     },
   },
   secondaryCaregiversUI: {
-    secondaryOneInputLabel: "Secondary Family Caregiver's",
+    secondaryOneInputLabel: 'Secondary Family Caregiver\u2019s',
     secondaryOneChapterTitle:
       'Secondary Family Caregiver applicant information',
-    secondaryTwoInputLabel: "Secondary Family Caregiver's (2)",
+    secondaryTwoInputLabel: 'Secondary Family Caregiver\u2019s (2)',
     secondaryTwoChapterTitle:
-      "Secondary Family Caregiver's (2) applicant information",
+      'Secondary Family Caregiver\u2019s (2) applicant information',
   },
 };
 

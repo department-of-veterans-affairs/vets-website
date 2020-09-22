@@ -39,7 +39,7 @@ const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
 
     {additionalInfo && (
       <section className="vads-u-margin-y--2p5">
-        <AdditionalInfo triggerText="What's a Primary Family Caregiver?">
+        <AdditionalInfo triggerText="What&apos;s a Primary Family Caregiver?">
           <p>
             Family caregivers are approved and designated by VA as Primary
             Family Caregivers and Secondary Family Caregivers to provide
@@ -90,7 +90,7 @@ const SecondaryCaregiverLegal = () => (
       </p>
 
       <>
-        <p>They can be the Veteran's:</p>
+        <p>They can be the Veteran&apos;s:</p>
 
         <ul>
           <li>Parent</li>
@@ -146,7 +146,7 @@ const FacilityInfo = () => (
 
 const CaregiverSupportInfo = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="What's a Caregiver Support Coordinator ?">
+    <AdditionalInfo triggerText="What&apos;s a Caregiver Support Coordinator ?">
       A Caregiver Support Coordinator is a clinical professional who connects
       Veteran caregivers with VA and community resources that offer supportive
       programs and services. Caregiver Support Coordinators are located at every
