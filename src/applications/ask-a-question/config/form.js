@@ -5,6 +5,8 @@ import fullSchema from '../0873-schema.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { contactInformationPage, inquiryPage } from './pages';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import environment from 'platform/utilities/environment';
 
 const { fullName, phone, date } = fullSchema.definitions;
 
@@ -14,11 +16,20 @@ const formPages = {
   contactInformation: 'contactInformation',
 };
 
+const submitTransform = (formConfig, form) => {
+  const formData = transformForSubmit(formConfig, form);
+
+  return JSON.stringify({
+    inquiry: {
+      form: formData,
+    },
+  });
+};
+
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/ask/asks`,
+  transformForSubmit: submitTransform,
   trackingPrefix: 'complex-form-',
   confirmation: ConfirmationPage,
   formId: '0873',
