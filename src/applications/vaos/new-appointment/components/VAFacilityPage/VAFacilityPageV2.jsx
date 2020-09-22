@@ -34,7 +34,6 @@ const pageTitle = 'Choose a VA location for your appointment';
 function VAFacilityPageV2({
   schema,
   data,
-  facilities,
   childFacilitiesStatus,
   openFacilityPageV2,
   updateFacilityPageV2Data,
@@ -71,7 +70,6 @@ function VAFacilityPageV2({
             updateFacilityPageV2Data(pageKey, uiSchema, newData)
           }
           data={data}
-          formContext={{ facilities }}
         >
           <FormButtons
             continueLabel=""
