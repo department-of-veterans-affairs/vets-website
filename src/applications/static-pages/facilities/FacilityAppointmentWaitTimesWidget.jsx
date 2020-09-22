@@ -6,12 +6,16 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 export class FacilityAppointmentWaitTimesWidget extends React.Component {
-  appointmentWaitTime(waitTime, service) {
+  appointmentWaitTime(waitTime, service, established = false) {
     return (
       <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5">
-        <p className="vads-u-margin--0">Existing patient</p>
+        <p className="vads-u-margin--0">
+          {established ? 'Existing patient' : 'New patient'}
+        </p>
         <p
-          id={`facility-${_.camelCase(service)}-existing-patient-wait-time`}
+          id={`facility-${_.camelCase(service)}-${
+            established ? 'existing' : 'new'
+          }-patient-wait-time`}
           className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
         >
           {`${waitTime.toFixed(0)} days`}
@@ -34,7 +38,6 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     if (this.props.error) {
       return <FacilityApiAlert />;
     }
-
     const facility = this.props.facility.attributes;
     const service = this.props.service.split('(')[0].toLowerCase();
     const serviceExists = facility.access.health.find(
@@ -58,10 +61,14 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
               {serviceExists.new &&
                 this.appointmentWaitTime(serviceExists.new, service)}
               {serviceExists.established &&
-                this.appointmentWaitTime(serviceExists.established, service)}
+                this.appointmentWaitTime(
+                  serviceExists.established,
+                  service,
+                  true,
+                )}
             </div>
             <div className="vads-l-row">
-              <p
+              <div
                 id={`facility-${_.camelCase(
                   service,
                 )}-appointment-wait-times-effective-date`}
@@ -75,7 +82,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                     Learn more about VA appointment wait times
                   </a>
                 </p>
-              </p>
+              </div>
             </div>
           </div>
         </div>
