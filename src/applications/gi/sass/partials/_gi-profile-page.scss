@@ -292,6 +292,8 @@
   }
 
   .school-locations {
+    padding-bottom: 1rem;
+
     table {
       border: hidden;
       margin-top: 1.5em;
@@ -320,6 +322,10 @@
       vertical-align: top;
     }
 
+    td::first-letter {
+      text-transform: capitalize;
+    }
+
     .schoolName {
       margin-bottom: 0em;
       margin-top: 0em;
@@ -330,7 +336,35 @@
       white-space: nowrap;
     }
 
-    padding-bottom: 1rem;
+    .estimated-housing-cell {
+      .estimated-housing-cell-title {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: $medium-screen) {
+      font-size: 1em;
+
+      td {
+        font-size: 1em;
+      }
+
+      .extension-row {
+        .location-cell {
+          padding-left: 1.3em;
+        }
+
+        .estimated-housing-cell {
+          padding-left: 1.3em;
+        }
+      }
+
+      .estimated-housing-cell {
+        .estimated-housing-cell-title {
+          display: inline;
+        }
+      }
+    }
   }
 
   @include media-maxwidth($medium-screen - 1) {

@@ -36,9 +36,7 @@ export const AuthContent = () => (
         appointment, please contact the facility as soon as possible to
         reschedule or cancel.
         <br />
-        <a href="/find-locations/">
-          Find your VA health facility’s phone number
-        </a>
+        <a href="/find-locations/">Find your health facility’s phone number</a>
       </p>
       <h2 id="view-schedule-or-cancel-a-va-a">
         View, schedule, or cancel a VA appointment online
@@ -159,12 +157,12 @@ export const AuthContent = () => (
     </p>
     <p>
       <strong>Please note:</strong> The fastest way to schedule appointments is
-      usually to call the VA health facility where you get care. To reschedule
-      or cancel an existing appointment, please contact your facility as soon as
+      usually to call the health facility where you get care. To reschedule or
+      cancel an existing appointment, please contact your facility as soon as
       possible.
     </p>
     <p>
-      <a href="/find-locations">Find your VA health facility’s phone number</a>
+      <a href="/find-locations">Find your health facility’s phone number</a>
     </p>
     <h2>Will my personal health information be protected?</h2>
     <p>
@@ -186,10 +184,14 @@ export const AuthContent = () => (
       </a>
     </p>
     <h2>What if I have more questions?</h2>
-    <h3>For the VA appointments tool</h3>
+    <h3>For questions about scheduling an appointment</h3>
+    <p>Please call your VA or community care health facility.</p>
     <p>
-      <strong>For help scheduling a VA or community care appointment,</strong>{' '}
-      please call{' '}
+      <a href="/find-locations/">Find your health facility’s phone number</a>
+    </p>
+    <h3>For questions about the VA appointments tool</h3>
+    <p>
+      Please call{' '}
       <a href="tel: 18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
         877-470-5947
       </a>{' '}
@@ -199,11 +201,17 @@ export const AuthContent = () => (
       </a>
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
+    <h3>For questions about My VA Health</h3>
     <p>
-      <strong>
-        For questions about joining a VA Video Connect appointment,
-      </strong>{' '}
-      please call{' '}
+      Call My VA Health support anytime at{' '}
+      <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
+        800-962-1024
+      </a>
+      .
+    </p>
+    <h3>For questions about joining a VA Video Connect appointment</h3>
+    <p>
+      Please call{' '}
       <a href="tel: 18666513180" aria-label="8 6 6. 6 5 1. 3 1 8 0.">
         866-651-3180
       </a>{' '}
@@ -212,15 +220,6 @@ export const AuthContent = () => (
         TTY: 711
       </a>
       ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
-    </p>
-    <h3>For My VA Health questions</h3>
-    <p>
-      Call My VA Health support anytime at{' '}
-      <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
-        {' '}
-        800-962-1024
-      </a>
-      .
     </p>
     <MoreInfoAboutBenefits />
   </>

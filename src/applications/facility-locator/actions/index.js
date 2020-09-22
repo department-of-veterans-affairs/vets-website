@@ -10,12 +10,15 @@ import {
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_RESULTS,
+  GEOCODE_STARTED,
+  GEOCODE_COMPLETE,
+  GEOCODE_FAILED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordMapBoxEvents, recordSearchEvents } from '../utils/helpers';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -119,9 +122,7 @@ const fetchLocations = async (
       apiVersion,
     );
     // Record event as soon as API return results
-    if (data.data && data.data.length > 0) {
-      recordEvent({ event: 'fl-search-results' });
-    }
+    recordSearchEvents(data.data, data.meta);
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
@@ -214,7 +215,7 @@ export const genBBoxFromAddress = query => {
   }
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED });
+    dispatch({ type: GEOCODE_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = ['place', 'region', 'postcode', 'locality'];
@@ -229,16 +230,32 @@ export const genBBoxFromAddress = query => {
       .forwardGeocode({
         countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
         types,
-        autocomplete: false,
+        autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
         query: query.searchString,
       })
       .send()
+      .then(res => {
+        recordMapBoxEvents(res);
+        return res;
+      })
       .then(({ body: { features } }) => {
         const zip =
           features[0].context.find(v => v.id.includes('postcode')) || {};
         const coordinates = features[0].center;
         const zipCode = zip.text || features[0].place_name;
         const featureBox = features[0].box;
+
+        dispatch({
+          type: GEOCODE_COMPLETE,
+          payload: query.usePredictiveGeolocation
+            ? features.map(feature => ({
+                placeName: feature.place_name,
+                placeType: feature.place_type[0],
+                bbox: feature.bbox,
+                center: feature.center,
+              }))
+            : [],
+        });
 
         let minBounds = [
           coordinates[0] - BOUNDING_RADIUS,
@@ -276,6 +293,7 @@ export const genBBoxFromAddress = query => {
         });
       })
       .catch(_ => {
+        dispatch({ type: GEOCODE_FAILED });
         dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
       });
   };
