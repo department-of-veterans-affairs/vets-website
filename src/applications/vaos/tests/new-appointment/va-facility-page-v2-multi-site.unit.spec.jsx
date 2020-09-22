@@ -43,7 +43,7 @@ describe('VAOS integration: VA flat facility page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
-  it('should display list of facilities', async () => {
+  it('should display list of facilities with show more button', async () => {
     mockParentSites(['983'], [parentSite983]);
     const facilities = [
       {
@@ -77,7 +77,7 @@ describe('VAOS integration: VA flat facility page', () => {
         attributes: {
           ...getFacilityMock().attributes,
           institutionCode: '983GD',
-          authoritativeName: 'San Diego VA medical center',
+          authoritativeName: 'San Diego VA medical center 2',
           city: 'San Diego',
           stateAbbrev: 'CA',
           rootStationCode: '983',
@@ -90,7 +90,7 @@ describe('VAOS integration: VA flat facility page', () => {
         attributes: {
           ...getFacilityMock().attributes,
           institutionCode: '983GE',
-          authoritativeName: 'San Diego VA medical center',
+          authoritativeName: 'San Diego VA medical center 3',
           city: 'San Diego',
           stateAbbrev: 'CA',
           rootStationCode: '983',
@@ -103,7 +103,7 @@ describe('VAOS integration: VA flat facility page', () => {
         attributes: {
           ...getFacilityMock().attributes,
           institutionCode: '983GF',
-          authoritativeName: 'San Diego VA medical center',
+          authoritativeName: 'San Diego VA medical center 4',
           city: 'San Diego',
           stateAbbrev: 'CA',
           rootStationCode: '983',
@@ -116,7 +116,7 @@ describe('VAOS integration: VA flat facility page', () => {
         attributes: {
           ...getFacilityMock().attributes,
           institutionCode: '983GG',
-          authoritativeName: 'San Diego VA medical center',
+          authoritativeName: 'San Diego VA medical center 5',
           city: 'San Diego',
           stateAbbrev: 'CA',
           rootStationCode: '983',
@@ -155,12 +155,17 @@ describe('VAOS integration: VA flat facility page', () => {
       'Below is a list of VA locations where you’re registered that offer Primary care appointments',
     );
 
+    // Should contain radio buttons
     expect(screen.baseElement).to.contain.text('Bozeman VA medical center');
     expect(screen.baseElement).to.contain.text('Bozeman, MT');
     expect(screen.baseElement).to.contain.text('San Diego VA medical center');
     expect(screen.baseElement).to.contain.text('San Diego, CA');
-    const moreLocationsBtn = screen.getByText(/more locations/i);
-    expect(moreLocationsBtn).to.have.tagName('a');
+    expect(screen.baseElement).not.to.contain.text(
+      'San Diego VA medical center 5',
+    );
+    const moreLocationsBtn = screen.getByText('+ 2 more locations');
+    expect(moreLocationsBtn).to.have.tagName('span');
     fireEvent.click(moreLocationsBtn);
+    expect(screen.baseElement).to.contain.text('San Diego VA medical center 5');
   });
 });
