@@ -322,12 +322,7 @@ export default function formReducer(state = initialState, action) {
           {
             type: 'string',
             enum: locations.map(facility => facility.id),
-            enumNames: locations.map(
-              facility =>
-                `${facility.name} (${facility.address?.city}, ${
-                  facility.address?.state
-                })`,
-            ),
+            enumNames: locations,
           },
           newSchema,
         );

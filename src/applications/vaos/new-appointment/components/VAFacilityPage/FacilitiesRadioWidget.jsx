@@ -1,31 +1,31 @@
 import React, { useState } from 'react';
 
+const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 /*
  * This is a copy of the form system RadioWidget, but with custom
  * code to disable certain options. This isn't currently supported by the
  * form system.
  */
-export default function FacilitiesRadioWidget({
-  options,
-  value,
-  onChange,
-  id,
-  formContext,
-}) {
+export default function FacilitiesRadioWidget({ options, value, onChange }) {
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
 
   // If user has already selected a value, and the index of that value is > 4,
   // show this view already expanded
-  const [displayAll, setDisplayAll] = useState(selectedIndex > 4);
+  const [displayAll, setDisplayAll] = useState(
+    selectedIndex >= INITIAL_FACILITY_DISPLAY_COUNT,
+  );
 
-  const { facilities } = formContext;
-  const displayedOptions = displayAll ? enumOptions : enumOptions.slice(0, 4);
+  const displayedOptions = displayAll
+    ? enumOptions
+    : enumOptions.slice(0, INITIAL_FACILITY_DISPLAY_COUNT);
+
+  const hiddenCount = enumOptions.length - INITIAL_FACILITY_DISPLAY_COUNT;
 
   return (
     <div>
       {displayedOptions.map((option, i) => {
-        const facility = facilities.find(f => f.id === option.value);
+        const { id, name, address } = option?.label;
         const checked = option.value === value;
 
         return (
@@ -36,14 +36,14 @@ export default function FacilitiesRadioWidget({
               id={`${id}_${i}`}
               name={`${id}`}
               value={option.value}
-              onChange={_ => onChange(option.value)}
+              onChange={_ => onChange(id)}
             />
             <label htmlFor={`${id}_${i}`}>
               <span className="vads-u-display--block vads-u-font-weight--bold">
-                {facility.name}
+                {name}
               </span>
               <span className="vads-u-display--block vads-u-font-size--sm">
-                {facility.address?.city}, {facility.address?.state}
+                {address?.city}, {address?.state}
               </span>
             </label>
           </div>
@@ -57,7 +57,7 @@ export default function FacilitiesRadioWidget({
           onClick={() => setDisplayAll(!displayAll)}
         >
           <span className="additional-info-title">
-            + {enumOptions.length - 4} more locations
+            {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
             <i className="fas fa-angle-down" />
           </span>
         </button>

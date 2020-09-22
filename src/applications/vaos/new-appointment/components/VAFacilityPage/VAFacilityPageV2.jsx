@@ -42,7 +42,6 @@ function VAFacilityPageV2({
   childFacilitiesStatus,
   data,
   eligibility,
-  facilities,
   facility,
   facilityDetails,
   facilityDetailsStatus,
@@ -203,7 +202,6 @@ function VAFacilityPageV2({
           }
           onSubmit={goForward}
           data={data}
-          formContext={{ facilities }}
         >
           <FormButtons
             continueLabel=""
