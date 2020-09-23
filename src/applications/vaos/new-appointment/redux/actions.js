@@ -349,34 +349,27 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       locations = newAppointment.facilities[typeOfCareId] || null;
 
       if (parentFacilities?.length && !locations) {
-        try {
-          dispatch({
-            type: FORM_FETCH_CHILD_FACILITIES,
-            isFacilityV2Page: true,
-          });
+        dispatch({
+          type: FORM_FETCH_CHILD_FACILITIES,
+          isFacilityV2Page: true,
+        });
 
-          const responses = await Promise.all(
-            parentFacilities.map(parent => {
-              const parentId = parent.id;
-              const siteId = parseFakeFHIRId(
-                getIdOfRootOrganization(parentFacilities, parentId),
-              );
-              return getSupportedHealthcareServicesAndLocations({
-                siteId,
-                parentId,
-                typeOfCareId,
-                useVSP,
-              });
-            }),
-          );
+        const responses = await Promise.all(
+          parentFacilities.map(parent => {
+            const parentId = parent.id;
+            const siteId = parseFakeFHIRId(
+              getIdOfRootOrganization(parentFacilities, parentId),
+            );
+            return getSupportedHealthcareServicesAndLocations({
+              siteId,
+              parentId,
+              typeOfCareId,
+              useVSP,
+            });
+          }),
+        );
 
-          locations = [].concat(...responses.map(r => r?.locations || []));
-        } catch (err) {
-          dispatch({
-            type: FORM_FETCH_CHILD_FACILITIES_FAILED,
-            isFacilityV2Page: true,
-          });
-        }
+        locations = [].concat(...responses.map(r => r?.locations || []));
       }
 
       const eligibilityDataNeeded = !!locationId || locations?.length === 1;
