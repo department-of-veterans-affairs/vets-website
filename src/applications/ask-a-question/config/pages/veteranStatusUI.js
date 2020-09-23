@@ -28,7 +28,8 @@ export const veteranStatusUI = {
   [formFields.isDependent]: {
     'ui:title': 'Are you the dependent?',
     'ui:widget': 'yesNo',
-    'ui:required': formData => formData.veteranStatus === 'dependent',
+    'ui:required': formData =>
+      formData.veteranStatus.veteranStatus === 'dependent',
     'ui:options': {
       expandUnder: 'veteranStatus',
       expandUnderCondition: 'dependent',

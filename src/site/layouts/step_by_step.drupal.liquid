@@ -47,9 +47,13 @@
           </ol>
 
           <!-- Buttons -->
-          {% for fieldButton in fieldButtons  %}
-            {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-          {% endfor %}
+          {% if fieldButtonsRepeat %}
+            <div class="vads-u-margin-y--3">
+              {% for fieldButton in fieldButtons  %}
+                {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+              {% endfor %}
+            </div>
+          {% endif %}
         </article>
       </div>
     </div>
