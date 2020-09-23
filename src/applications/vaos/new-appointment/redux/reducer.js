@@ -19,6 +19,7 @@ import {
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+  FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
@@ -524,15 +525,12 @@ export default function formReducer(state = initialState, action) {
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
+    case FORM_PAGE_FACILITY_V2_OPEN_FAILED:
     case FORM_FETCH_CHILD_FACILITIES_FAILED: {
-      if (action.isFacilityV2Page) {
-        return state;
+      let pages = state.pages;
+      if (!action.isFacilityV2Page) {
+        pages = unset('vaFacility.properties.vaFacilityLoading', state.pages);
       }
-
-      const pages = unset(
-        'vaFacility.properties.vaFacilityLoading',
-        state.pages,
-      );
 
       return {
         ...state,
