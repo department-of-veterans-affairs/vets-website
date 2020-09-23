@@ -2,7 +2,6 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
-import { waitForElementToBeRemoved } from '@testing-library/dom';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
 
@@ -23,16 +22,16 @@ const ui = (
 let view;
 let server;
 
+const savingMessageRegex = /We’re working on saving your.*text alert preference/i;
+
+const smsCheckboxLabelRegex = /We’ll send VA health care appointment text reminders to this number/i;
+
 function getCheckbox(_view) {
-  return _view.getByLabelText(
-    /We’ll send VA health care appointment text reminders to this number/i,
-  );
+  return _view.getByLabelText(smsCheckboxLabelRegex);
 }
 
 function queryCheckbox(_view) {
-  return _view.queryByLabelText(
-    /We’ll send VA health care appointment text reminders to this number/i,
-  );
+  return _view.queryByLabelText(smsCheckboxLabelRegex);
 }
 
 describe('When not enrolled in health care', () => {
@@ -91,17 +90,11 @@ describe('When enrolled in health care', () => {
   after(() => {
     server.close();
   });
-  // Skipping this test for now since it does not handle this case correctly
-  // TODO:
-  it.skip('should show an error if it is unable to create the transaction', async () => {
+  it('should show an error if it is unable to create the transaction', async () => {
     server.use(...mocks.createTransactionFailure);
     getCheckbox(view).click();
 
-    expect(
-      await view.findByText(
-        /We’re working on saving your.*text alert preference/i,
-      ),
-    ).to.exist;
+    expect(await view.findByText(savingMessageRegex)).to.exist;
 
     expect(
       await view.findByText(
@@ -113,11 +106,7 @@ describe('When enrolled in health care', () => {
     server.use(...mocks.transactionPending);
     getCheckbox(view).click();
 
-    expect(
-      await view.findByText(
-        /We’re working on saving your.*text alert preference/i,
-      ),
-    ).to.exist;
+    expect(await view.findByText(savingMessageRegex)).to.exist;
 
     server.use(...mocks.transactionFailed);
 
@@ -131,15 +120,13 @@ describe('When enrolled in health care', () => {
     server.use(...mocks.transactionPending);
     getCheckbox(view).click();
 
-    const savingMessage = await view.findByText(
-      /We’re working on saving your.*text alert preference/i,
-    );
+    const savingMessage = await view.findByText(savingMessageRegex);
 
     expect(savingMessage).to.exist;
 
     server.use(...mocks.transactionSucceeded);
 
-    await waitForElementToBeRemoved(savingMessage);
+    await view.findByLabelText(smsCheckboxLabelRegex);
 
     expect(getCheckbox(view)).to.have.attr('checked');
   });
