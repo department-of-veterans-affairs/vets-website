@@ -5,9 +5,13 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
 
 import { veteranStatusUI } from './veteranStatusUI';
-import fullSchema from '../../0873-schema.json';
 import pageDescription from '../../content/PageDescription';
+import fullSchema from '../../0873-schema.json';
 import * as address from '../../contactInformation/address/address';
+import {
+  contactInformationPageDescription,
+  preferredContactMethodTitle,
+} from '../../content/labels';
 
 const { email, phone } = fullSchema.definitions;
 
@@ -29,7 +33,7 @@ const formFields = {
 
 const contactInformationPage = {
   uiSchema: {
-    'ui:description': pageDescription('Your contact info'),
+    'ui:description': contactInformationPageDescription,
     [formFields.fullName]: fullNameUI,
     [formFields.address]: address.uiSchema(
       '',
@@ -51,7 +55,7 @@ const contactInformationPage = {
     ),
     [formFields.verifyEmail]: confirmationEmailUI('', formFields.email),
     [formFields.preferredContactMethod]: {
-      'ui:title': 'How should we get in touch with you?',
+      'ui:title': preferredContactMethodTitle,
       'ui:widget': 'radio',
     },
     [formFields.veteranStatus]: veteranStatusUI,
