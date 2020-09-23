@@ -102,35 +102,35 @@ export const questions = [
   },
   {
     id: 'travel-self-pr',
-    text: 'Have you traveled out of Puerto Rico within the last 14 days?',
+    text: 'Have you traveled outside of Puerto Rico within the last 14 days?',
     customId: ['672'],
   },
   {
     id: 'travel-other-pr',
     text:
-      'Have you had contact with someone who has traveled out of Puerto Rico within the last 14 days?',
+      'Have you had contact with someone who has traveled outside of Puerto Rico within the last 14 days?',
     customId: ['672'],
   },
   {
     id: 'travel-self-stvi',
-    text: 'Have you traveled out of St. Thomas within the last 14 days?',
+    text: 'Have you traveled outside of St. Thomas within the last 14 days?',
     customId: ['672GB'],
   },
   {
     id: 'travel-other-stvi',
     text:
-      'Have you had contact with someone who has traveled out of St. Thomas within the last 14 days?',
+      'Have you had contact with someone who has traveled outside of St. Thomas within the last 14 days?',
     customId: ['672GB'],
   },
   {
     id: 'travel-self-scvi',
-    text: 'Have you traveled out of St. Croix within the last 14 days?',
+    text: 'Have you traveled outside of St. Croix within the last 14 days?',
     customId: ['672GA'],
   },
   {
     id: 'travel-other-scvi',
     text:
-      'Have you had contact with someone who has traveled out of St. Croix within the last 14 days?',
+      'Have you had contact with someone who has traveled outside of St. Croix within the last 14 days?',
     customId: ['672GA'],
   },
 ];
