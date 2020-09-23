@@ -92,7 +92,11 @@ function InstitutionSearchForm({
           />
         </div>
         <div id="see-results-button" className="results-button">
-          <button className="usa-button" onClick={toggleFilter}>
+          <button
+            className="usa-button"
+            data-cy="see-results"
+            onClick={toggleFilter}
+          >
             See Results
           </button>
         </div>
