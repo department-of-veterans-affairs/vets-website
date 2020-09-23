@@ -85,6 +85,12 @@ export const FORM_PAGE_CHANGE_COMPLETED =
 export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
 export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
+export const FORM_PAGE_FACILITY_V2_OPEN =
+  'newAppointment/FACILITY_PAGE_V2_OPEN';
+export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
+  'newAppointment/FACILITY_PAGE_V2_OPEN_SUCCEEDED';
+export const FORM_PAGE_FACILITY_V2_OPEN_FAILED =
+  'newAppointment/FACILITY_PAGE_V2_OPEN_FAILED';
 export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
 export const FORM_PAGE_FACILITY_OPEN_FAILED =
@@ -249,6 +255,62 @@ export function fetchFacilityDetails(facilityId) {
       facilityDetails,
       facilityId,
     });
+  };
+}
+
+export function openFacilityPageV2(page, uiSchema, schema) {
+  return async (dispatch, getState) => {
+    try {
+      const initialState = getState();
+      const newAppointment = initialState.newAppointment;
+      const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
+      const userSiteIds = selectSystemIds(initialState);
+      const useVSP = vaosVSPAppointmentNew(initialState);
+      let parentFacilities = newAppointment.parentFacilities;
+
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN,
+      });
+
+      if (!parentFacilities) {
+        parentFacilities = await getOrganizations({
+          siteIds: userSiteIds,
+          useVSP,
+        });
+      }
+
+      const responses = await Promise.all(
+        parentFacilities.map(parent => {
+          const parentId = parent.id;
+          const siteId = parseFakeFHIRId(
+            getIdOfRootOrganization(parentFacilities, parentId),
+          );
+          return getSupportedHealthcareServicesAndLocations({
+            siteId,
+            parentId,
+            typeOfCareId,
+            useVSP,
+          });
+        }),
+      );
+
+      const facilities = [].concat(...responses.map(r => r?.locations || []));
+
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+        page,
+        schema,
+        uiSchema,
+        parentFacilities,
+        facilities,
+        typeOfCareId,
+      });
+    } catch (e) {
+      captureError(e, false, 'facility page');
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
+      });
+    }
   };
 }
 

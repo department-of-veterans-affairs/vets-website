@@ -109,9 +109,7 @@ export default {
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
-    async next(state) {
-      return getFacilityPageKey(state);
-    },
+    next: getFacilityPageKey,
   },
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',

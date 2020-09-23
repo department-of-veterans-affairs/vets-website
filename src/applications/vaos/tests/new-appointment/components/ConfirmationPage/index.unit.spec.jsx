@@ -57,9 +57,8 @@ describe('VAOS <ConfirmationPage>', () => {
     );
 
     expect(screen.getByText(/Your appointment has been scheduled./i)).to.be.ok;
-    expect(
-      screen.getByText(moment(start).format('MMMM D, YYYY [at] h:mm a CT')),
-    ).to.be.ok;
+    expect(screen.getByText(start.format('MMMM D, YYYY [at] h:mm a CT'))).to.be
+      .ok;
 
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
@@ -69,9 +68,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     expect(
       screen.getByRole('link', {
-        name: moment(start).format(
-          '[Add] MMMM D, YYYY [appointment to your calendar]',
-        ),
+        name: start.format('[Add] MMMM D, YYYY [appointment to your calendar]'),
       }),
     ).to.be.ok;
   });
