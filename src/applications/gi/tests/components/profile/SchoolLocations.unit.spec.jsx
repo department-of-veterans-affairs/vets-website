@@ -1,14 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import SchoolLocations from '../../../components/profile/SchoolLocations';
 import sinon from 'sinon';
 import { getDefaultState } from '../../helpers';
+import ResponsiveTable from '../../../components/ResponsiveTable';
 
 const defaultState = getDefaultState();
 
 describe('<SchoolLocations>', () => {
-  it('should render main row', () => {
+  it('should have columns and tableClassName', () => {
     const testState = {
       ...defaultState,
       profile: {
@@ -35,7 +36,7 @@ describe('<SchoolLocations>', () => {
       },
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <SchoolLocations
         institution={testState.profile.attributes}
         facilityMap={testState.profile.attributes.facilityMap}
@@ -45,9 +46,61 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    expect(wrapper.find('.main-row')).to.have.lengthOf(1);
-    expect(wrapper.find('.extension-row')).to.have.lengthOf(0);
-    expect(wrapper.find('.branch-row')).to.have.lengthOf(0);
+    const facilityTable = wrapper.find(ResponsiveTable);
+    expect(facilityTable).to.have.lengthOf(1);
+    ['School Name', 'Location', 'Estimated housing'].forEach(column => {
+      expect(facilityTable.props().columns).include(column);
+    });
+    expect(facilityTable.props().tableClass).to.eq('school-locations');
+    expect(facilityTable.props().data).to.have.length(1);
+
+    wrapper.unmount();
+  });
+
+  it('should render main row', () => {
+    const testState = {
+      ...defaultState,
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          facilityMap: {
+            main: {
+              institution: {
+                type: 'FOR PROFIT',
+                facilityCode: '100',
+                institution: 'MAIN FACILITY',
+                physicalCity: 'Test',
+                physicalState: 'TN',
+                physicalCountry: 'USA',
+                physicalZip: '12345',
+                country: 'USA',
+                dodBah: '100',
+              },
+              extensions: [],
+              branches: [],
+            },
+          },
+        },
+      },
+    };
+    const facilityMap = testState.profile.attributes.facilityMap;
+    const wrapper = shallow(
+      <SchoolLocations
+        institution={testState.profile.attributes}
+        facilityMap={facilityMap}
+        calculator={testState.calculator}
+        eligibility={testState.eligibility}
+        constants={testState.constants}
+      />,
+    );
+
+    const facilityTable = wrapper.find(ResponsiveTable);
+    expect(facilityTable).to.have.lengthOf(1);
+    expect(facilityTable.props().data).to.have.length(1);
+    expect(facilityTable.props().data[0].key).to.eq(
+      `${facilityMap.main.institution.facilityCode}-main`,
+    );
+    expect(facilityTable.props().data[0].rowClassName).to.eq('main-row');
     wrapper.unmount();
   });
 
@@ -105,7 +158,7 @@ describe('<SchoolLocations>', () => {
       },
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <SchoolLocations
         institution={testState.profile.attributes}
         facilityMap={testState.profile.attributes.facilityMap}
@@ -115,9 +168,8 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    expect(wrapper.find('.main-row')).to.have.lengthOf(1);
-    expect(wrapper.find('.extension-row')).to.have.lengthOf(1);
-    expect(wrapper.find('.branch-row')).to.have.lengthOf(1);
+    const facilityTable = wrapper.find(ResponsiveTable);
+    expect(facilityTable.props().data).to.have.length(3);
     wrapper.unmount();
   });
 
@@ -160,7 +212,7 @@ describe('<SchoolLocations>', () => {
       },
     };
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <SchoolLocations
         institution={testState.profile.attributes}
         facilityMap={testState.profile.attributes.facilityMap}
@@ -169,10 +221,8 @@ describe('<SchoolLocations>', () => {
         constants={testState.constants}
       />,
     );
-
-    expect(wrapper.find('.main-row')).to.have.lengthOf(1);
-    expect(wrapper.find('.extension-row')).to.have.lengthOf(1);
-    expect(wrapper.find('.branch-row')).to.have.lengthOf(0);
+    const facilityTable = wrapper.find(ResponsiveTable);
+    expect(facilityTable.props().data).to.have.length(2);
     wrapper.unmount();
   });
 
@@ -219,7 +269,7 @@ describe('<SchoolLocations>', () => {
 
     const onViewLess = sinon.spy();
 
-    const wrapper = mount(
+    const wrapper = shallow(
       <SchoolLocations
         institution={testState.profile.attributes}
         facilityMap={testState.profile.attributes.facilityMap}
@@ -230,19 +280,19 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    expect(wrapper.find('.extension-row')).to.have.lengthOf(9);
+    expect(wrapper.state().viewableRowCount).to.eq(10);
     wrapper
       .find('button')
       .at(0)
       .simulate('click');
-    expect(wrapper.find('.extension-row')).to.have.lengthOf(
-      testState.profile.attributes.facilityMap.main.extensions.length,
+    expect(wrapper.state().viewableRowCount).to.eq(
+      testState.profile.attributes.facilityMap.main.extensions.length + 1,
     );
     wrapper
       .find('button')
       .at(0)
       .simulate('click');
-    expect(wrapper.find('.extension-row')).to.have.lengthOf(9);
+    expect(wrapper.state().viewableRowCount).to.eq(10);
     expect(onViewLess.called).to.be.true;
 
     wrapper.unmount();
