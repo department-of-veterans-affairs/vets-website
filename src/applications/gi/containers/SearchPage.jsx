@@ -191,6 +191,7 @@ export function SearchPage({
     const filterButton = (
       <button
         className="filter-button usa-button-secondary"
+        data-cy="filter-button"
         onClick={dispatchToggleFilter}
       >
         Filter
