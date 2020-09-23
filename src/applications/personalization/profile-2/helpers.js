@@ -28,18 +28,29 @@ export const getServiceBranchDisplayName = serviceBranch => {
  * `beginDate`, and `endDate` keys
  * @returns {Object} An object with `title` and `value` keys
  */
-export const transformServiceHistoryEntryIntoTableRow = entry => ({
-  title: (
-    <>
-      <dfn className="sr-only">Service branch: </dfn>
-      {getServiceBranchDisplayName(entry.branchOfService)}
-    </>
-  ),
-  value: (
-    <>
-      <dfn className="sr-only">Dates of service: </dfn>
-      {moment(entry.beginDate).format('LL')} –{' '}
-      {moment(entry.endDate).format('LL')}
-    </>
-  ),
-});
+export const transformServiceHistoryEntryIntoTableRow = entry => {
+  const formattedBeginDate = entry.beginDate
+    ? moment(entry.beginDate).format('LL')
+    : '';
+  const formattedEndDate = entry.endDate
+    ? moment(entry.endDate).format('LL')
+    : '';
+  const dateRange =
+    formattedBeginDate.length || formattedEndDate.length
+      ? `${formattedBeginDate} – ${formattedEndDate}`
+      : '';
+  return {
+    title: (
+      <>
+        <dfn className="sr-only">Service branch: </dfn>
+        {getServiceBranchDisplayName(entry.branchOfService)}
+      </>
+    ),
+    value: (
+      <>
+        <dfn className="sr-only">Dates of service: </dfn>
+        {dateRange}
+      </>
+    ),
+  };
+};

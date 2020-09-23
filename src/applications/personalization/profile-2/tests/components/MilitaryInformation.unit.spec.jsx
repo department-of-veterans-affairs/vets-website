@@ -67,6 +67,118 @@ describe('MilitaryInformation', () => {
       expect(entries[1]).to.contain.text('April 11, 2009');
     });
   });
+  describe('when a service history date cannot be parsed', () => {
+    it('should report that the date is invalid', () => {
+      initialState = createBasicInitialState();
+      initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[0].endDate =
+        'not a valid date';
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+      const entries = view.queryAllByRole('listitem');
+
+      expect(entries.length).to.equal(2);
+      expect(entries[0]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[0]).to.contain.text(
+        'Dates of service: April 12, 2009 – Invalid date',
+      );
+
+      expect(entries[1]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[1]).to.contain.text('Dates of service: April 12, 2005');
+      expect(entries[1]).to.contain.text('April 11, 2009');
+    });
+  });
+  describe('when military history is missing a date', () => {
+    it('should not parse a date that is an empty string', () => {
+      initialState = createBasicInitialState();
+      initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[0].endDate =
+        '';
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+      const entries = view.queryAllByRole('listitem');
+
+      expect(entries.length).to.equal(2);
+      expect(entries[0]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[0]).to.contain.text('Dates of service: April 12, 2009 – ');
+
+      expect(entries[1]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[1]).to.contain.text('Dates of service: April 12, 2005');
+      expect(entries[1]).to.contain.text('April 11, 2009');
+    });
+    it('should not parse a null date', () => {
+      initialState = createBasicInitialState();
+      initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[0].endDate = null;
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+      const entries = view.queryAllByRole('listitem');
+
+      expect(entries.length).to.equal(2);
+      expect(entries[0]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[0]).to.contain.text('Dates of service: April 12, 2009 – ');
+
+      expect(entries[1]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[1]).to.contain.text('Dates of service: April 12, 2005');
+      expect(entries[1]).to.contain.text('April 11, 2009');
+    });
+    it('should not parse an undefined date', () => {
+      initialState = createBasicInitialState();
+      initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[0].beginDate = undefined;
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+      const entries = view.queryAllByRole('listitem');
+
+      expect(entries.length).to.equal(2);
+      expect(entries[0]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[0]).to.contain.text('Dates of service:  – April 11, 2013');
+
+      expect(entries[1]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[1]).to.contain.text('Dates of service: April 12, 2005');
+      expect(entries[1]).to.contain.text('April 11, 2009');
+    });
+    it('should not parse a date if it does not exist on the service history entry', () => {
+      initialState = createBasicInitialState();
+      delete initialState.vaProfile.militaryInformation.serviceHistory
+        .serviceHistory[0].beginDate;
+      delete initialState.vaProfile.militaryInformation.serviceHistory
+        .serviceHistory[0].endDate;
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+      const entries = view.queryAllByRole('listitem');
+
+      expect(entries.length).to.equal(2);
+      expect(entries[0]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[0]).to.contain.text('Dates of service:');
+      expect(entries[0]).to.not.contain.text('Invalid date');
+
+      expect(entries[1]).to.contain.text(
+        'Service branch: United States Air Force',
+      );
+      expect(entries[1]).to.contain.text('Dates of service: April 12, 2005');
+      expect(entries[1]).to.contain.text('April 11, 2009');
+    });
+  });
   describe('when the military history is empty', () => {
     it('should show the correct error', () => {
       initialState = createBasicInitialState();
