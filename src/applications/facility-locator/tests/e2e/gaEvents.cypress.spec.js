@@ -21,7 +21,7 @@ describe('Google Analytics FL Events', () => {
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', { _13647Exception: true });
 
       cy.get('#map-id', { timeout: 10000 }).should(() => {
         assertDataLayerEvent(win, 'fl-search');

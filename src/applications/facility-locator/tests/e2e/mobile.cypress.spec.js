@@ -1,7 +1,7 @@
 import path from 'path';
 
-Cypress.Commands.add('checkSearch', () => {
-  cy.axeCheck();
+Cypress.Commands.add('checkSearch', ({ _13647Exception = false }) => {
+  cy.axeCheck('main', { _13647Exception });
 
   // Search
   cy.get('#street-city-state-zip').type('Austin, TX');
@@ -42,19 +42,19 @@ describe('Mobile', () => {
 
     // iPhone X
     cy.viewport(400, 812);
-    cy.checkSearch();
+    cy.checkSearch({ _13647Exception: true });
 
     // iPhone 6/7/8 plus
     cy.viewport(414, 736);
-    cy.checkSearch();
+    cy.checkSearch({ _13647Exception: true });
 
     // Pixel 2
     cy.viewport(411, 731);
-    cy.checkSearch();
+    cy.checkSearch({ _13647Exception: true });
 
     // Galaxy S5/Moto
     cy.viewport(360, 640);
-    cy.checkSearch();
+    cy.checkSearch({ _13647Exception: true });
   });
 
   it('should render the appropriate elements at each breakpoint', () => {
