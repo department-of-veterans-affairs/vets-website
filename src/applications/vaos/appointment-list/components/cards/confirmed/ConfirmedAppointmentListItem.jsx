@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from '../../../../utils/moment-tz';
 import { formatFacilityAddress } from '../../../../utils/formatters';
 import { APPOINTMENT_STATUS, PURPOSE_TEXT } from '../../../../utils/constants';
+import VideoVisitSection from './VideoVisitSection';
 import AddToCalendar from '../../../../components/AddToCalendar';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 import AppointmentDateTime from './AppointmentDateTime';
@@ -13,7 +14,14 @@ import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
   getVARFacilityId,
   getVAAppointmentLocationId,
+  isVideoAppointment,
+  isAtlasLocation,
 } from '../../../../services/appointment';
+import AdditionalInfoRow from '../AdditionalInfoRow';
+import {
+  getVideoInstructionText,
+  VideoVisitInstructions,
+} from './VideoInstructions';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -36,19 +44,26 @@ export default function ConfirmedAppointmentListItem({
   showCancelButton,
   facility,
 }) {
+  const [showMoreOpen, setShowMoreOpen] = useState(false);
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const isCommunityCare = appointment.vaos.isCommunityCare;
+  const isVideo = isVideoAppointment(appointment);
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare;
+  const isAtlas = isAtlasLocation(appointment);
 
   const showInstructions =
     isCommunityCare ||
-    PURPOSE_TEXT.some(purpose =>
-      appointment?.comment?.startsWith(purpose.short),
-    );
+    (isInPersonVAAppointment &&
+      PURPOSE_TEXT.some(purpose =>
+        appointment?.comment?.startsWith(purpose.short),
+      ));
 
   let instructionText;
   if (showInstructions) {
     instructionText = appointment.comment;
+  } else if (isVideo && appointment.comment) {
+    instructionText = getVideoInstructionText(appointment.comment);
   }
 
   const itemClasses = classNames(
@@ -60,9 +75,19 @@ export default function ConfirmedAppointmentListItem({
     },
   );
 
+  const getVideoLocation = () => {
+    if (isAtlas) {
+      return 'at an ATLAS location';
+    }
+    return null;
+  };
+
   let header;
   let location;
-  if (isCommunityCare) {
+  if (isVideo) {
+    header = 'VA Video Connect';
+    location = 'Video conference';
+  } else if (isCommunityCare) {
     header = 'Community Care';
     const address = appointment.contained.find(
       res => res.resourceType === 'Location',
@@ -82,7 +107,7 @@ export default function ConfirmedAppointmentListItem({
       aria-labelledby={`card-${index}-type card-${index}-status`}
       className={itemClasses}
       data-request-id={appointment.id}
-      data-is-cancelable={!isCommunityCare ? 'true' : 'false'}
+      data-is-cancelable={!isCommunityCare && !isVideo ? 'true' : 'false'}
     >
       <div
         id={`card-${index}-type`}
@@ -91,12 +116,23 @@ export default function ConfirmedAppointmentListItem({
         {header}
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
+        {isAtlas && <span>Video appointment {getVideoLocation()}</span>}
+        {!isAtlas && (
+          <AppointmentDateTime
+            appointmentDate={moment.parseZone(appointment.start)}
+            timezone={appointment.vaos.timeZone}
+            facilityId={getVARFacilityId(appointment)}
+          />
+        )}
+      </h3>
+      {isAtlas && (
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
           facilityId={getVARFacilityId(appointment)}
+          isAtlas
         />
-      </h3>
+      )}
       <AppointmentStatus
         status={appointment.status}
         isPastAppointment={isPastAppointment}
@@ -107,7 +143,8 @@ export default function ConfirmedAppointmentListItem({
           {isCommunityCare && (
             <ConfirmedCommunityCareLocation appointment={appointment} />
           )}
-          {!isCommunityCare && (
+          {isVideo && <VideoVisitSection appointment={appointment} />}
+          {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
               facilityId={parseFakeFHIRId(
@@ -122,7 +159,7 @@ export default function ConfirmedAppointmentListItem({
             {isCommunityCare && (
               <CommunityCareInstructions instructions={appointment.comment} />
             )}
-            {!isCommunityCare && (
+            {isInPersonVAAppointment && (
               <AppointmentInstructions instructions={appointment.comment} />
             )}
           </>
@@ -132,6 +169,19 @@ export default function ConfirmedAppointmentListItem({
       {!cancelled &&
         !isPastAppointment && (
           <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
+            {isVideo &&
+              appointment.comment && (
+                <AdditionalInfoRow
+                  id={appointment.id}
+                  open={showMoreOpen}
+                  triggerText="Prepare for video visit"
+                  onClick={() => setShowMoreOpen(!showMoreOpen)}
+                >
+                  <VideoVisitInstructions
+                    instructionsType={appointment.comment}
+                  />
+                </AdditionalInfoRow>
+              )}
             <AddToCalendar
               summary={header}
               description={instructionText}
