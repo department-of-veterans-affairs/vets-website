@@ -3,6 +3,7 @@ import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardF
 
 import { bankFieldsHaveInput } from '../utils';
 import PaymentView from '../components/PaymentView';
+import PaymentViewObjectField from '../components/PaymentViewObjectField';
 import { paymentInformationTitle } from '../content/paymentInformation';
 
 const {
@@ -13,6 +14,7 @@ const {
 } = fullSchema.properties;
 
 export const uiSchema = {
+  'ui:objectViewField': PaymentViewObjectField,
   'view:bankAccount': {
     'ui:title': paymentInformationTitle,
     'ui:field': ReviewCardField,
