@@ -1,19 +1,14 @@
-import {
-  clickButton,
-  expectLocation,
-  FORCE_OPTION,
-  selectDropdown,
-} from './cypress-helpers';
+import { clickButton, expectLocation, selectDropdown } from './cypress-helpers';
 import { createId, formatCurrency } from '../../utils/helpers';
 import calculatorConstantsJson from '../data/calculator-constants.json';
 
 export const typeOfInstitution = value => {
   const selector = `input[name="category"][value="${value}"]`;
-  cy.get(selector).check(FORCE_OPTION);
+  cy.get(selector).check();
 };
 
 export const search = () => {
-  clickButton('#search-button');
+  cy.get('#search-button').click();
 };
 
 export const selectSearchResult = (href, checkLocation = true) => {
@@ -25,11 +20,11 @@ export const selectSearchResult = (href, checkLocation = true) => {
 export const displayLearnMoreModal = () => {
   cy.get('.learn-more-button')
     .first()
-    .click(FORCE_OPTION);
-  cy.axeCheck();
-  cy.get('.va-modal-close')
+    .click()
+    .axeCheck()
+    .get('.va-modal-close')
     .first()
-    .click(FORCE_OPTION);
+    .click();
 };
 
 const createAccordionButtonId = name => `#${createId(name)}-accordion-button`;
@@ -41,8 +36,8 @@ const createAccordionButtonId = name => `#${createId(name)}-accordion-button`;
 export const clickAccordion = name => {
   cy.get(createAccordionButtonId(name))
     .first()
-    .click(FORCE_OPTION);
-  cy.axeCheck();
+    .click()
+    .axeCheck();
 };
 
 export const checkAccordionIsExpanded = name => {
