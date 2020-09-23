@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
-import { isVideoGFE } from '../../../../services/appointment';
+import { getVideoKind, isVideoGFE } from '../../../../services/appointment';
+import { VIDEO_TYPES } from '../../../../utils/constants';
 
 export default function VideoVisitSection({ appointment }) {
+  const videoKind = getVideoKind(appointment);
   let linkContent = <span>Video visit link unavailable</span>;
 
   if (appointment.vaos.isPastAppointment) {
@@ -14,6 +16,12 @@ export default function VideoVisitSection({ appointment }) {
   if (isVideoGFE(appointment)) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
+    );
+  } else if (videoKind === VIDEO_TYPES.clinic) {
+    linkContent = (
+      <span>
+        You must join this video meeting from the VA location listed below.
+      </span>
     );
   } else if (
     appointment.contained?.[0]?.telecom?.find(tele => tele.system === 'url')

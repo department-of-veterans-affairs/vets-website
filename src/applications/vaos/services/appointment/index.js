@@ -77,16 +77,27 @@ export async function getAppointmentRequests({ startDate, endDate }) {
  */
 export function isVideoAppointment(appointment) {
   return (
-    appointment.contained?.some(
-      contained =>
-        contained.resourceType === 'HealthcareService' &&
-        contained.characteristic?.some(
-          c =>
-            c.coding === VIDEO_TYPES.gfe ||
-            c.coding === VIDEO_TYPES.videoConnect,
-        ),
-    ) || false
+    appointment.contained
+      ?.find(contained => contained.resourceType === 'HealthcareService')
+      ?.characteristic?.some(c =>
+        c.coding?.some(code => code.system === 'VVS'),
+      ) || false
   );
+}
+
+/**
+ * Returns the VVS appointment kind
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns {String} The VVS appointment kind
+ */
+export function getVideoKind(appointment) {
+  const characteristic = appointment.contained
+    ?.find(contained => contained.resourceType === 'HealthcareService')
+    ?.characteristic?.find(c => c.coding?.find(code => code.system === 'VVS'));
+
+  return characteristic?.coding[0].code;
 }
 
 /**
@@ -98,11 +109,11 @@ export function isVideoAppointment(appointment) {
  */
 export function isVideoGFE(appointment) {
   return (
-    appointment.contained?.some(
-      contained =>
-        contained.resourceType === 'HealthcareService' &&
-        contained.characteristic?.some(c => c.coding === VIDEO_TYPES.gfe),
-    ) || false
+    appointment.contained
+      ?.find(contained => contained.resourceType === 'HealthcareService')
+      ?.characteristic?.some(c =>
+        c.coding.some(code => code.code === VIDEO_TYPES.gfe),
+      ) || false
   );
 }
 
@@ -158,7 +169,9 @@ export function getVARClinicId(appointment) {
  * @returns {String} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
-  const locationReference = appointment.contained?.[0]?.location?.reference;
+  const locationReference =
+    appointment.contained?.[0]?.location?.reference ||
+    appointment.contained?.[0]?.providedBy?.reference;
 
   if (locationReference) {
     return locationReference.split('/')[1];

@@ -52,21 +52,12 @@ function isCommunityCare(appt) {
 }
 
 /**
- * Returns whether or not an appointment is a GFE video visit
- *
- * @param {Object} appt VAR appointment object
- */
-function isGFEVideoVisit(appt) {
-  return appt.vvsAppointments?.[0]?.appointmentKind === 'MOBILE_GFE';
-}
-
-/**
  * Returns whether or not a confirmed VA appointment is a video visit
  *
  * @param {Object} appt VAR appointment object
  */
 function isVideoVisit(appt) {
-  return !!appt.vvsAppointments?.length || isGFEVideoVisit(appt);
+  return !!appt.vvsAppointments?.length;
 }
 
 /**
@@ -77,16 +68,28 @@ function isVideoVisit(appt) {
  * @returns {String} Returns video appointment type or null
  */
 function getVideoType(appt) {
-  if (isGFEVideoVisit(appt)) {
-    return VIDEO_TYPES.gfe;
-  } else if (
-    appt.vvsAppointments?.length ||
-    appt.visitType === 'Video Conference'
-  ) {
+  if (appt.visitType === 'Video Conference') {
     return VIDEO_TYPES.videoConnect;
   }
 
-  return null;
+  const videoData = appt.vvsAppointments?.[0];
+
+  if (!videoData) {
+    return null;
+  }
+
+  if (videoData.tasInfo) {
+    return VIDEO_TYPES.atlas;
+  }
+
+  switch (videoData.appointmentKind) {
+    case 'MOBILE_GFE':
+      return VIDEO_TYPES.gfe;
+    case 'CLINIC_BASED':
+      return VIDEO_TYPES.clinic;
+    default:
+      return VIDEO_TYPES.videoConnect;
+  }
 }
 
 /**
@@ -293,8 +296,8 @@ function setParticipant(appt) {
 
   switch (type) {
     case APPOINTMENT_TYPES.vaAppointment: {
-      if (!isVideoVisit(appt)) {
-        const participant = [];
+      const participant = [];
+      if (appt.clinicId) {
         participant.push({
           actor: {
             reference: `HealthcareService/var${appt.facilityId}_${
@@ -302,21 +305,35 @@ function setParticipant(appt) {
             }`,
             display:
               appt.clinicFriendlyName ||
-              appt.vdsAppointments?.[0]?.clinic?.name,
+              appt.vdsAppointments?.[0]?.clinic?.name ||
+              appt.vvsAppointments?.[0]?.clinic?.name,
           },
         });
-
-        if (appt.sta6aid) {
-          participant.push({
-            actor: {
-              reference: `Location/var${appt.sta6aid}`,
-            },
-          });
-        }
-
-        return participant;
       }
-      return null;
+
+      if (appt.sta6aid) {
+        participant.push({
+          actor: {
+            reference: `Location/var${appt.sta6aid}`,
+          },
+        });
+      }
+
+      const providers = appt.vvsAppointments?.[0]?.providers;
+      if (providers?.length) {
+        participant.concat(
+          providers.map(provider => ({
+            actor: {
+              reference: `Practitioner/${provider.name.firstName}_${
+                provider.name.lastName
+              }`,
+              display: `${provider.name.firstName} ${provider.name.lastName}`,
+            },
+          })),
+        );
+      }
+
+      return participant;
     }
     case APPOINTMENT_TYPES.ccAppointment: {
       if (!!appt.name?.firstName && !!appt.name?.lastName) {
@@ -385,34 +402,47 @@ function setContained(appt) {
   switch (getAppointmentType(appt)) {
     case APPOINTMENT_TYPES.vaAppointment: {
       if (isVideoVisit(appt)) {
-        return [
-          {
-            resourceType: 'HealthcareService',
-            id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
-            type: [
-              {
-                text: 'Patient Virtual Meeting Room',
-              },
-            ],
-            location: {
-              reference: `Location/var${appt.facilityId}`,
+        const contained = [];
+        const service = {
+          resourceType: 'HealthcareService',
+          id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
+          type: [
+            {
+              text: 'Patient Virtual Meeting Room',
             },
-            characteristic: [
-              {
-                coding: getVideoType(appt),
-              },
-            ],
-            telecom: [
-              {
-                system: 'url',
-                value: getVideoVisitLink(appt),
-                period: {
-                  start: getMomentConfirmedDate(appt).format(),
-                },
-              },
-            ],
+          ],
+          providedBy: {
+            reference: `Organization/var${appt.facilityId}`,
           },
-        ];
+          characteristic: [
+            {
+              coding: [
+                {
+                  system: 'VVS',
+                  code: appt.vvsAppointments[0].appointmentKind,
+                },
+              ],
+            },
+          ],
+          telecom: [
+            {
+              system: 'url',
+              value: getVideoVisitLink(appt),
+              period: {
+                start: getMomentConfirmedDate(appt).format(),
+              },
+            },
+          ],
+        };
+
+        if (appt.sta6aid) {
+          service.location = {
+            reference: `Location/var${appt.sta6aid}`,
+          };
+        }
+        contained.push(service);
+
+        return contained;
       }
 
       return null;

@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from '../../../../utils/moment-tz';
-import { formatFacilityAddress } from '../../../../utils/formatters';
-import { APPOINTMENT_STATUS, PURPOSE_TEXT } from '../../../../utils/constants';
+import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../../utils/constants';
+import VideoVisitSection from './VideoVisitSection';
 import AddToCalendar from '../../../../components/AddToCalendar';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
-import AppointmentDateTime from './AppointmentDateTime';
-import AppointmentInstructions from './AppointmentInstructions';
-import CommunityCareInstructions from './CommunityCareInstructions';
+import VideoAppointmentDateTime from './VideoAppointmentDateTime';
 import AppointmentStatus from '../AppointmentStatus';
-import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
   getVARFacilityId,
   getVAAppointmentLocationId,
+  isVideoAppointment,
+  getVideoKind,
 } from '../../../../services/appointment';
+import AdditionalInfoRow from '../AdditionalInfoRow';
+import {
+  getVideoInstructionText,
+  VideoVisitInstructions,
+} from './VideoInstructions';
+import { formatFacilityAddress } from '../../../../utils/formatters';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -29,26 +34,22 @@ function formatAppointmentDate(date) {
   return date.format('MMMM D, YYYY');
 }
 
-export default function ConfirmedAppointmentListItem({
+export default function VideoAppointment({
   appointment,
   index,
   cancelAppointment,
   showCancelButton,
   facility,
 }) {
+  const [showMoreOpen, setShowMoreOpen] = useState(false);
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
-  const isCommunityCare = appointment.vaos.isCommunityCare;
+  const isVideo = isVideoAppointment(appointment);
+  const videoKind = getVideoKind(appointment);
 
-  const showInstructions =
-    isCommunityCare ||
-    PURPOSE_TEXT.some(purpose =>
-      appointment?.comment?.startsWith(purpose.short),
-    );
-
-  let instructionText;
-  if (showInstructions) {
-    instructionText = appointment.comment;
+  let instructionText = 'VA video visit';
+  if (appointment.comment) {
+    instructionText = getVideoInstructionText(appointment.comment);
   }
 
   const itemClasses = classNames(
@@ -60,43 +61,38 @@ export default function ConfirmedAppointmentListItem({
     },
   );
 
-  let header;
-  let location;
-  if (isCommunityCare) {
-    header = 'Community Care';
-    const address = appointment.contained.find(
-      res => res.resourceType === 'Location',
-    )?.address;
-    if (address) {
-      location = `${address.line[0]} ${address.city}, ${address.state} ${
-        address.postalCode
-      }`;
-    }
-  } else {
-    header = 'VA Appointment';
-    location = facility ? formatFacilityAddress(facility) : null;
+  let videoSummary = 'Video appointment at home';
+  if (videoKind === VIDEO_TYPES.clinic) {
+    videoSummary = 'Video appointment at a VA location';
+  } else if (videoKind === VIDEO_TYPES.gfe) {
+    videoSummary = 'Video appointment using a VA device';
   }
+
+  const location = facility
+    ? formatFacilityAddress(facility)
+    : 'Video conference';
 
   return (
     <li
       aria-labelledby={`card-${index}-type card-${index}-status`}
       className={itemClasses}
       data-request-id={appointment.id}
-      data-is-cancelable={!isCommunityCare ? 'true' : 'false'}
+      data-is-cancelable="false"
     >
       <div
         id={`card-${index}-type`}
         className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans"
       >
-        {header}
+        VA Video Connect
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
-        <AppointmentDateTime
-          appointmentDate={moment.parseZone(appointment.start)}
-          timezone={appointment.vaos.timeZone}
-          facilityId={getVARFacilityId(appointment)}
-        />
+        {videoSummary}
       </h3>
+      <VideoAppointmentDateTime
+        appointmentDate={moment.parseZone(appointment.start)}
+        timezone={appointment.vaos.timeZone}
+        facilityId={getVARFacilityId(appointment)}
+      />
       <AppointmentStatus
         status={appointment.status}
         isPastAppointment={isPastAppointment}
@@ -104,36 +100,41 @@ export default function ConfirmedAppointmentListItem({
       />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-          {isCommunityCare && (
-            <ConfirmedCommunityCareLocation appointment={appointment} />
-          )}
-          {!isCommunityCare && (
+          <VideoVisitSection appointment={appointment} />
+        </div>
+      </div>
+      {videoKind === VIDEO_TYPES.clinic && (
+        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
             <VAFacilityLocation
               facility={facility}
               facilityId={parseFakeFHIRId(
                 getVAAppointmentLocationId(appointment),
               )}
-              clinicName={appointment.participant[0].actor.display}
             />
-          )}
+          </div>
         </div>
-        {showInstructions && (
-          <>
-            {isCommunityCare && (
-              <CommunityCareInstructions instructions={appointment.comment} />
-            )}
-            {!isCommunityCare && (
-              <AppointmentInstructions instructions={appointment.comment} />
-            )}
-          </>
-        )}
-      </div>
+      )}
 
       {!cancelled &&
         !isPastAppointment && (
           <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
+            {isVideo &&
+              appointment.comment &&
+              videoKind !== VIDEO_TYPES.clinic && (
+                <AdditionalInfoRow
+                  id={appointment.id}
+                  open={showMoreOpen}
+                  triggerText="Prepare for video visit"
+                  onClick={() => setShowMoreOpen(!showMoreOpen)}
+                >
+                  <VideoVisitInstructions
+                    instructionsType={appointment.comment}
+                  />
+                </AdditionalInfoRow>
+              )}
             <AddToCalendar
-              summary={header}
+              summary={videoSummary}
               description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
