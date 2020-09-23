@@ -2,7 +2,6 @@
   "data": {
     "type": "feature_toggles",
     "features": [
-      { "name": "debtLettersShowLettersV2", "value": true },
       { "name": "preEntryCovid19Screener", "value": true },
       { "name": "dashboardShowCovid19Alert", "value": true },
       { "name": "facilityLocatorShowCommunityCares", "value": true },
@@ -38,6 +37,7 @@
       { "name": "form996HigherLevelReview", "value": true },
       { "name": "gibctFilterEnhancement", "value": true },
       { "name": "debtLettersShowLetters", "value": true },
+      { "name": "debtLettersShowLettersV2", "value": true },
       { "name": "gibctCh33BenefitRateUpdate", "value": true }
     ]
   }
