@@ -17,7 +17,7 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
       <FacilityAppointmentWaitTimesWidget
         loading={false}
         facility={mockFacilityLocatorApiResponse.data[0]}
-        service="Primary Care"
+        service="PrimaryCare"
       />,
     );
 
@@ -29,21 +29,21 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
     );
 
     const facilityAppointmentWaitTimesEffectiveDate = tree.find(
-      '#facility-primaryCare-appointment-wait-times-effective-date',
+      '#facility-primarycare-appointment-wait-times-effective-date',
     );
     expect(facilityAppointmentWaitTimesEffectiveDate.text()).to.contain(
-      'Current as of April 22, 2019',
+      'Current as of July 27, 2020',
     );
 
     const newPatientWaitTime = tree.find(
-      '#facility-primaryCare-new-patient-wait-time',
+      '#facility-primarycare-new-patient-wait-time',
     );
-    expect(newPatientWaitTime.text()).to.contain('25 days');
+    expect(newPatientWaitTime.text()).to.contain('4 days');
 
     const existingPatientWaitTime = tree.find(
-      '#facility-primaryCare-existing-patient-wait-time',
+      '#facility-primarycare-existing-patient-wait-time',
     );
-    expect(existingPatientWaitTime.text()).to.contain('8 days');
+    expect(existingPatientWaitTime.text()).to.contain('3 days');
 
     tree.unmount();
   });
