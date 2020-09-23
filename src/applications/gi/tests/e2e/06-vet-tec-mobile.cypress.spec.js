@@ -1,4 +1,4 @@
-import { initMockProfile, clickButton } from './cypress-helpers';
+import { initMockProfile } from './cypress-helpers';
 import vetTecProfile from '../data/vet-tec-profile.json';
 import vetTecSearchResults from '../data/vet-tec-search-results.json';
 import { createId } from '../../utils/helpers';
@@ -21,10 +21,10 @@ describe('VETTEC', () => {
     cy.axeCheck();
 
     search();
-    clickButton('.filter-button');
+    cy.get('.filter-button').click();
     cy.axeCheck();
 
-    clickButton('[data-cy=see-results]');
+    cy.get('[data-cy=see-results]').click();
     cy.axeCheck();
 
     // Search Page

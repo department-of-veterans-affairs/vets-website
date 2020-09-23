@@ -1,4 +1,3 @@
-import { clickButton, expectLocation, selectDropdown } from './cypress-helpers';
 import { createId, formatCurrency } from '../../utils/helpers';
 import calculatorConstantsJson from '../data/calculator-constants.json';
 
@@ -12,15 +11,15 @@ export const search = searchTerm => {
 
   cy.get('#search-button').click();
   if (searchTerm) {
-    expectLocation('/search');
+    cy.url().should('include', '/search');
   } else {
-    expectLocation('/program-search');
+    cy.url().should('include', '/program-search');
   }
 };
 
 export const selectSearchResult = (href, checkLocation = true) => {
-  clickButton(`a[href*="${href}"]`);
-  if (checkLocation) expectLocation(href);
+  cy.get(`a[href*="${href}"]`).click();
+  if (checkLocation) cy.url().should('include', href);
   cy.axeCheck();
 };
 
@@ -80,7 +79,7 @@ export const collapseExpandAccordion = name => {
  * @param option
  */
 export const giBillChapter = option => {
-  selectDropdown('giBillChapter', option);
+  cy.get('select[name="giBillChapter"]').select(option);
 };
 
 export const formatNumberHalf = value => {
@@ -103,7 +102,7 @@ export const calculatorConstants = createCalculatorConstants();
  * Click the Calculate Benefits button in EYB
  */
 export const calculateBenefits = () => {
-  clickButton('.calculate-button');
+  cy.get('.calculate-button').click();
 };
 
 /**
@@ -126,15 +125,17 @@ export const checkProfileHousingRate = housingRate => {
  * @param housingRate
  */
 export const enrolledOld = (option, housingRate) => {
-  selectDropdown('enrolledOld', option);
+  cy.get('select[name="enrolledOld"]').select(option);
   calculateBenefits();
   checkProfileHousingRate(housingRate);
 };
 
 export const breadCrumb = breadCrumbHref => {
   const id = `.va-nav-breadcrumbs a[href='${breadCrumbHref}']`;
-  clickButton(id);
-  expectLocation(breadCrumbHref);
+  cy.get(id)
+    .click()
+    .url()
+    .should('include', breadCrumbHref);
 };
 
 const eybSections = {
