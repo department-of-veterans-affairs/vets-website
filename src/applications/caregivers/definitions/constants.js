@@ -24,11 +24,11 @@ export const primaryCaregiverFields = {
   fullName: 'primaryFullName',
   gender: 'primaryGender',
   hasSecondaryCaregiverOneView: 'view:hasSecondaryCaregiverOne',
-  primaryPhoneNumber: 'primaryPrimaryPhoneNumber',
+  primaryPhoneNumber: 'primaryPhoneNumber',
   ssn: 'primarySsnOrTin',
   verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
-  hasHealthInsurance: 'hasHealthInsurance',
+  hasHealthInsurance: 'primaryHasHealthInsurance',
 };
 
 export const secondaryCaregiverFields = {

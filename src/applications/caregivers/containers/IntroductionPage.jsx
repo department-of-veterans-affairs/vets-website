@@ -69,11 +69,10 @@ const IntroductionPage = ({ route, router }) => {
                       className="fas fa-download vads-u-padding-right--1"
                       role="img"
                     />
-                    [download the paper form
+                    Download the VA form 10-10CG
                     <dfn className="vads-u-margin-left--0p5">
                       <abbr title="Portable Document Format">(PDF)</abbr> (934
-                      <abbr title="Kilobytes">KB</abbr>
-                      )]
+                      <abbr title="Kilobytes">KB</abbr>)
                     </dfn>
                   </a>
                 </p>
