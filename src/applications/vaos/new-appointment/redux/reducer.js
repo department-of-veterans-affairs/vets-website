@@ -325,20 +325,14 @@ export default function formReducer(state = initialState, action) {
         return a.name < b.name ? -1 : 1;
       });
 
-      if (action.parentFacilities.length === 1) {
-        newSchema = unset('properties.vaParent', newSchema);
+      if (action.parentFacilities.length === 1 || !locations.length) {
         newData = {
           ...newData,
           vaParent: parentFacilities[0]?.id,
         };
       }
 
-      if (!locations.length) {
-        newData = {
-          ...newData,
-          vaParent: parentFacilities[0]?.id,
-        };
-      } else if (locations.length === 1) {
+      if (locations.length === 1) {
         newData = {
           ...newData,
           vaFacility: locations[0].id,
@@ -474,20 +468,16 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_FETCH_CHILD_FACILITIES: {
-      let newState = state;
-
-      if (!action.isFacilityV2Page) {
-        newState = unset('pages.vaFacility.properties.vaFacility', state);
-        newState = unset(
-          'pages.vaFacility.properties.vaFacilityMessage',
-          newState,
-        );
-        newState = set(
-          'pages.vaFacility.properties.vaFacilityLoading',
-          { type: 'string' },
-          newState,
-        );
-      }
+      let newState = unset('pages.vaFacility.properties.vaFacility', state);
+      newState = unset(
+        'pages.vaFacility.properties.vaFacilityMessage',
+        newState,
+      );
+      newState = set(
+        'pages.vaFacility.properties.vaFacilityLoading',
+        { type: 'string' },
+        newState,
+      );
 
       return { ...newState, childFacilitiesStatus: FETCH_STATUS.loading };
     }
@@ -527,10 +517,10 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_FACILITY_V2_OPEN_FAILED:
     case FORM_FETCH_CHILD_FACILITIES_FAILED: {
-      let pages = state.pages;
-      if (!action.isFacilityV2Page) {
-        pages = unset('vaFacility.properties.vaFacilityLoading', state.pages);
-      }
+      const pages = unset(
+        'vaFacility.properties.vaFacilityLoading',
+        state.pages,
+      );
 
       return {
         ...state,

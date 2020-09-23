@@ -351,9 +351,9 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       if (parentFacilities?.length && !locations) {
         dispatch({
           type: FORM_FETCH_CHILD_FACILITIES,
-          isFacilityV2Page: true,
         });
 
+        // Fetch locations for each parent facility
         const responses = await Promise.all(
           parentFacilities.map(parent => {
             const parentId = parent.id;
@@ -372,6 +372,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         locations = [].concat(...responses.map(r => r?.locations || []));
       }
 
+      // If we have an already selected location or only have a single location
+      // fetch eligbility data immediately
       const eligibilityDataNeeded = !!locationId || locations?.length === 1;
 
       if (eligibilityDataNeeded && !locationId) {
@@ -412,7 +414,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         typeOfCareId,
       });
 
-      if (parentFacilities.length && !locations.length) {
+      // Fetch parent details if we don't have any matching locations
+      if (parentFacilities?.length && !locations.length) {
         try {
           const thunk = fetchFacilityDetails(parentFacilities[0].id);
           await thunk(dispatch, getState);
@@ -642,7 +645,6 @@ export function updateFacilityPageData(page, uiSchema, data) {
         try {
           const eligibility = getEligibilityStatus(getState());
           if (!eligibility.direct && !eligibility.request) {
-            // Remove parse function when converting this call to FHIR service
             const thunk = fetchFacilityDetails(data.vaFacility);
             await thunk(dispatch, getState);
           }

@@ -2,8 +2,8 @@ import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
-import environment from 'platform/utilities/environment';
 import { connect } from 'react-redux';
+import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 
 export class FacilityMapWidget extends React.Component {
   componentDidMount() {
@@ -60,11 +60,7 @@ export class FacilityMapWidget extends React.Component {
       address = `${lat},${long}`;
     }
 
-    const pinURL = encodeURIComponent(
-      `${environment.BASE_URL}/img/icons/health-pin.png`,
-    );
-
-    const mapUrl = `https://api.mapbox.com/v4/mapbox.streets/url-${pinURL}(${long},${lat})/${long},${lat},16/500x300.png?access_token=${mapboxToken}`;
+    const mapUrl = staticMapURL(lat, long, mapboxToken);
     const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
 
     return (
