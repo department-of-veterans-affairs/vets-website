@@ -15,6 +15,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
+import { selectProfile } from 'platform/user/selectors';
 import LoadFail from 'applications/personalization/profile360/components/LoadFail';
 import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
 import facilityLocator from 'applications/facility-locator/manifest.json';
@@ -219,7 +220,7 @@ MilitaryInformation.propTypes = {
 
 const mapStateToProps = state => ({
   militaryInformation: state.vaProfile?.militaryInformation,
-  veteranStatus: state.user?.profile?.veteranStatus,
+  veteranStatus: selectProfile(state)?.veteranStatus,
 });
 
 export default connect(mapStateToProps)(MilitaryInformation);
