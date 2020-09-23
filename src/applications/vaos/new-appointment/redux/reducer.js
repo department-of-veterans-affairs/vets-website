@@ -360,31 +360,6 @@ export default function formReducer(state = initialState, action) {
         action.uiSchema,
       );
 
-      let eligibility = state.eligibility;
-      let clinics = state.clinics;
-      let pastAppointments = state.pastAppointments;
-
-      if (action.eligibilityData) {
-        const facilityEligibility = getEligibilityChecks(
-          action.eligibilityData,
-        );
-
-        eligibility = {
-          ...state.eligibility,
-          [`${data.vaFacility}_${typeOfCareId}`]: facilityEligibility,
-        };
-
-        if (!action.eligibilityData.clinics?.directFailed) {
-          clinics = {
-            ...state.clinics,
-            [`${data.vaFacility}_${typeOfCareId}`]: action.eligibilityData
-              .clinics,
-          };
-
-          pastAppointments = action.eligibilityData.pastAppointments;
-        }
-      }
-
       return {
         ...state,
         data,
@@ -398,9 +373,6 @@ export default function formReducer(state = initialState, action) {
           [typeOfCareId]: locations,
         },
         childFacilitiesStatus: FETCH_STATUS.succeeded,
-        eligibility,
-        clinics,
-        pastAppointments,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {

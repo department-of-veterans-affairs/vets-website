@@ -309,6 +309,7 @@ export function getFacilityPageV2Info(state) {
   const childFacilitiesStatus = newAppointment.childFacilitiesStatus;
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibilityStatus = getEligibilityStatus(state);
+  const parentFacilities = newAppointment.parentFacilities;
 
   return {
     ...formInfo,
@@ -328,10 +329,11 @@ export function getFacilityPageV2Info(state) {
     loadingEligibilityStatus: newAppointment.eligibilityStatus,
     noValidVAParentFacilities:
       parentFacilitiesStatus === FETCH_STATUS.succeeded &&
-      newAppointment.parentFacilities.length === 0,
+      parentFacilities.length === 0,
     noValidVAFacilities:
       childFacilitiesStatus === FETCH_STATUS.succeeded &&
       (!facilities || !facilities.length),
+    parentFacilities,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentFacilitiesStatus,
     singleValidVALocation: facilities?.length === 1,

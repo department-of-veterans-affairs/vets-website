@@ -264,11 +264,58 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
+export function checkEligibility(location, siteId) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const useVSP = vaosVSPAppointmentNew(state);
+    const directSchedulingEnabled = vaosDirectScheduling(state);
+    const typeOfCareId = getTypeOfCare(getState().newAppointment.data)?.id;
+
+    dispatch({
+      type: FORM_ELIGIBILITY_CHECKS,
+    });
+
+    try {
+      const eligibilityData = await getEligibilityData(
+        location,
+        typeOfCareId,
+        siteId,
+        directSchedulingEnabled,
+        useVSP,
+      );
+
+      recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
+      logEligibilityExplanation(eligibilityData, typeOfCareId, location.id);
+
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+        typeOfCareId,
+        eligibilityData,
+      });
+
+      try {
+        const eligibility = getEligibilityStatus(getState());
+        if (!eligibility.direct && !eligibility.request) {
+          // Remove parse function when converting this call to FHIR service
+          const thunk = fetchFacilityDetails(location.id);
+          await thunk(dispatch, getState);
+        }
+      } catch (e) {
+        captureError(e);
+      }
+    } catch (e) {
+      captureError(e, false, 'facility page');
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS_FAILED,
+      });
+    }
+  };
+}
+
 export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
-      const directSchedulingEnabled = vaosDirectScheduling(initialState);
       const newAppointment = initialState.newAppointment;
       const data = newAppointment.data;
       const typeOfCare = getTypeOfCare(newAppointment.data);
@@ -278,7 +325,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       let parentFacilities = newAppointment.parentFacilities;
       let locations = null;
       let locationId = data.vaFacility;
-      let eligibilityData = null;
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN,
@@ -354,19 +400,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
       if (eligibilityDataNeeded && !eligibilityChecks) {
         const parentId = getParentOfLocation(parentFacilities, locations[0]).id;
+
         const siteId = parseFakeFHIRId(
           getIdOfRootOrganization(parentFacilities, parentId),
         );
-        eligibilityData = await getEligibilityData(
-          locations.find(location => location.id === locationId),
-          typeOfCareId,
-          siteId,
-          directSchedulingEnabled,
-          useVSP,
-        );
 
-        recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
-        logEligibilityExplanation(eligibilityData, typeOfCareId, locationId);
+        const location = locations.find(l => l.id === locationId);
+        dispatch(checkEligibility(location, siteId));
       }
 
       dispatch({
@@ -377,7 +417,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         parentFacilities,
         locations,
         typeOfCareId,
-        eligibilityData,
       });
 
       if (parentFacilities.length && !locations.length) {
@@ -392,65 +431,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       captureError(e, false, 'facility page');
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
-      });
-    }
-  };
-}
-
-export function updateFacilityPageV2Data(page, uiSchema, data) {
-  return async (dispatch, getState) => {
-    const state = getState();
-    const prevState = state.newAppointment;
-    const useVSP = vaosVSPAppointmentNew(state);
-    const directSchedulingEnabled = vaosDirectScheduling(state);
-    const typeOfCare = getTypeOfCare(data);
-    const typeOfCareId = typeOfCare.id;
-    const locations = prevState.facilities[typeOfCareId];
-    const selectedLocationId = data.vaFacility;
-    const selectedLocation = locations.find(l => l.id === selectedLocationId);
-    const parentId = getParentOfLocation(
-      prevState.parentFacilities,
-      selectedLocation,
-    ).id;
-
-    dispatch(updateFormData(page, uiSchema, { ...data, vaParent: parentId }));
-    const siteId = getSiteIdForChosenFacility(state, parentId);
-    try {
-      const eligibilityData = await getEligibilityData(
-        selectedLocation,
-        typeOfCareId,
-        siteId,
-        directSchedulingEnabled,
-        useVSP,
-      );
-
-      recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
-      logEligibilityExplanation(
-        eligibilityData,
-        typeOfCareId,
-        selectedLocationId,
-      );
-
-      dispatch({
-        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-        typeOfCareId,
-        eligibilityData,
-      });
-
-      try {
-        const eligibility = getEligibilityStatus(getState());
-        if (!eligibility.direct && !eligibility.request) {
-          // Remove parse function when converting this call to FHIR service
-          const thunk = fetchFacilityDetails(selectedLocationId);
-          await thunk(dispatch, getState);
-        }
-      } catch (e) {
-        captureError(e);
-      }
-    } catch (e) {
-      captureError(e, false, 'facility page');
-      dispatch({
-        type: FORM_ELIGIBILITY_CHECKS_FAILED,
       });
     }
   };
