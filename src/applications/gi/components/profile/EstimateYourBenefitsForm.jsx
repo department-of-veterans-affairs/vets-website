@@ -323,9 +323,9 @@ class EstimateYourBenefitsForm extends React.Component {
       text,
       modal,
       ariaLabel,
-      labelFor,
       showModal: this.props.showModal,
       component: this,
+      labelFor,
     });
 
   /**
@@ -731,6 +731,7 @@ class EstimateYourBenefitsForm extends React.Component {
             onBlur={this.handleInputBlur}
             onFocus={this.handleEYBInputFocus}
           />
+
           {dependentDropdowns}
         </ExpandingGroup>
       </div>
