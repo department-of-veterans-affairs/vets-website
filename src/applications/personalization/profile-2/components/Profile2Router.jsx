@@ -48,17 +48,13 @@ class Profile2Router extends Component {
       fetchPersonalInformation,
       fetchPaymentInformation,
       shouldFetchDirectDepositInformation,
-      shouldShowMilitaryInformation,
     } = this.props;
     fetchMHVAccount();
     fetchFullName();
     fetchPersonalInformation();
+    fetchMilitaryInformation();
     if (shouldFetchDirectDepositInformation) {
       fetchPaymentInformation();
-    }
-
-    if (shouldShowMilitaryInformation) {
-      fetchMilitaryInformation();
     }
   }
 
@@ -68,13 +64,6 @@ class Profile2Router extends Component {
       !prevProps.shouldFetchDirectDepositInformation
     ) {
       this.props.fetchPaymentInformation();
-    }
-
-    if (
-      this.props.shouldShowMilitaryInformation &&
-      !prevProps.shouldShowMilitaryInformation
-    ) {
-      this.props.fetchMilitaryInformation();
     }
   }
 
@@ -118,7 +107,6 @@ class Profile2Router extends Component {
   mainContent = () => {
     const routesOptions = {
       removeDirectDeposit: !this.props.shouldShowDirectDeposit,
-      removeMilitaryInformation: !this.props.shouldShowMilitaryInformation,
     };
 
     // We need to pass in a config to hide forbidden routes
@@ -143,18 +131,6 @@ class Profile2Router extends Component {
                     <Redirect
                       from={route.path}
                       to={PROFILE_PATHS.ACCOUNT_SECURITY}
-                      key={route.path}
-                    />
-                  );
-                }
-
-                if (
-                  route.path === PROFILE_PATHS.MILITARY_INFORMATION &&
-                  !this.props.shouldShowMilitaryInformation
-                ) {
-                  return (
-                    <Redirect
-                      to={PROFILE_PATHS.PROFILE_ROOT}
                       key={route.path}
                     />
                   );
@@ -229,7 +205,6 @@ Profile2Router.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   shouldFetchDirectDepositInformation: PropTypes.bool.isRequired,
   shouldShowDirectDeposit: PropTypes.bool.isRequired,
-  shouldShowMilitaryInformation: PropTypes.bool.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
@@ -247,8 +222,6 @@ const mapStateToProps = state => {
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
   const shouldFetchDirectDepositInformation = isEvssAvailable && is2faEnabled;
-  const shouldShowMilitaryInformation =
-    selectProfile(state)?.veteranStatus?.servedInMilitary || false;
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -276,7 +249,7 @@ const mapStateToProps = state => {
     hasLoadedFullName &&
     hasLoadedMHVInformation &&
     hasLoadedPersonalInformation &&
-    (shouldShowMilitaryInformation ? hasLoadedMilitaryInformation : true) &&
+    hasLoadedMilitaryInformation &&
     (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
 
   return {
@@ -287,7 +260,6 @@ const mapStateToProps = state => {
       shouldFetchDirectDepositInformation &&
       !isDirectDepositBlocked &&
       (isDirectDepositSetUp || isEligibleToSignUp),
-    shouldShowMilitaryInformation,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
