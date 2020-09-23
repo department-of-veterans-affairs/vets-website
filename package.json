@@ -268,7 +268,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "6.9.5",
-    "@department-of-veterans-affairs/formation-react": "5.4.11",
+    "@department-of-veterans-affairs/formation-react": "5.4.13",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
@@ -335,7 +335,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#19a471d37149c163bfa694a7b17432f8cb485d3d",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#fffecfaa37e2e1d3b9de9056c9709b812135de22",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

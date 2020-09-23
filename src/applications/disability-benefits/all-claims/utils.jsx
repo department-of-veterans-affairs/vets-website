@@ -616,7 +616,7 @@ export const ancillaryFormUploadUi = (
     addAnotherLabel,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     maxSize: TWENTY_FIVE_MB,
-    minSize: 0,
+    minSize: 1,
     createPayload: file => {
       const payload = new FormData();
       payload.append('supporting_evidence_attachment[file_data]', file);

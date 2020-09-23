@@ -29,27 +29,40 @@
           {% endif %}
 
           <!-- Buttons -->
-          {% for fieldButton in fieldButtons  %}
+          {% for fieldButton in fieldButtons %}
             {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
           {% endfor %}
 
-          <!-- Steps -->
-          <h2>Step-by-step</h2>
-          <ol class="process">
-            {% assign count = 1 %}
-            {% for fieldStep in fieldSteps.entity.fieldStep %}
-              <li class="process-step list-{{ count | numToWord }}">
-                {{ fieldStep.entity.fieldWysiwyg.processed }}<br/>
-                <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}" src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
+          <!-- Videos List -->
+          <h2>{{ fieldMediaListVideos.entity.fieldSectionHeader | default: 'Videos' }}</h2>
+
+          <ul class="usa-unstyled-list">
+            {% for mediaVideo in fieldMediaListVideos.entity.fieldVideos %}
+              <li>
+                <h3>{{ mediaVideo.entity.name }}</h3>
+                <iframe
+                  allowFullScreen
+                  frameBorder="0"
+                  src="{{ mediaVideo.entity.fieldMediaVideoEmbedField }}"
+                  title="{{ mediaVideo.entity.name }}"
+                  width="100%"
+                ></iframe>
+                {% comment %}
+                  @Todo
+                  Awaiting CMS implementation as The duration, date and description are maintained by YouTube.
+                  https://github.com/department-of-veterans-affairs/va.gov-cms/issues/2454
+                  <p>{{ mediaVideo.entity.created | humanizeTimestamp }}</p>
+                  <p>{{ mediaEntity.entity.fieldDescription }}</p>
+                {% endcomment %}
               </li>
-              {% assign count = count | plus: 1 %}
             {% endfor %}
-          </ol>
+          </ul>
+
 
           <!-- Buttons -->
           {% if fieldButtonsRepeat %}
             <div class="vads-u-margin-y--3">
-              {% for fieldButton in fieldButtons  %}
+              {% for fieldButton in fieldButtons %}
                 {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
               {% endfor %}
             </div>
