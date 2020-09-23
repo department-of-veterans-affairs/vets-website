@@ -1,5 +1,6 @@
 import { createId, formatCurrency } from '../../utils/helpers';
 import calculatorConstantsJson from '../data/calculator-constants.json';
+import searchResults from '../data/search-results.json';
 
 export const typeOfInstitution = value => {
   const selector = `input[name="category"][value="${value}"]`;
@@ -7,9 +8,12 @@ export const typeOfInstitution = value => {
 };
 
 export const search = searchTerm => {
-  if (searchTerm) cy.get('.keyword-search input[type="text"]').type(searchTerm);
+  if (searchTerm) {
+    cy.get('.keyword-search input[type="text"]').type(searchTerm);
+  }
 
   cy.get('#search-button').click();
+
   if (searchTerm) {
     cy.url().should('include', '/search');
   } else {
@@ -18,8 +22,11 @@ export const search = searchTerm => {
 };
 
 export const selectSearchResult = (href, checkLocation = true) => {
-  cy.get(`a[href*="${href}"]`).click();
+  cy.get(`a[href*="${href}"]`)
+    .first()
+    .click();
   if (checkLocation) cy.url().should('include', href);
+
   cy.axeCheck();
 };
 
@@ -40,7 +47,10 @@ const createAccordionButtonId = name => `#${createId(name)}-accordion-button`;
  * @param name button property of the AccordionItem
  */
 export const clickAccordion = name => {
-  cy.get(createAccordionButtonId(name))
+  const accordionButtonId = createAccordionButtonId(name);
+  cy.get(accordionButtonId)
+    .should('be.visible')
+    .get(accordionButtonId)
     .first()
     .click()
     .axeCheck();
@@ -112,9 +122,11 @@ export const calculateBenefits = () => {
 export const checkProfileHousingRate = housingRate => {
   const housingRateId = `#calculator-result-row-${createId(
     'Housing allowance',
-  )} h5`;
+  )}`;
 
-  cy.get(housingRateId).should('include', formatCurrency(housingRate));
+  cy.get(housingRateId).should('be.visible');
+
+  cy.get(housingRateId).should('contain', formatCurrency(housingRate));
 };
 
 /**
@@ -131,8 +143,7 @@ export const enrolledOld = (option, housingRate) => {
 };
 
 export const breadCrumb = breadCrumbHref => {
-  const id = `.va-nav-breadcrumbs a[href='${breadCrumbHref}']`;
-  cy.get(id)
+  cy.get(`.va-nav-breadcrumbs a[href='${breadCrumbHref}']`)
     .click()
     .url()
     .should('include', breadCrumbHref);
@@ -173,9 +184,11 @@ export const checkSectionAccordion = (
   eybAccordionExpandedCheck(sections, sections[sectionName]);
 };
 
-export const checkSearchResults = searchResults => {
-  searchResults.data.forEach(result => {
-    const resultId = `#search-result-${result.attributes.facility_code}`;
-    cy.get(createId(resultId)).should('be.visible');
+export const verifySearchResults = (results = searchResults) => {
+  cy.url().should('include', `/search`);
+  cy.get('.search-page').should('be.visible');
+  results.data.forEach(({ attributes: profile }) => {
+    cy.get(`#search-result-${profile.facility_code}`).should('be.visible');
   });
+  cy.axeCheck();
 };
