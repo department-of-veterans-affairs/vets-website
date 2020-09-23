@@ -262,7 +262,6 @@ describe('VAOS integration: upcoming video appointments', () => {
     });
 
     await screen.findByText(/Video appointment using a VA device/i);
-    screen.debug();
 
     // Should display appointment date
     expect(
@@ -519,6 +518,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     expect(screen.getByText(/Appointment Code: 7VBBCA/i)).to.be.ok;
 
     // Should display who you will be meeting with
+    // TODO: This will be added later
     // expect(screen.getByText(/You'll be meeting with/i)).to.be.ok;
     // expect(screen.getByText(/Decker Konya/i)).to.be.ok;
   });

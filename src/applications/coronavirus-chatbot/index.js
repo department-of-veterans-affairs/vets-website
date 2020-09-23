@@ -31,22 +31,32 @@ export const configureWebchat = jsonWebToken => {
   };
 };
 
-export const initializeChatbot = async () => {
+const getBotToken = csrfToken => {
   const path = `/coronavirus_chatbot/tokens?locale=en-US`;
 
+  return apiRequest(path, {
+    method: 'POST',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'X-CSRF-Token': csrfToken,
+    },
+  });
+};
+
+export const initializeChatbot = async () => {
   try {
     const csrfTokenStored = localStorage.getItem('csrfToken');
-    const { token } = await apiRequest(path, {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'X-CSRF-Token': csrfTokenStored,
-      },
-    });
+    const { token } = await getBotToken(csrfTokenStored);
     return configureWebchat(token);
-  } catch (error) {
-    recordInitChatbotFailure(error);
-    throw error;
+  } catch (_error) {
+    try {
+      const csrfTokenStored = localStorage.getItem('csrfToken');
+      const { token } = await getBotToken(csrfTokenStored);
+      return configureWebchat(token);
+    } catch (error) {
+      recordInitChatbotFailure(error);
+      throw error;
+    }
   }
 };
