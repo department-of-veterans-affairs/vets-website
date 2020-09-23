@@ -8,6 +8,7 @@ export default function AppointmentDateTime({
   appointmentDate,
   timezone,
   facilityId,
+  isAtlas,
 }) {
   if (!appointmentDate.isValid()) {
     return null;
@@ -15,14 +16,31 @@ export default function AppointmentDateTime({
 
   return (
     <>
-      {appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}{' '}
-      <span aria-hidden="true">
-        {getAppointmentTimezoneAbbreviation(timezone, facilityId)}
-      </span>
-      <span className="sr-only">
-        {' '}
-        {getAppointmentTimezoneDescription(timezone, facilityId)}
-      </span>
+      {!isAtlas && (
+        <>
+          {appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}{' '}
+          <span aria-hidden="true">
+            {getAppointmentTimezoneAbbreviation(timezone, facilityId)}
+          </span>
+          <span className="sr-only">
+            {' '}
+            {getAppointmentTimezoneDescription(timezone, facilityId)}
+          </span>
+        </>
+      )}
+      {isAtlas && (
+        <>
+          {appointmentDate.format('dddd, MMMM D, YYYY')} <br />
+          {appointmentDate.format('h:mm a')}{' '}
+          <span aria-hidden="true">
+            {getAppointmentTimezoneAbbreviation(timezone, facilityId)}
+          </span>
+          <span className="sr-only">
+            {' '}
+            {getAppointmentTimezoneDescription(timezone, facilityId)}
+          </span>
+        </>
+      )}
     </>
   );
 }
