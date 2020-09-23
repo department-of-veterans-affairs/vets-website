@@ -21,17 +21,17 @@ describe('Comparison Tool', () => {
 
     // Assert skip navigation link works correctly
     // Comment out for local testing
-    // cy.get('body').tab();
-    // cy.get('a.show-on-focus').should('have.focus');
-    // cy.get('a.show-on-focus')
-    //   .type('{enter}')
-    //   .tab()
-    //   .tab()
-    //   .tab();
+    cy.get('body').tab();
+    cy.get('a.show-on-focus').should('have.focus');
+    cy.get('a.show-on-focus')
+      .type('{enter}')
+      .tab()
+      .tab()
+      .tab();
 
     cy.get('.va-nav-breadcrumbs-list > li > a')
       .first()
-      .focus() // uncomment for local testing
+      // .focus() // uncomment for local testing
       .should('have.focus')
       .should('have.attr', 'href', '/')
       .tab() // Move on to the form
@@ -39,34 +39,9 @@ describe('Comparison Tool', () => {
       .tab();
 
     // Evaluate the military status select menu
-    cy.get('#militaryStatus').should('have.focus');
-    // cy.window().then(win => {
-    //   cy.get('.keyword-search input[type="text"]').then(jQueryElement => {
-    //     const elemHtml = jQueryElement.get(0);
-    //
-    //     elemHtml.addEventListener('keydown', event => {
-    //       expect(event instanceof win.KeyboardEvent).to.be.true;
-    //       done();
-    //     });
-    //   });
-    // });
-    cy.get('.keyword-search input[type="text"]').trigger('keydown', {
-      eventConstructor: 'KeyboardEvent',
-      keyCode: 65,
-      which: 65,
-      shiftKey: false,
-      ctrlKey: false,
-    });
-    cy.get('.keyword-search input[type="text"]').should('have.value', 'a');
-
-    // .type('{downarrow}')
-    // .trigger('keydown', {
-    //   eventConstructor: 'KeyboardEvent',
-    //   keyCode: 32,
-    //   which: 32,
-    //   shiftKey: false,
-    //   ctrlKey: false,
-    // })
-    // .should('have.value', 'active duty');
+    cy.get('#militaryStatus')
+      .should('have.focus')
+      .select('active duty')
+      .should('have.value', 'active duty');
   });
 });
