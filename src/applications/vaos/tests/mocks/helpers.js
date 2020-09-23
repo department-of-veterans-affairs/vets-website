@@ -467,3 +467,42 @@ export function setupExpressCareMocks({
     numberOfRequests: isUnderRequestLimit ? 0 : 1,
   });
 }
+
+export function mockCommunityCareEligibility({
+  parentSites,
+  supportedSites,
+  careType,
+  eligible = true,
+}) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/community_care/supported_sites?${parentSites
+        .map(site => `site_codes[]=${site}`)
+        .join('&')}`,
+    ),
+    {
+      data: (supportedSites || parentSites).map(parent => ({
+        id: parent,
+        attributes: {
+          name: 'fake',
+          timezone: 'fake',
+        },
+      })),
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/community_care/eligibility/${careType}`,
+    ),
+    {
+      data: {
+        id: careType,
+        attributes: {
+          eligible,
+        },
+      },
+    },
+  );
+}
