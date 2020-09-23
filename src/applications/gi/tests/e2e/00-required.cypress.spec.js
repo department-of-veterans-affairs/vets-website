@@ -5,7 +5,7 @@ import {
   selectSearchResult,
   displayLearnMoreModal,
   collapseExpandAccordion,
-  checkSearchResults,
+  verifySearchResults,
   checkSectionAccordion,
 } from './gi-helpers';
 
@@ -30,7 +30,7 @@ describe('Institution', () => {
     cy.axeCheck();
 
     // Search Page
-    checkSearchResults(searchResults);
+    verifySearchResults(searchResults);
 
     const profileLink = `/profile/${
       searchResults.data[0].attributes.facility_code

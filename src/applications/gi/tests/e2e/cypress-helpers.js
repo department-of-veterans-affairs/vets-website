@@ -28,7 +28,9 @@ export const FORCE_OPTION = { force: true };
  */
 export const initMockProfile = profile => {
   const facilityCode = profile.data.attributes.facility_code;
-  cy.route('GET', `/v0/gi/institutions/${facilityCode}`, profile);
+  cy.route('GET', `/v0/gi/institutions/${facilityCode}`, profile).as(
+    `profile${facilityCode}`,
+  );
 };
 
 // Create API routes
@@ -36,8 +38,10 @@ export const initApplicationMock = (
   profile = institutionProfile,
   results = searchResults,
 ) => {
-  cy.route('GET', '/v0/gi/institutions/autocomplete**', autocomplete);
-  cy.route('GET', '/v0/gi/institutions/search**', results);
+  cy.route('GET', '/v0/gi/institutions/autocomplete**', autocomplete).as(
+    'defaultAutocomplete',
+  );
+  cy.route('GET', '/v0/gi/institutions/search**', results).as('defaultSearch');
 
   initMockProfile(profile);
 };
@@ -59,7 +63,7 @@ export const expectParams = params => {
   cy.axeCheck();
 };
 
-export const clickButton = selector => {
+export const forceClick = selector => {
   cy.get(`${selector}`)
     .first()
     .click(FORCE_OPTION);
