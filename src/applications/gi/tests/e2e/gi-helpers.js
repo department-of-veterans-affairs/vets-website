@@ -1,11 +1,7 @@
 import { createId, formatCurrency } from '../../utils/helpers';
 import calculatorConstantsJson from '../data/calculator-constants.json';
 import searchResults from '../data/search-results.json';
-
-export const typeOfInstitution = value => {
-  const selector = `input[name="category"][value="${value}"]`;
-  cy.get(selector).check();
-};
+import vetTecSearchResults from '../data/vet-tec-search-results.json';
 
 export const search = searchTerm => {
   if (searchTerm) {
@@ -84,14 +80,6 @@ export const collapseExpandAccordion = name => {
   checkAccordionIsExpanded(name);
 };
 
-/**
- * Select option for "Which GI Bill benefit do you want to use?"
- * @param option
- */
-export const giBillChapter = option => {
-  cy.get('select[name="giBillChapter"]').select(option);
-};
-
 export const formatNumberHalf = value => {
   const halfVal = Math.round(value / 2);
   return formatCurrency(halfVal);
@@ -107,13 +95,6 @@ const createCalculatorConstants = () => {
   return constantsList;
 };
 export const calculatorConstants = createCalculatorConstants();
-
-/**
- * Click the Calculate Benefits button in EYB
- */
-export const calculateBenefits = () => {
-  cy.get('.calculate-button').click();
-};
 
 /**
  * Verifies Housing Rate on Desktop
@@ -138,7 +119,7 @@ export const checkProfileHousingRate = housingRate => {
  */
 export const enrolledOld = (option, housingRate) => {
   cy.get('select[name="enrolledOld"]').select(option);
-  calculateBenefits();
+  cy.get('.calculate-button').click();
   checkProfileHousingRate(housingRate);
 };
 
@@ -191,4 +172,13 @@ export const verifySearchResults = (results = searchResults) => {
     cy.get(`#search-result-${profile.facility_code}`).should('be.visible');
   });
   cy.axeCheck();
+};
+
+export const verifyVetTecSearchResults = (results = vetTecSearchResults) => {
+  results.data.forEach(result => {
+    const resultId = `#search-result-${result.attributes.facility_code}-${
+      result.attributes.description
+    }`;
+    cy.get(createId(resultId)).should('be.visible');
+  });
 };

@@ -3,7 +3,6 @@ import {
   hasFocusableCount,
   hasTabbableCount,
 } from './cypress-helpers';
-import calculatorConstantsJson from '../data/calculator-constants.json';
 
 const tabLearnMore = ariaLabel => {
   cy.tab()
@@ -25,8 +24,6 @@ const tabLearnMore = ariaLabel => {
  */
 describe('Comparison Tool', () => {
   beforeEach(() => {
-    cy.route('GET', '/v0/gi/calculator_constants', calculatorConstantsJson);
-
     initApplicationMock();
     cy.visit('/gi-bill-comparison-tool').injectAxe();
     cy.axeCheck();

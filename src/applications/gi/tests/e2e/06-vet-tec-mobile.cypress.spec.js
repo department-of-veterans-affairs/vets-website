@@ -1,8 +1,11 @@
 import { initMockProfile } from './cypress-helpers';
 import vetTecProfile from '../data/vet-tec-profile.json';
 import vetTecSearchResults from '../data/vet-tec-search-results.json';
-import { createId } from '../../utils/helpers';
-import { typeOfInstitution, search, selectSearchResult } from './gi-helpers';
+import {
+  search,
+  selectSearchResult,
+  verifyVetTecSearchResults,
+} from './gi-helpers';
 
 describe('VETTEC', () => {
   beforeEach(() => {
@@ -17,7 +20,7 @@ describe('VETTEC', () => {
   it('Default VETTEC profile flow with giBillChapter chapter 33', () => {
     cy.viewport(481, 750);
     // Landing Page
-    typeOfInstitution('vettec');
+    cy.get('input[name="category"][value="vettec"]').check();
     cy.axeCheck();
 
     search();
@@ -28,12 +31,7 @@ describe('VETTEC', () => {
     cy.axeCheck();
 
     // Search Page
-    vetTecSearchResults.data.forEach(result => {
-      const resultId = `#search-result-${result.attributes.facility_code}-${
-        result.attributes.description
-      }`;
-      cy.get(createId(resultId)).should('be.visible');
-    });
+    verifyVetTecSearchResults();
 
     const vetTecAttributes = vetTecSearchResults.data[0].attributes;
     const profileLink = `/profile/${vetTecAttributes.facility_code}/${
