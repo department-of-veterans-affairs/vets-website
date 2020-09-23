@@ -16,6 +16,11 @@ function createBasicInitialState() {
       },
       dismissedDowntimeWarnings: [],
     },
+    user: {
+      profile: {
+        veteranStatus: 'OK',
+      },
+    },
     vaProfile: {
       militaryInformation: {
         serviceHistory: {
@@ -179,7 +184,25 @@ describe('MilitaryInformation', () => {
       expect(entries[1]).to.contain.text('April 11, 2009');
     });
   });
-  describe('when the military history is empty', () => {
+  describe('when the veteranStatus is null and militaryInformation is empty', () => {
+    it('should show the correct error', () => {
+      initialState = createBasicInitialState();
+      initialState.user.profile.veteranStatus = null;
+      initialState.vaProfile.militaryInformation = null;
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+
+      expect(view.getByText(/We don't seem to have your military records/i)).to
+        .exist;
+      expect(
+        view.getByText(
+          /We're sorry. We can't match your information to our records./i,
+        ),
+      ).to.exist;
+    });
+  });
+  describe('when the military service history is empty', () => {
     it('should show the correct error', () => {
       initialState = createBasicInitialState();
       initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory = [];
