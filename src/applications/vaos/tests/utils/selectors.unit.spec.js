@@ -522,13 +522,15 @@ describe('VAOS selectors', () => {
             },
             contained: [
               {
-                location: {
-                  reference: 'Location/var123',
-                },
-              },
-              {
                 resourceType: 'HealthcareService',
-                characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
+                characteristic: [
+                  {
+                    coding: [{ system: 'VVS', code: VIDEO_TYPES.videoConnect }],
+                  },
+                ],
+                providedBy: {
+                  reference: 'Organization/var123',
+                },
               },
             ],
           },

@@ -61,38 +61,6 @@ function isVideoVisit(appt) {
 }
 
 /**
- * If an appointment is a video appointment, returns whether it is a GFE video visit
- * or a regular video visit.  Return null if not a video appointment.
- *
- * @param {Object} appt VAR appointment object
- * @returns {String} Returns video appointment type or null
- */
-function getVideoType(appt) {
-  if (appt.visitType === 'Video Conference') {
-    return VIDEO_TYPES.videoConnect;
-  }
-
-  const videoData = appt.vvsAppointments?.[0];
-
-  if (!videoData) {
-    return null;
-  }
-
-  if (videoData.tasInfo) {
-    return VIDEO_TYPES.atlas;
-  }
-
-  switch (videoData.appointmentKind) {
-    case 'MOBILE_GFE':
-      return VIDEO_TYPES.gfe;
-    case 'CLINIC_BASED':
-      return VIDEO_TYPES.clinic;
-    default:
-      return VIDEO_TYPES.videoConnect;
-  }
-}
-
-/**
  * Returns status for a vista appointment
  *
  * @param {Object} appointment Vista appointment object
@@ -455,7 +423,12 @@ function setContained(appt) {
           resourceType: 'HealthcareService',
           characteristic: [
             {
-              coding: getVideoType(appt),
+              coding: [
+                {
+                  system: 'VVS',
+                  code: VIDEO_TYPES.videoConnect,
+                },
+              ],
             },
           ],
         });

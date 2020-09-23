@@ -120,7 +120,7 @@ describe('VAOS Appointment service', () => {
       expect(isVideoAppointment(request)).to.equal(false);
     });
 
-    it('should return false if non video request', () => {
+    it('should return true if video request', () => {
       const request = transformPendingAppointments([
         {
           ...getVARequestMock().attributes,
