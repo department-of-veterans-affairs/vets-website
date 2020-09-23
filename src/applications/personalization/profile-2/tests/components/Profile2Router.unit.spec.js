@@ -33,7 +33,6 @@ describe('Profile2Router', () => {
       fetchPaymentInformation: fetchPaymentInfoSpy,
       fetchPersonalInformation: fetchPersonalInfoSpy,
       shouldFetchDirectDepositInformation: true,
-      shouldShowMilitaryInformation: true,
       showLoader: false,
       user: {},
       location: {
@@ -209,7 +208,6 @@ describe('mapStateToProps', () => {
       'showLoader',
       'shouldFetchDirectDepositInformation',
       'shouldShowDirectDeposit',
-      'shouldShowMilitaryInformation',
       'isDowntimeWarningDismissed',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
@@ -250,25 +248,6 @@ describe('mapStateToProps', () => {
       state.user.profile.services = [];
       const props = mapStateToProps(state);
       expect(props.shouldFetchDirectDepositInformation).to.be.false;
-    });
-  });
-
-  describe('#shouldShowMilitaryInformation', () => {
-    describe('when the user has served in the military', () => {
-      it('should be `true`', () => {
-        const state = makeDefaultState();
-        state.user.profile.veteranStatus.servedInMilitary = true;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowMilitaryInformation).to.be.true;
-      });
-    });
-    describe('when the user has not served in the military', () => {
-      it('should be `false`', () => {
-        const state = makeDefaultState();
-        state.user.profile.veteranStatus.servedInMilitary = false;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowMilitaryInformation).to.be.false;
-      });
     });
   });
 

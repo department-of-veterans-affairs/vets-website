@@ -13,7 +13,9 @@ export default function VideoLink({ appointment }) {
   const isAtlas = isAtlasLocation(appointment);
   if (isVideoGFE(appointment)) {
     return (
-      <span>Join the video session from the device provided by the VA.</span>
+      <span>
+        You can join this video meeting using a device provided by VA.
+      </span>
     );
   } else if (videoKind === VIDEO_TYPES.clinic) {
     return (
