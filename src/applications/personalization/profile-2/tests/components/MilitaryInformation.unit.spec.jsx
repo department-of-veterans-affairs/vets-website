@@ -184,6 +184,24 @@ describe('MilitaryInformation', () => {
       expect(entries[1]).to.contain.text('April 11, 2009');
     });
   });
+  describe('when the veteranStatus is null and militaryInformation is empty', () => {
+    it('should show the correct error', () => {
+      initialState = createBasicInitialState();
+      initialState.user.profile.veteranStatus = null;
+      initialState.vaProfile.militaryInformation = null;
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+
+      expect(view.getByText(/We don't seem to have your military records/i)).to
+        .exist;
+      expect(
+        view.getByText(
+          /We're sorry. We can't match your information to our records./i,
+        ),
+      ).to.exist;
+    });
+  });
   describe('when the military history is empty', () => {
     it('should show the correct error', () => {
       initialState = createBasicInitialState();
