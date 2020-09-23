@@ -24,7 +24,7 @@ export const primaryCaregiverFields = {
   fullName: 'primaryFullName',
   gender: 'primaryGender',
   hasSecondaryCaregiverOneView: 'view:hasSecondaryCaregiverOne',
-  primaryPhoneNumber: 'primaryPhoneNumber',
+  primaryPhoneNumber: 'primaryPrimaryPhoneNumber',
   ssn: 'primarySsnOrTin',
   verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
