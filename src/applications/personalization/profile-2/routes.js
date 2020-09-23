@@ -48,10 +48,6 @@ const getRoutes = options => {
     routes = routes.filter(route => route.component !== DirectDeposit);
   }
 
-  if (options.removeMilitaryInformation) {
-    routes = routes.filter(route => route.component !== MilitaryInformation);
-  }
-
   return routes;
 };
 

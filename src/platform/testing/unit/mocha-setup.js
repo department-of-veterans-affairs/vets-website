@@ -102,6 +102,8 @@ export default function setupJSDom() {
     },
   };
 
+  window.Mocha = true;
+
   copyProps(window, global);
 
   // The following properties provided by JSDom are read-only by default.

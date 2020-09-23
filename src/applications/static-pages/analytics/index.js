@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/browser';
+
 import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
@@ -29,7 +31,12 @@ function attachAnalytics() {
     addTeaserListeners();
     addButtonLinkListeners();
   } catch (error) {
-    // Catch any error that might occur while trying to attach listeners.
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(
+        'Error attaching event listeners used for analytics',
+      );
+    });
   }
 }
 

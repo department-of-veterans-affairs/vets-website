@@ -1,0 +1,17 @@
+@media screen and (max-width: $medium-screen) {
+  table.responsive {
+    thead {
+      position: absolute;
+      clip: rect(0, 0, 0, 0);
+    }
+
+    tr {
+      display: block;
+      padding: 0.35em;
+    }
+
+    td {
+      display: block;
+    }
+  }
+}

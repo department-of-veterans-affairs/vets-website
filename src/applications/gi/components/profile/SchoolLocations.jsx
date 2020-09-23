@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
-import ResponsiveFacilityMapTable from './ResponsiveFacilityMapTable';
+import ResponsiveTable from '../ResponsiveTable';
+import { Link } from 'react-router-dom';
 
 const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
 
@@ -55,7 +56,7 @@ export class SchoolLocations extends React.Component {
     const { version } = this.props;
     const query = version ? `?version=${version}` : '';
 
-    return <a href={`${facilityCode}${query}`}>{name}</a>;
+    return <Link to={`${facilityCode}${query}`}>{name}</Link>;
   };
 
   handleViewAllClicked = async () => {
@@ -105,7 +106,7 @@ export class SchoolLocations extends React.Component {
     return address;
   };
 
-  estimatedHousingRow = institution => {
+  estimatedHousingValue = institution => {
     const fakeState = {
       constants: { constants: this.props.constants },
       eligibility: this.props.eligibility,
@@ -117,7 +118,7 @@ export class SchoolLocations extends React.Component {
     return calculated.outputs.housingAllowance.value;
   };
 
-  renderRow = (institution, type, name = institution.institution) => {
+  createRow = (institution, type, name = institution.institution) => {
     const month = (
       <React.Fragment key="months">
         <span className="sr-only">per month</span>
@@ -132,33 +133,35 @@ export class SchoolLocations extends React.Component {
       physicalZip,
     } = institution;
     const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
-      <p className="schoolName">{name}</p>
+      <p className="school-name">{name}</p>
     ) : (
       name
     );
-    return (
-      <tr key={`${facilityCode}-${type}`} className={`${type}-row`}>
-        <td tabIndex="-1" className="school-name-cell">
-          {nameLabel}
-        </td>
-        <td className={'location-cell'}>
-          {this.schoolLocationTableInfo(
-            physicalCity,
-            physicalState,
-            physicalCountry,
-            physicalZip,
-          )}
-        </td>
-        <td>
-          {this.estimatedHousingRow(institution)}
+
+    return {
+      key: `${facilityCode}-${type}`,
+      rowClassName: `${type}-row`,
+      'School Name': nameLabel,
+      Location: this.schoolLocationTableInfo(
+        physicalCity,
+        physicalState,
+        physicalCountry,
+        physicalZip,
+      ),
+      'Estimated housing': (
+        <>
+          <span className="estimated-housing-cell-title vads-u-margin--0 vads-u-margin-right--0p5">
+            Estimated housing:
+          </span>
+          {this.estimatedHousingValue(institution)}
           {month}
-        </td>
-      </tr>
-    );
+        </>
+      ),
+    };
   };
 
-  renderMainRow = institution =>
-    this.renderRow(
+  createMainRow = institution =>
+    this.createRow(
       institution,
       'main',
       this.createLinkTo(
@@ -167,7 +170,7 @@ export class SchoolLocations extends React.Component {
       ),
     );
 
-  renderExtensionRows = (rows, extensions, maxRows) => {
+  createExtensionRows = (rows, extensions, maxRows) => {
     for (const extension of extensions) {
       // check if should add more rows
       if (!this.state.viewAll && rows.length >= maxRows - 1) {
@@ -176,11 +179,11 @@ export class SchoolLocations extends React.Component {
       const nameLabel = (
         <div className="vads-u-padding-left--1">{extension.institution}</div>
       );
-      rows.push(this.renderRow(extension, 'extension', nameLabel));
+      rows.push(this.createRow(extension, 'extension', nameLabel));
     }
   };
 
-  renderBranchRows = (rows, branches, maxRows) => {
+  createBranchRows = (rows, branches, maxRows) => {
     for (const branch of branches) {
       // check if should add more rows
       if (!this.state.viewAll && rows.length >= maxRows - 1) {
@@ -191,44 +194,39 @@ export class SchoolLocations extends React.Component {
       const { facilityCode, institution: name } = institution;
 
       rows.push(
-        this.renderRow(
+        this.createRow(
           institution,
           'branch',
           this.createLinkTo(facilityCode, name),
         ),
       );
 
-      this.renderExtensionRows(rows, branch.extensions, maxRows);
+      this.createExtensionRows(rows, branch.extensions, maxRows);
     }
   };
 
-  renderBranchesAndExtensionsRows = ({ branches, extensions }, maxRows) => {
+  createBranchesAndExtensionsRows = ({ branches, extensions }, maxRows) => {
     const rows = [];
-    this.renderExtensionRows(rows, extensions, maxRows);
-    this.renderBranchRows(rows, branches, maxRows);
+    this.createExtensionRows(rows, extensions, maxRows);
+    this.createBranchRows(rows, branches, maxRows);
     return rows;
   };
 
-  renderResponsiveFacilityMapTable = main => {
+  renderFacilityTable = main => {
     const maxRows = this.state.viewableRowCount;
 
-    const fields = [
-      { label: 'School Name' },
-      { label: 'Location' },
-      { label: 'Estimated housing' },
-    ];
+    const fields = ['School Name', 'Location', 'Estimated housing'];
+
+    const data = Array.of(this.createMainRow(main.institution)).concat(
+      this.createBranchesAndExtensionsRows(main, maxRows),
+    );
 
     return (
-      <div>
-        <ResponsiveFacilityMapTable
-          fields={fields}
-          mainRow={this.renderMainRow(main.institution)}
-          branchesAndExtensionsRows={this.renderBranchesAndExtensionsRows(
-            main,
-            maxRows,
-          )}
-        />
-      </div>
+      <ResponsiveTable
+        columns={fields}
+        tableClass="school-locations"
+        data={data}
+      />
     );
   };
 
@@ -309,7 +307,7 @@ export class SchoolLocations extends React.Component {
             </span>
           )}
         </span>
-        {this.renderResponsiveFacilityMapTable(main)}
+        {this.renderFacilityTable(main)}
         {this.renderViewCount()}
         {this.renderViewButtons()}
       </div>

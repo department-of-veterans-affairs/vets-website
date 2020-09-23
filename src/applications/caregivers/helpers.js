@@ -132,3 +132,33 @@ export {
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
 };
+
+const isSSNUnique = formData => {
+  const {
+    veteranSsnOrTin,
+    primarySsnOrTin,
+    secondaryOneSsnOrTin,
+    secondaryTwoSsnOrTin,
+  } = formData;
+
+  const allSSNs = [
+    veteranSsnOrTin,
+    primarySsnOrTin,
+    secondaryOneSsnOrTin,
+    secondaryTwoSsnOrTin,
+  ];
+
+  const allValidSSNs = allSSNs.filter(ssn => ssn !== undefined);
+
+  const checkIfArrayIsUnique = array => array.length === new Set(array).size;
+
+  return checkIfArrayIsUnique(allValidSSNs);
+};
+
+export const validateSSNIsUnique = (errors, formData) => {
+  if (!isSSNUnique(formData)) {
+    errors.addError(
+      "We're sorry. You've already entered this number elsewhere. Please check your data and try again.",
+    );
+  }
+};
