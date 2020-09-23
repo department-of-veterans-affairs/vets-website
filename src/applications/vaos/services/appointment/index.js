@@ -327,3 +327,14 @@ export function sortUpcoming(a, b) {
 export function sortMessages(a, b) {
   return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
 }
+
+/**
+ * Method to check for ATLAS appointment
+ * @param {*} appointment  A FHIR appointment resource
+ * @return (Boolean} Returns whether or not the appointment is an ATLAS appointment.
+ */
+export function isAtlasLocation(appointment) {
+  return appointment.legacyVAR.apiData.vvsAppointments?.some(
+    element => element.tasInfo,
+  );
+}
