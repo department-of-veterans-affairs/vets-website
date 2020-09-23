@@ -18,7 +18,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
           }-patient-wait-time`}
           className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
         >
-          {`${waitTime.toFixed(0)} days`}
+          {`${Number(waitTime).toFixed(0)} days`}
         </p>
       </div>
     );
@@ -74,8 +74,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                 )}-appointment-wait-times-effective-date`}
               >
                 <p className="vads-u-padding-top--2">
-                  Current as of{' '}
-                  {formatDateLong(facility.access.health.effectiveDate)}
+                  Current as of {formatDateLong(facility.access.effectiveDate)}
                 </p>
                 <p className="vads-u-margin--0">
                   <a href="https://www.accesstocare.va.gov/">

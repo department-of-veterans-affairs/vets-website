@@ -32,7 +32,7 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
       '#facility-primarycare-appointment-wait-times-effective-date',
     );
     expect(facilityAppointmentWaitTimesEffectiveDate.text()).to.contain(
-      'Current as of September 22, 2020',
+      'Current as of July 27, 2020',
     );
 
     const newPatientWaitTime = tree.find(
