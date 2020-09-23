@@ -21,7 +21,7 @@ import PreferredDatePage from './components/PreferredDatePage';
 import DateTimeRequestPage from './components/DateTimeRequestPage';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
 import VAFacilityPage from './components/VAFacilityPage';
-import VAFacilityPageV2 from './components/VAFacilityPageV2';
+import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
 import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
