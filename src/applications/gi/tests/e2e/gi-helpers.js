@@ -127,7 +127,7 @@ export const calculateBenefits = () => {
 export const checkProfileHousingRate = housingRate => {
   const housingRateId = `#calculator-result-row-${createId(
     'Housing allowance',
-  )} h5`;
+  )}`;
 
   cy.get(housingRateId).should('be.visible');
 
