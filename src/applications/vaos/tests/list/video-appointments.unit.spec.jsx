@@ -49,7 +49,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(baseElement).to.contain.text('Confirmed');
     expect(baseElement).to.contain('.fa-check-circle');
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'true',
     );
@@ -120,12 +120,12 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'false',
     );
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'href',
       'http://videourl.va.gov',
     );
@@ -177,12 +177,12 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'false',
     );
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'href',
       'http://videourl.va.gov',
     );
@@ -235,12 +235,12 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'false',
     );
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'href',
       'http://videourl.va.gov',
     );
@@ -298,7 +298,7 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     // Using queryByText since it won't throw an execption when not found.
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.queryByText(/join session/i)).not.to.exist;
+    expect(screen.queryByText(/join appointment/i)).not.to.exist;
   });
 
   it('should reveal medication review instructions', async () => {
@@ -424,7 +424,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(baseElement).to.contain.text('Canceled');
     expect(baseElement).to.contain('.fa-exclamation-circle');
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'true',
     );
@@ -502,7 +502,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(baseElement).to.contain.text('Confirmed');
     expect(baseElement).to.contain('.fa-check-circle');
 
-    expect(queryByText(/join session/i)).to.not.exist;
+    expect(queryByText(/join appointment/i)).to.not.exist;
     expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
     expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');

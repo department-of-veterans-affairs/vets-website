@@ -48,6 +48,18 @@ export default function VideoLink({ appointment }) {
 
     return (
       <div className="vaos-appts__video-visit">
+        {disableVideoLink && (
+          <span
+            id={`description-join-link-${appointment.id}`}
+            className="vads-u-display--block"
+          >
+            You can join this meeting from your home or anywhere you have a
+            secure Internet connnection.
+            <br />
+            You can join VA Video Connect up to 30 minutes prior to the start
+            time
+          </span>
+        )}
         <a
           aria-describedby={
             disableVideoLink
@@ -61,16 +73,8 @@ export default function VideoLink({ appointment }) {
           className={linkClasses}
           onClick={disableVideoLink ? e => e.preventDefault() : undefined}
         >
-          Join session
+          Join appointment
         </a>
-        {disableVideoLink && (
-          <span
-            id={`description-join-link-${appointment.id}`}
-            className="vads-u-display--block vads-u-font-style--italic"
-          >
-            You can join VA Video Connect 30 minutes prior to the start time
-          </span>
-        )}
       </div>
     );
   }
