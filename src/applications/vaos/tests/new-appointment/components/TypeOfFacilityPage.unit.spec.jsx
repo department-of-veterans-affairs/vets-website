@@ -47,12 +47,12 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     });
 
     fireEvent.click(screen.getByRole('button', { name: /continue »/i }));
-    await expect(screen.getByRole('alert')).to.contain.text(
+    expect(await screen.findByRole('alert')).to.contain.text(
       'Please provide a response',
     );
   });
 
-  it('should show form with single required facility question, fill, and submit', async () => {
+  it('should continue to the correct page based on type choice', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfFacilityPage} />,
