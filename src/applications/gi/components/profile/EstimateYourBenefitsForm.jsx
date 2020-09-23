@@ -978,6 +978,7 @@ class EstimateYourBenefitsForm extends React.Component {
           text: 'Will be working',
           modal: 'calcWorking',
           ariaLabel: ariaLabels.learnMore.calcWorking,
+          labelFor: 'working',
         })}
         name="working"
         alt="Will be working"
