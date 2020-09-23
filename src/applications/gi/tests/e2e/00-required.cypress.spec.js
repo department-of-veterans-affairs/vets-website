@@ -2,7 +2,6 @@ import { initApplicationMock } from './cypress-helpers';
 import institutionProfile from '../data/institution-profile.json';
 import searchResults from '../data/search-results.json';
 import {
-  search,
   selectSearchResult,
   displayLearnMoreModal,
   collapseExpandAccordion,
@@ -23,7 +22,12 @@ describe('Institution', () => {
     // Landing Page
 
     cy.axeCheck();
-    search(institutionAttributes.name);
+
+    cy.get('.keyword-search input[type="text"]').type(
+      institutionAttributes.name,
+    );
+    cy.get('#search-button').click();
+    cy.axeCheck();
 
     // Search Page
     checkSearchResults(searchResults);
