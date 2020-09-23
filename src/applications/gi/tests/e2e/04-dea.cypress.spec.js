@@ -18,7 +18,9 @@ describe('DEA benefit', () => {
   const facilityCode = deaSearchResults.data[1].attributes.facility_code;
 
   beforeEach(() => {
-    cy.route('GET', `/v0/gi/institutions/${ojtFacilityCode}`, ojtProfile);
+    cy.route('GET', `/v0/gi/institutions/${ojtFacilityCode}`, ojtProfile).as(
+      'ojtProfile',
+    );
     initApplicationMock(institutionProfile, deaSearchResults);
     cy.visit('/gi-bill-comparison-tool').injectAxe();
     cy.axeCheck();
@@ -34,6 +36,7 @@ describe('DEA benefit', () => {
     cy.get('#search-button').click();
 
     // Search page
+    cy.wait('@defaultSearch');
     cy.url().should('include', `/search?category=school&name=${searchTerm}`);
 
     // verify search results and housing rates
@@ -64,11 +67,13 @@ describe('DEA benefit', () => {
     // Click first result
     cy.get(`#search-result-${ojtFacilityCode} a`)
       .first()
-      .click();
+      .should('be.visible')
+      .click({ force: true });
 
     // Profile page
-    cy.get('.profile-page').should('be.visible');
+    cy.wait('@ojtProfile');
     cy.url().should('include', `/profile/${ojtFacilityCode}`);
+    cy.get('.profile-page').should('be.visible');
 
     // Check accordions
     const eybSections = {
@@ -104,14 +109,21 @@ describe('DEA benefit', () => {
     cy.get('#search-button').click();
 
     // Search page
+    cy.wait('@defaultSearch');
     cy.url().should('include', `/search?category=school&name=${searchTerm}`);
+
+    cy.get(`#search-result-${facilityCode} a`)
+      .first()
+      .scrollIntoView();
 
     // Select the second search result
     cy.get(`#search-result-${facilityCode} a`)
       .first()
-      .click();
+      .should('be.visible')
+      .click({ force: true });
 
     // Profile page
+    cy.wait(`@profile${facilityCode}`);
     cy.url().should('include', `/profile/${facilityCode}`);
     cy.get('.profile-page').should('be.visible');
 
