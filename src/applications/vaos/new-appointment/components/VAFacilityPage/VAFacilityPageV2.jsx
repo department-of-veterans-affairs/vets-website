@@ -37,7 +37,7 @@ function VAFacilityPageV2({
   facilities,
   childFacilitiesStatus,
   openFacilityPageV2,
-  updateFacilityPageV2Data,
+  updateFormData,
   typeOfCare,
   routeToPreviousAppointmentPage,
   pageChangeInProgress,
@@ -67,9 +67,7 @@ function VAFacilityPageV2({
           title="VA Facility"
           schema={schema}
           uiSchema={uiSchema}
-          onChange={newData =>
-            updateFacilityPageV2Data(pageKey, uiSchema, newData)
-          }
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
           data={data}
           formContext={{ facilities }}
         >
@@ -90,7 +88,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   openFacilityPageV2: actions.openFacilityPageV2,
-  updateFacilityPageV2Data: actions.updateFacilityPageV2Data,
+  updateFormData: actions.updateFormData,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
 };

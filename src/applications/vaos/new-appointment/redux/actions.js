@@ -314,12 +314,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   };
 }
 
-export function updateFacilityPageV2Data(page, uiSchema, data) {
-  return async dispatch => {
-    dispatch(updateFormData(page, uiSchema, data));
-  };
-}
-
 /*
  * The facility page can be opened with data in a variety of states and conditions.
  * We always need the list of parents (VAMCs) they can access. After that:
