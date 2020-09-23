@@ -39,6 +39,7 @@ function JoinVideoInstructions({ appointment }) {
 
 export default function VideoVisitSection({ appointment }) {
   const isAtlas = isAtlasLocation(appointment);
+  const isGFE = isVideoGFE(appointment);
 
   let linkContent = <span>Video visit link unavailable</span>;
 
@@ -46,9 +47,11 @@ export default function VideoVisitSection({ appointment }) {
     return <span>Video conference</span>;
   }
 
-  if (isVideoGFE(appointment)) {
+  if (isGFE) {
     linkContent = (
-      <span>Join the video session from the device provided by the VA.</span>
+      <span>
+        You can join this video meeting using a device provided by VA.
+      </span>
     );
   } else if (isAtlas) {
     linkContent = <JoinVideoInstructions appointment={appointment} />;
@@ -100,7 +103,8 @@ export default function VideoVisitSection({ appointment }) {
   return (
     <dl className="vads-u-margin--0">
       <dt className="vads-u-font-weight--bold">
-        How to join your {isAtlas ? 'video appointment' : 'virtual session'}
+        How to join your{' '}
+        {isAtlas || isGFE ? 'video appointment' : 'virtual session'}
       </dt>
       <dd>
         {linkContent}

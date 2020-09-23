@@ -8,7 +8,7 @@ export default function AppointmentDateTime({
   appointmentDate,
   timezone,
   facilityId,
-  isAtlas,
+  newFormat,
 }) {
   if (!appointmentDate.isValid()) {
     return null;
@@ -16,7 +16,7 @@ export default function AppointmentDateTime({
 
   return (
     <>
-      {!isAtlas && (
+      {!newFormat && (
         <>
           {appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}{' '}
           <span aria-hidden="true">
@@ -28,7 +28,7 @@ export default function AppointmentDateTime({
           </span>
         </>
       )}
-      {isAtlas && (
+      {newFormat && (
         <>
           {appointmentDate.format('dddd, MMMM D, YYYY')} <br />
           {appointmentDate.format('h:mm a')}{' '}

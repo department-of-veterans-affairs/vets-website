@@ -241,48 +241,58 @@ describe('VAOS integration: upcoming video appointments', () => {
   });
 
   it('should show message about when to join if mobile gfe', async () => {
+    const startDate = moment().add(30, 'minutes');
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
       facilityId: '983',
       clinicId: null,
-      startDate: moment()
-        .add(30, 'minutes')
-        .format(),
+      startDate: startDate.format(),
     };
     appointment.attributes.vvsAppointments[0] = {
       ...appointment.attributes.vvsAppointments[0],
-      dateTime: moment()
-        .add(30, 'minutes')
-        .format(),
+      dateTime: startDate.format(),
       appointmentKind: 'MOBILE_GFE',
       status: { description: 'F', code: 'FUTURE' },
     };
     mockAppointmentInfo({ va: [appointment] });
 
-    const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      initialState,
+    });
 
-    await findByText(
-      new RegExp(
-        moment()
-          .tz('America/Denver')
-          .add(30, 'minutes')
-          .format('dddd, MMMM D, YYYY'),
-        'i',
+    await screen.findByText(/Video appointment using a VA device/i);
+
+    // Should display appointment date
+    expect(
+      screen.getByText((content, _element) =>
+        content.startsWith(startDate.format('dddd, MMMM D, YYYY ')),
       ),
-    );
+    ).to.be.ok;
 
-    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(queryByText(/join session/i)).not.to.exist;
+    // Should display appointment status
+    expect(screen.getByText(/Confirmed/i)).to.be.ok;
 
-    expect(baseElement).to.contain.text(
-      'Join the video session from the device provided by the VA',
-    );
+    // Should display how to join instructions
+    expect(screen.getByText(/How to join your video appointment/i)).to.be.ok;
+    expect(
+      screen.getByText(
+        /You can join this video meeting using a device provided by VA./i,
+      ),
+    ).to.be.ok;
+
+    // Should display button to add appointment to calendar
+    expect(
+      screen.getByRole('link', {
+        name: `Add ${startDate.format(
+          'MMMM D, YYYY',
+        )} appointment to your calendar`,
+      }),
+    ).to.be.ok;
+
+    // Using queryByText since it won't throw an execption when not found.
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.queryByText(/join session/i)).not.to.exist;
   });
 
   it('should reveal medication review instructions', async () => {
