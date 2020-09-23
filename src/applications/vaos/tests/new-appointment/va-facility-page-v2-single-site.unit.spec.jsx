@@ -3,13 +3,8 @@ import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
-import {
-  getParentSiteMock,
-  getFacilityMock,
-  getVAFacilityMock,
-} from '../mocks/v0';
+import { getParentSiteMock, getFacilityMock } from '../mocks/v0';
 import {
   createTestStore,
   setTypeOfCare,
@@ -19,7 +14,6 @@ import {
   mockEligibilityFetches,
   mockParentSites,
   mockSupportedFacilities,
-  mockFacilityFetch,
 } from '../mocks/helpers';
 
 const initialState = {
@@ -32,17 +26,6 @@ const initialState = {
     profile: {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
-  },
-};
-
-const parentSite983 = {
-  id: '983',
-  attributes: {
-    ...getParentSiteMock().attributes,
-    institutionCode: '983',
-    authoritativeName: 'Some VA facility',
-    rootStationCode: '983',
-    parentStationCode: '983',
   },
 };
 
