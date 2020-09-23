@@ -1,7 +1,7 @@
 import path from 'path';
 import {
   assertDataLayerEvent,
-  assertDataLayerItem,
+  assertDataLayerLastItems,
   assertEventAndAttributes,
 } from './utils';
 
@@ -57,7 +57,11 @@ describe('Google Analytics FL Events', () => {
         yMoveFactor: 1 / 3,
       });
       cy.get('#map-id', { timeout: 10000 }).should(() => {
-        assertDataLayerItem(win, 'fl-map-miles-moved');
+        assertDataLayerLastItems(
+          win,
+          ['event', 'fl-map-miles-moved'],
+          'fl-search',
+        );
       });
 
       cy.findByText(/austin va clinic/i, { selector: 'a' })

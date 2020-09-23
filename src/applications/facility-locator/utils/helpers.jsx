@@ -284,7 +284,10 @@ export const recordZoomPanEvents = (e, searchCoords, currentZoomLevel) => {
     );
 
     if (distanceMoved > 0) {
-      recordEvent({ 'fl-map-miles-moved': distanceMoved });
+      recordEvent({
+        event: 'fl-search',
+        'fl-map-miles-moved': distanceMoved,
+      });
     }
   }
 };

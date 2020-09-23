@@ -37,7 +37,7 @@ class SearchControls extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { facilityType, serviceType } = this.props.currentQuery;
+    const { facilityType, serviceType, zoomLevel } = this.props.currentQuery;
 
     let analyticsServiceType = serviceType;
 
@@ -56,6 +56,7 @@ class SearchControls extends Component {
       event: 'fl-search',
       'fl-search-fac-type': facilityType,
       'fl-search-svc-type': analyticsServiceType,
+      'fl-current-zoom-depth': zoomLevel,
     });
 
     this.props.onSubmit();
