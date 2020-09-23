@@ -18,14 +18,17 @@ export function mockAppointmentInfo({
 }) {
   mockFetch();
 
-  const vaUrl = `${
+  const baseUrl = `${
     environment.API_URL
   }/vaos/v0/appointments?start_date=${moment()
     .startOf('day')
     .toISOString()}&end_date=${moment()
     .add(13, 'months')
     .startOf('day')
-    .toISOString()}&type=va`;
+    .toISOString()}`;
+
+  const vaUrl = `${baseUrl}&type=va`;
+  const ccUrl = `${baseUrl}&type=cc`;
 
   if (vaError) {
     setFetchJSONFailure(global.fetch.withArgs(vaUrl), { errors: [] });
@@ -33,16 +36,8 @@ export function mockAppointmentInfo({
     setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
   }
 
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment().format(
-        'YYYY-MM-DD',
-      )}&end_date=${moment()
-        .add(13, 'months')
-        .format('YYYY-MM-DD')}&type=cc`,
-    ),
-    { data: cc },
-  );
+  setFetchJSONResponse(global.fetch.withArgs(ccUrl), { data: cc });
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointment_requests?start_date=${moment()
@@ -55,27 +50,20 @@ export function mockAppointmentInfo({
 
 export function mockPastAppointmentInfo({ va = [], cc = [] }) {
   mockFetch();
-  const vaUrl = `${
+  const baseUrl = `${
     environment.API_URL
   }/vaos/v0/appointments?start_date=${moment()
     .startOf('day')
     .add(-3, 'months')
     .toISOString()}&end_date=${moment()
-    .startOf('day')
-    .toISOString()}&type=va`;
+    .set('milliseconds', 0)
+    .toISOString()}`;
+
+  const vaUrl = `${baseUrl}&type=va`;
+  const ccUrl = `${baseUrl}&type=cc`;
 
   setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
-        .add(-3, 'months')
-        .startOf('day')
-        .format()}&end_date=${moment()
-        .startOf('day')
-        .format()}&type=cc`,
-    ),
-    { data: cc },
-  );
+  setFetchJSONResponse(global.fetch.withArgs(ccUrl), { data: cc });
 }
 
 export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {

@@ -30,7 +30,11 @@ export async function getBookedAppointments({ startDate, endDate }) {
         moment(startDate).toISOString(),
         moment(endDate).toISOString(),
       ),
-      getConfirmedAppointments('cc', startDate, endDate),
+      getConfirmedAppointments(
+        'cc',
+        moment(startDate).toISOString(),
+        moment(endDate).toISOString(),
+      ),
     ]);
 
     return transformConfirmedAppointments([
