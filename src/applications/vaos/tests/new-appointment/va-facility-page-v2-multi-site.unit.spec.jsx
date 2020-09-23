@@ -163,7 +163,7 @@ describe('VAOS integration: VA flat facility page', () => {
     expect(screen.baseElement).not.to.contain.text(
       'San Diego VA medical center 5',
     );
-    const moreLocationsBtn = screen.getByText('+ 2 more locations');
+    const moreLocationsBtn = screen.getByText('+ 1 more location');
     expect(moreLocationsBtn).to.have.tagName('span');
     fireEvent.click(moreLocationsBtn);
     expect(screen.baseElement).to.contain.text('San Diego VA medical center 5');
