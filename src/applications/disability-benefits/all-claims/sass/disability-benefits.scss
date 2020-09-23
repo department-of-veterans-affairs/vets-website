@@ -159,6 +159,10 @@ div.review {
   font-weight: normal;
 }
 
+.capitalize-first-letter::first-letter {
+  text-transform: capitalize;
+}
+
 @media (min-width: 481px) {
   dl.review,
   div.review {

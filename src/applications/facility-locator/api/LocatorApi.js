@@ -1,6 +1,7 @@
 import { api, resolveParamsWithUrl, urgentCareServices } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { FacilityType } from '../constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 class LocatorApi {
   /**
@@ -30,7 +31,7 @@ class LocatorApi {
       page,
       bounds,
     );
-
+    const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
         .then(async res => {
@@ -55,6 +56,12 @@ class LocatorApi {
           } else {
             return response;
           }
+        })
+        .then(res => {
+          const endTime = new Date().getTime();
+          const returnTime = endTime - startTime;
+          recordEvent({ 'fl-time-to-return-results': returnTime });
+          return res;
         })
         .then(data => resolve(data), error => reject(error));
     });

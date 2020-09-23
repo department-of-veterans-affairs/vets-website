@@ -427,6 +427,8 @@ export const vaosExpressCare = state =>
   toggleValues(state).vaOnlineSchedulingExpressCare;
 export const vaosExpressCareNew = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
+export const vaosFlatFacilityPage = state =>
+  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 
 export const isWelcomeModalDismissed = state =>

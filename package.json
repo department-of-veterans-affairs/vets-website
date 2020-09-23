@@ -8,7 +8,7 @@
     "build": "./script/build.sh",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "build:compare": "node script/content-build-compare.js && diff --color websiteContentBuildHash.txt standaloneContentBuildHash.txt",
-    "build:content": "node --max-old-space-size=4096 script/build-content.js",
+    "build:content": "node --max-old-space-size=8192 script/build-content.js",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js",
     "cy:open": "cypress open --config-file config/cypress.json",
@@ -335,7 +335,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#1bbec5911c16a5d458e567b7f5c64e8303e295d2",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#19a471d37149c163bfa694a7b17432f8cb485d3d",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
@@ -343,6 +343,8 @@
     "**/js-yaml": "^3.13.1",
     "**/jpeg-js": "^0.4.0",
     "**/dot-prop": "^5.1.1",
+    "**/http-proxy": "^1.18.1",
+    "**/node-forge": "^0.10.0",
     "cypress": "^4.8.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
