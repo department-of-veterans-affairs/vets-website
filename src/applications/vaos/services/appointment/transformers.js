@@ -7,7 +7,6 @@ import {
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
   PURPOSE_TEXT,
-  VIDEO_TYPES,
   EXPRESS_CARE,
   UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../../utils/constants';
@@ -426,7 +425,6 @@ function setContained(appt) {
               coding: [
                 {
                   system: 'VVS',
-                  code: VIDEO_TYPES.videoConnect,
                 },
               ],
             },

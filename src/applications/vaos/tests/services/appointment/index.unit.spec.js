@@ -29,7 +29,6 @@ import { setRequestedPeriod } from '../../mocks/helpers';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  VIDEO_TYPES,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../utils/constants';
 
@@ -353,7 +352,6 @@ describe('VAOS Appointment service', () => {
             .subtract(230, 'minutes')
             .format(),
           vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
           },
         },
@@ -364,7 +362,6 @@ describe('VAOS Appointment service', () => {
             .subtract(245, 'minutes')
             .format(),
           vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
             isPastAppointment: true,
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
           },
@@ -406,7 +403,6 @@ describe('VAOS Appointment service', () => {
         description: code,
         vaos: {
           appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          videoType: VIDEO_TYPES.videoConnect,
         },
       }));
 

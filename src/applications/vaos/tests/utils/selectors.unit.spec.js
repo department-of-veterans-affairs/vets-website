@@ -23,11 +23,7 @@ import {
 } from '../../utils/selectors';
 
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import {
-  VHA_FHIR_ID,
-  APPOINTMENT_TYPES,
-  VIDEO_TYPES,
-} from '../../utils/constants';
+import { VHA_FHIR_ID, APPOINTMENT_TYPES } from '../../utils/constants';
 
 describe('VAOS selectors', () => {
   describe('getNewAppointment', () => {
@@ -525,7 +521,7 @@ describe('VAOS selectors', () => {
                 resourceType: 'HealthcareService',
                 characteristic: [
                   {
-                    coding: [{ system: 'VVS', code: VIDEO_TYPES.videoConnect }],
+                    coding: [{ system: 'VVS' }],
                   },
                 ],
                 providedBy: {
