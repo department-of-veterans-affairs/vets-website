@@ -35,7 +35,6 @@ const secondaryTwoInfoPage = {
     type: 'object',
     required: [
       secondaryCaregiverFields.secondaryTwo.fullName,
-      secondaryCaregiverFields.secondaryTwo.ssn,
       secondaryCaregiverFields.secondaryTwo.dateOfBirth,
     ],
     properties: {

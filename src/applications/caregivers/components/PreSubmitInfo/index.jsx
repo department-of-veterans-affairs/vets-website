@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import SignatureCheckbox from './SignatureCheckbox';
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
-  const veteranLabel = `Enter Veteran\u2019s or service member\u2019s full name`;
-  const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
-  const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
-  const secondaryTwoLabel =
-    'Enter Secondary Family Caregiver\u2019s (2) full name';
+  const veteranLabel = `Enter Veteran\u2019s full name`;
+  const primaryLabel = `Enter Primary Family Caregiver applicant\u2019s full name`;
+  const secondaryOneLabel = `Enter Secondary Family Caregiver applicant\u2019s full name`;
+  const secondaryTwoLabel = `Enter Secondary Family Caregiver applicant\u2019s (2) full name`;
+
   const [signatures, setSignature] = useState({
     [veteranLabel]: false,
     [primaryLabel]: false,
@@ -71,7 +71,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   );
 
   const SecondaryCaregiverCopy = ({ label }) => {
-    const header = title => `${title} or Family Member Statement of Truth`;
+    const header = title => `${title} Statement of Truth`;
     return (
       <div>
         <h3 className="vads-u-margin-top--4">{header(label)}</h3>
@@ -81,20 +81,25 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         </p>
 
         <p>
-          I certify that I am a family member of the Veteran or service member
-          named in this application or I reside with the Veteran or service
-          member or will do so upon approval.
+          I certify that I am a family member of the Veteran named in this
+          application or I reside with the Veteran, or will do so upon approval.
         </p>
 
         <p>
-          {`I agree to perform personal care services as the ${label} for the Veteran or service member named on this application.`}
+          {`I agree to perform personal care services as the ${label} for the Veteran named on this application.`}
         </p>
 
         <p>
           {`I understand that the Veteran or Veteran’s surrogate may initiate my
-            revocation as a ${label} at any time and that the VA
-            may immediately revoke this designation if I fail to comply with the
-            program requirements for continued participation in the program.`}
+            revocation as a ${label} (PCAFC) at any time. I understand that my designation 
+            as a Secondary Family Caregiver may be revoked or I may be discharged from the program 
+            by the Secretary of Veterans Affairs or his designee, as set forth in 38 CFR 71.45. `}
+        </p>
+
+        <p>
+          I understand that participation in the Program of Comprehensive
+          Assistance for Family Caregivers does not create an employment
+          relationship with the Department of Veterans Affairs.
         </p>
 
         <PrivacyPolicy />
@@ -124,7 +129,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         isRequired
         showError={showError}
       >
-        <h3>Veteran or service member statement of truth</h3>
+        <h3>Veteran&apos;s statement of truth</h3>
         <p>
           I certify that I give consent to the individual(s) named in this
           application to perform personal care services for me upon being
@@ -144,7 +149,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         showError={showError}
       >
         <h3 className="vads-u-margin-top--4">
-          Primary Family Caregiver statement of truth
+          Primary Family Caregiver applicant&apos;s statement of truth
         </h3>
 
         <p className="vads-u-margin-y--4">
@@ -152,21 +157,22 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         </p>
 
         <p>
-          I certify that I am a family member of the Veteran or service member
-          named in this application or I reside with the Veteran or service
-          member or will do so upon approval.
+          I certify that I am a family member of the Veteran named in this
+          application or I reside with the Veteran, or will do so upon approval.
         </p>
 
         <p>
           I agree to perform personal care services as the Primary Family
-          Caregiver for the Veteran or service member named on this application.
+          Caregiver for the Veteran named on this application.
         </p>
 
         <p>
-          I understand that the Veteran or Veteran’s surrogate may initiate my
-          revocation as a Primary Family Caregiver at any time and that the VA
-          may immediately revoke this designation if I fail to comply with the
-          program requirements for continued participation in the program.
+          I understand that the Veteran or Veteran’s surrogate may request my
+          discharge from the Program of Comprehensive Assistance for Family
+          Caregivers (PCAFC) at any time. I understand that my designation as a
+          Primary Family Caregiver may be revoked or I may be discharged from
+          the program by the Secretary of Veterans Affairs or his designee, as
+          set forth in 38 CFR 71.45.
         </p>
 
         <p>
@@ -187,7 +193,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           isRequired
           showError={showError}
         >
-          <SecondaryCaregiverCopy label="Secondary Family Caregiver" />
+          <SecondaryCaregiverCopy label="Secondary Family Caregiver applicant&apos;s" />
         </SignatureCheckbox>
       )}
 
@@ -200,14 +206,15 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           isRequired
           showError={showError}
         >
-          <SecondaryCaregiverCopy label="Secondary Family Caregiver (2)" />
+          <SecondaryCaregiverCopy label="Secondary Family Caregiver (2) applicant&apos;s" />
         </SignatureCheckbox>
       )}
 
       <p className="vads-u-margin-bottom--6">
-        <b>Note:</b> According to federal law, there are criminal penalties,
-        including a fine and/or imprisonment for up to 5 years, for withholding
-        information or providing incorrect information. (See 18 U.S.C. 1001)
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or providing incorrect information. (See 18
+        U.S.C. 1001)
       </p>
     </section>
   );
