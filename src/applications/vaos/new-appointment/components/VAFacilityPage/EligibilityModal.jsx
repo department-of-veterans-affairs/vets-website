@@ -84,15 +84,6 @@ export default function EligibilityModal({
     >
       <div aria-atomic="true" aria-live="assertive">
         {content}
-        {/* <p className="vads-u-margin-top--2">
-          <button
-            className="usa-button-secondary"
-            onClick={onClose}
-            disabled={status === FETCH_STATUS.loading}
-          >
-            Okay
-          </button>
-        </p> */}
       </div>
     </Modal>
   );
