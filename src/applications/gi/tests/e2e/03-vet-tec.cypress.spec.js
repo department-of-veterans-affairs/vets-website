@@ -37,12 +37,17 @@ describe('VETTEC', () => {
     }`;
 
     cy.get(`a[href*="${profileLink}"]`)
-      .click()
-      .url()
-      .should('include', profileLink)
-      .axeCheck();
+      .first()
+      .should('be.visible')
+      .click({ force: true });
 
     // Profile Page
+    cy.wait(`@profile${vetTecAttributes.facility_code}`)
+      .url()
+      .should('include', profileLink.replaceAll(' ', '%20'))
+      .get('.profile-page')
+      .should('be.visible')
+      .axeCheck();
 
     displayLearnMoreModal();
     // Approved programs

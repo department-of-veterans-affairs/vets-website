@@ -1,4 +1,4 @@
-import { initApplicationMock, FORCE_OPTION } from './cypress-helpers';
+import { initApplicationMock } from './cypress-helpers';
 import { selectSearchResult } from './gi-helpers';
 
 const institutionProfile = require('../data/institution-profile.json');
@@ -20,7 +20,7 @@ describe('GI Bill Comparison Tool mobile view', () => {
     // Landing Page
 
     const selector = `input[name="category"][value="school"]`;
-    cy.get(selector).check(FORCE_OPTION);
+    cy.get(selector).check({ force: true });
     cy.axeCheck();
 
     cy.get('.keyword-search input[type="text"]').type(
@@ -31,11 +31,11 @@ describe('GI Bill Comparison Tool mobile view', () => {
 
     // Search Page
     cy.get('[data-cy=filter-button').should('be.visible');
-    cy.get('[data-cy=filter-button').click(FORCE_OPTION);
+    cy.get('[data-cy=filter-button').click({ force: true });
 
     cy.axeCheck();
 
-    cy.get('[data-cy=see-results]').click(FORCE_OPTION);
+    cy.get('[data-cy=see-results]').click({ force: true });
     cy.axeCheck();
 
     const profileLink = `/profile/${

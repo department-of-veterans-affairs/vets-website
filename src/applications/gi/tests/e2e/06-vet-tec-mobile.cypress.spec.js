@@ -1,11 +1,7 @@
 import { initMockProfile } from './cypress-helpers';
 import vetTecProfile from '../data/vet-tec-profile.json';
 import vetTecSearchResults from '../data/vet-tec-search-results.json';
-import {
-  search,
-  selectSearchResult,
-  verifyVetTecSearchResults,
-} from './gi-helpers';
+import { verifyVetTecSearchResults } from './gi-helpers';
 
 describe('VETTEC', () => {
   beforeEach(() => {
@@ -23,7 +19,10 @@ describe('VETTEC', () => {
     cy.get('input[name="category"][value="vettec"]').check();
     cy.axeCheck();
 
-    search();
+    cy.get('#search-button').click();
+    cy.url().should('include', '/program-search');
+    cy.axeCheck();
+
     cy.get('.filter-button').click();
     cy.axeCheck();
 
@@ -38,9 +37,16 @@ describe('VETTEC', () => {
       vetTecAttributes.description
     }`;
 
-    selectSearchResult(profileLink);
+    cy.get(`a[href*="${profileLink}"]`)
+      .first()
+      .should('be.visible')
+      .click({ force: true });
 
     // Profile Page
-    cy.axeCheck();
+    cy.wait(`@profile${vetTecAttributes.facility_code}`)
+      .url()
+      .should('include', profileLink.replaceAll(' ', '%20'))
+      .get('.profile-page')
+      .axeCheck();
   });
 });

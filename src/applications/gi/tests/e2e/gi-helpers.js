@@ -3,29 +3,6 @@ import calculatorConstantsJson from '../data/calculator-constants.json';
 import searchResults from '../data/search-results.json';
 import vetTecSearchResults from '../data/vet-tec-search-results.json';
 
-export const search = searchTerm => {
-  if (searchTerm) {
-    cy.get('.keyword-search input[type="text"]').type(searchTerm);
-  }
-
-  cy.get('#search-button').click();
-
-  if (searchTerm) {
-    cy.url().should('include', '/search');
-  } else {
-    cy.url().should('include', '/program-search');
-  }
-};
-
-export const selectSearchResult = (href, checkLocation = true) => {
-  cy.get(`a[href*="${href}"]`)
-    .first()
-    .click();
-  if (checkLocation) cy.url().should('include', href);
-
-  cy.axeCheck();
-};
-
 export const displayLearnMoreModal = () => {
   cy.get('.learn-more-button')
     .first()

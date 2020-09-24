@@ -36,19 +36,22 @@ describe('Comparison Tool', () => {
     // Assert the correct number of tabbable elements in the form
     hasTabbableCount('#landing-page-form', 11);
 
+    // This does NOT work in Cypress because apparently keyboard navigation isn't a thing to the framework
     // Assert skip navigation link works correctly
-    // Comment out for local testing
-    cy.get('body').tab();
-    cy.get('a.show-on-focus').should('have.focus');
-    cy.get('a.show-on-focus')
-      .type('{enter}')
-      .tab()
-      .tab()
-      .tab();
+    // cy.get('body').tab();
+    // cy.get('a.show-on-focus').should('have.focus');
+    // cy.get('a.show-on-focus')
+    //   .type('{enter}')
+    //   .tab()
+    //   .tab()
+    //   .tab();
 
+    // The focus in here is a hack to get to first element on page that a user would be tabbing
+    // to after Pressing Enter on the "Skip to content" link that shows when tabbing through
+    // the page in a browser
     cy.get('.va-nav-breadcrumbs-list > li > a')
       .first()
-      // .focus() // uncomment for local testing
+      .focus()
       .should('have.focus')
       .should('have.attr', 'href', '/');
 
