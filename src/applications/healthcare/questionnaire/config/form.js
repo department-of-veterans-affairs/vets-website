@@ -7,6 +7,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import AppointmentInfoBox from '../components/AppointmentInfoBox';
 import ReasonForVisit from '../components/reason-for-visit';
 import ChiefComplaint from '../components/chief-complaint';
+import GetHelpFooter from '../components/footer/GetHelpFooter';
+
 // import AdditionalQuestions from '../components/additional-questions'
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -23,6 +25,8 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   version: 0,
   prefillEnabled: true,
+  footerContent: GetHelpFooter,
+  // getHelp: GetHelpFooter,
   savedFormMessages: {
     notFound: 'Please start over to apply for Upcoming Visit questionnaire.',
     noAuth:
@@ -99,7 +103,8 @@ const formConfig = {
             questions: {
               items: {
                 additionalQuestions: {
-                  'ui:title': 'Your Question',
+                  'ui:title':
+                    'Do you have other questions you want to ask your provider? Please enter them below with your most important question listed first.',
                 },
               },
               'ui:options': {
@@ -110,12 +115,7 @@ const formConfig = {
                 },
               },
               // 'ui:reviewField': AdditionalQuestions.review,
-              'ui:title': (
-                <span style={{ fontWeight: 'normal' }}>
-                  Do you have any other additional questions you want to discuss
-                  with your provider?
-                </span>
-              ),
+              'ui:title': 'Ranked questions for your provider',
             },
           },
           schema: {
