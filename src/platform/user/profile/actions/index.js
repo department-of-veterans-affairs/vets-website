@@ -46,8 +46,19 @@ export function initializeProfile() {
       await dispatch(refreshProfile());
       dispatch(updateLoggedInStatus(true));
     } catch (error) {
-      dispatch(updateLoggedInStatus(false));
-      teardownProfileSession();
+      /* If the fetch fails the first time, try again to ensure the profile should actually be torn down */
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        try {
+          await dispatch(refreshProfile());
+          dispatch(updateLoggedInStatus(true));
+        } catch (e) {
+          dispatch(updateLoggedInStatus(false));
+          teardownProfileSession();
+        }
+      } else {
+        dispatch(updateLoggedInStatus(false));
+        teardownProfileSession();
+      }
     }
   };
 }
