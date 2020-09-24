@@ -31,6 +31,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
   const invalidVeteranStatus =
     !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
 
+  // When the user is not authorized, militaryInformation.serviceHistory is populated with .error
   if (
     invalidVeteranStatus &&
     !militaryInformation?.serviceHistory?.serviceHistory
