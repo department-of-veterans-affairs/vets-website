@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import { VeteranInfoView } from '../../content/VeteranInformation';
+import { VeteranInfoView } from '../../content/veteranInformation';
 import { SAVED_CLAIM_TYPE } from '../../constants';
 
 describe('veteranInformation', () => {

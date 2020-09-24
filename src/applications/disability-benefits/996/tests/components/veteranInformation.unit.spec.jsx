@@ -6,7 +6,7 @@ import moment from 'moment';
 import { genderLabels } from 'platform/static-data/labels';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import { VeteranInfoView } from '../../content/VeteranInformation';
+import { VeteranInfoView } from '../../content/veteranInformation';
 
 const data = {
   veteran: {
