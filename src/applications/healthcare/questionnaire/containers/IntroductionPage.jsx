@@ -28,7 +28,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
+          startText="Start the questionnaire"
         >
           Please complete the HC-QSTNR form to apply for Upcoming Visit
           questionnaire.
@@ -139,7 +139,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
+          startText="Start the questionnaire"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo ombNumber="0000-0000" expDate="mm/dd/yyyy" />
