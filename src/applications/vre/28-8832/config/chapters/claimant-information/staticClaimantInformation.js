@@ -5,7 +5,4 @@ export const schema = claimantStaticInformation;
 
 export const uiSchema = {
   'ui:description': ClaimantInformationComponent,
-  'ui:options': {
-    hideOnReview: true,
-  },
 };
