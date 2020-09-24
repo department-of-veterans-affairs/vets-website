@@ -83,11 +83,11 @@ describe('MilitaryInformation', () => {
       const entries = view.queryAllByRole('listitem');
 
       expect(entries.length).to.equal(2);
-      expect(entries[0]).to.contain.text('Unknown');
+      expect(entries[0]).to.contain.text('Unknown branch of service');
       expect(entries[0]).to.contain.text('Dates of service: April 12, 2009');
       expect(entries[0]).to.contain.text('April 11, 2013');
 
-      expect(entries[1]).to.contain.text('Unknown');
+      expect(entries[1]).to.contain.text('Unknown branch of service');
       expect(entries[1]).to.contain.text('Dates of service: April 12, 2005');
       expect(entries[1]).to.contain.text('April 11, 2009');
     });
