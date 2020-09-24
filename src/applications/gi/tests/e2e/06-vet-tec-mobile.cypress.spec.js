@@ -45,7 +45,7 @@ describe('VETTEC', () => {
     // Profile Page
     cy.wait(`@profile${vetTecAttributes.facility_code}`)
       .url()
-      .should('include', profileLink.replaceAll(' ', '%20'))
+      .should('include', vetTecAttributes.facility_code)
       .get('.profile-page');
     cy.get('body').axeCheck();
   });
