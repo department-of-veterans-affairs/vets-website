@@ -80,7 +80,7 @@ describe('Facility search', () => {
     cy.get('#facility-search').click();
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', { _13647Exception: true });
 
     cy.get('.facility-result a').should('exist');
     cy.route(
@@ -93,7 +93,7 @@ describe('Facility search', () => {
       .first()
       .click();
 
-    cy.axeCheck();
+    cy.axeCheck('main', { _13647Exception: true });
 
     cy.get('.all-details').should('exist');
 
@@ -169,7 +169,7 @@ describe('Facility search', () => {
     cy.get('#other-tools').should('exist');
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', { _13647Exception: true });
 
     cy.get('.facility-result h3').contains('Concentra Urgent Care');
     cy.get('.va-pagination').should('not.exist');
@@ -190,7 +190,7 @@ describe('Facility search', () => {
     cy.get('#other-tools').should('exist');
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', { _13647Exception: true });
 
     cy.get('.facility-result h3').contains('MinuteClinic');
     cy.get('.va-pagination').should('not.exist');
@@ -231,7 +231,7 @@ describe('Facility search', () => {
     cy.get('.facility-search-results').contains(
       /Something’s not quite right. Please enter a valid or different location and try your search again./gi,
     );
-    cy.axeCheck();
+    cy.axeCheck('main', { _13647Exception: true });
 
     // Valid location search
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data').as(
@@ -245,7 +245,7 @@ describe('Facility search', () => {
       'Results for "VA health", "Primary care" near "Austin, Texas"',
     );
     cy.get('.facility-result a').should('exist');
-    cy.axeCheck();
+    cy.axeCheck('main', { _13647Exception: true });
   });
 
   it('finds va benefits facility in Los Angeles and views its page', () => {
@@ -264,7 +264,7 @@ describe('Facility search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.axeCheck();
+    cy.axeCheck('main', { _13647Exception: true });
 
     cy.get('.facility-result a').contains('Los Angeles Ambulatory Care Center');
     cy.findByText(/Los Angeles Ambulatory Care Center/i, { selector: 'a' })
@@ -280,7 +280,7 @@ describe('Facility search', () => {
     cy.get('#hours-op h3').contains('Hours of operation');
     cy.get('#other-tools').should('not.exist');
 
-    cy.axeCheck();
+    cy.axeCheck('main', { _13647Exception: true });
   });
 
   it.skip('renders static map images on detail page', () => {

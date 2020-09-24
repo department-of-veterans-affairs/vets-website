@@ -55,7 +55,9 @@ describe('VAOS Appointment service', () => {
         ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=va`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
+        `/vaos/v0/appointments?start_date=${moment(
+          startDate,
+        ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=cc`,
       );
       expect(data[0].status).to.equal('booked');
     });
@@ -84,7 +86,9 @@ describe('VAOS Appointment service', () => {
         ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=va`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
+        `/vaos/v0/appointments?start_date=${moment(
+          startDate,
+        ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=cc`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
