@@ -284,16 +284,17 @@
       ]
     },
     "preferredContactMethod": {
+      "default": "email",
       "type": "string",
       "enum": [
         "email",
-        "mail",
-        "phone"
+        "phone",
+        "mail"
       ],
       "enumNames": [
-        "Email",
-        "Mail",
-        "Phone"
+        "Email (Recommended)",
+        "Phone",
+        "US Mail"
       ]
     },
     "topic": {
