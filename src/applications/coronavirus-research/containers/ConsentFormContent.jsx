@@ -39,11 +39,10 @@ export function ConsentNotice() {
         </li>{' '}
         <li>
           <strong>Privacy:</strong> We’ll include your information in our secure
-          electronic database. We’ll only give access to it to people with
-          permission. This includes people who need your information for our
-          COVID-19 studies or certain U.S. government requests. But there’s
-          always a small risk that someone who shouldn’t have your information
-          could get access to it.
+          electronic database. We'll only give access to the database to people
+          with permission, and we won't share your information with anyone
+          outside of VA. But there’s always a small risk that someone who
+          shouldn’t have your information could get access to it.
         </li>{' '}
         <li>
           <strong>Your legal rights:</strong> You’ll keep all your legal rights
