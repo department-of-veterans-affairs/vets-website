@@ -6,8 +6,12 @@ import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI
 
 import { veteranStatusUI } from './veteranStatusUI';
 import fullSchema from '../../0873-schema.json';
-import pageDescription from '../../content/PageDescription';
 import * as address from '../../contactInformation/address/address';
+import {
+  contactInformationPageDescription,
+  preferredContactMethodTitle,
+  phoneTitle,
+} from '../../content/labels';
 
 const { email, phone } = fullSchema.definitions;
 
@@ -29,7 +33,7 @@ const formFields = {
 
 const contactInformationPage = {
   uiSchema: {
-    'ui:description': pageDescription('Your contact info'),
+    'ui:description': contactInformationPageDescription,
     [formFields.fullName]: fullNameUI,
     [formFields.address]: address.uiSchema(
       '',
@@ -42,7 +46,7 @@ const contactInformationPage = {
     [formFields.phoneNumber]: set(
       'ui:required',
       (formData, _index) => formData.preferredContactMethod === 'phone',
-      phoneUI('Daytime Phone'),
+      phoneUI(phoneTitle),
     ),
     [formFields.email]: set(
       'ui:required',
@@ -51,7 +55,7 @@ const contactInformationPage = {
     ),
     [formFields.verifyEmail]: confirmationEmailUI('', formFields.email),
     [formFields.preferredContactMethod]: {
-      'ui:title': 'How should we get in touch with you?',
+      'ui:title': preferredContactMethodTitle,
       'ui:widget': 'radio',
     },
     [formFields.veteranStatus]: veteranStatusUI,
