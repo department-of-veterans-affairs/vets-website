@@ -5,12 +5,12 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
 
 import { veteranStatusUI } from './veteranStatusUI';
-import pageDescription from '../../content/PageDescription';
 import fullSchema from '../../0873-schema.json';
 import * as address from '../../contactInformation/address/address';
 import {
   contactInformationPageDescription,
   preferredContactMethodTitle,
+  phoneTitle,
 } from '../../content/labels';
 
 const { email, phone } = fullSchema.definitions;
@@ -46,7 +46,7 @@ const contactInformationPage = {
     [formFields.phoneNumber]: set(
       'ui:required',
       (formData, _index) => formData.preferredContactMethod === 'phone',
-      phoneUI('Daytime Phone'),
+      phoneUI(phoneTitle),
     ),
     [formFields.email]: set(
       'ui:required',
