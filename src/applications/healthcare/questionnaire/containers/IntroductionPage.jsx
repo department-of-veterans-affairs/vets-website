@@ -18,7 +18,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro healthcare-experience">
         <FormTitle title="Upcoming appointment questionnaire" />
-        <p className="sub-heading">Douglas VA Medical Center</p>
+        <h2 className="sub-heading">Douglas VA Medical Center</h2>
         <p>
           Better prepare yourself and your provider for your upcoming
           appointment with this questionnaire.
@@ -34,10 +34,10 @@ class IntroductionPage extends React.Component {
           questionnaire.
         </SaveInProgressIntro>
         <section>
-          <h2>
+          <h3>
             Can I use this questionnaire for medical emergencies or urgent
             needs?
-          </h2>
+          </h3>
           <p>
             If you think you have a medical emergency, call 911 or go to the
             nearest emergency room.
@@ -80,10 +80,10 @@ class IntroductionPage extends React.Component {
           </section>
         </section>
         <section>
-          <h2>
+          <h3>
             How will my personal health information be protected and shared if I
             use this questionnaire?
-          </h2>
+          </h3>
           <p>
             The information that you enter will be shared with your provider and
             added to your medical record. After it becomes part of your medical
@@ -103,7 +103,7 @@ class IntroductionPage extends React.Component {
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              <h5>Prepare</h5>
+              <h4>Prepare</h4>
               <ul>
                 <li>
                   Think through any health concerns or life events that are
@@ -117,7 +117,7 @@ class IntroductionPage extends React.Component {
               </ul>
             </li>
             <li className="process-step list-two">
-              <h5>Fill out upcoming appointment information</h5>
+              <h4>Fill out upcoming appointment information</h4>
               <p>
                 Complete the questionnaire [some time period] before your
                 appointment. After submitting, your information will be securely
@@ -127,7 +127,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-three">
-              <h5>Attend your upcoming appointment</h5>
+              <h4>Attend your upcoming appointment</h4>
               <p>
                 Your appointment is where your provider will discuss the
                 information you entered with you in more detail.
