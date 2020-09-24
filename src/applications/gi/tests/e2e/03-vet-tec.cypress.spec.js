@@ -46,8 +46,8 @@ describe('VETTEC', () => {
       .url()
       .should('include', profileLink.replaceAll(' ', '%20'))
       .get('.profile-page')
-      .should('be.visible')
-      .axeCheck();
+      .should('be.visible');
+    cy.axeCheck();
 
     displayLearnMoreModal();
     // Approved programs

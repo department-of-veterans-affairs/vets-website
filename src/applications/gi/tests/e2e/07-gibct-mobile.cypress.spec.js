@@ -1,5 +1,4 @@
 import { initApplicationMock } from './cypress-helpers';
-import { selectSearchResult } from './gi-helpers';
 
 const institutionProfile = require('../data/institution-profile.json');
 const searchResults = require('../data/search-results.json');
@@ -38,13 +37,19 @@ describe('GI Bill Comparison Tool mobile view', () => {
     cy.get('[data-cy=see-results]').click({ force: true });
     cy.axeCheck();
 
-    const profileLink = `/profile/${
-      searchResults.data[0].attributes.facility_code
-    }`;
+    const facilityCode = searchResults.data[0].attributes.facility_code;
 
-    selectSearchResult(profileLink);
+    // Select the second search result
+    cy.get(`#search-result-${facilityCode} a`)
+      .first()
+      .should('be.visible')
+      .click({ force: true });
 
-    // Profile Page
+    // Profile page
+    cy.wait(`@profile${facilityCode}`);
+    cy.url().should('include', `/profile/${facilityCode}`);
+    cy.get('.profile-page').should('be.visible');
+
     cy.axeCheck();
   });
 });
