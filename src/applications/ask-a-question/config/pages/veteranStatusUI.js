@@ -1,5 +1,13 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import sectionHeader from '../../content/SectionHeader';
+import {
+  branchOfServiceTitle,
+  dateOfDeathTitle,
+  isDeceasedTitle,
+  isDependentTitle,
+  relationshipToVeteranTitle,
+  veteranStatusSectionDescription,
+  veteranStatusTitle,
+} from '../../content/labels';
 
 const formFields = {
   veteranStatus: 'veteranStatus',
@@ -21,12 +29,12 @@ const hideDateOfDeath = selectedVeteranStatus =>
   selectedVeteranStatus === 'vet' || selectedVeteranStatus === 'general';
 
 export const veteranStatusUI = {
-  'ui:description': sectionHeader('Veteran Service Information'),
+  'ui:description': veteranStatusSectionDescription,
   [formFields.veteranStatus]: {
-    'ui:title': 'My message is about benefits/services',
+    'ui:title': veteranStatusTitle,
   },
   [formFields.isDependent]: {
-    'ui:title': 'Are you the dependent?',
+    'ui:title': isDependentTitle,
     'ui:widget': 'yesNo',
     'ui:required': formData =>
       formData.veteranStatus.veteranStatus === 'dependent',
@@ -36,7 +44,7 @@ export const veteranStatusUI = {
     },
   },
   [formFields.relationshipToVeteran]: {
-    'ui:title': 'Your relationship to the Veteran',
+    'ui:title': relationshipToVeteranTitle,
     'ui:required': formData =>
       requireVetRelationship(formData.veteranStatus.veteranStatus),
     'ui:options': {
@@ -45,7 +53,7 @@ export const veteranStatusUI = {
     },
   },
   [formFields.veteranIsDeceased]: {
-    'ui:title': 'Is the Veteran deceased?',
+    'ui:title': isDeceasedTitle,
     'ui:widget': 'yesNo',
     'ui:required': formData =>
       requireVetRelationship(formData.veteranStatus.veteranStatus),
@@ -55,7 +63,7 @@ export const veteranStatusUI = {
     },
   },
   [formFields.dateOfDeath]: {
-    ...currentOrPastDateUI('Date of Death if known'),
+    ...currentOrPastDateUI(dateOfDeathTitle),
     ...{
       'ui:options': {
         expandUnder: 'veteranStatus',
@@ -69,7 +77,7 @@ export const veteranStatusUI = {
     },
   },
   [formFields.branchOfService]: {
-    'ui:title': 'Branch of service',
+    'ui:title': branchOfServiceTitle,
     'ui:required': formData =>
       requireServiceInfo(formData.veteranStatus.veteranStatus),
     'ui:options': {

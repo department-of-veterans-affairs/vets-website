@@ -8,6 +8,25 @@ import {
   isValidCanPostalCode,
 } from 'platform/forms/address';
 
+import {
+  canadaStateTitle,
+  cityErrorMessage,
+  cityTitle,
+  countryTitle,
+  postalCodeErrorMessage,
+  postalCodeTitle,
+  stateErrorMessage,
+  stateOrProvinceErrorMessage,
+  stateOrProvinceMissingErrorMessage,
+  stateTitle,
+  streetErrorMessage,
+  streetThreeTitle,
+  streetTwoTitle,
+  zipCodePatternErrorMessage,
+  zipCodeRequiredErrorMessage,
+  zipCodeTitle,
+} from '../../content/labels';
+
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
 
@@ -23,7 +42,7 @@ function validatePostalCodes(errors, address) {
 
   // Add error message for postal code if it is invalid
   if (address.postalCode && !isValidPostalCode) {
-    errors.postalCode.addError('Please provide a valid postal code');
+    errors.postalCode.addError(postalCodeErrorMessage);
   }
 }
 
@@ -67,7 +86,7 @@ function validateAddress(errors, address, formData, currentSchema) {
     address.state === undefined &&
     currentSchema.required.length
   ) {
-    errors.state.addError('Please select a state or province');
+    errors.state.addError(stateOrProvinceErrorMessage);
   }
 
   const hasAddressInfo =
@@ -78,9 +97,7 @@ function validateAddress(errors, address, formData, currentSchema) {
     typeof address.postalCode !== 'undefined';
 
   if (hasAddressInfo && typeof address.state === 'undefined') {
-    errors.state.addError(
-      'Please enter a state or province, or remove other address information.',
-    );
+    errors.state.addError(stateOrProvinceMissingErrorMessage);
   }
 
   validatePostalCodes(errors, address);
@@ -134,12 +151,12 @@ export function schema(
         enumNames: countryNames,
       },
       state: {
-        title: 'State',
+        title: stateTitle,
         type: 'string',
         maxLength: 51,
       },
       postalCode: {
-        title: 'Postal code',
+        title: postalCodeTitle,
         type: 'string',
         maxLength: 10,
       },
@@ -241,40 +258,40 @@ export function uiSchema(
       // Canada has a different title than others, so set that when necessary
       if (
         country === 'CAN' &&
-        addressSchema.properties.state.title !== 'Province'
+        addressSchema.properties.state.title !== canadaStateTitle
       ) {
         schemaUpdate.properties = _.set(
           'state.title',
-          'Province',
+          canadaStateTitle,
           schemaUpdate.properties,
         );
       } else if (
         country !== 'CAN' &&
-        addressSchema.properties.state.title !== 'State'
+        addressSchema.properties.state.title !== stateTitle
       ) {
         schemaUpdate.properties = _.set(
           'state.title',
-          'State',
+          stateTitle,
           schemaUpdate.properties,
         );
       }
 
       if (
         country === 'USA' &&
-        addressSchema.properties.postalCode.title !== 'Zip code'
+        addressSchema.properties.postalCode.title !== zipCodeTitle
       ) {
         schemaUpdate.properties = _.set(
           'postalCode.title',
-          'Zip code',
+          zipCodeTitle,
           schemaUpdate.properties,
         );
       } else if (
         country !== 'USA' &&
-        addressSchema.properties.postalCode.title !== 'Postal code'
+        addressSchema.properties.postalCode.title !== postalCodeTitle
       ) {
         schemaUpdate.properties = _.set(
           'postalCode.title',
-          'Postal code',
+          postalCodeTitle,
           schemaUpdate.properties,
         );
       }
@@ -346,29 +363,29 @@ export function uiSchema(
     },
     'ui:order': fieldOrder,
     country: {
-      'ui:title': 'Country',
+      'ui:title': countryTitle,
     },
     street: {
       'ui:title': 'Street',
       'ui:errorMessages': {
-        required: 'Please enter a street address',
+        required: streetErrorMessage,
       },
     },
     street2: {
-      'ui:title': 'Line 2',
+      'ui:title': streetTwoTitle,
     },
     street3: {
-      'ui:title': 'Line 3',
+      'ui:title': streetThreeTitle,
     },
     city: {
-      'ui:title': 'City',
+      'ui:title': cityTitle,
       'ui:errorMessages': {
-        required: 'Please enter a city',
+        required: cityErrorMessage,
       },
     },
     state: {
       'ui:errorMessages': {
-        required: 'Please enter a state',
+        required: stateErrorMessage,
       },
     },
     postalCode: {
@@ -376,8 +393,8 @@ export function uiSchema(
         widgetClassNames: 'usa-input-medium',
       },
       'ui:errorMessages': {
-        required: 'Please enter a zip code',
-        pattern: 'Please enter a valid 5- or 9-digit zip code (dashes allowed)',
+        required: zipCodeRequiredErrorMessage,
+        pattern: zipCodePatternErrorMessage,
       },
     },
   };
