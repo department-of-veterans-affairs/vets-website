@@ -16,7 +16,7 @@ const shouldIgnore = url => {
     !url.includes('playbook/') &&
     !url.includes('pittsburgh-health-care/') &&
     !/.*opt-out-information-sharing.*/.test(url) &&
-    !pagesWithRedirects.any(redirectUrl => parsedUrl.pathname === redirectUrl)
+    !pagesWithRedirects.some(redirectUrl => parsedUrl.pathname === redirectUrl)
   );
 };
 
