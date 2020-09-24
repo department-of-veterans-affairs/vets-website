@@ -25,7 +25,13 @@ export const initMockProfile = profile => {
   );
 };
 
-// Create API routes
+/**
+ * Setups up search results and a profile
+ * Calling this will also load calculator_constants
+ * Feature flags are loaded in src/platform/testing/e2e/cypress/support/index.js
+ * @param profile
+ * @param results
+ */
 export const initApplicationMock = (
   profile = institutionProfile,
   results = searchResults,
