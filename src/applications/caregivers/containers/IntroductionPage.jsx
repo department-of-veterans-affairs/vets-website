@@ -52,7 +52,7 @@ const IntroductionPage = ({ route, router }) => {
               </li>
 
               <li className="call-to-action-bullet">
-                Veteran&apos;s Social Security number or tax identification
+                The Veteran&apos;s Social Security number or tax identification
                 number (This is required for the online application only.) If
                 you’d like to apply without providing this information, you can
                 download the paper form
