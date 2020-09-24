@@ -23,10 +23,14 @@ describe('VETTEC', () => {
     cy.url().should('include', '/program-search');
     cy.axeCheck();
 
-    cy.get('.filter-button').click();
+    cy.get('.filter-button')
+      .should('be.visible')
+      .click();
     cy.axeCheck();
 
-    cy.get('[data-cy=see-results]').click();
+    cy.get('[data-cy=see-results]')
+      .should('be.visible')
+      .click();
     cy.axeCheck();
 
     // Search Page
