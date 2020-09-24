@@ -48,10 +48,7 @@ const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
           </p>
 
           <>
-            <p>
-              A Primary Family Caregiver is the main caregiver for the Veteran.
-              They can be the Veteran\u2019s:
-            </p>
+            <p>They can be the Veteran&apos;s:</p>
 
             <ul>
               <li>Parent</li>
