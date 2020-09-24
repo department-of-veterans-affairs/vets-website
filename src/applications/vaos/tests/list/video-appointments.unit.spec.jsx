@@ -265,8 +265,11 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     // Should display appointment date
     expect(
-      screen.getByText((content, _element) =>
-        content.startsWith(startDate.format('dddd, MMMM D, YYYY ')),
+      screen.getByText(
+        new RegExp(
+          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
       ),
     ).to.be.ok;
 
@@ -487,8 +490,11 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
 
     // Should display appointment date
     expect(
-      screen.getByText((content, _element) =>
-        content.startsWith(startDate.format('dddd, MMMM D, YYYY ')),
+      screen.getByText(
+        new RegExp(
+          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
       ),
     ).to.be.ok;
 
