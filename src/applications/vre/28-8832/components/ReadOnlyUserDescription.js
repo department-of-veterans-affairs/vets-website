@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 const ReadOnlyUserDescription = props => {
   const [isLoggedIn, setIsLoggedIn] = useState();
@@ -14,7 +15,9 @@ const ReadOnlyUserDescription = props => {
     'Your middle name': props?.profile?.userFullName?.middle || '',
     'Your last name': props?.profile?.userFullName?.last || '',
     Suffix: props?.profile?.userFullName?.suffix || '',
-    'Date of birth': props?.profile?.dob || '',
+    'Date of birth': props?.profile?.dob
+      ? moment(props?.profile?.dob).format('MMMM D, YYYY')
+      : '',
   };
 
   return (
