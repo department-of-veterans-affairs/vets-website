@@ -8,6 +8,7 @@ import { hasSession } from 'platform/user/profile/utilities';
 
 import { statusSelection } from './chapters/status-selection';
 import { veteranInformation } from './chapters/veteran-information';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 
 import {
   claimantInformation,
@@ -25,6 +26,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_28_8832,
   version: 0,
   getHelp: GetFormHelp,
+  preSubmitInfo: PreSubmitInfo,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',
