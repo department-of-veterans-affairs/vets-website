@@ -13,6 +13,7 @@ import { USA_MILITARY_BRANCHES } from './constants';
  *
  */
 export const getServiceBranchDisplayName = serviceBranch => {
+  if (!serviceBranch) return 'Unknown branch of service';
   if (Object.values(USA_MILITARY_BRANCHES).includes(serviceBranch)) {
     return `United States ${serviceBranch}`;
   }
