@@ -42,7 +42,10 @@ function validatePostalCodes(errors, address) {
 
   // Add error message for postal code if it is invalid
   if (address.postalCode && !isValidPostalCode) {
-    errors.postalCode.addError(postalCodeErrorMessage);
+    // eslint-disable-next-line no-unused-expressions
+    address.country === 'USA'
+      ? errors.postalCode.addError(zipCodePatternErrorMessage)
+      : errors.postalCode.addError(postalCodeErrorMessage);
   }
 }
 
