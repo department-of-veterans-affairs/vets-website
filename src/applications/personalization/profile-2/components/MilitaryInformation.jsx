@@ -31,7 +31,10 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
   const invalidVeteranStatus =
     !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
 
-  if (invalidVeteranStatus && !militaryInformation) {
+  if (
+    invalidVeteranStatus &&
+    !militaryInformation?.serviceHistory?.serviceHistory
+  ) {
     return (
       <AlertBox
         isVisible
