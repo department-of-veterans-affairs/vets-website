@@ -37,6 +37,7 @@ import {
   sortUpcoming,
   getVARFacilityId,
 } from '../services/appointment';
+import { selectIsCernerOnlyPatient } from '../../../platform/user/selectors';
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -324,6 +325,7 @@ export function getFacilityPageInfo(state) {
     facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerOrgIds: selectCernerOrgIds(state),
+    isCernerOnly: selectIsCernerOnlyPatient(state),
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
   };
 }

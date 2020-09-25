@@ -350,7 +350,7 @@ export default function formReducer(state = initialState, action) {
       // If we only have one, then we want to just set the value in the
       // form data and remove the schema for that field, so we don't
       // show the question to the user
-      if (parentFacilities.length > 1) {
+      if (parentFacilities.length > 1 || action.isCernerOnly) {
         newSchema = set(
           'properties.vaParent.enum',
           parentFacilities.map(sys => sys.id),
@@ -361,6 +361,7 @@ export default function formReducer(state = initialState, action) {
           parentFacilities.map(sys => sys.name),
           newSchema,
         );
+        delete newSchema.required;
       } else {
         newSchema = unset('properties.vaParent', newSchema);
         newData = {

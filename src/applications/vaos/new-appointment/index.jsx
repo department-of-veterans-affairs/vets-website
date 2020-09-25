@@ -42,10 +42,7 @@ function onBeforeUnload(e) {
   }
 }
 
-function NewAppointmentSection({
-  isCernerOnlyPatient,
-  flatFacilityPageEnabled,
-}) {
+function NewAppointmentSection({ flatFacilityPageEnabled }) {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
@@ -60,10 +57,6 @@ function NewAppointmentSection({
   );
 
   useEffect(() => {
-    if (isCernerOnlyPatient) {
-      history.replace('/');
-    }
-
     if (window.History) {
       window.History.scrollRestoration = 'manual';
     }
