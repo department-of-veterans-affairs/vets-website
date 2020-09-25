@@ -106,7 +106,9 @@ function ValidationError(props) {
     <>
       <Row>
         <Column role="alert" testId={testId}>
-          <ErrorMessage active title={errorTitle} message={errorMessage} />
+          <ErrorMessage active title={errorTitle}>
+            {errorMessage}
+          </ErrorMessage>
         </Column>
       </Row>
       <PreSubmitSection formConfig={formConfig} />

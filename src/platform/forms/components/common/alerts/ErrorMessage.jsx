@@ -22,8 +22,7 @@ function ErrorMessage(props) {
           <p className="schemaform-warning-header">
             <strong>{title}</strong>
           </p>
-          {message}
-          <p />
+          <p>{message}</p>
           {children}
         </div>
       </div>
