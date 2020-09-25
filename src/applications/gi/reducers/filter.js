@@ -15,6 +15,8 @@ const INITIAL_STATE = Object.freeze({
   provider: [],
   excludeWarnings: false,
   excludeCautionFlags: false,
+  priorityEnrollment: false,
+  independentStudy: false,
 });
 
 export default function(state = INITIAL_STATE, action) {
