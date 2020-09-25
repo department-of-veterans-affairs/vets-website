@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from '../../../../utils/moment-tz';
 import { formatFacilityAddress } from '../../../../utils/formatters';
-import { APPOINTMENT_STATUS, PURPOSE_TEXT } from '../../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  PURPOSE_TEXT,
+  VIDEO_TYPES,
+} from '../../../../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
 import AddToCalendar from '../../../../components/AddToCalendar';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
@@ -16,7 +20,7 @@ import {
   getVAAppointmentLocationId,
   isVideoAppointment,
   isAtlasLocation,
-  isVideoGFE,
+  getVideoKind,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
 import {
@@ -52,7 +56,7 @@ export default function ConfirmedAppointmentListItem({
   const isVideo = isVideoAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
   const isAtlas = isAtlasLocation(appointment);
-  const isGFE = isVideoGFE(appointment);
+  const videoKind = getVideoKind(appointment);
 
   const showInstructions =
     isCommunityCare ||
@@ -61,11 +65,19 @@ export default function ConfirmedAppointmentListItem({
         appointment?.comment?.startsWith(purpose.short),
       ));
 
-  let instructionText;
+  const showVideoInstructions =
+    isVideo &&
+    appointment.comment &&
+    videoKind !== VIDEO_TYPES.clinic &&
+    videoKind !== VIDEO_TYPES.gfe;
+
+  let instructionText = 'VA appointment';
   if (showInstructions) {
     instructionText = appointment.comment;
-  } else if (isVideo && appointment.comment) {
+  } else if (showVideoInstructions) {
     instructionText = getVideoInstructionText(appointment.comment);
+  } else if (isVideo) {
+    instructionText = 'VA video appointment';
   }
 
   const itemClasses = classNames(
@@ -77,27 +89,38 @@ export default function ConfirmedAppointmentListItem({
     },
   );
 
-  const getVideoLocation = () => {
-    if (isAtlas) {
-      return 'at an ATLAS location';
-    } else if (isGFE) {
-      return 'using a VA device';
-    }
-    return null;
-  };
-
   let header;
   let location;
-  if (isVideo) {
+  let videoSummary;
+  if (isAtlas) {
+    header = 'VA Video Connect';
+    const address =
+      appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo.address;
+    if (address) {
+      location = `${address.streetAddress}, ${address.city}, ${address.state} ${
+        address.zipCode
+      }`;
+    }
+    videoSummary = 'Video appointment at an ATLAS location';
+  } else if (videoKind === VIDEO_TYPES.clinic) {
+    header = 'VA Video Connect';
+    location = facility ? formatFacilityAddress(facility) : null;
+    videoSummary = 'Video appointment at a VA location';
+  } else if (videoKind === VIDEO_TYPES.gfe) {
     header = 'VA Video Connect';
     location = 'Video conference';
+    videoSummary = 'Video appointment using a VA device';
+  } else if (isVideo) {
+    header = 'VA Video Connect';
+    location = 'Video conference';
+    videoSummary = 'Video appointment at home';
   } else if (isCommunityCare) {
     header = 'Community Care';
     const address = appointment.contained.find(
       res => res.resourceType === 'Location',
     )?.address;
     if (address) {
-      location = `${address.line[0]} ${address.city}, ${address.state} ${
+      location = `${address.line[0]}, ${address.city}, ${address.state} ${
         address.postalCode
       }`;
     }
@@ -120,23 +143,21 @@ export default function ConfirmedAppointmentListItem({
         {header}
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
-        {isAtlas && <span>Video appointment {getVideoLocation()}</span>}
-        {isGFE && <span>Video appointment {getVideoLocation()}</span>}
-        {!isAtlas &&
-          !isGFE && (
-            <AppointmentDateTime
-              appointmentDate={moment.parseZone(appointment.start)}
-              timezone={appointment.vaos.timeZone}
-              facilityId={getVARFacilityId(appointment)}
-            />
-          )}
+        {isVideo && videoSummary}
+        {!isVideo && (
+          <AppointmentDateTime
+            appointmentDate={moment.parseZone(appointment.start)}
+            timezone={appointment.vaos.timeZone}
+            facilityId={getVARFacilityId(appointment)}
+          />
+        )}
       </h3>
-      {(isAtlas || isGFE) && (
+      {isVideo && (
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
           facilityId={getVARFacilityId(appointment)}
-          newFormat
+          twoLineFormat
         />
       )}
       <AppointmentStatus
@@ -149,7 +170,9 @@ export default function ConfirmedAppointmentListItem({
           {isCommunityCare && (
             <ConfirmedCommunityCareLocation appointment={appointment} />
           )}
-          {isVideo && <VideoVisitSection appointment={appointment} />}
+          {isVideo && (
+            <VideoVisitSection facility={facility} appointment={appointment} />
+          )}
           {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
@@ -175,21 +198,20 @@ export default function ConfirmedAppointmentListItem({
       {!cancelled &&
         !isPastAppointment && (
           <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
-            {isVideo &&
-              appointment.comment && (
-                <AdditionalInfoRow
-                  id={appointment.id}
-                  open={showMoreOpen}
-                  triggerText="Prepare for video visit"
-                  onClick={() => setShowMoreOpen(!showMoreOpen)}
-                >
-                  <VideoVisitInstructions
-                    instructionsType={appointment.comment}
-                  />
-                </AdditionalInfoRow>
-              )}
+            {showVideoInstructions && (
+              <AdditionalInfoRow
+                id={appointment.id}
+                open={showMoreOpen}
+                triggerText="Prepare for video visit"
+                onClick={() => setShowMoreOpen(!showMoreOpen)}
+              >
+                <VideoVisitInstructions
+                  instructionsType={appointment.comment}
+                />
+              </AdditionalInfoRow>
+            )}
             <AddToCalendar
-              summary={header}
+              summary={isVideo ? videoSummary : header}
               description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
