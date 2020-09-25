@@ -16,19 +16,11 @@ class SearchControls extends Component {
   };
 
   handleFacilityTypeChange = e => {
-    if (e.target.value) {
-      recordEvent({ 'fl-facility-type-filter': e.target.value });
-    }
-
     this.props.onChange({ facilityType: e.target.value, serviceType: null });
   };
 
   handleServiceTypeChange = ({ target }) => {
     const option = target.value;
-
-    if (option) {
-      recordEvent({ 'fl-service-type-filter': option });
-    }
 
     const serviceType = option === 'All' ? null : option;
     this.props.onChange({ serviceType });

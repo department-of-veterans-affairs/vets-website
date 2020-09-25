@@ -293,9 +293,9 @@ export const recordZoomPanEvents = (e, searchCoords, currentZoomLevel) => {
 };
 
 /**
- * Helper fn to record search results data layer
+ * Helper fn to record click result data layer
  */
-export const recordResultEvents = (location, index) => {
+export const recordResultClickEvents = (location, index) => {
   const { classification, name, facilityType, id } = location.attributes;
   const currentPage = location.currentPage;
 
@@ -313,46 +313,42 @@ export const recordResultEvents = (location, index) => {
 };
 
 /**
- * Helper fn to record search data layer
+ * Helper fn to record search results (mapbox and api response) data layer
  */
-export const recordSearchEvents = (data, meta) => {
-  let dataPush = {};
+export const recordSearchResultsEvents = (props, results) => {
+  const dataPush = { event: 'fl-search-results' };
+  const { currentQuery, pagination, resultTime } = props;
 
-  if (data) {
-    dataPush = {
-      event: 'fl-search-results',
-      'fl-results-returned': !!data.length,
-    };
+  if (currentQuery) {
+    dataPush['fl-facility-type-filter'] = currentQuery.facilityType;
 
-    if (meta.pagination && meta.pagination.totalEntries) {
-      dataPush['fl-total-number-of-results'] = meta.pagination.totalEntries;
+    if (currentQuery.serviceType) {
+      dataPush['fl-service-type-filter'] = currentQuery.serviceType;
     }
 
-    if (meta.pagination && meta.pagination.totalPages) {
-      dataPush['fl-total-number-of-result-pages'] = meta.pagination.totalPages;
+    dataPush['fl-searched-query'] = currentQuery.context;
+
+    if (currentQuery.mapBoxQuery) {
+      dataPush['fl-mapbox-returned-place-type'] =
+        currentQuery.mapBoxQuery.placeType;
+      dataPush['fl-mapbox-returned-place-name'] =
+        currentQuery.mapBoxQuery.placeName;
     }
-
-    recordEvent(dataPush);
-  }
-};
-
-/**
- * Helper fn to record mapBox data layer events
- */
-export const recordMapBoxEvents = res => {
-  const { body } = res;
-
-  if (body.query && Array.isArray(body.query)) {
-    recordEvent({ 'fl-searched-query': body.query.join(' ') });
   }
 
-  body.features.forEach(f => {
-    if (f.place_name) {
-      recordEvent({ 'fl-mapbox-returned-place-name': f.place_name });
-    }
+  if (results) {
+    dataPush['fl-results-returned'] = !!results.length;
+    dataPush['fl-total-number-of-results'] = results.length;
+    dataPush['fl-closest-result-distance-miles'] = results[0].distance;
+  }
 
-    if (f.place_type && Array.isArray(f.place_type)) {
-      recordEvent({ 'fl-mapbox-returned-place-type': f.place_type.join(' ') });
-    }
-  });
+  if (pagination && pagination.totalPages) {
+    dataPush['fl-total-number-of-result-pages'] = pagination.totalPages;
+  }
+
+  if (resultTime) {
+    dataPush['fl-time-to-return-results'] = resultTime;
+  }
+
+  recordEvent(dataPush);
 };

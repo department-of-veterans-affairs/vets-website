@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
-import { isVADomain, recordResultEvents } from '../../utils/helpers';
+import { isVADomain, recordResultClickEvents } from '../../utils/helpers';
 import { Link } from 'react-router';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
@@ -20,7 +20,7 @@ const VaFacilityResult = ({ location, query, index }) => {
         />
         <span
           onClick={() => {
-            recordResultEvents(location, index);
+            recordResultClickEvents(location, index);
           }}
         >
           {isVADomain(website) ? (
