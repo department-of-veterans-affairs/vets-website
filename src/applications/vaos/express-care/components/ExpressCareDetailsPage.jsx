@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../utils/constants';
-import FormButtons from '../components/FormButtons';
-import TextareaWidget from '../components/TextareaWidget';
+import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../../utils/constants';
+import FormButtons from '../../components/FormButtons';
+import TextareaWidget from '../../components/TextareaWidget';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import {
   selectExpressCare,
   getExpressCareFormPageInfo,
-} from '../utils/selectors';
+} from '../../utils/selectors';
 
-import * as actions from '../express-care/redux/actions';
+import * as actions from '../redux/actions';
 
 const pageKey = 'details';
 const pageTitle = 'Express Care request details';

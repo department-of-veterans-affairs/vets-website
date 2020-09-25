@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
-import { getExpressCareFormPageInfo } from '../utils/selectors';
-import { EXPRESS_CARE_REASONS } from '../utils/constants';
-import FormButtons from '../components/FormButtons';
-import * as actions from '../express-care/redux/actions';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { getExpressCareFormPageInfo } from '../../utils/selectors';
+import { EXPRESS_CARE_REASONS } from '../../utils/constants';
+import FormButtons from '../../components/FormButtons';
+import * as actions from '../redux/actions';
 
 const pageKey = 'reason';
 const pageTitle = 'Select a reason for your Express Care request';

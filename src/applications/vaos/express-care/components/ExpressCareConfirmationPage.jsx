@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
-import { GA_PREFIX } from '../utils/constants';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { GA_PREFIX } from '../../utils/constants';
 import {
   startNewAppointmentFlow,
   fetchFacilityDetails,
-} from '../new-appointment/redux/actions';
-import { transformPendingAppointments } from '../services/appointment/transformers';
-import ExpressCareCard from '../appointment-list/components/cards/express-care/ExpressCareCard';
+} from '../../new-appointment/redux/actions';
+import { transformPendingAppointments } from '../../services/appointment/transformers';
+import ExpressCareCard from '../../appointment-list/components/cards/express-care/ExpressCareCard';
 
 const pageTitle = 'You’ve successfully submitted your Express Care request';
 

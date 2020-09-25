@@ -17,8 +17,8 @@ import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 import VAFacilityPage from '../../new-appointment/components/VAFacilityPage';
-import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
-import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
+import ExpressCareInfoPage from '../../express-care/components/ExpressCareInfoPage';
+import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';

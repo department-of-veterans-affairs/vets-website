@@ -11,7 +11,7 @@ import {
   renderWithStoreAndRouter,
 } from '../mocks/setup';
 import { setupExpressCareMocks } from '../mocks/helpers';
-import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
+import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 
 const initialState = {
   user: {
