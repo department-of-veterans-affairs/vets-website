@@ -1,89 +1,78 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { cleanup } from '@testing-library/react';
 
-import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfAudiologyCarePage } from '../../../new-appointment/components/TypeOfAudiologyCarePage';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+  setTypeOfCare,
+} from '../../mocks/setup';
+
+import TypeOfAudiologyCarePage from '../../../new-appointment/components/TypeOfAudiologyCarePage';
+
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingCommunityCare: true,
+  },
+  user: {
+    profile: {
+      facilities: [{ facilityId: '983', isCerner: false }],
+    },
+  },
+};
 
 describe('VAOS <TypeOfAudiologyCarePage>', () => {
-  it('should render', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
+  it('should show page and validation', async () => {
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /audiology/i);
 
-    const form = mount(
-      <TypeOfAudiologyCarePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfAudiologyCarePage} />,
+      {
+        store,
+      },
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect(screen.getAllByRole('radio').length).to.equal(2);
+    fireEvent.click(screen.getByText(/Continue/));
+
+    expect(await screen.findByText('Please provide a response')).to.exist;
+    expect(screen.history.push.called).to.not.be.true;
+
+    fireEvent.click(await screen.findByLabelText(/hearing aid/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/request-date',
+      ),
+    );
   });
 
-  it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
-
-    const form = mount(
-      <TypeOfAudiologyCarePage
-        openFormPage={openFormPage}
-        history={history}
-        data={{}}
-      />,
+  it('should save audiology care choice on page change', async () => {
+    const store = createTestStore(initialState);
+    let screen = renderWithStoreAndRouter(
+      <Route component={TypeOfAudiologyCarePage} />,
+      { store },
     );
 
-    form.find('form').simulate('submit');
+    fireEvent.click(await screen.findByLabelText(/routine hearing/i));
+    await cleanup();
 
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(history.push.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should call updateFormData after change', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
-
-    const form = mount(
-      <TypeOfAudiologyCarePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        history={history}
-        data={{}}
-      />,
+    screen = renderWithStoreAndRouter(
+      <Route component={TypeOfAudiologyCarePage} />,
+      {
+        store,
+      },
     );
 
-    selectRadio(form, 'root_audiologyType', 'CCAUDRTNE');
-
-    expect(updateFormData.firstCall.args[2].audiologyType).to.equal(
-      'CCAUDRTNE',
+    expect(await screen.findByLabelText(/routine hearing/i)).to.have.attribute(
+      'checked',
     );
-    form.unmount();
-  });
-
-  it('should submit with valid data', () => {
-    const openFormPage = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <TypeOfAudiologyCarePage
-        openFormPage={openFormPage}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ audiologyType: 'CCAUDRTNE' }}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
   });
 });

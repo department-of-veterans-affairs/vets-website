@@ -16,15 +16,10 @@
     "middle": "Geef",
     "last": "Goofus"
   },
-  "secondaryOneSsnOrTin": "878548542",
   "secondaryOneDateOfBirth": "1932-05-12",
   "secondaryOneGender": "M",
   "view:hasSecondaryCaregiverOne": true,
-  "primaryMedicaidEnrolled": false,
-  "primaryMedicareEnrolled": false,
-  "primaryTricareEnrolled": false,
-  "primaryChampvaEnrolled": false,
-  "view:otherHealthInsurance": false,
+  "hasHealthInsurance": true,
   "primaryAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",
@@ -37,7 +32,6 @@
     "first": "Mini",
     "last": "Mouse"
   },
-  "primarySsnOrTin": "777887777",
   "primaryDateOfBirth": "1928-11-18",
   "primaryGender": "F",
   "veteranLastTreatmentFacility": {

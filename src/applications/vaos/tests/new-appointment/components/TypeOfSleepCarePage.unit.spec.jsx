@@ -1,130 +1,79 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { cleanup } from '@testing-library/react';
 
-import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfSleepCarePage } from '../../../new-appointment/components/TypeOfSleepCarePage';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+  setTypeOfCare,
+} from '../../mocks/setup';
+
+import TypeOfSleepCarePage from '../../../new-appointment/components/TypeOfSleepCarePage';
+
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingCommunityCare: true,
+  },
+  user: {
+    profile: {
+      facilities: [{ facilityId: '983', isCerner: false }],
+    },
+  },
+};
 
 describe('VAOS <TypeOfSleepCarePage>', () => {
-  it('should render', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
+  it('should show page and validation', async () => {
+    const store = createTestStore(initialState);
+    const nextPage = await setTypeOfCare(store, /sleep/i);
+    expect(nextPage).to.equal('/new-appointment/choose-sleep-care');
 
-    const form = mount(
-      <TypeOfSleepCarePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfSleepCarePage} />,
+      {
+        store,
+      },
     );
 
-    expect(form.find('fieldset').length).to.equal(1);
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect(screen.getAllByRole('radio').length).to.equal(2);
+    fireEvent.click(screen.getByText(/Continue/));
+
+    expect(await screen.findByText('Please provide a response')).to.exist;
+    expect(screen.history.push.called).to.not.be.true;
+
+    fireEvent.click(await screen.findByLabelText(/cpap/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/va-facility',
+      ),
+    );
   });
 
-  it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
-
-    const form = mount(
-      <TypeOfSleepCarePage
-        openFormPage={openFormPage}
-        history={history}
-        data={{}}
-      />,
+  it('should save sleep care choice on page change', async () => {
+    const store = createTestStore(initialState);
+    let screen = renderWithStoreAndRouter(
+      <Route component={TypeOfSleepCarePage} />,
+      { store },
     );
 
-    form.find('form').simulate('submit');
+    fireEvent.click(await screen.findByLabelText(/sleep medicine/i));
+    await cleanup();
 
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(history.push.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should call updateFormData after change', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
-
-    const form = mount(
-      <TypeOfSleepCarePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        history={history}
-        data={{}}
-      />,
+    screen = renderWithStoreAndRouter(
+      <Route component={TypeOfSleepCarePage} />,
+      {
+        store,
+      },
     );
 
-    selectRadio(form, 'root_typeOfSleepCareId', '349');
-
-    expect(updateFormData.firstCall.args[2].typeOfSleepCareId).to.equal('349');
-    form.unmount();
-  });
-
-  it('should submit with valid data', () => {
-    const openFormPage = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <TypeOfSleepCarePage
-        openFormPage={openFormPage}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ typeOfSleepCareId: '349' }}
-      />,
+    expect(await screen.findByLabelText(/sleep medicine/i)).to.have.attribute(
+      'checked',
     );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
-  });
-
-  it('should render label name', () => {
-    const openFormPage = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <TypeOfSleepCarePage
-        openFormPage={openFormPage}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-      />,
-    );
-    const labels = form.find(
-      'span.vads-u-display--block.vads-u-font-size--lg.vads-u-font-weight--bold',
-    );
-
-    expect(labels.length).to.equal(2);
-    expect(labels.at(0).text()).to.have.string(
-      'Continuous Positive Airway Pressure (CPAP)',
-    );
-    expect(labels.at(1).text()).to.have.string(
-      'Sleep medicine and home sleep testing',
-    );
-    form.unmount();
-  });
-
-  it('document title should match h1 text', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const pageTitle = 'Choose the type of sleep care you need';
-
-    const form = mount(
-      <TypeOfSleepCarePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
-    );
-
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-    form.unmount();
   });
 });

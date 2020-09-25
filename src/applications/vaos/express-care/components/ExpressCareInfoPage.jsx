@@ -3,14 +3,14 @@ import { useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import { GA_PREFIX } from '../utils/constants';
-import * as actions from '../express-care/redux/actions';
-import FormButtons from '../components/FormButtons';
+import { GA_PREFIX } from '../../utils/constants';
+import * as actions from '../redux/actions';
+import FormButtons from '../../components/FormButtons';
 import {
   selectLocalExpressCareWindowString,
   selectExpressCareNewRequest,
-} from '../utils/selectors';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
+} from '../../utils/selectors';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 const pageKey = 'info';
 const pageTitle = 'How Express Care works';

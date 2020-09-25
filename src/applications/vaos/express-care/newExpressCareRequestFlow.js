@@ -6,7 +6,6 @@ export default {
   },
   info: {
     url: '/new-express-care-request',
-    previous: 'home',
     async next(state, dispatch) {
       const isUnderRequestLimit = await dispatch(fetchRequestLimits());
       if (isUnderRequestLimit) {
@@ -21,12 +20,10 @@ export default {
   },
   reason: {
     url: '/new-express-care-request/select-reason',
-    previous: 'info',
     next: 'details',
   },
   details: {
     url: '/new-express-care-request/additional-details',
-    previous: 'reason',
     next: '',
   },
 };

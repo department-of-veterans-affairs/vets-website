@@ -19,6 +19,7 @@ fragment nodeStepByStep on NodeStepByStep {
       ... button
     }
   }
+  fieldButtonsRepeat
   fieldSteps {
     entity {
       ... on ParagraphStepByStep {

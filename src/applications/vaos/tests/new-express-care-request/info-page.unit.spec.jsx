@@ -9,7 +9,7 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 import { setupExpressCareMocks } from '../mocks/helpers';
-import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
+import ExpressCareInfoPage from '../../express-care/components/ExpressCareInfoPage';
 import { NewExpressCareRequest } from '../../express-care';
 import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 
@@ -63,7 +63,6 @@ describe('VAOS integration: Express Care info page', () => {
     ).to.exist;
 
     fireEvent.click(screen.getByText('Cancel'));
-    expect(screen.history.push.calledWith('/')).to.be.true;
 
     fireEvent.click(screen.getByText(/^Continue/));
     await waitFor(

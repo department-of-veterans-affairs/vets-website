@@ -18,6 +18,8 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_PAGE_FACILITY_V2_OPEN,
+  FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
@@ -77,6 +79,7 @@ const initialState = {
   parentFacilities: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
+  previousPages: {},
   childFacilitiesStatus: FETCH_STATUS.notStarted,
   parentFacilitiesStatus: FETCH_STATUS.notStarted,
   eligibilityStatus: FETCH_STATUS.notStarted,
@@ -196,15 +199,37 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
+      let updatedPreviousPages = state.previousPages;
+      if (!Object.keys(updatedPreviousPages).length) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKey]: 'home',
+        };
+      }
       return {
         ...state,
         pageChangeInProgress: true,
+        previousPages: updatedPreviousPages,
       };
     }
     case FORM_PAGE_CHANGE_COMPLETED: {
+      let updatedPreviousPages = state.previousPages;
+      if (!Object.keys(updatedPreviousPages).length) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKey]: 'home',
+        };
+      }
+      if (action.direction === 'next') {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKeyNext]: action.pageKey,
+        };
+      }
       return {
         ...state,
         pageChangeInProgress: false,
+        previousPages: updatedPreviousPages,
       };
     }
     case FORM_TYPE_OF_CARE_PAGE_OPENED: {
@@ -269,6 +294,49 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         data: { ...state.data, facilityType: action.facilityType },
+      };
+    }
+    case FORM_PAGE_FACILITY_V2_OPEN: {
+      return {
+        ...state,
+        childFacilitiesStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
+      let newSchema = action.schema;
+      const facilities = action.facilities.sort((a, b) => {
+        return a.name < b.name ? -1 : 1;
+      });
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: facilities.map(facility => facility.id),
+          enumNames: facilities,
+        },
+        newSchema,
+      );
+
+      const { data, schema } = setupFormData(
+        state.data,
+        newSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          vaFacilityV2: schema,
+        },
+        schema,
+        facilities: {
+          ...state.facilities,
+          [`${action.typeOfCareId}`]: facilities,
+        },
+        childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {

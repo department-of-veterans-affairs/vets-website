@@ -1,35 +1,49 @@
 import {
-  clickButton,
   expectLocation,
   FORCE_OPTION,
   selectDropdown,
 } from './cypress-helpers';
 import { createId, formatCurrency } from '../../utils/helpers';
 import calculatorConstantsJson from '../data/calculator-constants.json';
+import searchResults from '../data/search-results.json';
 
 export const typeOfInstitution = value => {
   const selector = `input[name="category"][value="${value}"]`;
   cy.get(selector).check(FORCE_OPTION);
 };
 
-export const search = () => {
-  clickButton('#search-button');
+export const search = searchTerm => {
+  if (searchTerm) {
+    cy.get('.keyword-search input[type="text"]').type(searchTerm);
+  }
+
+  cy.get('#search-button').click();
+
+  if (searchTerm) {
+    expectLocation('/search');
+  } else {
+    expectLocation('/program-search');
+  }
 };
 
 export const selectSearchResult = (href, checkLocation = true) => {
-  clickButton(`a[href*="${href}"]`);
-  if (checkLocation) expectLocation(href);
+  cy.get(`a[href*="${href}"]`)
+    .first()
+    .click();
+  if (checkLocation) {
+    expectLocation(href);
+  }
   cy.axeCheck();
 };
 
 export const displayLearnMoreModal = () => {
   cy.get('.learn-more-button')
     .first()
-    .click(FORCE_OPTION);
+    .click();
   cy.axeCheck();
   cy.get('.va-modal-close')
     .first()
-    .click(FORCE_OPTION);
+    .click();
 };
 
 const createAccordionButtonId = name => `#${createId(name)}-accordion-button`;
@@ -39,9 +53,11 @@ const createAccordionButtonId = name => `#${createId(name)}-accordion-button`;
  * @param name button property of the AccordionItem
  */
 export const clickAccordion = name => {
-  cy.get(createAccordionButtonId(name))
+  const accordionButtonId = createAccordionButtonId(name);
+  cy.get(accordionButtonId).should('be.visible');
+  cy.get(accordionButtonId)
     .first()
-    .click(FORCE_OPTION);
+    .click();
   cy.axeCheck();
 };
 
@@ -101,7 +117,7 @@ export const calculatorConstants = createCalculatorConstants();
  * Click the Calculate Benefits button in EYB
  */
 export const calculateBenefits = () => {
-  clickButton('.calculate-button');
+  cy.get('.calculate-button').click();
 };
 
 /**
@@ -111,9 +127,11 @@ export const calculateBenefits = () => {
 export const checkProfileHousingRate = housingRate => {
   const housingRateId = `#calculator-result-row-${createId(
     'Housing allowance',
-  )} h5`;
+  )}`;
 
-  cy.get(housingRateId).should('include', formatCurrency(housingRate));
+  cy.get(housingRateId).should('be.visible');
+
+  cy.get(housingRateId).should('contain', formatCurrency(housingRate));
 };
 
 /**
@@ -130,8 +148,7 @@ export const enrolledOld = (option, housingRate) => {
 };
 
 export const breadCrumb = breadCrumbHref => {
-  const id = `.va-nav-breadcrumbs a[href='${breadCrumbHref}']`;
-  clickButton(id);
+  cy.get(`.va-nav-breadcrumbs a[href='${breadCrumbHref}']`).click();
   expectLocation(breadCrumbHref);
 };
 
@@ -142,7 +159,7 @@ const eybSections = {
   scholarshipsAndOtherVAFunding: 'Scholarships and other VA funding',
 };
 
-const eybAccordionExpandedCheck = (client, sections, section) => {
+const eybAccordionExpandedCheck = (sections, section) => {
   checkAccordionIsExpanded(section);
   Object.values(sections)
     .filter(value => value !== section)
@@ -168,4 +185,13 @@ export const checkSectionAccordion = (
     cy.get(id).axeCheck();
   }
   eybAccordionExpandedCheck(sections, sections[sectionName]);
+};
+
+export const verifySearchResults = (results = searchResults) => {
+  cy.url().should('include', `/search`);
+  cy.get('.search-page').should('be.visible');
+  results.data.forEach(({ attributes: profile }) => {
+    cy.get(`#search-result-${profile.facility_code}`).should('be.visible');
+  });
+  cy.axeCheck();
 };

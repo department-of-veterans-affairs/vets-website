@@ -15,6 +15,8 @@ import {
   getVARFacilityId,
   getVAAppointmentLocationId,
   isVideoAppointment,
+  isAtlasLocation,
+  isVideoGFE,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
 import {
@@ -49,6 +51,8 @@ export default function ConfirmedAppointmentListItem({
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVideo = isVideoAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
+  const isAtlas = isAtlasLocation(appointment);
+  const isGFE = isVideoGFE(appointment);
 
   const showInstructions =
     isCommunityCare ||
@@ -72,6 +76,15 @@ export default function ConfirmedAppointmentListItem({
       'vads-u-border-color--secondary-dark': cancelled && !isPastAppointment,
     },
   );
+
+  const getVideoLocation = () => {
+    if (isAtlas) {
+      return 'at an ATLAS location';
+    } else if (isGFE) {
+      return 'using a VA device';
+    }
+    return null;
+  };
 
   let header;
   let location;
@@ -107,12 +120,25 @@ export default function ConfirmedAppointmentListItem({
         {header}
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
+        {isAtlas && <span>Video appointment {getVideoLocation()}</span>}
+        {isGFE && <span>Video appointment {getVideoLocation()}</span>}
+        {!isAtlas &&
+          !isGFE && (
+            <AppointmentDateTime
+              appointmentDate={moment.parseZone(appointment.start)}
+              timezone={appointment.vaos.timeZone}
+              facilityId={getVARFacilityId(appointment)}
+            />
+          )}
+      </h3>
+      {(isAtlas || isGFE) && (
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
           facilityId={getVARFacilityId(appointment)}
+          newFormat
         />
-      </h3>
+      )}
       <AppointmentStatus
         status={appointment.status}
         isPastAppointment={isPastAppointment}
