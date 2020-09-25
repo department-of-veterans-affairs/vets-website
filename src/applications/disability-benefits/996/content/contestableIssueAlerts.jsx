@@ -22,6 +22,10 @@ const networkError = (
   </p>
 );
 
+const benefitError = type => (
+  <p>We don’t currently support the "{type}" benefit type</p>
+);
+
 export const noContestableIssuesFound = (
   <AlertBox
     status="warning"
@@ -30,13 +34,15 @@ export const noContestableIssuesFound = (
   />
 );
 
-export const showContestableIssueError = (
-  <AlertBox
-    status="error"
-    headline="We can’t load your issues"
-    content={networkError}
-  />
-);
+export const showContestableIssueError = ({ error, type } = {}) => {
+  const headline =
+    error === 'invalidBenefitType'
+      ? `We don’t support this benefit type`
+      : 'We can’t load your issues';
+  const content =
+    error === 'invalidBenefitType' ? benefitError(type) : networkError;
+  return <AlertBox status="error" headline={headline} content={content} />;
+};
 
 export const showWorkInProgress = (
   <AlertBox
