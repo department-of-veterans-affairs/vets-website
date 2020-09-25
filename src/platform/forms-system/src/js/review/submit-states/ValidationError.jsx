@@ -47,6 +47,11 @@ function ValidationError(props) {
     : `We’re sorry. Some information in your ${appType} is missing or
       not valid.`;
 
+  // "enum values:" may be followed by a very long list (e.g. all countries)
+  const enumValues = /(enum\svalues:.+)$/g;
+  const processMessage = message =>
+    message.replace(enumValues, 'the available values');
+
   const errorMessage = resolved ? (
     `please try resubmitting your ${appType} now.`
   ) : (
@@ -80,10 +85,10 @@ function ValidationError(props) {
                       focusAndScrollToReviewElement(error);
                     }}
                   >
-                    {error.message}
+                    {processMessage(error.message)}
                   </a>
                 ) : (
-                  error.message
+                  processMessage(error.message)
                 )}
               </li>
             ))}
