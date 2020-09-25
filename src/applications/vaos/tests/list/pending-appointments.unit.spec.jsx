@@ -289,6 +289,66 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain.text('patient.test@va.gov');
       expect(baseElement).to.contain.text('5555555566');
     });
+
+    it('should show video request', async () => {
+      const appointment = getVARequestMock();
+      appointment.attributes = {
+        ...appointment.attributes,
+        status: 'Submitted',
+        appointmentType: 'Primary care',
+        optionDate1: moment()
+          .add(3, 'days')
+          .format('MM/DD/YYYY'),
+        optionTime1: 'AM',
+        optionDate2: moment()
+          .add(4, 'days')
+          .format('MM/DD/YYYY'),
+        optionTime2: 'AM',
+        optionDate3: moment()
+          .add(5, 'days')
+          .format('MM/DD/YYYY'),
+        optionTime3: 'PM',
+        visitType: 'Video Conference',
+        facility: {
+          ...appointment.facility,
+          facilityCode: '983GC',
+        },
+        friendlyLocationName: 'Some facility name',
+      };
+      mockAppointmentInfo({ requests: [appointment] });
+
+      const {
+        findByText,
+        baseElement,
+        getByText,
+        queryByText,
+      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+        initialState,
+      });
+
+      const dateHeader = await findByText(/primary care appointment/i);
+      expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
+
+      expect(baseElement).to.contain.text('VA Video Connect');
+      expect(baseElement).to.contain.text('Pending');
+      expect(baseElement).to.contain('.fa-exclamation-triangle');
+      expect(dateHeader).to.have.tagName('h3');
+
+      expect(baseElement).to.contain.text('Some facility name');
+      expect(getByText(/view facility information/i)).to.have.attribute(
+        'href',
+        '/find-locations/facility/vha_442GC',
+      );
+      expect(baseElement).to.contain.text('Preferred date and time');
+      expect(baseElement).to.contain.text(
+        `${moment()
+          .add(3, 'days')
+          .format('ddd, MMMM D, YYYY')} in the morning`,
+      );
+
+      expect(baseElement).not.to.contain.text('Add to calendar');
+      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+    });
   });
 
   describe('for community care', () => {
