@@ -25,19 +25,6 @@ describe('Google Analytics FL Events', () => {
 
       cy.get('#map-id', { timeout: 10000 }).should(() => {
         assertDataLayerEvent(win, 'fl-search');
-        assertEventAndAttributes(win, 'fl-search-results', [
-          'event',
-          'fl-facility-type-filter',
-          'fl-service-type-filter',
-          'fl-results-returned',
-          'fl-total-number-of-results',
-          'fl-total-number-of-result-pages',
-          'fl-searched-query',
-          'fl-mapbox-returned-place-type',
-          'fl-mapbox-returned-place-name',
-          'fl-closest-result-distance-miles',
-          'fl-time-to-return-results',
-        ]);
       });
 
       cy.get('#marker-id')
