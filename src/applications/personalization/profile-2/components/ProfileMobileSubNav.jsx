@@ -200,6 +200,7 @@ const ProfileMobileSubNav = ({
   return (
     <div className="mobile-nav">
       <div className={menuClasses}>
+        <div className="menu-background" />
         <div className="menu-wrapper" ref={theMenu}>
           {!isMenuOpen && (
             <button
