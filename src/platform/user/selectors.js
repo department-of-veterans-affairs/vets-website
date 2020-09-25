@@ -13,33 +13,30 @@ export const isLOA1 = state => selectProfile(state).loa.current === 1;
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
 export const selectPatientFacilities = state =>
-  selectProfile(state)
-    ?.facilities?.filter(facility => facility.facilityId === '983')
-    ?.map(({ facilityId, isCerner }) => {
-      // Derive if the user belongs to a Cerner facility in the FE maintained list.
-      const hasCernerFacilityID = CERNER_FACILITY_IDS.includes(facilityId);
+  selectProfile(state)?.map(({ facilityId, isCerner }) => {
+    // Derive if the user belongs to a Cerner facility in the FE maintained list.
+    const hasCernerFacilityID = CERNER_FACILITY_IDS.includes(facilityId);
 
-      // Derive if the feature toggle is on.
-      const showNewScheduleViewAppointmentsPage =
-        state?.featureToggles?.[
-          featureFlagNames.showNewScheduleViewAppointmentsPage
-        ];
+    // Derive if the feature toggle is on.
+    const showNewScheduleViewAppointmentsPage =
+      state?.featureToggles?.[
+        featureFlagNames.showNewScheduleViewAppointmentsPage
+      ];
 
-      // Derive if they are a 200CRNR Cerner patient.
-      const isCernerPatient = selectProfile(state)?.isCernerPatient;
+    // Derive if they are a 200CRNR Cerner patient.
+    const isCernerPatient = selectProfile(state)?.isCernerPatient;
 
-      // Derive if we should consider it a Cerner facility.
-      const passesCernerChecks =
-        showNewScheduleViewAppointmentsPage &&
-        (isCerner || (isCernerPatient && hasCernerFacilityID));
+    // Derive if we should consider it a Cerner facility.
+    const passesCernerChecks =
+      showNewScheduleViewAppointmentsPage &&
+      (isCerner || (isCernerPatient && hasCernerFacilityID));
 
-      return {
-        facilityId,
-        // This overrides the MPI isCerner flag in favor of the feature toggle.
-        // isCerner: passesCernerChecks,
-        isCerner: true,
-      };
-    }) || null;
+    return {
+      facilityId,
+      // This overrides the MPI isCerner flag in favor of the feature toggle.
+      isCerner: passesCernerChecks,
+    };
+  }) || null;
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>
   selectVet360(state)?.email?.emailAddress;

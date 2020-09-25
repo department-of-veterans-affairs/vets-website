@@ -42,7 +42,10 @@ function onBeforeUnload(e) {
   }
 }
 
-function NewAppointmentSection({ flatFacilityPageEnabled }) {
+function NewAppointmentSection({
+  flatFacilityPageEnabled,
+  isCernerOnlyPatient,
+}) {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
@@ -70,13 +73,22 @@ function NewAppointmentSection({ flatFacilityPageEnabled }) {
     ) {
       history.replace('/new-appointment');
     }
-
-    window.addEventListener('beforeunload', onBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', onBeforeUnload);
-    };
   }, []);
+
+  useEffect(
+    () => {
+      if (location.pathname.includes('va-facility') && isCernerOnlyPatient) {
+        window.removeEventListener('beforeunload', onBeforeUnload);
+      } else {
+        window.addEventListener('beforeunload', onBeforeUnload);
+      }
+
+      return () => {
+        window.removeEventListener('beforeunload', onBeforeUnload);
+      };
+    },
+    [location.pathname, isCernerOnlyPatient],
+  );
 
   return (
     <FormLayout isReviewPage={location.pathname.includes('review')}>
