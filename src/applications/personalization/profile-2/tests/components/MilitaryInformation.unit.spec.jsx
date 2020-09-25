@@ -72,6 +72,26 @@ describe('MilitaryInformation', () => {
       expect(entries[1]).to.contain.text('April 11, 2009');
     });
   });
+  describe('when military branch is not set', () => {
+    it('should show "Unknown" for the service branch if it is missing', () => {
+      initialState = createBasicInitialState();
+      initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[0].branchOfService = null;
+      initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[1].branchOfService = undefined;
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+      const entries = view.queryAllByRole('listitem');
+
+      expect(entries.length).to.equal(2);
+      expect(entries[0]).to.contain.text('Unknown branch of service');
+      expect(entries[0]).to.contain.text('Dates of service: April 12, 2009');
+      expect(entries[0]).to.contain.text('April 11, 2013');
+
+      expect(entries[1]).to.contain.text('Unknown branch of service');
+      expect(entries[1]).to.contain.text('Dates of service: April 12, 2005');
+      expect(entries[1]).to.contain.text('April 11, 2009');
+    });
+  });
   describe('when a service history date cannot be parsed', () => {
     it('should report that the date is invalid', () => {
       initialState = createBasicInitialState();

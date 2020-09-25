@@ -1,13 +1,10 @@
-import { initMockProfile, expectLocation } from './cypress-helpers';
+import { initMockProfile } from './cypress-helpers';
 import vetTecProfile from '../data/vet-tec-profile.json';
 import vetTecSearchResults from '../data/vet-tec-search-results.json';
-import { createId } from '../../utils/helpers';
 import {
-  typeOfInstitution,
-  search,
-  selectSearchResult,
   displayLearnMoreModal,
   collapseExpandAccordion,
+  verifyVetTecSearchResults,
 } from './gi-helpers';
 
 describe('VETTEC', () => {
@@ -22,28 +19,35 @@ describe('VETTEC', () => {
 
   it('Default VETTEC profile flow with giBillChapter chapter 33', () => {
     // Landing Page
-    typeOfInstitution('vettec');
-    cy.axeCheck();
+    cy.get('input[name="category"][value="vettec"]')
+      .check()
+      .axeCheck();
 
-    search();
-    expectLocation('/program-search');
+    cy.get('#search-button')
+      .click()
+      .url()
+      .should('include', '/program-search');
 
     // Search Page
-    vetTecSearchResults.data.forEach(result => {
-      const resultId = `#search-result-${result.attributes.facility_code}-${
-        result.attributes.description
-      }`;
-      cy.get(createId(resultId)).should('be.visible');
-    });
+    verifyVetTecSearchResults();
 
     const vetTecAttributes = vetTecSearchResults.data[0].attributes;
     const profileLink = `/profile/${vetTecAttributes.facility_code}/${
       vetTecAttributes.description
     }`;
 
-    selectSearchResult(profileLink);
+    cy.get(`a[href*="${profileLink}"]`)
+      .first()
+      .should('be.visible')
+      .click({ force: true });
 
     // Profile Page
+    cy.wait(`@profile${vetTecAttributes.facility_code}`)
+      .url()
+      .should('include', vetTecAttributes.facility_code)
+      .get('.profile-page')
+      .should('be.visible');
+    cy.get('body').axeCheck();
 
     displayLearnMoreModal();
     // Approved programs

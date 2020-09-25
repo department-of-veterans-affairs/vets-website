@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import VAFacilityPage from '../../new-appointment/components/VAFacilityPageV2';
+import VAFacilityPage from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import { getParentSiteMock, getFacilityMock } from '../mocks/v0';
 import {
   createTestStore,
@@ -38,11 +38,11 @@ const parentSite983 = {
   },
 };
 
-describe('VAOS integration: VA facility page with a single-site user', () => {
+describe('VAOS integration: VA flat facility page', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
-  it('should show form with single required facility question', async () => {
+  it('should display page', async () => {
     mockParentSites(['983'], [parentSite983]);
     const facilities = [
       {
@@ -90,8 +90,13 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     expect(global.document.title).to.equal(
       'Choose a VA location for your appointment | Veterans Affairs',
     );
+
+    await screen.findByText(
+      /Choose a VA location for your Primary care appointment/i,
+    );
+
     expect(screen.baseElement).to.contain.text(
-      'Choose a VA location for your appointment',
+      'Below is a list of VA locations where you’re registered that offer Primary care appointments',
     );
   });
 });

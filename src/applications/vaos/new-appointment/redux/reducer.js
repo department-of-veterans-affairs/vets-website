@@ -18,6 +18,8 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_PAGE_FACILITY_V2_OPEN,
+  FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
@@ -292,6 +294,49 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         data: { ...state.data, facilityType: action.facilityType },
+      };
+    }
+    case FORM_PAGE_FACILITY_V2_OPEN: {
+      return {
+        ...state,
+        childFacilitiesStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
+      let newSchema = action.schema;
+      const facilities = action.facilities.sort((a, b) => {
+        return a.name < b.name ? -1 : 1;
+      });
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: facilities.map(facility => facility.id),
+          enumNames: facilities,
+        },
+        newSchema,
+      );
+
+      const { data, schema } = setupFormData(
+        state.data,
+        newSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          vaFacilityV2: schema,
+        },
+        schema,
+        facilities: {
+          ...state.facilities,
+          [`${action.typeOfCareId}`]: facilities,
+        },
+        childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
