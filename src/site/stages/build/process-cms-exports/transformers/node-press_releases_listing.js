@@ -1,4 +1,8 @@
-const { createMetaTagArray, getDrupalValue } = require('./helpers');
+const {
+  createMetaTagArray,
+  getDrupalValue,
+  utcToEpochTime,
+} = require('./helpers');
 
 const reverseFields = reverseFieldListing => ({
   entities: reverseFieldListing
@@ -24,8 +28,8 @@ const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'press_releases_listing',
   title: getDrupalValue(entity.title),
-  created: getDrupalValue(entity.created),
-  changed: getDrupalValue(entity.changed),
+  created: utcToEpochTime(entity.created),
+  changed: utcToEpochTime(entity.changed),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldAdministration: entity.fieldAdministration[0],
   fieldDescription: getDrupalValue(entity.fieldDescription),
@@ -34,9 +38,7 @@ const transform = (entity, { ancestors }) => ({
   fieldOffice:
     entity.fieldOffice[0] &&
     !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
-      ? {
-          entity: entity.fieldOffice[0],
-        }
+      ? { entity: entity.fieldOffice[0] }
       : null,
   fieldPressReleaseBlurb: getDrupalValue(entity.fieldPressReleaseBlurb),
   reverseFieldListingNode: reverseFields(entity.reverseFieldListing),
