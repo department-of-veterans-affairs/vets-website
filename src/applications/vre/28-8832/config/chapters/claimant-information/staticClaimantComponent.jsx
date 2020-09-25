@@ -16,7 +16,7 @@ const ClaimantInformationComponent = ({
   let dateOfBirthFormatted = '-';
   let genderFull = '-';
   if (dob) {
-    dateOfBirthFormatted = moment(dob).format('MMMM Do YYYY');
+    dateOfBirthFormatted = moment(dob).format('MMMM D, YYYY');
   }
   if (gender === 'M') {
     genderFull = 'Male';
