@@ -1,47 +1,14 @@
-import {
-  expectLocation,
-  FORCE_OPTION,
-  selectDropdown,
-} from './cypress-helpers';
 import { createId, formatCurrency } from '../../utils/helpers';
 import calculatorConstantsJson from '../data/calculator-constants.json';
 import searchResults from '../data/search-results.json';
-
-export const typeOfInstitution = value => {
-  const selector = `input[name="category"][value="${value}"]`;
-  cy.get(selector).check(FORCE_OPTION);
-};
-
-export const search = searchTerm => {
-  if (searchTerm) {
-    cy.get('.keyword-search input[type="text"]').type(searchTerm);
-  }
-
-  cy.get('#search-button').click();
-
-  if (searchTerm) {
-    expectLocation('/search');
-  } else {
-    expectLocation('/program-search');
-  }
-};
-
-export const selectSearchResult = (href, checkLocation = true) => {
-  cy.get(`a[href*="${href}"]`)
-    .first()
-    .click();
-  if (checkLocation) {
-    expectLocation(href);
-  }
-  cy.axeCheck();
-};
+import vetTecSearchResults from '../data/vet-tec-search-results.json';
 
 export const displayLearnMoreModal = () => {
   cy.get('.learn-more-button')
     .first()
-    .click();
-  cy.axeCheck();
-  cy.get('.va-modal-close')
+    .click()
+    .axeCheck()
+    .get('.va-modal-close')
     .first()
     .click();
 };
@@ -54,11 +21,12 @@ const createAccordionButtonId = name => `#${createId(name)}-accordion-button`;
  */
 export const clickAccordion = name => {
   const accordionButtonId = createAccordionButtonId(name);
-  cy.get(accordionButtonId).should('be.visible');
   cy.get(accordionButtonId)
+    .should('be.visible')
+    .get(accordionButtonId)
     .first()
-    .click();
-  cy.axeCheck();
+    .click()
+    .axeCheck();
 };
 
 export const checkAccordionIsExpanded = name => {
@@ -89,14 +57,6 @@ export const collapseExpandAccordion = name => {
   checkAccordionIsExpanded(name);
 };
 
-/**
- * Select option for "Which GI Bill benefit do you want to use?"
- * @param option
- */
-export const giBillChapter = option => {
-  selectDropdown('giBillChapter', option);
-};
-
 export const formatNumberHalf = value => {
   const halfVal = Math.round(value / 2);
   return formatCurrency(halfVal);
@@ -112,13 +72,6 @@ const createCalculatorConstants = () => {
   return constantsList;
 };
 export const calculatorConstants = createCalculatorConstants();
-
-/**
- * Click the Calculate Benefits button in EYB
- */
-export const calculateBenefits = () => {
-  cy.get('.calculate-button').click();
-};
 
 /**
  * Verifies Housing Rate on Desktop
@@ -142,14 +95,16 @@ export const checkProfileHousingRate = housingRate => {
  * @param housingRate
  */
 export const enrolledOld = (option, housingRate) => {
-  selectDropdown('enrolledOld', option);
-  calculateBenefits();
+  cy.get('select[name="enrolledOld"]').select(option);
+  cy.get('.calculate-button').click();
   checkProfileHousingRate(housingRate);
 };
 
 export const breadCrumb = breadCrumbHref => {
-  cy.get(`.va-nav-breadcrumbs a[href='${breadCrumbHref}']`).click();
-  expectLocation(breadCrumbHref);
+  cy.get(`.va-nav-breadcrumbs a[href='${breadCrumbHref}']`)
+    .click()
+    .url()
+    .should('include', breadCrumbHref);
 };
 
 const eybSections = {
@@ -194,4 +149,13 @@ export const verifySearchResults = (results = searchResults) => {
     cy.get(`#search-result-${profile.facility_code}`).should('be.visible');
   });
   cy.axeCheck();
+};
+
+export const verifyVetTecSearchResults = (results = vetTecSearchResults) => {
+  results.data.forEach(result => {
+    const resultId = `#search-result-${result.attributes.facility_code}-${
+      result.attributes.description
+    }`;
+    cy.get(createId(resultId)).should('be.visible');
+  });
 };
