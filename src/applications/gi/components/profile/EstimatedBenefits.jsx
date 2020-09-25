@@ -46,35 +46,33 @@ const CalculatorResultRow = ({
   screenReaderSpan,
 }) =>
   visible ? (
-    <div
+    <li
       id={`calculator-result-row-${createId(id == null ? label : id)}`}
       className={classNames('row', 'calculator-result', {
         'vads-u-font-weight--bold': bold,
       })}
     >
-      <div className="small-6 columns">
-        {header ? <h4>{label}:</h4> : <div>{label}:</div>}
-      </div>
-      <div className="small-6 columns vads-u-text-align--right">
-        {header ? (
-          <div>
-            <p
-              className="vads-u-font-size--h5 vads-u-font-family--serif
+      {header ? (
+        <h4 className="small-6 columns">{label}:</h4>
+      ) : (
+        <span className="small-6 columns">{label}:</span>
+      )}
+      {header ? (
+        <span
+          className="small-6 columns vads-u-text-align--right vads-u-font-size--h5 vads-u-font-family--serif
               vads-u-font-weight--bold eyb-value-header"
-              aria-label={value}
-            >
-              {value}
-              {screenReaderSpan}
-            </p>
-          </div>
-        ) : (
-          <div>
-            {value}
-            {screenReaderSpan}
-          </div>
-        )}
-      </div>
-    </div>
+          aria-label={value}
+        >
+          {value}
+          {screenReaderSpan}
+        </span>
+      ) : (
+        <span className="small-6 columns vads-u-text-align--right">
+          {value}
+          {screenReaderSpan}
+        </span>
+      )}
+    </li>
   ) : null;
 
 const perTermSections = (outputs, calculator) => {
@@ -91,7 +89,7 @@ const perTermSections = (outputs, calculator) => {
     return (
       <div key={section} className="per-term-section">
         <div className="link-header">
-          <h4>{title}</h4>
+          <h4 id="tuition-and-fees-header">{title}</h4>
           &nbsp;(
           <a
             href={learnMoreLink}
