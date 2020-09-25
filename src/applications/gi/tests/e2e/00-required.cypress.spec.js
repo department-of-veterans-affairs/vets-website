@@ -2,7 +2,6 @@ import { initApplicationMock } from './cypress-helpers';
 import institutionProfile from '../data/institution-profile.json';
 import searchResults from '../data/search-results.json';
 import {
-  selectSearchResult,
   displayLearnMoreModal,
   collapseExpandAccordion,
   verifySearchResults,
@@ -32,13 +31,23 @@ describe('Institution', () => {
     // Search Page
     verifySearchResults(searchResults);
 
-    const profileLink = `/profile/${
-      searchResults.data[0].attributes.facility_code
-    }`;
+    const facilityCode = searchResults.data[0].attributes.facility_code;
 
-    selectSearchResult(profileLink);
+    cy.get(`#search-result-${facilityCode} a`)
+      .first()
+      .scrollIntoView();
 
-    // Profile Page
+    // Select the second search result
+    cy.get(`#search-result-${facilityCode} a`)
+      .first()
+      .should('be.visible')
+      .click({ force: true });
+
+    // Profile page
+    cy.wait(`@profile${facilityCode}`);
+    cy.url().should('include', `/profile/${facilityCode}`);
+    cy.get('.profile-page').should('be.visible');
+
     displayLearnMoreModal();
 
     // Estimate your benefits
