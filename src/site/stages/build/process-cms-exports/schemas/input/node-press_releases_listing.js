@@ -21,9 +21,7 @@ module.exports = {
       maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
-    field_press_release_blurb: { $ref: 'GenericNestedString' },
     reverse_field_listing: { $ref: 'EntityReferenceArray' },
-    status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
     'title',
@@ -38,6 +36,5 @@ module.exports = {
     'field_office',
     'field_press_release_blurb',
     'reverse_field_listing',
-    'status',
   ],
 };

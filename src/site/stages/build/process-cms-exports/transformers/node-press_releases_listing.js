@@ -1,16 +1,31 @@
-const {
-  createMetaTagArray,
-  getDrupalValue,
-  utcToEpochTime,
-  isPublished,
-} = require('./helpers');
+const { createMetaTagArray, getDrupalValue } = require('./helpers');
+
+const reverseFields = reverseFieldListing => ({
+  entities: reverseFieldListing
+    ? reverseFieldListing
+        .filter(
+          reverseField =>
+            reverseField.entityBundle === 'press_release' &&
+            reverseField.status,
+        )
+        .map(reverseField => ({
+          title: reverseField.title,
+          entityUrl: reverseField.entityUrl,
+          uid: reverseField.uid,
+          fieldFeatured: reverseField.fieldFeatured,
+          fieldDate: reverseField.fieldDate,
+          fieldDescription: reverseField.fieldDescription,
+          fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,
+        }))
+    : [],
+});
 
 const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'press_releases_listing',
   title: getDrupalValue(entity.title),
-  created: utcToEpochTime(getDrupalValue(entity.created)),
-  changed: utcToEpochTime(getDrupalValue(entity.changed)),
+  created: getDrupalValue(entity.created),
+  changed: getDrupalValue(entity.changed),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldAdministration: entity.fieldAdministration[0],
   fieldDescription: getDrupalValue(entity.fieldDescription),
@@ -19,32 +34,12 @@ const transform = (entity, { ancestors }) => ({
   fieldOffice:
     entity.fieldOffice[0] &&
     !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
-      ? { entity: entity.fieldOffice[0] }
+      ? {
+          entity: entity.fieldOffice[0],
+        }
       : null,
   fieldPressReleaseBlurb: getDrupalValue(entity.fieldPressReleaseBlurb),
-  reverseFieldListingNode: {
-    entities: entity.reverseFieldListing
-      ? entity.reverseFieldListing
-          .filter(
-            reverseField =>
-              reverseField.entityBundle === 'press_release' &&
-              reverseField.entityPublished,
-          )
-          .map(reverseField => ({
-            entityId: reverseField.entityId,
-            title: reverseField.title,
-            fieldReleaseDate: reverseField.fieldReleaseDate,
-            entityUrl: reverseField.entityUrl,
-            promote: reverseField.promote,
-            created: reverseField.created,
-            fieldIntroText: reverseField.fieldIntroText,
-            entityPublished: reverseField.entityPublished,
-          }))
-          .sort((a, b) => b.created - a.created)
-      : [],
-  },
-  entityPublished: isPublished(getDrupalValue(entity.status)),
-  status: getDrupalValue(entity.status),
+  reverseFieldListingNode: reverseFields(entity.reverseFieldListing),
 });
 
 module.exports = {
@@ -61,7 +56,6 @@ module.exports = {
     'field_office',
     'field_press_release_blurb',
     'reverse_field_listing',
-    'status',
   ],
   transform,
 };
