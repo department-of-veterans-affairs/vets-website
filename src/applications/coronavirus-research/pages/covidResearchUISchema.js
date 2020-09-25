@@ -244,6 +244,10 @@ export const uiSchema = {
       'ui:title': 'Car',
       'ui:reviewField': CustomReviewField,
     },
+    'TRANSPORTATION::CARPOOL_OR_VANPOOL': {
+      'ui:title': 'Carpool or vanpool',
+      'ui:reviewField': CustomReviewField,
+    },
     'TRANSPORTATION::FREQUENT_AIR_TRAVEL': {
       'ui:title': 'Frequent air travel',
       'ui:reviewField': CustomReviewField,
@@ -441,6 +445,10 @@ export const uiSchema = {
     },
     'GENDER::TRANSGENDER_FEMALE': {
       'ui:title': 'Transgender woman',
+      'ui:reviewField': CustomReviewField,
+    },
+    'GENDER::NON_BINARY': {
+      'ui:title': 'Non-binary',
       'ui:reviewField': CustomReviewField,
     },
     'GENDER::SELF_IDENTIFY': {
