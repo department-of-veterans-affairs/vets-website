@@ -1,7 +1,7 @@
 import React from 'react';
 
 const NeedHelpV2 = () => (
-  <div id="howDoIGetHelp" className="vads-u-font-family--sans">
+  <div className="vads-u-font-family--sans">
     <h3
       id="howDoIGetHelp"
       className="vads-u-margin-top--4 vads-u-margin-bottom--0 vads-u-font-size--h2"
