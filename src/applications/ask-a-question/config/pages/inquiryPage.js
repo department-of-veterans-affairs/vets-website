@@ -2,8 +2,15 @@ import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/de
 import { validateWhiteSpace } from 'platform/forms/validations';
 
 import fullSchema from '../../0873-schema.json';
-import pageDescription from '../../content/PageDescription';
 import reviewField from '../../content/inquiryPage';
+import {
+  inquiryPageDescription,
+  inquiryTypeTitle,
+  queryTitle,
+  topicDescription,
+  topicErrorMessage,
+  topicTitle,
+} from '../../content/labels';
 
 const { topic, inquiryType, query } = fullSchema.properties;
 
@@ -22,30 +29,25 @@ const getOptions = allOptions => {
 };
 
 const topicUiSchema = {
-  ...autoSuggestUiSchema(
-    'Which topic best describes your question or message?',
-    getOptions(topic.enum),
-    {
-      'ui:options': { queryForResults: true, freeInput: true },
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid topic.',
-      },
+  ...autoSuggestUiSchema(topicTitle, getOptions(topic.enum), {
+    'ui:options': { queryForResults: true, freeInput: true },
+    'ui:errorMessages': {
+      pattern: topicErrorMessage,
     },
-  ),
-  'ui:description':
-    'Please start typing below. If you do not find a match, type space to see all possible categories',
+  }),
+  'ui:description': topicDescription,
   'ui:reviewField': reviewField,
 };
 
 const inquiryPage = {
   uiSchema: {
-    'ui:description': pageDescription('Your message'),
+    'ui:description': inquiryPageDescription,
     [formFields.inquiryType]: {
-      'ui:title': "Tell us the reason you're contacting us",
+      'ui:title': inquiryTypeTitle,
     },
     [formFields.topic]: topicUiSchema,
     [formFields.query]: {
-      'ui:title': 'Please enter your question or message below',
+      'ui:title': queryTitle,
       'ui:widget': 'textarea',
       'ui:validations': [validateWhiteSpace],
     },

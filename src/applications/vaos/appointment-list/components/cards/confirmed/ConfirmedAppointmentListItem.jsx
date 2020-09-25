@@ -16,6 +16,7 @@ import {
   getVAAppointmentLocationId,
   isVideoAppointment,
   isAtlasLocation,
+  isVideoGFE,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
 import {
@@ -51,6 +52,7 @@ export default function ConfirmedAppointmentListItem({
   const isVideo = isVideoAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
   const isAtlas = isAtlasLocation(appointment);
+  const isGFE = isVideoGFE(appointment);
 
   const showInstructions =
     isCommunityCare ||
@@ -78,6 +80,8 @@ export default function ConfirmedAppointmentListItem({
   const getVideoLocation = () => {
     if (isAtlas) {
       return 'at an ATLAS location';
+    } else if (isGFE) {
+      return 'using a VA device';
     }
     return null;
   };
@@ -117,20 +121,22 @@ export default function ConfirmedAppointmentListItem({
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         {isAtlas && <span>Video appointment {getVideoLocation()}</span>}
-        {!isAtlas && (
-          <AppointmentDateTime
-            appointmentDate={moment.parseZone(appointment.start)}
-            timezone={appointment.vaos.timeZone}
-            facilityId={getVARFacilityId(appointment)}
-          />
-        )}
+        {isGFE && <span>Video appointment {getVideoLocation()}</span>}
+        {!isAtlas &&
+          !isGFE && (
+            <AppointmentDateTime
+              appointmentDate={moment.parseZone(appointment.start)}
+              timezone={appointment.vaos.timeZone}
+              facilityId={getVARFacilityId(appointment)}
+            />
+          )}
       </h3>
-      {isAtlas && (
+      {(isAtlas || isGFE) && (
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
           facilityId={getVARFacilityId(appointment)}
-          isAtlas
+          newFormat
         />
       )}
       <AppointmentStatus

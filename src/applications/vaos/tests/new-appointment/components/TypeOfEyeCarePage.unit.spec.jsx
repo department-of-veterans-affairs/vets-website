@@ -1,126 +1,116 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { cleanup } from '@testing-library/react';
 
-import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfEyeCarePage } from '../../../new-appointment/components/TypeOfEyeCarePage';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+
+import { getParentSiteMock } from '../../mocks/v0';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+  setTypeOfCare,
+} from '../../mocks/setup';
+import {
+  mockCommunityCareEligibility,
+  mockParentSites,
+} from '../../mocks/helpers';
+
+import TypeOfEyeCarePage from '../../../new-appointment/components/TypeOfEyeCarePage';
+
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingCommunityCare: true,
+  },
+  user: {
+    profile: {
+      facilities: [{ facilityId: '983', isCerner: false }],
+    },
+  },
+};
 
 describe('VAOS <TypeOfEyeCarePage>', () => {
-  it('should render', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
+  it('should show page and validation', async () => {
+    const store = createTestStore(initialState);
+    const nextPage = await setTypeOfCare(store, /eye care/i);
+    expect(nextPage).to.equal('/new-appointment/choose-eye-care');
 
-    const form = mount(
-      <TypeOfEyeCarePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfEyeCarePage} />,
+      {
+        store,
+      },
     );
 
-    expect(form.find('fieldset').length).to.equal(1);
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect(screen.getAllByRole('radio').length).to.equal(2);
+    fireEvent.click(screen.getByText(/Continue/));
+
+    expect(await screen.findByText('Please provide a response')).to.exist;
+    expect(screen.history.push.called).to.not.be.true;
+
+    fireEvent.click(await screen.findByLabelText(/ophthalmology/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/va-facility',
+      ),
+    );
   });
 
-  it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
-    const history = {
-      push: sinon.spy(),
+  it('should save eye care choice on page change', async () => {
+    const store = createTestStore(initialState);
+    let screen = renderWithStoreAndRouter(
+      <Route component={TypeOfEyeCarePage} />,
+      { store },
+    );
+
+    fireEvent.click(await screen.findByLabelText(/optometry/i));
+    await cleanup();
+
+    screen = renderWithStoreAndRouter(<Route component={TypeOfEyeCarePage} />, {
+      store,
+    });
+
+    expect(await screen.findByLabelText(/optometry/i)).to.have.attribute(
+      'checked',
+    );
+  });
+
+  it('should facility type page when CC eligible and optometry is chosen', async () => {
+    const parentSite983 = {
+      id: '983',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '983',
+        rootStationCode: '983',
+        parentStationCode: '983',
+      },
     };
+    mockParentSites(['983'], [parentSite983]);
+    mockCommunityCareEligibility({
+      parentSites: ['983'],
+      careType: 'Optometry',
+    });
+    const store = createTestStore(initialState);
+    const nextPage = await setTypeOfCare(store, /eye care/i);
+    expect(nextPage).to.equal('/new-appointment/choose-eye-care');
 
-    const form = mount(
-      <TypeOfEyeCarePage
-        openFormPage={openFormPage}
-        history={history}
-        data={{}}
-      />,
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfEyeCarePage} />,
+      {
+        store,
+      },
     );
 
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(history.push.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should call updateFormData after change', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
-
-    const form = mount(
-      <TypeOfEyeCarePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        history={history}
-        data={{}}
-      />,
+    fireEvent.click(await screen.findByLabelText(/optometry/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/choose-facility-type',
+      ),
     );
-
-    selectRadio(form, 'root_typeOfEyeCareId', '408');
-
-    expect(updateFormData.firstCall.args[2].typeOfEyeCareId).to.equal('408');
-    form.unmount();
-  });
-
-  it('should submit with valid data', () => {
-    const openFormPage = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <TypeOfEyeCarePage
-        openFormPage={openFormPage}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ typeOfEyeCareId: '408' }}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
-  });
-
-  it('should render label name', () => {
-    const openFormPage = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <TypeOfEyeCarePage
-        openFormPage={openFormPage}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-      />,
-    );
-    const labels = form.find(
-      'span.vads-u-display--block.vads-u-font-size--lg.vads-u-font-weight--bold',
-    );
-
-    expect(labels.length).to.equal(2);
-    expect(labels.at(0).text()).to.have.string('Optometry');
-    expect(labels.at(1).text()).to.have.string('Ophthalmology');
-    form.unmount();
-  });
-
-  it('document title should match h1 text', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const pageTitle = 'Choose the type of eye care you need';
-
-    const form = mount(
-      <TypeOfEyeCarePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
-    );
-
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-    form.unmount();
   });
 });

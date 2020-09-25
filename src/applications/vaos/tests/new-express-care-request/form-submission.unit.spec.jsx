@@ -31,8 +31,8 @@ import {
   mockRequestLimit,
   setupExpressCareMocks,
 } from '../mocks/helpers';
-import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
-import ExpressCareConfirmationPage from '../../containers/ExpressCareConfirmationPage';
+import ExpressCareDetailsPage from '../../express-care/components/ExpressCareDetailsPage';
+import ExpressCareConfirmationPage from '../../express-care/components/ExpressCareConfirmationPage';
 import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 import { EXPRESS_CARE } from '../../utils/constants';
 
