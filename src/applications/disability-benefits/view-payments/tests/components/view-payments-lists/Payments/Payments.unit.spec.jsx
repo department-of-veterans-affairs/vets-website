@@ -19,7 +19,7 @@ import Payments from '../../../../components/view-payments-lists/payments/Paymen
 // Props - fields, data, textContent
 
 describe('<Payments />', () => {
-  it('should render', async () => {
+  it('should render with a list of payments', async () => {
     const screen = render(
       <Payments
         fields={paymentsReceivedFields}
