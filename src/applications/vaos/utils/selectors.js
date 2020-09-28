@@ -338,7 +338,8 @@ export function getFacilityPageV2Info(state) {
     parentFacilitiesStatus,
     singleValidVALocation: facilities?.length === 1,
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
-    showEligibilityModal: newAppointment.showEligibilityModal,
+    showEligibilityModal:
+      facilities?.length > 1 && newAppointment.showEligibilityModal,
   };
 }
 

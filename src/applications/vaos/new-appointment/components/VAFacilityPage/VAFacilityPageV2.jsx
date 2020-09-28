@@ -227,7 +227,12 @@ function VAFacilityPageV2({
             continueLabel=""
             pageChangeInProgress={pageChangeInProgress}
             onBack={goBack}
-            disabled={loadingParents || loadingFacilities || loadingEligibility}
+            disabled={
+              loadingParents ||
+              loadingFacilities ||
+              loadingEligibility ||
+              (facilities?.length === 1 && !canScheduleAtChosenFacility)
+            }
           />
           {loadingEligibility && (
             <div aria-atomic="true" aria-live="assertive">
