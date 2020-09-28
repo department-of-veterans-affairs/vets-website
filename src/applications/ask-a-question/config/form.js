@@ -7,12 +7,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { contactInformationPage, inquiryPage } from './pages';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
+import { veteranStatusUI } from './pages/veteranStatusUI';
 
 const { fullName, phone, date } = fullSchema.definitions;
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   topic: 'topic',
+  veteranInformation: 'veteranInformation',
   contactInformation: 'contactInformation',
 };
 
@@ -25,6 +27,18 @@ const submitTransform = (formConfig, form) => {
     },
   });
 };
+
+const formFields = {
+  preferredContactMethod: 'preferredContactMethod',
+  fullName: 'fullName',
+  address: 'address',
+  email: 'email',
+  verifyEmail: 'view:email',
+  phoneNumber: 'phoneNumber',
+  veteranStatus: 'veteranStatus',
+};
+
+const { veteranStatus } = fullSchema.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -58,6 +72,22 @@ const formConfig = {
           title: 'Your message',
           uiSchema: inquiryPage.uiSchema,
           schema: inquiryPage.schema,
+        },
+      },
+    },
+    veteranInformationChapter: {
+      title: 'Tell us about the Veteran',
+      pages: {
+        [formPages.veteranInformation]: {
+          path: 'veteran-information',
+          title: 'Veteran Information',
+          uiSchema: {
+            [formFields.veteranStatus]: veteranStatusUI,
+          },
+          schema: {
+            type: 'object',
+            properties: { [formFields.veteranStatus]: veteranStatus },
+          },
         },
       },
     },
