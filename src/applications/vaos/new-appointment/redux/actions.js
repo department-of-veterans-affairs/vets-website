@@ -138,6 +138,8 @@ export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
+export const FORM_HIDE_ELIGIBILITY_MODAL =
+  'newAppointment/FORM_HIDE_ELIGIBILITY_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED';
 export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
@@ -296,10 +298,11 @@ export function checkEligibility(location, siteId) {
       try {
         const eligibility = getEligibilityStatus(getState());
         if (!eligibility.direct && !eligibility.request) {
-          // Remove parse function when converting this call to FHIR service
           const thunk = fetchFacilityDetails(location.id);
           await thunk(dispatch, getState);
         }
+
+        return eligibility;
       } catch (e) {
         captureError(e);
       }
@@ -309,6 +312,7 @@ export function checkEligibility(location, siteId) {
         type: FORM_ELIGIBILITY_CHECKS_FAILED,
       });
     }
+    return null;
   };
 }
 
@@ -429,6 +433,12 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
       });
     }
+  };
+}
+
+export function hideEligibilityModal() {
+  return {
+    type: FORM_HIDE_ELIGIBILITY_MODAL,
   };
 }
 
