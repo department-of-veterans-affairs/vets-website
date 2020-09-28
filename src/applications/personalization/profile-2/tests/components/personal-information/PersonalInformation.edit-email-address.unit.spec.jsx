@@ -17,9 +17,10 @@ import {
 } from '../../unit-test-helpers';
 import { beforeEach } from 'mocha';
 
-const errorText =
-  'We’re sorry. We couldn’t update your email address. Please try again.';
+const errorText = 'It looks like the email you entered isn’t valid.';
+
 const newEmailAddress = 'new-address@domain.com';
+
 const ui = (
   <MemoryRouter>
     <PersonalInformation />
