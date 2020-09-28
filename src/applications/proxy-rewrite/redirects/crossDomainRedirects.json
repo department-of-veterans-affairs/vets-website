@@ -1038,5 +1038,50 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/fgib/stem.asp",
     "dest": "/education/other-va-education-benefits/stem-scholarship/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/agentorange-c123.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.vets.gov",
+    "src": "/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.vets.gov",
+    "src": "/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.vets.gov",
+    "src": "/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.vets.gov",
+    "src": "/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.vets.gov",
+    "src": "/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.vets.gov",
+    "src": "/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-inside/",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.vets.gov",
+    "src": "/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.vets.gov",
+    "src": "/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/thailand-military-bases/",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
   }
 ]
