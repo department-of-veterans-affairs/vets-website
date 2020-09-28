@@ -14,8 +14,57 @@ const caregiverValues = [
   'VA Supportive Services',
 ];
 
+const healthAndIssuesValues = [
+  'Medical Care Issues at Specific Facility',
+  'Health/Medical Eligibility & Programs',
+  'My HealtheVet',
+  'Prosthetics, Med Devices & Sensory Aids',
+  'Vet Center / Readjustment Counseling Service (RCS)',
+  'Women Veterans Health Care',
+];
+
+const womenVetsValues = [
+  'Policy Questions',
+  'Question about Women Veterans Programs',
+];
+
+const medicalEligibilityValues = [
+  'Apply for Health Benefits (Veterans)',
+  'Medical Care for Veterans within USA',
+  'Medical Care-Overseas Vets (Foreign Med)',
+  'Children of Women Vietnam Vets Healthcare',
+  'Apply for Health Benefits (Dependents)',
+  'CHAMPVA-Civilian Health & Medical Prog',
+  'CHAMPVA Password/Access Problems',
+  'CHAMPVA CITI (In house Treatment Initiated)',
+  'Spina Bifida Program for Children of Vet',
+  'Licensed Health Professional Employment]',
+];
+
+const medDevicesValues = [
+  'Artificial Limbs/Orthotics',
+  'Automobile Adaptive Equipment',
+  'Clothing Allowance',
+  'Durable Medical Equipment',
+  'Eyeglasses',
+  'Hearing Aids',
+  'Home Improvements & Structural Alteratio',
+  'Home Oxygen',
+  'Wheelchairs',
+  'Prosthetics Web Site',
+  'Technical Problems',
+  'Other Prosthetics Issues',
+];
+
+const womensHealthValues = ['General Concern'];
+
 const valuesByLabelLookup = {
   'Caregiver Support Program': caregiverValues,
+  'Health & Medical Issues & Services': healthAndIssuesValues,
+  'VA Ctr for Women Vets, Policies & Progs': womenVetsValues,
+  'Health/Medical Eligibility & Programs': medicalEligibilityValues,
+  'Prosthetics, Med Devices & Sensory Aids': medDevicesValues,
+  'Women Veterans Health Care': womensHealthValues,
 };
 
 const topicUI = {
@@ -30,9 +79,17 @@ export function schema(currentSchema, topicProperty = 'topic') {
     properties: _.assign(topicSchema.properties, {
       levelOne: {
         type: 'string',
-        enum: ['Caregiver Support Program'],
+        enum: [
+          'Caregiver Support Program',
+          'Health & Medical Issues & Services',
+          'VA Ctr for Women Vets, Policies & Progs',
+        ],
       },
       levelTwo: {
+        title: topicTitle,
+        type: 'string',
+      },
+      levelThree: {
         title: topicTitle,
         type: 'string',
       },
@@ -50,20 +107,54 @@ export function uiSchema() {
         properties: topicSchema.properties,
       };
 
-      const labelList = valuesByLabelLookup[levelOne];
+      const levelTwoLabelList = valuesByLabelLookup[levelOne];
 
-      if (labelList && topicSchema.properties.levelTwo.enum !== labelList) {
+      if (
+        levelTwoLabelList &&
+        topicSchema.properties.levelTwo.enum !== levelTwoLabelList
+      ) {
         // We have a list and it’s different, so we need to make schema updates
         const withEnum = _.set(
           'levelTwo.enum',
-          labelList,
+          levelTwoLabelList,
           schemaUpdate.properties,
         );
         schemaUpdate.properties = _.set(
           'levelTwo.enumNames',
-          labelList,
+          levelTwoLabelList,
           withEnum,
         );
+      } else if (levelTwoLabelList === undefined) {
+        const withEnum = _.set('levelTwo.enum', [], schemaUpdate.properties);
+        schemaUpdate.properties = _.set('levelTwo.enumNames', [], withEnum);
+      }
+
+      if (levelTwo) {
+        const levelThreeLabelList = valuesByLabelLookup[levelTwo];
+
+        if (
+          levelThreeLabelList &&
+          topicSchema.properties.levelThree.enum !== levelThreeLabelList
+        ) {
+          // We have a list and it’s different, so we need to make schema updates
+          const withEnum = _.set(
+            'levelThree.enum',
+            levelThreeLabelList,
+            schemaUpdate.properties,
+          );
+          schemaUpdate.properties = _.set(
+            'levelThree.enumNames',
+            levelThreeLabelList,
+            withEnum,
+          );
+        } else if (levelThreeLabelList === undefined) {
+          const withEnum = _.set(
+            'levelThree.enum',
+            [],
+            schemaUpdate.properties,
+          );
+          schemaUpdate.properties = _.set('levelThree.enumNames', [], withEnum);
+        }
       }
 
       return schemaUpdate;

@@ -273,7 +273,71 @@
               ]
             },
             "levelTwo": {
-              "type": "string",
+              "type": "object",
+              "oneOf": [
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": ["Health/Medical Eligibility & Programs"]
+                    },
+                    "topicThree": {
+                      "type": "string",
+                      "enum": [
+                        "Apply for Health Benefits (Veterans)",
+                        "Medical Care for Veterans within USA",
+                        "Medical Care-Overseas Vets (Foreign Med)",
+                        "Children of Women Vietnam Vets Healthcare",
+                        "Apply for Health Benefits (Dependents)",
+                        "CHAMPVA-Civilian Health & Medical Prog",
+                        "CHAMPVA Password/Access Problems",
+                        "CHAMPVA CITI (In house Treatment Initiated)",
+                        "Spina Bifida Program for Children of Vet",
+                        "Licensed Health Professional Employment"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": ["Prosthetics, Med Devices & Sensory Aids"]
+                    },
+                    "topicThree": {
+                      "type": "string",
+                      "enum": [
+                        "Artificial Limbs/Orthotics",
+                        "Automobile Adaptive Equipment",
+                        "Clothing Allowance",
+                        "Durable Medical Equipment",
+                        "Eyeglasses",
+                        "Hearing Aids",
+                        "Home Improvements & Structural Alteratio",
+                        "Home Oxygen",
+                        "Wheelchairs",
+                        "Prosthetics Web Site",
+                        "Technical Problems",
+                        "Other Prosthetics Issues"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": ["Women Veterans Health Care"]
+                    },
+                    "topicThree": {
+                      "type": "string",
+                      "enum": [
+                        "General Concern"
+                      ]
+                    }
+                  }
+                }
+              ],
               "enum": [
                 "Medical Care Issues at Specific Facility",
                 "Health/Medical Eligibility & Programs",
