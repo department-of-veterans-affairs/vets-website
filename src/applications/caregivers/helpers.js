@@ -32,15 +32,13 @@ const medicalCentersByState = _.mapValues(
 // transforms forData to match fullSchema structure for backend submission
 const submitTransform = (formConfig, form) => {
   // checks for optional chapters using ssnOrTin
-  const hasSecondaryOne =
-    form.data['view:hasSecondaryCaregiverOne'] === undefined
-      ? null
-      : 'secondaryOne';
+  const hasSecondaryOne = form.data['view:hasSecondaryCaregiverOne']
+    ? 'secondaryOne'
+    : null;
 
-  const hasSecondaryTwo =
-    form.data['view:hasSecondaryCaregiverTwo'] === undefined
-      ? null
-      : 'secondaryTwo';
+  const hasSecondaryTwo = form.data['view:hasSecondaryCaregiverTwo']
+    ? 'secondaryTwo'
+    : null;
 
   // creates chapter objects by matching chapter prefixes
   const buildChapterSortedObject = (data, dataPrefix) => {
