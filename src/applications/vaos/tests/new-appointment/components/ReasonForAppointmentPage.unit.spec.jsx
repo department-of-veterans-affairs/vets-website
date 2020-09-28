@@ -10,6 +10,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import ReasonForAppointmentPage from '../../../new-appointment/components/ReasonForAppointmentPage';
 import { Route } from 'react-router-dom';
 import { cleanup } from '@testing-library/react';
+import { startDirectScheduleFlow } from '../../../new-appointment/redux/actions';
 
 const initialState = {
   featureToggles: {
@@ -62,7 +63,11 @@ describe('VAOS integration: reason for appointment page with a single-site user'
       'Tell us the reason for this appointment',
     );
 
-    expect(screen.getByRole('textbox')).to.exist;
+    const textBox = screen.getByRole('textbox');
+    expect(textBox).to.exist;
+    expect(textBox)
+      .to.have.attribute('maxlength')
+      .to.equal('100');
 
     expect(
       screen.getByRole('heading', {
@@ -99,6 +104,31 @@ describe('VAOS integration: reason for appointment page with a single-site user'
 
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please provide a response',
+    );
+  });
+
+  it('should show alternate textbox char length if navigated via direct schedule flow', async () => {
+    const store = createTestStore(initialState);
+    store.dispatch(startDirectScheduleFlow());
+
+    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+      store,
+    });
+
+    fireEvent.click(
+      await screen.findByLabelText(/Routine or follow-up visit/i),
+    );
+
+    const textBox = screen.getByRole('textbox');
+    expect(textBox).to.exist;
+    expect(textBox)
+      .to.have.attribute('maxlength')
+      .to.equal('131');
+
+    expect(
+      screen.getByRole('heading', {
+        name: /If you have an urgent medical need, please:/i,
+      }),
     );
   });
 
