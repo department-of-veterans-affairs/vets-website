@@ -3,7 +3,7 @@ import {
   assertDataLayerEvent,
   assertDataLayerLastItems,
   assertEventAndAttributes,
-} from './utils';
+} from './analyticsUtils';
 
 describe('Google Analytics FL Events', () => {
   before(() => {
