@@ -7,7 +7,7 @@ import {
   getAllPayments,
 } from '../../actions';
 
-import { mockData } from '../helpers';
+import { payments } from '../helpers';
 
 let fetchMock;
 let oldFetch;
@@ -26,8 +26,6 @@ describe('View Payments actions: getAllPayments', () => {
   beforeEach(mockFetch);
 
   it('should get all payments', () => {
-    const payments = mockData;
-
     fetchMock.returns({
       catch: () => ({
         then: fn => fn({ ok: true, json: () => Promise.resolve(payments) }),

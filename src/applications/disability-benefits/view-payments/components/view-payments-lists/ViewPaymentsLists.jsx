@@ -11,7 +11,7 @@ import ViewPaymentsHeader from '../../components/view-payments-header/ViewPaymen
 import {
   paymentsReturnedFields,
   paymentsReceivedFields,
-  paymentsRecievedContent,
+  paymentsReceivedContent,
   paymentsReturnedContent,
 } from './helpers';
 import { getAllPayments } from '../../actions';
@@ -110,7 +110,7 @@ class ViewPaymentsLists extends Component {
             <Payments
               fields={paymentsReceivedFields}
               data={payments}
-              textContent={paymentsRecievedContent}
+              textContent={paymentsReceivedContent}
             />
           );
         } else {

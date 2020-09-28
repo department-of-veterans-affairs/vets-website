@@ -5,6 +5,7 @@ fragment nodeStepByStep on NodeStepByStep {
   ${entityElementsFromPages}
   entityBundle
 
+  changed
   title
   fieldIntroTextLimitedHtml {
     processed
