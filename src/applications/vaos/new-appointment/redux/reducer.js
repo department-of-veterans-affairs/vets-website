@@ -8,6 +8,7 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
+import { getParentOfLocation } from '../../services/location';
 import { getEligibilityChecks, isEligible } from '../../utils/eligibility';
 
 import {
@@ -337,9 +338,11 @@ export default function formReducer(state = initialState, action) {
       }
 
       if (locations.length === 1) {
+        const selectedFacility = locations[0];
         newData = {
           ...newData,
-          vaFacility: locations[0].id,
+          vaFacility: selectedFacility.id,
+          vaParent: getParentOfLocation(parentFacilities, selectedFacility)?.id,
         };
       } else {
         newSchema = set(
