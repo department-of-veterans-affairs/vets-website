@@ -87,7 +87,7 @@ export default () => (
           onClick={onFeaturedContentClick('Apply for VA health care benefits')}
         >
           <span>
-            Read more
+            Apply online
             <span className="vads-u-visibility--screen-reader">
               about applying for VA health care benefits
             </span>
