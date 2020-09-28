@@ -1,18 +1,12 @@
-import { apiRequest } from 'platform/utilities/api';
 import React from 'react';
 import captureEvents from '../analytics-functions';
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
-export const ExitApplicationButton = () => {
+export const ExitApplicationButton = ({ formId }) => {
   const onClick = () => {
     captureEvents.exitApplication();
 
-    apiRequest('/in_progress_forms/destroy/10203')
-      .then(_response => {
-        // console.log(`Successfully deleted in progress form 10203: ${response}`);
-      })
-      .catch(_error => {
-        // console.warn(`Failed to delete in progress form 10203: ${error}`);
-      });
+    removeFormApi(formId);
   };
 
   return (
