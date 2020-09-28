@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import moment from 'moment';
-import PastAppointmentsDateDropdown from '../../../appointment-list/components/PastAppointmentsDateDropdown';
+import PastAppointmentsDateDropdown from '../../../appointment-list/components/PastAppointmentsList/PastAppointmentsDateDropdown';
 import { getPastAppointmentDateRangeOptions } from '../../../utils/appointment';
 
 const dateRanges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
