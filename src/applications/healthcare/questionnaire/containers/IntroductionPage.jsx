@@ -9,6 +9,7 @@ import Telephone, {
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -22,10 +23,10 @@ const IntroductionPage = props => {
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title="Upcoming appointment questionnaire" />
       {facilityName && <h2 className="sub-heading">{facilityName}</h2>}
-      <p className="better-prepare-yours">
+      <h2 className="better-prepare-yours">
         Better prepare yourself and your provider for your upcoming appointment
         with this questionnaire.
-      </p>
+      </h2>
       <SaveInProgressIntro
         hideUnauthedStartLink
         prefillEnabled={props.route.formConfig.prefillEnabled}
@@ -145,7 +146,12 @@ const IntroductionPage = props => {
           </li>
         </ol>
       </div>
-      <button className="va-button sign-in-button-bottom" onClick={() => {}}>
+      <button
+        className="va-button sign-in-button-bottom"
+        onClick={() => {
+          props.toggleLoginModal();
+        }}
+      >
         Sign in to start the questionnaire
       </button>
       <div className="omb-info--container">
@@ -161,7 +167,11 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = {
+  toggleLoginModal,
+};
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(IntroductionPage);
