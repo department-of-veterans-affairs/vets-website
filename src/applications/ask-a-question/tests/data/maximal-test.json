@@ -8,6 +8,18 @@
       "last": "Doe",
       "suffix": "IV"
     },
+    "preferredContactMethod": "email",
+    "email": "jane.doe@va.gov",
+    "view:email": "jane.doe@va.gov",
+    "address": {
+      "country": "USA",
+      "state": "IL",
+      "street": "123 Main St",
+      "street2": "Apt 3",
+      "city": "Chicago",
+      "postalCode": "60601"
+    },
+    "phoneNumber": "8001234567",
     "veteranStatus": {
       "veteranStatus": "For the dependent of a Veteran",
       "isDependent": true,
@@ -16,9 +28,6 @@
       "dateOfDeath": "2000-06-04",
       "branchOfService": "Army"
     },
-    "preferredContactMethod": "email",
-    "email": "jane.doe@va.gov",
-    "view:email": "jane.doe@va.gov",
     "privacyAgreementAccepted": true
   }
 }

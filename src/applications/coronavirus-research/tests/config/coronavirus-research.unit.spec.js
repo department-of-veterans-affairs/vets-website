@@ -26,7 +26,10 @@ describe('Coronavirus Research Volunteer Form', () => {
       'HEALTH_HISTORY::NONE_OF_ABOVE': false,
     },
     EMPLOYMENT_STATUS: { 'EMPLOYMENT_STATUS::STUDENT': true },
-    TRANSPORTATION: { 'TRANSPORTATION::NONE_OF_ABOVE': true },
+    TRANSPORTATION: {
+      'TRANSPORTATION::NONE_OF_ABOVE': false,
+      'TRANSPORTATION::CARPOOL_OR_VANPOOL': true,
+    },
     residentsInHome: 'ONE_TWO',
     closeContact: 'ZERO',
     veteranFullName: { first: 'testFName', last: 'testLName' },
@@ -35,7 +38,7 @@ describe('Coronavirus Research Volunteer Form', () => {
     zipCode: '99988',
     veteranDateOfBirth: '1980-09-24',
     VETERAN: { 'VETERAN::VETERAN': true, 'VETERAN::VA_EMPLOYEE': true },
-    GENDER: { 'GENDER::FEMALE': true, 'GENDER::NONE_OF_ABOVE': false },
+    GENDER: { 'GENDER::NON_BINARY': true, 'GENDER::NONE_OF_ABOVE': false },
     GENDER_SELF_IDENTIFY_DETAILS: 'This is a gender self description',
     RACE_ETHNICITY: { 'RACE_ETHNICITY::NONE_OF_ABOVE': true },
     consentAgreementAccepted: true,
@@ -50,7 +53,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(71);
+    expect(form.find('input').length).to.equal(73);
     form.unmount();
   });
 
@@ -258,10 +261,9 @@ describe('Coronavirus Research Volunteer Form', () => {
     );
     selectCheckbox(
       form,
-      'root_TRANSPORTATION_TRANSPORTATION::NONE_OF_ABOVE',
+      'root_TRANSPORTATION_TRANSPORTATION::CARPOOL_OR_VANPOOL',
       false,
     );
-
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(form.find('.input-error-date').length).to.equal(0);
@@ -301,7 +303,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectCheckbox(form, 'root_GENDER_GENDER::FEMALE', false);
+    selectCheckbox(form, 'root_GENDER_GENDER::NON_BINARY', false);
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);

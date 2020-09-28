@@ -3,6 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import { WIZARD_STATUS } from 'applications/static-pages/wizard';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
@@ -20,6 +21,10 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: ({ afterHook }) => {
+        cy.get('[type="radio"][value="compensation"]').click();
+        cy.get('[type="radio"][value="legacy-no"]').click();
+        cy.axeCheck();
+        cy.findByText(/request/i, { selector: 'button' }).click();
         afterHook(() => {
           // Hit the start button
           cy.findAllByText(/start/i, { selector: 'button' })
@@ -30,6 +35,8 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      window.sessionStorage.removeItem(WIZARD_STATUS);
+
       cy.login();
 
       cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
