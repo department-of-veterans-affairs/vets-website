@@ -21,7 +21,7 @@ const IntroductionPage = props => {
   return (
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title="Upcoming appointment questionnaire" />
-      <h2 className="sub-heading">{facilityName}</h2>
+      {facilityName && <h2 className="sub-heading">{facilityName}</h2>}
       <p className="better-prepare-yours">
         Better prepare yourself and your provider for your upcoming appointment
         with this questionnaire.
@@ -150,7 +150,7 @@ const IntroductionPage = props => {
         pageList={props.route.pageList}
         startText="Start the questionnaire"
       />
-      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+      <div className="omb-info--container">
         <OMBInfo ombNumber="0000-0000" expDate="mm/dd/yyyy" />
       </div>
     </div>
