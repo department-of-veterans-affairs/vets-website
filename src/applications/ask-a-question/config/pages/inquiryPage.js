@@ -1,5 +1,6 @@
 import { validateWhiteSpace } from 'platform/forms/validations';
-import topicUI from '../../inquiry/topic/topic';
+import * as topic from '../../inquiry/topic/topic';
+
 import fullSchema from '../../0873-schema.json';
 import {
   inquiryPageDescription,
@@ -7,7 +8,7 @@ import {
   queryTitle,
 } from '../../content/labels';
 
-const { topic, inquiryType, query } = fullSchema.properties;
+const { inquiryType, query } = fullSchema.properties;
 
 const formFields = {
   topic: 'topic',
@@ -21,7 +22,7 @@ const inquiryPage = {
     [formFields.inquiryType]: {
       'ui:title': inquiryTypeTitle,
     },
-    [formFields.topic]: topicUI,
+    [formFields.topic]: topic.uiSchema(),
     [formFields.query]: {
       'ui:title': queryTitle,
       'ui:widget': 'textarea',
@@ -32,7 +33,7 @@ const inquiryPage = {
     type: 'object',
     required: [formFields.inquiryType, formFields.topic, formFields.query],
     properties: {
-      [formFields.topic]: topic,
+      [formFields.topic]: topic.schema(fullSchema),
       [formFields.inquiryType]: inquiryType,
       [formFields.query]: query,
     },
