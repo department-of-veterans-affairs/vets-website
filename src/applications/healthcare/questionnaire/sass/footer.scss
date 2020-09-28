@@ -7,31 +7,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-
-.healthcare-experience {
-
-  @mixin header{
-    font-family: Bitter;
-    color: $color-gray-dark;
-  }
-
-  .better-prepare-yours {
-    @include header;
-    font-size: 20px;
-    line-height: 1.7;
-  }
-
-  .urgent-needs-header, .personal-info-header {
-    @include header;
-    font-size: 30px;
-    font-weight: bold;
-    line-height: 1.3;
-  }
-  .omb-info--container{
-    padding-left: 0;
-    margin-bottom: 4rem;
-  }
-  .sign-in-button-bottom {
-    margin-bottom: 4rem;
-  }
+.questionnaire-help-footer{
+  margin-bottom: 6rem;
 }

@@ -144,12 +144,9 @@ const IntroductionPage = props => {
           </li>
         </ol>
       </div>
-      <SaveInProgressIntro
-        buttonOnly
-        messages={props.route.formConfig.savedFormMessages}
-        pageList={props.route.pageList}
-        startText="Start the questionnaire"
-      />
+      <button className="va-button sign-in-button-bottom" onClick={() => {}}>
+        Sign in to start the questionnaire
+      </button>
       <div className="omb-info--container">
         <OMBInfo ombNumber="0000-0000" expDate="mm/dd/yyyy" />
       </div>
