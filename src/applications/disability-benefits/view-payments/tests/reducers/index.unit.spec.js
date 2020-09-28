@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import paymentReducer from '../../reducers';
-import { mockData } from '../helpers';
+import { payments } from '../helpers';
 
 const { allPayments } = paymentReducer;
 
@@ -21,10 +21,10 @@ describe('allPayments reducer', () => {
   it('should handle a successful call for fetching payments', () => {
     const state = allPayments(initialState, {
       type: 'PAYMENTS_RECEIVED_SUCCEEDED',
-      response: mockData,
+      response: payments,
     });
     expect(state.isLoading).to.be.false;
-    expect(state.payments.received.length).to.be.greaterThan(0);
+    expect(state.payments.payments.length).to.be.greaterThan(0);
   });
 
   // TODO: this needs to be updated once the frontend is wired up to the backend.
