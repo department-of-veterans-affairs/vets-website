@@ -77,4 +77,23 @@ describe('View Payments Lists', () => {
       wrapper.unmount();
     }, 3000);
   });
+
+  it('shows an info error when no payments are present', () => {
+    const getAllPayments = sinon.spy();
+    const wrapper = render(
+      <ViewPaymentsLists
+        store={store}
+        isLoading={false}
+        error={false}
+        getAllPayments={getAllPayments}
+      />,
+    );
+
+    setTimeout(async () => {
+      expect(wrapper.getByText(/We don’t have a record of VA payments for you/))
+        .to.exist;
+      expect(getAllPayments.toBeCalled);
+      wrapper.unmount();
+    }, 3000);
+  });
 });
