@@ -21,6 +21,48 @@ export const payments = {
       payCheckReturnFiche: 'C',
       payCheckType: 'Compensation & Pension - Retroactive',
     },
+    {
+      payCheckAmount: '$3,261.10',
+      payCheckDt: '04/01/2019',
+      payCheckId: '001',
+      payCheckReturnFiche: 'C',
+      payCheckType: 'Compensation & Pension - Recurring',
+    },
+    {
+      payCheckAmount: '$3,261.10',
+      payCheckDt: '03/01/2019',
+      payCheckId: '002',
+      payCheckReturnFiche: 'C',
+      payCheckType: 'Compensation & Pension - Recurring',
+    },
+    {
+      payCheckAmount: '$177.60',
+      payCheckDt: '11/09/2018',
+      payCheckId: '003',
+      payCheckReturnFiche: 'C',
+      payCheckType: 'Compensation & Pension - Retroactive',
+    },
+    {
+      payCheckAmount: '$3,261.10',
+      payCheckDt: '04/01/2019',
+      payCheckId: '001',
+      payCheckReturnFiche: 'C',
+      payCheckType: 'Compensation & Pension - Recurring',
+    },
+    {
+      payCheckAmount: '$3,261.10',
+      payCheckDt: '03/01/2019',
+      payCheckId: '002',
+      payCheckReturnFiche: 'C',
+      payCheckType: 'Compensation & Pension - Recurring',
+    },
+    {
+      payCheckAmount: '$177.60',
+      payCheckDt: '11/09/2018',
+      payCheckId: '003',
+      payCheckReturnFiche: 'C',
+      payCheckType: 'Compensation & Pension - Retroactive',
+    },
   ],
   returnPayments: [
     {

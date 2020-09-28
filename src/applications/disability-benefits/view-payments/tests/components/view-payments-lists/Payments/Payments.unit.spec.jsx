@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import { payments } from '../helpers';
 import {
@@ -7,16 +8,6 @@ import {
   paymentsReceivedContent,
 } from '../../../../components/view-payments-lists/helpers';
 import Payments from '../../../../components/view-payments-lists/payments/Payments';
-/**
- * Test Cases
- * 1. Component should render
- * 2. paginatedData
- *    - should not be empty when there are payments
- *    - should be empty when there are no payments
- * 3. State should update on pagination
- */
-
-// Props - fields, data, textContent
 
 describe('<Payments />', () => {
   it('should render with a list of payments', async () => {
@@ -29,5 +20,35 @@ describe('<Payments />', () => {
     );
 
     expect(await screen.findByText(/Payments you received/)).to.exist;
+    expect(await screen.findByText(/Date/)).to.exist;
+    expect(await screen.findByText(/Amount/)).to.exist;
+    expect(await screen.findByText(/Type/)).to.exist;
+  });
+
+  it('should render an error if the payments list is empty', async () => {
+    const mockEmptyPayments = [];
+    const screen = render(
+      <Payments
+        fields={paymentsReceivedFields}
+        data={mockEmptyPayments}
+        textContent={paymentsReceivedContent}
+      />,
+    );
+
+    expect(await screen.findByText(/No Received payments/)).to.exist;
+  });
+
+  it('should update the display numbers when paginating', async () => {
+    const screen = render(
+      <Payments
+        fields={paymentsReceivedFields}
+        data={payments.payments}
+        textContent={paymentsReceivedContent}
+      />,
+    );
+    fireEvent.click(screen.getByText('Next'));
+    await waitFor(() => expect(screen.getByText(/Displaying 6 - 9 of 9/)));
+    fireEvent.click(screen.getByText('Prev'));
+    await waitFor(() => expect(screen.getByText(/Displaying 1 - 5 of 9/)));
   });
 });
