@@ -41,22 +41,29 @@ const IntroductionPage = props => {
           Can I use this questionnaire for medical emergencies or urgent needs?
         </h3>
         <p>
-          If you think you have a medical emergency, call 911 or go to the
-          nearest emergency room.
+          <span className="vads-u-font-weight--bold">
+            If you think you have a medical emergency,
+          </span>{' '}
+          call 911 or go to the nearest emergency room.
         </p>
         <p>
-          If you don’t have an emergency, but you’re not sure what type of care
-          you need, call your nearest VA health facility.
+          <span className="vads-u-font-weight--bold">
+            If you don’t have an emergency, but you’re not sure what type of
+            care care you need,
+          </span>{' '}
+          call your nearest VA health facility.
         </p>
         <p>
           <a href="/find-locations/">Find your nearest VA health facility</a>
         </p>
         <p>
-          If you need to talk to someone right away, contact the Veterans Crisis
-          Line. Whatever you’re struggling with—chronic pain, anxiety,
-          depression, trouble sleeping, anger, or even homelessness—we can
-          support you. Out Veterans Crisis Line is confidential (private), free,
-          and available 24/7.
+          <span className="vads-u-font-weight--bold">
+            If you need to talk to someone right away,
+          </span>{' '}
+          contact the Veterans Crisis Line. Whatever you’re struggling
+          with—chronic pain, anxiety, depression, trouble sleeping, anger, or
+          even homelessness—we can support you. Out Veterans Crisis Line is
+          confidential (private), free, and available 24/7.
         </p>
         <section>
           <header>
