@@ -16,7 +16,6 @@ const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
-
   const { appointment } = props?.questionnaire?.context;
   const facilityName = appointment?.vdsAppointments
     ? appointment?.vdsAppointments[0]?.clinic?.facility?.displayName
