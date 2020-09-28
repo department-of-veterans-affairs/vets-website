@@ -2,7 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 import {
   createTestStore,
@@ -10,7 +11,7 @@ import {
   renderWithStoreAndRouter,
 } from '../mocks/setup';
 import { setupExpressCareMocks } from '../mocks/helpers';
-import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
+import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 
 const initialState = {
   user: {
@@ -35,10 +36,7 @@ describe('VAOS integration: Express Care form', () => {
     });
 
     await screen.findByText('Select a reason for your Express Care request');
-    fireEvent.click(screen.getByLabelText('Cough'));
-    await waitFor(
-      () => expect(screen.getByLabelText('Cough').checked).to.be.true,
-    );
+    userEvent.click(screen.getByLabelText('Cough'));
     expect(screen.baseElement).to.contain.text(
       'If you need a mental health appointment today',
     );
@@ -49,6 +47,7 @@ describe('VAOS integration: Express Care form', () => {
       'If your health concern isn’t listed here',
     );
     screen.getByRole('button', { name: /back/i });
-    screen.getByRole('button', { name: /continue/i });
+    userEvent.click(screen.getByRole('button', { name: /continue/i }));
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
   });
 });

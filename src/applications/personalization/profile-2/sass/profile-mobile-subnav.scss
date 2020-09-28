@@ -9,6 +9,13 @@
       width: 100%;
       top: 0;
     }
+
+    .menu-background {
+      position: absolute;
+      background: $color-white;
+      height: units(1.5);
+      width: 100%;
+    }
   }
 
   .menu-wrapper {

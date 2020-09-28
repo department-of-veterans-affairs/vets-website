@@ -280,24 +280,34 @@ describe('VAOS integration: past appointments', () => {
     };
     mockPastAppointmentInfo({ va: [appointment] });
 
-    const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
-      <PastAppointmentsList />,
-      {
-        initialState,
-      },
-    );
+    const {
+      findByText,
+      baseElement,
+      queryByText,
+      getByText,
+    } = renderWithStoreAndRouter(<PastAppointmentsList />, {
+      initialState,
+    });
 
-    const dateHeader = await findByText(
-      new RegExp(
-        pastDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-        'i',
-      ),
-    );
+    await findByText('Video appointment at home');
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(baseElement).to.contain.text('VA Video Connect');
 
-    expect(dateHeader).to.have.tagName('h3');
+    expect(
+      getByText(
+        new RegExp(
+          pastDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      ),
+    ).to.exist;
+
+    const timeEl = getByText(
+      new RegExp(pastDate.tz('America/Denver').format('h:mm'), 'i'),
+    );
+    expect(timeEl).to.contain.text('MT');
+    expect(timeEl).to.contain.text('Mountain time');
     expect(baseElement).not.to.contain.text('Bring face mask');
     expect(queryByText(/video conference/i)).to.exist;
     expect(queryByText(/add to calendar/i)).to.not.exist;
@@ -350,7 +360,7 @@ describe('VAOS integration: past appointments', () => {
 
     expect(dateHeadings).to.deep.equal([
       firstDate.format('dddd, MMMM D, YYYY [at] h:mm a'),
-      secondDate.format('dddd, MMMM D, YYYY [at] h:mm a'),
+      'Video appointment at home',
       thirdDate.format('dddd, MMMM D, YYYY [at] h:mm a [UTC UTC]'),
     ]);
   });

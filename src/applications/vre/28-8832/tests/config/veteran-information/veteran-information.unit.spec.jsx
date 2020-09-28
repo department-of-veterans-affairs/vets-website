@@ -60,9 +60,9 @@ describe('Chapter 36 Veteran Information', () => {
       />,
     );
 
-    fillData(form, 'input#root_fullName_first', 'Johnny');
-    fillData(form, 'input#root_fullName_last', 'Appleseed');
-    fillData(form, 'input#root_ssn', '370947141');
+    fillData(form, 'input#root_veteranInformation_fullName_first', 'Johnny');
+    fillData(form, 'input#root_veteranInformation_fullName_last', 'Appleseed');
+    fillData(form, 'input#root_veteranInformation_ssn', '370947141');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
