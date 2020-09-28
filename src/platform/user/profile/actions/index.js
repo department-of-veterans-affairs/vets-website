@@ -46,15 +46,10 @@ export function initializeProfile() {
       await dispatch(refreshProfile());
       dispatch(updateLoggedInStatus(true));
     } catch (error) {
-      /* If the fetch fails the first time, try again to ensure the profile should actually be torn down */
+      /* If the fetch fails due to the browser cancelling the request due to a navigation event short circuit it to prevent terminating session */
       if (error instanceof TypeError && error.message === 'Failed to fetch') {
-        try {
-          await dispatch(refreshProfile());
-          dispatch(updateLoggedInStatus(true));
-        } catch (e) {
-          dispatch(updateLoggedInStatus(false));
-          teardownProfileSession();
-        }
+        // eslint-disable-next-line no-useless-return
+        return;
       } else {
         dispatch(updateLoggedInStatus(false));
         teardownProfileSession();
