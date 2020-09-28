@@ -16,8 +16,8 @@ import {
 } from '../constants';
 
 import { distBetween } from '../utils/facilityDistance';
-import { recordSearchResultsEvents, setFocus } from '../utils/helpers';
-
+import { setFocus } from '../utils/helpers';
+import { recordSearchResultsEvents } from '../utils/analytics';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
