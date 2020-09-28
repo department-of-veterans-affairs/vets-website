@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
+import _ from 'lodash';
 
 const month = (
   <React.Fragment key="months">
@@ -55,7 +56,9 @@ const CalculatorResultRow = ({
       {header ? (
         <h4 className="small-6 columns">{label}:</h4>
       ) : (
-        <span className="small-6 columns">{label}:</span>
+        <span className="small-6 columns vads-u-text-align--left">
+          {label}:
+        </span>
       )}
       {header ? (
         <span
@@ -85,11 +88,11 @@ const perTermSections = (outputs, calculator) => {
     if (!visible) return null;
 
     const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
-
+    const headerId = `${_.snakeCase(title)}_header`;
     return (
       <div key={section} className="per-term-section">
         <div className="link-header">
-          <h4 id="tuition-and-fees-header">{title}</h4>
+          <h4 id={headerId}>{title}</h4>
           &nbsp;(
           <a
             href={learnMoreLink}
@@ -101,20 +104,21 @@ const perTermSections = (outputs, calculator) => {
           </a>
           )
         </div>
-
-        {terms.map(term => (
-          <CalculatorResultRow
-            key={`${section}${term.label}`}
-            id={`${section}${term.label}`}
-            label={
-              calculator.type === 'OJT' ? termLabel(term.label) : term.label
-            }
-            value={term.value}
-            bold={term.label === 'Total per year'}
-            screenReaderSpan={calculator.type === 'OJT' ? month : ''}
-            visible={term.visible}
-          />
-        ))}
+        <ul aria-labelledby={headerId}>
+          {terms.map(term => (
+            <CalculatorResultRow
+              key={`${section}${term.label}`}
+              id={`${section}${term.label}`}
+              label={
+                calculator.type === 'OJT' ? termLabel(term.label) : term.label
+              }
+              value={term.value}
+              bold={term.label === 'Total per year'}
+              screenReaderSpan={calculator.type === 'OJT' ? month : ''}
+              visible={term.visible}
+            />
+          ))}
+        </ul>
       </div>
     );
   });
