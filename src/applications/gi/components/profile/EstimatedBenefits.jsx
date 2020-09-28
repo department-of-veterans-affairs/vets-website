@@ -56,24 +56,22 @@ const CalculatorResultRow = ({
       {header ? (
         <h4 className="small-6 columns">{label}:</h4>
       ) : (
-        <span className="small-6 columns vads-u-text-align--left">
-          {label}:
-        </span>
+        <p className="small-6 columns vads-u-text-align--left">{label}:</p>
       )}
       {header ? (
-        <span
+        <p
           className="small-6 columns vads-u-text-align--right vads-u-font-size--h5 vads-u-font-family--serif
               vads-u-font-weight--bold eyb-value-header"
           aria-label={value}
         >
           {value}
           {screenReaderSpan}
-        </span>
+        </p>
       ) : (
-        <span className="small-6 columns vads-u-text-align--right">
+        <p className="small-6 columns vads-u-text-align--right">
           {value}
           {screenReaderSpan}
-        </span>
+        </p>
       )}
     </li>
   ) : null;
@@ -160,7 +158,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
         <CalculatorResultRow
           label="Out of pocket tuition"
           value={outputs.outOfPocketTuition.value}
-          bold
+          bolds
           visible={outputs.outOfPocketTuition.visible}
         />
       </ul>
