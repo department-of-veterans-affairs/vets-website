@@ -1033,5 +1033,10 @@
     "domain": "www.benefits.va.gov",
     "src": "/compensation/sb2018.asp",
     "dest": "/disability/compensation-rates/birth-defect-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fgib/stem.asp",
+    "dest": "/education/other-va-education-benefits/stem-scholarship/"
   }
 ]
