@@ -3,11 +3,13 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import GetFormHelp from '../components/GetFormHelp';
 import { hasSession } from 'platform/user/profile/utilities';
 
 import { statusSelection } from './chapters/status-selection';
 import { veteranInformation } from './chapters/veteran-information';
+import GetFormHelp from '../components/GetFormHelp';
+import ReadOnlyUserDescription from '../components/ReadOnlyUserDescription';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 
 import {
   claimantInformation,
@@ -25,6 +27,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_28_8832,
   version: 0,
   getHelp: GetFormHelp,
+  preSubmitInfo: PreSubmitInfo,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',
@@ -36,6 +39,7 @@ const formConfig = {
   chapters: {
     claimantInformation: {
       title: 'Claimant Information',
+      reviewDescription: ReadOnlyUserDescription,
       pages: {
         claimantInformation: {
           depends: () => !hasSession(),

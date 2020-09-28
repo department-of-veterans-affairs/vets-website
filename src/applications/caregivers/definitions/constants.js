@@ -39,7 +39,7 @@ export const secondaryCaregiverFields = {
     email: 'secondaryOneEmail',
     fullName: 'secondaryOneFullName',
     gender: 'secondaryOneGender',
-    hasSecondaryCaregiverTwoView: 'view:hassecondaryCaregiverTwo',
+    hasSecondaryCaregiverTwoView: 'view:hasSecondaryCaregiverTwo',
     primaryPhoneNumber: 'secondaryOnePrimaryPhoneNumber',
     ssn: 'secondaryOneSsnOrTin',
     verifyEmail: 'view:secondaryOneEmail',

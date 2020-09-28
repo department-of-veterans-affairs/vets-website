@@ -28,7 +28,7 @@ export default function EligibilityModal({
   } else if (!eligibility.requestPastVisit) {
     title = 'We couldn’t find a recent appointment at this location';
     content = (
-      <div aria-atomic="true" aria-live="assertive">
+      <>
         <p>
           You need to have visited this facility within the past{' '}
           {eligibility.requestPastVisitValue} months to request an appointment
@@ -39,13 +39,13 @@ export default function EligibilityModal({
           {eligibility.requestPastVisitValue} months, please call this facility
           to schedule your appointment or search for another facility.
         </p>
-      </div>
+      </>
     );
   } else if (!eligibility.requestLimit) {
     title =
       'You’ve reached the limit for appointment requests at this location';
     content = (
-      <div aria-atomic="true" aria-live="assertive">
+      <>
         <p>
           Our records show that you have an open appointment request at this
           location. We can’t schedule any more appointments at this facility
@@ -69,7 +69,7 @@ export default function EligibilityModal({
           )}
           {!facilityDetails && <li>Call your medical facility</li>}
         </ul>
-      </div>
+      </>
     );
   }
 

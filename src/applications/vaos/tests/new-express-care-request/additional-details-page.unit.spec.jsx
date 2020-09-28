@@ -9,7 +9,7 @@ import { getExpressCareRequestCriteriaMock } from '../mocks/v0';
 import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
 import { mockRequestEligibilityCriteria } from '../mocks/helpers';
 import { NewExpressCareRequest } from '../../express-care';
-import ExpressCareDetailsPage from '../../containers/ExpressCareDetailsPage';
+import ExpressCareDetailsPage from '../../express-care/components/ExpressCareDetailsPage';
 import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 const initialState = {

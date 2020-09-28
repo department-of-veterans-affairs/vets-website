@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -42,7 +42,6 @@ const pageTitle = 'Choose a VA location for your appointment';
 
 function VAFacilityPageV2({
   canScheduleAtChosenFacility,
-  checkEligibility,
   childFacilitiesStatus,
   data,
   eligibility,
@@ -62,6 +61,8 @@ function VAFacilityPageV2({
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   schema,
+  showEligibilityModal,
+  hideEligibilityModal,
   singleValidVALocation,
   siteId,
   typeOfCare,
@@ -71,7 +72,6 @@ function VAFacilityPageV2({
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
   const loadingParents = parentFacilitiesStatus === FETCH_STATUS.loading;
   const loadingFacilities = childFacilitiesStatus === FETCH_STATUS.loading;
-  const [showEligibilityModal, setShowEligibilityModal] = useState(false);
 
   useEffect(
     () => {
@@ -80,15 +80,6 @@ function VAFacilityPageV2({
       openFacilityPageV2(pageKey, uiSchema, initialSchema);
     },
     [openFacilityPageV2],
-  );
-
-  useEffect(
-    () => {
-      if (!loadingEligibility && canScheduleAtChosenFacility === false) {
-        setShowEligibilityModal(true);
-      }
-    },
-    [loadingEligibility, canScheduleAtChosenFacility],
   );
 
   const goBack = () => routeToPreviousAppointmentPage(history, pageKey);
@@ -106,7 +97,6 @@ function VAFacilityPageV2({
         ...newData,
         vaParent: parentId,
       });
-      checkEligibility(selectedFacility, siteId);
     }
   };
 
@@ -237,14 +227,9 @@ function VAFacilityPageV2({
             continueLabel=""
             pageChangeInProgress={pageChangeInProgress}
             onBack={goBack}
-            disabled={
-              loadingParents ||
-              loadingFacilities ||
-              loadingEligibility ||
-              canScheduleAtChosenFacility === false
-            }
+            disabled={loadingParents || loadingFacilities || loadingEligibility}
           />
-          {(loadingEligibility || pageChangeInProgress) && (
+          {loadingEligibility && (
             <div aria-atomic="true" aria-live="assertive">
               <AlertBox isVisible status="info" headline="Please wait">
                 We’re checking if we can create an appointment for you at this
@@ -258,7 +243,7 @@ function VAFacilityPageV2({
 
       {showEligibilityModal && (
         <EligibilityModal
-          onClose={() => setShowEligibilityModal(false)}
+          onClose={hideEligibilityModal}
           eligibility={eligibility}
           facilityDetails={facilityDetails}
         />
@@ -274,6 +259,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   openFacilityPageV2: actions.openFacilityPageV2,
   updateFormData: actions.updateFormData,
+  hideEligibilityModal: actions.hideEligibilityModal,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   checkEligibility: actions.checkEligibility,

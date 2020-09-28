@@ -18,6 +18,19 @@ describe('<FilesPage>', () => {
     );
     expect(tree.props.message).not.to.be.null;
   });
+  it('should not render children with null claim', () => {
+    const claim = null;
+
+    const tree = SkinDeep.shallowRender(
+      <FilesPage
+        loading
+        message={{ title: 'Test', body: 'Body' }}
+        claim={claim}
+      />,
+    );
+    expect(tree.props.children).to.be.null;
+  });
+
   it('should hide requested files when closed', () => {
     const claim = {
       attributes: {
