@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import captureEvents from '../analytics-functions';
 import { isChapter33 } from '../helpers';
+import { ExitApplicationButton } from '../components/ExitApplicationButton';
 
 function InitialConfirmEligibilityView(props) {
   if (props.onReviewPage) {
@@ -32,14 +33,7 @@ function InitialConfirmEligibilityView(props) {
       </div>
       <br />
       <div>
-        <a
-          className={'usa-button-primary va-button-primary'}
-          href="/education/"
-          target="_self"
-          onClick={captureEvents.exitApplication}
-        >
-          Exit application
-        </a>
+        <ExitApplicationButton />
       </div>
       <br />
       <span>
