@@ -6,6 +6,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import TypeOfFacilityPage from '../../../new-appointment/components/TypeOfFacilityPage';
 import { Route } from 'react-router-dom';
 import { cleanup } from '@testing-library/react';
+import { startDirectScheduleFlow } from '../../../new-appointment/redux/actions';
 
 const initialState = {
   featureToggles: {
@@ -24,11 +25,16 @@ const initialState = {
 };
 
 describe('VAOS integration: VA facility page with a single-site user', () => {
-  beforeEach(() => mockFetch());
+  let store;
+
+  beforeEach(() => {
+    mockFetch();
+    store = createTestStore(initialState);
+    store.dispatch(startDirectScheduleFlow());
+  });
   afterEach(() => resetFetch());
 
   it('should show page', async () => {
-    const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, {
       store,
     });
@@ -41,7 +47,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
   });
 
   it('should show validation', async () => {
-    const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, {
       store,
     });
@@ -53,7 +58,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
   });
 
   it('should continue to the correct page based on type choice', async () => {
-    const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfFacilityPage} />,
       {
@@ -83,7 +87,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
   });
 
   it('should save type of facility choice on page change', async () => {
-    const store = createTestStore(initialState);
     let screen = renderWithStoreAndRouter(
       <Route component={TypeOfFacilityPage} />,
       {

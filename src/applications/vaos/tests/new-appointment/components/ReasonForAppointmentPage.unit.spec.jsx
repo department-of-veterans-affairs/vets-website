@@ -147,35 +147,6 @@ describe('VAOS integration: reason for appointment page with a single-site user'
         '/new-appointment/choose-visit-type',
       ),
     );
-
-    fireEvent.click(
-      await screen.findByLabelText(/I have a new medical issue/i),
-    );
-    await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-visit-type',
-      ),
-    );
-
-    fireEvent.click(
-      await screen.findByLabelText(
-        /I have a concern or question about my medication/i,
-      ),
-    );
-    await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-visit-type',
-      ),
-    );
-
-    fireEvent.click(
-      await screen.findByLabelText(/My reason isn’t listed here/i),
-    );
-    await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-visit-type',
-      ),
-    );
   });
 
   it('should continue to the correct page for Community Care medical request', async () => {
@@ -217,9 +188,6 @@ describe('VAOS integration: reason for appointment page with a single-site user'
     fireEvent.click(
       await screen.findByLabelText(/Routine or follow-up visit/i),
     );
-    const textBox = screen.getByRole('textbox');
-    fireEvent.change(textBox, { target: { value: 'test' } });
-    expect(textBox.value).to.equal('test');
     await cleanup();
 
     screen = renderWithStoreAndRouter(
