@@ -9,8 +9,8 @@ import {
 import environment from 'platform/utilities/environment';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { createTestStore, renderWithStoreAndRouter } from '../mocks/setup';
-import VAOSApp from '../../containers/VAOSApp';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import VAOSApp from '../../../components/VAOSApp';
 import moment from 'moment';
 
 const initialState = {

@@ -4,7 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import * as actions from 'platform/monitoring/DowntimeNotification/actions';
-import FullWidthLayout from './FullWidthLayout';
+import FullWidthLayout from '../FullWidthLayout';
 
 const appTitle = 'VA online scheduling tool';
 

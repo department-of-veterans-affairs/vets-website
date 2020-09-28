@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import FullWidthLayout from './FullWidthLayout';
+import FullWidthLayout from '../FullWidthLayout';
 
 export default function NoRegistrationMessage() {
   return (

@@ -13,11 +13,11 @@ import environment from 'platform/utilities/environment';
 import {
   vaosApplication,
   selectFeatureToggleLoading,
-} from '../utils/selectors';
-import NoRegistrationMessage from '../components/NoRegistrationMessage';
-import AppUnavailable from '../components/AppUnavailable';
-import DowntimeMessage from '../components/DowntimeMessage';
-import FullWidthLayout from '../components/FullWidthLayout';
+} from '../../utils/selectors';
+import NoRegistrationMessage from './NoRegistrationMessage';
+import AppUnavailable from './AppUnavailable';
+import DowntimeMessage from './DowntimeMessage';
+import FullWidthLayout from '../FullWidthLayout';
 
 function VAOSApp({
   user,

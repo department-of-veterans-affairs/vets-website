@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import NoRegistrationMessage from '../../components/NoRegistrationMessage';
+import NoRegistrationMessage from '../../../components/VAOSApp/NoRegistrationMessage';
 
 describe('VAOS <NoRegistrationMessage>', () => {
   it('should render', () => {
