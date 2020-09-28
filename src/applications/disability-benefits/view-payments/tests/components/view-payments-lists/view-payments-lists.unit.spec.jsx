@@ -12,7 +12,7 @@ import ViewPaymentsLists from '../../../components/view-payments-lists/ViewPayme
 import { payments } from '../../helpers';
 
 describe('View Payments Lists', () => {
-  it('renders View Payments Lists component', () => {
+  it('renders View Payments Lists component', async () => {
     const getAllPayments = sinon.spy();
     const wrapper = render(
       <ViewPaymentsLists
@@ -23,12 +23,9 @@ describe('View Payments Lists', () => {
         getAllPayments={getAllPayments}
       />,
     );
-    // We need to set a timeout to wait for the getAllPayments call to resolve
-    setTimeout(async () => {
-      expect(wrapper.getByText(/Payments you received/)).to.exist;
-      expect(getAllPayments.toBeCalled);
-      wrapper.unmount();
-    }, 3000);
+    await expect(getAllPayments.toBeCalled);
+    await expect(wrapper.findByText(/Payments you received/)).to.exist;
+    wrapper.unmount();
   });
 
   it('shows a loading indicator when loading', () => {
@@ -38,7 +35,7 @@ describe('View Payments Lists', () => {
     wrapper.unmount();
   });
 
-  it('should render both the tables', () => {
+  it('should render both the tables', async () => {
     const getAllPayments = sinon.spy();
     const wrapper = render(
       <ViewPaymentsLists
@@ -50,15 +47,12 @@ describe('View Payments Lists', () => {
       />,
     );
 
-    setTimeout(async () => {
-      expect(wrapper.getByText(/Payments you received/)).to.exist;
-      expect(wrapper.getByText(/Payments returned/)).to.exist;
-      expect(getAllPayments.toBeCalled);
-      wrapper.unmount();
-    }, 3000);
+    await expect(wrapper.findByText(/Payments you received/)).to.exist;
+    await expect(wrapper.findByText(/Payments returned/)).to.exist;
+    wrapper.unmount();
   });
 
-  it('should render one table when data for the other in unavailable', () => {
+  it('should render one table when data for the other in unavailable', async () => {
     const getAllPayments = sinon.spy();
     const wrapper = render(
       <ViewPaymentsLists
@@ -70,15 +64,13 @@ describe('View Payments Lists', () => {
       />,
     );
 
-    setTimeout(async () => {
-      expect(wrapper.getByText(/Payments you received/)).to.exist;
-      expect(wrapper.getByText(/Payments returned/)).to.not.exist;
-      expect(getAllPayments.toBeCalled);
-      wrapper.unmount();
-    }, 3000);
+    await expect(wrapper.findByText(/Payments you received/)).to.exist;
+    await expect(wrapper.findByText(/Payments returned/)).to.be.empty;
+    await expect(getAllPayments.toBeCalled);
+    wrapper.unmount();
   });
 
-  it('shows an info error when no payments are present', () => {
+  it('shows an info error when no payments are present', async () => {
     const getAllPayments = sinon.spy();
     const wrapper = render(
       <ViewPaymentsLists
@@ -89,11 +81,10 @@ describe('View Payments Lists', () => {
       />,
     );
 
-    setTimeout(async () => {
-      expect(wrapper.getByText(/We don’t have a record of VA payments for you/))
-        .to.exist;
-      expect(getAllPayments.toBeCalled);
-      wrapper.unmount();
-    }, 3000);
+    await expect(
+      wrapper.findByText(/We don’t have a record of VA payments for you/),
+    ).to.exist;
+    await expect(getAllPayments.toBeCalled);
+    wrapper.unmount();
   });
 });
