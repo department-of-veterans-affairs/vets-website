@@ -416,11 +416,10 @@ describe('VAOS integration: VA flat facility page', () => {
     await screen.findByText(/below is a list of VA locations/i);
 
     fireEvent.click(await screen.findByLabelText(/Bozeman VA medical center/i));
+    fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
       /This facility does not allow scheduling requests/i,
     );
-
-    expect(screen.getByText(/Continue/)).to.have.attribute('disabled');
   });
 
   it('should display an error message when eligibility calls fail', async () => {
@@ -468,7 +467,7 @@ describe('VAOS integration: VA flat facility page', () => {
     });
 
     fireEvent.click(await screen.findByLabelText(/Bozeman VA medical center/i));
-
+    fireEvent.click(screen.getByText(/Continue/));
     expect(await screen.findByText(/something went wrong on our end/i)).to
       .exist;
   });
@@ -537,9 +536,9 @@ describe('VAOS integration: VA flat facility page', () => {
     });
 
     fireEvent.click(await screen.findByLabelText(/Bozeman VA medical center/i));
+    fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
       /You’ve reached the limit for appointment requests at this location/i,
     );
-    expect(screen.getByText(/Continue/)).to.have.attribute('disabled');
   });
 });
