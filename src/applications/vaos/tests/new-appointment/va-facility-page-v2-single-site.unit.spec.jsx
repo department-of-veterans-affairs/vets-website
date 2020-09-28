@@ -348,15 +348,13 @@ describe('VAOS integration: VA flat facility page', () => {
       });
 
       await screen.findByText(/Bozeman VA medical center/i);
-
+      fireEvent.click(screen.getByText(/Continue/));
       expect(screen.baseElement).to.contain.text(
         'you need to have been seen within the past 12 months',
       );
       expect(
         screen.getByText(/search for a nearby location/i),
       ).to.have.attribute('href', '/find-locations');
-
-      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
 
     it('should show request limits eligibility alert', async () => {
@@ -399,6 +397,7 @@ describe('VAOS integration: VA flat facility page', () => {
       expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
   });
+
   describe('with multiple supported facilities', () => {
     beforeEach(() => {
       mockParentSites(['983'], [parentSite983]);
@@ -451,12 +450,10 @@ describe('VAOS integration: VA flat facility page', () => {
       fireEvent.click(
         await screen.findByLabelText(/Bozeman VA medical center/i),
       );
-
+      fireEvent.click(screen.getByText(/Continue/));
       await screen.findByText(
         /We couldn’t find a recent appointment at this location/i,
       );
-
-      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
 
     it('should show request limit eligibility alert', async () => {
@@ -476,12 +473,11 @@ describe('VAOS integration: VA flat facility page', () => {
       fireEvent.click(
         await screen.findByLabelText(/Bozeman VA medical center/i),
       );
+      fireEvent.click(screen.getByText(/Continue/));
 
       await screen.findByText(
         /You’ve reached the limit for appointment requests at this location/i,
       );
-
-      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
 
     it('should fetch new eligibility info when switching facilities', async () => {
@@ -507,20 +503,19 @@ describe('VAOS integration: VA flat facility page', () => {
       fireEvent.click(
         await screen.findByLabelText(/Bozeman VA medical center/i),
       );
-
+      fireEvent.click(screen.getByText(/Continue/));
       await screen.findByText(
         /We couldn’t find a recent appointment at this location/i,
       );
-      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
       fireEvent.click(screen.container.querySelector('.va-modal-close'));
+
       fireEvent.click(
         await screen.findByLabelText(/Belgrade VA medical center/i),
       );
-
+      fireEvent.click(screen.getByText(/Continue/));
       await screen.findByText(
         /You’ve reached the limit for appointment requests at this location/i,
       );
-      expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
 
     it('should save facility choice when returning to page', async () => {
@@ -593,79 +588,49 @@ describe('VAOS integration: VA flat facility page', () => {
       fireEvent.click(
         await screen.findByLabelText(/Bozeman VA medical center/i),
       );
+      fireEvent.click(screen.getByText(/Continue/));
       await screen.findByText(/something went wrong/i);
-      expect(screen.queryByText(/Continue/)).to.have.attribute('disabled');
     });
-  });
 
-  it('should start direct schedule flow when eligible', async () => {
-    const parentSite5digit = {
-      id: '983GC',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983GC',
-        rootStationCode: '983',
-        parentStationCode: '983GC',
-      },
-    };
-    mockParentSites(['983'], [parentSite5digit]);
-    const facilities = [
-      {
-        id: '983GC',
-        attributes: {
-          ...getFacilityMock().attributes,
-          institutionCode: '983GC',
-          rootStationCode: '983',
-          parentStationCode: '983GC',
-          directSchedulingSupported: true,
+    it('should start direct schedule flow when eligible', async () => {
+      const clinics = [
+        {
+          id: '308',
+          attributes: {
+            ...getClinicMock(),
+            siteCode: '983',
+            clinicId: '308',
+            institutionCode: '983',
+            clinicFriendlyLocationName: 'Green team clinic',
+          },
         },
-      },
-    ];
-    mockSupportedFacilities({
-      siteId: '983',
-      parentId: '983GC',
-      typeOfCareId: '323',
-      data: facilities,
-    });
-    const clinics = [
-      {
-        id: '308',
-        attributes: {
-          ...getClinicMock(),
-          siteCode: '983',
-          clinicId: '308',
-          institutionCode: '983GC',
-          clinicFriendlyLocationName: 'Green team clinic',
-        },
-      },
-    ];
-    mockEligibilityFetches({
-      siteId: '983',
-      facilityId: '983GC',
-      typeOfCareId: '323',
-      clinics,
-      pastClinics: true,
-    });
-    const store = createTestStore(initialState);
-    await setTypeOfCare(store, /primary care/i);
+      ];
+      mockEligibilityFetches({
+        siteId: '983',
+        facilityId: '983',
+        typeOfCareId: '323',
+        clinics,
+        pastClinics: true,
+      });
 
-    const screen = renderWithStoreAndRouter(
-      <Route component={VAFacilityPage} />,
-      {
+      const store = createTestStore(initialState);
+      await setTypeOfCare(store, /primary care/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
-      },
-    );
+      });
 
-    expect(screen.baseElement).to.contain.text('Finding locations');
-    await waitFor(() =>
-      expect(screen.getByText(/Continue/)).not.to.have.attribute('disabled'),
-    );
-    fireEvent.click(screen.getByText(/Continue/));
-    await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/clinics',
-      ),
-    );
+      fireEvent.click(
+        await screen.findByLabelText(/Bozeman VA medical center/i),
+      );
+      fireEvent.click(screen.getByText(/Continue/));
+      screen.debug();
+      await waitFor(() =>
+        expect(screen.history.push.firstCall.args[0]).to.equal(
+          '/new-appointment/clinics',
+        ),
+      );
+    });
   });
 
   it('should start request flow when not direct schedule eligible', async () => {
@@ -846,6 +811,7 @@ describe('VAOS integration: VA flat facility page', () => {
     });
 
     fireEvent.click(await screen.findByLabelText(/Bozeman medical center/i));
+    fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
       /You’ve reached the limit for appointment requests at this location/i,
     );
@@ -858,6 +824,7 @@ describe('VAOS integration: VA flat facility page', () => {
     });
 
     fireEvent.click(await screen.findByLabelText(/Belgrade medical center/i));
+    fireEvent.click(screen.getByText(/Continue/));
     expect(
       await screen.findByText(
         /We couldn’t find a recent appointment at this location/i,
