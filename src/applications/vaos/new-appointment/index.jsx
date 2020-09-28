@@ -77,6 +77,9 @@ function NewAppointmentSection({
 
   useEffect(
     () => {
+      // If we're on the facility page for a Cerner only patient, there's a link to send the user to
+      // the Cerner portal, and it would be annoying to show the "You may have unsaved changes" message
+      // when a user clicks on that link
       if (location.pathname.includes('va-facility') && isCernerOnlyPatient) {
         window.removeEventListener('beforeunload', onBeforeUnload);
       } else {

@@ -362,6 +362,8 @@ export default function formReducer(state = initialState, action) {
           newSchema,
         );
 
+        // Remove validation so that Cerner only patients can click
+        // on the Continue button and go to the Cerner portal
         if (action.isCernerOnly) {
           delete newSchema.required;
         }
