@@ -13,7 +13,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
-const BUCKETS = require('../src/site/constants/buckets');
+// const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 
 const {
@@ -153,7 +153,7 @@ module.exports = env => {
             },
             {
               loader: 'sass-loader',
-              options: { sourceMap: true },
+              // options: { sourceMap: true },
             },
           ],
         },
@@ -219,7 +219,7 @@ module.exports = env => {
           },
           // cache: true,
           parallel: 3,
-          sourceMap: true,
+          // sourceMap: true,
         }),
       ],
       splitChunks: {
@@ -383,14 +383,14 @@ module.exports = env => {
   }
 
   if (isOptimizedBuild) {
-    const bucket = BUCKETS[buildOptions.buildtype];
+    // const bucket = BUCKETS[buildOptions.buildtype];
 
-    baseConfig.plugins.push(
-      new webpack.SourceMapDevToolPlugin({
-        append: `\n//# sourceMappingURL=${bucket}/generated/[url]`,
-        filename: '[file].map',
-      }),
-    );
+    // baseConfig.plugins.push(
+    //   new webpack.SourceMapDevToolPlugin({
+    //     append: `\n//# sourceMappingURL=${bucket}/generated/[url]`,
+    //     filename: '[file].map',
+    //   }),
+    // );
 
     baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
     baseConfig.mode = 'production';
