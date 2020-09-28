@@ -1,7 +1,10 @@
 import moment from 'moment';
 import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { selectPatientFacilities } from 'platform/user/selectors';
+import {
+  selectPatientFacilities,
+  selectIsCernerOnlyPatient,
+} from 'platform/user/selectors';
 import { titleCase } from './formatters';
 
 import {
@@ -37,7 +40,6 @@ import {
   sortUpcoming,
   getVARFacilityId,
 } from '../services/appointment';
-import { selectIsCernerOnlyPatient } from '../../../platform/user/selectors';
 
 export function getNewAppointment(state) {
   return state.newAppointment;
