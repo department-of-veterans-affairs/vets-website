@@ -24,7 +24,7 @@ class ResponsiveTable extends Component {
     }
 
     return (
-      <th key={field.value} className={borderClasses}>
+      <th key={field.value} className={borderClasses} role="columnheader">
         <button
           className="va-button-link vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none"
           tabIndex="0"
@@ -40,7 +40,11 @@ class ResponsiveTable extends Component {
     const { fields } = this.props;
     let extraClass = '';
     return (
-      <tr key={rowIndex} className={`${borderClasses} ${rowPaddingClass}`}>
+      <tr
+        key={rowIndex}
+        className={`${borderClasses} ${rowPaddingClass}`}
+        role="row"
+      >
         {fields.map((field, index) => {
           // This is to right align the amount field and account number fields
           // since they are numeric
@@ -55,6 +59,7 @@ class ResponsiveTable extends Component {
               className={`${borderClasses} ${extraClass}`}
               data-label={`${field.label}:`}
               key={`${rowIndex}-${field.value}`}
+              role="cell"
             >
               {item[field.value] === null ? '---' : item[field.value]}
             </td>
@@ -70,9 +75,9 @@ class ResponsiveTable extends Component {
     const rows = data.map(this.renderRow);
 
     return (
-      <table className="responsive">
+      <table className="responsive" role="table">
         <thead>
-          <tr>{headers}</tr>
+          <tr role="row">{headers}</tr>
         </thead>
         <tbody>{rows}</tbody>
       </table>
