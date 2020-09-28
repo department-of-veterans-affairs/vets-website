@@ -23,7 +23,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
-  customText: { appType: 'questionnaire' },
   version: 0,
   prefillEnabled: true,
   footerContent: GetHelpFooter,

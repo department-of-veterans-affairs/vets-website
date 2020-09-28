@@ -32,6 +32,7 @@ const IntroductionPage = props => {
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
         startText="Start the questionnaire"
+        formConfig={{ customText: { appType: 'questionnaire' } }}
       >
         Please complete the HC-QSTNR form to apply for Upcoming Visit
         questionnaire.
