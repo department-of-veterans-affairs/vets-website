@@ -486,6 +486,7 @@ class VAMap extends Component {
             <TabPanel>
               <Map
                 ref="map"
+                id="map-id"
                 center={position}
                 onViewportChanged={e =>
                   recordZoomPanEvents(
@@ -495,7 +496,7 @@ class VAMap extends Component {
                   )
                 }
                 zoom={parseInt(currentQuery.zoomLevel, 10)}
-                style={{ width: '100%', maxHeight: '55vh' }}
+                style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
                 scrollWheelZoom={false}
                 zoomSnap={1}
                 zoomDelta={1}

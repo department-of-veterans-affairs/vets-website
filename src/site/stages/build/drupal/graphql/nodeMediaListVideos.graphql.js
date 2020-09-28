@@ -5,6 +5,7 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
   ${entityElementsFromPages}
   entityBundle
 
+  changed
   title
   fieldDescription
   fieldIntroTextLimitedHtml {
