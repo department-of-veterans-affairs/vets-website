@@ -41,7 +41,7 @@ export const clientServerErrorContent = receivedOrReturned => (
   </>
 );
 
-export const paymentsRecievedContent = (
+export const paymentsReceivedContent = (
   <>
     <h3 className="vads-u-font-size--xl">Payments you received</h3>
     <p>
