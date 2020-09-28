@@ -5,6 +5,7 @@ fragment nodeChecklist on NodeChecklist {
   ${entityElementsFromPages}
   entityBundle
 
+  changed
   title
   fieldDescription
   fieldIntroTextLimitedHtml {
