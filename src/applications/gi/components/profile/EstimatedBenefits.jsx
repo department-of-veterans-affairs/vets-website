@@ -139,7 +139,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
       Your estimated benefits
     </h3>
     <div aria-atomic="true" aria-live="polite" role="status">
-      <div className="out-of-pocket-tuition">
+      <ul className="out-of-pocket-tuition" aria-label="out-of-pocket tuition">
         <CalculatorResultRow
           label="GI Bill pays to school"
           value={outputs.giBillPaysToSchool.value}
@@ -163,8 +163,8 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
           bold
           visible={outputs.outOfPocketTuition.visible}
         />
-      </div>
-      <div className="total-paid-to-you">
+      </ul>
+      <ul className="total-paid-to-you" aria-label="total paid to you">
         <CalculatorResultRow
           label="Housing allowance"
           value={outputs.housingAllowance.value}
@@ -186,7 +186,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
           visible={outputs.totalPaidToYou.visible}
           header
         />
-      </div>
+      </ul>
     </div>
     <hr aria-hidden="true" />
     {perTermSections(outputs, calculator)}
