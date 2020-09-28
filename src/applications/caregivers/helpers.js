@@ -33,10 +33,14 @@ const medicalCentersByState = _.mapValues(
 const submitTransform = (formConfig, form) => {
   // checks for optional chapters using ssnOrTin
   const hasSecondaryOne =
-    form.data.secondaryOneSsnOrTin === undefined ? null : 'secondaryOne';
+    form.data['view:hasSecondaryCaregiverOne'] === undefined
+      ? null
+      : 'secondaryOne';
 
   const hasSecondaryTwo =
-    form.data.secondaryTwoSsnOrTin === undefined ? null : 'secondaryTwo';
+    form.data['view:hasSecondaryCaregiverTwo'] === undefined
+      ? null
+      : 'secondaryTwo';
 
   // creates chapter objects by matching chapter prefixes
   const buildChapterSortedObject = (data, dataPrefix) => {
