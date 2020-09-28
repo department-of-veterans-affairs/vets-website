@@ -12,6 +12,32 @@
         "adminParent": true,
         "parentStationCode": "983"
       }
+    },
+    {
+      "id": "984",
+      "type": "facility",
+      "attributes": {
+        "institutionCode": "984",
+        "city": "Dayton",
+        "stateAbbrev": "OH",
+        "authoritativeName": "DAYTSHR -Dayton VA Medical Center",
+        "rootStationCode": "984",
+        "adminParent": true,
+        "parentStationCode": "984"
+      }
+    },
+    {
+      "id": "983A6",
+      "type": "facility",
+      "attributes": {
+        "institutionCode": "983A6",
+        "city": "Jackson",
+        "stateAbbrev": "WY",
+        "authoritativeName": "Five Digit Station ID Medical Center",
+        "rootStationCode": "983",
+        "adminParent": true,
+        "parentStationCode": "983A6"
+      }
     }
   ]
 }
