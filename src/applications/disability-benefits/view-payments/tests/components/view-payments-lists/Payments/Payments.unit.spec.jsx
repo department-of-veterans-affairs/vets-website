@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
-import { payments } from '../helpers';
+import { payments } from '../../../helpers';
 import {
   paymentsReceivedFields,
   paymentsReceivedContent,
