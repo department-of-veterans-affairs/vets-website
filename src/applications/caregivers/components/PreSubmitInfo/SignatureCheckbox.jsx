@@ -62,7 +62,7 @@ const SignatureCheckbox = ({
 };
 
 SignatureCheckbox.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.object,
   fullName: PropTypes.object.isRequired,
   isRequired: PropTypes.bool,
   label: PropTypes.string.isRequired,
