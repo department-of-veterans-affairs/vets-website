@@ -58,7 +58,7 @@
       "id": "c3e3e32701223fdf389c06eae00fcb24",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-09-23T20:00:00Z",
+        "startDate": "2020-09-24T20:00:00Z",
         "sta6aid": "983GC",
         "clinicId": "1234",
         "clinicFriendlyName": "Video visit clinic",
@@ -70,8 +70,8 @@
             "id": "465f0120-e268-2f66-bdbf-96f44d9ad3a9",
             "appointmentKind": "CLINIC_BASED",
             "sourceSystem": "TMP",
-            "dateTime": "2020-09-23T20:00:00Z",
-            "desiredDate": "2020-09-23T20:00:00Z",
+            "dateTime": "2020-09-24T20:00:00Z",
+            "desiredDate": "2020-09-24T20:00:00Z",
             "duration": 30,
             "status": {
               "description": "F",
@@ -139,29 +139,7 @@
                   "url": "http://patientConference.com"
                 }
               }
-            ],
-            "tasInfo": {
-              "siteCode": "9931",
-              "slotId": "Slot8",
-              "confirmationCode": "7VBBCA",
-              "address": {
-                "streetAddress": "114 Dewey Ave",
-                "city": "Eureka",
-                "state": "MT",
-                "zipCode": "59917",
-                "country": "USA",
-                "longitude": null,
-                "latitude": null,
-                "additionalDetails": ""
-              },
-              "contacts": [
-                {
-                  "name": "Decker Konya",
-                  "phone": "5557582786",
-                  "email": "Decker.Konya@va.gov"
-                }
-              ]
-            }
+            ]
           }
         ]
       }
@@ -170,7 +148,7 @@
       "id": "c3e3e32701e23fdf389c06eae00fcb24",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-09-22T20:00:00Z",
+        "startDate": "2020-10-22T20:00:00Z",
         "sta6aid": null,
         "clinicId": null,
         "clinicFriendlyName": null,
@@ -182,8 +160,8 @@
             "id": "465f0120-e268-4f66-bdbf-96f44d9ad3a9",
             "appointmentKind": "ADHOC",
             "sourceSystem": "PV",
-            "dateTime": "2020-09-22T20:00:00Z",
-            "desiredDate": "2020-09-22T20:00:00Z",
+            "dateTime": "2020-10-22T20:00:00Z",
+            "desiredDate": "2020-10-22T20:00:00Z",
             "duration": 30,
             "status": {
               "description": "F",
