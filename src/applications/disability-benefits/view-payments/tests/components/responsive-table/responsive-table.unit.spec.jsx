@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import ResponsiveTable from '../../../components/responsive-table/ResponsiveTable.jsx';
-import { mockData, fields } from '../view-payments-lists/helpers';
+import { mockData, fields } from '../Payments/helpers';
 
 describe('<ResponsiveTable />', () => {
   it('Should Render', () => {
