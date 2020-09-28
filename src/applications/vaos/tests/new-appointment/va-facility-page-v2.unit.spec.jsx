@@ -87,12 +87,12 @@ describe('VAOS integration: VA flat facility page', () => {
       store,
     });
 
-    expect(global.document.title).to.equal(
-      'Choose a VA location for your appointment | Veterans Affairs',
-    );
-
     await screen.findByText(
       /Choose a VA location for your Primary care appointment/i,
+    );
+
+    expect(global.document.title).to.equal(
+      'Choose a VA location for your appointment | Veterans Affairs',
     );
 
     expect(screen.baseElement).to.contain.text(
