@@ -37,7 +37,7 @@ export default function FacilitiesRadioWidget({ options, value, onChange }) {
               id={`${id}_${i}`}
               name={`${id}`}
               value={option.value}
-              onChange={_ => onChange(id)}
+              onChange={_ => onChange(option.value)}
             />
             <label htmlFor={`${id}_${i}`}>
               <span className="vads-u-display--block vads-u-font-weight--bold">
