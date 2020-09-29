@@ -7,6 +7,17 @@
       "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
       "type": "string"
     },
+    "dateRange": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "$ref": "#/definitions/date"
+        },
+        "to": {
+          "$ref": "#/definitions/date"
+        }
+      }
+    },
     "ssn": {
       "type": "string",
       "pattern": "^[0-9]{9}$"
@@ -403,11 +414,8 @@
           "type": "string",
           "pattern": "^\\d{6,8}$"
         },
-        "serviceStartDate": {
-          "$ref": "#/definitions/date"
-        },
-        "serviceEndDate": {
-          "$ref": "#/definitions/date"
+        "serviceDateRange": {
+          "$ref": "#/definitions/dateRange"
         }
       }
     },

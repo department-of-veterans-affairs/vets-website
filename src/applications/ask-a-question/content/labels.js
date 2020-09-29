@@ -33,6 +33,16 @@ export const claimNumberTitle = 'Claim number (other than SSN)';
 export const serviceEndDateTitle = 'Service end date';
 export const serviceNumberTitle = 'Service number';
 
+/* Additional Veteran Errors */
+export const socialSecurityNumberPatternErrorMessage =
+  'Please enter a valid Social Security Number';
+export const serviceNumberPatternErrorMessage =
+  'Please enter a valid Service Number';
+export const claimNumberPatternErrorMessage =
+  'Please enter a valid Claim Number';
+export const serviceDateRangeErrorMessage =
+  'End of service must be after start of service';
+
 /* --------------- Contact Information --------------- */
 
 export const contactInformationPageDescription = PageDescription(

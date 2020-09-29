@@ -11,7 +11,6 @@ import {
 } from './pages';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
-import { veteranStatusUI } from './pages/veteranStatusUI';
 
 const {
   fullName,
@@ -19,6 +18,7 @@ const {
   date,
   ssn,
   veteranServiceNumber,
+  dateRange,
 } = fullSchema.definitions;
 
 // Define all the form pages to help ensure uniqueness across all form chapters
@@ -37,18 +37,6 @@ const submitTransform = (formConfig, form) => {
     },
   });
 };
-
-const formFields = {
-  preferredContactMethod: 'preferredContactMethod',
-  fullName: 'fullName',
-  address: 'address',
-  email: 'email',
-  verifyEmail: 'view:email',
-  phoneNumber: 'phoneNumber',
-  veteranStatus: 'veteranStatus',
-};
-
-const { veteranStatus } = fullSchema.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -74,6 +62,7 @@ const formConfig = {
     date,
     ssn,
     veteranServiceNumber,
+    dateRange,
   },
   chapters: {
     topicChapter: {
@@ -93,13 +82,8 @@ const formConfig = {
         [formPages.veteranInformation]: {
           path: 'veteran-information',
           title: 'Veteran Information',
-          uiSchema: {
-            [formFields.veteranStatus]: veteranStatusUI,
-          },
-          schema: {
-            type: 'object',
-            properties: { [formFields.veteranStatus]: veteranStatus },
-          },
+          uiSchema: veteranInformationPage.uiSchema,
+          schema: veteranInformationPage.schema
         },
       },
     },
