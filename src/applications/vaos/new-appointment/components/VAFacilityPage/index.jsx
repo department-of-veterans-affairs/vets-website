@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { getCernerURL } from 'platform/utilities/cerner';
 import FormButtons from '../../../components/FormButtons';
 import EligibilityCheckMessage from './EligibilityCheckMessage';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
@@ -84,7 +85,11 @@ export class VAFacilityPage extends React.Component {
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
+    if (this.props.isCernerOnly) {
+      window.location.href = getCernerURL('/pages/scheduling/upcoming');
+    } else {
+      this.props.routeToNextAppointmentPage(this.props.history, pageKey);
+    }
   };
 
   render() {
@@ -109,6 +114,7 @@ export class VAFacilityPage extends React.Component {
       parentOfChosenFacility,
       cernerOrgIds,
       siteId,
+      isCernerOnly,
     } = this.props;
 
     const notEligibleAtChosenFacility =
@@ -227,6 +233,7 @@ export class VAFacilityPage extends React.Component {
             continueLabel=""
             disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
+            nextButtonText={isCernerOnly ? 'Go to My VA Health' : 'Continue'}
             loadingText={
               loadingEligibility
                 ? 'Checking eligibility requirements'

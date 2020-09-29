@@ -7,6 +7,7 @@ import {
   selectVet360EmailAddress,
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
+  selectIsCernerOnlyPatient,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -462,6 +463,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     const userSiteIds = selectSystemIds(initialState);
     const useVSP = vaosVSPAppointmentNew(initialState);
+    const isCernerOnly = selectIsCernerOnlyPatient(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let locations = null;
     let eligibilityData = null;
@@ -479,7 +481,8 @@ export function openFacilityPage(page, uiSchema, schema) {
         });
       }
 
-      const canShowFacilities = !!parentId || parentFacilities?.length === 1;
+      const canShowFacilities =
+        !isCernerOnly && (!!parentId || parentFacilities?.length === 1);
 
       if (canShowFacilities && !parentId) {
         parentId = parentFacilities[0].id;
@@ -542,6 +545,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilities: locations,
         typeOfCareId,
         eligibilityData,
+        isCernerOnly,
       });
 
       if (parentId && !locations.length) {
