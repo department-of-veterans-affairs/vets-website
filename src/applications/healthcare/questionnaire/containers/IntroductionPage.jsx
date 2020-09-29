@@ -78,11 +78,11 @@ const IntroductionPage = props => {
               <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1, or
             </li>
             <li>
-              Start a
+              Start a{' '}
               <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">
                 confidential Veteran chat
               </a>{' '}
-              ,or
+              , or
             </li>
             <li>
               Text <a href="sms:838255">838255</a>.
