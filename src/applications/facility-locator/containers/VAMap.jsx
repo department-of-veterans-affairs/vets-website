@@ -462,7 +462,7 @@ class VAMap extends Component {
             queryContext,
           )}
         </div>
-        <div className="columns small-12" aria-hidden="true" role="img">
+        <div className="columns small-12">
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -483,49 +483,56 @@ class VAMap extends Component {
                 inProgress={currentQuery.inProgress}
               />
             </TabPanel>
-            <TabPanel>
-              <Map
-                ref="map"
-                id="map-id"
-                center={position}
-                onViewportChanged={e =>
-                  recordZoomPanEvents(
-                    e,
-                    currentQuery.searchCoords,
-                    currentQuery.zoomLevel,
-                  )
-                }
-                zoom={parseInt(currentQuery.zoomLevel, 10)}
-                style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
-                scrollWheelZoom={false}
-                zoomSnap={1}
-                zoomDelta={1}
-                onMoveEnd={this.handleBoundsChanged}
-                onLoad={this.handleBoundsChanged}
-                onViewReset={this.handleBoundsChanged}
-              >
-                <TileLayer
-                  url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                  attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
+            <div aria-hidden="true" role="img">
+              <TabPanel>
+                <Map
+                  ref="map"
+                  id="map-id"
+                  center={position}
+                  onViewportChanged={e =>
+                    recordZoomPanEvents(
+                      e,
+                      currentQuery.searchCoords,
+                      currentQuery.zoomLevel,
+                    )
+                  }
+                  zoom={parseInt(currentQuery.zoomLevel, 10)}
+                  style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
+                  scrollWheelZoom={false}
+                  zoomSnap={1}
+                  zoomDelta={1}
+                  onMoveEnd={this.handleBoundsChanged}
+                  onLoad={this.handleBoundsChanged}
+                  onViewReset={this.handleBoundsChanged}
+                >
+                  <TileLayer
+                    url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
+                    attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
                     <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
                     Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
-                />
-                {facilityLocatorMarkers &&
-                  facilityLocatorMarkers.length > 0 && (
-                    <FeatureGroup ref="facilityMarkers">
-                      {facilityLocatorMarkers}
-                    </FeatureGroup>
-                  )}
-              </Map>
-              {selectedResult && (
-                <div className="mobile-search-result">
-                  <SearchResult
-                    result={selectedResult}
-                    query={this.props.currentQuery}
                   />
-                </div>
-              )}
-            </TabPanel>
+                  {facilityLocatorMarkers &&
+                    facilityLocatorMarkers.length > 0 && (
+                      <FeatureGroup ref="facilityMarkers">
+                        {facilityLocatorMarkers}
+                      </FeatureGroup>
+                    )}
+                </Map>
+                {selectedResult && (
+                  <div className="mobile-search-result">
+                    <SearchResult
+                      result={selectedResult}
+                      query={this.props.currentQuery}
+                    />
+                  </div>
+                )}
+              </TabPanel>
+            </div>
+            <p className="vads-u-visibility--screen-reader">
+              Please note: Due to technical limitations, the map has been hidden
+              from screen reader devices. We're working to deliver an enhanced
+              screen reader experience.
+            </p>
           </Tabs>
         </div>
       </>
@@ -601,6 +608,11 @@ class VAMap extends Component {
               )}
           </Map>
         </div>
+        <p className="vads-u-visibility--screen-reader">
+          Please note: Due to technical limitations, the map has been hidden
+          from screen reader devices. We're working to deliver an enhanced
+          screen reader experience.
+        </p>
         <PaginationWrapper
           handlePageSelect={this.handlePageSelect}
           currentPage={currentPage}
