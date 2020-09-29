@@ -5,6 +5,7 @@ import prefillTransformer from '../../config/prefill-transformer';
 const buildData = ({
   street = '',
   street2 = '',
+  street3 = '',
   city = '',
   state = '',
   country = '',
@@ -32,6 +33,7 @@ const buildData = ({
       veteranAddress: {
         street,
         street2,
+        street3,
         city,
         state,
         country,
@@ -44,6 +46,7 @@ const buildData = ({
     veteran: {
       street,
       street2,
+      street3,
       city,
       state,
       country,

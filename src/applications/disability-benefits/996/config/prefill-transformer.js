@@ -30,6 +30,7 @@ export default function prefillTransformer(pages, formData, metadata) {
     veteranAddress: {
       street = '',
       street2 = '',
+      street3 = '',
       city = '',
       state = '',
       country = '',
@@ -44,6 +45,7 @@ export default function prefillTransformer(pages, formData, metadata) {
       veteran: {
         street,
         street2,
+        street3,
         city,
         state,
         country,
