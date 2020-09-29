@@ -25,14 +25,12 @@ describe('View Payments Lists', () => {
     );
     await expect(getAllPayments.toBeCalled);
     await expect(wrapper.findByText(/Payments you received/)).to.exist;
-    wrapper.unmount();
   });
 
   it('shows a loading indicator when loading', () => {
     const wrapper = render(<ViewPaymentsLists store={store} isLoading />);
 
     expect(wrapper.getByText(/Loading payment information.../)).to.exist;
-    wrapper.unmount();
   });
 
   it('should render both the tables', async () => {
@@ -49,7 +47,6 @@ describe('View Payments Lists', () => {
 
     await expect(wrapper.findByText(/Payments you received/)).to.exist;
     await expect(wrapper.findByText(/Payments returned/)).to.exist;
-    wrapper.unmount();
   });
 
   it('should render one table when data for the other in unavailable', async () => {
@@ -67,7 +64,6 @@ describe('View Payments Lists', () => {
     await expect(wrapper.findByText(/Payments you received/)).to.exist;
     await expect(wrapper.findByText(/Payments returned/)).to.be.empty;
     await expect(getAllPayments.toBeCalled);
-    wrapper.unmount();
   });
 
   it('shows an info error when no payments are present', async () => {
@@ -84,7 +80,5 @@ describe('View Payments Lists', () => {
     await expect(
       wrapper.findByText(/We don’t have a record of VA payments for you/),
     ).to.exist;
-    await expect(getAllPayments.toBeCalled);
-    wrapper.unmount();
   });
 });
