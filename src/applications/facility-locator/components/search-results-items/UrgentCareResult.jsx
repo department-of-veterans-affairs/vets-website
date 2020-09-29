@@ -19,9 +19,7 @@ const UrgentCareResult = ({ provider, query }) => {
           markerText={provider.markerText}
         />
         <span>
-          <h3 id="provider-name" className="vads-u-font-size--h5 no-marg-top">
-            {name}
-          </h3>
+          <h3 className="vads-u-font-size--h5 no-marg-top">{name}</h3>
           {provider.attributes.orgName && (
             <h6>{provider.attributes.orgName}</h6>
           )}
