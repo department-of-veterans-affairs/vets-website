@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
-import { isVADomain, recordResultEvents } from '../../utils/helpers';
+import { isVADomain } from '../../utils/helpers';
+import { recordResultClickEvents } from '../../utils/analytics';
 import { Link } from 'react-router';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
@@ -20,15 +21,15 @@ const VaFacilityResult = ({ location, query, index }) => {
         />
         <span
           onClick={() => {
-            recordResultEvents(location, index);
+            recordResultClickEvents(location, index);
           }}
         >
           {isVADomain(website) ? (
-            <h3 id="facility-name" className="vads-u-font-size--h5 no-marg-top">
+            <h3 className="vads-u-font-size--h5 no-marg-top">
               <a href={website}>{name}</a>
             </h3>
           ) : (
-            <h3 id="facility-name" className="vads-u-font-size--h5 no-marg-top">
+            <h3 className="vads-u-font-size--h5 no-marg-top">
               <Link to={`facility/${location.id}`}>{name}</Link>
             </h3>
           )}
