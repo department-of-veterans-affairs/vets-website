@@ -182,11 +182,12 @@ export function uiSchema() {
     [formFields.levelThree]: {
       'ui:title': topicTitle,
       'ui:required': formData => {
-        return levelThreeRequiredTopics.has(formData.topic.levelTwo);
+        return !!levelThreeRequiredTopics.has(formData.topic.levelTwo);
       },
       'ui:options': {
-        hideIf: formData => {
-          return !levelThreeRequiredTopics.has(formData.topic.levelTwo);
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!levelThreeRequiredTopics.has(levelTwo);
         },
       },
     },
