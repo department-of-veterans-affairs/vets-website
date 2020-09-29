@@ -14,6 +14,7 @@ import {
   transformFacility,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
+import { getRealFacilityId } from '../../utils/appointment';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
@@ -113,7 +114,7 @@ export async function getLocation({ facilityId }) {
  */
 export function getParentOfLocation(organizations, location) {
   const orgId = location.managingOrganization.reference.split('/')[1];
-  return organizations.find(parent => parent.id === orgId);
+  return organizations.find(parent => getRealFacilityId(parent.id) === orgId);
 }
 
 /**

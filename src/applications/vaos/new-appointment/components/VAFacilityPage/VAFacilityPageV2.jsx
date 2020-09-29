@@ -8,7 +8,6 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
-import { getParentOfLocation } from '../../../services/location';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
@@ -56,7 +55,6 @@ function VAFacilityPageV2({
   openFacilityPageV2,
   pageChangeInProgress,
   parentDetails,
-  parentFacilities,
   parentFacilitiesStatus,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
@@ -86,19 +84,19 @@ function VAFacilityPageV2({
 
   const goForward = () => routeToNextAppointmentPage(history, pageKey);
 
-  const onFacilityChange = newData => {
-    const selectedFacility = facilities?.find(f => f.id === newData.vaFacility);
+  // const onFacilityChange = newData => {
+  //   const selectedFacility = facilities?.find(f => f.id === newData.vaFacility);
 
-    const parentId = getParentOfLocation(parentFacilities, selectedFacility)
-      ?.id;
+  //   const parentId = getParentOfLocation(parentFacilities, selectedFacility)
+  //     ?.id;
 
-    if (!!selectedFacility && !!parentId) {
-      updateFormData(pageKey, uiSchema, {
-        ...newData,
-        vaParent: parentId,
-      });
-    }
-  };
+  //   if (!!selectedFacility && !!parentId) {
+  //     updateFormData(pageKey, uiSchema, {
+  //       ...newData,
+  //       vaParent: parentId,
+  //     });
+  //   }
+  // };
 
   const title = (
     <h1 className="vads-u-font-size--h2">
@@ -219,7 +217,11 @@ function VAFacilityPageV2({
           title="VA Facility"
           schema={schema}
           uiSchema={uiSchema}
-          onChange={onFacilityChange}
+          onChange={newData =>
+            updateFormData(pageKey, uiSchema, {
+              ...newData,
+            })
+          }
           onSubmit={goForward}
           data={data}
         >

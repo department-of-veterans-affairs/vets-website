@@ -52,11 +52,22 @@ export async function getEligibilityData(
   systemId,
   isDirectScheduleEnabled,
   useVSP,
+  isV2FacilityPage,
 ) {
-  const facilityId = getFacilityIdFromLocation(location);
+  const facilityId = isV2FacilityPage
+    ? location.id
+    : getFacilityIdFromLocation(location);
+
+  const directSchedulingSupported = isV2FacilityPage
+    ? location.directSupported
+    : location.legacyVAR.directSchedulingSupported;
+
+  const requestSupported = isV2FacilityPage
+    ? location.requestSupported
+    : location.legacyVAR.requestSupported;
+
   const directSchedulingAvailable =
-    (useVSP || location.legacyVAR.directSchedulingSupported) &&
-    isDirectScheduleEnabled;
+    (useVSP || directSchedulingSupported) && isDirectScheduleEnabled;
 
   const eligibilityChecks = {
     requestLimits: getRequestLimits(facilityId, typeOfCareId).catch(
@@ -102,9 +113,9 @@ export async function getEligibilityData(
   const eligibility = {
     ...results,
     hasMatchingClinics: !!results.clinics?.length,
-    directSupported: useVSP || location.legacyVAR.directSchedulingSupported,
+    directSupported: useVSP || directSchedulingSupported,
     directEnabled: isDirectScheduleEnabled,
-    requestSupported: useVSP || location.legacyVAR.requestSupported,
+    requestSupported: useVSP || requestSupported,
   };
 
   if (directSchedulingAvailable && eligibility.clinics?.length) {

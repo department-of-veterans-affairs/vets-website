@@ -21,6 +21,7 @@ import {
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
+  vaosFlatFacilityPage,
 } from '../../utils/selectors';
 import {
   getPreferences,
@@ -30,13 +31,15 @@ import {
   sendRequestMessage,
   getSitesSupportingVAR,
   getCommunityCare,
+  getRequestEligibilityCriteria,
+  getDirectBookingEligibilityCriteria,
 } from '../../services/var';
 import {
   getOrganizations,
   getIdOfRootOrganization,
   getSiteIdFromOrganization,
 } from '../../services/organization';
-import { getLocation, getParentOfLocation } from '../../services/location';
+import { getLocation, getLocations } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
 import {
@@ -61,6 +64,7 @@ import {
 import { recordEligibilityFailure, resetDataLayer } from '../../utils/events';
 
 import { captureError, getErrorCodes } from '../../utils/error';
+import { getRealFacilityId } from '../../utils/appointment';
 
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -271,6 +275,7 @@ export function checkEligibility(location, siteId) {
     const state = getState();
     const useVSP = vaosVSPAppointmentNew(state);
     const directSchedulingEnabled = vaosDirectScheduling(state);
+    const isV2FacilityPage = vaosFlatFacilityPage(state);
     const typeOfCareId = getTypeOfCare(getState().newAppointment.data)?.id;
 
     dispatch({
@@ -284,6 +289,7 @@ export function checkEligibility(location, siteId) {
         siteId,
         directSchedulingEnabled,
         useVSP,
+        isV2FacilityPage,
       );
 
       recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
@@ -321,112 +327,131 @@ export function openFacilityPageV2(page, uiSchema, schema) {
     try {
       const initialState = getState();
       const newAppointment = initialState.newAppointment;
-      const data = newAppointment.data;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare.id;
       const userSiteIds = selectSystemIds(initialState);
-      const useVSP = vaosVSPAppointmentNew(initialState);
-      let parentFacilities = newAppointment.parentFacilities;
       let locations = null;
-      let locationId = data.vaFacility;
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN,
       });
-
-      try {
-        if (!parentFacilities) {
-          dispatch({ type: FORM_FETCH_PARENT_FACILITIES });
-          parentFacilities = await getOrganizations({
-            siteIds: userSiteIds,
-            useVSP,
-          });
-          dispatch({
-            type: FORM_FETCH_PARENT_FACILITIES_SUCCEEDED,
-            parentFacilities,
-          });
-        }
-      } catch (err) {
-        dispatch({ type: FORM_FETCH_PARENT_FACILITIES_FAILED });
-      }
-
       locations = newAppointment.facilities[typeOfCareId] || null;
 
-      if (parentFacilities?.length && !locations) {
-        dispatch({
-          type: FORM_FETCH_CHILD_FACILITIES,
-        });
+      if (!locations) {
+        locations = [];
+        const directCriteria = await getDirectBookingEligibilityCriteria(
+          userSiteIds,
+        );
 
-        // Fetch locations for each parent facility
-        const responses = await Promise.all(
-          parentFacilities.map(parent => {
-            const parentId = parent.id;
-            const siteId = parseFakeFHIRId(
-              getIdOfRootOrganization(parentFacilities, parentId),
-            );
-            return getSupportedHealthcareServicesAndLocations({
-              siteId,
-              parentId,
-              typeOfCareId,
-              useVSP,
+        const requestCriteria = await getRequestEligibilityCriteria(
+          userSiteIds,
+        );
+
+        const directFacilities = directCriteria?.filter(facility =>
+          facility?.coreSettings?.some(setting => setting.id === typeOfCareId),
+        );
+        const requestFacilities = requestCriteria?.filter(facility =>
+          facility?.requestSettings?.some(
+            setting => setting.id === typeOfCareId,
+          ),
+        );
+
+        directFacilities.forEach(f => {
+          const id = `var${f.id}`;
+          const matchingFacility = locations.find(l => l.id === id);
+          if (!matchingFacility) {
+            locations.push({
+              id,
+              directSupported: true,
             });
-          }),
-        );
+          } else {
+            matchingFacility.directSupported = true;
+          }
+        });
 
-        locations = [].concat(...responses.map(r => r?.locations || []));
-      }
-
-      // If we have an already selected location or only have a single location
-      // fetch eligbility data immediately
-      const eligibilityDataNeeded = !!locationId || locations?.length === 1;
-
-      if (eligibilityDataNeeded && !locationId) {
-        locationId = locations[0].id;
-      }
-
-      if (!locations?.length) {
-        parentFacilities.forEach(p => {
-          recordEligibilityFailure(
-            'supported-facilities',
-            typeOfCare.name,
-            parseFakeFHIRId(p.id),
-          );
+        requestFacilities.forEach(f => {
+          const id = `var${f.id}`;
+          const matchingFacility = locations.find(l => l.id === id);
+          if (!matchingFacility) {
+            locations.push({
+              id,
+              requestSupported: true,
+            });
+          } else {
+            matchingFacility.requestSupported = true;
+          }
         });
       }
 
-      const eligibilityChecks =
-        newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
+      // TODO: only fetch facility details we don't ahve
 
-      if (eligibilityDataNeeded && !eligibilityChecks) {
-        const parentId = getParentOfLocation(parentFacilities, locations[0]).id;
+      const facilityDetails = await getLocations({
+        facilityIds: locations.map(l => l.id),
+      });
 
-        const siteId = parseFakeFHIRId(
-          getIdOfRootOrganization(parentFacilities, parentId),
+      facilityDetails.forEach(details => {
+        const location = locations.find(
+          l => getRealFacilityId(l.id) === details.id,
         );
-
-        const location = locations.find(l => l.id === locationId);
-        dispatch(checkEligibility(location, siteId));
-      }
+        if (location) {
+          location.name = details.name;
+          location.city = details.address?.city;
+          location.state = details.address?.state;
+          location.lat = details.position?.latitude;
+          location.long = details.position?.longitude;
+        }
+      });
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
-        page,
+        locations,
+        facilityDetails,
+        typeOfCareId,
         schema,
         uiSchema,
-        parentFacilities,
-        locations,
-        typeOfCareId,
       });
 
+      // // If we have an already selected location or only have a single location
+      // // fetch eligbility data immediately
+      // const eligibilityDataNeeded = !!locationId || locations?.length === 1;
+
+      // if (eligibilityDataNeeded && !locationId) {
+      //   locationId = locations[0].id;
+      // }
+
+      // if (!locations?.length) {
+      //   parentFacilities.forEach(p => {
+      //     recordEligibilityFailure(
+      //       'supported-facilities',
+      //       typeOfCare.name,
+      //       parseFakeFHIRId(p.id),
+      //     );
+      //   });
+      // }
+
+      // const eligibilityChecks =
+      //   newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
+
+      // if (eligibilityDataNeeded && !eligibilityChecks) {
+      //   const parentId = getParentOfLocation(parentFacilities, locations[0]).id;
+
+      //   const siteId = parseFakeFHIRId(
+      //     getIdOfRootOrganization(parentFacilities, parentId),
+      //   );
+
+      //   const location = locations.find(l => l.id === locationId);
+      //   dispatch(checkEligibility(location, siteId));
+      // }
+
       // Fetch parent details if we don't have any matching locations
-      if (parentFacilities?.length && !locations.length) {
-        try {
-          const thunk = fetchFacilityDetails(parentFacilities[0].id);
-          await thunk(dispatch, getState);
-        } catch (e) {
-          captureError(e);
-        }
-      }
+      // if (parentFacilities?.length && !locations.length) {
+      //   try {
+      //     const thunk = fetchFacilityDetails(parentFacilities[0].id);
+      //     await thunk(dispatch, getState);
+      //   } catch (e) {
+      //     captureError(e);
+      //   }
+      // }
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({

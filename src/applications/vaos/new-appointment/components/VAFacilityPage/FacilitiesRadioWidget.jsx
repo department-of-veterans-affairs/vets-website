@@ -26,7 +26,7 @@ export default function FacilitiesRadioWidget({ options, value, onChange }) {
   return (
     <div>
       {displayedOptions.map((option, i) => {
-        const { id, name, address } = option?.label;
+        const { id, name, city, state } = option?.label;
         const checked = option.value === value;
 
         return (
@@ -44,7 +44,7 @@ export default function FacilitiesRadioWidget({ options, value, onChange }) {
                 {name}
               </span>
               <span className="vads-u-display--block vads-u-font-size--sm">
-                {address?.city}, {address?.state}
+                {city}, {state}
               </span>
             </label>
           </div>

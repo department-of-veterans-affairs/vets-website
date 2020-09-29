@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/max-switch-cases */
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import set from 'platform/utilities/data/set';
@@ -8,7 +9,6 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { getParentOfLocation } from '../../services/location';
 import { getEligibilityChecks, isEligible } from '../../utils/eligibility';
 
 import {
@@ -19,6 +19,7 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
@@ -317,32 +318,28 @@ export default function formReducer(state = initialState, action) {
         parentFacilities: action.parentFacilities,
       };
     }
+    case FORM_PAGE_FACILITY_V2_OPEN: {
+      return {
+        ...state,
+        childFacilitiesStatus: FETCH_STATUS.loading,
+      };
+    }
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
       const typeOfCareId = action.typeOfCareId;
 
-      const parentFacilities =
-        action.parentFacilities || state.parentFacilities;
       let locations = action.locations || state.facilities[typeOfCareId] || [];
 
       locations = locations.sort((a, b) => {
         return a.name < b.name ? -1 : 1;
       });
 
-      if (action.parentFacilities.length === 1 || !locations.length) {
-        newData = {
-          ...newData,
-          vaParent: parentFacilities[0]?.id,
-        };
-      }
-
       if (locations.length === 1) {
         const selectedFacility = locations[0];
         newData = {
           ...newData,
           vaFacility: selectedFacility.id,
-          vaParent: getParentOfLocation(parentFacilities, selectedFacility)?.id,
         };
       } else {
         newSchema = set(
@@ -362,6 +359,14 @@ export default function formReducer(state = initialState, action) {
         action.uiSchema,
       );
 
+      const facilityDetails = state.facilityDetails;
+
+      action.facilityDetails.forEach(d => {
+        if (!(d.id in facilityDetails)) {
+          facilityDetails[d.id] = d;
+        }
+      });
+
       return {
         ...state,
         data,
@@ -374,6 +379,7 @@ export default function formReducer(state = initialState, action) {
           ...state.facilities,
           [typeOfCareId]: locations,
         },
+        facilityDetails,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
