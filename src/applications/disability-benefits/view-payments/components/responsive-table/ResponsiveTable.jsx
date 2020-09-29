@@ -30,10 +30,7 @@ class ResponsiveTable extends Component {
         role="columnheader"
         scope="col"
       >
-        <button
-          className="va-button-link vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none"
-          tabIndex="0"
-        >
+        <button className="va-button-link vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none">
           {field.label}
           {sortIcon}
         </button>
