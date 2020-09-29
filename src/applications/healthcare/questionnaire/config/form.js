@@ -26,6 +26,9 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   footerContent: GetHelp.footer,
+  preSubmitInfo: {
+    CustomComponent: GetHelp.review,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for Upcoming Visit questionnaire.',
     noAuth:
