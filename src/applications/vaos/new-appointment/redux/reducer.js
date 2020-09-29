@@ -8,7 +8,8 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { getEligibilityChecks } from '../../utils/eligibility';
+import { getParentOfLocation } from '../../services/location';
+import { getEligibilityChecks, isEligible } from '../../utils/eligibility';
 
 import {
   FORM_DATA_UPDATED,
@@ -18,14 +19,17 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
-  FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+  FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+  FORM_FETCH_PARENT_FACILITIES,
+  FORM_FETCH_PARENT_FACILITIES_SUCCEEDED,
+  FORM_FETCH_PARENT_FACILITIES_FAILED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES_FAILED,
@@ -34,6 +38,7 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
+  FORM_HIDE_ELIGIBILITY_MODAL,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
@@ -220,7 +225,10 @@ export default function formReducer(state = initialState, action) {
           [action.pageKey]: 'home',
         };
       }
-      if (action.direction === 'next') {
+      if (
+        action.direction === 'next' &&
+        action.pageKey !== action.pageKeyNext
+      ) {
         updatedPreviousPages = {
           ...updatedPreviousPages,
           [action.pageKeyNext]: action.pageKey,
@@ -296,30 +304,60 @@ export default function formReducer(state = initialState, action) {
         data: { ...state.data, facilityType: action.facilityType },
       };
     }
-    case FORM_PAGE_FACILITY_V2_OPEN: {
+    case FORM_FETCH_PARENT_FACILITIES: {
       return {
         ...state,
-        childFacilitiesStatus: FETCH_STATUS.loading,
+        parentFacilitiesStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_FETCH_PARENT_FACILITIES_SUCCEEDED: {
+      return {
+        ...state,
+        parentFacilitiesStatus: FETCH_STATUS.succeeded,
+        parentFacilities: action.parentFacilities,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
-      const facilities = action.facilities.sort((a, b) => {
+      let newData = state.data;
+      const typeOfCareId = action.typeOfCareId;
+
+      const parentFacilities =
+        action.parentFacilities || state.parentFacilities;
+      let locations = action.locations || state.facilities[typeOfCareId] || [];
+
+      locations = locations.sort((a, b) => {
         return a.name < b.name ? -1 : 1;
       });
 
-      newSchema = set(
-        'properties.vaFacility',
-        {
-          type: 'string',
-          enum: facilities.map(facility => facility.id),
-          enumNames: facilities,
-        },
-        newSchema,
-      );
+      if (action.parentFacilities.length === 1 || !locations.length) {
+        newData = {
+          ...newData,
+          vaParent: parentFacilities[0]?.id,
+        };
+      }
+
+      if (locations.length === 1) {
+        const selectedFacility = locations[0];
+        newData = {
+          ...newData,
+          vaFacility: selectedFacility.id,
+          vaParent: getParentOfLocation(parentFacilities, selectedFacility)?.id,
+        };
+      } else {
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: locations.map(facility => facility.id),
+            enumNames: locations,
+          },
+          newSchema,
+        );
+      }
 
       const { data, schema } = setupFormData(
-        state.data,
+        newData,
         newSchema,
         action.uiSchema,
       );
@@ -334,7 +372,7 @@ export default function formReducer(state = initialState, action) {
         schema,
         facilities: {
           ...state.facilities,
-          [`${action.typeOfCareId}`]: facilities,
+          [typeOfCareId]: locations,
         },
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
@@ -429,6 +467,7 @@ export default function formReducer(state = initialState, action) {
         pastAppointments,
       };
     }
+    case FORM_FETCH_PARENT_FACILITIES_FAILED:
     case FORM_PAGE_FACILITY_OPEN_FAILED: {
       return {
         ...state,
@@ -483,6 +522,7 @@ export default function formReducer(state = initialState, action) {
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
+    case FORM_PAGE_FACILITY_V2_OPEN_FAILED:
     case FORM_FETCH_CHILD_FACILITIES_FAILED: {
       const pages = unset(
         'vaFacility.properties.vaFacilityLoading',
@@ -523,6 +563,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         ccEnabledSystems: action.ccEnabledSystems,
         parentFacilities: action.parentFacilities,
+        parentFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
     case FORM_ELIGIBILITY_CHECKS: {
@@ -533,6 +574,8 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(action.eligibilityData);
+      const canSchedule = isEligible(eligibility);
+
       let clinics = state.clinics;
 
       if (!action.eligibilityData.clinics?.directFailed) {
@@ -552,12 +595,19 @@ export default function formReducer(state = initialState, action) {
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,
+        showEligibilityModal: !canSchedule.direct && !canSchedule.request,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
       return {
         ...state,
         eligibilityStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_HIDE_ELIGIBILITY_MODAL: {
+      return {
+        ...state,
+        showEligibilityModal: false,
       };
     }
     case START_DIRECT_SCHEDULE_FLOW:
