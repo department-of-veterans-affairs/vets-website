@@ -67,15 +67,17 @@ const valuesByLabelLookup = {
   'Women Veterans Health Care': womensHealthValues,
 };
 
-const topicUI = {
-  [formFields.levelOne]: {
-    'ui:title': topicTitle,
-  },
-};
+export const levelThreeRequiredTopics = new Set([
+  'Health/Medical Eligibility & Programs',
+  'Prosthetics, Med Devices & Sensory Aids',
+  'Women Veterans Health Care',
+]);
+
 export function schema(currentSchema, topicProperty = 'topic') {
   const topicSchema = currentSchema.definitions[topicProperty];
   return {
     type: 'object',
+    required: ['levelOne', 'levelTwo'],
     properties: _.assign(topicSchema.properties, {
       levelOne: {
         type: 'string',
@@ -98,7 +100,7 @@ export function schema(currentSchema, topicProperty = 'topic') {
 }
 
 export function uiSchema() {
-  const addressChangeSelector = createSelector(
+  const topicChangeSelector = createSelector(
     ({ formData }) => _.get(['topic'].concat('levelOne'), formData),
     ({ formData }) => _.get(['topic'].concat('levelTwo'), formData),
     _.get('topicSchema'),
@@ -106,7 +108,6 @@ export function uiSchema() {
       const schemaUpdate = {
         properties: topicSchema.properties,
       };
-
       const levelTwoLabelList = valuesByLabelLookup[levelOne];
 
       if (
@@ -165,7 +166,7 @@ export function uiSchema() {
     'ui:title': topicTitle,
     'ui:options': {
       updateSchema: (formData, topicSchema, index, path) => {
-        return addressChangeSelector({
+        return topicChangeSelector({
           formData,
           topicSchema,
           path,
@@ -178,7 +179,16 @@ export function uiSchema() {
     [formFields.levelTwo]: {
       'ui:title': topicTitle,
     },
+    [formFields.levelThree]: {
+      'ui:title': topicTitle,
+      'ui:required': formData => {
+        return levelThreeRequiredTopics.has(formData.topic.levelTwo);
+      },
+      'ui:options': {
+        hideIf: formData => {
+          return !levelThreeRequiredTopics.has(formData.topic.levelTwo);
+        },
+      },
+    },
   };
 }
-
-export default topicUI;
