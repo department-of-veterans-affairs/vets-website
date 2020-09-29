@@ -19,6 +19,12 @@
     @include header;
     font-size: 20px;
     line-height: 1.7;
+    font-weight: normal;
+    margin-bottom: 4rem;
+  }
+
+  .urgent-needs-header{
+    margin: 0;
   }
 
   .urgent-needs-header, .personal-info-header {

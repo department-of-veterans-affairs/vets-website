@@ -19,10 +19,13 @@ const IntroductionPage = props => {
   const facilityName = appointment?.vdsAppointments
     ? appointment?.vdsAppointments[0]?.clinic?.facility?.displayName
     : '';
+  const { isLoggedIn } = props;
   return (
     <div className="schemaform-intro healthcare-experience">
-      <FormTitle title="Upcoming appointment questionnaire" />
-      {facilityName && <h2 className="sub-heading">{facilityName}</h2>}
+      <FormTitle
+        title="Upcoming appointment questionnaire"
+        subTitle={facilityName}
+      />
       <h2 className="better-prepare-yours">
         Better prepare yourself and your provider for your upcoming appointment
         with this questionnaire.
@@ -152,7 +155,9 @@ const IntroductionPage = props => {
           props.toggleLoginModal(true, 'cta-form');
         }}
       >
-        Sign in to start the questionnaire
+        {isLoggedIn
+          ? 'Start the questionnaire'
+          : 'Sign in to start the questionnaire'}
       </button>
       <div className="omb-info--container">
         <OMBInfo ombNumber="0000-0000" expDate="mm/dd/yyyy" />
@@ -163,6 +168,7 @@ const IntroductionPage = props => {
 
 const mapStateToProps = state => {
   return {
+    isLoggedIn: state?.user?.login?.currentlyLoggedIn,
     questionnaire: state?.questionnaireData,
   };
 };
