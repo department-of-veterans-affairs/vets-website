@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { cloneDeep } from 'lodash';
 
 import SignatureCheckbox from './SignatureCheckbox';
 
@@ -7,13 +8,12 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
   const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
   const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
-  const createInputContent = label => `Enter ${label} full name`;
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
 
   const [signatures, setSignatures] = useState({
-    [createInputContent(veteranLabel)]: false,
-    [createInputContent(primaryLabel)]: false,
+    [veteranLabel]: false,
+    [primaryLabel]: false,
   });
 
   const unSignedLength = Object.values(signatures).filter(
@@ -24,9 +24,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
   useEffect(
     () => {
-      if (!unSignedLength) onSectionComplete(true);
-
-      if (unSignedLength) onSectionComplete(false);
+      onSectionComplete(!unSignedLength);
 
       return () => {
         onSectionComplete(false);
@@ -35,6 +33,28 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [unSignedLength],
+  );
+
+  useEffect(
+    () => {
+      if (!hasSecondaryOne) {
+        setSignatures(prevState => {
+          const newState = cloneDeep(prevState);
+          delete newState[secondaryOneLabel];
+          return newState;
+        });
+      }
+
+      if (!hasSecondaryTwo) {
+        setSignatures(prevState => {
+          const newState = cloneDeep(prevState);
+          delete newState[secondaryTwoLabel];
+          return newState;
+        });
+      }
+    },
+
+    [hasSecondaryOne, hasSecondaryTwo, secondaryOneLabel, secondaryTwoLabel],
   );
 
   const PrivacyPolicy = () => (
@@ -104,7 +124,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
 
       <SignatureCheckbox
         fullName={formData.veteranFullName}
-        label={createInputContent(veteranLabel)}
+        label={veteranLabel}
         signatures={signatures}
         setSignature={setSignatures}
         isRequired
@@ -123,7 +143,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
 
       <SignatureCheckbox
         fullName={formData.primaryFullName}
-        label={createInputContent(primaryLabel)}
+        label={primaryLabel}
         signatures={signatures}
         setSignature={setSignatures}
         isRequired
@@ -168,7 +188,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       {hasSecondaryOne && (
         <SignatureCheckbox
           fullName={formData.secondaryOneFullName}
-          label={createInputContent(secondaryOneLabel)}
+          label={secondaryOneLabel}
           signatures={signatures}
           setSignature={setSignatures}
           isRequired
@@ -181,7 +201,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       {hasSecondaryTwo && (
         <SignatureCheckbox
           fullName={formData.secondaryTwoFullName}
-          label={createInputContent(secondaryTwoLabel)}
+          label={secondaryTwoLabel}
           signatures={signatures}
           setSignature={setSignatures}
           isRequired
