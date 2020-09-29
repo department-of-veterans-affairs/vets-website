@@ -1,4 +1,4 @@
-<h3>Locations and contact information</h3>
+<h3>Contact information</h3>
 {% for singleLocation in locations %}
   {% assign single = singleLocation.entity %}
   {% include "src/site/components/service_address.drupal.liquid" %}
@@ -50,7 +50,7 @@
 {% endfor %}
 
 {% if locationEntity.fieldReferralRequired or locationEntity.fieldWalkInsAccepted or locationEntity.fieldOnlineSchedulingAvailabl %}
-  <h3>Appointments</h3>
+  <h4>Appointments</h4>
   <p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your
      primary care provider first.
   </p>
