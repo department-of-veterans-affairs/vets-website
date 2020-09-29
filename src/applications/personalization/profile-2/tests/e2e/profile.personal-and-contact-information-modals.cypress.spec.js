@@ -36,10 +36,16 @@ const checkModals = options => {
     force: true,
   });
 
+  // confirm that the update button is disabled before a change is made
+  cy.findByRole('button', { name: 'Update' }).should('be.disabled');
+
   // Make an edit
   cy.get(`#${editLineId}`)
     .click()
     .type('test');
+
+  // confirm that the update button is enabled
+  cy.findByRole('button', { name: 'Update' }).should('not.be.disabled');
 
   // Click on a different section to edit
   cy.findByRole('button', {
