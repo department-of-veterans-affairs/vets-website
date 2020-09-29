@@ -462,7 +462,7 @@ class VAMap extends Component {
             queryContext,
           )}
         </div>
-        <div className="columns small-12">
+        <div className="columns small-12" aria-hidden="true" role="img">
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -568,7 +568,7 @@ class VAMap extends Component {
             />
           </div>
         </div>
-        <div className="desktop-map-container">
+        <div className="desktop-map-container" aria-hidden="true" role="img">
           <Map
             ref="map"
             id="map-id"
