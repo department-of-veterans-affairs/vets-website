@@ -4,7 +4,6 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
 
-import { veteranStatusUI } from './veteranStatusUI';
 import fullSchema from '../../0873-schema.json';
 import * as address from '../../contactInformation/address/address';
 import {
@@ -15,11 +14,7 @@ import {
 
 const { email, phone } = fullSchema.definitions;
 
-const {
-  fullName,
-  preferredContactMethod,
-  veteranStatus,
-} = fullSchema.properties;
+const { fullName, preferredContactMethod } = fullSchema.properties;
 
 const formFields = {
   preferredContactMethod: 'preferredContactMethod',
@@ -58,7 +53,6 @@ const contactInformationPage = {
       'ui:title': preferredContactMethodTitle,
       'ui:widget': 'radio',
     },
-    [formFields.veteranStatus]: veteranStatusUI,
   },
   schema: {
     type: 'object',
@@ -72,7 +66,6 @@ const contactInformationPage = {
       },
       [formFields.phoneNumber]: phone,
       [formFields.address]: address.schema(fullSchema, false),
-      [formFields.veteranStatus]: veteranStatus,
     },
   },
 };

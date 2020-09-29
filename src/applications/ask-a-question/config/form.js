@@ -4,12 +4,22 @@ import fullSchema from '../0873-schema.json';
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { contactInformationPage, inquiryPage } from './pages';
+import {
+  contactInformationPage,
+  inquiryPage,
+  veteranInformationPage,
+} from './pages';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
 import { veteranStatusUI } from './pages/veteranStatusUI';
 
-const { fullName, phone, date } = fullSchema.definitions;
+const {
+  fullName,
+  phone,
+  date,
+  ssn,
+  veteranServiceNumber,
+} = fullSchema.definitions;
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
@@ -62,6 +72,8 @@ const formConfig = {
     fullName,
     phone,
     date,
+    ssn,
+    veteranServiceNumber,
   },
   chapters: {
     topicChapter: {

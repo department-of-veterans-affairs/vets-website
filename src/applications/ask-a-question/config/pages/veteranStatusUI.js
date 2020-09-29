@@ -22,7 +22,7 @@ const requireVetRelationship = selectedVeteranStatus =>
   selectedVeteranStatus === 'behalf of vet' ||
   selectedVeteranStatus === 'dependent';
 
-const requireServiceInfo = selectedVeteranStatus =>
+export const requireServiceInfo = selectedVeteranStatus =>
   selectedVeteranStatus && selectedVeteranStatus !== 'general';
 
 const hideDateOfDeath = selectedVeteranStatus =>

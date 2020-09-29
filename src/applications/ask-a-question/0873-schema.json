@@ -3,6 +3,18 @@
   "title": "IRIS Ask a Question",
   "type": "object",
   "definitions": {
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
+    },
+    "ssn": {
+      "type": "string",
+      "pattern": "^[0-9]{9}$"
+    },
+    "veteranServiceNumber": {
+      "type": "string",
+      "pattern": "^[A-Z]{0,2}\\d{5,8}$"
+    },
     "email": {
       "type": "string",
       "maxLength": 256,
@@ -373,6 +385,32 @@
     "query": {
       "type": "string"
     },
+    "veteranInformation": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "dateOfBirth": {
+          "$ref": "#/definitions/date"
+        },
+        "socialSecurityNumber": {
+          "$ref": "#/definitions/ssn"
+        },
+        "serviceNumber": {
+          "type": "string",
+          "pattern": "^\\d{0,12}$"
+        },
+        "claimNumber": {
+          "type": "string",
+          "pattern": "^\\d{6,8}$"
+        },
+        "serviceStartDate": {
+          "$ref": "#/definitions/date"
+        },
+        "serviceEndDate": {
+          "$ref": "#/definitions/date"
+        }
+      }
+    },
     "veteranStatus": {
       "type": "object",
       "required": [
@@ -424,8 +462,7 @@
           "type": "boolean"
         },
         "dateOfDeath": {
-          "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
-          "type": "string"
+          "$ref": "#/definitions/date"
         },
         "branchOfService": {
           "type": "string",
