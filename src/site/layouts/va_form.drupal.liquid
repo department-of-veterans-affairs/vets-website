@@ -50,13 +50,18 @@
             </dd>
           </div>
 
-          {% if fieldVaFormRevisionDate %}
+          {% if fieldVaFormRevisionDate or fieldVaFormIssueDate %}
             <div>
               <dt class="vads-u-font-weight--bold vads-u-display--inline">
                 Form last updated:
               </dt>
               <dd class="vads-u-display--inline">
-                {{ fieldVaFormRevisionDate.value | humanizeDate }}
+                {% assign revisionDateIsLatestUpdate = fieldVaFormRevisionDate.value | isLaterThan: fieldVaFormIssueDate.value %}
+                {% if revisionDateIsLatestUpdate %}
+                  {{ fieldVaFormRevisionDate.value | humanizeDate }}
+                {% else %}
+                  {{ fieldVaFormIssueDate.value | humanizeDate }}
+                {% endif %}
               </dd>
             </div>
           {% endif %}
