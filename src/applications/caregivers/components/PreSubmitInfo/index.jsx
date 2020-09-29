@@ -1,58 +1,60 @@
 import React, { useEffect, useState } from 'react';
+import { cloneDeep } from 'lodash';
 
 import SignatureCheckbox from './SignatureCheckbox';
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
-  const veteranLabel = `Enter Veteran\u2019s full name`;
-  const primaryLabel = `Enter Primary Family Caregiver applicant\u2019s full name`;
-  const secondaryOneLabel = `Enter Secondary Family Caregiver applicant\u2019s full name`;
-  const secondaryTwoLabel = `Enter Secondary Family Caregiver applicant\u2019s (2) full name`;
+  const veteranLabel = `Veteran\u2019s`;
+  const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
+  const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
+  const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+  const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
+  const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
 
-  const [signatures, setSignature] = useState({
+  const [signatures, setSignatures] = useState({
     [veteranLabel]: false,
     [primaryLabel]: false,
   });
 
-  const [secondaryCaregivers, setSecondaryCaregivers] = useState({
-    [secondaryOneLabel]: false,
-    [secondaryTwoLabel]: false,
-  });
   const unSignedLength = Object.values(signatures).filter(
     obj => Boolean(obj) === false,
   ).length;
 
+  // when there is no unsigned signatures set AGREED (onSectionComplete) to true
+  // if goes to another page (unmount), set AGREED (onSectionComplete) to false
   useEffect(
     () => {
-      if (!unSignedLength) {
-        onSectionComplete(true);
-      }
+      onSectionComplete(!unSignedLength);
 
-      if (unSignedLength) {
+      return () => {
         onSectionComplete(false);
-      }
-
-      const hasSecondaryOne =
-        formData?.secondaryOneFullName?.first &&
-        formData?.secondaryOneFullName?.last;
-
-      const hasSecondaryTwo =
-        formData?.secondaryTwoFullName?.first &&
-        formData?.secondaryTwoFullName?.last;
-
-      setSecondaryCaregivers({
-        hasSecondaryOne,
-        hasSecondaryTwo,
-      });
+      };
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      formData.secondaryOneFullName.first,
-      formData.secondaryOneFullName.last,
-      formData.secondaryTwoFullName.first,
-      formData.secondaryTwoFullName.last,
-      unSignedLength,
-    ],
+    [unSignedLength],
+  );
+
+  useEffect(
+    () => {
+      if (!hasSecondaryOne) {
+        setSignatures(prevState => {
+          const newState = cloneDeep(prevState);
+          delete newState[secondaryOneLabel];
+          return newState;
+        });
+      }
+
+      if (!hasSecondaryTwo) {
+        setSignatures(prevState => {
+          const newState = cloneDeep(prevState);
+          delete newState[secondaryTwoLabel];
+          return newState;
+        });
+      }
+    },
+
+    [hasSecondaryOne, hasSecondaryTwo, secondaryOneLabel, secondaryTwoLabel],
   );
 
   const PrivacyPolicy = () => (
@@ -124,7 +126,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         fullName={formData.veteranFullName}
         label={veteranLabel}
         signatures={signatures}
-        setSignature={setSignature}
+        setSignature={setSignatures}
         isRequired
         showError={showError}
       >
@@ -143,7 +145,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         fullName={formData.primaryFullName}
         label={primaryLabel}
         signatures={signatures}
-        setSignature={setSignature}
+        setSignature={setSignatures}
         isRequired
         showError={showError}
       >
@@ -183,29 +185,29 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         <PrivacyPolicy />
       </SignatureCheckbox>
 
-      {secondaryCaregivers.hasSecondaryOne && (
+      {hasSecondaryOne && (
         <SignatureCheckbox
           fullName={formData.secondaryOneFullName}
           label={secondaryOneLabel}
           signatures={signatures}
-          setSignature={setSignature}
+          setSignature={setSignatures}
           isRequired
           showError={showError}
         >
-          <SecondaryCaregiverCopy label="Secondary Family Caregiver applicant&apos;s" />
+          <SecondaryCaregiverCopy label={secondaryOneLabel} />
         </SignatureCheckbox>
       )}
 
-      {secondaryCaregivers.hasSecondaryTwo && (
+      {hasSecondaryTwo && (
         <SignatureCheckbox
           fullName={formData.secondaryTwoFullName}
           label={secondaryTwoLabel}
           signatures={signatures}
-          setSignature={setSignature}
+          setSignature={setSignatures}
           isRequired
           showError={showError}
         >
-          <SecondaryCaregiverCopy label="Secondary Family Caregiver (2) applicant&apos;s" />
+          <SecondaryCaregiverCopy label={secondaryTwoLabel} />
         </SignatureCheckbox>
       )}
 

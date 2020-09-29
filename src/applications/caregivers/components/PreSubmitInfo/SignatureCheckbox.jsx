@@ -11,20 +11,21 @@ const SignatureCheckbox = ({
   label,
   setSignature,
   showError,
-  signatures,
 }) => {
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [hasError, setError] = useState(null);
   const isSignatureComplete = isSigned && isChecked;
+  const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
 
   useEffect(
     () => {
-      setSignature({ ...signatures, [label]: isSignatureComplete });
+      setSignature(prevState => {
+        return { ...prevState, [label]: isSignatureComplete };
+      });
     },
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isSignatureComplete, fullName.first, fullName.last],
+    [isSignatureComplete, label, setSignature],
   );
 
   useEffect(
@@ -45,7 +46,7 @@ const SignatureCheckbox = ({
 
       <SignatureInput
         setIsSigned={setIsSigned}
-        label={label}
+        label={createInputContent(label)}
         fullName={fullName}
         required={isRequired}
         showError={showError}

@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import { mapValues } from 'lodash/fp';
 import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilities.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
@@ -24,7 +24,7 @@ const medicalCenterLabels = Object.keys(caregiverFacilities).reduce(
 );
 
 // Turns the facility list for each state into an array of strings
-const medicalCentersByState = _.mapValues(
+const medicalCentersByState = mapValues(
   val => val.map(center => center.code),
   caregiverFacilities,
 );
