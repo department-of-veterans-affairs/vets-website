@@ -13,6 +13,7 @@ import {
 import {
   createTestStore,
   setTypeOfCare,
+  setTypeOfEyeCare,
   renderWithStoreAndRouter,
 } from '../mocks/setup';
 import {
@@ -143,7 +144,7 @@ const facilities = [
   },
 ];
 
-describe('VAOS integration: VA flat facility page', () => {
+describe('VAOS integration: VA flat facility page - multiple facilities', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
@@ -540,5 +541,189 @@ describe('VAOS integration: VA flat facility page', () => {
     await screen.findByText(
       /You’ve reached the limit for appointment requests at this location/i,
     );
+  });
+
+  it('should show past visits eligibility alert', async () => {
+    mockParentSites(['983', '984'], [parentSite983, parentSite984]);
+
+    mockSupportedFacilities({
+      siteId: '984',
+      parentId: '984',
+      typeOfCareId: '502',
+      data: [
+        {
+          id: '984',
+          attributes: {
+            ...getFacilityMock().attributes,
+            institutionCode: '984',
+            authoritativeName: 'Bozeman VA medical center',
+            rootStationCode: '984',
+            parentStationCode: '984',
+            requestSupported: true,
+          },
+        },
+        {
+          id: '984GC',
+          attributes: {
+            ...getFacilityMock().attributes,
+            institutionCode: '984GC',
+            authoritativeName: 'San Diego VA medical center',
+            rootStationCode: '984',
+            parentStationCode: '984',
+            requestSupported: true,
+          },
+        },
+      ],
+    });
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983',
+      typeOfCareId: '502',
+      data: [],
+    });
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '502',
+      limit: true,
+    });
+    mockEligibilityFetches({
+      siteId: '984',
+      facilityId: '984',
+      typeOfCareId: '502',
+      limit: true,
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /mental health/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    fireEvent.click(await screen.findByLabelText(/Bozeman VA medical center/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await screen.findByText(
+      /We couldn’t find a recent appointment at this location/i,
+    );
+  });
+
+  it('should use correct eligibility info after a split type of care is changed', async () => {
+    mockParentSites(
+      ['983'],
+      [
+        {
+          id: '983',
+          attributes: {
+            ...getParentSiteMock().attributes,
+            institutionCode: '983',
+            rootStationCode: '983',
+            parentStationCode: '983',
+          },
+        },
+      ],
+    );
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983',
+      typeOfCareId: '408',
+      data: [
+        {
+          id: '983GC',
+          attributes: {
+            ...getFacilityMock().attributes,
+            authoritativeName: 'Bozeman medical center',
+            institutionCode: '983GC',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            requestSupported: true,
+          },
+        },
+        {
+          id: '983BC',
+          attributes: {
+            ...getFacilityMock().attributes,
+            institutionCode: '983BC',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            requestSupported: true,
+          },
+        },
+      ],
+    });
+    mockSupportedFacilities({
+      siteId: '983',
+      parentId: '983',
+      typeOfCareId: '407',
+      data: [
+        {
+          id: '983AZ',
+          attributes: {
+            ...getFacilityMock().attributes,
+            authoritativeName: 'Belgrade medical center',
+            institutionCode: '983AZ',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            requestSupported: true,
+          },
+        },
+        {
+          id: '983BZ',
+          attributes: {
+            ...getFacilityMock().attributes,
+            institutionCode: '983BZ',
+            rootStationCode: '983',
+            parentStationCode: '983',
+            requestSupported: true,
+          },
+        },
+      ],
+    });
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983GC',
+      typeOfCareId: '408',
+      requestPastVisits: true,
+    });
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983AZ',
+      typeOfCareId: '407',
+      limit: true,
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /eye care/i);
+    await setTypeOfEyeCare(store, /optometry/i);
+
+    let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    fireEvent.click(await screen.findByLabelText(/Bozeman medical center/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await screen.findByText(
+      /You’ve reached the limit for appointment requests at this location/i,
+    );
+
+    await cleanup();
+    await setTypeOfEyeCare(store, /Ophthalmology/i);
+    // console.log(store.getState().newAppointment);
+    screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+    // screen.debug();
+
+    expect(screen.baseElement).to.contain.text('Finding locations');
+    await screen.findByText(
+      'Below is a list of VA locations where you’re registered that offer Ophthalmology appointments',
+    );
+
+    expect(screen.baseElement).to.contain.text('Finding locations');
+    fireEvent.click(await screen.findByLabelText(/Belgrade medical center/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    expect(
+      await screen.findByText(
+        /We couldn’t find a recent appointment at this location/i,
+      ),
+    ).to.exist;
   });
 });
