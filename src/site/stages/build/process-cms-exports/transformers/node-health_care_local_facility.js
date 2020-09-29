@@ -57,11 +57,16 @@ const transform = (entity, { ancestors }) => ({
     entity.fieldOperatingStatusMoreInfo,
   ),
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
-  fieldRegionPage:
-    entity.fieldRegionPage[0] &&
-    !ancestors.find(r => r.entity.uuid === entity.fieldRegionPage[0].uuid)
+  /* eslint-disable no-nested-ternary */
+  fieldRegionPage: entity.fieldRegionPage[0]
+    ? !ancestors.find(r => r.entity.uuid === entity.fieldRegionPage[0].uuid)
       ? { entity: entity.fieldRegionPage[0] }
-      : null,
+      : {
+          entity: {
+            title: getDrupalValue(entity.fieldRegionPage[0].title),
+          },
+        }
+    : null,
   fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
 });
 

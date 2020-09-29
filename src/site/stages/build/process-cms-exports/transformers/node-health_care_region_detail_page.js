@@ -16,11 +16,17 @@ const transform = (entity, { ancestors }) => ({
   fieldContentBlock: entity.fieldContentBlock,
   fieldFeaturedContent: entity.fieldFeaturedContent,
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice:
-    entity.fieldOffice[0] &&
-    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+  /* eslint-disable no-nested-ternary */
+  fieldOffice: entity.fieldOffice[0]
+    ? !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
       ? { entity: entity.fieldOffice[0] }
-      : null,
+      : {
+          entity: {
+            entityLabel: getDrupalValue(entity.fieldOffice[0].title),
+            entityType: entity.fieldOffice[0].entityType,
+          },
+        }
+    : null,
   fieldRelatedLinks: entity.fieldRelatedLinks[0] || null,
   fieldTableOfContentsBoolean: getDrupalValue(
     entity.fieldTableOfContentsBoolean,

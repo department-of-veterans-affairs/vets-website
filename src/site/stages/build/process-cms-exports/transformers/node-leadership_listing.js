@@ -16,11 +16,17 @@ const transform = (entity, { ancestors }) => ({
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLeadership: entity.fieldLeadership[0],
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
-  fieldOffice:
-    entity.fieldOffice[0] &&
-    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
+  /* eslint-disable no-nested-ternary */
+  fieldOffice: entity.fieldOffice[0]
+    ? !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
       ? { entity: entity.fieldOffice[0] }
-      : null,
+      : {
+          entity: {
+            entityLabel: getDrupalValue(entity.fieldOffice[0].title),
+            entityType: entity.fieldOffice[0].entityType,
+          },
+        }
+    : null,
 });
 
 module.exports = {
