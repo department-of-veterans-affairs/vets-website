@@ -62,7 +62,6 @@ const CalculatorResultRow = ({
         <p
           className="small-6 columns vads-u-text-align--right vads-u-font-size--h5 vads-u-font-family--serif
               vads-u-font-weight--bold eyb-value-header"
-          aria-label={value}
         >
           {value}
           {screenReaderSpan}
@@ -141,7 +140,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul
         className="out-of-pocket-tuition"
-        aria-label="out-of-pocket tuition"
+        aria-label="Out-of-pocket tuition"
         role="list"
       >
         <CalculatorResultRow
@@ -171,7 +170,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul
         className="total-paid-to-you"
-        aria-label="total paid to you"
+        aria-label="Total paid to you"
         role="list"
       >
         <CalculatorResultRow
