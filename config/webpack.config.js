@@ -241,12 +241,12 @@ module.exports = env => {
       }),
 
       new MiniCssExtractPlugin({
-        moduleFilename: ({ name, entryModule }) => {
+        moduleFilename: chunk => {
+          const { name } = chunk;
           const showHash = isOptimizedBuild && name !== vaMedaliaStylesFilename;
-          const { renderedHash } = entryModule;
 
           return showHash
-            ? `${name}.${renderedHash}-${timestamp}.css`
+            ? `${name}.[contenthash]-${timestamp}.css`
             : `${name}.css`;
         },
       }),
