@@ -25,11 +25,11 @@ const VaFacilityResult = ({ location, query, index }) => {
           }}
         >
           {isVADomain(website) ? (
-            <h3 id="facility-name" className="vads-u-font-size--h5 no-marg-top">
+            <h3 className="vads-u-font-size--h5 no-marg-top">
               <a href={website}>{name}</a>
             </h3>
           ) : (
-            <h3 id="facility-name" className="vads-u-font-size--h5 no-marg-top">
+            <h3 className="vads-u-font-size--h5 no-marg-top">
               <Link to={`facility/${location.id}`}>{name}</Link>
             </h3>
           )}

@@ -21,13 +21,13 @@ describe('Google Analytics FL Events', () => {
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
       cy.injectAxe();
-      cy.axeCheck('main', { _13647Exception: true });
+      cy.axeCheck();
 
       cy.get('#map-id', { timeout: 10000 }).should(() => {
         assertDataLayerEvent(win, 'fl-search');
       });
 
-      cy.get('#marker-id')
+      cy.get('.i-pin-card-map')
         .first()
         .click()
         .as('markerClick')
