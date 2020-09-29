@@ -461,7 +461,7 @@ export const uiSchema = {
     },
   },
   GENDER_SELF_IDENTIFY_DETAILS: {
-    'ui:title': 'Provide your preferred description (50 characters or less)',
+    'ui:title': 'Provide your preferred description',
     'ui:options': {
       expandUnder: 'GENDER',
       expandUnderCondition: formData =>
