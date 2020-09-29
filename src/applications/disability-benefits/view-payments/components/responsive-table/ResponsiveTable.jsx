@@ -24,7 +24,12 @@ class ResponsiveTable extends Component {
     }
 
     return (
-      <th key={field.value} className={borderClasses} role="columnheader">
+      <th
+        key={field.value}
+        className={borderClasses}
+        role="columnheader"
+        scope="col"
+      >
         <button
           className="va-button-link vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none"
           tabIndex="0"
@@ -58,7 +63,7 @@ class ResponsiveTable extends Component {
               data-index={index}
               className={`${borderClasses} ${extraClass}`}
               data-label={`${field.label}:`}
-              key={`${rowIndex}-${field.value}`}
+              key={`${rowIndex}-${field.label}`}
               role="cell"
             >
               {item[field.value] === null ? '---' : item[field.value]}
@@ -75,7 +80,11 @@ class ResponsiveTable extends Component {
     const rows = data.map(this.renderRow);
 
     return (
-      <table className="responsive" role="table">
+      <table
+        aria-labelledby={this.props.ariaLabelledBy}
+        className="responsive"
+        role="table"
+      >
         <thead>
           <tr role="row">{headers}</tr>
         </thead>
