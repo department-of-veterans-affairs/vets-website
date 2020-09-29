@@ -3,32 +3,28 @@
   {% assign single = singleLocation.entity %}
   {% include "src/site/components/service_address.drupal.liquid" %}
 
-  <h5>Hours</h5>
+  {% comment %}
+    single.fieldHours values:
+    - 0 = Use facility hours
+    - 1 = Do not specify hours
+    - 2 = Display specific hours
+  {% endcomment %}
 
-  {% if single.fieldFacilityServiceHours.value and single.fieldHours == "2" %}
-    <table class="service-hours">
-      <thead class="vads-u-visibility--screen-reader"><th>day</th><th>hours</th></thead>
-      {% for hours in single.fieldFacilityServiceHours.value %}
-        {% if hours %}
-          <tr>
-            <td>{{ hours.0 }}</td>
-            <td>{{ hours.1 }}</td>
-          </tr>
-        {% endif %}
-      {% endfor %}
-    </table>
-  {% else %}
-    <table class="service-hours">
-      {% for hours in fieldFacilityHours.value %}
-        {% if hours %}
-          <tr>
-            <td>{{ hours.0 }}</td>
-            <td>{{ hours.1 }}</td>
-          </tr>
-        {% endif %}
-      {% endfor %}
-    </table>
+  {% if single.fieldHours != "1" %}
+    <h5>Hours</h5>
   {% endif %}
+
+  {% case single.fieldHours %}
+    {% when '2' %}
+      {% if single.fieldFacilityServiceHours.value %}
+        {% include "src/site/paragraphs/service_hours.drupal.liquid" with serviceHours = single.fieldFacilityServiceHours.value %}
+      {% endif %}
+    {% when '0' %}
+      {% if fieldFacilityHours.value %}
+        {% include "src/site/paragraphs/service_hours.drupal.liquid" with serviceHours = fieldFacilityHours.value %}
+      {% endif %}
+  {% endcase %}
+
 
   {% if single.fieldAdditionalHoursInfo %}
     <p>{{ single.fieldAdditionalHoursInfo }}</p>
@@ -86,7 +82,7 @@
   {% endif %}
 
   {% if locationEntity.fieldOnlineSchedulingAvailabl == '1' %}
-    <a class="usa-button"
+    <a class="usa-button vads-u-margin-bottom--1"
        data-entity-substitution="canonical"
        data-entity-type="node"
        href="/health-care/schedule-view-va-appointments"
