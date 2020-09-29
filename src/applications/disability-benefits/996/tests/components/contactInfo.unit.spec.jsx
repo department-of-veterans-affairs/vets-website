@@ -24,11 +24,11 @@ describe('Higher-Level Review 0996 contact information', () => {
     const data = {
       phoneNumber: '8005551212',
       emailAddress: 'foo@bar.com',
-      addressLine1: '123 Main St',
+      street: '123 Main St',
       city: 'FOOBURG',
-      stateOrProvinceCode: 'Confusion',
-      zipPostalCode: '123456',
-      countryCode: '',
+      state: 'Confusion',
+      zipCode5: '123456',
+      country: '',
     };
     const form = mount(
       <DefinitionTester
@@ -51,13 +51,13 @@ describe('Higher-Level Review 0996 contact information', () => {
     const data = {
       phoneNumber: '8005551212',
       emailAddress: 'foo@bar.com',
-      addressLine1: '123 Main St',
-      addressLine2: 'Sector A',
-      addressLine3: 'UNIT 1',
+      street: '123 Main St',
+      street2: 'Sector A',
+      street3: 'UNIT 1',
       city: 'FOOBURG',
-      stateOrProvinceCode: 'Confusion',
-      zipPostalCode: '123456',
-      countryCode: 'FRA',
+      state: 'Confusion',
+      zipCode5: '123456',
+      country: 'FRA',
     };
     const form = mount(
       <DefinitionTester
