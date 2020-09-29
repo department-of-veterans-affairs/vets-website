@@ -1,105 +1,86 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { cleanup } from '@testing-library/react';
+import { Route } from 'react-router-dom';
 
-import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfVisitPage } from '../../../new-appointment/components/TypeOfVisitPage';
+import TypeOfVisitPage from '../../../new-appointment/components/TypeOfVisitPage';
 
-describe('VAOS <TypeOfVisitPage>', () => {
-  it('should render', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingDirect: false,
+  },
+  user: {
+    profile: {
+      facilities: [
+        { facilityId: '983', isCerner: false },
+        { facilityId: '984', isCerner: false },
+      ],
+    },
+  },
+};
+describe('VAOS <TypeOfVisitPage> ', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
+  it('should show page', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<TypeOfVisitPage />, {
+      store,
+    });
+    expect(screen.getAllByRole('radio').length).to.equal(3);
+  });
+});
 
-    const form = mount(
-      <TypeOfVisitPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
-    );
+it('should not submit empty form', async () => {
+  const store = createTestStore(initialState);
+  const screen = renderWithStoreAndRouter(<TypeOfVisitPage />, {
+    store,
+  });
+  expect(await screen.findByText(/Continue/i)).to.exist;
 
-    expect(form.find('input').length).to.equal(3);
-    form.unmount();
+  fireEvent.click(screen.getByText(/Continue/));
+
+  expect(await screen.findByText('Please provide a response')).to.exist;
+  expect(screen.history.push.called).to.not.be.true;
+});
+
+it('should save type of visit choice on page change', async () => {
+  const store = createTestStore(initialState);
+  let screen = renderWithStoreAndRouter(<Route component={TypeOfVisitPage} />, {
+    store,
   });
 
-  it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
+  expect(await screen.getByLabelText(/Office visit/i)).to.exist;
 
-    const form = mount(
-      <TypeOfVisitPage
-        openFormPage={openFormPage}
-        history={history}
-        data={{}}
-      />,
-    );
+  fireEvent.click(await screen.findByLabelText(/Office visit/i));
+  await cleanup();
 
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(history.push.called).to.be.false;
-    form.unmount();
+  screen = renderWithStoreAndRouter(<Route component={TypeOfVisitPage} />, {
+    store,
   });
 
-  it('should call updateFormData after change', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
+  expect(await screen.findByLabelText(/Office visit/i)).to.have.attribute(
+    'checked',
+  );
+});
 
-    const form = mount(
-      <TypeOfVisitPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        history={history}
-        data={{}}
-      />,
-    );
+it('should continue to the correct page once type is selected', async () => {
+  const store = createTestStore(initialState);
+  const screen = renderWithStoreAndRouter(
+    <Route component={TypeOfVisitPage} />,
+    {
+      store,
+    },
+  );
 
-    selectRadio(form, 'root_visitType', 'phone');
+  fireEvent.click(await screen.findByLabelText(/Office visit/i));
+  fireEvent.click(screen.getByText(/Continue/));
 
-    expect(updateFormData.firstCall.args[2].visitType).to.equal('phone');
-    form.unmount();
-  });
-
-  it('should submit with valid data', () => {
-    const openFormPage = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <TypeOfVisitPage
-        openFormPage={openFormPage}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ visitType: 'telehealth' }}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
-  });
-
-  it('document title should match h1 text', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const pageTitle = 'Choose a type of appointment';
-
-    const form = mount(
-      <TypeOfVisitPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
-    );
-
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-    form.unmount();
-  });
+  await waitFor(() =>
+    expect(screen.history.push.lastCall?.args[0]).to.equal(
+      '/new-appointment/contact-info',
+    ),
+  );
 });
