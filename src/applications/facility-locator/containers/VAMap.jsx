@@ -21,17 +21,13 @@ import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
 import { BOUNDING_RADIUS, MARKER_LETTERS } from '../constants';
-import {
-  areGeocodeEqual,
-  setFocus,
-  recordMarkerEvents,
-  recordZoomPanEvents,
-} from '../utils/helpers';
+import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/selectors';
+import { recordMarkerEvents, recordZoomPanEvents } from '../utils/analytics';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
@@ -490,6 +486,7 @@ class VAMap extends Component {
             <TabPanel>
               <Map
                 ref="map"
+                id="map-id"
                 center={position}
                 onViewportChanged={e =>
                   recordZoomPanEvents(
@@ -499,7 +496,7 @@ class VAMap extends Component {
                   )
                 }
                 zoom={parseInt(currentQuery.zoomLevel, 10)}
-                style={{ width: '100%', maxHeight: '55vh' }}
+                style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
                 scrollWheelZoom={false}
                 zoomSnap={1}
                 zoomDelta={1}

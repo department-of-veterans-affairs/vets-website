@@ -41,7 +41,7 @@ const contactInformationPage = {
       (formData, _index) => {
         return formData.preferredContactMethod === 'mail';
       },
-      false,
+      true,
     ),
     [formFields.phoneNumber]: set(
       'ui:required',
