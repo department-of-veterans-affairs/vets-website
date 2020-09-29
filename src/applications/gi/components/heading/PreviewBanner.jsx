@@ -45,7 +45,7 @@ function PreviewBanner({ version, toolUrl = '/gids' }) {
 
 PreviewBanner.propTypes = {
   version: PropTypes.object.isRequired,
-  toolUrl: PropTypes.string.isRequired,
+  toolUrl: PropTypes.string,
 };
 
 export default PreviewBanner;
