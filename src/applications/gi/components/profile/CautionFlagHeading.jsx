@@ -43,7 +43,9 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
                     alertBoxHeading:
                       'Jumplink - This school has a cautionary warning',
                   });
-                  onViewWarnings();
+                  if (onViewWarnings) {
+                    onViewWarnings();
+                  }
                 }}
               >
                 View details below
