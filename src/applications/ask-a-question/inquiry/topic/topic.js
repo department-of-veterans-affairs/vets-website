@@ -1,11 +1,13 @@
 import { topicTitle } from '../../content/labels';
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
+import { vaMedicalFacilities } from 'vets-json-schema/dist/constants.json';
 
 const formFields = {
   levelOne: 'levelOne',
   levelTwo: 'levelTwo',
   levelThree: 'levelThree',
+  vaMedicalFacility: 'vaMedicalFacility',
 };
 
 const caregiverValues = [
@@ -67,6 +69,19 @@ const valuesByLabelLookup = {
   'Women Veterans Health Care': womensHealthValues,
 };
 
+function flattenMedicalFacilityList() {
+  const array = [];
+  Object.values(vaMedicalFacilities).forEach(state =>
+    state.map(facility => array.push(facility)),
+  );
+  return array;
+}
+
+const vaMedicalList = flattenMedicalFacilityList();
+
+const vaMedicalFacilityValues = vaMedicalList.map(facility => facility.value);
+const vaMedicalFacilityLabels = vaMedicalList.map(facility => facility.label);
+
 export const levelThreeRequiredTopics = new Set([
   'Health/Medical Eligibility & Programs',
   'Prosthetics, Med Devices & Sensory Aids',
@@ -94,6 +109,12 @@ export function schema(currentSchema, topicProperty = 'topic') {
       levelThree: {
         title: topicTitle,
         type: 'string',
+      },
+      vaMedicalFacility: {
+        title: 'Medical Center List',
+        type: 'string',
+        enum: vaMedicalFacilityValues,
+        enumNames: vaMedicalFacilityLabels,
       },
     }),
   };
@@ -173,6 +194,7 @@ export function uiSchema() {
         });
       },
     },
+    'ui:order': ['levelOne', 'levelTwo', 'levelThree', 'vaMedicalFacility'],
     [formFields.levelOne]: {
       'ui:title': topicTitle,
     },
@@ -188,6 +210,18 @@ export function uiSchema() {
         expandUnder: 'levelTwo',
         expandUnderCondition: levelTwo => {
           return !!levelThreeRequiredTopics.has(levelTwo);
+        },
+      },
+    },
+    [formFields.vaMedicalFacility]: {
+      'ui:title': 'Medical Center List',
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return (
+            levelTwo === 'Medical Care Issues at Specific Facility' ||
+            levelTwo === 'Prosthetics, Med Devices & Sensory Aids'
+          );
         },
       },
     },
