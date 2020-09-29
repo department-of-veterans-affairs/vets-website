@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -258,9 +259,12 @@ export async function setExpressCareReason({ store, label }) {
   const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
     store,
   });
-  await screen.findByText('Select a reason for your Express Care request');
-  fireEvent.click(screen.getByLabelText(label));
-  fireEvent.click(screen.getByText(/^Continue/));
+
+  userEvent.click(await screen.findByLabelText(label));
+
+  await waitFor(() => expect(screen.getByLabelText(label).checked).to.be.true);
+
+  userEvent.click(screen.getByText(/^Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 }
