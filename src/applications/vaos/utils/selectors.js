@@ -308,8 +308,11 @@ export function getFacilityPageV2Info(state) {
   const parentFacilitiesStatus = newAppointment.parentFacilitiesStatus;
   const childFacilitiesStatus = newAppointment.childFacilitiesStatus;
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
+  const facilityDetails = newAppointment.facilityDetails;
   const eligibilityStatus = getEligibilityStatus(state);
   const parentFacilities = newAppointment.parentFacilities;
+  const selectedFacilityDetails =
+    facilityDetails[getRealFacilityId(data.vaFacility)];
 
   return {
     ...formInfo,
@@ -319,9 +322,8 @@ export function getFacilityPageV2Info(state) {
     childFacilitiesStatus,
     eligibility: getEligibilityChecks(state),
     facilities,
-    facility: getChosenFacilityInfo(state),
+    facilityDetails,
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
-    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     hasDataFetchingError:
       parentFacilitiesStatus === FETCH_STATUS.failed ||
       childFacilitiesStatus === FETCH_STATUS.failed ||
@@ -336,6 +338,7 @@ export function getFacilityPageV2Info(state) {
     parentFacilities,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentFacilitiesStatus,
+    selectedFacilityDetails,
     singleValidVALocation: facilities?.length === 1,
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
     showEligibilityModal:

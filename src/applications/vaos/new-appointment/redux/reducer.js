@@ -9,6 +9,7 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
+import { getParentOfLocation } from '../../services/location';
 import { getEligibilityChecks, isEligible } from '../../utils/eligibility';
 
 import {
@@ -72,6 +73,7 @@ import {
 } from '../../utils/constants';
 
 import { getTypeOfCare } from '../../utils/selectors';
+import { getRealFacilityId } from '../../utils/appointment';
 import { getSiteIdFromOrganization } from '../../services/organization';
 import { getClinicId } from '../../services/healthcare-service/transformers';
 
@@ -328,18 +330,51 @@ export default function formReducer(state = initialState, action) {
       let newSchema = action.schema;
       let newData = state.data;
       const typeOfCareId = action.typeOfCareId;
+      const facilityDetails = action.facilityDetails;
+
+      const parentFacilities =
+        action.parentFacilities || state.parentFacilities;
 
       let locations = action.locations || state.facilities[typeOfCareId] || [];
+
+      // Populate location summaries with data necessary for radio widgets
+      locations.forEach(location => {
+        const currentLocation = location;
+        const facility = facilityDetails.find(
+          details => getRealFacilityId(location.id) === details.id,
+        );
+        if (facility) {
+          currentLocation.name = facility.name;
+          currentLocation.city = facility.address?.city;
+          currentLocation.state = facility.address?.state;
+          currentLocation.lat = facility.position?.latitude;
+          currentLocation.long = facility.position?.longitude;
+        }
+      });
 
       locations = locations.sort((a, b) => {
         return a.name < b.name ? -1 : 1;
       });
 
-      if (locations.length === 1) {
-        const selectedFacility = locations[0];
+      if (parentFacilities.length === 1 || !locations.length) {
         newData = {
           ...newData,
-          vaFacility: selectedFacility.id,
+          vaParent: parentFacilities[0]?.id,
+        };
+      }
+
+      if (locations.length === 1) {
+        const vaFacility = locations[0]?.id;
+        const selectedFacility = facilityDetails?.find(
+          f => f.id === getRealFacilityId(vaFacility),
+        );
+        const vaParent = getParentOfLocation(parentFacilities, selectedFacility)
+          ?.id;
+
+        newData = {
+          ...newData,
+          vaFacility,
+          vaParent,
         };
       } else {
         newSchema = set(
@@ -358,8 +393,6 @@ export default function formReducer(state = initialState, action) {
         newSchema,
         action.uiSchema,
       );
-
-      const facilityDetails = state.facilityDetails;
 
       action.facilityDetails.forEach(d => {
         if (!(d.id in facilityDetails)) {
@@ -380,6 +413,7 @@ export default function formReducer(state = initialState, action) {
           [typeOfCareId]: locations,
         },
         facilityDetails,
+        parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }

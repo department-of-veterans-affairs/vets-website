@@ -7,6 +7,8 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
+import { getParentOfLocation } from '../../../services/location';
+import { getRealFacilityId } from '../../../utils/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import EligibilityModal from './EligibilityModal';
@@ -45,22 +47,23 @@ function VAFacilityPageV2({
   data,
   eligibility,
   facilities,
-  facility,
   facilityDetails,
   facilityDetailsStatus,
   hasDataFetchingError,
+  hideEligibilityModal,
   loadingEligibilityStatus,
   noValidVAParentFacilities,
   noValidVAFacilities,
   openFacilityPageV2,
   pageChangeInProgress,
   parentDetails,
+  parentFacilities,
   parentFacilitiesStatus,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   schema,
   showEligibilityModal,
-  hideEligibilityModal,
+  selectedFacilityDetails,
   singleValidVALocation,
   siteId,
   typeOfCare,
@@ -84,19 +87,20 @@ function VAFacilityPageV2({
 
   const goForward = () => routeToNextAppointmentPage(history, pageKey);
 
-  // const onFacilityChange = newData => {
-  //   const selectedFacility = facilities?.find(f => f.id === newData.vaFacility);
+  const onFacilityChange = newData => {
+    const selectedFacility =
+      facilityDetails[getRealFacilityId(newData.vaFacility)];
 
-  //   const parentId = getParentOfLocation(parentFacilities, selectedFacility)
-  //     ?.id;
+    const vaParent = getParentOfLocation(parentFacilities, selectedFacility)
+      ?.id;
 
-  //   if (!!selectedFacility && !!parentId) {
-  //     updateFormData(pageKey, uiSchema, {
-  //       ...newData,
-  //       vaParent: parentId,
-  //     });
-  //   }
-  // };
+    if (!!selectedFacility && !!vaParent) {
+      updateFormData(pageKey, uiSchema, {
+        ...newData,
+        vaParent,
+      });
+    }
+  };
 
   const title = (
     <h1 className="vads-u-font-size--h2">
@@ -167,13 +171,17 @@ function VAFacilityPageV2({
     );
   }
 
-  if (singleValidVALocation && !canScheduleAtChosenFacility) {
+  if (
+    singleValidVALocation &&
+    !canScheduleAtChosenFacility &&
+    loadingEligibilityStatus === FETCH_STATUS.succeeded
+  ) {
     return (
       <div>
         {title}
         <SingleFacilityEligibilityCheckMessage
           eligibility={eligibility}
-          facility={facility}
+          facility={selectedFacilityDetails}
         />
         <div className="vads-u-margin-top--2">
           <FormButtons
@@ -187,11 +195,11 @@ function VAFacilityPageV2({
     );
   }
 
-  if (singleValidVALocation) {
+  if (singleValidVALocation && canScheduleAtChosenFacility) {
     return (
       <div>
         {title}
-        <VAFacilityInfoMessage facility={facility} />
+        <VAFacilityInfoMessage facility={selectedFacilityDetails} />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
@@ -217,11 +225,7 @@ function VAFacilityPageV2({
           title="VA Facility"
           schema={schema}
           uiSchema={uiSchema}
-          onChange={newData =>
-            updateFormData(pageKey, uiSchema, {
-              ...newData,
-            })
-          }
+          onChange={onFacilityChange}
           onSubmit={goForward}
           data={data}
         >
@@ -252,7 +256,7 @@ function VAFacilityPageV2({
         <EligibilityModal
           onClose={hideEligibilityModal}
           eligibility={eligibility}
-          facilityDetails={facilityDetails}
+          facilityDetails={selectedFacilityDetails}
         />
       )}
     </div>

@@ -39,7 +39,11 @@ import {
   getIdOfRootOrganization,
   getSiteIdFromOrganization,
 } from '../../services/organization';
-import { getLocation, getLocations } from '../../services/location';
+import {
+  getLocation,
+  getLocations,
+  getParentOfLocation,
+} from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
 import {
@@ -330,7 +334,33 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare.id;
       const userSiteIds = selectSystemIds(initialState);
+      const useVSP = vaosVSPAppointmentNew(initialState);
       let locations = null;
+      let siteId = null;
+      let locationId = newAppointment.data.vaFacility;
+      let parentId = newAppointment.data.vaParent;
+      let parentFacilities = newAppointment.parentFacilities;
+
+      // If we have the VA parent in our state, we don't need to
+      // fetch them again
+      if (!parentFacilities) {
+        parentFacilities = await getOrganizations({
+          siteIds: userSiteIds,
+          useVSP,
+        });
+      }
+
+      const canShowFacilities = !!parentId || parentFacilities?.length === 1;
+
+      if (canShowFacilities && !parentId) {
+        parentId = parentFacilities[0].id;
+      }
+
+      if (parentId) {
+        siteId = parseFakeFHIRId(
+          getIdOfRootOrganization(parentFacilities, parentId),
+        );
+      }
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN,
@@ -383,75 +413,70 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         });
       }
 
-      // TODO: only fetch facility details we don't ahve
+      // TODO: only fetch facility details we don't already have
 
       const facilityDetails = await getLocations({
         facilityIds: locations.map(l => l.id),
-      });
-
-      facilityDetails.forEach(details => {
-        const location = locations.find(
-          l => getRealFacilityId(l.id) === details.id,
-        );
-        if (location) {
-          location.name = details.name;
-          location.city = details.address?.city;
-          location.state = details.address?.state;
-          location.lat = details.position?.latitude;
-          location.long = details.position?.longitude;
-        }
       });
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
         locations,
         facilityDetails,
+        parentFacilities,
         typeOfCareId,
         schema,
         uiSchema,
       });
 
-      // // If we have an already selected location or only have a single location
-      // // fetch eligbility data immediately
-      // const eligibilityDataNeeded = !!locationId || locations?.length === 1;
+      // If we have an already selected location or only have a single location
+      // fetch eligbility data immediately
+      const eligibilityDataNeeded = !!locationId || locations?.length === 1;
 
-      // if (eligibilityDataNeeded && !locationId) {
-      //   locationId = locations[0].id;
-      // }
+      if (eligibilityDataNeeded && !locationId) {
+        locationId = locations[0].id;
+      }
 
-      // if (!locations?.length) {
-      //   parentFacilities.forEach(p => {
-      //     recordEligibilityFailure(
-      //       'supported-facilities',
-      //       typeOfCare.name,
-      //       parseFakeFHIRId(p.id),
-      //     );
-      //   });
-      // }
+      if (!locations?.length) {
+        parentFacilities.forEach(p => {
+          recordEligibilityFailure(
+            'supported-facilities',
+            typeOfCare.name,
+            parseFakeFHIRId(p.id),
+          );
+        });
+      }
 
-      // const eligibilityChecks =
-      //   newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
+      const eligibilityChecks =
+        newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
 
-      // if (eligibilityDataNeeded && !eligibilityChecks) {
-      //   const parentId = getParentOfLocation(parentFacilities, locations[0]).id;
+      if (eligibilityDataNeeded && !eligibilityChecks) {
+        const selectedFacility = facilityDetails?.find(
+          f => f.id === getRealFacilityId(locations[0].id),
+        );
+        if (!parentId) {
+          parentId = getParentOfLocation(parentFacilities, selectedFacility).id;
+        }
 
-      //   const siteId = parseFakeFHIRId(
-      //     getIdOfRootOrganization(parentFacilities, parentId),
-      //   );
+        if (!siteId) {
+          siteId = parseFakeFHIRId(
+            getIdOfRootOrganization(parentFacilities, parentId),
+          );
+        }
 
-      //   const location = locations.find(l => l.id === locationId);
-      //   dispatch(checkEligibility(location, siteId));
-      // }
+        const location = locations.find(l => l.id === locationId);
+        dispatch(checkEligibility(location, siteId));
+      }
 
       // Fetch parent details if we don't have any matching locations
-      // if (parentFacilities?.length && !locations.length) {
-      //   try {
-      //     const thunk = fetchFacilityDetails(parentFacilities[0].id);
-      //     await thunk(dispatch, getState);
-      //   } catch (e) {
-      //     captureError(e);
-      //   }
-      // }
+      if (parentFacilities?.length && !locations.length) {
+        try {
+          const thunk = fetchFacilityDetails(parentFacilities[0].id);
+          await thunk(dispatch, getState);
+        } catch (e) {
+          captureError(e);
+        }
+      }
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({
