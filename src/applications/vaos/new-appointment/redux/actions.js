@@ -61,7 +61,11 @@ import {
 
 import { recordEligibilityFailure, resetDataLayer } from '../../utils/events';
 
-import { captureError, getErrorCodes } from '../../utils/error';
+import {
+  captureError,
+  getErrorCodes,
+  has400LevelError,
+} from '../../utils/error';
 
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -922,7 +926,7 @@ export function submitAppointmentOrRequest(history) {
         captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
-          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
+          isVaos400Error: has400LevelError(error),
         });
 
         // Remove parse function when converting this call to FHIR service
