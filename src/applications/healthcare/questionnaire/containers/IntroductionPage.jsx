@@ -10,16 +10,23 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import IntroductionPageHelpers from '../components/introduction-page';
 
 const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
+
   const { appointment } = props?.questionnaire?.context;
   const facilityName = appointment?.vdsAppointments
     ? appointment?.vdsAppointments[0]?.clinic?.facility?.displayName
     : '';
-  const { isLoggedIn } = props;
+  const { isLoggedIn, route } = props;
+  const goToFirstPage = () => {
+    const firstPage = route.pageList[1];
+    props.router.push(firstPage.path);
+  };
+  const showLoginModel = () => props.toggleLoginModal(true, 'cta-form');
   return (
     <div className="schemaform-intro healthcare-experience">
       <FormTitle
@@ -37,10 +44,12 @@ const IntroductionPage = props => {
         pageList={props.route.pageList}
         startText="Start the questionnaire"
         formConfig={{ customText: { appType: 'questionnaire' } }}
-      >
-        Please complete the HC-QSTNR form to apply for Upcoming Visit
-        questionnaire.
-      </SaveInProgressIntro>
+        renderSignInMessage={() => (
+          <IntroductionPageHelpers.WelcomeAlert
+            toggleLoginModal={showLoginModel}
+          />
+        )}
+      />
       <section>
         <h3 className="urgent-needs-header">
           Can I use this questionnaire for medical emergencies or urgent needs?
@@ -149,16 +158,21 @@ const IntroductionPage = props => {
           </li>
         </ol>
       </div>
-      <button
-        className="va-button sign-in-button-bottom"
-        onClick={() => {
-          props.toggleLoginModal(true, 'cta-form');
-        }}
-      >
-        {isLoggedIn
-          ? 'Start the questionnaire'
-          : 'Sign in to start the questionnaire'}
-      </button>
+      {isLoggedIn ? (
+        <button
+          className="va-button sign-in-button-bottom"
+          onClick={() => goToFirstPage()}
+        >
+          start the questionnaire
+        </button>
+      ) : (
+        <button
+          className="va-button sign-in-button-bottom"
+          onClick={() => showLoginModel()}
+        >
+          Sign in to start the questionnaire
+        </button>
+      )}
       <div className="omb-info--container">
         <OMBInfo ombNumber="0000-0000" expDate="mm/dd/yyyy" />
       </div>
@@ -168,6 +182,7 @@ const IntroductionPage = props => {
 
 const mapStateToProps = state => {
   return {
+    pages: state?.form?.pages,
     isLoggedIn: state?.user?.login?.currentlyLoggedIn,
     questionnaire: state?.questionnaireData,
   };
