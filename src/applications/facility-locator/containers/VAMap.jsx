@@ -484,7 +484,7 @@ class VAMap extends Component {
               />
             </TabPanel>
             <div aria-hidden="true" role="img">
-              <TabPanel>
+              <TabPanel tabindex="-1">
                 <Map
                   ref="map"
                   id="map-id"
@@ -577,6 +577,7 @@ class VAMap extends Component {
         </div>
         <div className="desktop-map-container" aria-hidden="true" role="img">
           <Map
+            tabindex="-1"
             ref="map"
             id="map-id"
             center={position}
@@ -595,14 +596,16 @@ class VAMap extends Component {
             onMoveEnd={this.handleBoundsChanged}
           >
             <TileLayer
+              tabindex="-1"
               url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-              attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
-                <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
-                Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
+              attribution="
+              Map data &copy; <a href=&quot;http://openstreetmap.org&quot; tabindex=&quot;-1&quot;>OpenStreetMap</a> contributors, \
+                <a  href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot; tabindex=&quot;-1&quot;>CC-BY-SA </a>, \
+                Imagery © <a href=&quot;http://mapbox.com&quot; tabindex=&quot;-1&quot;>Mapbox</a>"
             />
             {facilityLocatorMarkers &&
               facilityLocatorMarkers.length > 0 && (
-                <FeatureGroup ref="facilityMarkers">
+                <FeatureGroup ref="facilityMarkers" tabindex="-1">
                   {facilityLocatorMarkers}
                 </FeatureGroup>
               )}
