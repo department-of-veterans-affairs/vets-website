@@ -149,7 +149,7 @@ const IntroductionPage = props => {
       <button
         className="va-button sign-in-button-bottom"
         onClick={() => {
-          props.toggleLoginModal();
+          props.toggleLoginModal(true, 'cta-form');
         }}
       >
         Sign in to start the questionnaire

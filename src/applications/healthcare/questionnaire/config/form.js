@@ -7,7 +7,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import AppointmentInfoBox from '../components/AppointmentInfoBox';
 import ReasonForVisit from '../components/reason-for-visit';
 import ChiefComplaint from '../components/chief-complaint';
-import GetHelpFooter from '../components/footer/GetHelpFooter';
+import GetHelp from '../components/get-help';
 
 // import AdditionalQuestions from '../components/additional-questions'
 import environment from 'platform/utilities/environment';
@@ -25,8 +25,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   version: 0,
   prefillEnabled: true,
-  footerContent: GetHelpFooter,
-  // getHelp: GetHelpFooter,
+  footerContent: GetHelp.footer,
   savedFormMessages: {
     notFound: 'Please start over to apply for Upcoming Visit questionnaire.',
     noAuth:
