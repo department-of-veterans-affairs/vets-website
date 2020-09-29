@@ -1,7 +1,10 @@
 import moment from 'moment';
 import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { selectPatientFacilities } from 'platform/user/selectors';
+import {
+  selectPatientFacilities,
+  selectIsCernerOnlyPatient,
+} from 'platform/user/selectors';
 import { titleCase } from './formatters';
 
 import {
@@ -376,6 +379,7 @@ export function getFacilityPageInfo(state) {
     facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerOrgIds: selectCernerOrgIds(state),
+    isCernerOnly: selectIsCernerOnlyPatient(state),
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
   };
 }
