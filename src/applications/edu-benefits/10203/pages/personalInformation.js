@@ -2,19 +2,27 @@ import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import createContactInformationPage from '../../pages/contactInformation';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms/definitions/address';
+import environment from 'platform/utilities/environment';
 
 const addressUiSchema = address.uiSchema('');
 const contactInformation = createContactInformationPage(fullSchema10203);
 const ciUiSchema = contactInformation.uiSchema;
 const ciSchemaProperties = contactInformation.schema.properties;
-const { preferredContactMethod } = fullSchema10203.properties;
+const { preferredContactMethod, receiveTexts } = fullSchema10203.properties;
+
+import {
+  receiveTextsNote,
+  receiveTextsAlert,
+} from '../content/personalInformation';
+
+import { phoneNumberFormatted } from '../helpers';
 
 export const title = contactInformation.title;
 export const path = contactInformation.path;
 export const uiSchema = {
-  'ui:title': 'Your address',
   veteranAddress: {
     ...addressUiSchema,
+    'ui:title': 'Your address',
     street: {
       ...addressUiSchema.street,
       'ui:title': 'Street address',
@@ -30,7 +38,9 @@ export const uiSchema = {
     },
     mobilePhone: {
       ...phoneUI('Mobile phone number'),
-      'ui:required': form => form.preferredContactMethod === 'mobilePhone',
+      'ui:required': form =>
+        form.preferredContactMethod === 'mobilePhone' ||
+        form.receiveTexts === true,
     },
   },
   preferredContactMethod: {
@@ -45,13 +55,46 @@ export const uiSchema = {
       },
     },
   },
-};
-
-export const schema = {
-  ...contactInformation.schema,
-  properties: {
-    veteranAddress: address.schema(fullSchema10203, true),
-    'view:otherContactInfo': ciSchemaProperties['view:otherContactInfo'],
-    preferredContactMethod,
+  receiveTexts: {
+    'ui:title':
+      'I would like to receive text messages from VA about my GI Bill benefits.',
+  },
+  'view:housingPaymentInfo': {
+    'ui:description': receiveTextsAlert,
+    'ui:options': {
+      hideIf: data =>
+        !data?.receiveTexts ||
+        phoneNumberFormatted(data['view:otherContactInfo']?.mobilePhone),
+    },
+  },
+  'view:receiveTextsInfo': {
+    'ui:description': receiveTextsNote,
   },
 };
+
+export const schema = environment.isProduction()
+  ? {
+      ...contactInformation.schema,
+      properties: {
+        veteranAddress: address.schema(fullSchema10203, true),
+        'view:otherContactInfo': ciSchemaProperties['view:otherContactInfo'],
+        preferredContactMethod,
+      },
+    }
+  : {
+      ...contactInformation.schema,
+      properties: {
+        preferredContactMethod,
+        veteranAddress: address.schema(fullSchema10203, true),
+        'view:otherContactInfo': ciSchemaProperties['view:otherContactInfo'],
+        receiveTexts,
+        'view:housingPaymentInfo': {
+          type: 'object',
+          properties: {},
+        },
+        'view:receiveTextsInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
+    };
