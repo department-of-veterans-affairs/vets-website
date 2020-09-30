@@ -15,6 +15,7 @@ export class ConfirmationPoll extends React.Component {
   static defaultProps = {
     pollRate: 5000,
     delayFailure: 6000, // larger than pollRate
+    longWaitTime: 30000,
   };
 
   constructor(props) {
@@ -69,7 +70,7 @@ export class ConfirmationPoll extends React.Component {
               : this.props.pollRate * 2; // Seems like we don't need to poll as frequently when we get here
 
           // Force a re-render to update the pending message if necessary
-          if (Date.now() - this.startTime >= 30000) {
+          if (Date.now() - this.startTime >= this.props.longWaitTime) {
             this.setState({ longWait: true });
           }
           setTimeout(this.poll, waitTime);

@@ -120,6 +120,26 @@ describe('ConfirmationPoll', () => {
     }, 500);
   });
 
+  it('should render long wait alert', done => {
+    mockMultipleApiRequests([
+      pendingResponse,
+      pendingResponse,
+      pendingResponse,
+      successResponse,
+    ]);
+
+    const form = mount(
+      <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={20} />,
+    );
+    setTimeout(() => {
+      expect(global.fetch.callCount).to.equal(3);
+      const alert = form.find('LoadingIndicator');
+      expect(alert.text()).to.contain('longer than expected');
+      form.unmount();
+      done();
+    }, 30);
+  });
+
   it('should ignore immediate api failures', done => {
     mockMultipleApiRequests([
       errorResponse,
