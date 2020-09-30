@@ -220,6 +220,13 @@ export function uiSchema() {
     },
     [formFields.vaMedicalFacility]: {
       'ui:title': 'Medical Center List',
+      'ui:required': formData => {
+        return (
+          formData.topic.levelTwo ===
+            'Medical Care Issues at Specific Facility' ||
+          formData.topic.levelTwo === 'Prosthetics, Med Devices & Sensory Aids'
+        );
+      },
       'ui:options': {
         expandUnder: 'levelTwo',
         expandUnderCondition: levelTwo => {
