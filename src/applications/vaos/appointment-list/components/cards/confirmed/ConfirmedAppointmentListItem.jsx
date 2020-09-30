@@ -27,6 +27,7 @@ import {
   getVideoInstructionText,
   VideoVisitInstructions,
 } from './VideoInstructions';
+import VideoVisitProviderSection from './VideoVisitProvider';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -40,6 +41,14 @@ function formatAppointmentDate(date) {
   }
 
   return date.format('MMMM D, YYYY');
+}
+
+function hasPractitioner(appointment) {
+  const participant = appointment?.participant;
+  if (participant?.length) {
+    return participant.some(p => p.actor?.reference?.includes('Practitioner'));
+  }
+  return false;
 }
 
 export default function ConfirmedAppointmentListItem({
@@ -70,6 +79,10 @@ export default function ConfirmedAppointmentListItem({
     appointment.comment &&
     videoKind !== VIDEO_TYPES.clinic &&
     videoKind !== VIDEO_TYPES.gfe;
+
+  const showProvider = isVideo && hasPractitioner(appointment);
+
+  // console.log(hasPractitioner(appointment));
 
   let instructionText = 'VA appointment';
   if (showInstructions) {
@@ -185,6 +198,14 @@ export default function ConfirmedAppointmentListItem({
           </>
         )}
       </div>
+
+      {showProvider && (
+        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
+            <VideoVisitProviderSection participants={appointment} />
+          </div>
+        </div>
+      )}
 
       {!cancelled &&
         !isPastAppointment && (

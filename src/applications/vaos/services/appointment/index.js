@@ -374,3 +374,32 @@ export function isVideoVAFacility(appointment) {
 export function isVideoStoreForward(appointment) {
   return VIDEO_TYPES.storeForward === getVideoKind(appointment);
 }
+
+/**
+ * Method to check for the existence of a practitioner
+ * @param {Object} appointment An appointment resource
+ * @return {Boolean} Returns whether or not the appointment has a practitioner.
+ */
+export function hasPractitioner(appointment) {
+  const participant = appointment?.participant;
+  if (participant?.length) {
+    return participant.some(item =>
+      item.actor?.reference?.includes('Practitioner'),
+    );
+  }
+  return false;
+}
+
+/**
+ * Method to parse out the appointment practitioner
+ * @param {Object} appointment An appointment resource
+ * @return {String} Returns the appointment practitioner display.
+ */
+export function getPractitioner() {
+  return 'hello';
+  // const participant = appointment?.participant;
+  // if (participant?.length) {
+  //   return participant.some(p => p.actor?.reference?.includes('Practitioner'))
+  // }
+  // return false;
+}
