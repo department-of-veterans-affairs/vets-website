@@ -5,6 +5,7 @@ fragment nodeMediaListImages on NodeMediaListImages {
   ${entityElementsFromPages}
   entityBundle
 
+  changed
   title
   fieldDescription
   fieldIntroTextLimitedHtml {

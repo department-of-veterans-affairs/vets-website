@@ -42,7 +42,11 @@ function validatePostalCodes(errors, address) {
 
   // Add error message for postal code if it is invalid
   if (address.postalCode && !isValidPostalCode) {
-    errors.postalCode.addError(postalCodeErrorMessage);
+    const errorMessage =
+      address.country === 'USA'
+        ? zipCodePatternErrorMessage
+        : postalCodeErrorMessage;
+    errors.postalCode.addError(errorMessage);
   }
 }
 
@@ -80,11 +84,11 @@ const postalCodeNotRequiredCountries = new Set(targetValues);
 
 function validateAddress(errors, address, formData, currentSchema) {
   // Adds error message for state if it is blank and one of the following countries:
-  // USA, Canada, or Mexico
+  // USA or Canada
   if (
     stateRequiredCountries.has(address.country) &&
     address.state === undefined &&
-    currentSchema.required.length
+    currentSchema.required.includes('state')
   ) {
     errors.state.addError(stateOrProvinceErrorMessage);
   }
@@ -142,7 +146,7 @@ export function schema(
   const addressSchema = currentSchema.definitions[addressProperty];
   return {
     type: 'object',
-    required: isRequired ? requiredFields : ['country', 'postalCode'],
+    required: isRequired ? requiredFields : ['country'],
     properties: _.assign(addressSchema.properties, {
       country: {
         default: 'USA',
@@ -335,11 +339,11 @@ export function uiSchema(
       if (postalCodeRequired(formData)) {
         addressFields.push('postalCode');
       }
+      if (stateRequired(formData)) {
+        addressFields.push('state');
+      }
     } else if (!required) {
       addressFields.push('country');
-    }
-    if (stateRequired(formData)) {
-      addressFields.push('state');
     }
     return _.set('required', addressFields, currentSchema);
   }

@@ -100,12 +100,12 @@ class DebtLettersSummaryV2 extends Component {
           </h1>
           <div className="vads-u-display--block">
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-weight--normal vads-u-line-height--6">
+              <p className="va-introtext vads-u-margin-top--0 vads-u-margin-bottom--2">
                 Check the details of VA debt you might have related to your
                 education, disability compensation, or pension benefits. Find
                 out how to pay your debt and what to do if you need financial
                 assistance.
-              </h2>
+              </p>
               {allDebtsFetchFailure && renderAlert()}
               {allDebtsEmpty && renderEmptyAlert()}
               {!allDebtsFetchFailure && (

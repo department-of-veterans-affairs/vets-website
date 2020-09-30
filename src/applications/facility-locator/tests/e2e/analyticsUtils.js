@@ -2,8 +2,13 @@ export const assertDataLayerEvent = (win, eventName) => {
   assert.isObject(win.dataLayer.find(d => d.event && d.event === eventName));
 };
 
-export const assertDataLayerItem = (win, item) => {
-  assert.isObject(win.dataLayer.find(d => d[item]));
+export const assertDataLayerLastItems = (win, items, event) => {
+  const eventTest = win.dataLayer
+    .filter(d => d.event && d.event === event)
+    .pop();
+  items.forEach(a => {
+    expect(Object.keys(eventTest)).to.include(a);
+  });
 };
 
 export const assertEventAndAttributes = (win, event, attr) => {

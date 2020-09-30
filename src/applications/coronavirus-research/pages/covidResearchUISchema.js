@@ -244,6 +244,10 @@ export const uiSchema = {
       'ui:title': 'Car',
       'ui:reviewField': CustomReviewField,
     },
+    'TRANSPORTATION::CARPOOL_OR_VANPOOL': {
+      'ui:title': 'Carpool or vanpool',
+      'ui:reviewField': CustomReviewField,
+    },
     'TRANSPORTATION::FREQUENT_AIR_TRAVEL': {
       'ui:title': 'Frequent air travel',
       'ui:reviewField': CustomReviewField,
@@ -443,6 +447,10 @@ export const uiSchema = {
       'ui:title': 'Transgender woman',
       'ui:reviewField': CustomReviewField,
     },
+    'GENDER::NON_BINARY': {
+      'ui:title': 'Non-binary',
+      'ui:reviewField': CustomReviewField,
+    },
     'GENDER::SELF_IDENTIFY': {
       'ui:title': 'Prefer to self-describe',
       'ui:reviewField': CustomReviewField,
@@ -453,7 +461,7 @@ export const uiSchema = {
     },
   },
   GENDER_SELF_IDENTIFY_DETAILS: {
-    'ui:title': 'Provide your preferred description (50 characters or less)',
+    'ui:title': 'Provide your preferred description',
     'ui:options': {
       expandUnder: 'GENDER',
       expandUnderCondition: formData =>

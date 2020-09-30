@@ -18,7 +18,6 @@ import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import { recordMapBoxEvents, recordSearchEvents } from '../utils/helpers';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -122,7 +121,6 @@ const fetchLocations = async (
       apiVersion,
     );
     // Record event as soon as API return results
-    recordSearchEvents(data.data, data.meta);
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
@@ -234,10 +232,6 @@ export const genBBoxFromAddress = query => {
         query: query.searchString,
       })
       .send()
-      .then(res => {
-        recordMapBoxEvents(res);
-        return res;
-      })
       .then(({ body: { features } }) => {
         const zip =
           features[0].context.find(v => v.id.includes('postcode')) || {};
@@ -289,6 +283,10 @@ export const genBBoxFromAddress = query => {
             bounds: minBounds,
             zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
             currentPage: 1,
+            mapBoxQuery: {
+              placeName: features[0].place_name,
+              placeType: features[0].place_type[0],
+            },
           },
         });
       })

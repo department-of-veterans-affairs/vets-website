@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import { mapValues } from 'lodash/fp';
 import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilities.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
@@ -24,7 +24,7 @@ const medicalCenterLabels = Object.keys(caregiverFacilities).reduce(
 );
 
 // Turns the facility list for each state into an array of strings
-const medicalCentersByState = _.mapValues(
+const medicalCentersByState = mapValues(
   val => val.map(center => center.code),
   caregiverFacilities,
 );
@@ -32,11 +32,13 @@ const medicalCentersByState = _.mapValues(
 // transforms forData to match fullSchema structure for backend submission
 const submitTransform = (formConfig, form) => {
   // checks for optional chapters using ssnOrTin
-  const hasSecondaryOne =
-    form.data.secondaryOneSsnOrTin === undefined ? null : 'secondaryOne';
+  const hasSecondaryOne = form.data['view:hasSecondaryCaregiverOne']
+    ? 'secondaryOne'
+    : null;
 
-  const hasSecondaryTwo =
-    form.data.secondaryTwoSsnOrTin === undefined ? null : 'secondaryTwo';
+  const hasSecondaryTwo = form.data['view:hasSecondaryCaregiverTwo']
+    ? 'secondaryTwo'
+    : null;
 
   // creates chapter objects by matching chapter prefixes
   const buildChapterSortedObject = (data, dataPrefix) => {

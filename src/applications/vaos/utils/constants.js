@@ -28,8 +28,8 @@ export const APPOINTMENT_STATUS = {
 };
 
 export const VIDEO_TYPES = {
-  videoConnect: 'videoConnect',
-  gfe: 'gfe',
+  gfe: 'MOBILE_GFE',
+  clinic: 'CLINIC_BASED',
 };
 
 export const TIME_TEXT = {

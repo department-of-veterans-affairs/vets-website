@@ -21,17 +21,13 @@ import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
 import { BOUNDING_RADIUS, MARKER_LETTERS } from '../constants';
-import {
-  areGeocodeEqual,
-  setFocus,
-  recordMarkerEvents,
-  recordZoomPanEvents,
-} from '../utils/helpers';
+import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/selectors';
+import { recordMarkerEvents, recordZoomPanEvents } from '../utils/analytics';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';

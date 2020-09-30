@@ -11,7 +11,7 @@ import ViewPaymentsHeader from '../../components/view-payments-header/ViewPaymen
 import {
   paymentsReturnedFields,
   paymentsReceivedFields,
-  paymentsRecievedContent,
+  paymentsReceivedContent,
   paymentsReturnedContent,
 } from './helpers';
 import { getAllPayments } from '../../actions';
@@ -79,13 +79,14 @@ class ViewPaymentsLists extends Component {
           });
           paymentsReturnedTableContent = (
             <Payments
+              tableVersion="returned"
               fields={paymentsReturnedFields}
               data={filteredReturnPayments}
               textContent={paymentsReturnedContent}
             />
           );
         } else {
-          paymentsReceivedTableContent = (
+          paymentsReturnedTableContent = (
             <div className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-padding-x--3 vads-u-background-color--gray-lightest">
               <h3 className="vads-u-margin-top--0">
                 We don’t have a record of returned payments
@@ -108,9 +109,10 @@ class ViewPaymentsLists extends Component {
           });
           paymentsReceivedTableContent = (
             <Payments
+              tableVersion="recieved"
               fields={paymentsReceivedFields}
               data={payments}
-              textContent={paymentsRecievedContent}
+              textContent={paymentsReceivedContent}
             />
           );
         } else {

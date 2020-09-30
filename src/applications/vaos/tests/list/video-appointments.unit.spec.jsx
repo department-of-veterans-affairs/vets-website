@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
-import { mockAppointmentInfo } from '../mocks/helpers';
-import { getVideoAppointmentMock } from '../mocks/v0';
+import { mockAppointmentInfo, mockFacilitiesFetch } from '../mocks/helpers';
+import { getVAFacilityMock, getVideoAppointmentMock } from '../mocks/v0';
 import { renderWithStoreAndRouter } from '../mocks/setup';
 
 import FutureAppointmentsList from '../../appointment-list/components/FutureAppointmentsList';
@@ -42,26 +42,32 @@ describe('VAOS integration: upcoming video appointments', () => {
       initialState,
     });
 
-    const dateHeader = await findByText(
-      new RegExp(
-        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
-        'i',
-      ),
-    );
+    await findByText('Video appointment at home');
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(baseElement).to.contain.text('VA Video Connect');
     expect(baseElement).to.contain.text('Confirmed');
     expect(baseElement).to.contain('.fa-check-circle');
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'true',
     );
 
-    expect(dateHeader).to.have.tagName('h3');
-    expect(dateHeader).to.contain.text('MT');
-    expect(dateHeader).to.contain.text('Mountain time');
+    expect(
+      getByText(
+        new RegExp(
+          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      ),
+    ).to.exist;
+
+    const timeEl = getByText(
+      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+    );
+    expect(timeEl).to.contain.text('MT');
+    expect(timeEl).to.contain.text('Mountain time');
     expect(baseElement).not.to.contain.text('Some random note');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
@@ -114,12 +120,12 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'false',
     );
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'href',
       'http://videourl.va.gov',
     );
@@ -171,12 +177,12 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'false',
     );
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'href',
       'http://videourl.va.gov',
     );
@@ -229,12 +235,12 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'false',
     );
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'href',
       'http://videourl.va.gov',
     );
@@ -295,7 +301,7 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     // Using queryByText since it won't throw an execption when not found.
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.queryByText(/join session/i)).not.to.exist;
+    expect(screen.queryByText(/join appointment/i)).not.to.exist;
   });
 
   it('should reveal medication review instructions', async () => {
@@ -414,28 +420,114 @@ describe('VAOS integration: upcoming video appointments', () => {
       initialState,
     });
 
-    const dateHeader = await findByText(
-      new RegExp(
-        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
-        'i',
-      ),
-    );
+    await findByText('Video appointment at home');
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(baseElement).to.contain.text('VA Video Connect');
     expect(baseElement).to.contain.text('Canceled');
     expect(baseElement).to.contain('.fa-exclamation-circle');
 
-    expect(getByText(/join session/i)).to.have.attribute(
+    expect(getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'true',
     );
 
-    expect(dateHeader).to.have.tagName('h3');
-    expect(dateHeader).to.contain.text('MT');
-    expect(dateHeader).to.contain.text('Mountain time');
+    expect(
+      getByText(
+        new RegExp(
+          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      ),
+    ).to.exist;
+
+    const timeEl = getByText(
+      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+    );
+    expect(timeEl).to.contain.text('MT');
+    expect(timeEl).to.contain.text('Mountain time');
     expect(baseElement).not.to.contain.text('Some random note');
     expect(queryByText(/cancel appointment/i)).not.to.exist;
+  });
+
+  it('should show address info for clinic based appointment', async () => {
+    const appointment = getVideoAppointmentMock();
+    const startDate = moment.utc().add(3, 'days');
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: '123',
+      sta6aid: '983',
+      startDate: startDate.format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: startDate.format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'CLINIC_BASED',
+      status: { description: 'F', code: 'FUTURE' },
+    };
+    mockAppointmentInfo({ va: [appointment] });
+    const facility = {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+    mockFacilitiesFetch('vha_442', [facility]);
+
+    const {
+      findByText,
+      baseElement,
+      getByText,
+      queryByText,
+    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      initialState,
+    });
+
+    await findByText(/Cheyenne VA Medical Center/i);
+
+    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(baseElement).to.contain.text('VA Video Connect');
+    expect(baseElement).to.contain.text('Confirmed');
+    expect(baseElement).to.contain('.fa-check-circle');
+
+    expect(queryByText(/join appointment/i)).to.not.exist;
+    expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
+    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(baseElement).to.contain.text('307-778-7550');
+
+    expect(
+      getByText(
+        new RegExp(
+          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      ),
+    ).to.exist;
+
+    const timeEl = getByText(
+      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+    );
+    expect(timeEl).to.contain.text('MT');
+    expect(timeEl).to.contain.text('Mountain time');
+    expect(baseElement).not.to.contain.text('Some random note');
+    expect(getByText(/add to calendar/i)).to.have.tagName('a');
+    expect(getByText(/cancel appointment/i)).to.have.tagName('button');
   });
 });
 

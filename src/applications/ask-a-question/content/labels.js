@@ -50,7 +50,7 @@ export const contactInformationPageDescription = PageDescription(
 );
 export const preferredContactMethodTitle =
   'How should we get in touch with you?';
-export const phoneTitle = 'Daytime Phone';
+export const phoneTitle = 'Daytime phone';
 
 /* Address fields */
 export const countryTitle = 'Country';
