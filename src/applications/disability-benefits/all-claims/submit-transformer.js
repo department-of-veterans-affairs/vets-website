@@ -18,7 +18,6 @@ import {
 import { disabilityIsSelected, hasGuardOrReservePeriod } from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
-import separationLocations from './content/separationLocations';
 
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
@@ -236,23 +235,6 @@ export function filterServicePeriods(formData) {
   return clonedData;
 }
 
-export function transformSeparationLocation(formData) {
-  const separationLocationCode =
-    formData.serviceInformation?.separationLocation;
-  if (!separationLocationCode) {
-    return formData;
-  }
-
-  const clonedData = _.cloneDeep(formData);
-  clonedData.serviceInformation.separationLocation = {
-    separationLocationCode,
-    separationLocationName: separationLocations.find(
-      separationLocation => separationLocation.code === separationLocationCode,
-    )?.description,
-  };
-  return clonedData;
-}
-
 export function transform(formConfig, form) {
   // Grab ratedDisabilities before they're deleted in case the page is inactive
   // We need to send all of these to vets-api even if the veteran doesn't apply
@@ -260,6 +242,11 @@ export function transform(formConfig, form) {
   const { ratedDisabilities } = form.data;
   const savedRatedDisabilities = ratedDisabilities
     ? _.cloneDeep(ratedDisabilities)
+    : undefined;
+
+  const { separationLocation } = form.data.serviceInformation;
+  const savedSeparationLocation = separationLocation
+    ? _.cloneDeep(separationLocation)
     : undefined;
 
   // Define the transformations
@@ -277,6 +264,18 @@ export function transform(formConfig, form) {
   const addBackRatedDisabilities = formData =>
     savedRatedDisabilities
       ? _.set('ratedDisabilities', savedRatedDisabilities, formData)
+      : formData;
+
+  const addBackAndTransformSeparationLocation = formData =>
+    formData.serviceInformation.separationLocation
+      ? _.set(
+          'serviceInformation.separationLocation',
+          {
+            separationLocationCode: savedSeparationLocation.id,
+            separationLocationName: savedSeparationLocation.label,
+          },
+          formData,
+        )
       : formData;
 
   const filterRatedViewFields = formData => filterViewFields(formData);
@@ -589,10 +588,10 @@ export function transform(formConfig, form) {
   const transformedData = [
     filterEmptyObjects,
     addBackRatedDisabilities, // Must run after filterEmptyObjects
+    addBackAndTransformSeparationLocation, // Must run after filterEmptyObjects
     setActionTypes, // Must run after addBackRatedDisabilities
     filterRatedViewFields, // Must be run after setActionTypes
     filterServicePeriods,
-    transformSeparationLocation,
     removeExtraData, // Removed data EVSS does't want
     addPOWSpecialIssues,
     addPTSDCause,
