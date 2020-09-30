@@ -1,7 +1,12 @@
 {
   "data": {
     "inquiryType": "Question",
-    "topic": "Policy Question",
+    "topic": {
+      "levelOne": "Health & Medical Issues & Services",
+      "levelTwo": "Prosthetics, Med Devices & Sensory Aids",
+      "levelThree": "Eyeglasses",
+      "vaMedicalCenter": "405GC"
+    },
     "query": "Some question?",
     "fullName": {
       "first": "Jane",
