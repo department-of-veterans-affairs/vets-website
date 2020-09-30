@@ -128,7 +128,18 @@
     "template": {
       "title": "View Dependents",
       "layout": "page-react.html",
-      "vagovprod": true
+      "vagovprod": true,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "view-change-dependents",
+          "name": "View or change your dependents"
+        },
+        {
+          "path": "view-change-dependents/view",
+          "name": "View your dependents"
+        }
+      ]
     }
   },
   {
@@ -265,7 +276,7 @@
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
-          "path": "view-change-dependents/view",
+          "path": "view-change-dependents/",
           "name": "View or change your dependents"
         },
         {

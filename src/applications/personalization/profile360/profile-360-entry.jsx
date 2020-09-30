@@ -7,11 +7,10 @@ import connectedApps from 'applications/personalization/profile-2/components/con
 import startApp from 'platform/startup';
 import manifest from './manifest.json';
 import reducer from './reducers';
-import profileUi from 'applications/personalization/profile-2/reducers';
 
 startApp({
   component: <ProfilesWrapper />,
   entryName: manifest.entryName,
-  reducer: { ...reducer, profileUi, connectedApps },
+  reducer: { ...reducer, connectedApps },
   url: manifest.rootUrl,
 });

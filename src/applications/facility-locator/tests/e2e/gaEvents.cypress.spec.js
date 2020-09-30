@@ -1,9 +1,9 @@
 import path from 'path';
 import {
   assertDataLayerEvent,
-  assertDataLayerItem,
+  assertDataLayerLastItems,
   assertEventAndAttributes,
-} from './utils';
+} from './analyticsUtils';
 
 describe('Google Analytics FL Events', () => {
   before(() => {
@@ -21,14 +21,13 @@ describe('Google Analytics FL Events', () => {
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
       cy.injectAxe();
-      cy.axeCheck('main', { _13647Exception: true });
+      cy.axeCheck();
 
       cy.get('#map-id', { timeout: 10000 }).should(() => {
         assertDataLayerEvent(win, 'fl-search');
-        assertDataLayerEvent(win, 'fl-search-results');
       });
 
-      cy.get('#marker-id')
+      cy.get('.i-pin-card-map')
         .first()
         .click()
         .as('markerClick')
@@ -57,7 +56,11 @@ describe('Google Analytics FL Events', () => {
         yMoveFactor: 1 / 3,
       });
       cy.get('#map-id', { timeout: 10000 }).should(() => {
-        assertDataLayerItem(win, 'fl-map-miles-moved');
+        assertDataLayerLastItems(
+          win,
+          ['event', 'fl-map-miles-moved'],
+          'fl-search',
+        );
       });
 
       cy.findByText(/austin va clinic/i, { selector: 'a' })

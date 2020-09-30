@@ -3,7 +3,7 @@ import vetTecProfile from '../data/vet-tec-profile.json';
 import vetTecSearchResults from '../data/vet-tec-search-results.json';
 import { verifyVetTecSearchResults } from './gi-helpers';
 
-describe('VETTEC', () => {
+describe.skip('VETTEC', () => {
   beforeEach(() => {
     cy.route('/v0/gi/institution_programs/search', vetTecSearchResults);
 

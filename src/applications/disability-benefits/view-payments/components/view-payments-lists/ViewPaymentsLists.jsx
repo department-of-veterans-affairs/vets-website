@@ -11,7 +11,7 @@ import ViewPaymentsHeader from '../../components/view-payments-header/ViewPaymen
 import {
   paymentsReturnedFields,
   paymentsReceivedFields,
-  paymentsRecievedContent,
+  paymentsReceivedContent,
   paymentsReturnedContent,
 } from './helpers';
 import { getAllPayments } from '../../actions';
@@ -79,6 +79,7 @@ class ViewPaymentsLists extends Component {
           });
           paymentsReturnedTableContent = (
             <Payments
+              tableVersion="returned"
               fields={paymentsReturnedFields}
               data={filteredReturnPayments}
               textContent={paymentsReturnedContent}
@@ -108,9 +109,10 @@ class ViewPaymentsLists extends Component {
           });
           paymentsReceivedTableContent = (
             <Payments
+              tableVersion="recieved"
               fields={paymentsReceivedFields}
               data={payments}
-              textContent={paymentsRecievedContent}
+              textContent={paymentsReceivedContent}
             />
           );
         } else {

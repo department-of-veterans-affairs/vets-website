@@ -17,10 +17,10 @@ describe('UrgentCareResult', () => {
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
-    expect(wrapper.find('#provider-name').text()).to.equal(
+    expect(wrapper.find('.facility-result h3').text()).to.equal(
       'FastMed Urgent Care',
     );
-    expect(wrapper.find('#provider-name a').length).to.equal(0);
+    expect(wrapper.find('.facility-result h3 a').length).to.equal(0);
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
 
     wrapper.unmount();
@@ -38,10 +38,10 @@ describe('UrgentCareResult', () => {
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
-    expect(wrapper.find('#provider-name').text()).to.equal(
+    expect(wrapper.find('.facility-result h3').text()).to.equal(
       "Overton Brooks Veterans' Administration Medical Center",
     );
-    expect(wrapper.find('#provider-name a').length).to.equal(0);
+    expect(wrapper.find('.facility-result h3 a').length).to.equal(0);
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
 
     wrapper.unmount();

@@ -60,13 +60,4 @@ describe('VAOS <ScheduleNewAppointment>', () => {
     expect(tree.text()).not.to.contain('Send a request');
     tree.unmount();
   });
-
-  it('should render Cerner portal button', () => {
-    const tree = shallow(<ScheduleNewAppointment isCernerOnlyPatient />);
-
-    expect(tree.find('h2').text()).to.equal('Need to schedule an appointment?');
-    expect(tree.find('a').props().href).to.contain('patientportal');
-    expect(tree.find('Link').exists()).to.be.false;
-    tree.unmount();
-  });
 });
