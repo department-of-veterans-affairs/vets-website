@@ -17,8 +17,8 @@ describe('DebtLettersSummary', () => {
         },
         debtLetters: {
           isFetching: false,
-          isVBMSError: true,
-          isError: true,
+          isVBMSError: false,
+          isError: false,
           debts: [],
         },
       }),
@@ -26,9 +26,7 @@ describe('DebtLettersSummary', () => {
       dispatch: () => {},
     };
     const wrapper = shallow(<DebtLettersSummary store={fakeStore} />);
-    expect(wrapper.dive().find(`Connect(DebtLettersSummary)`).length).to.equal(
-      1,
-    );
+    expect(wrapper.length).to.equal(1);
     wrapper.unmount();
   });
 });
