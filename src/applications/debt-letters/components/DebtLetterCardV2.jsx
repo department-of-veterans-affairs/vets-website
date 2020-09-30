@@ -32,7 +32,7 @@ const DebtLetterCardV2 = props => {
       </p>
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Status: </strong>
-        {mostRecentHistory.status}
+        {debt.diaryCodeDescription}
       </p>
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Next Step: </strong>
