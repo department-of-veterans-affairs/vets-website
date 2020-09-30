@@ -13,7 +13,7 @@ describe('Debt Letters', () => {
   it('displays the current debts section and navigates to debt details', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
     cy.get('.usa-button')
-      .contains(/Go to debt details/i)
+      .contains('Go to debt details')
       .first()
       .click();
     cy.get('#debtLetterHistory').contains('Debt letter history');
