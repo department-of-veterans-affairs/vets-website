@@ -243,11 +243,17 @@ module.exports = env => {
       new MiniCssExtractPlugin({
         moduleFilename: chunk => {
           const { name } = chunk;
-          const showHash = isOptimizedBuild && name !== vaMedaliaStylesFilename;
+          const standardFilename = `${name}.[contenthash]-${timestamp}.css`;
+          const isMedalliaStyleFile = name === vaMedaliaStylesFilename;
+          const isStandardFile = !isMedalliaStyleFile;
+          const showHash = isOptimizedBuild && isStandardFile;
 
-          return showHash
-            ? `${name}.[contenthash]-${timestamp}.css`
-            : `${name}.css`;
+          if (showHash) return standardFilename;
+
+          const isStaging =
+            buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING;
+
+          return isStaging ? `${name}.css` : standardFilename;
         },
       }),
 
