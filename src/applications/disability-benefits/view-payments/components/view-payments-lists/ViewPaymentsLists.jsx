@@ -79,6 +79,7 @@ class ViewPaymentsLists extends Component {
           });
           paymentsReturnedTableContent = (
             <Payments
+              tableVersion="returned"
               fields={paymentsReturnedFields}
               data={filteredReturnPayments}
               textContent={paymentsReturnedContent}
@@ -108,6 +109,7 @@ class ViewPaymentsLists extends Component {
           });
           paymentsReceivedTableContent = (
             <Payments
+              tableVersion="recieved"
               fields={paymentsReceivedFields}
               data={payments}
               textContent={paymentsReceivedContent}

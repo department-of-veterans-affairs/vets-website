@@ -97,9 +97,6 @@ export default {
       'ui:title': ' ',
       'ui:description': AdditionalCaregiverInfo(),
       'ui:widget': 'yesNo',
-      'ui:options': {
-        hideOnReview: true,
-      },
     },
   },
   vetUI: {

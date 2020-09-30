@@ -116,11 +116,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/agentorange-c123.asp",
-    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/c-123-aircraft/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/claims-postservice-exposures-asbestos.asp",
     "dest": "/disability/eligibility/hazardous-materials-exposure/asbestos/"
   },
@@ -1038,5 +1033,10 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/fgib/stem.asp",
     "dest": "/education/other-va-education-benefits/stem-scholarship/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/agentorange-c123.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
   }
 ]
