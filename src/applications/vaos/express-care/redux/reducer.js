@@ -120,7 +120,10 @@ export default function expressCareReducer(state = initialState, action) {
           [action.pageKey]: 'home',
         };
       }
-      if (action.direction === 'next') {
+      if (
+        action.direction === 'next' &&
+        action.pageKey !== action.pageKeyNext
+      ) {
         updatedPreviousPages = {
           ...updatedPreviousPages,
           [action.pageKeyNext]: action.pageKey,
