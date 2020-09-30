@@ -342,3 +342,23 @@ export function isAtlasLocation(appointment) {
     element => element.tasInfo,
   );
 }
+
+/**
+ * Method to check for home video appointment
+ * @param {*} appointment A FHIR appointment resource
+ * @return (Boolean} Returns whether or not the appointment is a home video appointment.
+ */
+export function isVideoHome(appointment) {
+  return appointment.contained?.[0]?.telecom?.find(
+    tele => tele.system === 'url',
+  )?.value;
+}
+
+/**
+ * Method to check for VA facility video appointment
+ * @param {} appointment appointment A FHIR appointment resource
+ * @return (Boolean} Returns whether or not the appointment is a VA facility video appointment.
+ */
+export function isVideoVAFacility(appointment) {
+  return VIDEO_TYPES.clinic === getVideoKind(appointment);
+}
