@@ -130,11 +130,18 @@ describe('GIBCT helpers:', () => {
       expect(display).to.eq('2.2');
     });
 
-    it('converts >= .3 and < .7 as a half star', () => {
+    it('converts .3 as a half star', () => {
       const { full, half, display } = convertRatingToStars(4.29);
       expect(full).to.eq(4);
       expect(half).to.eq(true);
       expect(display).to.eq('4.3');
+    });
+
+    it('converts .7 as a half star', () => {
+      const { full, half, display } = convertRatingToStars(4.7);
+      expect(full).to.eq(4);
+      expect(half).to.eq(true);
+      expect(display).to.eq('4.7');
     });
 
     it('converts more than .7 as a full star', () => {
