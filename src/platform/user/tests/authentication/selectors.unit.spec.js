@@ -3,13 +3,16 @@ import * as selectors from '../../authentication/selectors';
 
 describe('authentication selectors', () => {
   describe('isAuthenticatedWithSSOe', () => {
-    it('pulls out state.profile.signin.ssoe', () => {
+    it('pulls out state.session.ssoe', () => {
       const state = {
         user: {
           profile: {
             signIn: {
-              ssoe: true,
+              ssoe: false,
             },
+          },
+          session: {
+            ssoe: true,
           },
         },
       };
@@ -19,9 +22,7 @@ describe('authentication selectors', () => {
     it('returns undefined when the ssoe flag is not present', () => {
       const state = {
         user: {
-          profile: {
-            signIn: {},
-          },
+          session: {},
         },
       };
       expect(selectors.isAuthenticatedWithSSOe(state)).to.be.undefined;
@@ -29,7 +30,7 @@ describe('authentication selectors', () => {
   });
 
   describe('ssoeTransactionId', () => {
-    it('pulls out state.profile.signin.transactionid', () => {
+    it('pulls out state.session.transactionid', () => {
       const state = {
         user: {
           profile: {
@@ -37,16 +38,19 @@ describe('authentication selectors', () => {
               transactionid: 'X',
             },
           },
+          session: {
+            transactionid: 'Y',
+          },
         },
       };
 
-      expect(selectors.ssoeTransactionId(state)).to.eq('X');
+      expect(selectors.ssoeTransactionId(state)).to.eq('Y');
     });
     it('returns undefined when the transactionid is not present', () => {
       const state = {
         user: {
-          profile: {
-            signIn: {},
+          session: {
+            ssoe: false,
           },
         },
       };
