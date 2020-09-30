@@ -3,9 +3,9 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/
 
 const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
   const [hasError, setError] = useState(false);
-  const firstName = fullName.first ? fullName.first.toLowerCase() : '';
-  const lastName = fullName.last ? fullName.last.toLowerCase() : '';
-  const middleName = fullName.middle ? fullName.middle : '';
+  const firstName = fullName.first?.toLowerCase() || '';
+  const lastName = fullName.last?.toLowerCase() || '';
+  const middleName = fullName.middle?.toLowerCase() || '';
 
   const [signature, setSignature] = useState({
     value: '',
