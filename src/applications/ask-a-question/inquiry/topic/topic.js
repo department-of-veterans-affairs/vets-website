@@ -7,17 +7,17 @@ const formFields = {
   levelOne: 'levelOne',
   levelTwo: 'levelTwo',
   levelThree: 'levelThree',
-  vaMedicalFacility: 'vaMedicalFacility',
+  vaMedicalCenter: 'vaMedicalCenter',
 };
 
 // Move all these constants to vets-json-schema in the constants directory
-const caregiverValues = [
+const caregiverSupportValues = [
   'General Caregiver Support/Education',
   'Comprehensive Family Caregiver Program',
   'VA Supportive Services',
 ];
 
-const healthAndIssuesValues = [
+const healthAndMedicalIssuesValues = [
   'Medical Care Issues at Specific Facility',
   'Health/Medical Eligibility & Programs',
   'My HealtheVet',
@@ -26,12 +26,12 @@ const healthAndIssuesValues = [
   'Women Veterans Health Care',
 ];
 
-const womenVetsValues = [
+const womenVetsPoliciesAndProgramsValues = [
   'Policy Questions',
   'Question about Women Veterans Programs',
 ];
 
-const medicalEligibilityValues = [
+const healthMedicalEligibilityValues = [
   'Apply for Health Benefits (Veterans)',
   'Medical Care for Veterans within USA',
   'Medical Care-Overseas Vets (Foreign Med)',
@@ -44,7 +44,7 @@ const medicalEligibilityValues = [
   'Licensed Health Professional Employment]',
 ];
 
-const medDevicesValues = [
+const prostheticsMedDevicesValues = [
   'Artificial Limbs/Orthotics',
   'Automobile Adaptive Equipment',
   'Clothing Allowance',
@@ -59,38 +59,39 @@ const medDevicesValues = [
   'Other Prosthetics Issues',
 ];
 
-const womensHealthValues = ['General Concern'];
+const womensVeteranHealthCareValues = ['General Concern'];
 
 const valuesByLabelLookup = {
-  'Caregiver Support Program': caregiverValues,
-  'Health & Medical Issues & Services': healthAndIssuesValues,
-  'VA Ctr for Women Vets, Policies & Progs': womenVetsValues,
-  'Health/Medical Eligibility & Programs': medicalEligibilityValues,
-  'Prosthetics, Med Devices & Sensory Aids': medDevicesValues,
-  'Women Veterans Health Care': womensHealthValues,
+  'Caregiver Support Program': caregiverSupportValues,
+  'Health & Medical Issues & Services': healthAndMedicalIssuesValues,
+  'VA Ctr for Women Vets, Policies & Progs': womenVetsPoliciesAndProgramsValues,
+  'Health/Medical Eligibility & Programs': healthMedicalEligibilityValues,
+  'Prosthetics, Med Devices & Sensory Aids': prostheticsMedDevicesValues,
+  'Women Veterans Health Care': womensVeteranHealthCareValues,
 };
 
-function getAllMedicalFacilities() {
-  const medicalFacilities = [];
+function getAllMedicalCenters() {
+  const medicalCenters = [];
   Object.values(vaMedicalFacilities).forEach(state =>
-    state.map(facility => medicalFacilities.push(facility)),
+    state.map(facility => medicalCenters.push(facility)),
   );
-  return medicalFacilities;
+  return medicalCenters;
 }
 
-const vaMedicalFacilitiesList = getAllMedicalFacilities();
+const vaMedicalCentersList = getAllMedicalCenters();
 
-const vaMedicalFacilityValues = vaMedicalFacilitiesList.map(
-  facility => facility.value,
-);
-const vaMedicalFacilityLabels = vaMedicalFacilitiesList.map(
-  facility => facility.label,
-);
+const vaMedicalCentersValues = vaMedicalCentersList.map(center => center.value);
+const vaMedicalCentersLabels = vaMedicalCentersList.map(center => center.label);
 
 export const levelThreeRequiredTopics = new Set([
   'Health/Medical Eligibility & Programs',
   'Prosthetics, Med Devices & Sensory Aids',
   'Women Veterans Health Care',
+]);
+
+export const medicalCenterRequiredTopics = new Set([
+  'Medical Care Issues at Specific Facility',
+  'Prosthetics, Med Devices & Sensory Aids',
 ]);
 
 export function schema(currentSchema, topicProperty = 'topic') {
@@ -115,11 +116,11 @@ export function schema(currentSchema, topicProperty = 'topic') {
         title: topicTitle,
         type: 'string',
       },
-      vaMedicalFacility: {
+      vaMedicalCenter: {
         title: 'Medical Center List',
         type: 'string',
-        enum: vaMedicalFacilityValues,
-        enumNames: vaMedicalFacilityLabels,
+        enum: vaMedicalCentersValues,
+        enumNames: vaMedicalCentersLabels,
       },
     }),
   };
@@ -199,7 +200,7 @@ export function uiSchema() {
         });
       },
     },
-    'ui:order': ['levelOne', 'levelTwo', 'levelThree', 'vaMedicalFacility'],
+    'ui:order': ['levelOne', 'levelTwo', 'levelThree', 'vaMedicalCenter'],
     [formFields.levelOne]: {
       'ui:title': topicTitle,
     },
@@ -218,22 +219,15 @@ export function uiSchema() {
         },
       },
     },
-    [formFields.vaMedicalFacility]: {
+    [formFields.vaMedicalCenter]: {
       'ui:title': 'Medical Center List',
       'ui:required': formData => {
-        return (
-          formData.topic.levelTwo ===
-            'Medical Care Issues at Specific Facility' ||
-          formData.topic.levelTwo === 'Prosthetics, Med Devices & Sensory Aids'
-        );
+        return !!medicalCenterRequiredTopics.has(formData.topic.levelTwo);
       },
       'ui:options': {
         expandUnder: 'levelTwo',
         expandUnderCondition: levelTwo => {
-          return (
-            levelTwo === 'Medical Care Issues at Specific Facility' ||
-            levelTwo === 'Prosthetics, Med Devices & Sensory Aids'
-          );
+          return !!medicalCenterRequiredTopics.has(levelTwo);
         },
       },
     },

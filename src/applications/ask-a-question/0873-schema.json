@@ -368,7 +368,7 @@
         }
       ],
       "properties": {
-        "vaMedicalFacility": {
+        "vaMedicalCenter": {
           "type": "string",
           "enum": [
             "405HK",
