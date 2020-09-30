@@ -21,11 +21,7 @@ import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
 import { BOUNDING_RADIUS, MARKER_LETTERS } from '../constants';
-import {
-  areGeocodeEqual,
-  makeLeafletNotFocusable,
-  setFocus,
-} from '../utils/helpers';
+import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
@@ -487,62 +483,54 @@ class VAMap extends Component {
                 inProgress={currentQuery.inProgress}
               />
             </TabPanel>
-            <div aria-hidden="true" role="img">
-              <TabPanel tabindex="-1">
-                <Map
-                  ref="map"
-                  id="map-id"
-                  tabindex="-1"
-                  center={position}
-                  onViewportChanged={e =>
-                    recordZoomPanEvents(
-                      e,
-                      currentQuery.searchCoords,
-                      currentQuery.zoomLevel,
-                    )
-                  }
-                  zoom={parseInt(currentQuery.zoomLevel, 10)}
-                  style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
-                  scrollWheelZoom={false}
-                  zoomSnap={1}
-                  zoomDelta={1}
-                  onMoveEnd={this.handleBoundsChanged}
-                  onLoad={() => {
-                    this.handleBoundsChanged();
-                    setTimeout(makeLeafletNotFocusable, 1);
-                  }}
-                  onViewReset={this.handleBoundsChanged}
-                >
-                  <TileLayer
-                    tabindex="-1"
-                    url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                    attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot; tabindex=&quot;-1&quot;>OpenStreetMap</a> contributors, \
-                    <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot; tabindex=&quot;-1&quot;>CC-BY-SA</a>, \
-                    Imagery © <a href=&quot;http://mapbox.com&quot; tabindex=&quot;-1&quot;>Mapbox</a>"
+            <TabPanel>
+              <Map
+                ref="map"
+                id="map-id"
+                center={position}
+                onViewportChanged={e =>
+                  recordZoomPanEvents(
+                    e,
+                    currentQuery.searchCoords,
+                    currentQuery.zoomLevel,
+                  )
+                }
+                zoom={parseInt(currentQuery.zoomLevel, 10)}
+                style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
+                scrollWheelZoom={false}
+                zoomSnap={1}
+                zoomDelta={1}
+                onMoveEnd={this.handleBoundsChanged}
+                onLoad={this.handleBoundsChanged}
+                onViewReset={this.handleBoundsChanged}
+              >
+                <TileLayer
+                  url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
+                  attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
+                    <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
+                    Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
+                />
+                {facilityLocatorMarkers &&
+                  facilityLocatorMarkers.length > 0 && (
+                    <FeatureGroup ref="facilityMarkers">
+                      {facilityLocatorMarkers}
+                    </FeatureGroup>
+                  )}
+              </Map>
+              <p className="vads-u-visibility--screen-reader">
+                Please note: Due to technical limitations, the map is not
+                providing an accessible experience for screen reader devices.
+                We're working to deliver an enhanced screen reader experience.
+              </p>
+              {selectedResult && (
+                <div className="mobile-search-result">
+                  <SearchResult
+                    result={selectedResult}
+                    query={this.props.currentQuery}
                   />
-                  {facilityLocatorMarkers &&
-                    facilityLocatorMarkers.length > 0 && (
-                      <FeatureGroup ref="facilityMarkers" tabindex="-1">
-                        {facilityLocatorMarkers}
-                      </FeatureGroup>
-                    )}
-                </Map>
-                {selectedResult && (
-                  <div className="mobile-search-result">
-                    <SearchResult
-                      tabindex="-1"
-                      result={selectedResult}
-                      query={this.props.currentQuery}
-                    />
-                  </div>
-                )}
-              </TabPanel>
-            </div>
-            <p className="vads-u-visibility--screen-reader">
-              Please note: Due to technical limitations, the map has been hidden
-              from screen reader devices. We're working to deliver an enhanced
-              screen reader experience.
-            </p>
+                </div>
+              )}
+            </TabPanel>
           </Tabs>
         </div>
       </>
@@ -585,13 +573,8 @@ class VAMap extends Component {
             />
           </div>
         </div>
-        <div
-          className="desktop-map-container"
-          aria-hidden="true"
-          role="presentation"
-        >
+        <div className="desktop-map-container">
           <Map
-            tabindex="-1"
             ref="map"
             id="map-id"
             center={position}
@@ -607,29 +590,26 @@ class VAMap extends Component {
             zoom={parseInt(currentQuery.zoomLevel, 10)}
             style={{ minHeight: '78vh', width: '100%' }} // TODO - move this into CSS
             scrollWheelZoom={false}
-            onLoad={setTimeout(makeLeafletNotFocusable, 1)}
             onMoveEnd={this.handleBoundsChanged}
           >
             <TileLayer
-              tabindex="-1"
               url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-              attribution="
-              Map data &copy; <a href=&quot;http://openstreetmap.org&quot; tabindex=&quot;-1&quot;>OpenStreetMap</a> contributors, \
-                <a  href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot; tabindex=&quot;-1&quot;>CC-BY-SA </a>, \
-                Imagery © <a href=&quot;http://mapbox.com&quot; tabindex=&quot;-1&quot;>Mapbox</a>"
+              attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
+                <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
+                Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
             />
             {facilityLocatorMarkers &&
               facilityLocatorMarkers.length > 0 && (
-                <FeatureGroup ref="facilityMarkers" tabindex="-1">
+                <FeatureGroup ref="facilityMarkers">
                   {facilityLocatorMarkers}
                 </FeatureGroup>
               )}
           </Map>
         </div>
         <p className="vads-u-visibility--screen-reader">
-          Please note: Due to technical limitations, the map has been hidden
-          from screen reader devices. We're working to deliver an enhanced
-          screen reader experience.
+          Please note: Due to technical limitations, the map is not providing an
+          accessible experience for screen reader devices. We're working to
+          deliver an enhanced screen reader experience.
         </p>
         <PaginationWrapper
           handlePageSelect={this.handlePageSelect}
