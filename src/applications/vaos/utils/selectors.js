@@ -210,10 +210,13 @@ export function getChosenFacilityDetails(state) {
   const data = getFormData(state);
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const facilityDetails = getNewAppointment(state).facilityDetails;
+  const facilityId = vaosFlatFacilityPage(state)
+    ? getRealFacilityId(data.vaFacility)
+    : data.vaFacility;
 
   return isCommunityCare
     ? facilityDetails[data.communityCareSystemId]
-    : facilityDetails[data.vaFacility];
+    : facilityDetails[facilityId];
 }
 
 export function getEligibilityChecks(state) {

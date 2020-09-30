@@ -36,7 +36,6 @@ export class ReviewPage extends React.Component {
   render() {
     const {
       data,
-      facility,
       facilityDetails,
       clinic,
       vaCityState,
@@ -53,7 +52,7 @@ export class ReviewPage extends React.Component {
         {isDirectSchedule && (
           <ReviewDirectScheduleInfo
             data={data}
-            facility={facility}
+            facility={facilityDetails}
             systemId={systemId}
             clinic={clinic}
             pageTitle={pageTitle}
@@ -62,7 +61,7 @@ export class ReviewPage extends React.Component {
         {!isDirectSchedule && (
           <ReviewRequestInfo
             data={data}
-            facility={facility}
+            facility={facilityDetails}
             vaCityState={vaCityState}
             pageTitle={pageTitle}
           />
