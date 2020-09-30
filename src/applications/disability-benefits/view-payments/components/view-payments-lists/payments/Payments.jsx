@@ -66,6 +66,10 @@ class Payments extends Component {
 
   render() {
     let tableContent = '';
+    let tableAriaLabelldBy = 'paymentsRecievedHeader paymentsRecievedContent';
+    if (this.props.tableVersion === 'returned') {
+      tableAriaLabelldBy = 'paymentsReturnedHeader paymentsReturnedContent';
+    }
     if (this.state.currentlyShowingData) {
       tableContent = (
         <>
@@ -75,6 +79,7 @@ class Payments extends Component {
             {this.props.data.length}
           </p>
           <ResponsiveTable
+            ariaLabelledBy={tableAriaLabelldBy}
             className="va-table"
             currentSort={{
               value: 'String',

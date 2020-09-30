@@ -25,7 +25,7 @@ import {
   isVideoAppointment,
 } from '../../services/appointment';
 
-import { captureError, getErrorCodes } from '../../utils/error';
+import { captureError, has400LevelError } from '../../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
@@ -387,7 +387,7 @@ export function confirmCancelAppointment() {
       });
       resetDataLayer();
     } catch (e) {
-      const isVaos400Error = getErrorCodes(e).includes('VAOS_400');
+      const isVaos400Error = has400LevelError(e);
       if (isVaos400Error) {
         Sentry.withScope(scope => {
           scope.setExtra('error', e);

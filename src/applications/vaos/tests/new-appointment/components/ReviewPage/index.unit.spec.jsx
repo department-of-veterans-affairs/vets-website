@@ -100,11 +100,13 @@ describe('VAOS <ReviewPage>', () => {
         .find('FacilityAddress')
         .exists(),
     ).to.be.true;
-    expect(alertBox.dive().text()).contain('Something went wrong');
+    expect(alertBox.dive().text()).contain(
+      'We suggest you wait a day to try again or you can call your medical center',
+    );
     tree.unmount();
   });
 
-  it('should render submit error with facility', () => {
+  it('should render 400 error with facility', () => {
     const flowType = FLOW_TYPES.REQUEST;
     const data = {};
 
@@ -128,7 +130,7 @@ describe('VAOS <ReviewPage>', () => {
         .exists(),
     ).to.be.true;
     expect(alertBox.dive().text()).contain(
-      'You can’t schedule your appointment on the VA appointments tool.',
+      'You’ll need to call your local VA medical center',
     );
     tree.unmount();
   });
