@@ -308,7 +308,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_V2_OPEN: {
       return {
         ...state,
-        parentFacilitiesStatus: FETCH_STATUS.loading,
+        childFacilitiesStatus: FETCH_STATUS.loading,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
