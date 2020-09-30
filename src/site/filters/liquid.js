@@ -463,4 +463,7 @@ module.exports = function registerFilters() {
 
   // find out if date is in the past
   liquid.filters.isPastDate = contentDate => moment().diff(contentDate, 'days');
+
+  liquid.filters.isLaterThan = (timestamp1, timestamp2) =>
+    moment(timestamp1, 'YYYY-MM-DD').isAfter(moment(timestamp2, 'YYYY-MM-DD'));
 };
