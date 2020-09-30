@@ -28,7 +28,8 @@
           }
         ],
         "separationLocation": {
-          "separationLocationCode": "Fort Hood"
+          "separationLocationCode": "123",
+          "separationLocationName": "Test"
         }
       },
       "newPrimaryDisabilities": [

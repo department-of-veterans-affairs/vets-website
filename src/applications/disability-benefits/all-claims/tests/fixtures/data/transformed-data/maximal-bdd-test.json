@@ -45,7 +45,8 @@
           }
         ],
         "separationLocation": {
-          "separationLocationCode": "Andersen AFB - Air Force / Guam"
+          "separationLocationCode": "123",
+          "separationLocationName": "Test"
         }
       },
       "newPrimaryDisabilities": [

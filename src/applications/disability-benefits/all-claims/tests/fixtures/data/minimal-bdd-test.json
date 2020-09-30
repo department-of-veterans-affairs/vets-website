@@ -50,7 +50,10 @@
           }
         ],
         "view:militaryHistoryNote": {},
-        "separationLocation": "Fort Hood"
+        "separationLocation": {
+          "id": "123",
+          "label": "Test"
+        }
       },
       "servedInCombatZonePost911": false,
       "newDisabilities": [
