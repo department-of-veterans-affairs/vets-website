@@ -10,6 +10,7 @@ const formFields = {
   vaMedicalFacility: 'vaMedicalFacility',
 };
 
+// Move all these constants to vets-json-schema in the constants directory
 const caregiverValues = [
   'General Caregiver Support/Education',
   'Comprehensive Family Caregiver Program',
@@ -69,18 +70,22 @@ const valuesByLabelLookup = {
   'Women Veterans Health Care': womensHealthValues,
 };
 
-function flattenMedicalFacilityList() {
-  const array = [];
+function getAllMedicalFacilities() {
+  const medicalFacilities = [];
   Object.values(vaMedicalFacilities).forEach(state =>
-    state.map(facility => array.push(facility)),
+    state.map(facility => medicalFacilities.push(facility)),
   );
-  return array;
+  return medicalFacilities;
 }
 
-const vaMedicalList = flattenMedicalFacilityList();
+const vaMedicalFacilitiesList = getAllMedicalFacilities();
 
-const vaMedicalFacilityValues = vaMedicalList.map(facility => facility.value);
-const vaMedicalFacilityLabels = vaMedicalList.map(facility => facility.label);
+const vaMedicalFacilityValues = vaMedicalFacilitiesList.map(
+  facility => facility.value,
+);
+const vaMedicalFacilityLabels = vaMedicalFacilitiesList.map(
+  facility => facility.label,
+);
 
 export const levelThreeRequiredTopics = new Set([
   'Health/Medical Eligibility & Programs',
