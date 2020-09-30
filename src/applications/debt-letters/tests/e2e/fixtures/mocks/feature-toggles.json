@@ -37,7 +37,6 @@
       { "name": "form996HigherLevelReview", "value": true },
       { "name": "gibctFilterEnhancement", "value": true },
       { "name": "debtLettersShowLetters", "value": true },
-      { "name": "debtLettersShowLettersV2", "value": true },
       { "name": "gibctCh33BenefitRateUpdate", "value": true }
     ]
   }
