@@ -21,7 +21,7 @@ const {
   getWebpackEntryPoints,
 } = require('./manifest-helpers');
 
-const vaMedaliaStylesFilename = 'va-medallia-styles';
+const vaMedalliaStylesFilename = 'va-medallia-styles';
 
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
@@ -43,7 +43,7 @@ const sharedModules = [
 const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
   style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
-  [vaMedaliaStylesFilename]: getAbsolutePath(
+  [vaMedalliaStylesFilename]: getAbsolutePath(
     'src/platform/site-wide/sass/va-medallia-style.scss',
   ),
   styleConsolidated: getAbsolutePath(
@@ -244,7 +244,7 @@ module.exports = env => {
         moduleFilename: chunk => {
           const { name } = chunk;
           const standardFilename = `${name}.[contenthash]-${timestamp}.css`;
-          const isMedalliaStyleFile = name === vaMedaliaStylesFilename;
+          const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
           const isStandardFile = !isMedalliaStyleFile;
           const showHash = isOptimizedBuild && isStandardFile;
 
