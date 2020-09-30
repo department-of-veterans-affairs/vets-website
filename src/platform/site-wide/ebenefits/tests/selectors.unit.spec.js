@@ -23,7 +23,7 @@ describe('ebenefits selectors', () => {
       expect(selectors.shouldUseProxyUrl(state)).to.equal(false);
     });
     it('renders false when feature flags are off', () => {
-      state.user.profile.signIn.ssoe = true;
+      state.user.profile.session.ssoe = true;
       expect(selectors.shouldUseProxyUrl(state)).to.equal(false);
       state.featureToggles.ssoeEbenefitsLinks = false;
       expect(selectors.shouldUseProxyUrl(state)).to.equal(false);
