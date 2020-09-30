@@ -10,9 +10,9 @@ describe('authentication selectors', () => {
             signIn: {
               ssoe: false,
             },
-          },
-          session: {
-            ssoe: true,
+            session: {
+              ssoe: true,
+            },
           },
         },
       };
@@ -22,7 +22,9 @@ describe('authentication selectors', () => {
     it('returns undefined when the ssoe flag is not present', () => {
       const state = {
         user: {
-          session: {},
+          profile: {
+            session: {},
+          },
         },
       };
       expect(selectors.isAuthenticatedWithSSOe(state)).to.be.undefined;
@@ -37,9 +39,9 @@ describe('authentication selectors', () => {
             signIn: {
               transactionid: 'X',
             },
-          },
-          session: {
-            transactionid: 'Y',
+            session: {
+              transactionid: 'Y',
+            },
           },
         },
       };
@@ -50,7 +52,9 @@ describe('authentication selectors', () => {
       const state = {
         user: {
           session: {
-            ssoe: false,
+            profile: {
+              ssoe: false,
+            },
           },
         },
       };

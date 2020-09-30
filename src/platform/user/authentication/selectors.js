@@ -1,5 +1,5 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { selectUser, selectProfile } from 'platform/user/selectors';
+import { selectProfile } from 'platform/user/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 export const ssoe = state => toggleValues(state)[FEATURE_FLAG_NAMES.ssoe];
@@ -17,7 +17,7 @@ export const signInServiceName = state =>
   selectProfile(state).signIn?.serviceName;
 
 export const isAuthenticatedWithSSOe = state =>
-  selectUser(state)?.session?.ssoe;
+  selectProfile(state)?.session?.ssoe;
 
 export const ssoeTransactionId = state =>
-  selectUser(state)?.session?.transactionid;
+  selectProfile(state)?.session?.transactionid;
