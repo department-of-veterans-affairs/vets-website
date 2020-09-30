@@ -75,7 +75,7 @@ function getAllMedicalCenters() {
   Object.values(vaMedicalFacilities).forEach(state =>
     state.map(facility => medicalCenters.push(facility)),
   );
-  return medicalCenters;
+  return _.sortBy(['label'], medicalCenters);
 }
 
 const vaMedicalCentersList = getAllMedicalCenters();
