@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { connect } from 'react-redux';
 
 import {
   getTabbableElements,
@@ -13,19 +12,6 @@ import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 import { focusElement } from 'platform/utilities/ui';
 
 import ProfileSubNavItems from './ProfileSubNavItems';
-
-import {
-  closeSideNav as closeSideNavAction,
-  openSideNav as openSideNavAction,
-  pinMenuTrigger as pinMenuTriggerAction,
-  unpinMenuTrigger as unpinMenuTriggerAction,
-} from '../actions';
-
-import {
-  selectFocusTriggerButton,
-  selectIsSideNavOpen,
-  selectIsMenuTriggerPinned,
-} from '../selectors';
 
 import { BREAKPOINTS } from '../constants';
 
@@ -48,18 +34,7 @@ const menuButtonClasses = prefixUtilityClasses([
   'display--inline',
 ]).join(' ');
 
-const ProfileMobileSubNav = ({
-  openMenu,
-  closeMenu,
-  isTriggerButtonFocused,
-  isLOA3,
-  isInMVI,
-  isMenuPinned,
-  isMenuOpen,
-  pinMenu,
-  unpinMenu,
-  routes,
-}) => {
+const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
   // ref used so we can easily get the element's height
   const theMenu = useRef(null);
   // ref used so we can easily set its height
@@ -71,6 +46,9 @@ const ProfileMobileSubNav = ({
 
   const [isMobile, setIsMobile] = useState(false);
   const [triggerPosition, setTriggerPosition] = useState(null);
+  const [isMenuPinned, setIsMenuPinned] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [focusTriggerButton, setFocusTriggerButton] = useState(false);
 
   const overrideShiftTab = e => {
     if (isReverseTab(e)) {
@@ -121,7 +99,7 @@ const ProfileMobileSubNav = ({
 
       if (justSwitchedToDesktop) {
         setIsMobile(false);
-        closeMenu();
+        setIsMenuOpen(false);
       }
     };
 
@@ -131,12 +109,12 @@ const ProfileMobileSubNav = ({
       // if the user just scrolled down the page far enough that the menu
       // trigger would go off the top of the page
       if (window.pageYOffset >= triggerPosition && !isMenuPinned) {
-        pinMenu();
+        setIsMenuPinned(true);
       }
       // if the user just scrolled up the page far enough that the menu
       // trigger's position would come back into view
       if (window.pageYOffset < triggerPosition && isMenuPinned) {
-        unpinMenu();
+        setIsMenuPinned(false);
       }
     };
 
@@ -158,7 +136,8 @@ const ProfileMobileSubNav = ({
         if (isEscape(e)) {
           e.preventDefault();
           // close menu and set focus to the trigger button
-          closeMenu(true);
+          setIsMenuOpen(false);
+          setFocusTriggerButton(true);
         }
       };
       if (isMenuOpen) {
@@ -176,8 +155,9 @@ const ProfileMobileSubNav = ({
         // Only set the focus on the menu trigger button if the call to the
         // `closeSideNav` action creator passed in the `focusTriggerButton`
         // argument
-        if (isTriggerButtonFocused) {
+        if (focusTriggerButton) {
           openMenuButton.current.focus();
+          setFocusTriggerButton(false);
         }
         if (closeMenuButton.current) {
           closeMenuButton.current.removeEventListener(
@@ -190,7 +170,7 @@ const ProfileMobileSubNav = ({
         }
       }
     },
-    [closeMenu, isMenuOpen, isTriggerButtonFocused],
+    [isMenuOpen, focusTriggerButton],
   );
 
   const menuClasses = classnames('the-menu', {
@@ -207,7 +187,7 @@ const ProfileMobileSubNav = ({
               ref={openMenuButton}
               className="open-menu"
               type="button"
-              onClick={openMenu}
+              onClick={() => setIsMenuOpen(true)}
             >
               <strong>
                 <h1 id="mobile-subnav-header" className={menuButtonClasses}>
@@ -230,7 +210,8 @@ const ProfileMobileSubNav = ({
                   type="button"
                   onClick={() => {
                     // close menu and set focus to the trigger button
-                    closeMenu(true);
+                    setIsMenuOpen(false);
+                    setFocusTriggerButton(true);
                   }}
                 >
                   <span>Close</span>
@@ -242,7 +223,7 @@ const ProfileMobileSubNav = ({
                 isInMVI={isInMVI}
                 routes={routes}
                 clickHandler={() => {
-                  closeMenu();
+                  setIsMenuOpen(false);
                 }}
               />
             </>
@@ -257,33 +238,9 @@ const ProfileMobileSubNav = ({
   );
 };
 
-export { ProfileMobileSubNav };
-
 ProfileMobileSubNav.propTypes = {
-  closeMenu: PropTypes.func.isRequired,
-  isTriggerButtonFocused: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
-  isMenuPinned: PropTypes.bool.isRequired,
-  openMenu: PropTypes.func.isRequired,
-  pinMenu: PropTypes.func.isRequired,
-  unpinMenu: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  isTriggerButtonFocused: selectFocusTriggerButton(state),
-  isMenuPinned: selectIsMenuTriggerPinned(state),
-  isMenuOpen: selectIsSideNavOpen(state),
-});
-
-const mapDispatchToProps = {
-  closeMenu: closeSideNavAction,
-  openMenu: openSideNavAction,
-  pinMenu: pinMenuTriggerAction,
-  unpinMenu: unpinMenuTriggerAction,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfileMobileSubNav);
+export default ProfileMobileSubNav;

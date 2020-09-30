@@ -83,27 +83,22 @@ export class ReviewPage extends React.Component {
         {submitStatus === FETCH_STATUS.failed && (
           <AlertBox
             status="error"
-            headline={
-              submitStatusVaos400
-                ? 'We’re sorry. We can’t schedule your appointment'
-                : `We’re sorry. Your ${
-                    isDirectSchedule ? 'appointment' : 'request'
-                  } didn’t go through`
-            }
+            headline="We couldn’t schedule this appointment"
             content={
               <>
                 {submitStatusVaos400 ? (
                   <p>
-                    You can’t schedule your appointment on the VA appointments
-                    tool. Please contact your local VA medical center to
-                    schedule this appointment:
+                    We’re sorry. Something went wrong when we tried to submit
+                    your {isDirectSchedule ? 'appointment' : 'request'}. You’ll
+                    need to call your local VA medical center to schedule this
+                    appointment.
                   </p>
                 ) : (
                   <p>
-                    Something went wrong when we tried to submit your{' '}
-                    {isDirectSchedule ? 'appointment' : 'request'} and you’ll
-                    need to start over. We suggest you wait a day to try again
-                    or you can call your medical center to help with your{' '}
+                    We’re sorry. Something went wrong when we tried to submit
+                    your {isDirectSchedule ? 'appointment' : 'request'} and
+                    you’ll need to start over. We suggest you wait a day to try
+                    again or you can call your medical center to help with your{' '}
                     {isDirectSchedule ? 'appointment' : 'request'}.
                   </p>
                 )}

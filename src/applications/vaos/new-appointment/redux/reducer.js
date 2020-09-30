@@ -29,8 +29,6 @@ import {
   FORM_CALENDAR_DATA_CHANGED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
-  FORM_FETCH_PARENT_FACILITIES,
-  FORM_FETCH_PARENT_FACILITIES_SUCCEEDED,
   FORM_FETCH_PARENT_FACILITIES_FAILED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
@@ -307,23 +305,10 @@ export default function formReducer(state = initialState, action) {
         data: { ...state.data, facilityType: action.facilityType },
       };
     }
-    case FORM_FETCH_PARENT_FACILITIES: {
-      return {
-        ...state,
-        parentFacilitiesStatus: FETCH_STATUS.loading,
-      };
-    }
-    case FORM_FETCH_PARENT_FACILITIES_SUCCEEDED: {
-      return {
-        ...state,
-        parentFacilitiesStatus: FETCH_STATUS.succeeded,
-        parentFacilities: action.parentFacilities,
-      };
-    }
     case FORM_PAGE_FACILITY_V2_OPEN: {
       return {
         ...state,
-        childFacilitiesStatus: FETCH_STATUS.loading,
+        parentFacilitiesStatus: FETCH_STATUS.loading,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
@@ -428,7 +413,7 @@ export default function formReducer(state = initialState, action) {
       // If we only have one, then we want to just set the value in the
       // form data and remove the schema for that field, so we don't
       // show the question to the user
-      if (parentFacilities.length > 1) {
+      if (parentFacilities.length > 1 || action.isCernerOnly) {
         newSchema = set(
           'properties.vaParent.enum',
           parentFacilities.map(sys => sys.id),
@@ -439,6 +424,12 @@ export default function formReducer(state = initialState, action) {
           parentFacilities.map(sys => sys.name),
           newSchema,
         );
+
+        // Remove validation so that Cerner only patients can click
+        // on the Continue button and go to the Cerner portal
+        if (action.isCernerOnly) {
+          delete newSchema.required;
+        }
       } else {
         newSchema = unset('properties.vaParent', newSchema);
         newData = {

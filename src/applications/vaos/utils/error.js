@@ -41,3 +41,7 @@ export function captureError(
 export function getErrorCodes(error) {
   return error?.errors?.map(e => e.code) || [];
 }
+
+export function has400LevelError(error) {
+  return getErrorCodes(error).some(code => code.startsWith('VAOS_4'));
+}

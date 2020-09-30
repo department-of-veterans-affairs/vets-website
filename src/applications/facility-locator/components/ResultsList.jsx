@@ -17,7 +17,7 @@ import {
 
 import { distBetween } from '../utils/facilityDistance';
 import { setFocus } from '../utils/helpers';
-
+import { recordSearchResultsEvents } from '../utils/analytics';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
@@ -26,7 +26,6 @@ import CCProviderResult from './search-results-items/CCProviderResult';
 import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
 import SearchResultMessage from './SearchResultMessage';
-import recordEvent from 'platform/monitoring/record-event';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -102,10 +101,6 @@ class ResultsList extends Component {
           break;
         default:
           item = null;
-      }
-
-      if (index === 0 && r.distance) {
-        recordEvent({ 'fl-closest-result-distance-miles': r.distance });
       }
 
       return item;
@@ -207,6 +202,10 @@ class ResultsList extends Component {
           markerText,
         };
       });
+
+    if (sortedResults.length > 0) {
+      recordSearchResultsEvents(this.props, sortedResults);
+    }
     return <div>{this.renderResultItems(query, sortedResults)}</div>;
   }
 }
@@ -247,6 +246,7 @@ function mapStateToProps(state) {
     position,
     searchString,
     selectedResult: state.searchResult.selectedResult,
+    resultTime: state.searchResult.resultTime,
   };
 }
 

@@ -7,6 +7,7 @@ import {
   selectVet360EmailAddress,
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
+  selectIsCernerOnlyPatient,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -67,8 +68,12 @@ import {
 
 import { recordEligibilityFailure, resetDataLayer } from '../../utils/events';
 
-import { captureError, getErrorCodes } from '../../utils/error';
 import { getRealFacilityId } from '../../utils/appointment';
+import {
+  captureError,
+  getErrorCodes,
+  has400LevelError,
+} from '../../utils/error';
 
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -341,6 +346,11 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       let locationId = newAppointment.data.vaFacility;
       let parentId = newAppointment.data.vaParent;
       let parentFacilities = newAppointment.parentFacilities;
+      locations = newAppointment.facilities[typeOfCareId] || null;
+
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN,
+      });
 
       // If we have the VA parent in our state, we don't need to
       // fetch them again
@@ -362,12 +372,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           getIdOfRootOrganization(parentFacilities, parentId),
         );
       }
-
-      dispatch({
-        type: FORM_PAGE_FACILITY_V2_OPEN,
-      });
-      locations = newAppointment.facilities[typeOfCareId] || null;
-
       if (!locations) {
         locations = [];
         const criteria = await Promise.all([
@@ -511,6 +515,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     const userSiteIds = selectSystemIds(initialState);
     const useVSP = vaosVSPAppointmentNew(initialState);
+    const isCernerOnly = selectIsCernerOnlyPatient(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let locations = null;
     let eligibilityData = null;
@@ -528,7 +533,8 @@ export function openFacilityPage(page, uiSchema, schema) {
         });
       }
 
-      const canShowFacilities = !!parentId || parentFacilities?.length === 1;
+      const canShowFacilities =
+        !isCernerOnly && (!!parentId || parentFacilities?.length === 1);
 
       if (canShowFacilities && !parentId) {
         parentId = parentFacilities[0].id;
@@ -591,6 +597,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilities: locations,
         typeOfCareId,
         eligibilityData,
+        isCernerOnly,
       });
 
       if (parentId && !locations.length) {
@@ -967,7 +974,7 @@ export function submitAppointmentOrRequest(history) {
         captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
-          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
+          isVaos400Error: has400LevelError(error),
         });
 
         // Remove parse function when converting this call to FHIR service
