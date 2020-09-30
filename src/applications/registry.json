@@ -276,7 +276,7 @@
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
-          "path": "view-change-dependents",
+          "path": "view-change-dependents/",
           "name": "View or change your dependents"
         },
         {
