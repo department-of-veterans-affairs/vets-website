@@ -227,6 +227,7 @@ function VAFacilityPageV2({
           uiSchema={uiSchema}
           onChange={onFacilityChange}
           onSubmit={goForward}
+          formContext={{ loadingEligibility }}
           data={data}
         >
           <FormButtons
