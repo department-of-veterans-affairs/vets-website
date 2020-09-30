@@ -2,11 +2,13 @@ import React from 'react';
 import captureEvents from '../analytics-functions';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
-export const ExitApplicationButton = ({ formId }) => {
+export const ExitApplicationButton = ({ formId, isLoggedIn }) => {
   const onClick = () => {
     captureEvents.exitApplication();
 
-    removeFormApi(formId);
+    if (isLoggedIn) {
+      removeFormApi(formId);
+    }
   };
 
   return (
@@ -14,7 +16,6 @@ export const ExitApplicationButton = ({ formId }) => {
       className={'usa-button-primary va-button-primary'}
       href="/education/"
       onClick={onClick}
-      target="_blank"
     >
       Exit application
     </a>

@@ -33,7 +33,10 @@ function InitialConfirmEligibilityView(props) {
       </div>
       <br />
       <div>
-        <ExitApplicationButton formId={props.formId} />
+        <ExitApplicationButton
+          formId={props.formId}
+          isLoggedIn={props.isLoggedIn}
+        />
       </div>
       <br />
       <span>
@@ -50,6 +53,7 @@ const mapStateToProps = (state, props) => ({
   isEnrolledStem: state?.form?.data.isEnrolledStem,
   isPursuingTeachingCert: state?.form?.data?.isPursuingTeachingCert || false,
   formId: state.form.formId,
+  isLoggedIn: state.user.login.currentlyLoggedIn,
 });
 
 export default connect(mapStateToProps)(InitialConfirmEligibilityView);

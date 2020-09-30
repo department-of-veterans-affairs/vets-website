@@ -161,7 +161,10 @@ export class ConfirmEligibilityView extends React.Component {
 
         <div>
           <div className="vads-u-margin-top--neg2">
-            <ExitApplicationButton formId={this.props.formId} />
+            <ExitApplicationButton
+              formId={this.props.formId}
+              isLoggedIn={this.props.isLoggedIn}
+            />
           </div>
 
           <div>
@@ -193,6 +196,7 @@ const mapStateToProps = (state, ownProps) => {
       ownProps?.formContext?.submitted &&
       confirmEligibility === undefined,
     formId: state.form.formId,
+    isLoggedIn: state.user.login.currentlyLoggedIn,
   };
 };
 
