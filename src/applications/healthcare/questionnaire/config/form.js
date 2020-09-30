@@ -4,18 +4,14 @@ import React from 'react';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import AppointmentInfoBox from '../components/AppointmentInfoBox';
+import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
 import ChiefComplaint from '../components/chief-complaint';
 import GetHelp from '../components/get-help';
 
-// import AdditionalQuestions from '../components/additional-questions'
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/healthcare_questionnaire`,
@@ -39,31 +35,23 @@ const formConfig = {
   chapters: {
     chapter1: {
       title: "Veteran's Information",
+      reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
           path: 'demographics',
           hideHeaderRow: true,
           title: 'Veteran Information',
           uiSchema: {
-            'view:veteranInfo': {
-              'ui:field': AppointmentInfoBox,
-              'ui:reviewField': AppointmentInfoBox,
-              'ui:options': {
-                viewComponent: AppointmentInfoBox,
-              },
-              seen: {},
+            veteranInfo: {
+              'ui:description': VeteranInfoPage.field,
             },
           },
           schema: {
             type: 'object',
             properties: {
-              'view:veteranInfo': {
+              veteranInfo: {
                 type: 'object',
-                properties: {
-                  seen: {
-                    type: 'string',
-                  },
-                },
+                properties: {},
               },
             },
           },
@@ -116,7 +104,6 @@ const formConfig = {
                   return <>{formData.formData.additionalQuestions}</>;
                 },
               },
-              // 'ui:reviewField': AdditionalQuestions.review,
               'ui:title': 'Ranked questions for your provider',
             },
           },
