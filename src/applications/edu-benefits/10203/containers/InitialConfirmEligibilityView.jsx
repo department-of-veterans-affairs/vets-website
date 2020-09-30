@@ -10,9 +10,9 @@ function InitialConfirmEligibilityView(props) {
   captureEvents.ineligibilityAlert(props);
 
   return (
-    <div>
+    <div role="alert">
       <div>
-        <div className="usa-alert usa-alert-warning" role="alert">
+        <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">
               Based on your response, you may not be eligible
