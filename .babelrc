@@ -59,7 +59,16 @@
   // Share polyfills between files.
   "env": {
     "test": {
-      "presets": ["@babel/env"],
+      "presets": [
+        [
+          "@babel/env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ],
       "plugins": [
         "istanbul",
         "dynamic-import-node",
