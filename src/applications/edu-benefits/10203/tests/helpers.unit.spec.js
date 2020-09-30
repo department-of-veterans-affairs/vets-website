@@ -1,10 +1,6 @@
 import { expect } from 'chai';
 
-import {
-  isChapter33,
-  displayConfirmEligibility,
-  phoneNumberFormatted,
-} from '../helpers';
+import { isChapter33, displayConfirmEligibility } from '../helpers';
 
 describe('helpers', () => {
   describe('isChapter33', () => {
@@ -49,19 +45,6 @@ describe('helpers', () => {
       expect(
         displayConfirmEligibility({ 'view:benefit': { chapter30: true } }),
       ).to.equal(true);
-    });
-  });
-
-  describe('phoneNumberFormatted', () => {
-    it('evaluates phone number input correctly for 10 digits', () => {
-      expect(phoneNumberFormatted('0123456789')).to.equal(true);
-      expect(phoneNumberFormatted('012')).to.equal(false);
-      expect(phoneNumberFormatted('012345678910111213')).to.equal(false);
-    });
-    it('evaluates phone number input correctly for 10 digits with dashes', () => {
-      expect(phoneNumberFormatted('012-345-6789')).to.equal(true);
-      expect(phoneNumberFormatted('012-34-5678')).to.equal(false);
-      expect(phoneNumberFormatted('012-345-6789-10-11-12-13')).to.equal(false);
     });
   });
 });

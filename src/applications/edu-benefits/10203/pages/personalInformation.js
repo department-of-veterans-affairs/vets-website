@@ -15,8 +15,6 @@ import {
   receiveTextsAlert,
 } from '../content/personalInformation';
 
-import { phoneNumberFormatted } from '../helpers';
-
 export const title = contactInformation.title;
 export const path = contactInformation.path;
 export const uiSchema = environment.isProduction()
@@ -99,7 +97,8 @@ export const uiSchema = environment.isProduction()
         'ui:options': {
           hideIf: data =>
             !data?.receiveTexts ||
-            phoneNumberFormatted(data['view:otherContactInfo']?.mobilePhone),
+            data['view:otherContactInfo']?.mobilePhone?.length >=
+              fullSchema10203.definitions.phone.minLength,
         },
       },
       'view:receiveTextsInfo': {
