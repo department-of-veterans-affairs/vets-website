@@ -27,7 +27,7 @@
   "secondaryOneEmail": "minimouse@disney.com",
   "view:secondaryOneEmail": "minimouse@disney.com",
   "secondaryOneVetRelationship": "Friend/Neighbor",
-  "view:hassecondaryCaregiverTwo": true,
+  "view:hasSecondaryCaregiverTwo": true,
   "secondaryOneFullName": {
     "first": "George",
     "middle": "Geef",
