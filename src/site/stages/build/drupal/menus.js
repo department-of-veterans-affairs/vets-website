@@ -147,9 +147,17 @@ function makePromo(hostUrl, promo) {
   const img = promo.entity.fieldImage.entity.image;
   const link = promo.entity.fieldPromoLink.entity.fieldLink;
 
+  // Based on the GraphQL query 'header.nav.graphql.js' there needs to be an
+  // adjustment to the image path based on the `style: _32MEDIUMTHUMBNAIL`
+
+  const url = `/img/styles/3_2_medium_thumbnail/${
+    // Verify that the image is not transformed previously
+    img.derivative.url.replace('/img/styles/3_2_medium_thumbnail/', '')
+  }`.replace('public:/', 'public');
+
   return {
     img: {
-      src: convertLinkToAbsolute(hostUrl, img.derivative.url),
+      src: convertLinkToAbsolute(hostUrl, url),
       alt: img.alt || '',
     },
     link: {
