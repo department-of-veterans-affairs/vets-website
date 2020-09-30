@@ -76,7 +76,7 @@
     "test:integration:nightwatch:docker": "docker-compose -p e2e up -d && docker-compose -p e2e run --user=node --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod -e WEB_HOST=staging.va.gov -e WEB_PORT=80 vets-website --no-color run nightwatch:docker -- --tag integration && docker-compose -p e2e stop",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node ./script/watch.js",
-    "watch:content": "node --max-old-space-size=4096 script/build-content.js --watch",
+    "watch:content": "node --max-old-space-size=8192 script/build-content.js --watch",
     "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build-content.js --watch --local-css-sourcemaps",
     "watch:review": "node ./script/run-review-instance-api.js",
     "watch:static": "concurrently -n metalsmith,webpack \"npm:watch:content\" \"npm run watch -- --env.entry=static-pages --progress=false\""
