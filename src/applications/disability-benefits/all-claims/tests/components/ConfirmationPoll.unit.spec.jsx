@@ -49,6 +49,20 @@ const failureResponse = {
   },
 };
 
+const errorResponse = {
+  shouldResolve: true,
+  response: {
+    errors: [
+      {
+        title: 'error',
+        detail: 'some error',
+        code: '401',
+        status: 'some status',
+      },
+    ],
+  },
+};
+
 describe('ConfirmationPoll', () => {
   const defaultProps = {
     jobId: '12345',
@@ -104,6 +118,27 @@ describe('ConfirmationPoll', () => {
       tree.unmount();
       done();
     }, 500);
+  });
+
+  it('should ignore immediate api failures', done => {
+    mockMultipleApiRequests([
+      errorResponse,
+      pendingResponse,
+      pendingResponse,
+      successResponse,
+    ]);
+
+    const form = mount(
+      <ConfirmationPoll {...defaultProps} pollRate={10} delayFailure={20} />,
+    );
+    setTimeout(() => {
+      form.update();
+      expect(global.fetch.callCount).to.equal(4);
+      const confirmationPage = form.find('ConfirmationPage');
+      expect(confirmationPage.length).to.equal(1);
+      form.unmount();
+      done();
+    }, 50);
   });
 
   describe('selectAllDisabilityNames', () => {

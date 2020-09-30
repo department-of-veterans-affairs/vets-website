@@ -14,6 +14,7 @@ export class ConfirmationPoll extends React.Component {
   // Using it as a prop for easy testing
   static defaultProps = {
     pollRate: 5000,
+    delayFailure: 6000, // larger than pollRate
   };
 
   constructor(props) {
@@ -80,11 +81,16 @@ export class ConfirmationPoll extends React.Component {
           return;
         }
 
-        this.setState({
-          submissionStatus: submissionStatuses.apiFailure,
-          // NOTE: I don't know that it'll always take this shape.
-          failureCode: get('errors[0].status', response),
-        });
+        if (Date.now() - this.startTime < this.props.delayFailure) {
+          // Page may return 404 immediately
+          setTimeout(this.poll, this.props.pollRate);
+        } else {
+          this.setState({
+            submissionStatus: submissionStatuses.apiFailure,
+            // NOTE: I don't know that it'll always take this shape.
+            failureCode: get('errors[0].status', response),
+          });
+        }
       });
   };
 
