@@ -498,7 +498,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       initialState,
     });
 
-    await findByText('Video appointment at a VA location');
+    await findByText(/Cheyenne VA Medical Center/i);
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(baseElement).to.contain.text('VA Video Connect');

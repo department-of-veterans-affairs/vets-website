@@ -84,18 +84,22 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
 
         <p>
           I certify that I am a family member of the Veteran named in this
-          application or I reside with the Veteran, or will do so upon approval.
+          application or I reside with the Veteran, or will do so upon
+          designation as the Veteran's Secondary Family Caregiver.
         </p>
 
         <p>
-          {`I agree to perform personal care services as the ${label} for the Veteran named on this application.`}
+          I agree to perform personal care services as the Secondary Family
+          Caregiver for the Veteran named on this application.
         </p>
 
         <p>
-          {`I understand that the Veteran or Veteran’s surrogate may initiate my
-            revocation as a ${label} (PCAFC) at any time. I understand that my designation 
-            as a Secondary Family Caregiver may be revoked or I may be discharged from the program 
-            by the Secretary of Veterans Affairs or his designee, as set forth in 38 CFR 71.45. `}
+          I understand that the Veteran or Veteran’s surrogate may request my
+          discharge from the Program of Comprehensive Assistance for Family
+          Caregivers (PCAFC) at any time. I understand that my designation as a
+          Secondary Family Caregiver may be revoked or I may be discharged from
+          the program by the Secretary of Veterans Affairs or his designee, as
+          set forth in 38 CFR 71.45.
         </p>
 
         <p>
@@ -132,10 +136,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       >
         <h3>Veteran&apos;s statement of truth</h3>
         <p>
-          I certify that I give consent to the individual(s) named in this
-          application to perform personal care services for me upon being
-          approved as Primary and/or Secondary Caregiver(s) in the Program of
-          Comprehensive Assistance for Family Caregivers.
+          I certify that I am a family member of the Veteran named in this
+          application or I reside with the Veteran, or will do so upon
+          designation as the Veteran's Primary Family Caregiver.
         </p>
 
         <PrivacyPolicy />
@@ -159,7 +162,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
 
         <p>
           I certify that I am a family member of the Veteran named in this
-          application or I reside with the Veteran, or will do so upon approval.
+          application or I reside with the Veteran, or will do so upon
+          designation as the Veteran's Primary Family Caregiver.
         </p>
 
         <p>
