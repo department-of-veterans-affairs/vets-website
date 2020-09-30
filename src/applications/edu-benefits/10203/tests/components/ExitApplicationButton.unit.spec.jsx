@@ -36,7 +36,7 @@ describe('<ExitApplicationButton>', () => {
 
     tree.find('a').simulate('click');
 
-    expect(saveInProgressApi.exitApplication.calledOnce).to.be.true;
+    expect(captureEvents.exitApplication.calledOnce).to.be.true;
     tree.unmount();
   });
 
