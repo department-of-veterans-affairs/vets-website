@@ -335,6 +335,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const typeOfCareId = typeOfCare.id;
       const userSiteIds = selectSystemIds(initialState);
       const useVSP = vaosVSPAppointmentNew(initialState);
+      const facilityDetails = newAppointment.facilityDetails;
       let locations = null;
       let siteId = null;
       let locationId = newAppointment.data.vaFacility;
@@ -369,18 +370,16 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
       if (!locations) {
         locations = [];
-        const directCriteria = await getDirectBookingEligibilityCriteria(
-          userSiteIds,
-        );
+        const criteria = await Promise.all([
+          getDirectBookingEligibilityCriteria(userSiteIds),
+          getRequestEligibilityCriteria(userSiteIds),
+        ]);
 
-        const requestCriteria = await getRequestEligibilityCriteria(
-          userSiteIds,
-        );
-
-        const directFacilities = directCriteria?.filter(facility =>
+        const directFacilities = criteria[0]?.filter(facility =>
           facility?.coreSettings?.some(setting => setting.id === typeOfCareId),
         );
-        const requestFacilities = requestCriteria?.filter(facility =>
+
+        const requestFacilities = criteria[1]?.filter(facility =>
           facility?.requestSettings?.some(
             setting => setting.id === typeOfCareId,
           ),
@@ -413,16 +412,16 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         });
       }
 
-      // TODO: only fetch facility details we don't already have
-
-      const facilityDetails = await getLocations({
-        facilityIds: locations.map(l => l.id),
+      const details = await getLocations({
+        facilityIds: locations
+          .filter(l => !(getRealFacilityId(l.id) in facilityDetails))
+          .map(l => l.id),
       });
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
         locations,
-        facilityDetails,
+        facilityDetails: details,
         parentFacilities,
         typeOfCareId,
         schema,
