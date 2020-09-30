@@ -21,7 +21,11 @@ import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
 import { BOUNDING_RADIUS, MARKER_LETTERS } from '../constants';
-import { areGeocodeEqual, setFocus } from '../utils/helpers';
+import {
+  areGeocodeEqual,
+  makeLeafletNotFocusable,
+  setFocus,
+} from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
@@ -488,6 +492,7 @@ class VAMap extends Component {
                 <Map
                   ref="map"
                   id="map-id"
+                  tabindex="-1"
                   center={position}
                   onViewportChanged={e =>
                     recordZoomPanEvents(
@@ -502,18 +507,22 @@ class VAMap extends Component {
                   zoomSnap={1}
                   zoomDelta={1}
                   onMoveEnd={this.handleBoundsChanged}
-                  onLoad={this.handleBoundsChanged}
+                  onLoad={() => {
+                    this.handleBoundsChanged();
+                    setTimeout(makeLeafletNotFocusable, 1);
+                  }}
                   onViewReset={this.handleBoundsChanged}
                 >
                   <TileLayer
+                    tabindex="-1"
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                    attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
-                    <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
-                    Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
+                    attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot; tabindex=&quot;-1&quot;>OpenStreetMap</a> contributors, \
+                    <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot; tabindex=&quot;-1&quot;>CC-BY-SA</a>, \
+                    Imagery © <a href=&quot;http://mapbox.com&quot; tabindex=&quot;-1&quot;>Mapbox</a>"
                   />
                   {facilityLocatorMarkers &&
                     facilityLocatorMarkers.length > 0 && (
-                      <FeatureGroup ref="facilityMarkers">
+                      <FeatureGroup ref="facilityMarkers" tabindex="-1">
                         {facilityLocatorMarkers}
                       </FeatureGroup>
                     )}
@@ -521,6 +530,7 @@ class VAMap extends Component {
                 {selectedResult && (
                   <div className="mobile-search-result">
                     <SearchResult
+                      tabindex="-1"
                       result={selectedResult}
                       query={this.props.currentQuery}
                     />
@@ -575,7 +585,11 @@ class VAMap extends Component {
             />
           </div>
         </div>
-        <div className="desktop-map-container" aria-hidden="true" role="img">
+        <div
+          className="desktop-map-container"
+          aria-hidden="true"
+          role="presentation"
+        >
           <Map
             tabindex="-1"
             ref="map"
@@ -593,6 +607,7 @@ class VAMap extends Component {
             zoom={parseInt(currentQuery.zoomLevel, 10)}
             style={{ minHeight: '78vh', width: '100%' }} // TODO - move this into CSS
             scrollWheelZoom={false}
+            onLoad={setTimeout(makeLeafletNotFocusable, 1)}
             onMoveEnd={this.handleBoundsChanged}
           >
             <TileLayer

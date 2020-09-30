@@ -14,6 +14,23 @@ export const setFocus = selector => {
   }
 };
 
+export const makeLeafletNotFocusable = () => {
+  const leafletDisableList = [
+    '.leaflet-control-zoom-out',
+    '.leaflet-control-zoom-in',
+    '.leaflet-container',
+  ];
+  leafletDisableList.forEach(
+    el =>
+      document.querySelector(el) &&
+      document.querySelector(el).setAttribute('tabindex', -1),
+  );
+  const leafletAttr = document.querySelectorAll(
+    '.leaflet-control-attribution a',
+  )[0];
+  if (leafletAttr) leafletAttr.setAttribute('tabindex', -1);
+};
+
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *
