@@ -109,8 +109,10 @@ export const renderAdditionalInfo = diaryCode => {
             Please pay or contact us about payment options now to avoid more
             late charges, interest, or collection actions. We're here at
             800-827-0648 (or 1-612-713-6415 from overseas), Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET. [Review payment options](anchor
-            link to how to pay debt section below]
+            Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -123,16 +125,18 @@ export const renderAdditionalInfo = diaryCode => {
           </p>
           <p>
             <strong>Next step: </strong>
-            Please pay now or contact us about payment options by [date of
-            letter + 60 days] to avoid more late charges, interest, or
-            collection actions. These include having your debt reported to
-            credit reporting agencies or referred to the U.S. Department of the
-            Treasury.
+            Please pay now or contact us about payment options by
+            <strong> [date of letter + 60 days] </strong> to avoid more late
+            charges, interest, or collection actions. These include having your
+            debt reported to credit reporting agencies or referred to the U.S.
+            Department of the Treasury.
           </p>
           <p>
             We're here at 800-827-0648 (or 1-612-713-6415 from overseas), Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET. [Review payment
-            options](anchor link to how to pay debt section below]
+            through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -145,17 +149,19 @@ export const renderAdditionalInfo = diaryCode => {
           </p>
           <p>
             <strong>Next step: </strong>
-            Please pay now or contact us about payment options by [date of
-            letter + 60 days] to avoid more late charges, interest, or
-            collection actions. If you don't pay or make other arrangements with
-            us by this date, we're required by law to refer your debt to the
-            U.S. Department of the Treasury. After we do that, we can't help you
-            manage your debt.
+            Please pay now or contact us about payment options by
+            <strong> [date of letter + 60 days] </strong> to avoid more late
+            charges, interest, or collection actions. If you don't pay or make
+            other arrangements with us by this date, we're required by law to
+            refer your debt to the U.S. Department of the Treasury. After we do
+            that, we can't help you manage your debt.
           </p>
           <p>
             We're here at 800-827-0648 (or 1-612-713-6415 from overseas), Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET. [Review payment
-            options](anchor link to how to pay debt section below]
+            through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -184,8 +190,10 @@ export const renderAdditionalInfo = diaryCode => {
           <p>
             <strong>Next step: </strong>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review. [Review payment
-            options](anchor link to how to pay debt section below]
+            payments while we complete our review.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -198,9 +206,12 @@ export const renderAdditionalInfo = diaryCode => {
           </p>
           <p>
             <strong>Next step: </strong>
-            Please pay the amount you offered as a compromise within 30 days of
-            the date in your acceptance letter. [Review payment options](anchor
-            link to how to pay debt section below]
+            Please pay the amount you offered as a compromise within
+            <strong> 30 days </strong>
+            of the date in your acceptance letter.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -214,7 +225,8 @@ export const renderAdditionalInfo = diaryCode => {
           <p>
             <strong>Next step: </strong>
             Please check your debt balance again soon. If it isn't adjusted to
-            reflect your payment within 30 days, call us at 800-827-0648 (or
+            reflect your payment within
+            <strong> 30 days </strong>, call us at 800-827-0648 (or
             1-612-713-6415 from overseas). We’re here Monday through Friday,
             7:30 a.m. to 7:00 p.m. ET.
           </p>
@@ -230,8 +242,10 @@ export const renderAdditionalInfo = diaryCode => {
           <p>
             <strong>Next step: </strong>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review. [Review payment
-            options](anchor link to how to pay debt section below]
+            payments while we complete our review.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -245,8 +259,10 @@ export const renderAdditionalInfo = diaryCode => {
           <p>
             <strong>Next step: </strong>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review. [Review payment
-            options](anchor link to how to pay debt section below]
+            payments while we complete our review.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -260,8 +276,10 @@ export const renderAdditionalInfo = diaryCode => {
           <p>
             <strong>Next step: </strong>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review. [Review payment
-            options](anchor link to how to pay debt section below]
+            payments while we complete our review.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -301,8 +319,10 @@ export const renderAdditionalInfo = diaryCode => {
             <strong>Next step: </strong>
             We'll let you know when we start collecting on this debt again. You
             don't have to do anything until that time. But you can choose to pay
-            part or all of the debt now if you'd like. [Review payment
-            options](anchor link to how to pay debt section below]
+            part or all of the debt now if you'd like.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -345,9 +365,9 @@ export const renderAdditionalInfo = diaryCode => {
             we can't help you manage your debt.
           </p>
           <p>
-            [Pay online now](https://www.pay.va.gov/) Or may a payment by phone
-            at 800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            <a href="https://www.pay.va.gov/">Pay online now</a> Or may a
+            payment by phone at 800-827-0648 (or 1-612-713-6415 from overseas).
+            We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         </div>
       );
@@ -366,8 +386,10 @@ export const renderAdditionalInfo = diaryCode => {
             Please pay now or contact us about payment options by [date] to
             avoid late charges, interest, or collection actions. We're here at
             800-827-0648 (or 1-612-713-6415 from overseas), Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET. [Review payment options](anchor
-            link to how to pay debt section below]
+            Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -414,10 +436,11 @@ export const renderAdditionalInfo = diaryCode => {
           </p>
           <p>
             <strong>Next step: </strong>
-            Please check back in 30 days for updates. If your account shows the
-            same information then, call us at 800-827-0648 (or 1-612-713-6415
-            from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00
-            p.m. ET.
+            Please check back in
+            <strong> 30 days </strong>
+            for updates. If your account shows the same information then, call
+            us at 800-827-0648 (or 1-612-713-6415 from overseas). We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         </div>
       );
@@ -488,8 +511,10 @@ export const renderAdditionalInfo = diaryCode => {
             Please pay the amount you agreed to in your monthly payment plan. Or
             call us at 800-827-0648 (or 1-612-713-6415 from overseas) to talk
             about other payment options. We're here Monday through Friday, 7:30
-            a.m. to 7:00 p.m. ET. [Review payment options](anchor link to how to
-            pay debt section below]
+            a.m. to 7:00 p.m. ET.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -506,12 +531,16 @@ export const renderAdditionalInfo = diaryCode => {
             <strong>Next step: </strong>
             Please send us your completed Financial Status Report (VA Form 5655)
             now so we can make a decision on your waiver, compromise, or
-            extended monthly payment plan request. [Download VA Form 5655 (PDF)
-            (https://www.va.gov/debtman/Financial_Status_Report.asp)
+            extended monthly payment plan request.{' '}
+            <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+              Download VA Form 5655 (PDF)
+            </a>
           </p>
           <p>
-            If you need help with the form, read our [frequently asked
-            questions](https://www.va.gov/DEBTMAN/Most_Frequently_Asked_Questions.asp)
+            If you need help with the form, read our{' '}
+            <a href="https://www.va.gov/DEBTMAN/Most_Frequently_Asked_Questions.asp">
+              frequently asked questions
+            </a>{' '}
             or call us at 800-827-0648 (or 1-612-713-6415 from overseas). We’re
             here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
@@ -528,11 +557,14 @@ export const renderAdditionalInfo = diaryCode => {
           </p>
           <p>
             <strong>Next step: </strong>
-            Please pay now or contact us about payment options by [date of
-            letter + 30 days] to avoid late charges, interest, or collection
-            actions. We're here at 800-827-0648 (or 1-612-713-6415 from
-            overseas), Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. [Review
-            payment options](anchor link to how to pay debt section below]
+            Please pay now or contact us about payment options by
+            <strong> [date of letter + 30 days] </strong>
+            to avoid late charges, interest, or collection actions. We're here
+            at 800-827-0648 (or 1-612-713-6415 from overseas), Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
@@ -551,8 +583,10 @@ export const renderAdditionalInfo = diaryCode => {
           <p>
             <strong>Next step: </strong>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review. [Review payment
-            options](anchor link to how to pay debt section below]
+            payments while we complete our review.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
           </p>
         </div>
       );
