@@ -109,14 +109,16 @@ class VAPEditModalActionButtons extends React.Component {
     if (this.state.deleteInitiated) {
       return (
         <AlertBox
-          isVisible
-          status="warning"
+          content={alertContent}
           headline={
             <span tabIndex="-1" id="deleteConfirmationHeading">
               Are you sure?
             </span>
           }
-          content={alertContent}
+          isVisible
+          scrollOnShow
+          scrollPosition="end"
+          status="warning"
         />
       );
     }
