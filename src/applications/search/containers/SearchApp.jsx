@@ -338,16 +338,29 @@ class SearchApp extends React.Component {
               </li>
               <li>
                 <a
-                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms"
+                  href="/find-forms/"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path': 'More VA Search Tools -> Find a VA form',
+                    })
+                  }
+                >
+                  Find a VA form
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.va.gov/vapubs/"
                   onClick={() =>
                     recordEvent({
                       event: 'nav-searchresults',
                       'nav-path':
-                        'More VA Search Tools -> Find VA forms and publications',
+                        'More VA Search Tools -> VA handbooks and other publications',
                     })
                   }
                 >
-                  Find VA forms and publications
+                  VA handbooks and other publications
                 </a>
               </li>
               <li>
