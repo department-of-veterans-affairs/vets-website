@@ -83,7 +83,7 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran Information',
           uiSchema: veteranInformationPage.uiSchema,
-          schema: veteranInformationPage.schema
+          schema: veteranInformationPage.schema,
         },
       },
     },
