@@ -11,7 +11,7 @@ import ViewPaymentsLists from '../../../components/view-payments-lists/ViewPayme
 
 import { payments } from '../../helpers';
 
-describe('View Payments Lists', () => {
+describe.skip('View Payments Lists', () => {
   it('renders View Payments Lists component', async () => {
     const getAllPayments = sinon.spy();
     const wrapper = render(
