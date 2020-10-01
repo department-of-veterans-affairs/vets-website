@@ -10,7 +10,7 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function ThrottledError(props) {
-  const { appType, when, formConfig, onBack, onSubmit, testId } = props;
+  const { buttonText, when, formConfig, onBack, onSubmit, testId } = props;
 
   return (
     <>
@@ -34,7 +34,7 @@ export default function ThrottledError(props) {
         <Column classNames="small-6 medium-5">
           <ProgressButton
             onButtonClick={onSubmit}
-            buttonText={`Submit ${appType}`}
+            buttonText={buttonText}
             buttonClass="usa-button-primary"
           />
         </Column>
@@ -47,7 +47,7 @@ export default function ThrottledError(props) {
 }
 
 ThrottledError.propTypes = {
-  appType: PropTypes.string,
+  buttonText: PropTypes.string,
   formConfig: PropTypes.object,
   when: PropTypes.object,
   onBack: PropTypes.func,
