@@ -253,7 +253,7 @@ module.exports = env => {
 
           return isOptimizedBuild
             ? `[name].[contenthash]-${timestamp}.css`
-            : `[name].css}`;
+            : `[name].css`;
         },
       }),
 
