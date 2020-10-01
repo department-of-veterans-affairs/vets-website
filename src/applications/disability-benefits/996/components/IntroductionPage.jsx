@@ -139,7 +139,7 @@ export class IntroductionPage extends React.Component {
               If a Veteran or their representative wants to dispute a decision
               they received on a claim, they can file a Higher-Level Review.
               When you request a Higher-Level Review, you’re asking to have a
-              more senior, experience reviewer take a look at your case and the
+              more senior, experienced reviewer take a look at your case and the
               evidence you already provided. This more senior person will
               determine whether the decision can be changed based on a
               difference of opinion or a VA error.
@@ -200,7 +200,7 @@ export class IntroductionPage extends React.Component {
                   </p>
                   <p>
                     A Veterans Service Organization or VA-accredited attorney or
-                    agen can also help you request a decision review.
+                    agent can also help you request a decision review.
                   </p>
                   <a href="/decision-reviews/get-help-with-review-request">
                     Get help requesting a decision review
