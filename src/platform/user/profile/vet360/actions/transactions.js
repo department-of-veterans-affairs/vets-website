@@ -158,7 +158,9 @@ export function createTransaction(
         method,
       });
 
-      const transaction = await localVet360.createEmailTransactionFailure();
+      const transaction = isVet360Configured()
+        ? await apiRequest(route, options)
+        : await localVet360.createTransaction();
 
       // We want the validateAddresses method handling dataLayer events for saving / updating addresses.
       if (!fieldName.toLowerCase().includes('address')) {
