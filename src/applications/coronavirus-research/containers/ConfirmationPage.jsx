@@ -61,7 +61,7 @@ export class ConfirmationPage extends React.Component {
           </p>
           <p>
             <a href="coronavirus-research/">
-            Learn more about volunteering for coronavirus research at VA
+              Learn more about volunteering for coronavirus research at VA
             </a>
           </p>
         </div>
