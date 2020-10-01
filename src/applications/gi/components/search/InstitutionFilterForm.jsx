@@ -28,7 +28,6 @@ class InstitutionFilterForm extends React.Component {
       onChange={this.handleDropdownChange}
       handleInputFocus={this.props.handleInputFocus}
       displayAllOption
-      gibctFilterEnhancement={this.props.gibctFilterEnhancement}
     />
   );
 

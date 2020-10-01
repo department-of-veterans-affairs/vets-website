@@ -47,9 +47,13 @@ function InstitutionSearchForm({
   }
 
   const header = gibctFilterEnhancement ? 'Refine search' : 'Keywords';
-  const keywordSearchLabel = gibctFilterEnhancement
+  let keywordSearchLabel = gibctFilterEnhancement
     ? 'Enter a school, location, or employer name'
     : 'City, school, or employer';
+  // prod flag for story BAH-13929
+  if (!environment.isProduction()) {
+    keywordSearchLabel = 'Enter a school, employer name, city, or zip code';
+  }
 
   return (
     <div className="row">
