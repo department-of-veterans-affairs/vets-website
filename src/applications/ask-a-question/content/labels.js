@@ -27,9 +27,9 @@ export const branchOfServiceTitle = 'Branch of service';
 
 /* Additional Veteran Information */
 export const dateOfBirthTitle = 'Date of Birth';
-export const socialSecurityNumberTitle = 'Social Security number (no hyphens)';
+export const socialSecurityNumberTitle = 'Social Security number';
 export const serviceStartDateTitle = 'Service start date';
-export const claimNumberTitle = 'Claim number (other than SSN)';
+export const claimNumberTitle = 'Claim number';
 export const serviceEndDateTitle = 'Service end date';
 export const serviceNumberTitle = 'Service number';
 

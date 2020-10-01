@@ -1,17 +1,18 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+
 import {
   claimNumberTitle,
   claimNumberPatternErrorMessage,
   serviceNumberTitle,
   serviceNumberPatternErrorMessage,
   socialSecurityNumberTitle,
-  socialSecurityNumberPatternErrorMessage,
   dateOfBirthTitle,
   serviceStartDateTitle,
   serviceEndDateTitle,
   serviceDateRangeErrorMessage,
 } from '../../content/labels';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 
 const formFields = {
   dateOfBirth: 'dateOfBirth',
@@ -26,10 +27,8 @@ export const veteranInformationUI = {
     ...currentOrPastDateUI(dateOfBirthTitle),
   },
   [formFields.socialSecurityNumber]: {
+    ...ssnUI,
     'ui:title': socialSecurityNumberTitle,
-    'ui:errorMessages': {
-      pattern: socialSecurityNumberPatternErrorMessage,
-    },
   },
   [formFields.serviceNumber]: {
     'ui:title': serviceNumberTitle,
