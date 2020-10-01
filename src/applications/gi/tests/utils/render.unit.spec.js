@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import {
   renderCautionAlert,
   renderSchoolClosingAlert,
