@@ -249,11 +249,11 @@ module.exports = env => {
           const isStaging =
             buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING;
 
-          if (isMedalliaStyleFile && isStaging) return `${name}.css`;
+          if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
           return isOptimizedBuild
-            ? `${name}.[contenthash]-${timestamp}.css`
-            : `${name.css}`;
+            ? `[name].[contenthash]-${timestamp}.css`
+            : `[name].css}`;
         },
       }),
 
