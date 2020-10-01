@@ -87,6 +87,7 @@ export const resolveParamsWithUrl = (
         : null,
       `page=${page}`,
       `per_page=${perPage}`,
+      facility === LocationType.VET_CENTER ? `mobile=true` : null,
       url === api.ccUrl ? `trim=true` : null,
     ]).join('&'),
   };

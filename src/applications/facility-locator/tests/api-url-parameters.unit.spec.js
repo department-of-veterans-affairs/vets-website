@@ -176,4 +176,20 @@ describe('Locator url and parameters builder', () => {
       'https://dev-api.va.gov/v1/facilities/ccp?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=provider&specialties[]=122300000X&page=1&per_page=10&trim=true',
     );
   });
+
+  /**
+   * Vet Centers
+   */
+  it('With facilityType vet_center Should build a va facilities request', () => {
+    const result = resolveParamsWithUrl(null, 'vet_center', null, page, [
+      -98.45,
+      29.59,
+      -96.95,
+      31.09,
+    ]);
+    const test = `${result.url}?${result.params}`;
+    expect(test).to.eql(
+      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=vet_center&page=1&per_page=20&mobile=true',
+    );
+  });
 });
