@@ -1,65 +1,43 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { hasSession } from 'platform/user/profile/utilities';
+import { claimantInformation } from '../../utilities';
 
-export const schema = {
-  type: 'object',
-  properties: {
-    firstName: {
-      type: 'string',
-      maxLength: 100,
-    },
-    middleName: {
-      type: 'string',
-      maxLength: 100,
-    },
-    lastName: {
-      type: 'string',
-      maxLength: 100,
-    },
-    suffix: {
-      type: 'string',
-      enum: ['Jr', 'Sr'],
-    },
-    ssn: {
-      type: 'string',
-    },
-    vaFileNumber: {
-      type: 'string',
-    },
-    dateOfBirth: {
-      pattern:
-        '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-      type: 'string',
-    },
-  },
-};
+export const schema = claimantInformation;
 
 export const uiSchema = {
-  firstName: {
-    'ui:title': 'First name',
-    'ui:required': () => !hasSession(),
-  },
-  middleName: {
-    'ui:title': 'Middle name',
-  },
-  lastName: {
-    'ui:title': 'Last name',
-    'ui:required': () => !hasSession(),
-  },
-  suffix: {
-    'ui:title': 'Suffix',
-    'ui:options': {
-      widgetClassNames: 'usa-input-medium',
+  fullName: {
+    first: {
+      'ui:title': 'First name',
+      'ui:required': () => !hasSession(),
+    },
+    middle: {
+      'ui:title': 'Middle name',
+    },
+    last: {
+      'ui:title': 'Last name',
+      'ui:required': () => !hasSession(),
+    },
+    suffix: {
+      'ui:title': 'Suffix',
+      'ui:options': {
+        widgetClassNames: 'usa-input-medium',
+      },
     },
   },
   ssn: {
     ...ssnUI,
     'ui:required': () => !hasSession(),
   },
-  vaFileNumber: {
-    'ui:title': 'Your VA file number (if known)',
+  VAFileNumber: {
+    'ui:title': (
+      <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
+        Your VA file number{' '}
+        <span className="schemaform-required-span">(*If known)</span>
+      </p>
+    ),
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },

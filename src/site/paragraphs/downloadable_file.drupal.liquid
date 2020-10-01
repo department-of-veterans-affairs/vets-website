@@ -25,7 +25,7 @@
 
         {% assign url = entity.fieldMedia.entity.image.url %}
 
-        <a aria-label="Download {{entity.fieldMedia.entity.image.alt}}" class="file-download-with-icon" target="_blank"
+        <a aria-label="Download {{entity.fieldTitle}}" class="file-download-with-icon" target="_blank"
            href="{{url}}" download="{{url}}">
             <i class="fas fa-download vads-u-margin--0p5"></i>{{entity.fieldTitle}} ({{url | fileExt | upcase}})
         </a>
@@ -33,7 +33,7 @@
 
     {% if entity.fieldMedia.entity.entityBundle == 'document' %}
         {% assign url = entity.fieldMedia.entity.fieldDocument.entity.url %}
-        <a aria-label="Download {{entity.fieldMedia.entity.fieldDocument.filename}}" class="file-download-with-icon" target="_blank"
+        <a aria-label="Download {{entity.fieldTitle}}" class="file-download-with-icon" target="_blank"
            href="{{url}}" download="{{url}}">
             <i class="fas fa-download vads-u-margin--0p5"></i>{{entity.fieldTitle}} ({{url | fileExt | upcase}})
         </a>

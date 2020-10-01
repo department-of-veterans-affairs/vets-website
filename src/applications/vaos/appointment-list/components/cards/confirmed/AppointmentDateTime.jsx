@@ -8,6 +8,7 @@ export default function AppointmentDateTime({
   appointmentDate,
   timezone,
   facilityId,
+  twoLineFormat,
 }) {
   if (!appointmentDate.isValid()) {
     return null;
@@ -15,7 +16,15 @@ export default function AppointmentDateTime({
 
   return (
     <>
-      {appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}{' '}
+      {!twoLineFormat && (
+        <>{appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')} </>
+      )}
+      {twoLineFormat && (
+        <>
+          {appointmentDate.format('dddd, MMMM D, YYYY')} <br />
+          {appointmentDate.format('h:mm a')}{' '}
+        </>
+      )}
       <span aria-hidden="true">
         {getAppointmentTimezoneAbbreviation(timezone, facilityId)}
       </span>

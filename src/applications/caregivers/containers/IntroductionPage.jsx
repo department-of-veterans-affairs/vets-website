@@ -42,17 +42,40 @@ const IntroductionPage = ({ route, router }) => {
             </p>
 
             <ul className="process-lists">
-              <li>Address</li>
-              <li>Telephone number</li>
-              <li>Date of birth</li>
-              <li>Social Security number or Tax identification number</li>
-            </ul>
-
-            <p>You’ll need:</p>
-            <ul className="process-lists">
+              <li>
+                The address, telephone number, and date of birth for the Veteran
+                and each family caregiver applicant
+              </li>
               <li>The VA medical center where the Veteran will receive care</li>
               <li>
                 Health insurance information for the Primary Family Caregiver
+              </li>
+
+              <li className="call-to-action-bullet">
+                The Veteran&apos;s Social Security number or tax identification
+                number (This is required for the online application only.) If
+                you’d like to apply without providing this information, you can
+                download the paper form
+                <p className="vads-u-margin-top--2">
+                  <a
+                    href="https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf"
+                    download="10-10CG.pdf"
+                    type="application/pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="fas fa-download vads-u-padding-right--1"
+                      role="img"
+                    />
+                    Download VA form 10-10CG
+                    <dfn className="vads-u-margin-left--0p5">
+                      <abbr title="Portable Document Format">(PDF)</abbr> (934
+                      <abbr title="Kilobytes">KB</abbr>)
+                    </dfn>
+                  </a>
+                </p>
               </li>
             </ul>
 
@@ -70,7 +93,7 @@ const IntroductionPage = ({ route, router }) => {
                 <li>
                   Call us at
                   <Telephone
-                    contact={CONTACTS['222_VETS']}
+                    contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
                     className="vads-u-margin-x--0p5"
                   />
                   and ask for help filling out the form
@@ -88,21 +111,11 @@ const IntroductionPage = ({ route, router }) => {
                   to find a coordinator at your nearest VA health care facility
                 </li>
                 <li>
-                  Contact the National Caregiver Support Line at
+                  Contact the VA National Caregiver Support Line by calling
                   <Telephone
                     className="vads-u-margin-x--0p5"
                     contact={CONTACTS.CAREGIVER}
                   />
-                  or a
-                  <a
-                    className="vads-u-margin-x--0p5"
-                    href="https://www.va.gov/disability/get-help-filing-claim/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Veterans Service Organization
-                  </a>
-                  to get help filling out the form
                 </li>
               </ul>
 
@@ -128,9 +141,9 @@ const IntroductionPage = ({ route, router }) => {
             </p>
 
             <p>
-              <b>Note:</b> If the Veteran isn’t enrolled in VA health care or is
-              currently on active duty with a medical discharge, they’ll need to
-              fill out an
+              <strong>Note:</strong> If the Veteran isn’t enrolled in VA health
+              care or is currently on active duty with a medical discharge,
+              they’ll need to fill out an
               <a
                 rel="noopener noreferrer"
                 target="_blank"
@@ -153,9 +166,16 @@ const IntroductionPage = ({ route, router }) => {
             </p>
 
             <p>
-              If you aren’t eligible for PCAFC you may be eligible for the
-              Program of General Caregiver Support Services (PGCSS). To find out
-              more, contact VA’s Caregiver Support Line at
+              If you aren’t eligible for PCAFC you have the right to appeal. You
+              can contact the patient advocate at your local VA medical center
+              to discuss the appeal process. Your Caregiver Support Coordinator
+              is also available if you have additional questions.
+            </p>
+
+            <p>
+              You may also be eligible for the Program of General Caregiver
+              Support Services (PGCSS). To find out more, call the VA Caregiver
+              Support Line at
               <Telephone
                 contact={CONTACTS.CAREGIVER}
                 className="vads-u-margin-left--0p5"
@@ -165,11 +185,11 @@ const IntroductionPage = ({ route, router }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={links.caregiverHelpPage.link}
-                className="vads-u-margin-x--0p5"
+                className="vads-u-margin-left--0p5"
               >
                 www.caregiver.va.gov
               </a>
-              ,or discuss these options with your local Caregiver Support
+              , or discuss your options with your local Caregiver Support
               Coordinator.
             </p>
           </li>
@@ -192,16 +212,6 @@ const IntroductionPage = ({ route, router }) => {
         health and wellness of Veterans.
       </p>
 
-      <a
-        href={links.caregiverHelpPage.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="vads-u-margin-x--0p5"
-      >
-        Learn more about the Program of Comprehensive Assistance for Family
-        Caregivers (PCAFC)
-      </a>
-
       <button
         style={{ display: 'inherit ' }}
         className="usa-button vads-u-margin-y--3"
@@ -217,7 +227,7 @@ const IntroductionPage = ({ route, router }) => {
         Start your application
       </button>
       <div className="omb-info--container vads-u-padding-left--0">
-        <OMBInfo resBurden={15} ombNumber="2900-0091" expDate="09/30/2021" />
+        <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="09/30/2021" />
       </div>
     </div>
   );

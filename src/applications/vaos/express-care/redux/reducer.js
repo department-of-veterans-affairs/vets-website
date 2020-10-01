@@ -28,6 +28,7 @@ const initialState = {
     data: {},
     pages: {},
     pageChangeInProgress: false,
+    previousPages: {},
     facilityId: null,
     siteId: null,
     isUnderRequestLimit: null,
@@ -95,20 +96,45 @@ export default function expressCareReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
+      let updatedPreviousPages = state.newRequest.previousPages;
+      if (!Object.keys(updatedPreviousPages).length) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKey]: 'home',
+        };
+      }
       return {
         ...state,
         newRequest: {
           ...state.newRequest,
           pageChangeInProgress: true,
+          previousPages: updatedPreviousPages,
         },
       };
     }
     case FORM_PAGE_CHANGE_COMPLETED: {
+      let updatedPreviousPages = state.newRequest.previousPages;
+      if (!Object.keys(updatedPreviousPages).length) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKey]: 'home',
+        };
+      }
+      if (
+        action.direction === 'next' &&
+        action.pageKey !== action.pageKeyNext
+      ) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKeyNext]: action.pageKey,
+        };
+      }
       return {
         ...state,
         newRequest: {
           ...state.newRequest,
           pageChangeInProgress: false,
+          previousPages: updatedPreviousPages,
         },
       };
     }

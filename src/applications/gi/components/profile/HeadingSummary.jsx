@@ -120,6 +120,10 @@ class HeadingSummary extends React.Component {
                 <ScorecardTags
                   styling={'info-flag'}
                   it={this.props.institution}
+                  menOnly={this.props.institution.menOnly}
+                  womenOnly={this.props.institution.womenOnly}
+                  hbcu={this.props.institution.hbcu}
+                  relAffil={this.props.institution.relAffil}
                 />
               </div>
             </div>

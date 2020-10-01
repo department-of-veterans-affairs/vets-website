@@ -21,7 +21,7 @@ const SubmitError = ({ form }) => {
         </p>
 
         <div>
-          <b className="vads-u-font-size--h5">What you can do now</b>
+          <strong className="vads-u-font-size--h5">What you can do now</strong>
 
           <p>
             Please review your application to make sure you entered your
@@ -34,9 +34,9 @@ const SubmitError = ({ form }) => {
           <p>Mail your application to:</p>
 
           <p className="va-address-block vads-u-margin-bottom--2 vads-u-margin-x--0 vads-u-font-size--h4">
-            <b className="vads-u-font-size--h5">
+            <strong className="vads-u-font-size--h5">
               Program of Comprehensive Assistance for Family Caregivers
-            </b>
+            </strong>
             <br />
             Health Eligibility Center <br />
             2957 Clairmont Road NE, Ste 200 <br />

@@ -8,7 +8,8 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { getEligibilityChecks } from '../../utils/eligibility';
+import { getParentOfLocation } from '../../services/location';
+import { getEligibilityChecks, isEligible } from '../../utils/eligibility';
 
 import {
   FORM_DATA_UPDATED,
@@ -18,12 +19,17 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+  FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+  FORM_FETCH_PARENT_FACILITIES,
+  FORM_FETCH_PARENT_FACILITIES_SUCCEEDED,
+  FORM_FETCH_PARENT_FACILITIES_FAILED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES_FAILED,
@@ -32,6 +38,7 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
+  FORM_HIDE_ELIGIBILITY_MODAL,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
@@ -77,6 +84,7 @@ const initialState = {
   parentFacilities: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
+  previousPages: {},
   childFacilitiesStatus: FETCH_STATUS.notStarted,
   parentFacilitiesStatus: FETCH_STATUS.notStarted,
   eligibilityStatus: FETCH_STATUS.notStarted,
@@ -196,15 +204,40 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
+      let updatedPreviousPages = state.previousPages;
+      if (!Object.keys(updatedPreviousPages).length) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKey]: 'home',
+        };
+      }
       return {
         ...state,
         pageChangeInProgress: true,
+        previousPages: updatedPreviousPages,
       };
     }
     case FORM_PAGE_CHANGE_COMPLETED: {
+      let updatedPreviousPages = state.previousPages;
+      if (!Object.keys(updatedPreviousPages).length) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKey]: 'home',
+        };
+      }
+      if (
+        action.direction === 'next' &&
+        action.pageKey !== action.pageKeyNext
+      ) {
+        updatedPreviousPages = {
+          ...updatedPreviousPages,
+          [action.pageKeyNext]: action.pageKey,
+        };
+      }
       return {
         ...state,
         pageChangeInProgress: false,
+        previousPages: updatedPreviousPages,
       };
     }
     case FORM_TYPE_OF_CARE_PAGE_OPENED: {
@@ -271,6 +304,79 @@ export default function formReducer(state = initialState, action) {
         data: { ...state.data, facilityType: action.facilityType },
       };
     }
+    case FORM_FETCH_PARENT_FACILITIES: {
+      return {
+        ...state,
+        parentFacilitiesStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_FETCH_PARENT_FACILITIES_SUCCEEDED: {
+      return {
+        ...state,
+        parentFacilitiesStatus: FETCH_STATUS.succeeded,
+        parentFacilities: action.parentFacilities,
+      };
+    }
+    case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
+      let newSchema = action.schema;
+      let newData = state.data;
+      const typeOfCareId = action.typeOfCareId;
+
+      const parentFacilities =
+        action.parentFacilities || state.parentFacilities;
+      let locations = action.locations || state.facilities[typeOfCareId] || [];
+
+      locations = locations.sort((a, b) => {
+        return a.name < b.name ? -1 : 1;
+      });
+
+      if (action.parentFacilities.length === 1 || !locations.length) {
+        newData = {
+          ...newData,
+          vaParent: parentFacilities[0]?.id,
+        };
+      }
+
+      if (locations.length === 1) {
+        const selectedFacility = locations[0];
+        newData = {
+          ...newData,
+          vaFacility: selectedFacility.id,
+          vaParent: getParentOfLocation(parentFacilities, selectedFacility)?.id,
+        };
+      } else {
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: locations.map(facility => facility.id),
+            enumNames: locations,
+          },
+          newSchema,
+        );
+      }
+
+      const { data, schema } = setupFormData(
+        newData,
+        newSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          vaFacilityV2: schema,
+        },
+        schema,
+        facilities: {
+          ...state.facilities,
+          [typeOfCareId]: locations,
+        },
+        childFacilitiesStatus: FETCH_STATUS.succeeded,
+      };
+    }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
@@ -282,7 +388,7 @@ export default function formReducer(state = initialState, action) {
       // If we only have one, then we want to just set the value in the
       // form data and remove the schema for that field, so we don't
       // show the question to the user
-      if (parentFacilities.length > 1) {
+      if (parentFacilities.length > 1 || action.isCernerOnly) {
         newSchema = set(
           'properties.vaParent.enum',
           parentFacilities.map(sys => sys.id),
@@ -293,6 +399,12 @@ export default function formReducer(state = initialState, action) {
           parentFacilities.map(sys => sys.name),
           newSchema,
         );
+
+        // Remove validation so that Cerner only patients can click
+        // on the Continue button and go to the Cerner portal
+        if (action.isCernerOnly) {
+          delete newSchema.required;
+        }
       } else {
         newSchema = unset('properties.vaParent', newSchema);
         newData = {
@@ -361,6 +473,7 @@ export default function formReducer(state = initialState, action) {
         pastAppointments,
       };
     }
+    case FORM_FETCH_PARENT_FACILITIES_FAILED:
     case FORM_PAGE_FACILITY_OPEN_FAILED: {
       return {
         ...state,
@@ -415,6 +528,7 @@ export default function formReducer(state = initialState, action) {
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
+    case FORM_PAGE_FACILITY_V2_OPEN_FAILED:
     case FORM_FETCH_CHILD_FACILITIES_FAILED: {
       const pages = unset(
         'vaFacility.properties.vaFacilityLoading',
@@ -455,6 +569,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         ccEnabledSystems: action.ccEnabledSystems,
         parentFacilities: action.parentFacilities,
+        parentFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
     case FORM_ELIGIBILITY_CHECKS: {
@@ -465,6 +580,8 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(action.eligibilityData);
+      const canSchedule = isEligible(eligibility);
+
       let clinics = state.clinics;
 
       if (!action.eligibilityData.clinics?.directFailed) {
@@ -484,12 +601,19 @@ export default function formReducer(state = initialState, action) {
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,
+        showEligibilityModal: !canSchedule.direct && !canSchedule.request,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
       return {
         ...state,
         eligibilityStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_HIDE_ELIGIBILITY_MODAL: {
+      return {
+        ...state,
+        showEligibilityModal: false,
       };
     }
     case START_DIRECT_SCHEDULE_FLOW:

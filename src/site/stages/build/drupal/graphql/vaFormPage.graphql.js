@@ -4,6 +4,7 @@ const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const fragment = `
 fragment vaFormPage on NodeVaForm {
   ${entityElementsFromPages}
+  changed
   fieldVaFormName
   fieldVaFormTitle
   fieldVaFormType

@@ -3,29 +3,31 @@ import LandingPage from './containers/LandingPage';
 import SearchPage from './containers/SearchPage';
 import VetTecSearchPage from './containers/VetTecSearchPage';
 import ProfilePage from './containers/ProfilePage';
+import { Route, Switch } from 'react-router-dom';
+import React from 'react';
 
-const legacyRoutes = {
-  path: 'institutions',
-  childRoutes: [
-    { path: 'search', component: SearchPage },
-    { path: 'profile', component: ProfilePage },
-  ],
+export const buildRoutes = () => {
+  return (
+    <GiBillApp>
+      <Switch>
+        <Route
+          path="/search"
+          render={({ match }) => <SearchPage match={match} />}
+        />
+        <Route
+          path="/program-search"
+          render={({ match }) => <VetTecSearchPage match={match} />}
+        />
+        <Route
+          path="/profile/:facilityCode/:preSelectedProgram"
+          render={({ match }) => <ProfilePage match={match} />}
+        />
+        <Route
+          path="/profile/:facilityCode"
+          render={({ match }) => <ProfilePage match={match} />}
+        />
+        <Route path="/" render={({ match }) => <LandingPage match={match} />} />
+      </Switch>
+    </GiBillApp>
+  );
 };
-
-const routes = {
-  path: '/',
-  component: GiBillApp,
-  indexRoute: { component: LandingPage },
-  childRoutes: [
-    { path: 'search', component: SearchPage },
-    { path: 'program-search', component: VetTecSearchPage },
-    { path: 'profile/:facilityCode', component: ProfilePage },
-    {
-      path: 'profile/:facilityCode/:preSelectedProgram',
-      component: ProfilePage,
-    },
-    { ...legacyRoutes },
-  ],
-};
-
-export default routes;

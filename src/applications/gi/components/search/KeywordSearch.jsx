@@ -45,8 +45,7 @@ export class KeywordSearch extends React.Component {
   };
 
   handleFetchSuggestion({ value }) {
-    const { version } = this.props.location.query;
-    this.props.onFetchAutocompleteSuggestions(value, version);
+    this.props.onFetchAutocompleteSuggestions(value, this.props.version);
   }
 
   handleSuggestionSelected = searchQuery => {
@@ -160,6 +159,7 @@ KeywordSearch.defaultProps = {
 
 KeywordSearch.propTypes = {
   label: PropTypes.string,
+  version: PropTypes.string,
   onClearAutocompleteSuggestions: PropTypes.func,
   onFetchAutocompleteSuggestions: PropTypes.func,
   onFilterChange: PropTypes.func,

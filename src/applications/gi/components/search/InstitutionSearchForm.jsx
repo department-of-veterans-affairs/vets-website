@@ -10,7 +10,24 @@ import {
 } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
 
-function InstitutionSearchForm(props) {
+function InstitutionSearchForm({
+  autocomplete,
+  clearAutocompleteSuggestions,
+  eligibility,
+  eligibilityChange,
+  fetchAutocompleteSuggestions,
+  filters,
+  filtersClass,
+  gibctFilterEnhancement,
+  handleFilterChange,
+  hideModal,
+  location,
+  search,
+  searchResults,
+  showModal,
+  toggleFilter,
+  updateAutocompleteSearchTerm,
+}) {
   function handleInstitutionSearchInputFocus(fieldId) {
     // prod flag for bah-8821
     if (environment.isProduction() && isMobileView()) {
@@ -29,58 +46,62 @@ function InstitutionSearchForm(props) {
     }
   }
 
-  const header = props.gibctFilterEnhancement ? 'Refine search' : 'Keywords';
-  const keywordSearchLabel = props.gibctFilterEnhancement
+  const header = gibctFilterEnhancement ? 'Refine search' : 'Keywords';
+  const keywordSearchLabel = gibctFilterEnhancement
     ? 'Enter a school, location, or employer name'
     : 'City, school, or employer';
 
   return (
     <div className="row">
-      <div id="institution-search" className={props.filtersClass}>
+      <div id="institution-search" className={filtersClass}>
         <div className="filters-sidebar-inner vads-u-margin-left--1p5">
-          {props.search.filterOpened && <h1>Filter your search</h1>}
+          {search.filterOpened && <h1>Filter your search</h1>}
           <h2>{header}</h2>
           <KeywordSearch
-            autocomplete={props.autocomplete}
+            autocomplete={autocomplete}
             label={keywordSearchLabel}
-            location={props.location}
-            onClearAutocompleteSuggestions={props.clearAutocompleteSuggestions}
-            onFetchAutocompleteSuggestions={props.fetchAutocompleteSuggestions}
-            onFilterChange={props.handleFilterChange}
-            onUpdateAutocompleteSearchTerm={props.updateAutocompleteSearchTerm}
+            location={location}
+            onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
+            onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
+            onFilterChange={handleFilterChange}
+            onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
           />
           <InstitutionFilterForm
-            search={props.search}
-            filters={props.filters}
-            handleFilterChange={props.handleFilterChange}
-            showModal={props.showModal}
+            search={search}
+            filters={filters}
+            handleFilterChange={handleFilterChange}
+            showModal={showModal}
             handleInputFocus={handleInstitutionSearchInputFocus}
-            gibctFilterEnhancement={props.gibctFilterEnhancement}
+            gibctFilterEnhancement={gibctFilterEnhancement}
           />
           <BenefitsForm
-            eligibilityChange={props.eligibilityChange}
-            {...props.eligibility}
-            hideModal={props.hideModal}
-            showModal={props.showModal}
+            eligibilityChange={eligibilityChange}
+            {...eligibility}
+            hideModal={hideModal}
+            showModal={showModal}
             showHeader
             handleInputFocus={handleInstitutionSearchInputFocus}
-            gibctBenefitFilterEnhancement={props.gibctBenefitFilterEnhancement}
+            gibctFilterEnhancement={gibctFilterEnhancement}
           />
           <OnlineClassesFilter
-            onlineClasses={props.eligibility.onlineClasses}
-            onChange={props.eligibilityChange}
-            showModal={props.showModal}
+            onlineClasses={eligibility.onlineClasses}
+            onChange={eligibilityChange}
+            showModal={showModal}
             handleInputFocus={handleInstitutionSearchInputFocus}
-            gibctBenefitFilterEnhancement={props.gibctBenefitFilterEnhancement}
+            gibctFilterEnhancement={gibctFilterEnhancement}
           />
         </div>
         <div id="see-results-button" className="results-button">
-          <button className="usa-button" onClick={props.toggleFilter}>
+          <button
+            className="usa-button"
+            data-cy="see-results"
+            onClick={toggleFilter}
+          >
             See Results
           </button>
         </div>
       </div>
-      {props.searchResults}
+      {searchResults}
     </div>
   );
 }

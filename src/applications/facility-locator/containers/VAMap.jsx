@@ -25,7 +25,9 @@ import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import {
   facilitiesPpmsSuppressPharmacies,
   facilitiesPpmsSuppressCommunityCare,
+  facilityLocatorPredictiveLocationSearch,
 } from '../utils/selectors';
+import { recordMarkerEvents, recordZoomPanEvents } from '../utils/analytics';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
@@ -62,7 +64,7 @@ class VAMap extends Component {
   };
 
   componentDidMount() {
-    const { location, currentQuery } = this.props;
+    const { location, currentQuery, usePredictiveGeolocation } = this.props;
     const { facilityType } = currentQuery;
 
     window.addEventListener('resize', this.debouncedResize);
@@ -84,6 +86,7 @@ class VAMap extends Component {
       this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
+        usePredictiveGeolocation,
       });
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(currentPosition => {
@@ -123,38 +126,6 @@ class VAMap extends Component {
       resultsPage = 1;
     }
 
-    /*
-      Notes:
-
-      Going to need a couple new flags in the Redux store to properly
-      track state of the app. For example, a flag to know when Mapbox API
-      requests are done as all they do is update the Redux store, but intuiting
-      whether or not the data in the fields that were updated represents a valid
-      state for triggering a new search is ambiguous at best nor should we simply
-      fire off a new search each time something changes in Redux.
-
-      New Flag Ideas:
-        - geocodeInProgress
-        - revGeocodeInProgress - should be a separate flag as both operations happen
-        - searchRequested - To track that the user clicked the search button
-          (could have used inProgress but it gets tripped by other Actions)
-        -
-
-      The boundary checking of the current code below doesn't actually work.
-      Array equality isn't something that should be done with the operator,
-      and using the new method below causes `searchWithBounds` to never fire.
-      Goes in line with needing clearer ideas of what state of the app ==
-      when to fire off a new search, zoom out, or even just do nothing.
-
-      Near as I can tell this.zoomOut.cancel() does nothing.
-
-      Future testing to fix excessive searches being fired:
-    // If we're not searching but the flag to request a search is on
-    if (!newQuery.searchBoundsInProgress && newQuery.inProgress) {
-      if (this.didParamsChange(currentQuery, newQuery)) {
-        this.props.clearSearchResults();
-      }
-    */
     if (
       newQuery.bounds &&
       currentQuery.bounds !== newQuery.bounds &&
@@ -240,6 +211,7 @@ class VAMap extends Component {
       this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
+        usePredictiveGeolocation: this.props.usePredictiveGeolocation,
       });
     }
   };
@@ -315,12 +287,15 @@ class VAMap extends Component {
   };
 
   handleSearch = () => {
-    const { currentQuery } = this.props;
+    const { currentQuery, usePredictiveGeolocation } = this.props;
     this.updateUrlParams({
       address: currentQuery.searchString,
     });
 
-    this.props.genBBoxFromAddress(currentQuery);
+    this.props.genBBoxFromAddress({
+      ...currentQuery,
+      usePredictiveGeolocation,
+    });
   };
 
   handleBoundsChanged = () => {
@@ -335,7 +310,6 @@ class VAMap extends Component {
     };
     let boundsArray = currentQuery.bounds;
     let zoom = currentQuery.zoomLevel;
-
     if (this.refs.map) {
       center = leafletElement.getCenter();
       zoom = leafletElement.getZoom();
@@ -406,7 +380,7 @@ class VAMap extends Component {
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance);
     const mapMarkers = sortedResults.map(r => {
-      const iconProps = {
+      const markerProps = {
         key: r.id,
         position: [r.attributes.lat, r.attributes.long],
         onClick: () => {
@@ -421,10 +395,11 @@ class VAMap extends Component {
             document.getElementById('searchResultsContainer').scrollTop =
               searchResult.offsetTop;
           }
+          recordMarkerEvents(r);
         },
         markerText: markers.next().value,
       };
-      return <FacilityMarker key={r.id} {...iconProps} />;
+      return <FacilityMarker key={r.id} {...markerProps} />;
     });
     if (this.props.currentQuery.searchCoords) {
       mapMarkers.push(
@@ -511,9 +486,17 @@ class VAMap extends Component {
             <TabPanel>
               <Map
                 ref="map"
+                id="map-id"
                 center={position}
+                onViewportChanged={e =>
+                  recordZoomPanEvents(
+                    e,
+                    currentQuery.searchCoords,
+                    currentQuery.zoomLevel,
+                  )
+                }
                 zoom={parseInt(currentQuery.zoomLevel, 10)}
-                style={{ width: '100%', maxHeight: '55vh' }}
+                style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
                 scrollWheelZoom={false}
                 zoomSnap={1}
                 zoomDelta={1}
@@ -534,6 +517,11 @@ class VAMap extends Component {
                     </FeatureGroup>
                   )}
               </Map>
+              <p className="vads-u-visibility--screen-reader">
+                Please note: Due to technical limitations, the map is not
+                providing an accessible experience for screen reader devices.
+                We're working to deliver an enhanced screen reader experience.
+              </p>
               {selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult
@@ -588,7 +576,15 @@ class VAMap extends Component {
         <div className="desktop-map-container">
           <Map
             ref="map"
+            id="map-id"
             center={position}
+            onViewportChanged={e =>
+              recordZoomPanEvents(
+                e,
+                currentQuery.searchCoords,
+                currentQuery.zoomLevel,
+              )
+            }
             zoomSnap={1}
             zoomDelta={1}
             zoom={parseInt(currentQuery.zoomLevel, 10)}
@@ -610,6 +606,11 @@ class VAMap extends Component {
               )}
           </Map>
         </div>
+        <p className="vads-u-visibility--screen-reader">
+          Please note: Due to technical limitations, the map is not providing an
+          accessible experience for screen reader devices. We're working to
+          deliver an enhanced screen reader experience.
+        </p>
         <PaginationWrapper
           handlePageSelect={this.handlePageSelect}
           currentPage={currentPage}
@@ -683,6 +684,7 @@ function mapStateToProps(state) {
     currentQuery: state.searchQuery,
     suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
     suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
+    usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,

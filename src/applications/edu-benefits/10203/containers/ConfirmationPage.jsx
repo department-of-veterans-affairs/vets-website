@@ -98,21 +98,22 @@ class ConfirmationPage extends React.Component {
           </ul>
         </div>
         <div className="confirmation-guidance-container">
-          <h4 className="confirmation-guidance-heading">
-            What happens after I apply?
-          </h4>
+          <p>
+            <h4 className="confirmation-guidance-heading">
+              What happens after I apply?
+            </h4>
+          </p>
           <p className="confirmation-guidance-message">
             We usually decide on applications within 30 days.
           </p>
-
           <p>
-            You’ll get a Certificate of Eligibility (COE), or award letter, in
-            the mail if we’ve approved your application. Bring this to the VA
-            certifying official at your school.
+            You’ll get a Certificate of Eligibility (COE) or decision letter in
+            the mail. If we’ve approved your application, you can bring the COE
+            to the VA certifying official at your school.
           </p>
           <p>
             <a href="/education/after-you-apply/" className="screen-only">
-              More about what happens after you apply
+              Learn more about what happens after you apply
             </a>
           </p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>

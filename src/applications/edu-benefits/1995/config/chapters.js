@@ -14,11 +14,9 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
-import { display1995StemFlow, displayStemEligibility } from '../helpers';
 
-import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
+import { benefitSelection } from '../pages';
 import { validateWhiteSpace } from 'platform/forms/validations';
-import environment from 'platform/utilities/environment';
 
 const {
   civilianBenefitsAssistance,
@@ -53,40 +51,14 @@ export const chapters = {
         uiSchema: benefitSelection.uiSchema,
         schema: benefitSelection.schema,
       },
-      // related to 1995-STEM
-      stem: {
-        title: 'Rogers STEM Scholarship',
-        path: 'benefits/stem',
-        depends: () => environment.isProduction(),
-        uiSchema: stem.uiSchema,
-        schema: stem.schema,
-      },
-      // related to 1995-STEM
-      stemEligibility: {
-        title: 'Rogers STEM Scholarship eligibility',
-        path: 'benefits/stem-eligibility',
-        pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
-        depends: form => displayStemEligibility(form), // 1995-STEM related
-        uiSchema: stemEligibility.uiSchema,
-        schema: stemEligibility.schema,
-      },
     },
   },
   militaryService: {
     title: 'Military History',
     pages: {
-      // 1995-STEM related
-      activeDuty: {
-        title: 'Active Duty',
-        path: 'active-duty',
-        depends: display1995StemFlow, // 1995-STEM related
-        uiSchema: activeDuty.uiSchema,
-        schema: activeDuty.schema,
-      },
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        depends: form => !display1995StemFlow(form), // 1995-STEM related
         uiSchema: {
           'view:newService': {
             'ui:title':
@@ -110,7 +82,6 @@ export const chapters = {
       militaryHistory: {
         title: 'Military history',
         path: 'military/history',
-        depends: form => !display1995StemFlow(form), // 1995-STEM related
         uiSchema: {
           'view:hasServiceBefore1978': {
             'ui:title':
@@ -199,9 +170,7 @@ export const chapters = {
       dependents: {
         title: 'Dependents',
         path: 'personal-information/dependents',
-        depends: form =>
-          !display1995StemFlow(form) &&
-          form['view:hasServiceBefore1978'] === true,
+        depends: form => form['view:hasServiceBefore1978'] === true,
         uiSchema: {
           serviceBefore1977: serviceBefore1977UI,
         },

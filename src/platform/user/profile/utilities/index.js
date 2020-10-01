@@ -250,7 +250,8 @@ export const showAddressValidationModal = suggestedAddresses => {
   if (
     suggestedAddresses.length === 1 &&
     addressMetaData.confidenceScore > 90 &&
-    addressMetaData.deliveryPointValidation === CONFIRMED
+    (addressMetaData.deliveryPointValidation === CONFIRMED ||
+      addressMetaData.addressType?.toLowerCase() === 'international')
   ) {
     return false;
   }

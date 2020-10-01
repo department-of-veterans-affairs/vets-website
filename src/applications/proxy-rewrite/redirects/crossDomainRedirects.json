@@ -116,11 +116,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/agentorange-c123.asp",
-    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/c-123-aircraft/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/claims-postservice-exposures-asbestos.asp",
     "dest": "/disability/eligibility/hazardous-materials-exposure/asbestos/"
   },
@@ -536,32 +531,12 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0118.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0218.asp",
-    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/sb2019.asp",
     "dest": "/disability/compensation-rates/birth-defect-rates/"
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2018.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/special_benefit_allowances_2019.asp",
-    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/special_benefit_allowances_2018.asp",
     "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
   },
   {
@@ -1013,5 +988,55 @@
     "domain": "www.benefits.va.gov",
     "src": "/pension/current_protected_pension_rate_tables.asp",
     "dest": "/pension/protected-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0217.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0218.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0117.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0118.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2017.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2018.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2017.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2018.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fgib/stem.asp",
+    "dest": "/education/other-va-education-benefits/stem-scholarship/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/agentorange-c123.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
   }
 ]

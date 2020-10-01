@@ -4,4 +4,15 @@
       margin: 12px 0;
     }
   }
+
+  .call-to-action-bullet {
+    display: list-item;
+    flex-direction: column;
+
+    a {
+      &:visited {
+        color: #004795;
+      }
+    }
+  }
 }

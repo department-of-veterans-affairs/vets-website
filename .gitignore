@@ -33,6 +33,7 @@ temp
 # Ignore user's editor/IDE prefs
 .vscode/
 .idea/
+.nova/
 .swp
 .swo
 all-links.csv

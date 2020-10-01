@@ -1,0 +1,32 @@
+/* Fonts */
+#liveForm .ng-binding,
+#liveForm div > span {
+  font-family: "Source Sans Pro" !important;
+}
+
+/* Remove 'Powered by Medallia' */
+#liveForm .kpl-form-footer.ng-scope {
+  display: none;
+}
+
+/* Radio buttons background color */
+.neb-content md-radio-group div.radio md-radio-button ._md-on {
+  background-color: #0071bc !important;
+}
+
+/* Update rating button shape */
+.neb-rating-html-implementation
+  neb-rating
+  .neb-rating.numbers
+  label.rating-label,
+.neb-rating-html-implementation
+  neb-rating
+  .neb-rating.numbersCircle
+  label.rating-label,
+.neb-rating-html-implementation
+  neb-rating
+  .neb-rating.numbersSquare
+  .neb-rating-value
+  label.rating-label {
+  border-radius: 10px !important;
+}

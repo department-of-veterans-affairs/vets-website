@@ -1,14 +1,17 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export const firstSidebarBlock = {
   heading: 'What if I need to change my direct deposit or contact information?',
   content: (
     <>
       <p>
-        You can sign in to VA.gov and change your address and other contact
-        information. This will update your information across disability
-        compensation, pension benefits, claims and appeals, Veteran Readiness
-        and Employment (VR&E), and VA health care.
+        Go to your profile to make updates to your contact and direct deposit
+        information. Any changes you make in your profile will update across
+        your disability compensation, pension, claims and appeal, VR&E, and VA
+        health care benefits.
       </p>
       <a href="/profile">Link to profile page</a>
     </>
@@ -20,14 +23,17 @@ export const secondSidebarBlock = {
   content: (
     <>
       <p>
-        Please wait at least 3 business days (Monday-Friday) before reporting
-        non-receipt of a payment as check tracing cannot be initiated before
-        that period. To report non-receipt after 3 business days, call
-        <a href="tel:8008271000" aria-label="1. 800. 827. 1000.">
-          800-827-1000
-        </a>{' '}
-        with your Social Security Number or VA Claim Number, your address, and
-        (for direct deposit payments) your account information.
+        Please wait 3 business days (Monday through Friday) before contacting us
+        to report that you haven’t received a payment. We can’t trace payments
+        before then.
+      </p>
+      <p>
+        {' '}
+        To report a missing payment, contact us at{' '}
+        <Telephone contact={CONTACTS.VA_BENEFITS} />. Please have the following
+        information ready for the call: your address, Social Security number or
+        VA claim number. If you receive payments through direct deposit, you’ll
+        need your bank account information too.
       </p>
     </>
   ),

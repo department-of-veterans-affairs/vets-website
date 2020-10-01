@@ -26,9 +26,7 @@ const primaryInfoPage = {
     type: 'object',
     required: [
       primaryCaregiverFields.fullName,
-      primaryCaregiverFields.ssn,
       primaryCaregiverFields.dateOfBirth,
-      primaryCaregiverFields.gender,
     ],
     properties: {
       [primaryCaregiverFields.fullName]: primaryCaregiverProps.fullName,

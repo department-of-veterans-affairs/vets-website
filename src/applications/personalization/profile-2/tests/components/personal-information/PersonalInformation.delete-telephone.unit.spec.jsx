@@ -51,31 +51,28 @@ function deletePhoneNumber(numberName) {
     })
     .click();
   const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
-  const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
   confirmDeleteButton.click();
 
-  return { phoneNumberInput, confirmDeleteButton, cancelDeleteButton };
+  return { phoneNumberInput, confirmDeleteButton };
 }
 
 // When the update happens while the Edit View is still active
 async function testQuickSuccess(numberName) {
   server.use(...mocks.transactionPending);
 
-  const {
-    cancelDeleteButton,
-    confirmDeleteButton,
-    phoneNumberInput,
-  } = deletePhoneNumber(numberName);
+  const { confirmDeleteButton, phoneNumberInput } = deletePhoneNumber(
+    numberName,
+  );
 
-  // Buttons should be disabled while the delete transaction is pending...
+  // Button should be disabled while the delete transaction is pending...
   // Waiting 10ms to make this check so that it happens _after_ the initial
-  // delete transaction request is created. We had a UX bug where the buttons
-  // were disabled while the initial transaction request was being created but
-  // were enabled again while polling the transaction status. This test was
+  // delete transaction request is created. We had a UX bug where the button
+  // was disabled while the initial transaction request was being created but
+  // was enabled again while polling the transaction status. This test was
   // added to prevent regressing back to that poor experience where users were
   // able to interact with buttons that created duplicate XHRs.
   await wait(10);
-  expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
+  expect(view.queryByText('Cancel', { selector: 'button' })).to.not.exist;
   expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
   expect(confirmDeleteButton)
     .to.have.descendant('i')

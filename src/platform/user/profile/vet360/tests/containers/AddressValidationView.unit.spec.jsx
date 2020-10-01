@@ -132,6 +132,46 @@ describe('<AddressValidationView/>', () => {
     component.unmount();
   });
 
+  it('does not render cancel button while pending transaction', () => {
+    const newFakeStore = {
+      getState: () => ({
+        vet360: {
+          fieldTransactionMap: {
+            mailingAddress: {
+              isPending: true,
+            },
+          },
+          modal: 'addressValidation',
+          addressValidation: {
+            addressFromUser: {
+              addressLine1: '12345 1st Ave',
+              addressLine2: 'bldg 2',
+              addressLine3: 'apt 23',
+              city: 'Tampa',
+              stateCode: 'FL',
+              zipCode: '12346',
+            },
+            isAddressValidationModalVisible: true,
+            addressValidationError: true,
+            suggestedAddresses: [],
+            confirmedSuggestions: [],
+            addressValidationType: 'mailingAddress',
+            userEnteredAddress: {},
+            validationKey: null,
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const component = enzyme.mount(
+      <AddressValidationView store={newFakeStore} />,
+    );
+
+    expect(component.text()).to.not.include('Cancel');
+    component.unmount();
+  });
+
   it('renders multiple suggestion button text', () => {
     const newFakeStore = {
       getState: () => ({

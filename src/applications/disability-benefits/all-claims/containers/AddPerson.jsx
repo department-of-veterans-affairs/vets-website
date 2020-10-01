@@ -17,9 +17,11 @@ const message =
   'We’re doing some additional work to enable you to file a claim...';
 
 const loading = title => (
-  <div className="vads-u-margin--3">
-    <h1>{title}</h1>
-    <LoadingIndicator message={message} />
+  <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
+    <div className="usa-content">
+      <h1>{title}</h1>
+      <LoadingIndicator message={message} />
+    </div>
   </div>
 );
 

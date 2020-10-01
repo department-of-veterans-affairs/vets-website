@@ -44,13 +44,14 @@ export class BenefitsForm extends React.Component {
     { value: 'purple heart', label: 'Purple Heart Service: 100%' },
   ];
 
-  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) =>
     renderLearnMoreLabel({
       text,
       modal,
       ariaLabel,
       showModal: this.props.showModal,
       component: this,
+      labelFor: labelFor || modal,
     });
 
   handleMilitaryDetailsClick = () => {

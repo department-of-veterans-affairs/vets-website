@@ -1,41 +1,28 @@
-import _ from 'lodash';
+import URLSearchParams from 'url-search-params';
 
-export const searchWithFilters = (
-  props,
-  params = [],
-  removedWhenAllFields = [],
-) => {
-  if (props.search.inProgress) {
-    return;
-  }
+export const searchWithFilters = ({
+  pathname,
+  search,
+  field,
+  value,
+  query,
+  history,
+  clearAutocompleteSuggestions,
+}) => {
+  const queryParams = new URLSearchParams(query);
+  if (!search.inProgress && queryParams.get(field) !== value) {
+    const removedWhenAllFields = ['country', 'state', 'type'];
+    queryParams.delete('page');
 
-  // Translate form selections to query params.
-  const query = {
-    ...props.location.query,
-  };
-
-  params.forEach(({ field, value }) => {
-    query[field] = value;
-  });
-
-  // Don’t update the route if the query hasn’t changed.
-  if (_.isEqual(query, props.location.query)) {
-    return;
-  }
-
-  props.clearAutocompleteSuggestions();
-
-  // Reset to the first page upon a filter change.
-  delete query.page;
-
-  params.forEach(({ field, value }) => {
-    const shouldRemoveFilter =
-      !value || (removedWhenAllFields.includes(field) && value === 'ALL');
-
-    if (shouldRemoveFilter) {
-      delete query[field];
+    if (!value || (removedWhenAllFields.includes(field) && value === 'ALL')) {
+      queryParams.delete(field);
+    } else {
+      queryParams.set(field, value);
     }
-  });
 
-  props.router.push({ ...props.location, query });
+    if (queryParams.toString() !== query) {
+      clearAutocompleteSuggestions();
+      history.push({ pathname, search: queryParams.toString() });
+    }
+  }
 };

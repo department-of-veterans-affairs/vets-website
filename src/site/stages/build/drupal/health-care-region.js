@@ -162,7 +162,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
     files[`${drupalPagePath}/health-services/index.html`] = createFileObj(
       hsPage,
-      'health_care_region_health_services_page.drupal.liquid',
+      'health_services_listing.drupal.liquid',
     );
   }
 

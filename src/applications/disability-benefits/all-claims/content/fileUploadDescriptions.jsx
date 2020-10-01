@@ -4,14 +4,18 @@ export const UploadDescription = ({ uploadTitle }) => (
   <div>
     {uploadTitle && <h3 className="vads-u-font-size--h5">{uploadTitle}</h3>}
     <p>
-      You can upload your document in a .pdf, .jpeg, or .png file format. You’ll
-      first need to scan a copy of your document onto your computer or mobile
-      phone. You can then upload the document from there.
+      You can upload your document in a .pdf (unlocked), .jpg, .jpeg, .png,
+      .gif, .bmp, or .txt file format. You’ll first need to scan a copy of your
+      document onto your computer or mobile phone. You can then upload the
+      document from there.
       <br />
       Guidelines for uploading a file:
     </p>
     <ul>
-      <li>File types you can upload: .pdf, .jpeg, or .png</li>
+      <li>
+        File types you can upload: .pdf (unlocked), .jpg, .jpeg, .png, .gif,
+        .bmp, or .txt
+      </li>
       <li>Maximum file size: 50MB</li>
     </ul>
     <p>

@@ -5,6 +5,11 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { SAVED_SEPARATION_DATE } from '../constants';
 
 export const addServicePeriod = (formData, separationDate, setFormData) => {
+  const updateData = newData => {
+    window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+    setFormData(newData);
+  };
+
   const data = formData;
   if (!data.serviceInformation) {
     data.serviceInformation = { servicePeriods: [] };
@@ -12,17 +17,25 @@ export const addServicePeriod = (formData, separationDate, setFormData) => {
   if (!data.serviceInformation.servicePeriods) {
     data.serviceInformation.servicePeriods = [];
   }
-  if (
+  const index = data.serviceInformation.servicePeriods.findIndex(entry => {
+    const range = entry.dateRange || {};
+    return range.from && !range.to;
+  });
+  if (index > -1) {
+    // User has "from" date, but no "to" date
+    data.serviceInformation.servicePeriods[index].dateRange.to = separationDate;
+    updateData(data);
+  } else if (
     !data.serviceInformation.servicePeriods.find(
       entry => entry.dateRange?.to === separationDate,
     )
   ) {
+    // If the separation date doesn't already exists, add a new entry
     data.serviceInformation.servicePeriods.push({
       serviceBranch: '',
       dateRange: { from: '', to: separationDate },
     });
-    window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-    setFormData(data);
+    updateData(data);
   }
 };
 

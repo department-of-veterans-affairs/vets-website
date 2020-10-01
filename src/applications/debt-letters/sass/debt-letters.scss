@@ -14,3 +14,24 @@ a i {
   margin-left: 4px;
   margin-bottom: 1px;
 }
+
+.debt-details-alert h2 {
+  font-size: 20px;
+}
+
+.mobile-button {
+  padding: 4px;
+  border: 2px solid #0071bc;
+  border-radius: 5px;
+  background-color: #ffffff;
+  background-size: cover;
+  font-size: 16px;
+  color: #0071bc;
+  text-decoration: none solid rgb(0, 113, 188);
+  text-align: center;
+
+  &:visited {
+    color: #0071bc;
+  }
+
+}

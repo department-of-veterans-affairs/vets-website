@@ -1,7 +1,7 @@
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with deriveBreadcrumbsFromUrl = true %}
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
@@ -50,13 +50,18 @@
             </dd>
           </div>
 
-          {% if fieldVaFormRevisionDate %}
+          {% if fieldVaFormRevisionDate or fieldVaFormIssueDate %}
             <div>
               <dt class="vads-u-font-weight--bold vads-u-display--inline">
                 Form last updated:
               </dt>
               <dd class="vads-u-display--inline">
-                {{ fieldVaFormRevisionDate.value | humanizeDate }}
+                {% assign revisionDateIsLatestUpdate = fieldVaFormRevisionDate.value | isLaterThan: fieldVaFormIssueDate.value %}
+                {% if revisionDateIsLatestUpdate %}
+                  {{ fieldVaFormRevisionDate.value | humanizeDate }}
+                {% else %}
+                  {{ fieldVaFormIssueDate.value | humanizeDate }}
+                {% endif %}
               </dd>
             </div>
           {% endif %}
@@ -214,6 +219,10 @@
           </div>
         </section>
       </article>
+
+      <div class="last-updated usa-content">
+        Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+      </div>
     </div>
   </div>
 

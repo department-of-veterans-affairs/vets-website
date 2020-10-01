@@ -26,7 +26,7 @@ import { errorMessages } from '../constants';
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/appeals/higher_level_reviews`,
+  submitUrl: `${environment.API_URL}/v0/higher_level_reviews`,
   submit: submitForm,
   trackingPrefix: 'decision-reviews-va20-0996-',
   downtime: {

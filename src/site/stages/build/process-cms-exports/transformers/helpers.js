@@ -4,6 +4,45 @@ const { sortBy, unescape, pick, omit } = require('lodash');
 const moment = require('moment-timezone');
 const { readEntity } = require('../helpers');
 
+const mediaImageStyles = [
+  {
+    style: '_1_1_SQUARE_MEDIUM_THUMBNAIL',
+    machine: '1_1_square_medium_thumbnail',
+    width: 240,
+    height: 240,
+  },
+  {
+    style: '_21MEDIUMTHUMBNAIL',
+    machine: '2_1_medium_thumbnail',
+    width: 480,
+    height: 240,
+  },
+  {
+    style: '_23MEDIUMTHUMBNAIL',
+    machine: '2_3_medium_thumbnail',
+    width: 320,
+    height: 480,
+  },
+  {
+    style: '_32MEDIUMTHUMBNAIL',
+    machine: '3_2_medium_thumbnail',
+    width: 480,
+    height: 320,
+  },
+  {
+    style: '_72MEDIUMTHUMBNAIL',
+    machine: '7_2_medium_thumbnail',
+    width: 1050,
+    height: 300,
+  },
+  {
+    style: 'LARGE',
+    machine: 'large',
+    width: 480,
+    height: 480,
+  },
+];
+
 /**
  * Takes a string with escaped unicode code points and replaces them
  * with the unicode characters. E.g. '\u2014' -> '—'
@@ -38,6 +77,36 @@ function getDrupalValue(arr) {
 }
 
 /**
+ * A very specific helper function that expects to receive an
+ * object and an imageStyle string
+ * @param {object}
+ * @return {object}
+ */
+function getImageCrop(obj, imageStyle = null) {
+  if (imageStyle !== null) {
+    const imageObj = Object.assign({}, obj);
+    const image = mediaImageStyles.find(({ style }) => style === imageStyle);
+    // If imageStyle is not found, it will return the raw obj
+    if (!image) {
+      throw new Error(
+        `${imageStyle} imageStyle was not found. mediaImageStyles available are ${mediaImageStyles
+          .map(s => s.style)
+          .join(', ')}.`,
+      );
+    }
+    const url = `/img/styles/${image.machine}/${
+      imageObj.image.derivative.url
+    }`.replace('public:/', 'public');
+    imageObj.image.url = url;
+    imageObj.image.derivative.url = url;
+    imageObj.image.derivative.width = image.width;
+    imageObj.image.derivative.height = image.height;
+    return imageObj;
+  }
+  return obj;
+}
+
+/**
  * This is currently a dummy function, but we may
  * need it in the future to convert weird uris like
  * `entity:node/27` to something resembling a
@@ -55,6 +124,7 @@ function uriToUrl(uri) {
 
 module.exports = {
   getDrupalValue,
+  getImageCrop,
   unescapeUnicode,
   uriToUrl,
 

@@ -3,7 +3,6 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import ToolTip from './ToolTip';
 import { SMALL_SCREEN_WIDTH } from '../constants';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 import environment from 'platform/utilities/environment';
@@ -54,17 +53,6 @@ class Checkbox extends React.Component {
       );
     }
 
-    // Addes ToolTip if text is provided.
-    let toolTip;
-    if (this.props.toolTipText) {
-      toolTip = (
-        <ToolTip
-          tabIndex={this.props.tabIndex}
-          toolTipText={this.props.toolTipText}
-        />
-      );
-    }
-
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
@@ -97,7 +85,6 @@ class Checkbox extends React.Component {
           {requiredSpan}
         </label>
         {errorSpan}
-        {toolTip}
       </div>
     );
   }

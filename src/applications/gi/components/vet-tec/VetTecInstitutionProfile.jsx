@@ -26,6 +26,7 @@ const VetTecInstitutionProfile = ({
     selectedProgram ||
     preSelectedProgram ||
     _.get(institution, 'programs[0].description', '');
+
   return (
     <div>
       {

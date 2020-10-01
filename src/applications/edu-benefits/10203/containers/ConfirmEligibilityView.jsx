@@ -47,7 +47,7 @@ export class ConfirmEligibilityView extends React.Component {
     const { benefitLeft } = this.props;
     const check = benefitLeft !== 'moreThanSixMonths';
     const text =
-      'Have used all of your education benefits or are within 6 months of doing so when you submit your application';
+      'Have used all of your education benefits or are within 6 months of using all your benefits when you submit your application';
     const title = this.iconText(check);
     const iconTitle = `${title} ${text}`;
 
@@ -71,7 +71,7 @@ export class ConfirmEligibilityView extends React.Component {
   };
 
   renderChecks = () => (
-    <div>
+    <div role="alert">
       <div className="vads-u-margin-top--neg2p5">
         <h4>Based on your responses, you may not be eligible</h4>
       </div>

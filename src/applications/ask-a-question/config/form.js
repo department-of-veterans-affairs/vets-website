@@ -5,8 +5,10 @@ import fullSchema from '../0873-schema.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { contactInformationPage, inquiryPage } from './pages';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import environment from 'platform/utilities/environment';
 
-const { fullName, phone } = fullSchema.definitions;
+const { fullName, phone, date } = fullSchema.definitions;
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
@@ -14,11 +16,20 @@ const formPages = {
   contactInformation: 'contactInformation',
 };
 
+const submitTransform = (formConfig, form) => {
+  const formData = transformForSubmit(formConfig, form);
+
+  return JSON.stringify({
+    inquiry: {
+      form: formData,
+    },
+  });
+};
+
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/ask/asks`,
+  transformForSubmit: submitTransform,
   trackingPrefix: 'complex-form-',
   confirmation: ConfirmationPage,
   formId: '0873',
@@ -36,6 +47,7 @@ const formConfig = {
   defaultDefinitions: {
     fullName,
     phone,
+    date,
   },
   chapters: {
     topicChapter: {
@@ -50,7 +62,7 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Tell us about you',
+      title: 'Tell us about yourself',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact-information',

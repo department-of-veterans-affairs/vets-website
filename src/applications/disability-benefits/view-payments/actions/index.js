@@ -1,36 +1,39 @@
 import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
 import { isServerError, isClientError } from '../utils';
-// import { getData, isServerError, isClientError } from '../util';
 
+export const PAYMENTS_RECEIVED_STARTED = 'PAYMENTS_RECEIVED_STARTED';
 export const PAYMENTS_RECEIVED_SUCCEEDED = 'PAYMENTS_RECEIVED_SUCCEEDED';
 export const PAYMENTS_RECEIVED_FAILED = 'PAYMENTS_RECEIVED_FAILED';
 
-function resolveAfter2Seconds() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      recordEvent({
-        event: `view-payment-history-started`,
-      });
-      resolve('resolved');
-    }, 2000);
-  });
-}
+const VIEW_PAYMENTS_URI = '/profile/payment_history';
+
+const retrievePayments = async () => {
+  try {
+    const response = await apiRequest(VIEW_PAYMENTS_URI);
+    return response.data.attributes;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const getAllPayments = () => async dispatch => {
-  const response = await resolveAfter2Seconds();
+  dispatch({ type: PAYMENTS_RECEIVED_STARTED });
+  const response = await retrievePayments();
   if (response.errors) {
-    if (isServerError(response.errors[0].status)) {
+    const error = response.errors[0];
+    if (isServerError(error.status)) {
       recordEvent({
         event: `view-payment-history-failed`,
-        'error-key': `${response.errors[0].status}_server_error`,
+        'error-key': `${error.status}_server_error`,
       });
-    } else if (isClientError(response.errors)) {
+    } else if (isClientError(error.status)) {
       recordEvent({
         event: `view-payment-history-failed`,
-        'error-key': `${response.errors[0].status}_client_error`,
+        'error-key': `${error.status}_client_error`,
       });
     }
-    dispatch({ type: PAYMENTS_RECEIVED_FAILED, response });
+    dispatch({ type: PAYMENTS_RECEIVED_FAILED, response: error });
   } else {
     recordEvent({
       event: `view-payment-history-successful`,

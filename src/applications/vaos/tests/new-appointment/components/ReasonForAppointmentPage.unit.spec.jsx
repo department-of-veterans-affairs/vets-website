@@ -1,189 +1,234 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+  setTypeOfFacility,
+} from '../../mocks/setup';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import ReasonForAppointmentPage from '../../../new-appointment/components/ReasonForAppointmentPage';
+import { Route } from 'react-router-dom';
+import { cleanup } from '@testing-library/react';
+import { startDirectScheduleFlow } from '../../../new-appointment/redux/actions';
 
-import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { ReasonForAppointmentPage } from '../../../new-appointment/components/ReasonForAppointmentPage';
-import { FACILITY_TYPES } from '../../../utils/constants';
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingVSPAppointmentNew: false,
+    vaOnlineSchedulingDirect: true,
+    vaOnlineSchedulingCommunityCare: true,
+  },
+  user: {
+    profile: {
+      facilities: [
+        { facilityId: '983', isCerner: false },
+        { facilityId: '984', isCerner: false },
+      ],
+    },
+  },
+};
 
-describe('VAOS <ReasonForAppointmentPage>', () => {
-  it('should render', () => {
-    const openReasonForAppointment = sinon.spy();
-    const updateReasonForAppointmentData = sinon.spy();
+describe('VAOS integration: reason for appointment page with a single-site user', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
 
-    const form = mount(
-      <ReasonForAppointmentPage
-        openReasonForAppointment={openReasonForAppointment}
-        updateReasonForAppointmentData={updateReasonForAppointmentData}
-        data={{}}
-      />,
+  it('should show page for VA medical request', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+      store,
+    });
+
+    expect(screen.baseElement).to.contain.text(
+      'Please let us know why you’re making this appointment',
     );
 
-    expect(form.find('input').length).to.equal(4);
-    expect(form.find('textarea').length).to.equal(1);
-    form.unmount();
-  });
-
-  it('should not submit empty form', () => {
-    const openReasonForAppointment = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
-
-    const form = mount(
-      <ReasonForAppointmentPage
-        openReasonForAppointment={openReasonForAppointment}
-        history={history}
-        data={{}}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('AlertBox').length).to.equal(1);
-
-    expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(history.push.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should call updateReasonForAppointmentData after change', () => {
-    const openReasonForAppointment = sinon.spy();
-    const updateReasonForAppointmentData = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
-
-    const form = mount(
-      <ReasonForAppointmentPage
-        openReasonForAppointment={openReasonForAppointment}
-        updateReasonForAppointmentData={updateReasonForAppointmentData}
-        history={history}
-        data={{}}
-      />,
-    );
-
-    selectRadio(form, 'root_reasonForAppointment', 'routine-follow-up');
+    expect(screen.getAllByRole('radio').length).to.equal(4);
 
     expect(
-      updateReasonForAppointmentData.firstCall.args[2].reasonForAppointment,
-    ).to.equal('routine-follow-up');
-    form.unmount();
+      screen.getByRole('heading', {
+        name: /If you have an urgent medical need, please:/i,
+      }),
+    );
   });
 
-  it('should submit with valid data', () => {
-    const openReasonForAppointment = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
+  it('should show page for Community Care medical request', async () => {
+    const store = createTestStore(initialState);
+    await setTypeOfFacility(store, /Community Care/i);
 
-    const form = mount(
-      <ReasonForAppointmentPage
-        openReasonForAppointment={openReasonForAppointment}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{
-          reasonForAppointment: 'routine-follow-up',
-          reasonAdditionalInfo: 'test',
-        }}
-      />,
+    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+      store,
+    });
+
+    expect(screen.baseElement).to.contain.text(
+      'Tell us the reason for this appointment',
     );
-    form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    const textBox = screen.getByRole('textbox');
+    expect(textBox).to.exist;
+    expect(textBox)
+      .to.have.attribute('maxlength')
+      .to.equal('100');
 
-    form.unmount();
+    expect(
+      screen.getByRole('heading', {
+        name: /If you have an urgent medical need, please:/i,
+      }),
+    );
   });
 
-  it('should render alert message', () => {
-    const openReasonForAppointment = sinon.spy();
-    const updateReasonForAppointmentData = sinon.spy();
+  it('should show validation for VA medical request', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+      store,
+    });
 
-    const form = mount(
-      <ReasonForAppointmentPage
-        openReasonForAppointment={openReasonForAppointment}
-        updateReasonForAppointmentData={updateReasonForAppointmentData}
-        data={{}}
-      />,
+    fireEvent.click(screen.getByText(/Continue/));
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please provide a response',
     );
-    expect(form.text()).to.contain(
-      'If you have an urgent medical need, please',
-    );
-
-    form.unmount();
   });
 
-  it('document title should match h1 text', () => {
-    const openReasonForAppointment = sinon.spy();
-    const updateReasonForAppointmentData = sinon.spy();
-    const pageTitle = 'Choose a reason for your appointment';
+  it('should show error msg when enter all spaces for VA medical request', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+      store,
+    });
 
-    const form = mount(
-      <ReasonForAppointmentPage
-        openReasonForAppointment={openReasonForAppointment}
-        updateReasonForAppointmentData={updateReasonForAppointmentData}
-        data={{}}
-      />,
+    fireEvent.click(
+      await screen.findByLabelText(/Routine or follow-up visit/i),
     );
+    const textBox = screen.getByRole('textbox');
+    fireEvent.change(textBox, { target: { value: '   ' } });
+    expect(textBox.value).to.equal('   ');
+    fireEvent.click(screen.getByText(/Continue/));
 
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-
-    form.unmount();
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please provide a response',
+    );
   });
 
-  it('should render radio buttons and a textarea', () => {
-    const openReasonForAppointment = sinon.spy();
-    const updateReasonForAppointmentData = sinon.spy();
+  it('should show alternate textbox char length if navigated via direct schedule flow', async () => {
+    const store = createTestStore(initialState);
+    store.dispatch(startDirectScheduleFlow());
 
-    const form = mount(
-      <ReasonForAppointmentPage
-        openReasonForAppointment={openReasonForAppointment}
-        updateReasonForAppointmentData={updateReasonForAppointmentData}
-        data={{}}
-      />,
+    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+      store,
+    });
+
+    fireEvent.click(
+      await screen.findByLabelText(/Routine or follow-up visit/i),
     );
 
-    expect(form.find('input[type="radio"]').length).to.equal(4);
-    expect(form.find('textarea').length).to.equal(1);
+    const textBox = screen.getByRole('textbox');
+    expect(textBox).to.exist;
+    expect(textBox)
+      .to.have.attribute('maxlength')
+      .to.equal('131');
 
-    form.unmount();
+    expect(
+      screen.getByRole('heading', {
+        name: /If you have an urgent medical need, please:/i,
+      }),
+    );
   });
 
-  it('document title should be different if community care', () => {
-    const openReasonForAppointment = sinon.spy();
-    const updateReasonForAppointmentData = sinon.spy();
-    const pageTitle = 'Tell us the reason for this appointment';
+  it('should show error msg when enter all spaces for Community Care medical request', async () => {
+    const store = createTestStore(initialState);
+    await setTypeOfFacility(store, /Community Care/i);
 
-    const form = mount(
-      <ReasonForAppointmentPage
-        openReasonForAppointment={openReasonForAppointment}
-        updateReasonForAppointmentData={updateReasonForAppointmentData}
-        data={{ facilityType: FACILITY_TYPES.COMMUNITY_CARE }}
-      />,
+    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+      store,
+    });
+
+    expect(screen.baseElement).to.contain.text(
+      'Tell us the reason for this appointment',
     );
 
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-    form.unmount();
+    const textBox = screen.getByRole('textbox');
+    fireEvent.change(textBox, { target: { value: '   ' } });
+    expect(textBox.value).to.equal('   ');
+    fireEvent.click(screen.getByText(/Continue/));
+
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please provide a response',
+    );
   });
 
-  it('should show error msg when enter all spaces', () => {
-    const openReasonForAppointment = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <ReasonForAppointmentPage
-        openReasonForAppointment={openReasonForAppointment}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{
-          reasonForAppointment: 'routine-follow-up',
-          reasonAdditionalInfo: '   ',
-        }}
-      />,
+  it('should continue to the correct page based on type choice for VA medical request', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(
+      <Route component={ReasonForAppointmentPage} />,
+      {
+        store,
+      },
     );
-    form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    fireEvent.click(
+      await screen.findByLabelText(/Routine or follow-up visit/i),
+    );
+    const textBox = screen.getByRole('textbox');
+    fireEvent.change(textBox, { target: { value: 'test' } });
+    expect(textBox.value).to.equal('test');
 
-    form.unmount();
+    fireEvent.click(screen.getByText(/Continue/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/choose-visit-type',
+      ),
+    );
+  });
+
+  it('should continue to the correct page for Community Care medical request', async () => {
+    const store = createTestStore(initialState);
+    await setTypeOfFacility(store, /Community Care/i);
+    const screen = renderWithStoreAndRouter(
+      <Route component={ReasonForAppointmentPage} />,
+      {
+        store,
+      },
+    );
+
+    expect(screen.baseElement).to.contain.text(
+      'Tell us the reason for this appointment',
+    );
+
+    const textBox = screen.getByRole('textbox');
+    fireEvent.change(textBox, { target: { value: 'test' } });
+    expect(textBox.value).to.equal('test');
+
+    fireEvent.click(screen.getByText(/Continue/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/contact-info',
+      ),
+    );
+  });
+
+  it('should save reason choice on for VA medical request page change', async () => {
+    const store = createTestStore(initialState);
+    let screen = renderWithStoreAndRouter(
+      <Route component={ReasonForAppointmentPage} />,
+      {
+        store,
+      },
+    );
+
+    fireEvent.click(
+      await screen.findByLabelText(/Routine or follow-up visit/i),
+    );
+    await cleanup();
+
+    screen = renderWithStoreAndRouter(
+      <Route component={ReasonForAppointmentPage} />,
+      {
+        store,
+      },
+    );
+
+    expect(
+      await screen.findByLabelText(/Routine or follow-up visit/i),
+    ).to.have.attribute('checked');
   });
 });

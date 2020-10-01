@@ -3,11 +3,12 @@ import { isAnchor } from './utilities';
 
 export default function addJumplinkListeners() {
   const selectors = {
-    heading: '[data-template="paragraphs/wysiwyg"] #on-this-page',
+    template: '#table-of-contents',
   };
 
-  const jumplinkHeading = document.querySelector(selectors.heading);
-  const container = jumplinkHeading.parentElement;
+  const container = document.getElementById(selectors.template);
+
+  if (!container) return;
 
   container.addEventListener('click', event => {
     if (!isAnchor(event.target)) {

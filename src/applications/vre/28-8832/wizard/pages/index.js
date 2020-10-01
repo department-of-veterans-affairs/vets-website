@@ -1,6 +1,4 @@
 import start from './Start';
-import isVeteranOrServiceMember from './DisabilityRating';
-import chapter31Notification from './Chapter31Notification';
 import ineligibleNotice from './IneligibleNotice';
 import VAEducationBenefits from './VaEducationBenefits';
 import startForm from './StartForm';
@@ -13,8 +11,6 @@ import applyLaterNotification from './ApplyLaterNotification';
 
 export default [
   start,
-  isVeteranOrServiceMember,
-  chapter31Notification,
   ineligibleNotice,
   VAEducationBenefits,
   startForm,

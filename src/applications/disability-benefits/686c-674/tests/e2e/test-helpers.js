@@ -680,24 +680,24 @@ export const fillStepchildName = (client, data) => {
   client
     .fill(
       'input[name="root_stepChildren_0_fullName_first"]',
-      data.stepChild.firstName,
+      data.stepchild.firstName,
     )
     .fill(
       'input[name="root_stepChildren_0_fullName_last"]',
-      data.stepChild.lastName,
+      data.stepchild.lastName,
     )
-    .fill('input[name="root_stepChildren_0_ssn"]', data.stepChild.ssn)
+    .fill('input[name="root_stepChildren_0_ssn"]', data.stepchild.ssn)
     .selectDropdown(
       'root_stepChildren_0_birthDateMonth',
-      data.stepChild.birthDate.month,
+      data.stepchild.birthDate.month,
     )
     .selectDropdown(
       'root_stepChildren_0_birthDateDay',
-      data.stepChild.birthDate.day,
+      data.stepchild.birthDate.day,
     )
     .fill(
       'input[name="root_stepChildren_0_birthDateYear"]',
-      data.stepChild.birthDate.year,
+      data.stepchild.birthDate.year,
     );
 };
 

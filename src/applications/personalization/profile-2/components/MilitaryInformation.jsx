@@ -7,6 +7,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -14,6 +15,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
+import { selectProfile } from 'platform/user/selectors';
 import LoadFail from 'applications/personalization/profile360/components/LoadFail';
 import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
 import facilityLocator from 'applications/facility-locator/manifest.json';
@@ -21,10 +23,49 @@ import facilityLocator from 'applications/facility-locator/manifest.json';
 import ProfileInfoTable from './ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../helpers';
 
-const MilitaryInformationContent = ({ militaryInformation }) => {
+const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
   useEffect(() => {
     focusElement('[data-focus-target]');
   }, []);
+
+  const invalidVeteranStatus =
+    !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+
+  // When the user is not authorized, militaryInformation.serviceHistory is populated with .error
+  if (
+    invalidVeteranStatus &&
+    !militaryInformation?.serviceHistory?.serviceHistory
+  ) {
+    return (
+      <AlertBox
+        isVisible
+        status="warning"
+        headline="We don't seem to have your military records"
+        content={
+          <>
+            <p>
+              We're sorry. We can't match your information to our records. If
+              you think this is an error, please call the VA.gov help desk at{' '}
+              <Telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
+              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+              ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
+            </p>
+            <p>
+              Or you can learn how to{' '}
+              <a
+                href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
+                target="blank"
+                rel="noopener noreferrer"
+              >
+                update or correct your military service history
+              </a>
+              .
+            </p>
+          </>
+        }
+      />
+    );
+  }
 
   const {
     serviceHistory: { serviceHistory, error },
@@ -138,24 +179,33 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
   );
 };
 
-const MilitaryInformation = ({ militaryInformation }) => (
-  <>
-    <h2
-      tabIndex="-1"
-      className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-      data-focus-target
-    >
-      Military information
-    </h2>
-    <DowntimeNotification
-      appTitle="Military Information"
-      render={handleDowntimeForSection('military service')}
-      dependencies={[externalServices.emis]}
-    >
-      <MilitaryInformationContent militaryInformation={militaryInformation} />
-    </DowntimeNotification>
-  </>
-);
+const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
+  useEffect(() => {
+    document.title = `Military Information | Veterans Affairs`;
+  }, []);
+
+  return (
+    <>
+      <h2
+        tabIndex="-1"
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
+        data-focus-target
+      >
+        Military information
+      </h2>
+      <DowntimeNotification
+        appTitle="Military Information"
+        render={handleDowntimeForSection('military service')}
+        dependencies={[externalServices.emis]}
+      >
+        <MilitaryInformationContent
+          militaryInformation={militaryInformation}
+          veteranStatus={veteranStatus}
+        />
+      </DowntimeNotification>
+    </>
+  );
+};
 
 MilitaryInformation.propTypes = {
   militaryInformation: PropTypes.shape({
@@ -169,10 +219,12 @@ MilitaryInformation.propTypes = {
       ),
     }).isRequired,
   }).isRequired,
+  veteranStatus: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   militaryInformation: state.vaProfile?.militaryInformation,
+  veteranStatus: selectProfile(state)?.veteranStatus,
 });
 
 export default connect(mapStateToProps)(MilitaryInformation);

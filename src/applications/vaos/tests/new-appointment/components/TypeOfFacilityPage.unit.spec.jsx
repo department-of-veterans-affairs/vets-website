@@ -1,108 +1,108 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import TypeOfFacilityPage from '../../../new-appointment/components/TypeOfFacilityPage';
+import { Route } from 'react-router-dom';
+import { cleanup } from '@testing-library/react';
 
-import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfFacilityPage } from '../../../new-appointment/components/TypeOfFacilityPage';
-import { FACILITY_TYPES } from '../../../utils/constants';
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingVSPAppointmentNew: false,
+    vaOnlineSchedulingDirect: true,
+    vaOnlineSchedulingCommunityCare: true,
+  },
+  user: {
+    profile: {
+      facilities: [
+        { facilityId: '983', isCerner: false },
+        { facilityId: '984', isCerner: false },
+      ],
+    },
+  },
+};
 
-describe('VAOS <TypeOfFacilityPage>', () => {
-  it('should render', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+describe('VAOS integration: VA facility page with a single-site user', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
 
-    const form = mount(
-      <TypeOfFacilityPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
+  it('should show page', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, {
+      store,
+    });
+
+    expect(screen.baseElement).to.contain.text(
+      'Choose where you want to receive your care',
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect(screen.getAllByRole('radio').length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
+  it('should show validation', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, {
+      store,
+    });
 
-    const form = mount(
-      <TypeOfFacilityPage
-        openFormPage={openFormPage}
-        history={history}
-        data={{}}
-      />,
+    fireEvent.click(screen.getByRole('button', { name: /continue »/i }));
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please provide a response',
     );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(history.push.called).to.be.false;
-    form.unmount();
   });
 
-  it('should call updateFormData after change', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
-
-    const form = mount(
-      <TypeOfFacilityPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        history={history}
-        data={{}}
-      />,
+  it('should continue to the correct page based on type choice', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfFacilityPage} />,
+      {
+        store,
+      },
     );
 
-    selectRadio(form, 'root_facilityType', FACILITY_TYPES.COMMUNITY_CARE);
+    fireEvent.click(await screen.findByLabelText(/Community care/i));
+    fireEvent.click(screen.getByText(/Continue/));
 
-    expect(updateFormData.firstCall.args[2].facilityType).to.equal(
-      FACILITY_TYPES.COMMUNITY_CARE,
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/request-date',
+      ),
     );
-    form.unmount();
+
+    fireEvent.click(
+      await screen.findByLabelText(/VA medical center or clinic/i),
+    );
+    fireEvent.click(screen.getByText(/Continue/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/request-date',
+      ),
+    );
   });
 
-  it('should submit with valid data', () => {
-    const openFormPage = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <TypeOfFacilityPage
-        openFormPage={openFormPage}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ facilityType: FACILITY_TYPES.COMMUNITY_CARE }}
-      />,
+  it('should save type of facility choice on page change', async () => {
+    const store = createTestStore(initialState);
+    let screen = renderWithStoreAndRouter(
+      <Route component={TypeOfFacilityPage} />,
+      {
+        store,
+      },
     );
 
-    form.find('form').simulate('submit');
+    fireEvent.click(await screen.findByLabelText(/Community care/i));
+    await cleanup();
 
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
-  });
-
-  it('document title should match h1 text', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const pageTitle = 'Choose where you want to receive your care';
-
-    const form = mount(
-      <TypeOfFacilityPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
+    screen = renderWithStoreAndRouter(
+      <Route component={TypeOfFacilityPage} />,
+      {
+        store,
+      },
     );
 
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-    form.unmount();
+    expect(await screen.findByLabelText(/Community care/i)).to.have.attribute(
+      'checked',
+    );
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
+import _ from 'lodash';
 
 const month = (
   <React.Fragment key="months">
@@ -46,35 +47,32 @@ const CalculatorResultRow = ({
   screenReaderSpan,
 }) =>
   visible ? (
-    <div
+    <li
       id={`calculator-result-row-${createId(id == null ? label : id)}`}
       className={classNames('row', 'calculator-result', {
         'vads-u-font-weight--bold': bold,
       })}
     >
-      <div className="small-6 columns">
-        {header ? <h4>{label}:</h4> : <div>{label}:</div>}
-      </div>
-      <div className="small-6 columns vads-u-text-align--right">
-        {header ? (
-          <div>
-            <p
-              className="vads-u-font-size--h5 vads-u-font-family--serif
+      {header ? (
+        <h4 className="small-6 columns">{label}:</h4>
+      ) : (
+        <p className="small-6 columns vads-u-text-align--left">{label}:</p>
+      )}
+      {header ? (
+        <p
+          className="small-6 columns vads-u-text-align--right vads-u-font-size--h5 vads-u-font-family--serif
               vads-u-font-weight--bold eyb-value-header"
-              aria-label={value}
-            >
-              {value}
-              {screenReaderSpan}
-            </p>
-          </div>
-        ) : (
-          <div>
-            {value}
-            {screenReaderSpan}
-          </div>
-        )}
-      </div>
-    </div>
+        >
+          {value}
+          {screenReaderSpan}
+        </p>
+      ) : (
+        <p className="small-6 columns vads-u-text-align--right">
+          {value}
+          {screenReaderSpan}
+        </p>
+      )}
+    </li>
   ) : null;
 
 const perTermSections = (outputs, calculator) => {
@@ -87,11 +85,11 @@ const perTermSections = (outputs, calculator) => {
     if (!visible) return null;
 
     const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
-
+    const headerId = `${_.snakeCase(title)}_header`;
     return (
       <div key={section} className="per-term-section">
         <div className="link-header">
-          <h4>{title}</h4>
+          <h4 id={headerId}>{title}</h4>
           &nbsp;(
           <a
             href={learnMoreLink}
@@ -103,20 +101,22 @@ const perTermSections = (outputs, calculator) => {
           </a>
           )
         </div>
-
-        {terms.map(term => (
-          <CalculatorResultRow
-            key={`${section}${term.label}`}
-            id={`${section}${term.label}`}
-            label={
-              calculator.type === 'OJT' ? termLabel(term.label) : term.label
-            }
-            value={term.value}
-            bold={term.label === 'Total per year'}
-            screenReaderSpan={calculator.type === 'OJT' ? month : ''}
-            visible={term.visible}
-          />
-        ))}
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul aria-labelledby={headerId} role="list">
+          {terms.map(term => (
+            <CalculatorResultRow
+              key={`${section}${term.label}`}
+              id={`${section}${term.label}`}
+              label={
+                calculator.type === 'OJT' ? termLabel(term.label) : term.label
+              }
+              value={term.value}
+              bold={term.label === 'Total per year'}
+              screenReaderSpan={calculator.type === 'OJT' ? month : ''}
+              visible={term.visible}
+            />
+          ))}
+        </ul>
       </div>
     );
   });
@@ -137,7 +137,12 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
       Your estimated benefits
     </h3>
     <div aria-atomic="true" aria-live="polite" role="status">
-      <div className="out-of-pocket-tuition">
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul
+        className="out-of-pocket-tuition"
+        aria-label="Out-of-pocket tuition"
+        role="list"
+      >
         <CalculatorResultRow
           label="GI Bill pays to school"
           value={outputs.giBillPaysToSchool.value}
@@ -158,11 +163,16 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
         <CalculatorResultRow
           label="Out of pocket tuition"
           value={outputs.outOfPocketTuition.value}
-          bold
+          bolds
           visible={outputs.outOfPocketTuition.visible}
         />
-      </div>
-      <div className="total-paid-to-you">
+      </ul>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul
+        className="total-paid-to-you"
+        aria-label="Total paid to you"
+        role="list"
+      >
         <CalculatorResultRow
           label="Housing allowance"
           value={outputs.housingAllowance.value}
@@ -182,8 +192,9 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
           value={outputs.totalPaidToYou.value}
           bold
           visible={outputs.totalPaidToYou.visible}
+          header
         />
-      </div>
+      </ul>
     </div>
     <hr aria-hidden="true" />
     {perTermSections(outputs, calculator)}

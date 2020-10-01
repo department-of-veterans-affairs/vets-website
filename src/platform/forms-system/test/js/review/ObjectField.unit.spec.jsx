@@ -559,4 +559,61 @@ describe('Schemaform review: ObjectField', () => {
     expect(review.type).to.equal('dl');
     expect(review.props.className).to.equal('review');
   });
+  it('should render custom ObjectViewField', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const onClick = sinon.spy();
+    const schema = {
+      properties: {
+        testz: {
+          type: 'string',
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:objectViewField': ({
+        title,
+        defaultEditButton,
+        renderedProperties,
+      }) => (
+        <div>
+          <h3 className="test-title">{title}</h3>
+          <div className="test-edit">
+            {defaultEditButton({
+              label: 'fooz',
+              onEdit: onClick,
+              text: 'barz',
+            })}
+          </div>
+          <div className="test-props">{renderedProperties}</div>
+        </div>
+      ),
+      testz: {},
+    };
+    const formData = {
+      testz: { foo: 'testzz' },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        formData={formData}
+        formContext={{ pageTitle: 'Blah' }}
+        idSchema={{ $id: 'root' }}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+    expect(tree.subTree('.test-props').subTree('SchemaField')).not.to.be.empty;
+    expect(tree.subTree('SchemaField')).not.to.be.empty;
+    expect(tree.subTree('.test-title').text()).to.equal('Blah');
+    expect(tree.subTree('.test-edit')).to.not.be.empty;
+
+    const edit = tree.subTree('.test-edit').props.children.props;
+    expect(edit['aria-label']).to.equal('fooz');
+    expect(edit.children).to.equal('barz');
+    edit.onClick();
+    expect(onClick.called).to.be.true;
+  });
 });

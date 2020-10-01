@@ -58,7 +58,7 @@ Example data:
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true deriveBreadcrumbsFromUrl = true %}
 
 <div id="content" class="interior">
     <main class="va-l-detail-page va-facility-page">
@@ -70,7 +70,6 @@ Example data:
 
                 {% comment %} Content {% endcomment %}
                 <div class="usa-width-three-fourths">
-                    {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                     {% if !entityPublished %}
                         <div class="usa-alert usa-alert-info" >
                             <div class="usa-alert-body">
@@ -110,7 +109,6 @@ Example data:
         {% comment %} On non-prod environments, do not show the SideNav. {% endcomment %}
         {% else %}
             <div class="usa-grid usa-grid-full">
-                {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 {% if !entityPublished %}
                     <div class="usa-alert usa-alert-info" >
                         <div class="usa-alert-body">

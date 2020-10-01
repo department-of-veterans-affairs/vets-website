@@ -86,7 +86,7 @@ export default function SubmitButtons(props) {
 SubmitButtons.propTypes = {
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  renderErrorMessage: PropTypes.func,
+  renderErrorMessage: PropTypes.bool,
   submission: PropTypes.object,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({

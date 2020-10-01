@@ -5,11 +5,10 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
 
-const veteranLabel = `Enter Veteran\u2019s or service member\u2019s full name`;
-const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
-const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
-const secondaryTwoLabel =
-  'Enter Secondary Family Caregiver\u2019s (2) full name';
+const veteranLabel = `Enter Veteran&apos;s full name`;
+const primaryLabel = `Enter Primary Family Caregiver applicant&apos;s full name`;
+const secondaryOneLabel = `Enter Secondary Family Caregiver applicant&apos;s full name`;
+const secondaryTwoLabel = `Enter Secondary Family Caregiver applicant&apos;s (2) full name`;
 
 const testSecondaryTwo = createTestConfig(
   {

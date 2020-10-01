@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -17,8 +18,8 @@ import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 import VAFacilityPage from '../../new-appointment/components/VAFacilityPage';
-import ExpressCareInfoPage from '../../containers/ExpressCareInfoPage';
-import ExpressCareReasonPage from '../../containers/ExpressCareReasonPage';
+import ExpressCareInfoPage from '../../express-care/components/ExpressCareInfoPage';
+import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
@@ -27,6 +28,7 @@ import { mockParentSites, mockSupportedFacilities } from './helpers';
 
 import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
+import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 
 export function createTestStore(initialState) {
   return createStore(
@@ -93,6 +95,24 @@ export function renderFromRoutes({ initialState, store = null, path = '/' }) {
   );
 
   return { ...screen, history };
+}
+
+export async function setTypeOfFacility(store, label) {
+  const history = {
+    push: sinon.spy(),
+  };
+  const { findByLabelText, getByText } = renderWithStoreAndRouter(
+    <TypeOfFacilityPage history={history} />,
+    { store },
+  );
+
+  const radioButton = await findByLabelText(label);
+  fireEvent.click(radioButton);
+  fireEvent.click(getByText(/Continue/));
+  await waitFor(() => expect(history.push.called).to.be.true);
+  await cleanup();
+
+  return history.push.firstCall.args[0];
 }
 
 export async function setTypeOfCare(store, label) {
@@ -239,9 +259,12 @@ export async function setExpressCareReason({ store, label }) {
   const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
     store,
   });
-  await screen.findByText('Select a reason for your Express Care request');
-  fireEvent.click(screen.getByLabelText(label));
-  fireEvent.click(screen.getByText(/^Continue/));
+
+  userEvent.click(await screen.findByLabelText(label));
+
+  await waitFor(() => expect(screen.getByLabelText(label).checked).to.be.true);
+
+  userEvent.click(screen.getByText(/^Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 }

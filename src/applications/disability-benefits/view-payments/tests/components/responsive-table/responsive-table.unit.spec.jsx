@@ -2,14 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import ResponsiveTable from '../../../components/responsive-table/ResponsiveTable.jsx';
-import { mockData, fields } from '../view-payments-lists/helpers';
+import { payments, fields } from '../../helpers';
 
 describe('<ResponsiveTable />', () => {
   it('Should Render', () => {
     const wrapper = shallow(
       <ResponsiveTable
         fields={fields}
-        data={mockData.received}
+        data={payments.payments}
         currentSort={{
           value: 'Date',
           order: 'ASC',
@@ -25,7 +25,7 @@ describe('<ResponsiveTable />', () => {
     const wrapper = shallow(
       <ResponsiveTable
         fields={fields}
-        data={mockData.received}
+        data={payments.payments}
         currentSort={{
           value: 'Date',
           order: 'ASC',
@@ -42,7 +42,7 @@ describe('<ResponsiveTable />', () => {
     const wrapper = shallow(
       <ResponsiveTable
         fields={fields}
-        data={mockData.received}
+        data={payments.payments}
         currentSort={{
           value: 'Date',
           order: 'ASC',
@@ -50,7 +50,7 @@ describe('<ResponsiveTable />', () => {
       />,
     );
 
-    expect(wrapper.find('tr')).to.have.lengthOf(12); // includes header row
+    expect(wrapper.find('tr')).to.have.lengthOf(10); // includes header row
     wrapper.unmount();
   });
 });

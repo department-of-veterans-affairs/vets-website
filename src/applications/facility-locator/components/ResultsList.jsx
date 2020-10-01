@@ -17,7 +17,7 @@ import {
 
 import { distBetween } from '../utils/facilityDistance';
 import { setFocus } from '../utils/helpers';
-
+import { recordSearchResultsEvents } from '../utils/analytics';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
@@ -34,10 +34,12 @@ class ResultsList extends Component {
     super(props);
     this.searchResultTitle = React.createRef();
   }
+
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.results !== this.props.results ||
-      nextProps.inProgress !== this.props.inProgress
+      nextProps.inProgress !== this.props.inProgress ||
+      nextProps.error !== this.props.error
     );
   }
 
@@ -54,14 +56,21 @@ class ResultsList extends Component {
    * @returns [] list of results
    */
   renderResultItems(query, results) {
-    return results.map(r => {
+    return results.map((r, index) => {
       let item;
       switch (query.facilityType) {
         case 'health':
         case 'cemetery':
         case 'benefits':
         case 'vet_center':
-          item = <VaFacilityResult location={r} query={query} key={r.id} />;
+          item = (
+            <VaFacilityResult
+              location={r}
+              query={query}
+              key={r.id}
+              index={index}
+            />
+          );
           break;
         case 'provider':
           // Support non va urgent care search through ccp option
@@ -80,12 +89,20 @@ class ResultsList extends Component {
           if (r.type === LocationType.CC_PROVIDER) {
             item = <UrgentCareResult provider={r} query={query} key={r.id} />;
           } else {
-            item = <VaFacilityResult location={r} query={query} key={r.id} />;
+            item = (
+              <VaFacilityResult
+                location={r}
+                query={query}
+                key={r.id}
+                index={index}
+              />
+            );
           }
           break;
         default:
           item = null;
       }
+
       return item;
     });
   }
@@ -98,6 +115,7 @@ class ResultsList extends Component {
       searchString,
       results,
       error,
+      pagination: { currentPage },
       currentQuery,
       query,
     } = this.props;
@@ -173,6 +191,7 @@ class ResultsList extends Component {
           distance,
           resultItem: true,
           searchString,
+          currentPage,
         };
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance)
@@ -183,6 +202,10 @@ class ResultsList extends Component {
           markerText,
         };
       });
+
+    if (sortedResults.length > 0) {
+      recordSearchResultsEvents(this.props, sortedResults);
+    }
     return <div>{this.renderResultItems(query, sortedResults)}</div>;
   }
 }
@@ -223,6 +246,7 @@ function mapStateToProps(state) {
     position,
     searchString,
     selectedResult: state.searchResult.selectedResult,
+    resultTime: state.searchResult.resultTime,
   };
 }
 

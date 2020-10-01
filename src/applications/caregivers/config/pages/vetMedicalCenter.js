@@ -1,7 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { medicalCentersByState } from 'applications/caregivers/helpers';
 import { states } from 'platform/forms/address';
-import { VetInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { vetFields } from 'applications/caregivers/definitions/constants';
 import definitions from 'applications/caregivers/definitions/caregiverUI';
 
@@ -10,9 +9,6 @@ const { vetUI } = definitions;
 
 const vetMedicalCenterPage = {
   uiSchema: {
-    'ui:description': VetInfo({
-      pageTitle: 'VA medical center',
-    }),
     [vetFields.previousTreatmentFacility]: vetUI.previousTreatmentFacilityUI,
     [vetFields.preferredFacilityView]: {
       ...vetUI[vetFields.preferredFacilityView],
@@ -26,7 +22,7 @@ const vetMedicalCenterPage = {
       [vetFields.previousTreatmentFacility]: {
         type: 'object',
         additionalProperties: false,
-        required: ['name', 'type'],
+        required: [],
         properties: {
           name: {
             type: 'string',
