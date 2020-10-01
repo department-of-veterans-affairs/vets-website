@@ -15,6 +15,7 @@ const WebpackBar = require('webpackbar');
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
+const environment = require('../src/platform/utilities/environment/index.js');
 
 const {
   getAppManifests,
@@ -251,10 +252,7 @@ module.exports = env => {
 
           if (showHash) return standardFilename;
 
-          const isStaging =
-            buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING;
-
-          return isStaging ? `${name}.css` : standardFilename;
+          return environment.isStaging() ? `${name}.css` : standardFilename;
         },
       }),
 
