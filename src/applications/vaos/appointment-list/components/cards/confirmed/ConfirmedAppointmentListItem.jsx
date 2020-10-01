@@ -21,6 +21,7 @@ import {
   isVideoAppointment,
   isAtlasLocation,
   getVideoKind,
+  hasPractitioner,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
 import {
@@ -41,14 +42,6 @@ function formatAppointmentDate(date) {
   }
 
   return date.format('MMMM D, YYYY');
-}
-
-function hasPractitioner(appointment) {
-  const participant = appointment?.participant;
-  if (participant?.length) {
-    return participant.some(p => p.actor?.reference?.includes('Practitioner'));
-  }
-  return false;
 }
 
 export default function ConfirmedAppointmentListItem({
@@ -81,8 +74,6 @@ export default function ConfirmedAppointmentListItem({
     videoKind !== VIDEO_TYPES.gfe;
 
   const showProvider = isVideo && hasPractitioner(appointment);
-
-  // console.log(hasPractitioner(appointment));
 
   let instructionText = 'VA appointment';
   if (showInstructions) {
@@ -202,7 +193,7 @@ export default function ConfirmedAppointmentListItem({
       {showProvider && (
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <VideoVisitProviderSection participants={appointment} />
+            <VideoVisitProviderSection participants={appointment.participant} />
           </div>
         </div>
       )}

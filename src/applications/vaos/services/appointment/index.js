@@ -391,15 +391,11 @@ export function hasPractitioner(appointment) {
 }
 
 /**
- * Method to parse out the appointment practitioner
- * @param {Object} appointment An appointment resource
- * @return {String} Returns the appointment practitioner display.
+ * Method to parse out the appointment practitioner of participants array
+ * @param {Array} participants An array of appointment participants
+ * @return {Object} Returns the appointment practitioner object.
  */
-export function getPractitioner() {
-  return 'hello';
-  // const participant = appointment?.participant;
-  // if (participant?.length) {
-  //   return participant.some(p => p.actor?.reference?.includes('Practitioner'))
-  // }
-  // return false;
+export function getPractitionerDisplay(participants) {
+  return participants.find(p => p.actor.reference.includes('Practitioner'))
+    .actor.display;
 }
