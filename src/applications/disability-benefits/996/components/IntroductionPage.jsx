@@ -129,7 +129,7 @@ export class IntroductionPage extends React.Component {
           <WizardContainer setWizardStatus={this.setWizardStatus} />
         ) : (
           <>
-            <CallToActionWidget appId="higher-level-review">
+            <CallToActionWidget appId="higher-level-review" headerLevel={2}>
               {callToActionContent}
             </CallToActionWidget>
             <h2 className="vads-u-font-size--h3">
@@ -232,11 +232,9 @@ export class IntroductionPage extends React.Component {
                 </li>
               </ol>
             </div>
-            <CallToActionWidget appId="higher-level-review">
+            <CallToActionWidget appId="higher-level-review" headerLevel={2}>
               {callToActionContent}
             </CallToActionWidget>
-            {/* TODO: Remove inline style after I figure out why
-              .omb-info--container has a left padding */}
             <div className="omb-info--container vads-u-padding-left--0">
               <OMBInfo
                 resBurden={15}
