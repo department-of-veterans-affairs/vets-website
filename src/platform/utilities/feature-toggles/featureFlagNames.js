@@ -60,5 +60,5 @@ export default Object.freeze({
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   show526Wizard: 'show526Wizard',
   showChapter36: 'show_chapter_36',
-  form1995EduFormUpdates: 'form_1995_edu_updates',
+  form1995EduUpdates: 'form_1995_edu_updates',
 });
