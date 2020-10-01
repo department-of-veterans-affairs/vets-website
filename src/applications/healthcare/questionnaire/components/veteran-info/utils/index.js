@@ -1,3 +1,9 @@
+import { states50AndDC } from 'vets-json-schema/dist/constants.json';
+
+const stateCodeToFullState = stateCode => {
+  return states50AndDC.filter(f => f.value === stateCode)[0]?.label;
+};
+
 const addressToDisplay = address => {
   const rv = [];
   if (!address) {
@@ -36,7 +42,7 @@ const addressToDisplay = address => {
   if (address.stateCode) {
     rv.push({
       label: 'State',
-      value: address.stateCode,
+      value: stateCodeToFullState(address.stateCode),
     });
   }
   // zipCode
@@ -59,4 +65,4 @@ const formatPhoneNumber = phoneNumberString => {
   return null;
 };
 
-export { addressToDisplay, formatPhoneNumber };
+export { addressToDisplay, formatPhoneNumber, stateCodeToFullState };
