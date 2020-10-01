@@ -245,14 +245,13 @@ module.exports = env => {
       new MiniCssExtractPlugin({
         moduleFilename: chunk => {
           const { name } = chunk;
-          const standardFilename = `${name}.[contenthash]-${timestamp}.css`;
-          const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
-          const isStandardFile = !isMedalliaStyleFile;
-          const showHash = isOptimizedBuild && isStandardFile;
+          const isMedalliaStyleFile = name === vaMedalliaStylesFilename; 
 
-          if (showHash) return standardFilename;
+          if (isMedalliaStyleFile && environment.isStaging()) return `${name}.css`;
 
-          return environment.isStaging() ? `${name}.css` : standardFilename;
+          return isOptimizedBuild
+            ? `${name}.[contenthash]-${timestamp}.css`
+            : `${name.css}`;
         },
       }),
 
