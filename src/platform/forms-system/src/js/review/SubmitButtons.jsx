@@ -94,6 +94,7 @@ SubmitButtons.propTypes = {
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
+      submitButtonText: PropTypes.string,
     }),
   }),
 };
