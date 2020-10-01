@@ -21,8 +21,6 @@ export default function Vet360EditModalErrorMessage({
 }) {
   let content = null;
 
-  console.log('This is errors', errors);
-
   switch (true) {
     case hasError(LOW_CONFIDENCE_ADDRESS_ERROR_CODES, errors):
       content = (
