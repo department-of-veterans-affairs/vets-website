@@ -23,14 +23,6 @@
           <!-- Intro -->
           <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
 
-          <!-- TOC -->
-          {% if fieldTableOfContentsBoolean %}
-            <section id="table-of-contents">
-              <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
-              <ul class="usa-unstyled-list"></ul>
-            </section>
-          {% endif %}
-
           <!-- Alert -->
           {% if fieldAlertSingle %}
             {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
@@ -42,6 +34,14 @@
               {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
             {% endfor %}
           </div>
+
+          <!-- TOC -->
+          {% if fieldTableOfContentsBoolean %}
+            <section id="table-of-contents">
+              <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+              <ul class="usa-unstyled-list"></ul>
+            </section>
+          {% endif %}
 
           <!-- Content blocks -->
           {% for block in fieldContentBlock %}
