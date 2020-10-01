@@ -15,7 +15,6 @@ const WebpackBar = require('webpackbar');
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
-const environment = require('../src/platform/utilities/environment/index.js');
 
 const {
   getAppManifests,
@@ -245,9 +244,12 @@ module.exports = env => {
       new MiniCssExtractPlugin({
         moduleFilename: chunk => {
           const { name } = chunk;
-          const isMedalliaStyleFile = name === vaMedalliaStylesFilename; 
+          const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
 
-          if (isMedalliaStyleFile && environment.isStaging()) return `${name}.css`;
+          const isStaging =
+            buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING;
+
+          if (isMedalliaStyleFile && isStaging) return `${name}.css`;
 
           return isOptimizedBuild
             ? `${name}.[contenthash]-${timestamp}.css`
