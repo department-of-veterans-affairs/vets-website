@@ -306,7 +306,7 @@ class SearchApp extends React.Component {
             </DowntimeNotification>
           </div>
           <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
-            <h4 className="highlight">More VA Search Tools</h4>
+            <h4 className="highlight">More VA search tools</h4>
             <ul>
               <li>
                 <a
