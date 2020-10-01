@@ -174,25 +174,6 @@ export const renderAdditionalInfo = diaryCode => {
           </p>
         </div>
       );
-    case '450':
-      return (
-        <div>
-          <p>
-            <strong>Status: </strong>
-            We're keeping part of your [benefit type] payments each month to pay
-            your debt (called monthly offsets).
-          </p>
-          <p>
-            <strong>Next step: </strong>
-            We'll keep offsetting your benefits each month until your debt is
-            paid in full. If you'd like to pay in full now, please call us first
-            to make sure you don't overpay. If you stop receiving VA benefits,
-            call us to set up a new payment plan. We're here at 800-827-0648 (or
-            1-612-713-6415 from overseas), Monday through Friday, 7:30 a.m. to
-            7:00 p.m. ET.
-          </p>
-        </div>
-      );
     case '811':
       return (
         <div>
@@ -281,24 +262,6 @@ export const renderAdditionalInfo = diaryCode => {
             We'll send you a letter with our decision. Please continue to make
             payments while we complete our review. [Review payment
             options](anchor link to how to pay debt section below]
-          </p>
-        </div>
-      );
-    case '430':
-    case '431':
-      return (
-        <div>
-          <p>
-            <strong>Status: </strong>
-            Your payment is due.
-          </p>
-          <p>
-            <strong>Next step: </strong>
-            Please continue to make payments. If you begin receiving VA
-            benefits, call us to set up an automatic payment plan. We'll keep
-            part of your benefit amount each month to pay your debt. We're here
-            at 800-827-0648 (or 1-612-713-6415 from overseas), Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         </div>
       );
@@ -409,6 +372,7 @@ export const renderAdditionalInfo = diaryCode => {
         </div>
       );
     case '101':
+    case '450':
     case '602':
     case '607':
     case '608':
@@ -491,6 +455,8 @@ export const renderAdditionalInfo = diaryCode => {
           </p>
         </div>
       );
+    case '430':
+    case '431':
     case '600':
     case '601':
       return (
