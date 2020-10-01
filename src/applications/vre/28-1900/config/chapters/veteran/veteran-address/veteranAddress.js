@@ -11,6 +11,9 @@ export const schema = {
     mainPhone,
     cellPhone,
     email,
+    'view:confirmEmail': {
+      type: 'string',
+    },
   },
 };
 
@@ -35,4 +38,20 @@ export const uiSchema = {
     },
   },
   email: emailUI(),
+  'view:confirmEmail': {
+    ...emailUI(),
+    'ui:title': 'Confirm email address',
+    'ui:required': formData => typeof formData.email === 'string',
+    'ui:validations': [
+      {
+        validator: (errors, fieldData, formData) => {
+          if (formData.email !== formData['view:confirmEmail']) {
+            errors.addError(
+              'This email does not match your previously entered email',
+            );
+          }
+        },
+      },
+    ],
+  },
 };

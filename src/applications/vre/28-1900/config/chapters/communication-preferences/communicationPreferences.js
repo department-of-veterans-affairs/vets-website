@@ -17,7 +17,7 @@ const {
 
 export const schema = {
   type: 'object',
-  required: ['isInterestedInEva', 'isInterestedInTeleCounseling'],
+  required: ['useEva', 'useTelecounseling'],
   properties: {
     'view:VreCommunicationInformation': {
       type: 'object',
