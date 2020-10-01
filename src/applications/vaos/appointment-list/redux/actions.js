@@ -27,6 +27,7 @@ import {
   isAtlasLocation,
   isVideoGFE,
   isVideoVAFacility,
+  isVideoStoreForward,
 } from '../../services/appointment';
 
 import { captureError, has400LevelError } from '../../utils/error';
@@ -205,9 +206,12 @@ export function fetchFutureAppointments() {
             requestSuccessEvent[`${GA_PREFIX}-video-gfe-number-of-cards`] =
               videoGFE.length;
 
-            // TODO
-            // const storeForward = requests.filter();
-            // const groupVideo = requests.filter();
+            const videoStoreForward = requests.filter(appt =>
+              isVideoStoreForward(appt),
+            );
+            requestSuccessEvent[
+              `${GA_PREFIX}-video-store-forward-number-of-cards`
+            ] = videoStoreForward.length;
 
             recordEvent(requestSuccessEvent);
             resetDataLayer();

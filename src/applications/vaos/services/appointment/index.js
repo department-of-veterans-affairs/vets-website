@@ -349,16 +349,28 @@ export function isAtlasLocation(appointment) {
  * @return (Boolean} Returns whether or not the appointment is a home video appointment.
  */
 export function isVideoHome(appointment) {
-  return appointment.contained?.[0]?.telecom?.find(
-    tele => tele.system === 'url',
-  )?.value;
+  const videoKind = getVideoKind(appointment);
+  const isAtlas = isAtlasLocation(appointment);
+  return (
+    !isAtlas &&
+    (videoKind === VIDEO_TYPES.mobile || videoKind === VIDEO_TYPES.adhoc)
+  );
 }
 
 /**
  * Method to check for VA facility video appointment
- * @param {} appointment appointment A FHIR appointment resource
+ * @param {} appointment A FHIR appointment resource
  * @return (Boolean} Returns whether or not the appointment is a VA facility video appointment.
  */
 export function isVideoVAFacility(appointment) {
   return VIDEO_TYPES.clinic === getVideoKind(appointment);
+}
+
+/**
+ * Method to check for store forward video appointment
+ * @param {*} appointment A FHIR appointment resource
+ * @return (Boolean} Returns whether or not the appointment is a store forward video appointment.
+ */
+export function isVideoStoreForward(appointment) {
+  return VIDEO_TYPES.storeForward === getVideoKind(appointment);
 }
