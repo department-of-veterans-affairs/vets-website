@@ -24,40 +24,37 @@ const {
   serviceBefore1977,
 } = fullSchema1995.definitions;
 
-const formConfig = _featureToggles => {
-  // console.log(featureToggles);
-  return {
-    urlPrefix: '/',
-    submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
-    submit: submitForm,
-    trackingPrefix: 'edu-1995-',
-    formId: VA_FORM_IDS.FORM_22_1995,
-    version: 1,
-    migrations: [urlMigration('/1995')],
-    prefillEnabled: true,
-    prefillTransformer,
-    savedFormMessages: {
-      notFound: 'Please start over to apply for education benefits.',
-      noAuth:
-        'Please sign in again to resume your application for education benefits.',
-    },
-    transformForSubmit: transform,
-    introduction: IntroductionPage,
-    confirmation: ConfirmationPage,
-    defaultDefinitions: {
-      preferredContactMethod,
-      serviceBefore1977,
-      date,
-      dateRange,
-    },
-    title: 'Update your education benefits',
-    subTitle: 'Form 22-1995',
-    preSubmitInfo,
-    footerContent: FormFooter,
-    getHelp: GetFormHelp,
-    errorText: ErrorText,
-    chapters,
-  };
+const formConfig = {
+  urlPrefix: '/',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
+  submit: submitForm,
+  trackingPrefix: 'edu-1995-',
+  formId: VA_FORM_IDS.FORM_22_1995,
+  version: 1,
+  migrations: [urlMigration('/1995')],
+  prefillEnabled: true,
+  prefillTransformer,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for education benefits.',
+    noAuth:
+      'Please sign in again to resume your application for education benefits.',
+  },
+  transformForSubmit: transform,
+  introduction: IntroductionPage,
+  confirmation: ConfirmationPage,
+  defaultDefinitions: {
+    preferredContactMethod,
+    serviceBefore1977,
+    date,
+    dateRange,
+  },
+  title: 'Update your education benefits',
+  subTitle: 'Form 22-1995',
+  preSubmitInfo,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
+  errorText: ErrorText,
+  chapters,
 };
 
 export default formConfig;
