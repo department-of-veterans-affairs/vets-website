@@ -60,7 +60,7 @@ export class ConfirmationPage extends React.Component {
             future studies you may be eligible to join.
           </p>
           <p>
-            <a href="coronavirus-research/">
+            <a href="/coronavirus-research/">
               Learn more about volunteering for coronavirus research at VA
             </a>
           </p>
