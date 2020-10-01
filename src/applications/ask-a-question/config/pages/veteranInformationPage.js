@@ -22,7 +22,6 @@ const veteranInformationPage = {
   },
   schema: {
     type: 'object',
-    required: [],
     properties: {
       [formFields.veteranStatus]: veteranStatus,
       [formFields.veteranInformation]: veteranInformation,
