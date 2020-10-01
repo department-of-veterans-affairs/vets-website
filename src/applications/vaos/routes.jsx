@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
 import AppointmentsPage from './appointment-list/components/AppointmentsPage';
-import VAOSApp from './containers/VAOSApp';
+import VAOSApp from './components/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';
 import { captureError } from './utils/error';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';

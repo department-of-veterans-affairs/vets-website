@@ -1,11 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const HowDoIPay = () => (
   <div className="vads-u-font-family--sans">
-    <h3 className="right-heading vads-u-margin-top--0">
+    <h3
+      id="howDoIPay"
+      className="vads-u-margin-top--4 vads-u-margin-bottom-2 vads-u-font-size--h2"
+    >
       How do I pay my VA debt?
     </h3>
-    <p>
+    <p className="vads-u-margin-top--0">
       You can pay your debt online, by phone, or by mail. If you can't pay all
       of your debt or if you currently receive monthly benefits, call the Debt
       Management Center at{' '}
@@ -35,9 +39,9 @@ const HowDoIPay = () => (
       {'.'}
     </p>
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By mail</h3>
-    <p className="vads-u-margin-top--0">
-      Find instructions on how to pay by mail in the demand letters sent to your
-      address or download your most recent letter.
+    <p className="vads-u-margin-y--0">
+      Find instructions on how to pay by mail in the demand letter sent to your
+      address or you can <Link to="/debt-letters">download them online</Link>.
     </p>
   </div>
 );
