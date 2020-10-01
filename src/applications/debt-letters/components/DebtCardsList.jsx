@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
 import DebtLetterCard from './DebtLetterCard';
-import DebtLetterCardV2 from './DebtLetterCardV2';
+import { Link } from 'react-router';
 
-const DebtCardsList = ({ debts, isError, showDebtLettersV2 }) => {
+const DebtCardsList = ({ debts, isError }) => {
   const renderAlert = () => (
     <div
       className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
@@ -37,35 +35,57 @@ const DebtCardsList = ({ debts, isError, showDebtLettersV2 }) => {
     </div>
   );
 
-  const Card = showDebtLettersV2 ? DebtLetterCardV2 : DebtLetterCard;
   return (
     <>
-      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+      <h2
+        id="currentDebts"
+        className="vads-u-margin-top--4 vads-u-margin-bottom--2"
+      >
         Current debts
       </h2>
       {isError && renderAlert()}
       {!isError &&
         debts.length > 0 && (
           <>
-            <p className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0">
-              This list shows your current debts, the date they were created,
-              and the amount you owe.
-            </p>
-            <p className="vads-u-font-size--base vads-u-margin-bottom--0 vads-u-font-family--sans">
-              <strong>Note: </strong>
-              This list may not show your most recently updated debts. If you
-              have questions about your VA debt, contact the Debt Management
-              Center at{' '}
-              <a href="tel: 800-827-0648" aria-label="8 0 0. 8 2 7. 0 6 4 8.">
+            <div className="vads-u-margin-top--3">
+              {debts.map((debt, index) => (
+                <DebtLetterCard
+                  key={`${index}-${debt.fileNumber}`}
+                  debt={debt}
+                />
+              ))}
+            </div>
+            <h3 className="vads-u-font-size--h4">
+              What if I don't see a debt?
+            </h3>
+            <p className="vads-u-font-family--sans">
+              If you’ve received a letter about a VA debt, but don’t see it
+              listed here call the Debt Management Center (DMC) at{' '}
+              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
                 800-827-0648
               </a>
               {'.'}
             </p>
-            <div className="vads-u-margin-top--3">
-              {debts.map((debt, index) => (
-                <Card key={`${index}-${debt.fileNumber}`} debt={debt} />
-              ))}
-            </div>
+            <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+              For medical co-payment debt, please go to Pay your VA copay bill
+              to learn about your payment options.
+            </p>
+            <h3
+              id="downloadDebtLetters"
+              className="vads-u-margin-top--4 vads-u-font-size--h2"
+            >
+              Download debt letters
+            </h3>
+            <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
+              You can download some of your letters for education, compensation
+              and pension debt.
+            </p>
+            <Link
+              to="debt-letters"
+              className="vads-u-margin-top--1 vads-u-font-family--sans"
+            >
+              Download letters related to your va debt
+            </Link>
           </>
         )}
       {!isError &&
@@ -96,9 +116,6 @@ const DebtCardsList = ({ debts, isError, showDebtLettersV2 }) => {
 const mapStateToProps = state => ({
   debts: state.debtLetters.debts,
   isError: state.debtLetters.isError,
-  showDebtLettersV2: toggleValues(state)[
-    FEATURE_FLAG_NAMES.debtLettersShowLettersV2
-  ],
 });
 
 DebtCardsList.propTypes = {
