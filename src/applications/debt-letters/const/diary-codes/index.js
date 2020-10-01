@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 export const diaryCodes = Object.freeze({
   '71': 'Pending Veteran deployment verification',
@@ -80,7 +81,13 @@ export const diaryCodes = Object.freeze({
   '820': 'Your waiver request is being reviewed',
 });
 
-export const renderAdditionalInfo = diaryCode => {
+export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
+  const endDate = (date, days) => {
+    return moment(date)
+      .add(days, 'days')
+      .format('MMMM Do, YYYY,');
+  };
+
   switch (diaryCode) {
     case '71':
       return (
@@ -126,7 +133,7 @@ export const renderAdditionalInfo = diaryCode => {
           <p>
             <strong>Next step: </strong>
             Please pay now or contact us about payment options by
-            <strong> [date of letter + 60 days] </strong> to avoid more late
+            <strong> {endDate(dateOfLetter, 60)} </strong> to avoid more late
             charges, interest, or collection actions. These include having your
             debt reported to credit reporting agencies or referred to the U.S.
             Department of the Treasury.
@@ -150,11 +157,11 @@ export const renderAdditionalInfo = diaryCode => {
           <p>
             <strong>Next step: </strong>
             Please pay now or contact us about payment options by
-            <strong> [date of letter + 60 days] </strong> to avoid more late
-            charges, interest, or collection actions. If you don't pay or make
-            other arrangements with us by this date, we're required by law to
-            refer your debt to the U.S. Department of the Treasury. After we do
-            that, we can't help you manage your debt.
+            <strong> {endDate(dateOfLetter, 60)} </strong>
+            to avoid more late charges, interest, or collection actions. If you
+            don't pay or make other arrangements with us by this date, we're
+            required by law to refer your debt to the U.S. Department of the
+            Treasury. After we do that, we can't help you manage your debt.
           </p>
           <p>
             We're here at 800-827-0648 (or 1-612-713-6415 from overseas), Monday
@@ -558,7 +565,7 @@ export const renderAdditionalInfo = diaryCode => {
           <p>
             <strong>Next step: </strong>
             Please pay now or contact us about payment options by
-            <strong> [date of letter + 30 days] </strong>
+            <strong> {endDate(dateOfLetter, 30)} </strong>
             to avoid late charges, interest, or collection actions. We're here
             at 800-827-0648 (or 1-612-713-6415 from overseas), Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
