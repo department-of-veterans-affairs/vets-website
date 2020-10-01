@@ -289,7 +289,9 @@ describe('VAOS integration: past appointments', () => {
       initialState,
     });
 
-    await findByText('Video appointment at home');
+    await findByText(
+      (_, node) => node.textContent === 'VA Video Connect at home',
+    );
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(baseElement).to.contain.text('VA Video Connect');
@@ -360,7 +362,7 @@ describe('VAOS integration: past appointments', () => {
 
     expect(dateHeadings).to.deep.equal([
       firstDate.format('dddd, MMMM D, YYYY [at] h:mm a'),
-      'Video appointment at home',
+      secondDate.format('dddd, MMMM D, YYYY [at] h:mm a'),
       thirdDate.format('dddd, MMMM D, YYYY [at] h:mm a [UTC UTC]'),
     ]);
   });
