@@ -484,6 +484,11 @@ class VAMap extends Component {
               />
             </TabPanel>
             <TabPanel>
+              <p className="vads-u-visibility--screen-reader">
+                Please note: Due to technical limitations, the map is not
+                providing an accessible experience for screen reader devices.
+                We're working to deliver an enhanced screen reader experience.
+              </p>
               <Map
                 ref="map"
                 id="map-id"
@@ -574,6 +579,11 @@ class VAMap extends Component {
           </div>
         </div>
         <div className="desktop-map-container">
+          <p className="vads-u-visibility--screen-reader">
+            Please note: Due to technical limitations, the map is not providing
+            an accessible experience for screen reader devices. We're working to
+            deliver an enhanced screen reader experience.
+          </p>
           <Map
             ref="map"
             id="map-id"
