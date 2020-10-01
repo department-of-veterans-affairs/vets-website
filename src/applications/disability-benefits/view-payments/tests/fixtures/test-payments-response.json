@@ -1,0 +1,105 @@
+{
+  "data": {
+    "id": "",
+    "type": "bgs_va_payment_history_response",
+    "attributes": {
+      "payments": [
+        {
+          "payCheckAmount": "$3,261.10",
+          "payCheckDt": "04/01/2019",
+          "payCheckId": "001",
+          "payCheckReturnFiche": "C",
+          "payCheckType": "Compensation & Pension - Recurring"
+        },
+        {
+          "payCheckAmount": "$3,261.10",
+          "payCheckDt": "04/01/2019",
+          "payCheckId": "001",
+          "payCheckReturnFiche": "C",
+          "payCheckType": "Compensation & Pension - Recurring"
+        },
+        {
+          "payCheckAmount": "$3,261.10",
+          "payCheckDt": "04/01/2019",
+          "payCheckId": "001",
+          "payCheckReturnFiche": "C",
+          "payCheckType": "Compensation & Pension - Recurring"
+        },
+        {
+          "payCheckAmount": "$3,261.10",
+          "payCheckDt": "04/01/2019",
+          "payCheckId": "001",
+          "payCheckReturnFiche": "C",
+          "payCheckType": "Compensation & Pension - Recurring"
+        },
+        {
+          "payCheckAmount": "$3,261.10",
+          "payCheckDt": "04/01/2019",
+          "payCheckId": "001",
+          "payCheckReturnFiche": "C",
+          "payCheckType": "Compensation & Pension - Recurring"
+        },
+        {
+          "payCheckAmount": "$3,261.10",
+          "payCheckDt": "04/01/2019",
+          "payCheckId": "001",
+          "payCheckReturnFiche": "C",
+          "payCheckType": "Compensation & Pension - Recurring"
+        },
+        {
+          "payCheckAmount": "$3,261.10",
+          "payCheckDt": "04/01/2019",
+          "payCheckId": "001",
+          "payCheckReturnFiche": "C",
+          "payCheckType": "Compensation & Pension - Recurring"
+        },
+        {
+          "payCheckAmount": "$3,261.10",
+          "payCheckDt": "04/01/2019",
+          "payCheckId": "001",
+          "payCheckReturnFiche": "C",
+          "payCheckType": "Compensation & Pension - Recurring"
+        },
+        {
+          "payCheckAmount": "$3,261.10",
+          "payCheckDt": "04/01/2019",
+          "payCheckId": "001",
+          "payCheckReturnFiche": "C",
+          "payCheckType": "Compensation & Pension - Recurring"
+        }
+      ],
+      "returnPayments": [
+        {
+          "returnedCheckAmount": null,
+          "returnedCheckCancelDt": "12/01/2012",
+          "returnedCheckIssueDt": null,
+          "returnedCheckNum": "12365494",
+          "returnedCheckRo": "17",
+          "returnedCheckReason": "6",
+          "returnedCheckReturnFiche": "B",
+          "returnedCheckType": "Other"
+        },
+        {
+          "returnedCheckAmount": null,
+          "returnedCheckCancelDt": "12/01/2012",
+          "returnedCheckIssueDt": null,
+          "returnedCheckNum": "12365494",
+          "returnedCheckRo": "17",
+          "returnedCheckReason": "6",
+          "returnedCheckReturnFiche": "B",
+          "returnedCheckType": "Other"
+        },
+        {
+          "returnedCheckAmount": null,
+          "returnedCheckCancelDt": "12/01/2012",
+          "returnedCheckIssueDt": null,
+          "returnedCheckNum": "12365494",
+          "returnedCheckRo": "17",
+          "returnedCheckReason": "6",
+          "returnedCheckReturnFiche": "B",
+          "returnedCheckType": "Other"
+        }
+      ]
+    }
+  }
+}
