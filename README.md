@@ -4,7 +4,7 @@
 
 This is the front end repository for VA.gov. It contains application code and templates used across the site.
 
-There are several repositories that contain the code and content used to build VA.gov. If you're looking to get started running VA.gov locally, you should read the [Getting Started](https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/getting-started) documentation.
+There are many diffrent type of repositories that contain the code and content used to build VA.gov. If you're looking to get started running VA.gov locally, you should read the [Getting Started](https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/getting-started) documentation.
 
 ## Common commands
 
@@ -46,7 +46,7 @@ You can also **limit the applications Webpack builds** with `--env.entry`:
 yarn watch --env.entry static-pages,auth
 ```
 
-The `entryname` for your application can be found in its `manifest.json` file.
+The `entry name` for your application can be found in its `manifest.json` file.
 
 If you're developing a feature that requires the API, but can't or don't want to
 run it locally, you can specify `--env.api`:
