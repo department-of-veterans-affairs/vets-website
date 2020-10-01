@@ -18,7 +18,7 @@ function InitialConfirmEligibilityView(props) {
               Based on your response, you may not be eligible
             </h4>
             <div className="usa-alert-text">
-              <p role="alert">
+              <p>
                 <strong>
                   You must be a Post-9/11 GI Bill or Fry Scholarship beneficiary
                   to qualify for the scholarship.
