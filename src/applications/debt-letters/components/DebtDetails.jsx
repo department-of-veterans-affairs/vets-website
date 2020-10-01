@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { deductionCodes } from '../const';
+import { deductionCodes } from '../const/deduction-codes';
 import HowDoIPayV2 from './HowDoIPayV2';
 import NeedHelpV2 from './NeedHelpV2';
 import { OnThisPageLinks } from './OnThisPageLinks';

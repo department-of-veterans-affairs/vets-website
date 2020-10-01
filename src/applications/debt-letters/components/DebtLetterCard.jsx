@@ -2,7 +2,7 @@ import React from 'react';
 import head from 'lodash/head';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import { deductionCodes, renderAdditionalInfo } from '../const';
+import { deductionCodes, renderAdditionalInfo } from '../const/deduction-codes';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
