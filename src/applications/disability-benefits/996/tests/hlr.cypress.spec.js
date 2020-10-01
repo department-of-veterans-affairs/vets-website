@@ -55,29 +55,8 @@ const testConfig = createTestConfig(
         'fx:mocks/application-submit',
       );
 
-      cy.get('@testData').then(() => {
-        cy.route('GET', '/v0/in_progress_forms/20-0996', {
-          formData: {
-            veteran: {
-              phoneNumber: '5033333333',
-              emailAddress: 'mike.wazowski@gmail.com',
-              ssnLastFour: '9876',
-              vaFileLastFour: '8765',
-              street: '1200 Park Ave',
-              street2: '',
-              street3: '',
-              city: 'Emeryville',
-              country: 'USA',
-              state: 'CA',
-              zipCode5: '94608',
-            },
-          },
-          metadata: {
-            version: 0,
-            prefill: true,
-            returnUrl: '/veteran-information',
-          },
-        });
+      cy.get('@testData').then(testData => {
+        cy.route('GET', '/v0/in_progress_forms/20-0996', testData);
       });
     },
 
