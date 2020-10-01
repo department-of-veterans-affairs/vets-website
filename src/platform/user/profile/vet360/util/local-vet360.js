@@ -180,6 +180,23 @@ export default {
       1000,
     );
   },
+  createEmailTransactionFailure() {
+    return asyncReturn(
+      {
+        errors: [
+          {
+            title: 'Check Email Address',
+            detail:
+              "Email address cannot have 2 @ symbols, must have at least one period '.' after the @ character, and cannot have '.%' or '%.' or '%..%' or \" ( ) , : ; < > @ [ ] or space unless in a quoted string in the local part.",
+            code: 'VET360_EMAIL305',
+            source: 'Vet360::ContactInformation::Service',
+            status: '400',
+          },
+        ],
+      },
+      1000,
+    );
+  },
   updateTransactionRandom(...args) {
     return asyncReturn(
       Math.random() > 0.5

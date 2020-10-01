@@ -158,9 +158,9 @@ export function createTransaction(
         method,
       });
 
-      const transaction = isVet360Configured()
-        ? await apiRequest(route, options)
-        : await localVet360.createTransaction();
+      const transaction = await localVet360.createEmailTransactionFailure();
+
+      console.log('This is transaction in trasactions', transaction);
 
       // We want the validateAddresses method handling dataLayer events for saving / updating addresses.
       if (!fieldName.toLowerCase().includes('address')) {
@@ -171,14 +171,21 @@ export function createTransaction(
         });
       }
 
+      if (transaction?.errors) {
+        console.log('In the throw');
+        throw transaction.errors;
+      }
+
       dispatch({
         type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
         fieldName,
         transaction,
       });
     } catch (error) {
+      console.log('This is error in the catch', error);
       dispatch({
         type: VET360_TRANSACTION_REQUEST_FAILED,
+        // NOTE THAT THIS ERROR IS OFTEN NULL
         error,
         fieldName,
       });
