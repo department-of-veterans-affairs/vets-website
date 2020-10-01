@@ -112,6 +112,7 @@ export class CallToActionWidget extends React.Component {
         <SignIn
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.openLoginModal}
+          headerLevel={this.props.headerLevel}
         />
       );
     }

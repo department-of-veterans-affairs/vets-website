@@ -16,7 +16,7 @@ export const UploadDescription = ({ uploadTitle }) => (
         File types you can upload: .pdf (unlocked), .jpg, .jpeg, .png, .gif,
         .bmp, or .txt
       </li>
-      <li>Maximum file size: 25MB</li>
+      <li>Maximum file size: 50MB</li>
     </ul>
     <p>
       <em>
