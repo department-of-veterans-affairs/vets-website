@@ -103,8 +103,10 @@ export default {
     vetInputLabel: 'Veteran\u2019s',
     previousTreatmentFacilityUI: {
       'ui:title': ' ',
+
       'ui:order': ['name', 'type'],
       name: {
+        'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
         'ui:title': (
           <div>
             <h3 className="vads-u-font-size--h4">Recent medical care</h3>
@@ -120,6 +122,8 @@ export default {
         ),
       },
       type: {
+        'ui:required': formData =>
+          !!formData.veteranLastTreatmentFacility.name?.split(' ').join(''),
         'ui:title': 'Was this a hospital or clinic?',
         'ui:options': {
           labels: {
