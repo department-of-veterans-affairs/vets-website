@@ -51,6 +51,31 @@ const testConfig = createTestConfig(
         });
         cy.findByText(/Continue/i, { selector: 'button' }).click();
       },
+
+      'active-duty': () => {
+        cy.get('input[id="root_isActiveDutyYes"]')
+          .click()
+          .then(() => {
+            // check for the housing alert message
+            cy.get('.feature').should('exist');
+          });
+        cy.get('input[id="root_isActiveDutyNo"]')
+          .click()
+          .then(() => {
+            // check for the housing alert message
+            cy.get('.feature').should('not.exist');
+          });
+        cy.findByText(/Continue/i, { selector: 'button' }).click();
+      },
+
+      'review-and-submit': () => {
+        cy.findByText('Applicant information', { selector: 'button' }).click();
+        cy.findByText('Education benefit', { selector: 'button' }).click();
+        cy.findByText('Program details', { selector: 'button' }).click();
+        cy.findByText('Military details', { selector: 'button' }).click();
+        cy.findByText('Personal information', { selector: 'button' }).click();
+        cy.get('.edit-btn').click({ multiple: true });
+      },
     },
 
     setupPerTest: () => {

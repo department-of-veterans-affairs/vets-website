@@ -26,7 +26,7 @@ const StartPage = ({ setPageState, state = {} }) => {
     switch (value) {
       case 'isVeteran':
       case 'isServiceMember':
-        setPageState({ selected: value }, 'isVeteranOrServiceMember');
+        setPageState({ selected: value }, 'VREBenefits');
         break;
       case 'VAEducationBenefits':
         setPageState({ selected: value }, value);

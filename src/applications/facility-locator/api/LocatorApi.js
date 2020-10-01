@@ -30,7 +30,7 @@ class LocatorApi {
       page,
       bounds,
     );
-
+    const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
         .then(async res => {
@@ -55,6 +55,11 @@ class LocatorApi {
           } else {
             return response;
           }
+        })
+        .then(res => {
+          const endTime = new Date().getTime();
+          res.meta.resultTime = endTime - startTime;
+          return res;
         })
         .then(data => resolve(data), error => reject(error));
     });

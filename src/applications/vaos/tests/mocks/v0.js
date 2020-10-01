@@ -290,3 +290,26 @@ export function getExpressCareRequestCriteriaMock(id, schedulingDays) {
     },
   ];
 }
+
+export function getCCEligibilityMock(typeOfCare, eligible = true) {
+  return {
+    id: typeOfCare,
+    type: 'cc_eligibility',
+    attributes: { eligible },
+  };
+}
+
+export function getSupportedSiteMock(
+  id,
+  name = 'Cheyenne',
+  timezone = 'US/Mountain',
+) {
+  return {
+    id,
+    type: 'object_type',
+    attributes: {
+      name,
+      timezone,
+    },
+  };
+}

@@ -1,16 +1,28 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { getEligiblePages } from 'platform/forms-system/src/js/routing';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
+  createPageList = () => {
+    const filteredPageList = getEligiblePages(
+      this.props.route.pageList,
+      this.props.form.data,
+      '/introduction',
+    );
+
+    return filteredPageList.pages;
+  };
+
   render() {
+    const pageList = this.createPageList();
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for Personalized Career Planning and Guidance" />
@@ -18,7 +30,7 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
+          pageList={pageList}
           startText="Start the Application"
         >
           Please complete the 28-8832 form to apply for Planning and career
@@ -83,4 +95,8 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+const mapStateToProps = state => ({
+  form: state?.form,
+});
+
+export default connect(mapStateToProps)(IntroductionPage);

@@ -19,22 +19,16 @@ export const vetFields = {
 export const primaryCaregiverFields = {
   address: 'primaryAddress',
   alternativePhoneNumber: 'primaryAlternativePhoneNumber',
-  champvaEnrolled: 'primaryChampvaEnrolled',
   dateOfBirth: 'primaryDateOfBirth',
   email: 'primaryEmail',
   fullName: 'primaryFullName',
   gender: 'primaryGender',
   hasSecondaryCaregiverOneView: 'view:hasSecondaryCaregiverOne',
-  medicaidEnrolled: 'primaryMedicaidEnrolled',
-  medicareEnrolled: 'primaryMedicareEnrolled',
-  otherHealthInsurance: 'view:otherHealthInsurance',
-  otherHealthInsuranceName: 'primaryOtherHealthInsuranceName',
-  primaryHealthCareEnrollmentView: 'view:primaryHealthCareEnrollment',
   primaryPhoneNumber: 'primaryPrimaryPhoneNumber',
   ssn: 'primarySsnOrTin',
-  tricareEnrolled: 'primaryTricareEnrolled',
   verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
+  hasHealthInsurance: 'primaryHasHealthInsurance',
 };
 
 export const secondaryCaregiverFields = {
@@ -45,7 +39,7 @@ export const secondaryCaregiverFields = {
     email: 'secondaryOneEmail',
     fullName: 'secondaryOneFullName',
     gender: 'secondaryOneGender',
-    hasSecondaryCaregiverTwoView: 'view:hassecondaryCaregiverTwo',
+    hasSecondaryCaregiverTwoView: 'view:hasSecondaryCaregiverTwo',
     primaryPhoneNumber: 'secondaryOnePrimaryPhoneNumber',
     ssn: 'secondaryOneSsnOrTin',
     verifyEmail: 'view:secondaryOneEmail',

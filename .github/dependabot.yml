@@ -12,4 +12,4 @@ updates:
       time: "09:00"
       timezone: "America/New_York"
     # Allow up to 10 open pull requests for npm dependencies
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 0

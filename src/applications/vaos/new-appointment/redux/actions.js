@@ -7,6 +7,7 @@ import {
   selectVet360EmailAddress,
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
+  selectIsCernerOnlyPatient,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -36,7 +37,7 @@ import {
   getIdOfRootOrganization,
   getSiteIdFromOrganization,
 } from '../../services/organization';
-import { getLocation } from '../../services/location';
+import { getLocation, getParentOfLocation } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
 import {
@@ -60,7 +61,11 @@ import {
 
 import { recordEligibilityFailure, resetDataLayer } from '../../utils/events';
 
-import { captureError, getErrorCodes } from '../../utils/error';
+import {
+  captureError,
+  getErrorCodes,
+  has400LevelError,
+} from '../../utils/error';
 
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -85,10 +90,22 @@ export const FORM_PAGE_CHANGE_COMPLETED =
 export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
 export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
+export const FORM_PAGE_FACILITY_V2_OPEN =
+  'newAppointment/FACILITY_PAGE_V2_OPEN';
+export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
+  'newAppointment/FACILITY_PAGE_V2_OPEN_SUCCEEDED';
+export const FORM_PAGE_FACILITY_V2_OPEN_FAILED =
+  'newAppointment/FACILITY_PAGE_V2_OPEN_FAILED';
 export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
 export const FORM_PAGE_FACILITY_OPEN_FAILED =
   'newAppointment/FACILITY_PAGE_OPEN_FAILED';
+export const FORM_FETCH_PARENT_FACILITIES =
+  'newAppointment/FORM_FETCH_PARENT_FACILITIES';
+export const FORM_FETCH_PARENT_FACILITIES_SUCCEEDED =
+  'newAppointment/FORM_FETCH_PARENT_FACILITIES_SUCCEEDED';
+export const FORM_FETCH_PARENT_FACILITIES_FAILED =
+  'newAppointment/FORM_FETCH_PARENT_FACILITIES_FAILED';
 export const FORM_FETCH_CHILD_FACILITIES =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES';
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
@@ -126,6 +143,8 @@ export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
+export const FORM_HIDE_ELIGIBILITY_MODAL =
+  'newAppointment/FORM_HIDE_ELIGIBILITY_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED';
 export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
@@ -252,6 +271,182 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
+export function checkEligibility(location, siteId) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const useVSP = vaosVSPAppointmentNew(state);
+    const directSchedulingEnabled = vaosDirectScheduling(state);
+    const typeOfCareId = getTypeOfCare(getState().newAppointment.data)?.id;
+
+    dispatch({
+      type: FORM_ELIGIBILITY_CHECKS,
+    });
+
+    try {
+      const eligibilityData = await getEligibilityData(
+        location,
+        typeOfCareId,
+        siteId,
+        directSchedulingEnabled,
+        useVSP,
+      );
+
+      recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
+      logEligibilityExplanation(eligibilityData, typeOfCareId, location.id);
+
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+        typeOfCareId,
+        eligibilityData,
+      });
+
+      try {
+        const eligibility = getEligibilityStatus(getState());
+        if (!eligibility.direct && !eligibility.request) {
+          const thunk = fetchFacilityDetails(location.id);
+          await thunk(dispatch, getState);
+        }
+
+        return eligibility;
+      } catch (e) {
+        captureError(e);
+      }
+    } catch (e) {
+      captureError(e, false, 'facility page');
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS_FAILED,
+      });
+    }
+    return null;
+  };
+}
+
+export function openFacilityPageV2(page, uiSchema, schema) {
+  return async (dispatch, getState) => {
+    try {
+      const initialState = getState();
+      const newAppointment = initialState.newAppointment;
+      const data = newAppointment.data;
+      const typeOfCare = getTypeOfCare(newAppointment.data);
+      const typeOfCareId = typeOfCare.id;
+      const userSiteIds = selectSystemIds(initialState);
+      const useVSP = vaosVSPAppointmentNew(initialState);
+      let parentFacilities = newAppointment.parentFacilities;
+      let locations = null;
+      let locationId = data.vaFacility;
+
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN,
+      });
+
+      try {
+        if (!parentFacilities) {
+          dispatch({ type: FORM_FETCH_PARENT_FACILITIES });
+          parentFacilities = await getOrganizations({
+            siteIds: userSiteIds,
+            useVSP,
+          });
+          dispatch({
+            type: FORM_FETCH_PARENT_FACILITIES_SUCCEEDED,
+            parentFacilities,
+          });
+        }
+      } catch (err) {
+        dispatch({ type: FORM_FETCH_PARENT_FACILITIES_FAILED });
+      }
+
+      locations = newAppointment.facilities[typeOfCareId] || null;
+
+      if (parentFacilities?.length && !locations) {
+        dispatch({
+          type: FORM_FETCH_CHILD_FACILITIES,
+        });
+
+        // Fetch locations for each parent facility
+        const responses = await Promise.all(
+          parentFacilities.map(parent => {
+            const parentId = parent.id;
+            const siteId = parseFakeFHIRId(
+              getIdOfRootOrganization(parentFacilities, parentId),
+            );
+            return getSupportedHealthcareServicesAndLocations({
+              siteId,
+              parentId,
+              typeOfCareId,
+              useVSP,
+            });
+          }),
+        );
+
+        locations = [].concat(...responses.map(r => r?.locations || []));
+      }
+
+      // If we have an already selected location or only have a single location
+      // fetch eligbility data immediately
+      const eligibilityDataNeeded = !!locationId || locations?.length === 1;
+
+      if (eligibilityDataNeeded && !locationId) {
+        locationId = locations[0].id;
+      }
+
+      if (!locations?.length) {
+        parentFacilities.forEach(p => {
+          recordEligibilityFailure(
+            'supported-facilities',
+            typeOfCare.name,
+            parseFakeFHIRId(p.id),
+          );
+        });
+      }
+
+      const eligibilityChecks =
+        newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
+
+      if (eligibilityDataNeeded && !eligibilityChecks) {
+        const parentId = getParentOfLocation(parentFacilities, locations[0]).id;
+
+        const siteId = parseFakeFHIRId(
+          getIdOfRootOrganization(parentFacilities, parentId),
+        );
+
+        const location = locations.find(l => l.id === locationId);
+        dispatch(checkEligibility(location, siteId));
+      }
+
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+        page,
+        schema,
+        uiSchema,
+        parentFacilities,
+        locations,
+        typeOfCareId,
+      });
+
+      // Fetch parent details if we don't have any matching locations
+      if (parentFacilities?.length && !locations.length) {
+        try {
+          const thunk = fetchFacilityDetails(parentFacilities[0].id);
+          await thunk(dispatch, getState);
+        } catch (e) {
+          captureError(e);
+        }
+      }
+    } catch (e) {
+      captureError(e, false, 'facility page');
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
+      });
+    }
+  };
+}
+
+export function hideEligibilityModal() {
+  return {
+    type: FORM_HIDE_ELIGIBILITY_MODAL,
+  };
+}
+
 /*
  * The facility page can be opened with data in a variety of states and conditions.
  * We always need the list of parents (VAMCs) they can access. After that:
@@ -272,6 +467,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     const userSiteIds = selectSystemIds(initialState);
     const useVSP = vaosVSPAppointmentNew(initialState);
+    const isCernerOnly = selectIsCernerOnlyPatient(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let locations = null;
     let eligibilityData = null;
@@ -289,7 +485,8 @@ export function openFacilityPage(page, uiSchema, schema) {
         });
       }
 
-      const canShowFacilities = !!parentId || parentFacilities?.length === 1;
+      const canShowFacilities =
+        !isCernerOnly && (!!parentId || parentFacilities?.length === 1);
 
       if (canShowFacilities && !parentId) {
         parentId = parentFacilities[0].id;
@@ -352,6 +549,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilities: locations,
         typeOfCareId,
         eligibilityData,
+        isCernerOnly,
       });
 
       if (parentId && !locations.length) {
@@ -465,7 +663,6 @@ export function updateFacilityPageData(page, uiSchema, data) {
         try {
           const eligibility = getEligibilityStatus(getState());
           if (!eligibility.direct && !eligibility.request) {
-            // Remove parse function when converting this call to FHIR service
             const thunk = fetchFacilityDetails(data.vaFacility);
             await thunk(dispatch, getState);
           }
@@ -729,7 +926,7 @@ export function submitAppointmentOrRequest(history) {
         captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
-          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
+          isVaos400Error: has400LevelError(error),
         });
 
         // Remove parse function when converting this call to FHIR service
@@ -845,21 +1042,33 @@ export function routeToPageInFlow(flow, history, current, action) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
+      pageKey: current,
     });
 
-    const nextAction = flow[current][action];
     let nextPage;
+    let nextStateKey;
 
-    if (typeof nextAction === 'string') {
-      nextPage = flow[nextAction];
+    if (action === 'next') {
+      const nextAction = flow[current][action];
+      if (typeof nextAction === 'string') {
+        nextPage = flow[nextAction];
+        nextStateKey = nextAction;
+      } else {
+        nextStateKey = await nextAction(getState(), dispatch);
+        nextPage = flow[nextStateKey];
+      }
     } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
-      nextPage = flow[nextStateKey];
+      const state = getState();
+      const previousPage = state.newAppointment.previousPages[current];
+      nextPage = flow[previousPage];
     }
 
     if (nextPage?.url) {
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
+        pageKey: current,
+        pageKeyNext: nextStateKey,
+        direction: action,
       });
       history.push(nextPage.url);
     } else if (nextPage) {

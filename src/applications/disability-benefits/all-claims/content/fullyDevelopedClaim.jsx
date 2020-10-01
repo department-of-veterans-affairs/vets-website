@@ -11,22 +11,28 @@ export const FDCDescription = (
       uploaded all the supporting documents or additional forms needed to
       support your claim.
     </p>
-    <a
-      href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Learn more about the FDC program
-    </a>
-    .<br />
-    <a
-      href="/disability/how-to-file-claim/evidence-needed/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      View the evidence requirements for disability claims
-    </a>
-    .
+    <ul>
+      <li>
+        <a
+          href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn more about the FDC program
+        </a>
+        .
+      </li>
+      <li>
+        <a
+          href="/disability/how-to-file-claim/evidence-needed/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View the evidence requirements for disability claims
+        </a>
+        .
+      </li>
+    </ul>
   </div>
 );
 
@@ -60,8 +66,8 @@ export const noFDCWarning = (
           </li>
           <li>
             Call Veterans Benefits Assistance at{' '}
-            <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday – Friday, 8:30
-            a.m. – 4:30 p.m. ET.
+            <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+            8:00 a.m. to 9:00 p.m. ET.
           </li>
           <li>
             Save your application and return to it later when you have your

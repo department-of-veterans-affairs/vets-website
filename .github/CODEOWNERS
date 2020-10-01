@@ -6,7 +6,10 @@
 # Review the CODEOWNERS guide before editing:
 # https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/engineering/codeowners.md
 
+# VSP
 *       @department-of-veterans-affairs/frontend-review-group
+src/platform/forms        @department-of-veterans-affairs/vsp-design-system-fe
+src/platform/forms-system @department-of-veterans-affairs/vsp-design-system-fe
 
 # VSA ----
 

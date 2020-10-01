@@ -14,7 +14,7 @@ export default function GiBillBreadcrumbs({ searchQuery }) {
   const root = version
     ? {
         pathname: '/',
-        search: { version },
+        search: queryParams.toString(),
       }
     : '/';
 

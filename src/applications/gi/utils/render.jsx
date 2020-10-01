@@ -86,28 +86,37 @@ export const renderLearnMoreLabel = ({
   showModal,
   component,
   labelFor,
-}) => (
-  <span className="vads-u-margin--0 vads-u-display--inline-block ">
-    {text && <React.Fragment>{text} </React.Fragment>}
-    <span className="vads-u-margin--0 vads-u-display--inline-block ">
-      (
-      <button
-        aria-label={ariaLabel}
-        type="button"
-        className="va-button-link learn-more-button vads-u-margin--0"
-        onClick={showModal.bind(component, modal)}
+}) => {
+  let displayText = text && <React.Fragment>{text} </React.Fragment>;
+  if (labelFor && text) {
+    displayText = (
+      <label
+        className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block"
+        htmlFor={labelFor}
       >
-        {labelFor && (
-          <label className="vads-u-margin--0" htmlFor={labelFor}>
-            Learn more
-          </label>
-        )}
-        {!labelFor && <>Learn more</>}
-      </button>
-      )
+        {text}
+      </label>
+    );
+  }
+
+  return (
+    <span className="vads-u-margin--0 vads-u-display--inline-block ">
+      {displayText}
+      <span className="vads-u-margin--0 vads-u-display--inline-block ">
+        (
+        <button
+          aria-label={ariaLabel}
+          type="button"
+          className="va-button-link learn-more-button vads-u-margin--0"
+          onClick={showModal.bind(component, modal)}
+        >
+          Learn more
+        </button>
+        )
+      </span>
     </span>
-  </span>
-);
+  );
+};
 
 export const renderVetTecLogo = classNames => (
   <img

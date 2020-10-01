@@ -6,7 +6,6 @@ import CancelAppointmentModal from '../../../../appointment-list/components/canc
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
-  VIDEO_TYPES,
   APPOINTMENT_STATUS,
 } from '../../../../utils/constants';
 
@@ -59,7 +58,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
           contained: [
             {
               resourceType: 'HealthcareService',
-              characteristic: [{ coding: VIDEO_TYPES.videoConnect }],
+              characteristic: [{ coding: [{ system: 'VVS', code: 'ADHOC' }] }],
             },
           ],
           vaos: {

@@ -1,7 +1,8 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { FORM_URL, COVID_FAQ_URL, NULL_CONDITION_STRING } from '../constants';
+import { COVID_FAQ_URL, NULL_CONDITION_STRING } from '../constants';
+import DownloadLink from './DownloadLink';
 
 export const contestedIssuesTitle = (
   <>
@@ -46,26 +47,6 @@ export const disabilityOption = ({ attributes }) => {
   );
 };
 
-const downloadLink = (
-  <a
-    href={FORM_URL}
-    download="VBA-20-0996-ARE.pdf"
-    title="download VA Form 20-0996"
-    type="application/pdf"
-  >
-    <i
-      aria-hidden="true"
-      className="fas fa-download vads-u-padding-right--0p5"
-      role="img"
-    />
-    download and fill out VA Form 20-0996{' '}
-    <dfn>
-      <abbr title="Portable Document Format">PDF</abbr> (1.5
-      <abbr title="Megabytes">MB</abbr>)
-    </dfn>
-  </a>
-);
-
 const disabilitiesList = (
   <div>
     <ul>
@@ -74,18 +55,18 @@ const disabilitiesList = (
         your decision letter to request a Higher-Level Review.{' '}
         <strong>**Note:**</strong> If you weren’t able to request a timely
         review due to COVID-19 pandemic, we may grant you an extension of the
-        deadline. To request an extension, {downloadLink} and attach a note that
-        you’re requesting a filing extension due to COVID-19.
+        deadline. To request an extension, <DownloadLink /> and attach a note
+        that you’re requesting a filing extension due to COVID-19.
       </li>
       <li>
         Your issue isn’t related to monthly compensation, pension, or survivor
         benefits. For all other benefits, like health care, insurance or
-        education, you’ll need to {downloadLink} and submit it by mail or in
+        education, you’ll need to <DownloadLink /> and submit it by mail or in
         person.
       </li>
       <li>
         The issue or decision isn’t in our system yet. You’ll need to{' '}
-        {downloadLink} and submit it by fax or mail.
+        <DownloadLink /> and submit it by fax or mail.
       </li>
       <li>
         You’re applying for a benefit that another surviving dependent of the

@@ -65,4 +65,50 @@ describe('<NavItemRow>', () => {
     expect(wrapper.exists('a')).to.equal(true);
     wrapper.unmount();
   });
+
+  it('renders pointerEvents none for current page', () => {
+    window.location = { pathname: '/pittsburgh-health-care/' };
+
+    const itemWithoutChildren = {
+      description: 'Some description',
+      expanded: true,
+      hasChildren: false,
+      href: '/pittsburgh-health-care',
+      id: uniqueId('sidenav_'),
+      isSelected: true,
+      label: 'Location',
+      order: 0,
+      parentID: uniqueId('sidenav_'),
+    };
+
+    const wrapper = shallow(
+      <NavItemRow {...defaultProps(itemWithoutChildren)} />,
+    );
+
+    expect(wrapper.find('a').prop('style').pointerEvents).to.equal('none');
+    wrapper.unmount();
+  });
+
+  it('renders pointerEvents all for non-current page', () => {
+    window.location = { pathname: '/pittsburgh-health-care/' };
+
+    const itemWithoutChildren = {
+      description: 'Some description',
+      expanded: true,
+      hasChildren: false,
+      href: '/pittsburgh-health-care/foo',
+      id: uniqueId('sidenav_'),
+      isSelected: true,
+      label: 'Location',
+      order: 0,
+      parentID: uniqueId('sidenav_'),
+    };
+
+    const wrapper = shallow(
+      <NavItemRow {...defaultProps(itemWithoutChildren)} />,
+    );
+
+    expect(wrapper.find('a').prop('style').pointerEvents).to.equal('all');
+    wrapper.unmount();
+  });
 });

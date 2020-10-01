@@ -7,7 +7,9 @@ const addBrBefore = line => line && [<br key={line} />, line];
 
 export const formatPhone = (number = '') => {
   let i = 0;
-  return '###-###-####'.replace(/#/g, () => number[i++] || '');
+  return number.length === 10
+    ? '###-###-####'.replace(/#/g, () => number[i++] || '')
+    : number;
 };
 
 export const getCountryName = (countryCode = 'USA') =>

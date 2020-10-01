@@ -41,19 +41,4 @@ describe('VAOS <NoAppointments>', () => {
     expect(startNewAppointmentFlow.called).to.be.true;
     tree.unmount();
   });
-
-  it('should render Cerner portal button', () => {
-    const tree = shallow(
-      <NoAppointments showScheduleButton isCernerOnlyPatient />,
-    );
-
-    expect(
-      tree
-        .find('a')
-        .at(0)
-        .props().href,
-    ).to.contain('patientportal');
-    expect(tree.find('Link').exists()).to.be.false;
-    tree.unmount();
-  });
 });

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-import { breadcrumbLinks } from '../layouts/helpers';
 import { fetchAllDependents } from '../actions/index';
 import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
 
@@ -18,9 +16,6 @@ class ViewDependentsApp extends Component {
   render() {
     return (
       <div className="vads-l-grid-container vads-u-padding--2">
-        <div>
-          <Breadcrumbs>{breadcrumbLinks}</Breadcrumbs>
-        </div>
         <DowntimeNotification
           appTitle="view dependents tool"
           dependencies={[externalServices.bgs]}

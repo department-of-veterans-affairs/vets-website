@@ -22,20 +22,24 @@ const mockFacilityLocatorApiResponse = {
       type: 'va_facilities',
       attributes: {
         access: {
-          health: {
-            audiology: { new: 11, established: 3 },
-            cardiology: { new: 19, established: 15 },
-            dermatology: { new: 14, established: 9 },
-            effectiveDate: '2019-04-22',
-            gastroenterology: { new: 33, established: 18 },
-            gynecology: { new: 21, established: 5 },
-            mentalHealth: { new: 7, established: 2 },
-            ophthalmology: { new: 17, established: 7 },
-            optometry: { new: 15, established: 6 },
-            orthopedics: { new: 30, established: 9 },
-            primaryCare: { new: 25, established: 8 },
-            urology: { new: 18, established: 10 },
-          },
+          health: [
+            {
+              service: 'MentalHealthCare',
+              new: 5.75,
+              established: 6.625,
+            },
+            {
+              service: 'PrimaryCare',
+              new: 4.076923,
+              established: 2.773869,
+            },
+            {
+              service: 'SpecialtyCare',
+              new: 5,
+              established: 0.5,
+            },
+          ],
+          effectiveDate: '2020-07-27',
         },
         uniqueId: '646',
         name: 'Pittsburgh VA Medical Center-University Drive',

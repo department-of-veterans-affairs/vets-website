@@ -3,52 +3,9 @@
   "title": "IRIS Ask a Question",
   "type": "object",
   "definitions": {
-    "fullName": {
-      "type": "object",
-      "properties": {
-        "first": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 30
-        },
-        "last": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 30
-        },
-        "suffix": {
-          "type": "string",
-          "enum": [
-            "Jr.",
-            "Sr.",
-            "II",
-            "III",
-            "IV"
-          ]
-        }
-      },
-      "required": [
-        "first",
-        "last"
-      ]
-    },
-    "preferredContactMethod": {
-      "type": "string",
-      "enum": [
-        "email",
-        "mail",
-        "phone"
-      ],
-      "enumNames": [
-        "Email",
-        "Mail",
-        "Phone"
-      ]
-    },
     "email": {
       "type": "string",
-      "minLength": 6,
-      "maxLength": 80,
+      "maxLength": 256,
       "format": "email"
     },
     "phone": {
@@ -263,10 +220,6 @@
         }
       }
     },
-    "date": {
-      "format": "date",
-      "type": "string"
-    },
     "privacyAgreementAccepted": {
       "type": "boolean",
       "enum": [
@@ -275,7 +228,75 @@
     }
   },
   "additionalProperties": false,
+  "anyOf": [
+    {
+      "required": [
+        "email"
+      ]
+    },
+    {
+      "required": [
+        "phone"
+      ]
+    },
+    {
+      "required": [
+        "address"
+      ]
+    }
+  ],
+  "required": [
+    "fullName",
+    "preferredContactMethod",
+    "topic",
+    "inquiryType",
+    "query",
+    "veteranStatus"
+  ],
   "properties": {
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "suffix": {
+          "type": "string",
+          "enum": [
+            "Jr.",
+            "Sr.",
+            "II",
+            "III",
+            "IV"
+          ]
+        }
+      },
+      "required": [
+        "first",
+        "last"
+      ]
+    },
+    "preferredContactMethod": {
+      "default": "email",
+      "type": "string",
+      "enum": [
+        "email",
+        "phone",
+        "mail"
+      ],
+      "enumNames": [
+        "Email (Recommended)",
+        "Phone",
+        "US Mail"
+      ]
+    },
     "topic": {
       "type": "string",
       "enum": [
@@ -359,11 +380,91 @@
     "query": {
       "type": "string"
     },
-    "fullName": {
-      "$ref": "#/definitions/fullName"
-    },
-    "preferredContactMethod": {
-      "$ref": "#/definitions/preferredContactMethod"
+    "veteranStatus": {
+      "type": "object",
+      "required": [
+        "veteranStatus"
+      ],
+      "properties": {
+        "veteranStatus": {
+          "type": "string",
+          "enum": [
+            "vet",
+            "behalf of vet",
+            "dependent",
+            "general"
+          ],
+          "enumNames": [
+            "For myself as a Veteran",
+            "On behalf of a Veteran",
+            "For the dependent of a Veteran",
+            "A general question"
+          ]
+        },
+        "isDependent": {
+          "type": "boolean"
+        },
+        "relationshipToVeteran": {
+          "type": "string",
+          "enum": [
+            "Attorney",
+            "Authorized 3rd Party",
+            "Daughter",
+            "Dependent Child",
+            "Ex-spouse",
+            "Father",
+            "Funeral Director",
+            "General Question; Not Applicable",
+            "Guardian/Fiduciary",
+            "Helpless Child",
+            "Mother",
+            "Other",
+            "Sibling",
+            "Son",
+            "Spouse",
+            "Surviving Spouse",
+            "Veteran",
+            "VSO"
+          ]
+        },
+        "veteranIsDeceased": {
+          "type": "boolean"
+        },
+        "dateOfDeath": {
+          "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+          "type": "string"
+        },
+        "branchOfService": {
+          "type": "string",
+          "enum": [
+            "Air Force",
+            "Air Force Reserves",
+            "Air Force National Guard",
+            "Air Force Nursing Corps (AFNC)",
+            "Army",
+            "Army National Guard",
+            "Army Reserves",
+            "Coast Guard",
+            "Coast Guard Women's Reserve (SPARS)",
+            "Environmental Services Administration",
+            "Marine Corps",
+            "Marine Corps Reserves",
+            "Natl Oceanic & Atmospheric Admin (NOAA)",
+            "Navy",
+            "Navy Reserves",
+            "Navy Nursing Corps (NNC)",
+            "Philippines Guerilla",
+            "Philippines Scout",
+            "Public Health Service",
+            "U. S. Merchant Marine",
+            "Women's Air Force Service Pilots (WASPS)",
+            "Women's Army Auxiliary Corps (WAAC)",
+            "Women's Army Corps (WACs)",
+            "Womens Voluntary Emerg Srv (WAVES)",
+            "Other"
+          ]
+        }
+      }
     },
     "email": {
       "$ref": "#/definitions/email"
@@ -374,107 +475,8 @@
     "address": {
       "$ref": "#/definitions/address"
     },
-    "veteranStatus": {
-      "type": "string",
-      "enum": [
-        "vet",
-        "behalf of vet",
-        "dependent",
-        "general"
-      ],
-      "enumNames": [
-        "For myself as a Veteran",
-        "On behalf of a Veteran",
-        "For the dependent of a Veteran",
-        "A general question"
-      ]
-    },
-    "isDependent": {
-      "type": "boolean"
-    },
-    "relationshipToVeteran": {
-      "type": "string",
-      "enum": [
-        "Attorney",
-        "Authorized 3rd Party",
-        "Daughter",
-        "Dependent Child",
-        "Ex-spouse",
-        "Father",
-        "Funeral Director",
-        "General Question; Not Applicable",
-        "Guardian/Fiduciary",
-        "Helpless Child",
-        "Mother",
-        "Other",
-        "Sibling",
-        "Son",
-        "Spouse",
-        "Surviving Spouse",
-        "Veteran",
-        "VSO"
-      ]
-    },
-    "veteranIsDeceased": {
-      "type": "boolean"
-    },
-    "dateOfDeath": {
-      "$ref": "#/definitions/date"
-    },
-    "branchOfService": {
-      "type": "string",
-      "enum": [
-        "Air Force",
-        "Air Force Reserves",
-        "Air Force National Guard",
-        "Air Force Nursing Corps (AFNC)",
-        "Army",
-        "Army National Guard",
-        "Army Reserves",
-        "Coast Guard",
-        "Coast Guard Women's Reserve (SPARS)",
-        "Environmental Services Administration",
-        "Marine Corps",
-        "Marine Corps Reserves",
-        "Natl Oceanic & Atmospheric Admin (NOAA)",
-        "Navy",
-        "Navy Reserves",
-        "Navy Nursing Corps (NNC)",
-        "Philippines Guerilla",
-        "Philippines Scout",
-        "Public Health Service",
-        "U. S. Merchant Marine",
-        "Women's Air Force Service Pilots (WASPS)",
-        "Women's Army Auxiliary Corps (WAAC)",
-        "Women's Army Corps (WACs)",
-        "Womens Voluntary Emerg Srv (WAVES)",
-        "Other"
-      ]
-    },
     "privacyAgreementAccepted": {
       "$ref": "#/definitions/privacyAgreementAccepted"
     }
-  },
-  "anyOf": [
-    {
-      "required": [
-        "email"
-      ]
-    },
-    {
-      "required": [
-        "phone"
-      ]
-    },
-    {
-      "required": [
-        "address"
-      ]
-    }
-  ],
-  "required": [
-    "privacyAgreementAccepted",
-    "fullName",
-    "preferredContactMethod"
-  ]
+  }
 }

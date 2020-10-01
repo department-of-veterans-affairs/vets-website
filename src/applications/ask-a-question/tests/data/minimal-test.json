@@ -4,8 +4,12 @@
       "first": "Jane",
       "last": "Doe"
     },
-    "veteranStatusSection": {
+    "veteranStatus": {
       "veteranStatus": "A general question"
+    },
+    "address": {
+      "country": "USA",
+      "state": "IL"
     },
     "preferredContactMethod": "email",
     "email": "jane.doe@va.gov",

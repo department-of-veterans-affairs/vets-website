@@ -1,7 +1,6 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HowDoIPay from './HowDoIPay';
@@ -94,32 +93,30 @@ const DebtLettersSummaryV1 = ({ isError, isVBMSError, debts, debtLinks }) => {
           Current VA debt
         </h1>
         <div className="medium-screen:vads-u-display--flex vads-u-flex-direction--row vads-u-display--block">
-          <CallToActionWidget appId="debt-letters">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              <h2 className="vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2">
-                Check the details of VA debt you might have related to your
-                education, disability compensation, pension, or home loan
-                benefits. Find out how to pay your debt and what to do if you
-                need financial assistance.
-              </h2>
-              {allDebtsFetchFailure && renderAlert()}
-              {allDebtsEmpty && renderEmptyAlert()}
-              {!allDebtsFetchFailure &&
-                !allDebtsEmpty && (
-                  <>
-                    <AlertBox
-                      className="vads-u-margin-bottom--2"
-                      headline="VA debt collection is on hold due to the coronavirus"
-                      content={bannerContent}
-                      status="info"
-                      isVisible
-                    />
-                    <DebtCardsList />
-                    <DebtLettersList />
-                  </>
-                )}
-            </div>
-          </CallToActionWidget>
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <h2 className="vads-u-font-size--h3 vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--2">
+              Check the details of VA debt you might have related to your
+              education, disability compensation, pension, or home loan
+              benefits. Find out how to pay your debt and what to do if you need
+              financial assistance.
+            </h2>
+            {allDebtsFetchFailure && renderAlert()}
+            {allDebtsEmpty && renderEmptyAlert()}
+            {!allDebtsFetchFailure &&
+              !allDebtsEmpty && (
+                <>
+                  <AlertBox
+                    className="vads-u-margin-bottom--2"
+                    headline="VA debt collection is on hold due to the coronavirus"
+                    content={bannerContent}
+                    status="info"
+                    isVisible
+                  />
+                  <DebtCardsList />
+                  <DebtLettersList />
+                </>
+              )}
+          </div>
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
             <HowDoIPay />
             <NeedHelp />

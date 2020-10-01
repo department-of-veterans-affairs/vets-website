@@ -20,6 +20,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.claim-title', Timeouts.normal)
     .axeCheck('.main');
 
+  /* Disabled until COVID-19 message removed
   const selector = '.claim-estimate-link';
 
   client
@@ -43,6 +44,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
     )
     .to.have.css('pointer-events')
     .which.equal('none');
-
+  */
   client.end();
 });

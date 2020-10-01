@@ -25,6 +25,7 @@ const result = {
   menonly: 0,
   relaffil: 71,
   womenonly: 1,
+  alias: 'BC',
 };
 
 const estimated = {
@@ -37,16 +38,7 @@ describe('<SearchResult>', () => {
   it('should render', () => {
     const tree = mount(
       <MemoryRouter>
-        <SearchResult
-          estimated={estimated}
-          city={result.city}
-          name={result.name}
-          country={result.country}
-          state={result.state}
-          cautionFlags={result.cautionFlags}
-          schoolClosing={result.schoolClosing}
-        />
-        ,
+        <SearchResult estimated={estimated} {...result} />,
       </MemoryRouter>,
     );
     const vdom = tree.html();
@@ -59,16 +51,9 @@ describe('<SearchResult>', () => {
       <MemoryRouter>
         <SearchResult
           estimated={estimated}
-          city={result.city}
-          name={result.name}
-          country={result.country}
-          state={result.state}
-          cautionFlags={result.cautionFlags}
-          schoolClosing={result.schoolClosing}
-          womenonly={result.womenonly}
-          menonly={result.menonly}
-          relaffil={result.relaffil}
-          hbcu={result.relaffil}
+          womenOnly={result.womenonly}
+          menOnly={result.menonly}
+          {...result}
           gibctFilterEnhancement
         />
       </MemoryRouter>,

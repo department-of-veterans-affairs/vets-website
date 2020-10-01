@@ -1,32 +1,30 @@
 import { expect } from 'chai';
 
 import paymentReducer from '../../reducers';
-import { mockData } from '../helpers';
+import { payments } from '../helpers';
 
 const { allPayments } = paymentReducer;
 
 const initialState = {
   isLoading: true,
-  hasPaymentsReceived: null,
-  hasPaymentsReturned: null,
+  payments: null,
+  error: null,
 };
 
 describe('allPayments reducer', () => {
   it('should return initial state', () => {
     const state = allPayments(initialState, {});
     expect(state.isLoading).to.be.true;
-    expect(state.hasPaymentsReceived).to.equal(null);
-    expect(state.hasPaymentsReturned).to.equal(null);
+    expect(state.payments).to.equal(null);
   });
 
   it('should handle a successful call for fetching payments', () => {
     const state = allPayments(initialState, {
       type: 'PAYMENTS_RECEIVED_SUCCEEDED',
-      mockData,
+      response: payments,
     });
     expect(state.isLoading).to.be.false;
-    expect(state.hasPaymentsReceived.length).to.be.greaterThan(0);
-    expect(state.hasPaymentsReturned.length).to.be.greaterThan(0);
+    expect(state.payments.payments.length).to.be.greaterThan(0);
   });
 
   // TODO: this needs to be updated once the frontend is wired up to the backend.
@@ -41,7 +39,7 @@ describe('allPayments reducer', () => {
       ],
     });
     expect(state.isLoading).to.be.false;
-    expect(state.hasPaymentsReceived).to.equal(null);
-    expect(state.hasPaymentsReturned).to.equal(null);
+    expect(state.payments).to.equal(null);
+    expect(state.errorr).to.not.equal(null);
   });
 });

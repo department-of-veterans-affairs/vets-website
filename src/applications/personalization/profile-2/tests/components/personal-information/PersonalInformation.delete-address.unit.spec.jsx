@@ -51,13 +51,11 @@ function deleteAddress(addressName) {
     })
     .click();
   const confirmDeleteButton = view.getByText('Confirm', { selector: 'button' });
-  const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
   confirmDeleteButton.click();
 
   return {
     cityInput,
     confirmDeleteButton,
-    cancelDeleteButton,
   };
 }
 
@@ -65,9 +63,7 @@ function deleteAddress(addressName) {
 async function testQuickSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { cancelDeleteButton, confirmDeleteButton, cityInput } = deleteAddress(
-    addressName,
-  );
+  const { confirmDeleteButton, cityInput } = deleteAddress(addressName);
 
   // Buttons should be disabled while the delete transaction is pending...
   // Waiting 10ms to make this check so that it happens _after_ the initial
@@ -77,7 +73,7 @@ async function testQuickSuccess(addressName) {
   // added to prevent regressing back to that poor experience where users were
   // able to interact with buttons that created duplicate XHRs.
   await wait(10);
-  expect(!!cancelDeleteButton.attributes.disabled).to.be.true;
+  expect(view.queryByText('Cancel', { selector: 'button' })).to.not.exist;
   expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
   expect(confirmDeleteButton)
     .to.have.descendant('i')

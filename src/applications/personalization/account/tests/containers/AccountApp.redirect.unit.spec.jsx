@@ -1,9 +1,10 @@
 import React from 'react';
 import sinon from 'sinon';
+import thunk from 'redux-thunk';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { combineReducers, createStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 
 import { commonReducer } from 'platform/startup/store';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -24,13 +25,24 @@ describe('<AccountApp>', () => {
           },
           multifactor: true,
           loading: false,
+          mhvAccount: {
+            loading: false,
+          },
+          services: ['user-profile'],
+        },
+        login: {
+          currentlyLoggedIn: true,
         },
       },
       featureToggles: {
         'profile_show_profile_2.0': featureFlag,
       },
     };
-    const store = createStore(combineReducers(commonReducer), initialState);
+    const store = createStore(
+      combineReducers(commonReducer),
+      initialState,
+      applyMiddleware(thunk),
+    );
     wrapper = mount(
       <Provider store={store}>
         <AccountApp />

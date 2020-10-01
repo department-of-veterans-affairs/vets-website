@@ -33,6 +33,7 @@ export function SearchResult({
   womenOnly,
   hbcu,
   relAffil,
+  alias,
 }) {
   const queryParams = useQueryParams();
   const estimate = ({ qualifier, value }) => {
@@ -53,7 +54,11 @@ export function SearchResult({
     : `/profile/${facilityCode}`;
 
   return (
-    <div id={`search-result-${facilityCode}`} className="search-result">
+    <div
+      id={`search-result-${facilityCode}`}
+      className="search-result"
+      search-alias={alias}
+    >
       <div className="outer">
         <div className="inner">
           <div className="row">

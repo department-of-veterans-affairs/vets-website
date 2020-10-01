@@ -22,7 +22,11 @@ function Vet360Transaction(props) {
   } = props;
 
   const method = transactionRequest?.method || 'PUT';
-  const hasError = isFailedTransaction(transaction);
+  const transactionRequestPending = transactionRequest?.isPending;
+  const transactionPending = isPendingTransaction(transaction);
+  const transactionResolved = !transactionRequestPending && !transactionPending;
+  const hasError =
+    isFailedTransaction(transaction) || transactionRequest?.isFailed;
   const classes = classNames('vet360-profile-field-content', {
     'usa-input-error': hasError,
   });
@@ -30,7 +34,21 @@ function Vet360Transaction(props) {
   return (
     <div className={classes}>
       {hasError && <Vet360TransactionInlineErrorMessage {...props} />}
-      {isPendingTransaction(transaction) ? (
+      {transactionRequestPending && (
+        <div id={id}>
+          <Vet360TransactionPending
+            title={title}
+            refreshTransaction={() => {}}
+            method={method}
+          >
+            {/* if this field's modal is open, pass in the children to prevent
+               the `Vet360TransactionPending` component from rendering the
+               "we're saving your info..." message */}
+            {isModalOpen && children}
+          </Vet360TransactionPending>
+        </div>
+      )}
+      {transactionPending && (
         <div id={id}>
           <Vet360TransactionPending
             title={title}
@@ -43,9 +61,8 @@ function Vet360Transaction(props) {
             {isModalOpen && children}
           </Vet360TransactionPending>
         </div>
-      ) : (
-        children
       )}
+      {transactionResolved && children}
     </div>
   );
 }

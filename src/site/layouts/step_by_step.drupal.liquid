@@ -8,6 +8,7 @@
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
+        <!-- Draft status -->
         {% if !entityPublished %}
           <div class="usa-alert usa-alert-info">
             <div class="usa-alert-body">
@@ -21,7 +22,7 @@
           <h1>{{ title }}</h1>
 
           <!-- Intro -->
-          <p>{{ fieldIntroTextLimitedHtml.processed }}</p>
+          <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
 
           <!-- Alert -->
           {% if fieldAlertSingle %}
@@ -29,9 +30,11 @@
           {% endif %}
 
           <!-- Buttons -->
-          {% for fieldButton in fieldButtons  %}
-            {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-          {% endfor %}
+          <div class="vads-u-margin-y--3">
+            {% for fieldButton in fieldButtons  %}
+              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+            {% endfor %}
+          </div>
 
           <!-- Steps -->
           <h2>Step-by-step</h2>
@@ -39,32 +42,43 @@
             {% assign count = 1 %}
             {% for fieldStep in fieldSteps.entity.fieldStep %}
               <li class="process-step list-{{ count | numToWord }}">
-                {{ fieldStep.entity.fieldWysiwyg.processed }}<br/>
-                <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}" src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
+                {{ fieldStep.entity.fieldWysiwyg.processed }}<br />
+                <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
+                  src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
               </li>
               {% assign count = count | plus: 1 %}
             {% endfor %}
           </ol>
 
-          <!-- Buttons -->
-          {% for fieldButton in fieldButtons  %}
-            {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-          {% endfor %}
+          <!-- Repeated buttons -->
+          {% if fieldButtonsRepeat %}
+          <div class="vads-u-margin-y--3">
+            {% for fieldButton in fieldButtons  %}
+              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+            {% endfor %}
+          </div>
+          {% endif %}
         </article>
+
+        <!-- Related links -->
+        {% if fieldRelatedLinks != empty %}
+          <div class="row">
+            <div class="usa-content columns">
+              <aside class="va-nav-linkslist va-nav-linkslist--related">
+                {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' with entity = fieldRelatedLinks.entity %}
+              </aside>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Last updated -->
+        <div class="last-updated usa-content">
+          Last updated: <time
+            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+        </div>
       </div>
     </div>
   </main>
-
-  <!-- Related Links -->
-  {% if fieldRelatedLinks != empty %}
-    <div class="row">
-      <div class="usa-content columns">
-        <aside class="va-nav-linkslist va-nav-linkslist--related">
-          {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' with entity = fieldRelatedLinks.entity %}
-        </aside>
-      </div>
-    </div>
-  {% endif %}
 </div>
 
 {% include "src/site/includes/footer.html" %}

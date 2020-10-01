@@ -3,9 +3,12 @@ import { expect } from 'chai';
 import moment from 'moment';
 import React from 'react';
 import sinon from 'sinon';
-import { ConfirmationPage } from '../../../../new-appointment/components/ConfirmationPage';
+import ConfirmationPage, * as noConnect from '../../../../new-appointment/components/ConfirmationPage';
 import { FLOW_TYPES } from '../../../../utils/constants';
-import { renderWithStoreAndRouter } from '../../../mocks/setup';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../../mocks/setup';
 
 const initialState = {
   featureToggles: {
@@ -21,44 +24,86 @@ const startNewAppointmentFlow = sinon.spy();
 
 describe('VAOS <ConfirmationPage>', () => {
   it('should render appointment direct schedule view', async () => {
-    const start = moment().tz('America/Denver');
-    const end = start;
-    const flowType = FLOW_TYPES.DIRECT;
-    const data = {
-      typeOfCareId: '323',
-      phoneNumber: '1234567890',
-      email: 'joeblow@gmail.com',
-      reasonForAppointment: 'routine-follow-up',
-      reasonAdditionalInfo: 'Additional info',
-      vaFacility: '983',
-    };
-    const facilityDetails = {
-      id: 'var983',
-      name: 'Cheyenne VA Medical Center',
-      address: {
-        postalCode: '82001-5356',
-        city: 'Cheyenne',
-        state: 'WY',
-        line: ['2360 East Pershing Boulevard'],
+    const start = moment();
+    const store = createTestStore({
+      newAppointment: {
+        flowType: FLOW_TYPES.DIRECT,
+        data: {
+          typeOfCareId: '323',
+          phoneNumber: '1234567890',
+          email: 'joeblow@gmail.com',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'Additional info',
+          vaParent: 'var983',
+          vaFacility: 'var983',
+          clinicId: '455',
+          calendarData: {
+            selectedDates: [
+              {
+                datetime: start.format(),
+              },
+            ],
+          },
+        },
+        availableSlots: [
+          {
+            start: start.format(),
+            end: start
+              .clone()
+              .add(30, 'minutes')
+              .format(),
+          },
+        ],
+        parentFacilities: [
+          {
+            id: 'var983',
+            identifier: [
+              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:facility:983',
+              },
+            ],
+          },
+        ],
+        facilityDetails: {
+          var983: {
+            id: 'var983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              postalCode: '82001-5356',
+              city: 'Cheyenne',
+              state: 'WY',
+              line: ['2360 East Pershing Boulevard'],
+            },
+          },
+        },
+        clinics: {
+          // eslint-disable-next-line camelcase
+          var983_323: [
+            {
+              id: '455',
+            },
+          ],
+        },
+        facilities: {
+          '323_var983': {
+            id: 'var983',
+            name: 'Cheyenne VA Medical Center',
+          },
+        },
       },
-    };
+    });
 
-    const screen = renderWithStoreAndRouter(
-      <ConfirmationPage
-        facilityDetails={facilityDetails}
-        flowType={flowType}
-        data={data}
-        slot={{ start, end }}
-        systemId="578"
-      />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
     expect(screen.getByText(/Your appointment has been scheduled./i)).to.be.ok;
     expect(
-      screen.getByText(moment(start).format('MMMM D, YYYY [at] h:mm a CT')),
+      screen.getByText(
+        new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
+      ),
     ).to.be.ok;
 
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
@@ -69,9 +114,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     expect(
       screen.getByRole('link', {
-        name: moment(start).format(
-          '[Add] MMMM D, YYYY [appointment to your calendar]',
-        ),
+        name: start.format('[Add] MMMM D, YYYY [appointment to your calendar]'),
       }),
     ).to.be.ok;
   });
@@ -101,7 +144,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
 
     const screen = renderWithStoreAndRouter(
-      <ConfirmationPage
+      <noConnect.ConfirmationPage
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -161,7 +204,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
 
     const screen = renderWithStoreAndRouter(
-      <ConfirmationPage
+      <noConnect.ConfirmationPage
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -212,7 +255,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
 
     const screen = renderWithStoreAndRouter(
-      <ConfirmationPage
+      <noConnect.ConfirmationPage
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -258,7 +301,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
 
     const screen = renderWithStoreAndRouter(
-      <ConfirmationPage
+      <noConnect.ConfirmationPage
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -296,7 +339,7 @@ describe('VAOS <ConfirmationPage>', () => {
       address: {},
     };
     const screen = renderWithStoreAndRouter(
-      <ConfirmationPage
+      <noConnect.ConfirmationPage
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -329,7 +372,7 @@ describe('VAOS <ConfirmationPage>', () => {
       address: {},
     };
     const screen = renderWithStoreAndRouter(
-      <ConfirmationPage
+      <noConnect.ConfirmationPage
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -357,7 +400,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
 
     const screen = renderWithStoreAndRouter(
-      <ConfirmationPage
+      <noConnect.ConfirmationPage
         fetchFacilityDetails={fetchFacilityDetails}
         startNewAppointmentFlow={startNewAppointmentFlow}
         flowType={flowType}
@@ -387,7 +430,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
 
     const screen = renderWithStoreAndRouter(
-      <ConfirmationPage
+      <noConnect.ConfirmationPage
         fetchFacilityDetails={fetchFacilityDetails}
         closeConfirmationPage={closeConfirmationPage}
         flowType={flowType}
@@ -417,7 +460,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
 
     renderWithStoreAndRouter(
-      <ConfirmationPage
+      <noConnect.ConfirmationPage
         fetchFacilityDetails={fetchFacilityDetails}
         flowType={flowType}
         data={data}

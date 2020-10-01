@@ -9,7 +9,6 @@ import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import environment from 'platform/utilities/environment';
 
 const levels = [
   ['newBenefit'],
@@ -368,136 +367,77 @@ export class EducationWizard extends React.Component {
             {newBenefit === 'extend' && (
               <div className="wizard-edith-nourse-content">
                 <br />
-                {environment.isProduction() ? (
-                  <div>
-                    <strong>
-                      To be eligible for the{' '}
+                <div>
+                  <strong>
+                    To be eligible for the{' '}
+                    <a
+                      href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                      rel="noopener noreferrer"
+                      onClick={() =>
+                        recordEvent({
+                          event: 'edu-navigation',
+                          'edu-action': 'stem-scholarship',
+                        })
+                      }
+                    >
+                      Edith Nourse Rogers STEM Scholarship
+                    </a>
+                    , you must meet all the requirements below.
+                  </strong>
+                  <ul>
+                    <li className="ul-styling">
+                      <b>Education benefit:</b> You're using or recently used
+                      Post-9/11 GI Bill or Fry Scholarship benefits.
+                    </li>
+                    <li>
+                      <b>STEM degree:</b>
+                      <ul className="circle-bullet ul-styling vads-u-margin-bottom--neg1">
+                        <li className="li-styling">
+                          You're enrolled in a bachelor’s degree program for
+                          science, technology, engineering, or math (STEM),{' '}
+                          <b>or</b>
+                        </li>{' '}
+                        <li>
+                          {' '}
+                          You've already earned a STEM bachelor’s degree and are
+                          pursuing a teaching certification.{' '}
+                          <a
+                            href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            onClick={() =>
+                              recordEvent({
+                                event: 'edu-navigation',
+                                'edu-action': 'see-approved-stem-programs',
+                              })
+                            }
+                          >
+                            See eligible degree programs
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li className="ul-styling">
+                      <b>Remaining entitlement:</b> You've used all of your
+                      education benefits or are within 6 months of using all
+                      your benefits when you submit your application.{' '}
                       <a
-                        href="https://benefits.va.gov/gibill/fgib/stem.asp"
-                        onClick={() =>
-                          recordEvent({
-                            event: 'edu-navigation',
-                            'edu-action': 'stem-scholarship',
-                          })
-                        }
-                      >
-                        Edith Nourse Rogers STEM Scholarship
-                      </a>
-                      , you must meet all the requirements below. You:
-                    </strong>
-                    <ul className="wizard-edith-nourse-content">
-                      <li>
-                        Are using or recently used Post-9/11 GI Bill or Fry
-                        Scholarship benefits
-                      </li>
-                      <li>
-                        Have used all your education benefits or are within 6
-                        months of doing so.{' '}
-                        <a
-                          className="checkBenefitsLink"
-                          href="../gi-bill/post-9-11/ch-33-benefit/"
-                          onClick={() =>
-                            recordEvent({
-                              event: 'edu-navigation',
-                              'edu-action': 'check-remaining-benefits',
-                            })
-                          }
-                        >
-                          Check remaining benefits
-                        </a>
-                      </li>
-                      <li>
-                        Are enrolled in an undergraduate degree program for
-                        science, technology, engineering or math (STEM),{' '}
-                        <strong>or</strong> have already earned a STEM degree
-                        and are pursuing a teaching certification.{' '}
-                        <a
-                          href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
-                          onClick={() =>
-                            recordEvent({
-                              event: 'edu-navigation',
-                              'edu-action': 'see-approved-stem-programs',
-                            })
-                          }
-                        >
-                          See approved STEM programs
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                ) : (
-                  <div>
-                    <strong>
-                      To be eligible for the{' '}
-                      <a
-                        href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                        className="checkBenefitsLink"
+                        href="/education/gi-bill/post-9-11/ch-33-benefit/"
                         rel="noopener noreferrer"
+                        target="_blank"
                         onClick={() =>
                           recordEvent({
                             event: 'edu-navigation',
-                            'edu-action': 'stem-scholarship',
+                            'edu-action': 'check-remaining-benefits',
                           })
                         }
                       >
-                        Edith Nourse Rogers STEM Scholarship
+                        Check your remaining benefits
                       </a>
-                      , you must meet all the requirements below.
-                    </strong>
-                    <ul>
-                      <li className="ul-styling">
-                        <b>Education benefit:</b> You're using or recently used
-                        Post-9/11 GI Bill or Fry Scholarship benefits.
-                      </li>
-                      <li>
-                        <b>STEM degree:</b>
-                        <ul className="circle-bullet ul-styling vads-u-margin-bottom--neg1">
-                          <li className="li-styling">
-                            You're enrolled in a bachelor’s degree program for
-                            science, technology, engineering, or math (STEM),{' '}
-                            <b>or</b>
-                          </li>{' '}
-                          <li>
-                            {' '}
-                            You've already earned a STEM bachelor’s degree and
-                            are pursuing a teaching certification.{' '}
-                            <a
-                              href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
-                              rel="noopener noreferrer"
-                              target="_blank"
-                              onClick={() =>
-                                recordEvent({
-                                  event: 'edu-navigation',
-                                  'edu-action': 'see-approved-stem-programs',
-                                })
-                              }
-                            >
-                              See eligible degree programs
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="ul-styling">
-                        <b>Remaining entitlement:</b> You've used all of your
-                        education benefits or are within 6 months of using all
-                        your benefits when you submit your application.{' '}
-                        <a
-                          className="checkBenefitsLink"
-                          href="/education/gi-bill/post-9-11/ch-33-benefit/"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                          onClick={() =>
-                            recordEvent({
-                              event: 'edu-navigation',
-                              'edu-action': 'check-remaining-benefits',
-                            })
-                          }
-                        >
-                          Check your remaining benefits
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                    </li>
+                  </ul>
+                </div>
 
                 <ErrorableRadioButtons
                   additionalFieldsetClass="wizard-fieldset"

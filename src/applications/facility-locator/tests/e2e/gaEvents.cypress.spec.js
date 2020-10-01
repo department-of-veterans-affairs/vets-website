@@ -1,5 +1,9 @@
 import path from 'path';
-import { assertDataLayerEvent, assertDataLayerItem } from './utils';
+import {
+  assertDataLayerEvent,
+  assertDataLayerLastItems,
+  assertEventAndAttributes,
+} from './analyticsUtils';
 
 describe('Google Analytics FL Events', () => {
   before(() => {
@@ -21,20 +25,20 @@ describe('Google Analytics FL Events', () => {
 
       cy.get('#map-id', { timeout: 10000 }).should(() => {
         assertDataLayerEvent(win, 'fl-search');
-        assertDataLayerEvent(win, 'fl-search-results');
       });
 
-      cy.get('#marker-id')
+      cy.get('.i-pin-card-map')
         .first()
         .click()
         .as('markerClick')
         .then(() => {
-          assertDataLayerEvent(win, 'fl-map-pin-click');
-          [
+          assertEventAndAttributes(win, 'fl-map-pin-click', [
+            'event',
             'fl-facility-type',
             'fl-facility-classification',
             'fl-facility-name',
-          ].forEach(a => assertDataLayerItem(win, a));
+            'fl-facility-distance-from-search',
+          ]);
         });
 
       cy.get('.leaflet-control-zoom-in').click();
@@ -52,7 +56,11 @@ describe('Google Analytics FL Events', () => {
         yMoveFactor: 1 / 3,
       });
       cy.get('#map-id', { timeout: 10000 }).should(() => {
-        assertDataLayerItem(win, 'fl-map-miles-moved');
+        assertDataLayerLastItems(
+          win,
+          ['event', 'fl-map-miles-moved'],
+          'fl-search',
+        );
       });
 
       cy.findByText(/austin va clinic/i, { selector: 'a' })
@@ -60,15 +68,14 @@ describe('Google Analytics FL Events', () => {
         .click();
 
       cy.get('#facility-detail-id', { timeout: 10000 }).should(() => {
-        assertDataLayerEvent(win, 'fl-results-click');
-        [
+        assertEventAndAttributes(win, 'fl-results-click', [
           'fl-facility-name',
           'fl-facility-type',
           'fl-facility-classification',
           'fl-facility-id',
           'fl-result-page-number',
           'fl-result-position',
-        ].forEach(a => assertDataLayerItem(win, a));
+        ]);
       });
     });
   });

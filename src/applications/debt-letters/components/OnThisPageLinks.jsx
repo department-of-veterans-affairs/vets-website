@@ -3,7 +3,7 @@ import React from 'react';
 export const OnThisPageLinks = ({ isDetailsPage }) => {
   return (
     <div>
-      <h3>On this page</h3>
+      <h2 className="vads-u-font-size--h3">On this page</h2>
       <div className="vads-u-font-family--sans vads-u-display--flex vads-u-flex-direction--column">
         {!isDetailsPage && (
           <a href="#currentDebts" className="vads-u-margin-y--2">

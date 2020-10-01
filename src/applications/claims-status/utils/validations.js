@@ -17,6 +17,10 @@ export function isValidFileSize(file) {
   return file.size < MAX_FILE_SIZE;
 }
 
+export function isEmptyFileSize(file) {
+  return file.size === 0;
+}
+
 export function isValidFileType(file) {
   return FILE_TYPES.some(type => file.name.toLowerCase().endsWith(type));
 }

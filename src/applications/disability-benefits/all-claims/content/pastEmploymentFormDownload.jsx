@@ -26,7 +26,8 @@ export const download4192Notice = (
     <p>Or fax them toll-free: 844-531-7818</p>
     <p>
       If they need help completing this form, they can call Veterans Benefits
-      Assistance at <Telephone contact={CONTACTS.VA_BENEFITS} />.
+      Assistance at <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through
+      Friday, 8:00 a.m. to 9:00 p.m. ET.
     </p>
   </div>
 );

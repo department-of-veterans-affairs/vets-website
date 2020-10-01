@@ -25,6 +25,11 @@
   white-space: nowrap;
 }
 
+/* Wizard */
+.wizard-content-inner .fieldset-input:first-child {
+  margin-top: 0;
+}
+
 /* Fix margins around the form back & continue buttons */
 .input-section,
 .row.form-progress-buttons {

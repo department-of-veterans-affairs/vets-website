@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { Route } from 'react-router-dom';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import set from 'platform/utilities/data/set';
 
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
@@ -30,6 +31,8 @@ const initialState = {
   featureToggles: {
     vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
   },
   user: {
     profile: {
@@ -820,30 +823,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     expect(screen.getByText(/Continue/)).to.have.attribute('disabled');
   });
 
-  it('should go back to previous page', async () => {
-    mockParentSites(['983'], []);
-    const store = createTestStore(initialState);
-    await setTypeOfCare(store, /primary care/i);
-
-    const screen = renderWithStoreAndRouter(
-      <Route component={VAFacilityPage} />,
-      {
-        store,
-      },
-    );
-
-    await screen.findByText(
-      /Sorry, we couldn't find any VA health systems you've been seen at/i,
-    );
-
-    fireEvent.click(screen.getByText('Back'));
-    await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment',
-      ),
-    );
-  });
-
   it('should use correct eligibility info after a split type of care is changed', async () => {
     mockParentSites(
       ['983'],
@@ -953,5 +932,51 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
         /We couldn’t find a recent appointment at this location/i,
       ),
     ).to.exist;
+  });
+
+  it('should show single disabled radio button option if Cerner only', async () => {
+    const parentSite = {
+      id: '983',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '983',
+        authoritativeName: 'Some VA facility',
+        rootStationCode: '983',
+        parentStationCode: '983',
+      },
+    };
+    mockParentSites(['983'], [parentSite]);
+
+    const store = createTestStore(
+      set(
+        'user.profile.facilities',
+        [
+          {
+            facilityId: '983',
+            isCerner: true,
+          },
+        ],
+        initialState,
+      ),
+    );
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={VAFacilityPage} />,
+      {
+        store,
+      },
+    );
+
+    await screen.findByText(/registered at the following VA/i);
+    expect(screen.getByLabelText(/some va facility/i)).to.have.attribute(
+      'value',
+      'var983',
+    );
+    expect(screen.getByLabelText(/some va facility/i)).to.have.attribute(
+      'disabled',
+    );
+
+    fireEvent.click(await screen.findByText(/Go to My VA Health/));
   });
 });

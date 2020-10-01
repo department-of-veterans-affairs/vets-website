@@ -21,8 +21,13 @@ Cypress.Commands.add('checkSearch', () => {
   // Switch tab map
   cy.get('#react-tabs-2').click();
 
+  // Ensure map is visible
+  cy.get('#map-id').should('be.visible');
+
   // Pin
-  cy.get('.i-pin-card-map').contains('A');
+  cy.get('.i-pin-card-map')
+    .should('be.visible')
+    .contains('A');
 
   // Back to Result list
   cy.get('#react-tabs-0').click();
