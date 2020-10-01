@@ -103,7 +103,6 @@ export default {
     vetInputLabel: 'Veteran\u2019s',
     previousTreatmentFacilityUI: {
       'ui:title': ' ',
-
       'ui:order': ['name', 'type'],
       name: {
         'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
