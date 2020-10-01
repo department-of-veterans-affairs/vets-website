@@ -2,20 +2,11 @@ import React from 'react';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from './config/form';
-import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-function Form1995Entry({ location, featureToggles, children }) {
+export default function Form1995Entry({ location, children }) {
   return (
-    <RoutedSavableApp
-      formConfig={formConfig(featureToggles)}
-      currentLocation={location}
-    >
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
 }
-const mapStateToProps = state => ({
-  featureToggles: toggleValues(state),
-});
-export default connect(mapStateToProps)(Form1995Entry);
