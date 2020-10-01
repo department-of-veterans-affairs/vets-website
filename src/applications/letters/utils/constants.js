@@ -39,15 +39,18 @@ export const DOWNLOAD_STATUSES = Object.freeze({
   failure: 'failure',
 });
 
+// if you update LETTER_TYPES, update LETTER_TYPES in vets-api lib/evss/letters/letter.rb
 export const LETTER_TYPES = Object.freeze({
   benefitSummary: 'benefit_summary',
+  benefitSummaryDependent: 'benefit_summary_dependent',
+  benefitVerification: 'benefit_verification',
+  certificateOfEligibility: 'certificate_of_eligibility',
+  civilService: 'civil_service',
   commissary: 'commissary',
-  proofOfService: 'proof_of_service',
   medicarePartD: 'medicare_partd',
   minimumEssentialCoverage: 'minimum_essential_coverage',
+  proofOfService: 'proof_of_service',
   serviceVerification: 'service_verification',
-  civilService: 'civil_service',
-  benefitVerification: 'benefit_verification',
 });
 
 // Benefit options returned from vets-api, used in UI
