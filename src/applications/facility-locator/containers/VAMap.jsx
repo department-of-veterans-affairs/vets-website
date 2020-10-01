@@ -517,6 +517,11 @@ class VAMap extends Component {
                     </FeatureGroup>
                   )}
               </Map>
+              <p className="vads-u-visibility--screen-reader">
+                Please note: Due to technical limitations, the map is not
+                providing an accessible experience for screen reader devices.
+                We're working to deliver an enhanced screen reader experience.
+              </p>
               {selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult
@@ -601,6 +606,11 @@ class VAMap extends Component {
               )}
           </Map>
         </div>
+        <p className="vads-u-visibility--screen-reader">
+          Please note: Due to technical limitations, the map is not providing an
+          accessible experience for screen reader devices. We're working to
+          deliver an enhanced screen reader experience.
+        </p>
         <PaginationWrapper
           handlePageSelect={this.handlePageSelect}
           currentPage={currentPage}
