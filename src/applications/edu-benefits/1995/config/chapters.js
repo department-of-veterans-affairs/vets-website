@@ -29,12 +29,7 @@ export const chapters = {
   applicantInformation: {
     title: 'Applicant Information',
     pages: {
-      applicantInformation: {
-        path: applicantInformation.path,
-        title: applicantInformation.title,
-        uiSchema: applicantInformation.uiSchema,
-        schema: applicantInformation.schema,
-      },
+      applicantInformation: applicantInformation.page,
     },
   },
   benefitSelection: {

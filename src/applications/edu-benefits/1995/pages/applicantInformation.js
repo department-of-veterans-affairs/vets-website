@@ -12,26 +12,24 @@ const applicantInformation = createApplicantInformationPage(fullSchema1995, {
   required: ['veteranFullName'],
 });
 
-export const path = applicantInformation.path;
-export const title = applicantInformation.title;
-
-export const uiSchema = {
-  ...applicantInformation.uiSchema,
-  veteranFullName: {
-    ...applicantInformation.uiSchema.veteranFullName,
-    first: {
-      ...applicantInformation.uiSchema.veteranFullName.firstName,
-      'ui:title': 'Your first name',
-    },
-    last: {
-      ...applicantInformation.uiSchema.veteranFullName.firstName,
-      'ui:title': 'Your last name',
-    },
-    middle: {
-      ...applicantInformation.uiSchema.veteranFullName.firstName,
-      'ui:title': 'Your middle name',
+export const page = {
+  ...applicantInformation,
+  uiSchema: {
+    ...applicantInformation.uiSchema,
+    veteranFullName: {
+      ...applicantInformation.uiSchema.veteranFullName,
+      first: {
+        ...applicantInformation.uiSchema.veteranFullName.firstName,
+        'ui:title': 'Your first name',
+      },
+      last: {
+        ...applicantInformation.uiSchema.veteranFullName.firstName,
+        'ui:title': 'Your last name',
+      },
+      middle: {
+        ...applicantInformation.uiSchema.veteranFullName.firstName,
+        'ui:title': 'Your middle name',
+      },
     },
   },
 };
-
-export const schema = { ...applicantInformation.schema };
