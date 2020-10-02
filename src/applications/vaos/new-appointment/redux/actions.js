@@ -350,8 +350,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         type: FORM_PAGE_FACILITY_V2_OPEN,
       });
 
-      // If we have the VA parent in our state, we don't need to
-      // fetch them again
+      // Fetch parent facilities if we haven't already in
+      // checkCommunityCareEligibility()
       if (!parentFacilities) {
         parentFacilities = await getOrganizations({
           siteIds: userSiteIds,
@@ -367,6 +367,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           getRequestEligibilityCriteria(userSiteIds),
         ]);
 
+        // Fetch facilities that support direct scheduling and filter
+        // only those that support the selected type of care
         directFacilityIds = criteria[0]
           ?.filter(facility =>
             facility?.coreSettings?.some(
@@ -375,6 +377,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           )
           ?.map(facility => facility.id);
 
+        // Fetch facilities that support requests and filter
+        // only those that support the selected type of care
         requestFacilityIds = criteria[1]
           ?.filter(facility =>
             facility?.requestSettings?.some(
@@ -383,12 +387,19 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           )
           ?.map(facility => facility.id);
 
+        const uniqueIds = Array.from(
+          new Set([...directFacilityIds, ...requestFacilityIds]),
+        );
+
+        // The above API calls only return the ids. Make an additional
+        // call to getLocations so we can get additional details such
+        // as name, address, coordinates, etc.
         typeOfCareFacilities = await getLocations({
-          facilityIds: Array.from(
-            new Set([...directFacilityIds, ...requestFacilityIds]),
-          ),
+          facilityIds: uniqueIds,
         });
 
+        // Update the retrieved locations with requestSupported and
+        // directSchedulingSupported, as well as replace IDs for dev/staging
         typeOfCareFacilities = typeOfCareFacilities?.map(location =>
           setSupportedSchedulingMethods({
             location,
@@ -445,16 +456,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         }
 
         dispatch(checkEligibility(selectedFacility, siteId));
-      }
-
-      // Fetch parent details if we don't have any matching locations
-      if (parentFacilities?.length && !typeOfCareFacilities.length) {
-        try {
-          const thunk = fetchFacilityDetails(parentFacilities[0].id);
-          await thunk(dispatch, getState);
-        } catch (e) {
-          captureError(e);
-        }
       }
 
       dispatch({

@@ -7,8 +7,8 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
-import { getParentOfLocation } from '../../../services/location';
 import { FETCH_STATUS } from '../../../utils/constants';
+import { getParentOfLocation } from '../../../services/location';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';

@@ -61,19 +61,18 @@ export default function FacilitiesRadioWidget({
         );
       })}
 
-      {!displayAll &&
-        hiddenCount > 0 && (
-          <button
-            type="button"
-            className="additional-info-button va-button-link vads-u-display--block"
-            onClick={() => setDisplayAll(!displayAll)}
-          >
-            <span className="additional-info-title">
-              {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
-              <i className="fas fa-angle-down" />
-            </span>
-          </button>
-        )}
+      {!displayAll && (
+        <button
+          type="button"
+          className="additional-info-button va-button-link vads-u-display--block"
+          onClick={() => setDisplayAll(!displayAll)}
+        >
+          <span className="additional-info-title">
+            {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
+            <i className="fas fa-angle-down" />
+          </span>
+        </button>
+      )}
     </div>
   );
 }
