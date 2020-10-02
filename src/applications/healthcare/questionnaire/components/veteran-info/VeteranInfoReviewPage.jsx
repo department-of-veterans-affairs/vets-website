@@ -5,6 +5,9 @@ import { genderLabels } from 'platform/static-data/labels';
 import { formatPhoneNumber, addressToDisplay } from './utils';
 
 const phonesToDisplay = phones => {
+  if (!phones) {
+    return [];
+  }
   return phones.filter(f => f.data).map(phone => {
     return {
       label: phone.label,
@@ -17,11 +20,11 @@ export default function VeteranInfoReviewPage({ formData }) {
   const veteran = formData?.veteranInfo;
   const display = [
     {
-      label: 'Full Name',
+      label: 'Name',
       value: veteran.fullName,
     },
     {
-      label: 'Date of Birth',
+      label: 'Date of birth',
       value: moment(veteran.dateOfBirth).format('MMMM DD, YYYY'),
     },
     {
@@ -36,13 +39,13 @@ export default function VeteranInfoReviewPage({ formData }) {
   ];
   return (
     <>
-      <dl className="review">
+      <dl className="review" data-testid="veteran-information">
         {display.map((row, i) => {
           const { label, value } = row;
           return value ? (
             <div key={i} className="review-row">
-              <dt>{label}</dt>
-              <dd>{value}</dd>
+              <dt data-testid={`${label}-label`}>{label}</dt>
+              <dd data-testid={`${label}-value`}>{value}</dd>
             </div>
           ) : null;
         })}

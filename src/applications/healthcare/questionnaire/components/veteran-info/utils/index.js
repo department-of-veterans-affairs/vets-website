@@ -13,7 +13,7 @@ const addressToDisplay = address => {
   // sa1
   if (address.addressLine1) {
     rv.push({
-      label: `Address${address.addressLine2 ? ' 1' : ''}`,
+      label: `Address 1`,
       value: address.addressLine1,
     });
   }
