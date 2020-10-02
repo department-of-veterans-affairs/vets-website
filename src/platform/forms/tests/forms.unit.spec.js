@@ -21,6 +21,7 @@ const missingFromVetsJsonSchema = [
 const root = path.join(__dirname, '../../../');
 
 const formConfigKeys = [
+  'rootUrl',
   'formId',
   'version',
   'migrations',
@@ -271,6 +272,7 @@ describe('form:', () => {
         import(configFilePath).then(({ default: formConfig }) => {
           validFormConfigKeys(formConfig);
           validFormId(formConfig);
+          validStringProperty(formConfig, 'rootUrl', true);
           validNumberProperty(formConfig, 'version');
           validMigrations(formConfig);
           validObjectProperty(formConfig, 'chapters');
