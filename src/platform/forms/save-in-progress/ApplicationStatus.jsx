@@ -4,7 +4,6 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import {
-  formLinks,
   formDescriptions,
   formBenefits,
 } from 'applications/personalization/dashboard/helpers';
@@ -35,7 +34,7 @@ export class ApplicationStatus extends React.Component {
     }
   }
 
-  removeForm = formId => {
+  removeForm = (formId, appRootUrl) => {
     this.setState({ modalOpen: false, loading: true });
     this.props
       .removeSavedForm(formId)
@@ -43,7 +42,7 @@ export class ApplicationStatus extends React.Component {
       .catch(x => x)
       .then(() => {
         if (!this.props.stayAfterDelete) {
-          window.location.href = formLinks[formId];
+          window.location.href = appRootUrl;
         } else {
           this.setState({ modalOpen: false, loading: false });
         }
@@ -141,7 +140,7 @@ export class ApplicationStatus extends React.Component {
             <p>
               <a
                 className="usa-button-primary"
-                href={`${formLinks[formId]}resume`}
+                href={`${formConfig.rootUrl}/resume`}
               >
                 {continueAppButtonText}
               </a>
@@ -170,7 +169,9 @@ export class ApplicationStatus extends React.Component {
             >
               <p>Are you sure you want to start over?</p>
               <ProgressButton
-                onButtonClick={() => this.removeForm(formId)}
+                onButtonClick={() =>
+                  this.removeForm(formId, formConfig.rootUrl)
+                }
                 buttonText={startNewAppButtonText}
                 buttonClass="usa-button-primary"
               />
@@ -214,7 +215,7 @@ export class ApplicationStatus extends React.Component {
           >
             <p>Are you sure you want to start over?</p>
             <ProgressButton
-              onButtonClick={() => this.removeForm(formId)}
+              onButtonClick={() => this.removeForm(formId, formConfig.rootUrl)}
               buttonText={startNewAppButtonText}
               buttonClass="usa-button-primary"
             />
@@ -243,7 +244,7 @@ export class ApplicationStatus extends React.Component {
             <div className="sip-application-status">
               <a
                 className="usa-button-primary va-button-primary"
-                href={formLinks[formId]}
+                href={formConfig.rootUrl}
               >
                 {applyText}
               </a>
