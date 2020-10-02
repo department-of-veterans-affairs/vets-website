@@ -361,6 +361,8 @@ export default class ArrayField extends React.Component {
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
 
+            const Tag = formContext.onReviewPage ? 'h4' : 'h3';
+
             if (isEditing) {
               return (
                 <div key={index} className="va-growable-background">
@@ -370,9 +372,9 @@ export default class ArrayField extends React.Component {
                       {isLast &&
                       items.length > 1 &&
                       uiSchema['ui:options'].itemName ? (
-                        <h4 className="vads-u-font-size--h5">
+                        <Tag className="vads-u-font-size--h5">
                           New {uiSchema['ui:options'].itemName}
-                        </h4>
+                        </Tag>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
