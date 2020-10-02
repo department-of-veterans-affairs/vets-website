@@ -517,6 +517,11 @@ class VAMap extends Component {
                     </FeatureGroup>
                   )}
               </Map>
+              <p className="vads-u-visibility--screen-reader">
+                Please note: Due to technical limitations, the map is not
+                providing an accessible experience for screen reader devices.
+                We're working to deliver an enhanced screen reader experience.
+              </p>
               {selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult
@@ -601,6 +606,11 @@ class VAMap extends Component {
               )}
           </Map>
         </div>
+        <p className="vads-u-visibility--screen-reader">
+          Please note: Due to technical limitations, the map is not providing an
+          accessible experience for screen reader devices. We're working to
+          deliver an enhanced screen reader experience.
+        </p>
         <PaginationWrapper
           handlePageSelect={this.handlePageSelect}
           currentPage={currentPage}
@@ -630,8 +640,8 @@ class VAMap extends Component {
       <>
         Please call first to confirm services or ask about getting help by phone
         or video. We require everyone entering a VA facility to wear a{' '}
-        <a href="/coronavirus-veteran-frequently-asked-questions/">
-          cloth face covering.
+        <a href="/coronavirus-veteran-frequently-asked-questions/#more-health-care-questions">
+          mask that covers their mouth and nose.
         </a>{' '}
         Get answers to questions about COVID-19 and VA benefits and services
         with our <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
