@@ -35,7 +35,6 @@ import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PreferencesWidget from 'applications/personalization/preferences/containers/PreferencesWidget';
 
 import profileManifest from 'applications/personalization/profile360/manifest.json';
-import accountManifest from 'applications/personalization/account/manifest.json';
 import lettersManifest from 'applications/letters/manifest.json';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
