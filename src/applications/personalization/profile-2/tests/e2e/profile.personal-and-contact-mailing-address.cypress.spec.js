@@ -1,6 +1,5 @@
 import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
-import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
 const setup = (mobile = false) => {
   window.localStorage.setItem(
@@ -13,7 +12,6 @@ const setup = (mobile = false) => {
   }
 
   cy.login(mockUser);
-  cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
   // should show a loading indicator

@@ -2,7 +2,6 @@ import { PROFILE_PATHS } from '../../constants';
 
 import mockUser from '../fixtures/users/user-36.json';
 import mockPaymentInfo from '../fixtures/payment-information/direct-deposit-is-set-up.json';
-import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
 function clickSubNavButton(buttonLabel, mobile) {
   if (mobile) {
@@ -140,7 +139,6 @@ describe('Profile', () => {
     );
     cy.login(mockUser);
     // login() calls cy.server() so we can now mock routes
-    cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });
   it('should pass an aXe scan and manage focus on all pages at desktop size', () => {
