@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import {
-  formDescriptions,
-  formBenefits,
-} from 'applications/personalization/dashboard/helpers';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { removeSavedForm } from '../../user/profile/actions';
+import getBenefitString from '../../forms-system/src/js/utilities/benefit-description';
+import getSavedFormDescription from '../../forms-system/src/js/utilities/form-description';
 
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
@@ -122,7 +120,7 @@ export class ApplicationStatus extends React.Component {
           <div className="usa-alert usa-alert-info background-color-only sip-application-status">
             <h5 className="form-title saved">Your {appType} is in progress</h5>
             <span className="saved-form-item-metadata">
-              Your {formDescriptions[formId]} is in progress.
+              Your {getSavedFormDescription(formConfig)} is in progress.
             </span>
             <br />
             <span className="saved-form-item-metadata">
@@ -188,8 +186,9 @@ export class ApplicationStatus extends React.Component {
         <div className="usa-alert usa-alert-warning background-color-only sip-application-status">
           <h5 className="form-title saved">Your {appType} has expired</h5>
           <span className="saved-form-item-metadata">
-            Your saved {formDescriptions[formId]} has expired. If you want to
-            apply for {formBenefits[formId]}, please start a new {appType}.
+            Your saved {getSavedFormDescription(formConfig)} has expired. If you
+            want to apply for {getBenefitString(formConfig)}, please start a new{' '}
+            {appType}.
           </span>
           <br />
           <p>
