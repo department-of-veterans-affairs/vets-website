@@ -7,9 +7,9 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import { formTitles } from 'applications/personalization/dashboard/helpers';
 import FormStartControls from './FormStartControls';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
+import getBenefitString from '../../forms-system/src/js/utilities/benefit-description';
 
 class FormSaved extends React.Component {
   constructor(props) {
@@ -50,6 +50,7 @@ class FormSaved extends React.Component {
     const expirationDate = moment
       .unix(this.props.expirationDate)
       .format('M/D/YYYY');
+    const benefitString = getBenefitString(this.props.route.formConfig);
     const appType =
       this.props.route.formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
@@ -58,7 +59,7 @@ class FormSaved extends React.Component {
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <strong>
-              Your {formTitles[formId]} {appType} has been saved.
+              Your {benefitString} {appType} has been saved.
             </strong>
             <br />
             {!!lastSavedDate &&

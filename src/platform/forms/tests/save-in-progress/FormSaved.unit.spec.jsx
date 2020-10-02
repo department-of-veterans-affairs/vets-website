@@ -15,7 +15,12 @@ describe('Schemaform <FormSaved>', () => {
         path: 'testing',
       },
     ],
-    formConfig: {},
+    formConfig: {
+      formId: '123',
+      benefitDescription: {
+        benefitType: 'education benefits',
+      },
+    },
   };
   const formId = VA_FORM_IDS.FORM_10_10EZ;
   const user = () => ({
@@ -47,6 +52,9 @@ describe('Schemaform <FormSaved>', () => {
     ).to.equal('testing');
     expect(tree.subTree('.usa-alert').text()).to.contain('6/12/2017 at');
     expect(tree.subTree('.usa-alert').text()).to.contain('will expire on');
+    expect(tree.subTree('.usa-alert').text()).to.contain(
+      'Your education benefits (123) application has been saved.',
+    );
   });
   it('should display verify link if user is not verified', () => {
     const tree = SkinDeep.shallowRender(
