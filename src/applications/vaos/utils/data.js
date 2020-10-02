@@ -16,7 +16,6 @@ import {
   getSiteIdForChosenFacility,
   getChosenCCSystemId,
   getChosenSlot,
-  getNewAppointment,
   selectExpressCareFormData,
   vaosFlatFacilityPage,
 } from './selectors';
@@ -243,13 +242,9 @@ export function transformFormToCCRequest(state) {
 }
 
 export function transformFormToAppointment(state) {
-  const newAppointment = getNewAppointment(state);
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
-  const parent = newAppointment.parentFacilities.find(
-    p => p.id === newAppointment.data.vaParent,
-  );
-  const siteId = getSiteIdFromOrganization(parent);
+  const siteId = getSiteIdForChosenFacility(state);
   const { timezone = null } = siteId ? getTimezoneBySystemId(siteId) : {};
 
   const slot = getChosenSlot(state);
