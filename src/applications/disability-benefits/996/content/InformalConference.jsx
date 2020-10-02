@@ -7,7 +7,7 @@ export const InformalConferenceDescription = (
       An informal conference is a phone call between you or your accredited
       representative (claims agent, attorney, or Veterans Service Organization)
       and the reviewer to discuss why you think the decision should be changed
-      and identify factual erorrs.
+      and identify factual errors.
     </p>
     <p className="vads-u-margin-bottom--3">
       If you request an informal conference, the reviewer will call you or your
