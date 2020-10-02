@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/max-switch-cases */
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import set from 'platform/utilities/data/set';
