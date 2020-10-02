@@ -11,6 +11,8 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -26,19 +28,38 @@ export class IntroductionPage extends React.Component {
     this.setState({ status: value });
   };
 
+  renderSaveInProgressIntro = buttonOnly => (
+    <SaveInProgressIntro
+      buttonOnly={buttonOnly}
+      prefillEnabled={this.props.route.formConfig.prefillEnabled}
+      messages={this.props.route.formConfig.savedFormMessages}
+      pageList={this.props.route.pageList}
+      startText="Start the education application"
+      unauthStartText={
+        this.props.form1995EduUpdates
+          ? 'Sign in or create an account'
+          : undefined
+      }
+    />
+  );
+
   render() {
     const { status } = this.state;
-    const { showWizard } = this.props;
+    const { showWizard, form1995EduUpdates } = this.props;
     const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
+    const formTitle = form1995EduUpdates
+      ? 'Update your education benefits'
+      : 'Manage your education benefits';
+
     return (
       <div
         className="schemaform-intro"
         itemScope
         itemType="http://schema.org/HowTo"
       >
-        <FormTitle title="Manage your education benefits" />
+        <FormTitle title={formTitle} />
         <p itemProp="description">
           Equal to VA Form 22-1995 (Request for Change of Program or Place of
           Training).
@@ -47,12 +68,7 @@ export class IntroductionPage extends React.Component {
           <WizardContainer setWizardStatus={this.setWizardStatus} />
         ) : (
           <div className="subway-map">
-            <SaveInProgressIntro
-              prefillEnabled={this.props.route.formConfig.prefillEnabled}
-              messages={this.props.route.formConfig.savedFormMessages}
-              pageList={this.props.route.pageList}
-              startText="Start the education application"
-            />
+            {this.renderSaveInProgressIntro()}
             <h4>Follow the steps below to apply for education benefits.</h4>
             <div className="process schemaform-process">
               <ol>
@@ -75,7 +91,14 @@ export class IntroductionPage extends React.Component {
                         Basic information about the school or training facility
                         you want to attend (required)
                       </li>
-                      <li>Bank account direct deposit information</li>
+                      {form1995EduUpdates ? (
+                        <li>
+                          Bank account direct deposit information (if adding or
+                          changing an account)
+                        </li>
+                      ) : (
+                        <li>Bank account direct deposit information</li>
+                      )}
                       <li>Military history</li>
                       <li>Education history</li>
                     </ul>
@@ -83,8 +106,11 @@ export class IntroductionPage extends React.Component {
                       <strong>
                         What if I need help filling out my application?
                       </strong>{' '}
-                      An accredited representative, like a Veterans Service
-                      Officer (VSO), can help you fill out your claim.{' '}
+                      {form1995EduUpdates
+                        ? 'An accredited individual, like a Veterans Service Officer (VSO), ' +
+                          'or a Veteran representative at your school, can help you fill out your claim.'
+                        : 'An accredited representative, like a Veterans Service Officer (VSO), ' +
+                          'can help you fill out your claim.'}
                       <a href="/disability/get-help-filing-claim/">
                         Get help filing your claim
                       </a>
@@ -139,24 +165,27 @@ export class IntroductionPage extends React.Component {
                     <h5>Decision</h5>
                   </div>
                   <p>
-                    You’ll get a Certificate of Eligibility (COE), or award
-                    letter, in the mail if we’ve approved your application.
-                    Bring this to the VA certifying official at your school.
+                    {form1995EduUpdates
+                      ? 'If we approve your application, you’ll get a Certificate of ' +
+                        'Eligibility (COE), or award letter, in the mail. Bring this ' +
+                        'COE to the VA certifying official at your school. This ' +
+                        'person is usually in the Registrar or Financial Aid office ' +
+                        'at the school.'
+                      : 'You’ll get a Certificate of Eligibility (COE), or award ' +
+                        'letter, in the mail if we’ve approved your application. ' +
+                        'Bring this to the VA certifying official at your school.'}
                   </p>
                   <p>
-                    If your application wasn’t approved, you’ll get a denial
-                    letter in the mail.
+                    {form1995EduUpdates
+                      ? 'If your application isn’t approved, you’ll get a denial ' +
+                        'letter in the mail.'
+                      : 'If your application wasn’t approved, you’ll get a denial ' +
+                        'letter in the mail.'}
                   </p>
                 </li>
               </ol>
             </div>
-            <SaveInProgressIntro
-              buttonOnly
-              prefillEnabled={this.props.route.formConfig.prefillEnabled}
-              messages={this.props.route.formConfig.savedFormMessages}
-              pageList={this.props.route.pageList}
-              startText="Start the education application"
-            />
+            {this.renderSaveInProgressIntro(true)}
             <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
               <OMBInfo
                 resBurden={20}
@@ -173,6 +202,9 @@ export class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => ({
   showWizard: showEduBenefits1995Wizard(state),
+  form1995EduUpdates: toggleValues(state)[
+    FEATURE_FLAG_NAMES.form1995EduUpdates
+  ],
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
