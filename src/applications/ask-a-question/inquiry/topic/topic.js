@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 import { vaMedicalFacilities } from 'vets-json-schema/dist/constants.json';
 
+import fullSchema from '../../0873-schema.json';
 import { topicTitle } from '../../content/labels';
 
 const formFields = {
@@ -12,17 +13,25 @@ const formFields = {
   vaMedicalCenter: 'vaMedicalCenter',
 };
 
-export const filterArrayByValue = (
-  topicSchema,
-  value,
-  isLevelThree = false,
-) => {
+const getSchemaFromParentTopic = (topicSchema, value, isLevelThree = false) => {
   const parentLevel = isLevelThree ? 'subLevelTwo' : 'levelOne';
   const childLevel = isLevelThree ? 'levelThree' : 'levelTwo';
   const parentSchema = topicSchema.oneOf.filter(element => {
     return element.properties[parentLevel].enum.includes(value);
   });
-  const childSchema = parentSchema[0].properties[childLevel];
+  return parentSchema[0].properties[childLevel];
+};
+
+export const filterArrayByValue = (
+  topicSchema,
+  value,
+  isLevelThree = false,
+) => {
+  const childSchema = getSchemaFromParentTopic(
+    topicSchema,
+    value,
+    isLevelThree,
+  );
   if (childSchema.type === 'string') {
     return childSchema.enum;
   }
@@ -33,65 +42,33 @@ export const filterArrayByValue = (
   );
 };
 
-// Move all these constants to vets-json-schema in the constants directory
-const caregiverSupportValues = [
-  'General Caregiver Support/Education',
-  'Comprehensive Family Caregiver Program',
-  'VA Supportive Services',
+const levelOneTopicLabels = [
+  'Caregiver Support Program',
+  'Health & Medical Issues & Services',
+  'VA Ctr for Women Vets, Policies & Progs',
 ];
 
-const healthAndMedicalIssuesValues = [
-  'Medical Care Issues at Specific Facility',
+const levelTwoTopicLabels = [
   'Health/Medical Eligibility & Programs',
-  'My HealtheVet',
   'Prosthetics, Med Devices & Sensory Aids',
-  'Vet Center / Readjustment Counseling Service (RCS)',
   'Women Veterans Health Care',
 ];
 
-const womenVetsPoliciesAndProgramsValues = [
-  'Policy Questions',
-  'Question about Women Veterans Programs',
-];
-
-const healthMedicalEligibilityValues = [
-  'Apply for Health Benefits (Veterans)',
-  'Medical Care for Veterans within USA',
-  'Medical Care-Overseas Vets (Foreign Med)',
-  'Children of Women Vietnam Vets Healthcare',
-  'Apply for Health Benefits (Dependents)',
-  'CHAMPVA-Civilian Health & Medical Prog',
-  'CHAMPVA Password/Access Problems',
-  'CHAMPVA CITI (In house Treatment Initiated)',
-  'Spina Bifida Program for Children of Vet',
-  'Licensed Health Professional Employment',
-];
-
-const prostheticsMedDevicesValues = [
-  'Artificial Limbs/Orthotics',
-  'Automobile Adaptive Equipment',
-  'Clothing Allowance',
-  'Durable Medical Equipment',
-  'Eyeglasses',
-  'Hearing Aids',
-  'Home Improvements & Structural Alterations',
-  'Home Oxygen',
-  'Wheelchairs',
-  'Prosthetics Web Site',
-  'Technical Problems',
-  'Other Prosthetics Issues',
-];
-
-const womensVeteranHealthCareValues = ['General Concern'];
-
-const valuesByLabelLookup = {
-  'Caregiver Support Program': caregiverSupportValues,
-  'Health & Medical Issues & Services': healthAndMedicalIssuesValues,
-  'VA Ctr for Women Vets, Policies & Progs': womenVetsPoliciesAndProgramsValues,
-  'Health/Medical Eligibility & Programs': healthMedicalEligibilityValues,
-  'Prosthetics, Med Devices & Sensory Aids': prostheticsMedDevicesValues,
-  'Women Veterans Health Care': womensVeteranHealthCareValues,
-};
+const valuesByLabelLookup = {};
+levelOneTopicLabels.forEach(label => {
+  valuesByLabelLookup[label] = filterArrayByValue(
+    fullSchema.definitions.topic,
+    label,
+  );
+});
+levelTwoTopicLabels.forEach(label => {
+  const parentTopic = 'Health & Medical Issues & Services';
+  valuesByLabelLookup[label] = filterArrayByValue(
+    getSchemaFromParentTopic(fullSchema.definitions.topic, parentTopic),
+    label,
+    true,
+  );
+});
 
 function getAllMedicalCenters() {
   const medicalCenters = [];
