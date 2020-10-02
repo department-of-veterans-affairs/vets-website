@@ -149,6 +149,10 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FEEDBACK_TOOL,
+  benefitDescription: {
+    benefitType: 'feedback',
+    subText: 'GI Bill School Feedback Tool',
+  },
   version: 1,
   migrations,
   prefillEnabled: true,

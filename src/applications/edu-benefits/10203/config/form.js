@@ -23,6 +23,9 @@ const formConfig = {
   submit: submitForm,
   trackingPrefix: 'edu-10203-',
   formId: VA_FORM_IDS.FORM_22_10203,
+  benefitDescription: {
+    benefitType: 'Rogers STEM Scholarship',
+  },
   version: 1,
   migrations: [urlMigration('/10203')],
   prefillEnabled: true,

@@ -34,6 +34,9 @@ const formConfig = {
   submit: submitForm,
   trackingPrefix: 'edu-0994-',
   formId: VA_FORM_IDS.FORM_22_0994,
+  benefitDescription: {
+    benefitType: 'VET TEC',
+  },
   version: migrations.length,
   migrations,
   prefillEnabled: true,

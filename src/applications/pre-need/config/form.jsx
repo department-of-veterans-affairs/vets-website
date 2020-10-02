@@ -86,6 +86,11 @@ const formConfig = {
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_40_10007,
+  benefitDescription: {
+    benefitType:
+      'pre-need determination of eligibility in a VA national cemetery',
+    subText: false,
+  },
   prefillEnabled: true,
   verifyRequiredPrefill: false,
   version: 0,

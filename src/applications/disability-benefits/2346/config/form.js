@@ -145,6 +145,9 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
+  benefitDescription: {
+    benefitType: 'hearing aid batteries and accessories',
+  },
   version: 0,
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',

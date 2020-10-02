@@ -106,6 +106,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_21P_530,
+  benefitDescription: {
+    benefitType: 'burial benefits',
+  },
   version: 2,
   migrations,
   prefillEnabled: true,

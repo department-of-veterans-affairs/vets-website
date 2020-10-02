@@ -36,6 +36,9 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_20_0996,
+  benefitDescription: {
+    benefitType: 'Higher-level review',
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
 

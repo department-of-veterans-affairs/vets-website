@@ -31,6 +31,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_0993,
+  benefitDescription: {
+    benefitType: 'opt out',
+  },
   version: 0,
   prefillEnabled: true,
   prefillTransformer,

@@ -69,6 +69,9 @@ const formConfig = {
   confirmation: ConfirmationPage,
   preSubmitInfo: CustomPreSubmitInfo,
   formId: VA_FORM_IDS.FORM_21_686C,
+  benefitDescription: {
+    benefitType: 'dependent status',
+  },
   version: 1,
   migrations,
   prefillEnabled: true,

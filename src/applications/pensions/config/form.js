@@ -196,6 +196,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_21P_527EZ,
+  benefitDescription: {
+    benefitType: 'Veterans pension benefits',
+  },
   version: 3,
   migrations,
   prefillEnabled: true,

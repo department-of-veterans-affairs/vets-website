@@ -41,6 +41,9 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5495`,
   trackingPrefix: 'edu-5495-',
   formId: VA_FORM_IDS.FORM_22_5495,
+  benefitDescription: {
+    benefitType: 'education benefits',
+  },
   version: 1,
   migrations: [urlMigration('/5495')],
   prefillEnabled: true,

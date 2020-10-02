@@ -30,6 +30,9 @@ const formConfig = {
   submit: submitForm,
   trackingPrefix: 'edu-1995-',
   formId: VA_FORM_IDS.FORM_22_1995,
+  benefitDescription: {
+    benefitType: 'education benefits',
+  },
   version: 1,
   migrations: [urlMigration('/1995')],
   prefillEnabled: true,
