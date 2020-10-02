@@ -54,7 +54,6 @@ export async function getEligibilityData(
   useVSP,
 ) {
   const facilityId = getFacilityIdFromLocation(location);
-
   const directSchedulingAvailable =
     (useVSP || location.legacyVAR.directSchedulingSupported) &&
     isDirectScheduleEnabled;
