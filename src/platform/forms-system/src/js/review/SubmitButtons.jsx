@@ -63,6 +63,7 @@ export default function SubmitButtons(props) {
         appType={appType}
         buttonText={buttonText}
         formConfig={formConfig}
+        formErrors={formErrors}
         onBack={onBack}
         onSubmit={onSubmit}
       />
