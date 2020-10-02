@@ -9,7 +9,6 @@ import {
   getFacilityInfo,
   getFacilitiesInfo,
 } from '../var';
-import { getRealFacilityId } from '../../utils/appointment';
 import { mapToFHIRErrors } from '../utils';
 import {
   transformDSFacilities,
@@ -26,7 +25,7 @@ function parseId(id) {
 }
 
 /**
- * On localhost and staging, there there is a mismatch between the
+ * On localhost and staging, there is a mismatch between the
  * facilityIds that we use.  The new appointment flow mainly uses
  * VAMF IDs.  This converts the Facilities API ids to VAMF IDs
  *
@@ -163,14 +162,15 @@ export function setSupportedSchedulingMethods({
   requestFacilityIds,
   directFacilityIds,
 } = {}) {
+  const id = getFakeFacilityId(location.id);
+
   const requestSupported = requestFacilityIds.some(
-    id => `var${getRealFacilityId(id)}` === location.id,
+    facilityId => `var${facilityId}` === id,
   );
   const directSchedulingSupported = directFacilityIds.some(
-    id => `var${getRealFacilityId(id)}` === location.id,
+    facilityId => `var${facilityId}` === id,
   );
 
-  const id = getFakeFacilityId(location.id);
   const identifier = location.identifier;
   const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
 
