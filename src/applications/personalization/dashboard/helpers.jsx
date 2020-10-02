@@ -7,7 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';
 import getBenefitString from 'platform/forms-system/src/js/utilities/benefit-description';
-import getFormDescription from 'platform/forms-system/src/js/utilities/form-description';
+import getSavedFormDescription from 'platform/forms-system/src/js/utilities/form-description';
 
 import hcaManifest from 'applications/hca/manifest.json';
 import dependentStatusManifest from 'applications/disability-benefits/686c-674/manifest.json';
@@ -112,24 +112,24 @@ export const formTitles = {
 };
 
 export const formDescriptions = {
-  [VA_FORM_IDS.FORM_10_10EZ]: getFormDescription(hcaConfig),
-  [VA_FORM_IDS.FORM_21_526EZ]: getFormDescription(disability526Config),
-  [VA_FORM_IDS.FORM_21_686C]: getFormDescription(dependentStatusConfig),
-  [VA_FORM_IDS.FORM_21P_527EZ]: getFormDescription(pensionConfig),
-  [VA_FORM_IDS.FORM_21P_530]: getFormDescription(burialsConfig),
-  [VA_FORM_IDS.FORM_22_0993]: getFormDescription(edu0993Config),
-  [VA_FORM_IDS.FORM_22_0994]: getFormDescription(edu0994Config),
-  [VA_FORM_IDS.FORM_22_1990]: getFormDescription(edu1990Config),
-  [VA_FORM_IDS.FORM_22_1990E]: getFormDescription(edu1990eConfig),
-  [VA_FORM_IDS.FORM_22_1990N]: getFormDescription(edu1990nConfig),
-  [VA_FORM_IDS.FORM_22_1995]: getFormDescription(edu1995Config),
-  [VA_FORM_IDS.FORM_22_5490]: getFormDescription(edu5490Config),
-  [VA_FORM_IDS.FORM_22_5495]: getFormDescription(edu5495Config),
-  [VA_FORM_IDS.FORM_22_10203]: getFormDescription(edu10203Config),
-  [VA_FORM_IDS.FORM_40_10007]: getFormDescription(preneedConfig),
-  [VA_FORM_IDS.FEEDBACK_TOOL]: getFormDescription(feedbackConfig),
-  [VA_FORM_IDS.FORM_20_0996]: getFormDescription(hlrConfig),
-  [VA_FORM_IDS.FORM_VA_2346A]: getFormDescription(mdotConfig),
+  [VA_FORM_IDS.FORM_10_10EZ]: getSavedFormDescription(hcaConfig),
+  [VA_FORM_IDS.FORM_21_526EZ]: getSavedFormDescription(disability526Config),
+  [VA_FORM_IDS.FORM_21_686C]: getSavedFormDescription(dependentStatusConfig),
+  [VA_FORM_IDS.FORM_21P_527EZ]: getSavedFormDescription(pensionConfig),
+  [VA_FORM_IDS.FORM_21P_530]: getSavedFormDescription(burialsConfig),
+  [VA_FORM_IDS.FORM_22_0993]: getSavedFormDescription(edu0993Config),
+  [VA_FORM_IDS.FORM_22_0994]: getSavedFormDescription(edu0994Config),
+  [VA_FORM_IDS.FORM_22_1990]: getSavedFormDescription(edu1990Config),
+  [VA_FORM_IDS.FORM_22_1990E]: getSavedFormDescription(edu1990eConfig),
+  [VA_FORM_IDS.FORM_22_1990N]: getSavedFormDescription(edu1990nConfig),
+  [VA_FORM_IDS.FORM_22_1995]: getSavedFormDescription(edu1995Config),
+  [VA_FORM_IDS.FORM_22_5490]: getSavedFormDescription(edu5490Config),
+  [VA_FORM_IDS.FORM_22_5495]: getSavedFormDescription(edu5495Config),
+  [VA_FORM_IDS.FORM_22_10203]: getSavedFormDescription(edu10203Config),
+  [VA_FORM_IDS.FORM_40_10007]: getSavedFormDescription(preneedConfig),
+  [VA_FORM_IDS.FEEDBACK_TOOL]: getSavedFormDescription(feedbackConfig),
+  [VA_FORM_IDS.FORM_20_0996]: getSavedFormDescription(hlrConfig),
+  [VA_FORM_IDS.FORM_VA_2346A]: getSavedFormDescription(mdotConfig),
 };
 
 export const formLinks = {
