@@ -41,7 +41,6 @@ class SaveInProgressIntro extends React.Component {
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
     );
-    const formBenefit = getBenefitString(formConfig);
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
 
@@ -96,8 +95,9 @@ class SaveInProgressIntro extends React.Component {
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
                     Your saved {getSavedFormDescription(formConfig)} has
-                    expired. If you want to apply for {formBenefit}, please
-                    start a new {appType}.
+                    expired. If you want to apply for{' '}
+                    {getBenefitString(formConfig)}, please start a new {appType}
+                    .
                   </span>
                 </div>
                 <div>{this.props.children}</div>
