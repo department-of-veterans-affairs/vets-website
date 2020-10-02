@@ -129,8 +129,7 @@ export default {
         ),
       },
       type: {
-        'ui:required': formData =>
-          !!formData.veteranLastTreatmentFacility.name?.split(' ').join(''),
+        'ui:required': formData => !!formData.veteranLastTreatmentFacility.name,
         'ui:title': 'Was this a hospital or clinic?',
         'ui:options': {
           labels: {
