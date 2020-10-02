@@ -57,14 +57,14 @@ const levelTwoTopicLabels = [
 const valuesByLabelLookup = {};
 levelOneTopicLabels.forEach(label => {
   valuesByLabelLookup[label] = filterArrayByValue(
-    fullSchema.definitions.topic,
+    fullSchema.properties.topic,
     label,
   );
 });
 levelTwoTopicLabels.forEach(label => {
   const parentTopic = 'Health & Medical Issues & Services';
   valuesByLabelLookup[label] = filterArrayByValue(
-    getSchemaFromParentTopic(fullSchema.definitions.topic, parentTopic),
+    getSchemaFromParentTopic(fullSchema.properties.topic, parentTopic),
     label,
     true,
   );
@@ -95,7 +95,7 @@ export const medicalCenterRequiredTopics = new Set([
 ]);
 
 export function schema(currentSchema, topicProperty = 'topic') {
-  const topicSchema = currentSchema.definitions[topicProperty];
+  const topicSchema = currentSchema.properties[topicProperty];
   return {
     type: 'object',
     required: ['levelOne', 'levelTwo'],
