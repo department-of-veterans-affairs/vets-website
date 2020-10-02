@@ -5,8 +5,6 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { logout } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { selectShowProfile2 } from 'applications/personalization/profile-2/selectors';
-
 const recordNavUserEvent = section => () => {
   recordEvent({ event: 'nav-user', 'nav-user-section': section });
 };
@@ -46,13 +44,6 @@ export class PersonalizationDropdown extends React.Component {
             Profile
           </a>
         </li>
-        {this.props.showAccount && (
-          <li>
-            <a href="/account" onClick={recordAccountEvent}>
-              Account
-            </a>
-          </li>
-        )}
 
         <li>
           <a href="#" onClick={this.signOut}>
@@ -67,7 +58,6 @@ export class PersonalizationDropdown extends React.Component {
 function mapStateToProps(state) {
   return {
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    showAccount: !selectShowProfile2(state),
   };
 }
 
