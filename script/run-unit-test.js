@@ -1,6 +1,7 @@
 const printUnitTestHelp = require('./run-unit-test-help.js');
 const commandLineArgs = require('command-line-args');
-const { runCommand } = require('./utils');
+const fs = require('fs');
+const { runCommandSync } = require('./utils');
 
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
@@ -44,17 +45,20 @@ const testRunner = options.coverage ? coveragePath : mochaPath;
 const mochaOpts =
   'src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js';
 
+const topLevelDirectories = fs.readdirSync('src');
 
-const command = `LOG_LEVEL=${options[
-  'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=4096 --opts ${mochaOpts} --recursive ${options.path
-  .map(p => `'${p}'`)
-  .join(' ')}`;
+for (const topLevelDirectory of topLevelDirectories) {
+  const directories = fs.readdirSync(`src/${topLevelDirectory}`);
 
-console.log(command)
+  for (const directory of directories) {
+    // Derive the path.
+    const path = `./src/${topLevelDirectory}/${directory}/**/*.unit.spec.js?(x)`;
 
-// Otherwise, run the command
-// runCommand(
-//   ,
-//   options.coverage ? null : 0,
-// );
+    // Derive the test command per sub-directory.
+    const command = `LOG_LEVEL=${options['log-level'].toLowerCase()} ${testRunner} --max-old-space-size=4096 --opts ${mochaOpts} --recursive "${path}"`;
+
+    // Run the command.
+    console.log('running command sync', command);
+    runCommandSync(command, options.coverage ? null : 0);
+  }
+}
