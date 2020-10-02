@@ -14,7 +14,7 @@ import AccountApp from '../../containers/AccountApp';
 describe('<AccountApp>', () => {
   let wrapper;
 
-  function setUp(featureFlag = true) {
+  function setUp() {
     window.location = { replace: sinon.spy() };
     const initialState = {
       user: {
