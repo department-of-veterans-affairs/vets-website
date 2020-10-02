@@ -10,7 +10,6 @@ import getBenefitString from '../../forms-system/src/js/utilities/benefit-descri
 import recordEvent from 'platform/monitoring/record-event';
 import _ from 'platform/utilities/data';
 
-import { formDescriptions } from 'applications/personalization/dashboard/helpers';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
@@ -24,6 +23,7 @@ import {
   UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
   APP_ACTION_DEFAULT,
 } from '../../forms-system/src/js/constants';
+import getSavedFormDescription from '../../forms-system/src/js/utilities/form-description';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
@@ -67,7 +67,7 @@ class SaveInProgressIntro extends React.Component {
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-item-metadata">
-                    Your {formDescriptions[formId]} is in progress.
+                    Your {getSavedFormDescription(formConfig)} is in progress.
                   </span>
                   <br />
                   <span className="saved-form-item-metadata">
@@ -95,9 +95,9 @@ class SaveInProgressIntro extends React.Component {
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
-                    Your saved {formDescriptions[formId]} has expired. If you
-                    want to apply for {formBenefit}, please start a new{' '}
-                    {appType}.
+                    Your saved {getSavedFormDescription(formConfig)} has
+                    expired. If you want to apply for {formBenefit}, please
+                    start a new {appType}.
                   </span>
                 </div>
                 <div>{this.props.children}</div>
