@@ -38,8 +38,15 @@ class HeadingSummary extends React.Component {
       this.props.gibctSchoolRatings && stars && it.ratingCount > 0;
 
     const titleClasses = classNames({
-      'vads-u-margin-bottom--1': displayStars,
+      'vads-u-margin-bottom--0': displayStars,
     });
+
+    const starClasses = classNames(
+      'vads-u-margin-bottom--1',
+      it.cautionFlags.length > 0
+        ? 'vads-u-margin-top--2'
+        : 'vads-u-margin-top--1',
+    );
 
     const schoolSize = enrollment => {
       if (!enrollment) return 'Unknown';
@@ -68,7 +75,7 @@ class HeadingSummary extends React.Component {
             />
           </div>
           {displayStars && (
-            <div className="vads-u-margin-bottom--1">
+            <div className={starClasses}>
               {renderStars(it.ratingAverage)}{' '}
               <span className="vads-u-padding-left--1 vads-u-padding-right--1">
                 |
