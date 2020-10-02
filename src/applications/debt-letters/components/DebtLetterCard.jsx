@@ -2,7 +2,7 @@ import React from 'react';
 import head from 'lodash/head';
 import moment from 'moment';
 import { Link } from 'react-router';
-import { deductionCodes } from '../const';
+import { deductionCodes } from '../const/deduction-codes';
 import { bindActionCreators } from 'redux';
 import { setActiveDebt } from '../actions';
 import { connect } from 'react-redux';
