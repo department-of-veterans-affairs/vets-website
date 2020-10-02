@@ -151,45 +151,6 @@ const ManageBenefitsOrRequestRecords = () => (
   </>
 );
 
-const ViewYourProfile = () => (
-  <>
-    <h2>View your profile</h2>
-    <p>
-      Review your contact, personal, and military service information—and find
-      out how to make any needed updates or corrections.
-      <br />
-      <a
-        className="usa-button-primary"
-        href={profileManifest.rootUrl}
-        onClick={recordDashboardClick('view-your-profile', 'view-button')}
-      >
-        View your profile
-      </a>
-    </p>
-  </>
-);
-
-const ManageYourAccount = () => (
-  <>
-    <h2>Manage your account</h2>
-    <p>
-      View your current account settings—and find out how to update them as
-      needed to access more site tools or add extra security to your account.
-      <br />
-      <a
-        className="usa-button-primary"
-        href={accountManifest.rootUrl}
-        onClick={recordDashboardClick(
-          'view-your-account-settings',
-          'view-button',
-        )}
-      >
-        View your account settings
-      </a>
-    </p>
-  </>
-);
-
 const ViewYourProfile2 = () => (
   <>
     <h2>View your profile</h2>

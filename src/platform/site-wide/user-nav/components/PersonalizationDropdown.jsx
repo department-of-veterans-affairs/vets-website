@@ -12,7 +12,6 @@ const recordNavUserEvent = section => () => {
 const recordMyVaEvent = recordNavUserEvent('my-va');
 const recordMyHealthEvent = recordNavUserEvent('my-health');
 const recordProfileEvent = recordNavUserEvent('profile');
-const recordAccountEvent = recordNavUserEvent('account');
 
 export class PersonalizationDropdown extends React.Component {
   signOut = () => {
