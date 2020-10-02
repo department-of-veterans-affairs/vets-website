@@ -177,7 +177,7 @@ export function setSupportedSchedulingMethods({
   if (!vhaIdentifier) {
     identifier.push({
       system: VHA_FHIR_ID,
-      value: id,
+      value: parseId(id),
     });
   }
 

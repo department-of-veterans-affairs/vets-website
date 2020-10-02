@@ -394,19 +394,21 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         // The above API calls only return the ids. Make an additional
         // call to getLocations so we can get additional details such
         // as name, address, coordinates, etc.
-        typeOfCareFacilities = await getLocations({
-          facilityIds: uniqueIds,
-        });
+        if (uniqueIds.length) {
+          typeOfCareFacilities = await getLocations({
+            facilityIds: uniqueIds,
+          });
 
-        // Update the retrieved locations with requestSupported and
-        // directSchedulingSupported, as well as replace IDs for dev/staging
-        typeOfCareFacilities = typeOfCareFacilities?.map(location =>
-          setSupportedSchedulingMethods({
-            location,
-            requestFacilityIds,
-            directFacilityIds,
-          }),
-        );
+          // Update the retrieved locations with requestSupported and
+          // directSchedulingSupported, as well as replace IDs for dev/staging
+          typeOfCareFacilities = typeOfCareFacilities?.map(location =>
+            setSupportedSchedulingMethods({
+              location,
+              requestFacilityIds,
+              directFacilityIds,
+            }),
+          );
+        }
       }
 
       const canShowFacilities = !!parentId || parentFacilities?.length === 1;
@@ -460,7 +462,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
-        facilities: typeOfCareFacilities,
+        facilities: typeOfCareFacilities || [],
         parentFacilities,
         typeOfCareId,
         schema,
