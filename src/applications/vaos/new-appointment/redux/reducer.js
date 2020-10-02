@@ -71,7 +71,6 @@ import {
 } from '../../utils/constants';
 
 import { getTypeOfCare } from '../../utils/selectors';
-import { getRealFacilityId } from '../../utils/appointment';
 import { getSiteIdFromOrganization } from '../../services/organization';
 import { getClinicId } from '../../services/healthcare-service/transformers';
 
@@ -315,46 +314,27 @@ export default function formReducer(state = initialState, action) {
       let newSchema = action.schema;
       let newData = state.data;
       const typeOfCareId = action.typeOfCareId;
-      const facilityDetails = action.facilityDetails;
+      const facilities = state.facilities;
+      const typeOfCareFacilities =
+        facilities[typeOfCareId] ||
+        action.facilities.sort((a, b) => (a.name < b.name ? -1 : 1));
 
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      let locations = action.locations || state.facilities[typeOfCareId] || [];
-
-      // Populate location summaries with data necessary for radio widgets
-      locations.forEach(location => {
-        const currentLocation = location;
-        const facility = facilityDetails.find(
-          details => getRealFacilityId(location.id) === details.id,
-        );
-        if (facility) {
-          currentLocation.name = facility.name;
-          currentLocation.city = facility.address?.city;
-          currentLocation.state = facility.address?.state;
-          currentLocation.lat = facility.position?.latitude;
-          currentLocation.long = facility.position?.longitude;
-        }
-      });
-
-      locations = locations.sort((a, b) => {
-        return a.name < b.name ? -1 : 1;
-      });
-
-      if (parentFacilities.length === 1 || !locations.length) {
+      if (parentFacilities.length === 1 || !facilities.length) {
         newData = {
           ...newData,
           vaParent: parentFacilities[0]?.id,
         };
       }
 
-      if (locations.length === 1) {
-        const vaFacility = locations[0]?.id;
-        const selectedFacility = facilityDetails?.find(
-          f => f.id === getRealFacilityId(vaFacility),
-        );
-        const vaParent = getParentOfLocation(parentFacilities, selectedFacility)
-          ?.id;
+      if (typeOfCareFacilities.length === 1) {
+        const vaFacility = typeOfCareFacilities[0]?.id;
+        const vaParent = getParentOfLocation(
+          parentFacilities,
+          typeOfCareFacilities[0],
+        )?.id;
 
         newData = {
           ...newData,
@@ -366,8 +346,8 @@ export default function formReducer(state = initialState, action) {
           'properties.vaFacility',
           {
             type: 'string',
-            enum: locations.map(facility => facility.id),
-            enumNames: locations,
+            enum: typeOfCareFacilities.map(facility => facility.id),
+            enumNames: typeOfCareFacilities,
           },
           newSchema,
         );
@@ -379,12 +359,6 @@ export default function formReducer(state = initialState, action) {
         action.uiSchema,
       );
 
-      action.facilityDetails.forEach(d => {
-        if (!(d.id in facilityDetails)) {
-          facilityDetails[d.id] = d;
-        }
-      });
-
       return {
         ...state,
         data,
@@ -394,10 +368,9 @@ export default function formReducer(state = initialState, action) {
         },
         schema,
         facilities: {
-          ...state.facilities,
-          [typeOfCareId]: locations,
+          ...facilities,
+          [typeOfCareId]: typeOfCareFacilities,
         },
-        facilityDetails,
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };

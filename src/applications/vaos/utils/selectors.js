@@ -210,6 +210,10 @@ export function getParentOfChosenFacility(state) {
 }
 
 export function getChosenFacilityDetails(state) {
+  if (vaosFlatFacilityPage(state)) {
+    return getChosenFacilityInfo(state);
+  }
+
   const data = getFormData(state);
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const facilityDetails = getNewAppointment(state).facilityDetails;
@@ -314,22 +318,16 @@ export function getFacilityPageV2Info(state) {
   const parentFacilitiesStatus = newAppointment.parentFacilitiesStatus;
   const childFacilitiesStatus = newAppointment.childFacilitiesStatus;
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
-  const facilityDetails = newAppointment.facilityDetails;
   const eligibilityStatus = getEligibilityStatus(state);
   const parentFacilities = newAppointment.parentFacilities;
-  const selectedFacilityDetails =
-    facilityDetails[getRealFacilityId(data.vaFacility)];
 
   return {
     ...formInfo,
-    typeOfCare: typeOfCare?.name,
     canScheduleAtChosenFacility:
       eligibilityStatus.direct || eligibilityStatus.request,
     childFacilitiesStatus,
     eligibility: getEligibilityChecks(state),
     facilities,
-    facilityDetails,
-    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
       parentFacilitiesStatus === FETCH_STATUS.failed ||
       childFacilitiesStatus === FETCH_STATUS.failed ||
@@ -344,11 +342,11 @@ export function getFacilityPageV2Info(state) {
     parentFacilities,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentFacilitiesStatus,
-    selectedFacilityDetails,
+    selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: facilities?.length === 1,
-    siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
     showEligibilityModal:
       facilities?.length > 1 && newAppointment.showEligibilityModal,
+    typeOfCare: typeOfCare?.name,
   };
 }
 

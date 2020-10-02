@@ -2,11 +2,14 @@
  * Functions in here should map a var-resources API request to a similar response from
  * a FHIR resource request
  */
+import environment from 'platform/utilities/environment';
+
 import {
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
   getFacilitiesInfo,
 } from '../var';
+import { getRealFacilityId } from '../../utils/appointment';
 import { mapToFHIRErrors } from '../utils';
 import {
   transformDSFacilities,
@@ -14,13 +17,27 @@ import {
   transformFacility,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
-import { getRealFacilityId } from '../../utils/appointment';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
  */
 function parseId(id) {
   return id.replace('var', '');
+}
+
+/**
+ * On localhost and staging, there there is a mismatch between the
+ * facilityIds that we use.  The new appointment flow mainly uses
+ * VAMF IDs.  This converts the Facilities API ids to VAMF IDs
+ *
+ * @param {String} facilityId a facility id
+ */
+function getFakeFacilityId(facilityId) {
+  if (!environment.isProduction() && facilityId) {
+    return facilityId.replace('442', '983').replace('552', '984');
+  }
+
+  return facilityId;
 }
 
 /**
@@ -114,7 +131,7 @@ export async function getLocation({ facilityId }) {
  */
 export function getParentOfLocation(organizations, location) {
   const orgId = location.managingOrganization.reference.split('/')[1];
-  return organizations.find(parent => getRealFacilityId(parent.id) === orgId);
+  return organizations.find(parent => parent.id === orgId);
 }
 
 /**
@@ -126,4 +143,55 @@ export function getParentOfLocation(organizations, location) {
  */
 export function getFacilityIdFromLocation(location) {
   return location.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
+}
+
+/**
+ * Sets requestSupported and directSchedulingSupported in legacyVAR
+ * for locations that are retrieved from the v1 facilities API.  This
+ * also replaces the ids when running locally or on staging since there
+ * is a mismatch between VAMF facility ids and the facilities API
+ *
+ * @export
+ * @param {Object} params Parameters needed for fetching locations
+ * @param {Object} params.location A location resource
+ * @param {Array} params.requestFacilityIds An array of location ids that support requests for a particular type of care
+ * @param {Array} params.directFacilityIds An array of location ids that support direct scheduling for a particular type of care
+ * @returns {Array} A location resource
+ */
+export function setSupportedSchedulingMethods({
+  location,
+  requestFacilityIds,
+  directFacilityIds,
+} = {}) {
+  const requestSupported = requestFacilityIds.some(
+    id => `var${getRealFacilityId(id)}` === location.id,
+  );
+  const directSchedulingSupported = directFacilityIds.some(
+    id => `var${getRealFacilityId(id)}` === location.id,
+  );
+
+  const id = getFakeFacilityId(location.id);
+  const identifier = location.identifier;
+  const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
+
+  if (!vhaIdentifier) {
+    identifier.push({
+      system: VHA_FHIR_ID,
+      value: id,
+    });
+  }
+
+  return {
+    ...location,
+    id,
+    identifier,
+    legacyVAR: {
+      ...location.legacyVAR,
+      requestSupported,
+      directSchedulingSupported,
+    },
+    managingOrganization: {
+      reference: getFakeFacilityId(location.managingOrganization?.reference),
+    },
+  };
 }
