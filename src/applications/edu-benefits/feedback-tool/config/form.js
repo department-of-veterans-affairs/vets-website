@@ -157,6 +157,13 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   prefillTransformer,
+  customText: {
+    // Without this, SiP would say "Your saved feedback application (GI Bill
+    // School Feedback Tool) has expired"
+    // With this, the message is "Your saved feedback application (FEEDBACK-TOOL)
+    // has expired"
+    savedFormDescription: 'feedback application (FEEDBACK-TOOL)',
+  },
   defaultDefinitions: {
     date,
     dateRange,

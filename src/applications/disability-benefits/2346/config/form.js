@@ -167,6 +167,7 @@ const formConfig = {
     finishAppLaterMessage: 'Finish this order later.',
     appType: 'order',
     appAction: 'placing your order',
+    savedFormDescription: 'hearing aid batteries and accessories (MDOT)',
   },
   defaultDefinitions: {
     email,
