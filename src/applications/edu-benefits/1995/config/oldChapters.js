@@ -11,10 +11,11 @@ import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
+import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
 
-import { applicantInformation, benefitSelection } from '../pages';
+import { benefitSelection } from '../pages';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
 const {
@@ -29,12 +30,16 @@ export const chapters = {
   applicantInformation: {
     title: 'Applicant Information',
     pages: {
-      applicantInformation: {
-        path: applicantInformation.path,
-        title: applicantInformation.title,
-        uiSchema: applicantInformation.uiSchema,
-        schema: applicantInformation.schema,
-      },
+      applicantInformation: createApplicantInformationPage(fullSchema1995, {
+        isVeteran: true,
+        fields: [
+          'veteranFullName',
+          'veteranSocialSecurityNumber',
+          'view:noSSN',
+          'vaFileNumber',
+        ],
+        required: ['veteranFullName'],
+      }),
     },
   },
   benefitSelection: {
