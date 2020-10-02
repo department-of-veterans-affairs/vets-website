@@ -68,25 +68,26 @@ export const formConfigs = {
 };
 
 export const formBenefits = {
-  [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
-  [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
-  [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
-  [VA_FORM_IDS.FORM_10_10EZ]: 'health care benefits',
-  [VA_FORM_IDS.FORM_22_0993]: 'opt out',
-  [VA_FORM_IDS.FORM_22_0994]: 'VET TEC',
-  [VA_FORM_IDS.FORM_22_1990]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_1990E]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_1990N]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_1995]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_5490]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
-  [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
-  [VA_FORM_IDS.FORM_40_10007]:
-    'pre-need determination of eligibility in a VA national cemetery',
-  [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
-  [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
-  [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
-  [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
+  [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_21_526EZ]:
+    disability526Config.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_21_686C]:
+    dependentStatusConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_21P_527EZ]: pensionConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_21P_530]: burialsConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_22_0993]: edu0993Config.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_22_0994]: edu0994Config.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_22_1990]: edu1990Config.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_22_1990E]: edu1990eConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_22_1990N]: edu1990nConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_22_1995]: edu1995Config.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_22_5490]: edu5490Config.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_22_5495]: edu5495Config.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_22_10203]: edu10203Config.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_40_10007]: preneedConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_20_0996]: hlrConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_VA_2346A]: mdotConfig.benefitDescription.benefitType,
 };
 
 export const formTitles = {
