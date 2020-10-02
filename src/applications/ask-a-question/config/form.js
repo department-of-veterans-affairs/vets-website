@@ -4,15 +4,27 @@ import fullSchema from '../0873-schema.json';
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { contactInformationPage, inquiryPage } from './pages';
+import {
+  contactInformationPage,
+  inquiryPage,
+  veteranInformationPage,
+} from './pages';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
 
-const { fullName, phone, date } = fullSchema.definitions;
+const {
+  fullName,
+  phone,
+  date,
+  ssn,
+  veteranServiceNumber,
+  dateRange,
+} = fullSchema.definitions;
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   topic: 'topic',
+  veteranInformation: 'veteranInformation',
   contactInformation: 'contactInformation',
 };
 
@@ -48,6 +60,9 @@ const formConfig = {
     fullName,
     phone,
     date,
+    ssn,
+    veteranServiceNumber,
+    dateRange,
   },
   chapters: {
     topicChapter: {
@@ -58,6 +73,17 @@ const formConfig = {
           title: 'Your message',
           uiSchema: inquiryPage.uiSchema,
           schema: inquiryPage.schema,
+        },
+      },
+    },
+    veteranInformationChapter: {
+      title: 'Tell us about the Veteran',
+      pages: {
+        [formPages.veteranInformation]: {
+          path: 'veteran-information',
+          title: 'Veteran Information',
+          uiSchema: veteranInformationPage.uiSchema,
+          schema: veteranInformationPage.schema,
         },
       },
     },
