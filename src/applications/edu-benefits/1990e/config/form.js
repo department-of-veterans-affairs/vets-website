@@ -31,6 +31,8 @@ import { transform, eligibilityDescription, benefitsLabels } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
+import manifest from '../manifest.json';
+
 const {
   benefit,
   faaFlightCertificatesInformation,
@@ -46,6 +48,7 @@ const {
 } = fullSchema1990e.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990e`,
   trackingPrefix: 'edu-1990e-',

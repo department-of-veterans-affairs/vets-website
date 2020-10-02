@@ -54,6 +54,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 
+import manifest from '../manifest.json';
+
 const {
   benefit,
   highSchool,
@@ -83,6 +85,7 @@ const {
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5490`,
   trackingPrefix: 'edu-5490-',

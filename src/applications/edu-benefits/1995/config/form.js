@@ -17,6 +17,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { chapters } from './chapters';
 
+import manifest from '../manifest.json';
+
 const {
   preferredContactMethod,
   date,
@@ -25,6 +27,7 @@ const {
 } = fullSchema1995.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
   submit: submitForm,

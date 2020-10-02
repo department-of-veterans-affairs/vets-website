@@ -15,6 +15,8 @@ import {
   ConsentError,
 } from '../containers/ConsentFormContent';
 
+import manifest from '../manifest.json';
+
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 
 const checkBoxElements = [
@@ -83,6 +85,7 @@ export function transform(formConfig, form) {
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/covid-research/volunteer/create`,
   trackingPrefix: 'covid-research-volunteer-',

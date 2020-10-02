@@ -18,6 +18,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { prefillTransformer, tabIndexedTitle, transform } from '../helpers';
 
+import manifest from '../manifest.json';
+
 const { fullName } = fullSchema0993.definitions;
 const {
   claimantSocialSecurityNumber,
@@ -25,6 +27,7 @@ const {
 } = fullSchema0993.properties;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0993`,
   trackingPrefix: 'edu-0993',

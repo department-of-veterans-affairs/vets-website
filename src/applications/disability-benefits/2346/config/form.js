@@ -10,6 +10,8 @@ import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import UIDefinitions from '../schemas/2346UI';
 
+import manifest from '../manifest.json';
+
 const {
   email,
   date,
@@ -135,6 +137,7 @@ const submit = form => {
 };
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
   submit,

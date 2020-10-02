@@ -44,6 +44,8 @@ import {
 
 import migrations from './migrations';
 
+import manifest from '../manifest.json';
+
 const {
   address: applicantAddress,
   anonymousEmail,
@@ -142,6 +144,7 @@ function manualSchoolEntryIsCheckedAndIsUS(formData) {
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/gi_bill_feedbacks',
   submit,

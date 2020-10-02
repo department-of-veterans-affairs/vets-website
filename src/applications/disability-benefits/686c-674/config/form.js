@@ -54,10 +54,13 @@ import {
   studentNetworthInformation,
 } from './chapters/674';
 
+import manifest from '../manifest.json';
+
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // NOTE: e2e tests will fail until the dependents_applications endpoint gets merged in to vets-api.
   // All e2e tests will be disabled until then. If you need to run an e2e test, temporarily change

@@ -18,6 +18,8 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import manifest from '../manifest.json';
+
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
 import createDirectDepositPage from '../../pages/directDeposit';
@@ -83,6 +85,7 @@ const {
 } = fullSchema1990.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990`,
   trackingPrefix: 'edu-',

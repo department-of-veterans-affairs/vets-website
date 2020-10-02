@@ -25,11 +25,14 @@ import { transform } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
+import manifest from '../manifest.json';
+
 const { payHighestRateBenefit } = fullSchema1990n.properties;
 
 const { currentlyActiveDuty, date } = fullSchema1990n.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990n`,
   trackingPrefix: 'edu-1990n-',

@@ -30,6 +30,8 @@ import {
   secondaryTwoContactPage,
 } from './pages';
 
+import manifest from '../manifest.json';
+
 const {
   address,
   date,
@@ -50,6 +52,7 @@ const { secondaryCaregiversUI } = definitions;
  * 3 - Secondary & secondaryTwo Family Caregiver (optional -- up to 2 conditionally)
  */
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
   transformForSubmit: submitTransform,

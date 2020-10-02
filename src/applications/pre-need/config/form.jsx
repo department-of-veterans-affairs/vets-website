@@ -28,6 +28,8 @@ import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import { validateSponsorDeathDate } from '../validation';
 
+import manifest from '../manifest.json';
+
 import {
   isVeteran,
   isAuthorizedAgent,
@@ -81,6 +83,7 @@ function currentlyBuriedPersonsMinItem() {
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
   trackingPrefix: 'preneed-',

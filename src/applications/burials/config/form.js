@@ -49,6 +49,8 @@ import {
 } from '../validation';
 import migrations from '../migrations';
 
+import manifest from '../manifest.json';
+
 const {
   relationship,
   claimantFullName,
@@ -100,6 +102,7 @@ function isEligibleNonService(veteranBurialDate) {
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submit,
   trackingPrefix: 'burials-530-',

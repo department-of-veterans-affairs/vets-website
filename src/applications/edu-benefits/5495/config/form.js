@@ -28,6 +28,8 @@ import { urlMigration } from '../../config/migrations';
 
 import { survivorBenefitsLabels } from '../../utils/labels';
 
+import manifest from '../manifest.json';
+
 const {
   benefit,
   outstandingFelony,
@@ -37,6 +39,7 @@ const {
 const { school, educationType, date, fullName } = fullSchema5495.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5495`,
   trackingPrefix: 'edu-5495-',

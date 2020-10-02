@@ -51,6 +51,8 @@ import { get686AuthorizationState } from '../selectors';
 import { verifyDisabilityRating } from '../actions';
 import AuthorizationMessage from '../components/AuthorizationMessage';
 
+import manifest from '../manifest.json';
+
 const { get } = dataUtils;
 
 const {
@@ -367,6 +369,7 @@ function createLocationUISchemaForKey(
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   formId: '21-686C',
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,

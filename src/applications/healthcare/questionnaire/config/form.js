@@ -11,10 +11,13 @@ import ChiefComplaint from '../components/chief-complaint';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import manifest from '../manifest.json';
+
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/healthcare_questionnaire`,
   trackingPrefix: 'healthcare-questionnaire',

@@ -18,7 +18,10 @@ import {
 } from './chapters/claimant-information';
 import { isDependent } from './helpers';
 
+import manifest from '../manifest.json';
+
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/education_career_counseling_claims',
   trackingPrefix: '28-8832-planning-and-career-guidance-',

@@ -7,7 +7,10 @@ import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
 import StaticInformationReviewField from '../containers/StaticInformationReviewField';
 
+import manifest from '../manifest.json';
+
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/api',
   trackingPrefix: '28-1900-chapter-31-',

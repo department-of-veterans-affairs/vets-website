@@ -73,6 +73,8 @@ import {
 } from '../validation';
 import migrations from '../migrations';
 
+import manifest from '../manifest.json';
+
 const {
   nationalGuardActivation,
   nationalGuard,
@@ -190,6 +192,7 @@ function createSpouseLabelSelector(nameTemplate) {
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submit,
   trackingPrefix: 'pensions-527EZ-',

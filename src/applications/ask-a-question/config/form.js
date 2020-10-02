@@ -12,6 +12,8 @@ import {
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
 
+import manifest from '../manifest.json';
+
 const {
   fullName,
   phone,
@@ -39,6 +41,7 @@ const submitTransform = (formConfig, form) => {
 };
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/ask/asks`,
   transformForSubmit: submitTransform,

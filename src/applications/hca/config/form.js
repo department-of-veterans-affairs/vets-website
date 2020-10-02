@@ -77,6 +77,8 @@ import {
   validateCurrency,
 } from '../validation';
 
+import manifest from '../manifest.json';
+
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 const emptyFacilityList = [];
@@ -186,6 +188,7 @@ const attachmentsSchema = {
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/health_care_applications`,
   trackingPrefix: 'hca-',

@@ -16,6 +16,8 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import migrations from '../migrations';
 import captureEvents from '../analytics-functions';
 
+import manifest from '../manifest.json';
+
 import {
   applicantInformation,
   bankInformation,
@@ -29,6 +31,7 @@ import {
 } from '../pages';
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
   submit: submitForm,

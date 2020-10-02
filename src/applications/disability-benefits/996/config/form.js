@@ -24,7 +24,10 @@ import informalConference from '../pages/informalConference';
 import { errorMessages } from '../constants';
 // import initialData from '../tests/schema/initialData';
 
+import manifest from '../manifest.json';
+
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/higher_level_reviews`,
   submit: submitForm,
