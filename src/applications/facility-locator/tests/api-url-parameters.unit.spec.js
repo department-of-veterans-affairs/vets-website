@@ -189,7 +189,7 @@ describe('Locator url and parameters builder', () => {
     ]);
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=vet_center&page=1&per_page=20&mobile=true',
+      'https://dev-api.va.gov/v1/facilities/va?bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=vet_center&page=1&per_page=20&exclude_mobile=true',
     );
   });
 });
