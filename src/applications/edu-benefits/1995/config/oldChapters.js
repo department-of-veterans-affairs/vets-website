@@ -48,7 +48,7 @@ export const chapters = {
       benefitSelection: {
         title: 'Education benefit selection',
         path: 'benefits/eligibility',
-        uiSchema: benefitSelection.uiSchema,
+        uiSchema: benefitSelection.oldUiSchema,
         schema: benefitSelection.schema,
       },
     },

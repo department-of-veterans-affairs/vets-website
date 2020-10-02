@@ -49,9 +49,6 @@ export class IntroductionPage extends React.Component {
     const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
-    const formTitle = form1995EduUpdates
-      ? 'Update your education benefits'
-      : 'Manage your education benefits';
 
     return (
       <div
@@ -59,7 +56,7 @@ export class IntroductionPage extends React.Component {
         itemScope
         itemType="http://schema.org/HowTo"
       >
-        <FormTitle title={formTitle} />
+        <FormTitle title="Manage your education benefits" />
         <p itemProp="description">
           Equal to VA Form 22-1995 (Request for Change of Program or Place of
           Training).
