@@ -190,12 +190,12 @@ describe('healthcare-questionnaire - display vets information on review page', (
       },
     };
     const component = mount(<VeteranInfoReviewPage formData={formData} />);
-    expect(component.find('dt[data-testid="Address 1-label"]').length).to.equal(
-      1,
-    );
-    expect(component.find('dd[data-testid="Address 1-value"]').text()).to.equal(
-      '123 Fake Street',
-    );
+    expect(
+      component.find('dt[data-testid="Street Address 1-label"]').length,
+    ).to.equal(1);
+    expect(
+      component.find('dd[data-testid="Street Address 1-value"]').text(),
+    ).to.equal('123 Fake Street');
     expect(component.find('dd[data-testid="City-value"]').text()).to.equal(
       'DoesNotExistVille',
     );
@@ -222,12 +222,12 @@ describe('healthcare-questionnaire - display vets information on review page', (
       },
     };
     const component = mount(<VeteranInfoReviewPage formData={formData} />);
-    expect(component.find('dt[data-testid="Address 1-label"]').length).to.equal(
-      1,
-    );
-    expect(component.find('dd[data-testid="Address 1-value"]').text()).to.equal(
-      '123 Fake Street',
-    );
+    expect(
+      component.find('dt[data-testid="Street Address 1-label"]').length,
+    ).to.equal(1);
+    expect(
+      component.find('dd[data-testid="Street Address 1-value"]').text(),
+    ).to.equal('123 Fake Street');
     expect(component.find('dd[data-testid="City-value"]').text()).to.equal(
       'DoesNotExistVille',
     );
@@ -260,9 +260,9 @@ describe('healthcare-questionnaire - display vets information on review page', (
       },
     };
     const component = mount(<VeteranInfoReviewPage formData={formData} />);
-    expect(component.find('dt[data-testid="Address 1-label"]').length).to.equal(
-      2,
-    );
+    expect(
+      component.find('dt[data-testid="Street Address 1-label"]').length,
+    ).to.equal(2);
     expect(component.find('dt[data-testid="City-label"]').length).to.equal(2);
     expect(component.find('dt[data-testid="State-label"]').length).to.equal(2);
     expect(component.find('dt[data-testid="Zip-label"]').length).to.equal(2);

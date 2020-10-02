@@ -39,11 +39,14 @@ export default function VeteranInfoReviewPage({ formData }) {
   ];
   return (
     <>
-      <dl className="review" data-testid="veteran-information">
+      <dl
+        className="review healthcare-questionnaire-review"
+        data-testid="veteran-information"
+      >
         {display.map((row, i) => {
           const { label, value } = row;
           return value ? (
-            <div key={i} className="review-row">
+            <div key={i} className={`review-row ${i === 0 ? 'top-row' : ''} `}>
               <dt data-testid={`${label}-label`}>{label}</dt>
               <dd data-testid={`${label}-value`}>{value}</dd>
             </div>

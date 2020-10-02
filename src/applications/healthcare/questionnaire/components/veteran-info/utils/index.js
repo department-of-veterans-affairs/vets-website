@@ -13,21 +13,21 @@ const addressToDisplay = address => {
   // sa1
   if (address.addressLine1) {
     rv.push({
-      label: `Address 1`,
+      label: `Street Address 1`,
       value: address.addressLine1,
     });
   }
   // sa2
   if (address.addressLine2) {
     rv.push({
-      label: `Address 2`,
+      label: `Street Address 2`,
       value: address.addressLine2,
     });
   }
   // sa3
   if (address.addressLine3) {
     rv.push({
-      label: `Address 3`,
+      label: `Street Address 3`,
       value: address.addressLine3,
     });
   }

@@ -59,11 +59,11 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Reason for visit and concerns',
+      title: 'Prepare for Your Appointment',
       pages: {
         reasonForVisit: {
           path: 'reason-for-visit',
-          title: 'Reason for visit and concerns',
+          title: 'Prepare for Your Appointment',
           uiSchema: {
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
@@ -74,9 +74,8 @@ const formConfig = {
               'ui:widget': ChiefComplaint.field,
               'ui:title': (
                 <span>
-                  Are there any <strong>additional details</strong> you’d like
-                  to share with your provider about{' '}
-                  <strong>this appointment</strong>?
+                  Are there any additional details you’d like to share with your
+                  provider about this appointment?
                 </span>
               ),
             },
@@ -84,9 +83,9 @@ const formConfig = {
               'ui:widget': 'textarea',
               'ui:title': (
                 <span>
-                  Are there any <strong>life events</strong> that are positively
-                  or negatively affecting your health (e.g. marriage, divorce,
-                  new job, retirement, parenthood, or finances)?
+                  Are there any life events that are positively or negatively
+                  affecting your health (e.g. marriage, divorce, new job,
+                  retirement, parenthood, or finances)?
                 </span>
               ),
             },
