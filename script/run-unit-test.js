@@ -44,12 +44,17 @@ const testRunner = options.coverage ? coveragePath : mochaPath;
 const mochaOpts =
   'src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js';
 
+
+const command = `LOG_LEVEL=${options[
+  'log-level'
+].toLowerCase()} ${testRunner} --max-old-space-size=4096 --opts ${mochaOpts} --recursive ${options.path
+  .map(p => `'${p}'`)
+  .join(' ')}`;
+
+console.log(command)
+
 // Otherwise, run the command
-runCommand(
-  `LOG_LEVEL=${options[
-    'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --opts ${mochaOpts} --recursive ${options.path
-    .map(p => `'${p}'`)
-    .join(' ')}`,
-  options.coverage ? null : 0,
-);
+// runCommand(
+//   ,
+//   options.coverage ? null : 0,
+// );
