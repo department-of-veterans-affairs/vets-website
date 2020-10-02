@@ -34,9 +34,6 @@ describe('<AccountApp>', () => {
           currentlyLoggedIn: true,
         },
       },
-      featureToggles: {
-        'profile_show_profile_2.0': featureFlag,
-      },
     };
     const store = createStore(
       combineReducers(commonReducer),
@@ -55,26 +52,10 @@ describe('<AccountApp>', () => {
     wrapper.unmount();
   });
 
-  it('should redirect to `profile/account-security` if the feature flag is set', () => {
+  it('should redirect to `profile/account-security`', () => {
     setUp();
 
     expect(window.location.replace.calledWith('/profile/account-security')).to
       .be.true;
-  });
-
-  it('should not redirect to `profile/account-security` if the feature flag is set but the "PROFILE_VERSION" localstorage key is set to "1"', () => {
-    localStorage.setItem('PROFILE_VERSION', '1');
-
-    setUp();
-
-    expect(window.location.replace.calledWith('/profile/account-security')).to
-      .be.false;
-  });
-
-  it('should not redirect to `profile/account-security` if the feature flag is not set', () => {
-    setUp(false);
-
-    expect(window.location.replace.calledWith('/profile/account-security')).to
-      .be.false;
   });
 });
