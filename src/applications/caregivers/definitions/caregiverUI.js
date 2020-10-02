@@ -20,6 +20,7 @@ import {
   medicalCenterLabels,
   medicalCentersByState,
   validateSSNIsUnique,
+  facilityNameMaxLength,
 } from 'applications/caregivers/helpers';
 
 const emptyFacilityList = [];
@@ -106,6 +107,13 @@ export default {
       'ui:order': ['name', 'type'],
       name: {
         'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
+        'ui:validations': [
+          {
+            validator: (errors, fieldData, formData) => {
+              facilityNameMaxLength(errors, formData);
+            },
+          },
+        ],
         'ui:title': (
           <div>
             <h3 className="vads-u-font-size--h4">Recent medical care</h3>
