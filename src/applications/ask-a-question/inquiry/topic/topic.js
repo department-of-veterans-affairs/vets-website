@@ -1,13 +1,36 @@
-import { topicTitle } from '../../content/labels';
-import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
+
 import { vaMedicalFacilities } from 'vets-json-schema/dist/constants.json';
+
+import { topicTitle } from '../../content/labels';
 
 const formFields = {
   levelOne: 'levelOne',
   levelTwo: 'levelTwo',
   levelThree: 'levelThree',
   vaMedicalCenter: 'vaMedicalCenter',
+};
+
+export const filterArrayByValue = (
+  topicSchema,
+  value,
+  isLevelThree = false,
+) => {
+  const parentLevel = isLevelThree ? 'subLevelTwo' : 'levelOne';
+  const childLevel = isLevelThree ? 'levelThree' : 'levelTwo';
+  const parentSchema = topicSchema.oneOf.filter(element => {
+    return element.properties[parentLevel].enum.includes(value);
+  });
+  const childSchema = parentSchema[0].properties[childLevel];
+  if (childSchema.type === 'string') {
+    return childSchema.enum;
+  }
+  return _.flatten(
+    childSchema.oneOf.map(subSchema => {
+      return subSchema.properties.subLevelTwo.enum;
+    }),
+  );
 };
 
 // Move all these constants to vets-json-schema in the constants directory
@@ -41,7 +64,7 @@ const healthMedicalEligibilityValues = [
   'CHAMPVA Password/Access Problems',
   'CHAMPVA CITI (In house Treatment Initiated)',
   'Spina Bifida Program for Children of Vet',
-  'Licensed Health Professional Employment]',
+  'Licensed Health Professional Employment',
 ];
 
 const prostheticsMedDevicesValues = [
@@ -51,7 +74,7 @@ const prostheticsMedDevicesValues = [
   'Durable Medical Equipment',
   'Eyeglasses',
   'Hearing Aids',
-  'Home Improvements & Structural Alteratio',
+  'Home Improvements & Structural Alterations',
   'Home Oxygen',
   'Wheelchairs',
   'Prosthetics Web Site',

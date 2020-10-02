@@ -281,7 +281,7 @@
                       "type": "string",
                       "enum": ["Health/Medical Eligibility & Programs"]
                     },
-                    "topicThree": {
+                    "levelThree": {
                       "type": "string",
                       "enum": [
                         "Apply for Health Benefits (Veterans)",
@@ -304,7 +304,7 @@
                       "type": "string",
                       "enum": ["Prosthetics, Med Devices & Sensory Aids"]
                     },
-                    "topicThree": {
+                    "levelThree": {
                       "type": "string",
                       "enum": [
                         "Artificial Limbs/Orthotics",
@@ -313,7 +313,7 @@
                         "Durable Medical Equipment",
                         "Eyeglasses",
                         "Hearing Aids",
-                        "Home Improvements & Structural Alteratio",
+                        "Home Improvements & Structural Alterations",
                         "Home Oxygen",
                         "Wheelchairs",
                         "Prosthetics Web Site",
@@ -329,22 +329,26 @@
                       "type": "string",
                       "enum": ["Women Veterans Health Care"]
                     },
-                    "topicThree": {
+                    "levelThree": {
                       "type": "string",
                       "enum": [
                         "General Concern"
                       ]
                     }
                   }
+                },
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": [
+                        "Medical Care Issues at Specific Facility",
+                        "My HealtheVet",
+                        "Vet Center / Readjustment Counseling Service (RCS)"
+                      ]
+                    }
+                  }
                 }
-              ],
-              "enum": [
-                "Medical Care Issues at Specific Facility",
-                "Health/Medical Eligibility & Programs",
-                "My HealtheVet",
-                "Prosthetics, Med Devices & Sensory Aids",
-                "Vet Center / Readjustment Counseling Service (RCS)",
-                "Women Veterans Health Care"
               ]
             }
           }
