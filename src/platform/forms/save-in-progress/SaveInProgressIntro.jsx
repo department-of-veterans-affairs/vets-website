@@ -6,13 +6,11 @@ import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import getBenefitString from '../../forms-system/src/js/utilities/benefit-description';
 import recordEvent from 'platform/monitoring/record-event';
 import _ from 'platform/utilities/data';
 
-import {
-  formDescriptions,
-  formBenefits,
-} from 'applications/personalization/dashboard/helpers';
+import { formDescriptions } from 'applications/personalization/dashboard/helpers';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
@@ -43,6 +41,7 @@ class SaveInProgressIntro extends React.Component {
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
     );
+    const formBenefit = getBenefitString(formConfig);
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
 
@@ -97,7 +96,7 @@ class SaveInProgressIntro extends React.Component {
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
                     Your saved {formDescriptions[formId]} has expired. If you
-                    want to apply for {formBenefits[formId]}, please start a new{' '}
+                    want to apply for {formBenefit}, please start a new{' '}
                     {appType}.
                   </span>
                 </div>
