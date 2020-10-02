@@ -6,6 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';
+import getBenefitString from 'platform/forms-system/src/js/utilities/benefit-description';
 
 import hcaManifest from 'applications/hca/manifest.json';
 import dependentStatusManifest from 'applications/disability-benefits/686c-674/manifest.json';
@@ -88,21 +89,26 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
 };
 
-export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
-  let formNumber;
-  if (key === VA_FORM_IDS.FORM_40_10007) {
-    formNumber = '';
-  } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
-    formNumber = ' (10-10EZ)';
-  } else if (key === VA_FORM_IDS.FEEDBACK_TOOL) {
-    formNumber = ' (GI Bill School Feedback Tool)';
-  } else {
-    formNumber = ` (${key})`;
-  }
-  const formTitle = `${formBenefits[key]}${formNumber}`;
-  titles[key] = formTitle; // eslint-disable-line no-param-reassign
-  return titles;
-}, {});
+export const formTitles = {
+  [VA_FORM_IDS.FORM_10_10EZ]: getBenefitString(hcaConfig),
+  [VA_FORM_IDS.FORM_21_526EZ]: getBenefitString(disability526Config),
+  [VA_FORM_IDS.FORM_21_686C]: getBenefitString(dependentStatusConfig),
+  [VA_FORM_IDS.FORM_21P_527EZ]: getBenefitString(pensionConfig),
+  [VA_FORM_IDS.FORM_21P_530]: getBenefitString(burialsConfig),
+  [VA_FORM_IDS.FORM_22_0993]: getBenefitString(edu0993Config),
+  [VA_FORM_IDS.FORM_22_0994]: getBenefitString(edu0994Config),
+  [VA_FORM_IDS.FORM_22_1990]: getBenefitString(edu1990Config),
+  [VA_FORM_IDS.FORM_22_1990E]: getBenefitString(edu1990eConfig),
+  [VA_FORM_IDS.FORM_22_1990N]: getBenefitString(edu1990nConfig),
+  [VA_FORM_IDS.FORM_22_1995]: getBenefitString(edu1995Config),
+  [VA_FORM_IDS.FORM_22_5490]: getBenefitString(edu5490Config),
+  [VA_FORM_IDS.FORM_22_5495]: getBenefitString(edu5495Config),
+  [VA_FORM_IDS.FORM_22_10203]: getBenefitString(edu10203Config),
+  [VA_FORM_IDS.FORM_40_10007]: getBenefitString(preneedConfig),
+  [VA_FORM_IDS.FEEDBACK_TOOL]: getBenefitString(feedbackConfig),
+  [VA_FORM_IDS.FORM_20_0996]: getBenefitString(hlrConfig),
+  [VA_FORM_IDS.FORM_VA_2346A]: getBenefitString(mdotConfig),
+};
 
 export const formDescriptions = Object.keys(formBenefits).reduce(
   (descriptions, key) => {
