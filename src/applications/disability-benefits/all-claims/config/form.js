@@ -118,7 +118,11 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import createformConfig8940 from './8940';
 
-import { PTSD_INCIDENT_ITERATION, NULL_CONDITION_STRING } from '../constants';
+import {
+  PTSD_INCIDENT_ITERATION,
+  NULL_CONDITION_STRING,
+  DISABILITY_526_V2_ROOT_URL,
+} from '../constants';
 
 import migrations from '../migrations';
 
@@ -126,6 +130,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
   urlPrefix: '/',
+  rootUrl: DISABILITY_526_V2_ROOT_URL,
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
     environment.API_URL
