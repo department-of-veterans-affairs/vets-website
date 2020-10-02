@@ -54,6 +54,7 @@ const formConfigKeys = [
   'authorizationMessage',
   'customText',
   'submissionError',
+  'benefitDescription',
 ];
 
 const validProperty = (
@@ -249,6 +250,12 @@ const validCustomText = ({ customText }) => {
   }
 };
 
+const validBenefitDescription = formConfig => {
+  validObjectProperty(formConfig, 'benefitDescription', true);
+  validStringProperty(formConfig.benefitDescription, 'benefitType', true);
+  validStringProperty(formConfig.benefitDescription, 'subText', false);
+};
+
 describe('form:', () => {
   // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
@@ -292,6 +299,7 @@ describe('form:', () => {
           validAuthorization(formConfig);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
+          validBenefitDescription(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down
           // If any of the expects in the above functions fail,
           // the test for the configFilePath fails as expected
