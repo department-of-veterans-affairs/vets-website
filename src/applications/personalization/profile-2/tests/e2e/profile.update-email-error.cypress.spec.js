@@ -17,13 +17,6 @@ const setup = (mobile = false) => {
   cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
-  cy.route({
-    method: 'PUT',
-    url: '/v0/profile/email_addresses',
-    status: 400,
-    response: emailUpdateResponseFailure,
-  }).as('mockEmailUpdateFailure');
-
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
   cy.findByText(/loading your information/i).should('exist');
@@ -51,7 +44,6 @@ describe('The update email Alert', () => {
       force: true,
     });
 
-    cy.wait('@mockEmailUpdateFailure');
     cy.contains(errorText).should('exist');
   });
 });
