@@ -57,7 +57,7 @@ if (testDirectories[0] === defaultPath) {
 
   const unitTestDirectories = new Set(
     allUnitTests.map(unitTest => {
-      // Start with './src/applications/tests/config/benefitsSelection.unit.spec.js'
+      // Start with './src/applications/burials/tests/config/benefitsSelection.unit.spec.js'
       const directory = path.dirname(unitTest);
       const directoryPathArray = directory.split(path.sep);
 
@@ -67,7 +67,7 @@ if (testDirectories[0] === defaultPath) {
         subdirectoryDepth = 4;
       }
 
-      // Reduce to './src/applications//'
+      // Reduce to 'src/applications/burials/'
       return directoryPathArray.slice(1, subdirectoryDepth).join(path.sep);
     }),
   );
