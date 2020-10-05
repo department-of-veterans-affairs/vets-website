@@ -164,3 +164,12 @@ export const validateSSNIsUnique = (errors, formData) => {
     );
   }
 };
+
+export const facilityNameMaxLength = (errors, formData) => {
+  const facilityNameLength = formData.veteranLastTreatmentFacility.name?.length;
+  if (facilityNameLength > 80) {
+    errors.addError(
+      "You've entered too many characters, please enter less than 80 characters.",
+    );
+  }
+};

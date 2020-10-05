@@ -11,6 +11,11 @@
     "build:content": "node --max-old-space-size=8192 script/build-content.js",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js",
+    "build:webpack:prod": "NODE_ENV=production yarn build:webpack --env.buildtype vagovprod",
+    "build:webpack:staging": "yarn build:webpack --env.buildtype vagovstaging",
+    "build:webpack:dev": "yarn build:webpack --env.buildtype vagovdev",
+    "build:webpack:local": "yarn build:webpack --env.buildtype localhost",
+    "debug:webpack:prod": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env.buildtype vagovprod",
     "cy:open": "cypress open --config-file config/cypress.json",
     "cy:run": "cypress run --config-file config/cypress.json",
     "cy:test:circle": "./script/run-cypress-tests-circle.sh",
@@ -335,7 +340,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#ee3032d3a84393233fb328c1f83558be9bbd84b1",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#54420e9484592f6838bdf9a278bdd84502e8ef8a",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

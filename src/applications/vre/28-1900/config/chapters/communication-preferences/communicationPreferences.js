@@ -1,4 +1,5 @@
 import React from 'react';
+import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import {
   AppointmentPreferencesInformation,
   TeleCounselingInformation,
@@ -8,49 +9,31 @@ import {
 
 const titleClasses = 'vads-u-display--inline-block vads-u-margin--0';
 
+const {
+  useEva,
+  useTelecounseling,
+  appointmentTimePreferences,
+} = fullSchema.properties;
+
 export const schema = {
   type: 'object',
-  required: ['isInterestedInEva', 'isInterestedInTeleCounseling'],
+  required: ['useEva', 'useTelecounseling'],
   properties: {
     'view:VreCommunicationInformation': {
       type: 'object',
       properties: {},
     },
-    isInterestedInEva: {
-      type: 'boolean',
-    },
+    useEva,
     'view:TeleCounselingInformation': {
       type: 'object',
       properties: {},
     },
-    isInterestedInTeleCounseling: {
-      type: 'boolean',
-    },
+    useTelecounseling,
     'view:AppointmentPreferencesInformation': {
       type: 'object',
       properties: {},
     },
-    appointmentTimePreferences: {
-      type: 'object',
-      properties: {
-        morning: {
-          type: 'boolean',
-          default: false,
-        },
-        midDay: {
-          type: 'boolean',
-          default: false,
-        },
-        afternoon: {
-          type: 'boolean',
-          default: false,
-        },
-        other: {
-          type: 'boolean',
-          default: false,
-        },
-      },
-    },
+    appointmentTimePreferences,
   },
 };
 
@@ -59,7 +42,7 @@ export const uiSchema = {
     'ui:options': { showFieldLabel: false },
     'ui:description': VreCommunicationInformation,
   },
-  isInterestedInEva: {
+  useEva: {
     'ui:widget': 'yesNo',
     'ui:title': (
       <p className={titleClasses}>
@@ -77,7 +60,7 @@ export const uiSchema = {
     'ui:options': { showFieldLabel: false },
     'ui:description': TeleCounselingInformation,
   },
-  isInterestedInTeleCounseling: {
+  useTelecounseling: {
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: 'vads-u-margin-top--1',
