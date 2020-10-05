@@ -1,29 +1,20 @@
-import _ from 'lodash/fp';
-
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
-import * as address from 'platform/forms/definitions/address';
-
-import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
-import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 
-import { showSchoolAddress } from '../../utils/helpers';
+import {
+  applicantInformation,
+  benefitSelection,
+  militaryHistory,
+  newSchool,
+  servicePeriods,
+} from '../pages';
 
-import { applicantInformation, benefitSelection } from '../pages';
-import { validateWhiteSpace } from 'platform/forms/validations';
-
-const {
-  civilianBenefitsAssistance,
-  educationObjective,
-  nonVaAssistance,
-} = fullSchema1995.properties;
-
-const { educationType, serviceBefore1977 } = fullSchema1995.definitions;
+const { serviceBefore1977 } = fullSchema1995.definitions;
 
 export const chapters = {
   applicantInformation: {
@@ -49,44 +40,14 @@ export const chapters = {
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        uiSchema: {
-          'view:newService': {
-            'ui:title':
-              'Do you have any new periods of service to record since you last applied for education benefits?',
-            'ui:widget': 'yesNo',
-          },
-          toursOfDuty: _.merge(toursOfDuty.uiSchema, {
-            'ui:options': { expandUnder: 'view:newService' },
-          }),
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            'view:newService': {
-              type: 'boolean',
-            },
-            toursOfDuty: fullSchema1995.properties.toursOfDuty,
-          },
-        },
+        uiSchema: servicePeriods.uiSchema,
+        schema: servicePeriods.schema,
       },
       militaryHistory: {
         title: 'Military history',
         path: 'military/history',
-        uiSchema: {
-          'view:hasServiceBefore1978': {
-            'ui:title':
-              'Do you have any periods of service that began before 1978?',
-            'ui:widget': 'yesNo',
-          },
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            'view:hasServiceBefore1978': {
-              type: 'boolean',
-            },
-          },
-        },
+        uiSchema: militaryHistory.uiSchema,
+        schema: militaryHistory.schema,
       },
     },
   },
@@ -100,55 +61,8 @@ export const chapters = {
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: {
-          'ui:title':
-            'School, university, program, or training facility you want to attend',
-          // Broken up because we need to fit educationType between name and address
-          // Put back together again in transform()
-          newSchoolName: {
-            'ui:title': 'Name of school, university, or training facility',
-            'ui:validations': [
-              (errors, newSchoolName) => {
-                validateWhiteSpace(errors, newSchoolName);
-              },
-            ],
-          },
-          educationType: educationTypeUISchema,
-          newSchoolAddress: _.merge(address.uiSchema(), {
-            'ui:options': {
-              hideIf: formData => !showSchoolAddress(formData.educationType),
-            },
-          }),
-          educationObjective: {
-            'ui:title':
-              'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
-            'ui:widget': 'textarea',
-          },
-          nonVaAssistance: {
-            'ui:title':
-              'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
-            'ui:widget': 'yesNo',
-          },
-          civilianBenefitsAssistance: {
-            'ui:title':
-              'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you’re seeking benefits from VA?',
-            'ui:widget': 'yesNo',
-          },
-        },
-        schema: {
-          type: 'object',
-          required: ['educationType', 'newSchoolName'],
-          properties: {
-            newSchoolName: {
-              type: 'string',
-            },
-            educationType,
-            newSchoolAddress: address.schema(fullSchema1995),
-            educationObjective,
-            nonVaAssistance,
-            civilianBenefitsAssistance,
-          },
-        },
+        uiSchema: newSchool.uiSchema,
+        schema: newSchool.schema,
       },
       oldSchool: createOldSchoolPage(fullSchema1995),
     },
