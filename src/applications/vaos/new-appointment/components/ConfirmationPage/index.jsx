@@ -59,7 +59,7 @@ export class ConfirmationPage extends React.Component {
       data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
     ) {
       // Remove parse function when converting this call to FHIR service
-      this.props.fetchFacilityDetails(parseFakeFHIRId(data.vaFacility));
+      this.props.fetchFacilityDetails(data.vaFacility);
     }
     scrollAndFocus();
   }
