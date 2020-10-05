@@ -9,8 +9,6 @@ const { runCommand, runCommandSync } = require('./utils');
 
 const defaultPath = './src/**/*.unit.spec.js?(x)';
 
-// const allUnitTests = glob.sync('{src,test}/**/*.unit.spec.js?(x)');
-
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
   { name: 'app-folder', type: String, defaultValue: null },
