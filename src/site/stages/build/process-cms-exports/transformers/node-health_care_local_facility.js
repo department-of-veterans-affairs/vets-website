@@ -57,15 +57,14 @@ const transform = (entity, { ancestors }) => ({
     entity.fieldOperatingStatusMoreInfo,
   ),
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
-  /* eslint-disable no-nested-ternary */
   fieldRegionPage: entity.fieldRegionPage[0]
-    ? !ancestors.find(r => r.entity.uuid === entity.fieldRegionPage[0].uuid)
-      ? { entity: entity.fieldRegionPage[0] }
-      : {
-          entity: {
-            title: getDrupalValue(entity.fieldRegionPage[0].title),
-          },
-        }
+    ? {
+        entity: !ancestors.find(
+          r => r.entity.uuid === entity.fieldRegionPage[0].uuid,
+        )
+          ? entity.fieldRegionPage[0]
+          : { title: getDrupalValue(entity.fieldRegionPage[0].title) },
+      }
     : null,
   fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
 });
