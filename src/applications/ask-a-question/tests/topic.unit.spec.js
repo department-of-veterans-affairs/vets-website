@@ -95,9 +95,9 @@ describe('topic', () => {
       testSchema.properties.topic,
       'Caregiver Support Program',
     );
-    expect(subTopicValues).to.have.members([
-      'General Caregiver Support/Education',
+    expect(subTopicValues).to.have.ordered.members([
       'Comprehensive Family Caregiver Program',
+      'General Caregiver Support/Education',
       'VA Supportive Services',
     ]);
   });
@@ -107,9 +107,9 @@ describe('topic', () => {
       testSchema.properties.topic,
       'Health & Medical Issues & Services',
     );
-    expect(subTopicValues).to.have.members([
-      'Medical Care Issues at Specific Facility',
+    expect(subTopicValues).to.have.ordered.members([
       'Health/Medical Eligibility & Programs',
+      'Medical Care Issues at Specific Facility',
       'Prosthetics, Med Devices & Sensory Aids',
       'Women Veterans Health Care',
     ]);
@@ -121,7 +121,7 @@ describe('topic', () => {
       'Health/Medical Eligibility & Programs',
       true,
     );
-    expect(subTopicValues).to.have.members([
+    expect(subTopicValues).to.have.ordered.members([
       'Apply for Health Benefits (Veterans)',
       'Medical Care for Veterans within USA',
     ]);

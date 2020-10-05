@@ -1,10 +1,12 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { vaMedicalFacilities } from 'vets-json-schema/dist/constants.json';
-
 import fullSchema from '../../0873-schema.json';
 import { topicTitle } from '../../content/labels';
+import {
+  vaMedicalCentersLabels,
+  vaMedicalCentersValues,
+} from './medicalCenters';
 
 const formFields = {
   levelOne: 'levelOne',
@@ -32,23 +34,27 @@ export const filterArrayByValue = (
     value,
     isLevelThree,
   );
+  let labelList;
   if (childSchema.type === 'string') {
-    return childSchema.enum;
+    labelList = childSchema.enum;
+  } else {
+    labelList = _.flatten(
+      childSchema.oneOf.map(subSchema => {
+        return subSchema.properties.subLevelTwo.enum;
+      }),
+    );
   }
-  return _.flatten(
-    childSchema.oneOf.map(subSchema => {
-      return subSchema.properties.subLevelTwo.enum;
-    }),
-  );
+  return isLevelThree ? labelList : _.orderBy([], 'asc', labelList);
 };
 
-const levelOneTopicLabels = [
-  'Caregiver Support Program',
-  'Health & Medical Issues & Services',
-  'VA Ctr for Women Vets, Policies & Progs',
-];
+const levelOneTopicLabels = fullSchema.properties.topic.oneOf.map(
+  topicSchema => {
+    return topicSchema.properties.levelOne.enum[0];
+  },
+);
 
-const levelTwoTopicLabels = [
+// In the schema these level twos have level three topics
+const complexLevelTwoTopics = [
   'Health/Medical Eligibility & Programs',
   'Prosthetics, Med Devices & Sensory Aids',
   'Women Veterans Health Care',
@@ -61,7 +67,7 @@ levelOneTopicLabels.forEach(label => {
     label,
   );
 });
-levelTwoTopicLabels.forEach(label => {
+complexLevelTwoTopics.forEach(label => {
   const parentTopic = 'Health & Medical Issues & Services';
   valuesByLabelLookup[label] = filterArrayByValue(
     getSchemaFromParentTopic(fullSchema.properties.topic, parentTopic),
@@ -70,24 +76,7 @@ levelTwoTopicLabels.forEach(label => {
   );
 });
 
-function getAllMedicalCenters() {
-  const medicalCenters = [];
-  Object.values(vaMedicalFacilities).forEach(state =>
-    state.map(facility => medicalCenters.push(facility)),
-  );
-  return _.sortBy(['label'], medicalCenters);
-}
-
-const vaMedicalCentersList = getAllMedicalCenters();
-
-const vaMedicalCentersValues = vaMedicalCentersList.map(center => center.value);
-const vaMedicalCentersLabels = vaMedicalCentersList.map(center => center.label);
-
-export const levelThreeRequiredTopics = new Set([
-  'Health/Medical Eligibility & Programs',
-  'Prosthetics, Med Devices & Sensory Aids',
-  'Women Veterans Health Care',
-]);
+export const levelThreeRequiredTopics = new Set(complexLevelTwoTopics);
 
 export const medicalCenterRequiredTopics = new Set([
   'Medical Care Issues at Specific Facility',
