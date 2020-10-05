@@ -31,7 +31,18 @@ fragment nodeQa on NodeQA {
   }
   fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... on ParagraphLinkTeaser {
+        fieldLink {
+          url {
+            path
+            routed
+          }
+          uri
+          title
+          options
+        }
+        fieldLinkSummary
+      }
     }
   }
 }

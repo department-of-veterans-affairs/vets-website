@@ -24,7 +24,18 @@ fragment nodeMediaListImages on NodeMediaListImages {
   }
   fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... on ParagraphLinkTeaser {
+        fieldLink {
+          url {
+            path
+            routed
+          }
+          uri
+          title
+          options
+        }
+        fieldLinkSummary
+      }
     }
   }
 

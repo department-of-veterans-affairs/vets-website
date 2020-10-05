@@ -25,7 +25,18 @@ fragment nodeChecklist on NodeChecklist {
   }
   fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... on ParagraphLinkTeaser {
+        fieldLink {
+          url {
+            path
+            routed
+          }
+          uri
+          title
+          options
+        }
+        fieldLinkSummary
+      }
     }
   }
   fieldChecklist {
