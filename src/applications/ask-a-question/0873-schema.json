@@ -448,7 +448,8 @@
               ]
             }
           }
-        }
+        },
+        {}
       ],
       "properties": {
         "vaMedicalCenter": {

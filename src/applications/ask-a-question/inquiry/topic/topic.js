@@ -8,6 +8,9 @@ import {
   vaMedicalCentersValues,
 } from './medicalCenters';
 
+const topicSchemaCopy = _.clone(fullSchema.properties.topic);
+topicSchemaCopy.oneOf.pop();
+
 const formFields = {
   levelOne: 'levelOne',
   levelTwo: 'levelTwo',
@@ -47,11 +50,9 @@ export const filterArrayByValue = (
   return isLevelThree ? labelList : _.orderBy([], 'asc', labelList);
 };
 
-const levelOneTopicLabels = fullSchema.properties.topic.oneOf.map(
-  topicSchema => {
-    return topicSchema.properties.levelOne.enum[0];
-  },
-);
+const levelOneTopicLabels = topicSchemaCopy.oneOf.map(topicSchema => {
+  return topicSchema.properties.levelOne.enum[0];
+});
 
 // In the schema these level twos have level three topics
 const complexLevelTwoTopics = [
@@ -62,15 +63,12 @@ const complexLevelTwoTopics = [
 
 const valuesByLabelLookup = {};
 levelOneTopicLabels.forEach(label => {
-  valuesByLabelLookup[label] = filterArrayByValue(
-    fullSchema.properties.topic,
-    label,
-  );
+  valuesByLabelLookup[label] = filterArrayByValue(topicSchemaCopy, label);
 });
 complexLevelTwoTopics.forEach(label => {
   const parentTopic = 'Health & Medical Issues & Services';
   valuesByLabelLookup[label] = filterArrayByValue(
-    getSchemaFromParentTopic(fullSchema.properties.topic, parentTopic),
+    getSchemaFromParentTopic(topicSchemaCopy, parentTopic),
     label,
     true,
   );
@@ -125,7 +123,6 @@ export function uiSchema() {
         properties: topicSchema.properties,
       };
       const levelTwoLabelList = valuesByLabelLookup[levelOne];
-
       if (
         levelTwoLabelList &&
         topicSchema.properties.levelTwo.enum !== levelTwoLabelList
