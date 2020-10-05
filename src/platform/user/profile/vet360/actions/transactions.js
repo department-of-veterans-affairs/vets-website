@@ -166,7 +166,7 @@ export function createTransaction(
       }
 
       if (!isVet360Configured() && !isCypress) {
-        transaction = localVet360.createTransaction();
+        transaction = await localVet360.createTransaction();
       }
 
       if (isCypress) {
