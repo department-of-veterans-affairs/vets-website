@@ -25,12 +25,6 @@ import {
 import ConfirmationDirectScheduleInfo from './ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from './ConfirmationRequestInfo';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id.replace('var', '');
-}
-
 export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
