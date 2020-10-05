@@ -315,8 +315,7 @@ export default function formReducer(state = initialState, action) {
       const typeOfCareId = action.typeOfCareId;
       const facilities = state.facilities;
       const typeOfCareFacilities =
-        facilities[typeOfCareId] ||
-        action.facilities.sort((a, b) => (a.name < b.name ? -1 : 1));
+        facilities[typeOfCareId] || action.facilities;
 
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;

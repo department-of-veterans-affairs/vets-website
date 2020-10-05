@@ -31,8 +31,6 @@ import {
   sendRequestMessage,
   getSitesSupportingVAR,
   getCommunityCare,
-  getRequestEligibilityCriteria,
-  getDirectBookingEligibilityCriteria,
 } from '../../services/var';
 import {
   getOrganizations,
@@ -41,9 +39,8 @@ import {
 } from '../../services/organization';
 import {
   getLocation,
-  getLocations,
-  getParentOfLocation,
-  setSupportedSchedulingMethods,
+  getSiteIdFromFakeFHIRId,
+  getLocationsByTypeOfCareAndSiteIds,
 } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
@@ -335,16 +332,12 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const newAppointment = initialState.newAppointment;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare.id;
-      const userSiteIds = selectSystemIds(initialState);
+      const siteIds = selectSystemIds(initialState);
       const useVSP = vaosVSPAppointmentNew(initialState);
-      let typeOfCareFacilities =
-        newAppointment.facilities[typeOfCareId] || null;
+      let typeOfCareFacilities = newAppointment.facilities[typeOfCareId];
       let siteId = null;
       let facilityId = newAppointment.data.vaFacility;
-      let parentId = newAppointment.data.vaParent;
       let parentFacilities = newAppointment.parentFacilities;
-      let directFacilityIds = [];
-      let requestFacilityIds = [];
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN,
@@ -354,72 +347,24 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       // checkCommunityCareEligibility()
       if (!parentFacilities) {
         parentFacilities = await getOrganizations({
-          siteIds: userSiteIds,
+          siteIds,
           useVSP,
         });
       }
 
-      // Fetch direct and request eligible facilities and their details
-      // if we haven't already
+      // Fetch facilities that support this type of care
       if (!typeOfCareFacilities) {
-        const criteria = await Promise.all([
-          getDirectBookingEligibilityCriteria(userSiteIds),
-          getRequestEligibilityCriteria(userSiteIds),
-        ]);
-
-        // Fetch facilities that support direct scheduling and filter
-        // only those that support the selected type of care
-        directFacilityIds = criteria[0]
-          ?.filter(facility =>
-            facility?.coreSettings?.some(
-              setting => setting.id === typeOfCareId,
-            ),
-          )
-          ?.map(facility => facility.id);
-
-        // Fetch facilities that support requests and filter
-        // only those that support the selected type of care
-        requestFacilityIds = criteria[1]
-          ?.filter(facility =>
-            facility?.requestSettings?.some(
-              setting => setting.id === typeOfCareId,
-            ),
-          )
-          ?.map(facility => facility.id);
-
-        const uniqueIds = Array.from(
-          new Set([...directFacilityIds, ...requestFacilityIds]),
-        );
-
-        // The above API calls only return the ids. Make an additional
-        // call to getLocations so we can get additional details such
-        // as name, address, coordinates, etc.
-        if (uniqueIds.length) {
-          typeOfCareFacilities = await getLocations({
-            facilityIds: uniqueIds,
-          });
-
-          // Update the retrieved locations with requestSupported and
-          // directSchedulingSupported, as well as replace IDs for dev/staging
-          typeOfCareFacilities = typeOfCareFacilities?.map(location =>
-            setSupportedSchedulingMethods({
-              location,
-              requestFacilityIds,
-              directFacilityIds,
-            }),
-          );
-        }
+        typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
+          typeOfCareId,
+          siteIds,
+        });
       }
 
-      const canShowFacilities = !!parentId || parentFacilities?.length === 1;
-
-      if (canShowFacilities && !parentId) {
-        parentId = parentFacilities[0].id;
-      }
-
-      if (parentId) {
-        siteId = parseFakeFHIRId(
-          getIdOfRootOrganization(parentFacilities, parentId),
+      if (!typeOfCareFacilities.length) {
+        recordEligibilityFailure(
+          'supported-facilities',
+          typeOfCare.name,
+          parseFakeFHIRId(parentFacilities[0].id),
         );
       }
 
@@ -432,29 +377,14 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         facilityId = typeOfCareFacilities[0].id;
       }
 
-      if (!typeOfCareFacilities?.length) {
-        parentFacilities.forEach(p => {
-          recordEligibilityFailure(
-            'supported-facilities',
-            typeOfCare.name,
-            parseFakeFHIRId(p.id),
-          );
-        });
-      }
-
       const eligibilityChecks =
         newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
       if (eligibilityDataNeeded && !eligibilityChecks) {
         const selectedFacility = typeOfCareFacilities[0];
-        if (!parentId) {
-          parentId = getParentOfLocation(parentFacilities, selectedFacility).id;
-        }
 
         if (!siteId) {
-          siteId = parseFakeFHIRId(
-            getIdOfRootOrganization(parentFacilities, parentId),
-          );
+          siteId = getSiteIdFromFakeFHIRId(selectedFacility.id);
         }
 
         dispatch(checkEligibility(selectedFacility, siteId));
