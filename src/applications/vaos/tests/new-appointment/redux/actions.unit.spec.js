@@ -1256,6 +1256,12 @@ describe('VAOS newAppointment actions', () => {
               partOf: {
                 reference: 'Organization/var983',
               },
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
             },
           ],
           facilities: {

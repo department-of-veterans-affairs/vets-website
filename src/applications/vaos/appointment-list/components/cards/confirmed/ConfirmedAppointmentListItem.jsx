@@ -215,7 +215,7 @@ export default function ConfirmedAppointmentListItem({
               description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
-              startDateTime={appointment.start}
+              startDateTime={moment.parseZone(appointment.start)}
             />
             {showCancelButton && (
               <button

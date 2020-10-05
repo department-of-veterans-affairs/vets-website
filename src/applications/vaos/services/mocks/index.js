@@ -30,6 +30,7 @@ import sitesSupportingVAR from './var/sites-supporting-var.json';
 import varSlots from './var/slots.json';
 import cancelReasons from './var/cancel_reasons.json';
 import requestEligibilityCriteria from './var/request_eligibility_criteria.json';
+import directBookingEligibilityCriteria from './var/direct_booking_eligibility_criteria.json';
 import { EXPRESS_CARE } from '../../utils/constants';
 
 /*
@@ -194,6 +195,10 @@ export default [
   {
     path: /vaos\/v0\/request_eligibility_criteria/,
     response: requestEligibilityCriteria,
+  },
+  {
+    path: /vaos\/v0\/direct_booking_eligibility_criteria/,
+    response: directBookingEligibilityCriteria,
   },
   {
     path: /vaos\/v0\/preferences/,

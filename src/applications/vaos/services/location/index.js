@@ -2,16 +2,20 @@
  * Functions in here should map a var-resources API request to a similar response from
  * a FHIR resource request
  */
+
 import {
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
   getFacilitiesInfo,
+  getDirectBookingEligibilityCriteria,
+  getRequestEligibilityCriteria,
 } from '../var';
 import { mapToFHIRErrors } from '../utils';
 import {
   transformDSFacilities,
   transformFacilities,
   transformFacility,
+  setSupportedSchedulingMethods,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 
@@ -103,6 +107,71 @@ export async function getLocation({ facilityId }) {
   }
 }
 
+export async function getLocationsByTypeOfCareAndSiteIds({
+  typeOfCareId,
+  siteIds,
+}) {
+  try {
+    let locations = [];
+
+    const criteria = await Promise.all([
+      getDirectBookingEligibilityCriteria(siteIds),
+      getRequestEligibilityCriteria(siteIds),
+    ]);
+
+    // Fetch facilities that support direct scheduling and filter
+    // only those that support the selected type of care
+    const directFacilityIds =
+      criteria[0]
+        ?.filter(facility =>
+          facility?.coreSettings?.some(setting => setting.id === typeOfCareId),
+        )
+        ?.map(facility => facility.id) || [];
+
+    // Fetch facilities that support requests and filter
+    // only those that support the selected type of care
+    const requestFacilityIds =
+      criteria[1]
+        ?.filter(facility =>
+          facility?.requestSettings?.some(
+            setting => setting.id === typeOfCareId,
+          ),
+        )
+        ?.map(facility => facility.id) || [];
+
+    const uniqueIds = Array.from(
+      new Set([...directFacilityIds, ...requestFacilityIds]),
+    );
+
+    // The above API calls only return the ids. Make an additional
+    // call to getLocations so we can get additional details such
+    // as name, address, coordinates, etc.
+    if (uniqueIds.length) {
+      locations = await getLocations({
+        facilityIds: uniqueIds,
+      });
+
+      // Update the retrieved locations with requestSupported and
+      // directSchedulingSupported, as well as replace IDs for dev/staging
+      locations = locations?.map(location =>
+        setSupportedSchedulingMethods({
+          location,
+          requestFacilityIds,
+          directFacilityIds,
+        }),
+      );
+    }
+
+    return locations.sort((a, b) => (a.name < b.name ? -1 : 1));
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
 /**
  * Get the parent organization of a given location
  *
@@ -125,4 +194,13 @@ export function getParentOfLocation(organizations, location) {
  */
 export function getFacilityIdFromLocation(location) {
   return location.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
+}
+
+/**
+ * Returns the siteId of a var location
+ *
+ * @param {String} id A location's fake FHIR id
+ */
+export function getSiteIdFromFakeFHIRId(id) {
+  return parseId(id).substr(0, 3);
 }

@@ -293,9 +293,9 @@ describe('VAOS integration: upcoming video appointments', () => {
     // Should display button to add appointment to calendar
     expect(
       screen.getByRole('link', {
-        name: `Add ${startDate.format(
-          'MMMM D, YYYY',
-        )} appointment to your calendar`,
+        name: `Add ${startDate
+          .tz('America/Denver')
+          .format('MMMM D, YYYY')} appointment to your calendar`,
       }),
     ).to.be.ok;
 
