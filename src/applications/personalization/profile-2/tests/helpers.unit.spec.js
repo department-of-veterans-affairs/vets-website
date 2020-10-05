@@ -90,8 +90,7 @@ describe('transformServiceHistoryEntryIntoTableRow', () => {
       expect(titleDfn.props().className).to.equal('sr-only');
     });
     it('should have the correct text', () => {
-      expect(value.text().includes('January 31, 2000 – December 25, 2010')).to
-        .be.true;
+      expect(value.text()).to.contain('January 31, 2000 – December 25, 2010');
     });
   });
 });

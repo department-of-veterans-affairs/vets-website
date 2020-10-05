@@ -1,3 +1,5 @@
+import { DEFAULT_BENEFIT_TYPE } from '../constants';
+
 export function transform(formConfig, form) {
   // We require the user to input a 10-digit number; assuming we get a 3-digit
   // area code + 7 digit number. We're not yet supporting international numbers
@@ -92,9 +94,9 @@ export function transform(formConfig, form) {
       data: {
         type: 'higherLevelReview',
         attributes: {
-          // Only supporting "compensation" in this MVP
-          // TODO: add setting this value to the wizard
-          benefitType: 'compensation',
+          // This value may empty if the user restarts the form
+          // See va.gov-team/issues/13814
+          benefitType: formData.benefitType || DEFAULT_BENEFIT_TYPE,
           informalConference,
           sameOffice: formData.sameOffice || false,
 

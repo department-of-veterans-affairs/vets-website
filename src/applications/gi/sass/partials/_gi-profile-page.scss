@@ -175,6 +175,16 @@
       margin-top: 22.5px;
       margin-bottom: 7.5px;
     }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 0;
+      li {
+        p {
+          margin: 0;
+        }
+      }
+    }
   }
 
   .program-name {
@@ -300,25 +310,27 @@
       margin-bottom: 0.5em;
     }
 
-    th {
-      border: hidden;
-      background: none;
-      white-space: nowrap;
-      padding-bottom: 0.5em;
-      padding-top: 0em;
-      clear: both;
-      font-weight: 700;
-      font-family: Bitter, Georgia, Cambria, Times New Roman, Times, serif;
-      line-height: 1.5;
-      margin-bottom: 0.5em;
-      margin-top: 1.5em;
+    thead {
+      th {
+        border: hidden;
+        background: none;
+        white-space: nowrap;
+        padding-bottom: 0.5em;
+        padding-top: 0;
+        clear: both;
+        font-weight: 700;
+        font-family: Bitter, Georgia, Cambria, Times New Roman, Times, serif;
+        line-height: 1.5;
+        margin-bottom: 0.5em;
+        margin-top: 1.5em;
+      }
     }
 
     td {
       border: hidden;
       font-size: 0.9em;
-      padding-top: 0em;
-      padding-bottom: 0em;
+      padding-top: 0;
+      padding-bottom: 0;
       vertical-align: top;
     }
 
@@ -326,10 +338,22 @@
       text-transform: capitalize;
     }
 
-    .schoolName {
-      margin-bottom: 0em;
-      margin-top: 0em;
-      font-weight: bold;
+    .school-name-cell {
+      border: hidden;
+      font-size: 0.9em;
+      padding-top: 0;
+      padding-bottom: 0;
+      vertical-align: top;
+
+      ::first-letter {
+        text-transform: capitalize;
+      }
+
+      .school-name {
+        margin-bottom: 0;
+        margin-top: 0;
+        font-weight: bold;
+      }
     }
 
     .location-cell {

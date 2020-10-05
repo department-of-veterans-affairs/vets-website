@@ -22,6 +22,14 @@ describe('<ClaimDetailLayout>', () => {
     );
     expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
   });
+  it('should render unavailable warning', () => {
+    const claim = null;
+
+    const tree = SkinDeep.shallowRender(
+      <ClaimDetailLayout claim={claim} synced={false} />,
+    );
+    expect(tree.everySubTree('ClaimsUnavailable')).to.have.lengthOf(1);
+  });
   it('should render contention list', () => {
     const claim = {
       attributes: {

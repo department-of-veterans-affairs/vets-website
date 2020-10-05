@@ -7,6 +7,7 @@ const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMa
 const bannerAlertsQuery = require('./bannerAlerts.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const bioPage = require('./bioPage.graphql');
+const checklistPage = require('./nodeChecklist.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
 const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
@@ -20,6 +21,7 @@ const icsFileQuery = require('./file-fragments/ics.file.graphql');
 const leadershipListingPage = require('./leadershipListingPage.graphql');
 const locationListingPage = require('./locationsListingPage.graphql');
 const mediaListImages = require('./nodeMediaListImages.graphql');
+const mediaListVideos = require('./nodeMediaListVideos.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
@@ -30,6 +32,7 @@ const qaPage = require('./nodeQa.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const stepByStepPage = require('./nodeStepByStep.graphql');
 const storyListingPage = require('./storyListingPage.graphql');
+const supportResourcesDetailPage = require('./nodeSupportResourcesDetailPage.graphql');
 const vaFormPage = require('./vaFormPage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 
@@ -79,6 +82,9 @@ const buildQuery = ({ useTomeSync }) => {
   ${faqMultipleQaPage}
   ${stepByStepPage}
   ${mediaListImages}
+  ${checklistPage}
+  ${mediaListVideos}
+  ${supportResourcesDetailPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -115,6 +121,9 @@ const buildQuery = ({ useTomeSync }) => {
         ... faqMultipleQA
         ... nodeStepByStep
         ... nodeMediaListImages
+        ... nodeChecklist
+        ... nodeMediaListVideos
+        ... nodeSupportResourcesDetailPage
       }
     }`;
 

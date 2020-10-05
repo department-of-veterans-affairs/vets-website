@@ -85,7 +85,7 @@ export default function ConfirmationDirectScheduleInfo({
               summary="VA Appointment"
               description=""
               location={formatFacilityAddress(facilityDetails)}
-              startDateTime={momentDate.toDate()}
+              startDateTime={momentDate}
               duation={appointmentLength}
             />
           </div>

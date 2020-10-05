@@ -189,12 +189,12 @@ describe('HCA helpers', () => {
     });
     it('should return the name if the id is a known id', () => {
       expect(getMedicalCenterNameByID('463 - ABC')).to.equal(
-        'ANCHORAGE VA MEDICAL CENTER',
+        'Anchorage VA Medical Center',
       );
     });
     it('should return the name if the id is a known id', () => {
       expect(getMedicalCenterNameByID('463')).to.equal(
-        'ANCHORAGE VA MEDICAL CENTER',
+        'Anchorage VA Medical Center',
       );
     });
     it('should return the id if the id is not a known id', () => {

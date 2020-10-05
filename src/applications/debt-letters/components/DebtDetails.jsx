@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { deductionCodes } from '../const';
-import HowDoIPayV2 from './HowDoIPayV2';
-import NeedHelpV2 from './NeedHelpV2';
+import { deductionCodes } from '../const/deduction-codes';
+import HowDoIPay from './HowDoIPay';
+import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import moment from 'moment';
 import last from 'lodash/last';
@@ -28,6 +28,7 @@ class DebtDetails extends Component {
       currency: 'USD',
       minimumFractionDigits: 2,
     });
+
     const { selectedDebt } = this.props;
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -42,7 +43,7 @@ class DebtDetails extends Component {
         </h1>
         <div className="vads-l-row">
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 medium-screen:vads-l-col--8 vads-u-font-family--sans">
-            <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-weight--normal">
+            <p className="va-introtext vads-u-margin-top--0">
               Updated on{' '}
               {moment(last(selectedDebt.debtHistory).date).format(
                 'MMMM D, YYYY',
@@ -76,10 +77,11 @@ class DebtDetails extends Component {
             </div>
 
             <AlertBox
-              className="vads-u-margin-y--4"
+              className="vads-u-margin-y--4 debt-details-alert"
               headline="Hidden alert"
               content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
               status="info"
+              level={2}
             />
             <AdditionalInfo triggerText="Why might I have this debt?">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
@@ -141,8 +143,8 @@ class DebtDetails extends Component {
             <Link to="debt-letters" className="vads-u-margin-top--1">
               Download letters related to your VA debt
             </Link>
-            <HowDoIPayV2 />
-            <NeedHelpV2 />
+            <HowDoIPay />
+            <NeedHelp />
             <Link className="vads-u-margin-top--4" to="/">
               <i className="fa fa-chevron-left" /> Return to your list of debts.
             </Link>

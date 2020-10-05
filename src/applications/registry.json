@@ -126,8 +126,20 @@
     "entryName": "dependents-view-dependents",
     "rootUrl": "/view-change-dependents/view",
     "template": {
+      "title": "View Dependents",
       "layout": "page-react.html",
-      "vagovprod": false
+      "vagovprod": true,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "view-change-dependents",
+          "name": "View or change your dependents"
+        },
+        {
+          "path": "view-change-dependents/view",
+          "name": "View your dependents"
+        }
+      ]
     }
   },
   {
@@ -263,6 +275,10 @@
       "vagovprod": true,
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
+        {
+          "path": "view-change-dependents/",
+          "name": "View or change your dependents"
+        },
         {
           "path": "view-change-dependents/add-remove-form-686c/",
           "name": "Add or remove dependents form 21-686c"
@@ -792,7 +808,7 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }

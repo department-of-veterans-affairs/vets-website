@@ -7,6 +7,25 @@
    list-style-position: inside;
  }
 
+.service-hours {
+   width: 268px;
+   table-layout: fixed;
+   margin: 0;
+
+   td {
+      border: none;
+      padding: 0 0 3px;
+   }
+
+   .day {
+      width: 36px;
+   }
+
+   .hours {
+      width: 132px;
+   }
+}
+
 .abbrv-day {
    display: inline-block;
    width: 35px;

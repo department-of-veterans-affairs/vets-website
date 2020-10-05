@@ -47,12 +47,13 @@ export const questions = [
   },
   {
     id: 'congestion',
-    text: 'Do you currently have a runny nose or nasal congestion?',
+    text:
+      "Do you currently have a runny nose or congestion that's new and not related to allergies?",
   },
   {
     id: 'exposure',
     text:
-      'In the past 14 days, have you had close contact with someone who you know was diagnosed with COVID-19?',
+      'In the past 14 days, have you had close contact with someone who you know was diagnosed with COVID-19 or was waiting for COVID-19 test results?',
     dependsOn: {
       id: 'isStaff',
       value: 'no',
@@ -61,7 +62,7 @@ export const questions = [
   {
     id: 'exposure-staff',
     text:
-      "Have you had contact with someone diagnosed with COVID-19 that you haven't already reported to VA occupational health?",
+      "Have you had contact with someone you know was diagnosed with COVID-19 or was waiting for COVID-19 test results that you haven't already reported to VA occupational health?",
     dependsOn: {
       id: 'isStaff',
       value: 'yes',
@@ -98,6 +99,39 @@ export const questions = [
     text:
       'In the past 14 days, have you traveled outside of New York and its surrounding states?',
     customId: ['526', '528', '620', '630', '632'],
+  },
+  {
+    id: 'travel-self-pr',
+    text: 'Have you traveled outside of Puerto Rico within the last 14 days?',
+    customId: ['672'],
+  },
+  {
+    id: 'travel-other-pr',
+    text:
+      'Have you had contact with someone who has traveled outside of Puerto Rico within the last 14 days?',
+    customId: ['672'],
+  },
+  {
+    id: 'travel-self-stvi',
+    text: 'Have you traveled outside of St. Thomas within the last 14 days?',
+    customId: ['672GB'],
+  },
+  {
+    id: 'travel-other-stvi',
+    text:
+      'Have you had contact with someone who has traveled outside of St. Thomas within the last 14 days?',
+    customId: ['672GB'],
+  },
+  {
+    id: 'travel-self-scvi',
+    text: 'Have you traveled outside of St. Croix within the last 14 days?',
+    customId: ['672GA'],
+  },
+  {
+    id: 'travel-other-scvi',
+    text:
+      'Have you had contact with someone who has traveled outside of St. Croix within the last 14 days?',
+    customId: ['672GA'],
   },
 ];
 

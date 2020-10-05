@@ -1,45 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-const borderClasses =
-  'vads-u-border-top--0 vads-u-border-right--0 vads-u-border-left--0 vads-u-padding--0 vads-u-padding-y--0p5 medium-screen:vads-u-padding--1';
-const rowPaddingClass = 'vads-u-padding-y--2';
+import { createId } from '../utils/helpers';
 
 class ResponsiveTable extends React.Component {
-  renderHeader = field => {
+  renderHeader = column => {
     return (
-      <th key={field} className={borderClasses} role="columnheader">
-        {field}
+      <th key={`${createId(column)}`} role="columnheader" scope="col">
+        {column}
       </th>
     );
   };
 
   renderRow = item => {
-    const { fields } = this.props;
-    let extraClass = '';
+    const { columns } = this.props;
+    const { key, rowClassName } = item;
     return (
-      <tr
-        key={item.id}
-        className={`${borderClasses} ${rowPaddingClass}`}
-        role="row"
-      >
-        {fields.map((field, index) => {
-          // This is to right align the amount field and account number fields
-          // since they are numeric
-          if (index === 1 || index === 5) {
-            extraClass =
-              'vads-u-text-align--left medium-screen:vads-u-text-align--right';
-          } else {
-            extraClass = '';
+      <tr key={key} className={rowClassName} role="row">
+        {columns.map((field, index) => {
+          const cellName = createId(field);
+          if (index === 0) {
+            return (
+              <th
+                className={`${cellName}-cell`}
+                scope="row"
+                /* eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role */
+                role="cell"
+                tabIndex="-1"
+                key={`${key}-${cellName}`}
+              >
+                {item[field]}
+              </th>
+            );
           }
+
           return (
             <td
-              data-index={index}
-              className={`${borderClasses} ${extraClass}`}
-              data-label={`${field}:`}
-              key={`${item.id}-${field}`}
+              className={`${cellName}-cell`}
               role="cell"
+              key={`${key}-${cellName}`}
             >
               {item[field]}
             </td>
@@ -50,10 +49,10 @@ class ResponsiveTable extends React.Component {
   };
 
   render() {
-    const { fields, data, tableClass } = this.props;
-    const headers = fields.map(this.renderHeader);
-    const rows = data?.map(this.renderRow());
+    const { columns, data, tableClass } = this.props;
+    const headers = columns.map(this.renderHeader);
     const classes = classNames('responsive', tableClass);
+    const rows = data.map(this.renderRow);
 
     return (
       <table className={classes} role="table">
@@ -62,22 +61,15 @@ class ResponsiveTable extends React.Component {
           <tr role="row">{headers}</tr>
         </thead>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <tbody role="rowgroup">
-          {this.props.children}
-          {rows}
-        </tbody>
+        <tbody role="rowgroup">{rows}</tbody>
       </table>
     );
   }
 }
 
 ResponsiveTable.propTypes = {
-  fields: PropTypes.arrayOf(PropTypes.string),
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  ),
+  columns: PropTypes.arrayOf(PropTypes.string),
+  data: PropTypes.arrayOf(PropTypes.object),
   tableClass: PropTypes.string,
 };
 

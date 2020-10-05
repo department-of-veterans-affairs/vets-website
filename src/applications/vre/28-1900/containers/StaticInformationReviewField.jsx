@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 const StaticInformationReviewField = props => {
   const [isLoggedIn, setIsLoggedIn] = useState();
   useEffect(
     () => {
-      setIsLoggedIn(props.formData.isLoggedIn);
+      setIsLoggedIn(props.isLoggedIn);
     },
     [props],
   );
@@ -13,7 +14,9 @@ const StaticInformationReviewField = props => {
     'First name': props?.profile?.userFullName?.first || '',
     'Middle name': props?.profile?.userFullName?.middle || '',
     'Last name': props?.profile?.userFullName?.last || '',
-    'Date of birth': props?.profile?.dob || '',
+    'Date of birth': props?.profile?.dob
+      ? moment(props.profile.dob).format('MMMM D, YYYY')
+      : '',
   };
 
   return (
@@ -43,6 +46,7 @@ const StaticInformationReviewField = props => {
 
 const mapStateToProps = state => ({
   profile: state?.user?.profile,
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
 export default connect(mapStateToProps)(StaticInformationReviewField);

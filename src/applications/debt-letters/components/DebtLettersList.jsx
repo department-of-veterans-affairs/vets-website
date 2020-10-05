@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CoronaVirusAlert } from '../const';
+import { CoronaVirusAlert } from '../const/deduction-codes';
 import { DebtLettersTable } from './DebtLettersTable';
 import { connect } from 'react-redux';
 

@@ -1,0 +1,105 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+
+{% assign listchecklistItemIndex = 0 %}
+
+<div id="content" class="interior">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+      <div class="usa-width-three-fourths">
+        <!-- Draft status -->
+        {% if !entityPublished %}
+          <div class="usa-alert usa-alert-info">
+            <div class="usa-alert-body">
+              <p class="usa-alert-text">You are viewing a draft.</p>
+            </div>
+          </div>
+        {% endif %}
+
+        <article class="usa-content">
+          <!-- Title -->
+          <h1>{{ title }}</h1>
+
+          <!-- Intro -->
+          <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
+
+          <!-- Alert -->
+          {% if fieldAlertSingle %}
+            {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
+          {% endif %}
+
+          <!-- Buttons -->
+          <div class="vads-u-margin-y--3">
+          {% for fieldButton in fieldButtons %}
+            {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+          {% endfor %}
+        </div>
+
+          <!-- Checklist sections -->
+          <h2>Checklist</h2>
+          {% assign checklistSectionIndex = 0 %}
+          {% for checklistSection in fieldChecklist.entity.fieldChecklistSections %}
+
+            <!-- Checklist section header -->
+            {% if checklistSection.entity.fieldSectionHeader %}
+              <h3>{{ checklistSection.entity.fieldSectionHeader }}</h3>
+            {% endif %}
+
+            <!-- Checklist items -->
+            <ul class="usa-unstyled-list">
+              {% assign checklistItemIndex = 0 %}
+              {% for checklistItem in checklistSection.entity.fieldChecklistItems %}
+
+                {% assign listchecklistItemIndex = listchecklistItemIndex | plus: 1 %}
+                {% assign checkboxId = "checkbox-" | append: listchecklistItemIndex %}
+
+                <!-- Checklist item -->
+                <li>
+                  <input type="checkbox" id="{{ checkboxId }}" name="{{ checkboxId }}">
+                  <label for="{{ checkboxId }}">{{ checklistItem }}</label>
+                </li>
+
+                <!-- Increment the checkbox's index -->
+                {% assign checklistItemIndex = checklistItemIndex + 1 %}
+              {% endfor %}
+            </ul>
+
+            <!-- Increment the section's index -->
+            {% assign checklistSectionIndex = checklistSectionIndex + 1 %}
+          {% endfor %}
+
+          <!-- Buttons -->
+          {% if fieldButtonsRepeat %}
+            <div class="vads-u-margin-y--3">
+              {% for fieldButton in fieldButtons %}
+                {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </article>
+
+        <!-- Related Links -->
+        {% if fieldRelatedLinks != empty %}
+          <div class="row">
+            <div class="usa-content columns">
+              <aside class="va-nav-linkslist va-nav-linkslist--related">
+                {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' with entity = fieldRelatedLinks.entity %}
+              </aside>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Last Updated -->
+        <div class="last-updated usa-content">
+          Last updated: <time
+            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

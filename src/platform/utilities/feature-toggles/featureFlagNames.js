@@ -38,7 +38,6 @@ export default Object.freeze({
   gibctSchoolRatings: 'gibctSchoolRatings',
   form996HigherLevelReview: 'form996HigherLevelReview',
   debtLettersShowLetters: 'debtLettersShowLetters',
-  debtLettersShowLettersV2: 'debtLettersShowLettersV2',
   form526BDD: 'form526BenefitsDeliveryAtDischarge',
   showEduBenefits1995Wizard: 'show_edu_benefits_1995_wizard',
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
@@ -48,6 +47,7 @@ export default Object.freeze({
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
   stemSCOEmail: 'stem_sco_email',
+  stemTextMessageQuestion: 'stem_text_message_question',
   showHealthcareExperienceQuestionnaire:
     'showHealthcareExperienceQuestionnaire',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
@@ -59,4 +59,5 @@ export default Object.freeze({
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   show526Wizard: 'show526Wizard',
   showChapter36: 'show_chapter_36',
+  form1995EduUpdates: 'form_1995_edu_updates',
 });

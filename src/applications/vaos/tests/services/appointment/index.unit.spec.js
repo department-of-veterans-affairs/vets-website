@@ -29,7 +29,6 @@ import { setRequestedPeriod } from '../../mocks/helpers';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  VIDEO_TYPES,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../utils/constants';
 
@@ -55,7 +54,9 @@ describe('VAOS Appointment service', () => {
         ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=va`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
+        `/vaos/v0/appointments?start_date=${moment(
+          startDate,
+        ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=cc`,
       );
       expect(data[0].status).to.equal('booked');
     });
@@ -84,7 +85,9 @@ describe('VAOS Appointment service', () => {
         ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=va`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
+        `/vaos/v0/appointments?start_date=${moment(
+          startDate,
+        ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=cc`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
@@ -120,7 +123,7 @@ describe('VAOS Appointment service', () => {
       expect(isVideoAppointment(request)).to.equal(false);
     });
 
-    it('should return false if non video request', () => {
+    it('should return true if video request', () => {
       const request = transformPendingAppointments([
         {
           ...getVARequestMock().attributes,
@@ -353,7 +356,6 @@ describe('VAOS Appointment service', () => {
             .subtract(230, 'minutes')
             .format(),
           vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
           },
         },
@@ -364,7 +366,6 @@ describe('VAOS Appointment service', () => {
             .subtract(245, 'minutes')
             .format(),
           vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
             isPastAppointment: true,
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
           },
@@ -406,7 +407,6 @@ describe('VAOS Appointment service', () => {
         description: code,
         vaos: {
           appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          videoType: VIDEO_TYPES.videoConnect,
         },
       }));
 
