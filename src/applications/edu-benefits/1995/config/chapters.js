@@ -1,7 +1,4 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-
-import serviceBefore1977UI from '../../definitions/serviceBefore1977';
-
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
@@ -9,12 +6,11 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import {
   applicantInformation,
   benefitSelection,
+  dependents,
   militaryHistory,
   newSchool,
   servicePeriods,
 } from '../pages';
-
-const { serviceBefore1977 } = fullSchema1995.definitions;
 
 export const chapters = {
   applicantInformation: {
@@ -75,15 +71,8 @@ export const chapters = {
         title: 'Dependents',
         path: 'personal-information/dependents',
         depends: form => form['view:hasServiceBefore1978'] === true,
-        uiSchema: {
-          serviceBefore1977: serviceBefore1977UI,
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            serviceBefore1977,
-          },
-        },
+        uiSchema: dependents.uiSchema,
+        schema: dependents.schema,
       },
       directDeposit: createDirectDepositChangePage(fullSchema1995),
     },
