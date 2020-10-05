@@ -48,7 +48,9 @@ export default function createContactInformationPage(
         homePhone: _.assign(phoneUI('Home phone number'), {
           'ui:required': form => form.preferredContactMethod === 'phone',
         }),
-        mobilePhone: phoneUI('Mobile phone number'),
+        mobilePhone: _.assign(phoneUI('Mobile phone number'), {
+          'ui:required': form => form.preferredContactMethod === 'mobile',
+        }),
       },
     },
     schema: {
