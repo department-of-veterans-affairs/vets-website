@@ -86,6 +86,8 @@ if (testDirectories[0] === defaultPath) {
     const exitStatus = runCommandSync(command);
 
     if (exitStatus !== 0) {
+      // eslint-disable-next-line no-console
+      console.log(chalk.red(`${unitTestDirectory} failed!`));
       failures.push(unitTestDirectory);
     }
   });
