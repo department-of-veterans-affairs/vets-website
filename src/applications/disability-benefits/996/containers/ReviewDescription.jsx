@@ -11,13 +11,13 @@ const ReviewDescription = ({ formData }) => {
   const display = {
     'Phone number': () => formatPhone(veteran?.phoneNumber),
     'Email address': () => veteran?.emailAddress,
-    Country: () => getCountryName(veteran?.countryCode),
-    'Street address': () => veteran?.addressLine1 || '',
-    'Line 2': () => veteran?.addressLine2 || '',
-    'Line 3': () => veteran?.addressLine3 || '',
+    Country: () => getCountryName(veteran?.country),
+    'Street address': () => veteran?.street || '',
+    'Line 2': () => veteran?.street2 || '',
+    'Line 3': () => veteran?.street3 || '',
     City: () => veteran?.city || '',
-    State: () => veteran?.stateOrProvinceCode,
-    'Postal code': () => veteran?.zipPostalCode,
+    State: () => veteran?.state,
+    'Postal code': () => veteran?.zipCode5,
   };
 
   return (
