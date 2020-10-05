@@ -20,7 +20,8 @@ export default function createOldSchoolPage(schema) {
         'School, university, program, or training facility you last attended',
       oldSchool: {
         name: {
-          'ui:title': 'Name of school, university, or training facility',
+          'ui:title':
+            'Name of school, university, or training facility you’re attending',
         },
         address: address.uiSchema(),
       },
