@@ -60,6 +60,7 @@ export function mapRawUserDataToState(json) {
         vaProfile,
         vet360ContactInformation,
         veteranStatus,
+        session,
       },
     },
     meta,
@@ -86,6 +87,7 @@ export function mapRawUserDataToState(json) {
     vet360: isVet360Configured()
       ? vet360ContactInformation
       : mockContactInformation,
+    session,
   };
 
   if (meta && veteranStatus === null) {
