@@ -70,7 +70,7 @@ if (testDirectories[0] === defaultPath) {
       }
 
       // Reduce to './src/applications//'
-      return directoryPathArray.slice(0, subdirectoryDepth).join(path.sep);
+      return directoryPathArray.slice(1, subdirectoryDepth).join(path.sep);
     }),
   );
 
@@ -82,7 +82,10 @@ if (testDirectories[0] === defaultPath) {
     // eslint-disable-next-line no-console
     console.log(chalk.blue(`Test suite: ${unitTestDirectory}`));
 
-    const command = `LOG_LEVEL=${logLevel} ${testRunner} --max-old-space-size=4096 --opts ${mochaOpts} --recursive "${unitTestDirectory}${wildCard}"`;
+    const mocha = `NODE_ENV=test nyc --include "${unitTestDirectory}/**" --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color`;
+    const command = `LOG_LEVEL=${logLevel} ${mocha} --opts ${mochaOpts} --recursive ".${
+      path.sep
+    }${unitTestDirectory}${wildCard}"`;
     const exitStatus = runCommandSync(command);
 
     if (exitStatus !== 0) {
