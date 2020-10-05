@@ -3,38 +3,6 @@
   "title": "IRIS Ask a Question",
   "type": "object",
   "definitions": {
-    "date": {
-      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
-      "type": "string"
-    },
-    "dateRange": {
-      "type": "object",
-      "properties": {
-        "from": {
-          "$ref": "#/definitions/date"
-        },
-        "to": {
-          "$ref": "#/definitions/date"
-        }
-      }
-    },
-    "ssn": {
-      "type": "string",
-      "pattern": "^[0-9]{9}$"
-    },
-    "veteranServiceNumber": {
-      "type": "string",
-      "pattern": "^[A-Z]{0,2}\\d{5,8}$"
-    },
-    "email": {
-      "type": "string",
-      "maxLength": 256,
-      "format": "email"
-    },
-    "phone": {
-      "type": "string",
-      "minLength": 10
-    },
     "address": {
       "type": "object",
       "oneOf": [
@@ -243,6 +211,111 @@
         }
       }
     },
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
+    },
+    "dateRange": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "$ref": "#/definitions/date"
+        },
+        "to": {
+          "$ref": "#/definitions/date"
+        }
+      }
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 256,
+      "format": "email"
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 10
+    },
+    "ssn": {
+      "type": "string",
+      "pattern": "^[0-9]{9}$"
+    },
+    "privacyAgreementAccepted": {
+      "type": "boolean",
+      "enum": [
+        true
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "anyOf": [
+    {
+      "required": [
+        "email"
+      ]
+    },
+    {
+      "required": [
+        "phone"
+      ]
+    },
+    {
+      "required": [
+        "address"
+      ]
+    }
+  ],
+  "required": [
+    "fullName",
+    "preferredContactMethod",
+    "topic",
+    "inquiryType",
+    "query",
+    "veteranStatus"
+  ],
+  "properties": {
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "suffix": {
+          "type": "string",
+          "enum": [
+            "Jr.",
+            "Sr.",
+            "II",
+            "III",
+            "IV"
+          ]
+        }
+      },
+      "required": [
+        "first",
+        "last"
+      ]
+    },
+    "preferredContactMethod": {
+      "default": "email",
+      "type": "string",
+      "enum": [
+        "email",
+        "phone",
+        "mail"
+      ],
+      "enumNames": [
+        "Email",
+        "Phone",
+        "US Mail"
+      ]
+    },
     "topic": {
       "type": "object",
       "oneOf": [
@@ -279,9 +352,11 @@
                   "properties": {
                     "subLevelTwo": {
                       "type": "string",
-                      "enum": ["Health/Medical Eligibility & Programs"]
+                      "enum": [
+                        "Health/Medical Eligibility & Programs"
+                      ]
                     },
-                    "topicThree": {
+                    "levelThree": {
                       "type": "string",
                       "enum": [
                         "Apply for Health Benefits (Veterans)",
@@ -302,9 +377,11 @@
                   "properties": {
                     "subLevelTwo": {
                       "type": "string",
-                      "enum": ["Prosthetics, Med Devices & Sensory Aids"]
+                      "enum": [
+                        "Prosthetics, Med Devices & Sensory Aids"
+                      ]
                     },
-                    "topicThree": {
+                    "levelThree": {
                       "type": "string",
                       "enum": [
                         "Artificial Limbs/Orthotics",
@@ -313,7 +390,7 @@
                         "Durable Medical Equipment",
                         "Eyeglasses",
                         "Hearing Aids",
-                        "Home Improvements & Structural Alteratio",
+                        "Home Improvements & Structural Alterations",
                         "Home Oxygen",
                         "Wheelchairs",
                         "Prosthetics Web Site",
@@ -327,24 +404,30 @@
                   "properties": {
                     "subLevelTwo": {
                       "type": "string",
-                      "enum": ["Women Veterans Health Care"]
+                      "enum": [
+                        "Women Veterans Health Care"
+                      ]
                     },
-                    "topicThree": {
+                    "levelThree": {
                       "type": "string",
                       "enum": [
                         "General Concern"
                       ]
                     }
                   }
+                },
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": [
+                        "Medical Care Issues at Specific Facility",
+                        "My HealtheVet",
+                        "Vet Center / Readjustment Counseling Service (RCS)"
+                      ]
+                    }
+                  }
                 }
-              ],
-              "enum": [
-                "Medical Care Issues at Specific Facility",
-                "Health/Medical Eligibility & Programs",
-                "My HealtheVet",
-                "Prosthetics, Med Devices & Sensory Aids",
-                "Vet Center / Readjustment Counseling Service (RCS)",
-                "Women Veterans Health Care"
               ]
             }
           }
@@ -1415,83 +1498,6 @@
         }
       }
     },
-    "privacyAgreementAccepted": {
-      "type": "boolean",
-      "enum": [
-        true
-      ]
-    }
-  },
-  "additionalProperties": false,
-  "anyOf": [
-    {
-      "required": [
-        "email"
-      ]
-    },
-    {
-      "required": [
-        "phone"
-      ]
-    },
-    {
-      "required": [
-        "address"
-      ]
-    }
-  ],
-  "required": [
-    "fullName",
-    "preferredContactMethod",
-    "topic",
-    "inquiryType",
-    "query",
-    "veteranStatus"
-  ],
-  "properties": {
-    "fullName": {
-      "type": "object",
-      "properties": {
-        "first": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 30
-        },
-        "last": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 30
-        },
-        "suffix": {
-          "type": "string",
-          "enum": [
-            "Jr.",
-            "Sr.",
-            "II",
-            "III",
-            "IV"
-          ]
-        }
-      },
-      "required": [
-        "first",
-        "last"
-      ]
-    },
-    "preferredContactMethod": {
-      "default": "email",
-      "type": "string",
-      "enum": [
-        "email",
-        "phone",
-        "mail"
-      ],
-      "enumNames": [
-        "Email (Recommended)",
-        "Phone",
-        "US Mail"
-      ]
-    },
     "inquiryType": {
       "type": "string",
       "enum": [
@@ -1506,29 +1512,6 @@
     },
     "query": {
       "type": "string"
-    },
-    "veteranInformation": {
-      "type": "object",
-      "required": [],
-      "properties": {
-        "dateOfBirth": {
-          "$ref": "#/definitions/date"
-        },
-        "socialSecurityNumber": {
-          "$ref": "#/definitions/ssn"
-        },
-        "serviceNumber": {
-          "type": "string",
-          "pattern": "^\\d{0,12}$"
-        },
-        "claimNumber": {
-          "type": "string",
-          "pattern": "^\\d{6,8}$"
-        },
-        "serviceDateRange": {
-          "$ref": "#/definitions/dateRange"
-        }
-      }
     },
     "veteranStatus": {
       "type": "object",
@@ -1615,14 +1598,33 @@
         }
       }
     },
+    "veteranInformation": {
+      "type": "object",
+      "properties": {
+        "dateOfBirth": {
+          "$ref": "#/definitions/date"
+        },
+        "socialSecurityNumber": {
+          "$ref": "#/definitions/ssn"
+        },
+        "serviceNumber": {
+          "type": "string",
+          "pattern": "^\\d{0,12}$"
+        },
+        "claimNumber": {
+          "type": "string",
+          "pattern": "^\\d{6,8}$"
+        },
+        "serviceDateRange": {
+          "$ref": "#/definitions/dateRange"
+        }
+      }
+    },
     "email": {
       "$ref": "#/definitions/email"
     },
     "phone": {
       "$ref": "#/definitions/phone"
-    },
-    "topic": {
-      "$ref": "#/definitions/topic"
     },
     "address": {
       "$ref": "#/definitions/address"
