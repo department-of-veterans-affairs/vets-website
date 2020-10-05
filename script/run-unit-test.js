@@ -73,8 +73,7 @@ if (testDirectories[0] === defaultPath) {
   );
 
   const wildCard = `${path.sep}**${path.sep}*.unit.spec.js?(x)`;
-
-  let isPassing = true;
+  const failures = [];
 
   unitTestDirectories.forEach(unitTestDirectory => {
     // eslint-disable-next-line no-console
@@ -87,11 +86,15 @@ if (testDirectories[0] === defaultPath) {
     const exitStatus = runCommandSync(command);
 
     if (exitStatus !== 0) {
-      isPassing = false;
+      failures.push(unitTestDirectory);
     }
   });
 
-  if (!isPassing) process.exitCode = 1;
+  if (failures.length > 0) {
+    // eslint-disable-next-line no-console
+    failures.forEach(failure => console.log(chalk.red(`${failure} failed!`)));
+    process.exitCode = 1;
+  }
 } else {
   const testDirectoriesEscaped = options.path.map(p => `'${p}'`).join(' ');
 
