@@ -2,9 +2,9 @@ import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
+import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import {
-  applicantInformation,
   benefitSelection,
   dependents,
   militaryHistory,
@@ -16,7 +16,16 @@ export const chapters = {
   applicantInformation: {
     title: 'Applicant Information',
     pages: {
-      applicantInformation: applicantInformation.page,
+      applicantInformation: createApplicantInformationPage(fullSchema1995, {
+        isVeteran: true,
+        fields: [
+          'veteranFullName',
+          'veteranSocialSecurityNumber',
+          'view:noSSN',
+          'vaFileNumber',
+        ],
+        required: ['veteranFullName'],
+      }),
     },
   },
   benefitSelection: {
