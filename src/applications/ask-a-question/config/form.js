@@ -54,6 +54,7 @@ const formConfig = {
   title: 'Contact us',
   subTitle: 'Form 0873',
   customText: {
+    submitButtonText: 'Submit',
     reviewPageTitle: 'Review your information',
   },
   defaultDefinitions: {
