@@ -1,7 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockFeatureToggles from '../fixtures/feature-toggles.json';
-import emailUpdateResponseFailure from '../fixtures/email-400.json';
 
 const setup = (mobile = false) => {
   window.localStorage.setItem(

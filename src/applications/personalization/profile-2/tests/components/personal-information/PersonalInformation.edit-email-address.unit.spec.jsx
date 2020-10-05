@@ -17,7 +17,8 @@ import {
 } from '../../unit-test-helpers';
 import { beforeEach } from 'mocha';
 
-const errorText = 'It looks like the email you entered isn’t valid.';
+const errorText =
+  'We’re sorry. We couldn’t update your email address. Please try again.';
 
 const newEmailAddress = 'new-address@domain.com';
 
@@ -131,7 +132,6 @@ async function testTransactionCreationFails() {
 // When the update fails while the Edit View is still active
 async function testQuickFailure() {
   server.use(...mocks.transactionFailed);
-
   editEmailAddress();
 
   // expect an error to be shown
