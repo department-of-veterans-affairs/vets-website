@@ -6,7 +6,7 @@ import definitions from 'applications/caregivers/definitions/caregiverUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 const lastTreatmentFacility =
-  fullSchema.properties.veteran.properties.lastTreatmentFacility.properties;
+  fullSchema.properties.veteran.properties.lastTreatmentFacility;
 const { vetUI } = definitions;
 
 const vetMedicalCenterPage = {
@@ -20,15 +20,7 @@ const vetMedicalCenterPage = {
   schema: {
     type: 'object',
     properties: {
-      [vetFields.previousTreatmentFacility]: {
-        type: 'object',
-        additionalProperties: false,
-        required: [],
-        properties: {
-          name: lastTreatmentFacility.name,
-          type: lastTreatmentFacility.type,
-        },
-      },
+      [vetFields.previousTreatmentFacility]: lastTreatmentFacility,
       // dynamic properties for filtering facilities dropDown
       [vetFields.preferredFacilityView]: {
         type: 'object',
