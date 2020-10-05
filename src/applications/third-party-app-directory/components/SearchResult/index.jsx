@@ -1,24 +1,14 @@
 // Node modules.
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import join from 'lodash/join';
 import map from 'lodash/map';
+// Relative imports
+import { SearchResultPropTypes } from '../../prop-types';
 
 export class SearchResult extends Component {
   static propTypes = {
-    item: PropTypes.shape({
-      appURL: PropTypes.string.isRequired,
-      categories: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-      description: PropTypes.string.isRequired,
-      iconURL: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      permissions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-      platforms: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-      privacyPolicyURL: PropTypes.string.isRequired,
-      termsOfServiceURL: PropTypes.string.isRequired,
-    }).isRequired,
+    item: SearchResultPropTypes,
   };
 
   constructor(props) {
