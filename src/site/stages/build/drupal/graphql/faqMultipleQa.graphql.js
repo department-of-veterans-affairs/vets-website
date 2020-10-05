@@ -51,7 +51,7 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
       ${BUTTON}
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
       ... listOfLinkTeasers
     }

@@ -51,7 +51,7 @@ fragment nodeStepByStep on NodeStepByStep {
       }
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
       ... listOfLinkTeasers
     }

@@ -77,12 +77,12 @@
           {% endif %}
         </article>
 
-        <!-- Related links -->
-        {% if fieldRelatedLinks != empty %}
+        <!-- Related information -->
+        {% if fieldRelatedInformation != empty %}
           <div class="row">
             <div class="usa-content columns">
               <aside class="va-nav-linkslist va-nav-linkslist--related">
-                {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' with entity = fieldRelatedLinks.entity %}
+                {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' with entity = fieldRelatedInformation.entity %}
               </aside>
             </div>
           </div>

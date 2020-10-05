@@ -22,7 +22,7 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
       ... button
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
       ... listOfLinkTeasers
     }
