@@ -172,3 +172,7 @@ export function distanceBetween(lat1, lng1, lat2, lng2) {
 
   return (R * c).toFixed(1);
 }
+
+export function isPOBox(addressLine1) {
+  return addressLine1.match(/^PO Box/);
+}

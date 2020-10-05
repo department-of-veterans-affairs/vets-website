@@ -59,6 +59,7 @@ import {
 } from '../../redux/sitewide';
 
 import {
+  FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
   REASON_ADDITIONAL_INFO_TITLES,
@@ -70,6 +71,7 @@ import {
 } from '../../utils/constants';
 
 import { getTypeOfCare } from '../../utils/selectors';
+import { distanceBetween } from '../../utils/address';
 import { getSiteIdFromOrganization } from '../../services/organization';
 import { getClinicId } from '../../services/healthcare-service/transformers';
 
@@ -314,8 +316,7 @@ export default function formReducer(state = initialState, action) {
       let newData = state.data;
       const typeOfCareId = action.typeOfCareId;
       const facilities = state.facilities;
-      const typeOfCareFacilities =
-        facilities[typeOfCareId] || action.facilities;
+      let typeOfCareFacilities = facilities[typeOfCareId] || action.facilities;
 
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
@@ -340,6 +341,36 @@ export default function formReducer(state = initialState, action) {
           vaParent,
         };
       } else {
+        if (
+          action.sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL
+        ) {
+          const residentialCoordinates = action.residentialCoordinates;
+          typeOfCareFacilities = typeOfCareFacilities
+            .map(facility => {
+              const distanceFromResidentialAddress = distanceBetween(
+                residentialCoordinates.latitude,
+                residentialCoordinates.longitude,
+                facility.position.latitude,
+                facility.position.longitude,
+              );
+
+              return {
+                ...facility,
+                legacyVAR: {
+                  ...facility.legacyVAR,
+                  distanceFromResidentialAddress,
+                },
+              };
+            })
+            .sort(
+              (a, b) =>
+                a.legacyVAR.distanceFromResidentialAddress <
+                b.legacyVAR.distanceFromResidentialAddress
+                  ? -1
+                  : 1,
+            );
+        }
+
         newSchema = set(
           'properties.vaFacility',
           {
@@ -371,6 +402,7 @@ export default function formReducer(state = initialState, action) {
         },
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
+        facilityPageSortMethod: action.sortMethod,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
