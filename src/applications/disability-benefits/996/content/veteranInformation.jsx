@@ -20,7 +20,7 @@ export const VeteranInfoView = ({
   veteran = {},
   setFormData,
 }) => {
-  const { ssnLastFour, vaFileNumber } = veteran;
+  const { ssnLastFour, vaFileLastFour } = veteran;
   const { dob, gender, userFullName } = profile;
 
   const { first, middle, last, suffix } = userFullName;
@@ -49,9 +49,9 @@ export const VeteranInfoView = ({
             Social Security number: {mask} {ssnLastFour.slice(-4)}
           </p>
         )}
-        {vaFileNumber && (
+        {vaFileLastFour && (
           <p className="vafn">
-            VA file number: {mask} {vaFileNumber.slice(-4)}
+            VA file number: {mask} {vaFileLastFour.slice(-4)}
           </p>
         )}
         <p>
@@ -82,7 +82,7 @@ VeteranInfoView.propTypes = {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const veteran = state.form?.loadedData?.formData?.veteran;
+  const veteran = state.form?.veteran;
   return {
     profile,
     veteran,

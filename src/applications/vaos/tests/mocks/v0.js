@@ -217,6 +217,46 @@ export function getParentSiteMock() {
   };
 }
 
+export function getRequestEligibilityCriteriaMock() {
+  return {
+    id: 'fake',
+    type: 'request_eligibility_criteria',
+    attributes: {
+      id: 'fake',
+      requestSettings: [
+        {
+          id: 'fake',
+          typeOfCare: 'fake',
+          patientHistoryRequired: 'No',
+          patientHistoryDuration: 0,
+          submittedRequestLimit: 1,
+          enterpriseSubmittedRequestLimit: 1,
+        },
+      ],
+    },
+  };
+}
+
+export function getDirectBookingEligibilityCriteriaMock() {
+  return {
+    id: 'fake',
+    type: 'request_eligibility_criteria',
+    attributes: {
+      id: 'fake',
+      coreSettings: [
+        {
+          id: 'fake',
+          typeOfCare: 'fake',
+          patientHistoryRequired: 'No',
+          patientHistoryDuration: 0,
+          submittedRequestLimit: 1,
+          enterpriseSubmittedRequestLimit: 1,
+        },
+      ],
+    },
+  };
+}
+
 export function getFacilityMock() {
   return {
     id: 'fake',

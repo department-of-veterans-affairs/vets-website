@@ -28,6 +28,11 @@ import {
   getVAAppointmentLocationId,
   getVideoAppointmentLocation,
   isVideoAppointment,
+  isVideoHome,
+  isAtlasLocation,
+  isVideoGFE,
+  isVideoVAFacility,
+  isVideoStoreForward,
 } from '../../services/appointment';
 
 import { captureError, has400LevelError } from '../../utils/error';
@@ -184,6 +189,34 @@ export function fetchFutureAppointments() {
               requestSuccessEvent[`${GA_PREFIX}-express-care-number-of-cards`] =
                 expressCareRequests.length;
             }
+
+            const videoHome = requests.filter(appt => isVideoHome(appt));
+            requestSuccessEvent[`${GA_PREFIX}-video-home-number-of-cards`] =
+              videoHome.length;
+
+            const atlasLocation = requests.filter(appt =>
+              isAtlasLocation(appt),
+            );
+            requestSuccessEvent[`${GA_PREFIX}-video-atlas-number-of-cards`] =
+              atlasLocation.length;
+
+            const videoVAFacility = requests.filter(appt =>
+              isVideoVAFacility(appt),
+            );
+            requestSuccessEvent[
+              `${GA_PREFIX}-video-va-facility-number-of-cards`
+            ] = videoVAFacility.length;
+
+            const videoGFE = requests.filter(appt => isVideoGFE(appt));
+            requestSuccessEvent[`${GA_PREFIX}-video-gfe-number-of-cards`] =
+              videoGFE.length;
+
+            const videoStoreForward = requests.filter(appt =>
+              isVideoStoreForward(appt),
+            );
+            requestSuccessEvent[
+              `${GA_PREFIX}-video-store-forward-number-of-cards`
+            ] = videoStoreForward.length;
 
             recordEvent(requestSuccessEvent);
             resetDataLayer();
