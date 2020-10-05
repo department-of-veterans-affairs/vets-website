@@ -26,20 +26,20 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
-        <p>
-          We usually process claims within <strong>a week</strong>.
-        </p>
-        <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
-        </p>
+        <div className="usa-alert usa-alert-info schemaform-sip-alert">
+          <div className="usa-alert-body">
+            <h4 className="usa-alert-heading">
+              Your questionnaire has been sent to your provider.
+            </h4>
+            <div className="usa-alert-text">
+              <p>We look forward to seeing you at your upcoming appointment.</p>
+            </div>
+          </div>
+        </div>
+
         <div className="inset">
-          <h4>
-            Healthcare Questionnaire Claim{' '}
-            <span className="additional">(Form HC-QSTNR)</span>
-          </h4>
+          <h4>Upcoming appointment questionnaire</h4>
+          <p>For Person name goes here</p>
 
           {response && (
             <ul className="claim-list">
@@ -47,6 +47,11 @@ export class ConfirmationPage extends React.Component {
                 <strong>Date received</strong>
                 <br />
                 <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+              </li>
+              <li>
+                <strong>Your information was sent to</strong>
+                <br />
+                <span>Some cool place that has my stuff</span>
               </li>
             </ul>
           )}

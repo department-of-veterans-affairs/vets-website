@@ -14,10 +14,14 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/healthcare_questionnaire`,
+  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
   trackingPrefix: 'healthcare-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: (_formConfig, _form) => {
+    return JSON.stringify({ from: 'front end' });
+  },
+
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   version: 0,
   prefillEnabled: true,
@@ -30,7 +34,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Upcoming Visit questionnaire.',
   },
-  title: 'Reason for visit clipboard',
+  title: 'Upcoming appointment questionnaire',
   defaultDefinitions: {},
   chapters: {
     chapter1: {
