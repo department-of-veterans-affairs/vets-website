@@ -1,5 +1,6 @@
 import moment from 'moment';
 import set from 'platform/utilities/data/set';
+import environment from 'platform/utilities/environment';
 
 import {
   FETCH_FUTURE_APPOINTMENTS,
@@ -34,6 +35,8 @@ import {
   EXPRESS_CARE,
   WEEKDAY_INDEXES,
 } from '../../utils/constants';
+import { distanceBetween } from '../../utils/address';
+import { getFacilityIdFromLocation } from '../../services/location';
 
 const initialState = {
   pending: null,
@@ -52,6 +55,18 @@ const initialState = {
   expressCareWindowsStatus: FETCH_STATUS.notStarted,
   expressCareFacilities: null,
 };
+
+function getTestFacilityId(facilityId) {
+  if (!environment.isProduction() && facilityId.startsWith('442')) {
+    return facilityId.replace('442', '983');
+  }
+
+  if (!environment.isProduction() && facilityId.startsWith('552')) {
+    return facilityId.replace('552', '984');
+  }
+
+  return facilityId;
+}
 
 export default function appointmentsReducer(state = initialState, action) {
   switch (action.type) {
@@ -147,7 +162,7 @@ export default function appointmentsReducer(state = initialState, action) {
         expressCareWindowsStatus: FETCH_STATUS.loading,
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
-      const { settings } = action;
+      const { settings, address, facilityData } = action;
       // We're only parsing out facilities in here, since the rest
       // of the logic is very dependent on the current time and we may want
       // to re-check if EC is available without re-fecthing
@@ -171,6 +186,45 @@ export default function appointmentsReducer(state = initialState, action) {
             }))
             .sort((a, b) => (a.dayOfWeekIndex < b.dayOfWeekIndex ? -1 : 1)),
         }));
+
+      if (address && facilityData) {
+        const facilityMap = new Map();
+        facilityData.forEach(facility => {
+          facilityMap.set(
+            getTestFacilityId(getFacilityIdFromLocation(facility)),
+            facility,
+          );
+        });
+
+        expressCareFacilities.sort((facility1, facility2) => {
+          const facilityData1 = facilityMap.get(facility1.facilityId);
+          const facilityData2 = facilityMap.get(facility2.facilityId);
+          const distanceToFacility1 = parseFloat(
+            distanceBetween(
+              address.latitude,
+              address.longitude,
+              facilityData1.position.latitude,
+              facilityData1.position.longitude,
+            ),
+          );
+          const distanceToFacility2 = parseFloat(
+            distanceBetween(
+              address.latitude,
+              address.longitude,
+              facilityData2.position.latitude,
+              facilityData2.position.longitude,
+            ),
+          );
+
+          if (distanceToFacility1 < distanceToFacility2) {
+            return -1;
+          } else if (distanceToFacility1 > distanceToFacility2) {
+            return 1;
+          }
+
+          return 0;
+        });
+      }
 
       return {
         ...state,

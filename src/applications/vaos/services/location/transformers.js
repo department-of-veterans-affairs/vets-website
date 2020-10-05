@@ -159,6 +159,10 @@ export function transformFacility(facility) {
           facility.uniqueId
         }`,
       },
+      {
+        system: VHA_FHIR_ID,
+        value: facility.uniqueId,
+      },
     ],
     name: facility.name,
     telecom: [

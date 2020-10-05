@@ -1,7 +1,12 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { GA_PREFIX, APPOINTMENT_TYPES } from '../../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
+import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import {
+  GA_PREFIX,
+  APPOINTMENT_TYPES,
+  EXPRESS_CARE,
+} from '../../utils/constants';
 import { resetDataLayer } from '../../utils/events';
 import { selectSystemIds, vaosExpressCare } from '../../utils/selectors';
 
@@ -432,12 +437,36 @@ export function fetchExpressCareWindows() {
 
     const initialState = getState();
     const userSiteIds = selectSystemIds(initialState);
+    const address = selectVet360ResidentialAddress(initialState);
 
     try {
       const settings = await getRequestEligibilityCriteria(userSiteIds);
+      let facilityData;
+
+      if (address?.latitude && address?.longitude) {
+        const facilityIds = settings
+          .filter(
+            facility =>
+              facility.customRequestSettings?.find(
+                setting => setting.id === EXPRESS_CARE,
+              )?.supported,
+          )
+          .map(f => f.id);
+        if (facilityIds.length) {
+          try {
+            facilityData = await getLocations({ facilityIds });
+          } catch (error) {
+            // Still allow people into EC if the facility data call fails
+            captureError(error);
+          }
+        }
+      }
+
       dispatch({
         type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
         settings,
+        facilityData,
+        address,
         nowUtc: moment.utc(),
       });
     } catch (error) {
