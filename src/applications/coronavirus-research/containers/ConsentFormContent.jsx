@@ -22,30 +22,35 @@ export function ConsentNotice() {
           join this list.
         </li>
         <li>
-          <strong>Our partners for these studies:</strong> We’re working with
+          <strong>Contact:</strong> You may be contacted by VA to discuss
+          participating in a study. We may also contact you to learn about your
+          experience joining this list or any study you chose to participate in.
+        </li>{' '}
+        <li>
+          <strong>Our partners for these studies:</strong> We're working with
           partners from government, academia, and the health care industry.
         </li>{' '}
         <li>
-          <strong>Voluntary participation:</strong> It’s always your choice to
+          <strong>Voluntary participation:</strong> It's always your choice to
           answer any questions we may ask or to join a study. You can also leave
-          a study at any time. Your decision to join or not join a study won’t
+          a study at any time. Your decision to join or not join a study won't
           affect your VA health care or any of your VA benefits or services in
           any way.
         </li>{' '}
         <li>
-          <strong>Payment:</strong> You won’t receive any payment for joining
+          <strong>Payment:</strong> You won't receive any payment for joining
           this list. Some studies may offer payment. If we contact you about a
-          study, we’ll tell you about any payments at that time.
+          study, we'll tell you about any payments at that time.
         </li>{' '}
         <li>
-          <strong>Privacy:</strong> We’ll include your information in our secure
+          <strong>Privacy:</strong> We'll include your information in our secure
           electronic database. We'll only give access to the database to people
           with permission, and we won't share your information with anyone
-          outside of VA. But there’s always a small risk that someone who
-          shouldn’t have your information could get access to it.
+          outside of VA. But there's always a small risk that someone who
+          shouldn't have your information could get access to it.
         </li>{' '}
         <li>
-          <strong>Your legal rights:</strong> You’ll keep all your legal rights
+          <strong>Your legal rights:</strong> You'll keep all your legal rights
           if you join this list and if you join a study.
         </li>
       </ul>
