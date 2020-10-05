@@ -24,11 +24,13 @@ export default function SubmitButtons(props) {
   } = props;
 
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+  const buttonText =
+    formConfig.customText?.submitButtonText || `Submit ${appType}`;
 
   if (submission.status === false) {
     return (
       <Default
-        appType={appType}
+        buttonText={buttonText}
         onBack={onBack}
         onSubmit={onSubmit}
         formConfig={formConfig}
@@ -45,7 +47,7 @@ export default function SubmitButtons(props) {
   } else if (submission.status === 'clientError') {
     return (
       <ClientError
-        appType={appType}
+        buttonText={buttonText}
         formConfig={formConfig}
         onBack={onBack}
         onSubmit={onSubmit}
@@ -54,7 +56,7 @@ export default function SubmitButtons(props) {
   } else if (submission.status === 'throttledError') {
     return (
       <ThrottledError
-        appType={appType}
+        buttonText={buttonText}
         formConfig={formConfig}
         when={submission.extra}
         onBack={onBack}
@@ -65,6 +67,7 @@ export default function SubmitButtons(props) {
     return (
       <ValidationError
         appType={appType}
+        buttonText={buttonText}
         formConfig={formConfig}
         onBack={onBack}
         onSubmit={onSubmit}
@@ -91,6 +94,7 @@ SubmitButtons.propTypes = {
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
+      submitButtonText: PropTypes.string,
     }),
   }),
 };

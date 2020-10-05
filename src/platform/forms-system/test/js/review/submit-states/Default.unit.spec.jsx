@@ -93,7 +93,7 @@ describe('Schemaform review: <Default />', () => {
     const tree = render(
       <Provider store={store}>
         <Default
-          appType="test"
+          buttonText="test"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
@@ -127,7 +127,7 @@ describe('Schemaform review: <Default />', () => {
     const tree = render(
       <Provider store={store}>
         <Default
-          appType="test"
+          buttonText="test"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
@@ -157,7 +157,7 @@ describe('Schemaform review: <Default />', () => {
     const tree = render(
       <Provider store={store}>
         <Default
-          appType="test"
+          buttonText="Custom button text"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
@@ -165,7 +165,7 @@ describe('Schemaform review: <Default />', () => {
       </Provider>,
     );
 
-    const submitButton = tree.getByText('Submit test');
+    const submitButton = tree.getByText('Custom button text');
     expect(submitButton).to.not.be.null;
     expect(submitButton).to.not.have.attribute('disabled');
     expect(submitButton).to.have.attr;
