@@ -162,21 +162,16 @@ export function createTransaction(
       const isCypress = Boolean(window.Cypress);
 
       if (isVet360Configured() && !isCypress) {
-        console.log('In 1');
         transaction = await apiRequest(route, options);
       }
 
       if (!isVet360Configured() && !isCypress) {
-        console.log('In 2');
-        transaction = localVet360.createTransactionFailure();
+        transaction = localVet360.createTransaction();
       }
 
       if (isCypress) {
-        console.log('In 3');
         transaction = localVet360.createEmailTransactionFailure();
       }
-
-      console.log('This is transaction', transaction);
 
       // We want the validateAddresses method handling dataLayer events for saving / updating addresses.
       if (!fieldName.toLowerCase().includes('address')) {

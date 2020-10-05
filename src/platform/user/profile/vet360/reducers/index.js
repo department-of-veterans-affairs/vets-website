@@ -112,7 +112,7 @@ export default function vet360(state = initialState, action) {
           [action.fieldName]: {
             ...state.fieldTransactionMap[action.fieldName],
             isPending: false,
-            transactionId: action.transaction?.data?.attributes?.transactionId,
+            transactionId: action.transaction.data.attributes.transactionId,
           },
         },
         initialFormFields: {},
