@@ -11,6 +11,7 @@ const buildData = ({
   country = '',
   zipCode5 = '',
   emailAddress = '',
+  areaCode = '',
   phoneNumber = '',
   ssnLastFour = '',
   vaFileLastFour = '',
@@ -23,6 +24,7 @@ const buildData = ({
             zipCode5,
           },
           phone: {
+            areaCode,
             phoneNumber,
           },
           emailAddressText: emailAddress,
@@ -51,7 +53,7 @@ const buildData = ({
       state,
       country,
       zipCode5,
-      phoneNumber,
+      phoneNumber: `${areaCode || ''}${phoneNumber || ''}`,
       emailAddress,
       ssnLastFour,
       vaFileLastFour,
@@ -86,10 +88,13 @@ describe('HLR prefill transformer', () => {
     it('should transform contact info when present', () => {
       const { pages, metadata } = noTransformData;
       const data = buildData({
-        phoneNumber: '1123123123',
+        areaCode: '112',
+        phoneNumber: '3123123',
         emailAddress: 'a@b.c',
         country: 'USA',
         street: '123 Any Street',
+        street2: 'street 2',
+        street3: 'street 3',
         city: 'Anyville',
         state: 'AK',
         zipCode5: '12345',

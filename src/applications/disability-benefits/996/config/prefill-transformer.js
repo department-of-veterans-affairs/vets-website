@@ -5,17 +5,18 @@ data:
       address:
         zipCode5:
       phone:
+        areaCode:
         phoneNumber:
       emailAddressText:
 nonPrefill:
   veteranAddress:
     street:
     street2:
+    street3:
     city:
     state:
     country:
-    postal_code: // not used
-    zip_code: // not used
+    postalCode: // not used
   veteranSsnLastFour:
   veteranVaFileNumberLastFour:
 */
@@ -23,7 +24,7 @@ nonPrefill:
 export default function prefillTransformer(pages, formData, metadata) {
   const {
     address: { zipCode5 = '' } = {},
-    phone: { phoneNumber = '' } = {},
+    phone: { areaCode, phoneNumber } = {},
     emailAddressText = '',
   } = formData?.data?.attributes?.veteran || {};
   const {
@@ -50,7 +51,7 @@ export default function prefillTransformer(pages, formData, metadata) {
         state,
         country,
         zipCode5,
-        phoneNumber,
+        phoneNumber: `${areaCode || ''}${phoneNumber || ''}`,
         emailAddress: emailAddressText,
         ssnLastFour: veteranSsnLastFour,
         vaFileLastFour: veteranVaFileNumberLastFour,
