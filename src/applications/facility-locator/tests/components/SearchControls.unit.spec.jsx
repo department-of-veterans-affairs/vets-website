@@ -17,6 +17,7 @@ describe('SearchControls', () => {
         .find('#facility-type-dropdown [selected]')
         .text(),
     ).to.equal('Choose a facility type');
+    expect(wrapper.find('.vads-u-color--secondary-dark').length).to.equal(2);
     wrapper.unmount();
   });
 
