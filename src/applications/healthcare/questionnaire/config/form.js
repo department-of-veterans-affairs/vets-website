@@ -18,6 +18,12 @@ const formConfig = {
   trackingPrefix: 'healthcare-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  submit: form => {
+    // just for MVP until we have an API set up
+    return new Promise((resolve, _reject) => {
+      resolve(form.data);
+    });
+  },
   transformForSubmit: (_formConfig, _form) => {
     return JSON.stringify({ from: 'front end' });
   },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
@@ -14,56 +14,57 @@ const scrollToTop = () => {
   });
 };
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
+const ConfirmationPage = props => {
+  useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
-  }
+  }, []);
+  const { appointment } = props;
+  const { submission } = props.form;
+  const { response } = submission;
 
-  render() {
-    const { submission } = this.props.form;
-    const { response } = submission;
-
-    return (
-      <div>
-        <div className="usa-alert usa-alert-info schemaform-sip-alert">
-          <div className="usa-alert-body">
-            <h4 className="usa-alert-heading">
-              Your questionnaire has been sent to your provider.
-            </h4>
-            <div className="usa-alert-text">
-              <p>We look forward to seeing you at your upcoming appointment.</p>
-            </div>
+  return (
+    <div>
+      <div className="usa-alert usa-alert-success schemaform-sip-alert">
+        <div className="usa-alert-body">
+          <h2 className="usa-alert-heading">
+            Your questionnaire has been sent to your provider.
+          </h2>
+          <div className="usa-alert-text">
+            <p>We look forward to seeing you at your upcoming appointment.</p>
           </div>
         </div>
-
-        <div className="inset">
-          <h4>Upcoming appointment questionnaire</h4>
-          <p>For Person name goes here</p>
-
-          {response && (
-            <ul className="claim-list">
-              <li>
-                <strong>Date received</strong>
-                <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
-              </li>
-              <li>
-                <strong>Your information was sent to</strong>
-                <br />
-                <span>Some cool place that has my stuff</span>
-              </li>
-            </ul>
-          )}
-        </div>
       </div>
-    );
-  }
-}
+
+      <div className="inset">
+        <h3>Upcoming appointment questionnaire</h3>
+        <p>For {response.veteranInfo.fullName}</p>
+
+        {response && (
+          <ul className="claim-list">
+            <li>
+              <strong>Date received</strong>
+              <br />
+              <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
+            </li>
+            <li>
+              <strong>Your information was sent to</strong>
+              <br />
+              <span>
+                {appointment?.vdsAppointments[0]?.clinic?.facility?.displayName}
+              </span>
+            </li>
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};
 
 function mapStateToProps(state) {
   return {
     form: state.form,
+    appointment: state?.questionnaireData?.context?.appointment,
   };
 }
 
