@@ -26,6 +26,12 @@ describe('Burials helpers', () => {
         data: {},
       };
 
+      const justTesting = true;
+
+      if (justTesting) {
+        throw new Error('This string should be visible in Jenkins');
+      }
+
       return submit(form, formConfig).then(
         () => {
           expect.fail();
