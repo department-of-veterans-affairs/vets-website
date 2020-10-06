@@ -71,3 +71,4 @@ src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-hea
 src/applications/ask-a-question @department-of-veterans-affairs/orchid
 src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
+src/applications/third-party-app-directory @department-of-veterans-affairs/lighthouse-bilby

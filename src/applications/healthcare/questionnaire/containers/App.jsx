@@ -45,9 +45,11 @@ const App = props => {
     );
   } else {
     return (
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
+      <>
+        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+          {children}
+        </RoutedSavableApp>
+      </>
     );
   }
 };

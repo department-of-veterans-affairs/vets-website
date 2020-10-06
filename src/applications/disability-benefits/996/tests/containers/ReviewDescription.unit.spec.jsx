@@ -8,11 +8,11 @@ const formData = {
   veteran: {
     phoneNumber: '1234567890',
     emailAddress: 'foo@bar.com',
-    countryCode: 'USA',
-    addressLine1: '123 MAIN Street',
+    country: 'USA',
+    street: '123 MAIN Street',
     city: 'Townsville',
-    stateOrProvinceCode: 'AB',
-    zipPostalCode: '98765',
+    state: 'AB',
+    zipCode5: '98765',
   },
 };
 
@@ -37,9 +37,9 @@ describe('Review description', () => {
     const extendedData = {
       veteran: {
         ...formData.veteran,
-        countryCode: 'AUS',
-        addressLine2: 'SECTION 5',
-        addressLine3: 'UNIT A33',
+        country: 'AUS',
+        street2: 'SECTION 5',
+        street3: 'UNIT A33',
       },
     };
     const tree = shallow(<ReviewDescription formData={extendedData} />);
