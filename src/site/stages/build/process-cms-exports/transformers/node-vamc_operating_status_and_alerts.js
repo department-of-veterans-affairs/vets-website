@@ -10,17 +10,16 @@ const transform = (entity, { ancestors }) => ({
   title: getDrupalValue(entity.title),
   entityPublished: isPublished(getDrupalValue(entity.status)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  fieldBannerAlert: (entity.fieldBannerAlert || []).filter(
-    // Apparently sometimes we get an array of alerts with array items:
-    // "field_banner_alert": [
-    //   [], // What's this doing here??
-    //   {
-    //       "target_type": "node",
-    //       "target_uuid": "adca4bef-9266-473f-8162-7d0a55084d25"
-    //   },
-    // ]
-    i => !Array.isArray(i),
-  ),
+  fieldBannerAlert: (entity.fieldBannerAlert || []).map(i => ({
+    entity: !Array.isArray(i)
+      ? {
+          status: i.status,
+          title: i.title,
+          fieldSituationUpdates: i.fieldSituationUpdates,
+          fieldBody: i.fieldBody,
+        }
+      : null,
+  })),
   fieldFacilityOperatingStatus: entity.fieldFacilityOperatingStatus.map(n => ({
     entity: {
       title: n.title,
