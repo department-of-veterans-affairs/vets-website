@@ -47,6 +47,7 @@ const initialState = {
   prefillsAvailable: [],
   loading: true,
   services: [],
+  session: {},
 };
 
 const updateMhvAccountState = (state, mhvAccount) =>

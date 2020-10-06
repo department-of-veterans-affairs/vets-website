@@ -26,7 +26,7 @@ describe('veteranInformation', () => {
       },
       veteran: {
         ssnLastFour: '9876',
-        vaFileNumber: '5432',
+        vaFileLastFour: '5432',
       },
     };
     window.sessionStorage.setItem(SAVED_CLAIM_TYPE, 'compensation');
