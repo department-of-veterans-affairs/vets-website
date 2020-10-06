@@ -2,8 +2,10 @@ import PageDescription from './PageDescription';
 import SectionHeader from './SectionHeader';
 
 /* --------------- Inquiry --------------- */
-
+export const inquiryChapterTitle = "Share why you're contacting us";
+export const inquiryPageTitle = 'Your message';
 export const inquiryPageDescription = PageDescription('Your message');
+
 export const topicTitle =
   'Which topic best describes your question or message?';
 export const topicDescription =
@@ -13,6 +15,8 @@ export const inquiryTypeTitle = "Tell us the reason you're contacting us";
 export const queryTitle = 'Please enter your question or message below';
 
 /* --------------- Veteran Information --------------- */
+export const veteranInformationChapterTitle = 'Tell us about the Veteran';
+export const veteranInformationPageTitle = 'Veteran Information';
 
 /* Veteran Status Information */
 export const veteranStatusSectionDescription = SectionHeader(
@@ -44,10 +48,12 @@ export const serviceDateRangeErrorMessage =
   'End of service must be after start of service';
 
 /* --------------- Contact Information --------------- */
-
+export const contactInformationChapterTitle = 'Tell us about yourself';
+export const contactInformationPageTitle = 'Contact Information';
 export const contactInformationPageDescription = PageDescription(
   'Your contact info',
 );
+
 export const preferredContactMethodTitle =
   'How should we get in touch with you?';
 export const phoneTitle = 'Daytime phone';
@@ -73,3 +79,12 @@ export const postalCodeErrorMessage = 'Please provide a valid postal code';
 export const zipCodeRequiredErrorMessage = 'Please enter a zip code';
 export const zipCodePatternErrorMessage =
   'Please enter a valid 5- or 9-digit zip code (dashes allowed)';
+
+/* --------------- Other --------------- */
+export const submitButtonText = 'Submit';
+export const reviewPageTitle = 'Review your information';
+export const savedFormNotFound = 'Please start over to apply for benefits.';
+export const savedFormNoAuth =
+  'Please sign in again to continue your application for benefits.';
+export const formTitle = 'Contact us';
+export const formSubTitle = 'Form 0873';

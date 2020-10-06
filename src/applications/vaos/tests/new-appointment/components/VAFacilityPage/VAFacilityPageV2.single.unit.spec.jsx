@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Route } from 'react-router-dom';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -9,7 +8,8 @@ import {
   getParentSiteMock,
   getClinicMock,
   getVAFacilityMock,
-  getFacilityMock,
+  getRequestEligibilityCriteriaMock,
+  getDirectBookingEligibilityCriteriaMock,
 } from '../../../mocks/v0';
 import {
   createTestStore,
@@ -19,12 +19,14 @@ import {
 import {
   mockEligibilityFetches,
   mockParentSites,
-  mockSupportedFacilities,
-  mockFacilityFetch,
+  mockRequestEligibilityCriteria,
+  mockDirectBookingEligibilityCriteria,
+  mockFacilitiesFetch,
 } from '../../../mocks/helpers';
 
 const initialState = {
   featureToggles: {
+    vaOnlineSchedulingCommunityCare: false,
     vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingFlatFacilityPage: true,
@@ -47,69 +49,84 @@ const parentSite983 = {
   },
 };
 
+const requestFacilityAttributes = getRequestEligibilityCriteriaMock()
+  .attributes;
+
+const requestFacilities = [
+  {
+    id: '983',
+    attributes: {
+      ...requestFacilityAttributes,
+      id: '983',
+      requestSettings: [
+        {
+          ...requestFacilityAttributes.requestSettings[0],
+          id: '323',
+          typeOfCare: 'Primary Care',
+        },
+      ],
+    },
+  },
+];
+
+const directFacilityAttributes = getDirectBookingEligibilityCriteriaMock()
+  .attributes;
+
+const directFacilities = [
+  {
+    id: '983',
+    attributes: {
+      ...directFacilityAttributes,
+      id: '983',
+      coreSettings: [
+        {
+          ...directFacilityAttributes.coreSettings[0],
+          id: '323',
+          typeOfCare: 'Primary Care',
+        },
+      ],
+    },
+  },
+];
+
+const facilities = [
+  {
+    id: 'vha_442',
+    attributes: {
+      ...getVAFacilityMock().attributes,
+      uniqueId: '442',
+      name: 'San Diego VA Medical Center',
+      address: {
+        physical: {
+          address1: '2360 East Pershing Boulevard',
+          city: 'San Diego',
+          state: 'CA',
+          zip: '92128',
+        },
+      },
+      phone: {
+        main: '858-779-0338',
+      },
+    },
+  },
+];
+
 describe('VAOS integration: VA flat facility page - single facility', () => {
   beforeEach(() => {
     mockFetch();
-    mockParentSites(['983'], [parentSite983]);
-    const facilities = [
-      {
-        id: '983',
-        attributes: {
-          ...getFacilityMock().attributes,
-          institutionCode: '983',
-          authoritativeName: 'Bozeman VA medical center',
-          rootStationCode: '983',
-          parentStationCode: '983',
-          requestSupported: true,
-        },
-      },
-    ];
-    mockSupportedFacilities({
-      siteId: '983',
-      parentId: '983',
-      typeOfCareId: '323',
-      data: facilities,
-    });
+    const siteIds = ['983'];
+    mockParentSites(siteIds, [parentSite983]);
+    mockDirectBookingEligibilityCriteria(siteIds, directFacilities);
+    mockRequestEligibilityCriteria(siteIds, requestFacilities);
+    mockFacilitiesFetch('vha_442', facilities);
   });
 
   afterEach(() => resetFetch());
 
   it('should show alert when only one facility is supported', async () => {
-    const parentSite5digit = {
-      id: '983GC',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983GC',
-        authoritativeName: 'Some VA facility',
-        rootStationCode: '983',
-        parentStationCode: '983GC',
-      },
-    };
-    mockParentSites(['983'], [parentSite5digit]);
-    const facilities = [
-      {
-        id: '983GC',
-        attributes: {
-          ...getFacilityMock().attributes,
-          institutionCode: '983GC',
-          city: 'Belgrade',
-          stateAbbrev: 'MT',
-          authoritativeName: 'Belgrade VA clinic',
-          rootStationCode: '983',
-          parentStationCode: '983GC',
-          requestSupported: true,
-        },
-      },
-    ];
-    mockSupportedFacilities({
-      siteId: '983',
-      parentId: '983GC',
-      typeOfCareId: '323',
-      data: facilities,
-    });
     mockEligibilityFetches({
       siteId: '983',
-      facilityId: '983GC',
+      facilityId: '983',
       typeOfCareId: '323',
       limit: true,
       requestPastVisits: true,
@@ -130,8 +147,8 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     expect(baseElement).to.contain.text('Finding locations');
     await findByText(/we found one VA location for you/i);
 
-    expect(baseElement).to.contain.text('Belgrade VA clinic');
-    expect(baseElement).to.contain.text('Belgrade, MT');
+    expect(baseElement).to.contain.text('San Diego VA Medical Center');
+    expect(baseElement).to.contain.text('San Diego, CA');
     expect(getByText(/search for a nearby location/i)).to.have.attribute(
       'href',
       '/find-locations',
@@ -146,38 +163,10 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
   });
 
   it('should show not supported message when direct is supported and not eligible, and requests are not supported', async () => {
-    const parentSite5digit = {
-      id: '983GC',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983GC',
-        authoritativeName: 'Some VA facility',
-        rootStationCode: '983',
-        parentStationCode: '983GC',
-      },
-    };
-    mockParentSites(['983'], [parentSite5digit]);
-    const facilities = [
-      {
-        id: '983GC',
-        attributes: {
-          ...getFacilityMock().attributes,
-          institutionCode: '983GC',
-          rootStationCode: '983',
-          parentStationCode: '983GC',
-          directSchedulingSupported: true,
-        },
-      },
-    ];
-    mockSupportedFacilities({
-      siteId: '983',
-      parentId: '983GC',
-      typeOfCareId: '323',
-      data: facilities,
-    });
+    mockRequestEligibilityCriteria(['983'], []);
     mockEligibilityFetches({
       siteId: '983',
-      facilityId: '983GC',
+      facilityId: '983',
       typeOfCareId: '323',
       clinics: [
         {
@@ -186,7 +175,7 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
             ...getClinicMock(),
             siteCode: '983',
             clinicId: '308',
-            institutionCode: '983GC',
+            institutionCode: '983',
             clinicFriendlyLocationName: 'Green team clinic',
           },
         },
@@ -209,148 +198,27 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
   });
 
-  it('should show eligibility alert with facility info', async () => {
-    const parentSite5digit = {
-      id: '983GC',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983GC',
-        rootStationCode: '983',
-        parentStationCode: '983GC',
-      },
-    };
-    mockParentSites(['983'], [parentSite5digit]);
-    const facilities = [
-      {
-        id: '983GC',
-        attributes: {
-          ...getFacilityMock().attributes,
-          institutionCode: '983GC',
-          rootStationCode: '983',
-          parentStationCode: '983GC',
-        },
-      },
-    ];
-    mockSupportedFacilities({
-      siteId: '983',
-      parentId: '983GC',
-      typeOfCareId: '323',
-      data: facilities,
-    });
-    const facility = {
-      id: 'vha_442GC',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    };
-    mockFacilityFetch('vha_442GC', facility);
-    const store = createTestStore(initialState);
-    await setTypeOfCare(store, /primary care/i);
-
-    const screen = renderWithStoreAndRouter(
-      <Route component={VAFacilityPage} />,
-      {
-        store,
-      },
-    );
-
-    await screen.findByText(/Cheyenne VA Medical Center/);
-
-    expect(screen.baseElement).to.contain.text(
-      'There are no primary care appointments at this location',
-    );
-    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
-    expect(screen.baseElement).to.contain.text('307-778-7550');
-    expect(await screen.findByText(/directions/i)).to.have.attribute(
-      'href',
-      'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
-    );
-
-    expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
-  });
-
-  it('should show eligibility alert without facility info', async () => {
-    const parentSite5digit = {
-      id: '983GC',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983GC',
-        rootStationCode: '983',
-        parentStationCode: '983GC',
-      },
-    };
-    mockParentSites(['983'], [parentSite5digit]);
-    const facilities = [
-      {
-        id: '983GC',
-        attributes: {
-          ...getFacilityMock().attributes,
-          institutionCode: '983GC',
-          rootStationCode: '983',
-          parentStationCode: '983GC',
-        },
-      },
-    ];
-    mockSupportedFacilities({
-      siteId: '983',
-      parentId: '983GC',
-      typeOfCareId: '323',
-      data: facilities,
-    });
-    const store = createTestStore(initialState);
-    await setTypeOfCare(store, /primary care/i);
-
-    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-      store,
-    });
-
-    expect(screen.baseElement).to.contain.text('Finding locations');
-    await screen.findByText(
-      /There are no primary care appointments at this location/,
-    );
-    expect(screen.getByText(/facility locator/i)).to.have.attribute(
-      'href',
-      '/find-locations/facility/vha_442GC',
-    );
-
-    expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
-  });
-
   it('should show past visits eligibility alert', async () => {
-    mockParentSites(['983'], [parentSite983]);
-    const facilities = [
+    const siteIds = ['983'];
+    mockParentSites(siteIds, [parentSite983]);
+    mockDirectBookingEligibilityCriteria(siteIds, []);
+    mockRequestEligibilityCriteria(siteIds, [
       {
         id: '983',
         attributes: {
-          ...getFacilityMock().attributes,
-          institutionCode: '983',
-          authoritativeName: 'Bozeman VA medical center',
-          rootStationCode: '983',
-          parentStationCode: '983',
-          requestSupported: true,
+          ...requestFacilityAttributes,
+          id: '983',
+          requestSettings: [
+            {
+              ...requestFacilityAttributes.requestSettings[0],
+              id: '502',
+              typeOfCare: 'Outpatient Mental Health',
+            },
+          ],
         },
       },
-    ];
-    mockSupportedFacilities({
-      siteId: '983',
-      parentId: '983',
-      typeOfCareId: '502',
-      data: facilities,
-    });
+    ]);
+
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -364,7 +232,7 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
       store,
     });
 
-    await screen.findByText(/Bozeman VA medical center/i);
+    await screen.findByText(/San Diego VA Medical Center/i);
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
       /you need to have been seen within the past 12 months/,
@@ -389,7 +257,7 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
       store,
     });
 
-    await screen.findByText(/Bozeman VA medical center/i);
+    await screen.findByText(/San Diego VA Medical Center/i);
 
     expect(screen.baseElement).to.contain.text(
       'you have more outstanding requests than this facility allows',

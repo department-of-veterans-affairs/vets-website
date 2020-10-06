@@ -19,6 +19,7 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
@@ -27,8 +28,6 @@ import {
   FORM_CALENDAR_DATA_CHANGED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
-  FORM_FETCH_PARENT_FACILITIES,
-  FORM_FETCH_PARENT_FACILITIES_SUCCEEDED,
   FORM_FETCH_PARENT_FACILITIES_FAILED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
@@ -304,53 +303,49 @@ export default function formReducer(state = initialState, action) {
         data: { ...state.data, facilityType: action.facilityType },
       };
     }
-    case FORM_FETCH_PARENT_FACILITIES: {
+    case FORM_PAGE_FACILITY_V2_OPEN: {
       return {
         ...state,
-        parentFacilitiesStatus: FETCH_STATUS.loading,
-      };
-    }
-    case FORM_FETCH_PARENT_FACILITIES_SUCCEEDED: {
-      return {
-        ...state,
-        parentFacilitiesStatus: FETCH_STATUS.succeeded,
-        parentFacilities: action.parentFacilities,
+        childFacilitiesStatus: FETCH_STATUS.loading,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
       const typeOfCareId = action.typeOfCareId;
+      const facilities = state.facilities;
+      const typeOfCareFacilities =
+        facilities[typeOfCareId] || action.facilities;
 
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
-      let locations = action.locations || state.facilities[typeOfCareId] || [];
 
-      locations = locations.sort((a, b) => {
-        return a.name < b.name ? -1 : 1;
-      });
-
-      if (action.parentFacilities.length === 1 || !locations.length) {
+      if (parentFacilities.length === 1 || !facilities.length) {
         newData = {
           ...newData,
           vaParent: parentFacilities[0]?.id,
         };
       }
 
-      if (locations.length === 1) {
-        const selectedFacility = locations[0];
+      if (typeOfCareFacilities.length === 1) {
+        const vaFacility = typeOfCareFacilities[0]?.id;
+        const vaParent = getParentOfLocation(
+          parentFacilities,
+          typeOfCareFacilities[0],
+        )?.id;
+
         newData = {
           ...newData,
-          vaFacility: selectedFacility.id,
-          vaParent: getParentOfLocation(parentFacilities, selectedFacility)?.id,
+          vaFacility,
+          vaParent,
         };
       } else {
         newSchema = set(
           'properties.vaFacility',
           {
             type: 'string',
-            enum: locations.map(facility => facility.id),
-            enumNames: locations,
+            enum: typeOfCareFacilities.map(facility => facility.id),
+            enumNames: typeOfCareFacilities,
           },
           newSchema,
         );
@@ -371,9 +366,10 @@ export default function formReducer(state = initialState, action) {
         },
         schema,
         facilities: {
-          ...state.facilities,
-          [typeOfCareId]: locations,
+          ...facilities,
+          [typeOfCareId]: typeOfCareFacilities,
         },
+        parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }

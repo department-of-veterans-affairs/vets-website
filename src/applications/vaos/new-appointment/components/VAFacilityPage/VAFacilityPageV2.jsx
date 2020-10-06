@@ -14,7 +14,7 @@ import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
 import FormButtons from '../../../components/FormButtons';
-import NoValidVAFacilities from './NoValidVAFacilities';
+import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import NoVASystems from './NoVASystems';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
@@ -46,25 +46,21 @@ function VAFacilityPageV2({
   data,
   eligibility,
   facilities,
-  facility,
-  facilityDetails,
-  facilityDetailsStatus,
   hasDataFetchingError,
+  hideEligibilityModal,
   loadingEligibilityStatus,
   noValidVAParentFacilities,
   noValidVAFacilities,
   openFacilityPageV2,
   pageChangeInProgress,
-  parentDetails,
   parentFacilities,
   parentFacilitiesStatus,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   schema,
   showEligibilityModal,
-  hideEligibilityModal,
+  selectedFacility,
   singleValidVALocation,
-  siteId,
   typeOfCare,
   updateFormData,
 }) {
@@ -87,15 +83,13 @@ function VAFacilityPageV2({
   const goForward = () => routeToNextAppointmentPage(history, pageKey);
 
   const onFacilityChange = newData => {
-    const selectedFacility = facilities?.find(f => f.id === newData.vaFacility);
+    const facility = facilities.find(f => f.id === newData.vaFacility);
+    const vaParent = getParentOfLocation(parentFacilities, facility)?.id;
 
-    const parentId = getParentOfLocation(parentFacilities, selectedFacility)
-      ?.id;
-
-    if (!!selectedFacility && !!parentId) {
+    if (!!facility && !!vaParent) {
       updateFormData(pageKey, uiSchema, {
         ...newData,
-        vaParent: parentId,
+        vaParent,
       });
     }
   };
@@ -149,14 +143,7 @@ function VAFacilityPageV2({
     return (
       <div>
         {title}
-        <NoValidVAFacilities
-          formContext={{
-            siteId,
-            typeOfCare,
-            facilityDetailsStatus,
-            parentDetails,
-          }}
-        />
+        <NoValidVAFacilities typeOfCare={typeOfCare} />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
@@ -175,7 +162,7 @@ function VAFacilityPageV2({
         {title}
         <SingleFacilityEligibilityCheckMessage
           eligibility={eligibility}
-          facility={facility}
+          facility={selectedFacility}
         />
         <div className="vads-u-margin-top--2">
           <FormButtons
@@ -193,7 +180,7 @@ function VAFacilityPageV2({
     return (
       <div>
         {title}
-        <VAFacilityInfoMessage facility={facility} />
+        <VAFacilityInfoMessage facility={selectedFacility} />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
@@ -221,6 +208,7 @@ function VAFacilityPageV2({
           uiSchema={uiSchema}
           onChange={onFacilityChange}
           onSubmit={goForward}
+          formContext={{ loadingEligibility }}
           data={data}
         >
           <FormButtons
@@ -250,7 +238,7 @@ function VAFacilityPageV2({
         <EligibilityModal
           onClose={hideEligibilityModal}
           eligibility={eligibility}
-          facilityDetails={facilityDetails}
+          facilityDetails={selectedFacility}
         />
       )}
     </div>
