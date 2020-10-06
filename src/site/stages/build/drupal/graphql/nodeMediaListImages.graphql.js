@@ -22,9 +22,9 @@ fragment nodeMediaListImages on NodeMediaListImages {
       ... button
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
 
