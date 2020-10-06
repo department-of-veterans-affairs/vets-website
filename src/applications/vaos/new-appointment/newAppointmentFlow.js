@@ -4,11 +4,10 @@ import {
   getEligibilityStatus,
   getTypeOfCare,
   getChosenFacilityInfo,
-  getChosenParentInfo,
   vaosFlatFacilityPage,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
-import { getSiteIdFromOrganization } from '../services/organization';
+import { getSiteIdFromFakeFHIRId } from '../services/location';
 import {
   checkEligibility,
   showTypeOfCareUnavailableModal,
@@ -64,7 +63,7 @@ async function vaFacilityNext(state, dispatch) {
 
   if (vaosFlatFacilityPage(state)) {
     const facility = getChosenFacilityInfo(state);
-    const siteId = getSiteIdFromOrganization(getChosenParentInfo(state));
+    const siteId = getSiteIdFromFakeFHIRId(facility.id);
     eligibility = await dispatch(checkEligibility(facility, siteId));
     if (!eligibility.direct && !eligibility.request) {
       return VA_FACILITY_V2_KEY;

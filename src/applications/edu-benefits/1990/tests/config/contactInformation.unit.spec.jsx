@@ -19,7 +19,7 @@ describe('Edu 1990 contactInformation', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(14);
   });
 
   it('should not submit form without information', () => {
