@@ -19,14 +19,12 @@
       {% endif %}
 
       <article class="usa-content">
-        <h1 class="vads-u-margin-bottom--0">{{ title }}</h1>
+        <h1 class="vads-u-margin-bottom--0">
+          {{ title }}
+          <span class="vads-u-display--block va-introtext">{{ fieldVaFormName }}</span>
+        </h1>
 
         <dl>
-          <div class="vads-u-margin-bottom--4">
-            <dt class="vads-u-visibility--screen-reader">Form name:</dt>
-            <dd class="va-introtext">{{ fieldVaFormName }}</dd>
-          </div>
-
           <div class="vads-u-margin-y--1">
             <dt class="vads-u-font-weight--bold vads-u-display--inline">
               Related to:
