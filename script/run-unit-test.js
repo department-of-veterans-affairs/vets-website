@@ -1,3 +1,4 @@
+const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const glob = require('glob');
@@ -72,8 +73,16 @@ if (testDirectories[0] === defaultPath) {
     }),
   );
 
+  let testResultsXml = '';
+
+  const testResultsXmlFilePath = path.join(__dirname, '../test-results.xml');
   const wildCard = `${path.sep}**${path.sep}*.unit.spec.js?(x)`;
   const failures = [];
+
+  if (options.coverage) {
+    // Empty out the test-results.xml file
+    fs.writeFileSync(testResultsXmlFilePath, '');
+  }
 
   unitTestDirectories.forEach(unitTestDirectory => {
     // eslint-disable-next-line no-console
@@ -89,12 +98,23 @@ if (testDirectories[0] === defaultPath) {
     const command = `LOG_LEVEL=${logLevel} ${executeMocha} --opts ${mochaOpts} --recursive ${findUnitTestsInDir}`;
     const exitStatus = runCommandSync(command);
 
+    if (options.coverage) {
+      // test-results.xml was just overwritten with the results of this test run.
+      // we need to read those results and append them to the results of the previous test run
+      // to form the complete file
+      testResultsXml += fs.readFileSync(testResultsXmlFilePath).toString();
+    }
+
     if (exitStatus !== 0) {
       // eslint-disable-next-line no-console
       console.log(chalk.red(`${unitTestDirectory} failed!`));
       failures.push(unitTestDirectory);
     }
   });
+
+  if (options.coverage) {
+    fs.writeFileSync(testResultsXmlFilePath, testResultsXml);
+  }
 
   if (failures.length > 0) {
     // eslint-disable-next-line no-console
