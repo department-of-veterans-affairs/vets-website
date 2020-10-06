@@ -1,236 +1,303 @@
 import { expect } from 'chai';
-import fullSchema1010ez from 'applications/hca/config/form';
-import fullSchema0993 from 'applications/edu-benefits/0993/config/form';
-import fullSchema0994 from 'applications/edu-benefits/0994/config/form';
-import fullSchema0996 from 'applications/disability-benefits/996/config/form';
-import fullSchema1990 from 'applications/edu-benefits/1990/config/form';
-import fullSchema1990e from 'applications/edu-benefits/1990e/config/form';
-import fullSchema1990n from 'applications/edu-benefits/1990n/config/form';
-import fullSchema1995 from 'applications/edu-benefits/1995/config/form';
-import fullSchema5490 from 'applications/edu-benefits/5490/config/form';
-import fullSchema5495 from 'applications/edu-benefits/5495/config/form';
-import fullSchema527EZ from 'applications/pensions/config/form';
-import fullSchema526EZ from 'applications/disability-benefits/all-claims/config/form';
-import fullSchema530 from 'applications/burials/config/form';
-import fullSchema10007 from 'applications/pre-need/config/form';
-import fullSchema686 from 'applications/disability-benefits/686c-674/config/form';
-import fullSchemaFeedbackTool from 'applications/edu-benefits/feedback-tool/config/form';
-import fullSchema1010CG from 'applications/caregivers/config/form';
-import fullSchemaMDOT from 'applications/disability-benefits/2346/config/form';
-
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
 import schemas from 'vets-json-schema/dist/schemas';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
-import { sessionStorageSetup } from 'platform/testing/utilities';
+const path = require('path');
+const find = require('find');
 
-// Maps schema id to config id
-const mappedIds = [
-  '10-10EZ',
-  VA_FORM_IDS.FORM_21_526EZ,
-  VA_FORM_IDS.FORM_21_686C,
-  VA_FORM_IDS.FORM_21P_527EZ,
-  VA_FORM_IDS.FORM_21P_530,
-  VA_FORM_IDS.FORM_22_0993,
-  VA_FORM_IDS.FORM_22_0994,
-  VA_FORM_IDS.FORM_20_0996,
-  VA_FORM_IDS.FORM_22_1990,
-  VA_FORM_IDS.FORM_22_1990E,
-  VA_FORM_IDS.FORM_22_1990N,
-  VA_FORM_IDS.FORM_22_1995,
-  VA_FORM_IDS.FORM_22_5490,
-  VA_FORM_IDS.FORM_22_5495,
-  VA_FORM_IDS.FORM_40_10007,
-  VA_FORM_IDS.FEEDBACK_TOOL,
-  VA_FORM_IDS.FORM_10_10CG,
-  VA_FORM_IDS.FORM_VA_2346A, // MDOT
+// Remap the formId to match the name in vets-json-schema
+const remapFormId = {
+  [VA_FORM_IDS.FORM_10_10EZ]: '10-10EZ',
+  [VA_FORM_IDS.FORM_21_526EZ]: '21-526EZ-ALLCLAIMS',
+};
+
+// These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
+const missingFromVetsJsonSchema = [
+  VA_FORM_IDS.FORM_HC_QSTNR,
+  VA_FORM_IDS.FORM_21_22,
 ];
 
-const configs = [
-  // Remap the formId to match the name in vets-json-schema
-  // This should only affect the mapping in the "check all forms" test
-  { ...fullSchema1010ez, formId: '10-10EZ' },
-  { ...fullSchema526EZ, formId: '21-526EZ-ALLCLAIMS' },
-  fullSchema686,
-  fullSchema527EZ,
-  fullSchema530,
-  fullSchema0993,
-  fullSchema0994,
-  fullSchema0996,
-  fullSchema1990,
-  fullSchema1990e,
-  fullSchema1990n,
-  fullSchema1995,
-  fullSchema5490,
-  fullSchema5495,
-  fullSchema10007,
-  fullSchemaFeedbackTool,
-  fullSchema1010CG,
-  fullSchemaMDOT,
+const root = path.join(__dirname, '../../../');
+
+const formConfigKeys = [
+  'formId',
+  'version',
+  'migrations',
+  'chapters',
+  'defaultDefinitions',
+  'introduction',
+  'prefillEnabled',
+  'prefillTransformer',
+  'trackingPrefix',
+  'title',
+  'subTitle',
+  'urlPrefix',
+  'submitUrl',
+  'submit',
+  'savedFormMessages',
+  'transformForSubmit',
+  'confirmation',
+  'preSubmitInfo',
+  'footerContent',
+  'getHelp',
+  'errorText',
+  'verifyRequiredPrefill',
+  'downtime',
+  'intentToFileUrl',
+  'onFormLoaded',
+  'formSavedPage',
+  'additionalRoutes',
+  'submitErrorText',
+  'authorize',
+  'getAuthorizationState',
+  'authorizationMessage',
+  'customText',
+  'submissionError',
 ];
 
-// These forms do not have formConfig but are found in vets-json-schema/dist/schemas
-const excludedForms = new Set([
-  '21-526EZ', // v1 of form 526
-  '21-686C', // Old version of the 21-686C. Present in vets-json-schema, but will be removed in a future pull request.
-  '28-1900',
-  '28-8832',
-  '24-0296',
-  '10-10CG-example',
-  VA_FORM_IDS.FORM_22_1995S,
-  'definitions',
-  'constants',
-  'vaMedicalFacilities',
-  '22-10203',
-  'caregiverProgramFacilities',
-  'COVID-VACCINE-TRIAL',
-  '0873',
-  'CREATE_HLR_200_RESPONSE',
-  'CREATE_HLR_422_RESPONSE',
-]);
+const validProperty = (
+  formConfig,
+  name,
+  type,
+  required = true,
+  warning = null,
+) => {
+  const property = formConfig[name];
+  if (required || property) {
+    const msg = warning || `${name} is not a ${type}`;
+    expect(property).to.be.a(type, msg);
+  }
+};
+
+const validObjectProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'object', required, warning);
+};
+
+const validFunctionProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'function', required, warning);
+};
+
+const validBooleanProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'boolean', required, warning);
+};
+
+const validStringProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'string', required, warning);
+};
+
+const validNumberProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'number', required, warning);
+};
+
+const validArrayProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  validProperty(formConfig, name, 'array', required, warning);
+};
+
+const validFormConfigKeys = formConfig => {
+  Object.keys(formConfig).forEach(key => {
+    const warning =
+      `${formConfig.formId} has an unknown property "${key}". ` +
+      '\nPlease check that the property name is correct.' +
+      '\nIf this is a new property please update https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/forms/config-options/' +
+      ' and add a test to src/platform/forms/tests/forms.unit.spec.js for this property.\n';
+    expect(formConfigKeys).to.include(key, warning);
+  });
+};
+
+const validFormId = formConfig => {
+  let formId = formConfig.formId;
+  if (Object.keys(remapFormId).includes(formId)) {
+    formId = remapFormId[formId];
+  }
+
+  validStringProperty(formConfig, 'formId');
+  const schemaFormIds = Object.keys(schemas);
+  if (missingFromVetsJsonSchema.includes(formId)) {
+    expect(schemaFormIds).to.not.include(
+      formId,
+      `${formId} is in missingFromVetsJsonSchema but has a corresponding vets-json-schema, please remove from missingFromVetsJsonSchema`,
+    );
+  } else {
+    expect(schemaFormIds).to.include(
+      formId,
+      `the formId "${formId}" does not match an entry in vets-json-schema/dist/schemas. Add the ID to missingFromVetsJsonSchema or add the corresponding schema to the vets-json-schema repo.`,
+    );
+  }
+};
+
+const validMigrations = formConfig => {
+  const { migrations } = formConfig;
+  if (migrations || formConfig.version > 0) {
+    expect(migrations.length).to.equal(
+      formConfig.version,
+      `Expected a migration for each version change. The form is at version ${
+        formConfig.version
+      }, but found ${migrations.length} migrations.`,
+    );
+    validArrayProperty({ migrations }, 'migrations');
+    expect(
+      migrations.every(migration => typeof migration === 'function'),
+    ).to.equal(true, 'migrations contains an element that is not a function');
+  }
+};
+
+const validFormTitle = ({ title }) => {
+  const formTitle =
+    typeof title === 'function' ? title({ formData: {} }) : title;
+  expect(formTitle).to.be.a('string', 'title does not return a string');
+};
+
+const validDowntime = ({ downtime }) => {
+  validObjectProperty({ downtime }, 'downtime', false);
+  if (downtime) {
+    validBooleanProperty(downtime, 'requireForPrefill', false);
+    validFunctionProperty(downtime, 'message', false);
+    const { dependencies } = downtime;
+    validArrayProperty(
+      downtime,
+      'dependencies',
+      true,
+      'downtime.dependencies is not an array',
+    );
+    dependencies.forEach(dependency => {
+      expect(Object.values(externalServices)).to.include(
+        dependency,
+        `${dependency} is not a valid dependency. Please see src/platform/monitoring/DowntimeNotification/config/externalServices.js for a list of dependencies`,
+      );
+    });
+  }
+};
+
+const validAdditionalRoutes = ({ additionalRoutes }) => {
+  validArrayProperty({ additionalRoutes }, 'additionalRoutes', false);
+  if (additionalRoutes) {
+    additionalRoutes.forEach((route, index) => {
+      validStringProperty(
+        route,
+        'path',
+        true,
+        `additionalRoutes[${index}].path is not a string`,
+      );
+      validFunctionProperty(
+        route,
+        'component',
+        true,
+        `additionalRoutes[${index}].component is not a function`,
+      );
+      validStringProperty(
+        route,
+        'pageKey',
+        true,
+        `additionalRoutes[${index}].component is not a string`,
+      );
+      validFunctionProperty(
+        route,
+        'depends',
+        true,
+        `additionalRoutes[${index}].depends is not a function`,
+      );
+    });
+  }
+};
+
+const validAuthorization = formConfig => {
+  validFunctionProperty(formConfig, 'authorize', false);
+  const { authorize } = formConfig;
+  if (authorize) {
+    validFunctionProperty(formConfig, 'authorizationMessage');
+    validFunctionProperty(formConfig, 'getAuthorizationState');
+  }
+};
+
+const validCustomText = ({ customText }) => {
+  validObjectProperty({ customText }, 'customText', false);
+  if (customText) {
+    expect(
+      Object.values(customText).every(value => typeof value === 'string'),
+    ).to.equal(true, 'customText has a property value that is not a string');
+  }
+};
 
 describe('form:', () => {
-  sessionStorageSetup();
-  it('should check all forms', () => {
-    const includedSchemaIds = Object.keys(schemas).filter(
-      formId => !excludedForms.has(formId),
-    );
-    const includedFormIds = configs.map(form => form.formId);
-    const includedSchemaIdsSet = new Set(includedSchemaIds);
-    const mappedIdsSet = new Set(mappedIds);
+  // Find all config/form.js or config/form.jsx files within src/applications
+  const configFiles = find.fileSync(
+    /config\/form\.js.?$/,
+    path.join(root, './applications'),
+  );
 
-    expect(includedSchemaIdsSet.size).to.not.lessThan(
-      mappedIdsSet.size,
-      'a schema may have been removed from vets-json-schema/dist/schemas',
-    );
-    expect(includedSchemaIdsSet.size).to.not.greaterThan(
-      mappedIdsSet.size,
-      'a schema may have been added to vets-json-schema/dist/schemas',
-    );
-    expect(includedSchemaIds).to.have.same.members(
-      includedFormIds,
-      'possible missing formId property in a formConfig',
-    );
-  });
-
-  configs.forEach(form => {
-    describe(`${form.formId}:`, () => {
-      describe('migrations:', () => {
-        const { migrations } = form;
-        if (migrations || form.version > 0) {
-          it('should have a length equal to the version number', () => {
-            expect(migrations.length).to.equal(form.version);
-          });
-          it('should be typeof array', () => {
-            expect(migrations).to.be.an('array');
-          });
-          it('should be array of functions', () => {
-            expect(
-              migrations.every(migration => typeof migration === 'function'),
-            ).to.be.true;
-          });
-        }
-      });
-
-      it('should have chapters object', () => {
-        expect(form.chapters).to.be.an('object');
-      });
-
-      it('should have defaultDefinitions object', () => {
-        expect(form.defaultDefinitions).to.be.an('object');
-      });
-
-      if (form.introduction) {
-        it('should have introduction function', () => {
-          expect(form.introduction).to.be.a('function');
-        });
-      }
-
-      if (form.prefillEnabled) {
-        it('should have prefillEnabled boolean', () => {
-          expect(form.prefillEnabled).to.be.a('boolean');
-        });
-      }
-
-      if (form.prefillTransformer) {
-        it('should have prefillTransformer function', () => {
-          expect(form.prefillTransformer).to.be.a('function');
-        });
-      }
-
-      it('should have trackingPrefix', () => {
-        expect(form.trackingPrefix).to.be.a('string');
-      });
-
-      it('should have title', () => {
-        const title =
-          typeof form.title === 'function'
-            ? form.title({ formData: {} })
-            : form.title;
-        expect(title).to.be.a('string');
-      });
-
-      if (form.subTitle) {
-        it('should have subTitle', () => {
-          expect(form.subTitle).to.be.a('string');
-        });
-      }
-
-      it('should have urlPrefix', () => {
-        expect(form.urlPrefix).to.be.a('string');
-      });
-
-      if (form.submitUrl) {
-        it('should have submitUrl', () => {
-          expect(form.submitUrl).to.be.a('string');
-        });
-      }
-
-      if (form.submit) {
-        it('should have submit', () => {
-          expect(form.submit).to.be.a('function');
-        });
-      }
-
-      if (form.savedFormMessages) {
-        it('should have savedFormMessages', () => {
-          expect(form.savedFormMessages).to.be.a('object');
-        });
-      }
-
-      if (form.transformForSubmit) {
-        it('should have transformForSubmit', () => {
-          expect(form.transformForSubmit).to.be.a('function');
-        });
-      }
-
-      it('should have confirmation', () => {
-        expect(form.confirmation).to.be.a('function');
-      });
-
-      if (form.preSubmitInfo) {
-        it('should have preSubmitInfo', () => {
-          expect(form.preSubmitInfo).to.be.a('object');
-        });
-      }
-
-      if (form.footerContent) {
-        it('should have footerContent', () => {
-          expect(form.footerContent).to.be.a('function');
-        });
-      }
-
-      if (form.getHelp) {
-        it('should have getHelp', () => {
-          expect(form.getHelp).to.be.a('function');
-        });
-      }
-
-      if (form.errorText) {
-        it('should have errorText', () => {
-          expect(form.errorText).to.be.a('function');
-        });
-      }
+  Object.values(configFiles).forEach(configFilePath => {
+    it(`${configFilePath.replace(root, '')}:`, () => {
+      // This return is needed in order for failing expects within the promise to actually trigger a failure of the test
+      return expect(
+        // Dynamically import the module and perform tests on its default export
+        import(configFilePath).then(({ default: formConfig }) => {
+          validFormConfigKeys(formConfig);
+          validFormId(formConfig);
+          validNumberProperty(formConfig, 'version');
+          validMigrations(formConfig);
+          validObjectProperty(formConfig, 'chapters');
+          validObjectProperty(formConfig, 'defaultDefinitions');
+          validFunctionProperty(formConfig, 'introduction', false);
+          validBooleanProperty(formConfig, 'prefillEnabled', false);
+          validFunctionProperty(formConfig, 'prefillTransformer', false);
+          validStringProperty(formConfig, 'trackingPrefix');
+          validFormTitle(formConfig);
+          validStringProperty(formConfig, 'subTitle', false);
+          validStringProperty(formConfig, 'urlPrefix', false);
+          validStringProperty(formConfig, 'submitUrl', false);
+          validFunctionProperty(formConfig, 'submit', false);
+          validObjectProperty(formConfig, 'savedFormMessages', false);
+          validFunctionProperty(formConfig, 'transformForSubmit', false);
+          validFunctionProperty(formConfig, 'confirmation');
+          validObjectProperty(formConfig, 'preSubmitInfo', false);
+          validFunctionProperty(formConfig, 'footerContent', false);
+          validFunctionProperty(formConfig, 'getHelp', false);
+          validFunctionProperty(formConfig, 'errorText', false);
+          validBooleanProperty(formConfig, 'verifyRequiredPrefill', false);
+          validDowntime(formConfig);
+          validFunctionProperty(formConfig, 'onFormLoaded', false);
+          validFunctionProperty(formConfig, 'formSavedPage', false);
+          validAdditionalRoutes(formConfig);
+          validAuthorization(formConfig);
+          validCustomText(formConfig);
+          validFunctionProperty(formConfig, 'submissionError', false);
+          // This return true is needed for the to.eventually.be.ok a few lines down
+          // If any of the expects in the above functions fail,
+          // the test for the configFilePath fails as expected
+          return true;
+        }),
+      ).to.eventually.be.ok;
     });
   });
 });

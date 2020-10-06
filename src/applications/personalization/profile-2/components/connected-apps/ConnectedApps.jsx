@@ -19,6 +19,7 @@ import { ConnectedApp } from './ConnectedApp';
 export class ConnectedApps extends Component {
   componentDidMount() {
     focusElement('[data-focus-target]');
+    document.title = `Connected Apps | Veterans Affairs`;
     this.props.loadConnectedApps();
   }
 
@@ -42,10 +43,16 @@ export class ConnectedApps extends Component {
     const activeApps = apps ? apps.filter(app => !app.deleted) : [];
 
     const allAppsDeleted = deletedApps?.length === apps?.length;
-    const showHasNoConnectedApps = !apps || (allAppsDeleted && !loading);
+    // We treat this 404 'Record not found' error as an empty apps array
+    const checkRecordNotFound = error =>
+      error?.title === 'Record not found' && error?.status === '404';
+    const recordNotFound = errors?.some(checkRecordNotFound);
+    const showHasNoConnectedApps =
+      !apps || (allAppsDeleted && !loading) || recordNotFound;
     const showHasConnectedApps = apps && !allAppsDeleted;
     // Check if any of the active apps have errors
     const disconnectErrorApps = activeApps.filter(app => !isEmpty(app.errors));
+    const showHasServerError = !isEmpty(errors) && !recordNotFound;
 
     return (
       <div className="va-connected-apps">
@@ -81,7 +88,7 @@ export class ConnectedApps extends Component {
           </>
         )}
 
-        {!isEmpty(errors) && (
+        {showHasServerError && (
           <AlertBox
             className="vads-u-margin-bottom--2"
             headline="We couldn’t retrieve your connected apps"

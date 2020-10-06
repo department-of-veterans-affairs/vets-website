@@ -1,0 +1,14 @@
+{
+  "chiefComplaint": "asdf",
+  "lifeEvents": "asdf",
+  "questions": [
+    {
+      "additionalQuestions": "asdfasdfasdf"
+    },
+    {
+      "additionalQuestions": "asdfasdfasdfasdf"
+    },
+    {}
+  ],
+  "view:veteranInfo": {}
+}

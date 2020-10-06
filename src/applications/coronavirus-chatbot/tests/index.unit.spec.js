@@ -7,14 +7,12 @@ import {
   setFetchJSONResponse,
   resetFetch,
 } from 'platform/testing/unit/helpers';
-import localStorage from 'platform/utilities/storage/localStorage';
 
 describe('initializeChatbot', () => {
   let botConnectionStub;
   let webchatStoreStub;
 
   before(() => {
-    sinon.stub(localStorage, 'getItem').returns('fake csrf token');
     botConnectionStub = sinon
       .stub(WebchatModule, 'createBotConnection')
       .returns('fake bot connection');
@@ -24,7 +22,6 @@ describe('initializeChatbot', () => {
   });
 
   after(() => {
-    localStorage.getItem.restore();
     botConnectionStub.restore();
     webchatStoreStub.restore();
     resetFetch();

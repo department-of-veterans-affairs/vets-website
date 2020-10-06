@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { deductionCodes } from '../const';
-import HowDoIPayV2 from './HowDoIPayV2';
-import NeedHelpV2 from './NeedHelpV2';
+import { deductionCodes } from '../const/deduction-codes';
+import HowDoIPay from './HowDoIPay';
+import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import moment from 'moment';
 import last from 'lodash/last';
@@ -28,20 +28,22 @@ class DebtDetails extends Component {
       currency: 'USD',
       minimumFractionDigits: 2,
     });
+
     const { selectedDebt } = this.props;
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <Breadcrumbs className="vads-u-font-family--sans">
           <a href="/">Home</a>
-          <a href="/debt-letters">Manage your VA debt</a>
-          <a href="/debt-letters/debt-list">Your VA debt</a>
+          <a href="/manage-va-debt">Manage your VA debt</a>
+          <a href="/manage-va-debt/your-debt">Your VA debt</a>
+          <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
         </Breadcrumbs>
         <h1 className="vads-u-font-family--serif vads-u-margin-bottom--2">
-          Your {deductionCodes[selectedDebt.deductionCode]} debt
+          Your {deductionCodes[selectedDebt.deductionCode]}
         </h1>
         <div className="vads-l-row">
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 medium-screen:vads-l-col--8 vads-u-font-family--sans">
-            <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-margin-top--0">
+            <p className="va-introtext vads-u-margin-top--0">
               Updated on{' '}
               {moment(last(selectedDebt.debtHistory).date).format(
                 'MMMM D, YYYY',
@@ -52,7 +54,7 @@ class DebtDetails extends Component {
                 <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
                   Date of first notice:
                 </p>
-                <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
+                <p className="vads-u-margin-y--1 vads-u-font-weight--bold">
                   Original debt amount:
                 </p>
                 <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
@@ -75,10 +77,11 @@ class DebtDetails extends Component {
             </div>
 
             <AlertBox
-              className="vads-u-margin-y--4"
+              className="vads-u-margin-y--4 debt-details-alert"
               headline="Hidden alert"
               content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
               status="info"
+              level={2}
             />
             <AdditionalInfo triggerText="Why might I have this debt?">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
@@ -90,14 +93,14 @@ class DebtDetails extends Component {
 
             <h2
               id="debtLetterHistory"
-              className="vads-u-font-size--h3 vads-u-margin-top--5"
+              className="vads-u-margin-top--5 vads-u-margin-bottom--0"
             >
               Debt letter history
             </h2>
             <p className="vads-u-margin-y--2">
               You can view the status or download the letters for this debt.
             </p>
-            <p className="vads-u-margin-top--0">
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <strong>Note:</strong> The content of the debt letters below may
               not include recent updates to your debt reflected above. If you
               have any questions about your debt history, please contact the
@@ -107,7 +110,7 @@ class DebtDetails extends Component {
               </a>
               {'.'}
             </p>
-            <table className="vads-u-margin-bottom--1">
+            <table className="vads-u-margin-y--4">
               <thead>
                 <tr>
                   <td className="vads-u-font-weight--bold">Date</td>
@@ -130,16 +133,18 @@ class DebtDetails extends Component {
                 ))}
               </tbody>
             </table>
-            <h3>Download debt letters</h3>
+            <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
+              Download debt letters
+            </h3>
             <p className="vads-u-margin-bottom--0">
               You can download some of your letters for education, compensation
               and pension debt.
             </p>
-            <Link to="download-letters" className="vads-u-margin-top--1">
+            <Link to="debt-letters" className="vads-u-margin-top--1">
               Download letters related to your VA debt
             </Link>
-            <HowDoIPayV2 />
-            <NeedHelpV2 />
+            <HowDoIPay />
+            <NeedHelp />
             <Link className="vads-u-margin-top--4" to="/">
               <i className="fa fa-chevron-left" /> Return to your list of debts.
             </Link>

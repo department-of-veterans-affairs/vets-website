@@ -51,7 +51,7 @@ class FilesPage extends React.Component {
     const { claim, loading, message, synced } = this.props;
 
     let content = null;
-    if (!loading) {
+    if (!loading && claim) {
       const showDecision =
         claim.attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE &&
         !claim.attributes.waiverSubmitted;

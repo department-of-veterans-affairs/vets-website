@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
 import * as address from '../../utils/address';
-import { LANGUAGES, FETCH_STATUS } from './../../utils/constants';
-import ErrorMessage from '../../components/ErrorMessage';
+import { LANGUAGES } from './../../utils/constants';
 
 import {
   openCommunityCarePreferencesPage,
@@ -175,40 +173,30 @@ export class CommunityCarePreferencesPage extends React.Component {
   };
 
   render() {
-    const {
-      schema,
-      data,
-      pageChangeInProgress,
-      parentFacilitiesStatus,
-    } = this.props;
+    const { schema, data, pageChangeInProgress } = this.props;
 
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        {parentFacilitiesStatus === FETCH_STATUS.failed && <ErrorMessage />}
-        {(!schema || parentFacilitiesStatus === FETCH_STATUS.loading) && (
-          <LoadingIndicator message="Loading Community Care facilities" />
+        {!!schema && (
+          <SchemaForm
+            name="ccPreferences"
+            title="Community Care preferences"
+            schema={schema}
+            uiSchema={uiSchema}
+            onSubmit={this.goForward}
+            onChange={newData =>
+              this.props.updateFormData(pageKey, uiSchema, newData)
+            }
+            data={data}
+          >
+            <FormButtons
+              onBack={this.goBack}
+              pageChangeInProgress={pageChangeInProgress}
+              loadingText="Page change in progress"
+            />
+          </SchemaForm>
         )}
-        {!!schema &&
-          parentFacilitiesStatus === FETCH_STATUS.succeeded && (
-            <SchemaForm
-              name="ccPreferences"
-              title="Community Care preferences"
-              schema={schema}
-              uiSchema={uiSchema}
-              onSubmit={this.goForward}
-              onChange={newData =>
-                this.props.updateFormData(pageKey, uiSchema, newData)
-              }
-              data={data}
-            >
-              <FormButtons
-                onBack={this.goBack}
-                pageChangeInProgress={pageChangeInProgress}
-                loadingText="Page change in progress"
-              />
-            </SchemaForm>
-          )}
       </div>
     );
   }

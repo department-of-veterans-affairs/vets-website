@@ -7,7 +7,7 @@ export const InformalConferenceDescription = (
       An informal conference is a phone call between you or your accredited
       representative (claims agent, attorney, or Veterans Service Organization)
       and the reviewer to discuss why you think the decision should be changed
-      and identify factual erorrs.
+      and identify factual errors.
     </p>
     <p className="vads-u-margin-bottom--3">
       If you request an informal conference, the reviewer will call you or your
@@ -46,7 +46,7 @@ export const InformalConferenceTimes = ({ isRep }) => (
 
 export const informalConferenceTimeAllLabels = {
   time0800to1000: '8:00 a.m. to 10:00 a.m. ET',
-  time1000to1200: '10:00 a.m. to 12:00 p.m. ET',
+  time1000to1230: '10:00 a.m. to 12:30 p.m. ET',
   time1230to1400: '12:30 p.m. to 2:00 p.m. ET',
   time1400to1630: '2:00 p.m. to 4:30 p.m. ET',
 };

@@ -3,7 +3,10 @@ import React from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import Scroll from 'react-scroll';
 
-import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import {
+  getDefaultFormState,
+  toIdSchema,
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
@@ -186,12 +189,11 @@ class ArrayField extends React.Component {
 
     const uiOptions = uiSchema['ui:options'] || {};
     const fieldName = path[path.length - 1];
+    const schemaTitle = _.get('ui:title', uiSchema);
     const title =
-      _.get('ui:title', uiSchema) || uiOptions.reviewTitle || pageTitle;
-    const arrayPageConfig = {
-      uiSchema: uiSchema.items,
-      pageKey: fieldName,
-    };
+      uiOptions.reviewTitle ||
+      (typeof schemaTitle === 'string' ? schemaTitle.trim() : schemaTitle) ||
+      pageTitle;
 
     // TODO: Make this better; it’s super hacky for now.
     const itemCountLocked = this.isLocked();
@@ -207,7 +209,9 @@ class ArrayField extends React.Component {
       <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
         {title && (
           <div className="form-review-panel-page-header-row">
-            <h3 className="form-review-panel-page-header">{title}</h3>
+            <h3 className="form-review-panel-page-header vads-u-font-size--h4">
+              {title}
+            </h3>
             {itemsNeeded && (
               <span className="schemaform-review-array-warning-icon" />
             )}
@@ -225,6 +229,13 @@ class ArrayField extends React.Component {
               (!schema.minItems || items.length > schema.minItems);
             const itemSchema = this.getItemSchema(index);
             const itemTitle = itemSchema ? itemSchema.title : '';
+
+            const idSchema = toIdSchema(
+              itemSchema,
+              itemSchema?.$id,
+              this.props.schema.definitions,
+              index,
+            );
 
             if (isEditing) {
               return (
@@ -249,7 +260,8 @@ class ArrayField extends React.Component {
                         data={item}
                         appStateData={this.props.appStateData}
                         schema={itemSchema}
-                        uiSchema={arrayPageConfig.uiSchema}
+                        uiSchema={uiSchema.items}
+                        idSchema={idSchema}
                         trackingPrefix={this.props.trackingPrefix}
                         title={pageTitle}
                         hideTitle
@@ -290,7 +302,8 @@ class ArrayField extends React.Component {
                     data={item}
                     appStateData={this.props.appStateData}
                     schema={itemSchema}
-                    uiSchema={arrayPageConfig.uiSchema}
+                    uiSchema={uiSchema.items}
+                    idSchema={idSchema}
                     trackingPrefix={this.props.trackingPrefix}
                     title={itemTitle}
                     name={fieldName}

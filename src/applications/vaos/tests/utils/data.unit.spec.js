@@ -255,7 +255,7 @@ describe('VAOS data transformation', () => {
         facilityDetails: {},
         clinics: {},
         eligibility: {},
-        parentFacilities: [
+        ccEnabledSystems: [
           {
             id: 'var983',
             identifier: [
@@ -284,7 +284,6 @@ describe('VAOS data transformation', () => {
             },
           },
         ],
-        ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
         parentFacilitiesStatus: FETCH_STATUS.succeeded,
         eligibilityStatus: FETCH_STATUS.succeeded,
@@ -398,7 +397,7 @@ describe('VAOS data transformation', () => {
         facilityDetails: {},
         clinics: {},
         eligibility: {},
-        parentFacilities: [
+        ccEnabledSystems: [
           {
             id: 'var983',
             identifier: [
@@ -427,7 +426,6 @@ describe('VAOS data transformation', () => {
             },
           },
         ],
-        ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
         parentFacilitiesStatus: FETCH_STATUS.succeeded,
         eligibilityStatus: FETCH_STATUS.succeeded,

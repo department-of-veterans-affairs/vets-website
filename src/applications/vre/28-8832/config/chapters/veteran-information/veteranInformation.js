@@ -1,37 +1,10 @@
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import { veteranInformation } from '../../utilities';
 
 export const schema = {
   type: 'object',
   properties: {
-    veteranInformation: {
-      type: 'object',
-      properties: {
-        fullName: {
-          type: 'object',
-          properties: {
-            first: {
-              type: 'string',
-            },
-            middle: {
-              type: 'string',
-            },
-            last: {
-              type: 'string',
-            },
-            suffix: {
-              type: 'string',
-              enum: ['Jr.', 'Sr.', 'II', 'III', 'IV'],
-            },
-          },
-        },
-        vaFileNumber: {
-          type: 'string',
-        },
-        ssn: {
-          type: 'string',
-        },
-      },
-    },
+    veteranInformation,
   },
 };
 
@@ -54,12 +27,6 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
         },
-      },
-    },
-    vaFileNumber: {
-      'ui:title': 'Your VA file number',
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
       },
     },
     ssn: { ...ssnUI, 'ui:required': () => true },

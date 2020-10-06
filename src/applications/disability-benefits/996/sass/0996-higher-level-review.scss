@@ -25,6 +25,11 @@
   white-space: nowrap;
 }
 
+/* Wizard */
+.wizard-content-inner .fieldset-input:first-child {
+  margin-top: 0;
+}
+
 /* Fix margins around the form back & continue buttons */
 .input-section,
 .row.form-progress-buttons {
@@ -198,6 +203,26 @@ article[data-location="review-and-submit"] {
   }
   .normal-weight-in-review {
     font-weight: normal;
+  }
+}
+
+@media (max-width: $small-screen) {
+  dl.review,
+  div.review {
+    .review-row {
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      padding-left: 0;
+    }
+    .review-row > dd {
+      padding-left: 0;
+      text-align: left;
+    }
+    .review-row > dt > p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 }
 

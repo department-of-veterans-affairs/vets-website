@@ -1,5 +1,4 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 @import "~leaflet/dist/leaflet.css";
 @import "~react-tabs/style/react-tabs";
 
@@ -20,16 +19,6 @@ $facility-locator-color-gray: #ccc;
     margin: 0;
   }
 
-  // TODO(css): Fix when #content .section h* is fixed
-  .highlight {
-    margin-bottom: 0.5em !important;
-  }
-
-  // TODO(css): Fix when #content .section h* is fixed
-  h4 {
-    padding: 0 !important;
-  }
-
   .title-section {
     padding: 0.5rem 0;
 
@@ -41,30 +30,6 @@ $facility-locator-color-gray: #ccc;
 
   .facility-introtext {
     padding: 0 15px 15px;
-  }
-
-  .flex-center {
-    display: flex;
-    align-items: center;
-  }
-
-  .leaflet-container {
-    height: 500px;
-    width: 100%;
-    z-index: 0;
-  }
-
-  .facility-phone-table {
-    border-collapse: collapse;
-  }
-
-  .pointer {
-    cursor: pointer;
-  }
-
-  .facility-phone-table td {
-    border: none;
-    outline: none;
   }
 
   .p1 {
@@ -90,9 +55,9 @@ $facility-locator-color-gray: #ccc;
   .desktop-map-container {
     min-height: 78vh;
     padding-left: 0;
-    float: right;
     width: calc(100% - 305px);
-    margin-bottom: 24px;
+    display: flex;
+    flex-direction: row;
   }
 
   .search-result-title {
@@ -174,10 +139,6 @@ $facility-locator-color-gray: #ccc;
     }
   }
 
-  .text-center {
-    text-align: center;
-  }
-
   .tab {
     border-color: $color-black;
     text-align: center;
@@ -219,8 +180,6 @@ $facility-locator-color-gray: #ccc;
   }
 
   .search-results-container {
-    float: left;
-    display: block;
     width: 305px;
     max-height: 78vh;
     overflow-y: auto;
@@ -277,66 +236,6 @@ $facility-locator-color-gray: #ccc;
     margin: 0.5em 0;
   }
 
-  .map-marker {
-    background-position: center center;
-    font-size: 15px;
-    height: 60px;
-    margin-left: -25px;
-    margin-top: -25px;
-    text-align: center;
-    width: 60px;
-    z-index: 999;
-    color: $color-white;
-  }
-
-  .benefits-icon {
-    background-image: url("/img/icons/benefits-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .cemetery-icon {
-    background-image: url("/img/icons/cemetery-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .health-icon {
-    background-image: url("/img/icons/health-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .cc-provider-icon {
-    background-image: url("/img/icons/cc-provider-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .vet-center-icon {
-    background-image: url("/img/icons/vet-centers-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .numbered-icon {
-    height: 32px;
-    margin-left: -12px;
-    margin-top: -12px;
-    text-align: center;
-    padding-top: 3px;
-    width: 32px;
-    z-index: 999;
-    background: url("/img/icons/map-pin.svg") no-repeat center center;
-    background-size: contain;
-    color: $color-white;
-  }
-
-  .current-position-icon {
-    background: url("/img/icons/current-location-pin.svg") no-repeat center center;
-    background-size: contain;
-  }
-
   .clearfix {
     content: "";
     display: block;
@@ -387,64 +286,6 @@ $facility-locator-color-gray: #ccc;
       }
     }
 
-  }
-
-  .mb2 {
-    margin-bottom: 2em;
-  }
-
-  .scroller-left{
-    position: fixed;
-    left: 0;
-    background: $facility-locator-color-gray;
-  }
-
-
-  //TODO(css): Make this less specific
-  #content .section h4 {
-    padding: 0 0 .25em 0;
-  }
-
-  hr.light {
-    color: $color-gray-light;
-    margin: 0;
-    border: 1px solid $color-gray-light;
-  }
-
-  hr.title {
-    color: $color-primary-darker;
-    margin: 0 0 2rem;
-    border: 1px solid $color-primary-darker;
-  }
-
-  ul {
-    margin: 0;
-  }
-
-  input.full-width {
-    width: 100%;
-  }
-
-  ul {
-    margin: 0;
-  }
-
-  .facility-contact-link {
-    font-size: 2rem;
-    text-decoration: none;
-
-    i {
-      margin-right: 1rem;
-      width: 18px;
-    }
-  }
-
-  .facility-back-link {
-    margin-bottom: 1.5em;
-
-    i {
-      margin-right: 0.75rem;
-    }
   }
 
   .facility-detail {
@@ -507,92 +348,6 @@ $facility-locator-color-gray: #ccc;
       border: 1px solid $color-primary-darker;
     }
   }
-}
-
-#facility-dropdown {
-  background: $color-white;
-  border: 1px solid $color-black;
-  border-radius: 5px;
-  box-sizing: border-box;
-  cursor: pointer;
-  color: $color-base;
-  display: block;
-  font-size: 1.6rem;
-  height: 4.2rem;
-  line-height: 1.3;
-  margin: 0.2em 0;
-  max-width: 46rem;
-  position: relative;
-  width: 100%;
-
-  &.disabled {
-    cursor: default;
-    background-color: $color-gray-lightest;
-  }
-
-  .dropdown {
-    background: $color-white;
-    border: solid 1px $color-black;
-    box-sizing: content-box;
-    font-size: 1.6rem;
-    left: -1px;
-    list-style: none;
-    max-height: 70vh;
-    overflow-y: auto;
-    padding: 0;
-    position: absolute;
-    width: 100%;
-    z-index: 1010;
-
-    .dropdown-option {
-      border-bottom: solid 1px $color-black;
-      z-index: 1011;
-      font-weight: bold;
-
-      &.selected,
-      &:hover {
-        color: $color-white;
-        background-color: $color-primary-darker;
-      }
-
-      &:last-child {
-        border-bottom: none;
-      }
-    }
-  }
-
-  .dropdown-option {
-    box-shadow: none;
-    line-height: 1.3;
-    margin: 0;
-    max-width: 100%;
-    overflow: hidden;
-    padding: 1rem 0.7em;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .icon-option {
-    background-position: 0.5rem center;
-    padding-left: 4rem;
-  }
-
-  .dropdown-toggle {
-    color: $color-black;
-    margin: 0;
-    position: absolute;
-    right: 1rem;
-    top: 33%;
-  }
-}
-
-#facility-dropdown-toggle {
-  background-color: transparent;
-  color: inherit;
-  height: 100%;
-  text-align: left;
-  width: 100%;
 }
 
 #service-typeahead {
@@ -666,66 +421,6 @@ $facility-locator-color-gray: #ccc;
   text-decoration: none;
 }
 
-.facility-phone-alt {
-  display: table;
-  margin-left: 33px;
-}
-
-.cc-info-link-span {
-  float: right;
-  text-align: right;
-  margin-top: -7.25rem;
-  margin-right: -10.5rem;
-}
-
-.cc-info-link {
-  display: inline-block;
-  font-size: 0.6rem;
-  background-image: none;
-  background-color: transparent;
-  text-align: right;
-  text-decoration: none;
-  text-align: right;
-  padding: 0 !important;
-  margin-bottom: 0;
-}
-
-.cc-info-link:hover, .cc-info-link:active {
-  background-color: transparent;
-}
-
-.cc-info-link-icon {
-  margin: 0 !important;
-  font-size: 2.0rem !important;
-  vertical-align: -0.2rem;
-  cursor: pointer;
-}
-
-#facility-dropdown-label {
-  position: relative;
-}
-
-.cc-info-close-btn {
-  background-color: transparent;
-  color: $color-gray-light;
-  padding: 0;
-  margin-right: 0 !important;
-  float: right;
-  font-weight: normal;
-  font-size: 130%;
-}
-.cc-info-close-btn:hover, .cc-info-close-btn:active {
-  background-color: transparent;
-}
-
-.cc-info-close-btn-icon {
-  margin-right: 0 !important;
-}
-
-#urgent-care-link {
-  font-weight: bold;
-}
-
 .current-pos-pin {
   border-radius: 50%;
   width: 23px;
@@ -777,36 +472,12 @@ $facility-locator-color-gray: #ccc;
   }
 }
 
-.no-marg-right {
-  margin-right: 0 !important;
-}
-
 .no-marg-top {
   margin-top: 0 !important;
 }
 
-.width-35 {
-  width: 27% !important;
-}
-
 .bor-rad {
   border-radius: 5px;
-}
-
-.bor-none {
-  border: none !important;
-}
-
-.pull-right {
-  float: right;
-}
-
-.pull-left {
-  float: left;
-}
-
-.top-z {
-  z-index: 1000 !important;
 }
 
 .va-nav-breadcrumbs:focus {
@@ -821,6 +492,7 @@ $facility-locator-color-gray: #ccc;
   font-size: 16px;
   font-family: 'Source Sans Pro', sans-serif !important;
 }
+
 .notice-marg-pad {
   padding: 0.5rem !important;
   margin-top: 0;
@@ -829,6 +501,7 @@ $facility-locator-color-gray: #ccc;
   width: 280px;
   height: 40px;
 }
+
 .icon-base {
   color: $color-base !important;
 }
@@ -838,13 +511,10 @@ $facility-locator-color-gray: #ccc;
   flex-direction: column;
 }
 
-.row:after {
-  display: block;
-}
-
 #other-tools {
   text-align: center;
   margin: 22px auto;
+  clear: both;
 
   @media(max-width: $small-screen) {
     width: 260px;

@@ -47,9 +47,6 @@ const uiSchema = {
   },
   inputPhoneNumber: {
     'ui:widget': PhoneNumberWidget,
-    'ui:options': {
-      inputType: 'tel',
-    },
     'ui:title': 'Number',
     'ui:errorMessages': {
       pattern: 'Please enter a valid phone number.',

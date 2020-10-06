@@ -5,7 +5,7 @@ import {
   debtLettersSuccess,
   debtLettersSuccessVBMS,
 } from '../utils/mockResponses';
-import { deductionCodes } from '../const';
+import { deductionCodes } from '../const/deduction-codes';
 
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
@@ -40,6 +40,40 @@ export const setActiveDebt = debt => ({
   debt,
 });
 
+export const fetchDebtLettersVBMS = () => async dispatch => {
+  dispatch(fetchDebtLettersInitiated());
+  try {
+    const options = {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+    };
+    const response = isVet360Configured()
+      ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
+      : await debtLettersSuccessVBMS();
+
+    // Remove DMC  -  prefixing added by VBMS
+    const filteredResponse = response.map(debtLetter => {
+      if (debtLetter.typeDescription.includes('DMC - ')) {
+        return {
+          ...debtLetter,
+          typeDescription: debtLetter.typeDescription.slice(6),
+          date: new Date(debtLetter.receivedAt),
+        };
+      }
+      return debtLetter;
+    });
+
+    return dispatch(fetchDebtLettersVBMSSuccess(filteredResponse));
+  } catch (error) {
+    return dispatch(fetchDebtLettersVBMSFailure());
+  }
+};
+
 export const fetchDebtLetters = () => async dispatch => {
   dispatch(fetchDebtsInitiated());
   try {
@@ -63,44 +97,16 @@ export const fetchDebtLetters = () => async dispatch => {
     const approvedDeductionCodes = Object.keys(deductionCodes);
     // remove any debts that do not have approved deductionCodes or
     // that have a current amount owed of 0
-    const filteredResponse = response
+    const filteredResponse = response.debts
       .filter(res => approvedDeductionCodes.includes(res.deductionCode))
       .filter(debt => debt.currentAr > 0);
+
+    // suppress VBMS call if they have dependent debt
+    if (!response.hasDependentDebt) {
+      dispatch(fetchDebtLettersVBMS());
+    }
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
   } catch (error) {
     return dispatch(fetchDebtLettersFailure());
-  }
-};
-
-export const fetchDebtLettersVBMS = () => async dispatch => {
-  dispatch(fetchDebtLettersInitiated());
-  try {
-    const options = {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-      },
-    };
-    const response = isVet360Configured()
-      ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
-      : await debtLettersSuccessVBMS();
-
-    // Remove DMC  -  prefixing added by VBMS
-    const filteredResponse = response.map(debtLetter => {
-      if (debtLetter.typeDescription.includes('DMC - ')) {
-        return {
-          ...debtLetter,
-          typeDescription: debtLetter.typeDescription.slice(6),
-        };
-      }
-      return debtLetter;
-    });
-
-    return dispatch(fetchDebtLettersVBMSSuccess(filteredResponse));
-  } catch (error) {
-    return dispatch(fetchDebtLettersVBMSFailure());
   }
 };

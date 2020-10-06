@@ -4,9 +4,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AddressView from './AddressView';
 import PhoneNumberView from './PhoneNumberView';
+import AppointmentDisplay from './AppointmentDisplay';
 
 const AppointmentInfoBox = props => {
-  const { userFullName, dateOfBirth, gender, addresses, phoneNumbers } = props;
+  const {
+    userFullName,
+    dateOfBirth,
+    gender,
+    addresses,
+    phoneNumbers,
+    appointment,
+  } = props;
   const fullName = [userFullName.first, userFullName.middle, userFullName.last]
     .filter(f => f)
     .map(name => name[0].toUpperCase() + name.substr(1).toLowerCase())
@@ -16,7 +24,7 @@ const AppointmentInfoBox = props => {
 
   return (
     <div>
-      <p>This is formation is for you appointment at ... </p>
+      <AppointmentDisplay appointment={appointment} />
       <p>This is the personal information we have on file for you.</p>
       <div className="vads-u-border-left--7px vads-u-border-color--primary">
         <div className="vads-u-padding-left--1">
@@ -46,7 +54,7 @@ const AppointmentInfoBox = props => {
                   className=" vads-u-font-weight--bold"
                   data-testid="gender"
                 >
-                  {gender ? genderLabels[gender] : 'UNKNOWN'}
+                  {genderLabels[gender] ? genderLabels[gender] : 'UNKNOWN'}
                 </span>
               </p>
             </>
@@ -106,6 +114,7 @@ const mapStateToProps = state => ({
     { label: 'Work', data: state.user?.profile?.vet360?.workPhone },
     { label: 'Temporary', data: state.user?.profile?.vet360?.temporaryPhone },
   ],
+  appointment: state.questionnaireData?.context?.appointment,
 });
 
 export default connect(

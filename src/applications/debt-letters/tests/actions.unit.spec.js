@@ -14,65 +14,73 @@ describe('fetchDebtLetters', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);
       expect(dispatch.secondCall.args[0].debts).to.deep.equal([
         {
-          adamKey: '4',
-          fileNumber: '000000009',
+          fileNumber: 796121200,
           payeeNumber: '00',
           personEntitled: 'STUB_M',
           deductionCode: '44',
           benefitType: 'CH35 EDU',
-          amountOverpaid: 16000.0,
-          amountWithheld: 0.0,
-          originalAr: 13000,
-          currentAr: 10000,
+          diaryCode: '618',
+          diaryCodeDescription:
+            'Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available.',
+          amountOverpaid: 26000,
+          amountWithheld: 0,
+          originalAr: 100,
+          currentAr: 80,
           debtHistory: [
             {
-              date: '09/18/2012',
-              letterCode: '100',
-              status: 'First Demand Letter - Inactive Benefits',
+              date: '12/19/2014',
+              letterCode: '681',
               description:
-                'First due process letter sent when debtor is not actively receiving any benefits.',
-            },
-            {
-              date: '09/28/2012',
-              letterCode: '117',
-              status: 'Second Demand Letter',
-              description:
-                'Second demand letter where debtor has no active benefits to offset so debtor is informed that debt may be referred to CRA (60 timer), TOP, CAIVRS or Cross Servicing.  CRA is only one with timer.\r\n117A - Second collections letter sent to schools',
-            },
-            {
-              date: '10/17/2012',
-              letterCode: '212',
-              status: 'Bad Address - Locator Request Sent',
-              description:
-                'Originates from mail room Beep File (file of bad addresses to be sent to LexisNexis).  Remains in this status until LexisNexis comes back with updated address information.',
-            },
-            {
-              date: '11/14/2012',
-              letterCode: '117',
-              status: 'Second Demand Letter',
-              description:
-                'Second demand letter where debtor has no active benefits to offset so debtor is informed that debt may be referred to CRA (60 timer), TOP, CAIVRS or Cross Servicing.  CRA is only one with timer.\r\n117A - Second collections letter sent to schools',
-            },
-            {
-              date: '12/11/2012',
-              letterCode: '510',
-              status:
-                'Mailing Status Inactive/Invalid - Forced to TOP/Cross Servicing',
-              description:
-                'Demand letters returned.  Unable to verify address with third party.  Account forced to TOP and/or CS.',
+                'Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available.',
             },
             {
               date: '04/11/2013',
               letterCode: '080',
-              status: 'Referred To Cross Servicing',
               description: 'Debt referred to Treasury for Cross servicing',
             },
             {
-              date: '12/19/2014',
-              letterCode: '681',
-              status: 'Returned From Cross Servicing - At TOP',
+              date: '12/11/2012',
+              letterCode: '510',
               description:
-                'Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available.',
+                'Demand letters returned.  Unable to verify address with third party.  Account forced to TOP and/or CS.',
+            },
+            {
+              date: '10/17/2012',
+              letterCode: '212',
+              description: 'Bad Address - Locator Request Sent',
+            },
+            {
+              date: '09/28/2012',
+              letterCode: '117',
+              description: 'Second Demand Letter',
+            },
+            {
+              date: '09/18/2012',
+              letterCode: '100',
+              description:
+                'First Demand Letter - Inactive Benefits - Due Process',
+            },
+          ],
+        },
+        {
+          fileNumber: 796121200,
+          payeeNumber: '00',
+          personEntitled: 'AJOHNS',
+          deductionCode: '71',
+          benefitType: 'CH33 Books, Supplies/MISC EDU',
+          diaryCode: '100',
+          diaryCodeDescription:
+            'First Demand Letter - Inactive Benefits - Due Process',
+          amountOverpaid: 0,
+          amountWithheld: 0,
+          originalAr: 166.67,
+          currentAr: 120.4,
+          debtHistory: [
+            {
+              date: '09/18/2012',
+              letterCode: '100',
+              description:
+                'First Demand Letter - Inactive Benefits - Due Process',
             },
           ],
         },

@@ -1,9 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
-import sinon from 'sinon';
 import { expect } from 'chai';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import { DashboardApp, mapStateToProps } from '../../containers/DashboardApp';
 
 const defaultProps = {
@@ -16,14 +14,6 @@ const defaultProps = {
 };
 
 describe('<DashboardApp>', () => {
-  before(() => {
-    sinon.stub(localStorage, 'getItem');
-  });
-
-  after(() => {
-    localStorage.getItem.restore();
-  });
-
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<DashboardApp {...defaultProps} />);
     const vdom = tree.getRenderOutput();

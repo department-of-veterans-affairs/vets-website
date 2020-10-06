@@ -1,11 +1,14 @@
-import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 import { validateWhiteSpace } from 'platform/forms/validations';
+import * as topic from '../../inquiry/topic/topic';
 
 import fullSchema from '../../0873-schema.json';
-import { topicTitle } from '../../content/inquiryPage';
-import pageDescription from '../../content/PageDescription';
+import {
+  inquiryPageDescription,
+  inquiryTypeTitle,
+  queryTitle,
+} from '../../content/labels';
 
-const { topic, inquiryType, query } = fullSchema.properties;
+const { inquiryType, query } = fullSchema.properties;
 
 const formFields = {
   topic: 'topic',
@@ -13,33 +16,15 @@ const formFields = {
   query: 'query',
 };
 
-const getOptions = allOptions => {
-  return (_input = '') => {
-    return Promise.resolve(
-      allOptions.map(option => ({ id: option, label: option })),
-    );
-  };
-};
-
 const inquiryPage = {
   uiSchema: {
-    'ui:description': pageDescription('Your message'),
+    'ui:description': inquiryPageDescription,
     [formFields.inquiryType]: {
-      'ui:title': "Tell us the reason you're contacting us",
+      'ui:title': inquiryTypeTitle,
     },
-    [formFields.topic]: autoSuggestUiSchema(
-      topicTitle,
-      getOptions(topic.enum),
-      {
-        'ui:options': { queryForResults: true, freeInput: true },
-        'ui:errorMessages': {
-          maxLength: 'Please enter a name with fewer than 100 characters.',
-          pattern: 'Please enter a valid name.',
-        },
-      },
-    ),
+    [formFields.topic]: topic.uiSchema(),
     [formFields.query]: {
-      'ui:title': 'Please enter your question or message below',
+      'ui:title': queryTitle,
       'ui:widget': 'textarea',
       'ui:validations': [validateWhiteSpace],
     },
@@ -48,7 +33,7 @@ const inquiryPage = {
     type: 'object',
     required: [formFields.inquiryType, formFields.topic, formFields.query],
     properties: {
-      [formFields.topic]: topic,
+      [formFields.topic]: topic.schema(fullSchema),
       [formFields.inquiryType]: inquiryType,
       [formFields.query]: query,
     },

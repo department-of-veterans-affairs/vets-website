@@ -6,6 +6,8 @@ import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import SubmitError from 'applications/caregivers/components/SubmitError';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
 import {
   submitTransform,
   hasSecondaryCaregiverOne,
@@ -58,7 +60,7 @@ const formConfig = {
   preSubmitInfo: PreSubmitInfo,
   confirmation: ConfirmationPage,
   submissionError: SubmitError,
-  formId: '10-10CG',
+  formId: VA_FORM_IDS.FORM_10_10CG,
   version: 0,
   prefillEnabled: false,
   title:
@@ -77,7 +79,7 @@ const formConfig = {
   },
   chapters: {
     veteranChapter: {
-      title: 'Veteran or service member information',
+      title: 'Veteran information',
       pages: {
         veteranInfoOne: {
           path: 'vet-1',
@@ -100,7 +102,7 @@ const formConfig = {
       },
     },
     primaryCaregiverChapter: {
-      title: 'Primary Family Caregiver information',
+      title: 'Primary Family Caregiver applicant information',
       pages: {
         primaryCaregiverInfoOne: {
           path: 'primary-1',
@@ -123,7 +125,7 @@ const formConfig = {
       },
     },
     secondaryCaregiversChapter: {
-      title: 'Secondary Family Caregiver information',
+      title: 'Secondary Family Caregiver applicant information',
       depends: formData => hasSecondaryCaregiverOne(formData),
       pages: {
         secondaryCaregiverOneIntro: {
@@ -154,7 +156,7 @@ const formConfig = {
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',
-          title: 'Secondary Family Caregiver (2) information',
+          title: 'Secondary Family Caregiver (2) applicant information',
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoInfoPage.uiSchema,
           schema: secondaryTwoInfoPage.schema,

@@ -2,32 +2,39 @@ const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 
-const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
-const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql');
-const pressReleasePage = require('./pressReleasePage.graphql');
-const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
-const fragments = require('./fragments.graphql');
-const newsStoryPage = require('./newStoryPage.graphql');
-const vaFormPage = require('./vaFormPage.graphql');
-const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const alertsQuery = require('./alerts.graphql');
+const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
 const bannerAlertsQuery = require('./bannerAlerts.graphql');
+const benefitListingPage = require('./benefitListingPage.graphql');
+const bioPage = require('./bioPage.graphql');
+const checklistPage = require('./nodeChecklist.graphql');
+const eventListingPage = require('./eventListingPage.graphql');
 const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
-const outreachSidebarQuery = require('./navigation-fragments/outreachSidebar.nav.graphql');
-const icsFileQuery = require('./file-fragments/ics.file.graphql');
-const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
-const bioPage = require('./bioPage.graphql');
-const benefitListingPage = require('./benefitListingPage.graphql');
-const eventListingPage = require('./eventListingPage.graphql');
-const storyListingPage = require('./storyListingPage.graphql');
-const leadershipListingPage = require('./leadershipListingPage.graphql');
-const pressReleasesListingPage = require('./pressReleasesListingPage.graphql');
+const faqMultipleQaPage = require('./faqMultipleQa.graphql');
+const fragments = require('./fragments.graphql');
+const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
+const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql');
 const healthServicesListingPage = require('./healthServicesListingPage.graphql');
-const locationListingPage = require('./locationsListingPage.graphql');
 const homePageQuery = require('./homePage.graphql');
-const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
+const icsFileQuery = require('./file-fragments/ics.file.graphql');
+const leadershipListingPage = require('./leadershipListingPage.graphql');
+const locationListingPage = require('./locationsListingPage.graphql');
+const mediaListImages = require('./nodeMediaListImages.graphql');
+const mediaListVideos = require('./nodeMediaListVideos.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
+const newsStoryPage = require('./newStoryPage.graphql');
+const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
+const outreachSidebarQuery = require('./navigation-fragments/outreachSidebar.nav.graphql');
+const pressReleasePage = require('./pressReleasePage.graphql');
+const pressReleasesListingPage = require('./pressReleasesListingPage.graphql');
+const qaPage = require('./nodeQa.graphql');
+const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
+const stepByStepPage = require('./nodeStepByStep.graphql');
+const storyListingPage = require('./storyListingPage.graphql');
+const supportResourcesDetailPage = require('./nodeSupportResourcesDetailPage.graphql');
+const vaFormPage = require('./vaFormPage.graphql');
+const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 
 // Get current feature flags
 const { cmsFeatureFlags } = global;
@@ -71,6 +78,13 @@ const buildQuery = ({ useTomeSync }) => {
   ${healthServicesListingPage}
   ${pressReleasesListingPage}
   ${locationListingPage}
+  ${qaPage}
+  ${faqMultipleQaPage}
+  ${stepByStepPage}
+  ${mediaListImages}
+  ${checklistPage}
+  ${mediaListVideos}
+  ${supportResourcesDetailPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -103,6 +117,13 @@ const buildQuery = ({ useTomeSync }) => {
         ... healthServicesListingPage
         ... locationListingPage
         ... vaFormPage
+        ... nodeQa
+        ... faqMultipleQA
+        ... nodeStepByStep
+        ... nodeMediaListImages
+        ... nodeChecklist
+        ... nodeMediaListVideos
+        ... nodeSupportResourcesDetailPage
       }
     }`;
 
@@ -115,7 +136,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${nodeContentFragments}
 
   query GetAllPages(${todayQueryVar} $onlyPublishedContent: Boolean!) {
-      ${nodeQuery}
+    ${nodeQuery}
     ${icsFileQuery}
     ${sidebarQuery}
     ${facilitySidebarQuery}

@@ -27,7 +27,7 @@ describe('Chapter 36 Veteran Information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(4);
     form.unmount();
   });
 

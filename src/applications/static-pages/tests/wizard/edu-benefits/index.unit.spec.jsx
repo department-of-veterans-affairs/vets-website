@@ -7,14 +7,9 @@ import {
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import pages from 'applications/edu-benefits/wizard/pages';
-import { sessionStorageSetup } from 'platform/testing/utilities';
 
 describe('the Education Benefits Wizard', () => {
   let defaultProps;
-
-  before(() => {
-    sessionStorageSetup();
-  });
 
   beforeEach(() => {
     defaultProps = {
@@ -25,10 +20,6 @@ describe('the Education Benefits Wizard', () => {
         sessionStorage.setItem('benefitReferred', formId),
       setWizardStatus: value => sessionStorage.setItem('wizardStatus', value),
     };
-  });
-
-  afterEach(() => {
-    sessionStorage.clear();
   });
 
   it('should render the wizard wrapped in a form element', () => {

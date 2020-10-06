@@ -146,6 +146,7 @@ class SideNav extends Component {
             'vads-u-color--primary',
           )}
           onClick={this.toggleUlClass}
+          id="sidenav-menu"
         >
           <span className="sr-only">View sub-navigation for </span>
           In this section

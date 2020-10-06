@@ -200,7 +200,11 @@ class VetTecSearchForm extends React.Component {
             {this.renderFilterBy()}
           </div>
           <div id="see-results-button" className="results-button">
-            <button className="usa-button" onClick={this.props.toggleFilter}>
+            <button
+              className="usa-button"
+              data-cy="see-results"
+              onClick={this.props.toggleFilter}
+            >
               See Results
             </button>
           </div>

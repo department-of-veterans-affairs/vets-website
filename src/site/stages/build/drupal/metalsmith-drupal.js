@@ -31,6 +31,8 @@ const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 // should use the files in the cms-export directory
 const USE_CMS_EXPORT_BUILD_ARG = 'use-cms-export';
 const CMS_EXPORT_DIR_BUILD_ARG = 'cms-export-dir';
+const CMS_EXPORT_CACHE_FILENAME =
+  '.cache/localhost/drupal/pagesTransformed.json';
 
 const getDrupalCachePath = buildOptions =>
   buildOptions[USE_CMS_EXPORT_BUILD_ARG]
@@ -221,6 +223,9 @@ async function loadDrupal(buildOptions) {
   const drupalPages = buildOptions[USE_CMS_EXPORT_BUILD_ARG]
     ? await getContentFromExport(buildOptions)
     : await getContentViaGraphQL(buildOptions);
+
+  // Dynamic GraphQL from CMS build
+  fs.outputJsonSync(CMS_EXPORT_CACHE_FILENAME, drupalPages);
 
   log('Drupal successfully loaded!');
   return drupalPages;

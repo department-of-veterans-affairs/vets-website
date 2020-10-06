@@ -13,6 +13,9 @@ export const getCalculatedBenefits = createSelector(
   getConstants,
   getInstitution,
   (inputs, constants, institution) => {
+    const avgDodBah = constants ? constants.AVGDODBAH : 0;
+    const tfCap = constants ? constants.TFCAP : 0;
+
     const { vetTecTuitionFees, vetTecScholarships } = inputs;
 
     const inputsNull = vetTecTuitionFees === null || vetTecTuitionFees === 0;
@@ -34,16 +37,13 @@ export const getCalculatedBenefits = createSelector(
       outOfPocketFees = null;
     } else if (institution.preferredProvider) {
       outOfPocketFees = 0;
-    } else if (
-      !institution.preferredProvider &&
-      vetTecTuitionFees > constants.TFCAP
-    ) {
-      outOfPocketFees =
-        vetTecTuitionFees - constants.TFCAP - vetTecScholarships;
+    } else if (!institution.preferredProvider && vetTecTuitionFees > tfCap) {
+      outOfPocketFees = vetTecTuitionFees - tfCap - vetTecScholarships;
       if (outOfPocketFees < 0) {
         outOfPocketFees = 0;
       }
     }
+
     return {
       outputs: {
         vetTecTuitionFees: formatCurrencyNullTBD(
@@ -55,7 +55,7 @@ export const getCalculatedBenefits = createSelector(
         halfVetTecPayment: formatCurrencyNullTBD(halfPaysToProviderValue),
         outOfPocketTuitionFees: formatCurrencyNullTBD(outOfPocketFees),
         inPersonRate: `${formatCurrency(institution.dodBah)}`,
-        onlineRate: `${formatCurrency(constants.AVGDODBAH * 0.5)}`,
+        onlineRate: `${formatCurrency(avgDodBah * 0.5)}`,
       },
     };
   },

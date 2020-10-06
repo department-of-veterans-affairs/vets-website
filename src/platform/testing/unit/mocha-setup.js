@@ -12,14 +12,19 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 
-// import sinon from 'sinon'
-
 global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
 global.__MEGAMENU_CONFIG__ = null;
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
+
+function copyProps(src, target) {
+  Object.defineProperties(target, {
+    ...Object.getOwnPropertyDescriptors(src),
+    ...Object.getOwnPropertyDescriptors(target),
+  });
+}
 
 function filterStackTrace(trace) {
   return trace
@@ -61,67 +66,76 @@ export default function setupJSDom() {
     url: 'http://localhost',
   });
 
-  // get the window object out of the document
-  const win = dom.window;
+  const { window } = dom;
 
   global.dom = dom;
-  global.document = win.document;
-  global.window = win;
-  global.navigator = {
-    userAgent: 'node.js',
+  global.window = window;
+  global.document = window.document;
+  global.navigator = { userAgent: 'node.js' };
+
+  global.requestAnimationFrame = function(callback) {
+    return setTimeout(callback, 0);
   };
 
-  win.VetsGov = {
-    scroll: {
-      duration: 0,
-      delay: 0,
-      smooth: false,
-    },
+  global.cancelAnimationFrame = function(id) {
+    clearTimeout(id);
   };
-
-  win.Forms = {
-    scroll: {
-      duration: 0,
-      delay: 0,
-      smooth: false,
-    },
-  };
-
-  win.dataLayer = [];
-  win.scrollTo = () => {};
-  Object.defineProperty(win, 'sessionStorage', {
-    value: global.sessionStorage,
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
-  Object.defineProperty(win, 'localStorage', {
-    value: global.localStorage,
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
-  win.requestAnimationFrame = func => func();
-  win.matchMedia = () => ({
-    matches: false,
-  });
 
   global.Blob = window.Blob;
+  window.dataLayer = [];
+  window.matchMedia = () => ({ matches: false });
+  window.scrollTo = () => {};
 
-  function copyProps(src, target) {
-    const props = Object.getOwnPropertyNames(src)
-      .filter(prop => typeof target[prop] === 'undefined')
-      .reduce(
-        (result, prop) => ({
-          ...result,
-          [prop]: Object.getOwnPropertyDescriptor(src, prop),
-        }),
-        {},
-      );
-    Object.defineProperties(target, props);
-  }
+  window.VetsGov = {
+    scroll: {
+      duration: 0,
+      delay: 0,
+      smooth: false,
+    },
+  };
 
-  copyProps(win, global);
+  window.Forms = {
+    scroll: {
+      duration: 0,
+      delay: 0,
+      smooth: false,
+    },
+  };
+
+  window.Mocha = true;
+
+  copyProps(window, global);
+
+  // The following properties provided by JSDom are read-only by default.
+  // Some tests rely on modifying them, so set them to writable to enable that.
+
+  Object.defineProperty(global, 'window', {
+    value: global.window,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+
+  Object.defineProperty(global, 'sessionStorage', {
+    value: window.sessionStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+
+  Object.defineProperty(global, 'localStorage', {
+    value: window.localStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+
+  Object.defineProperty(window, 'location', {
+    value: window.location,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
 }
 
 setupJSDom();

@@ -1,4 +1,4 @@
-import _ from 'platform/utilities/data';
+import { DEFAULT_BENEFIT_TYPE } from '../constants';
 
 export function transform(formConfig, form) {
   // We require the user to input a 10-digit number; assuming we get a 3-digit
@@ -7,7 +7,8 @@ export function transform(formConfig, form) {
     countryCode: '1',
     areaCode: phone.substring(0, 3),
     phoneNumber: phone.substring(3),
-    phoneNumberExt: '',
+    // Empty string/null are not permitted values
+    // phoneNumberExt: '',
   });
 
   const getRep = formData =>
@@ -22,7 +23,7 @@ export function transform(formConfig, form) {
     const xRef = {
       // formData name: api value
       time0800to1000: '800-1000 ET',
-      time1000to1200: '1000-1200 ET',
+      time1000to1230: '1000-1230 ET',
       time1230to1400: '1230-1400 ET',
       time1400to1630: '1400-1630 ET',
     };
@@ -39,73 +40,73 @@ export function transform(formConfig, form) {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const getToday = () => new Date().toISOString().split('T')[0];
-
-  const capitalize = text => `${text[0].toUpperCase()}${text.slice(1)}`;
+  const getIssueName = ({ attributes }) => {
+    const hasPercentage = attributes?.ratingIssuePercentNumber
+      ? ` - ${attributes.ratingIssuePercentNumber}%`
+      : '';
+    return `${attributes.ratingIssueSubjectText}${hasPercentage}`;
+  };
 
   /* submitted contested issue format
   [{
-    "type": "ContestableIssue",
+    "type": "contestableIssue",
     "attributes": {
       "issue": "tinnitus - 10",
       "decisionDate": "1900-01-01",
       "decisionIssueId": 1,
-      "ratingIssueId": "2",
-      "ratingDecisionIssueId": "3"
+      "ratingIssueReferenceId": "2",
+      "ratingDecisionReferenceId": "3"
     }
   }]
   */
-  const getContestedIssues = ({ contestedIssues = [] }) => {
-    const issueTransform = {
-      issue: issue => {
-        const hasPercentage = issue?.ratingIssuePercentNumber
-          ? ` - ${issue.ratingIssuePercentNumber}%`
-          : '';
-        return `${issue.ratingIssueSubjectText}${hasPercentage}`;
-      },
-      decisionDate: issue => issue.approxDecisionDate,
-      decisionIssueId: issue => issue.decisionIssueId,
-      ratingIssueId: issue => issue.ratingIssueReferenceId,
-      ratingDecisionIssueId: issue => issue.ratingDecisionReferenceId,
-    };
-    const getAttributes = (issue = {}) =>
-      Object.keys(issueTransform).reduce((acc, key) => {
-        const value = issueTransform[key](issue);
-        if (value) {
-          acc[key] = value;
-        }
-        return acc;
-      }, {});
+  const getContestedIssues = ({ contestedIssues = [] }) =>
+    contestedIssues.filter(issue => issue['view:selected']).map(issue => {
+      const attr = issue.attributes;
+      const attributes = [
+        'decisionIssueId',
+        'ratingIssueReferenceId',
+        'ratingDecisionReferenceId',
+      ].reduce(
+        (acc, key) => {
+          // Don't submit null or empty strings
+          if (attr[key]) {
+            acc[key] = attr[key];
+          }
+          return acc;
+        },
+        {
+          issue: getIssueName(issue),
+          decisionDate: attr.approxDecisionDate,
+        },
+      );
 
-    return contestedIssues
-      .filter(issue => issue['view:selected'])
-      .map(issue => ({
-        // type: "ContestableIssues" needs a capital "C"
-        type: capitalize(issue.type),
-        attributes: getAttributes(issue.attributes),
-      }));
-  };
+      return {
+        // type: "contestableIssues"
+        type: issue.type,
+        attributes,
+      };
+    });
 
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
     const informalConference = formData.informalConference !== 'no';
     const result = {
       data: {
-        type: 'HigherLevelReview',
+        type: 'higherLevelReview',
         attributes: {
-          // Only supporting "compensation" in this MVP
-          benefitType: 'compensation',
-          receiptDate: getToday(),
-          timezone: getTimeZone(),
+          // This value may empty if the user restarts the form
+          // See va.gov-team/issues/13814
+          benefitType: formData.benefitType || DEFAULT_BENEFIT_TYPE,
           informalConference,
-          sameOffice: formData.sameOffice,
+          sameOffice: formData.sameOffice || false,
 
           veteran: {
+            timezone: getTimeZone(),
             address: {
               // EVSS has very restrictive address rules; so Lighthouse API will
               // submit something like "use address on file"
               // TODO: postalCode vs zipCode?
-              zipCode5: formData.veteran?.zipPostalCode,
+              zipCode5: formData.veteran?.zipPostalCode || '00000',
             },
             // ** phone & email are optional **
             // phone: getPhoneNumber(formData?.primaryPhone),
@@ -130,8 +131,9 @@ export function transform(formConfig, form) {
 
     return result;
   };
-  // console.log(form);
-  const transformedData = mainTransform(_.cloneDeep(form.data));
-  // console.log('transformed data', JSON.stringify(transformedData));
+
+  // Not using _.cloneDeep on form data - it appears to replace `null` values
+  // with an empty object; and causes submission errors due to type mismatch
+  const transformedData = mainTransform(form.data);
   return JSON.stringify(transformedData);
 }

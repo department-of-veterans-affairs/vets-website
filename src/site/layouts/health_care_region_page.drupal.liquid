@@ -129,7 +129,6 @@ Example data:
     <div class="usa-grid usa-grid-full">
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
       <div class="usa-width-three-fourths">
-        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
         {% if !entityPublished %}
         <div class="usa-alert usa-alert-info">
           <div class="usa-alert-body">
@@ -247,9 +246,7 @@ Example data:
                     class="vads-u-height--full vads-u-width--full">
                     <i
                       class="fa fa-deaf vads-facility-hub-cta-circle">&nbsp;</i>
-                    <span class="vads-facility-hub-cta-label">Order hearing aid
-                      batteries and prosthetic socks<i
-                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                    <span class="vads-facility-hub-cta-label">Order hearing aid batteries <br/> and accessories<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
                   </a>
                 </div>
               </div>

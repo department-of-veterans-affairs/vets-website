@@ -255,11 +255,32 @@ export function isValidForm(form, pageList) {
       if (showPagePerItem) {
         const arrayData = formData[arrayPath];
         if (arrayData) {
+          const itemsToKeep = arrayData.map(itemFilter || (() => true));
+          // Remove the excluded array data
           formData = _.set(
             arrayPath,
-            itemFilter ? arrayData.filter(itemFilter) : arrayData,
+            arrayData.filter((item, index) => itemsToKeep[index]),
             formData,
           );
+          // Remove the excluded array itemSchemas
+          //
+          // NOTE: This will only work when `arrayPath` isn't a nested path.
+          // This is consistent with other uses of arrayPath throughout the
+          // library.
+          if (Array.isArray(schema.properties[arrayPath].items)) {
+            // `items` may be an array if the individual item schemas can be
+            // different, or a single object to describe every item. We only
+            // want to filter the schemas if they can be different. This ensures
+            // the data still matches its corresponding schema if we filtered
+            // out some data with `itemFilter`.
+            schema.properties[arrayPath] = _.set(
+              'items',
+              schema.properties[arrayPath].items.filter(
+                (item, index) => itemsToKeep[index],
+              ),
+              formData,
+            );
+          }
         } else {
           formData = _.unset(arrayPath, formData);
         }
@@ -399,9 +420,14 @@ export function validateCurrentOrPastYear(errors, year) {
   }
 }
 
-export function validateMatch(field1, field2) {
+export function validateMatch(
+  field1,
+  field2,
+  { ignoreCase } = { ignoreCase: false },
+) {
   return (errors, formData) => {
-    if (formData[field1] !== formData[field2]) {
+    const transform = ignoreCase ? val => val?.toLowerCase() : val => val;
+    if (transform(formData[field1]) !== transform(formData[field2])) {
       errors[field2].addError('Please ensure your entries match');
     }
   };

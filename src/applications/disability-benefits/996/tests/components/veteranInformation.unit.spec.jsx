@@ -6,7 +6,7 @@ import moment from 'moment';
 import { genderLabels } from 'platform/static-data/labels';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import { veteranInfoView } from '../../content/veteranInformation';
+import { VeteranInfoView } from '../../content/veteranInformation';
 
 const data = {
   veteran: {
@@ -32,7 +32,7 @@ describe('Confirm Veteran Details', () => {
       properties: {},
     };
     const uiSchema = {
-      'ui:description': () => veteranInfoView(data),
+      'ui:description': () => <VeteranInfoView {...data} />,
     };
     const tree = mount(
       <DefinitionTester

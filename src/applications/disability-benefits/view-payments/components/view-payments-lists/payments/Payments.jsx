@@ -8,7 +8,7 @@ import { chunk } from 'lodash';
 const alertClasses =
   'vads-u-padding-y--2p5 vads-u-padding-right--4 vads-u-padding-left--2';
 
-class PaymentsReceived extends Component {
+class Payments extends Component {
   state = {
     page: 1,
     maxRows: 5,
@@ -66,6 +66,10 @@ class PaymentsReceived extends Component {
 
   render() {
     let tableContent = '';
+    let tableAriaLabelldBy = 'paymentsRecievedHeader paymentsRecievedContent';
+    if (this.props.tableVersion === 'returned') {
+      tableAriaLabelldBy = 'paymentsReturnedHeader paymentsReturnedContent';
+    }
     if (this.state.currentlyShowingData) {
       tableContent = (
         <>
@@ -75,6 +79,7 @@ class PaymentsReceived extends Component {
             {this.props.data.length}
           </p>
           <ResponsiveTable
+            ariaLabelledBy={tableAriaLabelldBy}
             className="va-table"
             currentSort={{
               value: 'String',
@@ -108,4 +113,4 @@ class PaymentsReceived extends Component {
   }
 }
 
-export default PaymentsReceived;
+export default Payments;

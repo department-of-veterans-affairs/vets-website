@@ -61,8 +61,8 @@ describe('Chapter 36 Claimant Information', () => {
       />,
     );
 
-    fillData(form, 'input#root_firstName', 'Johnny');
-    fillData(form, 'input#root_lastName', 'Appleseed');
+    fillData(form, 'input#root_fullName_first', 'Johnny');
+    fillData(form, 'input#root_fullName_last', 'Appleseed');
     fillData(form, 'input#root_ssn', '370947141');
     changeDropdown(form, '#root_dateOfBirthMonth', 1);
     changeDropdown(form, '#root_dateOfBirthDay', 1);

@@ -135,8 +135,8 @@ const addNewArrayItem = $form => {
  *
  * @param {string} pathname - The pathname of the page to run the page hook on.
  */
-const performPageActions = pathname => {
-  cy.axeCheck();
+const performPageActions = (pathname, _13647Exception = false) => {
+  cy.axeCheck('main', { _13647Exception });
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
@@ -146,7 +146,7 @@ const performPageActions = pathname => {
     if (!hookExecuted && shouldAutofill) cy.fillPage();
 
     cy.expandAccordions();
-    cy.axeCheck();
+    cy.axeCheck('main', { _13647Exception });
 
     const postHookPromise = new Promise(resolve => {
       postHook();
@@ -161,9 +161,9 @@ const performPageActions = pathname => {
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.
  */
-const processPage = () => {
+const processPage = ({ _13647Exception }) => {
   cy.location('pathname', NO_LOG_OPTION).then(pathname => {
-    performPageActions(pathname);
+    performPageActions(pathname, _13647Exception);
 
     if (!pathname.endsWith('/confirmation')) {
       cy.location('pathname', NO_LOG_OPTION)
@@ -172,7 +172,7 @@ const processPage = () => {
             throw new Error(`Expected to navigate away from ${pathname}`);
           }
         })
-        .then(processPage);
+        .then(() => processPage({ _13647Exception }));
     }
   });
 };
@@ -490,6 +490,7 @@ const testForm = testConfig => {
     setup = () => {},
     setupPerTest = () => {},
     skip,
+    _13647Exception = false,
   } = testConfig;
 
   const skippedTests = Array.isArray(skip) && new Set(skip);
@@ -549,7 +550,7 @@ const testForm = testConfig => {
 
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
-            .then(processPage);
+            .then(() => processPage({ _13647Exception }));
         });
       });
 

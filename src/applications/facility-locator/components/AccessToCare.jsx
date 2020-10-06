@@ -50,9 +50,9 @@ export default function AccessToCare({ location }) {
   };
 
   return (
-    <div className="mb2">
+    <div className="vads-u-margin-bottom--4">
       <h4 className="highlight">Veteran-reported Satisfaction Scores</h4>
-      <div className="mb2">
+      <div className="vads-u-margin-bottom--4">
         <p>
           Current as of{' '}
           <strong>
@@ -71,13 +71,13 @@ export default function AccessToCare({ location }) {
           % of Veterans who say they usually or always get an appointment when
           they need care right away
         </p>
-        <div className="mb2">
+        <div className="vads-u-margin-bottom--4">
           {renderStat(
             'Primary care at this location',
             healthFeedbackAttrs.primaryCareUrgent,
           )}
         </div>
-        <div className="mb2">
+        <div className="vads-u-margin-bottom--4">
           {renderStat(
             'Specialty care at this location',
             healthFeedbackAttrs.specialtyCareUrgent,
@@ -89,13 +89,13 @@ export default function AccessToCare({ location }) {
           % of Veterans who say they usually or always get an appointment when
           they need it
         </p>
-        <div className="mb2">
+        <div className="vads-u-margin-bottom--4">
           {renderStat(
             'Primary care at this location',
             healthFeedbackAttrs.primaryCareRoutine,
           )}
         </div>
-        <div className="mb2">
+        <div className="vads-u-margin-bottom--4">
           {renderStat(
             'Specialty care at this location',
             healthFeedbackAttrs.specialtyCareRoutine,

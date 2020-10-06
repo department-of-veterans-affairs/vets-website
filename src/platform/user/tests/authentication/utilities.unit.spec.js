@@ -10,43 +10,19 @@ import {
   externalRedirects,
 } from '../../authentication/utilities';
 
-let oldSessionStorage;
-let oldLocalStorage;
-let oldWindow;
-
-const fakeWindow = () => {
-  oldSessionStorage = global.sessionStorage;
-  oldLocalStorage = global.localStorage;
-  oldWindow = global.window;
-  global.sessionStorage = {
-    setItem: () => {},
-    removeItem: () => {},
-    getItem: () => {},
-  };
-  global.localStorage = {
-    setItem: () => {},
-    removeItem: () => {},
-  };
-  global.window = {
-    dataLayer: [],
-    location: {
-      get: () => global.window.location,
-      set: value => {
-        global.window.location = value;
-      },
-      pathname: '',
-      search: '',
+const setup = () => {
+  global.window.location = {
+    get: () => global.window.location,
+    set: value => {
+      global.window.location = value;
     },
+    pathname: '',
+    search: '',
   };
 };
 
 describe('authentication URL helpers', () => {
-  beforeEach(fakeWindow);
-  afterEach(() => {
-    global.window = oldWindow;
-    global.sessionStorage = oldSessionStorage;
-    global.localStorage = oldLocalStorage;
-  });
+  beforeEach(setup);
 
   it('should redirect for signup', () => {
     signup();
@@ -112,10 +88,7 @@ describe('authentication URL helpers', () => {
 });
 
 describe('standaloneRedirect', () => {
-  beforeEach(fakeWindow);
-  afterEach(() => {
-    global.window = oldWindow;
-  });
+  beforeEach(setup);
 
   it('should return null when an application param is not provided', () => {
     global.window.location.search = '';

@@ -13,11 +13,11 @@ import expressCareReducer from './redux/reducer';
 import { FETCH_STATUS } from '../utils/constants';
 import { selectExpressCare } from '../utils/selectors';
 import FormLayout from './components/FormLayout';
-import ExpressCareReasonPage from '../containers/ExpressCareReasonPage';
-import ExpressCareDetailsPage from '../containers/ExpressCareDetailsPage';
-import ExpressCareConfirmationPage from '../containers/ExpressCareConfirmationPage';
-import ExpressCareInfoPage from '../containers/ExpressCareInfoPage';
-import ExpressCareRequestLimitPage from '../containers/ExpressCareRequestLimitPage';
+import ExpressCareReasonPage from './components/ExpressCareReasonPage';
+import ExpressCareDetailsPage from './components/ExpressCareDetailsPage';
+import ExpressCareConfirmationPage from './components/ExpressCareConfirmationPage';
+import ExpressCareInfoPage from './components/ExpressCareInfoPage';
+import ExpressCareRequestLimitPage from './components/ExpressCareRequestLimitPage';
 import ErrorMessage from '../components/ErrorMessage';
 
 function NewExpressCareRequestSection({

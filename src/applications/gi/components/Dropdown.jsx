@@ -17,6 +17,14 @@ class Dropdown extends React.Component {
     }
   };
 
+  renderLabel = () => {
+    return typeof this.props.label === 'string' ? (
+      <label htmlFor={this.props.name}>{this.props.label}</label>
+    ) : (
+      <div className="vads-u-margin-top--3">{this.props.label}</div>
+    );
+  };
+
   render() {
     if (!this.props.visible) {
       return null;
@@ -29,7 +37,7 @@ class Dropdown extends React.Component {
         className={(this.props.className, disabledClass)}
         id={this.dropdownId}
       >
-        <label htmlFor={this.props.name}>{this.props.label}</label>
+        {this.renderLabel()}
         <select
           className={hideArrowsClass}
           id={this.props.name}
