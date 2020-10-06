@@ -181,8 +181,19 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
   };
 };
 
+const createFakeConfirmationStore = () => {
+  return {
+    getState: () => {
+      return {};
+    },
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
 export {
   createFakeUserStore,
   createFakeChiefComplaintStore,
   createFakeReasonForVisitStore,
+  createFakeConfirmationStore,
 };
