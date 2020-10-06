@@ -5,7 +5,7 @@ describe('topic', () => {
   const testSchema = {
     properties: {
       topic: {
-        oneOf: [
+        anyOf: [
           {
             properties: {
               levelOne: {
@@ -30,7 +30,7 @@ describe('topic', () => {
               },
               levelTwo: {
                 type: 'object',
-                oneOf: [
+                anyOf: [
                   {
                     properties: {
                       subLevelTwo: {
@@ -117,7 +117,7 @@ describe('topic', () => {
 
   it('should return level three topics when isLevelThree is true', () => {
     const subTopicValues = filterArrayByValue(
-      testSchema.properties.topic.oneOf[1].properties.levelTwo,
+      testSchema.properties.topic.anyOf[1].properties.levelTwo,
       'Health/Medical Eligibility & Programs',
       true,
     );
