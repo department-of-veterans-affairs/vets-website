@@ -30,11 +30,18 @@ const transform = (entity, { ancestors }) => ({
     },
   })),
   fieldLinks: entity.fieldLinks,
-  fieldOffice:
-    entity.fieldOffice[0] &&
-    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
-      ? { entity: entity.fieldOffice[0] }
-      : null,
+  fieldOffice: entity.fieldOffice[0]
+    ? {
+        entity: !ancestors.find(
+          r => r.entity.uuid === entity.fieldOffice[0].uuid,
+        )
+          ? entity.fieldOffice[0]
+          : {
+              entityLabel: getDrupalValue(entity.fieldOffice[0].title),
+              entityType: entity.fieldOffice[0].entityType,
+            },
+      }
+    : null,
   fieldOperatingStatusEmergInf: {
     value: getDrupalValue(entity.fieldOperatingStatusEmergInf),
   },
