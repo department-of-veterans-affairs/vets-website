@@ -31,8 +31,10 @@ const LocationOperationStatus = ({ operatingStatus }) => {
     >
       <i
         aria-hidden="true"
+        role="img"
         className={`fa fa-exclamation-${iconType} vads-u-margin-top--1 icon-base`}
       />
+      <span className="sr-only">Alert: </span>
       <div className="usa-alert-body">{infoMsg}</div>
     </div>
   );

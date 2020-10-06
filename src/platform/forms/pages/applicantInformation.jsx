@@ -51,7 +51,7 @@ export default function applicantInformation(schema, options) {
         [`${prefix}FullName`]: fullNameUI,
         [`${prefix}DateOfBirth`]: Object.assign(
           {},
-          currentOrPastDateUI('Date of birth'),
+          currentOrPastDateUI('Your date of birth'),
           {
             'ui:errorMessages': {
               pattern: 'Please provide a valid date',

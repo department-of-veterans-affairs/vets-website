@@ -26,6 +26,7 @@ export function ProfilePage({
   eligibility,
   gibctEybBottomSheet,
   gibctFilterEnhancement,
+  gibctSchoolRatings,
   match,
 }) {
   const { facilityCode, preSelectedProgram } = match.params;
@@ -89,6 +90,7 @@ export function ProfilePage({
           version={version}
           gibctEybBottomSheet={gibctEybBottomSheet}
           gibctFilterEnhancement={gibctFilterEnhancement}
+          gibctSchoolRatings={gibctSchoolRatings}
         />
       );
     }
@@ -121,6 +123,9 @@ const mapStateToProps = state => {
     ],
     gibctFilterEnhancement: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctFilterEnhancement
+    ],
+    gibctSchoolRatings: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctSchoolRatings
     ],
   };
 };
