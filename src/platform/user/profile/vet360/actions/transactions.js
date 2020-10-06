@@ -176,10 +176,6 @@ export function createTransaction(
         });
       }
 
-      if (transaction?.errors) {
-        throw transaction.errors;
-      }
-
       dispatch({
         type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
         fieldName,
