@@ -7,6 +7,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-.questionnaire-help-footer{
-  margin-bottom: 6rem;
+
+
+.healthcare-questionnaire-review{
+  div.top-row.review-row{
+    border-top: none;
+  }
 }
