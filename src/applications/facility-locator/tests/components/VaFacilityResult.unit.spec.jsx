@@ -3,7 +3,8 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import VaFacilityResult from '../../components/search-results-items/VaFacilityResult';
 import testData from '../../constants/mock-facility-data-v1.json';
-import { LocationType } from '../../constants';
+import { LocationType, OperatingStatus } from '../../constants';
+import LocationOperationStatus from '../../components/search-results-items/common/LocationOperationStatus';
 
 describe('VaFacilityResult', () => {
   it('Should render VaFacilityResult, facility type health', () => {
@@ -75,6 +76,16 @@ describe('VaFacilityResult', () => {
       'https://va.gov/alexandria',
     );
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('Should render LocationOperationStatus with LIMITED status', () => {
+    const wrapper = shallow(
+      <LocationOperationStatus operatingStatus={OperatingStatus.LIMITED} />,
+    );
+    expect(wrapper.find('span').hasClass('sr-only')).to.equal(true);
+    expect(wrapper.find('i').prop('aria-hidden')).to.equal('true');
+    expect(wrapper.find('i').prop('role')).to.equal('img');
     wrapper.unmount();
   });
 });

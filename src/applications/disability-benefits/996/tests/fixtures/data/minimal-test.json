@@ -4,12 +4,12 @@
       "phoneNumber": "5033333333",
       "emailAddress": "mike.wazowski@gmail.com",
       "ssnLastFour": "7821",
-      "vaFileNumber": "8765",
-      "addressLine1": "1200 Park Ave",
+      "vaFileLastFour": "8765",
+      "street": "1200 Park Ave",
       "city": "Emeryville",
-      "countryCode": "USA",
-      "stateOrProvinceCode": "CA",
-      "zipPostalCode": "94608"
+      "country": "USA",
+      "state": "CA",
+      "zipCode5": "94608"
     },
     "sameOffice": false,
     "privacyAgreementAccepted": true,
