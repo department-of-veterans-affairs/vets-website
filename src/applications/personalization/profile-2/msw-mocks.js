@@ -97,9 +97,9 @@ const createTransactionRequestSuccessBody = {
 // couple of places but for testing purposes I'm reusing this body for _all_
 // transaction creation requests.
 const createTransactionRequestFailedError = {
-  title: 'Check Email Domain',
-  code: 'VET360_EMAIL304',
-  detail: 'AlphaNumeric ToplevelDomainName must be <= 63 Characters.',
+  title: 'Confirmation Date can not be greater than sourceDate',
+  code: 'VET360_EMAIL206',
+  detail: 'Confirmation Date can not be greater than sourceDate',
   status: '400',
 };
 
