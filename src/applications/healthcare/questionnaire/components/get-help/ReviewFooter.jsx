@@ -4,6 +4,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export default function ReviewFooter() {
+  const vetChatNumber = '838255';
   return (
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
       <div className="usa-alert-body">
@@ -34,7 +35,7 @@ export default function ReviewFooter() {
                 , or
               </li>
               <li>
-                Text <a href="sms:838255">838255</a>.
+                Text <a href={`sms:${vetChatNumber}`}>{vetChatNumber}</a>.
               </li>
             </ul>
           </section>
