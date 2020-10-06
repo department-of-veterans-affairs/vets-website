@@ -163,7 +163,7 @@ const IntroductionPage = props => {
           className="va-button sign-in-button-bottom"
           onClick={() => goToFirstPage()}
         >
-          start the questionnaire
+          Start the questionnaire
         </button>
       ) : (
         <button

@@ -8,6 +8,7 @@ module.exports = {
     changed: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
+    status: { $ref: 'GenericNestedBoolean' },
     field_administration: {
       type: 'array',
       maxItems: 1,
@@ -35,6 +36,7 @@ module.exports = {
     'changed',
     'metatag',
     'path',
+    'status',
     'field_administration',
     'field_alert_dismissable',
     'field_alert_email_updates_button',

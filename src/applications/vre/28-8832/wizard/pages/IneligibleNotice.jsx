@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_INELIGIBLE,
@@ -8,6 +9,10 @@ import {
 const IneligibleNotice = () => {
   useEffect(() => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
+    recordEvent({
+      event: `howToWizard-notice-displayed`,
+      'reason-for-notice': 'ineligibility - not a service member or veteran',
+    });
   });
   return (
     <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--primary-alt-lightest">

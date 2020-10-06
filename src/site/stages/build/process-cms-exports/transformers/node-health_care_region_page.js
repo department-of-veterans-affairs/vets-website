@@ -183,9 +183,10 @@ const transform = ({
             reverseField =>
               reverseField.fieldMainLocation && reverseField.entityPublished,
           )
-          .sort(
-            (a, b) =>
-              a.fieldNicknameForThisFacility - b.fieldNicknameForThisFacility,
+          .sort((a, b) =>
+            a.fieldNicknameForThisFacility.localeCompare(
+              b.fieldNicknameForThisFacility,
+            ),
           )
           .map(r => ({
             entityUrl: r.entityUrl,
@@ -214,9 +215,10 @@ const transform = ({
             reverseField =>
               !reverseField.fieldMainLocation && reverseField.entityPublished,
           )
-          .sort(
-            (a, b) =>
-              a.fieldNicknameForThisFacility - b.fieldNicknameForThisFacility,
+          .sort((a, b) =>
+            a.fieldNicknameForThisFacility.localeCompare(
+              b.fieldNicknameForThisFacility,
+            ),
           )
           .map(r => ({
             entityUrl: r.entityUrl,

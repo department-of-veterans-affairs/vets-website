@@ -5,54 +5,54 @@ const stateCodeToFullState = stateCode => {
 };
 
 const addressToDisplay = address => {
-  const rv = [];
+  const addressDisplayList = [];
   if (!address) {
-    return rv;
+    return addressDisplayList;
   }
 
   // sa1
   if (address.addressLine1) {
-    rv.push({
+    addressDisplayList.push({
       label: `Street Address 1`,
       value: address.addressLine1,
     });
   }
   // sa2
   if (address.addressLine2) {
-    rv.push({
+    addressDisplayList.push({
       label: `Street Address 2`,
       value: address.addressLine2,
     });
   }
   // sa3
   if (address.addressLine3) {
-    rv.push({
+    addressDisplayList.push({
       label: `Street Address 3`,
       value: address.addressLine3,
     });
   }
   // city
   if (address.city) {
-    rv.push({
+    addressDisplayList.push({
       label: 'City',
       value: address.city,
     });
   }
   // stateCode
   if (address.stateCode) {
-    rv.push({
+    addressDisplayList.push({
       label: 'State',
       value: stateCodeToFullState(address.stateCode),
     });
   }
   // zipCode
   if (address.zipCode) {
-    rv.push({
+    addressDisplayList.push({
       label: 'Zip',
       value: address.zipCode,
     });
   }
-  return rv;
+  return addressDisplayList;
 };
 
 const formatPhoneNumber = phoneNumberString => {

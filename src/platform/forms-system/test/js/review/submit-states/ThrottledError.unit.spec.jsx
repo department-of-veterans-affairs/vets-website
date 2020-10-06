@@ -93,7 +93,7 @@ describe('Schemaform review: <ThrottledError />', () => {
     const tree = render(
       <Provider store={store}>
         <ThrottledError
-          appType="test"
+          buttonText="test"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
@@ -126,7 +126,7 @@ describe('Schemaform review: <ThrottledError />', () => {
     const tree = render(
       <Provider store={store}>
         <ThrottledError
-          appType="test"
+          buttonText="test"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
@@ -156,7 +156,7 @@ describe('Schemaform review: <ThrottledError />', () => {
     const tree = render(
       <Provider store={store}>
         <ThrottledError
-          appType="test"
+          buttonText="custom text"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
@@ -164,7 +164,7 @@ describe('Schemaform review: <ThrottledError />', () => {
       </Provider>,
     );
 
-    const submitButton = tree.getByText('Submit test');
+    const submitButton = tree.getByText('custom text');
     expect(submitButton).to.not.be.null;
 
     expect(submitButton).to.not.have.attribute('disabled');
@@ -191,7 +191,7 @@ describe('Schemaform review: <ThrottledError />', () => {
     const tree = render(
       <Provider store={store}>
         <ThrottledError
-          appType="test"
+          buttonText="test"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
