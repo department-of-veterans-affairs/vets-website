@@ -79,10 +79,14 @@ if (testDirectories[0] === defaultPath) {
     // eslint-disable-next-line no-console
     console.log(chalk.blue(`Test suite: ${unitTestDirectory}`));
 
-    const mocha = `NODE_ENV=test nyc --include "${unitTestDirectory}/**" --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color`;
-    const command = `LOG_LEVEL=${logLevel} ${mocha} --opts ${mochaOpts} --recursive ".${
-      path.sep
-    }${unitTestDirectory}${wildCard}"`;
+    let executeMocha = 'BABEL_ENV=test mocha';
+
+    if (options.coverage) {
+      executeMocha = `NODE_ENV=test nyc --include "${unitTestDirectory}/**" --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color`;
+    }
+
+    const findUnitTestsInDir = `".${path.sep}${unitTestDirectory}${wildCard}"`;
+    const command = `LOG_LEVEL=${logLevel} ${executeMocha} --opts ${mochaOpts} --recursive ${findUnitTestsInDir}`;
     const exitStatus = runCommandSync(command);
 
     if (exitStatus !== 0) {
