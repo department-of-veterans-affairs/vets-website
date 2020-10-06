@@ -24,10 +24,6 @@ const formConfig = {
       resolve(form.data);
     });
   },
-  transformForSubmit: (_formConfig, _form) => {
-    return JSON.stringify({ from: 'front end' });
-  },
-
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   version: 0,
   prefillEnabled: true,
