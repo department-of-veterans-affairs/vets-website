@@ -6,12 +6,10 @@ export default function VideoVisitProvider({ participants }) {
     return null;
   }
 
-  const practitionerDisplay = getPractitionerDisplay(participants);
-
   return (
     <dl className="vads-u-margin--0">
-      <dt className="vads-u-font-weight--bold">You'll be meeting with</dt>
-      <dd>{practitionerDisplay}</dd>
+      <dt className="vads-u-font-weight--bold">You’ll be meeting with</dt>
+      <dd>{getPractitionerDisplay(participants)}</dd>
     </dl>
   );
 }
