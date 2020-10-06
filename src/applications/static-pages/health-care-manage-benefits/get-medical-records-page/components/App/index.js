@@ -7,9 +7,10 @@ import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { selectIsCernerPatient } from 'platform/user/selectors';
+import { hasFacilityException } from '../../../utils';
+import { selectIsCernerPatient, selectFacilityIDs } from 'platform/user/selectors';
 
-export const App = ({ isCernerPatient, showNewGetMedicalRecordsPage }) => {
+export const App = ({ facilityIDs, isCernerPatient, showAuthFacilityIDExceptions, showNewGetMedicalRecordsPage }) => {
   if (!showNewGetMedicalRecordsPage) {
     return <LegacyContent />;
   }
@@ -18,16 +19,23 @@ export const App = ({ isCernerPatient, showNewGetMedicalRecordsPage }) => {
     return <AuthContent />;
   }
 
+  if (hasFacilityException(facilityIDs, showAuthFacilityIDExceptions)) {
+    return <AuthContent />;
+  }
+
   return <UnauthContent />;
 };
 
 App.propTypes = {
+  showAuthFacilityIDExceptions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   // From mapStateToProps.
+  facilityIDs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   isCernerPatient: PropTypes.bool,
   showNewGetMedicalRecordsPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+  facilityIDs: selectFacilityIDs(state),
   isCernerPatient: selectIsCernerPatient(state),
   showNewGetMedicalRecordsPage:
     state?.featureToggles?.[featureFlagNames.showNewGetMedicalRecordsPage],

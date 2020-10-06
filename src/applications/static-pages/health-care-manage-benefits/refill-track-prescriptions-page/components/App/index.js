@@ -8,9 +8,12 @@ import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectIsCernerPatient } from 'platform/user/selectors';
+import { hasFacilityException } from '../../../utils';
 
 export const App = ({
+  facilityIDs,
   isCernerPatient,
+  showAuthFacilityIDExceptions,
   showNewRefillTrackPrescriptionsPage,
 }) => {
   if (!showNewRefillTrackPrescriptionsPage) {
@@ -21,16 +24,23 @@ export const App = ({
     return <AuthContent />;
   }
 
+  if (hasFacilityException(facilityIDs, showAuthFacilityIDExceptions)) {
+    return <AuthContent />;
+  }
+
   return <UnauthContent />;
 };
 
 App.propTypes = {
+  showAuthFacilityIDExceptions: PropTypes.array.isRequired,
   // From mapStateToProps.
+  facilityIDs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   isCernerPatient: PropTypes.bool,
   showNewRefillTrackPrescriptionsPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+  facilityIDs: selectFacilityIDs(state),
   isCernerPatient: selectIsCernerPatient(state),
   showNewRefillTrackPrescriptionsPage:
     state?.featureToggles?.[

@@ -14,6 +14,8 @@ export const isLOA3 = state => selectProfile(state).loa.current === 3;
 export const isLOA1 = state => selectProfile(state).loa.current === 1;
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
+export const selectFacilityIDs = state =>
+  selectProfile(state)?.facilities?.map(f => f.facilityId) || [];
 export const selectPatientFacilities = state =>
   selectProfile(state)?.facilities?.map(({ facilityId, isCerner }) => {
     // Derive if the user belongs to a Cerner facility in the FE maintained list.
