@@ -340,47 +340,43 @@ export default function formReducer(state = initialState, action) {
           vaFacility,
           vaParent,
         };
-      } else {
-        if (
-          action.sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL
-        ) {
-          const residentialCoordinates = action.residentialCoordinates;
-          typeOfCareFacilities = typeOfCareFacilities
-            .map(facility => {
-              const distanceFromResidentialAddress = distanceBetween(
-                residentialCoordinates.latitude,
-                residentialCoordinates.longitude,
-                facility.position.latitude,
-                facility.position.longitude,
-              );
-
-              return {
-                ...facility,
-                legacyVAR: {
-                  ...facility.legacyVAR,
-                  distanceFromResidentialAddress,
-                },
-              };
-            })
-            .sort(
-              (a, b) =>
-                a.legacyVAR.distanceFromResidentialAddress <
-                b.legacyVAR.distanceFromResidentialAddress
-                  ? -1
-                  : 1,
+      } else if (
+        action.sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL
+      ) {
+        const residentialCoordinates = action.residentialCoordinates;
+        typeOfCareFacilities = typeOfCareFacilities
+          .map(facility => {
+            const distanceFromResidentialAddress = distanceBetween(
+              residentialCoordinates.latitude,
+              residentialCoordinates.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
             );
-        }
 
-        newSchema = set(
-          'properties.vaFacility',
-          {
-            type: 'string',
-            enum: typeOfCareFacilities.map(facility => facility.id),
-            enumNames: typeOfCareFacilities,
-          },
-          newSchema,
-        );
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromResidentialAddress,
+              },
+            };
+          })
+          .sort(
+            (a, b) =>
+              a.legacyVAR.distanceFromResidentialAddress -
+              b.legacyVAR.distanceFromResidentialAddress,
+          );
       }
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: typeOfCareFacilities.map(facility => facility.id),
+          enumNames: typeOfCareFacilities,
+        },
+        newSchema,
+      );
 
       const { data, schema } = setupFormData(
         newData,

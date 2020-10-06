@@ -115,8 +115,8 @@ const facilities = vhaIds.map((id, index) => ({
     ...getVAFacilityMock().attributes,
     uniqueId: id.replace('vha_', ''),
     name: `Fake facility name ${index + 1}`,
-    lat: 41.1457280000001,
-    long: -104.7895949,
+    lat: 40.8596747, // Clifton, NJ
+    long: -74.1927881,
     address: {
       physical: {
         ...getVAFacilityMock().attributes.address.physical,
@@ -125,6 +125,11 @@ const facilities = vhaIds.map((id, index) => ({
     },
   },
 }));
+
+const closestFacility = facilities[2];
+closestFacility.attributes.name = 'Closest facility';
+closestFacility.attributes.lat = 39.50603012; // Dayton, OH
+closestFacility.attributes.long = -84.3164749;
 
 describe('VAOS integration: VA flat facility page - multiple facilities', () => {
   beforeEach(() => mockFetch());
@@ -203,12 +208,12 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
           ...initialState.user.profile,
           vet360: {
             residentialAddress: {
-              addressLine1: 'PSC 808 Box 37',
-              city: 'FPO',
-              stateCode: 'AE',
-              zipCode: '09618',
-              latitude: 37.5615,
-              longitude: -121.9988,
+              addressLine1: '290 Ludlow Ave',
+              city: 'Cincinatti',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1362562, // Cincinatti, OH
+              longitude: -84.6804804,
             },
           },
         },
@@ -227,9 +232,13 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       'We base this on the address we have on file',
     );
     expect(screen.baseElement).to.contain.text('Your address on file');
-    expect(screen.baseElement).to.contain.text('PSC 808 Box 37');
-    expect(screen.baseElement).to.contain.text('FPO, AE 09618');
+    expect(screen.baseElement).to.contain.text('290 Ludlow Ave');
+    expect(screen.baseElement).to.contain.text('Cincinatti, OH 45220');
     expect(screen.baseElement).to.contain.text(' miles');
+
+    // It should sort by distance, making Closest facility the first facility
+    const firstRadio = screen.container.querySelector('.form-radio-buttons');
+    expect(firstRadio).to.contain.text('Closest facility');
   });
 
   it('should not display show more button if < 6 locations', async () => {

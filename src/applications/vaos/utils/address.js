@@ -170,9 +170,5 @@ export function distanceBetween(lat1, lng1, lat2, lng2) {
       Math.cos(toRadians(lat2));
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  return (R * c).toFixed(1);
-}
-
-export function isPOBox(addressLine1) {
-  return addressLine1.match(/^PO Box/);
+  return parseFloat((R * c).toFixed(1));
 }
