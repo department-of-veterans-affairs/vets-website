@@ -9,7 +9,7 @@ import {
 } from './medicalCenters';
 
 const topicSchemaCopy = _.clone(fullSchema.properties.topic);
-topicSchemaCopy.oneOf.pop();
+topicSchemaCopy.anyOf.pop();
 
 const formFields = {
   levelOne: 'levelOne',
@@ -21,7 +21,7 @@ const formFields = {
 const getSchemaFromParentTopic = (topicSchema, value, isLevelThree = false) => {
   const parentLevel = isLevelThree ? 'subLevelTwo' : 'levelOne';
   const childLevel = isLevelThree ? 'levelThree' : 'levelTwo';
-  const parentSchema = topicSchema.oneOf.filter(element => {
+  const parentSchema = topicSchema.anyOf.filter(element => {
     return element.properties[parentLevel].enum.includes(value);
   });
   return parentSchema[0].properties[childLevel];
@@ -42,7 +42,7 @@ export const filterArrayByValue = (
     labelList = childSchema.enum;
   } else {
     labelList = _.flatten(
-      childSchema.oneOf.map(subSchema => {
+      childSchema.anyOf.map(subSchema => {
         return subSchema.properties.subLevelTwo.enum;
       }),
     );
@@ -50,7 +50,7 @@ export const filterArrayByValue = (
   return isLevelThree ? labelList : _.orderBy([], 'asc', labelList);
 };
 
-const levelOneTopicLabels = topicSchemaCopy.oneOf.map(topicSchema => {
+const levelOneTopicLabels = topicSchemaCopy.anyOf.map(topicSchema => {
   return topicSchema.properties.levelOne.enum[0];
 });
 

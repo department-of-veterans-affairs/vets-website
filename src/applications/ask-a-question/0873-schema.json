@@ -318,7 +318,7 @@
     },
     "topic": {
       "type": "object",
-      "oneOf": [
+      "anyOf": [
         {
           "properties": {
             "levelOne": {
@@ -347,7 +347,7 @@
             },
             "levelTwo": {
               "type": "object",
-              "oneOf": [
+              "anyOf": [
                 {
                   "properties": {
                     "subLevelTwo": {
