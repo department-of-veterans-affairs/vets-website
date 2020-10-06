@@ -140,6 +140,46 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
  * @param {Object} buildOptions
  * @return {Object} - The result of the GraphQL query
  */
+async function getSideNavsViaGraphQL(buildOptions = global.buildOptions) {
+  global.buildtype = buildOptions.buildtype;
+  let sideNavs;
+
+  const sideNavFile = path.join(
+    buildOptions.cacheDirectory,
+    'drupal',
+    'side-nav-menus.json',
+  );
+
+  if (shouldPullDrupal(buildOptions)) {
+    const contentApi = getApiClient(buildOptions);
+    log('Pulling side nav menus from Drupal...');
+    await contentApi.getSideNavigations().then(res => {
+      sideNavs = res.data.sideNavMenus;
+
+      // Write them to .cache/{buildtype}/drupal/side-nav-menus.json
+      fs.ensureDirSync(buildOptions.cacheDirectory);
+      fs.emptyDirSync(path.dirname(sideNavFile));
+      fs.writeJsonSync(sideNavFile, sideNavs, { spaces: 2 });
+    });
+  } else {
+    log('Using cached side navs');
+    sideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
+  }
+
+  if (global.verbose) {
+    log(`Drupal side navs:\n${JSON.stringify(sideNavs, null, 2)}`);
+  }
+
+  return sideNavs || [];
+}
+
+/**
+ * Uses Drupal content via a new GraphQL query or the cached result of a
+ * previous query. This is where the cache is saved.
+ *
+ * @param {Object} buildOptions
+ * @return {Object} - The result of the GraphQL query
+ */
 async function getContentViaGraphQL(buildOptions) {
   const contentApi = getApiClient(buildOptions);
   const drupalCache = getDrupalCachePath(buildOptions);
@@ -204,6 +244,12 @@ async function getContentFromExport(buildOptions) {
   }
 
   const drupalPages = await contentApi.getNonNodeContent();
+
+  if (drupalPages.errors && drupalPages.errors.length) {
+    log(JSON.stringify(drupalPages.errors, null, 2));
+    throw new Error('Drupal query returned with errors');
+  }
+
   drupalPages.data.nodeQuery = {
     entities: contentApi.getExportedPages(),
   };
@@ -292,4 +338,4 @@ function getDrupalContent(buildOptions) {
   };
 }
 
-module.exports = { getDrupalContent, shouldPullDrupal };
+module.exports = { getSideNavsViaGraphQL, getDrupalContent, shouldPullDrupal };

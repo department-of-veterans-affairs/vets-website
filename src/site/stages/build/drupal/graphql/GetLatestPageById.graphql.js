@@ -40,8 +40,9 @@ const {
  * Queries for a page by the node id, getting the latest revision
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
  */
-module.exports = `
-
+const buildQuery = async () => {
+  const sideNavQuery = await facilitySidebarQuery.compiledQuery();
+  return `
   ${fragments}
   ${landingPage}
   ${page}
@@ -93,7 +94,7 @@ module.exports = `
     }
     ${icsFileQuery}
     ${sidebarQuery}
-    ${facilitySidebarQuery}
+    ${sideNavQuery}
     ${alertsQuery}
     ${bannerAlertsQuery}
     ${
@@ -104,8 +105,9 @@ module.exports = `
     ${menuLinksQuery}
   }
 `;
+};
 
-const query = module.exports;
+const query = buildQuery();
 
 let regString = '';
 queryParamToBeChanged.forEach(param => {
