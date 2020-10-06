@@ -394,7 +394,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
       const address = selectVet360ResidentialAddress(initialState);
       const hasResidentialCoordinates =
-        !!address.latitude && !!address.longitude;
+        !!address?.latitude && !!address?.longitude;
 
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,

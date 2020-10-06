@@ -115,6 +115,8 @@ const facilities = vhaIds.map((id, index) => ({
     ...getVAFacilityMock().attributes,
     uniqueId: id.replace('vha_', ''),
     name: `Fake facility name ${index + 1}`,
+    lat: 41.1457280000001,
+    long: -104.7895949,
     address: {
       physical: {
         ...getVAFacilityMock().attributes.address.physical,
@@ -162,6 +164,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       expect(screen.baseElement).to.contain.text(f.attributes.name);
     });
 
+    // Should not show address
+    expect(screen.baseElement).not.to.contain.text('Your address on file');
+
     // Should not show 6th facility
     expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
 
@@ -178,6 +183,53 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please provide a response',
     );
+  });
+
+  it('should show residential address and sort by distance if we have coordinates', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+    mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vet360: {
+            residentialAddress: {
+              addressLine1: 'PSC 808 Box 37',
+              city: 'FPO',
+              stateCode: 'AE',
+              zipCode: '09618',
+              latitude: 37.5615,
+              longitude: -121.9988,
+            },
+          },
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    await screen.findByText(
+      /Choose a VA location for your Primary care appointment/i,
+    );
+    expect(screen.baseElement).to.contain.text(
+      'We base this on the address we have on file',
+    );
+    expect(screen.baseElement).to.contain.text('Your address on file');
+    expect(screen.baseElement).to.contain.text('PSC 808 Box 37');
+    expect(screen.baseElement).to.contain.text('FPO, AE 09618');
+    expect(screen.baseElement).to.contain.text(' miles');
   });
 
   it('should not display show more button if < 6 locations', async () => {

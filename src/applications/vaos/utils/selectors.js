@@ -4,6 +4,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   selectPatientFacilities,
   selectIsCernerOnlyPatient,
+  selectVet360ResidentialAddress,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
 
@@ -344,6 +345,8 @@ export function getFacilityPageV2Info(state) {
     showEligibilityModal:
       facilities?.length > 1 && newAppointment.showEligibilityModal,
     typeOfCare: typeOfCare?.name,
+    sortMethod: newAppointment.facilityPageSortMethod,
+    address: selectVet360ResidentialAddress(state),
   };
 }
 
