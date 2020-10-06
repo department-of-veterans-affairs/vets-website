@@ -15,12 +15,11 @@ function hasError(codes, errors) {
 }
 
 export default function Vet360EditModalErrorMessage({
-  error,
+  error: { errors = [] },
   clearErrors,
   title,
 }) {
   let content = null;
-  const errors = error?.errors || [];
 
   switch (true) {
     case hasError(LOW_CONFIDENCE_ADDRESS_ERROR_CODES, errors):
@@ -47,7 +46,7 @@ export default function Vet360EditModalErrorMessage({
       );
       break;
 
-    case hasError(INVALID_EMAIL_ADDRESS_ERROR_CODES, error):
+    case hasError(INVALID_EMAIL_ADDRESS_ERROR_CODES, arguments[0]?.error):
       content = (
         <p>
           It looks like the email you entered isn’t valid. Please enter your

@@ -160,7 +160,7 @@ export function createTransaction(
 
       let transaction;
       if (window.Cypress) {
-        transaction = localVet360.createEmailTransactionFailure();
+        transaction = await localVet360.createEmailTransactionFailure();
       } else if (isVet360Configured()) {
         transaction = await apiRequest(route, options);
       } else {
