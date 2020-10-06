@@ -10,9 +10,7 @@ import { App } from './index';
 
 describe('Get Medical Records Page <App>', () => {
   it('renders what we expect when the feature toggle is turned off', () => {
-    const wrapper = shallow(
-      <App showNewSecureMessagingPage={false} />,
-    );
+    const wrapper = shallow(<App showNewSecureMessagingPage={false} />);
     expect(wrapper.find(LegacyContent)).to.have.lengthOf(1);
   });
 
@@ -30,9 +28,7 @@ describe('Get Medical Records Page <App>', () => {
   });
 
   it('renders what we expect when a Cerner patient', () => {
-    const wrapper = shallow(
-      <App showNewSecureMessagingPage isCernerPatient />,
-    );
+    const wrapper = shallow(<App showNewSecureMessagingPage isCernerPatient />);
     expect(wrapper.find(AuthContent)).to.have.lengthOf(1);
     wrapper.unmount();
   });

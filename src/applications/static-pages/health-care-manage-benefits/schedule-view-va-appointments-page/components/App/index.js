@@ -32,7 +32,8 @@ export const App = ({
 };
 
 App.propTypes = {
-  showAuthFacilityIDExceptions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  showAuthFacilityIDExceptions: PropTypes.arrayOf(PropTypes.string.isRequired)
+    .isRequired,
   // From mapStateToProps.
   facilityIDs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   isCernerPatient: PropTypes.bool,

@@ -10,9 +10,7 @@ import { App } from './index';
 
 describe('Get Medical Records Page <App>', () => {
   it('renders what we expect when the feature toggle is turned off', () => {
-    const wrapper = shallow(
-      <App showNewViewTestLabResultsPage={false} />,
-    );
+    const wrapper = shallow(<App showNewViewTestLabResultsPage={false} />);
     expect(wrapper.find(LegacyContent)).to.have.lengthOf(1);
   });
 
