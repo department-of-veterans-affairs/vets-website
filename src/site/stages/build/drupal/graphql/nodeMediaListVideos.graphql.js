@@ -24,18 +24,7 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
   }
   fieldRelatedInformation {
     entity {
-      ... on ParagraphLinkTeaser {
-        fieldLink {
-          url {
-            path
-            routed
-          }
-          uri
-          title
-          options
-        }
-        fieldLinkSummary
-      }
+      ... linkTeaser
     }
   }
 

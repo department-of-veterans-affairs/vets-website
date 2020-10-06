@@ -53,18 +53,7 @@ fragment nodeStepByStep on NodeStepByStep {
   }
   fieldRelatedInformation {
     entity {
-      ... on ParagraphLinkTeaser {
-        fieldLink {
-          url {
-            path
-            routed
-          }
-          uri
-          title
-          options
-        }
-        fieldLinkSummary
-      }
+      ... linkTeaser
     }
   }
 }
