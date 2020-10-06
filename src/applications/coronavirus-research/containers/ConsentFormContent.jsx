@@ -22,9 +22,9 @@ export function ConsentNotice() {
           join this list.
         </li>
         <li>
-          <strong>Contact:</strong> You may be contacted by VA to discuss
-          participating in a study. We may also contact you to learn about your
-          experience joining this list or any study you chose to participate in.
+          <strong>Contact:</strong> We may contact you to discuss participating
+          in a study. We may also contact you to learn about your experience
+          joining this list or any study you chose to participate in.
         </li>{' '}
         <li>
           <strong>Our partners for these studies:</strong> We're working with
