@@ -20,7 +20,9 @@ const transform = entity => {
         value: getDrupalValue(fieldDateAndTime),
       },
       fieldSendEmailToSubscribers: getDrupalValue(fieldSendEmailToSubscribers),
-      fieldWysiwyg: fieldWysiwyg[0],
+      fieldWysiwyg: {
+        processed: fieldWysiwyg[0].processed,
+      },
     },
   };
 };
