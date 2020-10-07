@@ -181,10 +181,30 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
   };
 };
 
-const createFakeConfirmationStore = () => {
+const createFakeConfirmationStore = ({ hasData }) => {
   return {
     getState: () => {
-      return {};
+      return hasData
+        ? {
+            form: {
+              submission: {
+                response: {
+                  veteranInfo: { fullName: 'Mickey Mouse' },
+                  timestamp: new Date(),
+                },
+              },
+            },
+            questionnaireData: {
+              context: {
+                appointment: {
+                  vdsAppointments: [
+                    { clinic: { facility: { displayName: 'Magic Kingdom' } } },
+                  ],
+                },
+              },
+            },
+          }
+        : { form: {}, questionnaireData: {} };
     },
     subscribe: () => {},
     dispatch: () => {},

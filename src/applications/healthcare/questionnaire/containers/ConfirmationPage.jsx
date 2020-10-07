@@ -19,10 +19,9 @@ const ConfirmationPage = props => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }, []);
-  const { appointment } = props;
-  const { submission } = props.form;
-  const { response } = submission;
-
+  const { appointment, form } = props;
+  const { submission } = form || undefined;
+  const { response } = submission || {};
   return (
     <div>
       <div className="usa-alert usa-alert-success schemaform-sip-alert">
@@ -38,7 +37,17 @@ const ConfirmationPage = props => {
 
       <div className="inset">
         <h3>Upcoming appointment questionnaire</h3>
-        <p>For {response.veteranInfo.fullName}</p>
+        {response?.veteranInfo?.fullName && (
+          <p>
+            For{' '}
+            <span
+              aria-label="Veteran's full name"
+              data-testid="veterans-full-name"
+            >
+              {response.veteranInfo.fullName}
+            </span>
+          </p>
+        )}
 
         {response && (
           <ul className="claim-list">
@@ -50,7 +59,7 @@ const ConfirmationPage = props => {
             <li>
               <strong>Your information was sent to</strong>
               <br />
-              <span>
+              <span data-testid="facility-name" aria-label="Facility Name">
                 {appointment?.vdsAppointments[0]?.clinic?.facility?.displayName}
               </span>
             </li>
