@@ -53,14 +53,14 @@ const logLevel = options['log-level'].toLowerCase();
 const forcedExitCode = options.coverage ? null : 0;
 const testDirectories = options.path;
 
-// run all unit tests else run only the test provided as a command line argument 
+// run all unit tests else run only the test provided as a command line argument
 if (testDirectories[0] === defaultPath) {
-  // array of unit test paths 
+  // array of unit test paths
   const allUnitTestPaths = glob.sync(defaultPath);
 
   // Group unit tests into suites by directories by creating a list of all unit test containing directories from the list of allUnitTestPaths
   const unitTestDirectories = new Set(
-    allUnitTests.map(unitTest => {
+    allUnitTestPaths.map(unitTest => {
       // Start with './src/applications/burials/tests/config/benefitsSelection.unit.spec.js'
       const directory = path.dirname(unitTest);
       const directoryPathArray = directory.split(path.sep);
