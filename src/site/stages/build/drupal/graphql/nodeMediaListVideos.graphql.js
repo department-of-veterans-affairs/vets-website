@@ -5,6 +5,7 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
   ${entityElementsFromPages}
   entityBundle
 
+  changed
   title
   fieldDescription
   fieldIntroTextLimitedHtml {
@@ -21,9 +22,9 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
       ... button
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
 

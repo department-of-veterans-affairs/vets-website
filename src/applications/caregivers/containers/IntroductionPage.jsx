@@ -52,7 +52,7 @@ const IntroductionPage = ({ route, router }) => {
               </li>
 
               <li className="call-to-action-bullet">
-                Veteran&apos;s Social Security number or tax identification
+                The Veteran&apos;s Social Security number or tax identification
                 number (This is required for the online application only.) If
                 you’d like to apply without providing this information, you can
                 download the paper form
@@ -69,7 +69,7 @@ const IntroductionPage = ({ route, router }) => {
                       className="fas fa-download vads-u-padding-right--1"
                       role="img"
                     />
-                    Download the VA form 10-10CG
+                    Download VA form 10-10CG
                     <dfn className="vads-u-margin-left--0p5">
                       <abbr title="Portable Document Format">(PDF)</abbr> (934
                       <abbr title="Kilobytes">KB</abbr>)
@@ -227,7 +227,7 @@ const IntroductionPage = ({ route, router }) => {
         Start your application
       </button>
       <div className="omb-info--container vads-u-padding-left--0">
-        <OMBInfo resBurden={15} ombNumber="2900-0091" expDate="09/30/2021" />
+        <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="09/30/2021" />
       </div>
     </div>
   );

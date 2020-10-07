@@ -1,8 +1,10 @@
+import { DEFAULT_BENEFIT_TYPE } from '../constants';
+
 export function transform(formConfig, form) {
   // We require the user to input a 10-digit number; assuming we get a 3-digit
   // area code + 7 digit number. We're not yet supporting international numbers
   const getPhoneNumber = (phone = '') => ({
-    countryCode: '1',
+    country: '1',
     areaCode: phone.substring(0, 3),
     phoneNumber: phone.substring(3),
     // Empty string/null are not permitted values
@@ -92,9 +94,9 @@ export function transform(formConfig, form) {
       data: {
         type: 'higherLevelReview',
         attributes: {
-          // Only supporting "compensation" in this MVP
-          // TODO: add setting this value to the wizard
-          benefitType: 'compensation',
+          // This value may empty if the user restarts the form
+          // See va.gov-team/issues/13814
+          benefitType: formData.benefitType || DEFAULT_BENEFIT_TYPE,
           informalConference,
           sameOffice: formData.sameOffice || false,
 
@@ -104,7 +106,7 @@ export function transform(formConfig, form) {
               // EVSS has very restrictive address rules; so Lighthouse API will
               // submit something like "use address on file"
               // TODO: postalCode vs zipCode?
-              zipCode5: formData.veteran?.zipPostalCode || '00000',
+              zipCode5: formData.veteran?.zipCode5 || '00000',
             },
             // ** phone & email are optional **
             // phone: getPhoneNumber(formData?.primaryPhone),

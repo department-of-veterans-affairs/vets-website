@@ -5,6 +5,7 @@ fragment nodeStepByStep on NodeStepByStep {
   ${entityElementsFromPages}
   entityBundle
 
+  changed
   title
   fieldIntroTextLimitedHtml {
     processed
@@ -29,6 +30,11 @@ fragment nodeStepByStep on NodeStepByStep {
               fieldWysiwyg {
                 processed
               }
+              fieldAlert {
+                entity {
+                  ... alertParagraph
+                }
+              }
               fieldMedia {
                 entity {
                   ... on Media {
@@ -45,9 +51,9 @@ fragment nodeStepByStep on NodeStepByStep {
       }
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
 }

@@ -15,6 +15,16 @@ const testConfig = createTestConfig(
       data: path.join(__dirname, 'data'),
     },
     skip: true,
+    setupPerTest: () => {
+      cy.route({
+        method: 'POST',
+        url: '/v0/ask/asks',
+        status: 200,
+        response: {
+          body: '200 ok',
+        },
+      });
+    },
   },
   manifest,
   formConfig,

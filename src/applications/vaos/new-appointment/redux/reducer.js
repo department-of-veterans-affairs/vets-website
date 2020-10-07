@@ -8,7 +8,8 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { getEligibilityChecks } from '../../utils/eligibility';
+import { getParentOfLocation } from '../../services/location';
+import { getEligibilityChecks, isEligible } from '../../utils/eligibility';
 
 import {
   FORM_DATA_UPDATED,
@@ -20,12 +21,14 @@ import {
   FORM_PAGE_FACILITY_OPEN_FAILED,
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+  FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+  FORM_FETCH_PARENT_FACILITIES_FAILED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES_FAILED,
@@ -34,6 +37,7 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
+  FORM_HIDE_ELIGIBILITY_MODAL,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
@@ -220,7 +224,10 @@ export default function formReducer(state = initialState, action) {
           [action.pageKey]: 'home',
         };
       }
-      if (action.direction === 'next') {
+      if (
+        action.direction === 'next' &&
+        action.pageKey !== action.pageKeyNext
+      ) {
         updatedPreviousPages = {
           ...updatedPreviousPages,
           [action.pageKeyNext]: action.pageKey,
@@ -304,22 +311,48 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
-      const facilities = action.facilities.sort((a, b) => {
-        return a.name < b.name ? -1 : 1;
-      });
+      let newData = state.data;
+      const typeOfCareId = action.typeOfCareId;
+      const facilities = state.facilities;
+      const typeOfCareFacilities =
+        facilities[typeOfCareId] || action.facilities;
 
-      newSchema = set(
-        'properties.vaFacility',
-        {
-          type: 'string',
-          enum: facilities.map(facility => facility.id),
-          enumNames: facilities,
-        },
-        newSchema,
-      );
+      const parentFacilities =
+        action.parentFacilities || state.parentFacilities;
+
+      if (parentFacilities.length === 1 || !facilities.length) {
+        newData = {
+          ...newData,
+          vaParent: parentFacilities[0]?.id,
+        };
+      }
+
+      if (typeOfCareFacilities.length === 1) {
+        const vaFacility = typeOfCareFacilities[0]?.id;
+        const vaParent = getParentOfLocation(
+          parentFacilities,
+          typeOfCareFacilities[0],
+        )?.id;
+
+        newData = {
+          ...newData,
+          vaFacility,
+          vaParent,
+        };
+      } else {
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: typeOfCareFacilities.map(facility => facility.id),
+            enumNames: typeOfCareFacilities,
+          },
+          newSchema,
+        );
+      }
 
       const { data, schema } = setupFormData(
-        state.data,
+        newData,
         newSchema,
         action.uiSchema,
       );
@@ -333,9 +366,10 @@ export default function formReducer(state = initialState, action) {
         },
         schema,
         facilities: {
-          ...state.facilities,
-          [`${action.typeOfCareId}`]: facilities,
+          ...facilities,
+          [typeOfCareId]: typeOfCareFacilities,
         },
+        parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
@@ -350,7 +384,7 @@ export default function formReducer(state = initialState, action) {
       // If we only have one, then we want to just set the value in the
       // form data and remove the schema for that field, so we don't
       // show the question to the user
-      if (parentFacilities.length > 1) {
+      if (parentFacilities.length > 1 || action.isCernerOnly) {
         newSchema = set(
           'properties.vaParent.enum',
           parentFacilities.map(sys => sys.id),
@@ -361,6 +395,12 @@ export default function formReducer(state = initialState, action) {
           parentFacilities.map(sys => sys.name),
           newSchema,
         );
+
+        // Remove validation so that Cerner only patients can click
+        // on the Continue button and go to the Cerner portal
+        if (action.isCernerOnly) {
+          delete newSchema.required;
+        }
       } else {
         newSchema = unset('properties.vaParent', newSchema);
         newData = {
@@ -429,6 +469,7 @@ export default function formReducer(state = initialState, action) {
         pastAppointments,
       };
     }
+    case FORM_FETCH_PARENT_FACILITIES_FAILED:
     case FORM_PAGE_FACILITY_OPEN_FAILED: {
       return {
         ...state,
@@ -483,6 +524,7 @@ export default function formReducer(state = initialState, action) {
         childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
+    case FORM_PAGE_FACILITY_V2_OPEN_FAILED:
     case FORM_FETCH_CHILD_FACILITIES_FAILED: {
       const pages = unset(
         'vaFacility.properties.vaFacilityLoading',
@@ -523,6 +565,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         ccEnabledSystems: action.ccEnabledSystems,
         parentFacilities: action.parentFacilities,
+        parentFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
     case FORM_ELIGIBILITY_CHECKS: {
@@ -533,6 +576,8 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(action.eligibilityData);
+      const canSchedule = isEligible(eligibility);
+
       let clinics = state.clinics;
 
       if (!action.eligibilityData.clinics?.directFailed) {
@@ -552,12 +597,19 @@ export default function formReducer(state = initialState, action) {
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,
+        showEligibilityModal: !canSchedule.direct && !canSchedule.request,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
       return {
         ...state,
         eligibilityStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_HIDE_ELIGIBILITY_MODAL: {
+      return {
+        ...state,
+        showEligibilityModal: false,
       };
     }
     case START_DIRECT_SCHEDULE_FLOW:

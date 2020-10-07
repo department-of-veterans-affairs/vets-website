@@ -16,19 +16,11 @@ class SearchControls extends Component {
   };
 
   handleFacilityTypeChange = e => {
-    if (e.target.value) {
-      recordEvent({ 'fl-facility-type-filter': e.target.value });
-    }
-
     this.props.onChange({ facilityType: e.target.value, serviceType: null });
   };
 
   handleServiceTypeChange = ({ target }) => {
     const option = target.value;
-
-    if (option) {
-      recordEvent({ 'fl-service-type-filter': option });
-    }
 
     const serviceType = option === 'All' ? null : option;
     this.props.onChange({ serviceType });
@@ -37,7 +29,7 @@ class SearchControls extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { facilityType, serviceType } = this.props.currentQuery;
+    const { facilityType, serviceType, zoomLevel } = this.props.currentQuery;
 
     let analyticsServiceType = serviceType;
 
@@ -56,6 +48,7 @@ class SearchControls extends Component {
       event: 'fl-search',
       'fl-search-fac-type': facilityType,
       'fl-search-svc-type': analyticsServiceType,
+      'fl-current-zoom-depth': zoomLevel,
     });
 
     this.props.onSubmit();
@@ -64,7 +57,8 @@ class SearchControls extends Component {
   renderLocationInputField = currentQuery => (
     <>
       <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
-        City, state or postal code
+        City, state or postal code{' '}
+        <span className="vads-u-color--secondary-dark">(*Required)</span>
       </label>
       <input
         id="street-city-state-zip"
@@ -96,7 +90,10 @@ class SearchControls extends Component {
     ));
     return (
       <span>
-        <label htmlFor="facility-type-dropdown">Facility type</label>
+        <label htmlFor="facility-type-dropdown">
+          Facility type{' '}
+          <span className="vads-u-color--secondary-dark">(*Required)</span>
+        </label>
         <select
           id="facility-type-dropdown"
           aria-label="Choose a facility type"

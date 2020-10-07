@@ -3,10 +3,13 @@ import {
   getNewAppointment,
   getEligibilityStatus,
   getTypeOfCare,
+  getChosenFacilityInfo,
   vaosFlatFacilityPage,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
+import { getSiteIdFromFakeFHIRId } from '../services/location';
 import {
+  checkEligibility,
   showTypeOfCareUnavailableModal,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
@@ -18,6 +21,8 @@ const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
 const EYE_CARE = 'EYE';
 const PODIATRY = 'tbd-podiatry';
+const VA_FACILITY_V1_KEY = 'vaFacility';
+const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
 function isCCAudiology(state) {
   return (
@@ -50,7 +55,34 @@ function isPodiatry(state) {
 }
 
 function getFacilityPageKey(state) {
-  return vaosFlatFacilityPage(state) ? 'vaFacilityV2' : 'vaFacility';
+  return vaosFlatFacilityPage(state) ? VA_FACILITY_V2_KEY : VA_FACILITY_V1_KEY;
+}
+
+async function vaFacilityNext(state, dispatch) {
+  let eligibility;
+
+  if (vaosFlatFacilityPage(state)) {
+    const facility = getChosenFacilityInfo(state);
+    const siteId = getSiteIdFromFakeFHIRId(facility.id);
+    eligibility = await dispatch(checkEligibility(facility, siteId));
+    if (!eligibility.direct && !eligibility.request) {
+      return VA_FACILITY_V2_KEY;
+    }
+  } else {
+    eligibility = getEligibilityStatus(state);
+  }
+
+  if (eligibility.direct) {
+    dispatch(startDirectScheduleFlow());
+    return 'clinicChoice';
+  }
+
+  if (eligibility.request) {
+    dispatch(startRequestAppointmentFlow());
+    return 'requestDateTime';
+  }
+
+  throw new Error('Veteran not eligible for direct scheduling or requests');
 }
 
 export default {
@@ -142,24 +174,11 @@ export default {
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    async next(state, dispatch) {
-      const eligibilityStatus = getEligibilityStatus(state);
-
-      if (eligibilityStatus.direct) {
-        dispatch(startDirectScheduleFlow());
-        return 'clinicChoice';
-      }
-
-      if (eligibilityStatus.request) {
-        dispatch(startRequestAppointmentFlow());
-        return 'requestDateTime';
-      }
-
-      throw new Error('Veteran not eligible for direct scheduling or requests');
-    },
+    next: vaFacilityNext,
   },
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
+    next: vaFacilityNext,
   },
   clinicChoice: {
     url: '/new-appointment/clinics',

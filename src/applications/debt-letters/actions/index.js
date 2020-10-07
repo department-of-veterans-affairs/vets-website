@@ -5,7 +5,7 @@ import {
   debtLettersSuccess,
   debtLettersSuccessVBMS,
 } from '../utils/mockResponses';
-import { deductionCodes } from '../const';
+import { deductionCodes } from '../const/deduction-codes';
 
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';

@@ -9,6 +9,8 @@ const fragment = `
 fragment nodeQa on NodeQA {
   ${entityElementsFromPages}
   entityBundle
+
+  changed
   fieldAnswer {
     entity {
       entityType
@@ -25,6 +27,11 @@ fragment nodeQa on NodeQA {
   fieldButtons {
     entity {
       ${BUTTON}
+    }
+  }
+  fieldRelatedInformation {
+    entity {
+      ... linkTeaser
     }
   }
 }

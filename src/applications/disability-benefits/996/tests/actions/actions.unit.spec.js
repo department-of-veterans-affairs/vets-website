@@ -45,4 +45,18 @@ describe('fetch contestable issues action', () => {
       );
     });
   });
+
+  it('should dispatch failed action from unsupported benefitType', () => {
+    const mockData = { data: 'asdf' };
+    mockApiRequest(mockData, false);
+    const dispatch = sinon.spy();
+    return getContestableIssues({ benefitType: 'foo' })(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FETCH_CONTESTABLE_ISSUES_INIT,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FETCH_CONTESTABLE_ISSUES_FAILED,
+      );
+    });
+  });
 });

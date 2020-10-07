@@ -3,6 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import { WIZARD_STATUS } from 'applications/static-pages/wizard';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
@@ -20,6 +21,10 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: ({ afterHook }) => {
+        cy.get('[type="radio"][value="compensation"]').click();
+        cy.get('[type="radio"][value="legacy-no"]').click();
+        cy.axeCheck();
+        cy.findByText(/request/i, { selector: 'button' }).click();
         afterHook(() => {
           // Hit the start button
           cy.findAllByText(/start/i, { selector: 'button' })
@@ -30,6 +35,8 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      window.sessionStorage.removeItem(WIZARD_STATUS);
+
       cy.login();
 
       cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
@@ -48,29 +55,8 @@ const testConfig = createTestConfig(
         'fx:mocks/application-submit',
       );
 
-      cy.get('@testData').then(() => {
-        cy.route('GET', '/v0/in_progress_forms/20-0996', {
-          formData: {
-            veteran: {
-              phoneNumber: '5033333333',
-              emailAddress: 'mike.wazowski@gmail.com',
-              ssnLastFour: '9876',
-              vaFileNumber: '8765',
-              addressLine1: '1200 Park Ave',
-              addressLine2: '',
-              addressLine3: '',
-              city: 'Emeryville',
-              countryCode: 'USA',
-              stateOrProvinceCode: 'CA',
-              zipPostalCode: '94608',
-            },
-          },
-          metadata: {
-            version: 0,
-            prefill: true,
-            returnUrl: '/veteran-information',
-          },
-        });
+      cy.get('@testData').then(testData => {
+        cy.route('GET', '/v0/in_progress_forms/20-0996', testData);
       });
     },
 

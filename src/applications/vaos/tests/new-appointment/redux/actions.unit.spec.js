@@ -310,15 +310,9 @@ describe('VAOS newAppointment actions', () => {
       );
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
         parentFacilities: parentFacilitiesParsed,
-        facilities: null,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
 
@@ -337,15 +331,9 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
         parentFacilities: parentFacilitiesParsed.slice(0, 1),
-        facilities: facilities983Parsed,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
       expect(global.fetch.secondCall.args[0]).to.contain('/systems/983/');
     });
@@ -372,15 +360,9 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       const succeededAction = dispatch.lastCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
         parentFacilities: parentFacilitiesParsed,
-        facilities: null,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
 
@@ -398,15 +380,9 @@ describe('VAOS newAppointment actions', () => {
       );
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
-        parentFacilities: parentFacilitiesParsed,
         facilities: facilities983Parsed,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
 
@@ -529,15 +505,9 @@ describe('VAOS newAppointment actions', () => {
       );
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
-        parentFacilities: parentFacilitiesParsed,
-        facilities: [],
         eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
   });
@@ -1286,6 +1256,12 @@ describe('VAOS newAppointment actions', () => {
               partOf: {
                 reference: 'Organization/var983',
               },
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
             },
           ],
           facilities: {

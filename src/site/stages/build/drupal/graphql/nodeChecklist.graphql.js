@@ -5,6 +5,7 @@ fragment nodeChecklist on NodeChecklist {
   ${entityElementsFromPages}
   entityBundle
 
+  changed
   title
   fieldDescription
   fieldIntroTextLimitedHtml {
@@ -22,9 +23,9 @@ fragment nodeChecklist on NodeChecklist {
       ... alertSingle
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
   fieldChecklist {

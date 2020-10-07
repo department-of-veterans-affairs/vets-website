@@ -20,6 +20,7 @@ import {
   medicalCenterLabels,
   medicalCentersByState,
   validateSSNIsUnique,
+  facilityNameMaxLength,
 } from 'applications/caregivers/helpers';
 
 const emptyFacilityList = [];
@@ -97,9 +98,6 @@ export default {
       'ui:title': ' ',
       'ui:description': AdditionalCaregiverInfo(),
       'ui:widget': 'yesNo',
-      'ui:options': {
-        hideOnReview: true,
-      },
     },
   },
   vetUI: {
@@ -108,6 +106,14 @@ export default {
       'ui:title': ' ',
       'ui:order': ['name', 'type'],
       name: {
+        'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
+        'ui:validations': [
+          {
+            validator: (errors, fieldData, formData) => {
+              facilityNameMaxLength(errors, formData);
+            },
+          },
+        ],
         'ui:title': (
           <div>
             <h3 className="vads-u-font-size--h4">Recent medical care</h3>
@@ -123,6 +129,7 @@ export default {
         ),
       },
       type: {
+        'ui:required': formData => !!formData.veteranLastTreatmentFacility.name,
         'ui:title': 'Was this a hospital or clinic?',
         'ui:options': {
           labels: {
