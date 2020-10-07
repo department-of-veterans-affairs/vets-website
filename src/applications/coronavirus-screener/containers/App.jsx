@@ -3,7 +3,7 @@ import MetaTags from 'react-meta-tags';
 import MultiQuestionForm from '../components/MultiQuestionForm';
 import { questions, defaultOptions } from '../config/questions';
 
-const IntroductionText = (
+const introductionText = (
   <>
     <h1>COVID-19 screening tool</h1>
     <div className="va-introtext">
@@ -22,7 +22,7 @@ export default function App({ params }) {
       <MetaTags>
         <meta name="robots" content="noindex" />
       </MetaTags>
-      <IntroductionText />
+      {introductionText}
       <div className="vads-l-grid-container">
         <MultiQuestionForm
           questions={questions}
