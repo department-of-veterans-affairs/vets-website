@@ -1,13 +1,15 @@
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { veteranInformation } from '../../../utilities';
-import { addressSchema, addressUiSchemaII } from '../../../address-schema';
+import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 
 const veteranContactInformationSchema = cloneDeep(
   veteranInformation.properties.veteranAddress,
 );
 
-veteranContactInformationSchema.properties.veteranAddress = addressSchema;
+veteranContactInformationSchema.properties.veteranAddress = buildAddressSchema(
+  true,
+);
 
 // add confirm email field on the frontend only
 veteranContactInformationSchema.properties['view:confirmEmail'] = {
@@ -23,7 +25,7 @@ export const schema = {
 
 export const uiSchema = {
   veteranContactInformation: {
-    veteranAddress: addressUiSchemaII(
+    veteranAddress: addressUISchema(
       'veteranContactInformation.veteranAddress',
       () => true,
     ),
