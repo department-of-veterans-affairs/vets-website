@@ -118,11 +118,8 @@ if (testDirectories[0] === defaultPath) {
       );
 
       if (junitReportForAllTestRuns) {
-        junitReport('testsuites').each((index, testSuitesRootNode) => {
-          junitReportForAllTestRuns('testsuites').append(
-            testSuitesRootNode.children,
-          );
-        });
+        const testsuites = junitReport('testsuite');
+        junitReportForAllTestRuns('testsuites').append(testsuites);
         fs.writeFileSync(junitReportFilePath, junitReportForAllTestRuns.html());
       } else {
         junitReportForAllTestRuns = junitReport;
