@@ -8,7 +8,6 @@ import {
   staffScreening,
   fullTestRouteOptions,
   routeOptions,
-  expectTextbyLanguage,
 } from './question-scenario-helper';
 
 // test scenarios for visitors and staff
