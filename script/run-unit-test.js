@@ -71,6 +71,10 @@ if (testDirectories[0] === defaultPath) {
 
       if (directoryPathArray[2] === 'applications') {
         subdirectoryDepth = 4;
+
+        if (directoryPathArray[3] === 'personalization') {
+          subdirectoryDepth = 5;
+        }
       }
 
       // Reduce to 'src/applications/burials/'
@@ -114,9 +118,11 @@ if (testDirectories[0] === defaultPath) {
       );
 
       if (junitReportForAllTestRuns) {
-        junitReportForAllTestRuns('testsuites').append(
-          junitReport('testsuites').children(),
-        );
+        junitReport('testsuites').each((index, testSuitesRootNode) => {
+          junitReportForAllTestRuns('testsuites').append(
+            testSuitesRootNode.children,
+          );
+        });
         fs.writeFileSync(junitReportFilePath, junitReportForAllTestRuns.html());
       } else {
         junitReportForAllTestRuns = junitReport;
