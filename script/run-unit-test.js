@@ -53,6 +53,7 @@ const logLevel = options['log-level'].toLowerCase();
 const forcedExitCode = options.coverage ? null : 0;
 const testDirectories = options.path;
 
+// run all unit tests else run only the test provided as a command line argument 
 if (testDirectories[0] === defaultPath) {
   const allUnitTests = glob.sync(defaultPath);
 
