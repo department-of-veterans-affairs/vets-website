@@ -11,6 +11,7 @@ module.exports = {
     changed: { type: 'number' },
     entityPublished: { type: 'boolean' },
     entityMetatags: { $ref: 'MetaTags' },
+    entityUrl: { $ref: 'EntityUrl' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldDescription: { type: 'string' },
     fieldIntroText: { type: 'string' },

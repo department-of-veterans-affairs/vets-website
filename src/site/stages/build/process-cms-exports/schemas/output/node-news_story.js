@@ -25,6 +25,17 @@ module.exports = {
     fieldFullStory: { $ref: 'ProcessedString' },
     fieldImageCaption: { type: ['string', 'null'] },
     fieldIntroText: { type: 'string' },
+    fieldListing: {
+      type: 'object',
+      properties: {
+        entity: {
+          type: 'object',
+          properties: {
+            entityUrl: { $ref: 'EntityUrl' },
+          },
+        },
+      },
+    },
     fieldMedia: { oneOf: [{ $ref: 'Media' }, { type: 'null' }] },
     fieldOffice: {
       oneOf: [
