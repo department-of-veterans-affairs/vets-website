@@ -371,6 +371,9 @@ function createLocationUISchemaForKey(
 const formConfig = {
   rootUrl: manifest.rootUrl,
   formId: '21-686C',
+  benefitDescription: {
+    benefitType: 'disability compensation',
+  },
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   transformForSubmit: transform,
