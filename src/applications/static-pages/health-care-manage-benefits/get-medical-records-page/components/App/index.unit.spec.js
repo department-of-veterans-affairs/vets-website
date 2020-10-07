@@ -12,6 +12,7 @@ describe('Get Medical Records Page <App>', () => {
   it('renders what we expect when the feature toggle is turned off', () => {
     const wrapper = shallow(<App showNewGetMedicalRecordsPage={false} />);
     expect(wrapper.find(LegacyContent)).to.have.lengthOf(1);
+    wrapper.unmount();
   });
 
   it('renders what we expect when there is a Cerner facility exception', () => {

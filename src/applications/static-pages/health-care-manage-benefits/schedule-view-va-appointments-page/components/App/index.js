@@ -7,7 +7,7 @@ import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { selectIsCernerPatient } from 'platform/user/selectors';
+import { selectIsCernerPatient, selectFacilityIDs } from 'platform/user/selectors';
 import { hasFacilityException } from '../../../utils';
 
 export const App = ({

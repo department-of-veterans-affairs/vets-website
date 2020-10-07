@@ -14,6 +14,7 @@ describe('Get Medical Records Page <App>', () => {
       <App showNewScheduleViewAppointmentsPage={false} />,
     );
     expect(wrapper.find(LegacyContent)).to.have.lengthOf(1);
+    wrapper.unmount();
   });
 
   it('renders what we expect when there is a Cerner facility exception', () => {
