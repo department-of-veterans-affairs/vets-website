@@ -105,13 +105,12 @@ export class IntroductionPage extends React.Component {
                       </strong>{' '}
                       {form1995EduUpdates
                         ? 'An accredited individual, like a Veterans Service Officer (VSO), ' +
-                          'or a Veteran representative at your school, can help you fill out your claim.'
+                          'or a Veteran representative at your school, can help you fill out your claim. '
                         : 'An accredited representative, like a Veterans Service Officer (VSO), ' +
-                          'can help you fill out your claim.'}
+                          'can help you fill out your claim. '}
                       <a href="/disability/get-help-filing-claim/">
                         Get help filing your claim
                       </a>
-                      .
                     </p>
                     <h6>Learn about educational programs</h6>
                     <p>
@@ -120,7 +119,6 @@ export class IntroductionPage extends React.Component {
                       <a href="/gi-bill-comparison-tool/">
                         Use the GI Bill Comparison Tool
                       </a>
-                      .
                     </p>
                   </div>
                 </li>
