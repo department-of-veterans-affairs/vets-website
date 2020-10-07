@@ -18,6 +18,30 @@ import {
 } from './chapters/claimant-information';
 import { isDependent } from './helpers';
 
+const customSubmitTransformer = (formConfig, form) => {
+  return {
+    form: {
+      claimantInformation: {
+        fullName: {
+          first: form?.data?.fullName?.first,
+          middle: form?.data?.fullName?.middle,
+          last: form?.data?.fullName?.last,
+          suffix: form?.data?.fullName?.suffix,
+        },
+        ssn: form?.data?.ssn,
+        dateOfBirth: form?.data?.dateOfBirth,
+        vaFileNumber: form?.data?.VAFileNumber,
+        emailAddress: form?.data?.claimantEmailAddress,
+        phoneNumber: form?.data?.claimantPhoneNumber,
+      },
+      claimaintAddress: form?.data?.claimantAddress,
+      veteranFullName: form?.data?.veteranInformation?.fullName,
+      veteranSocialSecurityNumber: form?.data?.veteranInformation?.ssn,
+      status: form?.data?.status,
+    },
+  };
+};
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/education_career_counseling_claims',
@@ -29,6 +53,7 @@ const formConfig = {
   getHelp: GetFormHelp,
   preSubmitInfo: PreSubmitInfo,
   prefillEnabled: true,
+  transformForSubmit: customSubmitTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',
     noAuth:
