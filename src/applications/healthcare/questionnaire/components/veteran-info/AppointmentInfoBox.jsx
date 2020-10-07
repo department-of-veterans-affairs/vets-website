@@ -1,26 +1,49 @@
 import moment from 'moment';
 import { genderLabels } from 'platform/static-data/labels';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import AddressView from './AddressView';
 import PhoneNumberView from './PhoneNumberView';
 import AppointmentDisplay from './AppointmentDisplay';
+import { setData } from 'platform/forms-system/src/js/actions';
 
-const AppointmentInfoBox = props => {
-  const {
-    userFullName,
-    dateOfBirth,
-    gender,
-    addresses,
-    phoneNumbers,
-    appointment,
-  } = props;
-  const fullName = [userFullName.first, userFullName.middle, userFullName.last]
-    .filter(f => f)
-    .map(name => name[0].toUpperCase() + name.substr(1).toLowerCase())
-    .join(' ')
-    .trim();
-  const { residential, mailing } = addresses;
+const AppointmentInfoBox = ({
+  userFullName,
+  dateOfBirth,
+  gender,
+  addresses,
+  phoneNumbers,
+  appointment,
+  setFormData,
+}) => {
+  const [phones] = useState(phoneNumbers);
+  const [allAddresses] = useState(addresses);
+  const fullName = useMemo(
+    () => {
+      return [userFullName.first, userFullName.middle, userFullName.last]
+        .filter(f => f)
+        .map(name => name[0].toUpperCase() + name.substr(1).toLowerCase())
+        .join(' ')
+        .trim();
+    },
+    [userFullName.first, userFullName.middle, userFullName.last],
+  );
+
+  const { residential, mailing } = allAddresses;
+
+  useEffect(
+    () => {
+      const veteranInfo = {
+        gender,
+        dateOfBirth,
+        fullName,
+        phones,
+        addresses: allAddresses,
+      };
+      setFormData({ veteranInfo });
+    },
+    [setFormData, gender, dateOfBirth, fullName, phones, allAddresses],
+  );
 
   return (
     <div>
@@ -117,7 +140,11 @@ const mapStateToProps = state => ({
   appointment: state.questionnaireData?.context?.appointment,
 });
 
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(AppointmentInfoBox);

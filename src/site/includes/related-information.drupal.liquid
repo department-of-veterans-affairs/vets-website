@@ -1,0 +1,16 @@
+{% if fieldRelatedInformation != empty %}
+  <div class="row">
+    <div class="usa-content columns">
+      <aside class="va-nav-linkslist va-nav-linkslist--related">
+        <section>
+          <h2 id="related-information" class="va-nav-linkslist-heading">Related information</h2>
+          <ul class="va-nav-linkslist-list">
+            {% for linkTeaser in fieldRelatedInformation %}
+              {% include "src/site/paragraphs/linkTeaser.drupal.liquid" linkTeaser = linkTeaser.entity %}
+            {% endfor %}
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </div>
+{% endif %}

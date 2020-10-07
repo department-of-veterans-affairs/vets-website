@@ -82,7 +82,7 @@ VeteranInfoView.propTypes = {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const veteran = state.form?.veteran;
+  const veteran = state.form?.data.veteran;
   return {
     profile,
     veteran,

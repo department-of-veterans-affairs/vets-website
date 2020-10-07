@@ -1,5 +1,6 @@
 import React from 'react';
 import AlertBox from '../components/AlertBox';
+import { convertRatingToStars } from './helpers';
 
 export const renderSchoolClosingAlert = result => {
   const { schoolClosing, schoolClosingOn } = result;
@@ -39,7 +40,7 @@ export const renderCautionAlert = cautionFlags => {
 
   return (
     <AlertBox
-      className="vads-u-margin-top--1"
+      className="vads-u-margin-top--0"
       content={
         <React.Fragment>
           {validFlags.length === 1 && <p>{validFlags[0].title}</p>}
@@ -135,4 +136,42 @@ export const renderSearchResultsHeader = search => {
         `${(search.count || 0).toLocaleString()} ${header}`}
     </h1>
   );
+};
+
+export const renderStars = rating => {
+  const starData = convertRatingToStars(rating);
+
+  if (!starData) {
+    return null;
+  }
+
+  const stars = [];
+  for (let i = 0; i < starData.full; i++) {
+    stars.push(
+      <i
+        key={stars.length}
+        className="fas fa-star vads-u-color--gold-darker"
+      />,
+    );
+  }
+
+  if (starData.half) {
+    stars.push(
+      <i
+        key={stars.length}
+        className="fas fa-star-half-alt vads-u-color--gold-darker"
+      />,
+    );
+  }
+
+  for (let i = stars.length; i < 5; i++) {
+    stars.push(
+      <i
+        key={stars.length}
+        className="far fa-star vads-u-color--gold-darker"
+      />,
+    );
+  }
+
+  return <span>{stars}</span>;
 };
