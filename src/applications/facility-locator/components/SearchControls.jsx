@@ -57,7 +57,8 @@ class SearchControls extends Component {
   renderLocationInputField = currentQuery => (
     <>
       <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
-        City, state or postal code
+        City, state or postal code{' '}
+        <span className="vads-u-color--secondary-dark">(*Required)</span>
       </label>
       <input
         id="street-city-state-zip"
@@ -89,7 +90,10 @@ class SearchControls extends Component {
     ));
     return (
       <span>
-        <label htmlFor="facility-type-dropdown">Facility type</label>
+        <label htmlFor="facility-type-dropdown">
+          Facility type{' '}
+          <span className="vads-u-color--secondary-dark">(*Required)</span>
+        </label>
         <select
           id="facility-type-dropdown"
           aria-label="Choose a facility type"

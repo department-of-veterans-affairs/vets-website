@@ -17,6 +17,20 @@ describe('SearchControls', () => {
         .find('#facility-type-dropdown [selected]')
         .text(),
     ).to.equal('Choose a facility type');
+    expect(
+      wrapper
+        .find('label')
+        .find('span')
+        .at(0)
+        .text(),
+    ).to.equal('(*Required)');
+    expect(
+      wrapper
+        .find('label')
+        .find('span')
+        .at(1)
+        .text(),
+    ).to.equal('(*Required)');
     wrapper.unmount();
   });
 
