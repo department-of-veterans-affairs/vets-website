@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
+// import fullSchema from './temp.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 
@@ -45,7 +46,6 @@ function updateData(oldForm, newForm) {
     const newSelectedCount = Object.keys(newForm[elementName]).filter(
       val => newForm[elementName][val] === true,
     ).length;
-
     const elementNOA = `${elementName}::${NONE_OF_ABOVE}`;
     // if no change just return
     if (oldSelectedCount === newSelectedCount) return;
@@ -122,7 +122,6 @@ const formConfig = {
           uiSchema,
           schema: {
             required: fullSchema.required,
-            // required: [],
             type: 'object',
             properties: {
               descriptionText: {
@@ -153,6 +152,7 @@ const formConfig = {
                 },
               },
               diagnosed: fullSchema.properties.diagnosed,
+              DIAGNOSED_DETAILS: fullSchema.properties.DIAGNOSED_DETAILS,
               closeContactPositive: fullSchema.properties.closeContactPositive,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,
