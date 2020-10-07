@@ -56,7 +56,16 @@ export class SchoolLocations extends React.Component {
     const { version } = this.props;
     const query = version ? `?version=${version}` : '';
 
-    return <Link to={`${facilityCode}${query}`}>{name}</Link>;
+    return (
+      <React.Fragment>
+        <dfn className="vads-u-display--block medium-screen:vads-u-display--none">
+          <Link to={`${facilityCode}${query}`}>{name}</Link>
+        </dfn>
+        <span className="vads-u-display--none medium-screen:vads-u-display--block">
+          <Link to={`${facilityCode}${query}`}>{name}</Link>
+        </span>
+      </React.Fragment>
+    );
   };
 
   handleViewAllClicked = async () => {
@@ -133,7 +142,14 @@ export class SchoolLocations extends React.Component {
       physicalZip,
     } = institution;
     const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
-      <p className="school-name">{name}</p>
+      <React.Fragment>
+        <dfn className="school-name vads-u-display--block medium-screen:vads-u-display--none">
+          {name}
+        </dfn>
+        <span className="school-name vads-u-display--none medium-screen:vads-u-display--block">
+          {name}
+        </span>
+      </React.Fragment>
     ) : (
       name
     );
@@ -177,7 +193,14 @@ export class SchoolLocations extends React.Component {
         break;
       }
       const nameLabel = (
-        <div className="vads-u-padding-left--1">{extension.institution}</div>
+        <React.Fragment>
+          <dfn className="vads-u-padding-left--1 vads-u-display--block medium-screen:vads-u-display--none">
+            {extension.institution}
+          </dfn>
+          <span className="vads-u-padding-left--1 vads-u-display--none medium-screen:vads-u-display--block">
+            {extension.institution}
+          </span>
+        </React.Fragment>
       );
       rows.push(this.createRow(extension, 'extension', nameLabel));
     }

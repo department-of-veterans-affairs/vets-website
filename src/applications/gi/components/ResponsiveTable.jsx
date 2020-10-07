@@ -25,7 +25,7 @@ class ResponsiveTable extends React.Component {
                 className={`${cellName}-cell`}
                 scope="row"
                 /* eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role */
-                role="cell"
+                role="rowheader"
                 tabIndex="-1"
                 key={`${key}-${cellName}`}
               >
