@@ -91,7 +91,7 @@ const Profile2Wrapper = ({
         />
       </div>
 
-      <div className="vads-l-grid-container vads-u-padding-x--0">
+      <div className="vads-l-grid-container vads-u-padding-x--0 va-profile-2-wrapper">
         <div className="vads-l-row">
           <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
             <ProfileSubNav routes={routes} isLOA3={isLOA3} isInMVI={isInMVI} />
