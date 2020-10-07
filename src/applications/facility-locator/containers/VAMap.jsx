@@ -136,7 +136,6 @@ class VAMap extends Component {
         facilityType: newQuery.facilityType,
         serviceType: newQuery.serviceType,
         page: resultsPage,
-        apiVersion: this.props.useAPIv1 ? 1 : 0,
       });
     }
 
@@ -339,7 +338,6 @@ class VAMap extends Component {
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
       page,
-      apiVersion: this.props.useAPIv1 ? 1 : 0,
     });
     setFocus(this.searchResultTitle.current);
   };
