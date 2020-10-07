@@ -5,16 +5,17 @@ import { distBetween } from './facilityDistance';
  * Helper fn to record Markers events for GA
  */
 export const recordMarkerEvents = r => {
-  const { classification, name, facilityType } = r.attributes;
+  const { classification, name, facilityType, id } = r.attributes;
   const distance = r.distance;
 
-  if (classification && name && facilityType && distance) {
+  if (classification && name && facilityType && distance && id) {
     recordEvent({
       event: 'fl-map-pin-click',
       'fl-facility-type': facilityType,
       'fl-facility-classification': classification,
       'fl-facility-name': name,
       'fl-facility-distance-from-search': distance,
+      'fl-facility-id': id,
     });
   }
 };
