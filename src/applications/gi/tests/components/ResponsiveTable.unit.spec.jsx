@@ -121,7 +121,7 @@ describe('<ResponsiveTable>', () => {
 
     expect(column1.html()).to.contain(row1Data[column1Header]);
     expect(column1.props().scope).to.equal('row');
-    expect(column1.props().role).to.equal('cell');
+    expect(column1.props().role).to.equal('rowheader');
     expect(column1.props().tabIndex).to.equal('-1');
     expect(column1.key()).to.equal(
       `${row1Data.key}-${createId(column1Header)}`,
