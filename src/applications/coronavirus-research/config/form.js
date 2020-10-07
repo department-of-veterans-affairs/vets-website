@@ -1,6 +1,5 @@
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
-// import fullSchema from './temp.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 
