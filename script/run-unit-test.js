@@ -58,6 +58,7 @@ if (testDirectories[0] === defaultPath) {
   // array of unit test paths 
   const allUnitTestPaths = glob.sync(defaultPath);
 
+  // Group unit tests into suites by directories by creating a list of all unit test containing directories from the list of allUnitTestPaths
   const unitTestDirectories = new Set(
     allUnitTests.map(unitTest => {
       // Start with './src/applications/burials/tests/config/benefitsSelection.unit.spec.js'
