@@ -46,7 +46,6 @@ import {
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
 import {
-  FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
@@ -392,10 +391,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         dispatch(checkEligibility(selectedFacility, siteId));
       }
 
-      const address = selectVet360ResidentialAddress(initialState);
-      const hasResidentialCoordinates =
-        !!address?.latitude && !!address?.longitude;
-
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
         facilities: typeOfCareFacilities || [],
@@ -403,15 +398,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         typeOfCareId,
         schema,
         uiSchema,
-        sortMethod: hasResidentialCoordinates
-          ? FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL
-          : FACILITY_SORT_METHODS.ALPHABETICAL,
-        residentialCoordinates: hasResidentialCoordinates
-          ? {
-              latitude: address.latitude,
-              longitude: address.longitude,
-            }
-          : null,
+        address: selectVet360ResidentialAddress(initialState),
       });
     } catch (e) {
       captureError(e, false, 'facility page');

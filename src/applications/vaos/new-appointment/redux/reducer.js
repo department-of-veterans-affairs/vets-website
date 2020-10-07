@@ -314,9 +314,15 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
+      let typeOfCareFacilities = action.facilities;
       const typeOfCareId = action.typeOfCareId;
       const facilities = state.facilities;
-      let typeOfCareFacilities = facilities[typeOfCareId] || action.facilities;
+      const address = action.address;
+      const hasResidentialCoordinates =
+        !!action.address?.latitude && !!action.address?.longitude;
+      const sortMethod = hasResidentialCoordinates
+        ? FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL
+        : FACILITY_SORT_METHODS.ALPHABETICAL;
 
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
@@ -340,15 +346,12 @@ export default function formReducer(state = initialState, action) {
           vaFacility,
           vaParent,
         };
-      } else if (
-        action.sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL
-      ) {
-        const residentialCoordinates = action.residentialCoordinates;
+      } else if (hasResidentialCoordinates) {
         typeOfCareFacilities = typeOfCareFacilities
           .map(facility => {
             const distanceFromResidentialAddress = distanceBetween(
-              residentialCoordinates.latitude,
-              residentialCoordinates.longitude,
+              address.latitude,
+              address.longitude,
               facility.position.latitude,
               facility.position.longitude,
             );
@@ -398,7 +401,7 @@ export default function formReducer(state = initialState, action) {
         },
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
-        facilityPageSortMethod: action.sortMethod,
+        facilityPageSortMethod: sortMethod,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
