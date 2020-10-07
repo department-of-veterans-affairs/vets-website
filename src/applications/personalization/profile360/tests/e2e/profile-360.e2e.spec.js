@@ -98,7 +98,7 @@ function begin(browser) {
     createMockRoutes(token).then(() => {
       // Login to access the Profile
       Auth.logIn(token, browser, '/profile', 3).waitForElementVisible(
-        '.va-profile-wrapper',
+        '.va-profile-2-wrapper',
         Timeouts.slow,
       );
 
