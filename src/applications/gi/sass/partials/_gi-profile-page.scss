@@ -43,6 +43,26 @@
     top: 2em;
   }
 
+  .category-rating {
+
+    border-bottom: 1px solid $color-gray-lighter;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    .bar {
+      width: 120px;
+      height: 16px;
+      top: 4px;
+    }
+
+    button {
+      background-color: transparent;
+      padding-left:0;
+      padding-right:0rem;
+      background-position: right 0rem center
+    }
+  }
+
   .additional-resources {
     @include media-maxwidth($medium-large-screen - 1) {
       display: none;
