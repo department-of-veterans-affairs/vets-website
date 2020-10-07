@@ -1,6 +1,5 @@
 import moment from 'moment';
 import set from 'platform/utilities/data/set';
-import environment from 'platform/utilities/environment';
 
 import {
   FETCH_FUTURE_APPOINTMENTS,
@@ -36,7 +35,10 @@ import {
   WEEKDAY_INDEXES,
 } from '../../utils/constants';
 import { distanceBetween } from '../../utils/address';
-import { getFacilityIdFromLocation } from '../../services/location';
+import {
+  getFacilityIdFromLocation,
+  getTestFacilityId,
+} from '../../services/location';
 
 const initialState = {
   pending: null,
@@ -55,18 +57,6 @@ const initialState = {
   expressCareWindowsStatus: FETCH_STATUS.notStarted,
   expressCareFacilities: null,
 };
-
-function getTestFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId.startsWith('442')) {
-    return facilityId.replace('442', '983');
-  }
-
-  if (!environment.isProduction() && facilityId.startsWith('552')) {
-    return facilityId.replace('552', '984');
-  }
-
-  return facilityId;
-}
 
 export default function appointmentsReducer(state = initialState, action) {
   switch (action.type) {
@@ -216,13 +206,7 @@ export default function appointmentsReducer(state = initialState, action) {
             ),
           );
 
-          if (distanceToFacility1 < distanceToFacility2) {
-            return -1;
-          } else if (distanceToFacility1 > distanceToFacility2) {
-            return 1;
-          }
-
-          return 0;
+          return distanceToFacility1 - distanceToFacility2;
         });
       }
 

@@ -1,27 +1,12 @@
 import moment from 'moment';
+import { getTestFacilityId } from '.';
 import { VHA_FHIR_ID } from '../../utils/constants';
-import environment from 'platform/utilities/environment';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
  */
 function parseId(id) {
   return id.replace('var', '');
-}
-
-/**
- * On localhost and staging, there is a mismatch between the
- * facilityIds that we use.  The new appointment flow mainly uses
- * VAMF IDs.  This converts the Facilities API ids to VAMF IDs
- *
- * @param {String} facilityId a facility id
- */
-function getFakeFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
-    return facilityId.replace('442', '983').replace('552', '984');
-  }
-
-  return facilityId;
 }
 
 /**
@@ -184,7 +169,7 @@ export function transformFacility(facility) {
       },
       {
         system: VHA_FHIR_ID,
-        value: facility.uniqueId,
+        value: getTestFacilityId(facility.uniqueId),
       },
     ],
     name: facility.name,
@@ -235,7 +220,7 @@ export function setSupportedSchedulingMethods({
   requestFacilityIds,
   directFacilityIds,
 } = {}) {
-  const id = getFakeFacilityId(location.id);
+  const id = getTestFacilityId(location.id);
 
   const requestSupported = requestFacilityIds.some(
     facilityId => `var${facilityId}` === id,
@@ -264,7 +249,7 @@ export function setSupportedSchedulingMethods({
       directSchedulingSupported,
     },
     managingOrganization: {
-      reference: getFakeFacilityId(location.managingOrganization?.reference),
+      reference: getTestFacilityId(location.managingOrganization?.reference),
     },
   };
 }
