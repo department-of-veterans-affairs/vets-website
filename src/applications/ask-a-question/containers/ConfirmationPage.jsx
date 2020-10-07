@@ -51,9 +51,16 @@ export class ConfirmationPage extends React.Component {
           {response && (
             <ul className="claim-list">
               <li>
-                <strong>Date received</strong>
+                <strong>Confirmation number</strong>
                 <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+                <span>{response.confirmationNumber}</span>
+              </li>
+              <li>
+                <strong>Date submitted</strong>
+                <br />
+                <span>
+                  {moment(response.dateSubmitted).format('MMM D, YYYY')}
+                </span>
               </li>
             </ul>
           )}
