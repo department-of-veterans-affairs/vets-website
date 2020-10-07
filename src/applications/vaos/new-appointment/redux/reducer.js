@@ -59,6 +59,7 @@ import {
 } from '../../redux/sitewide';
 
 import {
+  FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
   REASON_ADDITIONAL_INFO_TITLES,
@@ -70,6 +71,7 @@ import {
 } from '../../utils/constants';
 
 import { getTypeOfCare } from '../../utils/selectors';
+import { distanceBetween } from '../../utils/address';
 import { getSiteIdFromOrganization } from '../../services/organization';
 import { getClinicId } from '../../services/healthcare-service/transformers';
 
@@ -312,10 +314,15 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
+      let typeOfCareFacilities = action.facilities;
       const typeOfCareId = action.typeOfCareId;
       const facilities = state.facilities;
-      const typeOfCareFacilities =
-        facilities[typeOfCareId] || action.facilities;
+      const address = action.address;
+      const hasResidentialCoordinates =
+        !!action.address?.latitude && !!action.address?.longitude;
+      const sortMethod = hasResidentialCoordinates
+        ? FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL
+        : FACILITY_SORT_METHODS.ALPHABETICAL;
 
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
@@ -339,17 +346,40 @@ export default function formReducer(state = initialState, action) {
           vaFacility,
           vaParent,
         };
-      } else {
-        newSchema = set(
-          'properties.vaFacility',
-          {
-            type: 'string',
-            enum: typeOfCareFacilities.map(facility => facility.id),
-            enumNames: typeOfCareFacilities,
-          },
-          newSchema,
-        );
+      } else if (hasResidentialCoordinates) {
+        typeOfCareFacilities = typeOfCareFacilities
+          .map(facility => {
+            const distanceFromResidentialAddress = distanceBetween(
+              address.latitude,
+              address.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromResidentialAddress,
+              },
+            };
+          })
+          .sort(
+            (a, b) =>
+              a.legacyVAR.distanceFromResidentialAddress -
+              b.legacyVAR.distanceFromResidentialAddress,
+          );
       }
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: typeOfCareFacilities.map(facility => facility.id),
+          enumNames: typeOfCareFacilities,
+        },
+        newSchema,
+      );
 
       const { data, schema } = setupFormData(
         newData,
@@ -371,6 +401,7 @@ export default function formReducer(state = initialState, action) {
         },
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
+        facilityPageSortMethod: sortMethod,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
