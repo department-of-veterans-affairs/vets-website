@@ -9,8 +9,8 @@ import UnauthContent from '../UnauthContent';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { hasFacilityException } from '../../../utils';
 import {
-  selectIsCernerPatient,
   selectFacilityIDs,
+  selectIsCernerPatient,
 } from 'platform/user/selectors';
 
 export const App = ({
