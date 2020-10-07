@@ -19,7 +19,7 @@ import { BDD_INFO_URL } from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }
 
   render() {

@@ -57,6 +57,13 @@ export const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
 
 export const DECEASED_ERROR_CODES = new Set(['MVI300']);
 
+export const INVALID_EMAIL_ADDRESS_ERROR_CODES = new Set([
+  'EMAIL304',
+  'EMAIL305',
+  'VET360_EMAIL304',
+  'VET360_EMAIL305',
+]);
+
 export function isPendingTransaction(transaction) {
   return PENDING_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
