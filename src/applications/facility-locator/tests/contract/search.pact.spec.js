@@ -165,7 +165,7 @@ const vaInteraction = {
 };
 
 const vaDetailInteraction = {
-  state: 'va facility data exists',
+  state: 'va data exists',
   uponReceiving: 'a request for va facility data',
   withRequest: {
     method: 'GET',
@@ -298,7 +298,7 @@ contractTest('Facility Locator', 'VA.gov API', mockApi => {
   });
 
   describe('GET /v1/facilities/va/:id', () => {
-    context('facilities: va facility data exists', () => {
+    context('facilities: va data exists', () => {
       it('responds appropriately', async () => {
         await mockApi().addInteraction(vaDetailInteraction);
         await fetchVAFacility('vha_123ABC')(dispatch);
