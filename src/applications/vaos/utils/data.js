@@ -61,7 +61,7 @@ export function transformFormToVARequest(state) {
   const siteId = getSiteIdForChosenFacility(state);
   const isFacilityV2Page = vaosFlatFacilityPage(state);
   const facilityId = isFacilityV2Page
-    ? facility.id
+    ? facility.id.replace('var', '')
     : getFacilityIdFromLocation(facility);
 
   return {

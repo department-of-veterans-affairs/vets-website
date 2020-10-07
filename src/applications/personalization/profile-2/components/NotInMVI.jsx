@@ -1,27 +1,30 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import facilityLocator from 'applications/facility-locator/manifest.json';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const NotInMVI = () => {
   const content = (
     <>
       <p>
-        We’re sorry. We can’t give you access to health and benefit tools until
-        we can match your information with our records and verify your identity.
+        We’re sorry. We can’t give you access to your profile or account
+        information until we can match your information and verify your
+        identity.
       </p>
       <p>
-        If you’d like to use these tools on VA.gov, please contact your nearest
-        VA medical center to verify and update your records.
+        If you’d like to access these tools, please contact the VA.gov help desk
+        at <Telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
+        <Telephone contact={CONTACTS['711']} />) to verify and update your
+        records.
       </p>
-
-      <a href={facilityLocator.rootUrl}>Find your nearest VA medical center</a>
     </>
   );
 
   return (
     <div className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
       <AlertBox
-        headline="We can’t match your information with our Veteran records"
+        headline="We can’t match your information to our Veteran records"
         content={content}
         status="warning"
       />

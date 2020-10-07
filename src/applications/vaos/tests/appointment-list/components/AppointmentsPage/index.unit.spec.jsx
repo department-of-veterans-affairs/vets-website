@@ -98,7 +98,7 @@ describe('VAOS integration: appointment list', () => {
 
     expect(dateHeadings).to.deep.equal([
       secondDate.format('dddd, MMMM D, YYYY [at] h:mm a'),
-      'Video appointment at home',
+      thirdDate.format('dddd, MMMM D, YYYY [at] h:mm a'),
       fourthDate.format('dddd, MMMM D, YYYY [at] h:mm a [UTC UTC]'),
       'Primary care appointment',
     ]);

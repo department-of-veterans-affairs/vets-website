@@ -1,7 +1,12 @@
 /* Fonts */
 #liveForm .ng-binding,
 #liveForm div > span {
-  font-family: "Source Sans Pro" !important;
+  font-family: "Source Sans Pro", sans-serif !important;
+}
+
+/* Add padding to the bottom of the Medallia form */
+#liveForm .panel-footer-web {
+  padding-bottom: 1rem;
 }
 
 /* Remove 'Powered by Medallia' */
