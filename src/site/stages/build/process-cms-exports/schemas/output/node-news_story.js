@@ -11,7 +11,16 @@ module.exports = {
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAuthor: {
-      oneOf: [{ $ref: 'output/node-person_profile' }, { type: 'null' }],
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            title: { type: 'string' },
+            fieldDescription: { type: ['string', 'null'] },
+          },
+        },
+        { type: 'null' },
+      ],
     },
     fieldFullStory: { $ref: 'ProcessedString' },
     fieldImageCaption: { type: ['string', 'null'] },
