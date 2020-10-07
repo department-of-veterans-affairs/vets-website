@@ -6,6 +6,9 @@ import {
   visitorScreening,
   staffPass,
   staffScreening,
+  fullTestRouteOptions,
+  routeOptions,
+  expectTextbyLanguage,
 } from './question-scenario-helper';
 
 // test scenarios for visitors and staff
@@ -17,15 +20,29 @@ export default createE2eTest(client => {
     .assert.visible('div[class*=covid-screener-results-incomplete]')
     .axeCheck('.main');
 
-  // visitor passing answers
-  testQuestionScenario({ scenario: visitorPass, client });
+  routeOptions.forEach(routeOption => {
+    client
+      .url(`${baseUrl}/covid19screen${routeOption.route}`)
+      .waitForElementVisible('body', normal)
+      .assert.containsText(
+        'div[class*=vads-l-grid-container]',
+        `${routeOption.expectedText}`,
+      );
+  });
 
-  // visitor needs more screening
-  testQuestionScenario({ scenario: visitorScreening, client });
+  fullTestRouteOptions.forEach(routeOption => {
+    client.url(`${baseUrl}/covid19screen${routeOption}`);
 
-  // staff passing answers
-  testQuestionScenario({ scenario: staffPass, client });
+    // visitor passing answers
+    testQuestionScenario({ scenario: visitorPass, client });
 
-  // staff needs more screening
-  testQuestionScenario({ scenario: staffScreening, client });
+    // visitor needs more screening
+    testQuestionScenario({ scenario: visitorScreening, client });
+
+    // staff passing answers
+    testQuestionScenario({ scenario: staffPass, client });
+
+    // staff needs more screening
+    testQuestionScenario({ scenario: staffScreening, client });
+  });
 });

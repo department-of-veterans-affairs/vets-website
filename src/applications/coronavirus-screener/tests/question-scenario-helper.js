@@ -77,3 +77,18 @@ export const staffScreening = {
     class: 'covid-screener-results-more-screening',
   },
 };
+
+export const fullTestRouteOptions = ['/', '/es'];
+
+export const expectTextbyLanguage = {
+  en: 'COVID-19 screening tool',
+  es: 'Herramienta de evaluación para COVID-19',
+};
+
+export const routeOptions = [
+  { route: '/es', expectedText: `${expectTextbyLanguage.es}` },
+  { route: '/123', expectedText: `${expectTextbyLanguage.en}` },
+  { route: '/123/es', expectedText: `${expectTextbyLanguage.es}` },
+  { route: '/', expectedText: `${expectTextbyLanguage.en}` },
+  { route: 'fr', expectedText: `${expectTextbyLanguage.en}` },
+];
