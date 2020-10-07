@@ -83,6 +83,7 @@ describe('search query reducer', () => {
 
     expect(state.error).to.eql(true);
     expect(state.inProgress).to.eql(false);
+    expect(state.searchBoundsInProgress).to.eql(false);
   });
 
   it('should handle search query updated', () => {
