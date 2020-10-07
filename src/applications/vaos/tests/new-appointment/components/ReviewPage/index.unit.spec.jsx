@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { FACILITY_TYPES, FLOW_TYPES } from '../../../../utils/constants';
+import { FACILITY_TYPES } from '../../../../utils/constants';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -22,8 +22,41 @@ const initialState = {
     show_new_schedule_view_appointments_page: true,
   },
 };
+const parentFacilities = [
+  {
+    id: 'var983',
+    identifier: [
+      { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+      {
+        system: 'http://med.va.gov/fhir/urn',
+        value: 'urn:va:facility:983',
+      },
+    ],
+  },
+];
+const facilityDetails = {
+  var983: {
+    id: 'var983',
+    name: 'Cheyenne VA Medical Center',
+    address: {
+      postalCode: '82001-5356',
+      city: 'Cheyenne',
+      state: 'WY',
+      line: ['2360 East Pershing Boulevard'],
+    },
+  },
+};
+const facilities = {
+  '323_var983': [
+    {
+      id: 'var983',
+      name: 'Cheyenne VA Medical Center',
+    },
+  ],
+};
+
 describe('VAOS <ReviewPage>', () => {
-  it.only('should render direct schedule view', async () => {
+  it('should render direct schedule view', async () => {
     const start = moment();
     const store = createTestStore({
       ...initialState,
@@ -39,44 +72,15 @@ describe('VAOS <ReviewPage>', () => {
           vaFacility: 'var983',
           clinicId: '455',
         },
-        parentFacilities: [
-          {
-            id: 'var983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
-          },
-        ],
-        facilityDetails: {
-          var983: {
-            id: 'var983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              postalCode: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              line: ['2360 East Pershing Boulevard'],
-            },
-          },
-        },
+        parentFacilities,
+        facilityDetails,
+        facilities,
         clinics: {
           // eslint-disable-next-line camelcase
           var983_323: [
             {
               id: '455',
               serviceName: 'Some VA clinic',
-            },
-          ],
-        },
-        facilities: {
-          '323_var983': [
-            {
-              id: 'var983',
-              name: 'Cheyenne VA Medical Center',
             },
           ],
         },
@@ -130,9 +134,17 @@ describe('VAOS <ReviewPage>', () => {
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
     expect(screen.baseElement).to.contain.text('1234567890');
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
+
+    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const uniqueLinks = new Set();
+    editLinks.forEach(link => {
+      expect(link).to.have.attribute('aria-label');
+      uniqueLinks.add(link.getAttribute('aria-label'));
+    });
+    expect(uniqueLinks.size).to.equal(editLinks.length);
   });
 
-  it.only('should render VA request view', async () => {
+  it('should render VA request view', async () => {
     const start = moment();
     const store = createTestStore({
       ...initialState,
@@ -149,39 +161,10 @@ describe('VAOS <ReviewPage>', () => {
           vaFacility: 'var983',
           visitType: 'telehealth',
         },
-        parentFacilities: [
-          {
-            id: 'var983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
-          },
-        ],
-        facilityDetails: {
-          var983: {
-            id: 'var983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              postalCode: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              line: ['2360 East Pershing Boulevard'],
-            },
-          },
-        },
+        parentFacilities,
+        facilityDetails,
         clinics: {},
-        facilities: {
-          '323_var983': [
-            {
-              id: 'var983',
-              name: 'Cheyenne VA Medical Center',
-            },
-          ],
-        },
+        facilities,
       },
     });
     store.dispatch(startRequestAppointmentFlow());
@@ -239,9 +222,17 @@ describe('VAOS <ReviewPage>', () => {
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
     expect(screen.baseElement).to.contain.text('1234567890');
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
+
+    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const uniqueLinks = new Set();
+    editLinks.forEach(link => {
+      expect(link).to.have.attribute('aria-label');
+      uniqueLinks.add(link.getAttribute('aria-label'));
+    });
+    expect(uniqueLinks.size).to.equal(editLinks.length);
   });
 
-  it.only('should render Community Care request view', async () => {
+  it('should render Community Care request view', async () => {
     const start = moment();
     const store = createTestStore({
       ...initialState,
@@ -267,18 +258,7 @@ describe('VAOS <ReviewPage>', () => {
             },
           },
         },
-        parentFacilities: [
-          {
-            id: 'var983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
-          },
-        ],
+        parentFacilities,
         facilityDetails: {},
         clinics: {},
         facilities: {},
@@ -327,7 +307,7 @@ describe('VAOS <ReviewPage>', () => {
     expect(providerHeading).to.contain.text('Preferred provider');
     expect(screen.baseElement).to.contain.text('Community medical center');
     expect(screen.baseElement).to.contain.text('Jane Doe');
-    expect(screen.baseElement).to.contain.text('123 Big sky st');
+    expect(screen.baseElement).to.contain.text('123 big sky st');
     expect(screen.baseElement).to.contain.text('Bozeman, MT 59715');
 
     expect(additionalHeading).to.contain.text('Additional details');
@@ -337,131 +317,14 @@ describe('VAOS <ReviewPage>', () => {
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
     expect(screen.baseElement).to.contain.text('1234567890');
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
-    screen.debug();
+
+    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const uniqueLinks = new Set();
+    editLinks.forEach(link => {
+      expect(link).to.have.attribute('aria-label');
+      uniqueLinks.add(link.getAttribute('aria-label'));
+    });
+    expect(uniqueLinks.size).to.equal(editLinks.length);
   });
-  // it('should render review view', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-
-  //   const tree = shallow(<ReviewPage flowType={flowType} data={data} />);
-
-  //   expect(tree.find('ReviewRequestInfo').exists()).to.be.true;
-  //   expect(
-  //     tree
-  //       .find('LoadingButton')
-  //       .children()
-  //       .text(),
-  //   ).to.equal('Request appointment');
-  //   expect(document.title).contain('Review your appointment details');
-
-  //   tree.unmount();
-  // });
-
-  // it('should render submit loading state', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-
-  //   const tree = shallow(
-  //     <ReviewPage
-  //       submitStatus={FETCH_STATUS.loading}
-  //       flowType={flowType}
-  //       data={data}
-  //     />,
-  //   );
-
-  //   expect(tree.find('LoadingButton').props().isLoading).to.be.true;
-
-  //   tree.unmount();
-  // });
-
-  // it('should render submit error state', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-
-  //   const tree = shallow(
-  //     <ReviewPage
-  //       submitStatus={FETCH_STATUS.failed}
-  //       flowType={flowType}
-  //       data={data}
-  //     />,
-  //   );
-
-  //   expect(tree.find('LoadingButton').props().isLoading).to.be.false;
-  //   expect(tree.find('AlertBox').props().status).to.equal('error');
-
-  //   tree.unmount();
-  // });
-
-  // it('should render submit error with facility', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-
-  //   const tree = shallow(
-  //     <ReviewPage
-  //       submitStatus={FETCH_STATUS.failed}
-  //       flowType={flowType}
-  //       data={data}
-  //       facilityDetails={{}}
-  //     />,
-  //   );
-  //   const alertBox = tree.find('AlertBox');
-
-  //   expect(tree.find('LoadingButton').props().isLoading).to.be.false;
-  //   expect(alertBox.props().status).to.equal('error');
-  //   expect(
-  //     alertBox
-  //       .dive()
-  //       .find('FacilityAddress')
-  //       .exists(),
-  //   ).to.be.true;
-  //   expect(alertBox.dive().text()).contain(
-  //     'We suggest you wait a day to try again or you can call your medical center',
-  //   );
-  //   tree.unmount();
-  // });
-
-  // it('should render 400 error with facility', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-
-  //   const tree = shallow(
-  //     <ReviewPage
-  //       submitStatus={FETCH_STATUS.failed}
-  //       submitStatusVaos400
-  //       flowType={flowType}
-  //       data={data}
-  //       facilityDetails={{}}
-  //     />,
-  //   );
-  //   const alertBox = tree.find('AlertBox');
-
-  //   expect(tree.find('LoadingButton').props().isLoading).to.be.false;
-  //   expect(alertBox.props().status).to.equal('error');
-  //   expect(
-  //     alertBox
-  //       .dive()
-  //       .find('FacilityAddress')
-  //       .exists(),
-  //   ).to.be.true;
-  //   expect(alertBox.dive().text()).contain(
-  //     'You’ll need to call your local VA medical center',
-  //   );
-  //   tree.unmount();
-  // });
-
-  // it('return to new appt page when data is empty', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-  //   const history = {
-  //     replace: sinon.spy(),
-  //   };
-
-  //   const tree = mount(
-  //     <ReviewPage flowType={flowType} data={data} history={history} />,
-  //   );
-
-  //   expect(history.replace.called).to.be.true;
-
-  //   tree.unmount();
-  // });
+  it('should return to appointment list page if no data', () => {});
 });
