@@ -55,7 +55,8 @@ const testDirectories = options.path;
 
 // run all unit tests else run only the test provided as a command line argument 
 if (testDirectories[0] === defaultPath) {
-  const allUnitTests = glob.sync(defaultPath);
+  // array of unit test paths 
+  const allUnitTestPaths = glob.sync(defaultPath);
 
   const unitTestDirectories = new Set(
     allUnitTests.map(unitTest => {
