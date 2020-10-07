@@ -9,11 +9,11 @@ import FormSaveErrorMessage from 'platform/forms/components/review/FormSaveError
 import { Column, Row } from 'platform/forms/components/common/grid';
 // const FormSaveErrorMessage = props => props?.children;
 export default function GenericError(props) {
-  const { appType, formConfig, onSubmit, testId } = props;
+  const { appType, formConfig, renderErrorMessage, onSubmit, testId } = props;
   let submitButton;
   let submitMessage;
 
-  if (formConfig.submissionError) {
+  if (renderErrorMessage) {
     submitMessage = <FormSaveErrorMessage formConfig={formConfig} />;
   } else {
     submitMessage = (
