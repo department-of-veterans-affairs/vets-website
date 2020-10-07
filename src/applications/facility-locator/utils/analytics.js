@@ -42,6 +42,9 @@ export const recordZoomPanEvents = (e, searchCoords, currentZoomLevel) => {
         event: 'fl-search',
         'fl-map-miles-moved': distanceMoved,
       });
+      recordEvent({
+        'fl-map-miles-moved': undefined,
+      });
     }
   }
 };
