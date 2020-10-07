@@ -2,6 +2,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const glob = require('glob');
+const cheerio = require('cheerio');
+
 const printUnitTestHelp = require('./run-unit-test-help.js');
 const commandLineArgs = require('command-line-args');
 const { runCommand, runCommandSync } = require('./utils');
@@ -76,25 +78,25 @@ if (testDirectories[0] === defaultPath) {
     }),
   );
 
-  let testResultsXml = '';
+  // When the "coverage" arg is passed to this script, we execute Mocha with the
+  // "reporter" arg set to use JUnit reports. This results in an XML file being
+  // written to the file system after each Mocha execution.
+  let junitReportForAllTestRuns = null;
+  const junitReportFilePath = path.join(__dirname, '../test-results.xml');
 
-  const testResultsXmlFilePath = path.join(__dirname, '../test-results.xml');
   const wildCard = `${path.sep}**${path.sep}*.unit.spec.js?(x)`;
   const failures = [];
-
-  if (options.coverage) {
-    // Empty out the test-results.xml file
-    fs.writeFileSync(testResultsXmlFilePath, '');
-  }
 
   unitTestDirectories.forEach(unitTestDirectory => {
     // eslint-disable-next-line no-console
     console.log(chalk.blue(`Test suite: ${unitTestDirectory}`));
 
-    let executeMocha = 'BABEL_ENV=test mocha';
+    let executeMocha = null;
 
     if (options.coverage) {
       executeMocha = `NODE_ENV=test nyc --include "${unitTestDirectory}/**" --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color`;
+    } else {
+      executeMocha = 'BABEL_ENV=test mocha';
     }
 
     const findUnitTestsInDir = `".${path.sep}${unitTestDirectory}${wildCard}"`;
@@ -102,10 +104,23 @@ if (testDirectories[0] === defaultPath) {
     const exitStatus = runCommandSync(command);
 
     if (options.coverage) {
-      // test-results.xml was just overwritten with the results of this test run.
-      // we need to read those results and append them to the results of the previous test run
-      // to form the complete file
-      testResultsXml += fs.readFileSync(testResultsXmlFilePath).toString();
+      // A JUnit Report was just written to the file system in the form of a file "test-results.xml".
+      // We need to read that report into memory and concatenate its contents into a comprehensive JUnit Report
+      // that contains the result of all test runs.
+
+      const junitReport = cheerio.load(
+        fs.readFileSync(junitReportFilePath).toString(),
+        { xmlMode: true },
+      );
+
+      if (junitReportForAllTestRuns) {
+        junitReportForAllTestRuns('testsuites').append(
+          junitReport('testsuites').children(),
+        );
+        fs.writeFileSync(junitReportFilePath, junitReportForAllTestRuns.html());
+      } else {
+        junitReportForAllTestRuns = junitReport;
+      }
     }
 
     if (exitStatus !== 0) {
@@ -114,10 +129,6 @@ if (testDirectories[0] === defaultPath) {
       failures.push(unitTestDirectory);
     }
   });
-
-  if (options.coverage) {
-    fs.writeFileSync(testResultsXmlFilePath, testResultsXml);
-  }
 
   if (failures.length > 0) {
     // eslint-disable-next-line no-console
