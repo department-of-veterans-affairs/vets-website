@@ -22,6 +22,8 @@ import {
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
+  FORM_PAGE_FACILITY_REQUEST_CURRENT_LOCATION,
+  // FORM_PAGE_FACILITY_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
@@ -404,6 +406,68 @@ export default function formReducer(state = initialState, action) {
         facilityPageSortMethod: sortMethod,
       };
     }
+
+    case FORM_PAGE_FACILITY_REQUEST_CURRENT_LOCATION: {
+      const { coords } = action.location;
+      const { latitude, longitude } = coords;
+      const formData = state.data;
+      const typeOfCareId = formData.typeOfCareId;
+      let typeOfCareFacilities = state.facilities[typeOfCareId];
+
+      if (latitude && longitude) {
+        typeOfCareFacilities = typeOfCareFacilities
+          .map(facility => {
+            const distancefromCurrentLocation = distanceBetween(
+              latitude,
+              longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distancefromCurrentLocation,
+              },
+            };
+          })
+          .sort(
+            (a, b) =>
+              a.legacyVAR.distancefromCurrentLocation -
+              b.legacyVAR.distancefromCurrentLocation,
+          );
+      }
+
+      const newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: typeOfCareFacilities.map(facility => facility.id),
+          enumNames: typeOfCareFacilities,
+        },
+        action.schema,
+      );
+
+      const { schema } = setupFormData(formData, newSchema, action.uiSchema);
+
+      return {
+        ...state,
+        pages: {
+          ...state.pages,
+          vaFacilityV2: schema,
+        },
+        schema,
+        facilities: {
+          ...state.facilities,
+          [typeOfCareId]: typeOfCareFacilities,
+        },
+        childFacilitiesStatus: FETCH_STATUS.succeeded,
+        facilityPageSortMethod:
+          FACILITY_SORT_METHODS.DISTANCE_FROM_CURRENT_LOCATION,
+      };
+    }
+
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;

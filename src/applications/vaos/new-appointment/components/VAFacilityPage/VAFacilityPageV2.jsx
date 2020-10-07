@@ -66,6 +66,7 @@ function VAFacilityPageV2({
   sortMethod,
   typeOfCare,
   updateFormData,
+  requestCurrentLocation,
 }) {
   const history = useHistory();
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
@@ -211,6 +212,15 @@ function VAFacilityPageV2({
       {sortByDistanceFromResidential && (
         <ResidentialAddress address={address} />
       )}
+      <p>
+        Or,{' '}
+        <a
+          href="#"
+          onClick={() => requestCurrentLocation(pageKey, schema, uiSchema)}
+        >
+          use your current location
+        </a>
+      </p>
       {childFacilitiesStatus === FETCH_STATUS.succeeded && (
         <SchemaForm
           name="VA Facility"
@@ -267,6 +277,7 @@ const mapDispatchToProps = {
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   checkEligibility: actions.checkEligibility,
+  requestCurrentLocation: actions.requestCurrentLocation,
 };
 
 export default connect(

@@ -45,6 +45,7 @@ import {
 } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
+import { getPreciseLocation } from '../../utils/address';
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
@@ -156,6 +157,10 @@ export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED';
+export const FORM_PAGE_FACILITY_REQUEST_CURRENT_LOCATION =
+  'newAppointment/FORM_PAGE_FACILITY_REQUEST_CURRENT_LOCATION';
+export const FORM_PAGE_FACILITY_REQUEST_CURRENT_LOCATION_FAILED =
+  'newAppointment/FORM_PAGE_FACILITY_REQUEST_CURRENT_LOCATION_FAILED';
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
@@ -404,6 +409,26 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       captureError(e, false, 'facility page');
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
+      });
+    }
+  };
+}
+
+export function requestCurrentLocation(page, uiSchema, schema) {
+  return async dispatch => {
+    try {
+      const location = await getPreciseLocation();
+      dispatch({
+        type: FORM_PAGE_FACILITY_REQUEST_CURRENT_LOCATION,
+        location,
+        page,
+        uiSchema,
+        schema,
+      });
+    } catch (e) {
+      captureError(e, false, 'facility page');
+      dispatch({
+        type: FORM_PAGE_FACILITY_REQUEST_CURRENT_LOCATION_FAILED,
       });
     }
   };

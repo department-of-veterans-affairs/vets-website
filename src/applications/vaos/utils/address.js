@@ -172,3 +172,9 @@ export function distanceBetween(lat1, lng1, lat2, lng2) {
 
   return parseFloat((R * c).toFixed(1));
 }
+
+export function getPreciseLocation() {
+  return new Promise(resolve => {
+    navigator.geolocation.getCurrentPosition(position => resolve(position));
+  });
+}
