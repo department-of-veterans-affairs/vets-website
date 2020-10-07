@@ -213,7 +213,7 @@
     "jsdom": "^15.2.1",
     "json2csv": "^4.2.1",
     "jsonschema": "^1.1.1",
-    "libxmljs": "^0.19.5",
+    "libxmljs": "^0.19.7",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-date-in-filename": "^0.0.14",
     "mini-css-extract-plugin": "^0.9.0",
