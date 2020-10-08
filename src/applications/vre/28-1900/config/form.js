@@ -1,3 +1,4 @@
+import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -35,7 +36,7 @@ const formConfig = {
       'Please sign in again to continue your application for Vocational Readiness and Employment.',
   },
   title: '28-1900 Vocational Readiness and Employment',
-  defaultDefinitions: {},
+  defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',
@@ -48,25 +49,11 @@ const formConfig = {
           hideHeaderRow: true,
           schema: {
             type: 'object',
-            properties: {
-              isLoggedIn: {
-                type: 'boolean',
-                default: false,
-              },
-            },
+            properties: {},
           },
           uiSchema: {
             'ui:description': VeteranInformationViewComponent,
             'ui:reviewField': StaticInformationReviewField,
-            'ui:options': {
-              hideOnReview: true,
-            },
-            isLoggedIn: {
-              'ui:options': {
-                hideOnReview: true,
-                widgetClassNames: 'vads-u-display--none',
-              },
-            },
           },
         },
         veteranInformation: {

@@ -263,7 +263,7 @@ function setParticipant(appt) {
 
   switch (type) {
     case APPOINTMENT_TYPES.vaAppointment: {
-      const participant = [];
+      let participant = [];
       if (appt.clinicId) {
         participant.push({
           actor: {
@@ -288,7 +288,7 @@ function setParticipant(appt) {
 
       const providers = appt.vvsAppointments?.[0]?.providers;
       if (providers?.length) {
-        participant.concat(
+        participant = participant.concat(
           providers.map(provider => ({
             actor: {
               reference: `Practitioner/${provider.name.firstName}_${

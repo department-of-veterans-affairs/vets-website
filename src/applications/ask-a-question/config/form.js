@@ -2,7 +2,7 @@
 import fullSchema from '../0873-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
-
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   contactInformationPage,
@@ -11,6 +11,20 @@ import {
 } from './pages';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
+import {
+  contactInformationChapterTitle,
+  contactInformationPageTitle,
+  formSubTitle,
+  formTitle,
+  inquiryChapterTitle,
+  inquiryPageTitle,
+  reviewPageTitle,
+  savedFormNoAuth,
+  savedFormNotFound,
+  submitButtonText,
+  veteranInformationChapterTitle,
+  veteranInformationPageTitle,
+} from '../content/labels';
 
 import manifest from '../manifest.json';
 
@@ -46,6 +60,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/ask/asks`,
   transformForSubmit: submitTransform,
   trackingPrefix: 'complex-form-',
+  introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '0873',
   benefitDescription: {
@@ -55,13 +70,14 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: savedFormNotFound,
+    noAuth: savedFormNoAuth,
   },
-  title: 'Contact us',
-  subTitle: 'Form 0873',
+  title: formTitle,
+  subTitle: formSubTitle,
   customText: {
-    reviewPageTitle: 'Review your information',
+    submitButtonText,
+    reviewPageTitle,
   },
   defaultDefinitions: {
     fullName,
@@ -73,33 +89,33 @@ const formConfig = {
   },
   chapters: {
     topicChapter: {
-      title: "Share why you're contacting us",
+      title: inquiryChapterTitle,
       pages: {
         [formPages.topic]: {
           path: 'topic',
-          title: 'Your message',
+          title: inquiryPageTitle,
           uiSchema: inquiryPage.uiSchema,
           schema: inquiryPage.schema,
         },
       },
     },
     veteranInformationChapter: {
-      title: 'Tell us about the Veteran',
+      title: veteranInformationChapterTitle,
       pages: {
         [formPages.veteranInformation]: {
           path: 'veteran-information',
-          title: 'Veteran Information',
+          title: veteranInformationPageTitle,
           uiSchema: veteranInformationPage.uiSchema,
           schema: veteranInformationPage.schema,
         },
       },
     },
     contactInformationChapter: {
-      title: 'Tell us about yourself',
+      title: contactInformationChapterTitle,
       pages: {
         [formPages.contactInformation]: {
           path: 'contact-information',
-          title: 'Contact Information',
+          title: contactInformationPageTitle,
           uiSchema: contactInformationPage.uiSchema,
           schema: contactInformationPage.schema,
         },

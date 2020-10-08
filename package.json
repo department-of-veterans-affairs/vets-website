@@ -8,6 +8,7 @@
     "build": "./script/build.sh",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "build:compare": "node script/content-build-compare.js && diff --color websiteContentBuildHash.txt standaloneContentBuildHash.txt",
+    "build:compare:cms": "./script/cms/compare.sh",
     "build:content": "node --max-old-space-size=8192 script/build-content.js",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js",
@@ -213,7 +214,7 @@
     "jsdom": "^15.2.1",
     "json2csv": "^4.2.1",
     "jsonschema": "^1.1.1",
-    "libxmljs": "^0.19.5",
+    "libxmljs": "^0.19.7",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-date-in-filename": "^0.0.14",
     "mini-css-extract-plugin": "^0.9.0",
@@ -273,7 +274,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "6.9.5",
-    "@department-of-veterans-affairs/formation-react": "5.6.1",
+    "@department-of-veterans-affairs/formation-react": "5.7.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
@@ -340,7 +341,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#ee3032d3a84393233fb328c1f83558be9bbd84b1",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#58094bd2e593ed11b3e0a2bd18175582560bff6d",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

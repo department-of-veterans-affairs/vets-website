@@ -11,7 +11,7 @@ describe('ebenefits selectors', () => {
         },
         user: {
           profile: {
-            signIn: {},
+            session: {},
           },
         },
       };
@@ -23,14 +23,14 @@ describe('ebenefits selectors', () => {
       expect(selectors.shouldUseProxyUrl(state)).to.equal(false);
     });
     it('renders false when feature flags are off', () => {
-      state.user.profile.signIn.ssoe = true;
+      state.user.profile.session.ssoe = true;
       expect(selectors.shouldUseProxyUrl(state)).to.equal(false);
       state.featureToggles.ssoeEbenefitsLinks = false;
       expect(selectors.shouldUseProxyUrl(state)).to.equal(false);
     });
     it('renders true when user is logged in and feature flags are on', () => {
       expect(selectors.shouldUseProxyUrl(state)).to.equal(false);
-      state.user.profile.signIn.ssoe = true;
+      state.user.profile.session.ssoe = true;
       state.featureToggles.ssoeEbenefitsLinks = true;
       expect(selectors.shouldUseProxyUrl(state)).to.equal(true);
     });
