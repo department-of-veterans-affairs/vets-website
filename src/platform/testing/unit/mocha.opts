@@ -1,4 +1,3 @@
---require @testing-library/react/dont-cleanup-after-each
 --require src/platform/testing/unit/mocha-setup.js
 --require src/platform/testing/unit/enzyme-setup.js
 --require choma
