@@ -35,6 +35,7 @@ describe('Caregivers helpers', () => {
       'gender',
     ]);
     expect(primaryKeys).to.deep.equal([
+      'hasHealthInsurance',
       'address',
       'primaryPhoneNumber',
       'vetRelationship',
@@ -70,6 +71,7 @@ describe('Caregivers helpers', () => {
       'gender',
     ]);
     expect(primaryKeys).to.deep.equal([
+      'hasHealthInsurance',
       'address',
       'primaryPhoneNumber',
       'vetRelationship',
@@ -114,6 +116,7 @@ describe('Caregivers helpers', () => {
       'gender',
     ]);
     expect(primaryKeys).to.deep.equal([
+      'hasHealthInsurance',
       'address',
       'primaryPhoneNumber',
       'vetRelationship',
