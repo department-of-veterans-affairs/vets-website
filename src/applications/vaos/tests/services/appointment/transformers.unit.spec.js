@@ -430,7 +430,11 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should not set clinic as HealthcareService', () => {
-        expect(data.participant).to.be.empty;
+        expect(
+          data.participant.some(p =>
+            p.actor?.reference?.includes('HealthcareService'),
+          ),
+        ).to.be.false;
       });
 
       it('should set video url in HealthcareService.telecom', () => {
