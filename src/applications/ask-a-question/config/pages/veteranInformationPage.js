@@ -1,10 +1,6 @@
-import {
-  veteranStatusUI,
-  requireServiceInfo,
-  showVeteranInformation,
-} from './veteranStatusUI';
+import { veteranStatusUI, requireServiceInfo } from './veteranStatusUI';
 import { veteranServiceInformationUI } from './veteranServiceInformationUI';
-import { veteranInformationUI } from './veteranInformationUI';
+import { personInformationUI } from './personInformationUI';
 
 import { schema } from 'platform/forms/definitions/address';
 import fullSchema from '../../0873-schema.json';
@@ -18,6 +14,21 @@ const formFields = {
   veteranServiceInformation: 'veteranServiceInformation',
 };
 
+const showVeteranInformation = formData => {
+  return (
+    formData.veteranStatus.veteranStatus &&
+    formData.veteranStatus.veteranStatus === 'vet'
+  );
+};
+
+const showDependentInformation = formData => {
+  return (
+    formData.veteranStatus.veteranStatus &&
+    formData.veteranStatus.veteranStatus === 'dependent' &&
+    !formData.veteranStatus.isDependent
+  );
+};
+
 const veteranInformationPage = {
   uiSchema: {
     [formFields.veteranStatus]: {
@@ -27,10 +38,15 @@ const veteranInformationPage = {
       ...veteranStatusUI,
     },
     [formFields.veteranInformation]: {
-      ...veteranInformationUI,
+      ...personInformationUI('Veteran'),
       'ui:options': {
-        hideIf: formData =>
-          !showVeteranInformation(formData.veteranStatus.veteranStatus),
+        hideIf: formData => !showVeteranInformation(formData),
+      },
+    },
+    [formFields.dependentInformation]: {
+      ...personInformationUI('Dependent'),
+      'ui:options': {
+        hideIf: formData => !showDependentInformation(formData),
       },
     },
     [formFields.veteranServiceInformation]: {
@@ -46,6 +62,24 @@ const veteranInformationPage = {
     properties: {
       [formFields.veteranStatus]: veteranStatus,
       [formFields.veteranInformation]: {
+        type: 'object',
+        properties: {
+          first: {
+            $ref: '#/definitions/first',
+          },
+          last: {
+            $ref: '#/definitions/last',
+          },
+          address: schema(fullSchema),
+          phone: {
+            $ref: '#/definitions/phone',
+          },
+          email: {
+            $ref: '#/definitions/email',
+          },
+        },
+      },
+      [formFields.dependentInformation]: {
         type: 'object',
         properties: {
           first: {

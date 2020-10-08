@@ -23,9 +23,6 @@ const requireVetRelationship = selectedVeteranStatus =>
 export const requireServiceInfo = selectedVeteranStatus =>
   selectedVeteranStatus && selectedVeteranStatus !== 'general';
 
-export const showVeteranInformation = selectedVeteranStatus =>
-  selectedVeteranStatus && selectedVeteranStatus === 'vet';
-
 const hideDateOfDeath = selectedVeteranStatus =>
   selectedVeteranStatus === 'vet' || selectedVeteranStatus === 'general';
 

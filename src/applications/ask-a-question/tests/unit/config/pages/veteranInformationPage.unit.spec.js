@@ -205,6 +205,8 @@ describe('Veteran Information Page', () => {
     });
 
     it('should show veteran information', () => {
+      wrapper.getByText('Veteran information');
+
       wrapper.getByLabelText("Veteran's first name", { exact: false });
       wrapper.getByLabelText("Veteran's last name", { exact: false });
       wrapper.getByLabelText('Street address', { exact: false });
@@ -274,6 +276,69 @@ describe('Veteran Information Page', () => {
 
       expect(wrapper.queryByText(veteranStatusUI.dateOfDeath['ui:title'])).to.be
         .null;
+    });
+
+    it('should not show dependent information if person filling form is dependent', () => {
+      const yesOption = getRadioOption(wrapper, 'isDependent', 'Yes');
+
+      fireEvent.click(yesOption, radioButtonClick);
+
+      expect(wrapper.queryByText('Dependent information')).to.be.null;
+
+      expect(
+        wrapper.queryByLabelText("Dependent's first name", { exact: false }),
+      ).to.be.null;
+      expect(
+        wrapper.queryByLabelText("Dependent's last name", { exact: false }),
+      ).to.be.null;
+      expect(wrapper.queryByLabelText('Street address', { exact: false })).to.be
+        .null;
+      expect(wrapper.queryByLabelText('City', { exact: false })).to.be.null;
+      expect(wrapper.queryByLabelText('State', { exact: false })).to.be.null;
+      expect(wrapper.queryByLabelText('Country', { exact: false })).to.be.null;
+      expect(wrapper.queryByLabelText('Postal code', { exact: false })).to.be
+        .null;
+      expect(
+        wrapper.queryByLabelText('Daytime phone (area code)', { exact: false }),
+      ).to.be.null;
+      expect(wrapper.queryByLabelText('Email', { exact: false })).to.be.null;
+    });
+
+    it('should show dependent information if person filling form is not dependent', () => {
+      const noOption = getRadioOption(wrapper, 'isDependent', 'No');
+
+      fireEvent.click(noOption, radioButtonClick);
+
+      wrapper.getByText('Dependent information');
+
+      wrapper.getByLabelText("Dependent's first name", { exact: false });
+      wrapper.getByLabelText("Dependent's last name", { exact: false });
+      wrapper.getByLabelText('Street address', { exact: false });
+      wrapper.getByLabelText('City', { exact: false });
+      wrapper.getByLabelText('State', { exact: false });
+      wrapper.getByLabelText('Country', { exact: false });
+      wrapper.getByLabelText('Postal code', { exact: false });
+      wrapper.getByLabelText('Daytime phone (area code)', { exact: false });
+      wrapper.getByLabelText('Email', { exact: false });
+    });
+
+    it('should require dependent first name, last name, country, and email if person filling form is not dependent', () => {
+      const noOption = getRadioOption(wrapper, 'isDependent', 'No');
+
+      fireEvent.click(noOption, radioButtonClick);
+
+      expect(
+        wrapper.getByText("Dependent's first name", { exact: false }),
+      ).to.contain.text('Required');
+      expect(
+        wrapper.getByText("Dependent's last name", { exact: false }),
+      ).to.contain.text('Required');
+      expect(wrapper.getByText('Country', { exact: false })).to.contain.text(
+        'Required',
+      );
+      expect(wrapper.getByText('Email', { exact: false })).to.contain.text(
+        'Required',
+      );
     });
   });
 });
