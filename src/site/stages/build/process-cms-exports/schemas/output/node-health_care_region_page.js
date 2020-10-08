@@ -100,19 +100,7 @@ module.exports = {
     fieldGovdeliveryIdEmerg: { type: 'string' },
     fieldGovdeliveryIdNews: { type: 'string' },
     fieldOperatingStatus: socialMediaSchema,
-    // fieldFacebook: socialMediaSchema,
-    fieldFacebook: {
-      type: ['object', 'null'],
-      properties: {
-        url: {
-          type: 'object',
-          properties: {
-            path: { type: 'string' },
-          },
-        },
-      },
-      required: ['url'],
-    },
+    fieldFacebook: socialMediaSchema,
     fieldFlickr: socialMediaSchema,
     fieldInstagram: socialMediaSchema,
     fieldTwitter: socialMediaSchema,
