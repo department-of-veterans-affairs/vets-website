@@ -11,15 +11,18 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 function expectBranchOfServiceNotToExist(wrapper) {
   expect(
-    wrapper.queryByLabelText(veteranStatusUI.branchOfService['ui:title'], {
-      exact: false,
-    }),
+    wrapper.queryByLabelText(
+      veteranServiceInformationUI.branchOfService['ui:title'],
+      {
+        exact: false,
+      },
+    ),
   ).to.be.null;
 }
 
 function expectBranchOfServiceToBeRequired(wrapper) {
   const branchOfService = wrapper.getByLabelText(
-    veteranStatusUI.branchOfService['ui:title'],
+    veteranServiceInformationUI.branchOfService['ui:title'],
     {
       exact: false,
     },
@@ -118,11 +121,13 @@ describe('Veteran Information Page', () => {
       .to.be.null;
     expect(wrapper.queryByLabelText("Veteran's last name", { exact: false })).to
       .be.null;
-    // wrapper.queryByLabelText("Street address", { exact: false });
-    // wrapper.queryByLabelText("City", { exact: false });
-    // wrapper.queryByLabelText("State", { exact: false });
-    // wrapper.queryByLabelText("Country", { exact: false });
-    // wrapper.queryByLabelText("Postal code", { exact: false });
+    expect(wrapper.queryByLabelText('Street address', { exact: false })).to.be
+      .null;
+    expect(wrapper.queryByLabelText('City', { exact: false })).to.be.null;
+    expect(wrapper.queryByLabelText('State', { exact: false })).to.be.null;
+    expect(wrapper.queryByLabelText('Country', { exact: false })).to.be.null;
+    expect(wrapper.queryByLabelText('Postal code', { exact: false })).to.be
+      .null;
     expect(
       wrapper.queryByLabelText('Daytime phone (area code)', { exact: false }),
     ).to.be.null;
@@ -202,21 +207,29 @@ describe('Veteran Information Page', () => {
     it('should show veteran information', () => {
       wrapper.getByLabelText("Veteran's first name", { exact: false });
       wrapper.getByLabelText("Veteran's last name", { exact: false });
-      // wrapper.getByLabelText("Street address", { exact: false });
-      // wrapper.getByLabelText("City", { exact: false });
-      // wrapper.getByLabelText("State", { exact: false });
-      // wrapper.getByLabelText("Country", { exact: false });
-      // wrapper.getByLabelText("Postal code", { exact: false });
+      wrapper.getByLabelText('Street address', { exact: false });
+      wrapper.getByLabelText('City', { exact: false });
+      wrapper.getByLabelText('State', { exact: false });
+      wrapper.getByLabelText('Country', { exact: false });
+      wrapper.getByLabelText('Postal code', { exact: false });
       wrapper.getByLabelText('Daytime phone (area code)', { exact: false });
       wrapper.getByLabelText('Email', { exact: false });
     });
 
-    // it('should require veteran first name, last name, country, and email', () => {
-    //   expect(wrapper.getByLabelText("Veteran's first name", { exact: false })).to.have.property('required');
-    //   expect(wrapper.getByLabelText("Veteran's last name", { exact: false })).to.have.property('required');
-    //   expect(wrapper.getByLabelText("Country", { exact: false })).to.have.property('required');
-    //   expect(wrapper.getByLabelText("Email", { exact: false })).to.have.property('required');
-    // });
+    it('should require veteran first name, last name, country, and email', () => {
+      expect(
+        wrapper.getByText("Veteran's first name", { exact: false }),
+      ).to.contain.text('Required');
+      expect(
+        wrapper.getByText("Veteran's last name", { exact: false }),
+      ).to.contain.text('Required');
+      expect(wrapper.getByText('Country', { exact: false })).to.contain.text(
+        'Required',
+      );
+      expect(wrapper.getByText('Email', { exact: false })).to.contain.text(
+        'Required',
+      );
+    });
   });
 
   describe('for the dependent of a veteran', () => {

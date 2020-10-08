@@ -12,20 +12,30 @@ import {
   serviceStartDateTitle,
   serviceEndDateTitle,
   serviceDateRangeErrorMessage,
+  branchOfServiceTitle,
 } from '../../content/labels';
+import SectionHeader from '../../content/SectionHeader';
+import { requireServiceInfo } from './veteranStatusUI';
 
 const formFields = {
   dateOfBirth: 'dateOfBirth',
   socialSecurityNumber: 'socialSecurityNumber',
   serviceNumber: 'serviceNumber',
   claimNumber: 'claimNumber',
+  branchOfService: 'branchOfService',
   serviceDateRange: 'serviceDateRange',
 };
 
 export const veteranServiceInformationUI = {
-  [formFields.dateOfBirth]: {
-    ...currentOrPastDateUI(dateOfBirthTitle),
-  },
+  'ui:description': SectionHeader('Veteran service information'),
+  'ui:order': [
+    'socialSecurityNumber',
+    'serviceNumber',
+    'claimNumber',
+    'branchOfService',
+    'dateOfBirth',
+    'serviceDateRange',
+  ],
   [formFields.socialSecurityNumber]: {
     ...ssnUI,
     'ui:title': socialSecurityNumberTitle,
@@ -41,6 +51,18 @@ export const veteranServiceInformationUI = {
     'ui:errorMessages': {
       pattern: claimNumberPatternErrorMessage,
     },
+  },
+  [formFields.branchOfService]: {
+    'ui:title': branchOfServiceTitle,
+    'ui:required': formData =>
+      requireServiceInfo(formData.veteranStatus.veteranStatus),
+    'ui:options': {
+      hideIf: formData =>
+        !requireServiceInfo(formData.veteranStatus.veteranStatus),
+    },
+  },
+  [formFields.dateOfBirth]: {
+    ...currentOrPastDateUI(dateOfBirthTitle),
   },
   [formFields.serviceDateRange]: dateRangeUI(
     serviceStartDateTitle,

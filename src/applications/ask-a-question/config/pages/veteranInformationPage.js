@@ -6,13 +6,11 @@ import {
 import { veteranServiceInformationUI } from './veteranServiceInformationUI';
 import { veteranInformationUI } from './veteranInformationUI';
 
-import { schema as addressSchema } from '../../contactInformation/address/address'
+import { schema } from 'platform/forms/definitions/address';
 import fullSchema from '../../0873-schema.json';
+import SectionHeader from '../../content/SectionHeader';
 
-const {
-  veteranStatus,
-  veteranServiceInformation,
-} = fullSchema.properties;
+const { veteranStatus, veteranServiceInformation } = fullSchema.properties;
 
 const formFields = {
   veteranStatus: 'veteranStatus',
@@ -22,7 +20,12 @@ const formFields = {
 
 const veteranInformationPage = {
   uiSchema: {
-    [formFields.veteranStatus]: veteranStatusUI,
+    [formFields.veteranStatus]: {
+      'ui:description': SectionHeader(
+        'How does a Veteran relate to your Question?',
+      ),
+      ...veteranStatusUI,
+    },
     [formFields.veteranInformation]: {
       ...veteranInformationUI,
       'ui:options': {
@@ -46,19 +49,19 @@ const veteranInformationPage = {
         type: 'object',
         properties: {
           first: {
-            $ref: "#/definitions/first"
+            $ref: '#/definitions/first',
           },
           last: {
-            $ref: "#/definitions/last"
+            $ref: '#/definitions/last',
           },
-          address: addressSchema(fullSchema, false),
+          address: schema(fullSchema),
           phone: {
-            "$ref": "#/definitions/phone"
+            $ref: '#/definitions/phone',
           },
           email: {
-            "$ref": "#/definitions/email"
-          }
-        }
+            $ref: '#/definitions/email',
+          },
+        },
       },
       [formFields.veteranServiceInformation]: veteranServiceInformation,
     },
