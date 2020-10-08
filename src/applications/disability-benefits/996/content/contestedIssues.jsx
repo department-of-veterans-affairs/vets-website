@@ -53,10 +53,10 @@ const disabilitiesList = (
       <li>
         We made the decision over a year ago. You have 1 year from the date on
         your decision letter to request a Higher-Level Review.{' '}
-        <strong>**Note:**</strong> If you weren’t able to request a timely
-        review due to COVID-19 pandemic, we may grant you an extension of the
-        deadline. To request an extension, <DownloadLink /> and attach a note
-        that you’re requesting a filing extension due to COVID-19.
+        <strong>Note:</strong> If you weren’t able to request a timely review
+        due to COVID-19 pandemic, we may grant you an extension of the deadline.
+        To request an extension, <DownloadLink /> and attach a note that you’re
+        requesting a filing extension due to COVID-19.
       </li>
       <li>
         Your issue isn’t related to monthly compensation, pension, or survivor

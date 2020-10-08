@@ -162,6 +162,10 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
+
+        const dataLayer = global.window.dataLayer;
+        expect(dataLayer[0].event).to.not.equal('vaos-cc-eligible-yes');
+
         expect(nextState).to.equal('typeOfCare');
       });
 
@@ -195,6 +199,10 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
+
+        const dataLayer = global.window.dataLayer;
+        expect(dataLayer[0].event).to.equal('vaos-cc-eligible-yes');
+
         expect(nextState).to.equal('requestDateTime');
         resetFetch();
       });

@@ -1,13 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import AdditionalResources from '../content/AdditionalResources';
-import { formatNumber, locationInfo } from '../../utils/helpers';
+import {
+  convertRatingToStars,
+  formatNumber,
+  locationInfo,
+} from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import CautionFlagHeading from './CautionFlagHeading';
 import SchoolClosingHeading from './SchoolClosingHeading';
 import ScorecardTags from '../ScorecardTags';
+import { renderStars } from '../../utils/render';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -27,6 +33,21 @@ class HeadingSummary extends React.Component {
     const formattedAddress = locationInfo(it.city, it.state, it.country);
     const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
 
+    const stars = convertRatingToStars(it.ratingAverage);
+    const displayStars =
+      this.props.gibctSchoolRatings && stars && it.ratingCount > 0;
+
+    const titleClasses = classNames({
+      'vads-u-margin-bottom--0': displayStars,
+    });
+
+    const starClasses = classNames(
+      'vads-u-margin-bottom--1',
+      it.cautionFlags.length > 0
+        ? 'vads-u-margin-top--2'
+        : 'vads-u-margin-top--1',
+    );
+
     const schoolSize = enrollment => {
       if (!enrollment) return 'Unknown';
       if (enrollment <= 2000) {
@@ -40,7 +61,9 @@ class HeadingSummary extends React.Component {
     return (
       <div className="heading row">
         <div className="usa-width-two-thirds medium-8 small-12 column">
-          <h1 tabIndex={-1}>{it.name}</h1>
+          <h1 tabIndex={-1} className={titleClasses}>
+            {it.name}
+          </h1>
           <SchoolClosingHeading
             schoolClosing={it.schoolClosing}
             schoolClosingOn={it.schoolClosingOn}
@@ -51,6 +74,22 @@ class HeadingSummary extends React.Component {
               onViewWarnings={this.props.onViewWarnings}
             />
           </div>
+          {displayStars && (
+            <div className={starClasses}>
+              {renderStars(it.ratingAverage)}{' '}
+              <span className="vads-u-padding-left--1 vads-u-padding-right--1">
+                |
+              </span>{' '}
+              <span className="vads-u-font-weight--bold vads-u-padding-right--1">
+                {stars.display} of 5
+              </span>{' '}
+              (
+              <a href="#profile-school-ratings">
+                See {it.ratingCount} ratings by Veterans
+              </a>
+              )
+            </div>
+          )}
           <div className="column">
             <p>
               <strong>{formatNumber(it.studentCount)}</strong> GI Bill students

@@ -40,6 +40,16 @@ describe('<ConfirmEligibilityView>', () => {
     tree.unmount();
   });
 
+  it('should render ExitApplicationButton', () => {
+    const tree = mount(
+      <Provider store={defaultStore}>
+        <ConfirmEligibilityView {...defaultProps} />
+      </Provider>,
+    );
+    expect(tree.find('ExitApplicationButton')).to.not.be.undefined;
+    tree.unmount();
+  });
+
   it('should display checkmark for correct benefit', () => {
     const tree = mount(
       <Provider store={defaultStore}>

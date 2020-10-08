@@ -1,0 +1,41 @@
+{
+  "data": {
+    "id": "",
+    "type": "bgs_va_payment_history_response",
+    "attributes": {
+      "payments": [],
+      "returnPayments": [
+        {
+          "returnedCheckAmount": null,
+          "returnedCheckCancelDt": "12/01/2012",
+          "returnedCheckIssueDt": null,
+          "returnedCheckNum": "12365494",
+          "returnedCheckRo": "17",
+          "returnedCheckReason": "6",
+          "returnedCheckReturnFiche": "B",
+          "returnedCheckType": "Other"
+        },
+        {
+          "returnedCheckAmount": null,
+          "returnedCheckCancelDt": "12/01/2012",
+          "returnedCheckIssueDt": null,
+          "returnedCheckNum": "12365494",
+          "returnedCheckRo": "17",
+          "returnedCheckReason": "6",
+          "returnedCheckReturnFiche": "B",
+          "returnedCheckType": "Other"
+        },
+        {
+          "returnedCheckAmount": null,
+          "returnedCheckCancelDt": "12/01/2012",
+          "returnedCheckIssueDt": null,
+          "returnedCheckNum": "12365494",
+          "returnedCheckRo": "17",
+          "returnedCheckReason": "6",
+          "returnedCheckReturnFiche": "B",
+          "returnedCheckType": "Other"
+        }
+      ]
+    }
+  }
+}

@@ -7,17 +7,18 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { getParentOfLocation } from '../../../services/location';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
 import FormButtons from '../../../components/FormButtons';
-import NoValidVAFacilities from './NoValidVAFacilities';
+import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import NoVASystems from './NoVASystems';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
+import ResidentialAddress from './ResidentialAddress';
 
 const initialSchema = {
   type: 'object',
@@ -41,30 +42,28 @@ const pageKey = 'vaFacilityV2';
 const pageTitle = 'Choose a VA location for your appointment';
 
 function VAFacilityPageV2({
+  address,
   canScheduleAtChosenFacility,
   childFacilitiesStatus,
   data,
   eligibility,
   facilities,
-  facility,
-  facilityDetails,
-  facilityDetailsStatus,
   hasDataFetchingError,
+  hideEligibilityModal,
   loadingEligibilityStatus,
   noValidVAParentFacilities,
   noValidVAFacilities,
   openFacilityPageV2,
   pageChangeInProgress,
-  parentDetails,
   parentFacilities,
   parentFacilitiesStatus,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   schema,
+  selectedFacility,
   showEligibilityModal,
-  hideEligibilityModal,
   singleValidVALocation,
-  siteId,
+  sortMethod,
   typeOfCare,
   updateFormData,
 }) {
@@ -87,15 +86,13 @@ function VAFacilityPageV2({
   const goForward = () => routeToNextAppointmentPage(history, pageKey);
 
   const onFacilityChange = newData => {
-    const selectedFacility = facilities?.find(f => f.id === newData.vaFacility);
+    const facility = facilities.find(f => f.id === newData.vaFacility);
+    const vaParent = getParentOfLocation(parentFacilities, facility)?.id;
 
-    const parentId = getParentOfLocation(parentFacilities, selectedFacility)
-      ?.id;
-
-    if (!!selectedFacility && !!parentId) {
+    if (!!facility && !!vaParent) {
       updateFormData(pageKey, uiSchema, {
         ...newData,
-        vaParent: parentId,
+        vaParent,
       });
     }
   };
@@ -149,14 +146,7 @@ function VAFacilityPageV2({
     return (
       <div>
         {title}
-        <NoValidVAFacilities
-          formContext={{
-            siteId,
-            typeOfCare,
-            facilityDetailsStatus,
-            parentDetails,
-          }}
-        />
+        <NoValidVAFacilities typeOfCare={typeOfCare} />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
@@ -175,7 +165,7 @@ function VAFacilityPageV2({
         {title}
         <SingleFacilityEligibilityCheckMessage
           eligibility={eligibility}
-          facility={facility}
+          facility={selectedFacility}
         />
         <div className="vads-u-margin-top--2">
           <FormButtons
@@ -193,7 +183,7 @@ function VAFacilityPageV2({
     return (
       <div>
         {title}
-        <VAFacilityInfoMessage facility={facility} />
+        <VAFacilityInfoMessage facility={selectedFacility} />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
@@ -206,13 +196,21 @@ function VAFacilityPageV2({
     );
   }
 
+  const sortByDistanceFromResidential =
+    sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL;
+
   return (
     <div>
       {title}
       <p>
         Below is a list of VA locations where you’re registered that offer{' '}
         {typeOfCare} appointments.
+        {sortByDistanceFromResidential &&
+          ' Locations closest to you are at the top of the list. We base this on the address we have on file for you.'}
       </p>
+      {sortByDistanceFromResidential && (
+        <ResidentialAddress address={address} />
+      )}
       {childFacilitiesStatus === FETCH_STATUS.succeeded && (
         <SchemaForm
           name="VA Facility"
@@ -221,6 +219,7 @@ function VAFacilityPageV2({
           uiSchema={uiSchema}
           onChange={onFacilityChange}
           onSubmit={goForward}
+          formContext={{ loadingEligibility, sortMethod }}
           data={data}
         >
           <FormButtons
@@ -250,7 +249,7 @@ function VAFacilityPageV2({
         <EligibilityModal
           onClose={hideEligibilityModal}
           eligibility={eligibility}
-          facilityDetails={facilityDetails}
+          facilityDetails={selectedFacility}
         />
       )}
     </div>

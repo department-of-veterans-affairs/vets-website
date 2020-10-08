@@ -25,7 +25,7 @@ describe('Chapter 31 Additional Information Page', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).to.equal(3);
     form.unmount();
   });
 
@@ -40,7 +40,7 @@ describe('Chapter 31 Additional Information Page', () => {
       />,
     );
 
-    changeDropdown(form, 'select#root_educationLevel', 'ELEMENTARY');
+    fillData(form, 'input#root_yearsOfEducation', '12');
     selectRadio(form, 'root_isMoving', 'N');
 
     form.find('form').simulate('submit');
@@ -60,7 +60,7 @@ describe('Chapter 31 Additional Information Page', () => {
       />,
     );
 
-    changeDropdown(form, 'select#root_educationLevel', 'ELEMENTARY');
+    fillData(form, 'input#root_yearsOfEducation', '12');
     selectRadio(form, 'root_isMoving', 'Y');
 
     // New address

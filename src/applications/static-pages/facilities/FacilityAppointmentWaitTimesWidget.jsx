@@ -8,7 +8,7 @@ import _ from 'lodash';
 export class FacilityAppointmentWaitTimesWidget extends React.Component {
   appointmentWaitTime(waitTime, service, established = false) {
     return (
-      <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5">
+      <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-margin-right--1">
         <p className="vads-u-margin--0">
           {established ? 'Existing patient' : 'New patient'}
         </p>

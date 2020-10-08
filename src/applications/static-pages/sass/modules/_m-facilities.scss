@@ -270,6 +270,32 @@ $duo-tone-lighten: #000;
 .va-facility-page {
   .va-address-block {
     margin-left: 1rem;
+    border-left: none;
+  }
+}
+
+.facilities_health_service {
+  h3 {
+    margin-top: 1em;
+  }
+
+  h4 {
+    margin-top: 1em;
+  }
+
+  h5 {
+    font-size: 1em;
+    font-family: "Source Sans Pro";
+    margin-top: 1em;
+  }
+
+  .usa-button {
+    margin-bottom: 0;
+  }
+
+  .phone-numbers {
+    display: flex;
+    flex-direction: column;
   }
 }
 

@@ -29,9 +29,9 @@ fragment nodeQa on NodeQA {
       ${BUTTON}
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
 }

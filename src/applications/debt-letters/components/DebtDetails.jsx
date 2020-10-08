@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { deductionCodes } from '../const';
-import HowDoIPayV2 from './HowDoIPayV2';
-import NeedHelpV2 from './NeedHelpV2';
+import { deductionCodes } from '../const/deduction-codes';
+import HowDoIPay from './HowDoIPay';
+import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import moment from 'moment';
 import last from 'lodash/last';
@@ -143,8 +143,8 @@ class DebtDetails extends Component {
             <Link to="debt-letters" className="vads-u-margin-top--1">
               Download letters related to your VA debt
             </Link>
-            <HowDoIPayV2 />
-            <NeedHelpV2 />
+            <HowDoIPay />
+            <NeedHelp />
             <Link className="vads-u-margin-top--4" to="/">
               <i className="fa fa-chevron-left" /> Return to your list of debts.
             </Link>
