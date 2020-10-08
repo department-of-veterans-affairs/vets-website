@@ -93,11 +93,16 @@ const formConfig = {
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL,
+  benefitDescription: {
+    benefitType: 'coronavirus volunteer list',
+    subText: false,
+  },
   version: 0,
   prefillEnabled: true,
   customText: {
     reviewPageTitle: 'Review information',
     appType: 'volunteer form',
+    savedFormDescription: 'coronavirus volunteer list registration',
   },
   savedFormMessages: {
     notFound:
