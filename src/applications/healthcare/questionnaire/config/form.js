@@ -24,6 +24,14 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
+  benefitDescription: {
+    benefitType: 'appointment questionnaire',
+    subText: false,
+  },
+  customText: {
+    appType: 'questionnaire',
+    savedFormDescription: 'upcoming appointment questionnaire',
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
