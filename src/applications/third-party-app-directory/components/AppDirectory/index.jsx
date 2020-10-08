@@ -1,9 +1,9 @@
 // Node modules.
 import React from 'react';
 // Relative imports.
-import SearchResults from '../../containers/SearchResults';
+import ThirdPartyApps from '../../containers/ThirdPartyApps';
 
-export const SearchPage = () => (
+export const AppDirectory = () => (
   <div>
     <h1>Find apps to use</h1>
 
@@ -15,7 +15,7 @@ export const SearchPage = () => (
     </p>
 
     {/* Search Results */}
-    <SearchResults />
+    <ThirdPartyApps />
 
     {/* Questions Content */}
     <div className="feature">
@@ -32,4 +32,4 @@ export const SearchPage = () => (
   </div>
 );
 
-export default SearchPage;
+export default AppDirectory;

@@ -14,7 +14,7 @@ import { fetchResultsThunk } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
 import { SearchResultPropTypes } from '../../prop-types';
 
-export class SearchResults extends Component {
+export class ThirdPartyApps extends Component {
   static propTypes = {
     // From mapStateToProps.
     error: PropTypes.string.isRequired,
@@ -197,4 +197,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SearchResults);
+)(ThirdPartyApps);
