@@ -78,6 +78,22 @@ function getDrupalValue(arr) {
 
 /**
  * A very specific helper function that expects to receive an
+ * array with one item which is an object with a single `processed` property
+ *
+ */
+function getDrupalProcessed(arr) {
+  if (arr.length === 0) return null;
+  if (arr.length === 1)
+    return typeof arr[0].value === 'string'
+      ? unescapeUnicode(arr[0].processed)
+      : arr[0].value;
+  // eslint-disable-next-line no-console
+  console.warn(`Unexpected argument: ${arr.toString()}`);
+  return null;
+}
+
+/**
+ * A very specific helper function that expects to receive an
  * object and an imageStyle string
  * @param {object}
  * @return {object}
@@ -124,6 +140,7 @@ function uriToUrl(uri) {
 
 module.exports = {
   getDrupalValue,
+  getDrupalProcessed,
   getImageCrop,
   unescapeUnicode,
   uriToUrl,

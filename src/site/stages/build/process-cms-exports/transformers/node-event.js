@@ -1,5 +1,6 @@
 const {
   getDrupalValue,
+  getDrupalProcessed,
   utcToEpochTime,
   getWysiwygString,
   createLink,
@@ -41,7 +42,7 @@ const transform = entity => ({
     ? mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k))
     : null,
   fieldBody: {
-    processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
+    processed: getWysiwygString(getDrupalProcessed(entity.fieldBody)),
   },
   fieldDate: {
     startDate: toUtc(entity.fieldDate[0].value),

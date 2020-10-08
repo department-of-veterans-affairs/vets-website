@@ -1,11 +1,11 @@
-const { getDrupalValue, getWysiwygString } = require('./helpers');
+const { getDrupalProcessed, getWysiwygString } = require('./helpers');
 
 const transform = entity => ({
   entity: {
     entityType: 'node',
     entityBundle: 'regional_health_care_service_des',
     fieldBody: {
-      processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
+      processed: getWysiwygString(getDrupalProcessed(entity.fieldBody)),
     },
     fieldServiceNameAndDescripti: entity.fieldServiceNameAndDescripti[0],
   },
