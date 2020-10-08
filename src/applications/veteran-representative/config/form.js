@@ -56,6 +56,10 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_21_22,
+  benefitDescription: {
+    benefitType: '',
+    subText: false,
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
