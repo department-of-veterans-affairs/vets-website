@@ -5,11 +5,12 @@ import {
 } from './veteranStatusUI';
 import { veteranServiceInformationUI } from './veteranServiceInformationUI';
 import { veteranInformationUI } from './veteranInformationUI';
+
+import { schema as addressSchema } from '../../contactInformation/address/address'
 import fullSchema from '../../0873-schema.json';
 
 const {
   veteranStatus,
-  veteranInformation,
   veteranServiceInformation,
 } = fullSchema.properties;
 
@@ -41,7 +42,24 @@ const veteranInformationPage = {
     type: 'object',
     properties: {
       [formFields.veteranStatus]: veteranStatus,
-      [formFields.veteranInformation]: veteranInformation,
+      [formFields.veteranInformation]: {
+        type: 'object',
+        properties: {
+          first: {
+            $ref: "#/definitions/first"
+          },
+          last: {
+            $ref: "#/definitions/last"
+          },
+          address: addressSchema(fullSchema, false),
+          phone: {
+            "$ref": "#/definitions/phone"
+          },
+          email: {
+            "$ref": "#/definitions/email"
+          }
+        }
+      },
       [formFields.veteranServiceInformation]: veteranServiceInformation,
     },
   },

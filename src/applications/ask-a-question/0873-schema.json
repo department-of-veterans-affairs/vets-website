@@ -1603,23 +1603,6 @@
         }
       }
     },
-    "veteranInformation": {
-      "type": "object",
-      "properties": {
-        "first": {
-          "$ref": "#/definitions/first"
-        },
-        "last": {
-          "$ref": "#/definitions/last"
-        },
-        "phone": {
-          "$ref": "#/definitions/phone"
-        },
-        "email": {
-          "$ref": "#/definitions/email"
-        }
-      }
-    },
     "veteranServiceInformation": {
       "type": "object",
       "properties": {

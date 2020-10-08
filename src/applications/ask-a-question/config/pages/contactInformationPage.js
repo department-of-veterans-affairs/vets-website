@@ -32,6 +32,7 @@ const contactInformationPage = {
     [formFields.fullName]: fullNameUI,
     [formFields.address]: address.uiSchema(
       '',
+      true,
       false,
       (formData, _index) => {
         return formData.preferredContactMethod === 'mail';

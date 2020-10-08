@@ -15,7 +15,7 @@ export const veteranInformationUI = {
   [formFields.last]: {
     'ui:title': "Veteran's last name",
   },
-  [formFields.address]: addressUI('Address', false, false, null, false),
+  [formFields.address]: addressUI('', false, false, null, false),
   [formFields.phone]: {
     'ui:title': 'Daytime phone (area code)',
   },
