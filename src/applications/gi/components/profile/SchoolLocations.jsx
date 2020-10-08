@@ -150,9 +150,6 @@ export class SchoolLocations extends React.Component {
       ),
       'Estimated housing': (
         <>
-          <span className="estimated-housing-cell-title vads-u-margin--0 vads-u-margin-right--0p5">
-            Estimated housing:
-          </span>
           {this.estimatedHousingValue(institution)}
           {month}
         </>

@@ -19,6 +19,15 @@ class ResponsiveTable extends React.Component {
       <tr key={key} className={rowClassName} role="row">
         {columns.map((field, index) => {
           const cellName = createId(field);
+          let data = item[field];
+          if (typeof item[field] === 'string') {
+            data = <span className={'vads-u-margin-0'}>{item[field]}</span>;
+          }
+
+          const mobileHeader = (
+            <dfn className="medium-screen:vads-u-display--none">{field}: </dfn>
+          );
+
           if (index === 0) {
             return (
               <th
@@ -29,10 +38,8 @@ class ResponsiveTable extends React.Component {
                 tabIndex="-1"
                 key={`${key}-${cellName}`}
               >
-                <dfn className="vads-u-display--block medium-screen:vads-u-display--none">
-                  {field}
-                </dfn>
-                {item[field]}
+                {mobileHeader}
+                {data}
               </th>
             );
           }
@@ -42,7 +49,8 @@ class ResponsiveTable extends React.Component {
               role="cell"
               key={`${key}-${cellName}`}
             >
-              {item[field]}
+              {mobileHeader}
+              {data}
             </td>
           );
         })}
