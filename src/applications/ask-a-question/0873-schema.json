@@ -359,16 +359,16 @@
                     "levelThree": {
                       "type": "string",
                       "enum": [
-                        "Apply for Health Benefits (Veterans)",
-                        "Medical Care for Veterans within USA",
-                        "Medical Care-Overseas Vets (Foreign Med)",
-                        "Children of Women Vietnam Vets Healthcare",
                         "Apply for Health Benefits (Dependents)",
+                        "Apply for Health Benefits (Veterans)",
+                        "CHAMPVA CITI (In house Treatment Initiated)",
                         "CHAMPVA-Civilian Health & Medical Prog",
                         "CHAMPVA Password/Access Problems",
-                        "CHAMPVA CITI (In house Treatment Initiated)",
-                        "Spina Bifida Program for Children of Vet",
-                        "Licensed Health Professional Employment"
+                        "Children of Women Vietnam Vets Healthcare",
+                        "Licensed Health Professional Employment",
+                        "Medical Care-Overseas Vets (Foreign Med)",
+                        "Medical Care for Veterans within USA",
+                        "Spina Bifida Program for Children of Vet"
                       ]
                     }
                   }
@@ -411,8 +411,8 @@
                     "levelThree": {
                       "type": "string",
                       "enum": [
-                        "General Concern",
-                        "Complaint about Women Vets health care"
+                        "Complaint about Women Vets health care",
+                        "General Concern"
                       ]
                     }
                   }
