@@ -26,6 +26,7 @@ export default function createDirectDepositChangePage(schema) {
       bankAccount: _.merge(bankAccountUI, {
         'ui:options': {
           hideIf: formData => !isStartUpdate(formData),
+          expandUnder: 'bankAccountChange',
         },
         accountType: {
           'ui:required': isStartUpdate,
@@ -41,6 +42,7 @@ export default function createDirectDepositChangePage(schema) {
         'ui:description': directDepositWarning,
         'ui:options': {
           hideIf: formData => formData.bankAccountChange !== 'stop',
+          expandUnder: 'bankAccountChange',
         },
       },
     },

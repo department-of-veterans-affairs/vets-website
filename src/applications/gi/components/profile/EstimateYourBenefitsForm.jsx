@@ -890,7 +890,6 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleHasClassesOutsideUSChange}
           checked={inputs.classesOutsideUS}
           name={'classesOutsideUS'}
-          id={'classesOutsideUS'}
         />
       );
     }

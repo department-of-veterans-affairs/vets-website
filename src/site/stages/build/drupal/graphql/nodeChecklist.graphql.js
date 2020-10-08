@@ -23,9 +23,9 @@ fragment nodeChecklist on NodeChecklist {
       ... alertSingle
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
   fieldChecklist {
