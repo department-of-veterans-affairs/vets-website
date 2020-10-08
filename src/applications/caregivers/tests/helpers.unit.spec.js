@@ -22,10 +22,28 @@ describe('Caregivers helpers', () => {
       payloadData.caregiversAssistanceClaim.form,
     );
 
-    expect(!!payloadObject.veteran).to.be.true;
-    expect(!!payloadObject.primaryCaregiver).to.be.true;
-    expect(!!payloadObject.secondaryOne).to.be.false;
-    expect(!!payloadObject.secondaryTwo).to.be.false;
+    const veteranKeys = Object.keys(payloadObject.veteran);
+    const primaryKeys = Object.keys(payloadObject.primaryCaregiver);
+
+    expect(veteranKeys).to.deep.equal([
+      'plannedClinic',
+      'address',
+      'primaryPhoneNumber',
+      'fullName',
+      'ssnOrTin',
+      'dateOfBirth',
+      'gender',
+    ]);
+    expect(primaryKeys).to.deep.equal([
+      'address',
+      'primaryPhoneNumber',
+      'vetRelationship',
+      'fullName',
+      'dateOfBirth',
+      'gender',
+    ]);
+    expect(payloadObject?.secondaryOne).to.equal(undefined);
+    expect(payloadObject?.secondaryOne).to.equal(undefined);
   });
 
   it('should transform required parties plus Secondary One correctly', () => {
@@ -37,10 +55,38 @@ describe('Caregivers helpers', () => {
       payloadData.caregiversAssistanceClaim.form,
     );
 
-    expect(!!payloadObject.veteran).to.be.true;
-    expect(!!payloadObject.primaryCaregiver).to.be.true;
-    expect(!!payloadObject.secondaryCaregiverOne).to.be.true;
-    expect(!!payloadObject.secondaryCaregiverTwo).to.be.false;
+    const veteranKeys = Object.keys(payloadObject.veteran);
+    const primaryKeys = Object.keys(payloadObject.primaryCaregiver);
+    const secondaryOneKeys = Object.keys(payloadObject.secondaryCaregiverOne);
+
+    expect(veteranKeys).to.deep.equal([
+      'lastTreatmentFacility',
+      'plannedClinic',
+      'address',
+      'primaryPhoneNumber',
+      'fullName',
+      'ssnOrTin',
+      'dateOfBirth',
+      'gender',
+    ]);
+    expect(primaryKeys).to.deep.equal([
+      'address',
+      'primaryPhoneNumber',
+      'vetRelationship',
+      'fullName',
+      'dateOfBirth',
+      'gender',
+    ]);
+    expect(secondaryOneKeys).to.deep.equal([
+      'address',
+      'primaryPhoneNumber',
+      'email',
+      'vetRelationship',
+      'fullName',
+      'dateOfBirth',
+      'gender',
+    ]);
+    expect(payloadObject?.secondaryOne).to.equal(undefined);
   });
 
   it('should transform all parties correctly', () => {
@@ -52,9 +98,45 @@ describe('Caregivers helpers', () => {
       payloadData.caregiversAssistanceClaim.form,
     );
 
-    expect(!!payloadObject.veteran).to.be.true;
-    expect(!!payloadObject.primaryCaregiver).to.be.true;
-    expect(!!payloadObject.secondaryCaregiverOne).to.be.true;
-    expect(!!payloadObject.secondaryCaregiverTwo).to.be.true;
+    const veteranKeys = Object.keys(payloadObject.veteran);
+    const primaryKeys = Object.keys(payloadObject.primaryCaregiver);
+    const secondaryOneKeys = Object.keys(payloadObject.secondaryCaregiverOne);
+    const secondaryTwoKeys = Object.keys(payloadObject.secondaryCaregiverTwo);
+
+    expect(veteranKeys).to.deep.equal([
+      'lastTreatmentFacility',
+      'plannedClinic',
+      'address',
+      'primaryPhoneNumber',
+      'fullName',
+      'ssnOrTin',
+      'dateOfBirth',
+      'gender',
+    ]);
+    expect(primaryKeys).to.deep.equal([
+      'address',
+      'primaryPhoneNumber',
+      'vetRelationship',
+      'fullName',
+      'dateOfBirth',
+      'gender',
+    ]);
+    expect(secondaryOneKeys).to.deep.equal([
+      'address',
+      'primaryPhoneNumber',
+      'email',
+      'vetRelationship',
+      'fullName',
+      'dateOfBirth',
+    ]);
+    expect(secondaryTwoKeys).to.deep.equal([
+      'address',
+      'primaryPhoneNumber',
+      'email',
+      'vetRelationship',
+      'fullName',
+      'dateOfBirth',
+      'gender',
+    ]);
   });
 });
