@@ -32,6 +32,16 @@ export class SearchResults extends Component {
       focusElement('[data-display-results-header]');
     }
   }
+  componentDidMount() {
+    const category = '';
+    const platform = '';
+    this.props.fetchResults({
+      category,
+      platform,
+      page: 1,
+      trackSearch: true,
+    });
+  }
 
   onPageSelect = page => {
     const { fetchResults, perPage } = this.props;

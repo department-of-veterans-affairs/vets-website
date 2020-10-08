@@ -7,7 +7,7 @@ export default {
   OPT_OUT_APP_STATUS: 'opt-out-app-status',
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
-  FIND_VA_FORMS: 'find-va-forms',
+  FIND_VA_FORMS: 'find-va-formss',
   FIND_VA_FORMS_INVALID_PDF_ALERT: 'find-va-forms-invalid-pdf-alert',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
   HOMEPAGE_BANNER: 'homepage-banner',
@@ -16,7 +16,8 @@ export default {
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   FORM_686_CTA: 'form-686-CTA',
   CAREGIVER_CONTENT_TOGGLE: 'caregiver-content-toggle',
-  THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
+  // NOTE: ONLY FOR TESTING
+  THIRD_PARTY_APP_DIRECTORY: 'find-va-forms',
   // Health Care | Manage Benefits widgets.
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   REFILL_TRACK_PRESCRIPTIONS_PAGE: 'refill-track-prescriptions-page',

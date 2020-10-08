@@ -30,16 +30,16 @@ export const fetchResultsSuccess = response => ({
 // ============
 // Redux Thunks
 // ============
-export const fetchResultsThunk = (options = {}) => async dispatch => {
-  // Derive options properties.
-  const category = options?.category || null;
-  const platform = options?.platform || null;
-  const hideFetchingState = options?.hideFetchingState;
-  const history = options?.history;
-  const location = options?.location;
-  const page = options?.page || 1;
-  const perPage = options?.perPage || 10;
-  // const trackSearch = options?.trackSearch || false;
+export const fetchResultsThunk = options => async dispatch => {
+  const {
+    category = null,
+    platform = null,
+    hideFetchingState,
+    history,
+    location,
+    page = 1,
+    perPage = 10,
+  } = options;
 
   const queryParamsLookup = { category, platform };
 
