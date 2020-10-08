@@ -101,8 +101,7 @@ const transform = (entity, { ancestors }) => ({
           r => r.entity.uuid === entity.fieldRegionPage[0].uuid,
         )
           ? entity.fieldRegionPage[0]
-          : // : getDrupalValue(entity.fieldRegionPage[0].title),
-            getFieldRegionObject(entity.fieldRegionPage[0]),
+          : getFieldRegionObject(entity.fieldRegionPage[0]),
       }
     : null,
   fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
