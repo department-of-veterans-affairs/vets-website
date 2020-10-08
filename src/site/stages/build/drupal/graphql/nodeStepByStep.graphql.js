@@ -30,6 +30,11 @@ fragment nodeStepByStep on NodeStepByStep {
               fieldWysiwyg {
                 processed
               }
+              fieldAlert {
+                entity {
+                  ... alertParagraph
+                }
+              }
               fieldMedia {
                 entity {
                   ... on Media {
@@ -46,9 +51,9 @@ fragment nodeStepByStep on NodeStepByStep {
       }
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
 }

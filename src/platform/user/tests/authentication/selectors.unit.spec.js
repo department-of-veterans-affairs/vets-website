@@ -3,11 +3,14 @@ import * as selectors from '../../authentication/selectors';
 
 describe('authentication selectors', () => {
   describe('isAuthenticatedWithSSOe', () => {
-    it('pulls out state.profile.signin.ssoe', () => {
+    it('pulls out state.session.ssoe', () => {
       const state = {
         user: {
           profile: {
             signIn: {
+              ssoe: false,
+            },
+            session: {
               ssoe: true,
             },
           },
@@ -20,7 +23,7 @@ describe('authentication selectors', () => {
       const state = {
         user: {
           profile: {
-            signIn: {},
+            session: {},
           },
         },
       };
@@ -29,24 +32,29 @@ describe('authentication selectors', () => {
   });
 
   describe('ssoeTransactionId', () => {
-    it('pulls out state.profile.signin.transactionid', () => {
+    it('pulls out state.session.transactionid', () => {
       const state = {
         user: {
           profile: {
             signIn: {
               transactionid: 'X',
             },
+            session: {
+              transactionid: 'Y',
+            },
           },
         },
       };
 
-      expect(selectors.ssoeTransactionId(state)).to.eq('X');
+      expect(selectors.ssoeTransactionId(state)).to.eq('Y');
     });
     it('returns undefined when the transactionid is not present', () => {
       const state = {
         user: {
-          profile: {
-            signIn: {},
+          session: {
+            profile: {
+              ssoe: false,
+            },
           },
         },
       };

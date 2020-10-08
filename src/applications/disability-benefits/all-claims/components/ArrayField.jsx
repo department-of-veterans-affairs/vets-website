@@ -20,6 +20,8 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+const isUndefined = value => (value || '') === '';
+
 /* Non-review growable table (array) field */
 // Mostly copied from USFS with a few additions/modifications:
 // Addition of 'Save' button, handleSave action, modifications to handleRemove
@@ -40,10 +42,14 @@ export default class ArrayField extends React.Component {
      * manage and doesn’t need to persist from page to page
      */
     this.state = {
-      // force edit mode for valid BDD separation date; empty serviceBranch,
-      // but includes valid "to" entry
+      // force edit mode for any empty service period data
       editing: props.formData
-        ? props.formData.map(data => data?.serviceBranch === '')
+        ? props.formData.map(
+            data =>
+              isUndefined(data?.serviceBranch) ||
+              isUndefined(data?.dateRange?.from) ||
+              isUndefined(data?.dateRange?.to),
+          )
         : [true],
     };
   }

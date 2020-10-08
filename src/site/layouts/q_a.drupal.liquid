@@ -41,16 +41,8 @@
           </div>
         </article>
 
-        <!-- Related links -->
-        {% if fieldRelatedLinks != empty %}
-          <div class="row">
-            <div class="usa-content columns">
-              <aside class="va-nav-linkslist va-nav-linkslist--related">
-                {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' with entity = fieldRelatedLinks.entity %}
-              </aside>
-            </div>
-          </div>
-        {% endif %}
+        <!-- Related information -->
+        {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}
 
         <!-- Last updated -->
         <div class="last-updated usa-content">

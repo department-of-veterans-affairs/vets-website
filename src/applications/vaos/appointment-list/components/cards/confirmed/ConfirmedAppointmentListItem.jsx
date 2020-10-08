@@ -91,9 +91,11 @@ export default function ConfirmedAppointmentListItem({
 
   let header;
   let location;
-  let videoSummary;
+  let vvcHeader = '';
+
   if (isAtlas) {
     header = 'VA Video Connect';
+    vvcHeader = ' at an ATLAS location';
     const address =
       appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo.address;
     if (address) {
@@ -101,19 +103,18 @@ export default function ConfirmedAppointmentListItem({
         address.zipCode
       }`;
     }
-    videoSummary = 'Video appointment at an ATLAS location';
   } else if (videoKind === VIDEO_TYPES.clinic) {
     header = 'VA Video Connect';
+    vvcHeader = ' at a VA location';
     location = facility ? formatFacilityAddress(facility) : null;
-    videoSummary = 'Video appointment at a VA location';
   } else if (videoKind === VIDEO_TYPES.gfe) {
     header = 'VA Video Connect';
+    vvcHeader = ' using a VA device';
     location = 'Video conference';
-    videoSummary = 'Video appointment using a VA device';
   } else if (isVideo) {
     header = 'VA Video Connect';
+    vvcHeader = ' at home';
     location = 'Video conference';
-    videoSummary = 'Video appointment at home';
   } else if (isCommunityCare) {
     header = 'Community Care';
     const address = appointment.contained.find(
@@ -138,28 +139,18 @@ export default function ConfirmedAppointmentListItem({
     >
       <div
         id={`card-${index}-type`}
-        className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans"
+        className="vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans"
       >
-        {header}
+        <span className="vaos-form__title">{header}</span>
+        <span>{vvcHeader}</span>
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
-        {isVideo && videoSummary}
-        {!isVideo && (
-          <AppointmentDateTime
-            appointmentDate={moment.parseZone(appointment.start)}
-            timezone={appointment.vaos.timeZone}
-            facilityId={getVARFacilityId(appointment)}
-          />
-        )}
-      </h3>
-      {isVideo && (
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
           facilityId={getVARFacilityId(appointment)}
-          twoLineFormat
         />
-      )}
+      </h3>
       <AppointmentStatus
         status={appointment.status}
         isPastAppointment={isPastAppointment}
@@ -211,11 +202,11 @@ export default function ConfirmedAppointmentListItem({
               </AdditionalInfoRow>
             )}
             <AddToCalendar
-              summary={isVideo ? videoSummary : header}
+              summary={`${header}${vvcHeader}`}
               description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
-              startDateTime={appointment.start}
+              startDateTime={moment.parseZone(appointment.start)}
             />
             {showCancelButton && (
               <button

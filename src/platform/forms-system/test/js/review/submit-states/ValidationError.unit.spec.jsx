@@ -94,6 +94,7 @@ describe('Schemaform review: <ValidationError />', () => {
       <Provider store={store}>
         <ValidationError
           appType="test"
+          buttonText="test"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
@@ -127,6 +128,7 @@ describe('Schemaform review: <ValidationError />', () => {
       <Provider store={store}>
         <ValidationError
           appType="test"
+          buttonText="test"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
@@ -157,6 +159,7 @@ describe('Schemaform review: <ValidationError />', () => {
       <Provider store={store}>
         <ValidationError
           appType="test"
+          buttonText="custom text"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
@@ -164,7 +167,7 @@ describe('Schemaform review: <ValidationError />', () => {
       </Provider>,
     );
 
-    const submitButton = tree.getByText('Submit test');
+    const submitButton = tree.getByText('custom text');
     expect(submitButton).to.not.be.null;
 
     expect(submitButton).to.not.have.attribute('disabled');
@@ -192,6 +195,7 @@ describe('Schemaform review: <ValidationError />', () => {
       <Provider store={store}>
         <ValidationError
           appType="test"
+          buttonText="test"
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}

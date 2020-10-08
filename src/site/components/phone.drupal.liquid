@@ -1,0 +1,32 @@
+{% if numbers.length > 0 %}
+  <div class="phone-numbers">
+    {% assign phoneNumberObj = numbers | phoneNumberArrayToObject %}
+    {% if phoneNumberObj.tel %}
+      <h5>Phone</h5>
+      {% for number in phoneNumberObj.tel %}
+        {% include "src/site/components/phone-number.drupal.liquid" with number = number %}
+      {% endfor %}
+    {% endif %}
+
+    {% if phoneNumberObj.fax %}
+      <h5>Fax</h5>
+      {% for number in phoneNumberObj.fax %}
+        {% include "src/site/components/phone-number.drupal.liquid" with number = number %}
+      {% endfor %}
+    {% endif %}
+
+    {% if phoneNumberObj.sms %}
+      <h5>SMS</h5>
+      {% for number in phoneNumberObj.sms %}
+        {% include "src/site/components/phone-number.drupal.liquid" with number = number %}
+      {% endfor %}
+    {% endif %}
+
+    {% if phoneNumberObj.tty %}
+      <h5>TTY</h5>
+      {% for number in phoneNumberObj.tty %}
+        {% include "src/site/components/phone-number.drupal.liquid" with number = number %}
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endif %}

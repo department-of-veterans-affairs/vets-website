@@ -2,8 +2,10 @@ import PageDescription from './PageDescription';
 import SectionHeader from './SectionHeader';
 
 /* --------------- Inquiry --------------- */
-
+export const inquiryChapterTitle = "Share why you're contacting us";
+export const inquiryPageTitle = 'Your message';
 export const inquiryPageDescription = PageDescription('Your message');
+
 export const topicTitle =
   'Which topic best describes your question or message?';
 export const topicDescription =
@@ -12,11 +14,46 @@ export const topicErrorMessage = 'Please enter a valid topic.';
 export const inquiryTypeTitle = "Tell us the reason you're contacting us";
 export const queryTitle = 'Please enter your question or message below';
 
-/* --------------- Contact Information --------------- */
+/* --------------- Veteran Information --------------- */
+export const veteranInformationChapterTitle = 'Tell us about the Veteran';
+export const veteranInformationPageTitle = 'Veteran Information';
 
+/* Veteran Status Information */
+export const veteranStatusSectionDescription = SectionHeader(
+  'Veteran Service Information',
+);
+export const veteranStatusTitle = 'My message is about benefits/services';
+export const isDependentTitle = 'Are you the dependent?';
+export const relationshipToVeteranTitle = 'Your relationship to the Veteran';
+export const isDeceasedTitle = 'Is the Veteran deceased?';
+export const dateOfDeathTitle = 'Date of Death if known';
+export const branchOfServiceTitle = 'Branch of service';
+
+/* Additional Veteran Information */
+export const dateOfBirthTitle = 'Date of Birth';
+export const socialSecurityNumberTitle = 'Social Security number';
+export const serviceStartDateTitle = 'Service start date';
+export const claimNumberTitle = 'Claim number';
+export const serviceEndDateTitle = 'Service end date';
+export const serviceNumberTitle = 'Service number';
+
+/* Additional Veteran Errors */
+export const socialSecurityNumberPatternErrorMessage =
+  'Please enter a valid Social Security Number';
+export const serviceNumberPatternErrorMessage =
+  'Please enter a valid Service Number';
+export const claimNumberPatternErrorMessage =
+  'Please enter a valid Claim Number';
+export const serviceDateRangeErrorMessage =
+  'End of service must be after start of service';
+
+/* --------------- Contact Information --------------- */
+export const contactInformationChapterTitle = 'Tell us about yourself';
+export const contactInformationPageTitle = 'Contact Information';
 export const contactInformationPageDescription = PageDescription(
   'Your contact info',
 );
+
 export const preferredContactMethodTitle =
   'How should we get in touch with you?';
 export const phoneTitle = 'Daytime phone';
@@ -43,13 +80,11 @@ export const zipCodeRequiredErrorMessage = 'Please enter a zip code';
 export const zipCodePatternErrorMessage =
   'Please enter a valid 5- or 9-digit zip code (dashes allowed)';
 
-/* Veteran Status Information */
-export const veteranStatusSectionDescription = SectionHeader(
-  'Veteran Service Information',
-);
-export const veteranStatusTitle = 'My message is about benefits/services';
-export const isDependentTitle = 'Are you the dependent?';
-export const relationshipToVeteranTitle = 'Your relationship to the Veteran';
-export const isDeceasedTitle = 'Is the Veteran deceased?';
-export const dateOfDeathTitle = 'Date of Death if known';
-export const branchOfServiceTitle = 'Branch of service';
+/* --------------- Other --------------- */
+export const submitButtonText = 'Submit';
+export const reviewPageTitle = 'Review your information';
+export const savedFormNotFound = 'Please start over to apply for benefits.';
+export const savedFormNoAuth =
+  'Please sign in again to continue your application for benefits.';
+export const formTitle = 'Contact us';
+export const formSubTitle = 'Form 0873';

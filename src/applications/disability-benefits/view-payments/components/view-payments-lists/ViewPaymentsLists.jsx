@@ -86,7 +86,7 @@ class ViewPaymentsLists extends Component {
             />
           );
         } else {
-          paymentsReceivedTableContent = (
+          paymentsReturnedTableContent = (
             <div className="vads-u-margin-y--2 vads-u-padding-y--2 vads-u-padding-x--3 vads-u-background-color--gray-lightest">
               <h3 className="vads-u-margin-top--0">
                 We don’t have a record of returned payments

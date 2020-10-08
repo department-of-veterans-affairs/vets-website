@@ -1,5 +1,28 @@
 import moment from 'moment';
 import { VHA_FHIR_ID } from '../../utils/constants';
+import environment from 'platform/utilities/environment';
+
+/*
+ * This is used to parse the fake FHIR ids we create for organizations
+ */
+function parseId(id) {
+  return id.replace('var', '');
+}
+
+/**
+ * On localhost and staging, there is a mismatch between the
+ * facilityIds that we use.  The new appointment flow mainly uses
+ * VAMF IDs.  This converts the Facilities API ids to VAMF IDs
+ *
+ * @param {String} facilityId a facility id
+ */
+function getFakeFacilityId(facilityId) {
+  if (!environment.isProduction() && facilityId) {
+    return facilityId.replace('442', '983').replace('552', '984');
+  }
+
+  return facilityId;
+}
 
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
@@ -186,6 +209,58 @@ export function transformFacility(facility) {
     hoursOfOperation: transformOperatingHours(facility.hours),
     managingOrganization: {
       reference: `Organization/var${facility.uniqueId.substr(0, 3)}`,
+    },
+  };
+}
+
+/**
+ * Sets requestSupported and directSchedulingSupported in legacyVAR
+ * for locations that are retrieved from the v1 facilities API.  This
+ * also replaces the ids when running locally or on staging since there
+ * is a mismatch between VAMF facility ids and the facilities API
+ *
+ * @export
+ * @param {Object} params Parameters needed for fetching locations
+ * @param {Object} params.location A location resource
+ * @param {Array} params.requestFacilityIds An array of location ids that support requests for a particular type of care
+ * @param {Array} params.directFacilityIds An array of location ids that support direct scheduling for a particular type of care
+ * @returns {Array} A location resource
+ */
+export function setSupportedSchedulingMethods({
+  location,
+  requestFacilityIds,
+  directFacilityIds,
+} = {}) {
+  const id = getFakeFacilityId(location.id);
+
+  const requestSupported = requestFacilityIds.some(
+    facilityId => `var${facilityId}` === id,
+  );
+  const directSchedulingSupported = directFacilityIds.some(
+    facilityId => `var${facilityId}` === id,
+  );
+
+  const identifier = location.identifier;
+  const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
+
+  if (!vhaIdentifier) {
+    identifier.push({
+      system: VHA_FHIR_ID,
+      value: parseId(id),
+    });
+  }
+
+  return {
+    ...location,
+    id,
+    identifier,
+    legacyVAR: {
+      ...location.legacyVAR,
+      requestSupported,
+      directSchedulingSupported,
+    },
+    managingOrganization: {
+      reference: getFakeFacilityId(location.managingOrganization?.reference),
     },
   };
 }
