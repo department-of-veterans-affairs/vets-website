@@ -38,7 +38,7 @@ const contactInformationPage = {
       },
       true,
     ),
-    [formFields.phoneNumber]: set(
+    [formFields.phone]: set(
       'ui:required',
       (formData, _index) => formData.preferredContactMethod === 'phone',
       phoneUI(phoneTitle),
