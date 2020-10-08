@@ -7,7 +7,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { getParentOfLocation } from '../../../services/location';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import EligibilityModal from './EligibilityModal';
@@ -18,6 +18,7 @@ import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import NoVASystems from './NoVASystems';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
+import ResidentialAddress from './ResidentialAddress';
 
 const initialSchema = {
   type: 'object',
@@ -41,6 +42,7 @@ const pageKey = 'vaFacilityV2';
 const pageTitle = 'Choose a VA location for your appointment';
 
 function VAFacilityPageV2({
+  address,
   canScheduleAtChosenFacility,
   childFacilitiesStatus,
   data,
@@ -58,9 +60,10 @@ function VAFacilityPageV2({
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   schema,
-  showEligibilityModal,
   selectedFacility,
+  showEligibilityModal,
   singleValidVALocation,
+  sortMethod,
   typeOfCare,
   updateFormData,
 }) {
@@ -193,13 +196,21 @@ function VAFacilityPageV2({
     );
   }
 
+  const sortByDistanceFromResidential =
+    sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL;
+
   return (
     <div>
       {title}
       <p>
         Below is a list of VA locations where you’re registered that offer{' '}
         {typeOfCare} appointments.
+        {sortByDistanceFromResidential &&
+          ' Locations closest to you are at the top of the list. We base this on the address we have on file for you.'}
       </p>
+      {sortByDistanceFromResidential && (
+        <ResidentialAddress address={address} />
+      )}
       {childFacilitiesStatus === FETCH_STATUS.succeeded && (
         <SchemaForm
           name="VA Facility"
@@ -208,7 +219,7 @@ function VAFacilityPageV2({
           uiSchema={uiSchema}
           onChange={onFacilityChange}
           onSubmit={goForward}
-          formContext={{ loadingEligibility }}
+          formContext={{ loadingEligibility, sortMethod }}
           data={data}
         >
           <FormButtons

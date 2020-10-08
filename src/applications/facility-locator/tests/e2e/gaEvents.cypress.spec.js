@@ -35,6 +35,7 @@ describe('Google Analytics FL Events', () => {
           assertEventAndAttributes(win, 'fl-map-pin-click', [
             'event',
             'fl-facility-type',
+            'fl-facility-id',
             'fl-facility-classification',
             'fl-facility-name',
             'fl-facility-distance-from-search',

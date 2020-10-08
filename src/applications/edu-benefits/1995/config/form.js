@@ -15,6 +15,7 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { chapters as oldChapters } from './oldChapters';
 import { chapters } from './chapters';
 
 const {
@@ -54,7 +55,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  chapters,
+  chapters: environment.isProduction() ? oldChapters : chapters,
 };
 
 export default formConfig;
