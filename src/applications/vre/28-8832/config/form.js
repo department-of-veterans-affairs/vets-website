@@ -1,4 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
+import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -19,32 +20,37 @@ import {
 import { isDependent } from './helpers';
 
 const customSubmitTransformer = (formConfig, form) => {
-  return {
-    form: {
-      claimantInformation: {
-        fullName: {
-          first: form?.data?.fullName?.first,
-          middle: form?.data?.fullName?.middle,
-          last: form?.data?.fullName?.last,
-          suffix: form?.data?.fullName?.suffix,
+  let reformatted = {
+    education_career_counseling_claim: {
+      form: {
+        claimantInformation: {
+          fullName: {
+            first: form?.data?.fullName?.first,
+            middle: form?.data?.fullName?.middle,
+            last: form?.data?.fullName?.last,
+            suffix: form?.data?.fullName?.suffix,
+          },
+          ssn: form?.data?.ssn,
+          dateOfBirth: form?.data?.dateOfBirth,
+          vaFileNumber: form?.data?.VAFileNumber,
+          emailAddress: form?.data?.claimantEmailAddress,
+          phoneNumber: form?.data?.claimantPhoneNumber,
         },
-        ssn: form?.data?.ssn,
-        dateOfBirth: form?.data?.dateOfBirth,
-        vaFileNumber: form?.data?.VAFileNumber,
-        emailAddress: form?.data?.claimantEmailAddress,
-        phoneNumber: form?.data?.claimantPhoneNumber,
+        claimaintAddress: form?.data?.claimantAddress,
+        veteranFullName: form?.data?.veteranInformation?.fullName,
+        veteranSocialSecurityNumber: form?.data?.veteranInformation?.ssn,
+        status: form?.data?.status,
       },
-      claimaintAddress: form?.data?.claimantAddress,
-      veteranFullName: form?.data?.veteranInformation?.fullName,
-      veteranSocialSecurityNumber: form?.data?.veteranInformation?.ssn,
-      status: form?.data?.status,
     },
   };
+  reformatted = JSON.stringify(reformatted);
+  console.log(reformatted);
+  return reformatted;
 };
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/education_career_counseling_claims',
+  submitUrl: `${environment.API_URL}/v0/education_career_counseling_claims`,
   trackingPrefix: '28-8832-planning-and-career-guidance-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
