@@ -17,6 +17,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '28-1900',
+  benefitDescription: {
+    benefitType: 'Chapter 31 benefits',
+    subText: false,
+  },
+  customText: {
+    savedFormDescription: 'VR&E Chapter 31 benefits application (28-1900)',
+  },
   version: 0,
   prefillEnabled: true,
   // TODO: Currently if a user is logged in, veteran information does NOT get sent to the backend with the payload. We can either add it in
