@@ -381,13 +381,9 @@ export function isVideoStoreForward(appointment) {
  * @return {Boolean} Returns whether or not the appointment has a practitioner.
  */
 export function hasPractitioner(appointment) {
-  const participant = appointment?.participant;
-  if (participant?.length) {
-    return !!appointment?.participant?.some(item =>
-      item.actor?.reference?.includes('Practitioner'),
-    );
-  }
-  return false;
+  return !!appointment?.participant?.some(item =>
+    item.actor?.reference?.includes('Practitioner'),
+  );
 }
 
 /**
