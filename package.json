@@ -278,6 +278,7 @@
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
+    "@turf/bbox": "^6.0.1",
     "blob-polyfill": "^4.0.20200601",
     "camelcase-keys-recursive": "^0.8.3",
     "classlist-polyfill": "^1.2.0",
@@ -343,7 +344,8 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#58094bd2e593ed11b3e0a2bd18175582560bff6d",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "xtend": "^4.0.2"
   },
   "resolutions": {
     "**/lodash": "4.17.19",

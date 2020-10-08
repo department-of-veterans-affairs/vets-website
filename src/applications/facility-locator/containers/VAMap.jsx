@@ -37,6 +37,8 @@ import SearchResultsHeader from '../components/SearchResultsHeader';
 import vaDebounce from 'platform/utilities/data/debounce';
 import PaginationWrapper from '../components/PaginationWrapper';
 
+import MapboxAccessibility from '../mapbox/MapboxAccessibility';
+
 const mbxClient = mbxGeo(mapboxClient);
 mapboxgl.accessToken = mapboxToken;
 
@@ -56,6 +58,9 @@ class VAMap extends Component {
     this.debouncedResize = vaDebounce(250, this.setIsMobile);
     this.state = {
       isMobile: this.getMobile(),
+      mapLng: 0,
+      mapLat: 0,
+      mapZoom: 0,
     };
   }
 
@@ -67,6 +72,16 @@ class VAMap extends Component {
     this.setState({ isMobile: this.getMobile() });
   };
 
+  // eslint-disable-next-line react/no-deprecated
+  componentWillMount() {
+    const { currentQuery } = this.props;
+    this.setState({
+      mapLng: currentQuery.position.longitude,
+      mapLat: currentQuery.position.latitude,
+      mapZoom: parseInt(currentQuery.zoomLevel, 10),
+    });
+  }
+
   componentDidMount() {
     const { location, currentQuery, usePredictiveGeolocation } = this.props;
     const { facilityType } = currentQuery;
@@ -74,11 +89,24 @@ class VAMap extends Component {
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/streets-v10',
-      center: [-74.5, 40],
-      zoom: 9,
+      center: [this.state.mapLng, this.state.mapLat],
+      zoom: this.state.mapZoom,
     });
 
     map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+    map.addControl(
+      new MapboxAccessibility({
+        // A string value representing a property key in the data. This
+        // will be used as the text in voiceover.
+        accessibleLabelProperty: 'name',
+
+        // The layers within the style that
+        // 1. Contain the `accessibleLabelProperty` value as a key
+        // 2. Should be used for voiceover.
+        layers: ['poi-label', 'transit-label'],
+      }),
+    );
 
     window.addEventListener('resize', this.debouncedResize);
 

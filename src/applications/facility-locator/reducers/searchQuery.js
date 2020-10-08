@@ -24,7 +24,7 @@ const INITIAL_STATE = {
   bounds: [-77.53653, 38.3976763, -76.53653, 39.3976763],
   context: '20004',
   currentPage: 1,
-  zoomLevel: 4,
+  zoomLevel: 3,
   inProgress: false,
   searchBoundsInProgress: false,
   fetchSvcsInProgress: false,
