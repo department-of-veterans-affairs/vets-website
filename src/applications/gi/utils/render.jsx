@@ -1,5 +1,6 @@
 import React from 'react';
 import AlertBox from '../components/AlertBox';
+import { focusElement } from 'platform/utilities/ui';
 
 export const renderSchoolClosingAlert = result => {
   const { schoolClosing, schoolClosingOn } = result;
@@ -100,7 +101,10 @@ export const renderLearnMoreLabel = ({
   }
 
   return (
-    <span className="vads-u-margin--0 vads-u-display--inline-block ">
+    <span
+      className="vads-u-margin--0 vads-u-display--inline-block "
+      onClick={focusElement(labelFor)}
+    >
       {displayText}
       <span className="vads-u-margin--0 vads-u-display--inline-block ">
         (
