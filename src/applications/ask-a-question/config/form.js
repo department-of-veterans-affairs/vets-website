@@ -48,6 +48,10 @@ const formConfig = {
   trackingPrefix: 'complex-form-',
   confirmation: ConfirmationPage,
   formId: '0873',
+  benefitDescription: {
+    benefitType: '',
+    subText: false,
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
