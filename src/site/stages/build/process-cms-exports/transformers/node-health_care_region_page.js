@@ -7,10 +7,25 @@ const {
   isPublished,
 } = require('./helpers');
 
+const getSocialMediaObject = ({ uri, title }) =>
+  uri
+    ? {
+        url: { path: uri },
+        title,
+      }
+    : null;
+
 const transform = ({
   title,
   status,
   metatag: { value: metaTags },
+  fieldGovdeliveryIdEmerg,
+  fieldGovdeliveryIdNews,
+  fieldOperatingStatus,
+  fieldFacebook,
+  fieldFlickr,
+  fieldInstagram,
+  fieldTwitter,
   fieldNicknameForThisFacility,
   fieldRelatedLinks,
   fieldPressReleaseBlurb,
@@ -24,6 +39,19 @@ const transform = ({
   entityPublished: isPublished(getDrupalValue(status)),
   entityLabel: getDrupalValue(title),
   title: getDrupalValue(title),
+  fieldGovdeliveryIdEmerg: getDrupalValue(fieldGovdeliveryIdEmerg),
+  fieldGovdeliveryIdNews: getDrupalValue(fieldGovdeliveryIdNews),
+  fieldOperatingStatus: fieldOperatingStatus[0]
+    ? getSocialMediaObject(fieldOperatingStatus[0])
+    : null,
+  fieldFacebook: fieldFacebook[0]
+    ? getSocialMediaObject(fieldFacebook[0])
+    : null,
+  fieldFlickr: fieldFlickr[0] ? getSocialMediaObject(fieldFlickr[0]) : null,
+  fieldInstagram: fieldInstagram[0]
+    ? getSocialMediaObject(fieldInstagram[0])
+    : null,
+  fieldTwitter: fieldTwitter[0] ? getSocialMediaObject(fieldTwitter[0]) : null,
   fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
   fieldLinkFacilityEmergList:
     fieldLinkFacilityEmergList && fieldLinkFacilityEmergList[0]
@@ -339,12 +367,19 @@ module.exports = {
     'title',
     'status',
     'path',
-    'field_nickname_for_this_facility',
-    'field_link_facility_emerg_list',
-    'field_related_links',
-    'field_press_release_blurb',
-    'metatag',
+    'field_govdelivery_id_emerg',
+    'field_govdelivery_id_news',
+    'field_facebook',
+    'field_flickr',
+    'field_instagram',
+    'field_twitter',
     'field_leadership',
+    'field_link_facility_emerg_list',
+    'field_nickname_for_this_facility',
+    'field_operating_status',
+    'field_press_release_blurb',
+    'field_related_links',
+    'metatag',
     'reverse_field_region_page',
     'reverse_field_office',
   ],
