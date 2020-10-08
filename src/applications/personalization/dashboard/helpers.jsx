@@ -5,7 +5,6 @@ import { isPlainObject } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { VA_FORM_IDS } from 'platform/forms/constants.js';
-import recordEvent from 'platform/monitoring/record-event';
 import getBenefitString from 'platform/forms-system/src/js/utilities/benefit-description';
 import getSavedFormDescription from 'platform/forms-system/src/js/utilities/form-description';
 
@@ -255,20 +254,6 @@ export function sipFormSorter(formA, formB) {
 
 export const isFormAuthorizable = formConfig =>
   !!formConfig && !!formConfig.authorize;
-
-export const getFormAuthorizationState = (formConfig, state) =>
-  formConfig.getAuthorizationState(state);
-
-export const recordDashboardClick = (
-  product,
-  actionType = 'view-link',
-) => () => {
-  recordEvent({
-    event: 'dashboard-navigation',
-    'dashboard-action': actionType,
-    'dashboard-product': product,
-  });
-};
 
 export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
   downtime,
