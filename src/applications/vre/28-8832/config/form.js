@@ -28,6 +28,14 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_28_8832,
+  benefitDescription: {
+    benefitType: 'PCPG Chapter 36 benefits',
+    subText: false,
+  },
+  customText: {
+    savedFormDescription:
+      'Personalized Career Planning and Guidance Chapter 36 benefits',
+  },
   version: 0,
   getHelp: GetFormHelp,
   preSubmitInfo: PreSubmitInfo,
