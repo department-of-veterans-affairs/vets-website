@@ -383,7 +383,7 @@ export function isVideoStoreForward(appointment) {
 export function hasPractitioner(appointment) {
   const participant = appointment?.participant;
   if (participant?.length) {
-    return participant.some(item =>
+    return !!appointment?.participant?.some(item =>
       item.actor?.reference?.includes('Practitioner'),
     );
   }
