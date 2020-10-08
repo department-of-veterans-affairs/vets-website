@@ -1254,10 +1254,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@5.7.0":
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.7.0.tgz#7bff45f5d711a13e5d655ff2c968f89494b327e0"
-  integrity sha512-yg9WscgHsxUYsd1PJ9qqMrF0Kx/w3ymLZYpKvHaD5yA3HnsehSmwoHigV957JuP2adLTFziYjFKiWOQUcJzZvA==
+"@department-of-veterans-affairs/formation-react@5.7.1":
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.7.1.tgz#b3dcb3aa94d4b8e62c7757f8cdfd118339cc81e7"
+  integrity sha512-yZAarpySAIylMNN56K4i862RFUjzz/vQloBHEYcl/2FKJdLwf3QeUSTe3FudMbdaPn5MKWg1u4+jdenrX9nq0w==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
