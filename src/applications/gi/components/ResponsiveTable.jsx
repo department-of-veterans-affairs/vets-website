@@ -29,11 +29,13 @@ class ResponsiveTable extends React.Component {
                 tabIndex="-1"
                 key={`${key}-${cellName}`}
               >
+                <dfn className="vads-u-display--block medium-screen:vads-u-display--none">
+                  {field}
+                </dfn>
                 {item[field]}
               </th>
             );
           }
-
           return (
             <td
               className={`${cellName}-cell`}
