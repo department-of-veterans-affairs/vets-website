@@ -13,8 +13,8 @@ class ResponsiveTable extends React.Component {
   };
 
   /**
-   * @param row The object representing columns in this can either be a string for simple tables or
-   *             an object for tables that need options for individual rows
+   * @param row The object representing columns in this can either be a string for simple tables, a react element,
+   *            or an object for tables that need options for individual rows
    * @param column The column name
    */
   renderRowCell = (row, column) => {
@@ -26,7 +26,7 @@ class ResponsiveTable extends React.Component {
     );
 
     if (typeof columnData === 'string') {
-      cellData = <span className={'vads-u-margin-0'}>{row[column]}</span>;
+      cellData = <span className={'vads-u-margin-0'}>{columnData}</span>;
     } else {
       cellData = columnData.value;
       if (typeof columnData.value === 'string') {
