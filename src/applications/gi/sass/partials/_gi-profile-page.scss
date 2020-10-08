@@ -360,6 +360,12 @@
       white-space: nowrap;
     }
 
+    .extension-row {
+      .extension-cell-label {
+        padding-left: 0.5em;
+      }
+    }
+
     .estimated-housing-cell {
       .estimated-housing-cell-title {
         display: none;
@@ -374,12 +380,12 @@
       }
 
       .extension-row {
-        .location-cell {
+        .location-cell, .school-name-cell, .estimated-housing-cell {
           padding-left: 1.3em;
         }
 
-        .estimated-housing-cell {
-          padding-left: 1.3em;
+        .extension-cell-label {
+          padding-left: 0;
         }
       }
 

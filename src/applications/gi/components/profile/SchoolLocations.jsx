@@ -138,10 +138,18 @@ export class SchoolLocations extends React.Component {
       name
     );
 
+    const schoolName =
+      type === 'extension'
+        ? {
+            value: nameLabel,
+            mobileHeader: 'Extension campus',
+          }
+        : nameLabel;
+
     return {
       key: `${facilityCode}-${type}`,
       rowClassName: `${type}-row`,
-      'School Name': nameLabel,
+      'School Name': schoolName,
       Location: this.schoolLocationTableInfo(
         physicalCity,
         physicalState,
@@ -174,7 +182,7 @@ export class SchoolLocations extends React.Component {
         break;
       }
       const nameLabel = (
-        <div className="vads-u-padding-left--1">{extension.institution}</div>
+        <div className="extension-cell-label">{extension.institution}</div>
       );
       rows.push(this.createRow(extension, 'extension', nameLabel));
     }

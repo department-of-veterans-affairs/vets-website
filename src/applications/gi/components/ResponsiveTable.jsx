@@ -12,21 +12,53 @@ class ResponsiveTable extends React.Component {
     );
   };
 
-  renderRow = item => {
+  /**
+   * @param row The object representing columns in this can either be a string for simple tables or
+   *             an object for tables that need options for individual rows
+   * @param column The column name
+   */
+  renderRowCell = (row, column) => {
+    const columnData = row[column];
+
+    let cellData;
+    let mobileHeader = (
+      <dfn className="medium-screen:vads-u-display--none">{column}: </dfn>
+    );
+
+    if (typeof columnData === 'string') {
+      cellData = <span className={'vads-u-margin-0'}>{row[column]}</span>;
+    } else {
+      cellData = columnData.value;
+      if (typeof columnData.value === 'string') {
+        cellData = (
+          <span className={'vads-u-margin-0'}>{columnData.value}</span>
+        );
+      }
+
+      if (columnData.mobileHeader) {
+        mobileHeader = (
+          <dfn className="medium-screen:vads-u-display--none">
+            {columnData.mobileHeader}:{' '}
+          </dfn>
+        );
+      }
+    }
+
+    return (
+      <>
+        {mobileHeader}
+        {cellData}
+      </>
+    );
+  };
+
+  renderRow = row => {
     const { columns } = this.props;
-    const { key, rowClassName } = item;
+    const { key, rowClassName } = row;
     return (
       <tr key={key} className={rowClassName} role="row">
-        {columns.map((field, index) => {
-          const cellName = createId(field);
-          let data = item[field];
-          if (typeof item[field] === 'string') {
-            data = <span className={'vads-u-margin-0'}>{item[field]}</span>;
-          }
-
-          const mobileHeader = (
-            <dfn className="medium-screen:vads-u-display--none">{field}: </dfn>
-          );
+        {columns.map((column, index) => {
+          const cellName = createId(column);
 
           if (index === 0) {
             return (
@@ -38,8 +70,7 @@ class ResponsiveTable extends React.Component {
                 tabIndex="-1"
                 key={`${key}-${cellName}`}
               >
-                {mobileHeader}
-                {data}
+                {this.renderRowCell(row, column)}
               </th>
             );
           }
@@ -49,8 +80,7 @@ class ResponsiveTable extends React.Component {
               role="cell"
               key={`${key}-${cellName}`}
             >
-              {mobileHeader}
-              {data}
+              {this.renderRowCell(row, column)}
             </td>
           );
         })}
