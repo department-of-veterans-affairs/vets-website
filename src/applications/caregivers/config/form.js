@@ -64,6 +64,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   submissionError: SubmitError,
   formId: VA_FORM_IDS.FORM_10_10CG,
+  benefitDescription: {
+    benefitType: 'family caregiver benefits (10-10CG)',
+  },
+  customText: {
+    savedFormDescription:
+      'application to the Program of Comprehensive Assistance for Family Caregivers (10-10CG)',
+  },
   version: 0,
   prefillEnabled: false,
   title:
