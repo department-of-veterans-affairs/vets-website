@@ -4,7 +4,7 @@ import { render, fireEvent } from '@testing-library/react';
 
 import VeteranInformationPage from '../../../../config/pages/veteranInformationPage';
 import { veteranStatusUI } from '../../../../config/pages/veteranStatusUI';
-import { veteranInformationUI } from '../../../../config/pages/veteranInformationUI';
+import { veteranServiceInformationUI } from '../../../../config/pages/veteranServiceInformationUI';
 import formConfig from '../../../../config/form';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -111,24 +111,47 @@ describe('Veteran Information Page', () => {
     expectBranchOfServiceNotToExist(wrapper);
   });
 
+  it('should not show veteran information if veteran status is not myself as a veteran', () => {
+    changeVeteranStatus(wrapper, 'general');
+
+    expect(wrapper.queryByLabelText("Veteran's first name", { exact: false }))
+      .to.be.null;
+    expect(wrapper.queryByLabelText("Veteran's last name", { exact: false })).to
+      .be.null;
+    // wrapper.queryByLabelText("Street address", { exact: false });
+    // wrapper.queryByLabelText("City", { exact: false });
+    // wrapper.queryByLabelText("State", { exact: false });
+    // wrapper.queryByLabelText("Country", { exact: false });
+    // wrapper.queryByLabelText("Postal code", { exact: false });
+    expect(
+      wrapper.queryByLabelText('Daytime phone (area code)', { exact: false }),
+    ).to.be.null;
+    expect(wrapper.queryByLabelText('Email', { exact: false })).to.be.null;
+  });
+
   it('should show optional fields when veteran status is not general question', () => {
     changeVeteranStatus(wrapper, 'vet');
 
     const { getByText, getByLabelText } = wrapper;
 
-    expect(getByText(veteranInformationUI.dateOfBirth['ui:title'])).not.to.be
-      .null;
+    expect(getByText(veteranServiceInformationUI.dateOfBirth['ui:title'])).not
+      .to.be.null;
     expect(
-      getByLabelText(veteranInformationUI.socialSecurityNumber['ui:title']),
+      getByLabelText(
+        veteranServiceInformationUI.socialSecurityNumber['ui:title'],
+      ),
     ).not.to.be.null;
-    expect(getByLabelText(veteranInformationUI.serviceNumber['ui:title'])).not
-      .to.be.null;
-    expect(getByLabelText(veteranInformationUI.claimNumber['ui:title'])).not.to
-      .be.null;
-    expect(getByText(veteranInformationUI.serviceDateRange.from['ui:title']))
+    expect(
+      getByLabelText(veteranServiceInformationUI.serviceNumber['ui:title']),
+    ).not.to.be.null;
+    expect(getByLabelText(veteranServiceInformationUI.claimNumber['ui:title']))
       .not.to.be.null;
-    expect(getByText(veteranInformationUI.serviceDateRange.to['ui:title'])).not
-      .to.be.null;
+    expect(
+      getByText(veteranServiceInformationUI.serviceDateRange.from['ui:title']),
+    ).not.to.be.null;
+    expect(
+      getByText(veteranServiceInformationUI.serviceDateRange.to['ui:title']),
+    ).not.to.be.null;
   });
 
   describe('when on behalf of veteran', () => {
@@ -175,6 +198,25 @@ describe('Veteran Information Page', () => {
     it('should require branch of service', () => {
       expectBranchOfServiceToBeRequired(wrapper);
     });
+
+    it('should show veteran information', () => {
+      wrapper.getByLabelText("Veteran's first name", { exact: false });
+      wrapper.getByLabelText("Veteran's last name", { exact: false });
+      // wrapper.getByLabelText("Street address", { exact: false });
+      // wrapper.getByLabelText("City", { exact: false });
+      // wrapper.getByLabelText("State", { exact: false });
+      // wrapper.getByLabelText("Country", { exact: false });
+      // wrapper.getByLabelText("Postal code", { exact: false });
+      wrapper.getByLabelText('Daytime phone (area code)', { exact: false });
+      wrapper.getByLabelText('Email', { exact: false });
+    });
+
+    // it('should require veteran first name, last name, country, and email', () => {
+    //   expect(wrapper.getByLabelText("Veteran's first name", { exact: false })).to.have.property('required');
+    //   expect(wrapper.getByLabelText("Veteran's last name", { exact: false })).to.have.property('required');
+    //   expect(wrapper.getByLabelText("Country", { exact: false })).to.have.property('required');
+    //   expect(wrapper.getByLabelText("Email", { exact: false })).to.have.property('required');
+    // });
   });
 
   describe('for the dependent of a veteran', () => {

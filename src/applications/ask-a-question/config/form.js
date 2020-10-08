@@ -27,6 +27,11 @@ import {
 
 const {
   fullName,
+  first,
+  last,
+  suffix,
+  address,
+  email,
   phone,
   date,
   ssn,
@@ -71,7 +76,12 @@ const formConfig = {
     reviewPageTitle,
   },
   defaultDefinitions: {
+    address,
     fullName,
+    first,
+    last,
+    suffix,
+    email,
     phone,
     date,
     ssn,

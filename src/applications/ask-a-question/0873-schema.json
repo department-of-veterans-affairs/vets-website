@@ -244,6 +244,20 @@
       "enum": [
         true
       ]
+    },
+    "first": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "last": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "suffix": {
+      "type": "string",
+      "enum": ["Jr.", "Sr.", "II", "III", "IV"]
     }
   },
   "additionalProperties": false,
@@ -277,24 +291,13 @@
       "type": "object",
       "properties": {
         "first": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 30
+          "$ref": "#/definitions/first"
         },
         "last": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 30
+          "$ref": "#/definitions/last"
         },
         "suffix": {
-          "type": "string",
-          "enum": [
-            "Jr.",
-            "Sr.",
-            "II",
-            "III",
-            "IV"
-          ]
+          "$ref": "#/definitions/suffix"
         }
       },
       "required": [
@@ -1601,6 +1604,23 @@
       }
     },
     "veteranInformation": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "$ref": "#/definitions/first"
+        },
+        "last": {
+          "$ref": "#/definitions/last"
+        },
+        "phone": {
+          "$ref": "#/definitions/phone"
+        },
+        "email": {
+          "$ref": "#/definitions/email"
+        }
+      }
+    },
+    "veteranServiceInformation": {
       "type": "object",
       "properties": {
         "dateOfBirth": {
