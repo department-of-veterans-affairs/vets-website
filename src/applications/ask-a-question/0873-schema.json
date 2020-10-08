@@ -318,7 +318,7 @@
     },
     "topic": {
       "type": "object",
-      "oneOf": [
+      "anyOf": [
         {
           "properties": {
             "levelOne": {
@@ -347,7 +347,7 @@
             },
             "levelTwo": {
               "type": "object",
-              "oneOf": [
+              "anyOf": [
                 {
                   "properties": {
                     "subLevelTwo": {
@@ -411,7 +411,8 @@
                     "levelThree": {
                       "type": "string",
                       "enum": [
-                        "General Concern"
+                        "General Concern",
+                        "Complaint about Women Vets health care"
                       ]
                     }
                   }
@@ -448,7 +449,8 @@
               ]
             }
           }
-        }
+        },
+        {}
       ],
       "properties": {
         "vaMedicalCenter": {
