@@ -26,6 +26,7 @@ export const schema = {
 export const uiSchema = {
   veteranContactInformation: {
     veteranAddress: addressUISchema(
+      true,
       'veteranContactInformation.veteranAddress',
       () => true,
     ),
