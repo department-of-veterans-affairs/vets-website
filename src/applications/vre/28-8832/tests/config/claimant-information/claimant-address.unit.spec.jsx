@@ -7,8 +7,13 @@ import {
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { changeDropdown } from '../../helpers';
-
+import { addressSchema } from 'applications/vre/definitions/profileAddress';
 import formConfig from '../../../config/form';
+
+// override default definitions for now
+const definitions = {
+  addressSchema,
+};
 
 describe('Chapter 36 Claimant Address', () => {
   const {
@@ -18,13 +23,16 @@ describe('Chapter 36 Claimant Address', () => {
 
   const formData = {
     status: 'isSpouse',
+    claimantAddress: {
+      country: 'USA',
+    },
   };
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         data={formData}
       />,
     );
@@ -38,13 +46,13 @@ describe('Chapter 36 Claimant Address', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         data={formData}
         onSubmit={onSubmit}
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -55,17 +63,17 @@ describe('Chapter 36 Claimant Address', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         data={formData}
         onSubmit={onSubmit}
       />,
     );
 
-    changeDropdown(form, 'select#root_claimantAddress_countryName', 'USA');
+    changeDropdown(form, 'select#root_claimantAddress_country', 'USA');
     fillData(form, 'input#root_claimantAddress_addressLine1', 'Sunny Road');
     fillData(form, 'input#root_claimantAddress_city', 'Someplace');
-    changeDropdown(form, 'select#root_claimantAddress_stateCode', 'DC');
-    fillData(form, 'input#root_claimantAddress_zipCode', '12345');
+    changeDropdown(form, 'select#root_claimantAddress_state', 'DC');
+    fillData(form, 'input#root_claimantAddress_postalCode', '12345');
     fillData(form, 'input#root_claimantEmailAddress', 'someEmail@email.com');
 
     // inccorect confirmation email address should fail
@@ -83,17 +91,17 @@ describe('Chapter 36 Claimant Address', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         data={formData}
         onSubmit={onSubmit}
       />,
     );
 
-    changeDropdown(form, 'select#root_claimantAddress_countryName', 'USA');
+    changeDropdown(form, 'select#root_claimantAddress_country', 'USA');
     fillData(form, 'input#root_claimantAddress_addressLine1', 'Sunny Road');
     fillData(form, 'input#root_claimantAddress_city', 'Someplace');
-    changeDropdown(form, 'select#root_claimantAddress_stateCode', 'DC');
-    fillData(form, 'input#root_claimantAddress_zipCode', '12345');
+    changeDropdown(form, 'select#root_claimantAddress_state', 'DC');
+    fillData(form, 'input#root_claimantAddress_postalCode', '12345');
     fillData(form, 'input#root_claimantEmailAddress', 'someEmail@email.com');
     fillData(
       form,
