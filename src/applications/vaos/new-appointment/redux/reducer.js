@@ -396,7 +396,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           vaFacilityV2: schema,
         },
-        schema,
         facilities: {
           ...facilities,
           [typeOfCareId]: typeOfCareFacilities,
@@ -413,6 +412,7 @@ export default function formReducer(state = initialState, action) {
       const formData = state.data;
       const typeOfCareId = formData.typeOfCareId;
       let typeOfCareFacilities = state.facilities[typeOfCareId];
+      let newSchema = state.pages.vaFacilityV2;
 
       if (latitude && longitude) {
         typeOfCareFacilities = typeOfCareFacilities
@@ -439,17 +439,21 @@ export default function formReducer(state = initialState, action) {
           );
       }
 
-      const newSchema = set(
+      newSchema = set(
         'properties.vaFacility',
         {
           type: 'string',
           enum: typeOfCareFacilities.map(facility => facility.id),
           enumNames: typeOfCareFacilities,
         },
-        action.schema,
+        newSchema,
       );
 
-      const { schema } = setupFormData(formData, newSchema, action.uiSchema);
+      const { schema } = updateSchemaAndData(
+        newSchema,
+        action.uiSchema,
+        formData,
+      );
 
       return {
         ...state,
@@ -457,7 +461,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           vaFacilityV2: schema,
         },
-        schema,
         facilities: {
           ...state.facilities,
           [typeOfCareId]: typeOfCareFacilities,
