@@ -22,10 +22,12 @@ export default createE2eTest(client => {
   routeOptions.forEach(routeOption => {
     client
       .url(`${baseUrl}/covid19screen${routeOption.route}`)
+      .pause(1000)
       .waitForElementVisible('body', normal)
       .assert.containsText(
         'div[class*=vads-l-grid-container]',
         `${routeOption.expectedText}`,
+        routeOption.title,
       );
   });
 
@@ -33,15 +35,31 @@ export default createE2eTest(client => {
     client.url(`${baseUrl}/covid19screen${routeOption}`);
 
     // visitor passing answers
-    testQuestionScenario({ scenario: visitorPass, client });
+    testQuestionScenario({
+      scenario: visitorPass,
+      routeOption,
+      client,
+    });
 
     // visitor needs more screening
-    testQuestionScenario({ scenario: visitorScreening, client });
+    testQuestionScenario({
+      scenario: visitorScreening,
+      routeOption,
+      client,
+    });
 
     // staff passing answers
-    testQuestionScenario({ scenario: staffPass, client });
+    testQuestionScenario({
+      scenario: staffPass,
+      routeOption,
+      client,
+    });
 
     // staff needs more screening
-    testQuestionScenario({ scenario: staffScreening, client });
+    testQuestionScenario({
+      scenario: staffScreening,
+      routeOption,
+      client,
+    });
   });
 });

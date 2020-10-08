@@ -3,7 +3,7 @@ import { normal, slow } from 'platform/testing/e2e/timeouts';
 // wait time before clicking
 const pause = 1000;
 
-export function testQuestionScenario({ scenario, client }) {
+export function testQuestionScenario({ scenario, routeOption, client }) {
   client.refresh().waitForElementVisible('body', normal);
   scenario.questions.forEach(question => {
     client
@@ -15,7 +15,10 @@ export function testQuestionScenario({ scenario, client }) {
   });
   client
     .waitForElementVisible(`div[class*=${scenario.result.class}]`, slow)
-    .assert.visible(`div[class*=${scenario.result.class}]`, scenario.title);
+    .assert.visible(
+      `div[class*=${scenario.result.class}]`,
+      `${scenario.title} on route: ${routeOption}`,
+    );
 }
 
 export const visitorPass = {
@@ -86,9 +89,29 @@ export const expectTextbyLanguage = {
 };
 
 export const routeOptions = [
-  { route: '/es', expectedText: `${expectTextbyLanguage.es}` },
-  { route: '/123', expectedText: `${expectTextbyLanguage.en}` },
-  { route: '/123/es', expectedText: `${expectTextbyLanguage.es}` },
-  { route: '/', expectedText: `${expectTextbyLanguage.en}` },
-  { route: 'fr', expectedText: `${expectTextbyLanguage.en}` },
+  {
+    route: '/es',
+    expectedText: `${expectTextbyLanguage.es}`,
+    title: 'Route /es (expect Spanish)',
+  },
+  {
+    route: '/123',
+    expectedText: `${expectTextbyLanguage.en}`,
+    title: 'Route /123 (expect English)',
+  },
+  {
+    route: '/123/es',
+    expectedText: `${expectTextbyLanguage.es}`,
+    title: 'Route /123/es (expect Spanish)',
+  },
+  {
+    route: '/',
+    expectedText: `${expectTextbyLanguage.en}`,
+    title: 'Route / (expect English)',
+  },
+  {
+    route: '/fr',
+    expectedText: `${expectTextbyLanguage.en}`,
+    title: 'Route /fr (expect English)',
+  },
 ];
