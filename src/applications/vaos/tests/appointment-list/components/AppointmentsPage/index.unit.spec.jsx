@@ -14,9 +14,11 @@ import {
   getVAAppointmentMock,
   getCCAppointmentMock,
   getExpressCareRequestCriteriaMock,
+  getVAFacilityMock,
 } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
+  mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
 } from '../../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../../mocks/setup';
@@ -233,7 +235,7 @@ describe('VAOS integration: appointment list', () => {
           .format('HH:mm'),
       },
     ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestEligibilityCriteria(['983'], [requestCriteria]);
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -314,7 +316,7 @@ describe('VAOS integration: appointment list', () => {
           .format('HH:mm'),
       },
     ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestEligibilityCriteria(['983'], [requestCriteria]);
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -390,7 +392,7 @@ describe('VAOS integration: appointment list', () => {
           .format('HH:mm'),
       },
     ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestEligibilityCriteria(['983'], [requestCriteria]);
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -420,5 +422,103 @@ describe('VAOS integration: appointment list', () => {
     expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
     expect(queryByText(/Your upcoming, past, and Express Care appointments/i))
       .not.to.exist;
+  });
+
+  it('should display active express care facility closest to address', async () => {
+    mockAppointmentInfo({});
+    const today = moment();
+    const closestStart = today
+      .clone()
+      .subtract('15', 'minutes')
+      .tz('America/Denver');
+    const closestEnd = today
+      .clone()
+      .add('5', 'minutes')
+      .tz('America/Denver');
+    mockRequestEligibilityCriteria(
+      ['983'],
+      [
+        getExpressCareRequestCriteriaMock('983', [
+          {
+            day: today
+              .clone()
+              .tz('America/Denver')
+              .format('dddd')
+              .toUpperCase(),
+            canSchedule: true,
+            startTime: today
+              .clone()
+              .subtract('5', 'minutes')
+              .tz('America/Denver')
+              .format('HH:mm'),
+            endTime: today
+              .clone()
+              .add('5', 'minutes')
+              .tz('America/Denver')
+              .format('HH:mm'),
+          },
+        ]),
+        getExpressCareRequestCriteriaMock('983GC', [
+          {
+            day: closestStart.format('dddd').toUpperCase(),
+            canSchedule: true,
+            startTime: closestStart.format('HH:mm'),
+            endTime: closestEnd.format('HH:mm'),
+          },
+        ]),
+      ],
+    );
+    mockFacilitiesFetch('vha_442,vha_442GC', [
+      {
+        id: 'vha_442',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '442',
+          // Chicago, IL
+          lat: 41.87078943,
+          long: -87.67642646,
+        },
+      },
+      {
+        id: 'vha_442GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '442GC',
+          // Worcester, MA
+          lat: 42.276982,
+          long: -71.75977,
+        },
+      },
+    ]);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: {
+        profile: {
+          ...userState.profile,
+          vet360: {
+            residentialAddress: {
+              // Northampton, MA
+              latitude: 42.3495,
+              longitude: -72.682407,
+            },
+          },
+        },
+      },
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+      reducers,
+    });
+
+    const button = await screen.findByText('Create an Express Care request');
+
+    expect(button).to.not.have.attribute('disabled');
+    expect(screen.baseElement).to.contain.text(
+      `${closestStart.format('h:mm a')} to ${closestEnd.format('h:mm a')}`,
+    );
   });
 });

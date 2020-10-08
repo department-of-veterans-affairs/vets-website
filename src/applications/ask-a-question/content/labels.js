@@ -84,7 +84,6 @@ export const zipCodePatternErrorMessage =
 export const submitButtonText = 'Submit';
 export const reviewPageTitle = 'Review your information';
 export const savedFormNotFound = 'Please start over to apply for benefits.';
-export const savedFormNoAuth =
-  'Please sign in again to continue your application for benefits.';
+export const savedFormNoAuth = 'Please sign in again to continue your form';
 export const formTitle = 'Contact us';
 export const formSubTitle = 'Form 0873';

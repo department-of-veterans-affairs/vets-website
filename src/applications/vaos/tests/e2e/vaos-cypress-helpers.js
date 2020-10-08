@@ -332,26 +332,28 @@ export function initExpressCareMocks() {
     method: 'GET',
     url: '/vaos/v0/request_eligibility_criteria*',
     response: {
-      data: getExpressCareRequestCriteriaMock('983', [
-        {
-          day: today
-            .clone()
-            .tz('America/Denver')
-            .format('dddd')
-            .toUpperCase(),
-          canSchedule: true,
-          startTime: today
-            .clone()
-            .subtract('2', 'minutes')
-            .tz('America/Denver')
-            .format('HH:mm'),
-          endTime: today
-            .clone()
-            .add('2', 'minutes')
-            .tz('America/Denver')
-            .format('HH:mm'),
-        },
-      ]),
+      data: [
+        getExpressCareRequestCriteriaMock('983', [
+          {
+            day: today
+              .clone()
+              .tz('America/Denver')
+              .format('dddd')
+              .toUpperCase(),
+            canSchedule: true,
+            startTime: today
+              .clone()
+              .subtract('2', 'minutes')
+              .tz('America/Denver')
+              .format('HH:mm'),
+            endTime: today
+              .clone()
+              .add('2', 'minutes')
+              .tz('America/Denver')
+              .format('HH:mm'),
+          },
+        ]),
+      ],
     },
   }).as('getRequestEligibilityCriteria');
 
