@@ -549,7 +549,7 @@ export function setupExpressCareMocks({
       endTime: end.format('HH:mm'),
     },
   ]);
-  mockRequestEligibilityCriteria([facilityId], requestCriteria);
+  mockRequestEligibilityCriteria([facilityId], [requestCriteria]);
   mockRequestLimit({
     facilityId,
     numberOfRequests: isUnderRequestLimit ? 0 : 1,
