@@ -5,8 +5,30 @@ src/applications/personalization/profile360/components/PaymentInformationEditMod
 src/applications/personalization/profile360/components/DowntimeBanner.jsx
 src/applications/personalization/profile360/components/LoadFail.jsx
 src/applications/personalization/profile360/components/PaymentInformationBlocked.jsx
+src/platform/user/profile/vet360/components/base/Vet360EditModalErrorMessage.jsx
+src/platform/user/profile/vet360/components/PhoneField/PhoneEditView.jsx
+src/platform/user/profile/vet360/components/AddressField/AddressEditView.jsx
+src/platform/user/profile/vet360/components/AddressField/AddressField.jsx
+
+src/platform/user/profile/vet360/components/base/Vet360Transaction.jsx
+src/platform/user/profile/vet360/components/base/Vet360TransactionPending.jsx
+src/platform/user/profile/vet360/components/base/Vet360TransactionInlineErrorMessage.jsx
+src/platform/user/profile/vet360/components/base/Vet360TransactionErrorBanner.jsx
+
 
 
 ## Other reused components
 src/applications/personalization/profile360/components/ContactInformation.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
 src/applications/personalization/profile360/components/ContactInformationExplanation.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
+src/platform/user/profile/vet360/containers/Vet360ProfileField.jsx by src/applications/letters/letters-entry.jsx
+
+Basically all vet360 components under 'base' are used by letters
+
+
+
+## Other logic also used in profile 2
+src/applications/personalization/profile360/constants/index.js
+src/applications/personalization/profile360/reducers/index.js
+src/applications/personalization/profile360/util/connected-apps.js
+some functions (last one surely) in src/applications/personalization/profile360/util/index.js
+src/applications/personalization/profile360/selectors.js
