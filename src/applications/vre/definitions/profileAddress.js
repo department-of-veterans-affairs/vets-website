@@ -18,9 +18,9 @@ import {
  * 1. MILITARY_STATES - contains military state codes and names.
  * 2. USA - references USA value and label
  * 3. MilitaryBaseInfo - React component. Wrapped in AdditionalInfo component and used as description
-  
- Corresponding working form schema:
  */
+
+// Corresponding working form schema:
 export const addressSchema = {
   type: 'object',
   properties: {
