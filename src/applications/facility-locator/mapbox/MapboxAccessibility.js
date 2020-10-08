@@ -27,6 +27,7 @@ export default class MapboxAccessibility {
       this.features.forEach(feature => {
         if (feature.marker) {
           this.map.getCanvasContainer().removeChild(feature.marker);
+          // eslint-disable-next-line no-param-reassign
           delete feature.marker;
         }
       });
@@ -44,10 +45,12 @@ export default class MapboxAccessibility {
       let { width, height } = this.options;
       const label = feature.properties[this.options.accessibleLabelProperty];
 
+      // eslint-disable-next-line no-param-reassign
       feature.marker = document.createElement('button');
       feature.marker.setAttribute('aria-label', label);
       feature.marker.setAttribute('title', label);
       feature.marker.setAttribute('tabindex', 0);
+      // eslint-disable-next-line no-param-reassign
       feature.marker.style.display = 'block';
 
       let position;
@@ -66,11 +69,15 @@ export default class MapboxAccessibility {
           y: (tr.y + bl.y) / 2,
         };
       }
+      // eslint-disable-next-line no-param-reassign
       feature.marker.style.width = `${width}px`;
+      // eslint-disable-next-line no-param-reassign
       feature.marker.style.height = `${height}px`;
+      // eslint-disable-next-line no-param-reassign
       feature.marker.style.transform = `translate(-50%, -50%) translate(${
         position.x
       }px, ${position.y}px)`;
+      // eslint-disable-next-line no-param-reassign
       feature.marker.className = 'mapboxgl-accessibility-marker';
 
       this.map.getCanvasContainer().appendChild(feature.marker);
