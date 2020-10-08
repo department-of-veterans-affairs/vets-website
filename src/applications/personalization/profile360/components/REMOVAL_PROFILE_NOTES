@@ -1,0 +1,12 @@
+
+## Components also used in profile 2
+src/applications/personalization/profile360/components/BankInfoForm.jsx
+src/applications/personalization/profile360/components/PaymentInformationEditModal.jsx
+src/applications/personalization/profile360/components/DowntimeBanner.jsx
+src/applications/personalization/profile360/components/LoadFail.jsx
+src/applications/personalization/profile360/components/PaymentInformationBlocked.jsx
+
+
+## Other reused components
+src/applications/personalization/profile360/components/ContactInformation.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
+src/applications/personalization/profile360/components/ContactInformationExplanation.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
