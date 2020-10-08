@@ -5,7 +5,7 @@ import {
   assertEventAndAttributes,
 } from './analyticsUtils';
 
-describe('Google Analytics FL Events', () => {
+describe.skip('Google Analytics FL Events', () => {
   before(() => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),

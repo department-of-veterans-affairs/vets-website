@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { FeatureGroup, Map, TileLayer } from 'react-leaflet';
+// import { FeatureGroup, Map, TileLayer } from 'react-leaflet';
+import mapboxgl from 'mapbox-gl';
 import mapboxClient from '../components/MapboxClient';
 import { mapboxToken } from '../utils/mapboxToken';
 import { debounce, isEmpty } from 'lodash';
@@ -27,7 +28,9 @@ import {
   facilitiesPpmsSuppressCommunityCare,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/selectors';
-import { recordMarkerEvents, recordZoomPanEvents } from '../utils/analytics';
+import {
+  recordMarkerEvents /* , recordZoomPanEvents */,
+} from '../utils/analytics';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
 import SearchResultsHeader from '../components/SearchResultsHeader';
@@ -35,6 +38,7 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import PaginationWrapper from '../components/PaginationWrapper';
 
 const mbxClient = mbxGeo(mapboxClient);
+mapboxgl.accessToken = mapboxToken;
 
 class VAMap extends Component {
   constructor(props) {
@@ -66,6 +70,15 @@ class VAMap extends Component {
   componentDidMount() {
     const { location, currentQuery, usePredictiveGeolocation } = this.props;
     const { facilityType } = currentQuery;
+
+    const map = new mapboxgl.Map({
+      container: this.mapContainer,
+      style: 'mapbox://styles/mapbox/streets-v10',
+      center: [-74.5, 40],
+      zoom: 9,
+    });
+
+    map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
     window.addEventListener('resize', this.debouncedResize);
 
@@ -438,15 +451,15 @@ class VAMap extends Component {
   );
 
   renderMobileView = () => {
-    const coords = this.props.currentQuery.position;
-    const position = [coords.latitude, coords.longitude];
+    // const coords = this.props.currentQuery.position;
+    // const position = [coords.latitude, coords.longitude];
     const {
       currentQuery,
       selectedResult,
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
-    const facilityLocatorMarkers = this.renderMapMarkers();
+    // const facilityLocatorMarkers = this.renderMapMarkers();
     const facilityType = currentQuery.facilityType;
     const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
@@ -484,40 +497,15 @@ class VAMap extends Component {
               />
             </TabPanel>
             <TabPanel>
-              {this.screenReaderMapText()}
-              <Map
-                ref="map"
-                id="map-id"
-                center={position}
-                onViewportChanged={e =>
-                  recordZoomPanEvents(
-                    e,
-                    currentQuery.searchCoords,
-                    currentQuery.zoomLevel,
-                  )
-                }
-                zoom={parseInt(currentQuery.zoomLevel, 10)}
-                style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
-                scrollWheelZoom={false}
-                zoomSnap={1}
-                zoomDelta={1}
-                onMoveEnd={this.handleBoundsChanged}
-                onLoad={this.handleBoundsChanged}
-                onViewReset={this.handleBoundsChanged}
+              <div
+                className="desktop-map-container"
+                ref={el => {
+                  this.mapContainer = el;
+                  return true;
+                }}
               >
-                <TileLayer
-                  url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                  attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
-                    <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
-                    Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
-                />
-                {facilityLocatorMarkers &&
-                  facilityLocatorMarkers.length > 0 && (
-                    <FeatureGroup ref="facilityMarkers">
-                      {facilityLocatorMarkers}
-                    </FeatureGroup>
-                  )}
-              </Map>
+                {this.screenReaderMapText()}
+              </div>
               {selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult
@@ -544,9 +532,10 @@ class VAMap extends Component {
     const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
 
-    const coords = this.props.currentQuery.position;
-    const position = [coords.latitude, coords.longitude];
-    const facilityLocatorMarkers = this.renderMapMarkers();
+    // const coords = this.props.currentQuery.position;
+    // const position = [coords.latitude, coords.longitude];
+    // const facilityLocatorMarkers = this.renderMapMarkers();
+
     return (
       <div className="desktop-container">
         {this.renderSearchControls(currentQuery)}
@@ -569,39 +558,14 @@ class VAMap extends Component {
             />
           </div>
         </div>
-        <div className="desktop-map-container">
+        <div
+          className="desktop-map-container"
+          ref={el => {
+            this.mapContainer = el;
+            return true;
+          }}
+        >
           {this.screenReaderMapText()}
-          <Map
-            ref="map"
-            id="map-id"
-            center={position}
-            onViewportChanged={e =>
-              recordZoomPanEvents(
-                e,
-                currentQuery.searchCoords,
-                currentQuery.zoomLevel,
-              )
-            }
-            zoomSnap={1}
-            zoomDelta={1}
-            zoom={parseInt(currentQuery.zoomLevel, 10)}
-            style={{ minHeight: '78vh', width: '100%' }} // TODO - move this into CSS
-            scrollWheelZoom={false}
-            onMoveEnd={this.handleBoundsChanged}
-          >
-            <TileLayer
-              url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-              attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, \
-                <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, \
-                Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
-            />
-            {facilityLocatorMarkers &&
-              facilityLocatorMarkers.length > 0 && (
-                <FeatureGroup ref="facilityMarkers">
-                  {facilityLocatorMarkers}
-                </FeatureGroup>
-              )}
-          </Map>
         </div>
         <PaginationWrapper
           handlePageSelect={this.handlePageSelect}

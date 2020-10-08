@@ -34,7 +34,7 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#street-city-state-zip').clear();
 });
 
-describe('Mobile', () => {
+describe.skip('Mobile', () => {
   before(() => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
