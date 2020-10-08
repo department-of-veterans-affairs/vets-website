@@ -1,8 +1,17 @@
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
+import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/dom';
+import { Route } from 'react-router-dom';
 
-import { FACILITY_TYPES } from '../../../../utils/constants';
+import {
+  setFetchJSONFailure,
+  mockFetch,
+  resetFetch,
+} from 'platform/testing/unit/helpers';
+import environment from 'platform/utilities/environment';
+
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -13,6 +22,11 @@ import {
   onCalendarChange,
   startDirectScheduleFlow,
 } from '../../../../new-appointment/redux/actions';
+import {
+  mockAppointmentSubmit,
+  mockFacilityFetch,
+} from '../../../mocks/helpers';
+import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
   featureToggles: {
@@ -21,43 +35,15 @@ const initialState = {
     show_new_schedule_view_appointments_page: true,
   },
 };
-const parentFacilities = [
-  {
-    id: 'var983',
-    identifier: [
-      { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-      {
-        system: 'http://med.va.gov/fhir/urn',
-        value: 'urn:va:facility:983',
-      },
-    ],
-  },
-];
-const facilityDetails = {
-  var983: {
-    id: 'var983',
-    name: 'Cheyenne VA Medical Center',
-    address: {
-      postalCode: '82001-5356',
-      city: 'Cheyenne',
-      state: 'WY',
-      line: ['2360 East Pershing Boulevard'],
-    },
-  },
-};
-const facilities = {
-  '323_var983': [
-    {
-      id: 'var983',
-      name: 'Cheyenne VA Medical Center',
-    },
-  ],
-};
 
 describe('VAOS <ReviewPage> direct scheduling', () => {
-  it('should show form information for review', async () => {
-    const start = moment();
-    const store = createTestStore({
+  let store;
+  let start;
+
+  beforeEach(() => {
+    mockFetch();
+    start = moment();
+    store = createTestStore({
       ...initialState,
       newAppointment: {
         pages: {},
@@ -71,15 +57,73 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
           vaFacility: 'var983',
           clinicId: '455',
         },
-        parentFacilities,
-        facilityDetails,
-        facilities,
+        parentFacilities: [
+          {
+            id: 'var983',
+            identifier: [
+              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:facility:983',
+              },
+            ],
+          },
+        ],
+        facilityDetails: {
+          var983: {
+            id: 'var983',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              postalCode: '82001-5356',
+              city: 'Cheyenne',
+              state: 'WY',
+              line: ['2360 East Pershing Boulevard'],
+            },
+          },
+        },
+        facilities: {
+          '323_var983': [
+            {
+              id: 'var983',
+              name: 'Cheyenne VA Medical Center',
+            },
+          ],
+        },
+        availableSlots: [
+          {
+            start: start.format(),
+            end: start
+              .clone()
+              .add(30, 'minutes')
+              .format(),
+          },
+        ],
         clinics: {
           // eslint-disable-next-line camelcase
           var983_323: [
             {
               id: '455',
               serviceName: 'Some VA clinic',
+              characteristic: [
+                {
+                  text: 'clinicFriendlyLocationName',
+                  value: 'Some VA clinic',
+                },
+                {
+                  text: 'institutionName',
+                  value: 'Cheyenne VA Medical Center',
+                },
+                {
+                  text: 'institutionCode',
+                  value: '983',
+                },
+              ],
+              identifier: [
+                {
+                  system: 'http://med.va.gov/fhir/urn',
+                  value: 'urn:va:facility:983:983:455',
+                },
+              ],
             },
           ],
         },
@@ -96,7 +140,10 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
         ],
       }),
     );
+  });
+  afterEach(() => resetFetch());
 
+  it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
     });
@@ -142,86 +189,79 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     });
     expect(uniqueLinks.size).to.equal(editLinks.length);
   });
-  it('should submit an appointment', () => {});
-  it('should show error if submit fails', () => {});
-  it('should submit CC request', () => {});
-  it('should submit VA request', () => {});
-  it('should remove try again language if submit fails with bad request error', () => {});
-  // it('should render submit error state', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-  //   const tree = shallow(
-  //     <ReviewPage
-  //       submitStatus={FETCH_STATUS.failed}
-  //       flowType={flowType}
-  //       data={data}
-  //     />,
-  //   );
-  //   expect(tree.find('LoadingButton').props().isLoading).to.be.false;
-  //   expect(tree.find('AlertBox').props().status).to.equal('error');
-  //   tree.unmount();
-  // });
-  // it('should render submit error with facility', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-  //   const tree = shallow(
-  //     <ReviewPage
-  //       submitStatus={FETCH_STATUS.failed}
-  //       flowType={flowType}
-  //       data={data}
-  //       facilityDetails={{}}
-  //     />,
-  //   );
-  //   const alertBox = tree.find('AlertBox');
-  //   expect(tree.find('LoadingButton').props().isLoading).to.be.false;
-  //   expect(alertBox.props().status).to.equal('error');
-  //   expect(
-  //     alertBox
-  //       .dive()
-  //       .find('FacilityAddress')
-  //       .exists(),
-  //   ).to.be.true;
-  //   expect(alertBox.dive().text()).contain(
-  //     'We suggest you wait a day to try again or you can call your medical center',
-  //   );
-  //   tree.unmount();
-  // });
-  // it('should render 400 error with facility', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-  //   const tree = shallow(
-  //     <ReviewPage
-  //       submitStatus={FETCH_STATUS.failed}
-  //       submitStatusVaos400
-  //       flowType={flowType}
-  //       data={data}
-  //       facilityDetails={{}}
-  //     />,
-  //   );
-  //   const alertBox = tree.find('AlertBox');
-  //   expect(tree.find('LoadingButton').props().isLoading).to.be.false;
-  //   expect(alertBox.props().status).to.equal('error');
-  //   expect(
-  //     alertBox
-  //       .dive()
-  //       .find('FacilityAddress')
-  //       .exists(),
-  //   ).to.be.true;
-  //   expect(alertBox.dive().text()).contain(
-  //     'You’ll need to call your local VA medical center',
-  //   );
-  //   tree.unmount();
-  // });
-  // it('return to new appt page when data is empty', () => {
-  //   const flowType = FLOW_TYPES.REQUEST;
-  //   const data = {};
-  //   const history = {
-  //     replace: sinon.spy(),
-  //   };
-  //   const tree = mount(
-  //     <ReviewPage flowType={flowType} data={data} history={history} />,
-  //   );
-  //   expect(history.replace.called).to.be.true;
-  //   tree.unmount();
-  // });
+
+  it('should submit successfully', async () => {
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
+    mockAppointmentSubmit({});
+    await screen.findByText(/scheduling a primary care appointment/i);
+
+    userEvent.click(screen.getByText(/Confirm appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/new-appointment/confirmation',
+      );
+    });
+    const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
+
+    expect(submitData.clinic.siteCode).to.equal('983');
+    expect(submitData.clinic.clinicId).to.equal('455');
+    expect(submitData.dateTime).to.equal(`${start.format()}+00:00`);
+  });
+
+  it('should show appropriate message on bad request submit error', async () => {
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
+    mockFacilityFetch('vha_442', {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    });
+    setFetchJSONFailure(
+      global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
+      {
+        errors: [
+          {
+            code: 'VAOS_400',
+          },
+        ],
+      },
+    );
+    await screen.findByText(/scheduling a primary care appointment/i);
+
+    userEvent.click(screen.getByText(/Confirm appointment/i));
+
+    await screen.findByText('We couldn’t schedule this appointment');
+
+    expect(screen.baseElement).contain.text(
+      'Something went wrong when we tried to submit your appointment. You’ll',
+    );
+
+    await screen.findByText('307-778-7550');
+
+    // Not sure of a better way to search for test just within the alert
+    const alert = screen.baseElement.querySelector('.usa-alert');
+    expect(alert).contain.text('Cheyenne VA Medical Center');
+    expect(alert).contain.text('2360 East Pershing Boulevard');
+    expect(alert).contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.history.push.called).to.be.false;
+  });
 });
