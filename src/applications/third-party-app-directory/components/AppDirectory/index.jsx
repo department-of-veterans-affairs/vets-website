@@ -1,7 +1,7 @@
 // Node modules.
 import React from 'react';
 // Relative imports.
-import ThirdPartyApps from '../../containers/ThirdPartyApps';
+import ThirdPartyAppList from '../../containers/ThirdPartyAppList';
 
 export const AppDirectory = () => (
   <div>
@@ -14,8 +14,8 @@ export const AppDirectory = () => (
       never required to use them.
     </p>
 
-    {/* Search Results */}
-    <ThirdPartyApps />
+    {/* App list */}
+    <ThirdPartyAppList />
 
     {/* Questions Content */}
     <div className="feature">
