@@ -5,7 +5,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import URLSearchParams from 'url-search-params';
 import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
@@ -33,11 +32,7 @@ export class ThirdPartyAppList extends Component {
     }
   }
   componentDidMount() {
-    const category = '';
-    const platform = '';
     this.props.fetchResults({
-      category,
-      platform,
       page: 1,
       trackSearch: true,
     });
@@ -46,17 +41,8 @@ export class ThirdPartyAppList extends Component {
   onPageSelect = page => {
     const { fetchResults, perPage } = this.props;
 
-    // Derive the current name params.
-    const queryParams = new URLSearchParams(window.location.search);
-
-    // Derive the state values from our query params.
-    const category = queryParams.get('category') || '';
-    const platform = queryParams.get('platform') || '';
-
     // Refetch results.
     fetchResults({
-      category,
-      platform,
       hideFetchingState: true,
       page,
       perPage,

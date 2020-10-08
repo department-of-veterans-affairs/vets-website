@@ -2,7 +2,6 @@
 // import recordEvent from 'platform/monitoring/record-event';
 // Relative imports.
 import { fetchResultsApi } from '../api';
-import { updateQueryParams } from '../helpers';
 import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
@@ -31,35 +30,19 @@ export const fetchResultsSuccess = response => ({
 // Redux Thunks
 // ============
 export const fetchResultsThunk = options => async dispatch => {
-  const {
-    category = null,
-    platform = null,
-    hideFetchingState,
-    history,
-    location,
-    page = 1,
-    perPage = 10,
-  } = options;
-
-  const queryParamsLookup = { category, platform };
+  const { hideFetchingState, page = 1, perPage = 10 } = options;
 
   // Change the `fetching` state in our store.
   dispatch(
     fetchResultsAction({
-      ...queryParamsLookup,
       hideFetchingState,
       page,
     }),
   );
 
-  // Update query params.
-  updateQueryParams(history, location, queryParamsLookup);
-
   try {
     // Attempt to make the API request to retreive results.
     const response = await fetchResultsApi({
-      category,
-      platform,
       page,
       perPage,
       mockRequest: true,
