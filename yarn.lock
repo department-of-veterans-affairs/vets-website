@@ -10650,12 +10650,13 @@ libnpmconfig@^1.2.1:
     find-up "^3.0.0"
     ini "^1.3.5"
 
-libxmljs@^0.19.5:
-  version "0.19.5"
-  resolved "https://registry.yarnpkg.com/libxmljs/-/libxmljs-0.19.5.tgz#b2f34cc12fd6a3e43670c604c42a902f339ea54d"
+libxmljs@^0.19.7:
+  version "0.19.7"
+  resolved "https://registry.yarnpkg.com/libxmljs/-/libxmljs-0.19.7.tgz#96c2151b0b73f33dd29917edec82902587004e5a"
+  integrity sha512-lFJyG9T1mVwTzNTw6ZkvIt0O+NsIR+FTE+RcC2QDFGU8YMnQrnyEOGrj6HWSe1AdwQK7s37BOp4NL+pcAqfK2g==
   dependencies:
     bindings "~1.3.0"
-    nan "~2.10.0"
+    nan "~2.14.0"
     node-pre-gyp "~0.11.0"
 
 lines-and-columns@^1.1.6:
@@ -12231,14 +12232,10 @@ nan@^2.12.1, nan@^2.13.2:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
 
-nan@^2.14.0:
+nan@^2.14.0, nan@~2.14.0:
   version "2.14.1"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01"
   integrity sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw==
-
-nan@~2.10.0:
-  version "2.10.0"
-  resolved "https://registry.npmjs.org/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
 
 nanomatch@^1.2.9:
   version "1.2.9"
@@ -17751,9 +17748,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema#ee3032d3a84393233fb328c1f83558be9bbd84b1":
-  version "14.1.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema#ee3032d3a84393233fb328c1f83558be9bbd84b1"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema#58094bd2e593ed11b3e0a2bd18175582560bff6d":
+  version "15.1.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema#58094bd2e593ed11b3e0a2bd18175582560bff6d"
 
 vinyl-file@^2.0.0:
   version "2.0.0"

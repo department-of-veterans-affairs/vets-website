@@ -16,7 +16,12 @@ module.exports = {
           },
         },
         fieldSendEmailToSubscribers: { type: ['boolean'] },
-        fieldWysiwyg: { type: ['string'] },
+        fieldWysiwyg: {
+          type: 'object',
+          properties: {
+            processed: { type: 'string' },
+          },
+        },
       },
       required: [
         'entityType',

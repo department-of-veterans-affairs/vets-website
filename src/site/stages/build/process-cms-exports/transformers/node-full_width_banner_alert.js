@@ -12,6 +12,7 @@ const transform = entity => ({
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   path: getDrupalValue(entity.path),
+  status: getDrupalValue(entity.status),
   fieldAdministration: entity.fieldAdministration[0],
   fieldAlertDismissable: getDrupalValue(entity.fieldAlertDismissable),
   fieldAlertEmailUpdatesButton: getDrupalValue(
@@ -50,6 +51,7 @@ module.exports = {
     'changed',
     'metatag',
     'path',
+    'status',
     'field_administration',
     'field_alert_dismissable',
     'field_alert_email_updates_button',

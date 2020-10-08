@@ -39,4 +39,14 @@ describe('<InitialConfirmEligibilityView>', () => {
     expect(tree).to.not.be.undefined;
     tree.unmount();
   });
+
+  it('should render ExitApplicationButton', () => {
+    const tree = mount(
+      <Provider store={defaultStore}>
+        <InitialConfirmEligibilityView {...defaultProps} />
+      </Provider>,
+    );
+    expect(tree.find('ExitApplicationButton')).to.not.be.undefined;
+    tree.unmount();
+  });
 });

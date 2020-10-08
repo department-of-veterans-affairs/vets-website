@@ -6,7 +6,7 @@ import { Column, Row } from 'platform/forms/components/common/grid';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function Default(props) {
-  const { appType, formConfig, onBack, onSubmit } = props;
+  const { buttonText, formConfig, onBack, onSubmit } = props;
 
   return (
     <>
@@ -18,7 +18,7 @@ export default function Default(props) {
         <Column classNames="small-6 medium-5">
           <ProgressButton
             onButtonClick={onSubmit}
-            buttonText={`Submit ${appType}`}
+            buttonText={buttonText}
             buttonClass="usa-button-primary"
           />
         </Column>
@@ -31,7 +31,7 @@ export default function Default(props) {
 }
 
 Default.propTypes = {
-  appType: PropTypes.string,
+  buttonText: PropTypes.string,
   formConfig: PropTypes.object,
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,

@@ -11,7 +11,7 @@ import { VeteranInfoView } from '../../content/veteranInformation';
 const data = {
   veteran: {
     ssnLastFour: '4321',
-    vaFileNumber: '1234',
+    vaFileLastFour: '1234',
   },
   profile: {
     dob: '1980-12-31',
@@ -50,7 +50,7 @@ describe('Confirm Veteran Details', () => {
     expect(ssn).to.include(data.veteran.ssnLastFour);
 
     const vafn = tree.find('.vafn').text();
-    expect(vafn).to.include(data.veteran.vaFileNumber);
+    expect(vafn).to.include(data.veteran.vaFileLastFour);
 
     const dob = tree.find('.dob').text();
     expect(dob).to.equal(moment(data.profile.dob).format('LL'));
