@@ -20,33 +20,35 @@ class ResponsiveTable extends React.Component {
   renderRowCell = (row, column) => {
     const columnData = row[column];
 
-    let cellData;
-    let mobileHeader = (
-      <dfn className="medium-screen:vads-u-display--none">{column}: </dfn>
+    // This handles the case where columnData is a react.element
+    let cellData = columnData;
+    // Default to column value displayed on desktop
+    let mobileHeaderValue = column;
+
+    const stringCellData = value => (
+      <span className={'vads-u-margin-0'}>{value}</span>
     );
 
     if (typeof columnData === 'string') {
-      cellData = <span className={'vads-u-margin-0'}>{columnData}</span>;
-    } else {
-      cellData = columnData.value;
-      if (typeof columnData.value === 'string') {
-        cellData = (
-          <span className={'vads-u-margin-0'}>{columnData.value}</span>
-        );
+      cellData = stringCellData(columnData);
+    } else if (columnData.value) {
+      const { value, mobileHeader } = columnData;
+
+      cellData = value;
+      if (typeof value === 'string') {
+        cellData = stringCellData(value);
       }
 
-      if (columnData.mobileHeader) {
-        mobileHeader = (
-          <dfn className="medium-screen:vads-u-display--none">
-            {columnData.mobileHeader}:{' '}
-          </dfn>
-        );
+      if (mobileHeader) {
+        mobileHeaderValue = mobileHeader;
       }
     }
 
     return (
       <>
-        {mobileHeader}
+        <dfn className="medium-screen:vads-u-display--none">
+          {mobileHeaderValue}:{' '}
+        </dfn>
         {cellData}
       </>
     );
