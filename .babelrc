@@ -65,7 +65,8 @@
           {
             "targets": {
               "node": "current"
-            }
+            },
+            "include": ["@babel/plugin-transform-classes"]
           }
         ]
       ],
