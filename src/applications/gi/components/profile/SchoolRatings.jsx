@@ -139,16 +139,12 @@ export default function SchoolRatings({
             out to Veterans to provide a rating who have:
           </p>
           <ul>
-            <li className="vads-u-margin-y--0">
-              Received a Certificate of Eligibility (COE) for benefits
-            </li>
-            <li className="vads-u-margin-y--0">
-              Transferred into or out of a school
-            </li>
-            <li className="vads-u-margin-y--0">
+            <li>Received a Certificate of Eligibility (COE) for benefits</li>
+            <li>Transferred into or out of a school</li>
+            <li>
               Made a change to their program of study, <strong>or</strong>
             </li>
-            <li className="vads-u-margin-y--0">
+            <li>
               Completed their degree program Veterans rate schools on a number
               of categories.
             </li>
