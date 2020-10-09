@@ -43,6 +43,10 @@
       "phone": "5554248007",
       "email":"cjackson@fake.email"
     },
+    "veteranInformation": {
+      "firstName": "Walker",
+      "lastName": "Texas"
+    },
     "veteranServiceInformation": {
       "dateOfBirth": "1980-02-02",
       "socialSecurityNumber": "312549876",
