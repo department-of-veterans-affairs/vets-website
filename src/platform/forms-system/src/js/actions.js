@@ -262,7 +262,13 @@ export function uploadFile(
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
         onChange(fileData);
       } else {
-        let errorMessage = req.statusText;
+        let errorMessage;
+        try {
+          // detail contains a better error message
+          errorMessage = JSON.parse(req.responseText)?.detail || req.statusText;
+        } catch (error) {
+          errorMessage = req.statusText;
+        }
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
             moment.unix(
@@ -275,7 +281,7 @@ export function uploadFile(
           name: file.name,
           errorMessage,
         });
-        Sentry.captureMessage(`vets_upload_error: ${req.statusText}`);
+        Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();
       }
     });
