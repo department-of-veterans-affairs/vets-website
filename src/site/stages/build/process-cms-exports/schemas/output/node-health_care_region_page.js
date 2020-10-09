@@ -5,6 +5,21 @@ const newsStorySchema = require('./node-news_story');
 const eventSchema = require('./node-event');
 const pressRelease = require('./node-press_release');
 
+const socialMediaSchema = {
+  type: ['object', 'null'],
+  properties: {
+    url: {
+      type: 'object',
+      properties: {
+        path: { type: 'string' },
+      },
+      required: ['path'],
+    },
+    title: { type: 'string' },
+  },
+  required: ['url', 'title'],
+};
+
 const facilitiesSchema = {
   type: 'object',
   properties: {
@@ -82,6 +97,13 @@ module.exports = {
     entityBundle: { enum: ['health_care_region_page'] },
     title: { type: 'string' },
     entityUrl: { $ref: 'EntityUrl' },
+    fieldGovdeliveryIdEmerg: { type: 'string' },
+    fieldGovdeliveryIdNews: { type: 'string' },
+    fieldOperatingStatus: socialMediaSchema,
+    fieldFacebook: socialMediaSchema,
+    fieldFlickr: socialMediaSchema,
+    fieldInstagram: socialMediaSchema,
+    fieldTwitter: socialMediaSchema,
     fieldNicknameForThisFacility: { type: ['string', 'null'] },
     fieldLinkFacilityEmergList: {
       type: ['object', 'null'],
@@ -165,6 +187,13 @@ module.exports = {
   },
   required: [
     'title',
+    'fieldGovdeliveryIdEmerg',
+    'fieldGovdeliveryIdNews',
+    'fieldOperatingStatus',
+    'fieldFacebook',
+    'fieldFlickr',
+    'fieldInstagram',
+    'fieldTwitter',
     'fieldNicknameForThisFacility',
     'fieldLinkFacilityEmergList',
     'fieldPressReleaseBlurb',
