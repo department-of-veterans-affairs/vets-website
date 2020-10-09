@@ -61,11 +61,11 @@ function unescapeUnicode(string) {
 }
 
 /**
- * A very specific helper function that expects to receive an
- * array with one item which is an object with a single `value` property
- * or a 3 properties `value`, `format` and `processed`
- * if `processed` exists, it should have a priority over `value`
  *
+ * @param {Array} arr - An array with one item, which is an object with
+ *                      either a single `value` property or the properties
+ *                      `value`, `format`, and `processed`.
+ * @return {string} The value of `processed` if it exists or `value` otherwise.
  */
 function getDrupalValue(arr) {
   if (arr.length === 0) return null;
