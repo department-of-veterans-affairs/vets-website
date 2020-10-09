@@ -251,10 +251,14 @@ const validCustomText = ({ customText }) => {
   }
 };
 
-const validBenefitDescription = formConfig => {
-  validObjectProperty(formConfig, 'benefitDescription', true);
-  validStringProperty(formConfig.benefitDescription, 'benefitType', true);
-  validStringProperty(formConfig.benefitDescription, 'subText', false);
+const validSaveInProgressConfig = formConfig => {
+  // TODO: Change this to not _require_ saveInProgress
+  validObjectProperty(formConfig, 'saveInProgress');
+  if (formConfig.saveInProgress) {
+    validStringProperty(formConfig.saveInProgress, 'inProgress');
+    validStringProperty(formConfig.saveInProgress, 'expired');
+    validStringProperty(formConfig.saveInProgress, 'saved');
+  }
 };
 
 describe('form:', () => {
@@ -301,7 +305,7 @@ describe('form:', () => {
           validAuthorization(formConfig);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
-          validBenefitDescription(formConfig);
+          validSaveInProgressConfig(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down
           // If any of the expects in the above functions fail,
           // the test for the configFilePath fails as expected
