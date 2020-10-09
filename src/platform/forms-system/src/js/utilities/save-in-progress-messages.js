@@ -4,16 +4,20 @@ const appType = formConfig =>
   formConfig.customText?.appType || APP_TYPE_DEFAULT;
 
 export function inProgressMessage(formConfig) {
-  const defaultMessage = `Your ${appType} is in progress.`;
-  return formConfig.saveInProgress?.inProgress || defaultMessage;
+  const defaultMessage = `Your ${appType(formConfig)} is in progress.`;
+  return formConfig.saveInProgress?.messages?.inProgress || defaultMessage;
 }
 
 export function expiredMessage(formConfig) {
-  const defaultMessage = `Your saved ${appType} has expired. If you want to apply for benefits, please start a new ${appType}.`;
-  return formConfig.saveInProgress?.expired || defaultMessage;
+  const defaultMessage = `Your saved ${appType(
+    formConfig,
+  )} has expired. If you want to apply for benefits, please start a new ${appType(
+    formConfig,
+  )}.`;
+  return formConfig.saveInProgress?.messages?.expired || defaultMessage;
 }
 
 export function savedMessage(formConfig) {
-  const defaultMessage = `Your ${appType} has been saved.`;
-  return formConfig.saveInProgress?.saved || defaultMessage;
+  const defaultMessage = `Your ${appType(formConfig)} has been saved.`;
+  return formConfig.saveInProgress?.messages?.saved || defaultMessage;
 }
