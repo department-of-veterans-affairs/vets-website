@@ -30,13 +30,9 @@ const transform = entity => ({
   fieldVaFormRevisionDate: getDrupalValue(entity.fieldVaFormRevisionDate),
   fieldVaFormTitle: getDrupalValue(entity.fieldVaFormTitle),
   fieldVaFormToolIntro: getDrupalValue(entity.fieldVaFormToolIntro),
-  fieldVaFormToolUrl: entity.fieldVaFormToolUrl.map(({ uri }) => ({
-    url: { path: uri },
-  })),
+  fieldVaFormToolUrl: entity.fieldVaFormToolUrl[0] || null,
   fieldVaFormType: getDrupalValue(entity.fieldVaFormType),
-  fieldVaFormUrl: entity.fieldVaFormUrl.map(({ uri }) => ({
-    url: { path: uri },
-  })),
+  fieldVaFormUrl: entity.fieldVaFormUrl[0] || null,
   fieldVaFormUsage: entity.fieldVaFormUsage[0] || null,
 });
 

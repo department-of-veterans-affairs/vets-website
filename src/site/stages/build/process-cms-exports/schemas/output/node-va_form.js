@@ -1,27 +1,24 @@
 const { usePartialSchema } = require('../../transformers/helpers');
 
+const urlSchema = {
+  oneOf: [
+    {
+      type: 'object',
+      properties: {
+        uri: { type: 'string' },
+      },
+    },
+    { type: 'null' },
+  ],
+};
+
 const vaFormSchema = {
   type: 'object',
   properties: {
     fieldVaFormName: { type: 'string' },
     fieldVaFormNumber: { type: 'string' },
     fieldVaFormUsage: { $ref: 'ProcessedString' },
-    fieldVaFormUrl: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          uri: {
-            type: 'object',
-            properties: {
-              path: { type: 'string' },
-            },
-            required: ['path'],
-          },
-        },
-        required: ['uri'],
-      },
-    },
+    fieldVaFormUrl: urlSchema,
   },
   required: [
     'fieldVaFormName',
@@ -69,39 +66,9 @@ module.exports = {
     fieldVaFormRevisionDate: { type: ['string', 'null'] },
     fieldVaFormTitle: { type: 'string' },
     fieldVaFormToolIntro: { type: ['string', 'null'] },
-    fieldVaFormToolUrl: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          url: {
-            type: 'object',
-            properties: {
-              path: { type: 'string' },
-            },
-            required: ['path'],
-          },
-        },
-        required: ['url'],
-      },
-    },
+    fieldVaFormToolUrl: urlSchema,
     fieldVaFormType: { type: ['string', 'null'] },
-    fieldVaFormUrl: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          url: {
-            type: 'object',
-            properties: {
-              path: { type: 'string' },
-            },
-            required: ['path'],
-          },
-        },
-        required: ['url'],
-      },
-    },
+    fieldVaFormUrl: urlSchema,
     fieldVaFormUsage: {
       oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
     },
