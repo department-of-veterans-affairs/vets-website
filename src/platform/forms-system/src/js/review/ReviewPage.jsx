@@ -37,6 +37,7 @@ class ReviewPage extends React.Component {
           formConfig={formConfig}
           pageList={pageList}
           path={path}
+          renderErrorMessage
         />
       </div>
     );
