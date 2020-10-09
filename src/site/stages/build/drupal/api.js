@@ -38,7 +38,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
   const clientOptions = { ...defaultClientOptions, ...clientOptionsArg };
   // Set up debug logging
   // eslint-disable-next-line no-console
-  const say = clientOptions.verbose ? console.log : () => {};
+  const say = clientOptions.verbose ? console.log : () => { };
 
   const envConfig = DRUPALS[buildOptions.buildtype];
   const drupalConfig = Object.assign({}, envConfig, buildArgs);
@@ -225,6 +225,16 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         variables: {
           id: nodeId,
           today: moment().format('YYYY-MM-DD'),
+          onlyPublishedContent: false,
+        },
+      });
+    },
+
+    // Sets up the CMS SideNav Menus list.
+    async getSideNavigations() {
+      return this.query({
+        query: getQuery(queries.GET_HEALTH_SYSTEM_NAVS),
+        variables: {
           onlyPublishedContent: false,
         },
       });

@@ -140,6 +140,44 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
  * @param {Object} buildOptions
  * @return {Object} - The result of the GraphQL query
  */
+async function getsideNavsViaGraphQL(buildOptions) {
+  global.buildtype = buildOptions.buildtype;
+  let SideNavs;
+
+  const sideNavFile = path.join(
+    buildOptions.cacheDirectory,
+    'drupal',
+    'side-nav-menus.json',
+  );
+
+  if (shouldPullDrupal(buildOptions)) {
+    const contentApi = getApiClient(buildOptions);
+    log('Pulling side nav menus from Drupal...');
+    SideNavs = await contentApi.getSideNavigations();
+
+    // Write them to .cache/{buildtype}/drupal/side-nav-menus.json
+    fs.ensureDirSync(buildOptions.cacheDirectory);
+    fs.emptyDirSync(path.dirname(sideNavFile));
+    fs.writeJsonSync(sideNavFile, SideNavs, { spaces: 2 });
+  } else {
+    log('Using cached side navs');
+    SideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
+  }
+
+  if (global.verbose) {
+    log(`Drupal side navs:\n${JSON.stringify(SideNavs, null, 2)}`);
+  }
+
+  return SideNavs;
+}
+
+/**
+ * Uses Drupal content via a new GraphQL query or the cached result of a
+ * previous query. This is where the cache is saved.
+ *
+ * @param {Object} buildOptions
+ * @return {Object} - The result of the GraphQL query
+ */
 async function getContentViaGraphQL(buildOptions) {
   const contentApi = getApiClient(buildOptions);
   const drupalCache = getDrupalCachePath(buildOptions);
@@ -258,7 +296,7 @@ async function loadCachedDrupalFiles(buildOptions, files) {
 function getDrupalContent(buildOptions) {
   if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
     log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
-    return () => {};
+    return () => { };
   }
 
   return async (files, metalsmith, done) => {
@@ -292,4 +330,4 @@ function getDrupalContent(buildOptions) {
   };
 }
 
-module.exports = { getDrupalContent, shouldPullDrupal };
+module.exports = { getsideNavsViaGraphQL, getDrupalContent, shouldPullDrupal };

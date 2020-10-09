@@ -222,69 +222,6 @@ async function setUpFeatureFlags(options) {
   });
 }
 
-/**
- * Sets up the CMS SideNav Menus list.
- */
-async function setUpSideNavMenuList(options) {
-  global.buildtype = options.buildtype;
-  let SideNavs;
-
-  const sideNavFile = path.join(
-    options.cacheDirectory,
-    'drupal',
-    'side-nav-menus.json',
-  );
-
-  if (shouldPullDrupal(options)) {
-    logDrupal('Pulling side nav menus from Drupal...');
-    const apiClient = getDrupalClient(options);
-    const envConfig = DRUPALS[global.buildtype];
-    const drupalConfig = Object.assign({}, envConfig);
-    const { user, password } = drupalConfig;
-
-    const encodedCredentials = Buffer.from(`${user}:${password}`).toString(
-      'base64',
-    );
-    const result = await apiClient.proxyFetch(
-      `${apiClient.getSiteUri()}/graphql/`,
-      {
-        headers: {
-          Authorization: `Basic ${encodedCredentials}`,
-          'Content-Type': 'application/json',
-        },
-        method: 'post',
-        body: JSON.stringify({
-          query: `{
-         sideNavMenus
-       }`,
-        }),
-      },
-    );
-
-    const responseBody = await result.text();
-    try {
-      SideNavs = JSON.parse(responseBody).data.sideNavMenus;
-    } catch (e) {
-      throw new TypeError(
-        `Could not parse Drupal side nav menus. Response:\n${responseBody}`,
-      );
-    }
-
-    // Write them to .cache/{buildtype}/drupal/side-nav-menus.json
-    fs.ensureDirSync(options.cacheDirectory);
-    fs.emptyDirSync(path.dirname(sideNavFile));
-    fs.writeJsonSync(sideNavFile, SideNavs, { spaces: 2 });
-  } else {
-    logDrupal('Using cached side navs');
-    SideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
-  }
-
-  if (global.verbose) {
-    logDrupal(`Drupal side navs:\n${JSON.stringify(SideNavs, null, 2)}`);
-  }
-  global.cmsSideNavs = SideNavs;
-}
-
 async function getOptions(commandLineOptions) {
   const options = commandLineOptions || gatherFromCommandLine();
 
@@ -292,7 +229,6 @@ async function getOptions(commandLineOptions) {
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
   await setUpFeatureFlags(options);
-  await setUpSideNavMenuList(options);
 
   // Setting verbosity for the whole content build process as global so we don't
   // have to pass the buildOptions around for just that.
