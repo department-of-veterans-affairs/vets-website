@@ -22,7 +22,7 @@ const formFields = {
   address: 'address',
   email: 'email',
   verifyEmail: 'view:email',
-  phoneNumber: 'phoneNumber',
+  phone: 'phone',
   veteranStatus: 'veteranStatus',
 };
 
@@ -38,7 +38,7 @@ const contactInformationPage = {
       },
       true,
     ),
-    [formFields.phoneNumber]: set(
+    [formFields.phone]: set(
       'ui:required',
       (formData, _index) => formData.preferredContactMethod === 'phone',
       phoneUI(phoneTitle),
@@ -64,7 +64,7 @@ const contactInformationPage = {
       [formFields.verifyEmail]: {
         type: 'string',
       },
-      [formFields.phoneNumber]: phone,
+      [formFields.phone]: phone,
       [formFields.address]: address.schema(fullSchema, false),
     },
   },
