@@ -9,6 +9,20 @@ export const isVeteran = formData => {
 };
 
 const reformatData = form => {
+  let veteranName = {};
+  if (
+    form?.data?.status === 'isVeteran' ||
+    form?.data?.status === 'isActiveDuty'
+  ) {
+    veteranName = {
+      first: form?.data?.fullName?.first,
+      middle: form?.data?.fullName?.middle,
+      last: form?.data?.fullName?.last,
+      suffix: form?.data?.fullName?.suffix,
+    };
+  } else {
+    veteranName = form?.data?.veteranInformation?.fullName;
+  }
   return {
     claimantInformation: {
       fullName: {
@@ -24,7 +38,7 @@ const reformatData = form => {
       phoneNumber: form?.data?.claimantPhoneNumber,
     },
     claimantAddress: form?.data?.claimantAddress,
-    veteranFullName: form?.data?.veteranInformation?.fullName,
+    veteranFullName: veteranName,
     veteranSocialSecurityNumber: form?.data?.veteranInformation?.ssn,
     status: form?.data?.status,
   };
