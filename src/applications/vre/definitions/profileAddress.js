@@ -43,19 +43,19 @@ export const addressSchema = {
       enum: countries.map(country => country.value),
       enumNames: countries.map(country => country.label),
     },
-    addressLine1: {
+    street: {
       type: 'string',
       minLength: 1,
       maxLength: 100,
       pattern: STREET_PATTERN,
     },
-    addressLine2: {
+    street2: {
       type: 'string',
       minLength: 1,
       maxLength: 100,
       pattern: STREET_PATTERN,
     },
-    addressLine3: {
+    street3: {
       type: 'string',
       minLength: 1,
       maxLength: 100,
@@ -164,7 +164,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
         },
       },
     },
-    addressLine1: {
+    street: {
       'ui:required': uiRequiredCallback,
       'ui:title': 'Street',
       'ui:errorMessages': {
@@ -172,10 +172,10 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
         pattern: 'Please fill in a valid street address',
       },
     },
-    addressLine2: {
+    street2: {
       'ui:title': 'Line 2',
     },
-    addressLine3: {
+    street3: {
       'ui:title': 'Line 3',
     },
     city: {

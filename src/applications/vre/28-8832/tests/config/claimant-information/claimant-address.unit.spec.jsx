@@ -70,7 +70,7 @@ describe('Chapter 36 Claimant Address', () => {
     );
 
     changeDropdown(form, 'select#root_claimantAddress_country', 'USA');
-    fillData(form, 'input#root_claimantAddress_addressLine1', 'Sunny Road');
+    fillData(form, 'input#root_claimantAddress_street', 'Sunny Road');
     fillData(form, 'input#root_claimantAddress_city', 'Someplace');
     changeDropdown(form, 'select#root_claimantAddress_state', 'DC');
     fillData(form, 'input#root_claimantAddress_postalCode', '12345');
@@ -98,7 +98,7 @@ describe('Chapter 36 Claimant Address', () => {
     );
 
     changeDropdown(form, 'select#root_claimantAddress_country', 'USA');
-    fillData(form, 'input#root_claimantAddress_addressLine1', 'Sunny Road');
+    fillData(form, 'input#root_claimantAddress_street', 'Sunny Road');
     fillData(form, 'input#root_claimantAddress_city', 'Someplace');
     changeDropdown(form, 'select#root_claimantAddress_state', 'DC');
     fillData(form, 'input#root_claimantAddress_postalCode', '12345');
