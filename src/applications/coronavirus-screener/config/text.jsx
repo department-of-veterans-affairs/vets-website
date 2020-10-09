@@ -16,8 +16,8 @@ export const introText = {
     es: 'No guardaremos ni compartiremos sus datos.',
   },
   languageselecttext: {
-    es: 'Prefer English?',
-    en: '¿Prefieres español?',
+    es: 'Change to English',
+    en: 'Cambiar al español',
   },
 };
 

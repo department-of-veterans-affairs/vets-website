@@ -40,7 +40,7 @@ export default function App({ params }) {
           <p>{introText.privacytext[selectedLanguage]}</p>
           <p>
             <a href={alternateRef}>
-              {introText.languageselecttext[selectedLanguage]}
+              <strong>{introText.languageselecttext[selectedLanguage]}</strong>
             </a>
           </p>
         </div>

@@ -16,7 +16,7 @@ export const questions = [
     id: 'test-results-hi',
     text: {
       en: 'Are you waiting for COVID-19 test results?',
-      es: '',
+      es: '¿Está esperando los resultados de la prueba de COVID-19?',
     },
     customId: ['459', '459GE', '459GF', '459GH'],
   },
@@ -74,7 +74,8 @@ export const questions = [
     text: {
       en:
         "Has anyone who lives with you had any of the above symptoms that aren't clearly caused by another condition?",
-      es: '',
+      es:
+        '¿Alguien que vive contigo ha tenido alguno de los síntomas anteriores que no son claramente causados por otra condición?',
     },
     customId: ['526'],
   },
@@ -83,7 +84,8 @@ export const questions = [
     text: {
       en:
         "Do you currently have a runny nose or congestion that's new and not related to allergies?",
-      es: '¿Actualmente tiene secreción o congestión nasal?',
+      es:
+        '¿Tienes actualmente una secreción nasal o congestión que es nueva y no está relacionada con alergias?',
     },
   },
   {
@@ -92,7 +94,7 @@ export const questions = [
       en:
         'In the past 14 days, have you had close contact with someone who you know was diagnosed with COVID-19 or was waiting for COVID-19 test results?',
       es:
-        'En los últimos 14 días, ¿ha tenido contacto cercano con alguien que usted sabe que recibió un diagnóstico positivo de COVID-19?',
+        'En los últimos 14 días, ¿ha tenido contacto cercano con alguien que sabe que fue diagnosticado con COVID-19 o estaba esperando los resultados de la prueba de COVID-19?',
     },
     dependsOn: {
       id: 'isStaff',
@@ -105,7 +107,7 @@ export const questions = [
       en:
         "Have you had contact with someone you know was diagnosed with COVID-19 or was waiting for COVID-19 test results that you haven't already reported to VA occupational health?",
       es:
-        '¿Ha tenido contacto con alguien que recibió un diagnóstico positivo de COVID-19 que aún no ha sido informado al departamento de salud ocupacional del Departamento de Asuntos de Veteranos?',
+        '¿Ha tenido contacto con alguien que conoce que fue diagnosticado con COVID-19 o estaba esperando los resultados de la prueba de COVID-19 que aún no ha reportado a Salud Ocupacional de VA?',
     },
     dependsOn: {
       id: 'isStaff',
@@ -116,7 +118,7 @@ export const questions = [
     id: 'travel-459',
     text: {
       en: 'In the past 14 days, have you traveled outside of Hawaii?',
-      es: '',
+      es: 'En los últimos 14 días, ¿ha viajado fuera de Hawái?',
     },
     customId: ['459'],
   },
@@ -124,7 +126,7 @@ export const questions = [
     id: 'travel-459GE',
     text: {
       en: 'In the past 14 days, have you traveled outside of Guam?',
-      es: '',
+      es: 'En los últimos 14 días, ¿ha viajado fuera de Guam?',
     },
     customId: ['459GE'],
   },
@@ -132,7 +134,7 @@ export const questions = [
     id: 'travel-459GF',
     text: {
       en: 'In the past 14 days, have you traveled outside of American Samoa?',
-      es: '',
+      es: 'En los últimos 14 días, ¿ha viajado fuera de Samoa Americana?',
     },
     customId: ['459GF'],
   },
@@ -141,7 +143,8 @@ export const questions = [
     text: {
       en:
         'In the past 14 days, have you traveled outside of the Northern Mariana Islands?',
-      es: '',
+      es:
+        'En los últimos 14 días, ¿ha viajado fuera de las Islas Marianas de Norte?',
     },
     customId: ['459GH'],
   },
@@ -149,7 +152,7 @@ export const questions = [
     id: 'travel-new-england-ma-ct-ri',
     text: {
       en: 'In the past 14 days, have you traveled outside of New England?',
-      es: '',
+      es: 'En los últimos 14 días, ¿ha viajado fuera de Nueva Inglaterra?',
     },
     customId: ['523', '650', '689', '402', '405', '631', '518', '608', '478'],
   },
@@ -158,7 +161,8 @@ export const questions = [
     text: {
       en:
         'In the past 14 days, have you traveled outside of New York and its surrounding states?',
-      es: '',
+      es:
+        'En los últimos 14 días, ¿ha viajado fuera de Nueva York y sus estados circundantes?',
     },
     customId: ['526', '528', '620', '630', '632'],
   },
