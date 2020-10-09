@@ -2,7 +2,8 @@
 #liveForm .ng-binding,
 #liveForm div > span,
 #liveForm textarea,
-.ng-scope span,
+/* https://css-tricks.com/override-inline-styles-with-css/ */
+.ng-scope span[style],
 .ng-scope textarea,
 /* 
 Even with `!important`, #thankYouPageText > div > span wasn't specific enough to overcome the inline style.
