@@ -8,8 +8,8 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { getVARequestMock } from '../../mocks/v0';
-import { mockAppointmentInfo } from '../../mocks/helpers';
+import { getVAFacilityMock, getVARequestMock } from '../../mocks/v0';
+import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { renderFromRoutes } from '../../mocks/setup';
 
 describe('VAOS integration: express care requests', () => {
@@ -59,10 +59,31 @@ describe('VAOS integration: express care requests', () => {
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
 
+      const facility = {
+        id: 'vha_442GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '442GC',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            physical: {
+              zip: '82001-5356',
+              city: 'Cheyenne',
+              state: 'WY',
+              address1: '2360 East Pershing Boulevard',
+            },
+          },
+          phone: {
+            main: '307-778-7550',
+          },
+        },
+      };
+      mockFacilitiesFetch('vha_442GC', [facility]);
+
       const { baseElement, findByText, getByText } = renderFromRoutes({
         initialState,
       });
-      await findByText(/fake/i);
+      await findByText(/Cheyenne VA Medical Center/i);
       expect(baseElement).to.contain.text('Express care appointment');
       expect(baseElement).not.to.contain.text('Preferred date and time');
       expect(baseElement).not.to.contain.text('in the morning');
@@ -95,6 +116,27 @@ describe('VAOS integration: express care requests', () => {
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
 
+      const facility = {
+        id: 'vha_442GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '442GC',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            physical: {
+              zip: '82001-5356',
+              city: 'Cheyenne',
+              state: 'WY',
+              address1: '2360 East Pershing Boulevard',
+            },
+          },
+          phone: {
+            main: '307-778-7550',
+          },
+        },
+      };
+      mockFacilitiesFetch('vha_442GC', [facility]);
+
       const {
         baseElement,
         findByText,
@@ -104,7 +146,7 @@ describe('VAOS integration: express care requests', () => {
         initialState,
       });
 
-      await findByText(/fake/i);
+      await findByText(/Cheyenne VA Medical Center/i);
       expect(baseElement).not.to.contain.text('Back pain');
       expect(queryByText(/cancel appointment/i)).to.not.be.ok;
 

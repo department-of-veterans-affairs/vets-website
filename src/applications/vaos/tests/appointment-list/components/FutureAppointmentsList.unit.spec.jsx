@@ -148,7 +148,7 @@ describe('VAOS integration: pending appointments', () => {
         'href',
         'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
       );
-      expect(baseElement).to.contain.text('Some facility name');
+      expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
       expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
       expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
       expect(baseElement).to.contain.text('307-778-7550');
