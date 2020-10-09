@@ -1,5 +1,17 @@
 const { usePartialSchema } = require('../../transformers/helpers');
 
+const dateSchema = {
+  oneOf: [
+    {
+      type: 'object',
+      properties: {
+        value: { type: 'string' },
+      },
+    },
+    { type: 'null' },
+  ],
+};
+
 const urlSchema = {
   oneOf: [
     {
@@ -43,7 +55,7 @@ module.exports = {
       items: { $ref: 'output/node-landing_page' },
     },
     fieldVaFormAdministration: { $ref: 'output/taxonomy_term-administration' },
-    fieldVaFormIssueDate: { type: 'string' },
+    fieldVaFormIssueDate: dateSchema,
     fieldVaFormLinkTeasers: {
       type: 'array',
       items: { $ref: 'output/paragraph-link_teaser' },
@@ -63,7 +75,7 @@ module.exports = {
         ]),
       },
     },
-    fieldVaFormRevisionDate: { type: ['string', 'null'] },
+    fieldVaFormRevisionDate: dateSchema,
     fieldVaFormTitle: { type: 'string' },
     fieldVaFormToolIntro: { type: ['string', 'null'] },
     fieldVaFormToolUrl: urlSchema,
