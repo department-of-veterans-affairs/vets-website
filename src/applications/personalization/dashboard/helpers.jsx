@@ -6,8 +6,6 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';
-import getBenefitString from 'platform/forms-system/src/js/utilities/benefit-description';
-import getSavedFormDescription from 'platform/forms-system/src/js/utilities/form-description';
 
 import hcaManifest from 'applications/hca/manifest.json';
 import dependentStatusManifest from 'applications/disability-benefits/686c-674/manifest.json';
@@ -69,69 +67,61 @@ export const formConfigs = {
 };
 
 export const formBenefits = {
-  [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_21_526EZ]:
-    disability526Config.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_21_686C]:
-    dependentStatusConfig.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_21P_527EZ]: pensionConfig.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_21P_530]: burialsConfig.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_22_0993]: edu0993Config.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_22_0994]: edu0994Config.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_22_1990]: edu1990Config.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_22_1990E]: edu1990eConfig.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_22_1990N]: edu1990nConfig.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_22_1995]: edu1995Config.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_22_5490]: edu5490Config.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_22_5495]: edu5495Config.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_22_10203]: edu10203Config.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_40_10007]: preneedConfig.benefitDescription.benefitType,
-  [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_20_0996]: hlrConfig.benefitDescription.benefitType,
-  [VA_FORM_IDS.FORM_VA_2346A]: mdotConfig.benefitDescription.benefitType,
+  [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
+  [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
+  [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
+  [VA_FORM_IDS.FORM_10_10EZ]: 'health care benefits',
+  [VA_FORM_IDS.FORM_22_0993]: 'opt out',
+  [VA_FORM_IDS.FORM_22_0994]: 'VET TEC',
+  [VA_FORM_IDS.FORM_22_1990]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_1990E]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_1990N]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_1995]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_5490]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
+  [VA_FORM_IDS.FORM_40_10007]:
+    'pre-need determination of eligibility in a VA national cemetery',
+  [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
+  [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
+  [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
 };
 
-export const formTitles = {
-  [VA_FORM_IDS.FORM_10_10EZ]: getBenefitString(hcaConfig),
-  [VA_FORM_IDS.FORM_21_526EZ]: getBenefitString(disability526Config),
-  [VA_FORM_IDS.FORM_21_686C]: getBenefitString(dependentStatusConfig),
-  [VA_FORM_IDS.FORM_21P_527EZ]: getBenefitString(pensionConfig),
-  [VA_FORM_IDS.FORM_21P_530]: getBenefitString(burialsConfig),
-  [VA_FORM_IDS.FORM_22_0993]: getBenefitString(edu0993Config),
-  [VA_FORM_IDS.FORM_22_0994]: getBenefitString(edu0994Config),
-  [VA_FORM_IDS.FORM_22_1990]: getBenefitString(edu1990Config),
-  [VA_FORM_IDS.FORM_22_1990E]: getBenefitString(edu1990eConfig),
-  [VA_FORM_IDS.FORM_22_1990N]: getBenefitString(edu1990nConfig),
-  [VA_FORM_IDS.FORM_22_1995]: getBenefitString(edu1995Config),
-  [VA_FORM_IDS.FORM_22_5490]: getBenefitString(edu5490Config),
-  [VA_FORM_IDS.FORM_22_5495]: getBenefitString(edu5495Config),
-  [VA_FORM_IDS.FORM_22_10203]: getBenefitString(edu10203Config),
-  [VA_FORM_IDS.FORM_40_10007]: getBenefitString(preneedConfig),
-  [VA_FORM_IDS.FEEDBACK_TOOL]: getBenefitString(feedbackConfig),
-  [VA_FORM_IDS.FORM_20_0996]: getBenefitString(hlrConfig),
-  [VA_FORM_IDS.FORM_VA_2346A]: getBenefitString(mdotConfig),
-};
+export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
+  let formNumber;
+  if (key === VA_FORM_IDS.FORM_40_10007) {
+    formNumber = '';
+  } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
+    formNumber = ' (10-10EZ)';
+  } else if (key === VA_FORM_IDS.FEEDBACK_TOOL) {
+    formNumber = ' (GI Bill School Feedback Tool)';
+  } else {
+    formNumber = ` (${key})`;
+  }
+  const formTitle = `${formBenefits[key]}${formNumber}`;
+  titles[key] = formTitle; // eslint-disable-line no-param-reassign
+  return titles;
+}, {});
 
-export const formDescriptions = {
-  [VA_FORM_IDS.FORM_10_10EZ]: getSavedFormDescription(hcaConfig),
-  [VA_FORM_IDS.FORM_21_526EZ]: getSavedFormDescription(disability526Config),
-  [VA_FORM_IDS.FORM_21_686C]: getSavedFormDescription(dependentStatusConfig),
-  [VA_FORM_IDS.FORM_21P_527EZ]: getSavedFormDescription(pensionConfig),
-  [VA_FORM_IDS.FORM_21P_530]: getSavedFormDescription(burialsConfig),
-  [VA_FORM_IDS.FORM_22_0993]: getSavedFormDescription(edu0993Config),
-  [VA_FORM_IDS.FORM_22_0994]: getSavedFormDescription(edu0994Config),
-  [VA_FORM_IDS.FORM_22_1990]: getSavedFormDescription(edu1990Config),
-  [VA_FORM_IDS.FORM_22_1990E]: getSavedFormDescription(edu1990eConfig),
-  [VA_FORM_IDS.FORM_22_1990N]: getSavedFormDescription(edu1990nConfig),
-  [VA_FORM_IDS.FORM_22_1995]: getSavedFormDescription(edu1995Config),
-  [VA_FORM_IDS.FORM_22_5490]: getSavedFormDescription(edu5490Config),
-  [VA_FORM_IDS.FORM_22_5495]: getSavedFormDescription(edu5495Config),
-  [VA_FORM_IDS.FORM_22_10203]: getSavedFormDescription(edu10203Config),
-  [VA_FORM_IDS.FORM_40_10007]: getSavedFormDescription(preneedConfig),
-  [VA_FORM_IDS.FEEDBACK_TOOL]: getSavedFormDescription(feedbackConfig),
-  [VA_FORM_IDS.FORM_20_0996]: getSavedFormDescription(hlrConfig),
-  [VA_FORM_IDS.FORM_VA_2346A]: getSavedFormDescription(mdotConfig),
-};
+export const formDescriptions = Object.keys(formBenefits).reduce(
+  (descriptions, key) => {
+    let formNumber;
+    if (key === VA_FORM_IDS.FORM_40_10007) {
+      formNumber = '';
+    } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
+      formNumber = '(10-10EZ)';
+    } else {
+      formNumber = `(${key})`;
+    }
+    let formDescription = `${formBenefits[key]} application ${formNumber}`;
+    if (key === VA_FORM_IDS.FORM_VA_2346A) {
+      formDescription = `${formBenefits[key]} ${formNumber}`;
+    }
+    return { ...descriptions, [key]: formDescription };
+  },
+  {},
+);
 
 export const formLinks = {
   [VA_FORM_IDS.FORM_21_526EZ]: `${disability526Manifest.rootUrl}/`,
