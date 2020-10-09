@@ -1,6 +1,7 @@
 const {
   createMetaTagArray,
   getDrupalValue,
+  isPublished,
   utcToEpochTime,
 } = require('./helpers');
 
@@ -11,6 +12,7 @@ const transform = entity => ({
   created: utcToEpochTime(getDrupalValue(entity.created)),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
+  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAdministration: entity.fieldAdministration[0],
   fieldBenefitCategories: entity.fieldBenefitCategories.map(
     ({ fieldHomePageHubLabel }) => ({
@@ -46,6 +48,7 @@ module.exports = {
     'created',
     'changed',
     'metatag',
+    'status',
     'field_administration',
     'field_benefit_categories',
     'field_va_form_administration',

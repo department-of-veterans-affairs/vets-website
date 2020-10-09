@@ -49,6 +49,7 @@ module.exports = {
     created: { type: 'number' },
     changed: { type: 'number' },
     entityMetatags: { $ref: 'MetaTags' },
+    entityPublished: { type: 'boolean' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldBenefitCategories: {
       type: 'array',
@@ -94,6 +95,7 @@ module.exports = {
     'created',
     'changed',
     'entityMetatags',
+    'entityPublished',
     'fieldAdministration',
     'fieldBenefitCategories',
     'fieldVaFormAdministration',
