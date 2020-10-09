@@ -17,8 +17,10 @@ describe('Schemaform <FormSaved>', () => {
     ],
     formConfig: {
       formId: '123',
-      benefitDescription: {
-        benefitType: 'education benefits',
+      saveInProgress: {
+        messages: {
+          saved: 'Your education benefits (123) application has been saved.',
+        },
       },
     },
   };
