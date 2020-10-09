@@ -1,11 +1,16 @@
 import { veteranStatusUI, requireServiceInfo } from './veteranStatusUI';
 import { veteranServiceInformationUI } from './veteranServiceInformationUI';
-import { personInformationUI } from './personInformationUI';
-
+import { personalInformationUI } from './personalInformationUI';
+import _ from 'lodash';
 import { schema } from 'platform/forms/definitions/address';
 import fullSchema from '../../0873-schema.json';
 
-const { veteranStatus, veteranServiceInformation } = fullSchema.properties;
+const {
+  veteranStatus,
+  dependentInformation,
+  veteranInformation,
+  veteranServiceInformation,
+} = fullSchema.properties;
 
 const formFields = {
   veteranStatus: 'veteranStatus',
@@ -39,13 +44,13 @@ const veteranInformationPage = {
       ...veteranStatusUI,
     },
     [formFields.dependentInformation]: {
-      ...personInformationUI('Dependent'),
+      ...personalInformationUI('Dependent'),
       'ui:options': {
         hideIf: formData => !showDependentInformation(formData),
       },
     },
     [formFields.veteranInformation]: {
-      ...personInformationUI('Veteran'),
+      ...personalInformationUI('Veteran'),
       'ui:options': {
         hideIf: formData => !showVeteranInformation(formData),
       },
@@ -62,42 +67,16 @@ const veteranInformationPage = {
     type: 'object',
     properties: {
       [formFields.veteranStatus]: veteranStatus,
-      [formFields.dependentInformation]: {
-        type: 'object',
-        properties: {
-          first: {
-            $ref: '#/definitions/first',
-          },
-          last: {
-            $ref: '#/definitions/last',
-          },
-          address: schema(fullSchema),
-          phone: {
-            $ref: '#/definitions/phone',
-          },
-          email: {
-            $ref: '#/definitions/email',
-          },
-        },
-      },
-      [formFields.veteranInformation]: {
-        type: 'object',
-        properties: {
-          first: {
-            $ref: '#/definitions/first',
-          },
-          last: {
-            $ref: '#/definitions/last',
-          },
-          address: schema(fullSchema),
-          phone: {
-            $ref: '#/definitions/phone',
-          },
-          email: {
-            $ref: '#/definitions/email',
-          },
-        },
-      },
+      [formFields.dependentInformation]: _.set(
+        dependentInformation,
+        'properties.address',
+        schema(fullSchema),
+      ),
+      [formFields.veteranInformation]: _.set(
+        veteranInformation,
+        'properties.address',
+        schema(fullSchema),
+      ),
       [formFields.veteranServiceInformation]: veteranServiceInformation,
     },
   },

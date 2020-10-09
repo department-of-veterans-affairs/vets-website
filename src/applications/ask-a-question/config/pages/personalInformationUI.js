@@ -17,7 +17,7 @@ const veteranIsDeceased = formData => {
   );
 };
 
-export const personInformationUI = person => ({
+export const personalInformationUI = person => ({
   'ui:description': SectionHeader(`${person} information`),
   [formFields.first]: {
     'ui:title': `${person}'s first name`,
