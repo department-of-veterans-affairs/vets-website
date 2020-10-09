@@ -2,6 +2,8 @@
 #liveForm .ng-binding,
 #liveForm div > span,
 #liveForm textarea,
+.ng-scope span,
+.ng-scope textarea,
 /* 
 Even with `!important`, #thankYouPageText > div > span wasn't specific enough to overcome the inline style.
 "Inline styles added to an element always overwrite any styles in external stylesheets, 
@@ -12,8 +14,7 @@ Source: https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity#Selector_Ty
 but sometimes you need the latter to override the former."
 Source: https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity#A_Overriding_inline_styles
 */
-.ng-scope #thankYouPageText > div > p > span > span > span,
-.ng-scope span {
+.ng-scope #thankYouPageText > div > p > span {
   font-family: "Source Sans Pro", sans-serif !important;
 }
 
