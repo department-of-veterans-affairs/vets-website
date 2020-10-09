@@ -2,7 +2,6 @@ const {
   createMetaTagArray,
   getDrupalValue,
   utcToEpochTime,
-  getWysiwygString,
 } = require('./helpers');
 
 const transform = entity => ({
@@ -38,9 +37,7 @@ const transform = entity => ({
   fieldVaFormUrl: entity.fieldVaFormUrl.map(({ uri }) => ({
     url: { path: uri },
   })),
-  fieldVaFormUsage: {
-    processed: getWysiwygString(getDrupalValue(entity.fieldVaFormUsage)),
-  },
+  fieldVaFormUsage: entity.fieldVaFormUsage[0] || null,
 });
 
 module.exports = {

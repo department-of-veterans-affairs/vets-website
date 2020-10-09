@@ -102,7 +102,9 @@ module.exports = {
         required: ['url'],
       },
     },
-    fieldVaFormUsage: { $ref: 'ProcessedString' },
+    fieldVaFormUsage: {
+      oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
+    },
   },
   required: [
     'title',
