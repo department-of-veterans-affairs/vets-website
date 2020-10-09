@@ -3,44 +3,48 @@ import { Element } from 'react-scroll';
 import moment from 'moment';
 import classnames from 'classnames';
 import { scrollerTo } from '../lib';
+import { resultText } from '../config/text';
 
-const Incomplete = () => <div>Please answer all the questions above.</div>;
-
-function Complete({ children }) {
+function Complete({ children, selectedLanguage }) {
   return (
     <div>
       {children}
       <div className="covid-screener-date vads-u-font-weight--bold">
-        <div className="vads-u-font-size--xl">Valid for</div>
+        <div className="vads-u-font-size--xl">
+          {resultText.validtext[selectedLanguage]}
+        </div>
         <div className="covid-screener-400">{moment().format('dddd')}</div>
         <div className="covid-screener-500">{moment().format('MMM D')}</div>
         <div className="vads-u-font-size--xl">{moment().format('h:mm a')}</div>
       </div>
-      <div className="vads-u-font-size--lg">
-        <p>
-          Please show this screen to the staff member at the facility entrance.
-        </p>
-        <p>Thank you for helping us protect you and others during this time.</p>
-      </div>
+      {resultText.completeText[selectedLanguage]}
     </div>
   );
 }
 
-const Pass = () => (
-  <Complete>
-    <i aria-hidden="true" role="presentation" className="fas fa-check" />
-    <h2 className="vads-u-font-size--2xl">OK to proceed</h2>
-  </Complete>
-);
-
-const MoreScreening = () => (
-  <Complete>
-    <h2 className="vads-u-font-size--2xl">More screening needed</h2>
-  </Complete>
-);
-
-export default function FormResult({ formState }) {
+export default function FormResult({ formState, selectedLanguage }) {
   const scrollElementName = 'multi-question-form-result-scroll-element';
+
+  const Incomplete = () => (
+    <div>{resultText.incompleteText[selectedLanguage]}</div>
+  );
+
+  const Pass = () => (
+    <Complete selectedLanguage={selectedLanguage}>
+      <i aria-hidden="true" role="presentation" className="fas fa-check" />
+      <h2 className="vads-u-font-size--2xl">
+        {resultText.passText[selectedLanguage]}
+      </h2>
+    </Complete>
+  );
+
+  const MoreScreening = () => (
+    <Complete selectedLanguage={selectedLanguage}>
+      <h2 className="vads-u-font-size--2xl">
+        {resultText.moreScreeningText[selectedLanguage]}
+      </h2>
+    </Complete>
+  );
 
   useEffect(() => {
     // only scroll when form is complete
