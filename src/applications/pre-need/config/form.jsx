@@ -89,10 +89,16 @@ const formConfig = {
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_40_10007,
-  benefitDescription: {
-    benefitType:
-      'pre-need determination of eligibility in a VA national cemetery',
-    subText: false,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your pre-need determination of eligibility in a VA national cemetery application is in progress.',
+      // TODO: Fix the expired message
+      expired:
+        'Your saved pre-need determination of eligibility in a VA national cemetery application has expired. If you want to apply for pre-need determination of eligibility in a VA national cemetery, please start a new application.',
+      saved:
+        'Your pre-need determination of eligibility in a VA national cemetery application has been saved.',
+    },
   },
   prefillEnabled: true,
   verifyRequiredPrefill: false,

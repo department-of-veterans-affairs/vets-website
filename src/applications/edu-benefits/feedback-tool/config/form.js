@@ -152,21 +152,18 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FEEDBACK_TOOL,
-  benefitDescription: {
-    benefitType: 'feedback',
-    subText: 'GI Bill School Feedback Tool',
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your feedback application (FEEDBACK-TOOL) is in progress.',
+      expired:
+        'Your saved feedback application (FEEDBACK-TOOL) has expired. If you want to apply for feedback, please start a new application.',
+      saved: 'Your feedback application has been saved.',
+    },
   },
   version: 1,
   migrations,
   prefillEnabled: true,
   prefillTransformer,
-  customText: {
-    // Without this, SiP would say "Your saved feedback application (GI Bill
-    // School Feedback Tool) has expired"
-    // With this, the message is "Your saved feedback application (FEEDBACK-TOOL)
-    // has expired"
-    savedFormDescription: 'feedback application (FEEDBACK-TOOL)',
-  },
   defaultDefinitions: {
     date,
     dateRange,

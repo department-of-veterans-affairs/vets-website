@@ -140,8 +140,14 @@ const formConfig = {
     dependencies: [services.evss, services.emis, services.mvi, services.vet360],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
-  benefitDescription: {
-    benefitType: 'disability compensation',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your disability compensation application (21-526EZ) is in progress.',
+      expired:
+        'Your saved disability compensation application (21-526EZ) has expired. If you want to apply for disability compensation, please start a new application.',
+      saved: 'Your disability compensation application has been saved.',
+    },
   },
   onFormLoaded: directToCorrectForm,
   version: migrations.length,

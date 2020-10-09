@@ -18,12 +18,14 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '28-1900',
-  benefitDescription: {
-    benefitType: 'Chapter 31 benefits',
-    subText: false,
-  },
-  customText: {
-    savedFormDescription: 'VR&E Chapter 31 benefits application (28-1900)',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your VR&E Chapter 31 benefits application (28-1900) is in progress.',
+      expired:
+        'Your saved VR&E Chapter 31 benefits application (28-1900) has expired. If you want to apply for Chapter 31 benefits, please start a new application.',
+      saved: 'Your Chapter 31 benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,

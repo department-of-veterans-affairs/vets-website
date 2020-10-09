@@ -26,8 +26,14 @@ const formConfig = {
   submit: submitForm,
   trackingPrefix: 'edu-10203-',
   formId: VA_FORM_IDS.FORM_22_10203,
-  benefitDescription: {
-    benefitType: 'Rogers STEM Scholarship',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your Rogers STEM Scholarship application (22-10203) is in progress.',
+      expired:
+        'Your saved Rogers STEM Scholarship application (22-10203) has expired. If you want to apply for Rogers STEM Scholarship, please start a new application.',
+      saved: 'Your Rogers STEM Scholarship application has been saved.',
+    },
   },
   version: 1,
   migrations: [urlMigration('/10203')],

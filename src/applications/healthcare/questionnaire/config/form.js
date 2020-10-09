@@ -28,13 +28,17 @@ const formConfig = {
     });
   },
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
-  benefitDescription: {
-    benefitType: 'appointment questionnaire',
-    subText: false,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your upcoming appointment questionnaire is in progress.',
+      // TODO: Fix the expired message
+      expired:
+        'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
+      saved: 'Your appointment questionnaire application has been saved.',
+    },
   },
   customText: {
     appType: 'questionnaire',
-    savedFormDescription: 'upcoming appointment questionnaire',
   },
   version: 0,
   prefillEnabled: true,

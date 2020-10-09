@@ -199,8 +199,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_21P_527EZ,
-  benefitDescription: {
-    benefitType: 'Veterans pension benefits',
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your Veterans pension benefits is in progress.',
+      expired:
+        'Your saved Veterans pension benefits has expired. If you want to apply for Veterans pension benefits application (21-527EZ), please start a new application.',
+      saved: 'Your Veterans pension benefits application has been saved.',
+    },
   },
   version: 3,
   migrations,

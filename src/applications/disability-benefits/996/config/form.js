@@ -43,8 +43,14 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_20_0996,
-  benefitDescription: {
-    benefitType: 'Higher-level review',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your higher-level review application (20-0996) is in progress.',
+      expired:
+        'Your saved higher-level review application (20-0996) has expired. If you want to apply for higher-level, review please start a new application.',
+      saved: 'Your higher-level review application has been saved.',
+    },
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

@@ -72,8 +72,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   preSubmitInfo: CustomPreSubmitInfo,
   formId: VA_FORM_IDS.FORM_21_686C,
-  benefitDescription: {
-    benefitType: 'dependent status',
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your dependent status application (21-686c) is in progress.',
+      expired:
+        'Your saved dependent status application (21-686c) has expired. If you want to apply for dependent status, please start a new application.',
+      saved: 'Your dependent status application has been saved.',
+    },
   },
   version: 1,
   migrations,

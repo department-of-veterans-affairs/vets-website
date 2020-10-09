@@ -371,8 +371,14 @@ function createLocationUISchemaForKey(
 const formConfig = {
   rootUrl: manifest.rootUrl,
   formId: '21-686C',
-  benefitDescription: {
-    benefitType: 'disability compensation',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your disability compensation application (21-686C) is in progress.',
+      expired:
+        'Your saved disability compensation application (21-686C) has expired. If you want to apply for disability compensation, please start a new application.',
+      saved: 'Your disability compensation application has been saved.',
+    },
   },
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,

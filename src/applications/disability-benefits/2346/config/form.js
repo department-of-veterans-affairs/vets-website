@@ -148,8 +148,14 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
-  benefitDescription: {
-    benefitType: 'hearing aid batteries and accessories',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your hearing aid batteries and accessories (MDOT) is in progress.',
+      expired:
+        'Your saved hearing aid batteries and accessories (MDOT) has expired. If you want to apply for hearing aid batteries and accessories, please start a new order.',
+      saved: 'Your hearing aid batteries and accessories order has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -170,7 +176,6 @@ const formConfig = {
     finishAppLaterMessage: 'Finish this order later.',
     appType: 'order',
     appAction: 'placing your order',
-    savedFormDescription: 'hearing aid batteries and accessories (MDOT)',
   },
   defaultDefinitions: {
     email,

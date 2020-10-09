@@ -90,8 +90,14 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5490`,
   trackingPrefix: 'edu-5490-',
   formId: VA_FORM_IDS.FORM_22_5490,
-  benefitDescription: {
-    benefitType: 'education benefits',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your education benefits application (22-5490) is in progress.',
+      expired:
+        'Your saved education benefits application (22-5490) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
   },
   version: 1,
   migrations: [urlMigration('/5490')],

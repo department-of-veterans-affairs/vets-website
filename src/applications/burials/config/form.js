@@ -109,8 +109,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_21P_530,
-  benefitDescription: {
-    benefitType: 'burial benefits',
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your burial benefits application (21-530) is in progress.',
+      expired:
+        'Your saved burial benefits application (21-530) has expired. If you want to apply for burial benefits, please start a new application.',
+      saved: 'Your burial benefits application has been saved.',
+    },
   },
   version: 2,
   migrations,

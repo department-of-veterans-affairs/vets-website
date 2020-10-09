@@ -37,8 +37,13 @@ const formConfig = {
   submit: submitForm,
   trackingPrefix: 'edu-0994-',
   formId: VA_FORM_IDS.FORM_22_0994,
-  benefitDescription: {
-    benefitType: 'VET TEC',
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your VET TEC application (22-0994) is in progress.',
+      expired:
+        'Your saved VET TEC application (22-0994) has expired. If you want to apply for VET TEC, please start a new application.',
+      saved: 'Your VET TEC application has been saved.',
+    },
   },
   version: migrations.length,
   migrations,

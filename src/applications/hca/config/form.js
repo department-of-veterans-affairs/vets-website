@@ -193,9 +193,14 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/health_care_applications`,
   trackingPrefix: 'hca-',
   formId: VA_FORM_IDS.FORM_10_10EZ,
-  benefitDescription: {
-    benefitType: 'health care benefits',
-    subText: '10-10EZ',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your health care benefits application (10-10EZ) is in progress.',
+      expired:
+        'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
+      saved: 'Your health care benefits application has been saved.',
+    },
   },
   version: 6,
   migrations,

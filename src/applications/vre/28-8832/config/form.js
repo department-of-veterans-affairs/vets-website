@@ -28,13 +28,14 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_28_8832,
-  benefitDescription: {
-    benefitType: 'PCPG Chapter 36 benefits',
-    subText: false,
-  },
-  customText: {
-    savedFormDescription:
-      'Personalized Career Planning and Guidance Chapter 36 benefits',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your Personalized Career Planning and Guidance Chapter 36 benefit is in progress.',
+      expired:
+        'Your saved Personalized Career Planning and Guidance Chapter 36 benefit has expired. If you want to apply for PCPG Chapter 36 benefits, please start a new application.',
+      saved: 'Your PCPG Chapter 36 benefits application has been saved.',
+    },
   },
   version: 0,
   getHelp: GetFormHelp,

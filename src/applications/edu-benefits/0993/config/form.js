@@ -34,8 +34,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_0993,
-  benefitDescription: {
-    benefitType: 'opt out',
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your opt out application (22-0993) is in progress.',
+      expired:
+        'Your saved opt out application (22-0993) has expired. If you want opt out, please start a new application.',
+      saved: 'Your opt out application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
