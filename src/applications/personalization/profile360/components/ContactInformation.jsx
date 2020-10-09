@@ -65,8 +65,7 @@ export default class ContactInformation extends React.Component {
             <div>
               <h3>How do I update the email I use to sign in to VA.gov?</h3>
               <a
-                // CHECK THIS URL FOR CORRECTNESS
-                href="/profile/personal-information"
+                href="/profile"
                 onClick={() => {
                   recordEvent({
                     event: 'profile-navigation',

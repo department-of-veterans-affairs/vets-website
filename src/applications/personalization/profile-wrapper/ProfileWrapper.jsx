@@ -16,7 +16,7 @@ const LoadingPage = () => (
   </div>
 );
 
-const ProfilesWrapper = ({ isLOA1, isLOA3, isInMVI, currentlyLoggedIn }) => {
+const ProfileWrapper = ({ isLOA1, isLOA3, isInMVI, currentlyLoggedIn }) => {
   // On initial render, both isLOA props are false.
   // We need to make sure the proper redirect is hit,
   // so we show a loading state till one value is true.
@@ -38,4 +38,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   null,
-)(ProfilesWrapper);
+)(ProfileWrapper);
