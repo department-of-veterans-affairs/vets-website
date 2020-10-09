@@ -25,8 +25,8 @@ function InitialConfirmEligibilityView(props) {
                   You must be a Post-9/11 GI Bill or Fry Scholarship beneficiary
                   to qualify for the scholarship.
                 </strong>{' '}
-                Please consider that ineligible applications delay the
-                processing of benefits for eligible applicants.
+                {environment.isProduction() &&
+                  'Please consider that ineligible applications delay the processing of benefits for eligible applicants.'}
               </p>
             </div>
           </div>

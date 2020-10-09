@@ -160,8 +160,8 @@ export class ConfirmEligibilityView extends React.Component {
           <b>
             You must meet the above requirements to qualify for the scholarship.
           </b>{' '}
-          Please consider that ineligible applications delay the processing of
-          benefits for eligible applicants.
+          {environment.isProduction() &&
+            'Please consider that ineligible applications delay the processing of benefits for eligible applicants.'}
         </div>
         {environment.isProduction() && (
           <div>
