@@ -136,11 +136,6 @@ describe('Schemaform review: <GenericError />', () => {
     expect(submitButton).to.not.be.null;
     fireEvent.click(submitButton);
     expect(onSubmit.called).to.be.true;
-    expect(
-      tree.getByText(
-        'You’ll have to start over. We suggest you wait 1 day while we fix this problem.',
-      ),
-    ).to.not.be.null;
 
     tree.unmount();
   });
@@ -205,7 +200,6 @@ describe('Schemaform review: <GenericError />', () => {
           appType="test"
           formConfig={formConfig}
           onSubmit={onSubmit}
-          renderErrorMessage
           testId="12345"
         />
       </Provider>,
