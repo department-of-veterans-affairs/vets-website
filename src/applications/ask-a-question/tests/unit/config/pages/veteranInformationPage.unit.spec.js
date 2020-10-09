@@ -59,6 +59,69 @@ function changeRelationshipToVeteran(wrapper, value) {
   ).change(value);
 }
 
+function addressFieldsShouldNotExist(wrapper, fieldSetName) {
+  getLabelText(wrapper, 'Street address', fieldSetName).shouldNotExist();
+  getLabelText(wrapper, 'City', fieldSetName).shouldNotExist();
+  getLabelText(wrapper, 'State', fieldSetName).shouldNotExist();
+  getLabelText(wrapper, 'Country', fieldSetName).shouldNotExist();
+  getLabelText(wrapper, 'Postal code', fieldSetName).shouldNotExist();
+}
+
+function addressFieldsShouldExist(wrapper, fieldSetName) {
+  getLabelText(wrapper, 'Street address', fieldSetName).shouldExist();
+  getLabelText(wrapper, 'City', fieldSetName).shouldExist();
+  getLabelText(wrapper, 'State', fieldSetName).shouldExist();
+  getLabelText(wrapper, 'Country', fieldSetName).shouldExist();
+  getLabelText(wrapper, 'Postal code', fieldSetName).shouldExist();
+}
+
+function nameFieldsShouldNotExist(wrapper, fieldSetName) {
+  const titleLabel =
+    fieldSetName === 'veteranInformation' ? 'Veteran' : 'Dependent';
+  getLabelText(
+    wrapper,
+    `${titleLabel}'s first name`,
+    fieldSetName,
+  ).shouldNotExist();
+  getLabelText(
+    wrapper,
+    `${titleLabel}'s last name`,
+    fieldSetName,
+  ).shouldNotExist();
+}
+
+function nameFieldsShouldExist(wrapper, fieldSetName) {
+  const titleLabel =
+    fieldSetName === 'veteranInformation' ? 'Veteran' : 'Dependent';
+  getLabelText(
+    wrapper,
+    `${titleLabel}'s first name`,
+    fieldSetName,
+  ).shouldExist();
+  getLabelText(
+    wrapper,
+    `${titleLabel}'s last name`,
+    fieldSetName,
+  ).shouldExist();
+}
+
+function minimalPersonalInformationFieldsRequired(wrapper, fieldSetName) {
+  const titleLabel =
+    fieldSetName === 'veteranInformation' ? 'Veteran' : 'Dependent';
+  getLabelText(
+    wrapper,
+    `${titleLabel}'s first name`,
+    fieldSetName,
+  ).shouldBeRequired();
+  getLabelText(
+    wrapper,
+    `${titleLabel}'s last name`,
+    fieldSetName,
+  ).shouldBeRequired();
+  getLabelText(wrapper, 'Country', fieldSetName).shouldBeRequired();
+  getLabelText(wrapper, 'Email', fieldSetName).shouldBeRequired();
+}
+
 describe('Veteran Information Page', () => {
   let wrapper;
 
@@ -93,25 +156,8 @@ describe('Veteran Information Page', () => {
   it('should not show veteran information if veteran status is not myself as a veteran', () => {
     changeVeteranStatus(wrapper, 'general');
 
-    getLabelText(
-      wrapper,
-      "Veteran's first name",
-      'veteranInformation',
-    ).shouldNotExist();
-    getLabelText(
-      wrapper,
-      "Veteran's last name",
-      'veteranInformation',
-    ).shouldNotExist();
-    getLabelText(
-      wrapper,
-      'Street address',
-      'veteranInformation',
-    ).shouldNotExist();
-    getLabelText(wrapper, 'City', 'veteranInformation').shouldNotExist();
-    getLabelText(wrapper, 'State', 'veteranInformation').shouldNotExist();
-    getLabelText(wrapper, 'Country', 'veteranInformation').shouldNotExist();
-    getLabelText(wrapper, 'Postal code', 'veteranInformation').shouldNotExist();
+    nameFieldsShouldNotExist(wrapper, 'veteranInformation');
+    addressFieldsShouldNotExist(wrapper, 'veteranInformation');
     getLabelText(
       wrapper,
       'Daytime phone (area code)',
@@ -195,29 +241,8 @@ describe('Veteran Information Page', () => {
     it('should not show veteran information when relationship to veteran is veteran', () => {
       changeRelationshipToVeteran(wrapper, 'Veteran');
 
-      getLabelText(
-        wrapper,
-        "Veteran's first name",
-        'veteranInformation',
-      ).shouldNotExist();
-      getLabelText(
-        wrapper,
-        "Veteran's last name",
-        'veteranInformation',
-      ).shouldNotExist();
-      getLabelText(
-        wrapper,
-        'Street address',
-        'veteranInformation',
-      ).shouldNotExist();
-      getLabelText(wrapper, 'City', 'veteranInformation').shouldNotExist();
-      getLabelText(wrapper, 'State', 'veteranInformation').shouldNotExist();
-      getLabelText(wrapper, 'Country', 'veteranInformation').shouldNotExist();
-      getLabelText(
-        wrapper,
-        'Postal code',
-        'veteranInformation',
-      ).shouldNotExist();
+      nameFieldsShouldNotExist(wrapper, 'veteranInformation');
+      addressFieldsShouldNotExist(wrapper, 'veteranInformation');
       getLabelText(
         wrapper,
         'Daytime phone (area code)',
@@ -234,29 +259,8 @@ describe('Veteran Information Page', () => {
       it('should show veteran information', () => {
         getText(wrapper, 'Veteran Information').shouldExist();
 
-        getLabelText(
-          wrapper,
-          "Veteran's first name",
-          'veteranInformation',
-        ).shouldExist();
-        getLabelText(
-          wrapper,
-          "Veteran's last name",
-          'veteranInformation',
-        ).shouldExist();
-        getLabelText(
-          wrapper,
-          'Street address',
-          'veteranInformation',
-        ).shouldExist();
-        getLabelText(wrapper, 'City', 'veteranInformation').shouldExist();
-        getLabelText(wrapper, 'State', 'veteranInformation').shouldExist();
-        getLabelText(wrapper, 'Country', 'veteranInformation').shouldExist();
-        getLabelText(
-          wrapper,
-          'Postal code',
-          'veteranInformation',
-        ).shouldExist();
+        nameFieldsShouldExist(wrapper, 'veteranInformation');
+        addressFieldsShouldExist(wrapper, 'veteranInformation');
         getLabelText(
           wrapper,
           'Daytime phone (area code)',
@@ -266,47 +270,14 @@ describe('Veteran Information Page', () => {
       });
 
       it('should require veteran first name, last name, country, and email', () => {
-        getText(
-          wrapper,
-          "Veteran's first name",
-          'veteranInformation',
-        ).shouldBeRequired();
-        getText(
-          wrapper,
-          "Veteran's last name",
-          'veteranInformation',
-        ).shouldBeRequired();
-        getText(wrapper, 'Country', 'veteranInformation').shouldBeRequired();
-        getText(wrapper, 'Email', 'veteranInformation').shouldBeRequired();
+        minimalPersonalInformationFieldsRequired(wrapper, 'veteranInformation');
       });
 
       it('should show reduced veteran information when veteran is deceased', () => {
         getRadioOption(wrapper, 'Yes', 'veteranIsDeceased').click();
 
-        getLabelText(
-          wrapper,
-          "Veteran's first name",
-          'veteranInformation',
-        ).shouldExist();
-        getLabelText(
-          wrapper,
-          "Veteran's last name",
-          'veteranInformation',
-        ).shouldExist();
-
-        getLabelText(
-          wrapper,
-          'Street address',
-          'veteranInformation',
-        ).shouldNotExist();
-        getLabelText(wrapper, 'City', 'veteranInformation').shouldNotExist();
-        getLabelText(wrapper, 'State', 'veteranInformation').shouldNotExist();
-        getLabelText(wrapper, 'Country', 'veteranInformation').shouldNotExist();
-        getLabelText(
-          wrapper,
-          'Postal code',
-          'veteranInformation',
-        ).shouldNotExist();
+        nameFieldsShouldExist(wrapper, 'veteranInformation');
+        addressFieldsShouldNotExist(wrapper, 'veteranInformation');
         getLabelText(
           wrapper,
           'Daytime phone (area code)',
@@ -378,29 +349,8 @@ describe('Veteran Information Page', () => {
 
       getText(wrapper, 'Dependent information', '').shouldNotExist();
 
-      getLabelText(
-        wrapper,
-        "Dependent's first name",
-        'dependentInformation',
-      ).shouldNotExist();
-      getLabelText(
-        wrapper,
-        "Dependent's last name",
-        'dependentInformation',
-      ).shouldNotExist();
-      getLabelText(
-        wrapper,
-        'Street address',
-        'dependentInformation',
-      ).shouldNotExist();
-      getLabelText(wrapper, 'City', 'dependentInformation').shouldNotExist();
-      getLabelText(wrapper, 'State', 'dependentInformation').shouldNotExist();
-      getLabelText(wrapper, 'Country', 'dependentInformation').shouldNotExist();
-      getLabelText(
-        wrapper,
-        'Postal code',
-        'dependentInformation',
-      ).shouldNotExist();
+      nameFieldsShouldNotExist(wrapper, 'dependentInformation');
+      addressFieldsShouldNotExist(wrapper, 'dependentInformation');
       getLabelText(
         wrapper,
         'Daytime phone (area code)',
@@ -414,29 +364,8 @@ describe('Veteran Information Page', () => {
 
       getText(wrapper, 'Dependent information', '').shouldExist();
 
-      getLabelText(
-        wrapper,
-        "Dependent's first name",
-        'dependentInformation',
-      ).shouldExist();
-      getLabelText(
-        wrapper,
-        "Dependent's last name",
-        'dependentInformation',
-      ).shouldExist();
-      getLabelText(
-        wrapper,
-        'Street address',
-        'dependentInformation',
-      ).shouldExist();
-      getLabelText(wrapper, 'City', 'dependentInformation').shouldExist();
-      getLabelText(wrapper, 'State', 'dependentInformation').shouldExist();
-      getLabelText(wrapper, 'Country', 'dependentInformation').shouldExist();
-      getLabelText(
-        wrapper,
-        'Postal code',
-        'dependentInformation',
-      ).shouldExist();
+      nameFieldsShouldExist(wrapper, 'dependentInformation');
+      addressFieldsShouldExist(wrapper, 'dependentInformation');
       getLabelText(
         wrapper,
         'Daytime phone (area code)',
@@ -448,22 +377,10 @@ describe('Veteran Information Page', () => {
     it('should require dependent first name, last name, country, and email if person filling form is not dependent', () => {
       getRadioOption(wrapper, 'No', 'isDependent').click();
 
-      getLabelText(
+      minimalPersonalInformationFieldsRequired(
         wrapper,
-        "Dependent's first name",
-        'dependentInformation',
-      ).shouldBeRequired();
-      getLabelText(
-        wrapper,
-        "Dependent's last name",
-        'dependentInformation',
-      ).shouldBeRequired();
-      getLabelText(
-        wrapper,
-        'Country',
-        'dependentInformation',
-      ).shouldBeRequired();
-      getLabelText(wrapper, 'Email', 'dependentInformation').shouldBeRequired();
+        'dependentInformation ',
+      );
     });
     describe('relationship to veteran is not veteran', () => {
       beforeEach(() => {
@@ -473,30 +390,8 @@ describe('Veteran Information Page', () => {
       it('should show veteran information', () => {
         getText(wrapper, 'Veteran information', '').shouldExist();
 
-        getLabelText(
-          wrapper,
-          "Veteran's first name",
-          'veteranInformation',
-        ).shouldExist();
-        getLabelText(
-          wrapper,
-          "Veteran's last name",
-          'veteranInformation',
-        ).shouldExist();
-
-        getLabelText(
-          wrapper,
-          'Street address',
-          'veteranInformation',
-        ).shouldExist();
-        getLabelText(wrapper, 'City', 'veteranInformation').shouldExist();
-        getLabelText(wrapper, 'State', 'veteranInformation').shouldExist();
-        getLabelText(wrapper, 'Country', 'veteranInformation').shouldExist();
-        getLabelText(
-          wrapper,
-          'Postal code',
-          'veteranInformation',
-        ).shouldExist();
+        nameFieldsShouldExist(wrapper, 'veteranInformation');
+        addressFieldsShouldExist(wrapper, 'veteranInformation');
         getLabelText(
           wrapper,
           'Daytime phone (area code)',
@@ -506,51 +401,14 @@ describe('Veteran Information Page', () => {
       });
 
       it('should require veteran first name, last name, country, and email', () => {
-        getLabelText(
-          wrapper,
-          "Veteran's first name",
-          'veteranInformation',
-        ).shouldBeRequired();
-        getLabelText(
-          wrapper,
-          "Veteran's last name",
-          'veteranInformation',
-        ).shouldBeRequired();
-        getLabelText(
-          wrapper,
-          'Country',
-          'veteranInformation',
-        ).shouldBeRequired();
-        getLabelText(wrapper, 'Email', 'veteranInformation').shouldBeRequired();
+        minimalPersonalInformationFieldsRequired(wrapper, 'veteranInformation');
       });
 
       it('should show reduced veteran information when veteran is deceased', () => {
         getRadioOption(wrapper, 'Yes', 'veteranIsDeceased').click();
 
-        getLabelText(
-          wrapper,
-          "Veteran's first name",
-          'veteranInformation',
-        ).shouldExist();
-        getLabelText(
-          wrapper,
-          "Veteran's last name",
-          'veteranInformation',
-        ).shouldExist();
-
-        getLabelText(
-          wrapper,
-          'Street address',
-          'veteranInformation',
-        ).shouldNotExist();
-        getLabelText(wrapper, 'City', 'veteranInformation').shouldNotExist();
-        getLabelText(wrapper, 'State', 'veteranInformation').shouldNotExist();
-        getLabelText(wrapper, 'Country', 'veteranInformation').shouldNotExist();
-        getLabelText(
-          wrapper,
-          'Postal code',
-          'veteranInformation',
-        ).shouldNotExist();
+        nameFieldsShouldExist(wrapper, 'veteranInformation');
+        addressFieldsShouldNotExist(wrapper, 'veteranInformation');
         getLabelText(
           wrapper,
           'Daytime phone (area code)',
@@ -564,30 +422,8 @@ describe('Veteran Information Page', () => {
 
         getRadioOption(wrapper, 'No', 'isDependent').click();
 
-        getLabelText(
-          wrapper,
-          "Dependent's first name",
-          'dependentInformation',
-        ).shouldExist();
-        getLabelText(
-          wrapper,
-          "Dependent's last name",
-          'dependentInformation',
-        ).shouldExist();
-
-        getLabelText(
-          wrapper,
-          'Street address',
-          'dependentInformation',
-        ).shouldExist();
-        getLabelText(wrapper, 'City', 'dependentInformation').shouldExist();
-        getLabelText(wrapper, 'State', 'dependentInformation').shouldExist();
-        getLabelText(wrapper, 'Country', 'dependentInformation').shouldExist();
-        getLabelText(
-          wrapper,
-          'Postal code',
-          'dependentInformation',
-        ).shouldExist();
+        nameFieldsShouldExist(wrapper, 'dependentInformation');
+        addressFieldsShouldExist(wrapper, 'dependentInformation');
         getLabelText(
           wrapper,
           'Daytime phone (area code)',

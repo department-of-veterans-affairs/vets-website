@@ -48,7 +48,7 @@ export function getText(wrapper, text, fieldSetName = '') {
     queriedElements.length === 1
       ? queriedElements[0]
       : queriedElements.find(queriedElement =>
-          queriedElement.name.includes(fieldSetName),
+          queriedElement.for.includes(fieldSetName),
         ) || null;
 
   return {
