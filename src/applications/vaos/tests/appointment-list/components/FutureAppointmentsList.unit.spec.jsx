@@ -41,7 +41,6 @@ describe('VAOS integration: pending appointments', () => {
           .format('MM/DD/YYYY'),
         optionTime3: 'PM',
         facility: {
-          name: 'fake name',
           ...appointment.facility,
           facilityCode: '983GC',
         },
