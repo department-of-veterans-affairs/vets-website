@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
+import { Route } from 'react-router-dom';
 
 import {
   createTestStore,
@@ -31,7 +32,7 @@ describe('VAOS <ReviewPage>', () => {
       },
     });
 
-    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
       store,
     });
 

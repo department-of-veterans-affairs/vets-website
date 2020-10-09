@@ -68,7 +68,7 @@ describe('VAOS <ReviewPage> VA request', () => {
           },
         },
         clinics: {},
-        parentfacilities: [
+        parentFacilities: [
           {
             id: 'var983',
             identifier: [
