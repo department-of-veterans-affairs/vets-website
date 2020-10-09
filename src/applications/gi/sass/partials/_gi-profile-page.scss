@@ -44,22 +44,22 @@
   }
 
   .category-rating {
-
-    border-bottom: 1px solid $color-gray-lighter;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    .bar-outer {
+      width: 120px;
+      position:absolute;
+      top:5px;
+    }
 
     .bar {
-      width: 120px;
       height: 16px;
-      top: 4px;
     }
 
     button {
+      background-size: 12px;
       background-color: transparent;
       padding-left:0;
       padding-right:0rem;
-      background-position: right 0rem center
+      background-position: right 1rem center
     }
   }
 

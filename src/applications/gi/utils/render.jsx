@@ -173,5 +173,7 @@ export const renderStars = rating => {
     );
   }
 
-  return <span>{stars}</span>;
+  return (
+    <div className="rating-stars vads-u-display--inline-block">{stars}</div>
+  );
 };
