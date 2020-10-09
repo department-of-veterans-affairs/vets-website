@@ -3,28 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // components
-import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 import FormSaveErrorMessage from 'platform/forms/components/review/FormSaveErrorMessage';
 import { Column, Row } from 'platform/forms/components/common/grid';
 // const FormSaveErrorMessage = props => props?.children;
 export default function GenericError(props) {
-  const { appType, formConfig, renderErrorMessage, onSubmit, testId } = props;
+  const { formConfig, onSubmit, testId } = props;
   let submitButton;
-  let submitMessage;
 
-  if (renderErrorMessage) {
-    submitMessage = <FormSaveErrorMessage formConfig={formConfig} />;
-  } else {
-    submitMessage = (
-      <ErrorMessage
-        active
-        title={`We’re sorry, the ${appType} didn’t go through.`}
-        message="You’ll have to start over. We suggest you wait 1 day while we fix
-        this problem."
-      />
-    );
-  }
+  const submitMessage = <FormSaveErrorMessage formConfig={formConfig} />;
 
   if (process.env.NODE_ENV !== 'production') {
     submitButton = (
@@ -57,6 +44,5 @@ export default function GenericError(props) {
 GenericError.propTypes = {
   appType: PropTypes.string,
   formConfig: PropTypes.object,
-  renderErrorMessage: PropTypes.bool,
   onSubmit: PropTypes.func,
 };
