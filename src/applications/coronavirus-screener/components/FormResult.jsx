@@ -17,7 +17,7 @@ function Complete({ children, selectedLanguage }) {
         <div className="covid-screener-500">{moment().format('MMM D')}</div>
         <div className="vads-u-font-size--xl">{moment().format('h:mm a')}</div>
       </div>
-      {resultText.completetext[selectedLanguage]}
+      {resultText.completeText[selectedLanguage]}
     </div>
   );
 }
@@ -26,14 +26,14 @@ export default function FormResult({ formState, selectedLanguage }) {
   const scrollElementName = 'multi-question-form-result-scroll-element';
 
   const Incomplete = () => (
-    <div>{resultText.incompletetext[selectedLanguage]}</div>
+    <div>{resultText.incompleteText[selectedLanguage]}</div>
   );
 
   const Pass = () => (
     <Complete selectedLanguage={selectedLanguage}>
       <i aria-hidden="true" role="presentation" className="fas fa-check" />
       <h2 className="vads-u-font-size--2xl">
-        {resultText.passtext[selectedLanguage]}
+        {resultText.passText[selectedLanguage]}
       </h2>
     </Complete>
   );
@@ -41,7 +41,7 @@ export default function FormResult({ formState, selectedLanguage }) {
   const MoreScreening = () => (
     <Complete selectedLanguage={selectedLanguage}>
       <h2 className="vads-u-font-size--2xl">
-        {resultText.morescreeningtext[selectedLanguage]}
+        {resultText.moreScreeningText[selectedLanguage]}
       </h2>
     </Complete>
   );

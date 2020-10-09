@@ -5,36 +5,36 @@ export const introText = {
     en: 'COVID-19 screening tool',
     es: 'Herramienta de evaluación para COVID-19',
   },
-  vaintrotext: {
+  vaIntroText: {
     en:
       'Please answer the questions listed below. Share your results with the staff member at the facility entrance.',
     es:
       'Por favor, responda las preguntas que se enumeran a continuación. Comparta sus resultados con el miembro del personal que se encuentra en la entrada del establecimiento.',
   },
-  privacytext: {
+  privacyText: {
     en: "We won't store or share your data.",
     es: 'No guardaremos ni compartiremos sus datos.',
   },
-  languageselecttext: {
+  languageSelectText: {
     es: 'Change to English',
     en: 'Cambiar al español',
   },
 };
 
 export const resultText = {
-  incompletetext: {
+  incompleteText: {
     en: 'Please answer all the questions above',
     es: 'Por favor, conteste todas las preguntas anteriores.',
   },
-  passtext: {
+  passText: {
     en: 'OK to proceed',
     es: 'Puede proceder',
   },
-  morescreeningtext: {
+  moreScreeningText: {
     en: 'More screening needed',
     es: 'Se necesita más evaluación',
   },
-  completetext: {
+  completeText: {
     en: (
       <div className="vads-u-font-size--lg">
         <p>

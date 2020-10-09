@@ -45,11 +45,11 @@ export default function FormQuestion({
       {option.optionText[selectedLanguage]}
     </button>
   ));
-  const questionText = question.text[selectedLanguage];
+
   return (
     <div className="feature" id={`question-${question.id}`}>
       <Element name={scrollElementName} />
-      <h2>{questionText}</h2>
+      <h2>{question.text[selectedLanguage]}</h2>
       {options}
     </div>
   );

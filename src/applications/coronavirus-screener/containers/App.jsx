@@ -8,16 +8,19 @@ export default function App({ params }) {
   let selectedLanguage = 'en';
   let alternateLangauge = 'es';
   let alternateRefBase = '/covid19screen/';
-  let customId = params.id;
+  // Control for facility ids that have letters in them e.g. 459GE.
+  let customId = params.id?.slice(0, 3);
 
   // If the first value is not a number, then there is no custom site id.
-  if (isNaN(params.id)) {
+  if (isNaN(customId)) {
     customId = undefined;
   } else {
-    // If the first value is a number, then there is a custom site id.
-    alternateRefBase = `/covid19screen/${customId}/`;
+    // If the first three chars of the first value is a number,
+    // then there is a custom site id.
+    alternateRefBase = `/covid19screen/${params.id}/`;
   }
-  //  If the first or second value is ES, then change the langauge to Spanish.
+  // If the last two chars of the first or second value is ES,
+  // then change the langauge to Spanish.
   if (
     params.id?.toUpperCase() === 'ES' ||
     params.languageId?.toUpperCase() === 'ES'
@@ -36,11 +39,11 @@ export default function App({ params }) {
       <div className="vads-l-grid-container">
         <h1>{introText.h1[selectedLanguage]}</h1>
         <div className="va-introtext">
-          <p>{introText.vaintrotext[selectedLanguage]}</p>
-          <p>{introText.privacytext[selectedLanguage]}</p>
+          <p>{introText.vaIntroText[selectedLanguage]}</p>
+          <p>{introText.privacyText[selectedLanguage]}</p>
           <p>
             <a href={alternateRef}>
-              <strong>{introText.languageselecttext[selectedLanguage]}</strong>
+              <strong>{introText.languageSelectText[selectedLanguage]}</strong>
             </a>
           </p>
         </div>
