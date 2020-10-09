@@ -7,7 +7,6 @@ fragment nodeChecklist on NodeChecklist {
 
   changed
   title
-  fieldDescription
   fieldIntroTextLimitedHtml {
     processed
   }
