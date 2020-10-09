@@ -1,6 +1,7 @@
 /* Fonts */
 #liveForm .ng-binding,
 #liveForm div > span,
+#liveForm textarea,
 /* 
 Even with `!important`, #thankYouPageText > div > span wasn't specific enough to overcome the inline style.
 "Inline styles added to an element always overwrite any styles in external stylesheets, 
