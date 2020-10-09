@@ -47,6 +47,7 @@ export const chapters = {
         pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
         uiSchema: initialConfirmEligibility.uiSchema,
         schema: initialConfirmEligibility.schema,
+        exitTo: '/education/',
       },
     },
   },
@@ -67,6 +68,7 @@ export const chapters = {
         uiSchema: confirmEligibility.uiSchema,
         schema: confirmEligibility.schema,
         hideHeaderRow: true,
+        exitTo: '/education/',
       },
       programDetails: {
         title: 'STEM degree and school details',

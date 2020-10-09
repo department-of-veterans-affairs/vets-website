@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { isChapter33 } from '../helpers';
 import captureEvents from '../analytics-functions';
 import { ExitApplicationButton } from '../components/ExitApplicationButton';
+import environment from 'platform/utilities/environment';
 
 export class ConfirmEligibilityView extends React.Component {
   onChange = property => {
@@ -160,12 +161,14 @@ export class ConfirmEligibilityView extends React.Component {
         </div>
 
         <div>
-          <div className="vads-u-margin-top--neg2">
-            <ExitApplicationButton
-              formId={this.props.formId}
-              isLoggedIn={this.props.isLoggedIn}
-            />
-          </div>
+          {environment.isProduction() && (
+            <div className="vads-u-margin-top--neg2">
+              <ExitApplicationButton
+                formId={this.props.formId}
+                isLoggedIn={this.props.isLoggedIn}
+              />
+            </div>
+          )}
 
           <div>
             <p>

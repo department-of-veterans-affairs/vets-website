@@ -11,6 +11,9 @@ import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
+import environment from 'platform/utilities/environment';
 
 function focusForm() {
   focusElement('.nav-header > h2');
@@ -105,6 +108,24 @@ class FormPage extends React.Component {
     this.props.router.push(path);
   };
 
+  onContinue = () => {
+    const { route } = this.props;
+    const data = this.formData();
+
+    if (typeof route.pageConfig.onContinue === 'function') {
+      route.pageConfig.onContinue(data);
+    }
+  };
+
+  onExit = () => {
+    recordEvent({
+      event: 'cta-primary-button-click',
+    });
+    if (this.props.user.login.currentlyLoggedIn) {
+      removeFormApi(this.props.form.formId);
+    }
+  };
+
   render() {
     const {
       route,
@@ -133,11 +154,9 @@ class FormPage extends React.Component {
     const isFirstRoutePage =
       route.pageList[0].path === this.props.location.pathname;
 
-    function callOnContinue() {
-      if (typeof route.pageConfig.onContinue === 'function') {
-        route.pageConfig.onContinue(data);
-      }
-    }
+    const exit =
+      !environment.isProduction() &&
+      typeof route.pageConfig.exitTo === 'string';
 
     return (
       <div className={pageClasses}>
@@ -167,13 +186,26 @@ class FormPage extends React.Component {
               )}
             </div>
             <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                submitButton
-                onButtonClick={callOnContinue}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"
-              />
+              {!exit && (
+                <ProgressButton
+                  submitButton
+                  onButtonClick={this.onContinue}
+                  buttonText="Continue"
+                  buttonClass="usa-button-primary"
+                  afterText="»"
+                />
+              )}
+              {exit && (
+                <a
+                  className={
+                    'usa-button-primary va-button-primary vads-u-width--full'
+                  }
+                  href={route.pageConfig.exitTo}
+                  onClick={this.onExit}
+                >
+                  Exit application
+                </a>
+              )}
             </div>
           </div>
           {contentAfterButtons}

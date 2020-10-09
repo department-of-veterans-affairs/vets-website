@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import captureEvents from '../analytics-functions';
 import { isChapter33 } from '../helpers';
 import { ExitApplicationButton } from '../components/ExitApplicationButton';
+import environment from 'platform/utilities/environment';
 
 function InitialConfirmEligibilityView(props) {
   if (props.onReviewPage) {
@@ -31,13 +32,17 @@ function InitialConfirmEligibilityView(props) {
           </div>
         </div>
       </div>
-      <br />
-      <div>
-        <ExitApplicationButton
-          formId={props.formId}
-          isLoggedIn={props.isLoggedIn}
-        />
-      </div>
+      {environment.isProduction() && (
+        <>
+          <br />
+          <div>
+            <ExitApplicationButton
+              formId={props.formId}
+              isLoggedIn={props.isLoggedIn}
+            />
+          </div>
+        </>
+      )}
       <br />
       <span>
         If you'd still like to apply, you can continue with your application.
