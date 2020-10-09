@@ -57,6 +57,7 @@ function VAFacilityPageV2({
   pageChangeInProgress,
   parentFacilities,
   parentFacilitiesStatus,
+  requestLocationStatus,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   schema,
@@ -200,27 +201,65 @@ function VAFacilityPageV2({
   const sortByDistanceFromResidential =
     sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL;
 
+  const sortByDistanceFromCurrentLocation =
+    sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_CURRENT_LOCATION;
+
+  const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
+
   return (
     <div>
       {title}
       <p>
         Below is a list of VA locations where you’re registered that offer{' '}
         {typeOfCare} appointments.
-        {sortByDistanceFromResidential &&
-          ' Locations closest to you are at the top of the list. We base this on the address we have on file for you.'}
+        {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
+          ` Locations closest to you are at the top of the list. We base this on ${
+            sortByDistanceFromCurrentLocation
+              ? 'your current location'
+              : 'the address we have on file for you'
+          }.`}
       </p>
-      {sortByDistanceFromResidential && (
-        <ResidentialAddress address={address} />
+      {sortByDistanceFromResidential &&
+        !requestingLocation && (
+          <>
+            <ResidentialAddress address={address} />
+            {requestLocationStatus !== FETCH_STATUS.failed && (
+              <p>
+                Or,{' '}
+                <a
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    requestCurrentLocation(uiSchema);
+                  }}
+                >
+                  use your current location
+                </a>
+              </p>
+            )}
+          </>
+        )}
+      {requestLocationStatus === FETCH_STATUS.failed && (
+        <p>
+          We weren’t able to determine your location. Please make sure your
+          browser is set to allow location usage and{' '}
+          <a
+            href="#"
+            onClick={e => {
+              e.preventDefault();
+              requestCurrentLocation(uiSchema);
+            }}
+          >
+            try again
+          </a>
+          .
+        </p>
       )}
-      <p>
-        Or,{' '}
-        <a
-          href="#"
-          onClick={() => requestCurrentLocation(pageKey, schema, uiSchema)}
-        >
-          use your current location
-        </a>
-      </p>
+      {requestingLocation && (
+        <div className="vads-u-padding-bottom--2">
+          <LoadingIndicator message="Determining your location..." />
+        </div>
+      )}
       {childFacilitiesStatus === FETCH_STATUS.succeeded && (
         <SchemaForm
           name="VA Facility"
