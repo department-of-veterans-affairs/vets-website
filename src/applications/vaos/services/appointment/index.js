@@ -204,19 +204,6 @@ export function getVAAppointmentLocationId(appointment) {
 }
 
 /**
- * Returns the location name of a VA appointment
- *
- * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns The location name where the VA appointment is located
- */
-export function getVAAppointmentLocationName(appointment) {
-  return appointment.participant?.find(p =>
-    p.actor.reference?.startsWith('Location'),
-  )?.actor?.display;
-}
-
-/**
  * Returns the patient telecom info in a VA appointment
  *
  * @export

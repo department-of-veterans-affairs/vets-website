@@ -62,7 +62,7 @@ describe('VAOS integration: express care requests', () => {
       const { baseElement, findByText, getByText } = renderFromRoutes({
         initialState,
       });
-      await findByText(/Some VA medical center/i);
+      await findByText(/fake/i);
       expect(baseElement).to.contain.text('Express care appointment');
       expect(baseElement).not.to.contain.text('Preferred date and time');
       expect(baseElement).not.to.contain.text('in the morning');
@@ -104,7 +104,7 @@ describe('VAOS integration: express care requests', () => {
         initialState,
       });
 
-      await findByText(/Some VA medical center/i);
+      await findByText(/fake/i);
       expect(baseElement).not.to.contain.text('Back pain');
       expect(queryByText(/cancel appointment/i)).to.not.be.ok;
 

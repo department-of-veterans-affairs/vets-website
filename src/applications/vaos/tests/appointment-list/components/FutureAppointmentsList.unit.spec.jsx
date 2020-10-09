@@ -41,6 +41,7 @@ describe('VAOS integration: pending appointments', () => {
           .format('MM/DD/YYYY'),
         optionTime3: 'PM',
         facility: {
+          name: 'fake name',
           ...appointment.facility,
           facilityCode: '983GC',
         },
@@ -65,7 +66,6 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain('.fa-exclamation-triangle');
       expect(dateHeader).to.have.tagName('h3');
 
-      expect(baseElement).to.contain.text('Some facility name');
       expect(getByText(/view facility information/i)).to.have.attribute(
         'href',
         '/find-locations/facility/vha_442GC',
@@ -334,7 +334,6 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain('.fa-exclamation-triangle');
       expect(dateHeader).to.have.tagName('h3');
 
-      expect(baseElement).to.contain.text('Some facility name');
       expect(getByText(/view facility information/i)).to.have.attribute(
         'href',
         '/find-locations/facility/vha_442GC',

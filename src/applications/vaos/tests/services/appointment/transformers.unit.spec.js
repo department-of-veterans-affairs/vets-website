@@ -513,9 +513,6 @@ describe('VAOS Appointment transformer', () => {
           p.actor.reference.includes('Location'),
         )[0];
         expect(locationActor.actor.reference).to.equal('Location/var983');
-        expect(locationActor.actor.display).to.equal(
-          'CHYSHR-Cheyenne VA Medical Center',
-        );
       });
 
       it('should set patient info in participants', () => {

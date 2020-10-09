@@ -105,7 +105,7 @@ export default class AppointmentRequestListItem extends React.Component {
               !isExpressCare && (
                 <VAFacilityLocation
                   facility={facility}
-                  facilityName={getVAAppointmentLocationName(appointment)}
+                  facilityName={facility?.name}
                   facilityId={parseFakeFHIRId(facilityId)}
                 />
               )}
