@@ -85,6 +85,13 @@ function getRadioOption(wrapper, radioName, optionName) {
   );
 }
 
+function queryByLabelTextAndName(wrapper, labelText, name) {
+  const byLabelTexts = wrapper.queryAllByLabelText(labelText, { exact: false });
+  return (
+    byLabelTexts.find(byLabelText => byLabelText.name.includes(name)) || null
+  );
+}
+
 const radioButtonClick = new MouseEvent('click', {
   bubbles: true,
   cancelable: true,
@@ -258,6 +265,30 @@ describe('Veteran Information Page', () => {
           'Required',
         );
       });
+
+      it('should show reduced veteran information when veteran is deceased', () => {
+        const yesOption = getRadioOption(wrapper, 'veteranIsDeceased', 'Yes');
+
+        fireEvent.click(yesOption, radioButtonClick);
+
+        wrapper.getByLabelText("Veteran's first name", { exact: false });
+        wrapper.getByLabelText("Veteran's last name", { exact: false });
+
+        expect(wrapper.queryByLabelText('Street address', { exact: false })).to
+          .be.null;
+        expect(wrapper.queryByLabelText('City', { exact: false })).to.be.null;
+        expect(wrapper.queryByLabelText('State', { exact: false })).to.be.null;
+        expect(wrapper.queryByLabelText('Country', { exact: false })).to.be
+          .null;
+        expect(wrapper.queryByLabelText('Postal code', { exact: false })).to.be
+          .null;
+        expect(
+          wrapper.queryByLabelText('Daytime phone (area code)', {
+            exact: false,
+          }),
+        ).to.be.null;
+        expect(wrapper.queryByLabelText('Email', { exact: false })).to.be.null;
+      });
     });
   });
 
@@ -409,6 +440,76 @@ describe('Veteran Information Page', () => {
         expect(wrapper.getByText('Email', { exact: false })).to.contain.text(
           'Required',
         );
+      });
+
+      it('should show reduced veteran information when veteran is deceased', () => {
+        const yesOption = getRadioOption(wrapper, 'veteranIsDeceased', 'Yes');
+
+        fireEvent.click(yesOption, radioButtonClick);
+
+        wrapper.getByLabelText("Veteran's first name", { exact: false });
+        wrapper.getByLabelText("Veteran's last name", { exact: false });
+
+        expect(wrapper.queryByLabelText('Street address', { exact: false })).to
+          .be.null;
+        expect(wrapper.queryByLabelText('City', { exact: false })).to.be.null;
+        expect(wrapper.queryByLabelText('State', { exact: false })).to.be.null;
+        expect(wrapper.queryByLabelText('Country', { exact: false })).to.be
+          .null;
+        expect(wrapper.queryByLabelText('Postal code', { exact: false })).to.be
+          .null;
+        expect(
+          wrapper.queryByLabelText('Daytime phone (area code)', {
+            exact: false,
+          }),
+        ).to.be.null;
+        expect(wrapper.queryByLabelText('Email', { exact: false })).to.be.null;
+      });
+
+      it('should not reduce dependent information when veteran is deceased', () => {
+        const yesOption = getRadioOption(wrapper, 'veteranIsDeceased', 'Yes');
+
+        fireEvent.click(yesOption, radioButtonClick);
+
+        const noOption = getRadioOption(wrapper, 'isDependent', 'No');
+
+        fireEvent.click(noOption, radioButtonClick);
+
+        wrapper.getByLabelText("Dependent's first name", { exact: false });
+        wrapper.getByLabelText("Dependent's last name", { exact: false });
+
+        expect(
+          queryByLabelTextAndName(
+            wrapper,
+            'Street address',
+            'dependentInformation',
+          ),
+        ).to.not.be.null;
+        expect(queryByLabelTextAndName(wrapper, 'City', 'dependentInformation'))
+          .to.not.be.null;
+        expect(
+          queryByLabelTextAndName(wrapper, 'State', 'dependentInformation'),
+        ).to.not.be.null;
+        expect(
+          queryByLabelTextAndName(wrapper, 'Country', 'dependentInformation'),
+        ).to.not.be.null;
+        expect(
+          queryByLabelTextAndName(
+            wrapper,
+            'Postal code',
+            'dependentInformation',
+          ),
+        ).to.not.be.null;
+        expect(
+          queryByLabelTextAndName(
+            wrapper,
+            'Daytime phone (area code)',
+            'dependentInformation',
+          ),
+        ).to.not.be.null;
+        expect(
+          queryByLabelTextAndName(wrapper, 'Email', 'dependentInformation'),
+        ).to.not.be.null;
       });
     });
   });

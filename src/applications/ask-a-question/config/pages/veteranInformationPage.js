@@ -9,6 +9,7 @@ const { veteranStatus, veteranServiceInformation } = fullSchema.properties;
 
 const formFields = {
   veteranStatus: 'veteranStatus',
+  dependentInformation: 'dependentInformation',
   veteranInformation: 'veteranInformation',
   veteranServiceInformation: 'veteranServiceInformation',
 };

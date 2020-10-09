@@ -10,6 +10,13 @@ const formFields = {
   email: 'email',
 };
 
+const veteranIsDeceased = formData => {
+  return (
+    formData.veteranStatus.veteranIsDeceased !== undefined &&
+    formData.veteranStatus.veteranIsDeceased
+  );
+};
+
 export const personInformationUI = person => ({
   'ui:description': SectionHeader(`${person} information`),
   [formFields.first]: {
@@ -22,6 +29,9 @@ export const personInformationUI = person => ({
   },
   [formFields.address]: _.merge(uiSchema(''), {
     'ui:order': ['street', 'street2', 'city', 'country', 'state', 'postalCode'],
+    'ui:options': {
+      hideIf: formData => person !== 'Dependent' && veteranIsDeceased(formData),
+    },
     street: {
       'ui:title': 'Street address',
     },
@@ -36,9 +46,15 @@ export const personInformationUI = person => ({
   }),
   [formFields.phone]: {
     'ui:title': 'Daytime phone (area code)',
+    'ui:options': {
+      hideIf: formData => person !== 'Dependent' && veteranIsDeceased(formData),
+    },
   },
   [formFields.email]: {
     'ui:title': 'Email',
     'ui:required': () => true,
+    'ui:options': {
+      hideIf: formData => person !== 'Dependent' && veteranIsDeceased(formData),
+    },
   },
 });
