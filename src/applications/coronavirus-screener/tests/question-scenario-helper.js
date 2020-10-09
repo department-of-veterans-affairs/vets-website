@@ -1,7 +1,7 @@
 import { normal, slow } from 'platform/testing/e2e/timeouts';
 
 // wait time before clicking
-const pause = 2000;
+const pause = 1000;
 
 export function testQuestionScenario({ scenario, routeOption, client }) {
   client.refresh().waitForElementVisible('body', normal);
@@ -111,6 +111,21 @@ export const routeOptions = [
   },
   {
     route: '/fr',
+    expectedText: `${expectTextbyLanguage.en}`,
+    title: 'Route /fr (expect English)',
+  },
+  {
+    route: '/459gh',
+    expectedText: `${expectTextbyLanguage.en}`,
+    title: 'Route /459gh (expect English)',
+  },
+  {
+    route: '/459gh/es',
+    expectedText: `${expectTextbyLanguage.es}`,
+    title: 'Route /fr (expect Spanish)',
+  },
+  {
+    route: '/459gh/en',
     expectedText: `${expectTextbyLanguage.en}`,
     title: 'Route /fr (expect English)',
   },
