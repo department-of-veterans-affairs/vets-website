@@ -23,7 +23,7 @@ const reformatData = form => {
       emailAddress: form?.data?.claimantEmailAddress,
       phoneNumber: form?.data?.claimantPhoneNumber,
     },
-    claimaintAddress: form?.data?.claimantAddress,
+    claimantAddress: form?.data?.claimantAddress,
     veteranFullName: form?.data?.veteranInformation?.fullName,
     veteranSocialSecurityNumber: form?.data?.veteranInformation?.ssn,
     status: form?.data?.status,
