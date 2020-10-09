@@ -1,4 +1,5 @@
 import React from 'react';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const NeedHelp = () => (
   <div className="vads-u-font-family--sans">
@@ -23,14 +24,9 @@ const NeedHelp = () => (
     </ul>
     <p>
       You may be required to submit a financial status report. Call the DMC at{' '}
-      <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-        800-827-0648
-      </a>{' '}
+      <Telephone contact="8008270648" />
       between 6:30 a.m. and 6:00 p.m. CT discuss your options and next steps.
-      For international callers, use{' '}
-      <a href="tel: 612-713-6415" aria-label="612. 7 1 3. 6415.">
-        612-713-6415
-      </a>
+      For international callers, use <Telephone contact="6127136415" />
       {'.'}
     </p>
     <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
@@ -45,13 +41,8 @@ const NeedHelp = () => (
     <p className="vads-u-margin-top--2">
       If you think a debt was created in error, you can dispute it. Get
       information about disputing a debt by calling the DMC at{' '}
-      <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-        800-827-0648
-      </a>{' '}
-      between 6:30 a.m. and 6:00 p.m. CST. For international callers, use{' '}
-      <a href="tel: 612-713-6415" aria-label="612. 7 1 3. 6415.">
-        612-713-6415
-      </a>
+      <Telephone contact="8008270648" /> between 6:30 a.m. and 6:00 p.m. CST.
+      For international callers, use <Telephone contact="6127136415" />
       {'.'}
     </p>
   </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 import DebtLetterCard from './DebtLetterCard';
 import { Link } from 'react-router';
 
@@ -25,10 +26,7 @@ const DebtCardsList = ({ debts, isError }) => {
           You're still able to download your debt letters from the list below.
           If you need help resolving a debt, or you would like to get
           information about a debt that has been resolved, call the Debt
-          Management Center at{' '}
-          <a href="tel: 800-827-0648" aria-label="8 0 0. 8 2 7. 0 6 4 8.">
-            800-827-0648
-          </a>
+          Management Center at <Telephone contact="8008270648" />
           {'.'}
         </p>
       </div>
@@ -52,10 +50,7 @@ const DebtCardsList = ({ debts, isError }) => {
             </h4>
             <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
               If you believe that you have a debt with the VA, call the Debt
-              Management Center at{' '}
-              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-                800-827-0648
-              </a>
+              Management Center at <Telephone contact="8008270648" />
               {'.'}
             </p>
             <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
@@ -82,9 +77,7 @@ const DebtCardsList = ({ debts, isError }) => {
       <p className="vads-u-font-family--sans">
         If you’ve received a letter about a VA debt, but don’t see it listed
         here call the Debt Management Center (DMC) at{' '}
-        <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-          800-827-0648
-        </a>
+        <Telephone contact="8008270648" />
         {'.'}
       </p>
       <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
