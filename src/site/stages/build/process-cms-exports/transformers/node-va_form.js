@@ -5,7 +5,7 @@ const {
   utcToEpochTime,
 } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'va_form',
   title: getDrupalValue(entity.title),
@@ -25,13 +25,20 @@ const transform = entity => ({
   fieldVaFormName: getDrupalValue(entity.fieldVaFormName),
   fieldVaFormNumber: getDrupalValue(entity.fieldVaFormNumber),
   fieldVaFormNumPages: getDrupalValue(entity.fieldVaFormNumPages),
-  fieldVaFormRelatedForms: entity.fieldVaFormRelatedForms.map(n => ({
-    entity: {
-      fieldVaFormName: n.fieldVaFormName,
-      fieldVaFormNumber: n.fieldVaFormNumber,
-      fieldVaFormUsage: n.fieldVaFormUsage,
-      fieldVaFormUrl: n.fieldVaFormUrl,
-    },
+  fieldVaFormRelatedForms: entity.fieldVaFormRelatedForms.map(e => ({
+    entity: !ancestors.find(r => r.entity.uuid === e.uuid)
+      ? {
+          fieldVaFormName: e.fieldVaFormName,
+          fieldVaFormNumber: e.fieldVaFormNumber,
+          fieldVaFormUsage: e.fieldVaFormUsage,
+          fieldVaFormUrl: e.fieldVaFormUrl,
+        }
+      : {
+          fieldVaFormName: getDrupalValue(e.field_va_form_name),
+          fieldVaFormNumber: getDrupalValue(e.field_va_form_number),
+          fieldVaFormUsage: e.field_va_form_usage[0] || null,
+          fieldVaFormUrl: e.field_va_form_url[0] || null,
+        },
   })),
   fieldVaFormRevisionDate: entity.fieldVaFormRevisionDate[0] || null,
   fieldVaFormTitle: getDrupalValue(entity.fieldVaFormTitle),
