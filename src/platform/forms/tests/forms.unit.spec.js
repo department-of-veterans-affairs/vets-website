@@ -55,7 +55,7 @@ const formConfigKeys = [
   'authorizationMessage',
   'customText',
   'submissionError',
-  'benefitDescription',
+  'saveInProgress',
 ];
 
 const validProperty = (
@@ -254,10 +254,11 @@ const validCustomText = ({ customText }) => {
 const validSaveInProgressConfig = formConfig => {
   // TODO: Change this to not _require_ saveInProgress
   validObjectProperty(formConfig, 'saveInProgress');
-  if (formConfig.saveInProgress) {
-    validStringProperty(formConfig.saveInProgress, 'inProgress');
-    validStringProperty(formConfig.saveInProgress, 'expired');
-    validStringProperty(formConfig.saveInProgress, 'saved');
+  const messages = formConfig.saveInProgress?.messages;
+  if (messages) {
+    validStringProperty(messages, 'inProgress', false);
+    validStringProperty(messages, 'expired', false);
+    validStringProperty(messages, 'saved', false);
   }
 };
 
