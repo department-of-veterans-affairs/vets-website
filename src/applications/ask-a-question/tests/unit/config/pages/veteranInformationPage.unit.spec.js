@@ -64,6 +64,17 @@ function changeVeteranStatus(wrapper, value) {
   fireEvent.change(veteranStatus, { target: { value } });
 }
 
+function changeRelationshipToVeteran(wrapper, value) {
+  const veteranStatus = wrapper.getByLabelText(
+    veteranStatusUI.relationshipToVeteran['ui:title'],
+    {
+      exact: false,
+    },
+  );
+
+  fireEvent.change(veteranStatus, { target: { value } });
+}
+
 function getRadioOption(wrapper, radioName, optionName) {
   const radioByOptionName = wrapper.queryAllByRole('radio', {
     name: optionName,
@@ -193,6 +204,61 @@ describe('Veteran Information Page', () => {
       expect(wrapper.queryByText(veteranStatusUI.dateOfDeath['ui:title'])).to.be
         .null;
     });
+
+    it('should not show veteran information when relationship to veteran is veteran', () => {
+      changeRelationshipToVeteran(wrapper, 'Veteran');
+
+      expect(wrapper.queryByLabelText("Veteran's first name", { exact: false }))
+        .to.be.null;
+      expect(wrapper.queryByLabelText("Veteran's last name", { exact: false }))
+        .to.be.null;
+      expect(wrapper.queryByLabelText('Street address', { exact: false })).to.be
+        .null;
+      expect(wrapper.queryByLabelText('City', { exact: false })).to.be.null;
+      expect(wrapper.queryByLabelText('State', { exact: false })).to.be.null;
+      expect(wrapper.queryByLabelText('Country', { exact: false })).to.be.null;
+      expect(wrapper.queryByLabelText('Postal code', { exact: false })).to.be
+        .null;
+      expect(
+        wrapper.queryByLabelText('Daytime phone (area code)', { exact: false }),
+      ).to.be.null;
+      expect(wrapper.queryByLabelText('Email', { exact: false })).to.be.null;
+    });
+
+    describe('relationship to veteran is not veteran', () => {
+      beforeEach(() => {
+        changeRelationshipToVeteran(wrapper, 'Son');
+      });
+
+      it('should show veteran information', () => {
+        wrapper.getByText('Veteran information');
+
+        wrapper.getByLabelText("Veteran's first name", { exact: false });
+        wrapper.getByLabelText("Veteran's last name", { exact: false });
+        wrapper.getByLabelText('Street address', { exact: false });
+        wrapper.getByLabelText('City', { exact: false });
+        wrapper.getByLabelText('State', { exact: false });
+        wrapper.getByLabelText('Country', { exact: false });
+        wrapper.getByLabelText('Postal code', { exact: false });
+        wrapper.getByLabelText('Daytime phone (area code)', { exact: false });
+        wrapper.getByLabelText('Email', { exact: false });
+      });
+
+      it('should require veteran first name, last name, country, and email', () => {
+        expect(
+          wrapper.getByText("Veteran's first name", { exact: false }),
+        ).to.contain.text('Required');
+        expect(
+          wrapper.getByText("Veteran's last name", { exact: false }),
+        ).to.contain.text('Required');
+        expect(wrapper.getByText('Country', { exact: false })).to.contain.text(
+          'Required',
+        );
+        expect(wrapper.getByText('Email', { exact: false })).to.contain.text(
+          'Required',
+        );
+      });
+    });
   });
 
   describe('for myself as veteran', () => {
@@ -202,35 +268,6 @@ describe('Veteran Information Page', () => {
 
     it('should require branch of service', () => {
       expectBranchOfServiceToBeRequired(wrapper);
-    });
-
-    it('should show veteran information', () => {
-      wrapper.getByText('Veteran information');
-
-      wrapper.getByLabelText("Veteran's first name", { exact: false });
-      wrapper.getByLabelText("Veteran's last name", { exact: false });
-      wrapper.getByLabelText('Street address', { exact: false });
-      wrapper.getByLabelText('City', { exact: false });
-      wrapper.getByLabelText('State', { exact: false });
-      wrapper.getByLabelText('Country', { exact: false });
-      wrapper.getByLabelText('Postal code', { exact: false });
-      wrapper.getByLabelText('Daytime phone (area code)', { exact: false });
-      wrapper.getByLabelText('Email', { exact: false });
-    });
-
-    it('should require veteran first name, last name, country, and email', () => {
-      expect(
-        wrapper.getByText("Veteran's first name", { exact: false }),
-      ).to.contain.text('Required');
-      expect(
-        wrapper.getByText("Veteran's last name", { exact: false }),
-      ).to.contain.text('Required');
-      expect(wrapper.getByText('Country', { exact: false })).to.contain.text(
-        'Required',
-      );
-      expect(wrapper.getByText('Email', { exact: false })).to.contain.text(
-        'Required',
-      );
     });
   });
 
@@ -339,6 +376,40 @@ describe('Veteran Information Page', () => {
       expect(wrapper.getByText('Email', { exact: false })).to.contain.text(
         'Required',
       );
+    });
+    describe('relationship to veteran is not veteran', () => {
+      beforeEach(() => {
+        changeRelationshipToVeteran(wrapper, 'Son');
+      });
+
+      it('should show veteran information', () => {
+        wrapper.getByText('Veteran information');
+
+        wrapper.getByLabelText("Veteran's first name", { exact: false });
+        wrapper.getByLabelText("Veteran's last name", { exact: false });
+        wrapper.getByLabelText('Street address', { exact: false });
+        wrapper.getByLabelText('City', { exact: false });
+        wrapper.getByLabelText('State', { exact: false });
+        wrapper.getByLabelText('Country', { exact: false });
+        wrapper.getByLabelText('Postal code', { exact: false });
+        wrapper.getByLabelText('Daytime phone (area code)', { exact: false });
+        wrapper.getByLabelText('Email', { exact: false });
+      });
+
+      it('should require veteran first name, last name, country, and email', () => {
+        expect(
+          wrapper.getByText("Veteran's first name", { exact: false }),
+        ).to.contain.text('Required');
+        expect(
+          wrapper.getByText("Veteran's last name", { exact: false }),
+        ).to.contain.text('Required');
+        expect(wrapper.getByText('Country', { exact: false })).to.contain.text(
+          'Required',
+        );
+        expect(wrapper.getByText('Email', { exact: false })).to.contain.text(
+          'Required',
+        );
+      });
     });
   });
 });

@@ -20,7 +20,7 @@ export const veteranInformationPageTitle = 'Veteran Information';
 
 /* Veteran Status Information */
 export const veteranStatusSectionDescription = SectionHeader(
-  'Veteran Service Information',
+  'How does a Veteran relate to your Question?',
 );
 export const veteranStatusTitle = 'My message is about benefits/services';
 export const isDependentTitle = 'Are you the dependent?';
