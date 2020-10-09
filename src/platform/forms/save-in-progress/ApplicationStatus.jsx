@@ -7,8 +7,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { removeSavedForm } from '../../user/profile/actions';
-import getBenefitString from '../../forms-system/src/js/utilities/benefit-description';
-import getSavedFormDescription from '../../forms-system/src/js/utilities/form-description';
+import {
+  expiredMessage,
+  inProgressMessage,
+} from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
@@ -120,7 +122,7 @@ export class ApplicationStatus extends React.Component {
           <div className="usa-alert usa-alert-info background-color-only sip-application-status">
             <h5 className="form-title saved">Your {appType} is in progress</h5>
             <span className="saved-form-item-metadata">
-              Your {getSavedFormDescription(formConfig)} is in progress.
+              {inProgressMessage(formConfig)}
             </span>
             <br />
             <span className="saved-form-item-metadata">
@@ -185,9 +187,7 @@ export class ApplicationStatus extends React.Component {
         <div className="usa-alert usa-alert-warning background-color-only sip-application-status">
           <h5 className="form-title saved">Your {appType} has expired</h5>
           <span className="saved-form-item-metadata">
-            Your saved {getSavedFormDescription(formConfig)} has expired. If you
-            want to apply for {getBenefitString(formConfig)}, please start a new{' '}
-            {appType}.
+            {expiredMessage(formConfig)}
           </span>
           <br />
           <p>

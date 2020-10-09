@@ -9,7 +9,7 @@ import { focusElement } from '../../utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
-import getBenefitString from '../../forms-system/src/js/utilities/benefit-description';
+import { savedMessage } from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 
 class FormSaved extends React.Component {
   constructor(props) {
@@ -50,7 +50,6 @@ class FormSaved extends React.Component {
     const expirationDate = moment
       .unix(this.props.expirationDate)
       .format('M/D/YYYY');
-    const benefitString = getBenefitString(this.props.route.formConfig);
     const appType =
       this.props.route.formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
@@ -58,9 +57,7 @@ class FormSaved extends React.Component {
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>
-              Your {benefitString} {appType} has been saved.
-            </strong>
+            <strong>{savedMessage(this.props.route.formConfig)}</strong>
             <br />
             {!!lastSavedDate &&
               !!expirationDate && (

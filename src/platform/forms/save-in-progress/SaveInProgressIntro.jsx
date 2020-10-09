@@ -6,7 +6,10 @@ import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-import getBenefitString from '../../forms-system/src/js/utilities/benefit-description';
+import {
+  expiredMessage,
+  inProgressMessage,
+} from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 import recordEvent from 'platform/monitoring/record-event';
 import _ from 'platform/utilities/data';
 
@@ -23,7 +26,6 @@ import {
   UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
   APP_ACTION_DEFAULT,
 } from '../../forms-system/src/js/constants';
-import getSavedFormDescription from '../../forms-system/src/js/utilities/form-description';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
@@ -66,7 +68,7 @@ class SaveInProgressIntro extends React.Component {
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-item-metadata">
-                    Your {getSavedFormDescription(formConfig)} is in progress.
+                    {inProgressMessage(formConfig)}
                   </span>
                   <br />
                   <span className="saved-form-item-metadata">
@@ -94,10 +96,7 @@ class SaveInProgressIntro extends React.Component {
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
-                    Your saved {getSavedFormDescription(formConfig)} has
-                    expired. If you want to apply for{' '}
-                    {getBenefitString(formConfig)}, please start a new {appType}
-                    .
+                    {expiredMessage(formConfig)}
                   </span>
                 </div>
                 <div>{this.props.children}</div>
