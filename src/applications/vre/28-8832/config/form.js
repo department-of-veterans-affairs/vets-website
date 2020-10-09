@@ -17,36 +17,7 @@ import {
   claimantAddress,
   staticClaimantInformation,
 } from './chapters/claimant-information';
-import { isDependent } from './helpers';
-
-const customSubmitTransformer = (formConfig, form) => {
-  let reformatted = {
-    education_career_counseling_claim: {
-      form: {
-        claimantInformation: {
-          fullName: {
-            first: form?.data?.fullName?.first,
-            middle: form?.data?.fullName?.middle,
-            last: form?.data?.fullName?.last,
-            suffix: form?.data?.fullName?.suffix,
-          },
-          ssn: form?.data?.ssn,
-          dateOfBirth: form?.data?.dateOfBirth,
-          vaFileNumber: form?.data?.VAFileNumber,
-          emailAddress: form?.data?.claimantEmailAddress,
-          phoneNumber: form?.data?.claimantPhoneNumber,
-        },
-        claimaintAddress: form?.data?.claimantAddress,
-        veteranFullName: form?.data?.veteranInformation?.fullName,
-        veteranSocialSecurityNumber: form?.data?.veteranInformation?.ssn,
-        status: form?.data?.status,
-      },
-    },
-  };
-  reformatted = JSON.stringify(reformatted);
-  console.log(reformatted);
-  return reformatted;
-};
+import { isDependent, transform } from './helpers';
 
 const formConfig = {
   urlPrefix: '/',
@@ -54,12 +25,12 @@ const formConfig = {
   trackingPrefix: '28-8832-planning-and-career-guidance-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
   version: 0,
   getHelp: GetFormHelp,
   preSubmitInfo: PreSubmitInfo,
   prefillEnabled: true,
-  transformForSubmit: customSubmitTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',
     noAuth:
