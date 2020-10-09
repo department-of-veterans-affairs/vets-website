@@ -2,8 +2,6 @@ import { submitTransform } from '../helpers';
 import { expect } from 'chai';
 import formConfig from 'applications/caregivers/config/form';
 import { formWithReplacedData } from './e2e/fixtures/data/formObject';
-// import { isValidForm } from 'platform/forms-system/src/js/validation';
-// import { createFormPageList } from 'platform/forms-system/src/js/helpers';
 
 // data
 import requiredOnly from './e2e/fixtures/data/requiredOnly.json';
@@ -12,8 +10,6 @@ import twoSecondaryCaregivers from './e2e/fixtures/data/twoSecondaryCaregivers.j
 
 describe('Caregivers helpers', () => {
   it('should transform required parties correctly', () => {
-    // const isFormValid = await isValidForm(form, pageList);
-    // const pageList = createFormPageList(formConfig);
     const form = formWithReplacedData(requiredOnly);
 
     const transformedData = submitTransform(formConfig, form);
