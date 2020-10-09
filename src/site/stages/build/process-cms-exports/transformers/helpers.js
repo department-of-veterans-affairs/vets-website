@@ -61,6 +61,7 @@ function unescapeUnicode(string) {
 }
 
 /**
+ * Extracts a nested string from specific types of export data.
  *
  * @param {Array} arr - An array with one item, which is an object with
  *                      either a single `value` property or the properties
