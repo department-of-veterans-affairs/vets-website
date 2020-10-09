@@ -110,12 +110,12 @@ async function hideErrorNonVet(
   const spinner = view.queryByRole('progressbar');
   await waitForElementToBeRemoved(spinner);
 
-  const alert = await view.queryByTestId(ALERT_ID);
+  const alert = view.queryByTestId(ALERT_ID);
   expect(alert).not.to.exist;
 
   pageNames.forEach(pageName => {
     userEvent.click(view.getByRole('link', { name: pageName }));
-    expect(alert).to.be.null;
+    expect(view.queryByTestId(ALERT_ID)).to.not.exist;
   });
 }
 
