@@ -63,30 +63,22 @@ function unescapeUnicode(string) {
 /**
  * A very specific helper function that expects to receive an
  * array with one item which is an object with a single `value` property
+ * or a 3 properties `value`, `format` and `processed`
+ * if `processed` exists, it should have a priority over `value`
  *
  */
 function getDrupalValue(arr) {
   if (arr.length === 0) return null;
   if (arr.length === 1)
-    return typeof arr[0].value === 'string'
-      ? unescapeUnicode(arr[0].value)
-      : arr[0].value;
-  // eslint-disable-next-line no-console
-  console.warn(`Unexpected argument: ${arr.toString()}`);
-  return null;
-}
+    if (arr[0].processed)
+      return typeof arr[0].processed === 'string'
+        ? unescapeUnicode(arr[0].processed)
+        : arr[0].processed;
+    else
+      return typeof arr[0].value === 'string'
+        ? unescapeUnicode(arr[0].value)
+        : arr[0].value;
 
-/**
- * A very specific helper function that expects to receive an
- * array with one item which is an object with a single `processed` property
- *
- */
-function getDrupalProcessed(arr) {
-  if (arr.length === 0) return null;
-  if (arr.length === 1)
-    return typeof arr[0].processed === 'string'
-      ? unescapeUnicode(arr[0].processed)
-      : arr[0].processed;
   // eslint-disable-next-line no-console
   console.warn(`Unexpected argument: ${arr.toString()}`);
   return null;
@@ -140,7 +132,6 @@ function uriToUrl(uri) {
 
 module.exports = {
   getDrupalValue,
-  getDrupalProcessed,
   getImageCrop,
   unescapeUnicode,
   uriToUrl,

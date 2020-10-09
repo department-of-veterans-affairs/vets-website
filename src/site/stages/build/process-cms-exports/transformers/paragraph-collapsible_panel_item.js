@@ -1,8 +1,4 @@
-const {
-  getDrupalValue,
-  getDrupalProcessed,
-  getWysiwygString,
-} = require('./helpers');
+const { getDrupalValue, getWysiwygString } = require('./helpers');
 
 const transform = entity => ({
   entity: {
@@ -11,7 +7,7 @@ const transform = entity => ({
     fieldTitle: getDrupalValue(entity.fieldTitle),
     fieldVaParagraphs: entity.fieldVaParagraphs,
     fieldWysiwyg: {
-      processed: getWysiwygString(getDrupalProcessed(entity.fieldWysiwyg)),
+      processed: getWysiwygString(getDrupalValue(entity.fieldWysiwyg)),
     },
   },
 });

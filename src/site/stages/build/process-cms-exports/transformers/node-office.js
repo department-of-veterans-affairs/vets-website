@@ -1,7 +1,6 @@
 const {
   createMetaTagArray,
   getDrupalValue,
-  getDrupalProcessed,
   utcToEpochTime,
   getWysiwygString,
 } = require('./helpers');
@@ -16,7 +15,7 @@ const transform = entity => ({
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldAdministration: entity.fieldAdministration[0],
   fieldBody: {
-    processed: getWysiwygString(getDrupalProcessed(entity.fieldBody)),
+    processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
   },
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),

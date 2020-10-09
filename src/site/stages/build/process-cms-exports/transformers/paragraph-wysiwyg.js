@@ -1,4 +1,4 @@
-const { getDrupalProcessed, getWysiwygString } = require('./helpers');
+const { getDrupalValue, getWysiwygString } = require('./helpers');
 
 function wysiwygTransform(entity) {
   const { fieldWysiwyg } = entity;
@@ -8,7 +8,7 @@ function wysiwygTransform(entity) {
       entityType: 'paragraph',
       entityBundle: 'wysiwyg',
       fieldWysiwyg: {
-        processed: getWysiwygString(getDrupalProcessed(fieldWysiwyg)),
+        processed: getWysiwygString(getDrupalValue(fieldWysiwyg)),
       },
     },
   };
