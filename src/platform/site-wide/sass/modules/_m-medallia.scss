@@ -4,18 +4,8 @@
 #liveForm textarea,
 /* https://css-tricks.com/override-inline-styles-with-css/ */
 .ng-scope span[style],
-.ng-scope textarea,
-/* 
-Even with `!important`, #thankYouPageText > div > span wasn't specific enough to overcome the inline style.
-"Inline styles added to an element always overwrite any styles in external stylesheets, 
-and thus can be thought of as having the highest specificity."
-Source: https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity#Selector_Types
-
-"Both inline styles and !important are considered very bad practice,
-but sometimes you need the latter to override the former."
-Source: https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity#A_Overriding_inline_styles
-*/
-.ng-scope #thankYouPageText > div > p > span {
+.ng-scope span,
+.ng-scope textarea {
   font-family: "Source Sans Pro", sans-serif !important;
 }
 
