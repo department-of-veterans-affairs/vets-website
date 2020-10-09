@@ -129,8 +129,11 @@ describe('Schemaform review: <GenericError />', () => {
     );
 
     const submitButton = tree.getByText('Submit again');
-    expect(tree.getByText('We’re sorry, the test didn’t go through.')).to.not.be
-      .null;
+    expect(
+      tree.getByText(
+        'We’re sorry, we can’t submit your application right now.',
+      ),
+    ).to.not.be.null;
     expect(tree.getByTestId('12345')).to.have.attribute('role', 'alert');
     expect(tree.getByText('Go Back to VA.gov')).to.not.be.null;
     expect(submitButton).to.not.be.null;
