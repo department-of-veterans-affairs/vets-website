@@ -152,7 +152,11 @@ export class ConfirmEligibilityView extends React.Component {
           {this.renderChecks()}
           {this.renderConfirmEligibility()}
         </div>
-        <div className="vads-u-padding-top--4">
+        <div
+          className={`vads-u-padding-${
+            environment.isProduction() ? 'y' : 'top'
+          }--4`}
+        >
           <b>
             You must meet the above requirements to qualify for the scholarship.
           </b>{' '}
