@@ -137,17 +137,23 @@ export default function SchoolRatings({
           <p>
             VA works independently to collect ratings from Veterans. We reach
             out to Veterans to provide a rating who have:
-            <ul>
-              <li>Received a Certificate of Eligibility (COE) for benefits</li>
-              <li>Transferred into or out of a school</li>
-              <li>
-                Made a change to their program of study, <strong>or</strong>
-              </li>
-              <li>
-                Completed their degree program Veterans rate schools on a number
-                of categories.
-              </li>
-            </ul>
+          </p>
+          <ul>
+            <li className="vads-u-margin-y--0">
+              Received a Certificate of Eligibility (COE) for benefits
+            </li>
+            <li className="vads-u-margin-y--0">
+              Transferred into or out of a school
+            </li>
+            <li className="vads-u-margin-y--0">
+              Made a change to their program of study, <strong>or</strong>
+            </li>
+            <li className="vads-u-margin-y--0">
+              Completed their degree program Veterans rate schools on a number
+              of categories.
+            </li>
+          </ul>
+          <p>
             Those ratings are averaged to calculate the overall school rating.
             If a Veteran doesn’t rate a category, it has no effect on the
             category’s overall score.
