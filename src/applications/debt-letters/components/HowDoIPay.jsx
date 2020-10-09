@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone, {
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const HowDoIPay = () => (
   <div className="vads-u-font-family--sans">
@@ -27,7 +29,8 @@ const HowDoIPay = () => (
       {'.'}
     </p>
     <p className="vads-u-margin-top--1">
-      If calling internationally, use <Telephone contact="6127136415" />
+      If calling internationally, use{' '}
+      <Telephone contact="6127136415" pattern={PATTERNS.OUTSIDE_US} />
       {'.'}
     </p>
     <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By mail</h3>

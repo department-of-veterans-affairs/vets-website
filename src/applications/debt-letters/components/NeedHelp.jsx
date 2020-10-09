@@ -1,5 +1,7 @@
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone, {
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const NeedHelp = () => (
   <div className="vads-u-font-family--sans">
@@ -26,7 +28,8 @@ const NeedHelp = () => (
       You may be required to submit a financial status report. Call the DMC at{' '}
       <Telephone contact="8008270648" />
       between 6:30 a.m. and 6:00 p.m. CT discuss your options and next steps.
-      For international callers, use <Telephone contact="6127136415" />
+      For international callers, use{' '}
+      <Telephone contact="6127136415" pattern={PATTERNS.OUTSIDE_US} />
       {'.'}
     </p>
     <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
@@ -41,8 +44,9 @@ const NeedHelp = () => (
     <p className="vads-u-margin-top--2">
       If you think a debt was created in error, you can dispute it. Get
       information about disputing a debt by calling the DMC at{' '}
-      <Telephone contact="8008270648" /> between 6:30 a.m. and 6:00 p.m. CST.
-      For international callers, use <Telephone contact="6127136415" />
+      <Telephone contact="8008270648" /> between 6:30 a.m. and 6:00 p.m. CT. For
+      international callers, use{' '}
+      <Telephone contact="6127136415" pattern={PATTERNS.OUTSIDE_US} />
       {'.'}
     </p>
   </div>
