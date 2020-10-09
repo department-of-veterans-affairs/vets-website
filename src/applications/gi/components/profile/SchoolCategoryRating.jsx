@@ -14,7 +14,7 @@ export default function SchoolCategoryRating({
   const renderBar = (label, count) => {
     const percent = `${(count / categoryRating.totalCount).toFixed(2) * 100}%`;
     return (
-      <div className="vads-l-row">
+      <div className="vads-l-row category-rating-count">
         <div className="vads-l-col--2">{label} </div>
         <div className="vads-l-col--5">
           <div className="bar bar-outer vads-u-display--inline-block vads-u-background-color--gray-lighter">
@@ -29,7 +29,7 @@ export default function SchoolCategoryRating({
           </div>
         </div>
         <div className="vads-l-col--2"> {percent}</div>
-        <div className="vads-l-col--3">({count} users)</div>
+        <div className="vads-l-col--3 count-value">({count} users)</div>
       </div>
     );
   };
@@ -63,8 +63,8 @@ export default function SchoolCategoryRating({
               {renderBar('1 star', categoryRating.rated1Count)}
             </div>
             {categoryRating.naCount > 0 && (
-              <div className="vads-u-margin-top--1">
-                <i>{categoryRating.naCount} users didn't rate this category</i>
+              <div className="vads-u-margin-top--1 vads-u-font-style--italic na-count-display">
+                {categoryRating.naCount} users didn’t rate this category
               </div>
             )}
             <p>{description}</p>

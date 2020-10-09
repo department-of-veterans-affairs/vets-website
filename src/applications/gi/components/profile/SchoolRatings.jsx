@@ -6,16 +6,16 @@ import SchoolCategoryRating from './SchoolCategoryRating';
 export default function SchoolRatings({
   ratingAverage,
   ratingCount,
-  institutionCategoryRatings,
+  institutionCategoryRatings = [],
 }) {
   const [openName, setOpenName] = useState('');
   const stars = convertRatingToStars(ratingAverage);
 
   const renderSchoolCategoryRating = (title, categoryName, description) => {
-    const categoryRating = institutionCategoryRatings.filter(
+    const categoryRating = institutionCategoryRatings.find(
       category => category.categoryName === categoryName,
-    )[0];
-    return (
+    );
+    return categoryRating ? (
       <SchoolCategoryRating
         title={title}
         openHandler={() => {
@@ -25,11 +25,11 @@ export default function SchoolRatings({
         categoryRating={categoryRating}
         description={description}
       />
-    );
+    ) : null;
   };
 
   return (
-    <div className="vads-l-grid-container vads-u-padding--0">
+    <div className="school-ratings vads-l-grid-container vads-u-padding--0">
       <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif">
         {ratingCount} Veterans rated this institution:
       </div>
