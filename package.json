@@ -8,6 +8,7 @@
     "build": "./script/build.sh",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "build:compare": "node script/content-build-compare.js && diff --color websiteContentBuildHash.txt standaloneContentBuildHash.txt",
+    "build:compare:cms": "./script/cms/compare.sh",
     "build:content": "node --max-old-space-size=8192 script/build-content.js",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js",
@@ -273,7 +274,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "6.9.5",
-    "@department-of-veterans-affairs/formation-react": "5.6.1",
+    "@department-of-veterans-affairs/formation-react": "5.7.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
