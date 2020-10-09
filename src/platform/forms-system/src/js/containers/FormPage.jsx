@@ -14,6 +14,7 @@ import { focusElement } from '../utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 import environment from 'platform/utilities/environment';
+import { APP_TYPE_DEFAULT } from '../constants';
 
 function focusForm() {
   focusElement('.nav-header > h2');
@@ -203,7 +204,8 @@ class FormPage extends React.Component {
                   href={route.pageConfig.exitTo}
                   onClick={this.onExit}
                 >
-                  Exit application
+                  Exit{' '}
+                  {route.formConfig?.customText?.appType || APP_TYPE_DEFAULT}
                 </a>
               )}
             </div>

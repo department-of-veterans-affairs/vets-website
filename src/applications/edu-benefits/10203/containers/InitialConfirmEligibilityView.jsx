@@ -41,12 +41,13 @@ function InitialConfirmEligibilityView(props) {
               isLoggedIn={props.isLoggedIn}
             />
           </div>
+          <br />
+          <span>
+            If you'd still like to apply, you can continue with your
+            application.
+          </span>
         </>
       )}
-      <br />
-      <span>
-        If you'd still like to apply, you can continue with your application.
-      </span>
     </div>
   );
 }

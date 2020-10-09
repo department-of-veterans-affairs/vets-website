@@ -152,31 +152,30 @@ export class ConfirmEligibilityView extends React.Component {
           {this.renderChecks()}
           {this.renderConfirmEligibility()}
         </div>
-        <div className="vads-u-padding-y--4">
+        <div className="vads-u-padding-top--4">
           <b>
             You must meet the above requirements to qualify for the scholarship.
           </b>{' '}
           Please consider that ineligible applications delay the processing of
           benefits for eligible applicants.
         </div>
-
-        <div>
-          {environment.isProduction() && (
+        {environment.isProduction() && (
+          <div>
             <div className="vads-u-margin-top--neg2">
               <ExitApplicationButton
                 formId={this.props.formId}
                 isLoggedIn={this.props.isLoggedIn}
               />
             </div>
-          )}
 
-          <div>
-            <p>
-              If you'd still like to apply, you can continue with your
-              application.
-            </p>
+            <div>
+              <p>
+                If you'd still like to apply, you can continue with your
+                application.
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
