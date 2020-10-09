@@ -44,13 +44,17 @@ const veteranInformationPage = {
       ...veteranStatusUI,
     },
     [formFields.dependentInformation]: {
-      ...personalInformationUI('Dependent'),
+      ...personalInformationUI('Dependent', formData =>
+        showDependentInformation(formData),
+      ),
       'ui:options': {
         hideIf: formData => !showDependentInformation(formData),
       },
     },
     [formFields.veteranInformation]: {
-      ...personalInformationUI('Veteran'),
+      ...personalInformationUI('Veteran', formData =>
+        showVeteranInformation(formData),
+      ),
       'ui:options': {
         hideIf: formData => !showVeteranInformation(formData),
       },
