@@ -167,11 +167,6 @@ describe('Schemaform review: <GenericError />', () => {
       </Provider>,
     );
 
-    expect(
-      tree.getByText(
-        'You’ll have to start over. We suggest you wait 1 day while we fix this problem.',
-      ),
-    ).to.not.be.null;
     expect(tree.getByTestId('12345')).to.have.attribute('role', 'alert');
     expect(tree.getByText('Go Back to VA.gov')).to.not.be.null;
 
