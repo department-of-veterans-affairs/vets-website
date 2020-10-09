@@ -52,7 +52,11 @@ module.exports = {
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldBenefitCategories: {
       type: 'array',
-      items: { $ref: 'output/node-landing_page' },
+      items: {
+        entity: {
+          type: { $ref: 'output/node-landing_page' },
+        },
+      },
     },
     fieldVaFormAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldVaFormIssueDate: dateSchema,

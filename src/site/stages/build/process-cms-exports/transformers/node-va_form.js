@@ -12,7 +12,11 @@ const transform = entity => ({
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldAdministration: entity.fieldAdministration[0],
-  fieldBenefitCategories: entity.fieldBenefitCategories,
+  fieldBenefitCategories: entity.fieldBenefitCategories.map(
+    ({ fieldHomePageHubLabel }) => ({
+      entity: { fieldHomePageHubLabel },
+    }),
+  ),
   fieldVaFormAdministration: entity.fieldVaFormAdministration[0],
   fieldVaFormIssueDate: entity.fieldVaFormIssueDate[0] || null,
   fieldVaFormLinkTeasers: entity.fieldVaFormLinkTeasers,
