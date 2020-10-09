@@ -1,6 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 
-import mockMPIErrorUser from '../fixtures/users/user-mpi-error.json';
+import mockUserNotInMPI from '../fixtures/users/user-not-in-mpi.json';
 import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
 /**
@@ -27,14 +27,13 @@ function test(mobile = false) {
     `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
   );
 
-  // Should show an error alert about not being able to connect to MPI
-  // TODO: We might show a different error message in this particular case since in this case we can't connect to MPI.
-  cy.findByText(/We can’t access your Veteran records/i)
+  // Should show a "not in MPI" error
+  cy.findByText(/We can’t match your information to our Veteran records/i)
     .should('exist')
     .closest('.usa-alert-warning')
     .should('exist');
   cy.findByText(
-    /something went wrong when we tried to connect to your veteran records/i,
+    /We can’t give you access to your profile or account information/i,
   )
     .should('exist')
     .closest('.usa-alert-warning')
@@ -83,7 +82,7 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
       'DISMISSED_ANNOUNCEMENTS',
       JSON.stringify(['single-sign-on-intro']),
     );
-    cy.login(mockMPIErrorUser);
+    cy.login(mockUserNotInMPI);
     // login() calls cy.server() so we can now mock routes
     cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
   });

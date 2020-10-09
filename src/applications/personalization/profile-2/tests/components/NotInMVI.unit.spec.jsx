@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import NotInMVI from '../../components/NotInMVI';
+import NotInMVI from '../../components/NotInMPIError';
 
 describe('NotInMVI', () => {
   let wrapper;

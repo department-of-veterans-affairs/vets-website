@@ -5,8 +5,10 @@ import { CERNER_FACILITY_IDS } from '../utilities/cerner';
 
 export const selectUser = state => state.user;
 export const isLoggedIn = state => selectUser(state).login.currentlyLoggedIn;
-export const selectProfile = state => selectUser(state)?.profile;
-export const isInMVI = state => selectProfile(state).status === 'OK';
+export const selectProfile = state => selectUser(state)?.profile || {};
+export const isInMPI = state => selectProfile(state).status === 'OK';
+export const hasMPIConnectionError = state =>
+  selectProfile(state).status === 'SERVER_ERROR';
 export const isProfileLoading = state => selectProfile(state).loading;
 export const isLOA3 = state => selectProfile(state).loa.current === 3;
 export const isLOA1 = state => selectProfile(state).loa.current === 1;

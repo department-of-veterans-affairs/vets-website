@@ -4,7 +4,7 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-const NotInMVI = () => {
+const NotInMPIError = () => {
   const content = (
     <>
       <p>
@@ -32,4 +32,4 @@ const NotInMVI = () => {
   );
 };
 
-export default NotInMVI;
+export default NotInMPIError;
