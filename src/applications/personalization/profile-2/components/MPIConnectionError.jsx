@@ -3,12 +3,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const MPIConnectionError = () => {
   const content = (
-    <>
-      <p>
-        We’re sorry. Something went wrong when we tried to connect to your
-        Veteran records. Please refresh this page to try again.
-      </p>
-    </>
+    <p>
+      We’re sorry. Something went wrong when we tried to connect to your Veteran
+      records. Please refresh this page to try again.
+    </p>
   );
 
   return (

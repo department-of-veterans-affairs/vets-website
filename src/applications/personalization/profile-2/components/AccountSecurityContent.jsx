@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
-  isInMPI as isInMVISelector,
+  isInMPI as isInMPISelector,
   hasMPIConnectionError as hasMPIConnectionErrorSelector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
   selectProfile,
@@ -106,7 +106,7 @@ export const AccountSecurityContent = ({
 
 AccountSecurityContent.propTypes = {
   isIdentityVerified: PropTypes.bool.isRequired,
-  isInMVI: PropTypes.bool.isRequired,
+  isInMPI: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
   mhvAccount: PropTypes.shape({
     accountLevel: PropTypes.string,
@@ -125,13 +125,13 @@ export const mapStateToProps = state => {
   const { verified, mhvAccount } = profile;
   const showMHVTermsAndConditions =
     verified && MHVTermsAndConditionsStatus.willRenderContent(mhvAccount);
-  const isInMVI = isInMVISelector(state);
+  const isInMPI = isInMPISelector(state);
   const isIdentityVerified = isLOA3Selector(state);
   const hasMPIConnectionError = hasMPIConnectionErrorSelector(state);
   const showMPIConnectionError = isIdentityVerified && hasMPIConnectionError;
   const showNotInMPIError =
-    isIdentityVerified && !hasMPIConnectionError && !isInMVI;
-  const showWeHaveVerifiedYourID = isInMVI && isIdentityVerified;
+    isIdentityVerified && !hasMPIConnectionError && !isInMPI;
+  const showWeHaveVerifiedYourID = isInMPI && isIdentityVerified;
 
   return {
     isIdentityVerified,

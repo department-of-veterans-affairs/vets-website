@@ -2,12 +2,12 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import NotInMVI from '../../components/NotInMPIError';
+import NotInMPI from '../../components/NotInMPIError';
 
-describe('NotInMVI', () => {
+describe('NotInMPI', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = mount(<NotInMVI />);
+    wrapper = mount(<NotInMPI />);
   });
 
   it('should render the correct text', () => {
