@@ -7,13 +7,7 @@ import {
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { changeDropdown } from '../../helpers';
-import { addressSchema } from 'applications/vre/definitions/profileAddress';
 import formConfig from '../../../config/form';
-
-// override default definitions for now
-const definitions = {
-  addressSchema,
-};
 
 describe('Chapter 36 Claimant Address', () => {
   const {
@@ -32,7 +26,7 @@ describe('Chapter 36 Claimant Address', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         data={formData}
       />,
     );
@@ -46,7 +40,7 @@ describe('Chapter 36 Claimant Address', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         data={formData}
         onSubmit={onSubmit}
       />,
@@ -63,7 +57,7 @@ describe('Chapter 36 Claimant Address', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         data={formData}
         onSubmit={onSubmit}
       />,
@@ -91,7 +85,7 @@ describe('Chapter 36 Claimant Address', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         data={formData}
         onSubmit={onSubmit}
       />,
