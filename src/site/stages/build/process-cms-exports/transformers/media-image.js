@@ -1,4 +1,8 @@
-const { createMetaTagArray, getDrupalValue } = require('./helpers');
+const {
+  createMetaTagArray,
+  getDrupalValue,
+  setEncodedString,
+} = require('./helpers');
 
 const transform = entity => ({
   entityType: 'media',
@@ -11,9 +15,9 @@ const transform = entity => ({
   image: {
     alt: entity.image[0].alt || '',
     title: entity.image[0].title || '',
-    url: entity.thumbnail[0].url,
+    url: setEncodedString(entity.thumbnail[0].url),
     derivative: {
-      url: entity.thumbnail[0].url,
+      url: setEncodedString(entity.thumbnail[0].url),
       width: entity.image[0].width,
       height: entity.image[0].height,
     },
