@@ -15,17 +15,7 @@ import ThrottledError from './submit-states/ThrottledError';
 import ValidationError from './submit-states/ValidationError';
 
 export default function SubmitButtons(props) {
-<<<<<<< HEAD
   const { onBack, onSubmit, submission, formConfig } = props;
-=======
-  const {
-    onBack,
-    onSubmit,
-    renderErrorMessage,
-    submission,
-    formConfig,
-  } = props;
->>>>>>> Remove unneeded prop
 
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   const buttonText =

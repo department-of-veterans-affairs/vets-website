@@ -118,7 +118,6 @@ function mapStateToProps(state, ownProps) {
   const submission = form.submission;
   const showPreSubmitError = submission.hasAttemptedSubmit;
   const inProgressFormId = form.loadedData?.metadata?.inProgressFormId;
-  const formErrors = form.formErrors;
 
   return {
     form,
@@ -130,7 +129,6 @@ function mapStateToProps(state, ownProps) {
     showPreSubmitError,
     trackingPrefix,
     inProgressFormId,
-    formErrors,
   };
 }
 
