@@ -35,11 +35,13 @@
     "dependentInformation": {
       "first": "Cassandra",
       "last": "Jackson",
-      "street": "401 Doppler Ave",
-      "city": "Cleveland",
-      "country": "USA",
-      "state": "OH",
-      "postalCode": "41014",
+      "address": {
+        "street": "401 Doppler Ave",
+        "city": "Cleveland",
+        "country": "USA",
+        "state": "OH",
+        "postalCode": "41014"
+      },
       "phone": "5554248007",
       "email":"cjackson@fake.email"
     },

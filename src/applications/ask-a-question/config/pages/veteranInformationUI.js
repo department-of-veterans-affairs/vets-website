@@ -1,4 +1,7 @@
-import { uiSchema } from 'platform/forms/definitions/address';
+import {
+  stateRequiredCountries,
+  uiSchema,
+} from 'platform/forms/definitions/address';
 import SectionHeader from '../../content/SectionHeader';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -50,9 +53,15 @@ export const veteranInformationUI = requireIfDisplayed => ({
       'ui:title': streetAddress,
     },
     country: {
-      'ui:required': formData => {
-        return requireIfDisplayed(formData) && veteranIsAlive(formData);
-      },
+      'ui:required': formData =>
+        requireIfDisplayed(formData) && veteranIsAlive(formData),
+    },
+    state: {
+      'ui:required': formData =>
+        requireIfDisplayed(formData) &&
+        veteranIsAlive(formData) &&
+        formData.veteranInformation.address &&
+        stateRequiredCountries.has(formData.veteranInformation.address.country),
     },
     street2: {
       'ui:options': {
