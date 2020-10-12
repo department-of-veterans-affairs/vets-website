@@ -80,6 +80,8 @@ export function setViewedPages(pageKeys) {
 }
 
 export function setFormErrors(errors) {
+  // See platform/forms-system/src/js/utilities/data/reduceErrors.js for
+  // data structure
   return {
     type: SET_FORM_ERRORS,
     data: errors,

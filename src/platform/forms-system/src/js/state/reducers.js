@@ -79,6 +79,8 @@ export default {
   },
   [SET_FORM_ERRORS]: (state, { data = {} }) => ({
     ...state,
+    // See platform/forms-system/src/js/utilities/data/reduceErrors.js for
+    // data structure
     formErrors: data,
   }),
 };
