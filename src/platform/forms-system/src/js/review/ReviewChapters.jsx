@@ -91,7 +91,7 @@ class ReviewChapters extends React.Component {
               pageList={pageList}
               setData={(...args) => this.handleSetData(...args)}
               setValid={setValid}
-              showUnviewedPageWarning={chapter.showUnviewedPageWarning}
+              hasUnviewedPages={chapter.hasUnviewedPages}
               toggleButtonClicked={() => this.handleToggleChapter(chapter)}
               uploadFile={this.props.uploadFile}
               viewedPages={viewedPages}
@@ -126,7 +126,7 @@ export function mapStateToProps(state, ownProps) {
     const hasErrors = state.form.formErrors?.errors.some(err =>
       pageKeys.includes(err.pageKey),
     );
-    const showUnviewedPageWarning =
+    const hasUnviewedPages =
       hasErrors || pageKeys.some(key => !viewedPages.has(key));
 
     return {
@@ -140,7 +140,7 @@ export function mapStateToProps(state, ownProps) {
       name: chapterName,
       open,
       pageKeys,
-      showUnviewedPageWarning,
+      hasUnviewedPages,
     };
   });
 

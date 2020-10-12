@@ -88,7 +88,7 @@ class ReviewCollapsibleChapter extends React.Component {
       form,
       formContext,
       pageKeys,
-      showUnviewedPageWarning,
+      hasUnviewedPages,
       viewedPages,
     } = this.props;
 
@@ -258,7 +258,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-warning': showUnviewedPageWarning,
+      'schemaform-review-chapter-warning': hasUnviewedPages,
     });
 
     return (
@@ -279,7 +279,7 @@ class ReviewCollapsibleChapter extends React.Component {
               >
                 {chapterTitle || ''}
               </button>
-              {showUnviewedPageWarning && (
+              {hasUnviewedPages && (
                 <span
                   role="presentation"
                   aria-hidden="true"
