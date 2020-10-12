@@ -9,11 +9,13 @@ const fs = require('fs');
 const path = require('path');
 const pact = require('@pact-foundation/pact-node');
 
-const pactsFolder = path.resolve(__dirname, '../pacts');
+let pactFilesOrDirs = [];
 
 try {
+  const pactsFolder = path.resolve(__dirname, '../pacts');
   const pactFiles = fs.readdirSync(pactsFolder);
   if (!pactFiles.length) throw new Error('No pacts found.');
+  pactFilesOrDirs = pactFiles.map(pactFile => path.join(pactsFolder, pactFile));
 } catch (e) {
   console.warn(e.message);
   console.log('Skipping pact publishing.');
@@ -32,7 +34,7 @@ const opts = {
   pactBroker: process.env.PACT_BROKER_URL,
   pactBrokerUsername: process.env.PACT_BROKER_BASIC_AUTH_USERNAME,
   pactBrokerPassword: process.env.PACT_BROKER_BASIC_AUTH_PASSWORD,
-  pactFilesOrDirs: [pactsFolder],
+  pactFilesOrDirs,
   consumerVersion,
   tags: [branchName],
 };
