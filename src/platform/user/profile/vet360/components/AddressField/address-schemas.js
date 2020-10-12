@@ -5,6 +5,9 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import { ADDRESS_FORM_VALUES, USA } from 'vet360/constants';
 
+const blockURLsRegEx =
+  '^((?!https?:?/?/?|www\\.|\\.co|\\.net|\\.gov|\\.edu|\\.org).)*$';
+
 // make an object of just the military state codes and names
 const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
   (militaryStates, [stateCode, stateName]) => {
@@ -40,22 +43,23 @@ const formSchema = {
       type: 'string',
       minLength: 1,
       maxLength: STREET_LINE_MAX_LENGTH,
-      pattern: '^.*\\S.*',
+      pattern: blockURLsRegEx,
     },
     addressLine2: {
       type: 'string',
       minLength: 1,
       maxLength: STREET_LINE_MAX_LENGTH,
-      pattern: '^.*\\S.*',
+      pattern: blockURLsRegEx,
     },
     addressLine3: {
       type: 'string',
       minLength: 1,
       maxLength: STREET_LINE_MAX_LENGTH,
-      pattern: '^.*\\S.*',
+      pattern: blockURLsRegEx,
     },
     city: {
       type: 'string',
+      pattern: blockURLsRegEx,
     },
     stateCode: {
       type: 'string',
@@ -64,6 +68,7 @@ const formSchema = {
     },
     province: {
       type: 'string',
+      pattern: blockURLsRegEx,
     },
     zipCode: {
       type: 'string',
@@ -71,6 +76,7 @@ const formSchema = {
     },
     internationalPostalCode: {
       type: 'string',
+      pattern: blockURLsRegEx,
     },
   },
   required: ['countryCodeIso3', 'addressLine1', 'city'],
@@ -123,19 +129,25 @@ const uiSchema = {
     'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
     'ui:errorMessages': {
       required: 'Street address is required',
-      pattern: `Street address must be under ${STREET_LINE_MAX_LENGTH} characters`,
+      pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
     },
   },
   addressLine2: {
     'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
+    'ui:errorMessages': {
+      pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
+    },
   },
   addressLine3: {
     'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
+    'ui:errorMessages': {
+      pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
+    },
   },
   city: {
     'ui:errorMessages': {
       required: 'City is required',
-      pattern: 'City must be under 100 characters',
+      pattern: `Please enter a valid city under 100 characters`,
     },
     'ui:options': {
       replaceSchema: formData => {
@@ -151,7 +163,7 @@ const uiSchema = {
           title: 'City',
           minLength: 1,
           maxLength: 100,
-          pattern: '^.*\\S.*',
+          pattern: blockURLsRegEx,
         };
       },
     },
@@ -181,6 +193,9 @@ const uiSchema = {
   },
   province: {
     'ui:title': 'State/Province/Region',
+    'ui:errorMessages': {
+      pattern: `Please enter a valid state, province, or region`,
+    },
     'ui:options': {
       hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
     },
@@ -202,6 +217,7 @@ const uiSchema = {
     'ui:title': 'International postal code',
     'ui:errorMessages': {
       required: 'Postal code is required',
+      pattern: 'Please enter a valid postal code',
     },
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
