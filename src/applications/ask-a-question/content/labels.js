@@ -57,11 +57,26 @@ export const contactInformationPageDescription = PageDescription(
 export const preferredContactMethodTitle =
   'How should we get in touch with you?';
 export const phoneTitle = 'Daytime phone';
+export const emailTitle = 'Email';
+export const daytimePhoneAreaCodeTitle = 'Daytime phone (area code)';
+
+/* --------------- Dependent Information ------------- */
+export const dependentInformationHeader = 'Dependent information';
+
+export const dependentsFirstName = "Dependent's first name";
+export const dependentsLastName = "Dependent's last name";
+
+/* --------------- Veteran Information ------------- */
+export const veteranInformationHeader = 'Veteran information';
+
+export const veteransFirstName = "Veteran's first name";
+export const veteransLastName = "Veteran's last name";
 
 /* Address fields */
 export const countryTitle = 'Country';
 export const stateTitle = 'State';
 export const canadaStateTitle = 'Province';
+export const streetAddress = 'Street address';
 export const streetTwoTitle = 'Line 2';
 export const streetThreeTitle = 'Line 3';
 export const cityTitle = 'City';

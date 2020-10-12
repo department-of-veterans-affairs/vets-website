@@ -1,9 +1,10 @@
 import { veteranStatusUI, requireServiceInfo } from './veteranStatusUI';
 import { veteranServiceInformationUI } from './veteranServiceInformationUI';
-import { personalInformationUI } from './personalInformationUI';
+import { dependentInformationUI } from './dependentInformationUI';
 import _ from 'lodash';
 import { schema } from 'platform/forms/definitions/address';
 import fullSchema from '../../0873-schema.json';
+import { veteranInformationUI } from './veteranInformationUI';
 
 const {
   veteranStatus,
@@ -29,6 +30,10 @@ const showVeteranInformation = formData => {
   );
 };
 
+const hideVeteranInformation = formData => {
+  return !showVeteranInformation(formData);
+};
+
 const showDependentInformation = formData => {
   return (
     formData.veteranStatus.veteranStatus &&
@@ -38,25 +43,25 @@ const showDependentInformation = formData => {
   );
 };
 
+const hideDependentInformation = formData => {
+  return !showDependentInformation(formData);
+};
+
 const veteranInformationPage = {
   uiSchema: {
     [formFields.veteranStatus]: {
       ...veteranStatusUI,
     },
     [formFields.dependentInformation]: {
-      ...personalInformationUI('Dependent', formData =>
-        showDependentInformation(formData),
-      ),
+      ...dependentInformationUI(showDependentInformation),
       'ui:options': {
-        hideIf: formData => !showDependentInformation(formData),
+        hideIf: formData => hideDependentInformation(formData),
       },
     },
     [formFields.veteranInformation]: {
-      ...personalInformationUI('Veteran', formData =>
-        showVeteranInformation(formData),
-      ),
+      ...veteranInformationUI(showVeteranInformation),
       'ui:options': {
-        hideIf: formData => !showVeteranInformation(formData),
+        hideIf: formData => hideVeteranInformation(formData),
       },
     },
     [formFields.veteranServiceInformation]: {
