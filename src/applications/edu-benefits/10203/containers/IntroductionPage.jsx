@@ -103,7 +103,7 @@ export class IntroductionPage extends React.Component {
                 <div className="vads-u-font-weight--bold">
                   <p>
                     To be eligible for the{' '}
-                    <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                    <a href="https://www.va.gov/education/other-va-education-benefits/stem-scholarship/">
                       Edith Nourse Rogers STEM Scholarship
                     </a>
                     , you must meet all the requirements below.
