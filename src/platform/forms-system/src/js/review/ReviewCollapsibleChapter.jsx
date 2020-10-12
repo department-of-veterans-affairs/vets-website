@@ -233,7 +233,6 @@ class ReviewCollapsibleChapter extends React.Component {
                       pageKey={page.pageKey}
                       pageTitle={page.title}
                       arrayData={_.get(arrayField.path, form.data)}
-                      editing={editing}
                       formData={form.data}
                       appStateData={page.appStateData}
                       formContext={formContext}
