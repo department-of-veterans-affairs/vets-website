@@ -16,14 +16,14 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import { getInactivePages } from 'platform/forms/helpers';
 import { isValidDate } from 'platform/forms/validations';
-import { isInMVI } from 'platform/user/selectors';
+import { isInMPI } from 'platform/user/selectors';
 
 import facilityLocator from '../facility-locator/manifest.json';
 
 export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
 
-  if (isInMVI(state)) {
+  if (isInMPI(state)) {
     newData = { ...newData, 'view:isUserInMvi': true };
   }
 
