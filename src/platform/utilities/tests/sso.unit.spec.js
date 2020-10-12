@@ -293,6 +293,10 @@ describe('checkAutoSession', () => {
 });
 
 describe('checkAndUpdateSSOeSession', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('should should do nothing if there is not SSO session active', () => {
     expect(localStorage.getItem('sessionExpirationSSO')).to.be.null;
     checkAndUpdateSSOeSession();
