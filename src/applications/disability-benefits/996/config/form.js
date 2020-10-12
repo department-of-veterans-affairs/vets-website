@@ -48,8 +48,8 @@ const formConfig = {
       inProgress:
         'Your Higher-Level Review application (20-0996) is in progress.',
       expired:
-        'Your saved higher-level review application (20-0996) has expired. If you want to apply for Higher-Level Review, please start a new application.',
-      saved: 'Your higher-level review application has been saved.',
+        'Your saved Higher-Level Review application (20-0996) has expired. If you want to apply for Higher-Level Review, please start a new application.',
+      saved: 'Your Higher-Level Review application has been saved.',
     },
   },
   introduction: IntroductionPage,
