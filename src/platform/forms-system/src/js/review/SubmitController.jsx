@@ -70,12 +70,10 @@ class SubmitController extends Component {
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
     const { isValid, errors } = isValidForm(form, pageList);
-    if (this.props.setFormErrors) {
-      this.props.setFormErrors({
-        rawErrors: errors,
-        errors: reduceErrors(errors, pageList),
-      });
-    }
+    this.props.setFormErrors({
+      rawErrors: errors,
+      errors: reduceErrors(errors, pageList),
+    });
 
     if (!isValid) {
       recordEvent({
@@ -149,6 +147,7 @@ SubmitController.propTypes = {
   pagesByChapter: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   router: PropTypes.object.isRequired,
+  setFormErrors: PropTypes.func.isRequired,
   setPreSubmit: PropTypes.func.isRequired,
   setSubmission: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
