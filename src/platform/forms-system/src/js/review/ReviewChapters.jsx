@@ -123,7 +123,7 @@ export function mapStateToProps(state, ownProps) {
     const open = openChapters.includes(chapterName);
     const pageKeys = getPageKeys(pages, formData);
 
-    const hasErrors = state.form.formErrors?.errors.some(err =>
+    const hasErrors = state.form.formErrors?.errors?.some(err =>
       pageKeys.includes(err.pageKey),
     );
     const hasUnviewedPages =
