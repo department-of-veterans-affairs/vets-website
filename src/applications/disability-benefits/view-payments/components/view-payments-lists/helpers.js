@@ -13,6 +13,18 @@ export const paymentsReceivedFields = [
     label: 'Type',
     value: 'payCheckType',
   },
+  {
+    label: 'Method',
+    value: 'paymentMethod',
+  },
+  {
+    label: 'Bank',
+    value: 'bankName',
+  },
+  {
+    label: 'Account',
+    value: 'accountNumber',
+  },
 ];
 
 export const paymentsReturnedFields = [
@@ -27,6 +39,10 @@ export const paymentsReturnedFields = [
   {
     label: 'Amount',
     value: 'returnedCheckAmount',
+  },
+  {
+    label: 'Check #',
+    value: 'returnedCheckNumber',
   },
   {
     label: 'Type',

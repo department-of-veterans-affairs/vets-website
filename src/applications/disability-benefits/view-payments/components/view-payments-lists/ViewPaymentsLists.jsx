@@ -70,10 +70,10 @@ class ViewPaymentsLists extends Component {
             return {
               ...payment,
               returnedCheckCancelDt: payment.returnedCheckCancelDt
-                ? moment(payment.returnedCheckCancelDt).format('MMMM D, YYYY')
+                ? moment(payment.returnedCheckCancelDt).format('MMM D, YYYY')
                 : null,
               returnedCheckIssueDt: payment.returnedCheckIssueDt
-                ? moment(payment.returnedCheckIssueDt).format('MMMM D, YYYY')
+                ? moment(payment.returnedCheckIssueDt).format('MMM D, YYYY')
                 : null,
             };
           });
@@ -104,7 +104,7 @@ class ViewPaymentsLists extends Component {
           payments = payments.map(payment => {
             return {
               ...payment,
-              payCheckDt: moment(payment.payCheckDt).format('MMMM D, YYYYY'),
+              payCheckDt: moment(payment.payCheckDt).format('MMM D, YYYY'),
             };
           });
           paymentsReceivedTableContent = (
