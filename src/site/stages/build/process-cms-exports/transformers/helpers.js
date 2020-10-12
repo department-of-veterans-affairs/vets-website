@@ -168,17 +168,6 @@ module.exports = {
   },
 
   /**
-   * Takes a string and applies the following:
-   * - Encodes special characters
-   *
-   * @param {string}
-   * @return {string}
-   */
-  setEncodedString(value) {
-    return encodeURI(value);
-  },
-
-  /**
    * Takes an array meant to contain only one object.
    * If this object exists, an object will be returned matching what is expected for "fieldLink" objects,
    * otherwise null is returned.
