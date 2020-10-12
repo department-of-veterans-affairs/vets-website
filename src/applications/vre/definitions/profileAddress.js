@@ -182,7 +182,6 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
       'ui:required': uiRequiredCallback,
       'ui:errorMessages': {
         required: 'City is required',
-        pattern: 'City must be under 100 characters',
       },
       'ui:options': {
         /**
