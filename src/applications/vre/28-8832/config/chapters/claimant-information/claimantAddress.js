@@ -1,15 +1,13 @@
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import {
-  buildAddressSchema,
-  addressUISchema,
-} from 'applications/disability-benefits/686c-674/config/address-schema';
+  addressSchema,
+  addressUiSchema,
+} from 'applications/vre/definitions/profileAddress';
 import { claimantEmailAddress, claimantPhoneNumber } from '../../utilities';
 
-const claimantAddress = buildAddressSchema(true);
-// reset boolean type for checkbox
-claimantAddress.properties['view:livesOnMilitaryBase'] = {
-  type: 'boolean',
-};
+const claimantAddress = addressSchema;
+const checkboxTitle =
+  'I live on a United States military base outside of the U.S.';
 
 export const schema = {
   type: 'object',
@@ -22,13 +20,11 @@ export const schema = {
 };
 
 export const uiSchema = {
-  // Need to overwrite the default title brought over from addressUISchema() because it defaults to "They live..."
-  claimantAddress: {
-    ...addressUISchema(true, 'claimantAddress', () => true),
-    'view:livesOnMilitaryBase': {
-      'ui:title': 'I live on a United States military base outside of the U.S.',
-    },
-  },
+  claimantAddress: addressUiSchema(
+    'claimantAddress',
+    checkboxTitle,
+    () => true,
+  ),
   claimantPhoneNumber: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
