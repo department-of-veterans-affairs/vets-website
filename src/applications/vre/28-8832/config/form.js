@@ -31,9 +31,9 @@ const formConfig = {
   saveInProgress: {
     messages: {
       inProgress:
-        'Your Personalized Career Planning and Guidance Chapter 36 benefit is in progress.',
+        'Your Personalized Career Planning and Guidance Chapter 36 benefit application is in progress.',
       expired:
-        'Your saved Personalized Career Planning and Guidance Chapter 36 benefit has expired. If you want to apply for PCPG Chapter 36 benefits, please start a new application.',
+        'Your saved Personalized Career Planning and Guidance Chapter 36 benefit application has expired. If you want to apply for PCPG Chapter 36 benefits, please start a new application.',
       saved: 'Your PCPG Chapter 36 benefits application has been saved.',
     },
   },
