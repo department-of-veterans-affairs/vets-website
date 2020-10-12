@@ -1,11 +1,11 @@
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 import {
-  addressSchema,
-  addressUiSchema,
-} from 'applications/vre/definitions/profileAddress';
-import { claimantEmailAddress, claimantPhoneNumber } from '../../utilities';
+  claimantEmailAddress,
+  claimantPhoneNumber,
+  claimantAddress,
+} from '../../utilities';
 
-const claimantAddress = addressSchema;
 const checkboxTitle =
   'I live on a United States military base outside of the U.S.';
 

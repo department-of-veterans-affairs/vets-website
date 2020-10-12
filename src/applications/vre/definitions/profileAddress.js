@@ -14,12 +14,6 @@ import {
 } from 'vets-json-schema/dist/constants.json';
 
 /**
- * CONSTANTS:
- * 2. USA - references USA value and label
- * 3. MilitaryBaseInfo - React component. Wrapped in AdditionalInfo component and used as description
- */
-
-/**
  * PATTERNS
  * STREET_PATTERN - rejects white space only
  * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes and zip+4 patterns: 12345, 12345-1234
@@ -27,51 +21,59 @@ import {
 const STREET_PATTERN = '^.*\\S.*';
 const US_POSTAL_CODE_PATTERN = '^\\d{5}(?:-\\d{4})?$';
 
-// Corresponding working form schema:
-export const addressSchema = {
-  type: 'object',
-  properties: {
-    isMilitary: {
-      type: 'boolean',
-    },
-    'view:livesOnMilitaryBaseInfo': {
-      type: 'object',
-      properties: {},
-    },
-    country: {
-      type: 'string',
-      enum: countries.map(country => country.value),
-      enumNames: countries.map(country => country.label),
-    },
-    street: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: STREET_PATTERN,
-    },
-    street2: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: STREET_PATTERN,
-    },
-    street3: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: STREET_PATTERN,
-    },
-    city: {
-      type: 'string',
-    },
-    state: {
-      type: 'string',
-    },
-    postalCode: {
-      type: 'string',
-    },
-  },
-};
+/**
+ Available at https://github.com/department-of-veterans-affairs/vets-json-schema/blob/8337b2878b524867ef2b6d8600b134c682c7ac8a/src/common/definitions.js#L161
+ addressSchema = {
+   type: 'object',
+   properties: {
+     isMilitary: {
+       type: 'boolean',
+     },
+     'view:militaryBaseDescription': {
+       type: 'object',
+       properties: {},
+     },
+     country: {
+       type: 'string',
+       enum: countries.map(country => country.value),
+       enumNames: countries.map(country => country.label),
+     },
+     street: {
+       type: 'string',
+       minLength: 1,
+       maxLength: 100,
+       pattern: STREET_PATTERN,
+     },
+     street2: {
+       type: 'string',
+       minLength: 1,
+       maxLength: 100,
+       pattern: STREET_PATTERN,
+     },
+     street3: {
+       type: 'string',
+       minLength: 1,
+       maxLength: 100,
+       pattern: STREET_PATTERN,
+     },
+     city: {
+       type: 'string',
+     },
+     state: {
+       type: 'string',
+     },
+     postalCode: {
+       type: 'string',
+     },
+   },
+ };
+ */
+
+/**
+ * CONSTANTS:
+ * 2. USA - references USA value and label
+ * 3. MilitaryBaseInfo - React component. Wrapped in AdditionalInfo component and used as description
+ */
 
 const USA = {
   value: 'USA',
@@ -128,7 +130,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
     isMilitary: {
       'ui:title': checkBoxTitle,
     },
-    'view:livesOnMilitaryBaseInfo': {
+    'view:militaryBaseDescription': {
       'ui:description': MilitaryBaseInfo,
     },
     country: {
