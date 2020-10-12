@@ -369,6 +369,12 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         );
       }
 
+      recordEvent({
+        event: `${GA_PREFIX}-get-available-facilities`,
+        [`${GA_PREFIX}-number-of-facilities`]: typeOfCareFacilities?.length,
+      });
+      resetDataLayer();
+
       // If we have an already selected location or only have a single location
       // fetch eligbility data immediately
       const eligibilityDataNeeded =
