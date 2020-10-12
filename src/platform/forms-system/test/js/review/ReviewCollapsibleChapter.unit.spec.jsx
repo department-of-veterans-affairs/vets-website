@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import ReviewCollapsibleChapter from '../../../src/js/review/ReviewCollapsibleChapter';
+import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsibleChapter';
 
 describe('<ReviewCollapsibleChapter>', () => {
   it('should add a data-attribute with the chapterKey', () => {

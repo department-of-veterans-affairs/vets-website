@@ -17,12 +17,9 @@ import {
   openReviewChapter,
   setData,
   setEditMode,
-  setFormErrors,
   setViewedPages,
   uploadFile,
 } from '../actions';
-import { isValidForm } from '../validation';
-import { reduceErrors } from '../utilities/data/reduceErrors';
 
 const scroller = Scroll.scroller;
 class ReviewChapters extends React.Component {
@@ -67,17 +64,15 @@ class ReviewChapters extends React.Component {
     }
   };
 
-  checkValidation = () => {
-    const { form, pageList } = this.props;
-    const { errors } = isValidForm(form, pageList);
-    this.props.setFormErrors({
-      rawErrors: errors,
-      errors: reduceErrors(errors, pageList),
-    });
-  };
-
   render() {
-    const { chapters, form, formContext, setValid, viewedPages } = this.props;
+    const {
+      chapters,
+      form,
+      formContext,
+      setValid,
+      viewedPages,
+      pageList,
+    } = this.props;
 
     return (
       <div className="input-section">
@@ -93,9 +88,9 @@ class ReviewChapters extends React.Component {
               onEdit={this.handleEdit}
               open={chapter.open}
               pageKeys={chapter.pageKeys}
+              pageList={pageList}
               setData={(...args) => this.handleSetData(...args)}
               setValid={setValid}
-              checkValidation={this.checkValidation}
               showUnviewedPageWarning={chapter.showUnviewedPageWarning}
               toggleButtonClicked={() => this.handleToggleChapter(chapter)}
               uploadFile={this.props.uploadFile}
@@ -166,7 +161,6 @@ const mapDispatchToProps = {
   setData,
   setEditMode,
   setViewedPages,
-  setFormErrors,
   uploadFile,
 };
 
@@ -183,7 +177,6 @@ ReviewChapters.propTypes = {
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,
   setViewedPages: PropTypes.func.isRequired,
-  setFormErrors: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
   viewedPages: PropTypes.object.isRequired,
 };
