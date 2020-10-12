@@ -211,6 +211,9 @@ class ReviewCollapsibleChapter extends React.Component {
                       <ProgressButton
                         submitButton
                         onButtonClick={() => {
+                          // recheck _all_ validations after the user clicks the
+                          // update page button - needed to dynamically update
+                          // accordion headers
                           this.checkValidation();
                           focusOnChange(
                             `${page.pageKey}${
