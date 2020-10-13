@@ -69,6 +69,11 @@ describe('Process form validation errors', () => {
             'ui:field': 'StringField',
             'ui:options': {},
           },
+          moreIssues: {
+            nestedObj: {
+              deeplyNestedObj: {},
+            },
+          },
           'view:alert': {},
           'view:explanation': {
             'ui:description': '',
@@ -85,12 +90,26 @@ describe('Process form validation errors', () => {
         issues: {
           __errors: ['Please select an issue'],
         },
+        moreIssues: {
+          nestedObj: {
+            deeplyNestedObj: {
+              __errors: ['Another error'],
+            },
+          },
+        },
       },
     ];
     const result = [
       {
         name: 'issues',
         message: 'Please select an issue',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+        index: null,
+      },
+      {
+        name: 'deeplyNestedObj',
+        message: 'Another error',
         chapterKey: 'fooIssues',
         pageKey: 'barIssues',
         index: null,
