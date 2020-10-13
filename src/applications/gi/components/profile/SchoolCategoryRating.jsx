@@ -37,8 +37,8 @@ export default function SchoolCategoryRating({
   };
 
   return (
-    <div className="vads-l-row vads-u-margin-right--0 category-rating">
-      <div className="xsmall-screen:vads-l-col--12 small-screen:vads-l-col--12 medium-screen:vads-l-col--8 vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
+    <div className="vads-u-margin-right--0 category-rating">
+      <div className="rating vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
         <button
           aria-expanded={open}
           className="usa-accordion-button"

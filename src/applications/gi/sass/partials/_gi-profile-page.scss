@@ -43,11 +43,29 @@
     top: 2em;
   }
 
+  #school-ratings-accordion-content {
+    @include media-maxwidth($medium-screen - 1) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
   .category-rating {
+
+    .rating {
+      max-width: 320px;
+      @include media-maxwidth($medium-screen - 1) {
+        max-width: none;
+      }
+    }
+
     .bar-outer {
       width: 120px;
       position:absolute;
       top:5px;
+      @include media-maxwidth($small-screen - 1) {
+        width: 100px;
+      }
     }
 
     .bar {
