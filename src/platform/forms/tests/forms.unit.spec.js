@@ -16,7 +16,6 @@ const remapFormId = {
 const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_HC_QSTNR,
   VA_FORM_IDS.FORM_21_22,
-  VA_FORM_IDS.FORM_5655,
 ];
 
 const root = path.join(__dirname, '../../../');
