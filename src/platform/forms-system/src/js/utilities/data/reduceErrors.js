@@ -117,10 +117,16 @@ export const reduceErrors = (errors, pageList) =>
   errors.reduce((result, error) => {
     const findErrors = (key, err) => {
       if (typeof err === 'object') {
-        if (err.message) {
+        if (err.property) {
+          // property includes a path to the error; we'll remove "instance",
+          // then use `getPropertyInfo` to search the pageList to find the
+          // matching chapterKey & pageKey
           const property = err.property.replace(/instance\.?/, '') || '';
-          const instance = property.replace(/(\[\d+\])/, '');
-          const name = err.name === 'required' ? err.argument : instance;
+          // name is the property that had the validation error
+          const name =
+            err.name === 'required'
+              ? err.argument
+              : property.replace(/(\[\d+\])/, ''); // don't include array index
           /*
            * There may be multiple errors for the same property, e.g.
            * `contestedIssues` in form 996. It can have a custom message
@@ -130,21 +136,36 @@ export const reduceErrors = (errors, pageList) =>
           */
           if (!errorExists(result, name)) {
             const { chapterKey = '', pageKey = '' } = getPropertyInfo(
+              // List of all form pages; includes chapterKey, pageKey and
+              // uiSchema
               pageList,
-              err.argument || err.property.split('.').slice(-1)[0],
-              err.property.startsWith('instance.') ? instance : '',
+              // in one error message, no argument is included, so we get it
+              // from the property (path) destination
+              err.argument || property.split('.').slice(-1)[0],
+              // full path to the error
+              property,
             );
             result.push({
+              // property name
               name,
               // property may be `array[0]`; we need to extract out the `[0]`
               index: property.match(/\[(\d+)\]/)?.[1] || null,
+              // the "stack" string isn't included in the one error message
+              // example, so we'll include the message. We'll process and
+              // display this message to the user in some future work
               message: err.stack || err.message,
+              // Accordion (chapter) key that needs to be highlighted
               chapterKey,
+              // page within the chapter that contains the error; will be used
+              // in future work to highlight the specific page for the user
               pageKey,
             });
           }
           return null;
         }
+        // process the last type of error message which provides an `__errors`
+        // message array. If there are multiple errors, we'll join them into
+        // one message.
         if (err.__errors && err.__errors.length && !errorExists(result, key)) {
           const { chapterKey = '', pageKey = '' } = getPropertyInfo(
             pageList,
@@ -158,6 +179,7 @@ export const reduceErrors = (errors, pageList) =>
             pageKey,
           });
         }
+        // process nested error messages (follows uiSchema nesting)
         Object.keys(err).forEach(sub => findErrors(sub, err[sub]));
       }
       return null;
