@@ -5,8 +5,12 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import { ADDRESS_FORM_VALUES, USA } from 'vet360/constants';
 
+// Regex that uses a negative lookahead to check that a string does NOT contain
+// things like `http`, `www.`, or a few common TLDs. Let's cross our fingers and
+// hope that we don't have to make this any more complex. We really don't want
+// to start playing whack-a-mole with bad addresses
 const blockURLsRegEx =
-  '^((?!https?:?/?/?|www\\.|\\.co|\\.net|\\.gov|\\.edu|\\.org).)*$';
+  '^((?!http|www\\.|\\.co|\\.net|\\.gov|\\.edu|\\.org).)*$';
 
 // make an object of just the military state codes and names
 const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
