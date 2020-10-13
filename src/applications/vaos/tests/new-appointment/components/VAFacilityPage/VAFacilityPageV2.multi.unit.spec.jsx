@@ -229,9 +229,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       /Choose a VA location for your Primary care appointment/i,
     );
     expect(screen.baseElement).to.contain.text(
-      'We base this on the address we have on file',
+      'We base these on the address you’ve given us.',
     );
-    expect(screen.baseElement).to.contain.text('Your address on file');
+    expect(screen.baseElement).to.contain.text('Your home address on file');
     expect(screen.baseElement).to.contain.text('290 Ludlow Ave');
     expect(screen.baseElement).to.contain.text('Cincinatti, OH 45220');
     expect(screen.baseElement).to.contain.text(' miles');
