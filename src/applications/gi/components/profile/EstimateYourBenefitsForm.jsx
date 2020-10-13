@@ -890,7 +890,6 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleHasClassesOutsideUSChange}
           checked={inputs.classesOutsideUS}
           name={'classesOutsideUS'}
-          id={'classesOutsideUS'}
         />
       );
     }
@@ -1041,9 +1040,9 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderEYBSkipLink = () => {
     return (
-      <div className="vads-u-padding-bottom--2p5">
+      <div className="vads-u-padding-top--1 ">
         <a
-          className="va-button-link learn-more-button eyb-skip-link"
+          className="va-button-link learn-more-button eyb-skip-link vads-u-display--block"
           aria-label="Skip to your estimated benefits"
           href="#estimated-benefits"
         >

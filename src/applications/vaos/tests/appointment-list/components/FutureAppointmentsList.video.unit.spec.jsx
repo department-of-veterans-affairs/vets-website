@@ -553,7 +553,14 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
-
+      providers: [
+        {
+          name: {
+            firstName: 'Meg',
+            lastName: 'Smith',
+          },
+        },
+      ],
       tasInfo: {
         siteCode: '9931',
         slotId: 'Slot8',
@@ -624,8 +631,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     expect(screen.getByText(/Appointment Code: 7VBBCA/i)).to.be.ok;
 
     // Should display who you will be meeting with
-    // TODO: This will be added later
-    // expect(screen.getByText(/You'll be meeting with/i)).to.be.ok;
-    // expect(screen.getByText(/Decker Konya/i)).to.be.ok;
+    expect(screen.getByText(/You’ll be meeting with/i)).to.be.ok;
+    expect(screen.getByText(/Meg Smith/i)).to.be.ok;
   });
 });

@@ -40,30 +40,32 @@
           <h2>Step-by-step</h2>
           <ol class="process">
             {% assign count = 1 %}
-            {% for fieldStep in fieldSteps.entity.fieldStep %}
-              <li class="process-step list-{{ count | numToWord }}">
-                <!-- Step wysiyg -->
-                {{ fieldStep.entity.fieldWysiwyg.processed }}
-                <br />
+            {% for fieldStepsItem in fieldSteps %}
+              {% for fieldStep in fieldStepsItem.entity.fieldStep %}
+                <li class="process-step list-{{ count | numToWord }}">
+                  <!-- Step wysiyg -->
+                  {{ fieldStep.entity.fieldWysiwyg.processed }}
+                  <br />
 
-                <!-- Step alert -->
-                {% if fieldAlert.length %}
-                  {% for alert in fieldAlert %}
-                    {% if alert.entity != empty %}
-                      {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+                  <!-- Step alert -->
+                  {% if fieldAlert.length %}
+                    {% for alert in fieldAlert %}
+                      {% if alert.entity != empty %}
+                        {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+                      {% endif %}
+                    {% endfor %}
+                  {% else %}
+                    {% if fieldAlert.entity != empty %}
+                      {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
                     {% endif %}
-                  {% endfor %}
-                {% else %}
-                  {% if fieldAlert.entity != empty %}
-                    {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
                   {% endif %}
-                {% endif %}
 
-                <!-- Step image -->
-                <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
-                  src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
-              </li>
-              {% assign count = count | plus: 1 %}
+                  <!-- Step image -->
+                  <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
+                    src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
+                </li>
+                {% assign count = count | plus: 1 %}
+              {% endfor %}
             {% endfor %}
           </ol>
 

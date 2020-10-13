@@ -27,18 +27,22 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h2 className="confirmation-page-title">We've received your message</h2>
         <p>
-          We usually process claims within <strong>a week</strong>.
+          Thank you for contacting us. We usually process messages within 5
+          business days.
         </p>
         <p>
-          We may contact you for more information or documents.
-          <br />
+          If we have questions, we may contact you for more information. If you
+          provided an email address, you should also receive an email confirming
+          the VA's receipt of your inquiry.
+        </p>
+        <p>
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
           <h4>
-            Ask a Question Claim <span className="additional">(Form 0873)</span>
+            Contact us form <span className="additional">(Form 0873)</span>
           </h4>
           <span>
             for {name.first} {name.middle} {name.last} {name.suffix}
@@ -47,9 +51,16 @@ export class ConfirmationPage extends React.Component {
           {response && (
             <ul className="claim-list">
               <li>
-                <strong>Date received</strong>
+                <strong>Confirmation number</strong>
                 <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+                <span>{response.confirmationNumber}</span>
+              </li>
+              <li>
+                <strong>Date submitted</strong>
+                <br />
+                <span>
+                  {moment(response.dateSubmitted).format('MMM D, YYYY')}
+                </span>
               </li>
             </ul>
           )}

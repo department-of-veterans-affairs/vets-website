@@ -204,19 +204,6 @@ export function getVAAppointmentLocationId(appointment) {
 }
 
 /**
- * Returns the location name of a VA appointment
- *
- * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns The location name where the VA appointment is located
- */
-export function getVAAppointmentLocationName(appointment) {
-  return appointment.participant?.find(p =>
-    p.actor.reference?.startsWith('Location'),
-  )?.actor?.display;
-}
-
-/**
  * Returns the patient telecom info in a VA appointment
  *
  * @export
@@ -373,4 +360,25 @@ export function isVideoVAFacility(appointment) {
  */
 export function isVideoStoreForward(appointment) {
   return VIDEO_TYPES.storeForward === getVideoKind(appointment);
+}
+
+/**
+ * Method to check for the existence of a practitioner
+ * @param {Object} appointment An appointment resource
+ * @return {Boolean} Returns whether or not the appointment has a practitioner.
+ */
+export function hasPractitioner(appointment) {
+  return !!appointment?.participant?.some(item =>
+    item.actor?.reference?.includes('Practitioner'),
+  );
+}
+
+/**
+ * Method to parse out the appointment practitioner of participants array
+ * @param {Array} participants An array of appointment participants
+ * @return {Object} Returns the appointment practitioner object.
+ */
+export function getPractitionerDisplay(participants) {
+  return participants.find(p => p.actor.reference.includes('Practitioner'))
+    .actor.display;
 }
