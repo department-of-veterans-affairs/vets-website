@@ -53,7 +53,7 @@ function InstitutionSearchForm({
           <h2>Refine search</h2>
           <KeywordSearch
             autocomplete={autocomplete}
-            label={'Enter a school, location, or employer name'}
+            label="Enter a school, location, or employer name"
             location={location}
             onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
             onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}

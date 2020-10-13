@@ -156,7 +156,7 @@ class HeadingSummary extends React.Component {
           <div className="row vads-u-padding-top--1p5">
             <div className="view-details columns vads-u-display--inline-block">
               <ScorecardTags
-                styling={'info-flag'}
+                styling="info-flag"
                 it={this.props.institution}
                 menOnly={this.props.institution.menOnly}
                 womenOnly={this.props.institution.womenOnly}
