@@ -470,6 +470,54 @@
             }
           }
         },
+        {
+          "properties": {
+            "levelOne": {
+              "type": "string",
+              "enum": [
+                "Burial & Memorial Benefits (NCA)"
+              ]
+            },
+
+            "levelTwo": {
+              "type": "object",
+              "anyOf": [
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": [
+                        "Burial Benefits"
+                      ]
+                    },
+                    "levelThree": {
+                      "type": "string",
+                      "enum": [
+                        "Compensation Request",
+                        "All Other Burial Benefit Inquiries"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": [
+                        "Pre-Need Burial Eligibility",
+                        "Headstones & Markers",
+                        "Presidential Memorial Certificates"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "enum": [
+                "Burial Benefits"
+              ]
+            }
+          }
+        },
         {}
       ],
       "properties": {
