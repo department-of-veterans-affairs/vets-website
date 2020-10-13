@@ -8,6 +8,7 @@ import {
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
   selectIsCernerOnlyPatient,
+  selectVet360ResidentialAddress,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -397,6 +398,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         typeOfCareId,
         schema,
         uiSchema,
+        address: selectVet360ResidentialAddress(initialState),
       });
     } catch (e) {
       captureError(e, false, 'facility page');

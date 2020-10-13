@@ -17,7 +17,7 @@ import {
   getChosenCCSystemId,
   getChosenSlot,
   selectExpressCareFormData,
-  vaosFlatFacilityPage,
+  selectUseFlatFacilityPage,
 } from './selectors';
 import { getTimezoneBySystemId } from './timezone';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
@@ -59,9 +59,9 @@ export function transformFormToVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
   const siteId = getSiteIdForChosenFacility(state);
-  const isFacilityV2Page = vaosFlatFacilityPage(state);
+  const isFacilityV2Page = selectUseFlatFacilityPage(state);
   const facilityId = isFacilityV2Page
-    ? facility.id
+    ? facility.id.replace('var', '')
     : getFacilityIdFromLocation(facility);
 
   return {

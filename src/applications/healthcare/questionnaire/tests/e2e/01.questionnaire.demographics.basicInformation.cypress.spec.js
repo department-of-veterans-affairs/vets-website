@@ -16,7 +16,6 @@ describe('healthcare questionnaire -- demographics -- basic information', () => 
   });
 
   it('basic information', () => {
-    cy.get('.schemaform-title>h1').contains('Reason for visit clipboard');
     cy.findByTestId('fullName').contains('Calvin C Fletcher', {
       matchCase: true,
     });

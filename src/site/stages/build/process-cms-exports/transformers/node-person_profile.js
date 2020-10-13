@@ -3,6 +3,7 @@ const {
   isPublished,
   utcToEpochTime,
   createMetaTagArray,
+  getImageCrop,
 } = require('./helpers');
 
 const transform = (entity, { ancestors }) => ({
@@ -19,22 +20,22 @@ const transform = (entity, { ancestors }) => ({
   fieldLastName: getDrupalValue(entity.fieldLastName),
   fieldMedia:
     entity.fieldMedia && entity.fieldMedia.length > 0
-      ? { entity: entity.fieldMedia[0] }
+      ? { entity: getImageCrop(entity.fieldMedia[0], '_23MEDIUMTHUMBNAIL') }
       : null,
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
-  // If entity.fieldOffice[0] is an ancestor of this entity ignore it
-  // entity.fieldOffice[0] would be untransformed, causing errors
-  // so we need it transformed here, which will happen in the parent transformer
-  fieldOffice:
-    entity.fieldOffice[0] &&
-    !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
-      ? {
-          entity: {
-            entityLabel: entity.fieldOffice[0].entityLabel,
-            entityType: entity.fieldOffice[0].entityType,
-          },
-        }
-      : null,
+  fieldOffice: entity.fieldOffice[0]
+    ? {
+        entity: !ancestors.find(
+          r => r.entity.uuid === entity.fieldOffice[0].uuid,
+        )
+          ? entity.fieldOffice[0]
+          : {
+              entityLabel: getDrupalValue(entity.fieldOffice[0].title),
+              entityType: entity.fieldOffice[0].entityType,
+              entityUrl: entity.fieldOffice[0].entityUrl,
+            },
+      }
+    : null,
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
   fieldSuffix: getDrupalValue(entity.fieldSuffix),
   // Used for reverse fields in other transformers

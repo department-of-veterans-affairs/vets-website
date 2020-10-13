@@ -7,7 +7,6 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
 
   changed
   title
-  fieldDescription
   fieldIntroTextLimitedHtml {
     processed
   }
@@ -22,9 +21,9 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
       ... button
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
 

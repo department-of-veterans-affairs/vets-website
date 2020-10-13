@@ -35,6 +35,7 @@ import {
   formatDateRange,
   isBDD,
   show526Wizard,
+  isUndefined,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -628,6 +629,21 @@ describe('526 helpers', () => {
       };
 
       expect(activeServicePeriods(formData)).to.eql([futurePeriod, noToDate]);
+    });
+  });
+
+  describe('isUndefined', () => {
+    it('should detect undefined (falsy) values', () => {
+      let undef;
+      expect(isUndefined()).to.be.true;
+      expect(isUndefined(false)).to.be.true;
+      expect(isUndefined('')).to.be.true;
+      expect(isUndefined(0)).to.be.true;
+      expect(isUndefined(undef)).to.be.true;
+      expect(isUndefined('0')).to.be.false;
+      expect(isUndefined(' ')).to.be.false;
+      expect(isUndefined(1)).to.be.false;
+      expect(isUndefined(true)).to.be.false;
     });
   });
 });

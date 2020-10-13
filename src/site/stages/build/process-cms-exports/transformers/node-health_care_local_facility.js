@@ -1,9 +1,12 @@
+/* eslint-disable camelcase */
+
 const {
   getDrupalValue,
   isPublished,
   createMetaTagArray,
   combineItemsInIndexedObject,
   utcToEpochTime,
+  getImageCrop,
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
 
@@ -12,6 +15,41 @@ const getSocialMediaObject = ({ uri, title }) =>
     ? {
         url: { path: uri },
         title,
+      }
+    : null;
+
+const getFieldRegionObject = ({
+  title,
+  field_related_links,
+  field_govdelivery_id_emerg,
+  field_govdelivery_id_news,
+  field_operating_status,
+  field_facebook,
+  field_flickr,
+  field_instagram,
+  field_twitter,
+}) =>
+  title
+    ? {
+        title: getDrupalValue(title),
+        fieldRelatedLinks: field_related_links[0],
+        fieldGovdeliveryIdEmerg: getDrupalValue(field_govdelivery_id_emerg),
+        fieldGovdeliveryIdNews: getDrupalValue(field_govdelivery_id_news),
+        fieldOperatingStatus: field_operating_status[0]
+          ? getSocialMediaObject(field_operating_status[0])
+          : null,
+        fieldFacebook: field_facebook[0]
+          ? getSocialMediaObject(field_facebook[0])
+          : null,
+        fieldFlickr: field_flickr[0]
+          ? getSocialMediaObject(field_flickr[0])
+          : null,
+        fieldInstagram: field_instagram[0]
+          ? getSocialMediaObject(field_instagram[0])
+          : null,
+        fieldTwitter: field_twitter[0]
+          ? getSocialMediaObject(field_twitter[0])
+          : null,
       }
     : null;
 
@@ -44,7 +82,7 @@ const transform = (entity, { ancestors }) => ({
   fieldMainLocation: getDrupalValue(entity.fieldMainLocation),
   fieldMedia:
     entity.fieldMedia && entity.fieldMedia.length
-      ? { entity: entity.fieldMedia[0] }
+      ? { entity: getImageCrop(entity.fieldMedia[0], '_32MEDIUMTHUMBNAIL') }
       : null,
   fieldMentalHealthPhone: getDrupalValue(entity.fieldMentalHealthPhone),
   fieldNicknameForThisFacility: getDrupalValue(
@@ -57,11 +95,15 @@ const transform = (entity, { ancestors }) => ({
     entity.fieldOperatingStatusMoreInfo,
   ),
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
-  fieldRegionPage:
-    entity.fieldRegionPage[0] &&
-    !ancestors.find(r => r.entity.uuid === entity.fieldRegionPage[0].uuid)
-      ? { entity: entity.fieldRegionPage[0] }
-      : null,
+  fieldRegionPage: entity.fieldRegionPage[0]
+    ? {
+        entity: !ancestors.find(
+          r => r.entity.uuid === entity.fieldRegionPage[0].uuid,
+        )
+          ? entity.fieldRegionPage[0]
+          : getFieldRegionObject(entity.fieldRegionPage[0]),
+      }
+    : null,
   fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
 });
 
