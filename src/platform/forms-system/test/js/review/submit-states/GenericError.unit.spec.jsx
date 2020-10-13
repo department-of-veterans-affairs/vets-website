@@ -205,7 +205,7 @@ describe('Schemaform review: <GenericError />', () => {
     tree.unmount();
   });
 
-  it('renders non save-in-progress error', () => {
+  it('renders default non save-in-progress error', () => {
     const onSubmit = sinon.spy();
 
     const form = createForm();
@@ -230,6 +230,37 @@ describe('Schemaform review: <GenericError />', () => {
 
     expect(tree.getByText('We’re sorry, the test didn’t go through.')).to.not.be
       .null;
+
+    tree.unmount();
+  });
+
+  it('renders custom non save-in-progress error', () => {
+    const onSubmit = sinon.spy();
+
+    const form = createForm();
+    const formConfig = getFormConfig({
+      disableSave: true,
+      submissionError: () => <div>Custom Error Message</div>,
+    });
+
+    const formReducer = createformReducer({
+      formConfig: form,
+    });
+
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <GenericError
+          appType="test"
+          formConfig={formConfig}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+
+    expect(tree.getByText('Custom Error Message')).to.not.be.null;
 
     tree.unmount();
   });

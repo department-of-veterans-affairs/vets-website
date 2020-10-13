@@ -15,6 +15,10 @@ export default function GenericError(props) {
 
   if (!formConfig.disableSave) {
     submitMessage = <FormSaveErrorMessage formConfig={formConfig} />;
+  } else if (formConfig.submissionError) {
+    const SubmissionError = formConfig.submissionError;
+
+    submitMessage = <SubmissionError form={formConfig} />;
   } else {
     submitMessage = (
       <ErrorMessage
