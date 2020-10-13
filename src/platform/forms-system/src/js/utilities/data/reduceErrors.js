@@ -116,15 +116,31 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
  */
 export const reduceErrors = (errors, pageList) =>
   errors.reduce((result, error) => {
-    const findErrors = (key, err) => {
+    const findErrors = (name, err) => {
       if (typeof err === 'object') {
+        // process the last type of error message which provides an `__errors`
+        // message array. If there are multiple errors, we'll join them into
+        // one message.
+        if (err?.__errors?.length && !errorExists(result, name)) {
+          const { chapterKey = '', pageKey = '' } = getPropertyInfo(
+            pageList,
+            name,
+          );
+          result.push({
+            name,
+            index: null,
+            message: err.__errors.join('. '),
+            chapterKey,
+            pageKey,
+          });
+        }
         if (err.property) {
           // property includes a path to the error; we'll remove "instance",
           // then use `getPropertyInfo` to search the pageList to find the
           // matching chapterKey & pageKey
           const property = err.property.replace(/^instance\.?/, '') || '';
           // name is the property that had the validation error
-          const name =
+          const propertyName =
             err.name === 'required'
               ? err.argument
               : property.replace(/(\[\d+\])/, ''); // don't include array index
@@ -135,7 +151,7 @@ export const reduceErrors = (errors, pageList) =>
            * "Does not meet minimum length of 1"; there's no need to confuse
            * anyone and show both
           */
-          if (!errorExists(result, name)) {
+          if (!errorExists(result, propertyName)) {
             const { chapterKey = '', pageKey = '' } = getPropertyInfo(
               // List of all form pages; includes chapterKey, pageKey and
               // uiSchema
@@ -148,7 +164,7 @@ export const reduceErrors = (errors, pageList) =>
             );
             result.push({
               // property name
-              name,
+              name: propertyName,
               // property may be `array[0]`; we need to extract out the `0`
               index: property.match(/\[(\d+)\]/)?.[1] || null,
               // the "stack" string isn't included in the one error message
@@ -164,27 +180,12 @@ export const reduceErrors = (errors, pageList) =>
           }
           return null;
         }
-        // process the last type of error message which provides an `__errors`
-        // message array. If there are multiple errors, we'll join them into
-        // one message.
-        if (err?.__errors?.length && !errorExists(result, key)) {
-          const { chapterKey = '', pageKey = '' } = getPropertyInfo(
-            pageList,
-            key,
-          );
-          result.push({
-            name: key,
-            index: null,
-            message: err.__errors.join('. '),
-            chapterKey,
-            pageKey,
-          });
-        }
         // process nested error messages (follows uiSchema nesting)
-        Object.keys(err).forEach(sub => findErrors(sub, err[sub]));
+        Object.keys(err).forEach(key => findErrors(key, err[key]));
       }
       return null;
     };
-    findErrors('', error);
+    // Initialize search for errors
+    Object.keys(error).forEach(key => findErrors(key, error));
     return result;
   }, []);
