@@ -63,7 +63,8 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
  * @property {string|number} argument - name of the property or index in array
  *   with the validation error
  * @property {object} schema - schema of the page; ignored by this error reducer
- * @property {string} stack - error message used in processing
+ * @property {string} stack - error message used in processing; similar to the
+ *   error message, but includes the path to the error
  * @property {string[]} __errors - may contain multiple error messages for one
  *   element
  *
@@ -148,7 +149,7 @@ export const reduceErrors = (errors, pageList) =>
             result.push({
               // property name
               name,
-              // property may be `array[0]`; we need to extract out the `[0]`
+              // property may be `array[0]`; we need to extract out the `0`
               index: property.match(/\[(\d+)\]/)?.[1] || null,
               // the "stack" string isn't included in the one error message
               // example, so we'll include the message. We'll process and
