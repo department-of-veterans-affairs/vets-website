@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
-const ChiefComplaintField = props => {
+const ReasonForVisitDescriptionField = props => {
   const { onReviewPage, reviewMode } = props.formContext;
   const currentValue = props.value;
   // const { chiefComplaint } = props;
@@ -32,4 +32,4 @@ const mapStateToProps = () => ({
 export default connect(
   mapStateToProps,
   null,
-)(ChiefComplaintField);
+)(ReasonForVisitDescriptionField);

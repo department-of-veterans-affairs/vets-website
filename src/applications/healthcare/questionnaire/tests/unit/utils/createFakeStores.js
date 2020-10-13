@@ -161,7 +161,7 @@ const createFakeUserStore = (
   };
 };
 
-const createFakeChiefComplaintStore = () => {
+const createFakeReasonForVisitDescriptionStore = () => {
   return {
     getState: () => ({}),
     subscribe: () => {},
@@ -213,7 +213,7 @@ const createFakeConfirmationStore = ({ hasData }) => {
 
 export {
   createFakeUserStore,
-  createFakeChiefComplaintStore,
+  createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
   createFakeConfirmationStore,
 };

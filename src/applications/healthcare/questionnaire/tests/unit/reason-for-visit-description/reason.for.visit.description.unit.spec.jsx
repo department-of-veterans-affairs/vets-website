@@ -3,16 +3,16 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import ChiefComplaintField from '../../../components/chief-complaint/ChiefComplaintField';
+import ReasonForVisitDescriptionField from '../../../components/reason-for-visit-description/ReasonForVisitDescriptionField';
 
-import { createFakeChiefComplaintStore } from '../utils/createFakeStores';
+import { createFakeReasonForVisitDescriptionStore } from '../utils/createFakeStores';
 
 describe('healthcare-questionnaire - chief complaint -', () => {
   it('Chief Complaint -- parsing reason from state -- text widget is rendered by default', () => {
-    const fakeStore = createFakeChiefComplaintStore();
+    const fakeStore = createFakeReasonForVisitDescriptionStore();
     const onChange = sinon.spy();
     const wrapper = mount(
-      <ChiefComplaintField
+      <ReasonForVisitDescriptionField
         store={fakeStore}
         id="1"
         schema={{ type: 'string' }}
@@ -26,10 +26,10 @@ describe('healthcare-questionnaire - chief complaint -', () => {
     wrapper.unmount();
   });
   it('Chief Complaint -- parsing reason from state -- text widget should not render on review page', () => {
-    const fakeStore = createFakeChiefComplaintStore();
+    const fakeStore = createFakeReasonForVisitDescriptionStore();
     const onChange = sinon.spy();
     const wrapper = mount(
-      <ChiefComplaintField
+      <ReasonForVisitDescriptionField
         store={fakeStore}
         id="1"
         schema={{ type: 'string' }}
@@ -47,10 +47,10 @@ describe('healthcare-questionnaire - chief complaint -', () => {
     wrapper.unmount();
   });
   it('Chief Complaint -- parsing reason from state -- text widget should  render on review page and edit Mode', () => {
-    const fakeStore = createFakeChiefComplaintStore();
+    const fakeStore = createFakeReasonForVisitDescriptionStore();
     const onChange = sinon.spy();
     const wrapper = mount(
-      <ChiefComplaintField
+      <ReasonForVisitDescriptionField
         store={fakeStore}
         id="1"
         schema={{ type: 'string' }}
