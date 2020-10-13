@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
+import {
+  formLinks,
+  formDescriptions,
+  formBenefits,
+} from 'applications/personalization/dashboard/helpers';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { removeSavedForm } from '../../user/profile/actions';
-import {
-  expiredMessage,
-  inProgressMessage,
-} from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
@@ -34,7 +35,7 @@ export class ApplicationStatus extends React.Component {
     }
   }
 
-  removeForm = (formId, appRootUrl) => {
+  removeForm = formId => {
     this.setState({ modalOpen: false, loading: true });
     this.props
       .removeSavedForm(formId)
@@ -42,7 +43,7 @@ export class ApplicationStatus extends React.Component {
       .catch(x => x)
       .then(() => {
         if (!this.props.stayAfterDelete) {
-          window.location.href = appRootUrl;
+          window.location.href = formLinks[formId];
         } else {
           this.setState({ modalOpen: false, loading: false });
         }
@@ -122,7 +123,7 @@ export class ApplicationStatus extends React.Component {
           <div className="usa-alert usa-alert-info background-color-only sip-application-status">
             <h5 className="form-title saved">Your {appType} is in progress</h5>
             <span className="saved-form-item-metadata">
-              {inProgressMessage(formConfig)}
+              Your {formDescriptions[formId]} is in progress.
             </span>
             <br />
             <span className="saved-form-item-metadata">
@@ -139,7 +140,7 @@ export class ApplicationStatus extends React.Component {
             <p>
               <a
                 className="usa-button-primary"
-                href={`${formConfig.rootUrl}/resume`}
+                href={`${formLinks[formId]}resume`}
               >
                 {continueAppButtonText}
               </a>
@@ -168,9 +169,7 @@ export class ApplicationStatus extends React.Component {
             >
               <p>Are you sure you want to start over?</p>
               <ProgressButton
-                onButtonClick={() =>
-                  this.removeForm(formId, formConfig.rootUrl)
-                }
+                onButtonClick={() => this.removeForm(formId)}
                 buttonText={startNewAppButtonText}
                 buttonClass="usa-button-primary"
               />
@@ -187,7 +186,8 @@ export class ApplicationStatus extends React.Component {
         <div className="usa-alert usa-alert-warning background-color-only sip-application-status">
           <h5 className="form-title saved">Your {appType} has expired</h5>
           <span className="saved-form-item-metadata">
-            {expiredMessage(formConfig)}
+            Your saved {formDescriptions[formId]} has expired. If you want to
+            apply for {formBenefits[formId]}, please start a new {appType}.
           </span>
           <br />
           <p>
@@ -213,7 +213,7 @@ export class ApplicationStatus extends React.Component {
           >
             <p>Are you sure you want to start over?</p>
             <ProgressButton
-              onButtonClick={() => this.removeForm(formId, formConfig.rootUrl)}
+              onButtonClick={() => this.removeForm(formId)}
               buttonText={startNewAppButtonText}
               buttonClass="usa-button-primary"
             />
@@ -242,7 +242,7 @@ export class ApplicationStatus extends React.Component {
             <div className="sip-application-status">
               <a
                 className="usa-button-primary va-button-primary"
-                href={formConfig.rootUrl}
+                href={formLinks[formId]}
               >
                 {applyText}
               </a>
