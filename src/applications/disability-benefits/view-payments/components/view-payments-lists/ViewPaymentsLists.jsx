@@ -141,9 +141,7 @@ class ViewPaymentsLists extends Component {
             about payments made by VA, please call the VA Help Desk at{' '}
             <Telephone contact={CONTACTS.VA_BENEFITS} />
             {paymentsReturnedTableContent}
-            <p className="vads-u-font-size--h3 vads-u-font-weight--bold">
-              What if I find a check that I reported missing?
-            </p>
+            <h3>What if I find a check that I reported missing?</h3>
             <p>
               If you reported a check missing and found it later, you must
               return the original check to the U.S. Department of the Treasury

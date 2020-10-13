@@ -48,6 +48,10 @@ export const paymentsReturnedFields = [
     label: 'Type',
     value: 'returnedCheckType',
   },
+  {
+    label: 'Reason',
+    value: 'returnReason',
+  },
 ];
 
 export const clientServerErrorContent = receivedOrReturned => (
