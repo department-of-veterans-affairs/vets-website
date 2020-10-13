@@ -1,5 +1,5 @@
 // min/max length or item errors may show up as duplicates
-const errorExists = (acc, name) => acc.some(obj => obj.name === name);
+const errorExists = (list, name) => list.some(obj => obj.name === name);
 
 // Keys to ignore within the pageList objects & pageList schema
 const ignoreKeys = [
@@ -110,7 +110,7 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
  * @param {object[]} pageList - list of all form pages from `form.pages`
  */
 export const reduceErrors = (errors, pageList) =>
-  errors.reduce((acc, error) => {
+  errors.reduce((result, error) => {
     const findErrors = (key, err) => {
       if (typeof err === 'object') {
         if (err.message) {
@@ -124,13 +124,13 @@ export const reduceErrors = (errors, pageList) =>
            * "Does not meet minimum length of 1"; there's no need to confuse
            * anyone and show both
           */
-          if (!errorExists(acc, name)) {
+          if (!errorExists(result, name)) {
             const { chapterKey = '', pageKey = '' } = getPropertyInfo(
               pageList,
               err.argument || err.property.split('.').slice(-1)[0],
               err.property.startsWith('instance.') ? instance : '',
             );
-            acc.push({
+            result.push({
               name,
               // property may be `array[0]`; we need to extract out the `[0]`
               index: property.match(/\[(\d+)\]/)?.[1] || null,
@@ -141,12 +141,12 @@ export const reduceErrors = (errors, pageList) =>
           }
           return null;
         }
-        if (err.__errors && err.__errors.length && !errorExists(acc, key)) {
+        if (err.__errors && err.__errors.length && !errorExists(result, key)) {
           const { chapterKey = '', pageKey = '' } = getPropertyInfo(
             pageList,
             key,
           );
-          acc.push({
+          result.push({
             name: key,
             index: null,
             message: err.__errors.join('. '),
@@ -159,5 +159,5 @@ export const reduceErrors = (errors, pageList) =>
       return null;
     };
     findErrors('', error);
-    return acc;
+    return result;
   }, []);
