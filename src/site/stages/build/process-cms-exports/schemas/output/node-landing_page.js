@@ -15,6 +15,7 @@ module.exports = {
     fieldAlert: {
       oneOf: [{ $ref: 'output/block_content-alert' }, { type: 'null' }],
     },
+    fieldHomePageHubLabel: { type: 'string' },
     fieldIntroText: { type: 'string' },
     fieldLinks: {
       type: 'array',
@@ -72,6 +73,7 @@ module.exports = {
     'entityPublished',
     'fieldAdministration',
     'fieldAlert',
+    'fieldHomePageHubLabel',
     'fieldIntroText',
     'fieldLinks',
     'fieldPageLastBuilt',
