@@ -5,9 +5,6 @@ import ResponsiveTable from '../../responsive-table/ResponsiveTable';
 import { clientServerErrorContent } from '../helpers';
 import { chunk } from 'lodash';
 
-const alertClasses =
-  'vads-u-padding-y--2p5 vads-u-padding-right--4 vads-u-padding-left--2';
-
 class Payments extends Component {
   state = {
     page: 1,
@@ -102,10 +99,10 @@ class Payments extends Component {
     } else {
       tableContent = (
         <AlertBox
-          className={alertClasses}
           content={clientServerErrorContent('Received')}
           status="info"
-          isVisible
+          backgroundOnly="true"
+          className="vads-u-background-color--gray-lightest"
         />
       );
     }
