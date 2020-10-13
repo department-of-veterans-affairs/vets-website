@@ -167,7 +167,7 @@ export const reduceErrors = (errors, pageList) =>
         // process the last type of error message which provides an `__errors`
         // message array. If there are multiple errors, we'll join them into
         // one message.
-        if (err.__errors && err.__errors.length && !errorExists(result, key)) {
+        if (err?.__errors?.length && !errorExists(result, key)) {
           const { chapterKey = '', pageKey = '' } = getPropertyInfo(
             pageList,
             key,
