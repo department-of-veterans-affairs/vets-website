@@ -4,7 +4,7 @@ import {
   getEligibilityStatus,
   getTypeOfCare,
   getChosenFacilityInfo,
-  vaosFlatFacilityPage,
+  selectUseFlatFacilityPage,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import { getSiteIdFromFakeFHIRId } from '../services/location';
@@ -55,13 +55,15 @@ function isPodiatry(state) {
 }
 
 function getFacilityPageKey(state) {
-  return vaosFlatFacilityPage(state) ? VA_FACILITY_V2_KEY : VA_FACILITY_V1_KEY;
+  return selectUseFlatFacilityPage(state)
+    ? VA_FACILITY_V2_KEY
+    : VA_FACILITY_V1_KEY;
 }
 
 async function vaFacilityNext(state, dispatch) {
   let eligibility;
 
-  if (vaosFlatFacilityPage(state)) {
+  if (selectUseFlatFacilityPage(state)) {
     const facility = getChosenFacilityInfo(state);
     const siteId = getSiteIdFromFakeFHIRId(facility.id);
     eligibility = await dispatch(checkEligibility(facility, siteId));

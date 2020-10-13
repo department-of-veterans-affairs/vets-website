@@ -23,7 +23,7 @@ describe('AccountSecurityContent', () => {
     mhvAccount: { termsAndConditionsAccepted: true },
     showMHVTermsAndConditions: true,
     useSSOe: true,
-    isInMVI: true,
+    showWeHaveVerifiedYourID: true,
   });
 
   it('should render a ProfileInfoTable as its first child', () => {
@@ -102,6 +102,7 @@ describe('AccountSecurityContent', () => {
       it('should pass in three rows of data', () => {
         props = makeDefaultProps();
         props.isIdentityVerified = false;
+        props.showWeHaveVerifiedYourID = false;
         wrapper = shallow(<AccountSecurityContent {...props} />);
         infoTableData = wrapper.find('ProfileInfoTable').prop('data');
         expect(infoTableData.length).to.equal(3);
@@ -155,35 +156,6 @@ describe('mapStateToProps', () => {
         },
       });
       expect(mappedProps.isIdentityVerified).to.be.false;
-    });
-  });
-
-  describe('isInMVI', () => {
-    it('should be `true` if the user can be found in the MVI/MPI', () => {
-      const mappedProps = mapStateToProps({
-        user: {
-          profile: {
-            loa: {
-              current: 3,
-            },
-            status: 'OK',
-          },
-        },
-      });
-      expect(mappedProps.isInMVI).to.be.true;
-    });
-    it('should be `false` if the user cannot be found in the MVI/MPI', () => {
-      const mappedProps = mapStateToProps({
-        user: {
-          profile: {
-            loa: {
-              current: 3,
-            },
-            status: null,
-          },
-        },
-      });
-      expect(mappedProps.isInMVI).to.be.false;
     });
   });
 

@@ -4,6 +4,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   selectPatientFacilities,
   selectIsCernerOnlyPatient,
+  selectIsCernerPatient,
   selectVet360ResidentialAddress,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
@@ -58,9 +59,11 @@ export const vaosExpressCare = state =>
   toggleValues(state).vaOnlineSchedulingExpressCare;
 export const vaosExpressCareNew = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
-export const vaosFlatFacilityPage = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
+const vaosFlatFacilityPage = state =>
+  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
+export const selectUseFlatFacilityPage = state =>
+  vaosFlatFacilityPage(state) && !selectIsCernerPatient(state);
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -131,7 +134,7 @@ export function getChosenFacilityInfo(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
-  const selectedTypeOfCareFacilities = vaosFlatFacilityPage(state)
+  const selectedTypeOfCareFacilities = selectUseFlatFacilityPage(state)
     ? facilities[`${typeOfCareId}`]
     : facilities[`${typeOfCareId}_${data.vaParent}`];
 
@@ -211,7 +214,7 @@ export function getParentOfChosenFacility(state) {
 }
 
 export function getChosenFacilityDetails(state) {
-  if (vaosFlatFacilityPage(state)) {
+  if (selectUseFlatFacilityPage(state)) {
     return getChosenFacilityInfo(state);
   }
 

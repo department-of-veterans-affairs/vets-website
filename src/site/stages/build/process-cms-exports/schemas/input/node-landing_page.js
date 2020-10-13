@@ -23,6 +23,7 @@ module.exports = {
       items: { $ref: 'EntityReference' },
     },
     field_alert: { type: 'array' },
+    field_home_page_hub_label: { $ref: 'GenericNestedString' },
     field_intro_text: { $ref: 'GenericNestedString' },
     // This is essentially a list of paragraph-link_teaser,
     // but only containing the data in field_link
@@ -66,6 +67,7 @@ module.exports = {
     'path',
     'field_administration',
     'field_alert',
+    'field_home_page_hub_label',
     'field_intro_text',
     'field_links',
     'field_page_last_built',
