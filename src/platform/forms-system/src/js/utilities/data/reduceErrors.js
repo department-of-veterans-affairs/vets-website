@@ -54,12 +54,15 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
  * @typedef Form~rawErrors - list of raw errors that are output from jsonschema
  *   validator
  * @type {object}
- * @property {string} property
- * @property {string} message
- * @property {string} name
+ * @property {string} property - path within the page uiSchema that leds to the
+ *   error. Always starts with "instance"
+ * @property {string} message - specific error message. It may or may not
+ *   include the property causing the error
+ * @property {string} name - When provided, it includes the type of error, e.g.
+ *   "required", "minItems", "maxItems", etc
  * @property {string|number} argument - name of the property or index in array
  *   with the validation error
- * @property {object} schema - ignored
+ * @property {object} schema - schema of the page; ignored by this error reducer
  * @property {string} stack - error message used in processing
  * @property {string[]} __errors - may contain multiple error messages for one
  *   element
