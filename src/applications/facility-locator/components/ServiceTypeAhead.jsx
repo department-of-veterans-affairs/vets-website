@@ -13,6 +13,7 @@ class ServiceTypeAhead extends Component {
     super(props);
     this.state = {
       services: [],
+      pressedEnter: false,
     };
   }
 
@@ -34,6 +35,7 @@ class ServiceTypeAhead extends Component {
   };
 
   handleOnSelect = selectedItem => {
+    if (selectedItem === 'not-found') return;
     const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
     this.props.onSelect({
       target: { value },
@@ -49,7 +51,7 @@ class ServiceTypeAhead extends Component {
   };
 
   shouldShow = (input, specialty) => {
-    if (!specialty) {
+    if (!specialty || !input) {
       return false;
     }
     const specialtyName = this.getSpecialtyName(specialty);
@@ -61,6 +63,63 @@ class ServiceTypeAhead extends Component {
     }
     return false;
   };
+
+  renderSpecialtiesOptions(
+    isOpen,
+    inputValue,
+    services,
+    getItemProps,
+    highlightedIndex,
+    selectedItem,
+  ) {
+    const servicesFound = services.filter(svc =>
+      this.shouldShow(inputValue, svc),
+    );
+
+    if (servicesFound.length > 0 && !selectedItem) {
+      return (
+        <div className="dropdown" role="listbox">
+          {services
+            .filter(svc => this.shouldShow(inputValue, svc))
+            .map((svc, index) => (
+              <div
+                key={svc.name + Date.now()}
+                {...getItemProps({
+                  item: svc,
+                  className: this.optionClasses(index === highlightedIndex),
+                  role: 'option',
+                  'aria-selected': index === highlightedIndex,
+                })}
+              >
+                {this.getSpecialtyName(svc)}
+              </div>
+            ))}
+        </div>
+      );
+    }
+    if (
+      isOpen &&
+      services.length > 0 &&
+      inputValue.length >= 2 &&
+      this.state.pressedEnter
+    ) {
+      return (
+        <div className="dropdown" role="listbox">
+          <div
+            key="not-found"
+            {...getItemProps({
+              item: 'not-found',
+              className: 'dropdown-option',
+              role: 'option',
+            })}
+          >
+            We're sorry. This service type was not found.
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
 
   render() {
     const { defaultSelectedItem, services } = this.state;
@@ -87,6 +146,7 @@ class ServiceTypeAhead extends Component {
           isOpen,
           inputValue,
           highlightedIndex,
+          selectedItem,
         }) => (
           <div>
             <label {...getLabelProps()} htmlFor="service-type-ahead-input">
@@ -96,32 +156,31 @@ class ServiceTypeAhead extends Component {
             <span id="service-typeahead">
               <input
                 {...getInputProps({
+                  onKeyDown: event => {
+                    if (event.key === 'Enter') {
+                      this.setState({
+                        pressedEnter: true,
+                      });
+                    }
+                    if (this.state.pressedEnter) {
+                      this.setState({
+                        pressedEnter: false,
+                      });
+                    }
+                  },
                   placeholder: 'Like primary care, cardiology',
                 })}
                 id="service-type-ahead-input"
                 required
               />
-              {isOpen && inputValue.length >= 2 ? (
-                <div className="dropdown" role="listbox">
-                  {services
-                    .filter(specialty => this.shouldShow(inputValue, specialty))
-                    .map((specialty, index) => (
-                      <div
-                        key={this.getSpecialtyName(specialty)}
-                        {...getItemProps({
-                          item: specialty,
-                          className: this.optionClasses(
-                            index === highlightedIndex,
-                          ),
-                          role: 'option',
-                          'aria-selected': index === highlightedIndex,
-                        })}
-                      >
-                        {this.getSpecialtyName(specialty)}
-                      </div>
-                    ))}
-                </div>
-              ) : null}
+              {this.renderSpecialtiesOptions(
+                isOpen,
+                inputValue,
+                services,
+                getItemProps,
+                highlightedIndex,
+                selectedItem,
+              )}
             </span>
           </div>
         )}
