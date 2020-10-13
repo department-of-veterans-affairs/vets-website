@@ -131,19 +131,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       createPastEventListPages(pageCompiled, drupalPageDir, files);
     }
   }
-
-  const resourcesAndSupport = createFileObj(
-    {
-      path: '/resources-and-support/all-articles/index.html',
-      articles: JSON.stringify(
-        contentData.data.resourceAndSupportArticleListings,
-      ),
-      vagovprod: false,
-    },
-    'resources_support_article_listings.drupal.liquid',
-  );
-
-  files['resources-and-support/all-articles/index.html'] = resourcesAndSupport;
 }
 
 /**

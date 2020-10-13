@@ -1,0 +1,38 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+
+<div itemscope itemtype="https://schema.org/FAQPage">
+  <div id="content" class="interior">
+    <main class="va-l-detail-page">
+      <div class="usa-grid usa-grid-full">
+        <div class="usa-width-three-fourths">
+          <article class="usa-content">
+            <h1>{{ title }}</h1>
+            <ul class="usa-unstyled-list">
+            {% for article in articles %}
+              <li>
+                <div class="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter">
+                  <h2>
+                    <a href="{{ article.entityUrl.path }}">{{ article.title }}</a>
+                  </h2>
+                  {% if article.fieldIntroTextLimitedHtml %}
+                    {{ article.fieldIntroTextLimitedHtml.processed }}
+                  {% endif %}
+                </div>
+              </li>
+            {% endfor %}
+            </ul>
+          </article>
+          {% include "src/site/includes/pagination.drupal.liquid" %}
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}
