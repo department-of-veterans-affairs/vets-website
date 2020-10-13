@@ -15,16 +15,31 @@ const ignoreKeys = [
   'initialData',
 ];
 
-const isIgnoredSchemaKey = key =>
-  key.startsWith('ui:') || ignoreKeys.includes(key);
-
-// Find the chapter and page name that contains the property (name) which is
-// used to build a link that will expand the associated accordion when clicked
+/**
+ * @typedef Form~pageList
+ * @type {object[]}
+ * @property {string} title - page title
+ * @property {string} path - url path
+ * @property {object} uiSchema - page uiSchema
+ * @property {object} schema - page schema
+ * @property {string} chapterTitle - title shown in review accordion
+ * @property {string} chapterKey - chapter key from config/form
+ * @property {string} pageKey - page key within chapter key from config/form
+ */
+/**
+ * Find the chapter and page name that contains the property (name) which is
+ * used to build a link that will expand the associated accordion when clicked
+ * @param {Form~pageList} pageList - list of all form pages from `route.pageList`
+ * @param {string} name - target end path where the error occurred
+ * @param {string} instance - path inside the page object within the uiSchema,
+ *   but we can't specify that since this is a recursive search function
+ * @return {object}
+ */
 const getPropertyInfo = (pageList = [], name, instance = '') => {
   const findPageIndex = (obj, insideInstance = instance === '') => {
     if (obj && typeof obj === 'object') {
       return Object.keys(obj).findIndex(key => {
-        if (isIgnoredSchemaKey(key)) {
+        if (key.startsWith('ui:') || ignoreKeys.includes(key)) {
           return false;
         }
         if (insideInstance && name === key && obj[name]) {
@@ -112,7 +127,7 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
 /**
  * Process rawErrors from jsonschema validator into a more friendly list
  * @param {Form~formErrors} errors
- * @param {object[]} pageList - list of all form pages from `form.pages`
+ * @param {Form~pageList} pageList - list of all form pages from `route.pageList`
  */
 export const reduceErrors = (errors, pageList) =>
   errors.reduce((result, error) => {
