@@ -61,6 +61,7 @@ class SubmitController extends Component {
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
+
     if (preSubmit.required && !form.data[preSubmit.field]) {
       this.props.setSubmission('hasAttemptedSubmit', true);
       // <PreSubmitSection/> is displaying an error for this case
@@ -70,13 +71,13 @@ class SubmitController extends Component {
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
     const { isValid, errors } = isValidForm(form, pageList);
-    const processedErrors = reduceErrors(errors, pageList);
-    this.props.setFormErrors({
-      rawErrors: errors,
-      errors: processedErrors,
-    });
 
     if (!isValid) {
+      const processedErrors = reduceErrors(errors, pageList);
+      this.props.setFormErrors({
+        rawErrors: errors,
+        errors: processedErrors,
+      });
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
       });
