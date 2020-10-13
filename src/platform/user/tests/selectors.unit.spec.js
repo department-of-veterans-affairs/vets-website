@@ -410,4 +410,80 @@ describe('user selectors', () => {
       expect(selectors.isInMPI(state)).to.be.false;
     });
   });
+
+  describe('selectCernerRxFacilities', () => {
+    it('returns the Cerner facilities that are not in the RX blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, but blocked from RX
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from RX
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [{ facilityId: '668', isCerner: true }];
+      expect(selectors.selectCernerRxFacilities(state)).to.deep.equal(expected);
+    });
+  });
+
+  describe('selectCernerMessagingFacilities', () => {
+    it('returns the Cerner facilities that are not in the messaging blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, but blocked from messaging
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from messaging
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [{ facilityId: '668', isCerner: true }];
+      expect(selectors.selectCernerMessagingFacilities(state)).to.deep.equal(
+        expected,
+      );
+    });
+  });
+
+  describe('selectCernerAppointmentsFacilities', () => {
+    it('returns the Cerner facilities that are not in the appointments blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, not blocked from appointments
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from appointments
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        { facilityId: '757', isCerner: true },
+        { facilityId: '668', isCerner: true },
+      ];
+      expect(selectors.selectCernerAppointmentsFacilities(state)).to.deep.equal(
+        expected,
+      );
+    });
+  });
 });

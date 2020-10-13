@@ -1,7 +1,12 @@
 // TODO: perhaps make these selectors fail gracefully if state.user, or any of
 // the properties on the user object are not defined
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { CERNER_FACILITY_IDS } from '../utilities/cerner';
+import {
+  CERNER_APPOINTMENTS_BLOCKLIST,
+  CERNER_FACILITY_IDS,
+  CERNER_MESSAGING_BLOCKLIST,
+  CERNER_RX_BLOCKLIST,
+} from '../utilities/cerner';
 
 export const selectUser = state => state.user;
 export const isLoggedIn = state => selectUser(state).login.currentlyLoggedIn;
@@ -70,3 +75,21 @@ export const selectIsCernerOnlyPatient = state =>
 
 export const selectIsCernerPatient = state =>
   selectPatientFacilities(state)?.some(f => f.isCerner);
+
+// return the Cerner facilities that are _not_ blocked from Cerner's RX features
+export const selectCernerRxFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => f.isCerner && !CERNER_RX_BLOCKLIST.includes(f.facilityId),
+  );
+
+// return the Cerner facilities that are _not_ blocked from Cerner's secure messaging features
+export const selectCernerMessagingFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => f.isCerner && !CERNER_MESSAGING_BLOCKLIST.includes(f.facilityId),
+  );
+
+// return the Cerner facilities that are _not_ blocked from Cerner's appointments features
+export const selectCernerAppointmentsFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => f.isCerner && !CERNER_APPOINTMENTS_BLOCKLIST.includes(f.facilityId),
+  );
