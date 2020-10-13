@@ -28,7 +28,9 @@ module.exports = {
       maxItems: 1,
     },
     field_related_links: {
-      $ref: 'EntityReferenceArray',
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
     },
     field_administration: {
       $ref: 'EntityReferenceArray',
