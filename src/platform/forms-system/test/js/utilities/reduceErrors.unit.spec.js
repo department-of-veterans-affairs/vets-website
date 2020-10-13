@@ -2,437 +2,294 @@ import { expect } from 'chai';
 
 import { reduceErrors } from '../../../src/js/utilities/data/reduceErrors';
 
-// Portions copied from form 996 & 526
-const pageList = [
-  {
-    pageKey: 'introduction',
-    path: '/introduction',
-  },
-  {
-    title: 'Veteran information',
-    path: '/veteran-information',
-    uiSchema: {},
-    schema: {
-      type: 'object',
-      properties: {},
-    },
-    chapterKey: 'veteranDetails',
-    pageKey: 'veteranInformation',
-  },
-  {
-    title: 'Contested issues',
-    path: '/contested-issues',
-    uiSchema: {
-      'ui:title': ' ',
-      contestedIssues: {
-        'ui:title': ' ',
-        'ui:description': '',
-        'ui:field': 'StringField',
-        'ui:options': {},
-      },
-      'view:contestedIssuesAlert': {},
-      'view:disabilitiesExplanation': {
-        'ui:description': '',
-      },
-    },
-    schema: {},
-    initialData: {
-      primaryPhone: '1234556789',
-      emailAddress: 'vet@vet.com',
-    },
-    chapterTitle: 'Contested issues',
-    chapterKey: 'contestedIssues',
-    pageKey: 'contestedIssues',
-  },
-  {
-    title: 'Military service history',
-    path: '/review-veteran-details/military-service-history',
-    uiSchema: {
-      serviceInformation: {
-        servicePeriods: {
-          'ui:title': '',
-          'ui:description': '',
-          'ui:options': {},
-          items: {
-            serviceBranch: {},
-            dateRange: {},
-            'ui:options': {},
-          },
-        },
-      },
-    },
-    schema: {},
-    chapterKey: 'veteranDetails',
-    pageKey: 'militaryHistory',
-  },
-  {
-    title: 'Retirement pay',
-    path: '/retirement-pay',
-    uiSchema: {
-      'view:hasMilitaryRetiredPay': {
-        'ui:title': '',
-        'ui:widget': 'yesNo',
-        'ui:options': {},
-      },
-      militaryRetiredPayBranch: {
-        'ui:title': '',
-        'ui:options': {},
-      },
-    },
-    schema: {},
-    chapterKey: 'veteranDetails',
-    pageKey: 'retirementPay',
-  },
-  {
-    title: 'Training pay',
-    path: '/training-pay',
-    uiSchema: {
-      hasTrainingPay: {},
-    },
-    schema: {},
-    chapterKey: 'veteranDetails',
-    pageKey: 'trainingPay',
-  },
-  {
-    title: 'New disabilities',
-    path: '/new-disabilities',
-    uiSchema: {
-      'view:newDisabilities': {
-        'ui:title': '',
-        'ui:validations': [],
-      },
-      'view:noSelectedAlert': {},
-    },
-    schema: {},
-    chapterTitle: 'Disabilities',
-    chapterKey: 'disabilities',
-    pageKey: 'newDisabilities',
-  },
-  {
-    title: 'Prisoner of war (POW)',
-    path: '/pow',
-    uiSchema: {
-      'ui:title': '',
-      'view:powStatus': {},
-      'view:isPow': {
-        confinements: {},
-        powDisabilities: {},
-      },
-    },
-    schema: {},
-    chapterTitle: 'Disabilities',
-    chapterKey: 'disabilities',
-    pageKey: 'prisonerOfWar',
-  },
-  {
-    title: 'Veteran contact information',
-    path: '/contact-information',
-    uiSchema: {
-      'ui:title': 'Contact information',
-      phoneAndEmail: {
-        'ui:title': 'Phone & email',
-        primaryPhone: {},
-        emailAddress: {},
-      },
-      mailingAddress: {
-        'ui:title': 'Mailing address',
-        country: {},
-        addressLine1: {},
-        addressLine2: {},
-        addressLine3: {},
-        city: {},
-        state: {},
-        zipCode: {},
-      },
-      'view:contactInfoDescription': {},
-    },
-    schema: {},
-    chapterTitle: 'Additional information',
-    chapterKey: 'additionalInformation',
-    pageKey: 'contactInformation',
-  },
-  {
-    title: 'Housing situation',
-    path: '/housing-situation',
-    uiSchema: {
-      homelessOrAtRisk: {},
-      'view:isHomeless': {
-        'ui:options': {},
-        homelessHousingSituation: {},
-        otherHomelessHousing: {},
-        needToLeaveHousing: {},
-      },
-      'view:isAtRisk': {
-        'ui:options': {},
-        atRiskHousingSituation: {},
-        otherAtRiskHousing: {},
-      },
-      homelessnessContact: {
-        name: {},
-        phoneNumber: {},
-      },
-    },
-    schema: {},
-    chapterTitle: 'Additional information',
-    chapterKey: 'additionalInformation',
-    pageKey: 'homelessOrAtRisk',
-  },
-  {
-    path: '/new-disabilities/follow-up/:index',
-    showPagePerItem: true,
-    arrayPath: 'newDisabilities',
-    uiSchema: {
-      'ui:title': 'Disability details',
-      newDisabilities: {
-        items: {
-          cause: {
-            'ui:title': {},
-            'ui:widget': 'radio',
-            'ui:options': {},
-          },
-          primaryDescription: {
-            'ui:title': '',
-            'ui:widget': 'textarea',
-            'ui:options': {},
-            'ui:validations': [],
-          },
-          'view:secondaryFollowUp': {
-            'ui:options': {},
-            causedByDisability: {
-              'ui:title': '',
-              'ui:options': {},
-            },
-            causedByDisabilityDescription: {},
-          },
-          'view:worsenedFollowUp': {
-            'ui:options': {},
-            worsenedDescription: {},
-            worsenedEffects: {},
-          },
-          'view:vaFollowUp': {
-            'ui:options': {},
-            vaMistreatmentDescription: {},
-            vaMistreatmentLocation: {},
-            vaMistreatmentDate: {},
-          },
-        },
-      },
-    },
-    schema: {},
-    chapterTitle: 'Disabilities',
-    chapterKey: 'disabilities',
-    pageKey: 'newDisabilityFollowUp',
-  },
-];
-
-const rawErrors = [
-  {},
-  {
-    contestedIssues: {
-      __errors: ['Please select a contested issue'],
-    },
-  },
-  {
-    'view:hasAlternateName': {
-      __errors: [],
-    },
-    alternateNames: {
-      __errors: [],
-    },
-    uiSchema: {
-      primaryPhone: {}, // ignored since it's not the correct instance
-    },
-  },
-  {
-    property: 'instance',
-    message: 'requires property "view:hasMilitaryRetiredPay"',
-    schema: {},
-    name: 'required',
-    argument: 'view:hasMilitaryRetiredPay',
-    stack: 'instance requires property "view:hasMilitaryRetiredPay"',
-  },
-  {
-    property: 'instance',
-    message: 'requires property "hasTrainingPay"',
-    schema: {},
-    name: 'required',
-    argument: 'hasTrainingPay',
-    stack: 'instance requires property "hasTrainingPay"',
-  },
-  {},
-  {
-    property: 'instance',
-    message: 'requires property "view:newDisabilities"',
-    schema: {},
-    name: 'required',
-    argument: 'view:newDisabilities',
-    stack: 'instance requires property "view:newDisabilities"',
-  },
-  {
-    property: 'instance',
-    message: 'requires property "view:powStatus"',
-    schema: {},
-    name: 'required',
-    argument: 'view:powStatus',
-    stack: 'instance requires property "view:powStatus"',
-  },
-  {
-    property: 'instance.phoneAndEmail',
-    message: 'requires property "primaryPhone"',
-    schema: {},
-    name: 'required',
-    argument: 'primaryPhone',
-    stack: 'instance.phoneAndEmail requires property "primaryPhone"',
-  },
-  {
-    property: 'instance.phoneAndEmail',
-    message: 'requires property "emailAddress"',
-    schema: {},
-    name: 'required',
-    argument: 'emailAddress',
-    stack: 'instance.phoneAndEmail requires property "emailAddress"',
-  },
-  {
-    property: 'instance.mailingAddress',
-    message: 'requires property "city"',
-    schema: {},
-    name: 'required',
-    argument: 'city',
-    stack: 'instance.mailingAddress requires property "city"',
-  },
-  {
-    property: 'instance.mailingAddress',
-    message: 'requires property "addressLine1"',
-    schema: {},
-    name: 'required',
-    argument: 'addressLine1',
-    stack: 'instance.mailingAddress requires property "addressLine1"',
-  },
-  {
-    'view:bankAccount': {
-      __errors: [],
-      bankAccountType: {
-        __errors: [],
-      },
-      bankAccountNumber: {
-        __errors: [],
-      },
-      bankRoutingNumber: {
-        __errors: [],
-      },
-      bankName: {
-        __errors: [],
-      },
-    },
-  },
-  {
-    property: 'instance',
-    message: 'requires property "homelessOrAtRisk"',
-    schema: {},
-    name: 'required',
-    argument: 'homelessOrAtRisk',
-    stack: 'instance requires property "homelessOrAtRisk"',
-  },
-  {
-    isTerminallyIll: {
-      __errors: [],
-    },
-    'view:terminallyIllInfo': {
-      __errors: [],
-    },
-  },
-  {
-    property: 'instance.newDisabilities[0]',
-    message: 'requires property "cause"',
-    schema: {},
-    name: 'required',
-    argument: 'cause',
-    stack: 'instance.newDisabilities[0] requires property "cause"',
-  },
-];
-
-const result = [
-  {
-    name: 'contestedIssues',
-    message: 'Please select a contested issue',
-    chapterKey: 'contestedIssues',
-    pageKey: 'contestedIssues',
-    index: null,
-  },
-  {
-    name: 'view:hasMilitaryRetiredPay',
-    message: 'instance requires property "view:hasMilitaryRetiredPay"',
-    chapterKey: 'veteranDetails',
-    pageKey: 'retirementPay',
-    index: null,
-  },
-  {
-    name: 'hasTrainingPay',
-    message: 'instance requires property "hasTrainingPay"',
-    chapterKey: 'veteranDetails',
-    pageKey: 'trainingPay',
-    index: null,
-  },
-  {
-    name: 'view:newDisabilities',
-    message: 'instance requires property "view:newDisabilities"',
-    chapterKey: 'disabilities',
-    pageKey: 'newDisabilities',
-    index: null,
-  },
-  {
-    name: 'view:powStatus',
-    message: 'instance requires property "view:powStatus"',
-    chapterKey: 'disabilities',
-    pageKey: 'prisonerOfWar',
-    index: null,
-  },
-  {
-    name: 'primaryPhone',
-    message: 'instance.phoneAndEmail requires property "primaryPhone"',
-    chapterKey: 'additionalInformation',
-    pageKey: 'contactInformation',
-    index: null,
-  },
-  {
-    name: 'emailAddress',
-    message: 'instance.phoneAndEmail requires property "emailAddress"',
-    chapterKey: 'additionalInformation',
-    pageKey: 'contactInformation',
-    index: null,
-  },
-  {
-    name: 'city',
-    message: 'instance.mailingAddress requires property "city"',
-    chapterKey: 'additionalInformation',
-    pageKey: 'contactInformation',
-    index: null,
-  },
-  {
-    name: 'addressLine1',
-    message: 'instance.mailingAddress requires property "addressLine1"',
-    chapterKey: 'additionalInformation',
-    pageKey: 'contactInformation',
-    index: null,
-  },
-  {
-    name: 'homelessOrAtRisk',
-    message: 'instance requires property "homelessOrAtRisk"',
-    chapterKey: 'additionalInformation',
-    pageKey: 'homelessOrAtRisk',
-    index: null,
-  },
-  {
-    name: 'cause',
-    message: 'instance.newDisabilities[0] requires property "cause"',
-    chapterKey: 'disabilities',
-    pageKey: 'newDisabilityFollowUp',
-    index: '0',
-  },
-];
-
 describe('Process form validation errors', () => {
-  it('should process the JSON schema form errors into', () => {
-    expect(reduceErrors(rawErrors, pageList)).to.eql(result);
+  it('should ignore empty data', () => {
+    const pages = [];
+    const raw = [];
+    const result = [];
+    expect(reduceErrors(raw, pages)).to.eql(result);
+  });
+  it('should ignore empty error messages', () => {
+    const raw = [
+      {},
+      {
+        'view:foo': {
+          __errors: [],
+        },
+        bar: {
+          __errors: [],
+        },
+        uiSchema: {
+          bar: {}, // ignored since it's not the correct instance
+        },
+      },
+      {
+        'view:baz': {
+          __errors: [],
+          bing: {
+            __errors: [],
+          },
+        },
+      },
+    ];
+    expect(reduceErrors(raw, [])).to.eql([]);
+  });
+  it('should return error messages with empty pageList data', () => {
+    const raw = [
+      {},
+      {
+        'view:foo': {
+          __errors: [],
+        },
+        bar: {
+          __errors: ['BAH'],
+        },
+      },
+    ];
+    expect(reduceErrors(raw, [])).to.eql([
+      {
+        name: 'bar',
+        message: 'BAH',
+        chapterKey: '',
+        pageKey: '',
+        index: null,
+      },
+    ]);
+  });
+  it('should process __errors message', () => {
+    const pages = [
+      {
+        title: 'Issues',
+        path: '/issues',
+        uiSchema: {
+          'ui:title': ' ',
+          issues: {
+            'ui:title': ' ',
+            'ui:description': '',
+            'ui:field': 'StringField',
+            'ui:options': {},
+          },
+          'view:alert': {},
+          'view:explanation': {
+            'ui:description': '',
+          },
+        },
+        schema: {},
+        chapterTitle: 'Issues',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+      },
+    ];
+    const raw = [
+      {
+        issues: {
+          __errors: ['Please select an issue'],
+        },
+      },
+    ];
+    const result = [
+      {
+        name: 'issues',
+        message: 'Please select an issue',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+        index: null,
+      },
+    ];
+    expect(reduceErrors(raw, pages)).to.eql(result);
+  });
+  it('should process object instance messages', () => {
+    const pages = [
+      {
+        title: 'Abc',
+        path: '/abc',
+        uiSchema: {
+          'view:baz': {
+            'ui:title': '',
+            'ui:widget': 'yesNo',
+            'ui:options': {},
+          },
+        },
+        schema: {},
+        // initialData content is ignored
+        initialData: {
+          address: {
+            city: '',
+          },
+        },
+        chapterKey: 'bar',
+        pageKey: 'zoo',
+      },
+      {
+        title: 'contact',
+        path: '/contact',
+        uiSchema: {
+          'ui:title': 'Contact info',
+          address: {
+            'ui:title': 'Address',
+            city: {},
+            state: {},
+          },
+        },
+        schema: {},
+        // initialData content is ignored
+        initialData: {
+          'view:baz': {},
+        },
+        chapterTitle: 'Info',
+        chapterKey: 'info',
+        pageKey: 'contact',
+      },
+    ];
+    const raw = [
+      {
+        property: 'instance',
+        message: 'requires property "view:baz"',
+        schema: {},
+        name: 'required',
+        argument: 'view:baz',
+        stack: 'instance requires property "view:baz"',
+      },
+      {
+        property: 'instance.address',
+        message: 'requires property "city"',
+        schema: {},
+        name: 'required',
+        argument: 'city',
+        stack: 'instance.address requires property "city"',
+      },
+    ];
+    const result = [
+      {
+        name: 'view:baz',
+        message: 'instance requires property "view:baz"',
+        chapterKey: 'bar',
+        pageKey: 'zoo',
+        index: null,
+      },
+      {
+        name: 'city',
+        message: 'instance.address requires property "city"',
+        chapterKey: 'info',
+        pageKey: 'contact',
+        index: null,
+      },
+    ];
+    expect(reduceErrors(raw, pages)).to.eql(result);
+  });
+  it('should process array instance messages', () => {
+    const pages = [
+      {
+        path: '/news/follow-up/:index',
+        showPagePerItem: true,
+        arrayPath: 'news',
+        uiSchema: {
+          'ui:title': 'Details',
+          news: {
+            items: {
+              cause: {
+                'ui:title': {},
+                'ui:widget': 'radio',
+                'ui:options': {},
+              },
+            },
+          },
+        },
+        schema: {},
+        chapterTitle: 'Diz',
+        chapterKey: 'diz',
+        pageKey: 'news',
+      },
+    ];
+    const raw = [
+      {
+        property: 'instance.news[0]',
+        message: 'requires property "cause"',
+        schema: {},
+        name: 'required',
+        argument: 'cause',
+        stack: 'instance.news[0] requires property "cause"',
+      },
+    ];
+    const result = [
+      {
+        name: 'cause',
+        message: 'instance.news[0] requires property "cause"',
+        chapterKey: 'diz',
+        pageKey: 'news',
+        index: '0',
+      },
+    ];
+    expect(reduceErrors(raw, pages)).to.eql(result);
+  });
+  it('should process enum list error messages', () => {
+    const pages = [
+      {
+        path: '/new-disabilities/follow-up/:index',
+        showPagePerItem: true,
+        arrayPath: 'newDisabilities',
+        uiSchema: {
+          'ui:title': 'Details',
+          newDisabilities: {
+            items: {
+              cause: {
+                'ui:title': 'Cause?',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: {},
+                },
+              },
+              primaryDescription: {
+                'ui:title': '',
+                'ui:widget': 'textarea',
+                'ui:options': {
+                  expandUnder: 'cause',
+                  expandUnderCondition: 'NEW',
+                },
+                'ui:validations': [null],
+              },
+              'view:secondaryFollowUp': {
+                'ui:options': {
+                  expandUnder: 'cause',
+                  expandUnderCondition: 'SECONDARY',
+                },
+                causedByDisability: {
+                  'ui:title': '',
+                  'ui:options': {
+                    labels: {},
+                  },
+                },
+              },
+              'view:serviceConnectedDisability': {},
+            },
+          },
+        },
+        schema: {},
+        chapterTitle: 'Disabilities',
+        chapterKey: 'disabilities',
+        pageKey: 'newDisabilityFollowUp',
+      },
+    ];
+    const raw = [
+      {
+        property:
+          'instance.newDisabilities[4].view:secondaryFollowUp.causedByDisability',
+        message: 'is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+        schema: {
+          type: 'string',
+          enum: ['Abc', 'Bcd', 'Cde', 'Def', 'Efg', 'Fgh', 'Ghi', 'Hij'],
+        },
+      },
+    ];
+    const result = [
+      {
+        name: 'newDisabilities.view:secondaryFollowUp.causedByDisability',
+        index: '4',
+        message: 'is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+        chapterKey: 'disabilities',
+        pageKey: 'newDisabilityFollowUp',
+      },
+    ];
+    expect(reduceErrors(raw, pages)).to.eql(result);
   });
 });
