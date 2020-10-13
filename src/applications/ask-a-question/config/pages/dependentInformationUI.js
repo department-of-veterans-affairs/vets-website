@@ -31,7 +31,7 @@ export const dependentInformationUI = requireIfDisplayed => ({
     'ui:required': requireIfDisplayed,
   },
   [formFields.address]: _.merge(uiSchema(''), {
-    'ui:order': ['street', 'street2', 'city', 'country', 'state', 'postalCode'],
+    'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
     street: {
       'ui:title': streetAddress,
     },
