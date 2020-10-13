@@ -172,8 +172,12 @@ const createFakeReasonForVisitDescriptionStore = () => {
 const createFakeReasonForVisitStore = ({ reason = '' }) => {
   return {
     getState: () => ({
-      clipboardAppointmentDetails: {
-        reasonForVisit: reason,
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [{ bookingNote: reason }],
+          },
+        },
       },
     }),
     subscribe: () => {},

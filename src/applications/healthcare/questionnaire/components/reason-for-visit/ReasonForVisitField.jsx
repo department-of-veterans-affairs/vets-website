@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const ReasonForVisitField = ({ reasonForVisit }) => {
-  if (reasonForVisit) {
+const ReasonForVisitField = ({ appointment }) => {
+  const bookingNote = appointment?.vdsAppointments[0]?.bookingNote;
+  if (bookingNote) {
     return (
       <span data-testid="reason-for-visit">
         Main reason for your visit: <strong>routine or follow-up visit</strong>
@@ -14,7 +15,7 @@ const ReasonForVisitField = ({ reasonForVisit }) => {
 };
 
 const mapStateToProps = state => ({
-  reasonForVisit: state?.clipboardAppointmentDetails?.reasonForVisit,
+  appointment: state?.questionnaireData?.context?.appointment,
 });
 
 export default connect(
