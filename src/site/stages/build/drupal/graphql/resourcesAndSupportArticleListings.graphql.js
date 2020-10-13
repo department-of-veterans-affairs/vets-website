@@ -1,7 +1,10 @@
-const categoriesTrait = `
+const introTextTrait = `
 fieldIntroTextLimitedHtml {
   processed
 }
+`;
+
+const categoriesTrait = `
 fieldPrimaryCategory {
   entity {
     ... on TaxonomyTermLcCategories {
@@ -41,7 +44,7 @@ resourceAndSupportArticleListings: nodeQuery(filter: {
   ]
   }, limit: 10000) {
   entities {
-    # Basics about the page
+
     ... on Node {
       title
       entityBundle
@@ -52,13 +55,38 @@ resourceAndSupportArticleListings: nodeQuery(filter: {
       }
     }
 
-    ... on NodeStepByStep { ${categoriesTrait} }
-    ... on NodeFaqMultipleQA { ${categoriesTrait} }
-    ... on NodeQA { ${categoriesTrait} }
-    ... on NodeChecklist { ${categoriesTrait} }
-    ... on NodeMediaListImages { ${categoriesTrait} }
-    ... on NodeMediaListVideos { ${categoriesTrait} }
-    ... on NodeSupportResourcesDetailPage { ${categoriesTrait} }
+    ... on NodeStepByStep {
+      ${introTextTrait}
+      ${categoriesTrait}
+    }
+    ... on NodeFaqMultipleQA {
+      ${introTextTrait}
+      ${categoriesTrait}
+    }
+    ... on NodeQA {
+      fieldAnswer {
+        entity {
+          ... wysiwyg
+        }
+      }
+      ${categoriesTrait}
+    }
+    ... on NodeChecklist {
+      ${introTextTrait}
+      ${categoriesTrait}
+    }
+    ... on NodeMediaListImages {
+      ${introTextTrait}
+      ${categoriesTrait}
+    }
+    ... on NodeMediaListVideos {
+      ${introTextTrait}
+      ${categoriesTrait}
+    }
+    ... on NodeSupportResourcesDetailPage {
+      ${introTextTrait}
+      ${categoriesTrait}
+    }
   }
 }
 `;
