@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/max-switch-cases */
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import set from 'platform/utilities/data/set';
@@ -22,6 +23,9 @@ import {
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
+  FORM_REQUEST_CURRENT_LOCATION,
+  FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED,
+  FORM_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
@@ -97,6 +101,7 @@ const initialState = {
   submitStatus: FETCH_STATUS.notStarted,
   isCCEligible: false,
   hideUpdateAddressAlert: false,
+  requestLocationStatus: FETCH_STATUS.notStarted,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {
@@ -394,7 +399,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           vaFacilityV2: schema,
         },
-        schema,
         facilities: {
           ...facilities,
           [typeOfCareId]: typeOfCareFacilities,
@@ -402,6 +406,83 @@ export default function formReducer(state = initialState, action) {
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
+      };
+    }
+    case FORM_REQUEST_CURRENT_LOCATION: {
+      return {
+        ...state,
+        requestLocationStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED: {
+      const { coords } = action.location;
+      const { latitude, longitude } = coords;
+      const formData = state.data;
+      const typeOfCareId = formData.typeOfCareId;
+      let typeOfCareFacilities = state.facilities[typeOfCareId];
+      let newSchema = state.pages.vaFacilityV2;
+
+      if (latitude && longitude) {
+        typeOfCareFacilities = typeOfCareFacilities
+          .map(facility => {
+            const distancefromCurrentLocation = distanceBetween(
+              latitude,
+              longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distancefromCurrentLocation,
+              },
+            };
+          })
+          .sort(
+            (a, b) =>
+              a.legacyVAR.distancefromCurrentLocation -
+              b.legacyVAR.distancefromCurrentLocation,
+          );
+      }
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: typeOfCareFacilities.map(facility => facility.id),
+          enumNames: typeOfCareFacilities,
+        },
+        newSchema,
+      );
+
+      const { schema } = updateSchemaAndData(
+        newSchema,
+        action.uiSchema,
+        formData,
+      );
+
+      return {
+        ...state,
+        pages: {
+          ...state.pages,
+          vaFacilityV2: schema,
+        },
+        facilities: {
+          ...state.facilities,
+          [typeOfCareId]: typeOfCareFacilities,
+        },
+        childFacilitiesStatus: FETCH_STATUS.succeeded,
+        facilityPageSortMethod:
+          FACILITY_SORT_METHODS.DISTANCE_FROM_CURRENT_LOCATION,
+        requestLocationStatus: FETCH_STATUS.succeeded,
+      };
+    }
+    case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
+      return {
+        ...state,
+        requestLocationStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
