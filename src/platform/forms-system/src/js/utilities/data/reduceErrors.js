@@ -57,7 +57,8 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
  * @property {string} property
  * @property {string} message
  * @property {string} name
- * @property {string|number} argument - element name or index in array
+ * @property {string|number} argument - name of the property or index in array
+ *   with the validation error
  * @property {object} schema - ignored
  * @property {string} stack - error message used in processing
  * @property {string[]} __errors - may contain multiple error messages for one
