@@ -10,6 +10,7 @@ export const isVeteran = formData => {
 
 const reformatData = form => {
   let veteranName = {};
+  // since the back end uses the veteranFullName as metadata, we need to make sure that is filled no matter what workflow the user went through
   if (
     form?.data?.status === 'isVeteran' ||
     form?.data?.status === 'isActiveDuty'
@@ -23,6 +24,7 @@ const reformatData = form => {
   } else {
     veteranName = form?.data?.veteranInformation?.fullName;
   }
+  // Reformat the data to have certain items at the root and others wrapped in objects
   return {
     claimantInformation: {
       fullName: {
