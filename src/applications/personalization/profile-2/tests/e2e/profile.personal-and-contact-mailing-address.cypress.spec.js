@@ -145,16 +145,15 @@ const confirmWebAddressesAreBlocked = () => {
 };
 
 describe('The personal and contact information page', () => {
+  it('should handle the military base checkbox on Mobile', () => {
+    setup(true);
+    editMailingAddress();
+    checkMilitaryAddress();
+  });
   it('should handle the military base checkbox and prevent entering web URLs on Desktop', () => {
     setup();
     editMailingAddress();
     checkMilitaryAddress();
     confirmWebAddressesAreBlocked();
-  });
-
-  it('should handle the military base checkbox and prevent entering web URLs on Mobile', () => {
-    setup(true);
-    editMailingAddress();
-    checkMilitaryAddress();
   });
 });
