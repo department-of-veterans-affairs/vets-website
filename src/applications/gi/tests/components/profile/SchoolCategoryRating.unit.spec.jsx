@@ -38,6 +38,19 @@ describe('<SchoolCategoryRating>', () => {
     expect(wrapper.html().includes('Test description')).to.eq(true);
     wrapper.unmount();
   });
+  it('should render correctly without rating', () => {
+    const wrapper = shallow(
+      <SchoolCategoryRating
+        categoryRating={{ ...categoryRating, averageRating: null }}
+        open
+        description={'Test description'}
+      />,
+    );
+    expect(wrapper.find('button[aria-expanded=true]').length).to.eq(1);
+    expect(wrapper.find('.category-rating-count').length).to.eq(5);
+    expect(wrapper.html().includes('Not yet rated')).to.eq(true);
+    wrapper.unmount();
+  });
   it('should render counts correctly', () => {
     const wrapper = shallow(
       <SchoolCategoryRating
