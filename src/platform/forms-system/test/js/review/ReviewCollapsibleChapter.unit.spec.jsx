@@ -390,7 +390,7 @@ describe('<ReviewCollapsibleChapter>', () => {
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
-        showUnviewedPageWarning
+        hasUnviewedPages
         form={form}
       />,
     );
