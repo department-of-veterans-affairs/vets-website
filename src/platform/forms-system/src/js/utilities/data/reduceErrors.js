@@ -1,5 +1,6 @@
 // min/max length or item errors may show up as duplicates
-const errorExists = (list, name) => list.some(obj => obj.name === name);
+const errorExists = (list, name, index) =>
+  list.some(obj => obj.name === name && obj.index === index);
 
 // Keys to ignore within the pageList objects & pageList schema
 const ignoreKeys = [
@@ -114,6 +115,14 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
     message: 'is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
     schema: {...},
   }
+  * array with argument array: {
+    argument: ['Abc', 'Bcd', 'Cde', 'Def', 'Efg', 'Fgh', 'Ghi', 'Hij'],
+    message: 'is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+    name: 'enum',
+    property: 'instance.newDisabilities[6].view:secondaryFollowUp.causedByDisability',
+    schema: {},
+    stack: 'instance.newDisabilities[6].view:secondaryFollowUp.causedByDisability is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+  }
   * non-empty "__errors" array: {
     __errors: ['error message']
   }
@@ -136,7 +145,7 @@ export const reduceErrors = (errors, pageList) =>
         // process the last type of error message which provides an `__errors`
         // message array. If there are multiple errors, we'll join them into
         // one message.
-        if (err?.__errors?.length && !errorExists(result, name)) {
+        if (err?.__errors?.length && !errorExists(result, name, null)) {
           const { chapterKey = '', pageKey = '' } = getPropertyInfo(
             pageList,
             name,
@@ -154,11 +163,22 @@ export const reduceErrors = (errors, pageList) =>
           // then use `getPropertyInfo` to search the pageList to find the
           // matching chapterKey & pageKey
           const property = err.property.replace(/^instance\.?/, '') || '';
+          // in one error message type, no argument is included, and in another
+          // it is an array... so we get it from the property (path) destination
+          // examples:
+          //
+          // http://sentry.vfs.va.gov/vets-gov/website-production/issues/12188/events/cf24a5bc9ef9452e9611f3e14846f6f0/
+          const argument =
+            Array.isArray(err.argument) || !err.argument
+              ? property.split('.').slice(-1)[0]
+              : err.argument;
           // name is the property that had the validation error
           const propertyName =
             err.name === 'required'
-              ? err.argument
+              ? argument
               : property.replace(/(\[\d+\])/, ''); // don't include array index
+          // property may be `array[0]`; we need to extract out the `0`
+          const index = property.match(/\[(\d+)\]/)?.[1] || null;
           /*
            * There may be multiple errors for the same property, e.g.
            * `contestedIssues` in form 996. It can have a custom message
@@ -166,22 +186,19 @@ export const reduceErrors = (errors, pageList) =>
            * "Does not meet minimum length of 1"; there's no need to confuse
            * anyone and show both
           */
-          if (!errorExists(result, propertyName)) {
+          if (!errorExists(result, propertyName, index)) {
             const { chapterKey = '', pageKey = '' } = getPropertyInfo(
               // List of all form pages; includes chapterKey, pageKey and
               // uiSchema
               pageList,
-              // in one error message, no argument is included, so we get it
-              // from the property (path) destination
-              err.argument || property.split('.').slice(-1)[0],
+              argument,
               // full path to the error
               property,
             );
             result.push({
               // property name
               name: propertyName,
-              // property may be `array[0]`; we need to extract out the `0`
-              index: property.match(/\[(\d+)\]/)?.[1] || null,
+              index,
               // the "stack" string isn't included in the one error message
               // example, so we'll include the message. We'll process and
               // display this message to the user in some future work

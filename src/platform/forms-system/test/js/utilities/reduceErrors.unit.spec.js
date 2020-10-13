@@ -241,7 +241,7 @@ describe('Process form validation errors', () => {
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
   });
-  it('should process enum list error messages', () => {
+  it('should process enum list with same name/different index', () => {
     const pages = [
       {
         path: '/new-disabilities/follow-up/:index',
@@ -291,13 +291,22 @@ describe('Process form validation errors', () => {
     ];
     const raw = [
       {
+        // no argument, name or stack (reproduced locally)
         property:
           'instance.newDisabilities[4].view:secondaryFollowUp.causedByDisability',
         message: 'is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
-        schema: {
-          type: 'string',
-          enum: ['Abc', 'Bcd', 'Cde', 'Def', 'Efg', 'Fgh', 'Ghi', 'Hij'],
-        },
+        schema: {},
+      },
+      {
+        // modified from Sentry error
+        argument: ['Abc', 'Bcd', 'Cde', 'Def', 'Efg', 'Fgh', 'Ghi', 'Hij'],
+        message: 'is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+        name: 'enum',
+        property:
+          'instance.newDisabilities[6].view:secondaryFollowUp.causedByDisability',
+        schema: {},
+        stack:
+          'instance.newDisabilities[6].view:secondaryFollowUp.causedByDisability is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
       },
     ];
     const result = [
@@ -305,6 +314,14 @@ describe('Process form validation errors', () => {
         name: 'newDisabilities.view:secondaryFollowUp.causedByDisability',
         index: '4',
         message: 'is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+        chapterKey: 'disabilities',
+        pageKey: 'newDisabilityFollowUp',
+      },
+      {
+        name: 'newDisabilities.view:secondaryFollowUp.causedByDisability',
+        index: '6',
+        message:
+          'instance.newDisabilities[6].view:secondaryFollowUp.causedByDisability is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
         chapterKey: 'disabilities',
         pageKey: 'newDisabilityFollowUp',
       },
