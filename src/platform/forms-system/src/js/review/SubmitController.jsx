@@ -70,9 +70,10 @@ class SubmitController extends Component {
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
     const { isValid, errors } = isValidForm(form, pageList);
+    const processedErrors = reduceErrors(errors, pageList);
     this.props.setFormErrors({
       rawErrors: errors,
-      errors: reduceErrors(errors, pageList),
+      errors: processedErrors,
     });
 
     if (!isValid) {
@@ -80,7 +81,8 @@ class SubmitController extends Component {
         event: `${trackingPrefix}-validation-failed`,
       });
       Sentry.withScope(scope => {
-        scope.setExtra('errors', errors);
+        scope.setExtra('rawErrors', errors);
+        scope.setExtra('errors', processedErrors);
         scope.setExtra('prefix', trackingPrefix);
         scope.setExtra('inProgressFormId', inProgressFormId);
         Sentry.captureMessage('Validation issue not displayed');
