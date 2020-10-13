@@ -213,11 +213,13 @@ function VAFacilityPageV2({
         Below is a list of VA locations where you’re registered that offer{' '}
         {typeOfCare} appointments.
         {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
-          ` Locations closest to you are at the top of the list. We base this on ${
+          ` Locations closest to you are at the top of the list. We ${
+            sortByDistanceFromCurrentLocation ? 'have based' : 'base'
+          } these on ${
             sortByDistanceFromCurrentLocation
-              ? 'your current location'
-              : 'the address we have on file for you'
-          }.`}
+              ? 'your current location.'
+              : 'the address you’ve given us.'
+          }`}
       </p>
       {sortByDistanceFromResidential &&
         !requestingLocation && (
@@ -241,8 +243,8 @@ function VAFacilityPageV2({
         )}
       {requestLocationStatus === FETCH_STATUS.failed && (
         <p>
-          We weren’t able to determine your location. Please make sure your
-          browser is set to allow location usage and{' '}
+          We can’t find your location. Please make sure to choose "allow" if you
+          get a browser pop-up asking for your location and{' '}
           <a
             href="#"
             onClick={e => {
@@ -257,7 +259,7 @@ function VAFacilityPageV2({
       )}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
-          <LoadingIndicator message="Determining your location..." />
+          <LoadingIndicator message="Finding your location..." />
         </div>
       )}
       {childFacilitiesStatus === FETCH_STATUS.succeeded && (
