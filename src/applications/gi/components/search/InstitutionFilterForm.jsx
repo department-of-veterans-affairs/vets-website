@@ -141,7 +141,7 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-        label={'Institution categories'}
+        label="Institution categories"
         name="type"
         options={options}
         value={this.props.filters.type}

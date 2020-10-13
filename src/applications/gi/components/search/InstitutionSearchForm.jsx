@@ -50,7 +50,7 @@ function InstitutionSearchForm({
       <div id="institution-search" className={filtersClass}>
         <div className="filters-sidebar-inner vads-u-margin-left--1p5">
           {search.filterOpened && <h1>Filter your search</h1>}
-          <h2>''Refine search''</h2>
+          <h2>Refine search</h2>
           <KeywordSearch
             autocomplete={autocomplete}
             label={'Enter a school, location, or employer name'}

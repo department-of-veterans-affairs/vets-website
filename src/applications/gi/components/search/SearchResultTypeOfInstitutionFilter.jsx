@@ -24,7 +24,7 @@ function SearchResultTypeOfInstitutionFilter({
 
   return (
     <RadioButtons
-      label={'Select an institution type'}
+      label="Select an institution type"
       name="category"
       options={options}
       value={category}
