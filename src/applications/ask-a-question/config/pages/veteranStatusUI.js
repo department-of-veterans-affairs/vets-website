@@ -1,6 +1,5 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
-  branchOfServiceTitle,
   dateOfDeathTitle,
   isDeceasedTitle,
   isDependentTitle,
@@ -15,7 +14,6 @@ const formFields = {
   relationshipToVeteran: 'relationshipToVeteran',
   veteranIsDeceased: 'veteranIsDeceased',
   dateOfDeath: 'dateOfDeath',
-  branchOfService: 'branchOfService',
 };
 
 const requireVetRelationship = selectedVeteranStatus =>
@@ -74,15 +72,6 @@ export const veteranStatusUI = {
           );
         },
       },
-    },
-  },
-  [formFields.branchOfService]: {
-    'ui:title': branchOfServiceTitle,
-    'ui:required': formData =>
-      requireServiceInfo(formData.veteranStatus.veteranStatus),
-    'ui:options': {
-      hideIf: formData =>
-        !requireServiceInfo(formData.veteranStatus.veteranStatus),
     },
   },
 };

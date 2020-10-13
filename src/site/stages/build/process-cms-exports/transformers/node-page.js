@@ -24,7 +24,7 @@ function pageTransform(entity) {
     title: getDrupalValue(title),
     entityBundle: 'page',
     fieldAdministration: entity.fieldAdministration[0],
-
+    fieldRelatedLinks: entity.fieldRelatedLinks[0],
     fieldIntroText: getDrupalValue(fieldIntroText),
     fieldDescription: getDrupalValue(fieldDescription),
     changed: utcToEpochTime(getDrupalValue(changed)),
