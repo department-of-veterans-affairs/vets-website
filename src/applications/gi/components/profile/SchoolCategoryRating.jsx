@@ -45,7 +45,9 @@ export default function SchoolCategoryRating({
           onClick={() => openHandler(categoryRating.categoryName)}
         >
           <div className="vads-l-row">
-            <div className="vads-l-col--6 vads-u-padding-left--1">{title}</div>
+            <div className="vads-l-col--6 medium-screen:vads-u-padding-left--1">
+              {title}
+            </div>
             {categoryRating.averageRating && (
               <div className="vads-l-col--6 vads-u-font-size--sm">
                 {renderStars(categoryRating.averageRating)}{' '}
