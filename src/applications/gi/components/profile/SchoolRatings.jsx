@@ -119,15 +119,13 @@ export default function SchoolRatings({
             <li>
               Made a change to their program of study, <strong>or</strong>
             </li>
-            <li>
-              Completed their degree program Veterans rate schools on a number
-              of categories.
-            </li>
+            <li>Completed their degree program</li>
           </ul>
           <p>
-            Those ratings are averaged to calculate the overall school rating.
-            If a Veteran doesn’t rate a category, it has no effect on the
-            category’s overall score.
+            Veterans rate schools on a number of categories. Those ratings are
+            averaged to calculate the overall school rating. If a Veteran
+            doesn’t rate a category, it has no effect on the category’s overall
+            score.
           </p>
           <span className="vads-u-font-size--h4 vads-u-font-weight--bold">
             Veteran privacy
