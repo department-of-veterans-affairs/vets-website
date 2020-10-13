@@ -6,7 +6,7 @@ import ProfileOneWrapper from 'applications/personalization/profile360/container
 import { PROFILE_VERSION } from 'applications/personalization/profile-2/constants';
 
 import {
-  isInMVI as isInMVISelector,
+  isInMPI as isInMVISelector,
   isLOA1 as isLOA1Selector,
   isLOA3 as isLOA3Selector,
   isLoggedIn,

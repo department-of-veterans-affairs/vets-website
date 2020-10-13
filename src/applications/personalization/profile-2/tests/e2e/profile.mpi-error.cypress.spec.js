@@ -28,8 +28,13 @@ function test(mobile = false) {
   );
 
   // Should show an error alert about not being able to connect to MPI
-  // TODO: We might show a different error message in this particular case since in this case we can't connect to MPI.
-  cy.findByText(/We can’t match your information to our Veteran records/i)
+  cy.findByText(/We can’t access your Veteran records/i)
+    .should('exist')
+    .closest('.usa-alert-warning')
+    .should('exist');
+  cy.findByText(
+    /something went wrong when we tried to connect to your veteran records/i,
+  )
     .should('exist')
     .closest('.usa-alert-warning')
     .should('exist');

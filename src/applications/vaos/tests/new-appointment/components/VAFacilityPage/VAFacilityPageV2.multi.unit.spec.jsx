@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import {
@@ -152,13 +152,19 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    expect(global.document.title).to.equal(
-      'Choose a VA location for your appointment | Veterans Affairs',
-    );
+    await screen.findAllByRole('radio');
 
-    await screen.findByText(
-      /Choose a VA location for your Primary care appointment/i,
-    );
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        'Choose a VA location for your appointment | Veterans Affairs',
+      );
+    });
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
 
     expect(screen.baseElement).to.contain.text(
       'Below is a list of VA locations where you’re registered that offer Primary care appointments',
@@ -225,9 +231,15 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findByText(
-      /Choose a VA location for your Primary care appointment/i,
-    );
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
     expect(screen.baseElement).to.contain.text(
       'We base this on the address we have on file',
     );
@@ -264,9 +276,15 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findByText(
-      /Choose a VA location for your Primary care appointment/i,
-    );
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
 
     // Should contain radio buttons
     facilities.slice(0, 5).forEach(f => {
@@ -293,7 +311,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findByText(/below is a list of VA locations/i);
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
 
@@ -303,9 +323,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    expect(screen.getByLabelText(/Fake facility name 1/i)).to.have.attribute(
-      'checked',
-    );
+    expect(
+      await screen.findByLabelText(/Fake facility name 1/i),
+    ).to.have.attribute('checked');
   });
 
   it('should show unsupported facilities alert with facility locator tool link', async () => {

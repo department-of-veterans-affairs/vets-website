@@ -1,50 +1,84 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-
 import {
-  claimNumberTitle,
-  claimNumberPatternErrorMessage,
-  serviceNumberTitle,
-  serviceNumberPatternErrorMessage,
-  socialSecurityNumberTitle,
-  dateOfBirthTitle,
-  serviceStartDateTitle,
-  serviceEndDateTitle,
-  serviceDateRangeErrorMessage,
+  stateRequiredCountries,
+  uiSchema,
+} from 'platform/forms/definitions/address';
+import SectionHeader from '../../content/SectionHeader';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import _ from 'lodash';
+import {
+  daytimePhoneAreaCodeTitle,
+  emailTitle,
+  streetAddress,
+  veteranInformationHeader,
+  veteransFirstName,
+  veteransLastName,
 } from '../../content/labels';
 
 const formFields = {
-  dateOfBirth: 'dateOfBirth',
-  socialSecurityNumber: 'socialSecurityNumber',
-  serviceNumber: 'serviceNumber',
-  claimNumber: 'claimNumber',
-  serviceDateRange: 'serviceDateRange',
+  first: 'first',
+  last: 'last',
+  address: 'address',
+  phone: 'phone',
+  email: 'email',
 };
 
-export const veteranInformationUI = {
-  [formFields.dateOfBirth]: {
-    ...currentOrPastDateUI(dateOfBirthTitle),
-  },
-  [formFields.socialSecurityNumber]: {
-    ...ssnUI,
-    'ui:title': socialSecurityNumberTitle,
-  },
-  [formFields.serviceNumber]: {
-    'ui:title': serviceNumberTitle,
-    'ui:errorMessages': {
-      pattern: serviceNumberPatternErrorMessage,
-    },
-  },
-  [formFields.claimNumber]: {
-    'ui:title': claimNumberTitle,
-    'ui:errorMessages': {
-      pattern: claimNumberPatternErrorMessage,
-    },
-  },
-  [formFields.serviceDateRange]: dateRangeUI(
-    serviceStartDateTitle,
-    serviceEndDateTitle,
-    serviceDateRangeErrorMessage,
-  ),
+const veteranIsDeceased = formData => {
+  return (
+    formData.veteranStatus.veteranIsDeceased !== undefined &&
+    formData.veteranStatus.veteranIsDeceased
+  );
 };
+
+const veteranIsAlive = formData => {
+  return !veteranIsDeceased(formData);
+};
+
+export const veteranInformationUI = requireIfDisplayed => ({
+  'ui:description': SectionHeader(veteranInformationHeader),
+  [formFields.first]: {
+    'ui:title': veteransFirstName,
+    'ui:required': requireIfDisplayed,
+  },
+  [formFields.last]: {
+    'ui:title': veteransLastName,
+    'ui:required': requireIfDisplayed,
+  },
+  [formFields.address]: _.merge(uiSchema(''), {
+    'ui:order': ['street', 'street2', 'city', 'country', 'state', 'postalCode'],
+    'ui:options': {
+      hideIf: formData => veteranIsDeceased(formData),
+    },
+    street: {
+      'ui:title': streetAddress,
+    },
+    country: {
+      'ui:required': formData =>
+        requireIfDisplayed(formData) && veteranIsAlive(formData),
+    },
+    state: {
+      'ui:required': formData =>
+        requireIfDisplayed(formData) &&
+        veteranIsAlive(formData) &&
+        formData.veteranInformation.address &&
+        stateRequiredCountries.has(formData.veteranInformation.address.country),
+    },
+    street2: {
+      'ui:options': {
+        hideIf: () => true,
+      },
+    },
+  }),
+  [formFields.phone]: _.merge(phoneUI(daytimePhoneAreaCodeTitle), {
+    'ui:options': {
+      hideIf: formData => veteranIsDeceased(formData),
+    },
+  }),
+  [formFields.email]: _.merge(emailUI(emailTitle), {
+    'ui:required': formData =>
+      requireIfDisplayed(formData) && veteranIsAlive(formData),
+    'ui:options': {
+      hideIf: formData => veteranIsDeceased(formData),
+    },
+  }),
+});

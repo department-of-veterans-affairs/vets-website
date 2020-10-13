@@ -1,17 +1,12 @@
 /* Fonts */
 #liveForm .ng-binding,
-#liveForm div > span {
+#liveForm div > span,
+#liveForm textarea,
+/* https://css-tricks.com/override-inline-styles-with-css/ */
+.ng-scope span[style],
+.ng-scope span,
+.ng-scope textarea {
   font-family: "Source Sans Pro", sans-serif !important;
-}
-
-/* Add padding to the bottom of the Medallia form */
-#liveForm .panel-footer-web {
-  padding-bottom: 1rem;
-}
-
-/* Remove 'Powered by Medallia' */
-#liveForm .kpl-form-footer.ng-scope {
-  display: none;
 }
 
 /* Radio buttons background color */
@@ -37,20 +32,34 @@
 }
 
 /* 150px-wide container div for "Very Dissatisfied" and "Very Satisfied" spans */
-#liveForm .edge-labels {
+.ng-scope .edge-labels {
   display: flex;
   justify-content: space-between;
 }
 
 /* "Very Dissatisfied" label below "1 of 5" rating element */
-#leftEdge {
+.ng-scope #leftEdge {
   padding-right: 25px;
   text-align: left;
   width: 75px;
 }
 
 /* "Very Satisfied" label below "5 of 5" rating element */
-#rightEdge {
+.ng-scope #rightEdge {
   text-align: right;
   width: 50px;
+}
+
+/* Hide Powered By Medallia and/or footer containing Powered By Medallia */
+/* Intro page of Medallia survey visible on https://staging.va.gov/find-locations/facility/vha_691 */
+/* `.ng-scope .kpl-form-footer` is common to multiple Medallia forms and form pages */
+.ng-scope .kpl-form-footer,
+.ng-scope .footerCls {
+  display: none;
+}
+
+/* Add padding to the bottom of the Medallia form */
+/* `.ng-scope .panel-footer-web` is common to multiple Medallia forms and form pages */
+.ng-scope .panel-footer-web {
+  padding-bottom: 1rem;
 }
