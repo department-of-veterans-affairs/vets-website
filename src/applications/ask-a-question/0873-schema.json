@@ -244,6 +244,26 @@
       "enum": [
         true
       ]
+    },
+    "first": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "last": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "suffix": {
+      "type": "string",
+      "enum": [
+        "Jr.",
+        "Sr.",
+        "II",
+        "III",
+        "IV"
+      ]
     }
   },
   "additionalProperties": false,
@@ -1567,6 +1587,62 @@
         },
         "dateOfDeath": {
           "$ref": "#/definitions/date"
+        }
+      }
+    },
+    "dependentInformation": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "$ref": "#/definitions/first"
+        },
+        "last": {
+          "$ref": "#/definitions/last"
+        },
+        "address": {
+          "$ref": "#/definitions/address"
+        },
+        "phone": {
+          "$ref": "#/definitions/phone"
+        },
+        "email": {
+          "$ref": "#/definitions/email"
+        }
+      }
+    },
+    "veteranInformation": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "$ref": "#/definitions/first"
+        },
+        "last": {
+          "$ref": "#/definitions/last"
+        },
+        "address": {
+          "$ref": "#/definitions/address"
+        },
+        "phone": {
+          "$ref": "#/definitions/phone"
+        },
+        "email": {
+          "$ref": "#/definitions/email"
+        }
+      }
+    },
+    "veteranServiceInformation": {
+      "type": "object",
+      "properties": {
+        "socialSecurityNumber": {
+          "$ref": "#/definitions/ssn"
+        },
+        "serviceNumber": {
+          "type": "string",
+          "pattern": "^\\d{0,12}$"
+        },
+        "claimNumber": {
+          "type": "string",
+          "pattern": "^\\d{6,8}$"
         },
         "branchOfService": {
           "type": "string",
@@ -1597,25 +1673,9 @@
             "Womens Voluntary Emerg Srv (WAVES)",
             "Other"
           ]
-        }
-      }
-    },
-    "veteranInformation": {
-      "type": "object",
-      "properties": {
+        },
         "dateOfBirth": {
           "$ref": "#/definitions/date"
-        },
-        "socialSecurityNumber": {
-          "$ref": "#/definitions/ssn"
-        },
-        "serviceNumber": {
-          "type": "string",
-          "pattern": "^\\d{0,12}$"
-        },
-        "claimNumber": {
-          "type": "string",
-          "pattern": "^\\d{6,8}$"
         },
         "serviceDateRange": {
           "$ref": "#/definitions/dateRange"
