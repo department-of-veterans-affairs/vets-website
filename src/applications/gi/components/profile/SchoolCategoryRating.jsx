@@ -44,10 +44,8 @@ export default function SchoolCategoryRating({
           className="usa-accordion-button"
           onClick={() => openHandler(categoryRating.categoryName)}
         >
-          <div className="vads-l-row">
-            <div className="vads-l-col--6 medium-screen:vads-u-padding-left--1">
-              {title}
-            </div>
+          <div className="vads-l-row medium-screen:vads-u-padding-left--1">
+            <div className="vads-l-col--6">{title}</div>
             {categoryRating.averageRating && (
               <div className="vads-l-col--6 vads-u-font-size--sm">
                 {renderStars(categoryRating.averageRating)}{' '}
@@ -62,7 +60,7 @@ export default function SchoolCategoryRating({
           </div>
         </button>
         {open && (
-          <div className="vads-u-padding-top--1">
+          <div className="vads-u-padding-top--1  medium-screen:vads-u-padding-left--1">
             Distribution of ratings
             <div className="vads-u-margin-top--1">
               {renderBar('5 star', categoryRating.rated5Count)}

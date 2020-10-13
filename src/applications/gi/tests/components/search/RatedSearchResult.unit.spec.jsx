@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
+import { MINIMUM_RATING_COUNT } from '../../../constants';
 
 import { RatedSearchResult } from '../../../components/search/RatedSearchResult';
 
@@ -20,7 +21,8 @@ const result = {
       linkUrl: 'http://ope.ed.gov/accreditation/',
     },
   ],
-
+  ratingCount: MINIMUM_RATING_COUNT,
+  ratingAverage: 2.5,
   hbcu: 1,
   menonly: 0,
   relaffil: 71,
@@ -41,8 +43,7 @@ describe('<SearchResult>', () => {
         <RatedSearchResult estimated={estimated} {...result} />,
       </MemoryRouter>,
     );
-    const vdom = tree.html();
-    expect(vdom).to.not.be.undefined;
+    expect(tree.find('.search-result').length).to.eq(1);
     tree.unmount();
   });
 
@@ -58,8 +59,45 @@ describe('<SearchResult>', () => {
         />
       </MemoryRouter>,
     );
-    const vdom = tree.html();
-    expect(vdom).to.not.be.undefined;
+    expect(tree.find('.search-result').length).to.eq(1);
+    tree.unmount();
+  });
+
+  it('should not render ratings if rating count < minimum', () => {
+    const resultWithoutMinRatings = {
+      ...result,
+      ratingCount: MINIMUM_RATING_COUNT - 1,
+    };
+    const tree = mount(
+      <MemoryRouter>
+        <RatedSearchResult
+          estimated={estimated}
+          womenOnly={result.womenonly}
+          menOnly={result.menonly}
+          {...resultWithoutMinRatings}
+          gibctFilterEnhancement
+        />
+      </MemoryRouter>,
+    );
+    expect(tree.html()).to.contain('Not yet rated');
+    expect(tree.find('i').length).to.eq(0);
+    tree.unmount();
+  });
+
+  it('should render ratings if rating count >= minimum', () => {
+    const tree = mount(
+      <MemoryRouter>
+        <RatedSearchResult
+          estimated={estimated}
+          womenOnly={result.womenonly}
+          menOnly={result.menonly}
+          {...result}
+          gibctFilterEnhancement
+        />
+      </MemoryRouter>,
+    );
+    expect(tree.html()).to.not.contain('Not yet rated');
+    expect(tree.find('i').length).to.eq(5);
     tree.unmount();
   });
 });

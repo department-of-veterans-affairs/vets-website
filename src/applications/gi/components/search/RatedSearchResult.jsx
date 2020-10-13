@@ -4,6 +4,7 @@ import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { MINIMUM_RATING_COUNT } from '../../constants';
 import { estimatedBenefits } from '../../selectors/estimator';
 import {
   convertRatingToStars,
@@ -57,7 +58,7 @@ export function RatedSearchResult({
     ? appendQuery(`/profile/${facilityCode}`, { version })
     : `/profile/${facilityCode}`;
   const stars = convertRatingToStars(ratingAverage);
-  const displayStars = stars && ratingCount > 0;
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   return (
     <div

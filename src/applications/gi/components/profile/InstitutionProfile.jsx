@@ -14,6 +14,7 @@ import ContactInformation from './ContactInformation';
 import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
+import { MINIMUM_RATING_COUNT } from '../../constants';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -49,10 +50,10 @@ export class InstitutionProfile extends React.Component {
     const displayStars =
       this.props.gibctSchoolRatings &&
       stars &&
-      profile.attributes.ratingCount > 0;
+      profile.attributes.ratingCount >= MINIMUM_RATING_COUNT;
 
     return (
-      <div>
+      <div className="institution-profile">
         <HeadingSummary
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
