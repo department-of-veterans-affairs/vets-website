@@ -199,8 +199,7 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, '#newBenefit-2', 'extend');
     expect(global.window.dataLayer.length).to.equal(1);
     const edithNourseLink = tree.find({
-      href:
-        'https://www.va.gov/education/other-va-education-benefits/stem-scholarship/',
+      href: '../../education/other-va-education-benefits/stem-scholarship/',
     });
     const remainingBenefitsLink = tree.find({
       href: '/education/gi-bill/post-9-11/ch-33-benefit/',
