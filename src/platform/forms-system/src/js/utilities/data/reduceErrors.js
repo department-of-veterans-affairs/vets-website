@@ -121,7 +121,7 @@ export const reduceErrors = (errors, pageList) =>
           // property includes a path to the error; we'll remove "instance",
           // then use `getPropertyInfo` to search the pageList to find the
           // matching chapterKey & pageKey
-          const property = err.property.replace(/instance\.?/, '') || '';
+          const property = err.property.replace(/^instance\.?/, '') || '';
           // name is the property that had the validation error
           const name =
             err.name === 'required'
