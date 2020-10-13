@@ -1,5 +1,5 @@
 // min/max length or item errors may show up as duplicates
-const errorExists = (acc, name) => acc.find(obj => obj.name === name);
+const errorExists = (acc, name) => acc.some(obj => obj.name === name);
 
 // Keys to ignore within the pageList objects & pageList schema
 const ignoreKeys = [
@@ -15,7 +15,7 @@ const ignoreKeys = [
   'initialData',
 ];
 
-export const isIgnoredSchemaKey = key =>
+const isIgnoredSchemaKey = key =>
   key.startsWith('ui:') || ignoreKeys.includes(key);
 
 // Find the chapter and page name that contains the property (name) which is
@@ -30,7 +30,9 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
         if (insideInstance && name === key && obj[name]) {
           return true;
         }
-        return findPageIndex(obj[key], insideInstance || key === instance) > -1;
+        return (
+          findPageIndex(obj[key], insideInstance || instance.includes(key)) > -1
+        );
       });
     }
     return -1;
@@ -61,7 +63,7 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
  * @property {string[]} __errors - may contain multiple error messages for one
  *   element
  *
- * There are four types of hardcoded validation error messages:
+ * There are five types of hardcoded validation error messages:
  *
  * min/max: {
     property: 'instance.someProperty',
@@ -86,6 +88,11 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
     argument: 'cause',
     schema: {...},
     stack: 'instance.newDisabilities[0] requires property "cause"'
+  }
+  * array w/deeply nested property: {
+    property: 'instance.newDisabilities[4].view:secondaryFollowUp.causedByDisability',
+    message: 'is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+    schema: {...},
   }
   * non-empty "__errors" array: {
     __errors: ['error message']
@@ -120,14 +127,14 @@ export const reduceErrors = (errors, pageList) =>
           if (!errorExists(acc, name)) {
             const { chapterKey = '', pageKey = '' } = getPropertyInfo(
               pageList,
-              err.argument,
+              err.argument || err.property.split('.').slice(-1)[0],
               err.property.startsWith('instance.') ? instance : '',
             );
             acc.push({
               name,
               // property may be `array[0]`; we need to extract out the `[0]`
               index: property.match(/\[(\d+)\]/)?.[1] || null,
-              message: err.stack,
+              message: err.stack || err.message,
               chapterKey,
               pageKey,
             });
