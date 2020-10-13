@@ -48,15 +48,15 @@
                   <br />
 
                   <!-- Step alert -->
-                  {% if fieldAlert.length %}
-                    {% for alert in fieldAlert %}
+                  {% if fieldStep.entity.fieldAlert.length %}
+                    {% for alert in fieldStep.entity.fieldAlert %}
                       {% if alert.entity != empty %}
                         {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
                       {% endif %}
                     {% endfor %}
                   {% else %}
-                    {% if fieldAlert.entity != empty %}
-                      {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
+                    {% if fieldStep.entity.fieldAlert.entity != empty %}
+                      {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldStep.entity.fieldAlert.entity %}
                     {% endif %}
                   {% endif %}
 
