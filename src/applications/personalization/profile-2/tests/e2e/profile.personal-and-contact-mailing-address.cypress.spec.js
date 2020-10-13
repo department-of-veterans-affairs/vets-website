@@ -134,7 +134,6 @@ const confirmWebAddressesAreBlocked = () => {
     .clear()
     .type('propaganda.edu');
   cy.findByRole('button', { name: 'Update' }).focus();
-  cy.findByRole('button', { name: 'Update' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid postal code/i);
@@ -142,18 +141,24 @@ const confirmWebAddressesAreBlocked = () => {
     .clear()
     .type('12345-1234');
   cy.findByRole('alert').should('not.exist');
+
+  // cancel out of edit mode and discard unsaved changes
+  cy.findByRole('button', { name: /cancel/i }).click();
+  cy.findByRole('alertdialog')
+    .findByRole('button', { name: /cancel/i })
+    .click();
 };
 
 describe('The personal and contact information page', () => {
-  it('should handle the military base checkbox on Mobile', () => {
-    setup(true);
-    editMailingAddress();
-    checkMilitaryAddress();
-  });
   it('should handle the military base checkbox and prevent entering web URLs on Desktop', () => {
     setup();
     editMailingAddress();
     checkMilitaryAddress();
     confirmWebAddressesAreBlocked();
+  });
+  it('should handle the military base checkbox on Mobile', () => {
+    setup(true);
+    editMailingAddress();
+    checkMilitaryAddress();
   });
 });
