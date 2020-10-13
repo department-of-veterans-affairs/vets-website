@@ -175,7 +175,7 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
       questionnaireData: {
         context: {
           appointment: {
-            vdsAppointments: [{ bookingNote: reason }],
+            vdsAppointments: [{ bookingNotes: reason }],
           },
         },
       },

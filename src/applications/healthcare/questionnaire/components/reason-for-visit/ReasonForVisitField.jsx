@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getBookingNoteFromAppointment } from '../../utils';
 
 const ReasonForVisitField = ({ appointment }) => {
-  const bookingNote = appointment?.vdsAppointments[0]?.bookingNote;
-  if (bookingNote) {
+  const bookingNote = getBookingNoteFromAppointment(appointment);
+  if (bookingNote?.reasonForVisit) {
     return (
       <span data-testid="reason-for-visit">
-        Main reason for your visit: <strong>routine or follow-up visit</strong>
+        Main reason for your visit:{' '}
+        <strong>{bookingNote?.reasonForVisit.toLowerCase()}</strong>
       </span>
     );
   } else {
