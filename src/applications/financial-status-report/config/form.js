@@ -2,6 +2,7 @@
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 // const { } = fullSchema.properties;
 
@@ -17,7 +18,7 @@ const formConfig = {
   trackingPrefix: 'fsr-5655-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '5655',
+  formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
