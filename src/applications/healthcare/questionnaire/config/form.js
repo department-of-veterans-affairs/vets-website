@@ -38,6 +38,7 @@ const formConfig = {
   },
   title: 'Upcoming appointment questionnaire',
   defaultDefinitions: {},
+  customText: { reviewPageTitle: 'Review', appType: 'questionnaire' },
   chapters: {
     chapter1: {
       title: "Veteran's Information",
