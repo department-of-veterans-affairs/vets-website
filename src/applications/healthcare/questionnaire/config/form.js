@@ -4,60 +4,60 @@ import React from 'react';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import AppointmentInfoBox from '../components/AppointmentInfoBox';
+import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
 import ChiefComplaint from '../components/chief-complaint';
-// import AdditionalQuestions from '../components/additional-questions'
+import GetHelp from '../components/get-help';
+
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/healthcare_questionnaire`,
+  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
   trackingPrefix: 'healthcare-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  submit: form => {
+    // just for MVP until we have an API set up
+    return new Promise((resolve, _reject) => {
+      resolve(form.data);
+    });
+  },
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   version: 0,
   prefillEnabled: true,
+  footerContent: GetHelp.footer,
+  preSubmitInfo: {
+    CustomComponent: GetHelp.review,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for Upcoming Visit questionnaire.',
     noAuth:
       'Please sign in again to continue your application for Upcoming Visit questionnaire.',
   },
-  title: 'Reason for visit clipboard',
+  title: 'Upcoming appointment questionnaire',
   defaultDefinitions: {},
   chapters: {
     chapter1: {
       title: "Veteran's Information",
+      reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
           path: 'demographics',
           hideHeaderRow: true,
           title: 'Veteran Information',
           uiSchema: {
-            'view:veteranInfo': {
-              'ui:field': AppointmentInfoBox,
-              'ui:reviewField': AppointmentInfoBox,
-              'ui:options': {
-                viewComponent: AppointmentInfoBox,
-              },
-              seen: {},
+            veteranInfo: {
+              'ui:description': VeteranInfoPage.field,
             },
           },
           schema: {
             type: 'object',
             properties: {
-              'view:veteranInfo': {
+              veteranInfo: {
                 type: 'object',
-                properties: {
-                  seen: {
-                    type: 'string',
-                  },
-                },
+                properties: {},
               },
             },
           },
@@ -65,11 +65,11 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Reason for visit and concerns',
+      title: 'Prepare for Your Appointment',
       pages: {
         reasonForVisit: {
           path: 'reason-for-visit',
-          title: 'Reason for visit and concerns',
+          title: 'Prepare for Your Appointment',
           uiSchema: {
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
@@ -80,9 +80,8 @@ const formConfig = {
               'ui:widget': ChiefComplaint.field,
               'ui:title': (
                 <span>
-                  Are there any <strong>additional details</strong> you’d like
-                  to share with your provider about{' '}
-                  <strong>this appointment</strong>?
+                  Are there any additional details you’d like to share with your
+                  provider about this appointment?
                 </span>
               ),
             },
@@ -90,16 +89,17 @@ const formConfig = {
               'ui:widget': 'textarea',
               'ui:title': (
                 <span>
-                  Are there any <strong>life events</strong> that are positively
-                  or negatively affecting your health (e.g. marriage, divorce,
-                  new job, retirement, parenthood, or finances)?
+                  Are there any life events that are positively or negatively
+                  affecting your health (e.g. marriage, divorce, new job,
+                  retirement, parenthood, or finances)?
                 </span>
               ),
             },
             questions: {
               items: {
                 additionalQuestions: {
-                  'ui:title': 'Your Question',
+                  'ui:title':
+                    'Do you have other questions you want to ask your provider? Please enter them below with your most important question listed first.',
                 },
               },
               'ui:options': {
@@ -109,13 +109,7 @@ const formConfig = {
                   return <>{formData.formData.additionalQuestions}</>;
                 },
               },
-              // 'ui:reviewField': AdditionalQuestions.review,
-              'ui:title': (
-                <span style={{ fontWeight: 'normal' }}>
-                  Do you have any other additional questions you want to discuss
-                  with your provider?
-                </span>
-              ),
+              'ui:title': 'Ranked questions for your provider',
             },
           },
           schema: {

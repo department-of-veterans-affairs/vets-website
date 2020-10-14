@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CallToActionAlert from './../CallToActionAlert';
 
-const SignIn = ({ serviceDescription, primaryButtonHandler }) => {
+const SignIn = ({ serviceDescription, primaryButtonHandler, headerLevel }) => {
   const content = {
     heading: `Please sign in to ${serviceDescription}`,
+    headerLevel,
     alertText: (
       <p>
         Try signing in with your <b>DS Logon</b>, <b>My HealtheVet</b>, or{' '}
@@ -23,6 +24,7 @@ const SignIn = ({ serviceDescription, primaryButtonHandler }) => {
 SignIn.propTypes = {
   serviceDescription: PropTypes.string.isRequired,
   primaryButtonHandler: PropTypes.func.isRequired,
+  headerLevel: PropTypes.number,
 };
 
 export default SignIn;

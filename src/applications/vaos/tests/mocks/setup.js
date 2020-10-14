@@ -244,7 +244,8 @@ export async function setPreferredDate(store, preferredDate) {
 }
 
 export async function setExpressCareFacility({ store }) {
-  store.dispatch(fetchExpressCareWindows());
+  const windowsThunk = fetchExpressCareWindows();
+  await windowsThunk(store.dispatch, store.getState);
   const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
     store,
   });

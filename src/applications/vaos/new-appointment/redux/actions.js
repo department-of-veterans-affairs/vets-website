@@ -8,6 +8,7 @@ import {
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
   selectIsCernerOnlyPatient,
+  selectVet360ResidentialAddress,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -37,9 +38,14 @@ import {
   getIdOfRootOrganization,
   getSiteIdFromOrganization,
 } from '../../services/organization';
-import { getLocation, getParentOfLocation } from '../../services/location';
+import {
+  getLocation,
+  getSiteIdFromFakeFHIRId,
+  getLocationsByTypeOfCareAndSiteIds,
+} from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
+import { getPreciseLocation } from '../../utils/address';
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
@@ -151,6 +157,12 @@ export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED';
+export const FORM_REQUEST_CURRENT_LOCATION =
+  'newAppointment/FORM_REQUEST_CURRENT_LOCATION';
+export const FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED =
+  'newAppointment/FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED';
+export const FORM_REQUEST_CURRENT_LOCATION_FAILED =
+  'newAppointment/FORM_REQUEST_CURRENT_LOCATION_FAILED';
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
@@ -326,116 +338,108 @@ export function openFacilityPageV2(page, uiSchema, schema) {
     try {
       const initialState = getState();
       const newAppointment = initialState.newAppointment;
-      const data = newAppointment.data;
       const typeOfCare = getTypeOfCare(newAppointment.data);
-      const typeOfCareId = typeOfCare.id;
-      const userSiteIds = selectSystemIds(initialState);
-      const useVSP = vaosVSPAppointmentNew(initialState);
-      let parentFacilities = newAppointment.parentFacilities;
-      let locations = null;
-      let locationId = data.vaFacility;
+      const typeOfCareId = typeOfCare?.id;
+      if (typeOfCareId) {
+        const siteIds = selectSystemIds(initialState);
+        const useVSP = vaosVSPAppointmentNew(initialState);
+        let typeOfCareFacilities = newAppointment.facilities[typeOfCareId];
+        let siteId = null;
+        let facilityId = newAppointment.data.vaFacility;
+        let parentFacilities = newAppointment.parentFacilities;
 
-      dispatch({
-        type: FORM_PAGE_FACILITY_V2_OPEN,
-      });
-
-      try {
-        if (!parentFacilities) {
-          dispatch({ type: FORM_FETCH_PARENT_FACILITIES });
-          parentFacilities = await getOrganizations({
-            siteIds: userSiteIds,
-            useVSP,
-          });
-          dispatch({
-            type: FORM_FETCH_PARENT_FACILITIES_SUCCEEDED,
-            parentFacilities,
-          });
-        }
-      } catch (err) {
-        dispatch({ type: FORM_FETCH_PARENT_FACILITIES_FAILED });
-      }
-
-      locations = newAppointment.facilities[typeOfCareId] || null;
-
-      if (parentFacilities?.length && !locations) {
         dispatch({
-          type: FORM_FETCH_CHILD_FACILITIES,
+          type: FORM_PAGE_FACILITY_V2_OPEN,
         });
 
-        // Fetch locations for each parent facility
-        const responses = await Promise.all(
-          parentFacilities.map(parent => {
-            const parentId = parent.id;
-            const siteId = parseFakeFHIRId(
-              getIdOfRootOrganization(parentFacilities, parentId),
-            );
-            return getSupportedHealthcareServicesAndLocations({
-              siteId,
-              parentId,
-              typeOfCareId,
-              useVSP,
-            });
-          }),
-        );
+        // Fetch parent facilities if we haven't already in
+        // checkCommunityCareEligibility()
+        if (!parentFacilities) {
+          parentFacilities = await getOrganizations({
+            siteIds,
+            useVSP,
+          });
+        }
 
-        locations = [].concat(...responses.map(r => r?.locations || []));
-      }
+        // Fetch facilities that support this type of care
+        if (!typeOfCareFacilities) {
+          typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
+            typeOfCareId,
+            siteIds,
+          });
+        }
 
-      // If we have an already selected location or only have a single location
-      // fetch eligbility data immediately
-      const eligibilityDataNeeded = !!locationId || locations?.length === 1;
+        recordEvent({
+          event: `${GA_PREFIX}-get-available-facilities`,
+          [`${GA_PREFIX}-number-of-facilities`]: typeOfCareFacilities?.length,
+        });
+        resetDataLayer();
 
-      if (eligibilityDataNeeded && !locationId) {
-        locationId = locations[0].id;
-      }
+        // If we have an already selected location or only have a single location
+        // fetch eligbility data immediately
+        const eligibilityDataNeeded =
+          !!facilityId || typeOfCareFacilities?.length === 1;
 
-      if (!locations?.length) {
-        parentFacilities.forEach(p => {
+        if (!typeOfCareFacilities.length) {
           recordEligibilityFailure(
             'supported-facilities',
             typeOfCare.name,
-            parseFakeFHIRId(p.id),
+            parseFakeFHIRId(parentFacilities[0].id),
           );
-        });
-      }
-
-      const eligibilityChecks =
-        newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
-
-      if (eligibilityDataNeeded && !eligibilityChecks) {
-        const parentId = getParentOfLocation(parentFacilities, locations[0]).id;
-
-        const siteId = parseFakeFHIRId(
-          getIdOfRootOrganization(parentFacilities, parentId),
-        );
-
-        const location = locations.find(l => l.id === locationId);
-        dispatch(checkEligibility(location, siteId));
-      }
-
-      dispatch({
-        type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
-        page,
-        schema,
-        uiSchema,
-        parentFacilities,
-        locations,
-        typeOfCareId,
-      });
-
-      // Fetch parent details if we don't have any matching locations
-      if (parentFacilities?.length && !locations.length) {
-        try {
-          const thunk = fetchFacilityDetails(parentFacilities[0].id);
-          await thunk(dispatch, getState);
-        } catch (e) {
-          captureError(e);
         }
+
+        if (eligibilityDataNeeded && !facilityId) {
+          facilityId = typeOfCareFacilities[0].id;
+        }
+
+        const eligibilityChecks =
+          newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
+
+        if (eligibilityDataNeeded && !eligibilityChecks) {
+          const selectedFacility = typeOfCareFacilities[0];
+
+          if (!siteId) {
+            siteId = getSiteIdFromFakeFHIRId(selectedFacility.id);
+          }
+
+          dispatch(checkEligibility(selectedFacility, siteId));
+        }
+
+        dispatch({
+          type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+          facilities: typeOfCareFacilities || [],
+          parentFacilities,
+          typeOfCareId,
+          schema,
+          uiSchema,
+          address: selectVet360ResidentialAddress(initialState),
+        });
       }
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
+      });
+    }
+  };
+}
+
+export function requestCurrentLocation(uiSchema) {
+  return async dispatch => {
+    dispatch({
+      type: FORM_REQUEST_CURRENT_LOCATION,
+    });
+    try {
+      const location = await getPreciseLocation();
+      dispatch({
+        type: FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED,
+        location,
+        uiSchema,
+      });
+    } catch (e) {
+      captureError(e, false, 'facility page');
+      dispatch({
+        type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
       });
     }
   };

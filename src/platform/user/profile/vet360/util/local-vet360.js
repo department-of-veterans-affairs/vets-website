@@ -113,6 +113,8 @@ export const mockContactInformation = {
     countryCodeFips: 'US',
     countryCodeIso2: 'US',
     countryCodeIso3: 'USA',
+    latitude: 37.5615,
+    longitude: -121.9988,
     createdAt: '2018-04-21T20:09:50Z',
     effectiveEndDate: '2018-04-21T20:09:50Z',
     effectiveStartDate: '2018-04-21T20:09:50Z',

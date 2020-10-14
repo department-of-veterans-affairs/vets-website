@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { deductionCodes } from '../const';
+import { deductionCodes } from '../const/deduction-codes';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
@@ -13,6 +13,7 @@ import last from 'lodash/last';
 import first from 'lodash/first';
 import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 class DebtDetails extends Component {
   componentDidMount() {
@@ -104,10 +105,7 @@ class DebtDetails extends Component {
               <strong>Note:</strong> The content of the debt letters below may
               not include recent updates to your debt reflected above. If you
               have any questions about your debt history, please contact the
-              Debt Management Center at{' '}
-              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-                800-827-0648
-              </a>
+              Debt Management Center at <Telephone contact="8008270648" />
               {'.'}
             </p>
             <table className="vads-u-margin-y--4">

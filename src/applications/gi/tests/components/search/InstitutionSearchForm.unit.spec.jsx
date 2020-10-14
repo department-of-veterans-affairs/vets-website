@@ -20,7 +20,6 @@ describe('<InstitutionSearchForm>', () => {
         filtersClass={filtersClass}
         search={search}
         eligibility={eligibility}
-        gibctFilterEnhancement
       />,
     );
     expect(wrapper).to.not.be.undefined;

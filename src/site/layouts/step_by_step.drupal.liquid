@@ -30,46 +30,72 @@
           {% endif %}
 
           <!-- Buttons -->
-          <div class="vads-u-margin-y--3">
+          <div class="vads-u-margin-top--3">
             {% for fieldButton in fieldButtons  %}
               {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
             {% endfor %}
           </div>
 
           <!-- Steps -->
-          <h2>Step-by-step</h2>
-          <ol class="process">
-            {% assign count = 1 %}
-            {% for fieldStep in fieldSteps.entity.fieldStep %}
-              <li class="process-step list-{{ count | numToWord }}">
-                {{ fieldStep.entity.fieldWysiwyg.processed }}<br />
-                <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
-                  src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
-              </li>
-              {% assign count = count | plus: 1 %}
-            {% endfor %}
-          </ol>
+          {% for fieldStepsItem in fieldSteps %}
+
+            <!-- Initialize step number -->
+            {% assign stepNumber = 1 %}
+
+            <!-- Step list header -->
+            <h2 class="vads-u-font-size--h2 vads-u-margin-y--4 vads-u-padding-top--0 ">
+              {{ fieldStepsItem.entity.fieldSectionHeader }}</h2>
+
+            <ol class="process">
+              {% for fieldStep in fieldStepsItem.entity.fieldStep %}
+                <!-- Step -->
+                <li class="process-step list-{{ stepNumber | numToWord }}">
+                  <!-- Step wysiyg -->
+                  {{ fieldStep.entity.fieldWysiwyg.processed }}
+                  <br />
+
+                  <!-- Step alert -->
+                  {% if fieldStep.entity.fieldAlert.length %}
+                    {% for alert in fieldStep.entity.fieldAlert %}
+                      {% if alert.entity != empty %}
+                        <div class="vads-u-margin-bottom--4">
+                          {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  {% else %}
+                    {% if fieldStep.entity.fieldAlert.entity != empty %}
+                      <div class="vads-u-margin-bottom--4">
+                        {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldStep.entity.fieldAlert.entity %}
+                      </div>
+                    {% endif %}
+                  {% endif %}
+
+                  <!-- Step image -->
+                  {% if fieldStep.entity.fieldMedia.entity != empty %}
+                    <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
+                      src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
+                  {% endif %}
+                </li>
+
+                <!-- Increment step number -->
+                {% assign stepNumber = stepNumber | plus: 1 %}
+              {% endfor %}
+            </ol>
+          {% endfor %}
 
           <!-- Repeated buttons -->
           {% if fieldButtonsRepeat %}
-          <div class="vads-u-margin-y--3">
-            {% for fieldButton in fieldButtons  %}
-              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-            {% endfor %}
-          </div>
+            <div class="vads-u-margin-y--3">
+              {% for fieldButton in fieldButtons  %}
+                {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+              {% endfor %}
+            </div>
           {% endif %}
         </article>
 
-        <!-- Related links -->
-        {% if fieldRelatedLinks != empty %}
-          <div class="row">
-            <div class="usa-content columns">
-              <aside class="va-nav-linkslist va-nav-linkslist--related">
-                {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' with entity = fieldRelatedLinks.entity %}
-              </aside>
-            </div>
-          </div>
-        {% endif %}
+        <!-- Related information -->
+        {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}
 
         <!-- Last updated -->
         <div class="last-updated usa-content">

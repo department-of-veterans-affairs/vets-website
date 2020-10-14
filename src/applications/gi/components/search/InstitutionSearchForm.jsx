@@ -18,7 +18,6 @@ function InstitutionSearchForm({
   fetchAutocompleteSuggestions,
   filters,
   filtersClass,
-  gibctFilterEnhancement,
   handleFilterChange,
   hideModal,
   location,
@@ -46,21 +45,17 @@ function InstitutionSearchForm({
     }
   }
 
-  const header = gibctFilterEnhancement ? 'Refine search' : 'Keywords';
-  let keywordSearchLabel = gibctFilterEnhancement
-    ? 'Enter a school, location, or employer name'
-    : 'City, school, or employer';
   // prod flag for story BAH-13929
-  if (!environment.isProduction()) {
-    keywordSearchLabel = 'Enter a school, employer name, city, or zip code';
-  }
+  const keywordSearchLabel = !environment.isProduction()
+    ? 'Enter a school, employer name, city, or zip code'
+    : 'Enter a school, location, or employer name';
 
   return (
     <div className="row">
       <div id="institution-search" className={filtersClass}>
         <div className="filters-sidebar-inner vads-u-margin-left--1p5">
           {search.filterOpened && <h1>Filter your search</h1>}
-          <h2>{header}</h2>
+          <h2>Refine search</h2>
           <KeywordSearch
             autocomplete={autocomplete}
             label={keywordSearchLabel}
@@ -76,7 +71,6 @@ function InstitutionSearchForm({
             handleFilterChange={handleFilterChange}
             showModal={showModal}
             handleInputFocus={handleInstitutionSearchInputFocus}
-            gibctFilterEnhancement={gibctFilterEnhancement}
           />
           <BenefitsForm
             eligibilityChange={eligibilityChange}
@@ -85,14 +79,12 @@ function InstitutionSearchForm({
             showModal={showModal}
             showHeader
             handleInputFocus={handleInstitutionSearchInputFocus}
-            gibctFilterEnhancement={gibctFilterEnhancement}
           />
           <OnlineClassesFilter
             onlineClasses={eligibility.onlineClasses}
             onChange={eligibilityChange}
             showModal={showModal}
             handleInputFocus={handleInstitutionSearchInputFocus}
-            gibctFilterEnhancement={gibctFilterEnhancement}
           />
         </div>
         <div id="see-results-button" className="results-button">

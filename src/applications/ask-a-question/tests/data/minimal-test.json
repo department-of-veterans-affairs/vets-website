@@ -16,7 +16,10 @@
     "view:email": "jane.doe@va.gov",
     "privacyAgreementAccepted": true,
     "inquiryType": "Question",
-    "topic": "Policy Question",
+    "topic": {
+      "levelOne": "Caregiver Support Program",
+      "levelTwo": "VA Supportive Services"
+    },
     "query": "Some question?"
   }
 }

@@ -24,11 +24,17 @@ fragment nodeStepByStep on NodeStepByStep {
   fieldSteps {
     entity {
       ... on ParagraphStepByStep {
+        fieldSectionHeader
         fieldStep {
           entity {
             ... on ParagraphStep {
               fieldWysiwyg {
                 processed
+              }
+              fieldAlert {
+                entity {
+                  ... alertParagraph
+                }
               }
               fieldMedia {
                 entity {
@@ -46,9 +52,9 @@ fragment nodeStepByStep on NodeStepByStep {
       }
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
 }

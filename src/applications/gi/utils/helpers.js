@@ -139,3 +139,25 @@ export const handleInputFocusWithPotentialOverLap = (
 export function useQueryParams() {
   return new URLSearchParams(useLocation().search);
 }
+
+export function convertRatingToStars(rating) {
+  const ratingValue = parseFloat(rating);
+
+  if (!ratingValue || isNaN(ratingValue)) {
+    return null;
+  }
+
+  const rounded = ratingValue.toFixed(1);
+  let full = parseInt(rounded.split('.')[0], 10);
+  const firstDecimal = parseInt(rounded.split('.')[1], 10);
+
+  let half = false;
+
+  if (firstDecimal > 7) {
+    full++;
+  } else if (firstDecimal >= 3) {
+    half = true;
+  }
+
+  return { full, half, display: rounded };
+}

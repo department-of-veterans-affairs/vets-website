@@ -97,7 +97,6 @@ class RoutedSavableReviewPage extends React.Component {
             formConfig={formConfig}
             pageList={pageList}
             path={path}
-            renderErrorMessage
           />
         </DowntimeNotification>
         <SaveStatus

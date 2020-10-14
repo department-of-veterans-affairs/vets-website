@@ -83,7 +83,7 @@ class SubmitController extends Component {
   };
 
   render() {
-    const { form, formConfig, renderErrorMessage } = this.props;
+    const { form, formConfig } = this.props;
 
     return (
       <SubmitButtons
@@ -91,14 +91,13 @@ class SubmitController extends Component {
         onBack={this.goBack}
         onSubmit={this.handleSubmit}
         submission={form.submission}
-        renderErrorMessage={renderErrorMessage}
       />
     );
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const { formConfig, pageList, renderErrorMessage } = ownProps;
+  const { formConfig, pageList } = ownProps;
   const router = ownProps.router;
 
   const form = state.form;
@@ -113,7 +112,6 @@ function mapStateToProps(state, ownProps) {
     formConfig,
     pagesByChapter,
     pageList,
-    renderErrorMessage,
     router,
     submission,
     showPreSubmitError,
@@ -133,7 +131,6 @@ SubmitController.propTypes = {
   formConfig: PropTypes.object.isRequired,
   pagesByChapter: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
-  renderErrorMessage: PropTypes.bool,
   router: PropTypes.object.isRequired,
   setPreSubmit: PropTypes.func.isRequired,
   setSubmission: PropTypes.func.isRequired,
