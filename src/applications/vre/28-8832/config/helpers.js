@@ -10,39 +10,38 @@ export const isVeteran = formData => {
 
 const reformatData = form => {
   let veteranName = {};
+  const {
+    claimantAddress,
+    claimantEmailAddress,
+    claimantPhoneNumber,
+    dateOfBirth,
+    fullName,
+    VAFileNumber,
+    veteranInformation,
+    ssn,
+    status,
+  } = form.data;
   // since the back end uses the veteranFullName as metadata, we need to make sure that is filled no matter what workflow the user went through
-  if (
-    form?.data?.status === 'isVeteran' ||
-    form?.data?.status === 'isActiveDuty'
-  ) {
-    veteranName = {
-      first: form?.data?.fullName?.first,
-      middle: form?.data?.fullName?.middle,
-      last: form?.data?.fullName?.last,
-      suffix: form?.data?.fullName?.suffix,
-    };
+  if (isVeteran(form.data)) {
+    veteranName = fullName;
   } else {
-    veteranName = form?.data?.veteranInformation?.fullName;
+    veteranName = veteranInformation.fullName;
   }
+
   // Reformat the data to have certain items at the root and others wrapped in objects
   return {
     claimantInformation: {
-      fullName: {
-        first: form?.data?.fullName?.first,
-        middle: form?.data?.fullName?.middle,
-        last: form?.data?.fullName?.last,
-        suffix: form?.data?.fullName?.suffix,
-      },
-      ssn: form?.data?.ssn,
-      dateOfBirth: form?.data?.dateOfBirth,
-      vaFileNumber: form?.data?.VAFileNumber,
-      emailAddress: form?.data?.claimantEmailAddress,
-      phoneNumber: form?.data?.claimantPhoneNumber,
+      fullName,
+      ssn,
+      dateOfBirth,
+      vaFileNumber: VAFileNumber,
+      emailAddress: claimantEmailAddress,
+      phoneNumber: claimantPhoneNumber,
     },
-    claimantAddress: form?.data?.claimantAddress,
+    claimantAddress,
     veteranFullName: veteranName,
-    veteranSocialSecurityNumber: form?.data?.veteranInformation?.ssn,
-    status: form?.data?.status,
+    veteranSocialSecurityNumber: veteranInformation.ssn,
+    status,
   };
 };
 
