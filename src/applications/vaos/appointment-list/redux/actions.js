@@ -7,7 +7,7 @@ import {
   APPOINTMENT_TYPES,
   EXPRESS_CARE,
 } from '../../utils/constants';
-import { resetDataLayer } from '../../utils/events';
+import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
 import { selectSystemIds, vaosExpressCare } from '../../utils/selectors';
 
 import {
@@ -177,49 +177,42 @@ export function fetchFutureAppointments() {
               data: requests,
             });
 
-            const requestSuccessEvent = {
+            recordEvent({
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
-            };
+            });
 
-            const expressCareRequests = requests.filter(
-              appt => appt.vaos.isExpressCare,
-            );
-
-            if (vaosExpressCare(getState()) && expressCareRequests.length) {
-              requestSuccessEvent[`${GA_PREFIX}-express-care-number-of-cards`] =
-                expressCareRequests.length;
+            if (vaosExpressCare(getState())) {
+              recordItemsRetrieved(
+                'express_care',
+                requests.filter(appt => appt.vaos.isExpressCare),
+              );
             }
 
-            const videoHome = requests.filter(appt => isVideoHome(appt));
-            requestSuccessEvent[`${GA_PREFIX}-video-home-number-of-cards`] =
-              videoHome.length;
-
-            const atlasLocation = requests.filter(appt =>
-              isAtlasLocation(appt),
+            recordItemsRetrieved(
+              'video_home',
+              requests.filter(appt => isVideoHome(appt)),
             );
-            requestSuccessEvent[`${GA_PREFIX}-video-atlas-number-of-cards`] =
-              atlasLocation.length;
 
-            const videoVAFacility = requests.filter(appt =>
-              isVideoVAFacility(appt),
+            recordItemsRetrieved(
+              'video_atlas',
+              requests.filter(appt => isAtlasLocation(appt)),
             );
-            requestSuccessEvent[
-              `${GA_PREFIX}-video-va-facility-number-of-cards`
-            ] = videoVAFacility.length;
 
-            const videoGFE = requests.filter(appt => isVideoGFE(appt));
-            requestSuccessEvent[`${GA_PREFIX}-video-gfe-number-of-cards`] =
-              videoGFE.length;
-
-            const videoStoreForward = requests.filter(appt =>
-              isVideoStoreForward(appt),
+            recordItemsRetrieved(
+              'video_va_facility',
+              requests.filter(appt => isVideoVAFacility(appt)),
             );
-            requestSuccessEvent[
-              `${GA_PREFIX}-video-store-forward-number-of-cards`
-            ] = videoStoreForward.length;
 
-            recordEvent(requestSuccessEvent);
-            resetDataLayer();
+            recordItemsRetrieved(
+              'video_gfe',
+              requests.filter(appt => isVideoGFE(appt)),
+            );
+
+            recordItemsRetrieved(
+              'video_store_forward',
+              requests.filter(appt => isVideoStoreForward(appt)),
+            );
+
             return requests;
           })
           .catch(resp => {
@@ -236,9 +229,8 @@ export function fetchFutureAppointments() {
 
       recordEvent({
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
-        [`${GA_PREFIX}-upcoming-number-of-cards`]: data[0]?.length,
       });
-      resetDataLayer();
+      recordItemsRetrieved('upcoming', data[0]?.length);
 
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,

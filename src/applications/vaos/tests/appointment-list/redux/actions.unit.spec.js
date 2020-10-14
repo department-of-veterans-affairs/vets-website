@@ -58,88 +58,6 @@ describe('VAOS actions: appointments', () => {
     vaOnlineSchedulingExpressCare: true,
   };
 
-  it('should fetch future appointments', async () => {
-    const data = {
-      data: [],
-    };
-    const appt = getVAAppointmentMock();
-    appt.attributes.sta6aid = '442';
-    setFetchJSONResponse(global.fetch, data);
-    setFetchJSONResponse(global.fetch.onCall(2), {
-      data: [appt],
-    });
-    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
-    const thunk = fetchFutureAppointments();
-    const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy, () => ({
-      featureToggles,
-    }));
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
-      FETCH_FUTURE_APPOINTMENTS,
-    );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
-      FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-    );
-    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
-      FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-    );
-    expect(dispatchSpy.lastCall.args[0].type).to.eql(
-      FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-    );
-    expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
-
-    expect(global.window.dataLayer[0].event).to.equal(
-      'vaos-get-future-appointments-started',
-    );
-    expect(global.window.dataLayer[1].event).to.equal(
-      'vaos-get-pending-appointments-started',
-    );
-    expect(global.window.dataLayer[2].event).to.equal(
-      'vaos-get-pending-appointments-retrieved',
-    );
-    expect(global.window.dataLayer[4].event).to.equal(
-      'vaos-get-future-appointments-retrieved',
-    );
-    expect(
-      global.window.dataLayer[4]['vaos-upcoming-number-of-cards'],
-    ).to.equal(0);
-  });
-
-  it('should dispatch fail action when fetching future appointments', async () => {
-    const data = {
-      errors: [],
-    };
-    setFetchJSONFailure(global.fetch, data);
-    const thunk = fetchFutureAppointments();
-    const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy, () => ({
-      featureToggles,
-    }));
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
-      FETCH_FUTURE_APPOINTMENTS,
-    );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
-      FETCH_PENDING_APPOINTMENTS_FAILED,
-    );
-    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
-      FETCH_FUTURE_APPOINTMENTS_FAILED,
-    );
-
-    expect(global.window.dataLayer[0].event).to.equal(
-      'vaos-get-future-appointments-started',
-    );
-    expect(global.window.dataLayer[1].event).to.equal(
-      'vaos-get-pending-appointments-started',
-    );
-    expect(global.window.dataLayer[2].event).to.equal(
-      'vaos-get-pending-appointments-failed',
-    );
-    expect(global.window.dataLayer[3].event).to.equal('vaos-error');
-    expect(global.window.dataLayer[4].event).to.equal(
-      'vaos-get-future-appointments-failed',
-    );
-  });
-
   it('should fetch past appointments', async () => {
     const data = {
       data: [],
@@ -549,8 +467,8 @@ describe('VAOS actions: appointments', () => {
         appointmentType: undefined,
         facilityType: undefined,
         'health-express-care-reason': undefined,
-        'vaos-express-care-number-of-cards': undefined,
-        'vaos-upcoming-number-of-cards': undefined,
+        'vaos-express-care-number-of-items': undefined,
+        'vaos-upcoming-number-of-items': undefined,
         'tab-text': undefined,
         alertBoxHeading: undefined,
       });
