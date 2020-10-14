@@ -140,6 +140,7 @@ class InstitutionFilterForm extends React.Component {
       })),
     ];
 
+    // prod flag for story BAH-13928
     const searchDropDown = environment.isProduction()
       ? 'Institution categories'
       : 'Type of school or employer';

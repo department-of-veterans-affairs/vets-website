@@ -99,6 +99,7 @@ function InstitutionSearchForm({
         <div className="filters-sidebar-inner vads-u-margin-left--1p5">
           {search.filterOpened && <h1>Filter your search</h1>}
           <h2>{keywordLabel}</h2>
+          {/* prod flag for story BAH-13928 */}
           {environment.isProduction() ? (
             <div>
               {' '}
@@ -193,6 +194,7 @@ function InstitutionSearchForm({
             data-cy="see-results"
             onClick={toggleFilter}
           >
+            {/* prod flag for story BAH-13928 */}
             {environment.isProduction()
               ? 'See Results'
               : `See Results (${search.count})`}
