@@ -186,41 +186,29 @@ describe('Forms library address definition', () => {
 });
 
 describe('Forms library address validation', () => {
-  const getErrors = () => ({
-    state: {
-      addError: sinon.spy(),
-    },
-  });
-
   describe('requireStateWithCountry', () => {
+    const validationTest = (requiredFields, country, errorFound) => {
+      const s = schema(addressSchema, requiredFields);
+      const addressData = { country, state: undefined };
+      const errors = {
+        state: {
+          addError: sinon.spy(),
+        },
+      };
+      requireStateWithCountry(errors, addressData, {}, s);
+      expect(
+        errors.state.addError.calledWith('Please select a state or province'),
+      ).to.equal(errorFound);
+    };
+
     it('should require the state when the country requires it', () => {
-      const s = schema(addressSchema, true);
-      const addressData = { country: 'USA', state: undefined };
-      const errors = getErrors();
-      requireStateWithCountry(errors, addressData, {}, s);
-      expect(
-        errors.state.addError.calledWith('Please select a state or province'),
-      ).to.be.true;
+      validationTest(true, 'USA', true);
     });
-
     it('should not require the state when the country does not require it', () => {
-      const s = schema(addressSchema, true);
-      const addressData = { country: 'ASD', state: undefined };
-      const errors = getErrors();
-      requireStateWithCountry(errors, addressData, {}, s);
-      expect(
-        errors.state.addError.calledWith('Please select a state or province'),
-      ).to.be.false;
+      validationTest(true, 'ASD', false);
     });
-
     it('should not require the state when the country is not required', () => {
-      const s = schema(addressSchema, false);
-      const addressData = { country: 'USA', state: undefined };
-      const errors = getErrors();
-      requireStateWithCountry(errors, addressData, {}, s);
-      expect(
-        errors.state.addError.calledWith('Please select a state or province'),
-      ).to.be.false;
+      validationTest(false, 'USA', false);
     });
   });
 });
