@@ -20,6 +20,11 @@ import { isInMPI } from 'platform/user/selectors';
 
 import facilityLocator from '../facility-locator/manifest.json';
 
+export {
+  getMedicalCenterNameByID,
+  medicalCenterLabels,
+} from 'platform/utilities/medical-centers';
+
 export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
 
@@ -182,38 +187,6 @@ export const medicalCentersByState = _.mapValues(
   val => val.map(center => center.value),
   vaMedicalFacilities,
 );
-
-// Merges all the state facilities into one object with values as keys
-// and labels as values
-export const medicalCenterLabels = Object.keys(vaMedicalFacilities).reduce(
-  (labels, state) => {
-    const stateLabels = vaMedicalFacilities[state].reduce(
-      (centers, center) =>
-        Object.assign(centers, {
-          [center.value]: center.label,
-        }),
-      {},
-    );
-
-    return Object.assign(labels, stateLabels);
-  },
-  {},
-);
-
-/**
- *
- * @param {string} facilityId - facility id in the form: `123 - ABCD` where the
- * id to look up is the first part of the string
- * @returns {string} - either the actual name of the medical center or the
- * passed in id if no match was found
- */
-export function getMedicalCenterNameByID(facilityId) {
-  if (!facilityId || typeof facilityId !== 'string') {
-    return '';
-  }
-  const [id] = facilityId.split(' - ');
-  return medicalCenterLabels[id] || facilityId;
-}
 
 export const dischargeTypeLabels = {
   honorable: 'Honorable',
