@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 
-import { SearchResult } from '../../../components/search/SearchResult';
+import { RatedSearchResult } from '../../../components/search/RatedSearchResult';
 
 const result = {
   name: 'BENNETT COLLEGE',
@@ -38,7 +38,24 @@ describe('<SearchResult>', () => {
   it('should render', () => {
     const tree = mount(
       <MemoryRouter>
-        <SearchResult estimated={estimated} {...result} />,
+        <RatedSearchResult estimated={estimated} {...result} />,
+      </MemoryRouter>,
+    );
+    const vdom = tree.html();
+    expect(vdom).to.not.be.undefined;
+    tree.unmount();
+  });
+
+  it('should render with gibctFilterEnhancement feature flag', () => {
+    const tree = mount(
+      <MemoryRouter>
+        <RatedSearchResult
+          estimated={estimated}
+          womenOnly={result.womenonly}
+          menOnly={result.menonly}
+          {...result}
+          gibctFilterEnhancement
+        />
       </MemoryRouter>,
     );
     const vdom = tree.html();
