@@ -32,17 +32,25 @@ function validatePostalCodes(errors, address) {
 
 export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
 
-function validateAddress(errors, address, formData, currentSchema) {
-  // Adds error message for state if it is blank and one of the following countries:
-  // USA, Canada, or Mexico
+export function requireStateWithCountry(
+  errors,
+  address,
+  formData,
+  currentSchema,
+) {
+  // Adds error message for state if it is blank and the country is one of the
+  // following: USA, Canada, or Mexico
   if (
     stateRequiredCountries.has(address.country) &&
     address.state === undefined &&
-    currentSchema.required.length
+    currentSchema.required.includes('country')
   ) {
     errors.state.addError('Please select a state or province');
   }
+}
 
+function validateAddress(errors, address, formData, currentSchema) {
+  requireStateWithCountry(errors, address, formData, currentSchema);
   validateWhiteSpace(errors.street, address.street);
   validateWhiteSpace(errors.city, address.city);
 
