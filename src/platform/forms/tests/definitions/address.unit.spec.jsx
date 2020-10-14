@@ -200,8 +200,24 @@ describe('Forms library address validation', () => {
       ).to.be.true;
     });
 
-    it('should not require the state when the country does not require it', () => {});
+    it('should not require the state when the country does not require it', () => {
+      const s = schema(addressSchema, true);
+      const addressData = { country: 'ASD', state: undefined };
+      const errors = getErrors();
+      requireStateWithCountry(errors, addressData, {}, s);
+      expect(
+        errors.state.addError.calledWith('Please select a state or province'),
+      ).to.be.false;
+    });
 
-    it('should not require the state when the country is not required', () => {});
+    it('should not require the state when the country is not required', () => {
+      const s = schema(addressSchema, false);
+      const addressData = { country: 'USA', state: undefined };
+      const errors = getErrors();
+      requireStateWithCountry(errors, addressData, {}, s);
+      expect(
+        errors.state.addError.calledWith('Please select a state or province'),
+      ).to.be.false;
+    });
   });
 });
