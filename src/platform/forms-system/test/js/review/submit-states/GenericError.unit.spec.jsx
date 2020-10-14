@@ -104,7 +104,7 @@ describe('Schemaform review: <GenericError />', () => {
     tree.unmount();
   });
 
-  it('has the expected error in dev mode', () => {
+  it('the "submit again" button appears in dev mode', () => {
     const onSubmit = sinon.spy();
 
     const form = createForm();
@@ -129,18 +129,9 @@ describe('Schemaform review: <GenericError />', () => {
     );
 
     const submitButton = tree.getByText('Submit again');
-    expect(tree.getByText('We’re sorry, the test didn’t go through.')).to.not.be
-      .null;
-    expect(tree.getByTestId('12345')).to.have.attribute('role', 'alert');
-    expect(tree.getByText('Go Back to VA.gov')).to.not.be.null;
     expect(submitButton).to.not.be.null;
     fireEvent.click(submitButton);
     expect(onSubmit.called).to.be.true;
-    expect(
-      tree.getByText(
-        'You’ll have to start over. We suggest you wait 1 day while we fix this problem.',
-      ),
-    ).to.not.be.null;
 
     tree.unmount();
   });
@@ -172,11 +163,6 @@ describe('Schemaform review: <GenericError />', () => {
       </Provider>,
     );
 
-    expect(
-      tree.getByText(
-        'You’ll have to start over. We suggest you wait 1 day while we fix this problem.',
-      ),
-    ).to.not.be.null;
     expect(tree.getByTestId('12345')).to.have.attribute('role', 'alert');
     expect(tree.getByText('Go Back to VA.gov')).to.not.be.null;
 
@@ -205,7 +191,6 @@ describe('Schemaform review: <GenericError />', () => {
           appType="test"
           formConfig={formConfig}
           onSubmit={onSubmit}
-          renderErrorMessage
           testId="12345"
         />
       </Provider>,
@@ -216,6 +201,66 @@ describe('Schemaform review: <GenericError />', () => {
         'We’re sorry. We can’t submit your application right now.',
       ),
     ).to.not.be.null;
+
+    tree.unmount();
+  });
+
+  it('renders default non save-in-progress error', () => {
+    const onSubmit = sinon.spy();
+
+    const form = createForm();
+    const formConfig = getFormConfig({ disableSave: true });
+
+    const formReducer = createformReducer({
+      formConfig: form,
+    });
+
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <GenericError
+          appType="test"
+          formConfig={formConfig}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+
+    expect(tree.getByText('We’re sorry, the test didn’t go through.')).to.not.be
+      .null;
+
+    tree.unmount();
+  });
+
+  it('renders custom non save-in-progress error', () => {
+    const onSubmit = sinon.spy();
+
+    const form = createForm();
+    const formConfig = getFormConfig({
+      disableSave: true,
+      submissionError: () => <div>Custom Error Message</div>,
+    });
+
+    const formReducer = createformReducer({
+      formConfig: form,
+    });
+
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <GenericError
+          appType="test"
+          formConfig={formConfig}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+
+    expect(tree.getByText('Custom Error Message')).to.not.be.null;
 
     tree.unmount();
   });
