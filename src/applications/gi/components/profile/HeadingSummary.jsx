@@ -76,7 +76,9 @@ class HeadingSummary extends React.Component {
           </div>
           {displayStars && (
             <div className={starClasses}>
-              {renderStars(it.ratingAverage)}{' '}
+              <span className="vads-u-font-size--sm">
+                {renderStars(it.ratingAverage)}
+              </span>{' '}
               <span className="vads-u-padding-left--1 vads-u-padding-right--1">
                 |
               </span>{' '}
