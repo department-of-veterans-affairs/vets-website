@@ -369,6 +369,17 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           });
         }
 
+        recordEvent({
+          event: `${GA_PREFIX}-get-available-facilities`,
+          [`${GA_PREFIX}-number-of-facilities`]: typeOfCareFacilities?.length,
+        });
+        resetDataLayer();
+
+        // If we have an already selected location or only have a single location
+        // fetch eligbility data immediately
+        const eligibilityDataNeeded =
+          !!facilityId || typeOfCareFacilities?.length === 1;
+
         if (!typeOfCareFacilities.length) {
           recordEligibilityFailure(
             'supported-facilities',
@@ -376,11 +387,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
             parseFakeFHIRId(parentFacilities[0].id),
           );
         }
-
-        // If we have an already selected location or only have a single location
-        // fetch eligbility data immediately
-        const eligibilityDataNeeded =
-          !!facilityId || typeOfCareFacilities?.length === 1;
 
         if (eligibilityDataNeeded && !facilityId) {
           facilityId = typeOfCareFacilities[0].id;
