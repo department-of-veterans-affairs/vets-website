@@ -51,7 +51,7 @@ class ServiceTypeAhead extends Component {
   };
 
   shouldShow = (input, specialty) => {
-    if (!specialty || !input) {
+    if (!specialty) {
       return false;
     }
     const specialtyName = this.getSpecialtyName(specialty);
@@ -72,6 +72,8 @@ class ServiceTypeAhead extends Component {
     highlightedIndex,
     selectedItem,
   ) {
+    if (!inputValue) return null;
+
     const servicesFound = services.filter(svc =>
       this.shouldShow(inputValue, svc),
     );
