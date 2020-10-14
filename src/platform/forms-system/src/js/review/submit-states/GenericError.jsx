@@ -9,12 +9,16 @@ import FormSaveErrorMessage from 'platform/forms/components/review/FormSaveError
 import { Column, Row } from 'platform/forms/components/common/grid';
 // const FormSaveErrorMessage = props => props?.children;
 export default function GenericError(props) {
-  const { appType, formConfig, renderErrorMessage, onSubmit, testId } = props;
+  const { appType, formConfig, onSubmit, testId } = props;
   let submitButton;
   let submitMessage;
 
-  if (renderErrorMessage) {
+  if (!formConfig.disableSave) {
     submitMessage = <FormSaveErrorMessage formConfig={formConfig} />;
+  } else if (formConfig.submissionError) {
+    const SubmissionError = formConfig.submissionError;
+
+    submitMessage = <SubmissionError form={formConfig} />;
   } else {
     submitMessage = (
       <ErrorMessage
@@ -57,6 +61,5 @@ export default function GenericError(props) {
 GenericError.propTypes = {
   appType: PropTypes.string,
   formConfig: PropTypes.object,
-  renderErrorMessage: PropTypes.bool,
   onSubmit: PropTypes.func,
 };
