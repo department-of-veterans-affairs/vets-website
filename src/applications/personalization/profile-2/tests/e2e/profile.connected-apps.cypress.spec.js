@@ -1,7 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.json';
-import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
 /**
  *
@@ -95,7 +94,6 @@ describe('Connected applications', () => {
     );
     cy.login(mockUser);
     // login() calls cy.server() so we can now mock routes
-    cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
   });
   it('should successfully disconnect apps on Desktop', () => {
     disconnectApps(false);
