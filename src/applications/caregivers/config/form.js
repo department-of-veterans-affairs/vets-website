@@ -65,8 +65,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: false,
   downtime: {
-    message:
-      'Sorry Program of Comprehensive Assistance for Family Caregivers is currently down.',
     dependencies: [externalServices.mvi],
   },
   title:
