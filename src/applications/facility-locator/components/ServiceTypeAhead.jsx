@@ -26,6 +26,7 @@ class ServiceTypeAhead extends Component {
 
   validateServiceTypeAhead(inputID, inputValue, event) {
     const input = document.getElementById(inputID);
+    input.setCustomValidity('Please enter a valid Service type.');
     const validityState = input.validity;
     const serviceList = Array.from(
       document.querySelectorAll('[id ^= "downshift-"]'),
@@ -34,9 +35,9 @@ class ServiceTypeAhead extends Component {
       input.setCustomValidity('Please enter a valid Service type.');
       input.reportValidity();
     } else if (event.key === 'Enter' && serviceList.length > 2) {
-      input.setCustomValidity('Please select an item from the list');
+      input.setCustomValidity('Please select an item from the list.');
       input.reportValidity();
-    } else {
+    } else if (inputValue.length > 1) {
       input.setCustomValidity('');
       input.reportValidity();
     }
