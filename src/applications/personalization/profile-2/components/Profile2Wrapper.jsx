@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { isWideScreen } from 'platform/utilities/accessibility/index';
+import { selectProfile } from 'platform/user/selectors';
 
 import {
   directDepositLoadError,
@@ -106,14 +107,20 @@ const Profile2Wrapper = ({
   );
 };
 
-const mapStateToProps = state => ({
-  hero: state.vaProfile?.hero,
-  showNotAllDataAvailableError:
-    !!directDepositLoadError(state) ||
-    !!fullNameLoadError(state) ||
-    !!personalInformationLoadError(state) ||
-    !!militaryInformationLoadError(state),
-});
+const mapStateToProps = state => {
+  const veteranStatus = selectProfile(state)?.veteranStatus;
+  const invalidVeteranStatus =
+    !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+
+  return {
+    hero: state.vaProfile?.hero,
+    showNotAllDataAvailableError:
+      !!directDepositLoadError(state) ||
+      !!fullNameLoadError(state) ||
+      !!personalInformationLoadError(state) ||
+      (!!militaryInformationLoadError(state) && !invalidVeteranStatus),
+  };
+};
 
 Profile2Wrapper.propTypes = {
   children: PropTypes.node.isRequired,

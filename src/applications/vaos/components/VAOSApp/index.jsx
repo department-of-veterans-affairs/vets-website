@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -9,10 +9,12 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   vaosApplication,
   selectFeatureToggleLoading,
+  selectUseFlatFacilityPage,
 } from '../../utils/selectors';
 import NoRegistrationMessage from './NoRegistrationMessage';
 import AppUnavailable from './AppUnavailable';
@@ -25,7 +27,19 @@ function VAOSApp({
   showApplication,
   loadingFeatureToggles,
   sites,
+  useFlatFacilityPage,
 }) {
+  useEffect(
+    () => {
+      if (useFlatFacilityPage) {
+        recordEvent({
+          event: 'phased-roll-out-enabled',
+          'product-description': 'VAOS - Facility Selection v2',
+        });
+      }
+    },
+    [useFlatFacilityPage],
+  );
   const hasRegisteredSystems = sites?.length > 0;
 
   return (
@@ -66,6 +80,7 @@ function mapStateToProps(state) {
     showApplication: vaosApplication(state),
     loadingFeatureToggles: selectFeatureToggleLoading(state),
     sites: selectPatientFacilities(state),
+    useFlatFacilityPage: selectUseFlatFacilityPage(state),
   };
 }
 

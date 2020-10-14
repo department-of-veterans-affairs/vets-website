@@ -7,7 +7,6 @@ function wysiwygTransform(entity) {
     entity: {
       entityType: 'paragraph',
       entityBundle: 'wysiwyg',
-
       fieldWysiwyg: {
         processed: getWysiwygString(getDrupalValue(fieldWysiwyg)),
       },

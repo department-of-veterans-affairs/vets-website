@@ -297,7 +297,7 @@ describe('VAOS integration: Express Care form submission', () => {
           .format('HH:mm'),
       },
     ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestEligibilityCriteria(['983'], [requestCriteria]);
 
     const requestData = {
       id: 'testing',

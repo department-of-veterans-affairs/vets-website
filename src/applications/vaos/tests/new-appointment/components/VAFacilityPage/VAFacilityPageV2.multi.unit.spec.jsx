@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import {
@@ -115,6 +115,8 @@ const facilities = vhaIds.map((id, index) => ({
     ...getVAFacilityMock().attributes,
     uniqueId: id.replace('vha_', ''),
     name: `Fake facility name ${index + 1}`,
+    lat: 40.8596747, // Clifton, NJ
+    long: -74.1927881,
     address: {
       physical: {
         ...getVAFacilityMock().attributes.address.physical,
@@ -123,6 +125,11 @@ const facilities = vhaIds.map((id, index) => ({
     },
   },
 }));
+
+const closestFacility = facilities[2];
+closestFacility.attributes.name = 'Closest facility';
+closestFacility.attributes.lat = 39.50603012; // Dayton, OH
+closestFacility.attributes.long = -84.3164749;
 
 describe('VAOS integration: VA flat facility page - multiple facilities', () => {
   beforeEach(() => mockFetch());
@@ -145,13 +152,19 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    expect(global.document.title).to.equal(
-      'Choose a VA location for your appointment | Veterans Affairs',
-    );
+    await screen.findAllByRole('radio');
 
-    await screen.findByText(
-      /Choose a VA location for your Primary care appointment/i,
-    );
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        'Choose a VA location for your appointment | Veterans Affairs',
+      );
+    });
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
 
     expect(screen.baseElement).to.contain.text(
       'Below is a list of VA locations where you’re registered that offer Primary care appointments',
@@ -161,6 +174,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     facilities.slice(0, 5).forEach(f => {
       expect(screen.baseElement).to.contain.text(f.attributes.name);
     });
+
+    // Should not show address
+    expect(screen.baseElement).not.to.contain.text('Your address on file');
 
     // Should not show 6th facility
     expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
@@ -178,6 +194,63 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please provide a response',
     );
+  });
+
+  it('should show residential address and sort by distance if we have coordinates', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+    mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vet360: {
+            residentialAddress: {
+              addressLine1: '290 Ludlow Ave',
+              city: 'Cincinatti',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1362562, // Cincinatti, OH
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'We base these on the address you’ve given us.',
+    );
+    expect(screen.baseElement).to.contain.text('Your home address on file');
+    expect(screen.baseElement).to.contain.text('290 Ludlow Ave');
+    expect(screen.baseElement).to.contain.text('Cincinatti, OH 45220');
+    expect(screen.baseElement).to.contain.text(' miles');
+
+    // It should sort by distance, making Closest facility the first facility
+    const firstRadio = screen.container.querySelector('.form-radio-buttons');
+    expect(firstRadio).to.contain.text('Closest facility');
   });
 
   it('should not display show more button if < 6 locations', async () => {
@@ -203,9 +276,15 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findByText(
-      /Choose a VA location for your Primary care appointment/i,
-    );
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
 
     // Should contain radio buttons
     facilities.slice(0, 5).forEach(f => {
@@ -232,7 +311,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findByText(/below is a list of VA locations/i);
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
 
@@ -242,9 +323,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    expect(screen.getByLabelText(/Fake facility name 1/i)).to.have.attribute(
-      'checked',
-    );
+    expect(
+      await screen.findByLabelText(/Fake facility name 1/i),
+    ).to.have.attribute('checked');
   });
 
   it('should show unsupported facilities alert with facility locator tool link', async () => {

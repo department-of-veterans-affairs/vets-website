@@ -162,6 +162,12 @@ export function createTransaction(
         ? await apiRequest(route, options)
         : await localVet360.createTransaction();
 
+      if (transaction?.errors) {
+        const error = new Error();
+        error.errors = transaction?.errors;
+        throw error;
+      }
+
       // We want the validateAddresses method handling dataLayer events for saving / updating addresses.
       if (!fieldName.toLowerCase().includes('address')) {
         recordEvent({

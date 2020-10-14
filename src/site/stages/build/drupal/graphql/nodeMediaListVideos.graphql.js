@@ -7,7 +7,6 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
 
   changed
   title
-  fieldDescription
   fieldIntroTextLimitedHtml {
     processed
   }

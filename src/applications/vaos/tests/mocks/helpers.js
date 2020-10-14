@@ -382,6 +382,22 @@ export function mockRequestSubmit(type, data) {
   );
 }
 
+export function mockMessagesFetch(id, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
+    ),
+    { data },
+  );
+}
+
+export function mockAppointmentSubmit(data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
+    { data },
+  );
+}
+
 export function mockRequestEligibilityCriteria(parentSites, data) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -549,7 +565,7 @@ export function setupExpressCareMocks({
       endTime: end.format('HH:mm'),
     },
   ]);
-  mockRequestEligibilityCriteria([facilityId], requestCriteria);
+  mockRequestEligibilityCriteria([facilityId], [requestCriteria]);
   mockRequestLimit({
     facilityId,
     numberOfRequests: isUnderRequestLimit ? 0 : 1,

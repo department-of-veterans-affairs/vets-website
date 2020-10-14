@@ -7,7 +7,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { getParentOfLocation } from '../../../services/location';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import EligibilityModal from './EligibilityModal';
@@ -18,6 +18,7 @@ import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import NoVASystems from './NoVASystems';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
+import ResidentialAddress from './ResidentialAddress';
 
 const initialSchema = {
   type: 'object',
@@ -41,6 +42,7 @@ const pageKey = 'vaFacilityV2';
 const pageTitle = 'Choose a VA location for your appointment';
 
 function VAFacilityPageV2({
+  address,
   canScheduleAtChosenFacility,
   childFacilitiesStatus,
   data,
@@ -55,14 +57,17 @@ function VAFacilityPageV2({
   pageChangeInProgress,
   parentFacilities,
   parentFacilitiesStatus,
+  requestLocationStatus,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   schema,
-  showEligibilityModal,
   selectedFacility,
+  showEligibilityModal,
   singleValidVALocation,
+  sortMethod,
   typeOfCare,
   updateFormData,
+  requestCurrentLocation,
 }) {
   const history = useHistory();
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
@@ -193,13 +198,70 @@ function VAFacilityPageV2({
     );
   }
 
+  const sortByDistanceFromResidential =
+    sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL;
+
+  const sortByDistanceFromCurrentLocation =
+    sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_CURRENT_LOCATION;
+
+  const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
+
   return (
     <div>
       {title}
       <p>
         Below is a list of VA locations where you’re registered that offer{' '}
         {typeOfCare} appointments.
+        {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
+          ` Locations closest to you are at the top of the list. We ${
+            sortByDistanceFromCurrentLocation ? 'have based' : 'base'
+          } these on ${
+            sortByDistanceFromCurrentLocation
+              ? 'your current location.'
+              : 'the address you’ve given us.'
+          }`}
       </p>
+      {sortByDistanceFromResidential &&
+        !requestingLocation && (
+          <>
+            <ResidentialAddress address={address} />
+            {requestLocationStatus !== FETCH_STATUS.failed && (
+              <p>
+                Or,{' '}
+                <a
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    requestCurrentLocation(uiSchema);
+                  }}
+                >
+                  use your current location
+                </a>
+              </p>
+            )}
+          </>
+        )}
+      {requestLocationStatus === FETCH_STATUS.failed && (
+        <p>
+          We can’t find your location. Please make sure to choose "allow" if you
+          get a browser pop-up asking for your location and{' '}
+          <a
+            href="#"
+            onClick={e => {
+              e.preventDefault();
+              requestCurrentLocation(uiSchema);
+            }}
+          >
+            try again
+          </a>
+          .
+        </p>
+      )}
+      {requestingLocation && (
+        <div className="vads-u-padding-bottom--2">
+          <LoadingIndicator message="Finding your location..." />
+        </div>
+      )}
       {childFacilitiesStatus === FETCH_STATUS.succeeded && (
         <SchemaForm
           name="VA Facility"
@@ -208,7 +270,7 @@ function VAFacilityPageV2({
           uiSchema={uiSchema}
           onChange={onFacilityChange}
           onSubmit={goForward}
-          formContext={{ loadingEligibility }}
+          formContext={{ loadingEligibility, sortMethod }}
           data={data}
         >
           <FormButtons
@@ -256,6 +318,7 @@ const mapDispatchToProps = {
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   checkEligibility: actions.checkEligibility,
+  requestCurrentLocation: actions.requestCurrentLocation,
 };
 
 export default connect(
