@@ -224,7 +224,10 @@
           }
         ],
         "view:militaryHistoryNote": {},
-        "separationLocation": "Andersen AFB - Air Force / Guam"
+        "separationLocation": {
+          "id": "98283",
+          "label": "AF Academy"
+        }
       },
       "servedInCombatZonePost911": true,
       "view:selectablePtsdTypes": {},

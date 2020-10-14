@@ -54,26 +54,15 @@ describe('Schemaform review: <SubmitButtons>', () => {
   });
 
   it('renders generic error', () => {
-    const renderErrorMessage = () => {
-      return <span className="message">Error message</span>;
-    };
-
     const submission = {
       status: 'error',
     };
 
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons
-        renderErrorMessage={renderErrorMessage}
-        submission={submission}
-        formConfig={formConfig}
-      />,
+      <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
     expect(tree.everySubTree('GenericError')[0].type).to.equal(GenericError);
-    expect(
-      tree.everySubTree('GenericError')[0].props.renderErrorMessage,
-    ).to.equal(renderErrorMessage);
   });
 
   it('renders validation error', () => {

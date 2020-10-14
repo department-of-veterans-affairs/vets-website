@@ -1,13 +1,12 @@
 import React from 'react';
 import captureEvents from '../analytics-functions';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
-import environment from 'platform/utilities/environment';
 
 export const ExitApplicationButton = ({ formId, isLoggedIn }) => {
   const onClick = () => {
     captureEvents.exitApplication();
 
-    if (isLoggedIn && !environment.isProduction()) {
+    if (isLoggedIn) {
       removeFormApi(formId);
     }
   };

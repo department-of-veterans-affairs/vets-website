@@ -14,6 +14,13 @@ const testConfig = createTestConfig(
     fixtures: {
       data: path.join(__dirname, 'data'),
     },
+    pageHooks: {
+      introduction: () => {
+        cy.findAllByText(/start.+without signing in/i)
+          .first()
+          .click();
+      },
+    },
     skip: true,
     setupPerTest: () => {
       cy.route({
