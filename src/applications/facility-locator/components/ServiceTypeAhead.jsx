@@ -64,65 +64,6 @@ class ServiceTypeAhead extends Component {
     return false;
   };
 
-  renderSpecialtiesOptions(
-    isOpen,
-    inputValue,
-    services,
-    getItemProps,
-    highlightedIndex,
-    selectedItem,
-  ) {
-    if (!inputValue) return null;
-
-    const servicesFound = services.filter(svc =>
-      this.shouldShow(inputValue, svc),
-    );
-
-    if (servicesFound.length > 0 && !selectedItem) {
-      return (
-        <div className="dropdown" role="listbox">
-          {services
-            .filter(svc => this.shouldShow(inputValue, svc))
-            .map((svc, index) => (
-              <div
-                key={svc.name + Date.now()}
-                {...getItemProps({
-                  item: svc,
-                  className: this.optionClasses(index === highlightedIndex),
-                  role: 'option',
-                  'aria-selected': index === highlightedIndex,
-                })}
-              >
-                {this.getSpecialtyName(svc)}
-              </div>
-            ))}
-        </div>
-      );
-    }
-    if (
-      isOpen &&
-      services.length > 0 &&
-      inputValue.length >= 2 &&
-      this.state.pressedEnter
-    ) {
-      return (
-        <div className="dropdown" role="listbox">
-          <div
-            key="not-found"
-            {...getItemProps({
-              item: 'not-found',
-              className: 'dropdown-option',
-              role: 'option',
-            })}
-          >
-            We're sorry. This service type was not found.
-          </div>
-        </div>
-      );
-    }
-    return null;
-  }
-
   render() {
     const { defaultSelectedItem, services } = this.state;
 
@@ -175,14 +116,49 @@ class ServiceTypeAhead extends Component {
                 id="service-type-ahead-input"
                 required
               />
-              {this.renderSpecialtiesOptions(
-                isOpen,
-                inputValue,
-                services,
-                getItemProps,
-                highlightedIndex,
-                selectedItem,
-              )}
+              {isOpen && inputValue.length >= 2 ? (
+                <div className="dropdown" role="listbox">
+                  {(() => {
+                    const servicesFound = services.filter(svc =>
+                      this.shouldShow(inputValue, svc),
+                    );
+                    if (servicesFound.length > 0 && !selectedItem) {
+                      return services
+                        .filter(svc => this.shouldShow(inputValue, svc))
+                        .map((svc, index) => (
+                          <div
+                            key={svc.name}
+                            {...getItemProps({
+                              item: svc,
+                              className: this.optionClasses(
+                                index === highlightedIndex,
+                              ),
+                              role: 'option',
+                              'aria-selected': index === highlightedIndex,
+                            })}
+                          >
+                            {this.getSpecialtyName(svc)}
+                          </div>
+                        ));
+                    }
+                    if (this.state.pressedEnter && services.length > 0) {
+                      return (
+                        <div
+                          key={'not-found'}
+                          {...getItemProps({
+                            item: 'not-found',
+                            className: 'dropdown-option',
+                            role: 'option',
+                          })}
+                        >
+                          We're sorry. This service type was not found.
+                        </div>
+                      );
+                    }
+                    return null;
+                  })()}
+                </div>
+              ) : null}
             </span>
           </div>
         )}
