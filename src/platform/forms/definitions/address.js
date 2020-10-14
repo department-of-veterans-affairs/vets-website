@@ -49,11 +49,7 @@ export function requireStateWithCountry(
   }
 }
 
-function validateAddress(errors, address, formData, currentSchema) {
-  requireStateWithCountry(errors, address, formData, currentSchema);
-  validateWhiteSpace(errors.street, address.street);
-  validateWhiteSpace(errors.city, address.city);
-
+export function requireStateWithData(errors, address, formData, currentSchema) {
   const hasAddressInfo =
     stateRequiredCountries.has(address.country) &&
     !currentSchema.required.length &&
@@ -66,6 +62,13 @@ function validateAddress(errors, address, formData, currentSchema) {
       'Please enter a state or province, or remove other address information.',
     );
   }
+}
+
+function validateAddress(errors, address, formData, currentSchema) {
+  requireStateWithCountry(errors, address, formData, currentSchema);
+  validateWhiteSpace(errors.street, address.street);
+  validateWhiteSpace(errors.city, address.city);
+  requireStateWithData(errors, address, formData, currentSchema);
 
   validatePostalCodes(errors, address);
 }
