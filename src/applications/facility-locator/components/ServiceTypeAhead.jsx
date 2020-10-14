@@ -85,6 +85,36 @@ class ServiceTypeAhead extends Component {
     return false;
   };
 
+  renderOptions(getItemProps, servicesFound, highlightedIndex) {
+    if (servicesFound.length > 0) {
+      return servicesFound.map((svc, index) => (
+        <div
+          key={svc.name}
+          {...getItemProps({
+            item: svc,
+            className: this.optionClasses(index === highlightedIndex),
+            role: 'option',
+            'aria-selected': index === highlightedIndex,
+          })}
+        >
+          {this.getSpecialtyName(svc)}
+        </div>
+      ));
+    }
+    return (
+      <div
+        key={'not-found'}
+        {...getItemProps({
+          item: 'not-found',
+          className: 'dropdown-option',
+          role: 'option',
+        })}
+      >
+        We're sorry. This service type was not found.
+      </div>
+    );
+  }
+
   render() {
     const { defaultSelectedItem, services } = this.state;
 
@@ -125,12 +155,12 @@ class ServiceTypeAhead extends Component {
                       this.setState({
                         pressedEnter: true,
                       });
-                    }
-                    if (this.state.pressedEnter) {
+                    } else {
                       this.setState({
                         pressedEnter: false,
                       });
                     }
+
                     this.validateServiceTypeAhead(
                       'service-type-ahead-input',
                       inputValue,
@@ -149,36 +179,17 @@ class ServiceTypeAhead extends Component {
                       this.shouldShow(inputValue, svc),
                     );
                     if (servicesFound.length > 0 && !selectedItem) {
-                      return services
-                        .filter(svc => this.shouldShow(inputValue, svc))
-                        .map((svc, index) => (
-                          <div
-                            key={svc.name}
-                            {...getItemProps({
-                              item: svc,
-                              className: this.optionClasses(
-                                index === highlightedIndex,
-                              ),
-                              role: 'option',
-                              'aria-selected': index === highlightedIndex,
-                            })}
-                          >
-                            {this.getSpecialtyName(svc)}
-                          </div>
-                        ));
+                      return this.renderOptions(
+                        getItemProps,
+                        servicesFound,
+                        highlightedIndex,
+                      );
                     }
                     if (this.state.pressedEnter && services.length > 0) {
-                      return (
-                        <div
-                          key={'not-found'}
-                          {...getItemProps({
-                            item: 'not-found',
-                            className: 'dropdown-option',
-                            role: 'option',
-                          })}
-                        >
-                          We're sorry. This service type was not found.
-                        </div>
+                      return this.renderOptions(
+                        getItemProps,
+                        servicesFound,
+                        highlightedIndex,
                       );
                     }
                     return null;
