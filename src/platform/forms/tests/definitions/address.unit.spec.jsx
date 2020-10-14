@@ -1,12 +1,17 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import sinon from 'sinon';
 
 import {
   DefinitionTester,
   fillData,
-} from '../../../testing/unit/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../definitions/address';
+} from '../../../testing/unit/schemaform-utils';
+import {
+  schema,
+  uiSchema,
+  requireStateWithCountry,
+} from '../../definitions/address';
 import { address } from 'vets-json-schema/dist/definitions.json';
 
 const addressSchema = {
@@ -15,7 +20,7 @@ const addressSchema = {
   },
 };
 
-describe('Schemaform definition address', () => {
+describe('Forms library address definition', () => {
   it('should render address', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
@@ -144,7 +149,59 @@ describe('Schemaform definition address', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    const errors = form.find('.usa-input-error-message');
+    expect(errors.length).to.equal(1);
     form.unmount();
   }).timeout(4000);
+
+  it('should not require state for non-required addresses with no other info', () => {
+    const s = schema(addressSchema, false);
+    const uis = uiSchema();
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+
+    form.find('form').simulate('submit');
+
+    const errors = form.find('.usa-input-error-message');
+    expect(errors.length).to.equal(0);
+    form.unmount();
+  }).timeout(4000);
+
+  it('should require state if the country requires it', () => {
+    const s = schema(addressSchema, true);
+    const uis = uiSchema();
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+
+    fillData(form, 'select#root_country', 'USA');
+
+    form.find('form').simulate('submit');
+
+    const errors = form.find('.usa-input-error-message');
+    expect(errors.length).to.equal(1);
+    expect(errors.first().text()).to.equal('Please select a state or province');
+    form.unmount();
+  }).timeout(4000);
+});
+
+describe('Forms library address validation', () => {
+  const getErrors = () => ({
+    state: {
+      addError: sinon.spy(),
+    },
+  });
+
+  describe('requireStateWithCountry', () => {
+    it('should require the state when the country requires it', () => {
+      const s = schema(addressSchema, true);
+      const addressData = { country: 'USA', state: undefined };
+      const errors = getErrors();
+      requireStateWithCountry(errors, addressData, {}, s);
+      expect(
+        errors.state.addError.calledWith('Please select a state or province'),
+      ).to.be.true;
+    });
+
+    it('should not require the state when the country does not require it', () => {});
+
+    it('should not require the state when the country is not required', () => {});
+  });
 });
