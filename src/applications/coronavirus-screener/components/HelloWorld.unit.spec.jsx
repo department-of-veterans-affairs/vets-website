@@ -6,7 +6,7 @@ import App from './HelloWorld';
 // yarn test:unit --path src/applications/coronavirus-screener/components/HelloWorld.unit.spec.jsx
 
 describe('App', () => {
-  it('renders App component', () => {
+  it('renders App component', async () => {
     // does not work with:
     // import { render, screen } from '@testing-library/react';
     // render(<App />);
@@ -15,6 +15,6 @@ describe('App', () => {
     // for some reason screen variable must be created instead of following https://testing-library.com/docs/react-testing-library/example-intro#full-example
     const screen = render(<App />);
     screen.debug();
-    screen.getByText('Hello React');
+    await screen.findByText('Hello React');
   });
 });
