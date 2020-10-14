@@ -6,13 +6,13 @@ import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import {
+  expiredMessage,
+  inProgressMessage,
+} from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 import recordEvent from 'platform/monitoring/record-event';
 import _ from 'platform/utilities/data';
 
-import {
-  formDescriptions,
-  formBenefits,
-} from 'applications/personalization/dashboard/helpers';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
@@ -68,7 +68,7 @@ class SaveInProgressIntro extends React.Component {
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-item-metadata">
-                    Your {formDescriptions[formId]} is in progress.
+                    {inProgressMessage(formConfig)}
                   </span>
                   <br />
                   <span className="saved-form-item-metadata">
@@ -96,9 +96,7 @@ class SaveInProgressIntro extends React.Component {
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
-                    Your saved {formDescriptions[formId]} has expired. If you
-                    want to apply for {formBenefits[formId]}, please start a new{' '}
-                    {appType}.
+                    {expiredMessage(formConfig)}
                   </span>
                 </div>
                 <div>{this.props.children}</div>

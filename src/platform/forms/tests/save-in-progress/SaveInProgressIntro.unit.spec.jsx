@@ -19,7 +19,14 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   const removeInProgressForm = () => {};
   const toggleLoginModal = () => {};
 
-  const formConfig = {};
+  const formConfig = {
+    saveInProgress: {
+      messages: {
+        expired:
+          'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
+      },
+    },
+  };
 
   it('should render in progress message', () => {
     const user = {

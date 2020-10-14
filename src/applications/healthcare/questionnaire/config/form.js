@@ -12,7 +12,10 @@ import GetHelp from '../components/get-help';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import manifest from '../manifest.json';
+
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
   trackingPrefix: 'healthcare-questionnaire',
@@ -25,6 +28,18 @@ const formConfig = {
     });
   },
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your upcoming appointment questionnaire is in progress.',
+      // TODO: Fix the expired message
+      expired:
+        'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
+      saved: 'Your appointment questionnaire application has been saved.',
+    },
+  },
+  customText: {
+    appType: 'questionnaire',
+  },
   version: 0,
   prefillEnabled: true,
   footerContent: GetHelp.footer,
