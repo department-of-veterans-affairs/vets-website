@@ -32,6 +32,10 @@ function validatePostalCodes(errors, address) {
 
 export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
 
+/**
+ * Require the state when the country field is required and the value is a
+ * country which requires the state.
+ */
 export function requireStateWithCountry(
   errors,
   address,
@@ -49,6 +53,10 @@ export function requireStateWithCountry(
   }
 }
 
+/**
+ * Require the state when the country field is NOT required and the value is one
+ * that requires the state BUT other address data is filled in.
+ */
 export function requireStateWithData(errors, address, formData, currentSchema) {
   const hasAddressInfo =
     stateRequiredCountries.has(address.country) &&
