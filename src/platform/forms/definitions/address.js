@@ -74,13 +74,12 @@ export function requireStateWithData(errors, address, formData, currentSchema) {
   }
 }
 
-function validateAddress(errors, address, formData, currentSchema) {
-  requireStateWithCountry(errors, address, formData, currentSchema);
+export function validateStreet(errors, address) {
   validateWhiteSpace(errors.street, address.street);
-  validateWhiteSpace(errors.city, address.city);
-  requireStateWithData(errors, address, formData, currentSchema);
+}
 
-  validatePostalCodes(errors, address);
+export function validateCity(errors, address) {
+  validateWhiteSpace(errors.city, address.city);
 }
 
 const countryValues = countries.map(object => object.value);
@@ -274,7 +273,13 @@ export function uiSchema(
 
   return {
     'ui:title': label,
-    'ui:validations': [validateAddress],
+    'ui:validations': [
+      requireStateWithCountry,
+      requireStateWithData,
+      validateStreet,
+      validateCity,
+      validatePostalCodes,
+    ],
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
