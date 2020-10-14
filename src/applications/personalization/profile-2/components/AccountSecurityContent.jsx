@@ -6,7 +6,8 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
-  isInMVI as isInMVISelector,
+  isInMPI as isInMPISelector,
+  hasMPIConnectionError as hasMPIConnectionErrorSelector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
   selectProfile,
 } from 'platform/user/selectors';
@@ -18,7 +19,8 @@ import {
 import ProfileInfoTable from './ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
 import IdentityNotVerified from './IdentityNotVerified';
-import NotInMVI from './NotInMVI';
+import NotInMPIError from './NotInMPIError';
+import MPIConnectionError from './MPIConnectionError';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from './EmailAddressNotification';
 import Verified from './Verified';
@@ -28,9 +30,11 @@ export const AccountSecurityContent = ({
   isMultifactorEnabled,
   mhvAccount,
   showMHVTermsAndConditions,
+  showWeHaveVerifiedYourID,
+  showMPIConnectionError,
+  showNotInMPIError,
   isAuthenticatedWithSSOe,
   signInServiceName,
-  isInMVI,
 }) => {
   const securitySections = [
     {
@@ -45,7 +49,7 @@ export const AccountSecurityContent = ({
     },
   ];
 
-  if (isIdentityVerified && isInMVI) {
+  if (showWeHaveVerifiedYourID) {
     securitySections.unshift({
       title: 'Identity verification',
       verified: true,
@@ -69,7 +73,8 @@ export const AccountSecurityContent = ({
   return (
     <>
       {!isIdentityVerified && <IdentityNotVerified />}
-      {!isInMVI && isIdentityVerified && <NotInMVI />}
+      {showMPIConnectionError && <MPIConnectionError />}
+      {showNotInMPIError && <NotInMPIError />}
       <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
@@ -101,7 +106,7 @@ export const AccountSecurityContent = ({
 
 AccountSecurityContent.propTypes = {
   isIdentityVerified: PropTypes.bool.isRequired,
-  isInMVI: PropTypes.bool.isRequired,
+  isInMPI: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
   mhvAccount: PropTypes.shape({
     accountLevel: PropTypes.string,
@@ -120,12 +125,21 @@ export const mapStateToProps = state => {
   const { verified, mhvAccount } = profile;
   const showMHVTermsAndConditions =
     verified && MHVTermsAndConditionsStatus.willRenderContent(mhvAccount);
+  const isInMPI = isInMPISelector(state);
+  const isIdentityVerified = isLOA3Selector(state);
+  const hasMPIConnectionError = hasMPIConnectionErrorSelector(state);
+  const showMPIConnectionError = isIdentityVerified && hasMPIConnectionError;
+  const showNotInMPIError =
+    isIdentityVerified && !hasMPIConnectionError && !isInMPI;
+  const showWeHaveVerifiedYourID = isInMPI && isIdentityVerified;
 
   return {
-    isIdentityVerified: isLOA3Selector(state),
-    isInMVI: isInMVISelector(state),
+    isIdentityVerified,
     isMultifactorEnabled: isMultifactorEnabledSelector(state),
     mhvAccount,
+    showWeHaveVerifiedYourID,
+    showMPIConnectionError,
+    showNotInMPIError,
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
     isAuthenticatedWithSSOe: authenticatedWithSSOeSelector(state),

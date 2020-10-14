@@ -16,7 +16,7 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
         uponReceiving: 'a GET request',
         withRequest: {
           method: 'GET',
-          path: '/v0/service_history',
+          path: '/v0/profile/service_history',
           headers: {
             'X-Key-Inflection': 'camel',
           },
@@ -53,7 +53,7 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
         uponReceiving: 'a GET request',
         withRequest: {
           method: 'GET',
-          path: '/v0/service_history',
+          path: '/v0/profile/service_history',
           headers: {
             'X-Key-Inflection': 'camel',
           },
@@ -86,7 +86,7 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
         uponReceiving: 'a GET request',
         withRequest: {
           method: 'GET',
-          path: '/v0/service_history',
+          path: '/v0/profile/service_history',
           headers: {
             'X-Key-Inflection': 'camel',
           },

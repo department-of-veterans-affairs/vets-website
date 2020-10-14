@@ -2,6 +2,7 @@
 import fullSchema from '../0873-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   contactInformationPage,
@@ -27,6 +28,11 @@ import {
 
 const {
   fullName,
+  first,
+  last,
+  suffix,
+  address,
+  email,
   phone,
   date,
   ssn,
@@ -56,6 +62,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/ask/asks`,
   transformForSubmit: submitTransform,
   trackingPrefix: 'complex-form-',
+  introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '0873',
   version: 0,
@@ -71,7 +78,12 @@ const formConfig = {
     reviewPageTitle,
   },
   defaultDefinitions: {
+    address,
     fullName,
+    first,
+    last,
+    suffix,
+    email,
     phone,
     date,
     ssn,

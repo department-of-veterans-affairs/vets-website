@@ -20,7 +20,7 @@ export const veteranInformationPageTitle = 'Veteran Information';
 
 /* Veteran Status Information */
 export const veteranStatusSectionDescription = SectionHeader(
-  'Veteran Service Information',
+  'How does a Veteran relate to your Question?',
 );
 export const veteranStatusTitle = 'My message is about benefits/services';
 export const isDependentTitle = 'Are you the dependent?';
@@ -57,11 +57,26 @@ export const contactInformationPageDescription = PageDescription(
 export const preferredContactMethodTitle =
   'How should we get in touch with you?';
 export const phoneTitle = 'Daytime phone';
+export const emailTitle = 'Email';
+export const daytimePhoneAreaCodeTitle = 'Daytime phone';
+
+/* --------------- Dependent Information ------------- */
+export const dependentInformationHeader = 'Dependent information';
+
+export const dependentsFirstName = "Dependent's first name";
+export const dependentsLastName = "Dependent's last name";
+
+/* --------------- Veteran Information ------------- */
+export const veteranInformationHeader = 'Veteran information';
+
+export const veteransFirstName = "Veteran's first name";
+export const veteransLastName = "Veteran's last name";
 
 /* Address fields */
 export const countryTitle = 'Country';
 export const stateTitle = 'State';
 export const canadaStateTitle = 'Province';
+export const streetAddress = 'Street address';
 export const streetTwoTitle = 'Line 2';
 export const streetThreeTitle = 'Line 3';
 export const cityTitle = 'City';
@@ -84,7 +99,6 @@ export const zipCodePatternErrorMessage =
 export const submitButtonText = 'Submit';
 export const reviewPageTitle = 'Review your information';
 export const savedFormNotFound = 'Please start over to apply for benefits.';
-export const savedFormNoAuth =
-  'Please sign in again to continue your application for benefits.';
+export const savedFormNoAuth = 'Please sign in again to continue your form';
 export const formTitle = 'Contact us';
 export const formSubTitle = 'Form 0873';

@@ -10,7 +10,16 @@ module.exports = {
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldDescription: { type: 'string' },
     fieldIntroText: { type: 'string' },
-    fieldLeadership: { $ref: 'output/node-person_profile' },
+    fieldLeadership: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          entity: { $ref: 'output/node-person_profile' },
+        },
+        required: ['entity'],
+      },
+    },
     fieldMetaTitle: { type: 'string' },
     fieldOffice: {
       type: 'object',
