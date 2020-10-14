@@ -7,10 +7,10 @@ import {
   getText,
 } from '../../helpers/queryHelper';
 
-import VeteranInformationPage from '../../../../config/pages/veteranInformationPage';
-import { veteranStatusUI } from '../../../../config/pages/veteranStatusUI';
-import { veteranServiceInformationUI } from '../../../../config/pages/veteranServiceInformationUI';
-import formConfig from '../../../../config/form';
+import VeteranInformationPage from '../../../../form/veteran/veteranInformationPage';
+import { veteranStatusUI } from '../../../../form/veteran/status/veteranStatusUI';
+import { veteranServiceInformationUI } from '../../../../form/veteran/service/veteranServiceInformationUI';
+import formConfig from '../../../../form/config/form';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
@@ -19,7 +19,7 @@ import {
   emailTitle,
   streetAddress,
   veteranInformationHeader,
-} from '../../../../content/labels';
+} from '../../../../form/config/labels';
 
 function expectBranchOfServiceNotToExist(wrapper) {
   getLabelText(

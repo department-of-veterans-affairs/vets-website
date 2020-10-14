@@ -1,5 +1,5 @@
-import PageDescription from './PageDescription';
-import SectionHeader from './SectionHeader';
+import PageDescription from './components/PageDescription';
+import SectionHeader from './components/SectionHeader';
 
 /* --------------- Inquiry --------------- */
 export const inquiryChapterTitle = "Share why you're contacting us";

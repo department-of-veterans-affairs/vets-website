@@ -2,13 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 
-import ContactInformationPage from '../../../../config/pages/contactInformationPage';
-import formConfig from '../../../../config/form';
+import ContactInformationPage from '../../../../form/contactInformation/contactInformationPage';
+import formConfig from '../../../../form/config/form';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import fullName from 'platform/forms-system/src/js/definitions/fullName';
-import { uiSchema as addressUI } from '../../../../contactInformation/address/address';
-import { preferredContactMethodTitle } from '../../../../content/labels';
+import { uiSchema as addressUI } from '../../../../form/contactInformation/address/address';
+import { preferredContactMethodTitle } from '../../../../form/config/labels';
 
 const address = addressUI();
 

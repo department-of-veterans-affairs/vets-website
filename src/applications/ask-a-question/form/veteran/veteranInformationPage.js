@@ -1,6 +1,6 @@
-import { veteranStatusUI, requireServiceInfo } from './veteranStatusUI';
-import { veteranServiceInformationUI } from './veteranServiceInformationUI';
-import { dependentInformationUI } from './dependentInformationUI';
+import { veteranStatusUI, requireServiceInfo } from './status/veteranStatusUI';
+import { veteranServiceInformationUI } from './service/veteranServiceInformationUI';
+import { dependentInformationUI } from './dependent/dependentInformationUI';
 import _ from 'lodash';
 import { schema } from 'platform/forms/definitions/address';
 import fullSchema from '../../0873-schema.json';

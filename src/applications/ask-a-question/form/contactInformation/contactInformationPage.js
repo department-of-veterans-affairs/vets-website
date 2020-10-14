@@ -5,12 +5,12 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
 
 import fullSchema from '../../0873-schema.json';
-import * as address from '../../contactInformation/address/address';
+import * as address from './address/address';
 import {
   contactInformationPageDescription,
   preferredContactMethodTitle,
   phoneTitle,
-} from '../../content/labels';
+} from '../config/labels';
 
 const { email, phone } = fullSchema.definitions;
 

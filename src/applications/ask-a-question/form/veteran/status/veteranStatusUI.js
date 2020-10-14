@@ -6,7 +6,7 @@ import {
   relationshipToVeteranTitle,
   veteranStatusSectionDescription,
   veteranStatusTitle,
-} from '../../content/labels';
+} from '../../config/labels';
 
 const formFields = {
   veteranStatus: 'veteranStatus',

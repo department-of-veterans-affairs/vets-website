@@ -13,9 +13,9 @@ import {
   serviceEndDateTitle,
   serviceDateRangeErrorMessage,
   branchOfServiceTitle,
-} from '../../content/labels';
-import SectionHeader from '../../content/SectionHeader';
-import { requireServiceInfo } from './veteranStatusUI';
+} from '../../config/labels';
+import SectionHeader from '../../config/components/SectionHeader';
+import { requireServiceInfo } from '../status/veteranStatusUI';
 
 const formFields = {
   dateOfBirth: 'dateOfBirth',
