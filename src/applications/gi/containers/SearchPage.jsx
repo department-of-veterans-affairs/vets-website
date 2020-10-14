@@ -273,6 +273,7 @@ export function SearchPage({
           showModal={dispatchShowModal}
           eligibilityChange={dispatchEligibilityChange}
           hideModal={dispatchHideModal}
+          searchOnAutcompleteSelection
         />
       </div>
     );

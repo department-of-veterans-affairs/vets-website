@@ -19,7 +19,7 @@ function SearchResultTypeOfInstitutionFilter({
     },
     {
       value: 'employer',
-      label: 'Employers only (OJT, apprenticeships)',
+      label: 'Employers (On-the-job training [OJT], apprenticeships)',
     },
   ];
 

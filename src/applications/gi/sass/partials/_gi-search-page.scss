@@ -198,6 +198,11 @@
     padding: 0px 4px;
     font-size: 14px;
   }
+  .search-button-mobile {
+    @include media-maxwidth($small-screen) {
+      margin-top: 1em;
+    }
+  }
 
   .vettec-logo-container {
     @include media($medium-screen) {
