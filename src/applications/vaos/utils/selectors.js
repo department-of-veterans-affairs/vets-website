@@ -316,11 +316,18 @@ export function getFacilityPageV2Info(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCare = getTypeOfCare(data);
-  const parentFacilitiesStatus = newAppointment.parentFacilitiesStatus;
-  const childFacilitiesStatus = newAppointment.childFacilitiesStatus;
+
+  const {
+    childFacilitiesStatus,
+    facilityPageSortMethod,
+    parentFacilities,
+    parentFacilitiesStatus,
+    requestLocationStatus,
+    showEligibilityModal,
+  } = newAppointment;
+
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibilityStatus = getEligibilityStatus(state);
-  const parentFacilities = newAppointment.parentFacilities;
 
   return {
     ...formInfo,
@@ -343,12 +350,12 @@ export function getFacilityPageV2Info(state) {
     parentFacilities,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentFacilitiesStatus,
+    requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: facilities?.length === 1,
-    showEligibilityModal:
-      facilities?.length > 1 && newAppointment.showEligibilityModal,
+    showEligibilityModal: facilities?.length > 1 && showEligibilityModal,
     typeOfCare: typeOfCare?.name,
-    sortMethod: newAppointment.facilityPageSortMethod,
+    sortMethod: facilityPageSortMethod,
     address: selectVet360ResidentialAddress(state),
   };
 }
