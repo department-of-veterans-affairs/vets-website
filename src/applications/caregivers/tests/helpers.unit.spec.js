@@ -1,7 +1,6 @@
 import { submitTransform } from '../helpers';
 import { expect } from 'chai';
 import formConfig from 'applications/caregivers/config/form';
-import { formWithReplacedData } from './e2e/fixtures/data/formObject';
 
 // data
 import requiredOnly from './e2e/fixtures/data/requiredOnly.json';
@@ -10,7 +9,9 @@ import twoSecondaryCaregivers from './e2e/fixtures/data/twoSecondaryCaregivers.j
 
 describe('Caregivers helpers', () => {
   it('should transform required parties correctly', () => {
-    const form = formWithReplacedData(requiredOnly);
+    const form = {
+      data: requiredOnly,
+    };
 
     const transformedData = submitTransform(formConfig, form);
     const payloadData = JSON.parse(transformedData);
@@ -44,7 +45,9 @@ describe('Caregivers helpers', () => {
   });
 
   it('should transform required parties plus Secondary One correctly', () => {
-    const form = formWithReplacedData(oneSecondaryCaregivers);
+    const form = {
+      data: oneSecondaryCaregivers,
+    };
 
     const transformedData = submitTransform(formConfig, form);
     const payloadData = JSON.parse(transformedData);
@@ -88,7 +91,9 @@ describe('Caregivers helpers', () => {
   });
 
   it('should transform all parties correctly', () => {
-    const form = formWithReplacedData(twoSecondaryCaregivers);
+    const form = {
+      data: twoSecondaryCaregivers,
+    };
 
     const transformedData = submitTransform(formConfig, form);
     const payloadData = JSON.parse(transformedData);
