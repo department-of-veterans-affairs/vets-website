@@ -1,7 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 
 import mockLOA1User from '../fixtures/users/user-loa1.json';
-import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
 describe('LOA1 users', () => {
   beforeEach(() => {
@@ -11,7 +10,6 @@ describe('LOA1 users', () => {
     );
     cy.login(mockLOA1User);
     // login() calls cy.server() so we can now mock routes
-    cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
   });
   it('should only have access to the Account Security section', () => {
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);

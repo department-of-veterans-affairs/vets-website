@@ -1,5 +1,6 @@
 import React from 'react';
 import AlertBox from '../components/AlertBox';
+import { focusElement } from 'platform/utilities/ui';
 import { convertRatingToStars } from './helpers';
 
 export const renderSchoolClosingAlert = result => {
@@ -101,7 +102,10 @@ export const renderLearnMoreLabel = ({
   }
 
   return (
-    <span className="vads-u-margin--0 vads-u-display--inline-block ">
+    <span
+      className="vads-u-margin--0 vads-u-display--inline-block "
+      onClick={focusElement(labelFor)}
+    >
       {displayText}
       <span className="vads-u-margin--0 vads-u-display--inline-block ">
         (
@@ -173,5 +177,7 @@ export const renderStars = rating => {
     );
   }
 
-  return <span>{stars}</span>;
+  return (
+    <div className="rating-stars vads-u-display--inline-block">{stars}</div>
+  );
 };

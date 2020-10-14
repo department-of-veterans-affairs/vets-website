@@ -360,4 +360,54 @@ describe('user selectors', () => {
       expect(selectors.selectIsCernerPatient(state)).to.be.false;
     });
   });
+
+  describe('isInMPI', () => {
+    it('returns `true` if the profile.status is `OK`', () => {
+      const state = {
+        user: {
+          profile: {
+            status: 'OK',
+          },
+        },
+      };
+      expect(selectors.isInMPI(state)).to.be.true;
+    });
+    it('returns `false` if the profile.status is anything other than `OK`', () => {
+      const state = {
+        user: {
+          profile: {
+            status: 'blah',
+          },
+        },
+      };
+      expect(selectors.isInMPI(state)).to.be.false;
+      delete state.user.profile;
+      expect(selectors.isInMPI(state)).to.be.false;
+    });
+  });
+
+  describe('hasMPIConnectionError', () => {
+    it('returns `true` if the profile.status is `SERVER_ERROR`', () => {
+      const state = {
+        user: {
+          profile: {
+            status: 'SERVER_ERROR',
+          },
+        },
+      };
+      expect(selectors.hasMPIConnectionError(state)).to.be.true;
+    });
+    it('returns `false` if the profile.status is anything other than `SERVER_ERROR`', () => {
+      const state = {
+        user: {
+          profile: {
+            status: 'ERROR',
+          },
+        },
+      };
+      expect(selectors.isInMPI(state)).to.be.false;
+      delete state.user.profile;
+      expect(selectors.isInMPI(state)).to.be.false;
+    });
+  });
 });

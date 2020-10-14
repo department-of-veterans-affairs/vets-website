@@ -15,6 +15,7 @@ export default function MultiQuestionForm({
   questions,
   defaultOptions,
   customId,
+  selectedLanguage,
 }) {
   const [formState, setFormState] = useState({
     status: 'incomplete',
@@ -111,14 +112,17 @@ export default function MultiQuestionForm({
           setQuestionValue={setQuestionValue}
           handleClearValuesAfter={handleClearValuesAfter}
           key={`question-${question.id}`}
+          selectedLanguage={selectedLanguage}
         />
       ),
   );
 
   return (
+    // TODO: Rather than pass selectedLanguage around as a prop, write it to
+    // state and then use it where it is needed.
     <div>
       {formQuestions}
-      <FormResult formState={formState} />
+      <FormResult formState={formState} selectedLanguage={selectedLanguage} />
     </div>
   );
 }

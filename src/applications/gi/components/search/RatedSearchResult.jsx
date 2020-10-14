@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { estimatedBenefits } from '../../selectors/estimator';
 import {
   convertRatingToStars,
@@ -20,7 +18,6 @@ import {
 import ScorecardTags from '../../components/ScorecardTags';
 
 export function RatedSearchResult({
-  gibctFilterEnhancement,
   schoolClosing,
   schoolClosingOn,
   estimated,
@@ -40,13 +37,13 @@ export function RatedSearchResult({
   ratingCount,
 }) {
   const queryParams = useQueryParams();
-  const estimate = ({ qualifier, value }) => {
-    if (qualifier === '% of instate tuition') {
-      return <span>{value}% in-state</span>;
-    } else if (qualifier === null) {
-      return value;
-    }
-    return <span>{formatCurrency(value)}</span>;
+  const estimate = ({ ratedQualifier, value }) => {
+    return (
+      <span>
+        {formatCurrency(value)}
+        {ratedQualifier}
+      </span>
+    );
   };
 
   const tuition = estimate(estimated.tuition);
@@ -99,27 +96,27 @@ export function RatedSearchResult({
             >
               <h3>You may be eligible for up to:</h3>
               <div className="row">
-                <div className="vads-u-font-weight--bold columns small-12 medium-3">
+                <div className="vads-u-font-weight--bold columns small-4 medium-3">
                   Tuition:
                 </div>
-                <div className="columns small-12 medium-9">{tuition}</div>
+                <div className="columns small-8 medium-9">{tuition}</div>
               </div>
               <div className="row">
-                <div className="vads-u-font-weight--bold columns small-12 medium-3">
+                <div className="vads-u-font-weight--bold columns small-4 medium-3">
                   Housing:
                 </div>
                 <div
-                  className="columns small-12 medium-9"
+                  className="columns small-8 medium-9"
                   id={`housing-value-${facilityCode}`}
                 >
                   {housing}
                 </div>
               </div>
               <div className="row">
-                <div className="vads-u-font-weight--bold columns small-12 medium-3">
+                <div className="vads-u-font-weight--bold columns small-4 medium-3">
                   Books:
                 </div>
-                <div className="columns small-12 medium-9">{books}</div>
+                <div className="columns small-8 medium-9">{books}</div>
               </div>
             </div>
 
@@ -150,17 +147,15 @@ export function RatedSearchResult({
               </div>
             )}
 
-            {gibctFilterEnhancement && (
-              <div className="small-12  medium-5 columns">
-                <ScorecardTags
-                  styling="search-result-tag"
-                  menOnly={menOnly}
-                  womenOnly={womenOnly}
-                  hbcu={hbcu}
-                  relAffil={relAffil}
-                />
-              </div>
-            )}
+            <div className="small-12  medium-5 columns">
+              <ScorecardTags
+                styling="search-result-tag"
+                menOnly={menOnly}
+                womenOnly={womenOnly}
+                hbcu={hbcu}
+                relAffil={relAffil}
+              />
+            </div>
           </div>
           <div className="row">
             <div className="columns">
@@ -175,9 +170,6 @@ export function RatedSearchResult({
 
 const mapStateToProps = (state, props) => ({
   estimated: estimatedBenefits(state, props),
-  gibctFilterEnhancement: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctFilterEnhancement
-  ],
 });
 
 export default connect(mapStateToProps)(RatedSearchResult);

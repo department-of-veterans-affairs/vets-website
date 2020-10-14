@@ -6,7 +6,6 @@ export default Object.freeze({
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   facilityLocatorPredictiveLocationSearch:
     'facilityLocatorPredictiveLocationSearch',
-  profileShowProfile2: 'profile_show_profile_2.0',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
@@ -33,7 +32,6 @@ export default Object.freeze({
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctSearchEnhancements: 'gibctSearchEnhancements',
-  gibctFilterEnhancement: 'gibctFilterEnhancement',
   gibctBenefitFilterEnhancement: 'gibctBenefitFilterEnhancement',
   gibctSchoolRatings: 'gibctSchoolRatings',
   form996HigherLevelReview: 'form996HigherLevelReview',

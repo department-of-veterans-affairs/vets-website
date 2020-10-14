@@ -14,6 +14,16 @@ displayBenefit.enum.splice(1, 0, 'fryScholarship');
 export const uiSchema = {
   benefit: {
     'ui:widget': 'radio',
+    'ui:title': 'Which benefit are you currently using?',
+    'ui:options': {
+      labels: benefitsLabels,
+    },
+  },
+};
+
+export const oldUiSchema = {
+  benefit: {
+    'ui:widget': 'radio',
     'ui:title':
       'Which benefit are you currently using or have you used most recently?',
     'ui:options': {

@@ -76,6 +76,8 @@ export const srSubstitute = (srIgnored, substitutionText) => (
   </span>
 );
 
+export const isUndefined = value => (value || '') === '';
+
 export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
   return date && m.isValid() ? m.format(format) : 'Unknown';
@@ -227,6 +229,26 @@ export function queryForFacilities(input = '') {
         scope.setExtra('input', input);
         scope.setExtra('error', error);
         Sentry.captureMessage('Error querying for facilities');
+      });
+      return [];
+    });
+}
+
+export function getSeparationLocations() {
+  return apiRequest('/disability_compensation_form/separation_locations')
+    .then((
+      { separation_locations }, // eslint-disable-line camelcase
+    ) =>
+      // eslint-disable-next-line camelcase
+      separation_locations.map(separationLocation => ({
+        id: separationLocation.code,
+        label: separationLocation.description,
+      })),
+    )
+    .catch(error => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        Sentry.captureMessage('Error getting separation locations');
       });
       return [];
     });

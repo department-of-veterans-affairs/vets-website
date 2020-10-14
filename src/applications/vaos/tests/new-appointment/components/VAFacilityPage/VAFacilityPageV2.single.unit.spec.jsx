@@ -144,7 +144,6 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
       store,
     });
 
-    expect(baseElement).to.contain.text('Finding locations');
     await findByText(/we found one VA location for you/i);
 
     expect(baseElement).to.contain.text('San Diego VA Medical Center');
@@ -189,7 +188,6 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
       store,
     });
 
-    expect(screen.baseElement).to.contain.text('Finding locations');
     await screen.findByText(/we found one VA location for you/i);
 
     expect(screen.baseElement).to.contain.text(

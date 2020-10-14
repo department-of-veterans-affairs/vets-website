@@ -1,4 +1,5 @@
 import React from 'react';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export const deductionCodes = Object.freeze({
   '30': 'Compensation & pension debt',
@@ -41,26 +42,20 @@ export const renderAdditionalInfo = deductionCode => {
           </p>
           <p>
             <strong>Disability compensation:</strong>{' '}
-            <a href="tel: 800-827-1000" aria-label="800. 8 2 7. 1000.">
-              800-827-1000
-            </a>
+            <Telephone contact="8008271000" />
             {', '}
             Monday through Friday, 8:00 a.m to 8:00 p.m. ET
           </p>
           <p>
             <strong>Veterans Pension:</strong>{' '}
-            <a href="tel: 877-294-6380" aria-label="877. 2 9 4. 6380.">
-              877-294-6380
-            </a>
+            <Telephone contact="87729463850" />
             {', '}
             Monday through Friday, 8:00 a.m to 4:30 p.m. ET
           </p>
           <p>
             If you want more information about debt overpayment and available
             options, please call the Debt Management Center at{' '}
-            <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-              800-827-0648
-            </a>
+            <Telephone contact="8008270648" />
           </p>
         </div>
       );
@@ -89,18 +84,14 @@ export const renderAdditionalInfo = deductionCode => {
           <p>
             If you want more information about the reason for this debt or the
             decision resulting in this debt, please call the Education office at{' '}
-            <a href="tel: 888-442-4551" aria-label="888. 4 4 2. 4551.">
-              888-442-4551
-            </a>
+            <Telephone contact="8884424551" />
             {'. '}
             We're here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
           <p>
             If you want more information about debt overpayment and available
             options, please call the Debt Management Center at{' '}
-            <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-              800-827-0648
-            </a>
+            <Telephone contact="8008270648" />
           </p>
         </div>
       );
@@ -134,18 +125,14 @@ export const renderAdditionalInfo = deductionCode => {
           <p>
             If you want more information about the reason for this debt or the
             decision resulting in this debt, please call the Education office at{' '}
-            <a href="tel: 888-442-4551" aria-label="888. 4 4 2. 4551.">
-              888-442-4551
-            </a>
+            <Telephone contact="8884424551" />
             {'. '}
             We're here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
           <p>
             If you want more information about debt overpayment and available
             options, please call the Debt Management Center at{' '}
-            <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-              800-827-0648
-            </a>
+            <Telephone contact="8008270648" />
           </p>
         </div>
       );
