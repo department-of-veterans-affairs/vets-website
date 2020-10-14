@@ -28,7 +28,8 @@
           }
         ],
         "separationLocation": {
-          "separationLocationCode": "Fort Hood"
+          "separationLocationCode": "98283",
+          "separationLocationName": "AF Academy"
         }
       },
       "newPrimaryDisabilities": [
