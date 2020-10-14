@@ -10,6 +10,7 @@ import {
   increaseOnly,
   hasRatedDisabilities,
   claimingRated,
+  showSeparationLocation,
 } from './utils';
 
 import {
@@ -296,8 +297,8 @@ export const requireNewDisability = (err, fieldData, formData) => {
   }
 };
 
-export const requireSeparationLocation = (err, fieldData) => {
-  if (!fieldData?.id) {
+export const requireSeparationLocation = (err, fieldData, formData) => {
+  if (showSeparationLocation(formData) && !fieldData?.id) {
     err.addError('Please select a separation location from the suggestions');
   }
 };
