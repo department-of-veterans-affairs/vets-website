@@ -16,6 +16,7 @@ export default {
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   FORM_686_CTA: 'form-686-CTA',
   CAREGIVER_CONTENT_TOGGLE: 'caregiver-content-toggle',
+  THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
   // Health Care | Manage Benefits widgets.
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   REFILL_TRACK_PRESCRIPTIONS_PAGE: 'refill-track-prescriptions-page',
