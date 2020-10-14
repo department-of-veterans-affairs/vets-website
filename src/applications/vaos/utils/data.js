@@ -17,7 +17,9 @@ import {
   getChosenCCSystemId,
   getChosenSlot,
   selectExpressCareFormData,
+  selectUseFlatFacilityPage,
 } from './selectors';
+import { getTimezoneBySystemId } from './timezone';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
 import {
@@ -57,7 +59,10 @@ export function transformFormToVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
   const siteId = getSiteIdForChosenFacility(state);
-  const facilityId = getFacilityIdFromLocation(facility);
+  const isFacilityV2Page = selectUseFlatFacilityPage(state);
+  const facilityId = isFacilityV2Page
+    ? facility.id.replace('var', '')
+    : getFacilityIdFromLocation(facility);
 
   return {
     typeOfCare: typeOfCare.id,
@@ -239,11 +244,12 @@ export function transformFormToCCRequest(state) {
 export function transformFormToAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
-  const facility = getChosenFacilityInfo(state);
+  const siteId = getSiteIdForChosenFacility(state);
+  const { timezone = null } = siteId ? getTimezoneBySystemId(siteId) : {};
+
   const slot = getChosenSlot(state);
   const purpose = getUserMessage(data);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
-
   return {
     appointmentType: getTypeOfCare(data).name,
     clinic: {
@@ -265,7 +271,7 @@ export function transformFormToAppointment(state) {
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,
-    timeZone: facility.legacyVAR?.institutionTimezone,
+    timeZone: timezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',

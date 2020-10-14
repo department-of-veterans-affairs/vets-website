@@ -42,7 +42,9 @@ describe('VAOS integration: upcoming video appointments', () => {
       initialState,
     });
 
-    await findByText('Video appointment at home');
+    await findByText(
+      (_, node) => node.textContent === 'VA Video Connect at home',
+    );
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(baseElement).to.contain.text('VA Video Connect');
@@ -267,7 +269,9 @@ describe('VAOS integration: upcoming video appointments', () => {
       initialState,
     });
 
-    await screen.findByText(/Video appointment using a VA device/i);
+    await screen.findByText(
+      (_, node) => node.textContent === 'VA Video Connect using a VA device',
+    );
 
     // Should display appointment date
     expect(
@@ -293,9 +297,9 @@ describe('VAOS integration: upcoming video appointments', () => {
     // Should display button to add appointment to calendar
     expect(
       screen.getByRole('link', {
-        name: `Add ${startDate.format(
-          'MMMM D, YYYY',
-        )} appointment to your calendar`,
+        name: `Add ${startDate
+          .tz('America/Denver')
+          .format('MMMM D, YYYY')} appointment to your calendar`,
       }),
     ).to.be.ok;
 
@@ -420,7 +424,9 @@ describe('VAOS integration: upcoming video appointments', () => {
       initialState,
     });
 
-    await findByText('Video appointment at home');
+    await findByText(
+      (_, node) => node.textContent === 'VA Video Connect at home',
+    );
 
     expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(baseElement).to.contain.text('VA Video Connect');
@@ -547,7 +553,14 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
-
+      providers: [
+        {
+          name: {
+            firstName: 'Meg',
+            lastName: 'Smith',
+          },
+        },
+      ],
       tasInfo: {
         siteCode: '9931',
         slotId: 'Slot8',
@@ -578,7 +591,9 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
       initialState,
     });
 
-    await screen.findByText(/Video appointment at an ATLAS location/i);
+    await screen.findByText(
+      (_, node) => node.textContent === 'VA Video Connect at an ATLAS location',
+    );
 
     // Should display appointment date
     expect(
@@ -616,8 +631,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     expect(screen.getByText(/Appointment Code: 7VBBCA/i)).to.be.ok;
 
     // Should display who you will be meeting with
-    // TODO: This will be added later
-    // expect(screen.getByText(/You'll be meeting with/i)).to.be.ok;
-    // expect(screen.getByText(/Decker Konya/i)).to.be.ok;
+    expect(screen.getByText(/You’ll be meeting with/i)).to.be.ok;
+    expect(screen.getByText(/Meg Smith/i)).to.be.ok;
   });
 });

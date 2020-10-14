@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import PhoneNumberView from '../../../components/PhoneNumberView';
+import PhoneNumberView from '../../../components/veteran-info/PhoneNumberView';
 
 describe('healthcare-questionnaire - display a phone number', () => {
   it('valid phone number - should return formatted', () => {

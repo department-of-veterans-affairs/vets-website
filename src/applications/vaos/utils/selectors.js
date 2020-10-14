@@ -4,6 +4,8 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   selectPatientFacilities,
   selectIsCernerOnlyPatient,
+  selectIsCernerPatient,
+  selectVet360ResidentialAddress,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
 
@@ -57,9 +59,11 @@ export const vaosExpressCare = state =>
   toggleValues(state).vaOnlineSchedulingExpressCare;
 export const vaosExpressCareNew = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
-export const vaosFlatFacilityPage = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
+const vaosFlatFacilityPage = state =>
+  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
+export const selectUseFlatFacilityPage = state =>
+  vaosFlatFacilityPage(state) && !selectIsCernerPatient(state);
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -130,7 +134,7 @@ export function getChosenFacilityInfo(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
-  const selectedTypeOfCareFacilities = vaosFlatFacilityPage(state)
+  const selectedTypeOfCareFacilities = selectUseFlatFacilityPage(state)
     ? facilities[`${typeOfCareId}`]
     : facilities[`${typeOfCareId}_${data.vaParent}`];
 
@@ -210,6 +214,10 @@ export function getParentOfChosenFacility(state) {
 }
 
 export function getChosenFacilityDetails(state) {
+  if (selectUseFlatFacilityPage(state)) {
+    return getChosenFacilityInfo(state);
+  }
+
   const data = getFormData(state);
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const facilityDetails = getNewAppointment(state).facilityDetails;
@@ -308,23 +316,26 @@ export function getFacilityPageV2Info(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCare = getTypeOfCare(data);
-  const parentFacilitiesStatus = newAppointment.parentFacilitiesStatus;
-  const childFacilitiesStatus = newAppointment.childFacilitiesStatus;
+
+  const {
+    childFacilitiesStatus,
+    facilityPageSortMethod,
+    parentFacilities,
+    parentFacilitiesStatus,
+    requestLocationStatus,
+    showEligibilityModal,
+  } = newAppointment;
+
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibilityStatus = getEligibilityStatus(state);
-  const parentFacilities = newAppointment.parentFacilities;
 
   return {
     ...formInfo,
-    typeOfCare: typeOfCare?.name,
     canScheduleAtChosenFacility:
       eligibilityStatus.direct || eligibilityStatus.request,
     childFacilitiesStatus,
     eligibility: getEligibilityChecks(state),
     facilities,
-    facility: getChosenFacilityInfo(state),
-    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
-    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     hasDataFetchingError:
       parentFacilitiesStatus === FETCH_STATUS.failed ||
       childFacilitiesStatus === FETCH_STATUS.failed ||
@@ -339,10 +350,13 @@ export function getFacilityPageV2Info(state) {
     parentFacilities,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentFacilitiesStatus,
+    requestLocationStatus,
+    selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: facilities?.length === 1,
-    siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
-    showEligibilityModal:
-      facilities?.length > 1 && newAppointment.showEligibilityModal,
+    showEligibilityModal: facilities?.length > 1 && showEligibilityModal,
+    typeOfCare: typeOfCare?.name,
+    sortMethod: facilityPageSortMethod,
+    address: selectVet360ResidentialAddress(state),
   };
 }
 

@@ -43,7 +43,7 @@ fragment nodeSupportResourcesDetailPage on NodeSupportResourcesDetailPage {
   }
   fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
 }

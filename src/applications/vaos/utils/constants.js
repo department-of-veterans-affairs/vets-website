@@ -30,6 +30,9 @@ export const APPOINTMENT_STATUS = {
 export const VIDEO_TYPES = {
   gfe: 'MOBILE_GFE',
   clinic: 'CLINIC_BASED',
+  adhoc: 'ADHOC',
+  mobile: 'MOBILE_ANY',
+  storeForward: 'STORE_FORWARD',
 };
 
 export const TIME_TEXT = {
@@ -170,6 +173,12 @@ export const TYPES_OF_EYE_CARE = [
 export const FACILITY_TYPES = {
   VAMC: 'vamc',
   COMMUNITY_CARE: 'communityCare',
+};
+
+export const FACILITY_SORT_METHODS = {
+  DISTANCE_FROM_RESIDENTIAL: 'distanceFromResidential',
+  DISTANCE_FROM_CURRENT_LOCATION: 'distanceFromCurrentLocation',
+  ALPHABETICAL: 'alphabetical',
 };
 
 export const LANGUAGES = [

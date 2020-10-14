@@ -24,6 +24,7 @@ fragment nodeStepByStep on NodeStepByStep {
   fieldSteps {
     entity {
       ... on ParagraphStepByStep {
+        fieldSectionHeader
         fieldStep {
           entity {
             ... on ParagraphStep {
@@ -51,9 +52,9 @@ fragment nodeStepByStep on NodeStepByStep {
       }
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
 }

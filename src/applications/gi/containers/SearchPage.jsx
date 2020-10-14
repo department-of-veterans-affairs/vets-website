@@ -24,6 +24,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
+import RatedSearchResult from '../components/search/RatedSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
@@ -47,8 +48,8 @@ export function SearchPage({
   dispatchUpdateAutocompleteSearchTerm,
   eligibility,
   filters,
-  gibctFilterEnhancement,
   gibctSearchEnhancements,
+  gibctSchoolRatings,
   search,
 }) {
   const location = useLocation();
@@ -210,14 +211,25 @@ export function SearchPage({
         <div className={resultsClass}>
           {filterButton}
           <div>
-            {search.results.map(result => (
-              <SearchResult
-                key={result.facilityCode}
-                menOnly={result.menonly}
-                womenOnly={result.womenonly}
-                {...result}
-              />
-            ))}
+            {search.results.map(result => {
+              return gibctSchoolRatings ? (
+                <RatedSearchResult
+                  key={result.facilityCode}
+                  menOnly={result.menonly}
+                  womenOnly={result.womenonly}
+                  ratingAverage={result.ratingAverage}
+                  ratingCount={result.ratingCount}
+                  {...result}
+                />
+              ) : (
+                <SearchResult
+                  key={result.facilityCode}
+                  menOnly={result.menonly}
+                  womenOnly={result.womenonly}
+                  {...result}
+                />
+              );
+            })}
           </div>
 
           <Pagination
@@ -261,7 +273,6 @@ export function SearchPage({
           showModal={dispatchShowModal}
           eligibilityChange={dispatchEligibilityChange}
           hideModal={dispatchHideModal}
-          gibctFilterEnhancement={gibctFilterEnhancement}
         />
       </div>
     );
@@ -286,8 +297,8 @@ const mapStateToProps = state => ({
   gibctSearchEnhancements: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSearchEnhancements
   ],
-  gibctFilterEnhancement: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctFilterEnhancement
+  gibctSchoolRatings: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSchoolRatings
   ],
 });
 

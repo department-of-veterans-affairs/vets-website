@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import AppointmentInfoBox from '../../../components/AppointmentInfoBox';
+import AppointmentInfoBox from '../../../components/veteran-info/AppointmentInfoBox';
 
 import { createFakeUserStore } from '../utils/createFakeStores';
 

@@ -7,7 +7,6 @@ fragment nodeChecklist on NodeChecklist {
 
   changed
   title
-  fieldDescription
   fieldIntroTextLimitedHtml {
     processed
   }
@@ -23,9 +22,9 @@ fragment nodeChecklist on NodeChecklist {
       ... alertSingle
     }
   }
-  fieldRelatedLinks {
+  fieldRelatedInformation {
     entity {
-      ... listOfLinkTeasers
+      ... linkTeaser
     }
   }
   fieldChecklist {

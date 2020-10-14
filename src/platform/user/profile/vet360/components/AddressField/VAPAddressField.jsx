@@ -105,8 +105,8 @@ function AddressField({ title, fieldName, deleteDisabled }) {
       ContentView={AddressView}
       EditView={AddressEditView}
       ValidationView={AddressValidationView}
-      formSchema={getFormSchema(fieldName)}
-      uiSchema={getUiSchema(fieldName)}
+      formSchema={getFormSchema()}
+      uiSchema={getUiSchema()}
     />
   );
 }

@@ -181,8 +181,39 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
   };
 };
 
+const createFakeConfirmationStore = ({ hasData }) => {
+  return {
+    getState: () => {
+      return hasData
+        ? {
+            form: {
+              submission: {
+                response: {
+                  veteranInfo: { fullName: 'Mickey Mouse' },
+                  timestamp: new Date(),
+                },
+              },
+            },
+            questionnaireData: {
+              context: {
+                appointment: {
+                  vdsAppointments: [
+                    { clinic: { facility: { displayName: 'Magic Kingdom' } } },
+                  ],
+                },
+              },
+            },
+          }
+        : { form: {}, questionnaireData: {} };
+    },
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
 export {
   createFakeUserStore,
   createFakeChiefComplaintStore,
   createFakeReasonForVisitStore,
+  createFakeConfirmationStore,
 };

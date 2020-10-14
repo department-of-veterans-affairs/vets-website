@@ -12,6 +12,8 @@ import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 import ContactInformation from './ContactInformation';
 import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
+import { convertRatingToStars } from '../../utils/helpers';
+import SchoolRatings from './SchoolRatings';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -39,14 +41,21 @@ export class InstitutionProfile extends React.Component {
       constants,
       showModal,
       gibctEybBottomSheet,
-      gibctFilterEnhancement,
+      gibctSchoolRatings,
     } = this.props;
+
+    const stars = convertRatingToStars(profile.attributes.ratingAverage);
+    const displayStars =
+      this.props.gibctSchoolRatings &&
+      stars &&
+      profile.attributes.ratingCount > 0;
+
     return (
       <div>
         <HeadingSummary
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
-          gibctFilterEnhancement={gibctFilterEnhancement}
+          gibctSchoolRatings={gibctSchoolRatings}
         />
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
@@ -85,6 +94,19 @@ export class InstitutionProfile extends React.Component {
                 onShowModal={showModal}
               />
             </AccordionItem>
+            {displayStars && (
+              <div id="profile-school-ratings">
+                <AccordionItem button="School ratings">
+                  <SchoolRatings
+                    ratingAverage={profile.attributes.ratingAverage}
+                    ratingCount={profile.attributes.ratingCount}
+                    institutionCategoryRatings={
+                      profile.attributes.institutionCategoryRatings
+                    }
+                  />
+                </AccordionItem>
+              </div>
+            )}
             <AccordionItem button="Contact details">
               <ContactInformation institution={profile.attributes} />
             </AccordionItem>
