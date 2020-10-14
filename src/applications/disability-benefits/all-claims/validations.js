@@ -295,3 +295,9 @@ export const requireNewDisability = (err, fieldData, formData) => {
     err.addError(message);
   }
 };
+
+export const requireSeparationLocation = (err, fieldData) => {
+  if (!fieldData?.id) {
+    err.addError('Please select a separation location from the suggestions');
+  }
+};

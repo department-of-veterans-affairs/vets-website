@@ -6,6 +6,7 @@ import {
 } from '../content/separationLocation';
 
 import { getSeparationLocations } from '../utils';
+import { requireSeparationLocation } from '../validations';
 
 export const uiSchema = {
   serviceInformation: {
@@ -18,6 +19,7 @@ export const uiSchema = {
       getSeparationLocations,
       {
         'ui:required': () => true,
+        'ui:validations': [requireSeparationLocation],
       },
     ),
   },
