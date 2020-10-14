@@ -11,6 +11,7 @@ import {
   schema,
   uiSchema,
   requireStateWithCountry,
+  requireStateWithData,
 } from '../../definitions/address';
 import { address } from 'vets-json-schema/dist/definitions.json';
 
@@ -209,6 +210,63 @@ describe('Forms library address validation', () => {
     });
     it('should not require the state when the country is not required', () => {
       validationTest(false, 'USA', false);
+    });
+  });
+
+  describe('requireStateWithData', () => {
+    const validationTest = (requiredFields, dataEntered, errorFound) => {
+      const s = schema(addressSchema, requiredFields);
+      const errors = {
+        state: {
+          addError: sinon.spy(),
+        },
+      };
+      requireStateWithData(errors, dataEntered, {}, s);
+      expect(
+        errors.state.addError.calledWith(
+          'Please enter a state or province, or remove other address information.',
+        ),
+      ).to.equal(errorFound);
+    };
+
+    it('should require the state when the country requires it and other data is entered', () => {
+      validationTest(
+        false,
+        {
+          country: 'USA',
+          postalCode: '12345',
+          street: '123 main',
+          city: 'Big City',
+        },
+        true,
+      );
+    });
+    it('should not require the state when the country requires it and other data is not entered', () => {
+      validationTest(false, { country: 'USA' }, false);
+    });
+    it('should not require the state when the country does not require it', () => {
+      validationTest(
+        false,
+        {
+          country: 'ASD',
+          postalCode: '12345',
+          street: '123 main',
+          city: 'Big City',
+        },
+        false,
+      );
+    });
+    it('should not require the state when the schema has required fields', () => {
+      validationTest(
+        true,
+        {
+          country: 'USA',
+          postalCode: '12345',
+          street: '123 main',
+          city: 'Big City',
+        },
+        false,
+      );
     });
   });
 });
