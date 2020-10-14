@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
 import moment from 'moment';
+import { renderWithStoreAndRouter } from '../../../mocks/setup';
+import userEvent from '@testing-library/user-event';
 
 import {
   DateTimeSelectPage,
@@ -10,46 +11,166 @@ import {
 } from '../../../../new-appointment/components/DateTimeSelectPage';
 import { FETCH_STATUS } from '../../../../utils/constants';
 
-const availableDates = ['2019-10-29'];
-const availableSlots = [
-  {
-    start: '2019-10-29T09:30:00',
-    end: '2019-10-29T09:50:00',
-  },
-  {
-    start: '2019-10-29T10:00:00',
-    end: '2019-10-29T10:20:00',
-  },
+function getMondayTruFriday(date) {
+  if (date.day() === 6) {
+    // Move date to next week Monday
+    return date.day(8);
+  } else if (date.day() === 0) {
+    // Move date to current week Monday
+    return date.day(1);
+  }
+  return date;
+}
+
+function getAppointmentTimeSlots(date, count) {
+  const start = moment(date)
+    .minute(0)
+    .second(0);
+  const end = moment(date)
+    .minute(15)
+    .second(0);
+  const collection = [];
+
+  for (let i = 0; i < count; i++) {
+    collection.push({
+      start: start.clone().format('YYYY-MM-DDTHH:mm'),
+      end: end.clone().format('YYYY-MM-DDTHH:mm'),
+    });
+    start.minute(start.minute() + 15);
+    end.minute(end.minute() + 15);
+  }
+  return collection;
+}
+
+const availableDates = [
+  getMondayTruFriday(moment().add(5, 'd')).format('YYYY-MM-DD'),
 ];
 
+const availableSlots = getAppointmentTimeSlots(moment().add(5, 'd'), 2);
+
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingCancel: true,
+  },
+};
+
 describe('VAOS <DateTimeSelectPage>', () => {
-  it('should render', () => {
+  it('should not submit form with validation error', () => {
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
 
-    const form = mount(
+    const screen = renderWithStoreAndRouter(
+      <DateTimeSelectPage
+        getAppointmentSlots={getAppointmentSlots}
+        onCalendarChange={onCalendarChange}
+        data={{
+          calendarData: {
+            currentlySelectedDate: null,
+            selectedDates: [],
+          },
+        }}
+        availableDates={availableDates}
+        facilityId="123"
+        availableSlots={availableSlots}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        appointmentSlotsStatus={FETCH_STATUS.succeeded}
+      />,
+      {
+        ...initialState,
+      },
+    );
+
+    // it should not allow user to submit the form without selecting a date
+    const button = screen.getByRole('button', {
+      name: /^Continue/,
+    });
+    userEvent.click(button);
+
+    // NOTE: alert does not have an accessible name to query by
+    expect(screen.getByRole('alert')).to.be.ok;
+
+    // NOTE: Implementation detail
+    expect(routeToNextAppointmentPage.called).to.be.false;
+  });
+
+  it('should allow user to select date and time for a VA appointment', async () => {
+    const getAppointmentSlots = sinon.spy();
+    // NOTE: Next available date is atleast 5 days from the current date
+    // so add 5 days to the current date.
+    const selectedDate1 = getMondayTruFriday(moment().add(5, 'd')).format(
+      'YYYY-MM-DD',
+    );
+
+    // Seeding calendar with currently selected date
+    const screen = renderWithStoreAndRouter(
       <DateTimeSelectPage
         availableDates={availableDates}
         availableSlots={availableSlots}
-        data={{ calendarData: {} }}
-        facilityId="123"
+        data={{
+          calendarData: {
+            currentlySelectedDate: selectedDate1,
+            selectedDates: [],
+          },
+        }}
+        // facilityId="123"
         getAppointmentSlots={getAppointmentSlots}
         appointmentSlotsStatus={FETCH_STATUS.succeeded}
-        onCalendarChange={onCalendarChange}
+        // onCalendarChange={onCalendarChange}
       />,
+      {
+        initialState,
+      },
     );
 
-    expect(form.find('CalendarWidget').length).to.equal(1);
-    expect(form.find('FormButtons').length).to.equal(1);
-    expect(form.find('WaitTimeAlert').length).to.equal(1);
-    form.unmount();
+    // it should display page heading
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Tell us the date and time you’d like your appointment/i,
+      }),
+    ).to.be.ok;
+
+    // it should display 2 calendar months for VA appointments
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: moment().format('MMMM YYYY'),
+      }),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: moment()
+          .add(1, 'M')
+          .format('MMMM YYYY'),
+      }),
+    ).to.be.ok;
+
+    // it should allow the user to select morning for currently selected date
+    const time = moment()
+      .minute(0)
+      .format('h:mm');
+    const radio = screen.getByRole('radio', {
+      name: new RegExp(`${time}`),
+    });
+    userEvent.click(radio);
+
+    // NOTE: Doesn't work as expected. Expectation is radio button state should be 'clicked'
+    // when clicking the button. I don't know why the button state is not updated.
+    // expect(
+    //   screen.getByRole('radio', {
+    //     name: new RegExp(`^${time}`),
+    //     checked: true,
+    //   }),
+    // ).to.be.ok;
   });
 
-  it('should not display WaitTimeAlert if loading', () => {
+  it('should display loading message when in loading state', async () => {
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
 
-    const form = mount(
+    const screen = renderWithStoreAndRouter(
       <DateTimeSelectPage
         availableDates={availableDates}
         availableSlots={availableSlots}
@@ -59,17 +180,21 @@ describe('VAOS <DateTimeSelectPage>', () => {
         appointmentSlotsStatus={FETCH_STATUS.loading}
         onCalendarChange={onCalendarChange}
       />,
+      {
+        initialState,
+      },
     );
 
-    expect(form.find('WaitTimeAlert').length).to.equal(0);
-    form.unmount();
+    // NOTE: progressbar does not have an accessible name to query by
+    expect(screen.getByRole('progressbar')).to.be.ok;
   });
 
-  it('should fetch appointment slots', () => {
+  it('should display wait time alert message when not in loading state', async () => {
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
 
-    const form = mount(
+    // Seeding calendar with currently selected date and 3 previously selected dates
+    const screen = renderWithStoreAndRouter(
       <DateTimeSelectPage
         availableDates={availableDates}
         availableSlots={availableSlots}
@@ -79,123 +204,23 @@ describe('VAOS <DateTimeSelectPage>', () => {
         appointmentSlotsStatus={FETCH_STATUS.succeeded}
         onCalendarChange={onCalendarChange}
       />,
+      {
+        initialState,
+      },
     );
-
-    expect(getAppointmentSlots.called).to.be.true;
-    form.unmount();
-  });
-
-  // it('should display WaitTimeAlert ')
-
-  it('should not submit empty form', () => {
-    const getAppointmentSlots = sinon.spy();
-    const onCalendarChange = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <DateTimeSelectPage
-        onCalendarChange={onCalendarChange}
-        getAppointmentSlots={getAppointmentSlots}
-        data={{ calendarData: {} }}
-        availableDates={availableDates}
-        facilityId="123"
-        availableSlots={availableSlots}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        appointmentSlotsStatus={FETCH_STATUS.succeeded}
-      />,
-    );
-
-    form
-      .find('FormButtons')
-      .find('button[type="submit"]')
-      .simulate('click');
-    expect(routeToNextAppointmentPage.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should not submit form with validation error', () => {
-    const getAppointmentSlots = sinon.spy();
-    const onCalendarChange = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <DateTimeSelectPage
-        getAppointmentSlots={getAppointmentSlots}
-        onCalendarChange={onCalendarChange}
-        data={{
-          calendarData: { currentlySelectedDate: '2020-12-20' },
-        }}
-        availableDates={availableDates}
-        facilityId="123"
-        availableSlots={availableSlots}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        appointmentSlotsStatus={FETCH_STATUS.succeeded}
-      />,
-    );
-
-    form
-      .find('FormButtons')
-      .find('button[type="submit"]')
-      .simulate('click');
-    expect(routeToNextAppointmentPage.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should submit with selected data', () => {
-    const getAppointmentSlots = sinon.spy();
-    const onCalendarChange = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <DateTimeSelectPage
-        onCalendarChange={onCalendarChange}
-        getAppointmentSlots={getAppointmentSlots}
-        data={{
-          calendarData: {
-            selectedDates: [
-              { date: '2019-10-30', datetime: '2019-10-30T10:00:00' },
-            ],
-          },
-        }}
-        availableDates={availableDates}
-        availableSlots={availableSlots}
-        appointmentSlotsStatus={FETCH_STATUS.succeeded}
-        facilityId="123"
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-      />,
-    );
-
-    form
-      .find('FormButtons')
-      .find('button[type="submit"]')
-      .simulate('click');
-    expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
-  });
-
-  it('document title should match h1 text', () => {
-    const getAppointmentSlots = sinon.spy();
-    const onCalendarChange = sinon.spy();
-    const pageTitle = 'Tell us the date and time you’d like your appointment';
-
-    const form = mount(
-      <DateTimeSelectPage
-        onCalendarChange={onCalendarChange}
-        getAppointmentSlots={getAppointmentSlots}
-        data={{ calendarData: {} }}
-        facilityId="123"
-        availableDates={availableDates}
-        availableSlots={availableSlots}
-      />,
-    );
-
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).to.contain(pageTitle);
-    form.unmount();
+    // screen.debug(null, 99999);
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Your earliest appointment time',
+      }),
+    ).to.be.ok;
   });
 
   it('should return options for date with getOptionsByDate', () => {
-    const selectedDate = '2019-10-29';
+    const selectedDate = getMondayTruFriday(moment().add(5, 'd')).format(
+      'YYYY-MM-DD',
+    );
     const options = getOptionsByDate(
       selectedDate,
       'America/Denver',
@@ -244,12 +269,12 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(options[0].label.props.children[0]).to.equal('3:30');
   });
 
-  it('should render error message if slots call fails', () => {
+  it('should display error message if slots call fails', () => {
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
     const requestAppointmentDateChoice = sinon.spy();
 
-    const form = mount(
+    const screen = renderWithStoreAndRouter(
       <DateTimeSelectPage
         availableDates={availableDates}
         availableSlots={availableSlots}
@@ -260,21 +285,46 @@ describe('VAOS <DateTimeSelectPage>', () => {
         onCalendarChange={onCalendarChange}
         requestAppointmentDateChoice={requestAppointmentDateChoice}
       />,
+      {
+        initialState,
+      },
     );
 
-    const message = shallow(
-      form.find('CalendarWidget').props().loadingErrorMessage,
-    );
-    message
-      .find('button')
-      .props()
-      .onClick();
+    // screen.debug(null, 99999);
+    expect(
+      screen.getByRole('heading', {
+        level: 3,
+        name:
+          'We’ve run into a problem when trying to find available appointment times',
+      }),
+    ).to.be.ok;
 
-    expect(message.find('AlertBox').exists()).to.be.true;
-    expect(message.find('a').props().href).to.contain('vha_123');
-    expect(requestAppointmentDateChoice.called).to.be.true;
+    // it should display link to find the nearest VA medical center
+    expect(
+      screen.getByRole('link', {
+        name: 'Find your nearest VA medical center',
+      }),
+    ).to.be.ok;
 
-    form.unmount();
-    message.unmount();
+    // it should display link to contact the local VA medical center
+    expect(
+      screen.getByRole('link', {
+        name: 'Contact your local VA medical center',
+      }),
+    ).to.be.ok;
+
+    // it should display link to call the local VA medical center
+    expect(
+      screen.getByRole('link', {
+        name: 'call your local VA medical center',
+      }),
+    ).to.be.ok;
+
+    // it should display link to phone number
+    expect(
+      screen.getByRole('link', {
+        name: '800-273-8255',
+      }),
+    ).to.be.ok;
   });
 });
