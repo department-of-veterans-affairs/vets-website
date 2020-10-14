@@ -19,6 +19,21 @@ class ServiceTypeAhead extends Component {
 
   componentDidMount() {
     this.getServices();
+    document
+      .getElementById('service-type-ahead-input')
+      .setCustomValidity('Please enter a valid Service type.');
+  }
+
+  validateServiceTypeAhead(inputID, inputValue) {
+    const input = document.getElementById(inputID);
+    const validityState = input.validity;
+    if (validityState.valueMissing && inputValue.length === 0) {
+      input.setCustomValidity('Please enter a valid Service type.');
+      input.reportValidity();
+    } else {
+      input.setCustomValidity('');
+      input.reportValidity();
+    }
   }
 
   getServices = async () => {
@@ -35,7 +50,7 @@ class ServiceTypeAhead extends Component {
   };
 
   handleOnSelect = selectedItem => {
-    if (selectedItem === 'not-found') return;
+    if (selectedItem && selectedItem === 'not-found') return;
     const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
     this.props.onSelect({
       target: { value },
@@ -110,6 +125,10 @@ class ServiceTypeAhead extends Component {
                         pressedEnter: false,
                       });
                     }
+                    this.validateServiceTypeAhead(
+                      'service-type-ahead-input',
+                      inputValue,
+                    );
                   },
                   placeholder: 'Like primary care, cardiology',
                 })}
