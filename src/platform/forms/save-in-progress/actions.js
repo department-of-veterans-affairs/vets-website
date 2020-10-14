@@ -4,7 +4,7 @@ import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
 import environment from '../../utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
-import { sanitizeForm } from '../helpers';
+// import { sanitizeForm } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
 
@@ -305,7 +305,8 @@ export function fetchInProgressForm(
           // related to SiP
           Sentry.captureException(e);
           Sentry.withScope(scope => {
-            scope.setExtra('formData', sanitizeForm(resBody.formData));
+            // TODO: move santitizing function to sentry config and make filtered parameters configurable by forms library users
+            // scope.setExtra('formData', sanitizeForm(resBody.formData));
             scope.setExtra('metadata', resBody.metadata);
             Sentry.captureMessage('vets_sip_error_migration');
           });
