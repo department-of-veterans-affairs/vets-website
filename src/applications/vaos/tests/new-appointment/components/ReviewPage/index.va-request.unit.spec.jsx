@@ -224,8 +224,8 @@ describe('VAOS <ReviewPage> VA request', () => {
       appointmentType: undefined,
       facilityType: undefined,
       'health-express-care-reason': undefined,
-      'vaos-express-care-number-of-items': undefined,
-      'vaos-upcoming-number-of-items': undefined,
+      'vaos-item-type': undefined,
+      'vaos-number-of-items': undefined,
       'tab-text': undefined,
       alertBoxHeading: undefined,
     });
@@ -296,8 +296,8 @@ describe('VAOS <ReviewPage> VA request', () => {
       appointmentType: undefined,
       facilityType: undefined,
       'health-express-care-reason': undefined,
-      'vaos-express-care-number-of-items': undefined,
-      'vaos-upcoming-number-of-items': undefined,
+      'vaos-item-type': undefined,
+      'vaos-number-of-items': undefined,
       'tab-text': undefined,
       alertBoxHeading: undefined,
     });

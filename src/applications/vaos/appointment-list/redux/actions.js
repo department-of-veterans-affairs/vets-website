@@ -184,34 +184,9 @@ export function fetchFutureAppointments() {
             if (vaosExpressCare(getState())) {
               recordItemsRetrieved(
                 'express_care',
-                requests.filter(appt => appt.vaos.isExpressCare),
+                requests.filter(appt => appt.vaos.isExpressCare).length,
               );
             }
-
-            recordItemsRetrieved(
-              'video_home',
-              requests.filter(appt => isVideoHome(appt)),
-            );
-
-            recordItemsRetrieved(
-              'video_atlas',
-              requests.filter(appt => isAtlasLocation(appt)),
-            );
-
-            recordItemsRetrieved(
-              'video_va_facility',
-              requests.filter(appt => isVideoVAFacility(appt)),
-            );
-
-            recordItemsRetrieved(
-              'video_gfe',
-              requests.filter(appt => isVideoGFE(appt)),
-            );
-
-            recordItemsRetrieved(
-              'video_store_forward',
-              requests.filter(appt => isVideoStoreForward(appt)),
-            );
 
             return requests;
           })
@@ -231,6 +206,30 @@ export function fetchFutureAppointments() {
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
       });
       recordItemsRetrieved('upcoming', data[0]?.length);
+      recordItemsRetrieved(
+        'video_home',
+        data[0]?.filter(appt => isVideoHome(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_atlas',
+        data[0]?.filter(appt => isAtlasLocation(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_va_facility',
+        data[0]?.filter(appt => isVideoVAFacility(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_gfe',
+        data[0]?.filter(appt => isVideoGFE(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_store_forward',
+        data[0]?.filter(appt => isVideoStoreForward(appt)).length,
+      );
 
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
