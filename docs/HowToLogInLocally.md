@@ -10,8 +10,6 @@ In order to be able to log in to your local environment, you will need to do the
 
 ## To log in:
 0) Have both the website and API running. 
-1) Head to [flipper for the API](http://localhost:3000/flipper/features)
-2) Disable the `ssoe` feature flag. 
 3) Go your local website, and select sign in and sign in with `ID.me`
 4) Log in with a appropriate user, ask your team for what can be used. 
 5) Click through the next few pages, it won't send a text, and it should allow you to pass right on through. 
