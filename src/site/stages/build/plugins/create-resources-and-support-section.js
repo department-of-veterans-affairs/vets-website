@@ -17,62 +17,71 @@ function createResourcesAndSupport(buildOptions) {
       return;
     }
 
-    const articles = resourcesAndSupportArticleListings.entities;
+    const allArticles = resourcesAndSupportArticleListings.entities;
 
+    // Create a map where keys = name of a category
+    // and values = array of articles under that category
     const articlesByCategory = _.groupBy(
-      articles,
+      allArticles,
       article => article.fieldPrimaryCategory.entity.name,
     );
 
-    Object.entries(articlesByCategory).forEach(
-      ([categoryName, categoryArticles]) => {
-        const categoryRootUrl = `resources-and-support/categories/${_.kebabCase(
-          categoryName,
-        )}`;
-        const articleListings = _.chunk(categoryArticles, 10);
+    for (const [categoryName, allArticlesForCategory] of Object.entries(
+      articlesByCategory,
+    )) {
+      const categoryUri = _.kebabCase(categoryName);
+      const categoryRootUrl = `resources/${categoryUri}`;
+      const paginatedArticles = _.chunk(allArticlesForCategory, 10);
 
-        articleListings.forEach((articleListing, index) => {
-          const pageNum = index > 0 ? `/${index + 1}/` : '/';
-          articleListing.pagePath = `${categoryRootUrl}${pageNum}`;
-        });
+      paginatedArticles.forEach((pageOfArticles, index) => {
+        const pageNum = index > 0 ? `/${index + 1}/` : '/';
 
-        articleListings.forEach((articleListing, index) => {
-          const paginatorInner = articleListings.map(
-            (articleListing, pageIndex) => {
-              return {
-                label: pageIndex + 1,
-                href: `/${articleListing.pagePath}`,
-                class: pageIndex === index ? 'va-pagination-active' : '',
-              };
-            },
-          );
+        // eslint-disable-next-line no-param-reassign
+        pageOfArticles.uri = `${categoryRootUrl}${pageNum}`;
+      });
 
-          const paginatorPrev =
-            index > 0 ? `/${articleListings[index - 1].pagePath}` : null;
-          const paginatorNext =
-            index + 1 < articleListings.length
-              ? `/${articleListings[index + 1].pagePath}`
-              : null;
+      const pages = paginatedArticles.map((pageOfArticles, index) => {
+        const paginatorInner = paginatedArticles.map(
+          (articleListing, pageIndex) => {
+            return {
+              label: pageIndex + 1,
+              href: `/${articleListing.uri}`,
+              class: pageIndex === index ? 'va-pagination-active' : '',
+            };
+          },
+        );
 
-          const page = {
-            contents: Buffer.from(
-              '<!-- generated from Drupal data structure -->',
-            ),
-            layout: 'support_resources_article_listing.drupal.liquid',
-            title: `All articles in: ${categoryName}`,
-            articles: articleListing,
-            paginator: {
-              prev: paginatorPrev,
-              inner: paginatorInner,
-              next: paginatorNext,
-            },
-          };
+        let paginatorPrev;
+        let paginatorNext = null;
 
-          page.debug = JSON.stringify(page);
-          files[`${articleListing.pagePath}index.html`] = page;
-        });
-      },
-    );
+        if (index > 0) paginatorPrev = paginatorInner[index - 1].href;
+
+        if (index + 1 < paginatedArticles.length)
+          paginatorNext = paginatorInner[index + 1].href;
+
+        const page = {
+          contents: Buffer.from(''),
+          path: pageOfArticles.uri,
+          layout: 'support_resources_article_listing.drupal.liquid',
+          title: `All articles in: ${categoryName}`,
+          articles: pageOfArticles,
+          paginator: {
+            prev: paginatorPrev,
+            inner: paginatorInner,
+            next: paginatorNext,
+          },
+        };
+
+        page.debug = JSON.stringify(page);
+
+        return page;
+      });
+
+      pages.forEach(page => {
+        // eslint-disable-next-line no-param-reassign
+        files[`${page.path}index.html`] = page;
+      });
+    }
   };
 }
 
