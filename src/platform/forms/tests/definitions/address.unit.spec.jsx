@@ -172,12 +172,15 @@ describe('Forms library address definition', () => {
     const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
     fillData(form, 'select#root_country', 'USA');
+    fillData(form, 'input#root_street', '123 st');
+    fillData(form, 'input#root_city', 'Northampton');
+    fillData(form, 'input#root_postalCode', '12345');
 
     form.find('form').simulate('submit');
 
     const errors = form.find('.usa-input-error-message');
     expect(errors.length).to.equal(1);
-    expect(errors.first().text()).to.equal('Please select a state or province');
+    expect(errors.first().text()).to.equal('Error Please enter a state');
     form.unmount();
   }).timeout(4000);
 });
