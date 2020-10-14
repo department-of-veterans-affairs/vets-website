@@ -61,6 +61,8 @@ export function requireStateWithData(errors, address, formData, currentSchema) {
   const hasAddressInfo =
     stateRequiredCountries.has(address.country) &&
     !currentSchema.required.length &&
+    // It's unclear why all three of these need to be undefined to require the
+    // state as well; this merits further discovery.
     typeof address.street !== 'undefined' &&
     typeof address.city !== 'undefined' &&
     typeof address.postalCode !== 'undefined';
