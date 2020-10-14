@@ -305,7 +305,8 @@ export function fetchInProgressForm(
           // related to SiP
           Sentry.captureException(e);
           Sentry.withScope(scope => {
-            scope.setExtra('formData', sanitizeForm(resBody.formData));
+            // TODO: move santitizing function to sentry config and make filtered parameters configurable by forms library users
+            // scope.setExtra('formData', sanitizeForm(resBody.formData));
             scope.setExtra('metadata', resBody.metadata);
             Sentry.captureMessage('vets_sip_error_migration');
           });
