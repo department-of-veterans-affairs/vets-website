@@ -40,13 +40,6 @@ function runAddressTest(browser, fieldName, initialLine1, initialLine2) {
   browser.assert.containsText(`[data-field-name="${fieldName}"]`, initialLine2);
 }
 
-function runHeroTests(browser) {
-  browser.assert.containsText(
-    '[data-field-name="fullName"]',
-    'First Middle Last',
-  );
-}
-
 function runPersonalInformationTest(browser) {
   browser.assert.containsText('[data-field-name="gender"]', 'Male');
   browser.assert.containsText(
@@ -60,7 +53,6 @@ function runMilitaryInformationTests(browser) {
 }
 
 function beginTests(browser) {
-  runHeroTests(browser);
   runPersonalInformationTest(browser);
   runMilitaryInformationTests(browser);
 
