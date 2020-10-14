@@ -5,10 +5,10 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
 
-const veteranLabel = `Enter Veteran&apos;s full name`;
-const primaryLabel = `Enter Primary Family Caregiver applicant&apos;s full name`;
-const secondaryOneLabel = `Enter Secondary Family Caregiver applicant&apos;s full name`;
-const secondaryTwoLabel = `Enter Secondary Family Caregiver applicant&apos;s (2) full name`;
+const veteranLabel = `Veteran\u2019s`;
+const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
+const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
+const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
 
 const testSecondaryTwo = createTestConfig(
   {
@@ -151,9 +151,6 @@ const testSecondaryTwo = createTestConfig(
         });
       },
     },
-
-    // disable all tests until 1010CG is in production
-    skip: true,
   },
   manifest,
   formConfig,
