@@ -20,8 +20,6 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
-const isUndefined = value => (value || '') === '';
-
 /* Non-review growable table (array) field */
 // Mostly copied from USFS with a few additions/modifications:
 // Addition of 'Save' button, handleSave action, modifications to handleRemove
@@ -43,14 +41,7 @@ export default class ArrayField extends React.Component {
      */
     this.state = {
       // force edit mode for any empty service period data
-      editing: props.formData
-        ? props.formData.map(
-            data =>
-              isUndefined(data?.serviceBranch) ||
-              isUndefined(data?.dateRange?.from) ||
-              isUndefined(data?.dateRange?.to),
-          )
-        : [true],
+      editing: this.setInitialState(),
     };
   }
 
@@ -76,6 +67,16 @@ export default class ArrayField extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
+
+  setInitialState = () => {
+    const { formData, uiSchema } = this.props;
+    if (formData) {
+      return uiSchema['ui:options']?.setEditState
+        ? uiSchema['ui:options']?.setEditState(formData)
+        : formData.map(() => false);
+    }
+    return [true];
+  };
 
   onItemChange = (indexToChange, value) => {
     const newItems = _.set(indexToChange, value, this.props.formData || []);

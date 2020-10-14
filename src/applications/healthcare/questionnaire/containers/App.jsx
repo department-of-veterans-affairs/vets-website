@@ -21,7 +21,7 @@ const App = props => {
     isLoggedIn,
   } = props;
   const [isLoading, setIsLoading] = useState(true);
-
+  const [form, setForm] = useState(formConfig);
   useEffect(
     () => {
       if (isLoggedIn) {
@@ -29,6 +29,12 @@ const App = props => {
         loadAppointment().then(data => {
           setLoadedAppointment(data);
           setIsLoading(false);
+          setForm(f => {
+            return {
+              ...f,
+              subTitle: data?.vdsAppointments[0]?.clinic?.facility?.displayName,
+            };
+          });
         });
       } else {
         setIsLoading(false);
@@ -46,7 +52,7 @@ const App = props => {
   } else {
     return (
       <>
-        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <RoutedSavableApp formConfig={form} currentLocation={location}>
           {children}
         </RoutedSavableApp>
       </>

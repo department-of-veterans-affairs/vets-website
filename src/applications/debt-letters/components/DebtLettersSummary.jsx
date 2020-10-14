@@ -8,6 +8,7 @@ import { OnThisPageLinks } from './OnThisPageLinks';
 import DebtCardsList from './DebtCardsList';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 class DebtLettersSummary extends Component {
   componentDidMount() {
@@ -34,10 +35,7 @@ class DebtLettersSummary extends Component {
           <p className="vads-u-font-family--sans vads-u-margin-y--0">
             If you need help resolving debt, or you would like to get
             information about a debt that has been resolved, call the Debt
-            Management Center at{' '}
-            <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-              800-827-0648
-            </a>
+            Management Center at <Telephone contact="8008270648" />
             {'.'}
           </p>
         </div>
@@ -51,10 +49,7 @@ class DebtLettersSummary extends Component {
         </h4>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
           If you believe that you have a debt with the VA, call the Debt
-          Management Center at{' '}
-          <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-            800-827-0648
-          </a>
+          Management Center at <Telephone contact="8008270648" />
           {'.'}
         </p>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">

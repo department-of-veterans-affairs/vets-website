@@ -4,6 +4,9 @@
   *:not(.fas) {
     font-family: Source Sans Pro, Helvetica Neue, Helvetica, Roboto, Arial,
       sans-serif;
+    h1 {
+      margin-top: 10px;
+    }
   }
   .covid-screener-date {
     margin: 2em 0 2em 0;

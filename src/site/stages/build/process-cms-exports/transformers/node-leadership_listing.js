@@ -14,7 +14,9 @@ const transform = (entity, { ancestors }) => ({
   fieldAdministration: entity.fieldAdministration[0],
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldLeadership: entity.fieldLeadership[0],
+  fieldLeadership: entity.fieldLeadership.map(i => ({
+    entity: i,
+  })),
   fieldMetaTitle: getDrupalValue(entity.fieldMetaTitle),
   fieldOffice: entity.fieldOffice[0]
     ? {

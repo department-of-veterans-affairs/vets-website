@@ -93,6 +93,32 @@ async function errorAppearsOnAllPages(
   });
 }
 
+async function hideErrorNonVet(
+  pageNames = [
+    PROFILE_PATH_NAMES.MILITARY_INFORMATION,
+    PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
+    PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+    PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
+  ],
+) {
+  const initialState = createBasicInitialState();
+  initialState.user.profile.veteranStatus = null;
+
+  const view = render(<Profile2Router isLOA3 isInMVI />, {
+    initialState,
+  });
+  const spinner = view.queryByRole('progressbar');
+  await waitForElementToBeRemoved(spinner);
+
+  const alert = view.queryByTestId(ALERT_ID);
+  expect(alert).not.to.exist;
+
+  pageNames.forEach(pageName => {
+    userEvent.click(view.getByRole('link', { name: pageName }));
+    expect(view.queryByTestId(ALERT_ID)).to.not.exist;
+  });
+}
+
 describe('Profile "Not all data available" error', () => {
   let server;
 
@@ -115,6 +141,18 @@ describe('Profile "Not all data available" error', () => {
     const spinner = view.queryByRole('progressbar');
     await waitForElementToBeRemoved(spinner);
     expect(view.queryByTestId(ALERT_ID)).not.to.exist;
+  });
+
+  it('should not be shown if there is a 500 error with the `GET service_history` endpoint and the user is not a vet', async () => {
+    server.use(...mocks.getServiceHistory500);
+
+    await hideErrorNonVet();
+  });
+
+  it('should not be shown if there is a 401 error with the `GET service_history` endpoint and the user is not a vet', async () => {
+    server.use(...mocks.getServiceHistory401);
+
+    await hideErrorNonVet();
   });
 
   it('should be shown on all pages if there is an error with the `GET full_name` endpoint', async () => {
