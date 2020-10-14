@@ -390,7 +390,6 @@ export class Modals extends React.Component {
               <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
                 View the current housing allowance payment rates
               </a>
-              .
             </p>
           </div>
         )}
