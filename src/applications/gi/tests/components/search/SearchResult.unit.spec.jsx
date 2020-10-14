@@ -45,21 +45,4 @@ describe('<SearchResult>', () => {
     expect(vdom).to.not.be.undefined;
     tree.unmount();
   });
-
-  it('should render with gibctFilterEnhancement feature flag', () => {
-    const tree = mount(
-      <MemoryRouter>
-        <SearchResult
-          estimated={estimated}
-          womenOnly={result.womenonly}
-          menOnly={result.menonly}
-          {...result}
-          gibctFilterEnhancement
-        />
-      </MemoryRouter>,
-    );
-    const vdom = tree.html();
-    expect(vdom).to.not.be.undefined;
-    tree.unmount();
-  });
 });

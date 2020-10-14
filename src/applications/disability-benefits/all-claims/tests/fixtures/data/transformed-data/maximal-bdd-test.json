@@ -45,7 +45,8 @@
           }
         ],
         "separationLocation": {
-          "separationLocationCode": "Andersen AFB - Air Force / Guam"
+          "separationLocationCode": "98283",
+          "separationLocationName": "AF Academy"
         }
       },
       "newPrimaryDisabilities": [
