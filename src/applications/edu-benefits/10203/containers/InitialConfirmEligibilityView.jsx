@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import captureEvents from '../analytics-functions';
 import { isChapter33 } from '../helpers';
+import { ExitApplicationButton } from '../components/ExitApplicationButton';
 
 function InitialConfirmEligibilityView(props) {
   if (props.onReviewPage) {
@@ -12,7 +13,7 @@ function InitialConfirmEligibilityView(props) {
   return (
     <div>
       <div>
-        <div className="usa-alert usa-alert-warning">
+        <div className="usa-alert usa-alert-warning" role="alert">
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">
               Based on your response, you may not be eligible
@@ -32,14 +33,10 @@ function InitialConfirmEligibilityView(props) {
       </div>
       <br />
       <div>
-        <a
-          className={'usa-button-primary va-button-primary'}
-          href="/education/"
-          target="_self"
-          onClick={captureEvents.exitApplication}
-        >
-          Exit application
-        </a>
+        <ExitApplicationButton
+          formId={props.formId}
+          isLoggedIn={props.isLoggedIn}
+        />
       </div>
       <br />
       <span>
@@ -55,6 +52,8 @@ const mapStateToProps = (state, props) => ({
   benefitLeft: state?.form?.data.benefitLeft,
   isEnrolledStem: state?.form?.data.isEnrolledStem,
   isPursuingTeachingCert: state?.form?.data?.isPursuingTeachingCert || false,
+  formId: state.form.formId,
+  isLoggedIn: state.user.login.currentlyLoggedIn,
 });
 
 export default connect(mapStateToProps)(InitialConfirmEligibilityView);

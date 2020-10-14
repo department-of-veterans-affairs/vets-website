@@ -8,29 +8,47 @@
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
+        <!-- Draft status -->
         {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info" >
+          <div class="usa-alert usa-alert-info">
             <div class="usa-alert-body">
               <p class="usa-alert-text">You are viewing a draft.</p>
             </div>
           </div>
         {% endif %}
+
         <article class="usa-content">
+          <!-- Title -->
           <h1>{{ title }}</h1>
+
+          <!-- QA -->
           {% for block in fieldAnswer %}
             {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
             {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
             {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
           {% endfor %}
 
+          <!-- Alert -->
           {% if fieldAlertSingle %}
             {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
           {% endif %}
 
-          {% for fieldButton in fieldButtons  %}
-            {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-          {% endfor %}
+          <!-- Buttons -->
+          <div class="vads-u-margin-y--3">
+            {% for fieldButton in fieldButtons  %}
+              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+            {% endfor %}
+          </div>
         </article>
+
+        <!-- Related information -->
+        {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}
+
+        <!-- Last updated -->
+        <div class="last-updated usa-content">
+          Last updated: <time
+            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+        </div>
       </div>
     </div>
   </main>

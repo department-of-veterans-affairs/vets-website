@@ -13,7 +13,9 @@ module.exports = {
     entityUrl: { $ref: 'EntityUrl' },
     fieldBannerAlert: {
       type: 'array',
-      items: { $ref: 'output/node-full_width_banner_alert' },
+      items: {
+        entity: { $ref: 'output/node-full_width_banner_alert' },
+      },
     },
     fieldFacilityOperatingStatus: {
       type: 'array',

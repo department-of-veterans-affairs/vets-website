@@ -15,14 +15,25 @@ class DebtLettersWrapper extends Component {
   }
 
   render() {
-    const { isPending, isPendingVBMS, children, showDebtLetters } = this.props;
+    const {
+      isPending,
+      isPendingVBMS,
+      children,
+      showDebtLetters,
+      isProfileUpdating,
+      isLoggedIn,
+    } = this.props;
+
+    if (isPending || isPendingVBMS || isProfileUpdating) {
+      return <LoadingIndicator />;
+    }
 
     if (showDebtLetters === false) {
       return window.location.replace('/');
     }
 
-    if (isPending || isPendingVBMS) {
-      return <LoadingIndicator />;
+    if (isLoggedIn === false) {
+      return window.location.replace('/manage-va-debt');
     }
 
     return (
@@ -40,7 +51,9 @@ class DebtLettersWrapper extends Component {
 }
 
 const mapStateToProps = state => ({
+  isLoggedIn: state.user.login.currentlyLoggedIn,
   isPending: state.debtLetters.isPending,
+  isProfileUpdating: state.debtLetters.isProfileUpdating,
   isPendingVBMS: state.debtLetters.isPendingVBMS,
   showDebtLetters: toggleValues(state)[
     FEATURE_FLAG_NAMES.debtLettersShowLetters

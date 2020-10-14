@@ -9,24 +9,25 @@ describe('UpdateMilitaryHistory', () => {
   let wrapper;
   let oldSessionStorage;
   let storage = {};
-  const servicePeriods = () => [
+  const servicePeriods = (to = '2020-12-31') => [
     {
       serviceBranch: 'Army',
       dateRange: {
         from: '2015-12-31',
-        to: '2020-12-31',
+        to,
       },
     },
   ];
   const form = {
     data: {
       serviceInformation: {
-        servicePeriods: servicePeriods(),
+        servicePeriods: [],
       },
     },
   };
 
-  function setUp({ separationDate = '', callback }) {
+  function setUp({ separationDate = '', to, callback }) {
+    form.data.serviceInformation.servicePeriods = servicePeriods(to);
     const setFormData = data => {
       form.data = data;
     };
@@ -52,7 +53,7 @@ describe('UpdateMilitaryHistory', () => {
     window.sessionStorage = oldSessionStorage;
     storage = {};
     wrapper.unmount();
-    form.data.serviceInformation.servicePeriods = servicePeriods();
+    form.data.serviceInformation.servicePeriods = [];
   });
 
   it('should get called', () => {
@@ -79,6 +80,33 @@ describe('UpdateMilitaryHistory', () => {
             },
           },
         ]);
+        expect(form.data.serviceInformation.servicePeriods).to.have.lengthOf(2);
+      },
+    });
+  });
+  it('should add separation date to an existing "empty" entry', () => {
+    const separationDate = '2021-01-30';
+    setUp({
+      separationDate,
+      to: '', // Add empty "to" date in prefill
+      callback: () => {
+        expect(form.data.serviceInformation.servicePeriods).to.deep.equal(
+          servicePeriods(separationDate),
+        );
+        expect(form.data.serviceInformation.servicePeriods).to.have.lengthOf(1);
+      },
+    });
+  });
+  it('should not add a duplicate separation date', () => {
+    const separationDate = '2021-01-30';
+    setUp({
+      separationDate,
+      to: separationDate, // Separation date already in prefill
+      callback: () => {
+        expect(form.data.serviceInformation.servicePeriods).to.deep.equal(
+          servicePeriods(separationDate),
+        );
+        expect(form.data.serviceInformation.servicePeriods).to.have.lengthOf(1);
       },
     });
   });

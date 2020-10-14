@@ -2,60 +2,123 @@
 import fullSchema from '../0873-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
-
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { contactInformationPage, inquiryPage } from './pages';
+import {
+  contactInformationPage,
+  inquiryPage,
+  veteranInformationPage,
+} from './pages';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import environment from 'platform/utilities/environment';
+import {
+  contactInformationChapterTitle,
+  contactInformationPageTitle,
+  formSubTitle,
+  formTitle,
+  inquiryChapterTitle,
+  inquiryPageTitle,
+  reviewPageTitle,
+  savedFormNoAuth,
+  savedFormNotFound,
+  submitButtonText,
+  veteranInformationChapterTitle,
+  veteranInformationPageTitle,
+} from '../content/labels';
 
-const { fullName, phone, date } = fullSchema.definitions;
+const {
+  fullName,
+  first,
+  last,
+  suffix,
+  address,
+  email,
+  phone,
+  date,
+  ssn,
+  veteranServiceNumber,
+  dateRange,
+} = fullSchema.definitions;
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   topic: 'topic',
+  veteranInformation: 'veteranInformation',
   contactInformation: 'contactInformation',
+};
+
+const submitTransform = (formConfig, form) => {
+  const formData = transformForSubmit(formConfig, form);
+
+  return JSON.stringify({
+    inquiry: {
+      form: formData,
+    },
+  });
 };
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/ask/asks`,
+  transformForSubmit: submitTransform,
   trackingPrefix: 'complex-form-',
+  introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '0873',
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: savedFormNotFound,
+    noAuth: savedFormNoAuth,
   },
-  title: 'Contact us',
-  subTitle: 'Form 0873',
+  title: formTitle,
+  subTitle: formSubTitle,
   customText: {
-    reviewPageTitle: 'Review your information',
+    submitButtonText,
+    reviewPageTitle,
   },
   defaultDefinitions: {
+    address,
     fullName,
+    first,
+    last,
+    suffix,
+    email,
     phone,
     date,
+    ssn,
+    veteranServiceNumber,
+    dateRange,
   },
   chapters: {
     topicChapter: {
-      title: "Share why you're contacting us",
+      title: inquiryChapterTitle,
       pages: {
         [formPages.topic]: {
           path: 'topic',
-          title: 'Your message',
+          title: inquiryPageTitle,
           uiSchema: inquiryPage.uiSchema,
           schema: inquiryPage.schema,
         },
       },
     },
+    veteranInformationChapter: {
+      title: veteranInformationChapterTitle,
+      pages: {
+        [formPages.veteranInformation]: {
+          path: 'veteran-information',
+          title: veteranInformationPageTitle,
+          uiSchema: veteranInformationPage.uiSchema,
+          schema: veteranInformationPage.schema,
+        },
+      },
+    },
     contactInformationChapter: {
-      title: 'Tell us about yourself',
+      title: contactInformationChapterTitle,
       pages: {
         [formPages.contactInformation]: {
           path: 'contact-information',
-          title: 'Contact Information',
+          title: contactInformationPageTitle,
           uiSchema: contactInformationPage.uiSchema,
           schema: contactInformationPage.schema,
         },

@@ -46,12 +46,6 @@ export function GiBillApp({
     }
   });
 
-  const content = constants.inProgress ? (
-    <LoadingIndicator message="Loading..." />
-  ) : (
-    children
-  );
-
   return (
     <div className="gi-app">
       {(location.pathname === '/' ||
@@ -60,11 +54,11 @@ export function GiBillApp({
         <div className="columns small-12">
           {preview.display && <PreviewBanner version={preview.version} />}
           <GiBillBreadcrumbs searchQuery={search.query} />
-          {constants.error ? (
-            <ServiceError />
-          ) : (
+          {constants.inProgress && <LoadingIndicator message="Loading..." />}
+          {constants.error && <ServiceError />}
+          {!(constants.error || constants.inProgress) && (
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
-              {content}
+              {children}
             </DowntimeNotification>
           )}
           <AboutThisTool />

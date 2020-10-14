@@ -282,4 +282,15 @@ describe('Facility search', () => {
 
     cy.axeCheck();
   });
+
+  it('renders static map images on detail page', () => {
+    // from https://stackoverflow.com/questions/51246606/test-loading-of-image-in-cypress
+    cy.visit('/find-locations/facility/vha_688GA');
+    cy.get('[alt="Static map"]')
+      .should('be.visible')
+      .and($img => {
+        // "naturalWidth" and "naturalHeight" are set when the image loads
+        expect($img[0].naturalWidth).to.be.greaterThan(0);
+      });
+  });
 });

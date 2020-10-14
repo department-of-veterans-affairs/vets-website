@@ -79,7 +79,7 @@ const formConfig = {
   },
   chapters: {
     veteranChapter: {
-      title: 'Veteran or service member information',
+      title: 'Veteran information',
       pages: {
         veteranInfoOne: {
           path: 'vet-1',
@@ -102,7 +102,7 @@ const formConfig = {
       },
     },
     primaryCaregiverChapter: {
-      title: 'Primary Family Caregiver information',
+      title: 'Primary Family Caregiver applicant information',
       pages: {
         primaryCaregiverInfoOne: {
           path: 'primary-1',
@@ -125,7 +125,7 @@ const formConfig = {
       },
     },
     secondaryCaregiversChapter: {
-      title: 'Secondary Family Caregiver information',
+      title: 'Secondary Family Caregiver applicant information',
       depends: formData => hasSecondaryCaregiverOne(formData),
       pages: {
         secondaryCaregiverOneIntro: {
@@ -156,7 +156,7 @@ const formConfig = {
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',
-          title: 'Secondary Family Caregiver (2) information',
+          title: 'Secondary Family Caregiver (2) applicant information',
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoInfoPage.uiSchema,
           schema: secondaryTwoInfoPage.schema,

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
-import ToolTip from './ToolTip';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 import { SMALL_SCREEN_WIDTH } from '../constants';
 import { handleScrollOnInputFocus } from '../utils/helpers';
@@ -128,17 +127,6 @@ class RadioButtons extends React.Component {
       );
     }
 
-    // Addes ToolTip if text is provided.
-    let toolTip;
-    if (this.props.toolTipText) {
-      toolTip = (
-        <ToolTip
-          tabIndex={this.props.tabIndex}
-          toolTipText={this.props.toolTipText}
-        />
-      );
-    }
-
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
@@ -165,7 +153,6 @@ class RadioButtons extends React.Component {
             </span>
             {errorSpan}
             {this.renderOptions()}
-            {toolTip}
           </div>
         </fieldset>
       </div>

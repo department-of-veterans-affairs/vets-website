@@ -15,4 +15,7 @@ describe('VAMC', () => {
     cy.get('#stories').contains('Stories');
     cy.get('#events').contains('Events');
   });
+
+  // TODO: add a test for the static map image
+  // Need to figure out why these only show up in prod
 });

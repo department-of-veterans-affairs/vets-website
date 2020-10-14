@@ -19,19 +19,21 @@
       {% endif %}
 
       <article class="usa-content">
-        <h1 class="vads-u-margin-bottom--0">{{ title }}</h1>
+        <h1 class="vads-u-margin-bottom--0">
+          {{ title }}
+        </h1>
 
         <dl>
           <div class="vads-u-margin-bottom--4">
-            <dt class="vads-u-visibility--screen-reader">Form name:</dt>
-            <dd class="va-introtext">{{ fieldVaFormName }}</dd>
+            <dt class="va-introtext">
+              <dfn class="vads-u-visibility--screen-reader">Form name:</dfn>
+              {{ fieldVaFormName }}
+            </dt>
           </div>
 
           <div class="vads-u-margin-y--1">
-            <dt class="vads-u-font-weight--bold vads-u-display--inline">
-              Related to:
-            </dd>
-            <dd class="vads-u-display--inline">
+            <dd>
+              <dfn class="vads-u-font-weight--bold vads-u-display--inline">Related to:</dfn>
               {% case fieldVaFormType %}
                 {% when 'employment' %}
                   Employment or jobs at VA
@@ -50,13 +52,16 @@
             </dd>
           </div>
 
-          {% if fieldVaFormRevisionDate %}
+          {% if fieldVaFormRevisionDate or fieldVaFormIssueDate %}
             <div>
-              <dt class="vads-u-font-weight--bold vads-u-display--inline">
-                Form last updated:
-              </dt>
-              <dd class="vads-u-display--inline">
-                {{ fieldVaFormRevisionDate.value | humanizeDate }}
+              <dd>
+                <dfn class="vads-u-font-weight--bold vads-u-display--inline">Form last updated:</dfn>
+                {% assign revisionDateIsLatestUpdate = fieldVaFormRevisionDate.value | isLaterThan: fieldVaFormIssueDate.value %}
+                {% if revisionDateIsLatestUpdate %}
+                  {{ fieldVaFormRevisionDate.value | humanizeDate }}
+                {% else %}
+                  {{ fieldVaFormIssueDate.value | humanizeDate }}
+                {% endif %}
               </dd>
             </div>
           {% endif %}
@@ -214,6 +219,10 @@
           </div>
         </section>
       </article>
+
+      <div class="last-updated usa-content">
+        Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+      </div>
     </div>
   </div>
 

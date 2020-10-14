@@ -1,29 +1,56 @@
 import React from 'react';
 
-export const fields = [
+export const paymentsReceivedFields = [
   {
     label: 'Date',
-    value: 'date',
+    value: 'payCheckDt',
   },
   {
     label: 'Amount',
-    value: 'amount',
+    value: 'payCheckAmount',
   },
   {
     label: 'Type',
-    value: 'type',
+    value: 'payCheckType',
   },
   {
     label: 'Method',
-    value: 'method',
+    value: 'paymentMethod',
   },
   {
-    label: 'Bank name',
-    value: 'bank',
+    label: 'Bank',
+    value: 'bankName',
   },
   {
     label: 'Account',
-    value: 'account',
+    value: 'accountNumber',
+  },
+];
+
+export const paymentsReturnedFields = [
+  {
+    label: 'Issue Date',
+    value: 'returnedCheckIssueDt',
+  },
+  {
+    label: 'Cancel Date',
+    value: 'returnedCheckCancelDt',
+  },
+  {
+    label: 'Amount',
+    value: 'returnedCheckAmount',
+  },
+  {
+    label: 'Check #',
+    value: 'returnedCheckNumber',
+  },
+  {
+    label: 'Type',
+    value: 'returnedCheckType',
+  },
+  {
+    label: 'Reason',
+    value: 'returnReason',
   },
 ];
 
@@ -34,10 +61,12 @@ export const clientServerErrorContent = receivedOrReturned => (
   </>
 );
 
-export const paymentsRecievedContent = (
+export const paymentsReceivedContent = (
   <>
-    <h3 className="vads-u-font-size--xl">Payments you received</h3>
-    <p>
+    <h3 id="paymentsRecievedHeader" className="vads-u-font-size--xl">
+      Payments you received
+    </h3>
+    <p id="paymentsRecievedContent">
       We pay benefits on the first day of the month for the previous month. If
       the first day of the month is a weekend or holiday, we pay benefits on the
       last business day before the 1st. For example, if May 1 is a Saturday,
@@ -48,8 +77,10 @@ export const paymentsRecievedContent = (
 
 export const paymentsReturnedContent = (
   <>
-    <h3 className="vads-u-font-size--xl">Payments returned</h3>
-    <p>
+    <h3 id="paymentsReturnedHeader" className="vads-u-font-size--xl">
+      Payments returned
+    </h3>
+    <p id="paymentsReturnedContent">
       Returned payment information is available for 6 years from the date the
       payment was issued.
     </p>

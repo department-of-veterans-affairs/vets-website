@@ -7,6 +7,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -14,6 +15,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
+import { selectProfile } from 'platform/user/selectors';
 import LoadFail from 'applications/personalization/profile360/components/LoadFail';
 import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
 import facilityLocator from 'applications/facility-locator/manifest.json';
@@ -21,10 +23,114 @@ import facilityLocator from 'applications/facility-locator/manifest.json';
 import ProfileInfoTable from './ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../helpers';
 
-const MilitaryInformationContent = ({ militaryInformation }) => {
+// Alert to show when a user does not appear to be a Veteran
+const NotAVeteranAlert = () => {
+  return (
+    <AlertBox
+      isVisible
+      status="warning"
+      headline="We don't seem to have your military records"
+      content={
+        <>
+          <p>
+            We're sorry. We can't match your information to our records. If you
+            think this is an error, please call the VA.gov help desk at{' '}
+            <Telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
+            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+            ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
+          </p>
+          <p>
+            Or you can learn how to{' '}
+            <a
+              href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
+              target="blank"
+              rel="noopener noreferrer"
+            >
+              update or correct your military service history
+            </a>
+            .
+          </p>
+        </>
+      }
+    />
+  );
+};
+
+// Alert to show if `GET service_history` returned a 403
+const NotInDEERSAlert = () => {
+  return (
+    <AlertBox
+      isVisible
+      status="warning"
+      headline="We can’t access your military information"
+      content={
+        <div>
+          <p>
+            We’re sorry. We can’t find your Department of Defense (DoD) ID. We
+            need this to access your military service records. Please call us at{' '}
+            <a
+              href="tel:1-800-827-1000"
+              aria-label="800. 8 2 7. 1000."
+              title="Dial the telephone number 800-827-1000"
+              className="no-wrap"
+            >
+              800-827-1000
+            </a>
+            , or visit your nearest VA regional office and request to be added
+            to the Defense Enrollment Eligibility Reporting System (DEERS).
+          </p>
+          <a href={facilityLocator.rootUrl}>
+            Find your nearest VA regional office
+          </a>
+          .
+          <p>
+            You can also request to be added to DEERS through our online
+            customer help center.
+          </p>
+          <a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/3036/~/not-registered-in-deers%2C-or-received-and-error-message-while-trying-to">
+            Get instructions from our help center
+          </a>
+          .
+        </div>
+      }
+    />
+  );
+};
+
+// Alert to show if `GET service_history` returned an empty service history array
+const NoServiceHistoryAlert = () => {
+  return (
+    <AlertBox
+      isVisible
+      status="warning"
+      headline="We can’t access your military information"
+      content={
+        <p>
+          We’re sorry. We can’t access your military service records. If you
+          think you should be able to view your service information here, please
+          file a request to change or correct your DD214 or other military
+          records.
+        </p>
+      }
+    />
+  );
+};
+
+const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
   useEffect(() => {
     focusElement('[data-focus-target]');
   }, []);
+
+  const invalidVeteranStatus =
+    !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+
+  // When the user is not authorized, militaryInformation.serviceHistory is populated with .error
+  if (
+    invalidVeteranStatus &&
+    !militaryInformation?.serviceHistory?.serviceHistory
+  ) {
+    return <NotAVeteranAlert />;
+  }
 
   const {
     serviceHistory: { serviceHistory, error },
@@ -32,66 +138,14 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
 
   if (error) {
     if (some(error.errors, ['code', '403'])) {
-      return (
-        <AlertBox
-          isVisible
-          status="warning"
-          headline="We can’t access your military information"
-          content={
-            <div>
-              <p>
-                We’re sorry. We can’t find your Department of Defense (DoD) ID.
-                We need this to access your military service records. Please
-                call us at{' '}
-                <a
-                  href="tel:1-800-827-1000"
-                  aria-label="800. 8 2 7. 1000."
-                  title="Dial the telephone number 800-827-1000"
-                  className="no-wrap"
-                >
-                  800-827-1000
-                </a>
-                , or visit your nearest VA regional office and request to be
-                added to the Defense Enrollment Eligibility Reporting System
-                (DEERS).
-              </p>
-              <a href={facilityLocator.rootUrl}>
-                Find your nearest VA regional office
-              </a>
-              .
-              <p>
-                You can also request to be added to DEERS through our online
-                customer help center.
-              </p>
-              <a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/3036/~/not-registered-in-deers%2C-or-received-and-error-message-while-trying-to">
-                Get instructions from our help center
-              </a>
-              .
-            </div>
-          }
-        />
-      );
+      return <NotInDEERSAlert />;
     } else {
       return <LoadFail information="military" />;
     }
   }
 
   if (serviceHistory.length === 0) {
-    return (
-      <AlertBox
-        isVisible
-        status="warning"
-        headline="We can’t access your military information"
-        content={
-          <p>
-            We’re sorry. We can’t access your military service records. If you
-            think you should be able to view your service information here,
-            please file a request to change or correct your DD214 or other
-            military records.
-          </p>
-        }
-      />
-    );
+    return <NoServiceHistoryAlert />;
   }
 
   return (
@@ -138,24 +192,33 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
   );
 };
 
-const MilitaryInformation = ({ militaryInformation }) => (
-  <>
-    <h2
-      tabIndex="-1"
-      className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-      data-focus-target
-    >
-      Military information
-    </h2>
-    <DowntimeNotification
-      appTitle="Military Information"
-      render={handleDowntimeForSection('military service')}
-      dependencies={[externalServices.emis]}
-    >
-      <MilitaryInformationContent militaryInformation={militaryInformation} />
-    </DowntimeNotification>
-  </>
-);
+const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
+  useEffect(() => {
+    document.title = `Military Information | Veterans Affairs`;
+  }, []);
+
+  return (
+    <>
+      <h2
+        tabIndex="-1"
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
+        data-focus-target
+      >
+        Military information
+      </h2>
+      <DowntimeNotification
+        appTitle="Military Information"
+        render={handleDowntimeForSection('military service')}
+        dependencies={[externalServices.emis]}
+      >
+        <MilitaryInformationContent
+          militaryInformation={militaryInformation}
+          veteranStatus={veteranStatus}
+        />
+      </DowntimeNotification>
+    </>
+  );
+};
 
 MilitaryInformation.propTypes = {
   militaryInformation: PropTypes.shape({
@@ -169,10 +232,12 @@ MilitaryInformation.propTypes = {
       ),
     }).isRequired,
   }).isRequired,
+  veteranStatus: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   militaryInformation: state.vaProfile?.militaryInformation,
+  veteranStatus: selectProfile(state)?.veteranStatus,
 });
 
 export default connect(mapStateToProps)(MilitaryInformation);

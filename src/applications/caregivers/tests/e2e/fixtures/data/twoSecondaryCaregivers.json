@@ -14,7 +14,6 @@
     "first": "Donald",
     "last": "Duck"
   },
-  "secondaryTwoSsnOrTin": "987224785",
   "secondaryTwoDateOfBirth": "1984-11-13",
   "secondaryTwoGender": "F",
   "secondaryOneAddress": {
@@ -28,20 +27,15 @@
   "secondaryOneEmail": "minimouse@disney.com",
   "view:secondaryOneEmail": "minimouse@disney.com",
   "secondaryOneVetRelationship": "Friend/Neighbor",
-  "view:hassecondaryCaregiverTwo": true,
+  "view:hasSecondaryCaregiverTwo": true,
   "secondaryOneFullName": {
     "first": "George",
     "middle": "Geef",
     "last": "Goofus"
   },
-  "secondaryOneSsnOrTin": "878548542",
   "secondaryOneDateOfBirth": "1932-05-12",
   "view:hasSecondaryCaregiverOne": true,
-  "primaryMedicaidEnrolled": false,
-  "primaryMedicareEnrolled": false,
-  "primaryTricareEnrolled": false,
-  "primaryChampvaEnrolled": false,
-  "view:otherHealthInsurance": false,
+  "primaryHasHealthInsurance": true,
   "primaryAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",
@@ -54,7 +48,6 @@
     "first": "Mini",
     "last": "Mouse"
   },
-  "primarySsnOrTin": "777887777",
   "primaryDateOfBirth": "1928-11-18",
   "primaryGender": "F",
   "veteranLastTreatmentFacility": {

@@ -1,10 +1,6 @@
 {
   "view:hasSecondaryCaregiverOne": false,
-  "primaryMedicaidEnrolled": false,
-  "primaryMedicareEnrolled": false,
-  "primaryTricareEnrolled": false,
-  "primaryChampvaEnrolled": false,
-  "view:otherHealthInsurance": false,
+  "primaryHasHealthInsurance": false,
   "primaryAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",
@@ -17,13 +13,8 @@
     "first": "Mini",
     "last": "Mouse"
   },
-  "primarySsnOrTin": "777887777",
   "primaryDateOfBirth": "1928-11-18",
   "primaryGender": "F",
-  "veteranLastTreatmentFacility": {
-    "name": "Magic Kingdom",
-    "type": "clinic"
-  },
   "veteranPreferredFacility": {
     "veteranFacilityState": "FL",
     "plannedClinic": "675"

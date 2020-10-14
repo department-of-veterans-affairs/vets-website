@@ -43,6 +43,44 @@
     top: 2em;
   }
 
+  #school-ratings-accordion-content {
+    @include media-maxwidth($medium-screen - 1) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  .category-rating {
+
+    .rating {
+      max-width: 320px;
+      @include media-maxwidth($medium-screen - 1) {
+        max-width: none;
+      }
+    }
+
+    .bar-outer {
+      width: 120px;
+      position:absolute;
+      top:5px;
+      @include media-maxwidth($small-screen - 1) {
+        width: 100px;
+      }
+    }
+
+    .bar {
+      height: 16px;
+    }
+
+    button {
+      background-size: 12px;
+      background-color: transparent;
+      padding-left:0;
+      padding-right:0rem;
+      background-position: right 1rem center
+    }
+  }
+
   .additional-resources {
     @include media-maxwidth($medium-large-screen - 1) {
       display: none;
@@ -175,6 +213,16 @@
       margin-top: 22.5px;
       margin-bottom: 7.5px;
     }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 0;
+      li {
+        p {
+          margin: 0;
+        }
+      }
+    }
   }
 
   .program-name {
@@ -292,58 +340,92 @@
   }
 
   .school-locations {
+    padding-bottom: 1rem;
+
     table {
       border: hidden;
       margin-top: 1.5em;
       margin-bottom: 0.5em;
     }
 
-    th {
-      border: hidden;
-      background: none;
-      white-space: nowrap;
-      padding-bottom: 0.5em;
-      padding-top: 0em;
-      clear: both;
-      font-weight: 700;
-      font-family: Bitter, Georgia, Cambria, Times New Roman, Times, serif;
-      line-height: 1.5;
-      margin-bottom: 0.5em;
-      margin-top: 1.5em;
+    thead {
+      th {
+        border: hidden;
+        background: none;
+        white-space: nowrap;
+        padding-bottom: 0.5em;
+        padding-top: 0;
+        clear: both;
+        font-weight: 700;
+        font-family: Bitter, Georgia, Cambria, Times New Roman, Times, serif;
+        line-height: 1.5;
+        margin-bottom: 0.5em;
+        margin-top: 1.5em;
+      }
     }
 
     td {
       border: hidden;
       font-size: 0.9em;
-      padding-top: 0em;
-      padding-bottom: 0em;
+      padding-top: 0;
+      padding-bottom: 0;
       vertical-align: top;
     }
 
-    .schoolName {
-      margin-bottom: 0em;
-      margin-top: 0em;
-      font-weight: bold;
+    td::first-letter {
+      text-transform: capitalize;
+    }
+
+    .school-name-cell {
+      border: hidden;
+      font-size: 0.9em;
+      padding-top: 0;
+      padding-bottom: 0;
+      vertical-align: top;
+
+      ::first-letter {
+        text-transform: capitalize;
+      }
+
+      .school-name {
+        margin-bottom: 0;
+        margin-top: 0;
+        font-weight: bold;
+      }
     }
 
     .location-cell {
       white-space: nowrap;
     }
 
-    padding-bottom: 1rem;
-  }
-
-  .locations-list {
-    @media screen and (min-width: $medium-screen) {
-      display: none;
+    .estimated-housing-cell {
+      .estimated-housing-cell-title {
+        display: none;
+      }
     }
 
-    .item {
-      padding-top: 1em;
-    }
+    @media screen and (max-width: $medium-screen) {
+      font-size: 1em;
 
-    .extension.item {
-      padding-left: 1em;
+      td {
+        font-size: 1em;
+      }
+
+      .extension-row {
+        .location-cell {
+          padding-left: 1.3em;
+        }
+
+        .estimated-housing-cell {
+          padding-left: 1.3em;
+        }
+      }
+
+      .estimated-housing-cell {
+        .estimated-housing-cell-title {
+          display: inline;
+        }
+      }
     }
   }
 
@@ -458,6 +540,9 @@
 
     &:focus {
       top: auto;
+      line-height: 50px;
+      margin-bottom: 1em;
+      position: relative;
     }
   }
 }

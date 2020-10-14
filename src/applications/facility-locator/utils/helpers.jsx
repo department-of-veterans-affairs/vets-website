@@ -5,9 +5,6 @@ import { first, includes, last, split, toLower } from 'lodash';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 import UrgentCareAlert from '../containers/UrgentCareAlert';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { distBetween } from '../utils/facilityDistance';
-
 export const setFocus = selector => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
@@ -245,44 +242,4 @@ export const showDialogUrgCare = currentQuery => {
   }
 
   return null;
-};
-
-/**
- * Helper fn to record Markers events for GA
- */
-export const recordMarkerEvents = r => {
-  const { classification, name, facilityType } = r.attributes;
-  const distance = r.distance;
-  recordEvent({ event: 'fl-map-pin-click' });
-
-  if (classification && name && facilityType && distance) {
-    recordEvent({ 'fl-facility-type': facilityType });
-    recordEvent({ 'fl-facility-classification': classification });
-    recordEvent({ 'fl-facility-name': name });
-    recordEvent({ 'fl-facility-distance-from-search': distance });
-  }
-};
-
-/**
- * Helper fn to record map zoom and panning events for GA
- */
-export const recordZoomPanEvents = (e, searchCoords, currentZoomLevel) => {
-  if (currentZoomLevel && e.zoom > currentZoomLevel) {
-    recordEvent({ event: 'fl-map-zoom-in' });
-  } else if (currentZoomLevel && e.zoom < currentZoomLevel) {
-    recordEvent({ event: 'fl-map-zoom-out' });
-  }
-
-  if (searchCoords && searchCoords.lat && searchCoords.lng) {
-    const distanceMoved = distBetween(
-      searchCoords.lat,
-      searchCoords.lng,
-      e.center[0],
-      e.center[1],
-    );
-
-    if (distanceMoved > 0) {
-      recordEvent({ 'fl-map-miles-moved': distanceMoved });
-    }
-  }
 };

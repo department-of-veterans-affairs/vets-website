@@ -153,8 +153,31 @@ class ObjectField extends React.Component {
         `Edit ${title}`;
 
       const Tag = divWrapper ? 'div' : 'dl';
+      const objectViewField = uiSchema?.['ui:objectViewField'];
 
-      return (
+      const defaultEditButton = ({
+        label = editLabel,
+        onEdit = formContext.onEdit,
+        text = 'Edit',
+      } = {}) => (
+        <button
+          type="button"
+          className="edit-btn primary-outline"
+          aria-label={label}
+          onClick={onEdit}
+        >
+          {text}
+        </button>
+      );
+
+      return typeof objectViewField === 'function' ? (
+        objectViewField({
+          ...this.props,
+          renderedProperties,
+          title,
+          defaultEditButton,
+        })
+      ) : (
         <>
           {!formContext.hideHeaderRow && (
             <div className="form-review-panel-page-header-row">
@@ -164,14 +187,7 @@ class ObjectField extends React.Component {
                     {title}
                   </h3>
                 )}
-              <button
-                type="button"
-                className="edit-btn primary-outline"
-                aria-label={editLabel}
-                onClick={() => formContext.onEdit()}
-              >
-                Edit
-              </button>
+              {defaultEditButton()}
             </div>
           )}
           <Tag className="review">{renderedProperties}</Tag>

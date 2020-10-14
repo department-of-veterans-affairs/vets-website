@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { estimatedBenefits } from '../../selectors/estimator';
 import {
   formatCurrency,
@@ -18,7 +16,6 @@ import {
 import ScorecardTags from '../../components/ScorecardTags';
 
 export function SearchResult({
-  gibctFilterEnhancement,
   schoolClosing,
   schoolClosingOn,
   estimated,
@@ -33,6 +30,7 @@ export function SearchResult({
   womenOnly,
   hbcu,
   relAffil,
+  alias,
 }) {
   const queryParams = useQueryParams();
   const estimate = ({ qualifier, value }) => {
@@ -53,7 +51,11 @@ export function SearchResult({
     : `/profile/${facilityCode}`;
 
   return (
-    <div id={`search-result-${facilityCode}`} className="search-result">
+    <div
+      id={`search-result-${facilityCode}`}
+      className="search-result"
+      search-alias={alias}
+    >
       <div className="outer">
         <div className="inner">
           <div className="row">
@@ -120,17 +122,15 @@ export function SearchResult({
               </div>
             </div>
           </div>
-          {gibctFilterEnhancement && (
-            <div className="tag-container">
-              <ScorecardTags
-                styling="search-result-tag"
-                menOnly={menOnly}
-                womenOnly={womenOnly}
-                hbcu={hbcu}
-                relAffil={relAffil}
-              />
-            </div>
-          )}
+          <div className="tag-container">
+            <ScorecardTags
+              styling="search-result-tag"
+              menOnly={menOnly}
+              womenOnly={womenOnly}
+              hbcu={hbcu}
+              relAffil={relAffil}
+            />
+          </div>
           <div className="row">
             <div className="view-details columns">
               <Link to={profileLink}>View details ›</Link>
@@ -144,9 +144,6 @@ export function SearchResult({
 
 const mapStateToProps = (state, props) => ({
   estimated: estimatedBenefits(state, props),
-  gibctFilterEnhancement: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctFilterEnhancement
-  ],
 });
 
 export default connect(mapStateToProps)(SearchResult);

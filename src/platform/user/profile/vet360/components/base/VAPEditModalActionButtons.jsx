@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { toLower } from 'lodash';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -92,14 +94,16 @@ class VAPEditModalActionButtons extends React.Component {
           >
             Confirm
           </LoadingButton>
-          <button
-            type="button"
-            className="usa-button-secondary"
-            onClick={this.cancelDeleteAction}
-            disabled={this.props.isLoading}
-          >
-            Cancel
-          </button>
+
+          {!this.props.isLoading && (
+            <button
+              type="button"
+              className="usa-button-secondary"
+              onClick={this.cancelDeleteAction}
+            >
+              Cancel
+            </button>
+          )}
         </div>
       </div>
     );
@@ -107,14 +111,16 @@ class VAPEditModalActionButtons extends React.Component {
     if (this.state.deleteInitiated) {
       return (
         <AlertBox
-          isVisible
-          status="warning"
+          content={alertContent}
           headline={
             <span tabIndex="-1" id="deleteConfirmationHeading">
               Are you sure?
             </span>
           }
-          content={alertContent}
+          isVisible
+          scrollOnShow
+          scrollPosition="end"
+          status={ALERT_TYPE.WARNING}
         />
       );
     }

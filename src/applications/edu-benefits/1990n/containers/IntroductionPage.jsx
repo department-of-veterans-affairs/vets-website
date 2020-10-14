@@ -4,17 +4,17 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
+import { connect } from 'react-redux';
+import { showEduBenefits1990NWizard } from 'applications/edu-benefits/selectors/educationWizard';
 import {
+  WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import { connect } from 'react-redux';
-import { showEduBenefits1990NWizard } from 'applications/edu-benefits/selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
   state = {
-    wizardStatus:
-      sessionStorage.getItem('wizardStatus') || WIZARD_STATUS_NOT_STARTED,
+    status: sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
   };
 
   componentDidMount() {
@@ -22,18 +22,16 @@ export class IntroductionPage extends React.Component {
   }
 
   setWizardStatus = value => {
-    sessionStorage.setItem('wizardStatus', value);
-    this.setState({ wizardStatus: value });
+    sessionStorage.setItem(WIZARD_STATUS, value);
+    this.setState({ status: value });
   };
+
   render() {
-    const { wizardStatus } = this.state;
-    const { shouldEduBenefits1990NWizardShow } = this.props;
-    const shouldSubwayMapShow =
-      !shouldEduBenefits1990NWizardShow ||
-      wizardStatus === WIZARD_STATUS_COMPLETE;
-    const shouldWizardShow =
-      shouldEduBenefits1990NWizardShow &&
-      wizardStatus !== WIZARD_STATUS_COMPLETE;
+    const { status } = this.state;
+    const { showWizard } = this.props;
+    const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
+
+    if (showWizard === undefined) return null;
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits under the National Call to Service program" />
@@ -41,10 +39,9 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-1990N (Application for VA Education Benefits Under
           the National Call to Service (NCS) Program).
         </p>
-        {shouldWizardShow && (
+        {show ? (
           <WizardContainer setWizardStatus={this.setWizardStatus} />
-        )}
-        {shouldSubwayMapShow && (
+        ) : (
           <div className="subway-map">
             <SaveInProgressIntro
               prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -155,7 +152,7 @@ export class IntroductionPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  shouldEduBenefits1990NWizardShow: showEduBenefits1990NWizard(state),
+  showWizard: showEduBenefits1990NWizard(state),
 });
 
 export default connect(mapStateToProps)(IntroductionPage);

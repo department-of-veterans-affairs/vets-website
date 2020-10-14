@@ -1,5 +1,7 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const socialMediaFields = require('./facilities-fragments/healthCareSocialMedia.fields.graphql');
+const serviceLocation = require('./paragraph-fragments/serviceLocation.paragraph.graphql');
+const appointmentItems = require('./file-fragments/appointmentItems.graphql');
 
 module.exports = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
@@ -18,43 +20,6 @@ module.exports = `
           fieldTitle
           fieldWysiwyg {
             processed
-          }
-        }
-      }
-    }
-    fieldRegionPage {
-      entity {
-        ... on NodeHealthCareRegionPage {
-          fieldFacebook {
-            title
-            url {
-              path
-            }
-          }
-          fieldTwitter {
-            title
-            url {
-              path
-            }
-          }
-          fieldFlickr {
-            title
-            url {
-              path
-            }
-          }
-          fieldInstagram {
-            title
-            url {
-              path
-            }
-          }
-          fieldGovdeliveryIdEmerg
-          fieldGovdeliveryIdNews
-          fieldOperatingStatus {
-            url {
-              path
-            }
           }
         }
       }
@@ -99,6 +64,37 @@ module.exports = `
               ... listOfLinkTeasers
             }
           }
+          fieldFacebook {
+            title
+            url {
+              path
+            }
+          }
+          fieldTwitter {
+            title
+            url {
+              path
+            }
+          }
+          fieldFlickr {
+            title
+            url {
+              path
+            }
+          }
+          fieldInstagram {
+            title
+            url {
+              path
+            }
+          }
+          fieldGovdeliveryIdEmerg
+          fieldGovdeliveryIdNews
+          fieldOperatingStatus {
+            url {
+              path
+            }
+          }
         }
       }
     }
@@ -109,6 +105,8 @@ module.exports = `
           fieldBody {
             processed
           }
+          ${serviceLocation}
+          ${appointmentItems}
           fieldRegionalHealthService
           {
             entity {

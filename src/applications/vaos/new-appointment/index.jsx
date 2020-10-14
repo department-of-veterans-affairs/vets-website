@@ -8,6 +8,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+import { selectUseFlatFacilityPage } from '../utils/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import TypeOfCarePage from './components/TypeOfCarePage';
@@ -20,6 +21,7 @@ import PreferredDatePage from './components/PreferredDatePage';
 import DateTimeRequestPage from './components/DateTimeRequestPage';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
 import VAFacilityPage from './components/VAFacilityPage';
+import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
 import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
@@ -40,7 +42,10 @@ function onBeforeUnload(e) {
   }
 }
 
-function NewAppointmentSection({ isCernerOnlyPatient }) {
+function NewAppointmentSection({
+  flatFacilityPageEnabled,
+  isCernerOnlyPatient,
+}) {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
@@ -55,10 +60,6 @@ function NewAppointmentSection({ isCernerOnlyPatient }) {
   );
 
   useEffect(() => {
-    if (isCernerOnlyPatient) {
-      history.replace('/');
-    }
-
     if (window.History) {
       window.History.scrollRestoration = 'manual';
     }
@@ -72,13 +73,25 @@ function NewAppointmentSection({ isCernerOnlyPatient }) {
     ) {
       history.replace('/new-appointment');
     }
-
-    window.addEventListener('beforeunload', onBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', onBeforeUnload);
-    };
   }, []);
+
+  useEffect(
+    () => {
+      // If we're on the facility page for a Cerner only patient, there's a link to send the user to
+      // the Cerner portal, and it would be annoying to show the "You may have unsaved changes" message
+      // when a user clicks on that link
+      if (location.pathname.includes('va-facility') && isCernerOnlyPatient) {
+        window.removeEventListener('beforeunload', onBeforeUnload);
+      } else {
+        window.addEventListener('beforeunload', onBeforeUnload);
+      }
+
+      return () => {
+        window.removeEventListener('beforeunload', onBeforeUnload);
+      };
+    },
+    [location.pathname, isCernerOnlyPatient],
+  );
 
   return (
     <FormLayout isReviewPage={location.pathname.includes('review')}>
@@ -116,7 +129,15 @@ function NewAppointmentSection({ isCernerOnlyPatient }) {
           path={`${match.url}/select-date`}
           component={DateTimeSelectPage}
         />
-        <Route path={`${match.url}/va-facility`} component={VAFacilityPage} />
+        {!flatFacilityPageEnabled && (
+          <Route path={`${match.url}/va-facility`} component={VAFacilityPage} />
+        )}
+        {flatFacilityPageEnabled && (
+          <Route
+            path={`${match.url}/va-facility-2`}
+            component={VAFacilityPageV2}
+          />
+        )}
         <Route
           path={`${match.url}/community-care-preferences`}
           component={CommunityCarePreferencesPage}
@@ -140,6 +161,7 @@ function NewAppointmentSection({ isCernerOnlyPatient }) {
 function mapStateToProps(state) {
   return {
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    flatFacilityPageEnabled: selectUseFlatFacilityPage(state),
   };
 }
 

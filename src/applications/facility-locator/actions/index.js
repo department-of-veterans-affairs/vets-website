@@ -10,12 +10,14 @@ import {
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_RESULTS,
+  GEOCODE_STARTED,
+  GEOCODE_COMPLETE,
+  GEOCODE_FAILED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import recordEvent from 'platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -40,9 +42,8 @@ export const clearSearchResults = () => ({
  * @param {Object} location The actual location object if we already have it.
  *                 (This is a kinda hacky way to do a force update of the Redux
  *                  store to set the currently `selectedResult` but ¯\_(ツ)_/¯)
- * @param {number} api version number
  */
-export const fetchVAFacility = (id, location = null, apiVersion) => {
+export const fetchVAFacility = (id, location = null) => {
   if (location) {
     return {
       type: FETCH_LOCATION_DETAIL,
@@ -59,7 +60,7 @@ export const fetchVAFacility = (id, location = null, apiVersion) => {
     });
 
     try {
-      const data = await LocatorApi.fetchVAFacility(id, apiVersion);
+      const data = await LocatorApi.fetchVAFacility(id);
       dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
     } catch (error) {
       dispatch({ type: SEARCH_FAILED, error });
@@ -100,14 +101,13 @@ export const fetchProviderDetail = id => async dispatch => {
  * @param {Function} dispatch Redux's dispatch method
  * @param {number} api version number
  */
-const fetchLocations = async (
+export const fetchLocations = async (
   address = null,
   bounds,
   locationType,
   serviceType,
   page,
   dispatch,
-  apiVersion,
 ) => {
   try {
     const data = await LocatorApi.searchWithBounds(
@@ -116,12 +116,8 @@ const fetchLocations = async (
       locationType,
       serviceType,
       page,
-      apiVersion,
     );
     // Record event as soon as API return results
-    if (data.data && data.data.length > 0) {
-      recordEvent({ event: 'fl-search-results' });
-    }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
@@ -144,7 +140,6 @@ export const searchWithBounds = ({
   facilityType,
   serviceType,
   page = 1,
-  apiVersion,
 }) => {
   const needsAddress = [
     LocationType.CC_PROVIDER,
@@ -179,19 +174,10 @@ export const searchWithBounds = ({
           serviceType,
           page,
           dispatch,
-          apiVersion,
         );
       });
     } else {
-      fetchLocations(
-        null,
-        bounds,
-        facilityType,
-        serviceType,
-        page,
-        dispatch,
-        apiVersion,
-      );
+      fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
     }
   };
 };
@@ -214,7 +200,7 @@ export const genBBoxFromAddress = query => {
   }
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED });
+    dispatch({ type: GEOCODE_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = ['place', 'region', 'postcode', 'locality'];
@@ -229,7 +215,7 @@ export const genBBoxFromAddress = query => {
       .forwardGeocode({
         countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
         types,
-        autocomplete: false,
+        autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
         query: query.searchString,
       })
       .send()
@@ -239,6 +225,18 @@ export const genBBoxFromAddress = query => {
         const coordinates = features[0].center;
         const zipCode = zip.text || features[0].place_name;
         const featureBox = features[0].box;
+
+        dispatch({
+          type: GEOCODE_COMPLETE,
+          payload: query.usePredictiveGeolocation
+            ? features.map(feature => ({
+                placeName: feature.place_name,
+                placeType: feature.place_type[0],
+                bbox: feature.bbox,
+                center: feature.center,
+              }))
+            : [],
+        });
 
         let minBounds = [
           coordinates[0] - BOUNDING_RADIUS,
@@ -272,10 +270,15 @@ export const genBBoxFromAddress = query => {
             bounds: minBounds,
             zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
             currentPage: 1,
+            mapBoxQuery: {
+              placeName: features[0].place_name,
+              placeType: features[0].place_type[0],
+            },
           },
         });
       })
       .catch(_ => {
+        dispatch({ type: GEOCODE_FAILED });
         dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
       });
   };

@@ -19,7 +19,6 @@ import {
   openTypeOfCarePage,
   openClinicPage,
   openCommunityCarePreferencesPage,
-  submitAppointmentOrRequest,
   getAppointmentSlots,
   onCalendarChange,
   hideTypeOfCareUnavailableModal,
@@ -46,8 +45,6 @@ import {
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
-  FORM_SUBMIT,
-  FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
@@ -57,22 +54,14 @@ import {
   START_REQUEST_APPOINTMENT_FLOW,
   START_DIRECT_SCHEDULE_FLOW,
 } from '../../../new-appointment/redux/actions';
-import {
-  FORM_SUBMIT_SUCCEEDED,
-  STARTED_NEW_APPOINTMENT_FLOW,
-} from '../../../redux/sitewide';
+import { STARTED_NEW_APPOINTMENT_FLOW } from '../../../redux/sitewide';
 
 import parentFacilities from '../../../services/mocks/var/facilities.json';
 import facilities983 from '../../../services/mocks/var/facilities_983.json';
 import clinics from '../../../services/mocks/var/clinicList983.json';
 import facilityDetails from '../../../services/mocks/var/facility_details_983.json';
 import pastAppointments from '../../../services/mocks/var/confirmed_va.json';
-import {
-  FACILITY_TYPES,
-  FETCH_STATUS,
-  FLOW_TYPES,
-  VHA_FHIR_ID,
-} from '../../../utils/constants';
+import { FETCH_STATUS, VHA_FHIR_ID } from '../../../utils/constants';
 import { transformParentFacilities } from '../../../services/organization/transformers';
 import { transformDSFacilities } from '../../../services/location/transformers';
 
@@ -158,16 +147,20 @@ describe('VAOS newAppointment actions', () => {
       const state = {};
       const getState = () => state;
 
-      const thunk = routeToPageInFlow(testFlow, history, 'page1', 'next');
+      const thunk = routeToPageInFlow(testFlow, history, 'page2', 'next');
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_STARTED,
+        pageKey: 'page2',
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_COMPLETED,
+        pageKey: 'page2',
+        pageKeyNext: 'page3',
+        direction: 'next',
       });
-      expect(history.push.firstCall.args[0]).to.equal('/page2');
+      expect(history.push.firstCall.args[0]).to.equal('/page3');
     });
 
     it('should route to next page with function', async () => {
@@ -204,6 +197,34 @@ describe('VAOS newAppointment actions', () => {
           );
           done();
         });
+    });
+
+    it('should route to previous page', async () => {
+      const history = {
+        push: sinon.spy(),
+      };
+      const dispatch = sinon.spy();
+      const state = {
+        newAppointment: {
+          previousPages: { page1: 'home', page2: 'page1', page3: 'page2' },
+        },
+      };
+      const getState = () => state;
+
+      const thunk = routeToPageInFlow(testFlow, history, 'page3', 'previous');
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: FORM_PAGE_CHANGE_STARTED,
+        pageKey: 'page3',
+      });
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: FORM_PAGE_CHANGE_COMPLETED,
+        pageKey: 'page3',
+        pageKeyNext: undefined,
+        direction: 'previous',
+      });
+      expect(history.push.firstCall.args[0]).to.equal('/page2');
     });
   });
 
@@ -278,15 +299,9 @@ describe('VAOS newAppointment actions', () => {
       );
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
         parentFacilities: parentFacilitiesParsed,
-        facilities: null,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
 
@@ -305,15 +320,9 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
         parentFacilities: parentFacilitiesParsed.slice(0, 1),
-        facilities: facilities983Parsed,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
       expect(global.fetch.secondCall.args[0]).to.contain('/systems/983/');
     });
@@ -340,15 +349,9 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       const succeededAction = dispatch.lastCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
         parentFacilities: parentFacilitiesParsed,
-        facilities: null,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
 
@@ -366,15 +369,9 @@ describe('VAOS newAppointment actions', () => {
       );
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
-        parentFacilities: parentFacilitiesParsed,
         facilities: facilities983Parsed,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
 
@@ -497,15 +494,9 @@ describe('VAOS newAppointment actions', () => {
       );
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
-        parentFacilities: parentFacilitiesParsed,
-        facilities: [],
         eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
   });
@@ -1059,625 +1050,6 @@ describe('VAOS newAppointment actions', () => {
         page: 'ccPreferences',
         uiSchema: {},
       });
-    });
-  });
-
-  describe('form submit', () => {
-    beforeEach(() => {
-      mockFetch();
-    });
-
-    afterEach(() => {
-      resetFetch();
-    });
-
-    it('should send VA request', async () => {
-      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
-      const history = {
-        push: sinon.spy(),
-      };
-
-      const thunk = submitAppointmentOrRequest(history);
-      const dispatch = sinon.spy();
-      const getState = () => ({
-        newAppointment: {
-          data: {
-            typeOfCareId: '323',
-            facilityType: 'vamc',
-            vaParent: 'var983',
-            vaFacility: 'var983',
-            calendarData: {
-              selectedDates: [],
-            },
-            reasonForAppointment: 'routine-follow-up',
-            bestTimeToCall: [],
-          },
-          parentFacilities: [
-            {
-              id: 'var983',
-              identifier: [
-                {
-                  system: VHA_FHIR_ID,
-                  value: '983',
-                },
-              ],
-              address: {},
-            },
-          ],
-          facilities: {
-            '323_var983': [
-              {
-                id: 'var983',
-                identifier: [
-                  {
-                    system: VHA_FHIR_ID,
-                    value: '983',
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      });
-      await thunk(dispatch, getState);
-
-      const dataLayer = global.window.dataLayer;
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(dataLayer[0]).to.deep.equal({
-        event: 'vaos-request-submission',
-        'health-TypeOfCare': 'Primary care',
-        'health-ReasonForAppointment': 'routine-follow-up',
-        flow: 'va-request',
-      });
-      expect(dataLayer[1]).to.deep.equal({
-        event: 'vaos-request-submission-successful',
-        'health-TypeOfCare': 'Primary care',
-        'health-ReasonForAppointment': 'routine-follow-up',
-        flow: 'va-request',
-      });
-      expect(dataLayer[2]).to.deep.equal({
-        flow: undefined,
-        'health-TypeOfCare': undefined,
-        'health-ReasonForAppointment': undefined,
-        'error-key': undefined,
-        appointmentType: undefined,
-        facilityType: undefined,
-        'health-express-care-reason': undefined,
-        'vaos-express-care-number-of-cards': undefined,
-        'vaos-upcoming-number-of-cards': undefined,
-        'tab-text': undefined,
-        alertBoxHeading: undefined,
-      });
-      expect(history.push.called).to.be.true;
-    });
-
-    it('should send CC request', async () => {
-      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
-      const history = {
-        push: sinon.spy(),
-      };
-
-      const thunk = submitAppointmentOrRequest(history);
-      const dispatch = sinon.spy();
-      const getState = () => ({
-        user: {
-          profile: {
-            vet360: {},
-          },
-        },
-        newAppointment: {
-          ccEnabledSystems: [
-            {
-              id: 'var983',
-              identifier: [
-                {
-                  system: VHA_FHIR_ID,
-                  value: '983',
-                },
-              ],
-              address: {},
-            },
-          ],
-          data: {
-            communityCareSystemId: 'var983',
-            typeOfCareId: '323',
-            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-            reasonForAppointment: 'routine-follow-up',
-            calendarData: {
-              selectedDates: [],
-            },
-            bestTimeToCall: [],
-          },
-        },
-      });
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(history.push.called).to.be.true;
-    });
-
-    it('should make VA appointment', async () => {
-      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
-      const history = {
-        push: sinon.spy(),
-      };
-
-      const thunk = submitAppointmentOrRequest(history);
-      const dispatch = sinon.spy();
-      const getState = () => ({
-        newAppointment: {
-          flowType: FLOW_TYPES.DIRECT,
-          clinics: {
-            // eslint-disable-next-line camelcase
-            var983_323: [
-              {
-                id: 'var983_123',
-                resourceType: 'HealthcareService',
-                identifier: [
-                  {
-                    system: 'http://med.va.gov/fhir/urn',
-                    value: 'urn:va:healthcareservice:983:983:308',
-                  },
-                ],
-                serviceName: 'CHY PC KILPATRICK',
-                characteristic: [
-                  {
-                    coding: {
-                      code: '983',
-                      userSelected: false,
-                    },
-                    text: 'institutionCode',
-                  },
-                  {
-                    coding: {
-                      display: 'CHYSHR-Cheyenne VA Medical Center',
-                      userSelected: false,
-                    },
-                    text: 'institutionName',
-                  },
-                  {
-                    coding: {
-                      display: 'Green Team Clinic1',
-                      userSelected: false,
-                    },
-                    text: 'clinicFriendlyLocationName',
-                  },
-                ],
-              },
-            ],
-          },
-          parentFacilities: [
-            {
-              id: 'var983',
-              partOf: {
-                reference: 'Organization/var983',
-              },
-            },
-          ],
-          facilities: {
-            '323_var983': [
-              {
-                id: 'var983',
-                identifier: [
-                  {
-                    system: VHA_FHIR_ID,
-                    value: 'var983',
-                  },
-                ],
-                legacyVAR: {},
-              },
-            ],
-          },
-          availableSlots: [
-            {
-              start: '2019-01-01T04:00:00',
-              end: '2019-01-01T04:20:00',
-            },
-          ],
-          data: {
-            vaParent: 'var983',
-            vaFacility: 'var983',
-            typeOfCareId: '323',
-            clinicId: 'var983_123',
-            facilityType: 'vamc',
-            calendarData: {
-              selectedDates: [
-                {
-                  date: '2019-01-01',
-                  datetime: '2019-01-01T04:00:00',
-                },
-              ],
-            },
-            reasonForAppointment: 'routine-follow-up',
-            bestTimeToCall: [],
-          },
-        },
-      });
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(history.push.called).to.be.true;
-    });
-
-    it('should send fail action if request fails', async () => {
-      setFetchJSONFailure(global.fetch, {
-        data: { attributes: {} },
-      });
-      const history = {
-        push: sinon.spy(),
-      };
-
-      const thunk = submitAppointmentOrRequest(history);
-      const dispatch = sinon.spy();
-      const getState = () => ({
-        newAppointment: {
-          data: {
-            typeOfCareId: '323',
-            facilityType: 'vamc',
-            vaParent: 'var983',
-            vaFacility: 'var983',
-            calendarData: {
-              selectedDates: [],
-            },
-            reasonForAppointment: 'routine-follow-up',
-            reasonAdditionalInfo: 'test',
-            bestTimeToCall: [],
-          },
-          parentFacilities: [
-            {
-              id: 'var983',
-              identifier: [
-                {
-                  system: VHA_FHIR_ID,
-                  value: '983',
-                },
-              ],
-              address: {},
-            },
-          ],
-          facilities: {
-            '323_var983': [
-              {
-                id: 'var983',
-                identifier: [
-                  {
-                    system: VHA_FHIR_ID,
-                    value: '983',
-                  },
-                ],
-                name: 'CHYSHR-Cheyenne VA Medical Center',
-                address: {
-                  city: 'Cheyenne',
-                  state: 'WY',
-                },
-                legacyVAR: {
-                  institutionTimezone: 'America/Denver',
-                },
-              },
-            ],
-          },
-        },
-      });
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
-      expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(false);
-      expect(global.window.dataLayer[1]).to.deep.equal({
-        event: 'vaos-request-submission-failed',
-        flow: 'va-request',
-        'health-TypeOfCare': 'Primary care',
-        'health-ReasonForAppointment': 'routine-follow-up',
-      });
-      expect(global.window.dataLayer[2]).to.deep.equal({
-        flow: undefined,
-        'health-TypeOfCare': undefined,
-        'health-ReasonForAppointment': undefined,
-        'error-key': undefined,
-        appointmentType: undefined,
-        facilityType: undefined,
-        'health-express-care-reason': undefined,
-        'vaos-express-care-number-of-cards': undefined,
-        'vaos-upcoming-number-of-cards': undefined,
-        'tab-text': undefined,
-        alertBoxHeading: undefined,
-      });
-      expect(history.push.called).to.be.false;
-    });
-
-    it('should set isVaos400Error if request fails with VAOS_400', async () => {
-      setFetchJSONFailure(global.fetch, {
-        data: { attributes: {} },
-        errors: [{ code: 'VAOS_400' }],
-      });
-      const history = {
-        push: sinon.spy(),
-      };
-
-      const thunk = submitAppointmentOrRequest(history);
-      const dispatch = sinon.spy();
-      const getState = () => ({
-        newAppointment: {
-          data: {
-            typeOfCareId: '323',
-            facilityType: 'vamc',
-            vaParent: 'var983',
-            vaFacility: 'var983',
-            calendarData: {
-              selectedDates: [],
-            },
-            reasonForAppointment: 'routine-follow-up',
-            reasonAdditionalInfo: 'test',
-            bestTimeToCall: [],
-          },
-          parentFacilities: [
-            {
-              id: 'var983',
-              identifier: [
-                {
-                  system: VHA_FHIR_ID,
-                  value: '983',
-                },
-              ],
-              address: {},
-            },
-          ],
-          facilities: {
-            '323_var983': [
-              {
-                id: 'var983',
-                identifier: [
-                  {
-                    system: VHA_FHIR_ID,
-                    value: '983',
-                  },
-                ],
-                name: 'CHYSHR-Cheyenne VA Medical Center',
-                address: {
-                  city: 'Cheyenne',
-                  state: 'WY',
-                },
-                legacyVAR: {
-                  institutionTimezone: 'America/Denver',
-                },
-              },
-            ],
-          },
-        },
-      });
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
-      expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(true);
-      expect(global.window.dataLayer[1]).to.deep.equal({
-        event: 'vaos-request-submission-failed',
-        flow: 'va-request',
-        'health-TypeOfCare': 'Primary care',
-        'health-ReasonForAppointment': 'routine-follow-up',
-      });
-      expect(global.window.dataLayer[2]).to.deep.equal({
-        flow: undefined,
-        'health-TypeOfCare': undefined,
-        'health-ReasonForAppointment': undefined,
-        'error-key': undefined,
-        appointmentType: undefined,
-        facilityType: undefined,
-        'health-express-care-reason': undefined,
-        'vaos-express-care-number-of-cards': undefined,
-        'vaos-upcoming-number-of-cards': undefined,
-        'tab-text': undefined,
-        alertBoxHeading: undefined,
-      });
-      expect(history.push.called).to.be.false;
-    });
-
-    it('should send fail action if direct schedule fails', async () => {
-      setFetchJSONFailure(global.fetch, {
-        data: { attributes: {} },
-      });
-      const history = {
-        push: sinon.spy(),
-      };
-
-      const thunk = submitAppointmentOrRequest(history);
-      const dispatch = sinon.spy();
-      const getState = () => ({
-        newAppointment: {
-          flowType: FLOW_TYPES.DIRECT,
-          clinics: {
-            // eslint-disable-next-line camelcase
-            var983_323: [
-              {
-                id: 'var983_123',
-                resourceType: 'HealthcareService',
-                serviceName: 'CHY PC KILPATRICK',
-                characteristic: [
-                  {
-                    coding: {
-                      code: '983',
-                      userSelected: false,
-                    },
-                    text: 'institutionCode',
-                  },
-                  {
-                    coding: {
-                      display: 'CHYSHR-Cheyenne VA Medical Center',
-                      userSelected: false,
-                    },
-                    text: 'institutionName',
-                  },
-                  {
-                    coding: {
-                      display: 'Green Team Clinic1',
-                      userSelected: false,
-                    },
-                    text: 'clinicFriendlyLocationName',
-                  },
-                ],
-              },
-            ],
-          },
-          facilities: {
-            '323_var983': [
-              {
-                id: 'var983',
-                legacyVAR: {},
-              },
-            ],
-          },
-          parentFacilities: [
-            {
-              id: 'var983',
-              identifier: [
-                {
-                  system: VHA_FHIR_ID,
-                  value: '983',
-                },
-              ],
-              address: {},
-            },
-          ],
-          availableSlots: [
-            {
-              start: '2019-01-01T04:00:00',
-              end: '2019-01-01T04:20:00',
-            },
-          ],
-          data: {
-            vaParent: 'var983',
-            vaFacility: 'var983',
-            typeOfCareId: '323',
-            clinicId: '123',
-            facilityType: 'vamc',
-            calendarData: {
-              selectedDates: [
-                {
-                  date: '2019-01-01',
-                  datetime: '2019-01-01T04:00:00',
-                },
-              ],
-            },
-            reasonForAppointment: 'routine-follow-up',
-            bestTimeToCall: [],
-          },
-        },
-      });
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
-      expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(false);
-      expect(history.push.called).to.be.false;
-    });
-
-    it('should set isVaos400Error if error code is VAOS_400', async () => {
-      setFetchJSONFailure(global.fetch, {
-        data: { attributes: {} },
-        errors: [{ code: 'VAOS_400' }],
-      });
-      const history = {
-        push: sinon.spy(),
-      };
-
-      const thunk = submitAppointmentOrRequest(history);
-      const dispatch = sinon.spy();
-      const getState = () => ({
-        newAppointment: {
-          flowType: FLOW_TYPES.DIRECT,
-          clinics: {
-            // eslint-disable-next-line camelcase
-            var983_323: [
-              {
-                id: 'var983_123',
-                resourceType: 'HealthcareService',
-                identifier: [
-                  {
-                    system: 'http://med.va.gov/fhir/urn',
-                    value: 'urn:va:healthcareservice:983:983:308',
-                  },
-                ],
-                serviceName: 'CHY PC KILPATRICK',
-                characteristic: [
-                  {
-                    coding: {
-                      code: '983',
-                      userSelected: false,
-                    },
-                    text: 'institutionCode',
-                  },
-                  {
-                    coding: {
-                      display: 'CHYSHR-Cheyenne VA Medical Center',
-                      userSelected: false,
-                    },
-                    text: 'institutionName',
-                  },
-                  {
-                    coding: {
-                      display: 'Green Team Clinic1',
-                      userSelected: false,
-                    },
-                    text: 'clinicFriendlyLocationName',
-                  },
-                ],
-              },
-            ],
-          },
-          facilities: {
-            '323_var983': [
-              {
-                id: 'var983',
-                legacyVAR: {},
-              },
-            ],
-          },
-          parentFacilities: [
-            {
-              id: 'var983',
-              identifier: [
-                {
-                  system: VHA_FHIR_ID,
-                  value: '983',
-                },
-              ],
-              address: {},
-            },
-          ],
-          availableSlots: [
-            {
-              start: '2019-01-01T04:00:00',
-              end: '2019-01-01T04:20:00',
-            },
-          ],
-          data: {
-            vaParent: 'var983',
-            vaFacility: 'var983',
-            typeOfCareId: '323',
-            clinicId: 'var983_123',
-            facilityType: 'vamc',
-            calendarData: {
-              selectedDates: [
-                {
-                  date: '2019-01-01',
-                  datetime: '2019-01-01T04:00:00',
-                },
-              ],
-            },
-            reasonForAppointment: 'routine-follow-up',
-            bestTimeToCall: [],
-          },
-        },
-      });
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
-      expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(true);
-      expect(history.push.called).to.be.false;
     });
   });
 

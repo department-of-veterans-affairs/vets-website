@@ -132,8 +132,7 @@ export class ApplicationStatus extends React.Component {
             <br />
             <div className="expires-container">
               You can continue {appAction} now, or come back later to finish
-              your
-              {appType}. Your {appType}{' '}
+              your {appType}. Your {appType}{' '}
               <span className="expires">
                 will expire on {expirationDate.format('M/D/YYYY')}.
               </span>

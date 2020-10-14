@@ -8,6 +8,9 @@ import {
 import {
   getVAAppointmentMock,
   getExpressCareRequestCriteriaMock,
+  getRequestEligibilityCriteriaMock,
+  getDirectBookingEligibilityCriteriaMock,
+  getVAFacilityMock,
 } from '../mocks/v0';
 
 export function mockAppointmentInfo({
@@ -18,14 +21,17 @@ export function mockAppointmentInfo({
 }) {
   mockFetch();
 
-  const vaUrl = `${
+  const baseUrl = `${
     environment.API_URL
   }/vaos/v0/appointments?start_date=${moment()
     .startOf('day')
     .toISOString()}&end_date=${moment()
     .add(13, 'months')
     .startOf('day')
-    .toISOString()}&type=va`;
+    .toISOString()}`;
+
+  const vaUrl = `${baseUrl}&type=va`;
+  const ccUrl = `${baseUrl}&type=cc`;
 
   if (vaError) {
     setFetchJSONFailure(global.fetch.withArgs(vaUrl), { errors: [] });
@@ -33,16 +39,8 @@ export function mockAppointmentInfo({
     setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
   }
 
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment().format(
-        'YYYY-MM-DD',
-      )}&end_date=${moment()
-        .add(13, 'months')
-        .format('YYYY-MM-DD')}&type=cc`,
-    ),
-    { data: cc },
-  );
+  setFetchJSONResponse(global.fetch.withArgs(ccUrl), { data: cc });
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointment_requests?start_date=${moment()
@@ -55,27 +53,20 @@ export function mockAppointmentInfo({
 
 export function mockPastAppointmentInfo({ va = [], cc = [] }) {
   mockFetch();
-  const vaUrl = `${
+  const baseUrl = `${
     environment.API_URL
   }/vaos/v0/appointments?start_date=${moment()
     .startOf('day')
     .add(-3, 'months')
     .toISOString()}&end_date=${moment()
-    .startOf('day')
-    .toISOString()}&type=va`;
+    .set('milliseconds', 0)
+    .toISOString()}`;
+
+  const vaUrl = `${baseUrl}&type=va`;
+  const ccUrl = `${baseUrl}&type=cc`;
 
   setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
-        .add(-3, 'months')
-        .startOf('day')
-        .format()}&end_date=${moment()
-        .startOf('day')
-        .format()}&type=cc`,
-    ),
-    { data: cc },
-  );
+  setFetchJSONResponse(global.fetch.withArgs(ccUrl), { data: cc });
 }
 
 export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
@@ -113,7 +104,11 @@ export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
 
 export function mockFacilitiesFetch(ids, facilities) {
   setFetchJSONResponse(
-    global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va?ids=${ids}`),
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
+        ids.split(',').length
+      }`,
+    ),
     { data: facilities },
   );
 }
@@ -158,6 +153,28 @@ export function mockParentSites(ids, data) {
         .join('&')}`,
     ),
     { data },
+  );
+}
+
+export function mockSupportedCCSites(ids, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/community_care/supported_sites?${ids
+        .map(id => `site_codes[]=${id}`)
+        .join('&')}`,
+    ),
+    { data },
+  );
+}
+
+export function mockCCEligibility(typeOfCare, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/community_care/eligibility/${typeOfCare}`,
+    ),
+    {
+      data,
+    },
   );
 }
 
@@ -365,6 +382,22 @@ export function mockRequestSubmit(type, data) {
   );
 }
 
+export function mockMessagesFetch(id, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
+    ),
+    { data },
+  );
+}
+
+export function mockAppointmentSubmit(data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
+    { data },
+  );
+}
+
 export function mockRequestEligibilityCriteria(parentSites, data) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -376,6 +409,87 @@ export function mockRequestEligibilityCriteria(parentSites, data) {
     ),
     { data },
   );
+}
+
+export function mockDirectBookingEligibilityCriteria(siteIds, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/direct_booking_eligibility_criteria?${siteIds
+        .map(site => `parent_sites[]=${site}`)
+        .join('&')}`,
+    ),
+    { data },
+  );
+}
+
+export function mockFacilitiesPageFetches(
+  parentSiteIds,
+  facilityIds,
+  typeOfCareId,
+  typeOfCare,
+) {
+  const requestFacilityAttributes = getRequestEligibilityCriteriaMock()
+    .attributes;
+
+  const requestFacilities = facilityIds.map(id => ({
+    id,
+    attributes: {
+      ...requestFacilityAttributes,
+      id,
+      requestSettings: [
+        {
+          ...requestFacilityAttributes.requestSettings[0],
+          id: typeOfCareId,
+          typeOfCare,
+        },
+      ],
+    },
+  }));
+
+  const directFacilityAttributes = getDirectBookingEligibilityCriteriaMock()
+    .attributes;
+
+  const directFacilities = facilityIds.map(id => ({
+    id,
+    attributes: {
+      ...directFacilityAttributes,
+      id,
+      coreSettings: [
+        {
+          ...directFacilityAttributes.coreSettings[0],
+          id: typeOfCareId,
+          typeOfCare,
+        },
+      ],
+    },
+  }));
+
+  const vhaIds = facilityIds.map(
+    id => `vha_${id.replace('983', '442').replace('984', '552')}`,
+  );
+
+  const facilities = vhaIds.map((id, index) => ({
+    id,
+    attributes: {
+      ...getVAFacilityMock().attributes,
+      uniqueId: id.replace('vha_', ''),
+      name: `Fake facility name ${index + 1}`,
+      address: {
+        physical: {
+          ...getVAFacilityMock().attributes.address.physical,
+          city: `Fake city ${index + 1}`,
+        },
+      },
+    },
+  }));
+
+  mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+  mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+  mockFacilitiesFetch(vhaIds.join(','), facilities);
+
+  return { requestFacilities, directFacilities, facilities };
 }
 
 export function mockRequestLimit({
@@ -451,9 +565,48 @@ export function setupExpressCareMocks({
       endTime: end.format('HH:mm'),
     },
   ]);
-  mockRequestEligibilityCriteria([facilityId], requestCriteria);
+  mockRequestEligibilityCriteria([facilityId], [requestCriteria]);
   mockRequestLimit({
     facilityId,
     numberOfRequests: isUnderRequestLimit ? 0 : 1,
   });
+}
+
+export function mockCommunityCareEligibility({
+  parentSites,
+  supportedSites,
+  careType,
+  eligible = true,
+}) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/community_care/supported_sites?${parentSites
+        .map(site => `site_codes[]=${site}`)
+        .join('&')}`,
+    ),
+    {
+      data: (supportedSites || parentSites).map(parent => ({
+        id: parent,
+        attributes: {
+          name: 'fake',
+          timezone: 'fake',
+        },
+      })),
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/community_care/eligibility/${careType}`,
+    ),
+    {
+      data: {
+        id: careType,
+        attributes: {
+          eligible,
+        },
+      },
+    },
+  );
 }

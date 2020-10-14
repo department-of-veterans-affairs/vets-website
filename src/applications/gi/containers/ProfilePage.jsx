@@ -25,7 +25,7 @@ export function ProfilePage({
   dispatchHideModal,
   eligibility,
   gibctEybBottomSheet,
-  gibctFilterEnhancement,
+  gibctSchoolRatings,
   match,
 }) {
   const { facilityCode, preSelectedProgram } = match.params;
@@ -88,7 +88,7 @@ export function ProfilePage({
           eligibility={eligibility}
           version={version}
           gibctEybBottomSheet={gibctEybBottomSheet}
-          gibctFilterEnhancement={gibctFilterEnhancement}
+          gibctSchoolRatings={gibctSchoolRatings}
         />
       );
     }
@@ -119,8 +119,8 @@ const mapStateToProps = state => {
     gibctEybBottomSheet: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEybBottomSheet
     ],
-    gibctFilterEnhancement: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctFilterEnhancement
+    gibctSchoolRatings: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctSchoolRatings
     ],
   };
 };

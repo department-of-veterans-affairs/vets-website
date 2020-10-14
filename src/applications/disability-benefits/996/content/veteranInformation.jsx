@@ -1,21 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { srSubstitute } from '../../all-claims/utils';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
+import { SAVED_CLAIM_TYPE } from '../constants';
+import { srSubstitute } from '../../all-claims/utils';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
-export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
-  const { ssnLastFour, vaFileNumber } = veteran;
+export const VeteranInfoView = ({
+  formData,
+  profile = {},
+  veteran = {},
+  setFormData,
+}) => {
+  const { ssnLastFour, vaFileLastFour } = veteran;
   const { dob, gender, userFullName } = profile;
 
   const { first, middle, last, suffix } = userFullName;
+
+  // benefit type is added by the wizard, but the session value will be empty
+  // if the user decides to restart the form; set in the submitTransformer
+  const benefitType = window.sessionStorage.getItem(SAVED_CLAIM_TYPE);
+  useEffect(() => {
+    if (formData && benefitType) {
+      window.sessionStorage.removeItem(SAVED_CLAIM_TYPE);
+      setFormData({ ...formData, benefitType });
+    }
+  });
 
   return (
     <>
@@ -31,9 +49,9 @@ export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
             Social Security number: {mask} {ssnLastFour.slice(-4)}
           </p>
         )}
-        {vaFileNumber && (
+        {vaFileLastFour && (
           <p className="vafn">
-            VA file number: {mask} {vaFileNumber.slice(-4)}
+            VA file number: {mask} {vaFileLastFour.slice(-4)}
           </p>
         )}
         <p>
@@ -58,11 +76,24 @@ export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
   );
 };
 
-export default connect(state => {
+VeteranInfoView.propTypes = {
+  setFormData: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const veteran = state.form?.loadedData?.formData?.veteran;
+  const veteran = state.form?.data.veteran;
   return {
     profile,
     veteran,
   };
-})(veteranInfoView);
+};
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VeteranInfoView);

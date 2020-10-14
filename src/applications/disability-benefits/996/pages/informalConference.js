@@ -99,7 +99,7 @@ const informalConference = {
       },
       'ui:validations': [checkConferenceTimes],
       time0800to1000: scheduleTimeUiSchema('time0800to1000'),
-      time1000to1200: scheduleTimeUiSchema('time1000to1200'),
+      time1000to1230: scheduleTimeUiSchema('time1000to1230'),
       time1230to1400: scheduleTimeUiSchema('time1230to1400'),
       time1400to1630: scheduleTimeUiSchema('time1400to1630'),
       'ui:options': {
@@ -180,7 +180,7 @@ const informalConference = {
           time0800to1000: {
             type: 'boolean',
           },
-          time1000to1200: {
+          time1000to1230: {
             type: 'boolean',
           },
           time1230to1400: {

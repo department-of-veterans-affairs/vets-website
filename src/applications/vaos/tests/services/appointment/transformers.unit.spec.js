@@ -430,7 +430,11 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should not set clinic as HealthcareService', () => {
-        expect(data.participant).to.equal(null);
+        expect(
+          data.participant.some(p =>
+            p.actor?.reference?.includes('HealthcareService'),
+          ),
+        ).to.be.false;
       });
 
       it('should set video url in HealthcareService.telecom', () => {
@@ -444,8 +448,8 @@ describe('VAOS Appointment transformer', () => {
         );
         expect(data.contained[0].telecom[0].period.start).to.equal(data.start);
         expect(data.contained[0].resourceType).to.equal('HealthcareService');
-        expect(data.contained[0].characteristic[0].coding).to.equal(
-          VIDEO_TYPES.videoConnect,
+        expect(data.contained[0].characteristic[0].coding[0].system).to.equal(
+          'VVS',
         );
       });
 
@@ -465,7 +469,7 @@ describe('VAOS Appointment transformer', () => {
         );
       });
 
-      it('should return gfe video characteristicyr', () => {
+      it('should return gfe video characteristics', () => {
         const gfeData = transformConfirmedAppointments([
           {
             ...videoAppt,
@@ -479,7 +483,7 @@ describe('VAOS Appointment transformer', () => {
         ])[0];
 
         expect(gfeData.contained[0].resourceType).to.equal('HealthcareService');
-        expect(gfeData.contained[0].characteristic[0].coding).to.equal(
+        expect(gfeData.contained[0].characteristic[0].coding[0].code).to.equal(
           VIDEO_TYPES.gfe,
         );
       });
@@ -513,9 +517,6 @@ describe('VAOS Appointment transformer', () => {
           p.actor.reference.includes('Location'),
         )[0];
         expect(locationActor.actor.reference).to.equal('Location/var983');
-        expect(locationActor.actor.display).to.equal(
-          'CHYSHR-Cheyenne VA Medical Center',
-        );
       });
 
       it('should set patient info in participants', () => {
@@ -542,8 +543,8 @@ describe('VAOS Appointment transformer', () => {
 
       it('should return video type in HealthcareService coding', () => {
         expect(data.contained[1].resourceType).to.equal('HealthcareService');
-        expect(data.contained[1].characteristic[0].coding).to.equal(
-          VIDEO_TYPES.videoConnect,
+        expect(data.contained[1].characteristic[0].coding[0].system).to.equal(
+          'VVS',
         );
       });
 

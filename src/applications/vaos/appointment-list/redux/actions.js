@@ -1,7 +1,12 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { GA_PREFIX, APPOINTMENT_TYPES } from '../../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
+import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import {
+  GA_PREFIX,
+  APPOINTMENT_TYPES,
+  EXPRESS_CARE,
+} from '../../utils/constants';
 import { resetDataLayer } from '../../utils/events';
 import { selectSystemIds, vaosExpressCare } from '../../utils/selectors';
 
@@ -23,9 +28,14 @@ import {
   getVAAppointmentLocationId,
   getVideoAppointmentLocation,
   isVideoAppointment,
+  isVideoHome,
+  isAtlasLocation,
+  isVideoGFE,
+  isVideoVAFacility,
+  isVideoStoreForward,
 } from '../../services/appointment';
 
-import { captureError, getErrorCodes } from '../../utils/error';
+import { captureError, has400LevelError } from '../../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
@@ -179,6 +189,34 @@ export function fetchFutureAppointments() {
               requestSuccessEvent[`${GA_PREFIX}-express-care-number-of-cards`] =
                 expressCareRequests.length;
             }
+
+            const videoHome = requests.filter(appt => isVideoHome(appt));
+            requestSuccessEvent[`${GA_PREFIX}-video-home-number-of-cards`] =
+              videoHome.length;
+
+            const atlasLocation = requests.filter(appt =>
+              isAtlasLocation(appt),
+            );
+            requestSuccessEvent[`${GA_PREFIX}-video-atlas-number-of-cards`] =
+              atlasLocation.length;
+
+            const videoVAFacility = requests.filter(appt =>
+              isVideoVAFacility(appt),
+            );
+            requestSuccessEvent[
+              `${GA_PREFIX}-video-va-facility-number-of-cards`
+            ] = videoVAFacility.length;
+
+            const videoGFE = requests.filter(appt => isVideoGFE(appt));
+            requestSuccessEvent[`${GA_PREFIX}-video-gfe-number-of-cards`] =
+              videoGFE.length;
+
+            const videoStoreForward = requests.filter(appt =>
+              isVideoStoreForward(appt),
+            );
+            requestSuccessEvent[
+              `${GA_PREFIX}-video-store-forward-number-of-cards`
+            ] = videoStoreForward.length;
 
             recordEvent(requestSuccessEvent);
             resetDataLayer();
@@ -387,7 +425,7 @@ export function confirmCancelAppointment() {
       });
       resetDataLayer();
     } catch (e) {
-      const isVaos400Error = getErrorCodes(e).includes('VAOS_400');
+      const isVaos400Error = has400LevelError(e);
       if (isVaos400Error) {
         Sentry.withScope(scope => {
           scope.setExtra('error', e);
@@ -432,12 +470,36 @@ export function fetchExpressCareWindows() {
 
     const initialState = getState();
     const userSiteIds = selectSystemIds(initialState);
+    const address = selectVet360ResidentialAddress(initialState);
 
     try {
       const settings = await getRequestEligibilityCriteria(userSiteIds);
+      let facilityData;
+
+      if (address?.latitude && address?.longitude) {
+        const facilityIds = settings
+          .filter(
+            facility =>
+              facility.customRequestSettings?.find(
+                setting => setting.id === EXPRESS_CARE,
+              )?.supported,
+          )
+          .map(f => f.id);
+        if (facilityIds.length) {
+          try {
+            facilityData = await getLocations({ facilityIds });
+          } catch (error) {
+            // Still allow people into EC if the facility data call fails
+            captureError(error);
+          }
+        }
+      }
+
       dispatch({
         type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
         settings,
+        facilityData,
+        address,
         nowUtc: moment.utc(),
       });
     } catch (error) {

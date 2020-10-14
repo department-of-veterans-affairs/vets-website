@@ -34,7 +34,7 @@ import {
   RESERVE_GUARD_TYPES,
   STATE_LABELS,
   STATE_VALUES,
-  TWENTY_FIVE_MB,
+  FIFTY_MB,
   USA,
   TYPO_THRESHOLD,
   itfStatuses,
@@ -75,6 +75,8 @@ export const srSubstitute = (srIgnored, substitutionText) => (
     <span className="sr-only">{substitutionText}</span>
   </span>
 );
+
+export const isUndefined = value => (value || '') === '';
 
 export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
@@ -227,6 +229,26 @@ export function queryForFacilities(input = '') {
         scope.setExtra('input', input);
         scope.setExtra('error', error);
         Sentry.captureMessage('Error querying for facilities');
+      });
+      return [];
+    });
+}
+
+export function getSeparationLocations() {
+  return apiRequest('/disability_compensation_form/separation_locations')
+    .then((
+      { separation_locations }, // eslint-disable-line camelcase
+    ) =>
+      // eslint-disable-next-line camelcase
+      separation_locations.map(separationLocation => ({
+        id: separationLocation.code,
+        label: separationLocation.description,
+      })),
+    )
+    .catch(error => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        Sentry.captureMessage('Error getting separation locations');
       });
       return [];
     });
@@ -615,7 +637,8 @@ export const ancillaryFormUploadUi = (
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
-    maxSize: TWENTY_FIVE_MB,
+    maxSize: FIFTY_MB,
+    minSize: 1,
     createPayload: file => {
       const payload = new FormData();
       payload.append('supporting_evidence_attachment[file_data]', file);

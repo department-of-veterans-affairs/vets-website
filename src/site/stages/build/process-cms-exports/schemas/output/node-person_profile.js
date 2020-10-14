@@ -22,8 +22,9 @@ module.exports = {
           properties: {
             entityLabel: { type: 'string' },
             entityType: { type: 'string' },
+            entityUrl: { $ref: 'EntityUrl' },
           },
-          required: ['entityLabel', 'entityType'],
+          required: ['entityLabel'],
         },
       },
       required: ['entity'],

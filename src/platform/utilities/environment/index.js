@@ -6,6 +6,11 @@
 import ENVIRONMENTS from 'site/constants/environments';
 import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
 
+/* Separate constants as workaround for Sentry environments rollout until completion of
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/13425
+ */
+import VSP_ENVIRONMENTS from 'site/constants/vsp-environments';
+
 // __BUILDTYPE__ is defined as a global variable in our Webpack config, ultimately used
 // to indicate the name of our current environment as passed from our build script. This should
 // be the only reference to this value throughout our client-side code. Other modules should
@@ -52,6 +57,14 @@ export default Object.freeze({
    * platform/utilities/api to fetch data.
    */
   API_URL: environment.API_URL,
+
+  /**
+   * Workaround to map existing environments to normalized string until completion of:
+   * https://github.com/department-of-veterans-affairs/va.gov-team/issues/13425
+   */
+  vspEnvironment() {
+    return VSP_ENVIRONMENTS[environment.BUILDTYPE];
+  },
 
   /** Determines whether the current environment is a production environment. */
   isProduction() {

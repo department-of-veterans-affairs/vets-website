@@ -126,8 +126,20 @@
     "entryName": "dependents-view-dependents",
     "rootUrl": "/view-change-dependents/view",
     "template": {
+      "title": "View Dependents",
       "layout": "page-react.html",
-      "vagovprod": false
+      "vagovprod": true,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "view-change-dependents",
+          "name": "View or change your dependents"
+        },
+        {
+          "path": "view-change-dependents/view",
+          "name": "View your dependents"
+        }
+      ]
     }
   },
   {
@@ -260,11 +272,11 @@
     "rootUrl": "/view-change-dependents/add-remove-form-686c",
     "template": {
       "layout": "page-react.html",
-      "vagovprod": false,
+      "vagovprod": true,
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
-          "path": "view-change-dependents/view",
+          "path": "view-change-dependents/",
           "name": "View or change your dependents"
         },
         {
@@ -514,8 +526,12 @@
           "path": "education/"
         },
         {
-          "name": "How to apply",
-          "path": "education/how-to-apply/"
+          "name": "Other VA education benefits",
+          "path": "education/other-va-education-benefits/"
+        },
+        {
+          "name": "Edith Nourse Rogers STEM Scholarship",
+          "path": "education/other-va-education-benefits/stem-scholarship/"
         },
         {
           "name": "Apply for the Rogers STEM Scholarship",
@@ -811,8 +827,20 @@
     "entryName": "28-8832-planning-and-career-guidance",
     "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
     "template": {
+      "title": "Personalized Career Planning and Guidance Chapter 36 Form 28-8832",
       "vagovprod": false,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "careers-employment/education-and-career-counseling/",
+          "name": "Personalized Career Planning and Guidance"
+        },
+        {
+          "path": "careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/introduction",
+          "name": "Apply for PCPG Form 28-8832"
+        }
+      ]
     }
   },
   {
@@ -831,7 +859,7 @@
     "entryName": "coronavirus-research",
     "rootUrl": "/coronavirus-research/volunteer",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
@@ -872,6 +900,16 @@
     "rootUrl": "/my-documents",
     "template": {
       "title": "My Documents",
+      "layout": "page-react.html",
+      "vagovprod": false
+    }
+  },
+  {
+    "appName": "Financial Status Report",
+    "entryName": "financial-status-report",
+    "rootUrl": "/financial-status-report",
+    "template": {
+      "title:": "Financial Status Report",
       "layout": "page-react.html",
       "vagovprod": false
     }

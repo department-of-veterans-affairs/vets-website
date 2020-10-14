@@ -21,6 +21,7 @@ import {
   isValidFile,
   isValidDocument,
   isValidFileSize,
+  isEmptyFileSize,
   isValidFileType,
   FILE_TYPES,
 } from '../utils/validations';
@@ -86,7 +87,12 @@ class AddFilesForm extends React.Component {
     } else if (!isValidFileSize(file)) {
       this.setState({
         errorMessage:
-          'The file you selected is larger than the 25MB maximum file size and could not be added.',
+          'The file you selected is larger than the 50MB maximum file size and could not be added.',
+      });
+    } else if (isEmptyFileSize(file)) {
+      this.setState({
+        errorMessage:
+          'The file you selected is empty. Files uploaded must be larger than 0B.',
       });
     }
   }

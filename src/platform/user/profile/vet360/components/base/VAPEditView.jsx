@@ -85,6 +85,7 @@ class VAPEditView extends Component {
         clearErrors,
         deleteDisabled,
         field,
+        hasUnsavedEdits,
         isEmpty,
         onCancel,
         onDelete,
@@ -115,16 +116,20 @@ class VAPEditView extends Component {
             data-action="save-edit"
             isLoading={isLoading}
             className="vads-u-width--auto vads-u-margin-top--0"
+            disabled={!hasUnsavedEdits}
           >
             Update
           </LoadingButton>
-          <button
-            type="button"
-            className="usa-button-secondary vads-u-margin-top--0 vads-u-width--auto"
-            onClick={onCancel}
-          >
-            Cancel
-          </button>
+
+          {!isLoading && (
+            <button
+              type="button"
+              className="usa-button-secondary vads-u-margin-top--0 vads-u-width--auto"
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+          )}
         </div>
       </VAPEditModalActionButtons>
     );

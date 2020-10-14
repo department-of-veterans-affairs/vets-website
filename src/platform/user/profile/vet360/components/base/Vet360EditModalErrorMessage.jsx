@@ -1,10 +1,13 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/formation-react/AlertBox';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
 import {
-  LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
   DECEASED_ERROR_CODES,
+  INVALID_EMAIL_ADDRESS_ERROR_CODES,
+  LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
 } from 'vet360/util/transactions';
 
 function hasError(codes, errors) {
@@ -43,6 +46,15 @@ export default function Vet360EditModalErrorMessage({
       );
       break;
 
+    case hasError(INVALID_EMAIL_ADDRESS_ERROR_CODES, errors):
+      content = (
+        <p>
+          It looks like the email you entered isn’t valid. Please enter your
+          email address again.
+        </p>
+      );
+      break;
+
     default:
       content = (
         <p>
@@ -58,7 +70,7 @@ export default function Vet360EditModalErrorMessage({
       isVisible
       onCloseAlert={clearErrors}
       scrollOnShow
-      status="error"
+      status={ALERT_TYPE.ERROR}
     />
   );
 }

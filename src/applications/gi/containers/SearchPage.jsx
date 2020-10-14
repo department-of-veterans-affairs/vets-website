@@ -24,6 +24,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
+import RatedSearchResult from '../components/search/RatedSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
@@ -47,8 +48,8 @@ export function SearchPage({
   dispatchUpdateAutocompleteSearchTerm,
   eligibility,
   filters,
-  gibctFilterEnhancement,
   gibctSearchEnhancements,
+  gibctSchoolRatings,
   search,
 }) {
   const location = useLocation();
@@ -191,6 +192,7 @@ export function SearchPage({
     const filterButton = (
       <button
         className="filter-button usa-button-secondary"
+        data-cy="filter-button"
         onClick={dispatchToggleFilter}
       >
         Filter
@@ -209,36 +211,25 @@ export function SearchPage({
         <div className={resultsClass}>
           {filterButton}
           <div>
-            {search.results.map(result => (
-              <SearchResult
-                key={result.facilityCode}
-                name={result.name}
-                facilityCode={result.facilityCode}
-                type={result.type}
-                city={result.city}
-                state={result.state}
-                zip={result.zip}
-                country={result.country}
-                cautionFlag={result.cautionFlag}
-                cautionFlags={result.cautionFlags}
-                studentCount={result.studentCount}
-                bah={result.bah}
-                dodBah={result.dodBah}
-                schoolClosing={result.schoolClosing}
-                schoolClosingOn={result.schoolClosingOn}
-                tuitionInState={result.tuitionInState}
-                tuitionOutOfState={result.tuitionOutOfState}
-                books={result.books}
-                studentVeteran={result.studentVeteran}
-                yr={result.yr}
-                poe={result.poe}
-                eightKeys={result.eightKeys}
-                menOnly={result.menonly}
-                womenOnly={result.womenonly}
-                hbcu={result.hbcu}
-                relAffil={result.relaffil}
-              />
-            ))}
+            {search.results.map(result => {
+              return gibctSchoolRatings ? (
+                <RatedSearchResult
+                  key={result.facilityCode}
+                  menOnly={result.menonly}
+                  womenOnly={result.womenonly}
+                  ratingAverage={result.ratingAverage}
+                  ratingCount={result.ratingCount}
+                  {...result}
+                />
+              ) : (
+                <SearchResult
+                  key={result.facilityCode}
+                  menOnly={result.menonly}
+                  womenOnly={result.womenonly}
+                  {...result}
+                />
+              );
+            })}
           </div>
 
           <Pagination
@@ -282,7 +273,6 @@ export function SearchPage({
           showModal={dispatchShowModal}
           eligibilityChange={dispatchEligibilityChange}
           hideModal={dispatchHideModal}
-          gibctFilterEnhancement={gibctFilterEnhancement}
         />
       </div>
     );
@@ -307,8 +297,8 @@ const mapStateToProps = state => ({
   gibctSearchEnhancements: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSearchEnhancements
   ],
-  gibctFilterEnhancement: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctFilterEnhancement
+  gibctSchoolRatings: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSchoolRatings
   ],
 });
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
 
@@ -23,10 +24,16 @@ const options = [
 
 const StartPage = ({ setPageState, state = {} }) => {
   const handleValueChange = ({ value }) => {
+    recordEvent({
+      event: `howToWizard-formChange`,
+      'form-field-type': 'form-radio-buttons',
+      'form-field-label': 'Which of these best describes you?',
+      'form-field-value': value,
+    });
     switch (value) {
       case 'isVeteran':
       case 'isServiceMember':
-        setPageState({ selected: value }, 'isVeteranOrServiceMember');
+        setPageState({ selected: value }, 'VREBenefits');
         break;
       case 'VAEducationBenefits':
         setPageState({ selected: value }, value);

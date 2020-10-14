@@ -18,7 +18,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
   const { first, last, middle, suffix } = fullName;
 
   const renderableContent =
-    typeof content === 'string' ? <p>{content}</p> : content;
+    typeof content === 'string' && content !== '' ? <p>{content}</p> : content;
 
   const alertBox = (
     <AlertBox
@@ -121,7 +121,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
           for your disability claim to show up there. If you don’t see your
           disability claim online after 24 hours, please call Veterans Benefits
           Assistance at <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday
-          through Friday, 8:30 a.m. to 4:30 p.m. ET.
+          through Friday, 8:00 a.m. to 9:00 p.m. ET.
         </p>
         <p>
           <a href="/track-claims">Check the status of your claim</a>
@@ -161,7 +161,7 @@ export const retryableErrorContent = props =>
         </strong>{' '}
         please call Veterans Benefits Assistance at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:30 a.m. to 4:30 p.m. ET and provide this reference number{' '}
+        8:00 a.m. to 9:00 p.m. ET and provide this reference number{' '}
         {props.jobId}.
       </p>
     </div>,
@@ -188,7 +188,7 @@ export const submitErrorContent = props =>
         <li>
           Please call Veterans Benefits Assistance at{' '}
           <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-          8:30 a.m. to 4:30 p.m. ET and provide this reference number{' '}
+          8:00 a.m. to 9:00 p.m. ET and provide this reference number{' '}
           {props.submissionId}, <strong>or</strong>
         </li>
         <li>

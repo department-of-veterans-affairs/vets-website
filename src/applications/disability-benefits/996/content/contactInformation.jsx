@@ -7,7 +7,9 @@ const addBrBefore = line => line && [<br key={line} />, line];
 
 export const formatPhone = (number = '') => {
   let i = 0;
-  return '###-###-####'.replace(/#/g, () => number[i++] || '');
+  return number.length === 10
+    ? '###-###-####'.replace(/#/g, () => number[i++] || '')
+    : number;
 };
 
 export const getCountryName = (countryCode = 'USA') =>
@@ -19,20 +21,19 @@ export const contactInfoDescription = ({ formData: { veteran = {} } }) => {
   const {
     phoneNumber,
     emailAddress,
-    addressLine1,
-    addressLine2,
-    addressLine3,
+    street,
+    street2,
+    street3,
     city,
-    stateOrProvinceCode = '',
-    zipPostalCode,
-    countryCode = 'USA',
+    state = '',
+    zipCode5,
+    country = 'USA',
   } = veteran;
 
-  let postalString = zipPostalCode || '';
-  if (countryCode === 'USA' && zipPostalCode) {
-    const lastChunk =
-      zipPostalCode.length > 5 ? `-${zipPostalCode.slice(5)}` : '';
-    postalString = `${zipPostalCode.slice(0, 5)}${lastChunk}`;
+  let postalString = zipCode5 || '';
+  if (country === 'USA' && zipCode5) {
+    const lastChunk = zipCode5.length > 5 ? `-${zipCode5.slice(5)}` : '';
+    postalString = `${zipCode5.slice(0, 5)}${lastChunk}`;
   }
 
   return (
@@ -58,12 +59,12 @@ export const contactInfoDescription = ({ formData: { veteran = {} } }) => {
         </p>
         <h3 className="vads-u-font-size--h4">Mailing address</h3>
         <p>
-          {addBrAfter(addressLine1)}
-          {addBrAfter(addressLine2)}
-          {addBrAfter(addressLine3)}
+          {addBrAfter(street)}
+          {addBrAfter(street2)}
+          {addBrAfter(street3)}
           {city || ''}
-          {city && ','} {titleCase(stateOrProvinceCode)} {postalString}
-          {addBrBefore(getCountryName(countryCode))}
+          {city && ','} {titleCase(state)} {postalString}
+          {addBrBefore(getCountryName(country))}
           &nbsp;
         </p>
       </div>

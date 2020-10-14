@@ -217,6 +217,46 @@ export function getParentSiteMock() {
   };
 }
 
+export function getRequestEligibilityCriteriaMock() {
+  return {
+    id: 'fake',
+    type: 'request_eligibility_criteria',
+    attributes: {
+      id: 'fake',
+      requestSettings: [
+        {
+          id: 'fake',
+          typeOfCare: 'fake',
+          patientHistoryRequired: 'No',
+          patientHistoryDuration: 0,
+          submittedRequestLimit: 1,
+          enterpriseSubmittedRequestLimit: 1,
+        },
+      ],
+    },
+  };
+}
+
+export function getDirectBookingEligibilityCriteriaMock() {
+  return {
+    id: 'fake',
+    type: 'request_eligibility_criteria',
+    attributes: {
+      id: 'fake',
+      coreSettings: [
+        {
+          id: 'fake',
+          typeOfCare: 'fake',
+          patientHistoryRequired: 'No',
+          patientHistoryDuration: 0,
+          submittedRequestLimit: 1,
+          enterpriseSubmittedRequestLimit: 1,
+        },
+      ],
+    },
+  };
+}
+
 export function getFacilityMock() {
   return {
     id: 'fake',
@@ -269,24 +309,45 @@ export function getAppointmentSlotMock() {
 }
 
 export function getExpressCareRequestCriteriaMock(id, schedulingDays) {
-  return [
-    {
+  return {
+    id,
+    type: 'request_eligibility_criteria',
+    attributes: {
       id,
-      type: 'request_eligibility_criteria',
-      attributes: {
-        id,
-        requestSettings: [],
-        customRequestSettings: [
-          {
-            id: 'CR1',
-            typeOfCare: 'Express Care',
-            submittedRequestLimit: 2,
-            enterpriseSubmittedRequestLimit: 2,
-            supported: !!schedulingDays,
-            schedulingDays: schedulingDays || [],
-          },
-        ],
-      },
+      requestSettings: [],
+      customRequestSettings: [
+        {
+          id: 'CR1',
+          typeOfCare: 'Express Care',
+          submittedRequestLimit: 2,
+          enterpriseSubmittedRequestLimit: 2,
+          supported: !!schedulingDays,
+          schedulingDays: schedulingDays || [],
+        },
+      ],
     },
-  ];
+  };
+}
+
+export function getCCEligibilityMock(typeOfCare, eligible = true) {
+  return {
+    id: typeOfCare,
+    type: 'cc_eligibility',
+    attributes: { eligible },
+  };
+}
+
+export function getSupportedSiteMock(
+  id,
+  name = 'Cheyenne',
+  timezone = 'US/Mountain',
+) {
+  return {
+    id,
+    type: 'object_type',
+    attributes: {
+      name,
+      timezone,
+    },
+  };
 }

@@ -216,6 +216,7 @@ class AddressValidationView extends React.Component {
       transaction,
       transactionRequest,
       validationKey,
+      isLoading,
     } = this.props;
 
     const resetDataAndCloseModal = () => {
@@ -271,13 +272,16 @@ class AddressValidationView extends React.Component {
               this.renderAddressOption(address, String(index)),
             )}
           {this.renderPrimaryButton()}
-          <button
-            type="button"
-            className="usa-button-secondary"
-            onClick={resetDataAndCloseModal}
-          >
-            Cancel
-          </button>
+
+          {!isLoading && (
+            <button
+              type="button"
+              className="usa-button-secondary"
+              onClick={resetDataAndCloseModal}
+            >
+              Cancel
+            </button>
+          )}
         </form>
       </>
     );

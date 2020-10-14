@@ -27,7 +27,7 @@ export default class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.confirmation-page-title');
+    focusElement('.usa-alert-body > h3');
     scrollToTop();
   }
 

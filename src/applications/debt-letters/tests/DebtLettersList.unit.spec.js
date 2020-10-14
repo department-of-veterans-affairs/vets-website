@@ -53,9 +53,11 @@ describe('DebtLettersList', () => {
   });
   it('renders correct number of debt rows', () => {
     const wrapper = shallow(<DebtLettersList store={fakeStore} />);
-    expect(wrapper.dive().find(`td`).length).to.equal(12);
+    expect(wrapper.dive().find(`DebtLettersTable`).length).to.equal(1);
     expect(
       wrapper
+        .dive()
+        .find('DebtLettersTable')
         .dive()
         .find('td')
         .at(0)
@@ -63,6 +65,8 @@ describe('DebtLettersList', () => {
     ).to.equal('May 29, 2020');
     expect(
       wrapper
+        .dive()
+        .find('DebtLettersTable')
         .dive()
         .find('td')
         .at(1)

@@ -1,7 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 
 import mockUser from '../fixtures/users/user-36.json';
-import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
 const setup = (mobile = false) => {
   window.localStorage.setItem(
@@ -14,7 +13,6 @@ const setup = (mobile = false) => {
   }
 
   cy.login(mockUser);
-  cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
   // should show a loading indicator
@@ -36,10 +34,16 @@ const checkModals = options => {
     force: true,
   });
 
+  // confirm that the update button is disabled before a change is made
+  cy.findByRole('button', { name: 'Update' }).should('be.disabled');
+
   // Make an edit
   cy.get(`#${editLineId}`)
     .click()
     .type('test');
+
+  // confirm that the update button is enabled
+  cy.findByRole('button', { name: 'Update' }).should('not.be.disabled');
 
   // Click on a different section to edit
   cy.findByRole('button', {

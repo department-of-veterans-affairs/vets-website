@@ -318,13 +318,14 @@ class EstimateYourBenefitsForm extends React.Component {
    * @param ariaLabel
    * @returns {*}
    */
-  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) =>
     renderLearnMoreLabel({
       text,
       modal,
       ariaLabel,
       showModal: this.props.showModal,
       component: this,
+      labelFor,
     });
 
   /**
@@ -646,6 +647,7 @@ class EstimateYourBenefitsForm extends React.Component {
           text: 'Enrolled',
           modal: 'calcEnrolled',
           ariaLabel: ariaLabels.learnMore.calcEnrolled,
+          labelFor: name,
         })}
         name={name}
         alt="Enrolled"
@@ -714,6 +716,7 @@ class EstimateYourBenefitsForm extends React.Component {
               text: 'School Calendar',
               modal: 'calcSchoolCalendar',
               ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
+              labelFor: 'calendar',
             })}
             name="calendar"
             alt="School calendar"
@@ -728,6 +731,7 @@ class EstimateYourBenefitsForm extends React.Component {
             onBlur={this.handleInputBlur}
             onFocus={this.handleEYBInputFocus}
           />
+
           {dependentDropdowns}
         </ExpandingGroup>
       </div>
@@ -886,7 +890,6 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleHasClassesOutsideUSChange}
           checked={inputs.classesOutsideUS}
           name={'classesOutsideUS'}
-          id={'classesOutsideUS'}
         />
       );
     }
@@ -974,6 +977,7 @@ class EstimateYourBenefitsForm extends React.Component {
           text: 'Will be working',
           modal: 'calcWorking',
           ariaLabel: ariaLabels.learnMore.calcWorking,
+          labelFor: 'working',
         })}
         name="working"
         alt="Will be working"
@@ -1036,9 +1040,9 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderEYBSkipLink = () => {
     return (
-      <div className="vads-u-padding-bottom--2p5">
+      <div className="vads-u-padding-top--1 ">
         <a
-          className="va-button-link learn-more-button eyb-skip-link"
+          className="va-button-link learn-more-button eyb-skip-link vads-u-display--block"
           aria-label="Skip to your estimated benefits"
           href="#estimated-benefits"
         >

@@ -1,26 +1,20 @@
 import set from 'platform/utilities/data/set';
-import { countries } from 'platform/forms/address';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
 
 import fullSchema from '../../0873-schema.json';
-import pageDescription from '../../content/PageDescription';
+import * as address from '../../contactInformation/address/address';
+import {
+  contactInformationPageDescription,
+  preferredContactMethodTitle,
+  phoneTitle,
+} from '../../content/labels';
 
-const countryValues = countries.map(object => object.value);
-const countryNames = countries.map(object => object.label);
+const { email, phone } = fullSchema.definitions;
 
-const { fullName, email, preferredContactMethod } = fullSchema.definitions;
-
-const {
-  veteranStatus,
-  isDependent,
-  relationshipToVeteran,
-  veteranIsDeceased,
-  dateOfDeath,
-  branchOfService,
-} = fullSchema.properties;
+const { fullName, preferredContactMethod } = fullSchema.properties;
 
 const formFields = {
   preferredContactMethod: 'preferredContactMethod',
@@ -28,113 +22,51 @@ const formFields = {
   address: 'address',
   email: 'email',
   verifyEmail: 'view:email',
-  phoneNumber: 'phoneNumber',
+  phone: 'phone',
   veteranStatus: 'veteranStatus',
-  isDependent: 'isDependent',
-  relationshipToVeteran: 'relationshipToVeteran',
-  veteranIsDeceased: 'veteranIsDeceased',
-  dateOfDeath: 'dateOfDeath',
-  branchOfService: 'branchOfService',
-  country: 'country',
 };
-
-const requireVetRelationship = selectedVeteranStatus =>
-  selectedVeteranStatus === 'behalf of vet' ||
-  selectedVeteranStatus === 'dependent';
-
-const requireServiceInfo = selectedVeteranStatus =>
-  selectedVeteranStatus && selectedVeteranStatus !== 'general';
 
 const contactInformationPage = {
   uiSchema: {
-    'ui:description': pageDescription('Your contact info'),
+    'ui:description': contactInformationPageDescription,
     [formFields.fullName]: fullNameUI,
-    [formFields.veteranStatus]: {
-      'ui:title': 'My message is about benefits/services',
-    },
-    [formFields.isDependent]: {
-      'ui:title': 'Are you the dependent?',
-      'ui:widget': 'yesNo',
-      'ui:required': formData => formData.veteranStatus === 'dependent',
-      'ui:options': {
-        expandUnder: 'veteranStatus',
-        expandUnderCondition: 'dependent',
+    [formFields.address]: address.uiSchema(
+      '',
+      true,
+      false,
+      (formData, _index) => {
+        return formData.preferredContactMethod === 'mail';
       },
-    },
-    [formFields.relationshipToVeteran]: {
-      'ui:title': 'Your relationship to the Veteran',
-      'ui:required': formData => requireVetRelationship(formData.veteranStatus),
-      'ui:options': {
-        expandUnder: 'veteranStatus',
-        expandUnderCondition: requireVetRelationship,
-      },
-    },
-    [formFields.veteranIsDeceased]: {
-      'ui:title': 'Is the Veteran deceased?',
-      'ui:widget': 'yesNo',
-      'ui:required': formData => requireVetRelationship(formData.veteranStatus),
-      'ui:options': {
-        expandUnder: 'veteranStatus',
-        expandUnderCondition: requireVetRelationship,
-      },
-    },
-    [formFields.dateOfDeath]: {
-      ...currentOrPastDateUI('Date of Death if known'),
-      ...{
-        'ui:options': {
-          expandUnder: 'veteranStatus',
-          hideIf: formData => !formData.veteranIsDeceased,
-        },
-      },
-    },
-    [formFields.branchOfService]: {
-      'ui:title': 'Branch of service',
-      'ui:required': formData => requireServiceInfo(formData.veteranStatus),
-      'ui:options': {
-        hideIf: formData => !requireServiceInfo(formData.veteranStatus),
-      },
-    },
+      true,
+    ),
+    [formFields.phone]: set(
+      'ui:required',
+      (formData, _index) => formData.preferredContactMethod === 'phone',
+      phoneUI(phoneTitle),
+    ),
     [formFields.email]: set(
       'ui:required',
       (formData, _index) => formData.preferredContactMethod === 'email',
       emailUI(),
     ),
     [formFields.verifyEmail]: confirmationEmailUI('', formFields.email),
-    [formFields.country]: {
-      'ui:title': 'Country',
-    },
     [formFields.preferredContactMethod]: {
-      'ui:title': 'How should we get in touch with you?',
+      'ui:title': preferredContactMethodTitle,
       'ui:widget': 'radio',
     },
   },
   schema: {
     type: 'object',
-    required: [
-      formFields.preferredContactMethod,
-      formFields.fullName,
-      formFields.veteranStatus,
-      formFields.country,
-    ],
+    required: [formFields.preferredContactMethod, formFields.fullName],
     properties: {
       [formFields.fullName]: fullName,
-      [formFields.veteranStatus]: veteranStatus,
-      [formFields.isDependent]: isDependent,
-      [formFields.relationshipToVeteran]: relationshipToVeteran,
-      [formFields.veteranIsDeceased]: veteranIsDeceased,
-      [formFields.dateOfDeath]: dateOfDeath,
-      [formFields.branchOfService]: branchOfService,
+      [formFields.preferredContactMethod]: preferredContactMethod,
       [formFields.email]: email,
       [formFields.verifyEmail]: {
         type: 'string',
       },
-      [formFields.country]: {
-        default: 'USA',
-        type: 'string',
-        enum: countryValues,
-        enumNames: countryNames,
-      },
-      [formFields.preferredContactMethod]: preferredContactMethod,
+      [formFields.phone]: phone,
+      [formFields.address]: address.schema(fullSchema, false),
     },
   },
 };

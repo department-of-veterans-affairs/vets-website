@@ -14,7 +14,7 @@ export default function createHigherLevelReviewApplicationStatus(
   if (root) {
     import(/* webpackChunkName: "higher-level-review-application-status" */
     '../utils').then(module => {
-      const { ApplicationStatus, HLRWizard } = module.default;
+      const { ApplicationStatus, WizardLink } = module.default;
       ReactDOM.render(
         <Provider store={store}>
           <ApplicationStatus
@@ -24,7 +24,7 @@ export default function createHigherLevelReviewApplicationStatus(
               root.getAttribute('data-hide-apply-button') === null
             }
             stayAfterDelete
-            applyRender={() => <HLRWizard />}
+            applyRender={() => <WizardLink />}
           />
         </Provider>,
         root,

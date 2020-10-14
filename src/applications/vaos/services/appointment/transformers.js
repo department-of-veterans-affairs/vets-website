@@ -7,7 +7,6 @@ import {
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
   PURPOSE_TEXT,
-  VIDEO_TYPES,
   EXPRESS_CARE,
   UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../../utils/constants';
@@ -52,41 +51,12 @@ function isCommunityCare(appt) {
 }
 
 /**
- * Returns whether or not an appointment is a GFE video visit
- *
- * @param {Object} appt VAR appointment object
- */
-function isGFEVideoVisit(appt) {
-  return appt.vvsAppointments?.[0]?.appointmentKind === 'MOBILE_GFE';
-}
-
-/**
  * Returns whether or not a confirmed VA appointment is a video visit
  *
  * @param {Object} appt VAR appointment object
  */
 function isVideoVisit(appt) {
-  return !!appt.vvsAppointments?.length || isGFEVideoVisit(appt);
-}
-
-/**
- * If an appointment is a video appointment, returns whether it is a GFE video visit
- * or a regular video visit.  Return null if not a video appointment.
- *
- * @param {Object} appt VAR appointment object
- * @returns {String} Returns video appointment type or null
- */
-function getVideoType(appt) {
-  if (isGFEVideoVisit(appt)) {
-    return VIDEO_TYPES.gfe;
-  } else if (
-    appt.vvsAppointments?.length ||
-    appt.visitType === 'Video Conference'
-  ) {
-    return VIDEO_TYPES.videoConnect;
-  }
-
-  return null;
+  return !!appt.vvsAppointments?.length;
 }
 
 /**
@@ -293,8 +263,8 @@ function setParticipant(appt) {
 
   switch (type) {
     case APPOINTMENT_TYPES.vaAppointment: {
-      if (!isVideoVisit(appt)) {
-        const participant = [];
+      let participant = [];
+      if (appt.clinicId) {
         participant.push({
           actor: {
             reference: `HealthcareService/var${appt.facilityId}_${
@@ -302,21 +272,35 @@ function setParticipant(appt) {
             }`,
             display:
               appt.clinicFriendlyName ||
-              appt.vdsAppointments?.[0]?.clinic?.name,
+              appt.vdsAppointments?.[0]?.clinic?.name ||
+              appt.vvsAppointments?.[0]?.clinic?.name,
           },
         });
-
-        if (appt.sta6aid) {
-          participant.push({
-            actor: {
-              reference: `Location/var${appt.sta6aid}`,
-            },
-          });
-        }
-
-        return participant;
       }
-      return null;
+
+      if (appt.sta6aid) {
+        participant.push({
+          actor: {
+            reference: `Location/var${appt.sta6aid}`,
+          },
+        });
+      }
+
+      const providers = appt.vvsAppointments?.[0]?.providers;
+      if (providers?.length) {
+        participant = participant.concat(
+          providers.map(provider => ({
+            actor: {
+              reference: `Practitioner/${provider.name.firstName}_${
+                provider.name.lastName
+              }`,
+              display: `${provider.name.firstName} ${provider.name.lastName}`,
+            },
+          })),
+        );
+      }
+
+      return participant;
     }
     case APPOINTMENT_TYPES.ccAppointment: {
       if (!!appt.name?.firstName && !!appt.name?.lastName) {
@@ -337,7 +321,6 @@ function setParticipant(appt) {
           {
             actor: {
               reference: `Location/var${appt.facility.facilityCode}`,
-              display: appt.friendlyLocationName || appt.facility?.name,
             },
           },
         ];
@@ -385,34 +368,47 @@ function setContained(appt) {
   switch (getAppointmentType(appt)) {
     case APPOINTMENT_TYPES.vaAppointment: {
       if (isVideoVisit(appt)) {
-        return [
-          {
-            resourceType: 'HealthcareService',
-            id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
-            type: [
-              {
-                text: 'Patient Virtual Meeting Room',
-              },
-            ],
-            location: {
-              reference: `Location/var${appt.facilityId}`,
+        const contained = [];
+        const service = {
+          resourceType: 'HealthcareService',
+          id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
+          type: [
+            {
+              text: 'Patient Virtual Meeting Room',
             },
-            characteristic: [
-              {
-                coding: getVideoType(appt),
-              },
-            ],
-            telecom: [
-              {
-                system: 'url',
-                value: getVideoVisitLink(appt),
-                period: {
-                  start: getMomentConfirmedDate(appt).format(),
-                },
-              },
-            ],
+          ],
+          providedBy: {
+            reference: `Organization/var${appt.facilityId}`,
           },
-        ];
+          characteristic: [
+            {
+              coding: [
+                {
+                  system: 'VVS',
+                  code: appt.vvsAppointments[0].appointmentKind,
+                },
+              ],
+            },
+          ],
+          telecom: [
+            {
+              system: 'url',
+              value: getVideoVisitLink(appt),
+              period: {
+                start: getMomentConfirmedDate(appt).format(),
+              },
+            },
+          ],
+        };
+
+        if (appt.sta6aid) {
+          service.location = {
+            reference: `Location/var${appt.sta6aid}`,
+          };
+        }
+        contained.push(service);
+
+        return contained;
       }
 
       return null;
@@ -425,7 +421,11 @@ function setContained(appt) {
           resourceType: 'HealthcareService',
           characteristic: [
             {
-              coding: getVideoType(appt),
+              coding: [
+                {
+                  system: 'VVS',
+                },
+              ],
             },
           ],
         });

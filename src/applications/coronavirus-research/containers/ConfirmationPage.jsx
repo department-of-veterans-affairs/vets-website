@@ -23,19 +23,21 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <h2 className="confirmation-page-title">
-          Thank you for volunteering for COVID-19 research
+          Thank you for signing up for our coronavirus research volunteer list
         </h2>
         <p>
           We appreciate your commitment to helping others through this important
-          research effort.
+          effort.
         </p>
         <div>
           <h2>
             If we think you may be eligible for one of our research studies
           </h2>
           <p>
-            We’ll contact you to tell you more about it so you can decide if you
-            want to join.
+            We’ll call you at the phone number you listed on the sign-up form.
+            We'll tell you more about the study and any partner organizations we
+            might work with to conduct it. We’ll also answer any questions you
+            may have so you can decide if you want to join. want to join.
           </p>
           <p>
             Please understand that some studies have specific requirements. So
@@ -57,9 +59,27 @@ export class ConfirmationPage extends React.Component {
             We won’t contact you. But we’ll keep your information on file for
             future studies you may be eligible to join.
           </p>
-          <a href="/coronavirus-research">
-            Learn more about participating in coronavirus research at VA
-          </a>
+          <p>
+            <a href="/coronavirus-research/">
+              Learn more about volunteering for coronavirus research at VA
+            </a>
+          </p>
+        </div>
+        <div>
+          <h2>
+            If you have questions or would like us to remove you from the
+            volunteer list
+          </h2>
+          <p>
+            Send us an email at{' '}
+            <a href="mailto:feedback@va.gov">feedback@va.gov</a>.
+          </p>
+          <p>
+            You can ask us to remove you from the list at any time. In your
+            email, tell us your name, phone number, and email you listed on the
+            volunteer form. We'll remove you from the list and we won't contact
+            you again about these research studies.
+          </p>
         </div>
       </div>
     );

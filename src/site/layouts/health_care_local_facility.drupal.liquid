@@ -211,7 +211,7 @@ more.\r\n",
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true deriveBreadcrumbsFromUrl = true %}
 <div class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
@@ -393,7 +393,9 @@ more.\r\n",
             {% for localService in localHealthServices %}
             {% assign localHealthService = localService.entity | featureFieldRegionalHealthService %}
             {% if localHealthService != empty %}
-            {% include "src/site/facilities/facility_health_service.drupal.liquid" with healthService = localHealthService localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}
+
+            {% include "src/site/facilities/facility_health_service.drupal.liquid" with healthService = localHealthService locationEntity = localService.entity locations = localService.entity.fieldServiceLocation localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}
+
             {% endif %}
             {% endfor %}
           </section>

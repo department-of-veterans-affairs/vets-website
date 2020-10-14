@@ -10,6 +10,8 @@ module.exports = `
 fragment faqMultipleQA on NodeFaqMultipleQA {
   ${entityElementsFromPages}
   entityBundle
+  changed
+
   fieldTableOfContentsBoolean
   fieldIntroTextLimitedHtml {
     processed
@@ -47,6 +49,11 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
   fieldButtons {
     entity {
       ${BUTTON}
+    }
+  }
+  fieldRelatedInformation {
+    entity {
+      ... linkTeaser
     }
   }
 }
