@@ -30,7 +30,7 @@ class ServiceTypeAhead extends Component {
     const serviceList = Array.from(
       document.querySelectorAll('[id ^= "downshift-"]'),
     ).filter(el => el.key !== 'not-found');
-    if (validityState.valueMissing && inputValue.length === 0) {
+    if (validityState.valueMissing && inputValue && inputValue.length === 0) {
       input.setCustomValidity('Please enter a valid Service type.');
       input.reportValidity();
     } else if (event.key === 'Enter' && serviceList.length > 2) {
@@ -85,39 +85,41 @@ class ServiceTypeAhead extends Component {
     return false;
   };
 
-  renderOptions(getItemProps, servicesFound, highlightedIndex) {
-    if (servicesFound.length > 0) {
-      return servicesFound.map((svc, index) => (
-        <div
-          key={svc.name}
-          {...getItemProps({
-            item: svc,
-            className: this.optionClasses(index === highlightedIndex),
-            role: 'option',
-            'aria-selected': index === highlightedIndex,
-          })}
-        >
-          {this.getSpecialtyName(svc)}
-        </div>
-      ));
-    }
+  renderOption(service, getItemProps, highlightedIndex, index = 0, type) {
     return (
       <div
-        key={'not-found'}
+        key={type === 'not-found' ? 'not-found' : service.name}
         {...getItemProps({
-          item: 'not-found',
-          className: 'dropdown-option',
+          item: type === 'not-found' ? 'not-found' : service,
+          className: this.optionClasses(index === highlightedIndex),
           role: 'option',
+          'aria-selected': index === highlightedIndex,
         })}
       >
-        We're sorry. This service type was not found.
+        {service
+          ? this.getSpecialtyName(service)
+          : "We're sorry. This service type was not found."}
       </div>
+    );
+  }
+
+  renderOptions(getItemProps, servicesFound, highlightedIndex) {
+    if (servicesFound.length > 0) {
+      return servicesFound.map((svc, index) =>
+        this.renderOption(svc, getItemProps, highlightedIndex, index, 'found'),
+      );
+    }
+    return this.renderOption(
+      null,
+      getItemProps,
+      highlightedIndex,
+      null,
+      'not-found',
     );
   }
 
   render() {
     const { defaultSelectedItem, services } = this.state;
-
     return (
       <Downshift
         onChange={this.handleOnSelect}
