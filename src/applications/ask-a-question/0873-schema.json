@@ -244,6 +244,26 @@
       "enum": [
         true
       ]
+    },
+    "first": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "last": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "suffix": {
+      "type": "string",
+      "enum": [
+        "Jr.",
+        "Sr.",
+        "II",
+        "III",
+        "IV"
+      ]
     }
   },
   "additionalProperties": false,
@@ -359,16 +379,16 @@
                     "levelThree": {
                       "type": "string",
                       "enum": [
-                        "Apply for Health Benefits (Veterans)",
-                        "Medical Care for Veterans within USA",
-                        "Medical Care-Overseas Vets (Foreign Med)",
-                        "Children of Women Vietnam Vets Healthcare",
                         "Apply for Health Benefits (Dependents)",
+                        "Apply for Health Benefits (Veterans)",
+                        "CHAMPVA CITI (In house Treatment Initiated)",
                         "CHAMPVA-Civilian Health & Medical Prog",
                         "CHAMPVA Password/Access Problems",
-                        "CHAMPVA CITI (In house Treatment Initiated)",
-                        "Spina Bifida Program for Children of Vet",
-                        "Licensed Health Professional Employment"
+                        "Children of Women Vietnam Vets Healthcare",
+                        "Licensed Health Professional Employment",
+                        "Medical Care-Overseas Vets (Foreign Med)",
+                        "Medical Care for Veterans within USA",
+                        "Spina Bifida Program for Children of Vet"
                       ]
                     }
                   }
@@ -411,8 +431,8 @@
                     "levelThree": {
                       "type": "string",
                       "enum": [
-                        "General Concern",
-                        "Complaint about Women Vets health care"
+                        "Complaint about Women Vets health care",
+                        "General Concern"
                       ]
                     }
                   }
@@ -1567,6 +1587,62 @@
         },
         "dateOfDeath": {
           "$ref": "#/definitions/date"
+        }
+      }
+    },
+    "dependentInformation": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "$ref": "#/definitions/first"
+        },
+        "last": {
+          "$ref": "#/definitions/last"
+        },
+        "address": {
+          "$ref": "#/definitions/address"
+        },
+        "phone": {
+          "$ref": "#/definitions/phone"
+        },
+        "email": {
+          "$ref": "#/definitions/email"
+        }
+      }
+    },
+    "veteranInformation": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "$ref": "#/definitions/first"
+        },
+        "last": {
+          "$ref": "#/definitions/last"
+        },
+        "address": {
+          "$ref": "#/definitions/address"
+        },
+        "phone": {
+          "$ref": "#/definitions/phone"
+        },
+        "email": {
+          "$ref": "#/definitions/email"
+        }
+      }
+    },
+    "veteranServiceInformation": {
+      "type": "object",
+      "properties": {
+        "socialSecurityNumber": {
+          "$ref": "#/definitions/ssn"
+        },
+        "serviceNumber": {
+          "type": "string",
+          "pattern": "^\\d{0,12}$"
+        },
+        "claimNumber": {
+          "type": "string",
+          "pattern": "^\\d{6,8}$"
         },
         "branchOfService": {
           "type": "string",
@@ -1597,25 +1673,9 @@
             "Womens Voluntary Emerg Srv (WAVES)",
             "Other"
           ]
-        }
-      }
-    },
-    "veteranInformation": {
-      "type": "object",
-      "properties": {
+        },
         "dateOfBirth": {
           "$ref": "#/definitions/date"
-        },
-        "socialSecurityNumber": {
-          "$ref": "#/definitions/ssn"
-        },
-        "serviceNumber": {
-          "type": "string",
-          "pattern": "^\\d{0,12}$"
-        },
-        "claimNumber": {
-          "type": "string",
-          "pattern": "^\\d{6,8}$"
         },
         "serviceDateRange": {
           "$ref": "#/definitions/dateRange"

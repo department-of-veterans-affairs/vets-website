@@ -9,6 +9,7 @@ export default function FormQuestion({
   optionsConfig,
   setQuestionValue,
   clearQuestionValues,
+  selectedLanguage,
 }) {
   const scrollElementName = `multi-question-form-${question.id}-scroll-element`;
 
@@ -41,14 +42,14 @@ export default function FormQuestion({
       onClick={handleClick}
       value={option.optionValue}
     >
-      {option.optionText}
+      {option.optionText[selectedLanguage]}
     </button>
   ));
 
   return (
     <div className="feature" id={`question-${question.id}`}>
       <Element name={scrollElementName} />
-      <h2>{question.text}</h2>
+      <h2>{question.text[selectedLanguage]}</h2>
       {options}
     </div>
   );

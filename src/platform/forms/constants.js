@@ -23,4 +23,5 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_HC_QSTNR: 'HC-QSTNR',
   FORM_COVID_VACCINE_TRIAL: 'COVID-VACCINE-TRIAL',
   FORM_21_22: '21-22',
+  FORM_5655: '5655',
 });
