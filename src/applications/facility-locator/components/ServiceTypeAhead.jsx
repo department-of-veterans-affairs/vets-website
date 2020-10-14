@@ -24,11 +24,17 @@ class ServiceTypeAhead extends Component {
       .setCustomValidity('Please enter a valid Service type.');
   }
 
-  validateServiceTypeAhead(inputID, inputValue) {
+  validateServiceTypeAhead(inputID, inputValue, event) {
     const input = document.getElementById(inputID);
     const validityState = input.validity;
+    const serviceList = Array.from(
+      document.querySelectorAll('[id ^= "downshift-"]'),
+    ).filter(el => el.key !== 'not-found');
     if (validityState.valueMissing && inputValue.length === 0) {
       input.setCustomValidity('Please enter a valid Service type.');
+      input.reportValidity();
+    } else if (event.key === 'Enter' && serviceList.length > 2) {
+      input.setCustomValidity('Please select an item from the list');
       input.reportValidity();
     } else {
       input.setCustomValidity('');
@@ -128,6 +134,7 @@ class ServiceTypeAhead extends Component {
                     this.validateServiceTypeAhead(
                       'service-type-ahead-input',
                       inputValue,
+                      event,
                     );
                   },
                   placeholder: 'Like primary care, cardiology',
