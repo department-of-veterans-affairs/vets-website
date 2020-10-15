@@ -77,7 +77,9 @@ export function transformFormToVARequest(state) {
       purpose => purpose.id === data.reasonForAppointment,
     )?.serviceName,
     otherPurposeOfVisit:
-      data.reasonForAppointment === 'other' ? 'See message' : null,
+      data.reasonForAppointment === 'other'
+        ? 'See additional information'
+        : null,
     visitType: TYPE_OF_VISIT.find(type => type.id === data.visitType)
       ?.serviceName,
     phoneNumber: data.phoneNumber,
