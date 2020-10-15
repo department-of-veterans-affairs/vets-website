@@ -15,8 +15,8 @@
             <ul class="usa-unstyled-list">
             {% for article in articles %}
               <li>
-                <div class="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter">
-                  <h2>
+                <div class="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-color--gray-lighter">
+                  <h2 class="vads-u-font-size--h3 vads-u-margin-top--0">
                     <a href="{{ article.entityUrl.path }}">{{ article.title }}</a>
                   </h2>
                   {% assign snippet = article.fieldIntroTextLimitedHtml %}
@@ -28,7 +28,7 @@
                   {% if snippet %}
                     {% assign sanitized = snippet.processed | strip_html %}
                     {% assign truncated = sanitized | truncate: 200 %}
-                    {{ truncated }}{% if truncated != sanitized %}...{% endif %}
+                    <p class="vads-u-margin-bottom--0">{{ truncated }}{% if truncated != sanitized %}...{% endif %}</p>
                   {% endif %}
                 </div>
               </li>
