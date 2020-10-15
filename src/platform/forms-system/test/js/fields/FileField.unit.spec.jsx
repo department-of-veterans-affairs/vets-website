@@ -9,7 +9,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
-import FileField from '../../../src/js/fields/FileField';
+import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 
 const formContext = {
@@ -357,7 +357,10 @@ describe('Schemaform <FileField>', () => {
   });
 
   it('should delete file', () => {
-    const uiSchema = fileUploadUI('Files');
+    const uiSchema = {
+      ...fileUploadUI('Files'),
+      'ui:field': FileField,
+    };
     const schema = {
       type: 'object',
       properties: {
@@ -389,7 +392,10 @@ describe('Schemaform <FileField>', () => {
   });
 
   it('should upload file', () => {
-    const uiSchema = fileUploadUI('Files');
+    const uiSchema = {
+      ...fileUploadUI('Files'),
+      'ui:field': FileField,
+    };
     const schema = {
       type: 'object',
       properties: {
