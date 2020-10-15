@@ -21,6 +21,27 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
       ... button
     }
   }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldSupportServices {
+          entity {
+            ... on NodeSupportService {
+              title
+              fieldLink {
+                title
+                url {
+                  path
+                  routed
+                }
+              }
+              fieldPhoneNumber
+            }
+          }
+        }
+      }
+    }
+  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser
