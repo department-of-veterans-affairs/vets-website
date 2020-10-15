@@ -1,6 +1,8 @@
 const ENVIRONMENTS = require('../../../constants/environments');
 const _ = require('lodash');
 
+const PAGE_SIZE = 10;
+
 function createResourcesAndSupport(buildOptions) {
   if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
     return () => {};
@@ -31,7 +33,7 @@ function createResourcesAndSupport(buildOptions) {
     )) {
       const categoryUri = _.kebabCase(categoryName);
       const categoryRootUrl = `resources/${categoryUri}`;
-      const paginatedArticles = _.chunk(allArticlesForCategory, 10);
+      const paginatedArticles = _.chunk(allArticlesForCategory, PAGE_SIZE);
 
       paginatedArticles.forEach((pageOfArticles, index) => {
         const pageNum = index > 0 ? `/${index + 1}/` : '/';
@@ -51,7 +53,7 @@ function createResourcesAndSupport(buildOptions) {
           },
         );
 
-        let paginatorPrev;
+        let paginatorPrev = null;
         let paginatorNext = null;
 
         if (index > 0) paginatorPrev = paginatorInner[index - 1].href;
@@ -59,12 +61,23 @@ function createResourcesAndSupport(buildOptions) {
         if (index + 1 < paginatedArticles.length)
           paginatorNext = paginatorInner[index + 1].href;
 
+        const pageStart = index * PAGE_SIZE + 1;
+        const pageEnd = Math.min(
+          (index + 1) * PAGE_SIZE,
+          allArticlesForCategory.length,
+        );
+
+        const paginationTitle = `Showing ${pageStart} - ${pageEnd} of ${
+          allArticlesForCategory.length
+        } articles in "<strong>${categoryName}</strong>"`;
+
         const page = {
           contents: Buffer.from(''),
           path: pageOfArticles.uri,
           layout: 'support_resources_article_listing.drupal.liquid',
           title: `All articles in: ${categoryName}`,
           articles: pageOfArticles,
+          paginationTitle,
           paginator: {
             prev: paginatorPrev,
             inner: paginatorInner,
