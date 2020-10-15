@@ -154,7 +154,7 @@ class ServiceTypeAhead extends Component {
               <span className="vads-u-color--secondary-dark">(*Required)</span>
               {this.state.error && (
                 <span
-                  className="validation-message"
+                  className="usa-input-error-message"
                   role="alert"
                   id="text-service-error"
                 >

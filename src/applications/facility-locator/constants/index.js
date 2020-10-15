@@ -89,7 +89,7 @@ export const Error = {
   DEFAULT: 'We’re sorry. Something went wrong on our end. Please try again.',
   LOCATION:
     'Something’s not quite right. Please enter a valid or different location and try your search again.',
-  INVALID_SERVICE: 'Please enter a valid Service type.',
-  SERVICE_NOT_FOUND: 'This service type was not found.',
+  INVALID_SERVICE: 'Please enter a valid service type.',
+  SERVICE_NOT_FOUND: 'We’re sorry. This service type was not found.',
   SELECT_SERVICE: 'Please select an item from the list',
 };
