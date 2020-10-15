@@ -903,5 +903,15 @@
       "layout": "page-react.html",
       "vagovprod": false
     }
+  },
+  {
+    "appName": "Financial Status Report",
+    "entryName": "financial-status-report",
+    "rootUrl": "/financial-status-report",
+    "template": {
+      "title:": "Financial Status Report",
+      "layout": "page-react.html",
+      "vagovprod": false
+    }
   }
 ]

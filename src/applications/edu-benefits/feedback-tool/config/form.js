@@ -44,6 +44,8 @@ import {
 
 import migrations from './migrations';
 
+import manifest from '../manifest.json';
+
 const {
   address: applicantAddress,
   anonymousEmail,
@@ -142,6 +144,7 @@ function manualSchoolEntryIsCheckedAndIsUS(formData) {
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/gi_bill_feedbacks',
   submit,
@@ -149,6 +152,14 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FEEDBACK_TOOL,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your feedback application (FEEDBACK-TOOL) is in progress.',
+      expired:
+        'Your saved feedback application (FEEDBACK-TOOL) has expired. If you want to apply for feedback, please start a new application.',
+      saved: 'Your feedback application has been saved.',
+    },
+  },
   version: 1,
   migrations,
   prefillEnabled: true,

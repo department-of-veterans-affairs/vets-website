@@ -234,6 +234,26 @@ export function queryForFacilities(input = '') {
     });
 }
 
+export function getSeparationLocations() {
+  return apiRequest('/disability_compensation_form/separation_locations')
+    .then((
+      { separation_locations }, // eslint-disable-line camelcase
+    ) =>
+      // eslint-disable-next-line camelcase
+      separation_locations.map(separationLocation => ({
+        id: separationLocation.code,
+        label: separationLocation.description,
+      })),
+    )
+    .catch(error => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        Sentry.captureMessage('Error getting separation locations');
+      });
+      return [];
+    });
+}
+
 export const disabilityIsSelected = disability => disability['view:selected'];
 
 /**

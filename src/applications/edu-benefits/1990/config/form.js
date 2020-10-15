@@ -18,6 +18,8 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import manifest from '../manifest.json';
+
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
 import createDirectDepositPage from '../../pages/directDeposit';
@@ -83,10 +85,20 @@ const {
 } = fullSchema1990.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990`,
   trackingPrefix: 'edu-',
   formId: VA_FORM_IDS.FORM_22_1990,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your education benefits application (22-1990) is in progress.',
+      expired:
+        'Your saved education benefits application (22-1990) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
+  },
   version: 1,
   migrations: [urlMigration('/1990')],
   savedFormMessages: {

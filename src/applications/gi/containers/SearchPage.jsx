@@ -48,7 +48,6 @@ export function SearchPage({
   dispatchUpdateAutocompleteSearchTerm,
   eligibility,
   filters,
-  gibctFilterEnhancement,
   gibctSearchEnhancements,
   gibctSchoolRatings,
   search,
@@ -274,7 +273,6 @@ export function SearchPage({
           showModal={dispatchShowModal}
           eligibilityChange={dispatchEligibilityChange}
           hideModal={dispatchHideModal}
-          gibctFilterEnhancement={gibctFilterEnhancement}
         />
       </div>
     );
@@ -298,9 +296,6 @@ const mapStateToProps = state => ({
   eligibility: state.eligibility,
   gibctSearchEnhancements: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSearchEnhancements
-  ],
-  gibctFilterEnhancement: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctFilterEnhancement
   ],
   gibctSchoolRatings: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSchoolRatings

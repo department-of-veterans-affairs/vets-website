@@ -18,6 +18,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { prefillTransformer, tabIndexedTitle, transform } from '../helpers';
 
+import manifest from '../manifest.json';
+
 const { fullName } = fullSchema0993.definitions;
 const {
   claimantSocialSecurityNumber,
@@ -25,12 +27,21 @@ const {
 } = fullSchema0993.properties;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0993`,
   trackingPrefix: 'edu-0993',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_0993,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your opt out application (22-0993) is in progress.',
+      expired:
+        'Your saved opt out application (22-0993) has expired. If you want opt out, please start a new application.',
+      saved: 'Your opt out application has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   prefillTransformer,

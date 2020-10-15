@@ -42,7 +42,6 @@ export class InstitutionProfile extends React.Component {
       constants,
       showModal,
       gibctEybBottomSheet,
-      gibctFilterEnhancement,
       gibctSchoolRatings,
     } = this.props;
 
@@ -57,7 +56,6 @@ export class InstitutionProfile extends React.Component {
         <HeadingSummary
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
-          gibctFilterEnhancement={gibctFilterEnhancement}
           gibctSchoolRatings={gibctSchoolRatings}
         />
         <div className="usa-accordion vads-u-margin-top--4">
