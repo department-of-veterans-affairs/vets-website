@@ -105,6 +105,11 @@ ul.original-disability-list {
   }
 }
 
+// upload error message alignment
+.form-expanding-group li.usa-input-error {
+  right: 0;
+}
+
 // removes gap when using multiple widget-outlines
 .widget-outline-group {
   &:last-child {

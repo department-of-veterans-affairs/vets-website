@@ -636,10 +636,12 @@ export const ancillaryFormUploadUi = (
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     maxSize: FIFTY_MB,
     minSize: 1,
-    createPayload: file => {
+    createPayload: (file, _formId, password) => {
       const payload = new FormData();
       payload.append('supporting_evidence_attachment[file_data]', file);
-
+      if (password) {
+        payload.append('supporting_evidence_attachment[password]', password);
+      }
       return payload;
     },
     parseResponse: (response, file) => ({
@@ -654,6 +656,8 @@ export const ancillaryFormUploadUi = (
     },
     classNames: customClasses,
     attachmentName: false,
+    // Ask for a password when an encrypted PDF is detected
+    getEncryptedPassword: true,
   });
 
 export const isUploadingSupporting8940Documents = formData =>
