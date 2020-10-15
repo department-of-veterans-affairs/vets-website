@@ -1,4 +1,5 @@
 import { initCommunityCareMock } from './vaos-cypress-helpers';
+import moment from 'moment';
 
 describe('Create new community care appointment', () => {
   beforeEach(() => {
@@ -158,6 +159,55 @@ describe('Create new community care appointment', () => {
     cy.axeCheck();
     // Click continue button
     cy.get('.usa-button').click();
+
+    // Check form requestBody is as expected
+    cy.wait('@appointmentRequests').should(xhr => {
+      expect(xhr.status).to.eq(200);
+      expect(xhr.url, 'post url').to.contain(
+        '/vaos/v0/appointment_requests?type=cc',
+      );
+
+      const request = xhr.requestBody;
+      expect(request)
+        .to.have.property('optionDate1')
+        .to.equal(
+          moment()
+            .add(5, 'days')
+            .format('MM/DD/YYYY'),
+        );
+      expect(request)
+        .to.have.property('optionDate2')
+        .to.equal('No Date Selected');
+      expect(request)
+        .to.have.property('optionDate3')
+        .to.equal('No Date Selected');
+      expect(Cypress._.values(request.preferredProviders)).to.deep.eq([
+        {
+          address: {
+            city: 'city',
+            state: 'IL',
+            street: 'address1, address2',
+            zipCode: '60613',
+          },
+          firstName: 'firstname',
+          lastName: 'lastname',
+          practiceName: 'practice name',
+          providerCity: 'city',
+          providerState: 'IL',
+          providerStreet: 'address1, address2',
+          providerZipCode1: '60613',
+        },
+      ]);
+      expect(request).to.have.property(
+        'newMessage',
+        'This is a very good reason.',
+      );
+      expect(request).to.have.property('optionTime1', 'AM');
+      expect(request).to.have.property('optionTime2', 'No Time Selected');
+      expect(request).to.have.property('optionTime3', 'No Time Selected');
+      expect(request).to.have.property('email', 'veteran@gmail.com');
+      expect(request).to.have.property('phoneNumber', '5035551234');
+    });
 
     // Your appointment request has been submitted step
     cy.url().should(
