@@ -165,7 +165,7 @@ class ServiceTypeAhead extends Component {
             </label>
             <span id="service-typeahead">
               <input
-                className={this.state.error ? 'validation-error' : null}
+                className={this.state.error ? 'validation-service-error' : null}
                 {...getInputProps({
                   onKeyDown: event => {
                     this.validateService(inputValue, event, selectedItem);

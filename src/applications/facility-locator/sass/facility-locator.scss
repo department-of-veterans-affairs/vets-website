@@ -511,10 +511,9 @@ $facility-locator-color-gray: #ccc;
   flex-direction: column;
 }
 
-.validation-error {
+.validation-service-error {
   border: 4px solid #cd2026;
 }
-
 
 #other-tools {
   text-align: center;
@@ -525,5 +524,4 @@ $facility-locator-color-gray: #ccc;
     width: 260px;
     white-space: pre-line;
   }
-
 }
