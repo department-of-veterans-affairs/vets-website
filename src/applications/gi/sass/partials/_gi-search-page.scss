@@ -203,7 +203,11 @@
       margin-top: 1em;
     }
   }
-
+  .search-filter-text {
+    @media (min-width: $small-screen){
+      display: none;
+    }
+  }
   .vettec-logo-container {
     @include media($medium-screen) {
       margin-top: -2.667em;

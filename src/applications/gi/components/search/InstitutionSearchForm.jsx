@@ -61,15 +61,7 @@ function InstitutionSearchForm({
     queryParams.set('category', filters.category);
     queryParams.set('name', value);
 
-    if (isVetTecSelected(filters)) {
-      queryParams.delete('category');
-      history.push({
-        pathname: 'program-search',
-        search: queryParams.toString(),
-      });
-    } else {
-      history.push({ pathname: 'search', search: queryParams.toString() });
-    }
+    history.push({ pathname: 'search', search: queryParams.toString() });
   };
   const doSearch = value => {
     // Only search upon blur, keyUp, suggestion selection
@@ -97,7 +89,11 @@ function InstitutionSearchForm({
     <div className="row">
       <div id="institution-search" className={filtersClass}>
         <div className="filters-sidebar-inner vads-u-margin-left--1p5">
-          {search.filterOpened && <h1>Filter your search</h1>}
+          {search.filterOpened && (
+            <div className="search-filter-text">
+              <h1>Filter your search</h1>
+            </div>
+          )}
           <h2>{keywordLabel}</h2>
           {/* prod flag for story BAH-13928 */}
           {environment.isProduction() ? (
