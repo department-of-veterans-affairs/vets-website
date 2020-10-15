@@ -91,7 +91,6 @@ class ServiceTypeAhead extends Component {
   };
 
   handleOnSelect = selectedItem => {
-    if (selectedItem && selectedItem === 'not-found') return;
     const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
     this.props.onSelect({
       target: { value },
