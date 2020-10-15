@@ -26,11 +26,6 @@ import {
 } from '../../utils';
 
 class ViewPaymentsLists extends Component {
-  state = {
-    returnPayments: [],
-    paymentsRecieved: [],
-  };
-
   componentDidMount() {
     this.props.getAllPayments();
   }
@@ -43,6 +38,7 @@ class ViewPaymentsLists extends Component {
     if (returnPayments.length > 0) {
       // remove all entries with all null property values
       let filteredReturnPayments = filterReturnPayments(returnPayments);
+
       // convert date to more friendly format
       filteredReturnPayments = reformatReturnPaymentDates(
         filteredReturnPayments,
@@ -134,7 +130,6 @@ class ViewPaymentsLists extends Component {
       // If there are no payments AND no payments returned, render an Alertbox
       // If there are either payments OR payments returned, run payment list builders
       const { returnPayments, payments } = this.props.payments;
-
       if (returnPayments.length === 0 && payments.length === 0) {
         content = (
           <AlertBox
