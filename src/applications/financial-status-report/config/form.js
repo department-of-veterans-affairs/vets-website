@@ -3,6 +3,7 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import manifest from '../manifest.json';
 
 // const { } = fullSchema.properties;
 
@@ -13,6 +14,7 @@ const formFields = {
 };
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/api',
   trackingPrefix: 'fsr-5655-',
@@ -24,6 +26,13 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
+  },
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your [savedFormDescription] is in progress.',
+    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
+    //   saved: 'Your [benefitType] [appType] has been saved.',
+    // },
   },
   title: 'Financial Status Report',
   defaultDefinitions: {},
