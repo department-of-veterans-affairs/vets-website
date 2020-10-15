@@ -486,4 +486,54 @@ describe('user selectors', () => {
       );
     });
   });
+
+  describe('selectCernerMedicalRecordsFacilities', () => {
+    it('returns the Cerner facilities that are not in the medical records blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, blocked from medical records
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from medical records
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [{ facilityId: '668', isCerner: true }];
+      expect(
+        selectors.selectCernerMedicalRecordsFacilities(state),
+      ).to.deep.equal(expected);
+    });
+  });
+
+  describe('selectCernerTestResultsFacilities', () => {
+    it('returns the Cerner facilities that are not in the test results blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, blocked from test results
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from test results
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [{ facilityId: '668', isCerner: true }];
+      expect(selectors.selectCernerTestResultsFacilities(state)).to.deep.equal(
+        expected,
+      );
+    });
+  });
 });
