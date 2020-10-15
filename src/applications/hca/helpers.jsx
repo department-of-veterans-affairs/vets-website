@@ -23,7 +23,7 @@ import facilityLocator from '../facility-locator/manifest.json';
 export {
   getMedicalCenterNameByID,
   medicalCenterLabels,
-} from 'platform/utilities/medical-centers';
+} from 'platform/utilities/medical-centers/medical-centers';
 
 export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;

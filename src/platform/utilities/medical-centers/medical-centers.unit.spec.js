@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getMedicalCenterNameByID } from '../medical-centers';
+import { getMedicalCenterNameByID } from './medical-centers';
 
 describe('getMedicalCenterNameByID', () => {
   it('should return an empty string if it is passed null', () => {
