@@ -17,18 +17,38 @@ class ServiceTypeAhead extends Component {
       error: false,
       optionsFound: false,
       validationMessage: '',
+      selectedService: null,
     };
+    this.onSearch = this.onSearch.bind(this);
   }
 
   componentDidMount() {
     this.getServices();
+    document
+      .getElementById('facility-search-controls')
+      .addEventListener('submit', this.onSearch);
+  }
+
+  componentWillUnmount() {
+    document
+      .getElementById('facility-search-controls')
+      .addEventListener('submit', this.onSearch);
+  }
+
+  onSearch() {
+    if (!this.state.selectedService) {
+      this.setState({
+        error: true,
+        validationMessage: Error.SERVICE_NOT_FOUND,
+      });
+    }
   }
 
   validateService(inputValue, event, selectedItem) {
     const servicesFound = Array.from(
       document.querySelectorAll('[id ^= "downshift-"]'),
     );
-    if (event.key === 'Enter') {
+    if (event && event.key === 'Enter') {
       if (!inputValue || inputValue.length === 0) {
         this.setState({
           error: true,
@@ -75,6 +95,9 @@ class ServiceTypeAhead extends Component {
     const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
     this.props.onSelect({
       target: { value },
+    });
+    this.setState({
+      selectedService: value,
     });
   };
 
