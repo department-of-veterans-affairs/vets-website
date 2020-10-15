@@ -72,7 +72,7 @@ export class ConfirmationPage extends React.Component {
           </h2>
           <p>
             Send us an email at{' '}
-            <a href="mailto:feedback@va.gov">feedback@va.gov</a>.
+            <a href="mailto:research@va.gov">research@va.gov</a>.
           </p>
           <p>
             You can ask us to remove you from the list at any time. In your
