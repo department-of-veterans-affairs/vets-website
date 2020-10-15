@@ -547,7 +547,7 @@ export class Modals extends React.Component {
           <p>
             To learn more about this scholarship,{' '}
             <a
-              href="../../../../education/other-va-education-benefits/stem-scholarship/"
+              href="/education/other-va-education-benefits/stem-scholarship/"
               target="_blank"
               rel="noopener noreferrer"
             >

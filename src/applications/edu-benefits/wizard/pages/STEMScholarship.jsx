@@ -17,7 +17,7 @@ const STEMScholarship = ({ setPageState, state = {}, setReferredBenefit }) => {
       <strong>
         To be eligible for the{' '}
         <a
-          href="../other-va-education-benefits/stem-scholarship/"
+          href="/education/other-va-education-benefits/stem-scholarship/"
           onClick={() =>
             recordEvent({
               event: 'edu-navigation',
