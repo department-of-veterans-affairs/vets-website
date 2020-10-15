@@ -1,4 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
+import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -16,17 +17,18 @@ import {
   claimantAddress,
   staticClaimantInformation,
 } from './chapters/claimant-information';
-import { isDependent } from './helpers';
+import { isDependent, transform } from './helpers';
 
 import manifest from '../manifest.json';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/education_career_counseling_claims',
+  submitUrl: `${environment.API_URL}/v0/education_career_counseling_claims`,
   trackingPrefix: '28-8832-planning-and-career-guidance-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
   saveInProgress: {
     messages: {
