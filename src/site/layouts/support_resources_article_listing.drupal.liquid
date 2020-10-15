@@ -11,6 +11,7 @@
         <div class="usa-width-three-fourths">
           <article class="usa-content">
             <h1>{{ title }}</h1>
+            <p>{{ paginationTitle }}</p>
             <ul class="usa-unstyled-list">
             {% for article in articles %}
               <li>
@@ -18,8 +19,16 @@
                   <h2>
                     <a href="{{ article.entityUrl.path }}">{{ article.title }}</a>
                   </h2>
-                  {% if article.fieldIntroTextLimitedHtml %}
-                    {{ article.fieldIntroTextLimitedHtml.processed }}
+                  {% assign snippet = article.fieldIntroTextLimitedHtml %}
+
+                  {% if article.entityBundle == 'q_a' %}
+                    {% assign snippet = article.fieldAnswer.0.entity.fieldWysiwyg %}
+                  {% endif %}
+
+                  {% if snippet %}
+                    {% assign sanitized = snippet.processed | strip_html %}
+                    {% assign truncated = sanitized | truncate: 200 %}
+                    {{ truncated }}{% if truncated != sanitized %}...{% endif %}
                   {% endif %}
                 </div>
               </li>
