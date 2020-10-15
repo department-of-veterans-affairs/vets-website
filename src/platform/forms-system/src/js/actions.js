@@ -204,6 +204,7 @@ export function uploadFile(
   onChange,
   onError,
   trackingPrefix,
+  password,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -249,7 +250,11 @@ export function uploadFile(
       uploading: true,
     });
 
-    const payload = uiOptions.createPayload(file, getState().form.formId);
+    const payload = uiOptions.createPayload(
+      file,
+      getState().form.formId,
+      password,
+    );
 
     const req = new XMLHttpRequest();
 
