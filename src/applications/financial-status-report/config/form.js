@@ -3,6 +3,7 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import manifest from '../manifest.json'
 
 // const { } = fullSchema.properties;
 
@@ -13,6 +14,7 @@ const formFields = {
 };
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/api',
   trackingPrefix: 'fsr-5655-',
