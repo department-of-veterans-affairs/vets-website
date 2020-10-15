@@ -1,14 +1,12 @@
 import { merge, set } from 'lodash/fp';
 
 import { ELIGIBILITY_CHANGED } from '../actions';
-import environment from 'platform/utilities/environment';
 
-// prod flag for bah-1392
 const INITIAL_STATE = Object.freeze({
   militaryStatus: 'veteran',
   giBillChapter: '33',
   cumulativeService: '1.0',
-  onlineClasses: environment.isProduction() ? 'no' : 'yes',
+  onlineClasses: 'no',
   spouseActiveDuty: 'no',
   enlistmentService: '3',
   consecutiveService: '0.8',
