@@ -6,6 +6,7 @@ import moment from 'moment';
 import ListBestTimeToCall from './ListBestTimeToCall';
 import { sentenceCase } from '../../../../utils/formatters';
 import {
+  getVAAppointmentLocationName,
   getPatientTelecom,
   isVideoAppointment,
 } from '../../../../services/appointment';
@@ -99,12 +100,12 @@ export default class AppointmentRequestListItem extends React.Component {
                 appointment={appointment}
               />
             )}
-            {isExpressCare && facility?.name}
+            {isExpressCare && getVAAppointmentLocationName(appointment)}
             {!isCC &&
               !isExpressCare && (
                 <VAFacilityLocation
                   facility={facility}
-                  facilityName={facility?.name}
+                  facilityName={getVAAppointmentLocationName(appointment)}
                   facilityId={parseFakeFHIRId(facilityId)}
                 />
               )}

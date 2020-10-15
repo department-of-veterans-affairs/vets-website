@@ -321,6 +321,7 @@ function setParticipant(appt) {
           {
             actor: {
               reference: `Location/var${appt.facility.facilityCode}`,
+              display: appt.friendlyLocationName || appt.facility?.name,
             },
           },
         ];
