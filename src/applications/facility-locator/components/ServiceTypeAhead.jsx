@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 import { getProviderSpecialties } from '../actions';
+import { Error } from '../constants';
 
 /**
  * CC Providers' Service Types Typeahead
@@ -13,11 +14,47 @@ class ServiceTypeAhead extends Component {
     super(props);
     this.state = {
       services: [],
+      error: false,
+      optionsFound: false,
+      validationMessage: '',
     };
   }
 
   componentDidMount() {
     this.getServices();
+  }
+
+  validateService(inputValue, event, selectedItem) {
+    const servicesFound = Array.from(
+      document.querySelectorAll('[id ^= "downshift-"]'),
+    );
+    if (event.key === 'Enter') {
+      if (!inputValue || inputValue.length === 0) {
+        this.setState({
+          error: true,
+          validationMessage: Error.INVALID_SERVICE,
+        });
+      } else if (
+        inputValue &&
+        inputValue.length > 2 &&
+        servicesFound &&
+        servicesFound.length === 0
+      ) {
+        this.setState({
+          error: true,
+          validationMessage: Error.SERVICE_NOT_FOUND,
+        });
+      } else if (servicesFound && servicesFound.length > 0 && !selectedItem) {
+        this.setState({
+          error: true,
+          validationMessage: Error.SELECT_SERVICE,
+        });
+      }
+    } else {
+      this.setState({
+        error: false,
+      });
+    }
   }
 
   getServices = async () => {
@@ -34,6 +71,7 @@ class ServiceTypeAhead extends Component {
   };
 
   handleOnSelect = selectedItem => {
+    if (selectedItem && selectedItem === 'not-found') return;
     const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
     this.props.onSelect({
       target: { value },
@@ -64,7 +102,6 @@ class ServiceTypeAhead extends Component {
 
   render() {
     const { defaultSelectedItem, services } = this.state;
-
     return (
       <Downshift
         onChange={this.handleOnSelect}
@@ -87,15 +124,30 @@ class ServiceTypeAhead extends Component {
           isOpen,
           inputValue,
           highlightedIndex,
+          selectedItem,
         }) => (
           <div>
             <label {...getLabelProps()} htmlFor="service-type-ahead-input">
               Service type{' '}
               <span className="vads-u-color--secondary-dark">(*Required)</span>
+              {this.state.error && (
+                <span
+                  className="validation-message"
+                  role="alert"
+                  id="text-service-error"
+                >
+                  <span className="sr-only">Error</span>{' '}
+                  {this.state.validationMessage}
+                </span>
+              )}
             </label>
             <span id="service-typeahead">
               <input
+                className={this.state.error ? 'validation-error' : null}
                 {...getInputProps({
+                  onKeyDown: event => {
+                    this.validateService(inputValue, event, selectedItem);
+                  },
                   placeholder: 'Like primary care, cardiology',
                 })}
                 id="service-type-ahead-input"
