@@ -15,6 +15,7 @@ export const schema = {
       type: 'string',
     },
   },
+  required: ['email'],
 };
 
 export const uiSchema = {
@@ -41,7 +42,7 @@ export const uiSchema = {
   'view:confirmEmail': {
     ...emailUI(),
     'ui:title': 'Confirm email address',
-    'ui:required': formData => typeof formData.email === 'string',
+    'ui:required': () => true,
     'ui:validations': [
       {
         validator: (errors, fieldData, formData) => {
