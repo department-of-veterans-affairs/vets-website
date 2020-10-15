@@ -3,7 +3,7 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import manifest from '../manifest.json'
+import manifest from '../manifest.json';
 
 // const { } = fullSchema.properties;
 
