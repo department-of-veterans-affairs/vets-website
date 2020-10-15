@@ -77,6 +77,8 @@ import {
   validateCurrency,
 } from '../validation';
 
+import manifest from '../manifest.json';
+
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 const emptyFacilityList = [];
@@ -186,10 +188,20 @@ const attachmentsSchema = {
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/health_care_applications`,
   trackingPrefix: 'hca-',
   formId: VA_FORM_IDS.FORM_10_10EZ,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your health care benefits application (10-10EZ) is in progress.',
+      expired:
+        'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
+      saved: 'Your health care benefits application has been saved.',
+    },
+  },
   version: 6,
   migrations,
   prefillEnabled: true,

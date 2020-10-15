@@ -25,15 +25,27 @@ import { transform } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
+import manifest from '../manifest.json';
+
 const { payHighestRateBenefit } = fullSchema1990n.properties;
 
 const { currentlyActiveDuty, date } = fullSchema1990n.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990n`,
   trackingPrefix: 'edu-1990n-',
   formId: VA_FORM_IDS.FORM_22_1990N,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your education benefits application (22-1990N) is in progress.',
+      expired:
+        'Your saved education benefits application (22-1990N) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
+  },
   version: 1,
   migrations: [urlMigration('/1990n')],
   prefillEnabled: true,

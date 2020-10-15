@@ -16,6 +16,8 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import migrations from '../migrations';
 import captureEvents from '../analytics-functions';
 
+import manifest from '../manifest.json';
+
 import {
   applicantInformation,
   bankInformation,
@@ -29,11 +31,20 @@ import {
 } from '../pages';
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
   submit: submitForm,
   trackingPrefix: 'edu-0994-',
   formId: VA_FORM_IDS.FORM_22_0994,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your VET TEC application (22-0994) is in progress.',
+      expired:
+        'Your saved VET TEC application (22-0994) has expired. If you want to apply for VET TEC, please start a new application.',
+      saved: 'Your VET TEC application has been saved.',
+    },
+  },
   version: migrations.length,
   migrations,
   prefillEnabled: true,
