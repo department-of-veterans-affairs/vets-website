@@ -61,6 +61,8 @@ function getTestFacilityName(id, name) {
   }
 
   if (!environment.isProduction() && id.startsWith('984')) {
+    // The extra space here is intentional, that appears to be how it is named
+    // in CDW
     return `DAYTSHR -${name}`;
   }
 
