@@ -24,6 +24,7 @@ import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected, useQueryParams } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import BenefitsForm from '../components/profile/BenefitsForm';
+import environment from 'platform/utilities/environment';
 
 export function LandingPage({
   autocomplete,
@@ -137,9 +138,13 @@ export function LandingPage({
 
   const buttonLabel = gibctSearchEnhancements ? 'Search' : 'Search Schools';
 
-  const searchLabel = gibctSearchEnhancements
+  let searchLabel = gibctSearchEnhancements
     ? 'Enter a school, location, or employer name'
     : 'Enter a city, school or employer name';
+  // prod flag for story BAH-13929
+  if (!environment.isProduction()) {
+    searchLabel = 'Enter a school, employer name, city, or zip code';
+  }
 
   return (
     <span className="landing-page">
