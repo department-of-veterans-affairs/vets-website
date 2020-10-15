@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+
+import { getBookingNoteFromAppointment } from '../../utils';
 
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
 const ReasonForVisitDescriptionField = props => {
   const { onReviewPage, reviewMode } = props.formContext;
+  const { onChange, appointment } = props;
   const currentValue = props.value;
-  // const { chiefComplaint } = props;
+
+  useEffect(
+    () => {
+      // if no value
+      if (!currentValue) {
+        // check if the incoming state
+        const bookingNote = getBookingNoteFromAppointment(appointment);
+        if (bookingNote) {
+          // if incoming state has value, use that and set the value
+          onChange(bookingNote.description);
+        }
+      }
+    },
+    [onChange, currentValue, appointment],
+  );
 
   const editField = () => {
     return (
@@ -25,8 +42,8 @@ const ReasonForVisitDescriptionField = props => {
   }
 };
 
-const mapStateToProps = () => ({
-  chiefComplaint: 'Pain in right knee',
+const mapStateToProps = state => ({
+  appointment: state?.questionnaireData?.context?.appointment,
 });
 
 export default connect(
