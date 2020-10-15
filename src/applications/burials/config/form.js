@@ -49,6 +49,8 @@ import {
 } from '../validation';
 import migrations from '../migrations';
 
+import manifest from '../manifest.json';
+
 const {
   relationship,
   claimantFullName,
@@ -100,12 +102,21 @@ function isEligibleNonService(veteranBurialDate) {
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submit,
   trackingPrefix: 'burials-530-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_21P_530,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your burial benefits application (21-530) is in progress.',
+      expired:
+        'Your saved burial benefits application (21-530) has expired. If you want to apply for burial benefits, please start a new application.',
+      saved: 'Your burial benefits application has been saved.',
+    },
+  },
   version: 2,
   migrations,
   prefillEnabled: true,

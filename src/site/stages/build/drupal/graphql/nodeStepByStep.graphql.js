@@ -24,6 +24,7 @@ fragment nodeStepByStep on NodeStepByStep {
   fieldSteps {
     entity {
       ... on ParagraphStepByStep {
+        fieldSectionHeader
         fieldStep {
           entity {
             ... on ParagraphStep {

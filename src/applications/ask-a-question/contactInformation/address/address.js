@@ -180,6 +180,7 @@ export function schema(
  */
 export function uiSchema(
   label = 'Address',
+  useStreet2 = true,
   useStreet3 = false,
   isRequired = null,
   ignoreRequired = false,
@@ -193,6 +194,9 @@ export function uiSchema(
     'state',
     'postalCode',
   ];
+  if (!useStreet2) {
+    fieldOrder = fieldOrder.filter(field => field !== 'street3');
+  }
   if (!useStreet3) {
     fieldOrder = fieldOrder.filter(field => field !== 'street3');
   }

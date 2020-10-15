@@ -1,7 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 
 import mockUserNotInMPI from '../fixtures/users/user-not-in-mpi.json';
-import mockFeatureToggles from '../fixtures/feature-toggles.json';
 
 /**
  *
@@ -84,7 +83,6 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
     );
     cy.login(mockUserNotInMPI);
     // login() calls cy.server() so we can now mock routes
-    cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
   });
   it('should only have access to the Account Security section at desktop size', () => {
     test();

@@ -8,13 +8,25 @@ import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
 import StaticInformationReviewField from '../containers/StaticInformationReviewField';
 
+import manifest from '../manifest.json';
+
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/api',
   trackingPrefix: '28-1900-chapter-31-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '28-1900',
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your VR&E Chapter 31 benefits application (28-1900) is in progress.',
+      expired:
+        'Your saved VR&E Chapter 31 benefits application (28-1900) has expired. If you want to apply for Chapter 31 benefits, please start a new application.',
+      saved: 'Your Chapter 31 benefits application has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   // TODO: Currently if a user is logged in, veteran information does NOT get sent to the backend with the payload. We can either add it in

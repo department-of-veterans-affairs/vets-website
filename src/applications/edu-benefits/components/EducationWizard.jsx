@@ -371,7 +371,7 @@ export class EducationWizard extends React.Component {
                   <strong>
                     To be eligible for the{' '}
                     <a
-                      href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                      href="/education/other-va-education-benefits/stem-scholarship/"
                       rel="noopener noreferrer"
                       onClick={() =>
                         recordEvent({

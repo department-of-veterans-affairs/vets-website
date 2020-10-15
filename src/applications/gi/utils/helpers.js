@@ -141,11 +141,13 @@ export function useQueryParams() {
 }
 
 export function convertRatingToStars(rating) {
-  if (!rating || isNaN(rating)) {
+  const ratingValue = parseFloat(rating);
+
+  if (!ratingValue || isNaN(ratingValue)) {
     return null;
   }
 
-  const rounded = rating.toFixed(1);
+  const rounded = ratingValue.toFixed(1);
   let full = parseInt(rounded.split('.')[0], 10);
   const firstDecimal = parseInt(rounded.split('.')[1], 10);
 

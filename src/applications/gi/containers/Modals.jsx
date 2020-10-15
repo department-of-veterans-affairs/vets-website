@@ -337,30 +337,62 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('onlineOnlyDistanceLearning')}
       >
-        <h3>Online and distance learning</h3>
-        <p>
-          <p>
-            Under the GI Bill you’re eligible to receive a monthly housing
-            allowance if you’re enrolled in an online or distance-learning
-            course.
-          </p>
-          <p>
-            We now calculate the monthly housing allowance based on where a
-            student takes their classes. So if you enroll in an online or
-            distance-learning class, your housing allowance payment will be
-            based on where you do most of your coursework, not on your school’s
-            location.
-          </p>
-          <p>
-            If you use your Post-9/11 GI Bill benefits while taking only
-            distance-learning courses, we’ll pay you a housing allowance based
-            on 50% of the national average.
-          </p>
-          <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
-            View the current housing allowance payment rates
-          </a>
-          .
-        </p>
+        {// prod flag for story BAH-13929
+        environment.isProduction() ? (
+          <div>
+            <h3>Online and distance learning</h3>
+            <p>
+              <p>
+                Under the GI Bill you’re eligible to receive a monthly housing
+                allowance if you’re enrolled in an online or distance-learning
+                course.
+              </p>
+              <p>
+                We now calculate the monthly housing allowance based on where a
+                student takes their classes. So if you enroll in an online or
+                distance-learning class, your housing allowance payment will be
+                based on where you do most of your coursework, not on your
+                school’s location.
+              </p>
+              <p>
+                If you use your Post-9/11 GI Bill benefits while taking only
+                distance-learning courses, we’ll pay you a housing allowance
+                based on 50% of the national average.
+              </p>
+              <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
+                View the current housing allowance payment rates
+              </a>
+              .
+            </p>
+          </div>
+        ) : (
+          <div>
+            <h3>
+              Your housing allowance is determined by where you take classes
+            </h3>
+            <p>
+              <p>
+                Under the GI Bill you’re eligible to receive a monthly housing
+                allowance. We calculate this monthly housing allowance based
+                where you take classes.
+              </p>
+              <p>
+                If you use Post-9/11 GI Bill benefits to take at least 1
+                in-person class, your housing allowance is based on where you do
+                most of your coursework. If you take online courses only, your
+                housing allowance is based on 50% of the national average.
+              </p>
+              <p>
+                Through Dec. 21, 2020, current and new students can receive
+                in-person allowance rates if their school’s approved program
+                changed from in-person to online learning due to COVID-19.
+              </p>
+              <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
+                View the current housing allowance payment rates
+              </a>
+            </p>
+          </div>
+        )}
       </Modal>
 
       <Modal
@@ -547,7 +579,7 @@ export class Modals extends React.Component {
           <p>
             To learn more about this scholarship,{' '}
             <a
-              href="https://benefits.va.gov/gibill/fgib/stem.asp"
+              href="/education/other-va-education-benefits/stem-scholarship/"
               target="_blank"
               rel="noopener noreferrer"
             >

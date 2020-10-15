@@ -54,10 +54,13 @@ import {
   studentNetworthInformation,
 } from './chapters/674';
 
+import manifest from '../manifest.json';
+
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // NOTE: e2e tests will fail until the dependents_applications endpoint gets merged in to vets-api.
   // All e2e tests will be disabled until then. If you need to run an e2e test, temporarily change
@@ -69,6 +72,14 @@ const formConfig = {
   confirmation: ConfirmationPage,
   preSubmitInfo: CustomPreSubmitInfo,
   formId: VA_FORM_IDS.FORM_21_686C,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your dependent status application (21-686c) is in progress.',
+      expired:
+        'Your saved dependent status application (21-686c) has expired. If you want to apply for dependent status, please start a new application.',
+      saved: 'Your dependent status application has been saved.',
+    },
+  },
   version: 1,
   migrations,
   prefillEnabled: true,

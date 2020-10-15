@@ -28,10 +28,7 @@ module.exports = {
       type: ['object', 'null'],
     },
     fieldRelatedLinks: {
-      type: 'array',
-      items: {
-        $ref: 'output/paragraph-list_of_link_teasers',
-      },
+      $ref: 'output/paragraph-list_of_link_teasers',
     },
     fieldAdministration: {
       $ref: 'output/taxonomy_term-administration',
@@ -43,7 +40,7 @@ module.exports = {
       },
       required: ['date'],
     },
-    entityMetaTags: {
+    entityMetatags: {
       $ref: 'MetaTags',
     },
     entityPublished: { type: 'boolean' },
