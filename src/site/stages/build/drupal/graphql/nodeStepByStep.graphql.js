@@ -21,6 +21,27 @@ fragment nodeStepByStep on NodeStepByStep {
     }
   }
   fieldButtonsRepeat
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldSupportServices {
+          entity {
+            ... on NodeSupportService {
+              title
+              fieldLink {
+                title
+                url {
+                  path
+                  routed
+                }
+              }
+              fieldPhoneNumber
+            }
+          }
+        }
+      }
+    }
+  }
   fieldSteps {
     entity {
       ... on ParagraphStepByStep {
