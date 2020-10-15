@@ -9,12 +9,12 @@ In order to be able to log in to your local environment, you will need to do the
 
 
 ## To log in:
-0) Have both the website and API running. 
-3) Go your local website, and select sign in and sign in with `ID.me`
-4) Log in with a appropriate user, ask your team for what can be used. 
-5) Click through the next few pages, it won't send a text, and it should allow you to pass right on through. 
-6) You should be redirected back to the home page, signed in.
-7) To see if it worked, you should be able to open your [redux dev tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd) and see the user object in the global state.
+1. Have both the website and API running. 
+1. Go your local website, and select sign in and sign in with `ID.me`
+1. Log in with a appropriate user, ask your team for what can be used. 
+1. Click through the next few pages, it won't send a text, and it should allow you to pass right on through. 
+1. You should be redirected back to the home page, signed in.
+1. To see if it worked, you should be able to open your [redux dev tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd) and see the user object in the global state.
 
 ## Didn't work? 
 
