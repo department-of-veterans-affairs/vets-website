@@ -61,7 +61,7 @@ const formConfig = {
     date,
     dateRange,
   },
-  title: 'Update your education benefits',
+  title: 'Change your education benefits',
   subTitle: 'Form 22-1995',
   preSubmitInfo,
   footerContent: FormFooter,
