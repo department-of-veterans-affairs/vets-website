@@ -37,9 +37,6 @@ const formConfig = {
       saved: 'Your appointment questionnaire application has been saved.',
     },
   },
-  customText: {
-    appType: 'questionnaire',
-  },
   version: 0,
   prefillEnabled: true,
   footerContent: GetHelp.footer,
@@ -53,6 +50,7 @@ const formConfig = {
   },
   title: 'Upcoming appointment questionnaire',
   defaultDefinitions: {},
+  customText: { reviewPageTitle: 'Review', appType: 'questionnaire' },
   chapters: {
     chapter1: {
       title: "Veteran's Information",

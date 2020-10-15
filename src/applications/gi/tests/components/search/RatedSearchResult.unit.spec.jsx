@@ -47,22 +47,6 @@ describe('<SearchResult>', () => {
     tree.unmount();
   });
 
-  it('should render with gibctFilterEnhancement feature flag', () => {
-    const tree = mount(
-      <MemoryRouter>
-        <RatedSearchResult
-          estimated={estimated}
-          womenOnly={result.womenonly}
-          menOnly={result.menonly}
-          {...result}
-          gibctFilterEnhancement
-        />
-      </MemoryRouter>,
-    );
-    expect(tree.find('.search-result').length).to.eq(1);
-    tree.unmount();
-  });
-
   it('should not render ratings if rating count < minimum', () => {
     const resultWithoutMinRatings = {
       ...result,

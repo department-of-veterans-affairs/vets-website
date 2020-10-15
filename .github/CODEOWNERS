@@ -16,6 +16,7 @@ src/platform/forms-system @department-of-veterans-affairs/vsp-design-system-fe
 # Authenticated Experience
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
 src/platform/user/profile/vet360 @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/frontend-review-group
+src/platform/utilities/medical-centers @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/frontend-review-group
 
 # Benefits and Memorials
 src/applications/letters @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend

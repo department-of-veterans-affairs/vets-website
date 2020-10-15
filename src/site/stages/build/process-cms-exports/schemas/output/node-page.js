@@ -40,7 +40,7 @@ module.exports = {
       },
       required: ['date'],
     },
-    entityMetaTags: {
+    entityMetatags: {
       $ref: 'MetaTags',
     },
     entityPublished: { type: 'boolean' },

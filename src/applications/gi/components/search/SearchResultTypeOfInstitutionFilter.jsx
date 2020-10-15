@@ -1,6 +1,7 @@
 import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 
 function SearchResultTypeOfInstitutionFilter({
   category,
@@ -24,7 +25,11 @@ function SearchResultTypeOfInstitutionFilter({
 
   return (
     <RadioButtons
-      label="Select an institution type"
+      label={
+        environment.isProduction()
+          ? 'Select an institution type'
+          : 'Select an institution'
+      }
       name="category"
       options={options}
       value={category}
