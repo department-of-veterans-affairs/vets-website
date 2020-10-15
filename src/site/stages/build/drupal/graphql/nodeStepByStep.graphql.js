@@ -57,17 +57,7 @@ fragment nodeStepByStep on NodeStepByStep {
       ... on NodeLandingPage {
         fieldSupportServices {
           entity {
-            ... on NodeSupportService {
-              title
-              fieldLink {
-                title
-                url {
-                  path
-                  routed
-                }
-              }
-              fieldPhoneNumber
-            }
+            ... supportService
           }
         }
       }

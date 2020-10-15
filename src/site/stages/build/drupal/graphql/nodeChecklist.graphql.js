@@ -27,17 +27,7 @@ fragment nodeChecklist on NodeChecklist {
       ... on NodeLandingPage {
         fieldSupportServices {
           entity {
-            ... on NodeSupportService {
-              title
-              fieldLink {
-                title
-                url {
-                  path
-                  routed
-                }
-              }
-              fieldPhoneNumber
-            }
+            ... supportService
           }
         }
       }
