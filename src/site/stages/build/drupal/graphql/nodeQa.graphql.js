@@ -34,6 +34,20 @@ fragment nodeQa on NodeQA {
       ... linkTeaser
     }
   }
+  fieldPrimaryCategory {
+    entity {
+      ... on TaxonomyTermLcCategories {
+        name
+      }
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... on TaxonomyTermLcCategories {
+        name
+      }
+    }
+  }
 }
 `;
 

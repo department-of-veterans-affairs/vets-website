@@ -42,6 +42,20 @@ fragment nodeChecklist on NodeChecklist {
       }
     }
   }
+  fieldPrimaryCategory {
+    entity {
+      ... on TaxonomyTermLcCategories {
+        name
+      }
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... on TaxonomyTermLcCategories {
+        name
+      }
+    }
+  }
 }
 `;
 

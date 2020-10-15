@@ -145,7 +145,6 @@ const buildQuery = ({ useTomeSync }) => {
     ${alertsQuery}
     ${bannerAlertsQuery}
     ${outreachAssetsQuery}
-    ${resourcesAndSupportArticleListings}
     ${homePageQuery}
     ${
       cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS

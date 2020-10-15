@@ -48,6 +48,20 @@ fragment nodeMediaListImages on NodeMediaListImages {
       }
     }
   }
+  fieldPrimaryCategory {
+    entity {
+      ... on TaxonomyTermLcCategories {
+        name
+      }
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... on TaxonomyTermLcCategories {
+        name
+      }
+    }
+  }
 }
 `;
 

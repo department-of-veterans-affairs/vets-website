@@ -43,6 +43,20 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
       }
     }
   }
+  fieldPrimaryCategory {
+    entity {
+      ... on TaxonomyTermLcCategories {
+        name
+      }
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... on TaxonomyTermLcCategories {
+        name
+      }
+    }
+  }
 }
 `;
 

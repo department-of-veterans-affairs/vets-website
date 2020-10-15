@@ -3,8 +3,23 @@ const _ = require('lodash');
 
 const PAGE_SIZE = 10;
 
+const BUNDLE_TYPES = new Set([
+  "step_by_step",
+  "faq_multiple_q_a",
+  "q_a",
+  "checklist",
+  "media_list_images",
+  "media_list_videos",
+  "support_resources_detail_page",
+]);
+
+function getArticlesBelongingToResourcesAndSupportSection(files) {
+  return Object.entries(files)
+    .filter(([fileName, file]) => BUNDLE_TYPES.has(file.entityBundle))
+}
+
 function createResourcesAndSupport(buildOptions) {
-  if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
+  if (buildOptions.buildtype !== ENVIRONMENTS.VAGOVDEV) {
     return () => {};
   }
 
@@ -19,7 +34,8 @@ function createResourcesAndSupport(buildOptions) {
       return;
     }
 
-    const allArticles = resourcesAndSupportArticleListings.entities;
+    const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
+    // const allArticles = resourcesAndSupportArticleListings.entities;
 
     // Create a map where keys = name of a category
     // and values = array of articles under that category
