@@ -1,5 +1,6 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
+import environment from 'platform/utilities/environment';
 import {
   PURPOSE_TEXT,
   CC_PURPOSE,
@@ -54,6 +55,20 @@ function getUserMessage(data) {
   return `${label}: ${data.reasonAdditionalInfo}`;
 }
 
+function getTestFacilityName(id, name) {
+  if (!environment.isProduction() && id.startsWith('983')) {
+    return `CHYSHR-${name}`;
+  }
+
+  if (!environment.isProduction() && id.startsWith('984')) {
+    // The extra space here is intentional, that appears to be how it is named
+    // in CDW
+    return `DAYTSHR -${name}`;
+  }
+
+  return name;
+}
+
 export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
@@ -63,13 +78,16 @@ export function transformFormToVARequest(state) {
   const facilityId = isFacilityV2Page
     ? facility.id.replace('var', '')
     : getFacilityIdFromLocation(facility);
+  const facilityName = isFacilityV2Page
+    ? getTestFacilityName(facilityId, facility.name)
+    : facility.name;
 
   return {
     typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
     appointmentType: typeOfCare.name,
     facility: {
-      name: facility.name,
+      name: facilityName,
       facilityCode: facilityId,
       parentSiteCode: siteId,
     },
