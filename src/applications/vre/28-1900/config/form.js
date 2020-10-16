@@ -2,6 +2,7 @@ import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { hasSession } from 'platform/user/profile/utilities';
+import PreSubmitInfo from 'applications/vre/28-1900/components/PreSubmitInfo';
 import VeteranInformationViewComponent from '../components/VeteranInformationViewComponent';
 import { additionalInformation } from './chapters/additional-information';
 import { communicationPreferences } from './chapters/communication-preferences';
@@ -17,6 +18,7 @@ const formConfig = {
   trackingPrefix: '28-1900-chapter-31-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: PreSubmitInfo,
   formId: '28-1900',
   saveInProgress: {
     messages: {
@@ -37,7 +39,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Vocational Readiness and Employment.',
   },
-  title: '28-1900 Vocational Readiness and Employment',
+  title: 'Apply for Veteran Readiness and Employment',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     veteranInformation: {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const noAddressBanner = (
-  <div className="usa-alert usa-alert-warning">
+  <div className="usa-alert usa-alert-warning vads-u-margin-bottom--4">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
         We don't have a valid address on file for you
