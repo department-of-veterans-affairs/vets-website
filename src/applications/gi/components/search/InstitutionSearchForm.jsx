@@ -19,6 +19,7 @@ function InstitutionSearchForm({
   eligibilityChange,
   fetchAutocompleteSuggestions,
   filters,
+  gibctBenefitFilterEnhancement,
   filtersClass,
   handleFilterChange,
   hideModal,
@@ -123,12 +124,14 @@ function InstitutionSearchForm({
                 showModal={showModal}
                 showHeader
                 handleInputFocus={handleInstitutionSearchInputFocus}
+                gibctBenefitFilterEnhancement={gibctBenefitFilterEnhancement}
               />
               <OnlineClassesFilter
                 onlineClasses={eligibility.onlineClasses}
                 onChange={eligibilityChange}
                 showModal={showModal}
                 handleInputFocus={handleInstitutionSearchInputFocus}
+                gibctBenefitFilterEnhancement={gibctBenefitFilterEnhancement}
               />
             </div>
           ) : (
