@@ -94,6 +94,7 @@ export function transformFormToVARequest(state) {
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
     )?.serviceName,
+    // sending data to BE for SM Other Reason for Appt field
     otherPurposeOfVisit:
       data.reasonForAppointment === 'other'
         ? 'See additional information'
