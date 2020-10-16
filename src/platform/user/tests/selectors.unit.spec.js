@@ -266,6 +266,46 @@ describe('user selectors', () => {
         state.user.profile.facilities,
       );
     });
+    it('pulls out the state.profile.facilities array and adds Cerner capability flags to Cerner facilities', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '757', isCerner: false },
+              { facilityId: '668', isCerner: true },
+              { facilityId: '984', isCerner: false },
+            ],
+            isCernerPatient: false,
+          },
+        },
+      };
+      const expected = [
+        { facilityId: '984', isCerner: false },
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: false,
+          usesCernerMessaging: false,
+          usesCernerRx: false,
+          usesCernerTestResults: false,
+        },
+      ];
+      expect(selectors.selectPatientFacilities(state)).to.deep.equal(expected);
+    });
     it('returns undefined if there is no facilities on the profile', () => {
       const state = {
         user: {
