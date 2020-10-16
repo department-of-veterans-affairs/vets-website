@@ -27,7 +27,7 @@ const getSchemaFromParentTopic = (topicSchema, value, isLevelThree = false) => {
   return parentSchema[0].properties[childLevel];
 };
 
-export const filterArrayByValue = (
+export const filterTopicArrayByLabel = (
   topicSchema,
   value,
   isLevelThree = false,
@@ -62,18 +62,38 @@ const complexLevelTwoTopics = [
   'Women Veterans Health Care',
 ];
 
+const levelTwoWithLevelThreeTopics = {
+  'Burial & Memorial Benefits (NCA)': ['Burial Benefits'],
+  'Health & Medical Issues & Services': [
+    'Health/Medical Eligibility & Programs',
+    'Prosthetics, Med Devices & Sensory Aids',
+    'Women Veterans Health Care',
+  ],
+};
+
 const valuesByLabelLookup = {};
 levelOneTopicLabels.forEach(label => {
-  valuesByLabelLookup[label] = filterArrayByValue(topicSchemaCopy, label);
+  valuesByLabelLookup[label] = filterTopicArrayByLabel(topicSchemaCopy, label);
 });
-complexLevelTwoTopics.forEach(label => {
-  const parentTopic = 'Health & Medical Issues & Services';
-  valuesByLabelLookup[label] = filterArrayByValue(
-    getSchemaFromParentTopic(topicSchemaCopy, parentTopic),
-    label,
-    true,
-  );
-});
+
+for (const [parentTopic, complexLevelTwo] of Object.entries(
+  levelTwoWithLevelThreeTopics,
+)) {
+  complexLevelTwo.forEach(label => {
+    valuesByLabelLookup[label] = filterTopicArrayByLabel(
+      getSchemaFromParentTopic(topicSchemaCopy, parentTopic),
+      label,
+      true,
+    );
+  });
+}
+
+export const updateFormData = (oldData, newData) => {
+  if (oldData.topic.levelOne !== newData.topic.levelOne) {
+    Object.assign(newData.topic, { levelTwo: undefined });
+  }
+  return newData;
+};
 
 export const levelThreeRequiredTopics = new Set(complexLevelTwoTopics);
 
