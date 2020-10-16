@@ -24,7 +24,7 @@ describe('<ConfirmationPage>', () => {
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
 
     expect(tree.subTree('.confirmation-page-title').text()).to.equal(
-      'Claim received',
+      "We've received your application.",
     );
     expect(
       tree
@@ -36,7 +36,7 @@ describe('<ConfirmationPage>', () => {
       'We usually process claims within 30 days.',
     );
     expect(tree.everySubTree('p')[1].text()).to.contain(
-      'We may contact you for more information or documents.Please print this page for your records',
+      'We may contact you if we need more information or documents.',
     );
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
