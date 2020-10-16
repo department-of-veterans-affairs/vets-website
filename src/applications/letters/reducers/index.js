@@ -21,6 +21,7 @@ import {
   LETTER_ELIGIBILITY_ERROR,
   REQUEST_OPTIONS,
   UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
+  LETTER_RESET_PENDING_STATE,
 } from '../utils/constants';
 
 export const initialState = {
@@ -143,6 +144,12 @@ function letters(state = initialState, action) {
         DOWNLOAD_STATUSES.failure,
         state,
       );
+    case LETTER_RESET_PENDING_STATE:
+      return {
+        ...state,
+        lettersAvailability: false,
+        addressAvailability: false,
+      };
     default:
       return state;
   }

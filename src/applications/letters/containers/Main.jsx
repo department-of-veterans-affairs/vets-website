@@ -6,7 +6,10 @@ import { systemDownMessage } from 'platform/static-data/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound, isAddressEmpty } from '../utils/helpers';
 
-import { getLetterListAndBSLOptions } from '../actions/letters';
+import {
+  getLetterListAndBSLOptions,
+  resetPendingStatus,
+} from '../actions/letters';
 
 const {
   awaitingResponse,
@@ -20,8 +23,9 @@ const {
 export class Main extends React.Component {
   componentDidMount() {
     if (!this.props.emptyAddress) {
-      this.props.getLetterListAndBSLOptions();
+      return this.props.getLetterListAndBSLOptions();
     }
+    return this.props.resetPendingStatus();
   }
 
   appAvailability(lettersAvailability) {
@@ -74,9 +78,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  // getBenefitSummaryOptions,
-  // getLetterList,
   getLetterListAndBSLOptions,
+  resetPendingStatus,
 };
 
 export default connect(
