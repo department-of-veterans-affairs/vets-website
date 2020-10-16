@@ -445,9 +445,15 @@ export default function formReducer(state = initialState, action) {
         requestLocationStatus = FETCH_STATUS.succeeded;
       }
 
-      typeOfCareFacilities = typeOfCareFacilities.sort(
-        (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
-      );
+      if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
+        typeOfCareFacilities = typeOfCareFacilities.sort(
+          (a, b) => a.name - b.name,
+        );
+      } else {
+        typeOfCareFacilities = typeOfCareFacilities.sort(
+          (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
+        );
+      }
 
       newSchema = set(
         'properties.vaFacility',

@@ -178,7 +178,7 @@ export const FACILITY_TYPES = {
 export const FACILITY_SORT_METHODS = {
   distanceFromResidential: 'distanceFromResidentialAddress',
   distanceFromCurrentLocation: 'distanceFromCurrentLocation',
-  ALPHABETICAL: 'alphabetical',
+  alphabetical: 'alphabetical',
 };
 
 export const LANGUAGES = [
