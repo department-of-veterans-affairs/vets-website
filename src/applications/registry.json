@@ -819,7 +819,22 @@
     "rootUrl": "/careers-employment/vocational-rehabilitation/apply",
     "template": {
       "vagovprod": false,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "careers-employment",
+          "name": "Careers and employment"
+        },
+        {
+          "path": "careers-employment/vocational-rehabilitation",
+          "name": "Veteran Readiness and Employment"
+        },
+        {
+          "path": "careers-employment/vocational-rehabilitation/apply",
+          "name": "Apply for VR&E Form 28-1900"
+        }
+      ]
     }
   },
   {
