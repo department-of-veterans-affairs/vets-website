@@ -59,48 +59,12 @@
     }
   },
   {
-    "appName": "Account",
-    "entryName": "account",
-    "rootUrl": "/account",
-    "template": {
-      "title": "Your VA.gov Account",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "account/",
-          "name": "Your account settings"
-        }
-      ]
-    }
-  },
-  {
     "appName": "Rated Disabilities",
     "entryName": "disability-my-rated-disabilities",
     "rootUrl": "/disability/view-disability-rating/rating",
     "template": {
       "layout": "page-react.html",
       "vagovprod": true
-    }
-  },
-  {
-    "appName": "Connected Accounts",
-    "entryName": "connected-accounts",
-    "rootUrl": "/account/connected-accounts",
-    "template": {
-      "title": "Connected Accounts",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "account/",
-          "name": "Your account settings"
-        },
-        {
-          "path": "account/connected-accounts/",
-          "name": "Connected Accounts"
-        }
-      ]
     }
   },
   {
