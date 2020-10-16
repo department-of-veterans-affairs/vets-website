@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
+import { MINIMUM_RATING_COUNT } from '../../constants';
 import { estimatedBenefits } from '../../selectors/estimator';
 import {
   convertRatingToStars,
@@ -54,7 +55,7 @@ export function RatedSearchResult({
     ? appendQuery(`/profile/${facilityCode}`, { version })
     : `/profile/${facilityCode}`;
   const stars = convertRatingToStars(ratingAverage);
-  const displayStars = stars && ratingCount > 0;
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   return (
     <div

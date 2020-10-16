@@ -6,7 +6,7 @@ import Telephone, {
 export default function ReviewFooter() {
   const vetChatNumber = '838255';
   return (
-    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+    <div className="usa-alert usa-alert-info schemaform-sip-alert questionnaire-review-message">
       <div className="usa-alert-body">
         <h3 className="usa-alert-heading">
           Please don’t use this form if you need emergency care

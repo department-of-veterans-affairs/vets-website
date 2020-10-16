@@ -6,34 +6,8 @@ module.exports = {
     entityBundle: { enum: ['event'] },
     title: { type: 'string' },
     entityUrl: { $ref: 'EntityUrl' },
-    entityMetaTags: {
-      // Probably should be a common schema...except it's got
-      // __typename instead of type, so it's different.
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          __typename: { type: 'string' },
-          key: { type: 'string' },
-          value: { type: 'string' },
-        },
-      },
-    },
     entityPublished: { type: 'boolean' },
     changed: { type: 'number' },
-    // uid: {
-    //   type: 'object',
-    //   properties: {
-    //     targetId: { type: 'number' },
-    //     entity: {
-    //       type: 'object',
-    //       properties: {
-    //         name: { type: 'string' },
-    //         timezone: { type: ['null'] }, // All the exmaples are null
-    //       },
-    //     },
-    //   },
-    // },
     fieldAdditionalInformationAbo: {
       oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
     },
