@@ -84,6 +84,7 @@ function groupByCategory(allArticles) {
 function createPaginatedArticleListings({
   articlesByGroupName,
   getTitle,
+  getRootUrl,
   getPaginationSummary,
 }) {
   return Object.entries(articlesByGroupName).reduce(
@@ -95,8 +96,7 @@ function createPaginatedArticleListings({
         'title',
       );
 
-      const groupUri = _.kebabCase(groupName);
-      const groupRootUrl = `resources/${groupUri}`;
+      const groupRootUrl = getRootUrl(groupName);
       const paginatedArticles = _.chunk(allArticlesForGroup, PAGE_SIZE);
 
       paginatedArticles.forEach((pageOfArticles, index) => {
@@ -214,6 +214,10 @@ function createResourcesAndSupportWebsiteSection(buildOptions) {
         return `All articles in: ${categoryName}`;
       },
 
+      getRootUrl(categoryName) {
+        return `resources/${_.kebabCase(categoryName)}`;
+      },
+
       getPaginationSummary({
         pageStart,
         pageEnd,
@@ -229,6 +233,10 @@ function createResourcesAndSupportWebsiteSection(buildOptions) {
 
       getTitle(tag) {
         return `All articles tagged: ${tag}`;
+      },
+
+      getRootUrl(tag) {
+        return `resources/tag/${_.kebabCase(tag)}`;
       },
 
       getPaginationSummary({
