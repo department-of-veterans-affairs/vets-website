@@ -14,6 +14,7 @@ import {
   ConsentLabel,
   ConsentError,
 } from '../containers/ConsentFormContent';
+import submitForm from './submitForm';
 
 import manifest from '../manifest.json';
 
@@ -27,6 +28,7 @@ const checkBoxElements = [
   'GENDER',
   'RACE_ETHNICITY',
 ];
+
 const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
 export const setNoneOfAbove = (form, elementName, elementNOA) => {
@@ -121,6 +123,7 @@ const formConfig = {
     notice: ConsentNotice(),
     error: ConsentError(),
   },
+  submit: submitForm,
   chapters: {
     chapter1: {
       title: 'Your information',
@@ -132,7 +135,6 @@ const formConfig = {
           uiSchema,
           schema: {
             required: fullSchema.required,
-            // required: [],
             type: 'object',
             properties: {
               descriptionText: {
