@@ -22,6 +22,7 @@ import {
   mockRequestEligibilityCriteria,
   mockDirectBookingEligibilityCriteria,
   mockFacilitiesFetch,
+  mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 
 const initialState = {
@@ -251,6 +252,95 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     // It should sort by distance, making Closest facility the first facility
     const firstRadio = screen.container.querySelector('.form-radio-buttons');
     expect(firstRadio).to.contain.text('Closest facility');
+  });
+
+  it('should sort by distance from current location if user clicks "use current location"', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+    mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    mockGetCurrentPosition();
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vet360: {
+            residentialAddress: {
+              addressLine1: '290 Ludlow Ave',
+              city: 'Cincinatti',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1362562, // Cincinatti, OH
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    await screen.findAllByRole('radio');
+    fireEvent.click(screen.getByText('use your current location'));
+    await screen.findByText('Finding your location...');
+    await screen.findAllByRole('radio');
+    expect(screen.baseElement).not.to.contain.text('use your current location');
+
+    // Clicking use home address should revert sort back to distance from hoem address
+    fireEvent.click(screen.getByText('use your home address on file'));
+    expect(screen.baseElement).to.contain.text('Your home address on file');
+  });
+
+  it('should display error messaging if user denied location permissions', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+    mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    mockGetCurrentPosition({ fail: true });
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vet360: {
+            residentialAddress: {
+              addressLine1: '290 Ludlow Ave',
+              city: 'Cincinatti',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1362562, // Cincinatti, OH
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    await screen.findAllByRole('radio');
+    fireEvent.click(screen.getByText('use your current location'));
+    await screen.findByText('Finding your location...');
+    expect(screen.baseElement).to.contain.text('We can’t find your location');
   });
 
   it('should not display show more button if < 6 locations', async () => {

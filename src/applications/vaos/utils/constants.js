@@ -176,8 +176,8 @@ export const FACILITY_TYPES = {
 };
 
 export const FACILITY_SORT_METHODS = {
-  DISTANCE_FROM_RESIDENTIAL: 'distanceFromResidential',
-  DISTANCE_FROM_CURRENT_LOCATION: 'distanceFromCurrentLocation',
+  distanceFromResidential: 'distanceFromResidentialAddress',
+  distanceFromCurrentLocation: 'distanceFromCurrentLocation',
   ALPHABETICAL: 'alphabetical',
 };
 

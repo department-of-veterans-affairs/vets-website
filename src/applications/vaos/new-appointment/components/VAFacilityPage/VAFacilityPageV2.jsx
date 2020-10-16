@@ -66,8 +66,8 @@ function VAFacilityPageV2({
   singleValidVALocation,
   sortMethod,
   typeOfCare,
+  updateFacilitySortMethod,
   updateFormData,
-  requestCurrentLocation,
 }) {
   const history = useHistory();
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
@@ -199,10 +199,10 @@ function VAFacilityPageV2({
   }
 
   const sortByDistanceFromResidential =
-    sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL;
+    sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
 
   const sortByDistanceFromCurrentLocation =
-    sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_CURRENT_LOCATION;
+    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
 
   const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
 
@@ -232,7 +232,10 @@ function VAFacilityPageV2({
                   href="#"
                   onClick={e => {
                     e.preventDefault();
-                    requestCurrentLocation(uiSchema);
+                    updateFacilitySortMethod(
+                      FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                      uiSchema,
+                    );
                   }}
                 >
                   use your current location
@@ -240,6 +243,24 @@ function VAFacilityPageV2({
               </p>
             )}
           </>
+        )}
+      {sortByDistanceFromCurrentLocation &&
+        !requestingLocation && (
+          <p>
+            Or,{' '}
+            <a
+              href="#"
+              onClick={e => {
+                e.preventDefault();
+                updateFacilitySortMethod(
+                  FACILITY_SORT_METHODS.distanceFromResidential,
+                  uiSchema,
+                );
+              }}
+            >
+              use your home address on file
+            </a>
+          </p>
         )}
       {requestLocationStatus === FETCH_STATUS.failed && (
         <p>
@@ -249,7 +270,10 @@ function VAFacilityPageV2({
             href="#"
             onClick={e => {
               e.preventDefault();
-              requestCurrentLocation(uiSchema);
+              updateFacilitySortMethod(
+                FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                uiSchema,
+              );
             }}
           >
             try again
@@ -262,39 +286,40 @@ function VAFacilityPageV2({
           <LoadingIndicator message="Finding your location..." />
         </div>
       )}
-      {childFacilitiesStatus === FETCH_STATUS.succeeded && (
-        <SchemaForm
-          name="VA Facility"
-          title="VA Facility"
-          schema={schema}
-          uiSchema={uiSchema}
-          onChange={onFacilityChange}
-          onSubmit={goForward}
-          formContext={{ loadingEligibility, sortMethod }}
-          data={data}
-        >
-          <FormButtons
-            continueLabel=""
-            pageChangeInProgress={pageChangeInProgress}
-            onBack={goBack}
-            disabled={
-              loadingParents ||
-              loadingFacilities ||
-              loadingEligibility ||
-              (facilities?.length === 1 && !canScheduleAtChosenFacility)
-            }
-          />
-          {loadingEligibility && (
-            <div aria-atomic="true" aria-live="assertive">
-              <AlertBox isVisible status="info" headline="Please wait">
-                We’re checking if we can create an appointment for you at this
-                facility. This may take up to a minute. Thank you for your
-                patience.
-              </AlertBox>
-            </div>
-          )}
-        </SchemaForm>
-      )}
+      {childFacilitiesStatus === FETCH_STATUS.succeeded &&
+        !requestingLocation && (
+          <SchemaForm
+            name="VA Facility"
+            title="VA Facility"
+            schema={schema}
+            uiSchema={uiSchema}
+            onChange={onFacilityChange}
+            onSubmit={goForward}
+            formContext={{ loadingEligibility, sortMethod }}
+            data={data}
+          >
+            <FormButtons
+              continueLabel=""
+              pageChangeInProgress={pageChangeInProgress}
+              onBack={goBack}
+              disabled={
+                loadingParents ||
+                loadingFacilities ||
+                loadingEligibility ||
+                (facilities?.length === 1 && !canScheduleAtChosenFacility)
+              }
+            />
+            {loadingEligibility && (
+              <div aria-atomic="true" aria-live="assertive">
+                <AlertBox isVisible status="info" headline="Please wait">
+                  We’re checking if we can create an appointment for you at this
+                  facility. This may take up to a minute. Thank you for your
+                  patience.
+                </AlertBox>
+              </div>
+            )}
+          </SchemaForm>
+        )}
 
       {showEligibilityModal && (
         <EligibilityModal
@@ -312,13 +337,13 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  openFacilityPageV2: actions.openFacilityPageV2,
-  updateFormData: actions.updateFormData,
+  checkEligibility: actions.checkEligibility,
   hideEligibilityModal: actions.hideEligibilityModal,
+  openFacilityPageV2: actions.openFacilityPageV2,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  checkEligibility: actions.checkEligibility,
-  requestCurrentLocation: actions.requestCurrentLocation,
+  updateFacilitySortMethod: actions.updateFacilitySortMethod,
+  updateFormData: actions.updateFormData,
 };
 
 export default connect(

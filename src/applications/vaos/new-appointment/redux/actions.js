@@ -20,6 +20,7 @@ import {
   selectSystemIds,
   getEligibilityStatus,
   getRootIdForChosenFacility,
+  getSelectedTypeOfCareFacilities,
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
@@ -47,6 +48,7 @@ import { getSupportedHealthcareServicesAndLocations } from '../../services/healt
 import { getSlots } from '../../services/slot';
 import { getPreciseLocation } from '../../utils/address';
 import {
+  FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
@@ -110,6 +112,8 @@ export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
 export const FORM_PAGE_FACILITY_OPEN_FAILED =
   'newAppointment/FACILITY_PAGE_OPEN_FAILED';
+export const FORM_PAGE_FACILITY_UPDATE_SORT_METHOD =
+  'newAppointment/FORM_PAGE_FACILITY_UPDATE_SORT_METHOD';
 export const FORM_FETCH_PARENT_FACILITIES =
   'newAppointment/FORM_FETCH_PARENT_FACILITIES';
 export const FORM_FETCH_PARENT_FACILITIES_SUCCEEDED =
@@ -163,8 +167,6 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED';
 export const FORM_REQUEST_CURRENT_LOCATION =
   'newAppointment/FORM_REQUEST_CURRENT_LOCATION';
-export const FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED =
-  'newAppointment/FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED';
 export const FORM_REQUEST_CURRENT_LOCATION_FAILED =
   'newAppointment/FORM_REQUEST_CURRENT_LOCATION_FAILED';
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
@@ -427,24 +429,37 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   };
 }
 
-export function requestCurrentLocation(uiSchema) {
-  return async dispatch => {
-    dispatch({
-      type: FORM_REQUEST_CURRENT_LOCATION,
-    });
-    try {
-      const location = await getPreciseLocation();
+export function updateFacilitySortMethod(sortMethod, uiSchema) {
+  return async (dispatch, getState) => {
+    let location = null;
+    const facilities = getSelectedTypeOfCareFacilities(getState());
+    const calculatedDistanceFromCurrentLocation = facilities.some(
+      f => !!f.legacyVAR?.distancefromCurrentLocation,
+    );
+
+    if (
+      sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
+      !calculatedDistanceFromCurrentLocation
+    ) {
       dispatch({
-        type: FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED,
-        location,
-        uiSchema,
+        type: FORM_REQUEST_CURRENT_LOCATION,
       });
-    } catch (e) {
-      captureError(e, false, 'facility page');
-      dispatch({
-        type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
-      });
+      try {
+        location = await getPreciseLocation();
+      } catch (e) {
+        captureError(e, false, 'facility page');
+        dispatch({
+          type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
+        });
+      }
     }
+
+    dispatch({
+      type: FORM_PAGE_FACILITY_UPDATE_SORT_METHOD,
+      sortMethod,
+      uiSchema,
+      location,
+    });
   };
 }
 

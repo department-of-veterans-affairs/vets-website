@@ -23,8 +23,8 @@ import {
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
+  FORM_PAGE_FACILITY_UPDATE_SORT_METHOD,
   FORM_REQUEST_CURRENT_LOCATION,
-  FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED,
   FORM_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
@@ -326,8 +326,8 @@ export default function formReducer(state = initialState, action) {
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
       const sortMethod = hasResidentialCoordinates
-        ? FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL
-        : FACILITY_SORT_METHODS.ALPHABETICAL;
+        ? FACILITY_SORT_METHODS.distanceFromResidential
+        : FACILITY_SORT_METHODS.alphabetical;
 
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
@@ -369,11 +369,7 @@ export default function formReducer(state = initialState, action) {
               },
             };
           })
-          .sort(
-            (a, b) =>
-              a.legacyVAR.distanceFromResidentialAddress -
-              b.legacyVAR.distanceFromResidentialAddress,
-          );
+          .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
       }
 
       newSchema = set(
@@ -414,17 +410,21 @@ export default function formReducer(state = initialState, action) {
         requestLocationStatus: FETCH_STATUS.loading,
       };
     }
-    case FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED: {
-      const { coords } = action.location;
-      const { latitude, longitude } = coords;
+    case FORM_PAGE_FACILITY_UPDATE_SORT_METHOD: {
       const formData = state.data;
       const typeOfCareId = formData.typeOfCareId;
+      const sortMethod = action.sortMethod;
+      const location = action.location;
       let typeOfCareFacilities = state.facilities[typeOfCareId];
       let newSchema = state.pages.vaFacilityV2;
+      let requestLocationStatus = state.requestLocationStatus;
 
-      if (latitude && longitude) {
-        typeOfCareFacilities = typeOfCareFacilities
-          .map(facility => {
+      if (location) {
+        const { coords } = location;
+        const { latitude, longitude } = coords;
+
+        if (latitude && longitude) {
+          typeOfCareFacilities = typeOfCareFacilities.map(facility => {
             const distancefromCurrentLocation = distanceBetween(
               latitude,
               longitude,
@@ -439,13 +439,15 @@ export default function formReducer(state = initialState, action) {
                 distancefromCurrentLocation,
               },
             };
-          })
-          .sort(
-            (a, b) =>
-              a.legacyVAR.distancefromCurrentLocation -
-              b.legacyVAR.distancefromCurrentLocation,
-          );
+          });
+        }
+
+        requestLocationStatus = FETCH_STATUS.succeeded;
       }
+
+      typeOfCareFacilities = typeOfCareFacilities.sort(
+        (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
+      );
 
       newSchema = set(
         'properties.vaFacility',
@@ -469,14 +471,9 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           vaFacilityV2: schema,
         },
-        facilities: {
-          ...state.facilities,
-          [typeOfCareId]: typeOfCareFacilities,
-        },
         childFacilitiesStatus: FETCH_STATUS.succeeded,
-        facilityPageSortMethod:
-          FACILITY_SORT_METHODS.DISTANCE_FROM_CURRENT_LOCATION,
-        requestLocationStatus: FETCH_STATUS.succeeded,
+        facilityPageSortMethod: sortMethod,
+        requestLocationStatus,
       };
     }
     case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
