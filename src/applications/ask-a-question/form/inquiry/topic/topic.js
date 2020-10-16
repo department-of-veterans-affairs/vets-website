@@ -56,6 +56,7 @@ const levelOneTopicLabels = topicSchemaCopy.anyOf.map(topicSchema => {
 
 // In the schema these level twos have level three topics
 const complexLevelTwoTopics = [
+  'Burial Benefits',
   'Health/Medical Eligibility & Programs',
   'Prosthetics, Med Devices & Sensory Aids',
   'Women Veterans Health Care',
@@ -90,6 +91,7 @@ export function schema(currentSchema, topicProperty = 'topic') {
       levelOne: {
         type: 'string',
         enum: [
+          'Burial & Memorial Benefits (NCA)',
           'Caregiver Support Program',
           'Health & Medical Issues & Services',
           'VA Ctr for Women Vets, Policies & Progs',
