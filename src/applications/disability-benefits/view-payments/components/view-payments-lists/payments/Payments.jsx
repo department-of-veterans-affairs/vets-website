@@ -99,7 +99,7 @@ class Payments extends Component {
     } else {
       tableContent = (
         <AlertBox
-          content={clientServerErrorContent('Received')}
+          content={clientServerErrorContent(this.props.tableVersion)}
           status="info"
           backgroundOnly="true"
           className="vads-u-background-color--gray-lightest"

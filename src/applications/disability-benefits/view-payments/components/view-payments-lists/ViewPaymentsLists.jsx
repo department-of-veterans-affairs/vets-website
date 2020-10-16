@@ -77,7 +77,7 @@ class ViewPaymentsLists extends Component {
       const reformattedPayments = reformatPaymentDates(filteredPayments);
       paymentsReceivedTable.content = (
         <Payments
-          tableVersion="recieved"
+          tableVersion="received"
           fields={paymentsReceivedFields}
           data={reformattedPayments}
           textContent={paymentsReceivedContent}
