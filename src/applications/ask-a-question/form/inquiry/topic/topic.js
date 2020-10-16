@@ -18,7 +18,11 @@ const formFields = {
   vaMedicalCenter: 'vaMedicalCenter',
 };
 
-const getSchemaFromParentTopic = (topicSchema, value, isLevelThree = false) => {
+const getChildSchemaFromParentTopic = (
+  topicSchema,
+  value,
+  isLevelThree = false,
+) => {
   const parentLevel = isLevelThree ? 'subLevelTwo' : 'levelOne';
   const childLevel = isLevelThree ? 'levelThree' : 'levelTwo';
   const parentSchema = topicSchema.anyOf.filter(element => {
@@ -32,7 +36,7 @@ export const filterTopicArrayByLabel = (
   value,
   isLevelThree = false,
 ) => {
-  const childSchema = getSchemaFromParentTopic(
+  const childSchema = getChildSchemaFromParentTopic(
     topicSchema,
     value,
     isLevelThree,
@@ -54,14 +58,7 @@ const levelOneTopicLabels = topicSchemaCopy.anyOf.map(topicSchema => {
   return topicSchema.properties.levelOne.enum[0];
 });
 
-// In the schema these level twos have level three topics
-const complexLevelTwoTopics = [
-  'Burial Benefits',
-  'Health/Medical Eligibility & Programs',
-  'Prosthetics, Med Devices & Sensory Aids',
-  'Women Veterans Health Care',
-];
-
+// These are levelTwo topics that have level three subtopics and their respective levelOne parents
 const levelTwoWithLevelThreeTopics = {
   'Burial & Memorial Benefits (NCA)': ['Burial Benefits'],
   'Health & Medical Issues & Services': [
@@ -76,17 +73,21 @@ levelOneTopicLabels.forEach(label => {
   valuesByLabelLookup[label] = filterTopicArrayByLabel(topicSchemaCopy, label);
 });
 
-for (const [parentTopic, complexLevelTwo] of Object.entries(
-  levelTwoWithLevelThreeTopics,
-)) {
-  complexLevelTwo.forEach(label => {
-    valuesByLabelLookup[label] = filterTopicArrayByLabel(
-      getSchemaFromParentTopic(topicSchemaCopy, parentTopic),
-      label,
-      true,
-    );
-  });
-}
+const getLevelThreeTopics = () => {
+  for (const [parentTopic, complexLevelTwo] of Object.entries(
+    levelTwoWithLevelThreeTopics,
+  )) {
+    complexLevelTwo.forEach(label => {
+      valuesByLabelLookup[label] = filterTopicArrayByLabel(
+        getChildSchemaFromParentTopic(topicSchemaCopy, parentTopic),
+        label,
+        true,
+      );
+    });
+  }
+};
+
+getLevelThreeTopics();
 
 export const updateFormData = (oldData, newData) => {
   if (oldData.topic.levelOne !== newData.topic.levelOne) {
@@ -95,7 +96,9 @@ export const updateFormData = (oldData, newData) => {
   return newData;
 };
 
-export const levelThreeRequiredTopics = new Set(complexLevelTwoTopics);
+export const levelThreeRequiredTopics = new Set(
+  _.flatten(Object.values(levelTwoWithLevelThreeTopics)),
+);
 
 export const medicalCenterRequiredTopics = new Set([
   'Medical Care Issues at Specific Facility',
