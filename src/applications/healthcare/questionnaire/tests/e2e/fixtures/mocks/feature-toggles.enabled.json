@@ -99,10 +99,6 @@
            "value":false
         },
         {
-           "name":"eduBenefitsStemScholarship",
-           "value":true
-        },
-        {
            "name":"gibctEstimateYourBenefits",
            "value":true
         },
