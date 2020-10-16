@@ -915,6 +915,7 @@ describe('526 v2 depends functions', () => {
     },
   };
   const isBDDTrueData = {
+    'view:isBddData': true,
     serviceInformation: {
       servicePeriods: [
         {
@@ -933,6 +934,7 @@ describe('526 v2 depends functions', () => {
     },
   };
   const isBDDLessThan90Data = {
+    'view:isBddData': true,
     serviceInformation: {
       servicePeriods: [
         {
@@ -1023,6 +1025,9 @@ describe('526 v2 depends functions', () => {
     it('should return false if no service period is provided with a separation date', () => {
       expect(isBDD(null)).to.be.false;
     });
+    it('should return false if no service period is provided with a separation date', () => {
+      expect(isBDD({ 'view:isBddData': true })).to.be.false;
+    });
     it('should return true if a valid date is added to session storage from the wizard', () => {
       sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
@@ -1032,6 +1037,15 @@ describe('526 v2 depends functions', () => {
       );
       expect(isBDD(null)).to.be.true;
     });
+    it('should return true if a valid date is added to session storage from the wizard even if active duty flag is false', () => {
+      sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        moment()
+          .add(90, 'days')
+          .format('YYYY-MM-DD'),
+      );
+      expect(isBDD({ 'view:isBddData': true })).to.be.true;
+    });
     it('should return false for invalid dates in session storage from the wizard', () => {
       sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
@@ -1040,6 +1054,18 @@ describe('526 v2 depends functions', () => {
           .format('YYYY-MM-DD'),
       );
       expect(isBDD(null)).to.be.false;
+    });
+    it('should return false for invalid dates in session storage from the wizard even if active duty flag is true', () => {
+      sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        moment()
+          .add(200, 'days')
+          .format('YYYY-MM-DD'),
+      );
+      expect(isBDD({ 'view:isBddData': true })).to.be.false;
+    });
+    it('should ignore in range service periods if not on active duty', () => {
+      expect(isBDD({ ...isBDDTrueData, 'view:isBddData': false })).to.be.false;
     });
   });
 

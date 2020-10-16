@@ -373,7 +373,7 @@ export class Modals extends React.Component {
             <p>
               <p>
                 Under the GI Bill you’re eligible to receive a monthly housing
-                allowance. We calculate this monthly housing allowance based
+                allowance. We calculate this monthly housing allowance based on
                 where you take classes.
               </p>
               <p>
@@ -579,7 +579,7 @@ export class Modals extends React.Component {
           <p>
             To learn more about this scholarship,{' '}
             <a
-              href="https://benefits.va.gov/gibill/fgib/stem.asp"
+              href="/education/other-va-education-benefits/stem-scholarship/"
               target="_blank"
               rel="noopener noreferrer"
             >

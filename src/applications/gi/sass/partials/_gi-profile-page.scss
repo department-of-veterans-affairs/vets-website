@@ -50,6 +50,10 @@
     }
   }
 
+  .main-rating {
+    width:160px;
+  }
+
   .category-rating {
 
     .rating {
@@ -77,7 +81,11 @@
       background-color: transparent;
       padding-left:0;
       padding-right:0rem;
-      background-position: right 1rem center
+      background-position: right 1rem center;
+
+      @include media-maxwidth($medium-screen - 1) {
+        background-position: right 0rem center;
+      }
     }
   }
 

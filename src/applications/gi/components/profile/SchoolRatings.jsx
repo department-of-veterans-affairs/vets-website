@@ -34,7 +34,7 @@ export default function SchoolRatings({
         {ratingCount} Veterans rated this institution:
       </div>
       <div className="vads-l-row">
-        <div className="medium-screen:vads-l-col--2 small-screen:vads-l-col--3 xsmall-screen:vads-l-col--6 vads-u-text-align--center">
+        <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
           <div className="vads-u-font-weight--bold vads-u-font-size--2xl">
             {stars.display}
           </div>
@@ -98,7 +98,7 @@ export default function SchoolRatings({
           </div>
         </div>
         <div className="vads-u-padding-top--4">
-          <span className="vads-u-font-size--h3 vads-u-font-weight--bold">
+          <span className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif">
             About ratings
           </span>
           <p>

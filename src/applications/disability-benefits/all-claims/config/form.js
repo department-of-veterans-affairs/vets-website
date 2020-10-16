@@ -208,6 +208,13 @@ const formConfig = {
           uiSchema: separationLocation.uiSchema,
           schema: separationLocation.schema,
         },
+        servedInCombatZone: {
+          title: 'Combat status',
+          path: 'review-veteran-details/combat-status',
+          depends: servedAfter911,
+          uiSchema: servedInCombatZone.uiSchema,
+          schema: servedInCombatZone.schema,
+        },
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
@@ -216,13 +223,6 @@ const formConfig = {
           uiSchema: claimType.uiSchema,
           schema: claimType.schema,
           onContinue: captureEvents.claimType,
-        },
-        servedInCombatZone: {
-          title: 'Combat status',
-          path: 'review-veteran-details/combat-status',
-          depends: servedAfter911,
-          uiSchema: servedInCombatZone.uiSchema,
-          schema: servedInCombatZone.schema,
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard service',
