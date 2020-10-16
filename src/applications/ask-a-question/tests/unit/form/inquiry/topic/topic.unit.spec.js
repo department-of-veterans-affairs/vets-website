@@ -1,4 +1,4 @@
-import { filterArrayByValue } from '../form/inquiry/topic/topic';
+import { filterArrayByValue } from '../../../../../form/inquiry/topic/topic';
 import { expect } from 'chai';
 
 describe('topic', () => {
