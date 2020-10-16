@@ -13,8 +13,9 @@ export default function SchoolCategoryRating({
 
   const renderBar = (label, count) => {
     const percent = categoryRating.averageRating
-      ? `${(count / categoryRating.totalCount).toFixed(2) * 100}%`
-      : '0%';
+      ? ((count / categoryRating.totalCount).toFixed(2) * 100).toFixed(0)
+      : 0;
+
     return (
       <div className="vads-l-row category-rating-count">
         <div className="vads-l-col--2">{label} </div>
@@ -22,7 +23,7 @@ export default function SchoolCategoryRating({
           <div className="bar bar-outer vads-u-display--inline-block vads-u-background-color--gray-lighter">
             <div
               style={{
-                width: percent,
+                width: `${percent}%`,
               }}
               className="bar vads-u-display--inline-block vads-u-background-color--gold-darker"
             >
@@ -30,7 +31,7 @@ export default function SchoolCategoryRating({
             </div>
           </div>
         </div>
-        <div className="vads-l-col--2"> {percent}</div>
+        <div className="vads-l-col--2"> {percent}%</div>
         <div className="vads-l-col--3 count-value">({count} users)</div>
       </div>
     );
@@ -45,7 +46,7 @@ export default function SchoolCategoryRating({
           onClick={() => openHandler(categoryRating.categoryName)}
         >
           <div className="vads-l-row medium-screen:vads-u-padding-left--1">
-            <div className="vads-l-col--6">{title}</div>
+            <div className="vads-l-col--6 vads-u-font-size--sm">{title}</div>
             {categoryRating.averageRating && (
               <div className="vads-l-col--6 vads-u-font-size--sm">
                 {renderStars(categoryRating.averageRating)}{' '}
