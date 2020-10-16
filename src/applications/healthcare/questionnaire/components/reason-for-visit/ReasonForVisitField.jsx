@@ -7,8 +7,8 @@ const ReasonForVisitField = ({ appointment }) => {
   if (bookingNote?.reasonForVisit) {
     return (
       <span data-testid="reason-for-visit">
-        Main reason for your visit:{' '}
-        <strong>{bookingNote?.reasonForVisit.toLowerCase()}</strong>
+        <strong>Main reason for your appointment</strong>:{' '}
+        {bookingNote?.reasonForVisit.toLowerCase()}
       </span>
     );
   } else {
