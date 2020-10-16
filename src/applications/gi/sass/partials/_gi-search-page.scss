@@ -199,6 +199,8 @@
     font-size: 14px;
   }
   .search-button-mobile {
+    margin-top: 1em;
+    margin-bottom: 6em !important;
     @include media-maxwidth($small-screen) {
       margin-top: 1em;
       width: 100%;
@@ -213,13 +215,14 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-color: #0071BB;
+    background-color: #0071bb;
     border: 0;
     border-radius: 5px;
     color: #ffffff;
     cursor: pointer;
     display: inline-block;
-    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+      "Arial", sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1;
@@ -227,7 +230,6 @@
     text-align: center;
     text-decoration: none;
     width: 100%;
-
   }
 
   .search-filter-text {
