@@ -36,6 +36,48 @@ function getArticlesBelongingToResourcesAndSupportSection(files) {
     .map(([_fileName, file]) => file);
 }
 
+function groupByTags(allArticles) {
+  const tagMap = {};
+
+  for (const article of allArticles) {
+    const {
+      fieldTags: {
+        entity: { fieldTopics },
+      },
+    } = article;
+
+    fieldTopics.map(fieldTopic => fieldTopic.entity.name).forEach(tag => {
+      tagMap[tag] = [...tagMap[tag], article];
+    });
+  }
+
+  return tagMap;
+}
+
+function groupByCategory(allArticles) {
+  const categoryMap = {};
+
+  for (const article of allArticles) {
+    const {
+      fieldPrimaryCategory: {
+        entity: { name: primaryCategoryName },
+      },
+      fieldOtherCategories,
+    } = article;
+
+    const primaryCategoryArticles = categoryMap[primaryCategoryName] || [];
+    categoryMap[primaryCategoryName] = primaryCategoryArticles.concat(article);
+
+    for (const otherCategory of fieldOtherCategories) {
+      const otherCategoryName = otherCategory.entity.name;
+      const otherCategoryArticles = categoryMap[otherCategoryName] || [];
+      categoryMap[otherCategoryName] = otherCategoryArticles.concat(article);
+    }
+  }
+
+  return categoryMap;
+}
+
 function createResourcesAndSupport(buildOptions) {
   if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
     return () => {};
@@ -51,114 +93,119 @@ function createResourcesAndSupport(buildOptions) {
       return;
     }
 
-    const articlesByCategory = _.groupBy(
-      allArticles,
-      article => article.fieldPrimaryCategory.entity.name,
+    // const articlesByTag = groupByTags(allArticles);
+    const articlesByCategory = groupByCategory(allArticles);
+
+    const articleListings = Object.entries(articlesByCategory).reduce(
+      (pages, categoryArticlesPairs) => {
+        const [
+          categoryName,
+          allArticlesForCategoryUnsorted,
+        ] = categoryArticlesPairs;
+
+        const allArticlesForCategory = _.sortBy(
+          allArticlesForCategoryUnsorted,
+          'title',
+        );
+
+        const categoryUri = _.kebabCase(categoryName);
+        const categoryRootUrl = `resources/${categoryUri}`;
+        const paginatedArticles = _.chunk(allArticlesForCategory, PAGE_SIZE);
+
+        paginatedArticles.forEach((pageOfArticles, index) => {
+          const pageNum = index > 0 ? `/${index + 1}/` : '/';
+
+          // eslint-disable-next-line no-param-reassign
+          pageOfArticles.uri = `${categoryRootUrl}${pageNum}`;
+        });
+
+        const categoryTitle = `All articles in: ${categoryName}`;
+
+        const categoryBreadcrumb = [
+          ...BREADCRUMB_BASE_PATH,
+          {
+            url: {
+              path: `/${categoryRootUrl}/`,
+            },
+            text: categoryTitle,
+          },
+        ];
+
+        const pagesForCategory = paginatedArticles.map(
+          (pageOfArticles, index) => {
+            const paginatorInner = paginatedArticles.map(
+              (articleListing, pageIndex) => {
+                return {
+                  label: pageIndex + 1,
+                  href: `/${articleListing.uri}`,
+                  class: pageIndex === index ? 'va-pagination-active' : '',
+                };
+              },
+            );
+
+            let paginatorPrev = null;
+            let paginatorNext = null;
+
+            if (index > 0) paginatorPrev = paginatorInner[index - 1].href;
+
+            if (index + 1 < paginatedArticles.length)
+              paginatorNext = paginatorInner[index + 1].href;
+
+            const pageStart = index * PAGE_SIZE + 1;
+            const pageEnd = Math.min(
+              (index + 1) * PAGE_SIZE,
+              allArticlesForCategory.length,
+            );
+
+            const paginationTitle = `Showing ${pageStart} - ${pageEnd} of ${
+              allArticlesForCategory.length
+            } articles in "<strong>${categoryName}</strong>"`;
+
+            const page = {
+              contents: Buffer.from(''),
+              path: pageOfArticles.uri,
+              entityUrl: {
+                breadcrumb: [...categoryBreadcrumb],
+              },
+              layout: 'support_resources_article_listing.drupal.liquid',
+              title: categoryTitle,
+              articles: pageOfArticles,
+              paginationTitle,
+              paginator: {
+                prev: paginatorPrev,
+                inner: paginatorInner,
+                next: paginatorNext,
+              },
+            };
+
+            if (index > 0) {
+              page.entityUrl.breadcrumb.push({
+                url: {
+                  path: `/${pageOfArticles.uri}/`,
+                },
+                text: index + 1,
+              });
+            }
+
+            page.debug = JSON.stringify(page);
+
+            return page;
+          },
+        );
+
+        pages.push(...pagesForCategory);
+
+        return [...pages, ...pagesForCategory];
+      },
+      [],
     );
 
-    for (const categoryArticlesPairs of Object.entries(articlesByCategory)) {
-      const [
-        categoryName,
-        allArticlesForCategoryUnsorted,
-      ] = categoryArticlesPairs;
-
-      const allArticlesForCategory = _.sortBy(
-        allArticlesForCategoryUnsorted,
-        'title',
-      );
-
-      const categoryUri = _.kebabCase(categoryName);
-      const categoryRootUrl = `resources/${categoryUri}`;
-      const paginatedArticles = _.chunk(allArticlesForCategory, PAGE_SIZE);
-
-      paginatedArticles.forEach((pageOfArticles, index) => {
-        const pageNum = index > 0 ? `/${index + 1}/` : '/';
-
-        // eslint-disable-next-line no-param-reassign
-        pageOfArticles.uri = `${categoryRootUrl}${pageNum}`;
-      });
-
-      const categoryTitle = `All articles in: ${categoryName}`;
-
-      const categoryBreadcrumb = [
-        ...BREADCRUMB_BASE_PATH,
-        {
-          url: {
-            path: `/${categoryRootUrl}/`,
-          },
-          text: categoryTitle,
-        },
-      ];
-
-      const pages = paginatedArticles.map((pageOfArticles, index) => {
-        const paginatorInner = paginatedArticles.map(
-          (articleListing, pageIndex) => {
-            return {
-              label: pageIndex + 1,
-              href: `/${articleListing.uri}`,
-              class: pageIndex === index ? 'va-pagination-active' : '',
-            };
-          },
-        );
-
-        let paginatorPrev = null;
-        let paginatorNext = null;
-
-        if (index > 0) paginatorPrev = paginatorInner[index - 1].href;
-
-        if (index + 1 < paginatedArticles.length)
-          paginatorNext = paginatorInner[index + 1].href;
-
-        const pageStart = index * PAGE_SIZE + 1;
-        const pageEnd = Math.min(
-          (index + 1) * PAGE_SIZE,
-          allArticlesForCategory.length,
-        );
-
-        const paginationTitle = `Showing ${pageStart} - ${pageEnd} of ${
-          allArticlesForCategory.length
-        } articles in "<strong>${categoryName}</strong>"`;
-
-        const page = {
-          contents: Buffer.from(''),
-          path: pageOfArticles.uri,
-          entityUrl: {
-            breadcrumb: [...categoryBreadcrumb],
-          },
-          layout: 'support_resources_article_listing.drupal.liquid',
-          title: categoryTitle,
-          articles: pageOfArticles,
-          paginationTitle,
-          paginator: {
-            prev: paginatorPrev,
-            inner: paginatorInner,
-            next: paginatorNext,
-          },
-        };
-
-        if (index > 0) {
-          page.entityUrl.breadcrumb.push({
-            url: {
-              path: `/${pageOfArticles.uri}/`,
-            },
-            text: index + 1,
-          });
-        }
-
-        page.debug = JSON.stringify(page);
-
-        return page;
-      });
-
-      pages.forEach(page => {
-        const path = `${page.path}index.html`;
-        logDrupal(
-          `Generating Resources and Support article listing at: ${path}`,
-        );
-        // eslint-disable-next-line no-param-reassign
-        files[path] = page;
-      });
-    }
+    articleListings.forEach(page => {
+      const path = `${page.path}index.html`;
+      logDrupal(`Generating Resources and Support article listing at: ${path}`);
+      // eslint-disable-next-line no-param-reassign
+      files[path] = page;
+    });
   };
 }
 

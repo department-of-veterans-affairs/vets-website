@@ -59,16 +59,17 @@ fragment nodeStepByStep on NodeStepByStep {
   }
   fieldPrimaryCategory {
     entity {
-      ... on TaxonomyTermLcCategories {
-        name
-      }
+      ... on taxonomyTermLcCategories
     }
   }
   fieldOtherCategories {
     entity {
-      ... on TaxonomyTermLcCategories {
-        name
-      }
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
     }
   }
 }
