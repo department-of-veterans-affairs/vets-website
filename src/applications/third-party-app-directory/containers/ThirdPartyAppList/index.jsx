@@ -5,7 +5,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import URLSearchParams from 'url-search-params';
 import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
@@ -14,7 +13,7 @@ import { fetchResultsThunk } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
 import { SearchResultPropTypes } from '../../prop-types';
 
-export class SearchResults extends Component {
+export class ThirdPartyAppList extends Component {
   static propTypes = {
     // From mapStateToProps.
     error: PropTypes.string.isRequired,
@@ -32,21 +31,18 @@ export class SearchResults extends Component {
       focusElement('[data-display-results-header]');
     }
   }
+  componentDidMount() {
+    this.props.fetchResults({
+      page: 1,
+      trackSearch: true,
+    });
+  }
 
   onPageSelect = page => {
     const { fetchResults, perPage } = this.props;
 
-    // Derive the current name params.
-    const queryParams = new URLSearchParams(window.location.search);
-
-    // Derive the state values from our query params.
-    const category = queryParams.get('category') || '';
-    const platform = queryParams.get('platform') || '';
-
     // Refetch results.
     fetchResults({
-      category,
-      platform,
       hideFetchingState: true,
       page,
       perPage,
@@ -187,4 +183,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SearchResults);
+)(ThirdPartyAppList);
