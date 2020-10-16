@@ -1,15 +1,19 @@
 const PURPOSE_TEXT = Object.freeze([
   {
-    label: 'Follow-up/Routine',
+    key: 'Follow-up/Routine',
+    label: 'Routine or follow-up visit',
   },
   {
-    label: 'New issue',
+    key: 'New issue',
+    label: 'I have a new medical issue',
   },
   {
-    label: 'Medication concern',
+    key: 'Medication concern',
+    label: 'I have a concern or question about my medication',
   },
   {
-    label: 'My reason isn’t listed',
+    key: 'My reason isn’t listed',
+    label: '',
   },
 ]);
 
@@ -35,11 +39,11 @@ const getBookingNoteFromAppointment = appointment => {
   PURPOSE_TEXT.forEach(purpose => {
     if (
       !display.found &&
-      bookingNote.toLowerCase().startsWith(purpose.label.toLowerCase())
+      bookingNote.toLowerCase().startsWith(purpose.key.toLowerCase())
     ) {
       const splatted = bookingNote.split(':');
       display.found = true;
-      display.reasonForVisit = splatted[0]?.trim();
+      display.reasonForVisit = purpose.label;
       display.description = splatted[1]?.trim();
     }
   });

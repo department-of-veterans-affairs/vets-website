@@ -35,7 +35,7 @@ describe('healthcare-questionnaire -- utils -- appointment parser -- getBookingN
       ],
     });
     expect(result.found).to.be.true;
-    expect(result.reasonForVisit).to.be.equal('Follow-up/Routine');
+    expect(result.reasonForVisit).to.be.equal('Routine or follow-up visit');
     expect(result.description).to.be.equal('this is my appointment reason');
   });
   it('booking note has an appointment type -- new issue', () => {
@@ -45,7 +45,7 @@ describe('healthcare-questionnaire -- utils -- appointment parser -- getBookingN
       ],
     });
     expect(result.found).to.be.true;
-    expect(result.reasonForVisit).to.be.equal('New issue');
+    expect(result.reasonForVisit).to.be.equal('I have a new medical issue');
     expect(result.description).to.be.equal('this is my appointment reason');
   });
   it('booking note has an appointment type -- medication concern', () => {
@@ -55,7 +55,9 @@ describe('healthcare-questionnaire -- utils -- appointment parser -- getBookingN
       ],
     });
     expect(result.found).to.be.true;
-    expect(result.reasonForVisit).to.be.equal('Medication concern');
+    expect(result.reasonForVisit).to.be.equal(
+      'I have a concern or question about my medication',
+    );
     expect(result.description).to.be.equal('this is my appointment reason');
   });
   it('booking note has an appointment type -- My reason isn’t listed', () => {
@@ -67,7 +69,7 @@ describe('healthcare-questionnaire -- utils -- appointment parser -- getBookingN
       ],
     });
     expect(result.found).to.be.true;
-    expect(result.reasonForVisit).to.be.equal('My reason isn’t listed');
+    expect(result.reasonForVisit).to.be.equal('');
     expect(result.description).to.be.equal('this is my appointment reason');
   });
 });
