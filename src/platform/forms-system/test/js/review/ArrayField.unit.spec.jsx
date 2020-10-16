@@ -155,7 +155,7 @@ describe('Schemaform review <ArrayField>', () => {
     tree.getMountedInstance().handleAdd();
     expect(tree.everySubTree('h5')[0].text()).to.equal('New Item name');
     expect(tree.everySubTree('button')[2].text()).to.equal(
-      'Add Another Item name',
+      'Add another Item name',
     );
   });
   it('should render array warning', () => {
