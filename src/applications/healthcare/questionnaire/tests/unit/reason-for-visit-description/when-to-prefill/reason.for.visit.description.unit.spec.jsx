@@ -76,7 +76,6 @@ describe('healthcare-questionnaire -- reason for visit', () => {
         value={''}
         onChange={onChange}
         options={{}}
-        thing="thing"
       />,
     );
     expect(wrapper.find('input').exists()).to.be.true;
@@ -85,7 +84,9 @@ describe('healthcare-questionnaire -- reason for visit', () => {
     wrapper.unmount();
   });
   it('parsing reason from state -- no reason in value and has description, but no reason  in appointment', () => {
-    const fakeStore = createFakeReasonForVisitDescriptionStore('');
+    const fakeStore = createFakeReasonForVisitDescriptionStore(
+      'this is a reason',
+    );
     const onChange = sinon.spy();
     const wrapper = mount(
       <ReasonForVisitDescriptionField
@@ -96,11 +97,11 @@ describe('healthcare-questionnaire -- reason for visit', () => {
         value={''}
         onChange={onChange}
         options={{}}
-        thing="thing"
       />,
     );
     expect(wrapper.find('input').exists()).to.be.true;
-    expect(onChange.called).to.be.false;
+    expect(onChange.called).to.be.true;
+    expect(onChange.calledWith('this is a reason')).to.be.true;
     wrapper.unmount();
   });
   it('parsing reason from state -- has reason in value and has different description in appointment', () => {
@@ -117,7 +118,6 @@ describe('healthcare-questionnaire -- reason for visit', () => {
         value={'should be this'}
         onChange={onChange}
         options={{}}
-        thing="thing"
       />,
     );
     expect(wrapper.find('input').exists()).to.be.true;
