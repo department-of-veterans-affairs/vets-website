@@ -161,9 +161,17 @@ const createFakeUserStore = (
   };
 };
 
-const createFakeReasonForVisitDescriptionStore = () => {
+const createFakeReasonForVisitDescriptionStore = reason => {
   return {
-    getState: () => ({}),
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [{ bookingNotes: reason }],
+          },
+        },
+      },
+    }),
     subscribe: () => {},
     dispatch: () => {},
   };

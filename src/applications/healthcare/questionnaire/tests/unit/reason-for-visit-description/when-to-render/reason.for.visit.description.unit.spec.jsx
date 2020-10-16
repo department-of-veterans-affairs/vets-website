@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import ReasonForVisitDescriptionField from '../../../components/reason-for-visit-description/ReasonForVisitDescriptionField';
+import ReasonForVisitDescriptionField from '../../../../components/reason-for-visit-description/ReasonForVisitDescriptionField';
 
-import { createFakeReasonForVisitDescriptionStore } from '../utils/createFakeStores';
+import { createFakeReasonForVisitDescriptionStore } from '../../utils/createFakeStores';
 
-describe('healthcare-questionnaire - chief complaint -', () => {
-  it('Chief Complaint -- parsing reason from state -- text widget is rendered by default', () => {
+describe('healthcare-questionnaire -- reason to visit description -- when to render --', () => {
+  it('parsing reason from state -- text widget is rendered by default', () => {
     const fakeStore = createFakeReasonForVisitDescriptionStore();
     const onChange = sinon.spy();
     const wrapper = mount(
@@ -25,7 +25,7 @@ describe('healthcare-questionnaire - chief complaint -', () => {
     expect(wrapper.find('[data-testid="editField"]').exists()).to.be.true;
     wrapper.unmount();
   });
-  it('Chief Complaint -- parsing reason from state -- text widget should not render on review page', () => {
+  it('parsing reason from state -- text widget should not render on review page', () => {
     const fakeStore = createFakeReasonForVisitDescriptionStore();
     const onChange = sinon.spy();
     const wrapper = mount(
@@ -46,7 +46,7 @@ describe('healthcare-questionnaire - chief complaint -', () => {
     expect(wrapper.find('[data-testid="editField"]').exists()).to.be.false;
     wrapper.unmount();
   });
-  it('Chief Complaint -- parsing reason from state -- text widget should  render on review page and edit Mode', () => {
+  it('parsing reason from state -- text widget should  render on review page and edit Mode', () => {
     const fakeStore = createFakeReasonForVisitDescriptionStore();
     const onChange = sinon.spy();
     const wrapper = mount(

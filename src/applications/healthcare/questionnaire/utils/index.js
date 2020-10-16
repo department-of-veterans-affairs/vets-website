@@ -39,8 +39,8 @@ const getBookingNoteFromAppointment = appointment => {
     ) {
       const splatted = bookingNote.split(':');
       display.found = true;
-      display.reasonForVisit = splatted[0];
-      display.description = splatted[1];
+      display.reasonForVisit = splatted[0]?.trim();
+      display.description = splatted[1]?.trim();
     }
   });
 

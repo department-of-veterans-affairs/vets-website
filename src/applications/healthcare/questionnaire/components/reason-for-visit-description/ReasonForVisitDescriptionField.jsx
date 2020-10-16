@@ -7,9 +7,8 @@ import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
 const ReasonForVisitDescriptionField = props => {
   const { onReviewPage, reviewMode } = props.formContext;
-  const { onChange, appointment } = props;
+  const { onChange, appointment, thing } = props;
   const currentValue = props.value;
-
   useEffect(
     () => {
       // if no value
@@ -22,7 +21,7 @@ const ReasonForVisitDescriptionField = props => {
         }
       }
     },
-    [onChange, currentValue, appointment],
+    [onChange, currentValue, appointment, thing],
   );
 
   const editField = () => {
