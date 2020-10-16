@@ -57,7 +57,16 @@ function createResourcesAndSupport(buildOptions) {
     );
 
     for (const categoryArticlesPairs of Object.entries(articlesByCategory)) {
-      const [categoryName, allArticlesForCategory] = categoryArticlesPairs;
+      const [
+        categoryName,
+        allArticlesForCategoryUnsorted,
+      ] = categoryArticlesPairs;
+
+      const allArticlesForCategory = _.sortBy(
+        allArticlesForCategoryUnsorted,
+        'title',
+      );
+
       const categoryUri = _.kebabCase(categoryName);
       const categoryRootUrl = `resources/${categoryUri}`;
       const paginatedArticles = _.chunk(allArticlesForCategory, PAGE_SIZE);
