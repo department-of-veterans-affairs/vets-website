@@ -80,7 +80,7 @@ function InstitutionSearchForm({
   const keywordSearchLabel = !environment.isProduction()
     ? 'Enter a school, employer name, city, or zip code'
     : 'Enter a school, location, or employer name';
-  // prod flag for story BAH-13928
+  // prod flag for story BAH-13938
   const keywordLabel = environment.isProduction()
     ? 'Refine search'
     : 'Search by keyword';
@@ -95,7 +95,7 @@ function InstitutionSearchForm({
             </div>
           )}
           <h2>{keywordLabel}</h2>
-          {/* prod flag for story BAH-13928 */}
+          {/* prod flag for story BAH-13938 */}
           {environment.isProduction() ? (
             <div>
               {' '}
@@ -156,7 +156,7 @@ function InstitutionSearchForm({
                 </div>
                 <div className="vads-u-margin-top--4">
                   <h2>Refine search</h2>
-                  <p>Make changes below to update your result:</p>
+                  <p>Make changes below to update your results:</p>
                 </div>
 
                 <InstitutionFilterForm
@@ -190,7 +190,7 @@ function InstitutionSearchForm({
             data-cy="see-results"
             onClick={toggleFilter}
           >
-            {/* prod flag for story BAH-13928 */}
+            {/* prod flag for story BAH-13938 */}
             {environment.isProduction()
               ? 'See Results'
               : `See Results (${search.count})`}
