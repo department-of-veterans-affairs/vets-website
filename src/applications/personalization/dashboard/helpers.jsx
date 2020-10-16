@@ -22,7 +22,7 @@ import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
 import edu10203Manifest from 'applications/edu-benefits/10203/manifest.json';
 import preneedManifest from 'applications/pre-need/manifest.json';
 import pensionManifest from 'applications/pensions/manifest.json';
-import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
+import disability526Manifest from 'applications/disability-benefits/all-claims/manifest.json';
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
@@ -124,7 +124,7 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
 );
 
 export const formLinks = {
-  [VA_FORM_IDS.FORM_21_526EZ]: `${DISABILITY_526_V2_ROOT_URL}/`,
+  [VA_FORM_IDS.FORM_21_526EZ]: `${disability526Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21P_527EZ]: `${pensionManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21P_530]: `${burialsManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${hcaManifest.rootUrl}/`,
@@ -245,9 +245,6 @@ export function sipFormSorter(formA, formB) {
 
 export const isFormAuthorizable = formConfig =>
   !!formConfig && !!formConfig.authorize;
-
-export const getFormAuthorizationState = (formConfig, state) =>
-  formConfig.getAuthorizationState(state);
 
 export const recordDashboardClick = (
   product,

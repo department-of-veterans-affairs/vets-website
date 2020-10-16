@@ -9,11 +9,13 @@ const fs = require('fs');
 const path = require('path');
 const pact = require('@pact-foundation/pact-node');
 
-const pactsFolder = path.resolve(__dirname, '../pacts');
+let pactPaths = [];
 
 try {
+  const pactsFolder = path.resolve(__dirname, '../pacts');
   const pactFiles = fs.readdirSync(pactsFolder);
   if (!pactFiles.length) throw new Error('No pacts found.');
+  pactPaths = pactFiles.map(pactFile => path.join(pactsFolder, pactFile));
 } catch (e) {
   console.warn(e.message);
   console.log('Skipping pact publishing.');
@@ -32,16 +34,23 @@ const opts = {
   pactBroker: process.env.PACT_BROKER_URL,
   pactBrokerUsername: process.env.PACT_BROKER_BASIC_AUTH_USERNAME,
   pactBrokerPassword: process.env.PACT_BROKER_BASIC_AUTH_PASSWORD,
-  pactFilesOrDirs: [pactsFolder],
   consumerVersion,
   tags: [branchName],
 };
 
-pact
-  .publishPacts(opts)
-  .then(() => {
+// Individually publish each pact instead of the whole directory in order
+// to properly tag them all. The Pact client was not originally meant to
+// publish multiple pacts at once but is able to anyway. But as a result,
+// tagging multiple pacts at once is not supported until a future release.
+// https://github.com/pact-foundation/pact-js/issues/289
+const publishPact = async pactPath => {
+  try {
+    await pact.publishPacts({ ...opts, pactFilesOrDirs: [pactPath] });
     console.log('Pact successfully published!');
-  })
-  .catch(e => {
-    console.log(`Pact failed to publish: ${e}`);
-  });
+  } catch (e) {
+    console.log(`Pact at ${pactPath} failed to publish: ${e}`);
+    process.exit(1);
+  }
+};
+
+pactPaths.forEach(publishPact);

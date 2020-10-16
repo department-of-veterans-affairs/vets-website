@@ -39,7 +39,7 @@ function pageTransform(entity) {
     // ).toUTCString(),
 
     entityPublished: isPublished(getDrupalValue(status)),
-    entityMetaTags: createMetaTagArray(metaTags, 'type'),
+    entityMetatags: createMetaTagArray(metaTags),
   });
 
   transformed.fieldAlert = !isEmpty(flatten(fieldAlert)) ? fieldAlert[0] : null;

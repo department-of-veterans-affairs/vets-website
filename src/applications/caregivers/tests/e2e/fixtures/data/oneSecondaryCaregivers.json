@@ -19,7 +19,7 @@
   "secondaryOneDateOfBirth": "1932-05-12",
   "secondaryOneGender": "M",
   "view:hasSecondaryCaregiverOne": true,
-  "hasHealthInsurance": true,
+  "primaryHasHealthInsurance": true,
   "primaryAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",

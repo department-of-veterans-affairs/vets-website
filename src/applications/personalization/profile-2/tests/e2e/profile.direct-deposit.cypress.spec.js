@@ -1,7 +1,5 @@
 import { PROFILE_PATHS } from '../../constants';
 
-import mockFeatureToggles from '../fixtures/feature-toggles.json';
-
 import mockUserNotInEVSS from '../fixtures/users/user-non-vet.json';
 import mockUserInEVSS from '../fixtures/users/user-36.json';
 
@@ -47,7 +45,6 @@ describe('Direct Deposit', () => {
       JSON.stringify(['single-sign-on-intro']),
     );
     cy.login();
-    cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
   });
   it('should be blocked if the user is not in EVSS', () => {
     cy.route('GET', 'v0/user', mockUserNotInEVSS);
