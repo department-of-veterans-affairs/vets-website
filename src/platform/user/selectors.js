@@ -103,34 +103,32 @@ export const selectIsCernerPatient = state =>
 
 // return the Cerner facilities that are _not_ blocked from Cerner's RX features
 export const selectCernerRxFacilities = state =>
-  selectPatientFacilities(state)?.filter(
-    f => f.isCerner && !CERNER_RX_BLOCKLIST.includes(f.facilityId),
-  );
+  selectPatientFacilities(state)?.filter(f => f.isCerner && f.usesCernerRx);
 
 // return the Cerner facilities that are _not_ blocked from Cerner's secure
 // messaging features
 export const selectCernerMessagingFacilities = state =>
   selectPatientFacilities(state)?.filter(
-    f => f.isCerner && !CERNER_MESSAGING_BLOCKLIST.includes(f.facilityId),
+    f => f.isCerner && f.usesCernerMessaging,
   );
 
 // return the Cerner facilities that are _not_ blocked from Cerner's
 // appointments features
 export const selectCernerAppointmentsFacilities = state =>
   selectPatientFacilities(state)?.filter(
-    f => f.isCerner && !CERNER_APPOINTMENTS_BLOCKLIST.includes(f.facilityId),
+    f => f.isCerner && f.usesCernerAppointments,
   );
 
 // return the Cerner facilities that are _not_ blocked from Cerner's medical
 // records features
 export const selectCernerMedicalRecordsFacilities = state =>
   selectPatientFacilities(state)?.filter(
-    f => f.isCerner && !CERNER_MEDICAL_RECORDS_BLOCKLIST.includes(f.facilityId),
+    f => f.isCerner && f.usesCernerMedicalRecords,
   );
 
 // return the Cerner facilities that are _not_ blocked from Cerner's test and
 // lab results features
 export const selectCernerTestResultsFacilities = state =>
   selectPatientFacilities(state)?.filter(
-    f => f.isCerner && !CERNER_TEST_RESULTS_BLOCKLIST.includes(f.facilityId),
+    f => f.isCerner && f.usesCernerTestResults,
   );
