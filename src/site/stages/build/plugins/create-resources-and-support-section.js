@@ -1,7 +1,24 @@
-const ENVIRONMENTS = require('../../../constants/environments');
 const _ = require('lodash');
 
+const ENVIRONMENTS = require('../../../constants/environments');
+const { logDrupal } = require('../drupal/utilities-drupal');
+
 const PAGE_SIZE = 10;
+
+const BREADCRUMB_BASE_PATH = [
+  {
+    url: {
+      path: '/',
+    },
+    text: 'Home',
+  },
+  {
+    url: {
+      path: '/resources/',
+    },
+    text: 'Resources and support',
+  },
+];
 
 const BUNDLE_TYPES = new Set([
   'step_by_step',
@@ -27,14 +44,20 @@ function createResourcesAndSupport(buildOptions) {
   return files => {
     const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
 
+    if (allArticles.length === 0) {
+      logDrupal(
+        'No articles found for the Resources and Support section of the website.',
+      );
+      return;
+    }
+
     const articlesByCategory = _.groupBy(
       allArticles,
       article => article.fieldPrimaryCategory.entity.name,
     );
 
-    for (const [categoryName, allArticlesForCategory] of Object.entries(
-      articlesByCategory,
-    )) {
+    for (const categoryArticlesPairs of Object.entries(articlesByCategory)) {
+      const [categoryName, allArticlesForCategory] = categoryArticlesPairs;
       const categoryUri = _.kebabCase(categoryName);
       const categoryRootUrl = `resources/${categoryUri}`;
       const paginatedArticles = _.chunk(allArticlesForCategory, PAGE_SIZE);
@@ -45,6 +68,18 @@ function createResourcesAndSupport(buildOptions) {
         // eslint-disable-next-line no-param-reassign
         pageOfArticles.uri = `${categoryRootUrl}${pageNum}`;
       });
+
+      const categoryTitle = `All articles in: ${categoryName}`;
+
+      const categoryBreadcrumb = [
+        ...BREADCRUMB_BASE_PATH,
+        {
+          url: {
+            path: `/${categoryRootUrl}/`,
+          },
+          text: categoryTitle,
+        },
+      ];
 
       const pages = paginatedArticles.map((pageOfArticles, index) => {
         const paginatorInner = paginatedArticles.map(
@@ -78,8 +113,11 @@ function createResourcesAndSupport(buildOptions) {
         const page = {
           contents: Buffer.from(''),
           path: pageOfArticles.uri,
+          entityUrl: {
+            breadcrumb: [...categoryBreadcrumb],
+          },
           layout: 'support_resources_article_listing.drupal.liquid',
-          title: `All articles in: ${categoryName}`,
+          title: categoryTitle,
           articles: pageOfArticles,
           paginationTitle,
           paginator: {
@@ -89,14 +127,27 @@ function createResourcesAndSupport(buildOptions) {
           },
         };
 
+        if (index > 0) {
+          page.entityUrl.breadcrumb.push({
+            url: {
+              path: `/${pageOfArticles.uri}/`,
+            },
+            text: index + 1,
+          });
+        }
+
         page.debug = JSON.stringify(page);
 
         return page;
       });
 
       pages.forEach(page => {
+        const path = `${page.path}index.html`;
+        logDrupal(
+          `Generating Resources and Support article listing at: ${path}`,
+        );
         // eslint-disable-next-line no-param-reassign
-        files[`${page.path}index.html`] = page;
+        files[path] = page;
       });
     }
   };
