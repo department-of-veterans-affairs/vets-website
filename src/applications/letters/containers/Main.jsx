@@ -5,8 +5,12 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { systemDownMessage } from 'platform/static-data/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound, isAddressEmpty } from '../utils/helpers';
+import noAddressBanner from '../components/NoAddressBanner';
 
-import { getLetterListAndBSLOptions } from '../actions/letters';
+import {
+  getLetterListAndBSLOptions,
+  profileHasEmptyAddress,
+} from '../actions/letters';
 
 const {
   awaitingResponse,
@@ -15,13 +19,15 @@ const {
   backendAuthenticationError,
   unavailable,
   letterEligibilityError,
+  hasEmptyAddress,
 } = AVAILABILITY_STATUSES;
 
 export class Main extends React.Component {
   componentDidMount() {
     if (!this.props.emptyAddress) {
-      this.props.getLetterListAndBSLOptions();
+      return this.props.getLetterListAndBSLOptions();
     }
+    return this.props.profileHasEmptyAddress();
   }
 
   appAvailability(lettersAvailability) {
@@ -47,6 +53,9 @@ export class Main extends React.Component {
         break;
       case letterEligibilityError:
         appContent = this.props.children;
+        break;
+      case hasEmptyAddress:
+        appContent = noAddressBanner;
         break;
       case unavailable: // fall-through to default
       case backendServiceError: // fall-through to default
@@ -74,9 +83,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  // getBenefitSummaryOptions,
-  // getLetterList,
   getLetterListAndBSLOptions,
+  profileHasEmptyAddress,
 };
 
 export default connect(
