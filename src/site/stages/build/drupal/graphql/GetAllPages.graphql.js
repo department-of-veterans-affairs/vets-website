@@ -29,7 +29,6 @@ const outreachSidebarQuery = require('./navigation-fragments/outreachSidebar.nav
 const pressReleasePage = require('./pressReleasePage.graphql');
 const pressReleasesListingPage = require('./pressReleasesListingPage.graphql');
 const qaPage = require('./nodeQa.graphql');
-const resourcesAndSupportArticleListings = require('./resourcesAndSupportArticleListings.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const stepByStepPage = require('./nodeStepByStep.graphql');
 const storyListingPage = require('./storyListingPage.graphql');

@@ -4,41 +4,29 @@ const _ = require('lodash');
 const PAGE_SIZE = 10;
 
 const BUNDLE_TYPES = new Set([
-  "step_by_step",
-  "faq_multiple_q_a",
-  "q_a",
-  "checklist",
-  "media_list_images",
-  "media_list_videos",
-  "support_resources_detail_page",
+  'step_by_step',
+  'faq_multiple_q_a',
+  'q_a',
+  'checklist',
+  'media_list_images',
+  'media_list_videos',
+  'support_resources_detail_page',
 ]);
 
 function getArticlesBelongingToResourcesAndSupportSection(files) {
   return Object.entries(files)
-    .filter(([fileName, file]) => BUNDLE_TYPES.has(file.entityBundle))
+    .filter(([_fileName, file]) => BUNDLE_TYPES.has(file.entityBundle))
+    .map(([_fileName, file]) => file);
 }
 
 function createResourcesAndSupport(buildOptions) {
-  if (buildOptions.buildtype !== ENVIRONMENTS.VAGOVDEV) {
+  if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
     return () => {};
   }
 
   return files => {
-    const {
-      drupalData: {
-        data: { resourcesAndSupportArticleListings },
-      },
-    } = buildOptions;
-
-    if (!resourcesAndSupportArticleListings) {
-      return;
-    }
-
     const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
-    // const allArticles = resourcesAndSupportArticleListings.entities;
 
-    // Create a map where keys = name of a category
-    // and values = array of articles under that category
     const articlesByCategory = _.groupBy(
       allArticles,
       article => article.fieldPrimaryCategory.entity.name,
