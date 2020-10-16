@@ -33,13 +33,13 @@ class ViewPaymentsLists extends Component {
   buildReturnedPaymentListContent = returnPayments => {
     // If there are returned payments, set paymentsReturnedTable to a Payments component
     // If there are NO returned payments, set paymentsReturnedTable to AlertBox
-    const paymentsReturnedTable = {};
+    let paymentsReturnedTable = {};
 
     if (returnPayments.length > 0) {
       // convert date to more friendly format
       const filteredReturnPayments = reformatReturnPaymentDates(returnPayments);
 
-      paymentsReturnedTable.content = (
+      paymentsReturnedTable = (
         <Payments
           tableVersion="returned"
           fields={paymentsReturnedFields}
@@ -48,7 +48,7 @@ class ViewPaymentsLists extends Component {
         />
       );
     } else {
-      paymentsReturnedTable.content = (
+      paymentsReturnedTable = (
         <AlertBox
           content={
             <p>
@@ -70,12 +70,12 @@ class ViewPaymentsLists extends Component {
   buildPaymentListContent = payments => {
     // If there are recieved payments, set paymentsReceivedTable to a Payments component
     // If there are NO recieved payments, set paymentsReceivedTable to AlertBox
-    const paymentsReceivedTable = {};
+    let paymentsReceivedTable = {};
     if (payments.length > 0) {
       // remove all entries with all null property values
       const filteredPayments = filterReturnPayments(payments);
       const reformattedPayments = reformatPaymentDates(filteredPayments);
-      paymentsReceivedTable.content = (
+      paymentsReceivedTable = (
         <Payments
           tableVersion="received"
           fields={paymentsReceivedFields}
@@ -84,7 +84,7 @@ class ViewPaymentsLists extends Component {
         />
       );
     } else {
-      paymentsReceivedTable.content = (
+      paymentsReceivedTable = (
         <AlertBox
           content={
             <p>
@@ -148,7 +148,7 @@ class ViewPaymentsLists extends Component {
         content = (
           <>
             <ViewPaymentsHeader />
-            {paymentsReceivedTable.content}
+            {paymentsReceivedTable}
             <strong>Note:</strong> Some payment details might not be available
             online. For example, direct-deposit payments less than $1 or check
             payments less than $5, won’t show in your online payment history.
@@ -156,7 +156,7 @@ class ViewPaymentsLists extends Component {
             recurring and irregular compensation payments. If you have questions
             about payments made by VA, please call the VA Help Desk at{' '}
             <Telephone contact={CONTACTS.VA_BENEFITS} />
-            {paymentsReturnedTable.content}
+            {paymentsReturnedTable}
             <h3>What if I find a check that I reported missing?</h3>
             <p>
               If you reported a check missing and found it later, you must
