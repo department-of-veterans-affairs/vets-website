@@ -81,7 +81,7 @@ export const diaryCodes = Object.freeze({
   '820': 'Your waiver request is being reviewed',
 });
 
-export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
+export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
   const endDate = (date, days) => {
     return moment(date)
       .add(days, 'days')
@@ -92,6 +92,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '71':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We need to verify your military status to update your account.
@@ -107,6 +110,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '109':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             Your payment is past due, and we're adding interest to the amount.
@@ -126,6 +132,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '117':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             Your payment is past due.
@@ -150,6 +159,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '123':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             Your payment is past due.
@@ -176,6 +188,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <div>
           <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
+          <p>
             <strong>Status: </strong>
             We need your address to update your account.
           </p>
@@ -190,6 +205,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '811':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We're reviewing your compromise offer.
@@ -207,6 +225,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '815':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We've accepted your compromise payment.
@@ -226,6 +247,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <div>
           <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
+          <p>
             <strong>Status: </strong>
             We've received your compromise payment.
           </p>
@@ -242,6 +266,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '821':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We're reviewing your notice of disagreement.
@@ -260,6 +287,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <div>
           <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
+          <p>
             <strong>Status: </strong>
             We're reviewing your debt dispute.
           </p>
@@ -276,6 +306,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '825':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We're reviewing your request for a waiver or hearing.
@@ -296,6 +329,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '609':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We're updating your account.
@@ -319,6 +355,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <div>
           <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
+          <p>
             <strong>Status: </strong>
             We've paused collection on this debt as you requested.
           </p>
@@ -341,6 +380,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <div>
           <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
+          <p>
             <strong>Status: </strong>
             We referred this debt to the U.S. Department of the Treasury.
           </p>
@@ -359,6 +401,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '503':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We're referring this debt to the U.S. Department of the Treasury
@@ -384,6 +429,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '140':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             Your payment is due now.
@@ -413,6 +461,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <div>
           <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
+          <p>
             <strong>Status: </strong>
             We're keeping part of your [benefit type] payments each month to pay
             your debt (called monthly offsets).
@@ -438,6 +489,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <div>
           <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
+          <p>
             <strong>Status: </strong>
             We're updating your account.
           </p>
@@ -456,6 +510,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '459':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We've restarted collection on this debt.
@@ -476,6 +533,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <div>
           <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
+          <p>
             <strong>Status: </strong>
             We're reviewing your account.
           </p>
@@ -491,6 +551,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '601':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             Your payment is due.
@@ -509,6 +572,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '613':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             Your payment is past due.
@@ -529,6 +595,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '817':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We need your completed Financial Status Report to make a decision on
@@ -559,6 +628,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <div>
           <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
+          <p>
             <strong>Status: </strong>
             Your payment is due.
           </p>
@@ -583,6 +655,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '820':
       return (
         <div>
+          <p>
+            <strong>Amount owed:</strong> {amountOwed}
+          </p>
           <p>
             <strong>Status: </strong>
             We're reviewing your waiver request.
