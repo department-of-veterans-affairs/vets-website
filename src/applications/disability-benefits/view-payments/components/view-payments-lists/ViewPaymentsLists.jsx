@@ -36,13 +36,8 @@ class ViewPaymentsLists extends Component {
     const paymentsReturnedTable = {};
 
     if (returnPayments.length > 0) {
-      // remove all entries with all null property values
-      let filteredReturnPayments = filterReturnPayments(returnPayments);
-
       // convert date to more friendly format
-      filteredReturnPayments = reformatReturnPaymentDates(
-        filteredReturnPayments,
-      );
+      const filteredReturnPayments = reformatReturnPaymentDates(returnPayments);
 
       paymentsReturnedTable.content = (
         <Payments
@@ -77,7 +72,9 @@ class ViewPaymentsLists extends Component {
     // If there are NO recieved payments, set paymentsReceivedTable to AlertBox
     const paymentsReceivedTable = {};
     if (payments.length > 0) {
-      const reformattedPayments = reformatPaymentDates(payments);
+      // remove all entries with all null property values
+      const filteredPayments = filterReturnPayments(payments);
+      const reformattedPayments = reformatPaymentDates(filteredPayments);
       paymentsReceivedTable.content = (
         <Payments
           tableVersion="recieved"
