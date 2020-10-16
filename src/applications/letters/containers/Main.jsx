@@ -9,7 +9,7 @@ import noAddressBanner from '../components/NoAddressBanner';
 
 import {
   getLetterListAndBSLOptions,
-  hasInvalidAddress,
+  profileHasEmptyAddress,
 } from '../actions/letters';
 
 const {
@@ -84,7 +84,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getLetterListAndBSLOptions,
-  hasInvalidAddress,
+  profileHasEmptyAddress,
 };
 
 export default connect(

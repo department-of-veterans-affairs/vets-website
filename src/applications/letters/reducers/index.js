@@ -21,7 +21,7 @@ import {
   LETTER_ELIGIBILITY_ERROR,
   REQUEST_OPTIONS,
   UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
-  LETTER_HAS_INVALID_ADDRESS,
+  LETTER_HAS_EMPTY_ADDRESS,
 } from '../utils/constants';
 
 export const initialState = {
@@ -144,7 +144,7 @@ function letters(state = initialState, action) {
         DOWNLOAD_STATUSES.failure,
         state,
       );
-    case LETTER_HAS_INVALID_ADDRESS:
+    case LETTER_HAS_EMPTY_ADDRESS:
       return {
         ...state,
         lettersAvailability: AVAILABILITY_STATUSES.hasEmptyAddress,
