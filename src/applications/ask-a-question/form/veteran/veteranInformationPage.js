@@ -3,7 +3,7 @@ import { veteranServiceInformationUI } from './service/veteranServiceInformation
 import { dependentInformationUI } from './dependent/dependentInformationUI';
 import _ from 'lodash';
 import { schema } from 'platform/forms/definitions/address';
-import fullSchema from '../../0873-schema.json';
+import fullSchema from '../0873-schema.json';
 import { veteranInformationUI } from './veteranInformationUI';
 
 const {

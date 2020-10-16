@@ -2,7 +2,7 @@ import {
   stateRequiredCountries,
   uiSchema,
 } from 'platform/forms/definitions/address';
-import SectionHeader from '../config/components/SectionHeader';
+import SectionHeader from '../../components/SectionHeader';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import _ from 'lodash';
@@ -13,7 +13,7 @@ import {
   veteranInformationHeader,
   veteransFirstName,
   veteransLastName,
-} from '../config/labels';
+} from '../../constants/labels';
 
 const formFields = {
   first: 'first',

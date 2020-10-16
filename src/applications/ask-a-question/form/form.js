@@ -1,14 +1,13 @@
 // Example of an imported schema:
-import fullSchema from '../../0873-schema.json';
+import fullSchema from './0873-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
-import IntroductionPage from '../introduction/IntroductionPage';
-import ConfirmationPage from '../confirmation/ConfirmationPage';
-import {
-  contactInformationPage,
-  inquiryPage,
-  veteranInformationPage,
-} from './pages';
+
+import IntroductionPage from './introduction/IntroductionPage';
+import ConfirmationPage from './confirmation/ConfirmationPage';
+import VeteranInformationPage from './veteran/veteranInformationPage';
+import ContactInformationPage from './contactInformation/contactInformationPage';
+import InquiryPage from './inquiry/inquiryPage';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
 import {
@@ -24,7 +23,7 @@ import {
   submitButtonText,
   veteranInformationChapterTitle,
   veteranInformationPageTitle,
-} from './labels';
+} from '../constants/labels';
 
 const {
   fullName,
@@ -97,8 +96,8 @@ const formConfig = {
         [formPages.topic]: {
           path: 'topic',
           title: inquiryPageTitle,
-          uiSchema: inquiryPage.uiSchema,
-          schema: inquiryPage.schema,
+          uiSchema: InquiryPage.uiSchema,
+          schema: InquiryPage.schema,
         },
       },
     },
@@ -108,8 +107,8 @@ const formConfig = {
         [formPages.veteranInformation]: {
           path: 'veteran-information',
           title: veteranInformationPageTitle,
-          uiSchema: veteranInformationPage.uiSchema,
-          schema: veteranInformationPage.schema,
+          uiSchema: VeteranInformationPage.uiSchema,
+          schema: VeteranInformationPage.schema,
         },
       },
     },
@@ -119,8 +118,8 @@ const formConfig = {
         [formPages.contactInformation]: {
           path: 'contact-information',
           title: contactInformationPageTitle,
-          uiSchema: contactInformationPage.uiSchema,
-          schema: contactInformationPage.schema,
+          uiSchema: ContactInformationPage.uiSchema,
+          schema: ContactInformationPage.schema,
         },
       },
     },

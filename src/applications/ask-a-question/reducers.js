@@ -1,4 +1,4 @@
-import formConfig from '../form';
+import formConfig from './form/form';
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 
 export default {

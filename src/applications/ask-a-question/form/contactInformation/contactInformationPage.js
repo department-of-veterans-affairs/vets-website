@@ -4,13 +4,13 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
 
-import fullSchema from '../../0873-schema.json';
+import fullSchema from '../0873-schema.json';
 import * as address from './address/address';
 import {
   contactInformationPageDescription,
   preferredContactMethodTitle,
   phoneTitle,
-} from '../config/labels';
+} from '../../constants/labels';
 
 const { email, phone } = fullSchema.definitions;
 

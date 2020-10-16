@@ -3,7 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../../form/config/form';
+import formConfig from '../../form/form';
 import manifest from '../../manifest.json';
 
 // `appName`, `arrayPages`, and `rootUrl` don't need to be explicitly defined.
@@ -14,7 +14,7 @@ const testConfig = createTestConfig(
     fixtures: {
       data: path.join(__dirname, 'data'),
     },
-    skip: true,
+    skip: false,
     setupPerTest: () => {
       cy.route({
         method: 'POST',

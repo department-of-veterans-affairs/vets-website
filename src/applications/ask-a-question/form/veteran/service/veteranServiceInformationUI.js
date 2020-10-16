@@ -13,8 +13,8 @@ import {
   serviceEndDateTitle,
   serviceDateRangeErrorMessage,
   branchOfServiceTitle,
-} from '../../config/labels';
-import SectionHeader from '../../config/components/SectionHeader';
+} from '../../../constants/labels';
+import SectionHeader from '../../../components/SectionHeader';
 import { requireServiceInfo } from '../status/veteranStatusUI';
 
 const formFields = {

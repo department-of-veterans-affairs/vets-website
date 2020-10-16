@@ -1,12 +1,12 @@
 import { validateWhiteSpace } from 'platform/forms/validations';
 import * as topic from './topic/topic';
 
-import fullSchema from '../../0873-schema.json';
+import fullSchema from '../0873-schema.json';
 import {
   inquiryPageDescription,
   inquiryTypeTitle,
   queryTitle,
-} from '../config/labels';
+} from '../../constants/labels';
 
 const { inquiryType, query } = fullSchema.properties;
 

@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import fullSchema from '../../../0873-schema.json';
-import { topicTitle } from '../../config/labels';
+import fullSchema from '../../0873-schema.json';
+import { topicTitle } from '../../../constants/labels';
 import {
   vaMedicalCentersLabels,
   vaMedicalCentersValues,

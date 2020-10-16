@@ -25,7 +25,7 @@ import {
   zipCodePatternErrorMessage,
   zipCodeRequiredErrorMessage,
   zipCodeTitle,
-} from '../../config/labels';
+} from '../../../constants/labels';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
