@@ -45,11 +45,29 @@ export const selectPatientFacilities = state =>
       showNewScheduleViewAppointmentsPage &&
       (isCerner || (isCernerPatient && hasCernerFacilityID));
 
-    return {
+    const facility = {
       facilityId,
       // This overrides the MPI isCerner flag in favor of the feature toggle.
       isCerner: passesCernerChecks,
     };
+
+    if (passesCernerChecks) {
+      facility.usesCernerAppointments = !CERNER_APPOINTMENTS_BLOCKLIST.includes(
+        facilityId,
+      );
+      facility.usesCernerMedicalRecords = !CERNER_MEDICAL_RECORDS_BLOCKLIST.includes(
+        facilityId,
+      );
+      facility.usesCernerMessaging = !CERNER_MESSAGING_BLOCKLIST.includes(
+        facilityId,
+      );
+      facility.usesCernerRx = !CERNER_RX_BLOCKLIST.includes(facilityId);
+      facility.usesCernerTestResults = !CERNER_TEST_RESULTS_BLOCKLIST.includes(
+        facilityId,
+      );
+    }
+
+    return facility;
   }) || null;
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>

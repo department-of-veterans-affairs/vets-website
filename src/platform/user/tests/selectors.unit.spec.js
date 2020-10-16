@@ -275,11 +275,11 @@ describe('user selectors', () => {
         user: {
           profile: {
             facilities: [
-              { facilityId: '757', isCerner: false },
-              { facilityId: '668', isCerner: true },
               { facilityId: '984', isCerner: false },
+              { facilityId: '668', isCerner: true },
+              { facilityId: '757', isCerner: false },
             ],
-            isCernerPatient: false,
+            isCernerPatient: true,
           },
         },
       };
@@ -469,7 +469,17 @@ describe('user selectors', () => {
           },
         },
       };
-      const expected = [{ facilityId: '668', isCerner: true }];
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
       expect(selectors.selectCernerRxFacilities(state)).to.deep.equal(expected);
     });
   });
@@ -492,7 +502,17 @@ describe('user selectors', () => {
           },
         },
       };
-      const expected = [{ facilityId: '668', isCerner: true }];
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
       expect(selectors.selectCernerMessagingFacilities(state)).to.deep.equal(
         expected,
       );
@@ -518,8 +538,24 @@ describe('user selectors', () => {
         },
       };
       const expected = [
-        { facilityId: '757', isCerner: true },
-        { facilityId: '668', isCerner: true },
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: false,
+          usesCernerMessaging: false,
+          usesCernerRx: false,
+          usesCernerTestResults: false,
+        },
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
       ];
       expect(selectors.selectCernerAppointmentsFacilities(state)).to.deep.equal(
         expected,
@@ -545,7 +581,17 @@ describe('user selectors', () => {
           },
         },
       };
-      const expected = [{ facilityId: '668', isCerner: true }];
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
       expect(
         selectors.selectCernerMedicalRecordsFacilities(state),
       ).to.deep.equal(expected);
@@ -570,7 +616,17 @@ describe('user selectors', () => {
           },
         },
       };
-      const expected = [{ facilityId: '668', isCerner: true }];
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
       expect(selectors.selectCernerTestResultsFacilities(state)).to.deep.equal(
         expected,
       );
