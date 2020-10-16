@@ -9,3 +9,4 @@
 --prof
 --reporter progress
 --timeout 10000
+--retries 3
