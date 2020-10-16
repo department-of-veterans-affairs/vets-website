@@ -20,6 +20,7 @@ export class BenefitsForm extends React.Component {
     handleInputFocus: PropTypes.func,
     giBillChapterOpen: PropTypes.arrayOf(PropTypes.bool),
     yourMilitaryDetails: PropTypes.bool,
+    gibctBenefitFilterEnhancement: PropTypes.bool,
   };
 
   static defaultProps = {

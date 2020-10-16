@@ -239,6 +239,7 @@ class SaveInProgressIntro extends React.Component {
   };
 
   renderDowntime = (downtime, children) => {
+    // duplicate logic in AuthorizationComponent should be updated with any changes to this section
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.downtime.message || DowntimeMessage;
 

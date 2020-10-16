@@ -18,6 +18,7 @@ function InstitutionSearchForm({
   fetchAutocompleteSuggestions,
   filters,
   filtersClass,
+  gibctBenefitFilterEnhancement,
   handleFilterChange,
   hideModal,
   location,
@@ -45,6 +46,11 @@ function InstitutionSearchForm({
     }
   }
 
+  // prod flag for story BAH-13929
+  const keywordSearchLabel = !environment.isProduction()
+    ? 'Enter a school, employer name, city, or zip code'
+    : 'Enter a school, location, or employer name';
+
   return (
     <div className="row">
       <div id="institution-search" className={filtersClass}>
@@ -53,7 +59,7 @@ function InstitutionSearchForm({
           <h2>Refine search</h2>
           <KeywordSearch
             autocomplete={autocomplete}
-            label="Enter a school, location, or employer name"
+            label={keywordSearchLabel}
             location={location}
             onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
             onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
@@ -74,12 +80,14 @@ function InstitutionSearchForm({
             showModal={showModal}
             showHeader
             handleInputFocus={handleInstitutionSearchInputFocus}
+            gibctBenefitFilterEnhancement={gibctBenefitFilterEnhancement}
           />
           <OnlineClassesFilter
             onlineClasses={eligibility.onlineClasses}
             onChange={eligibilityChange}
             showModal={showModal}
             handleInputFocus={handleInstitutionSearchInputFocus}
+            gibctBenefitFilterEnhancement={gibctBenefitFilterEnhancement}
           />
         </div>
         <div id="see-results-button" className="results-button">
