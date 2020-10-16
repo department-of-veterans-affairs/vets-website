@@ -201,10 +201,37 @@
   .search-button-mobile {
     @include media-maxwidth($small-screen) {
       margin-top: 1em;
+      width: 100%;
     }
   }
+  .search-button {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    margin-top: 0.5em;
+    margin-right: -1px;
+    margin-bottom: 0.5em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #0071BB;
+    border: 0;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 1rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+
+  }
+
   .search-filter-text {
-    @media (min-width: $small-screen){
+    @media (min-width: $small-screen) {
       display: none;
     }
   }
