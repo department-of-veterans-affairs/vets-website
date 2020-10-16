@@ -25,7 +25,6 @@ export function ProfilePage({
   dispatchHideModal,
   eligibility,
   gibctEybBottomSheet,
-  gibctFilterEnhancement,
   gibctSchoolRatings,
   match,
 }) {
@@ -89,7 +88,6 @@ export function ProfilePage({
           eligibility={eligibility}
           version={version}
           gibctEybBottomSheet={gibctEybBottomSheet}
-          gibctFilterEnhancement={gibctFilterEnhancement}
           gibctSchoolRatings={gibctSchoolRatings}
         />
       );
@@ -120,9 +118,6 @@ const mapStateToProps = state => {
     eligibility,
     gibctEybBottomSheet: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEybBottomSheet
-    ],
-    gibctFilterEnhancement: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctFilterEnhancement
     ],
     gibctSchoolRatings: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctSchoolRatings

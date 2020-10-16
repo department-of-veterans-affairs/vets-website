@@ -1,7 +1,4 @@
-import {
-  stateRequiredCountries,
-  uiSchema,
-} from 'platform/forms/definitions/address';
+import { uiSchema } from 'platform/forms/definitions/address';
 import SectionHeader from '../../content/SectionHeader';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -45,7 +42,7 @@ export const veteranInformationUI = requireIfDisplayed => ({
     'ui:required': requireIfDisplayed,
   },
   [formFields.address]: _.merge(uiSchema(''), {
-    'ui:order': ['street', 'street2', 'city', 'country', 'state', 'postalCode'],
+    'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
     'ui:options': {
       hideIf: formData => veteranIsDeceased(formData),
     },
@@ -55,13 +52,6 @@ export const veteranInformationUI = requireIfDisplayed => ({
     country: {
       'ui:required': formData =>
         requireIfDisplayed(formData) && veteranIsAlive(formData),
-    },
-    state: {
-      'ui:required': formData =>
-        requireIfDisplayed(formData) &&
-        veteranIsAlive(formData) &&
-        formData.veteranInformation.address &&
-        stateRequiredCountries.has(formData.veteranInformation.address.country),
     },
     street2: {
       'ui:options': {

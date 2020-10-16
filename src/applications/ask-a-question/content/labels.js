@@ -58,7 +58,7 @@ export const preferredContactMethodTitle =
   'How should we get in touch with you?';
 export const phoneTitle = 'Daytime phone';
 export const emailTitle = 'Email';
-export const daytimePhoneAreaCodeTitle = 'Daytime phone (area code)';
+export const daytimePhoneAreaCodeTitle = 'Daytime phone';
 
 /* --------------- Dependent Information ------------- */
 export const dependentInformationHeader = 'Dependent information';

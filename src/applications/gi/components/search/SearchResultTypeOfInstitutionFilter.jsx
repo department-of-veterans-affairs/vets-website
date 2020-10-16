@@ -1,12 +1,12 @@
 import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 
 function SearchResultTypeOfInstitutionFilter({
   category,
   onChange,
   handleInputFocus,
-  gibctFilterEnhancement,
 }) {
   const options = [
     {
@@ -26,9 +26,9 @@ function SearchResultTypeOfInstitutionFilter({
   return (
     <RadioButtons
       label={
-        gibctFilterEnhancement
+        environment.isProduction()
           ? 'Select an institution type'
-          : 'Type of institution'
+          : 'Select an institution'
       }
       name="category"
       options={options}

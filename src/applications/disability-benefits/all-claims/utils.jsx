@@ -234,6 +234,23 @@ export function queryForFacilities(input = '') {
     });
 }
 
+export function getSeparationLocations() {
+  return apiRequest('/disability_compensation_form/separation_locations')
+    .then(({ separationLocations }) =>
+      separationLocations.map(separationLocation => ({
+        id: separationLocation.code,
+        label: separationLocation.description,
+      })),
+    )
+    .catch(error => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        Sentry.captureMessage('Error getting separation locations');
+      });
+      return [];
+    });
+}
+
 export const disabilityIsSelected = disability => disability['view:selected'];
 
 /**
@@ -843,14 +860,25 @@ export const DISABILITY_SHARED_CONFIG = {
 
 export const isBDD = formData => {
   const servicePeriods = formData?.serviceInformation?.servicePeriods;
+
   // separation date entered in the wizard
   const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
+
   // this flag helps maintain the correct form title within a session
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
+  // User hasn't started the form or the wizard
   if ((!servicePeriods || !Array.isArray(servicePeriods)) && !separationDate) {
     return false;
   }
+
+  // isActiveDuty is true when the user selects that option in the wizard & then
+  // enters a separation date - based on the session storage value; we then
+  // set this flag in the formData.
+  // If the user doesn't choose the active duty wizard option, but enters a
+  // future date in their service history, this may be associated with reserves
+  // and therefor should not open the BDD flow
+  const isActiveDuty = Boolean(formData?.['view:isBddData'] || separationDate);
 
   const mostRecentDate = separationDate
     ? moment(separationDate)
@@ -864,6 +892,7 @@ export const isBDD = formData => {
   }
 
   const result =
+    isActiveDuty &&
     mostRecentDate.isAfter(moment().add(89, 'days')) &&
     !mostRecentDate.isAfter(moment().add(180, 'days'));
   if (result) {
