@@ -9,7 +9,7 @@ import {
   formatNumber,
   locationInfo,
 } from '../../utils/helpers';
-import { ariaLabels } from '../../constants';
+import { ariaLabels, MINIMUM_RATING_COUNT } from '../../constants';
 import CautionFlagHeading from './CautionFlagHeading';
 import SchoolClosingHeading from './SchoolClosingHeading';
 import ScorecardTags from '../ScorecardTags';
@@ -35,7 +35,9 @@ class HeadingSummary extends React.Component {
 
     const stars = convertRatingToStars(it.ratingAverage);
     const displayStars =
-      this.props.gibctSchoolRatings && stars && it.ratingCount > 0;
+      this.props.gibctSchoolRatings &&
+      stars &&
+      it.ratingCount >= MINIMUM_RATING_COUNT;
 
     const titleClasses = classNames({
       'vads-u-margin-bottom--0': displayStars,
