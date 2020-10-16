@@ -199,7 +199,7 @@ function createResourcesAndSupportWebsiteSection(buildOptions) {
 
     if (allArticles.length === 0) {
       logDrupal(
-        'No articles found for the Resources and Support section of the website. Contact Kelson Adams for help.',
+        'No articles found for the Resources and Support section of the website.',
       );
       return;
     }
