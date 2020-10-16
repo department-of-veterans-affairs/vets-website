@@ -31,6 +31,8 @@ import { transform, eligibilityDescription, benefitsLabels } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
+import manifest from '../manifest.json';
+
 const {
   benefit,
   faaFlightCertificatesInformation,
@@ -46,10 +48,22 @@ const {
 } = fullSchema1990e.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990e`,
   trackingPrefix: 'edu-1990e-',
   formId: VA_FORM_IDS.FORM_22_1990E,
+  saveInProgress: {
+    messages: {
+      messages: {
+        inProgress:
+          'Your education benefits application (22-1990E) is in progress.',
+        expired:
+          'Your saved education benefits application (22-1990E) has expired. If you want to apply for education benefits, please start a new application.',
+        saved: 'Your education benefits application has been saved.',
+      },
+    },
+  },
   version: 1,
   migrations: [urlMigration('/1990e')],
   prefillEnabled: true,

@@ -24,7 +24,7 @@ function OnlineClassesFilter({
         { value: 'no', label: 'In person only' },
         { value: 'both', label: 'In person and online' },
       ]
-    : [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }];
+    : [{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }];
   if (gibctBenefitFilterEnhancement) {
     return (
       <div className="filter-additional-info vads-u-margin-bottom--4">

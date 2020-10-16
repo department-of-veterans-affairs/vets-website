@@ -134,33 +134,25 @@ function InstitutionSearchForm({
           ) : (
             <div>
               <form id="search-page-form" onSubmit={handleSubmit}>
-                <div>
-                  <KeywordSearch
-                    searchOnAutcompleteSelection
-                    autocomplete={autocomplete}
-                    label={keywordSearchLabel}
-                    location={location}
-                    onClearAutocompleteSuggestions={
-                      clearAutocompleteSuggestions
-                    }
-                    onFetchAutocompleteSuggestions={
-                      fetchAutocompleteSuggestions
-                    }
-                    onFilterChange={handleFilterChange}
-                    onUpdateAutocompleteSearchTerm={
-                      updateAutocompleteSearchTerm
-                    }
-                  />
-                  <div className="search-button-mobile">
-                    <button
-                      className="search-button"
-                      type="submit"
-                      id="search-button"
-                      onClick={toggleFilter}
-                    >
-                      <span>Search</span>
-                    </button>
-                  </div>
+                <KeywordSearch
+                  searchOnAutcompleteSelection
+                  autocomplete={autocomplete}
+                  label={keywordSearchLabel}
+                  location={location}
+                  onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
+                  onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
+                  onFilterChange={handleFilterChange}
+                  onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
+                />
+                <div className="search-button-mobile">
+                  <button
+                    className="search-button"
+                    type="submit"
+                    id="search-button"
+                    onClick={toggleFilter}
+                  >
+                    <span>Search</span>
+                  </button>
                 </div>
                 <div className="vads-u-margin-top--4">
                   <h2>Refine search</h2>
