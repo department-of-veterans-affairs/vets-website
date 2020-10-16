@@ -373,7 +373,7 @@ export class Modals extends React.Component {
             <p>
               <p>
                 Under the GI Bill you’re eligible to receive a monthly housing
-                allowance. We calculate this monthly housing allowance based
+                allowance. We calculate this monthly housing allowance based on
                 where you take classes.
               </p>
               <p>

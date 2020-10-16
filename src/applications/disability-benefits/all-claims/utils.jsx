@@ -236,11 +236,8 @@ export function queryForFacilities(input = '') {
 
 export function getSeparationLocations() {
   return apiRequest('/disability_compensation_form/separation_locations')
-    .then((
-      { separation_locations }, // eslint-disable-line camelcase
-    ) =>
-      // eslint-disable-next-line camelcase
-      separation_locations.map(separationLocation => ({
+    .then(({ separationLocations }) =>
+      separationLocations.map(separationLocation => ({
         id: separationLocation.code,
         label: separationLocation.description,
       })),
