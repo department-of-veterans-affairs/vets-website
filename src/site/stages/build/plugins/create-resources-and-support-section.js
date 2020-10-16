@@ -189,7 +189,7 @@ function createPaginatedArticleListings({
   );
 }
 
-function createResourcesAndSupport(buildOptions) {
+function createResourcesAndSupportWebsiteSection(buildOptions) {
   if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
     return () => {};
   }
@@ -199,7 +199,7 @@ function createResourcesAndSupport(buildOptions) {
 
     if (allArticles.length === 0) {
       logDrupal(
-        'No articles found for the Resources and Support section of the website.',
+        'No articles found for the Resources and Support section of the website. Contact Kelson Adams for help.',
       );
       return;
     }
@@ -254,4 +254,4 @@ function createResourcesAndSupport(buildOptions) {
   };
 }
 
-module.exports = createResourcesAndSupport;
+module.exports = createResourcesAndSupportWebsiteSection;
