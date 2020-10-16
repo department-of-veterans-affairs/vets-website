@@ -37,9 +37,6 @@ const formConfig = {
       saved: 'Your appointment questionnaire application has been saved.',
     },
   },
-  customText: {
-    appType: 'questionnaire',
-  },
   version: 0,
   prefillEnabled: true,
   footerContent: GetHelp.footer,
