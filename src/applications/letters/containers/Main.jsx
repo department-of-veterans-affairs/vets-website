@@ -27,7 +27,7 @@ export class Main extends React.Component {
     if (!this.props.emptyAddress) {
       return this.props.getLetterListAndBSLOptions();
     }
-    return this.props.hasInvalidAddress();
+    return this.props.profileHasEmptyAddress();
   }
 
   appAvailability(lettersAvailability) {
