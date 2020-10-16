@@ -56,7 +56,7 @@ export class IntroductionPage extends React.Component {
         itemScope
         itemType="http://schema.org/HowTo"
       >
-        <FormTitle title="Manage your education benefits" />
+        <FormTitle title="Change your education benefits" />
         <p itemProp="description">
           Equal to VA Form 22-1995 (Request for Change of Program or Place of
           Training).

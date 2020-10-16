@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { MINIMUM_RATING_COUNT } from '../../constants';
 import { estimatedBenefits } from '../../selectors/estimator';
 import {
   convertRatingToStars,
@@ -20,7 +19,6 @@ import {
 import ScorecardTags from '../../components/ScorecardTags';
 
 export function RatedSearchResult({
-  gibctFilterEnhancement,
   schoolClosing,
   schoolClosingOn,
   estimated,
@@ -57,7 +55,7 @@ export function RatedSearchResult({
     ? appendQuery(`/profile/${facilityCode}`, { version })
     : `/profile/${facilityCode}`;
   const stars = convertRatingToStars(ratingAverage);
-  const displayStars = stars && ratingCount > 0;
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   return (
     <div
@@ -150,17 +148,15 @@ export function RatedSearchResult({
               </div>
             )}
 
-            {gibctFilterEnhancement && (
-              <div className="small-12  medium-5 columns">
-                <ScorecardTags
-                  styling="search-result-tag"
-                  menOnly={menOnly}
-                  womenOnly={womenOnly}
-                  hbcu={hbcu}
-                  relAffil={relAffil}
-                />
-              </div>
-            )}
+            <div className="small-12  medium-5 columns">
+              <ScorecardTags
+                styling="search-result-tag"
+                menOnly={menOnly}
+                womenOnly={womenOnly}
+                hbcu={hbcu}
+                relAffil={relAffil}
+              />
+            </div>
           </div>
           <div className="row">
             <div className="columns">
@@ -175,9 +171,6 @@ export function RatedSearchResult({
 
 const mapStateToProps = (state, props) => ({
   estimated: estimatedBenefits(state, props),
-  gibctFilterEnhancement: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctFilterEnhancement
-  ],
 });
 
 export default connect(mapStateToProps)(RatedSearchResult);

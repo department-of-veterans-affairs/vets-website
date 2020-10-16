@@ -1,13 +1,16 @@
 import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 
 function SearchResultTypeOfInstitutionFilter({
   category,
   onChange,
   handleInputFocus,
-  gibctFilterEnhancement,
 }) {
+  const optionText = environment.isProduction()
+    ? 'Employers only (OJT, apprenticeships)'
+    : 'Employers (On-the-job training [OJT], apprenticeships)';
   const options = [
     {
       value: 'ALL',
@@ -19,16 +22,16 @@ function SearchResultTypeOfInstitutionFilter({
     },
     {
       value: 'employer',
-      label: 'Employers only (OJT, apprenticeships)',
+      label: optionText,
     },
   ];
 
   return (
     <RadioButtons
       label={
-        gibctFilterEnhancement
+        environment.isProduction()
           ? 'Select an institution type'
-          : 'Type of institution'
+          : 'Select an institution'
       }
       name="category"
       options={options}

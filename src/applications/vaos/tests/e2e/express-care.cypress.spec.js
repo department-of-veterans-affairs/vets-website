@@ -10,7 +10,7 @@ describe('Express Care request flow', () => {
     cy.get('.va-modal-body button').click();
     cy.wait('@getRequestEligibilityCriteria');
     cy.axeCheck();
-    cy.findByText('Create an Express Care request').click();
+    cy.findByText('Request Express Care').click();
 
     // Info page
     cy.findByText('How Express Care works');

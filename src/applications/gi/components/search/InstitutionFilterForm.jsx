@@ -10,6 +10,7 @@ import {
   sortOptionsByStateName,
 } from '../../utils/helpers';
 import CautionaryWarningsFilter from './CautionaryWarningsFilter';
+import environment from 'platform/utilities/environment';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -28,7 +29,6 @@ class InstitutionFilterForm extends React.Component {
       onChange={this.handleDropdownChange}
       handleInputFocus={this.props.handleInputFocus}
       displayAllOption
-      gibctFilterEnhancement={this.props.gibctFilterEnhancement}
     />
   );
 
@@ -140,13 +140,14 @@ class InstitutionFilterForm extends React.Component {
       })),
     ];
 
+    // prod flag for story BAH-13928
+    const searchDropDown = environment.isProduction()
+      ? 'Institution categories'
+      : 'Type of school or employer';
+
     return (
       <Dropdown
-        label={
-          this.props.gibctFilterEnhancement
-            ? 'Institution categories'
-            : 'Institution type'
-        }
+        label={searchDropDown}
         name="type"
         options={options}
         value={this.props.filters.type}
@@ -159,33 +160,11 @@ class InstitutionFilterForm extends React.Component {
   };
 
   render() {
-    if (this.props.gibctFilterEnhancement) {
-      return (
-        <div className="institution-filter-form">
-          {this.renderCountryFilter()}
-          {this.renderStateFilter()}
-
-          {
-            <CautionaryWarningsFilter
-              excludeCautionFlags={this.props.filters.excludeCautionFlags}
-              excludeWarnings={this.props.filters.excludeWarnings}
-              onChange={this.handleCheckboxChange}
-              showModal={this.props.showModal}
-              handleInputFocus={this.props.handleInputFocus}
-            />
-          }
-          {this.renderCategoryFilter()}
-          {this.renderTypeFilter()}
-          {this.renderProgramFilters()}
-        </div>
-      );
-    }
     return (
       <div className="institution-filter-form">
-        <h2>Institution details</h2>
-        {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
+
         {
           <CautionaryWarningsFilter
             excludeCautionFlags={this.props.filters.excludeCautionFlags}
@@ -195,8 +174,9 @@ class InstitutionFilterForm extends React.Component {
             handleInputFocus={this.props.handleInputFocus}
           />
         }
-        {this.renderProgramFilters()}
+        {this.renderCategoryFilter()}
         {this.renderTypeFilter()}
+        {this.renderProgramFilters()}
       </div>
     );
   }

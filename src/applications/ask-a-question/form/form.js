@@ -25,6 +25,8 @@ import {
   veteranInformationPageTitle,
 } from '../constants/labels';
 
+import manifest from '../manifest.json';
+
 const {
   fullName,
   first,
@@ -57,6 +59,7 @@ const submitTransform = (formConfig, form) => {
 };
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/ask/asks`,
   transformForSubmit: submitTransform,
@@ -64,6 +67,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '0873',
+  saveInProgress: {
+    messages: {
+      // inProgress: 'Your [savedFormDescription] is in progress.',
+      // expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
+      // saved: 'Your [benefitType] [appType] has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
