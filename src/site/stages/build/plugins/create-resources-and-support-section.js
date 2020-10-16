@@ -183,8 +183,6 @@ function createPaginatedArticleListings({
         },
       );
 
-      // files.push(...pagesForCategory);
-
       return [...files, ...pagesForCategory];
     },
     [],
