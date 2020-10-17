@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import moment from 'moment';
 import {
   createTestStore,
@@ -8,12 +7,12 @@ import {
 } from '../../../mocks/setup';
 import userEvent from '@testing-library/user-event';
 
-// import {
-//   DateTimeSelectPage,
-//   getOptionsByDate,
-// } from '../../../../new-appointment/components/DateTimeSelectPage';
 import DateTimeSelectPage from '../../../../new-appointment/components/DateTimeSelectPage';
 import { FETCH_STATUS } from '../../../../utils/constants';
+import { waitFor } from '@testing-library/dom';
+import { Route } from 'react-router-dom';
+import parentFacilities from '../../../../services/mocks/var/facilities.json';
+import { transformParentFacilities } from '../../../../services/organization/transformers';
 
 function getMondayTruFriday(date) {
   if (date.day() === 6) {
@@ -46,6 +45,13 @@ function getAppointmentTimeSlots(date, count) {
   return collection;
 }
 
+const parentFacilitiesParsed = transformParentFacilities(
+  parentFacilities.data.map(item => ({
+    ...item.attributes,
+    id: item.id,
+  })),
+);
+
 const availableDates = [
   getMondayTruFriday(moment().add(5, 'd')).format('YYYY-MM-DD'),
 ];
@@ -53,58 +59,34 @@ const availableDates = [
 const availableSlots = getAppointmentTimeSlots(moment().add(5, 'd'), 2);
 
 describe('VAOS <DateTimeSelectPage>', () => {
-  it('should not submit form with validation error', () => {
-    const routeToNextAppointmentPage = sinon.spy();
-    const store = createTestStore({
-      newAppointment: {
-        data: {
-          calendarData: {
-            currentlySelectedDate: null,
-            selectedDates: [],
-          },
-          availableSlots,
-        },
-        pages: [],
-        eligibility: [],
-      },
-    });
-
-    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
-      store,
-    });
-
-    // it should not allow user to submit the form without selecting a date
-    const button = screen.getByRole('button', {
-      name: /^Continue/,
-    });
-    userEvent.click(button);
-
-    // NOTE: alert does not have an accessible name to query by
-    expect(screen.getByRole('alert')).to.be.ok;
-
-    // NOTE: Implementation detail
-    expect(routeToNextAppointmentPage.called).to.be.false;
-  });
-
   it('should allow user to select date and time for a VA appointment', async () => {
     const store = createTestStore({
       newAppointment: {
-        availableDates,
+        // availableDates,
         availableSlots,
         data: {
           calendarData: {
             currentlySelectedDate: null,
             selectedDates: [],
           },
+          preferredDate: moment().add(5, 'd'),
+          vaParent: 'var983',
+          clinicId: 'var_408',
         },
         pages: [],
+        previousPages: [],
         eligibility: [],
+        parentFacilities: parentFacilitiesParsed,
+        // appointmentSlotsStatus: FETCH_STATUS.succeeded,
       },
     });
 
-    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
-      store,
-    });
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
 
     // it should display page heading
     expect(
@@ -131,7 +113,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     ).to.be.ok;
 
     // it should allow the user to select an appointment time
-    const button = screen.getByRole('button', {
+    let button = screen.getByRole('button', {
       name: moment()
         .add(5, 'd')
         .format('dddd, MMMM Do'),
@@ -145,14 +127,44 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
     userEvent.click(radio);
 
-    // NOTE: Doesn't work as expected. Expectation is radio button state should be 'clicked'
-    // when clicking the button. I don't know why the button state is not updated.
-    // expect(
-    //   screen.getByRole('radio', {
-    //     name: new RegExp(`^${time}`),
-    //     checked: true,
-    //   }),
-    // ).to.be.ok;
+    // 4. it should allow the user to submit the form
+    button = screen.getByRole('button', {
+      name: /^Continue/,
+    });
+    userEvent.click(button);
+    await waitFor(() => {
+      expect(screen.history.push.called).to.be.true;
+    });
+  });
+
+  it('should not submit form with validation error', async () => {
+    const store = createTestStore({
+      newAppointment: {
+        data: {
+          calendarData: {
+            currentlySelectedDate: null,
+            selectedDates: [],
+          },
+        },
+        pages: [],
+        eligibility: [],
+      },
+    });
+
+    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
+      store,
+    });
+
+    // it should not allow user to submit the form without selecting a date
+    const button = screen.getByRole('button', {
+      name: /^Continue/,
+    });
+    userEvent.click(button);
+
+    // NOTE: alert does not have an accessible name to query by
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).to.be.ok;
+    });
   });
 
   it('should display loading message when in loading state', async () => {
@@ -202,58 +214,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       }),
     ).to.be.ok;
   });
-
-  // it('should return options for date with getOptionsByDate', () => {
-  //   const selectedDate = getMondayTruFriday(moment().add(5, 'd')).format(
-  //     'YYYY-MM-DD',
-  //   );
-  //   const options = getOptionsByDate(
-  //     selectedDate,
-  //     'America/Denver',
-  //     availableSlots,
-  //   );
-  //   const dateTime0 = moment(availableSlots[0].start);
-  //   const dateTime1 = moment(availableSlots[1].start);
-  //   const srMeridiem = m =>
-  //     m
-  //       .format('A')
-  //       .replace(/\./g, '')
-  //       .toUpperCase();
-
-  //   expect(options.length).to.equal(2);
-  //   expect(options[0].label.props.children[0]).to.equal(
-  //     dateTime0.format('h:mm'),
-  //   );
-  //   expect(options[0].label.props.children[2].props.children).to.equal(
-  //     dateTime0.format('A'),
-  //   );
-  //   expect(options[0].label.props.children[4].props.children).to.equal(
-  //     srMeridiem(dateTime0),
-  //   );
-
-  //   expect(options[1].label.props.children[0]).to.equal(
-  //     dateTime1.format('h:mm'),
-  //   );
-  //   expect(options[1].label.props.children[2].props.children).to.equal(
-  //     dateTime1.format('A'),
-  //   );
-  //   expect(options[1].label.props.children[4].props.children).to.equal(
-  //     srMeridiem(dateTime1),
-  //   );
-  // });
-
-  // it('should adjust for timezone if passed UTC', () => {
-  //   const selectedDate = '2019-10-29';
-
-  //   const options = getOptionsByDate(selectedDate, 'America/Denver', [
-  //     {
-  //       start: '2019-10-29T09:30:00Z',
-  //       end: '2019-10-29T09:50:00Z',
-  //     },
-  //   ]);
-
-  //   expect(options[0].label.props.children[0]).to.equal('3:30');
-  // });
 
   it('should display error message if slots call fails', () => {
     const store = createTestStore({

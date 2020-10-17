@@ -21,15 +21,6 @@ function getMondayTruFriday(date) {
 }
 
 describe('VAOS <DateTimeRequestPage>', () => {
-  // it('should return options for date with getOptionsByDate', () => {
-  //   const options = getOptionsByDate();
-  //   expect(options.length).to.equal(2);
-  //   expect(options[0].value).to.equal('AM');
-  //   expect(options[0].label).to.equal('AM');
-  //   expect(options[1].value).to.equal('PM');
-  //   expect(options[1].label).to.equal('PM');
-  // });
-
   describe('Add community care appointment to calendar', async () => {
     it('should allow user to request date and time for a community care appointment', async () => {
       const store = createTestStore({
