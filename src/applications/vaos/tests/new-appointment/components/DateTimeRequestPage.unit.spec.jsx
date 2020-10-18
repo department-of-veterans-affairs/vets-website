@@ -9,17 +9,6 @@ import { FETCH_STATUS } from '../../../utils/constants';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-function getMondayTruFriday(date) {
-  if (date.day() === 6) {
-    // Move date to next week Monday
-    return date.day(8);
-  } else if (date.day() === 0) {
-    // Move date to current week Monday
-    return date.day(1);
-  }
-  return date;
-}
-
 describe('VAOS <DateTimeRequestPage>', () => {
   describe('Add community care appointment to calendar', async () => {
     it('should allow user to request date and time for a community care appointment', async () => {
@@ -66,14 +55,14 @@ describe('VAOS <DateTimeRequestPage>', () => {
         }),
       ).to.be.ok;
 
+      // Find all available appointments for the current month
+      const currentMonth = moment().format('MMMM');
+      const buttons = screen
+        .getAllByRole('button', { name: new RegExp(`${currentMonth}`) })
+        .filter(button => button.disabled === false);
+
       // it should allow the user to select morning for currently selected date
-      // 1. Simulate user selecting a date
-      let button = screen.getByRole('button', {
-        name: moment()
-          .add(5, 'd')
-          .format('dddd, MMMM Do'),
-      });
-      userEvent.click(button);
+      userEvent.click(buttons[0]);
 
       // 2. Simulate user selecting a time
       let checkbox = screen.getByRole('checkbox', {
@@ -88,7 +77,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(checkbox);
 
       // 4. it should allow the user to submit the form
-      button = screen.getByRole('button', {
+      let button = screen.getByRole('button', {
         name: /^Continue/,
       });
       userEvent.click(button);
@@ -202,12 +191,15 @@ describe('VAOS <DateTimeRequestPage>', () => {
         },
       );
 
+      // Find all available appointments for the current month
+      const currentMonth = moment().format('MMMM');
+      const buttons = screen
+        .getAllByRole('button', { name: new RegExp(`${currentMonth}`) })
+        .filter(button => button.disabled === false);
+
       // it should display an alert when the users selects more than the allowed dates
       // 1. Simulate user selecting a date
-      let button = screen.getByRole('button', {
-        name: getMondayTruFriday(moment().add(5, 'd')).format('dddd, MMMM Do'),
-      });
-      userEvent.click(button);
+      userEvent.click(buttons[0]);
 
       // 2. Simulate user selecting AM
       let checkbox = screen.getByRole('checkbox', {
@@ -216,10 +208,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(checkbox);
 
       // 3. Simulate user selecting another date
-      button = screen.getByRole('button', {
-        name: getMondayTruFriday(moment().add(6, 'd')).format('dddd, MMMM Do'),
-      });
-      userEvent.click(button);
+      userEvent.click(buttons[1]);
 
       // 3. Simulate user selecting PM
       checkbox = screen.getByRole('checkbox', {
@@ -228,10 +217,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(checkbox);
 
       // 4. Simulate user selecting another date
-      button = screen.getByRole('button', {
-        name: getMondayTruFriday(moment().add(7, 'd')).format('dddd, MMMM Do'),
-      });
-      userEvent.click(button);
+      userEvent.click(buttons[2]);
 
       // 5. Simulate user selecting AM
       checkbox = screen.getByRole('checkbox', {
@@ -239,13 +225,10 @@ describe('VAOS <DateTimeRequestPage>', () => {
       });
       userEvent.click(checkbox);
 
-      // 6. Simulate user selecting another date which should result in error
-      button = screen.getByRole('button', {
-        name: getMondayTruFriday(moment().add(8, 'd')).format('dddd, MMMM Do'),
-      });
-      userEvent.click(button);
+      // 6. Simulate user selecting another date
+      userEvent.click(buttons[3]);
 
-      // 6. Simulate user selecting PM which should result in error
+      // 7. Simulate user selecting PM which should result in error
       checkbox = screen.getByRole('checkbox', {
         name: 'PM appointment',
       });
@@ -279,12 +262,15 @@ describe('VAOS <DateTimeRequestPage>', () => {
         },
       );
 
+      // Find all available appointments for the current month
+      const currentMonth = moment().format('MMMM');
+      const buttons = screen
+        .getAllByRole('button', { name: new RegExp(`${currentMonth}`) })
+        .filter(button => button.disabled === false);
+
       // it should display an alert when the users selects more than the allowed dates
       // 1. Simulate user selecting a date
-      let button = screen.getByRole('button', {
-        name: getMondayTruFriday(moment().add(5, 'd')).format('dddd, MMMM Do'),
-      });
-      userEvent.click(button);
+      userEvent.click(buttons[0]);
 
       // 2. Simulate user selecting AM
       let checkbox = screen.getByRole('checkbox', {
@@ -299,10 +285,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(checkbox);
 
       // 4. Simulate user selecting another date
-      button = screen.getByRole('button', {
-        name: getMondayTruFriday(moment().add(6, 'd')).format('dddd, MMMM Do'),
-      });
-      userEvent.click(button);
+      userEvent.click(buttons[1]);
 
       // 5. Simulate user selecting AM
       checkbox = screen.getByRole('checkbox', {
@@ -325,7 +308,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       ).to.be.ok;
 
       // 7. it should not allow the user to submit the form
-      button = screen.getByRole('button', {
+      const button = screen.getByRole('button', {
         name: /^Continue/,
       });
       userEvent.click(button);

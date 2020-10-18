@@ -52,24 +52,22 @@ const parentFacilitiesParsed = transformParentFacilities(
   })),
 );
 
-const availableDates = [
-  getMondayTruFriday(moment().add(5, 'd')).format('YYYY-MM-DD'),
-];
-
-const availableSlots = getAppointmentTimeSlots(moment().add(5, 'd'), 2);
+const availableSlots = getAppointmentTimeSlots(
+  getMondayTruFriday(moment().add(5, 'd')),
+  2,
+);
 
 describe('VAOS <DateTimeSelectPage>', () => {
   it('should allow user to select date and time for a VA appointment', async () => {
     const store = createTestStore({
       newAppointment: {
-        // availableDates,
         availableSlots,
         data: {
           calendarData: {
             currentlySelectedDate: null,
             selectedDates: [],
           },
-          preferredDate: moment().add(5, 'd'),
+          preferredDate: getMondayTruFriday(moment().add(5, 'd')),
           vaParent: 'var983',
           clinicId: 'var_408',
         },
@@ -77,7 +75,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
         previousPages: [],
         eligibility: [],
         parentFacilities: parentFacilitiesParsed,
-        // appointmentSlotsStatus: FETCH_STATUS.succeeded,
       },
     });
 
@@ -112,13 +109,14 @@ describe('VAOS <DateTimeSelectPage>', () => {
       }),
     ).to.be.ok;
 
+    // Find all available appointments for the current month
+    const currentMonth = moment().format('MMMM');
+    const buttons = screen
+      .getAllByRole('button', { name: new RegExp(`${currentMonth}`) })
+      .filter(button => button.disabled === false);
+
     // it should allow the user to select an appointment time
-    let button = screen.getByRole('button', {
-      name: moment()
-        .add(5, 'd')
-        .format('dddd, MMMM Do'),
-    });
-    userEvent.click(button);
+    userEvent.click(buttons[0]);
     const time = moment()
       .minute(0)
       .format('h:mm');
@@ -128,7 +126,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     userEvent.click(radio);
 
     // 4. it should allow the user to submit the form
-    button = screen.getByRole('button', {
+    const button = screen.getByRole('button', {
       name: /^Continue/,
     });
     userEvent.click(button);
@@ -170,8 +168,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
   it('should display loading message when in loading state', async () => {
     const store = createTestStore({
       newAppointment: {
-        availableDates,
-        availableSlots,
         data: {
           calendarData: {},
         },
@@ -192,8 +188,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
   it('should display wait time alert message when not in loading state', async () => {
     const store = createTestStore({
       newAppointment: {
-        availableDates,
-        availableSlots,
         data: {
           calendarData: {},
         },
@@ -218,8 +212,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
   it('should display error message if slots call fails', () => {
     const store = createTestStore({
       newAppointment: {
-        availableDates,
-        availableSlots,
         data: {
           calendarData: {},
         },
