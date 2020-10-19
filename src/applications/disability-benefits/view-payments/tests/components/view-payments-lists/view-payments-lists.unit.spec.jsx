@@ -24,22 +24,7 @@ const initialState = {
 const store = createCommonStore(allPayments);
 
 describe('View Payments Lists', () => {
-  const server = setupServer(
-    rest.get(
-      `${environment.API_URL}/v0/profile/payment_history`,
-      (req, res, ctx) => {
-        return res(
-          ctx.json({
-            data: {
-              attributes: payments,
-              metadata: [],
-            },
-          }),
-        );
-      },
-    ),
-  );
-
+  let server;
   const overrideServerWithOptions = payload => {
     server.use(
       rest.get(
@@ -60,6 +45,21 @@ describe('View Payments Lists', () => {
 
   before(() => {
     resetFetch();
+    server = setupServer(
+      rest.get(
+        `${environment.API_URL}/v0/profile/payment_history`,
+        (req, res, ctx) => {
+          return res(
+            ctx.json({
+              data: {
+                attributes: payments,
+                metadata: [],
+              },
+            }),
+          );
+        },
+      ),
+    );
     server.listen();
   });
   afterEach(() => server.resetHandlers());
