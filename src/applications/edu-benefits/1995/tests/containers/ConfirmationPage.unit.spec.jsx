@@ -31,16 +31,16 @@ describe('<ConfirmationPage>', () => {
         .everySubTree('span')[1]
         .text()
         .trim(),
-    ).to.equal('for Jane Doe');
+    ).to.equal('(Form 22-1995)');
     expect(tree.everySubTree('p')[0].text()).to.contain(
-      'We usually process claims within 30 days.',
+      'We usually process applications within 30 days.',
     );
     expect(tree.everySubTree('p')[1].text()).to.contain(
       'We may contact you if we need more information or documents.',
     );
     expect(
-      tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply');
+      tree.everySubTree('.confirmation-guidance-message')[2].text(),
+    ).to.contain('Learn more about what happens after you apply');
   });
 
   it('should expand documents', () => {
