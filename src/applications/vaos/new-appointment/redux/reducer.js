@@ -23,7 +23,7 @@ import {
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
-  FORM_PAGE_FACILITY_UPDATE_SORT_METHOD,
+  FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
   FORM_REQUEST_CURRENT_LOCATION,
   FORM_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
@@ -410,7 +410,7 @@ export default function formReducer(state = initialState, action) {
         requestLocationStatus: FETCH_STATUS.loading,
       };
     }
-    case FORM_PAGE_FACILITY_UPDATE_SORT_METHOD: {
+    case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
       const formData = state.data;
       const typeOfCareId = formData.typeOfCareId;
       const sortMethod = action.sortMethod;

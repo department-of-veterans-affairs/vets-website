@@ -112,8 +112,8 @@ export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
 export const FORM_PAGE_FACILITY_OPEN_FAILED =
   'newAppointment/FACILITY_PAGE_OPEN_FAILED';
-export const FORM_PAGE_FACILITY_UPDATE_SORT_METHOD =
-  'newAppointment/FORM_PAGE_FACILITY_UPDATE_SORT_METHOD';
+export const FORM_PAGE_FACILITY_SORT_METHOD_UPDATED =
+  'newAppointment/FORM_PAGE_FACILITY_SORT_METHOD_UPDATED';
 export const FORM_FETCH_PARENT_FACILITIES =
   'newAppointment/FORM_FETCH_PARENT_FACILITIES';
 export const FORM_FETCH_PARENT_FACILITIES_SUCCEEDED =
@@ -437,6 +437,12 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       f => !!f.legacyVAR?.distancefromCurrentLocation,
     );
 
+    const action = {
+      type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+      sortMethod,
+      uiSchema,
+    };
+
     if (
       sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
       !calculatedDistanceFromCurrentLocation
@@ -446,20 +452,19 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       });
       try {
         location = await getPreciseLocation();
+        dispatch({
+          ...action,
+          location,
+        });
       } catch (e) {
         captureError(e, false, 'facility page');
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
       }
+    } else {
+      dispatch(action);
     }
-
-    dispatch({
-      type: FORM_PAGE_FACILITY_UPDATE_SORT_METHOD,
-      sortMethod,
-      uiSchema,
-      location,
-    });
   };
 }
 
