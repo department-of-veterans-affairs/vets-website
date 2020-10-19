@@ -432,15 +432,23 @@ export function requestCurrentLocation(uiSchema) {
     dispatch({
       type: FORM_REQUEST_CURRENT_LOCATION,
     });
+    recordEvent({
+      event: `${GA_PREFIX}-request-current-location-clicked`,
+    });
     try {
       const location = await getPreciseLocation();
+      recordEvent({
+        event: `${GA_PREFIX}-request-current-location-allowed`,
+      });
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED,
         location,
         uiSchema,
       });
     } catch (e) {
-      captureError(e, false, 'facility page');
+      recordEvent({
+        event: `${GA_PREFIX}-request-current-location-blocked`,
+      });
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
       });

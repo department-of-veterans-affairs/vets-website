@@ -1,15 +1,31 @@
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import { createSelector } from 'reselect';
-import set from '../../utilities/data/set';
-import get from '../../utilities/data/get';
-import unset from '../../utilities/data/unset';
-import { validateWhiteSpace } from '../validations';
 
 import {
   countries,
   states,
   isValidUSZipCode,
   isValidCanPostalCode,
-} from '../address';
+} from 'platform/forms/address';
+
+import {
+  canadaStateTitle,
+  cityErrorMessage,
+  cityTitle,
+  countryTitle,
+  postalCodeErrorMessage,
+  postalCodeTitle,
+  stateErrorMessage,
+  stateOrProvinceErrorMessage,
+  stateOrProvinceMissingErrorMessage,
+  stateTitle,
+  streetErrorMessage,
+  streetThreeTitle,
+  streetTwoTitle,
+  zipCodePatternErrorMessage,
+  zipCodeRequiredErrorMessage,
+  zipCodeTitle,
+} from '../../../constants/labels';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -26,60 +42,69 @@ function validatePostalCodes(errors, address) {
 
   // Add error message for postal code if it is invalid
   if (address.postalCode && !isValidPostalCode) {
-    errors.postalCode.addError('Please provide a valid postal code');
+    const errorMessage =
+      address.country === 'USA'
+        ? zipCodePatternErrorMessage
+        : postalCodeErrorMessage;
+    errors.postalCode.addError(errorMessage);
   }
 }
 
-export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
+export const stateRequiredCountries = new Set(['USA', 'CAN']);
 
-/**
- * Require the state when the country field is required and the value is a
- * country which requires the state.
- */
-export function requireStateWithCountry(
-  errors,
-  address,
-  formData,
-  currentSchema,
-) {
-  // Adds error message for state if it is blank and the country is one of the
-  // following: USA, Canada, or Mexico
+const countryLabels = [
+  'Belize',
+  'Botswana',
+  'Cameroon',
+  'Central African Republic',
+  'Chad',
+  'Gambia',
+  'Grenada',
+  'Hong Kong',
+  'Ireland',
+  'Mauritania',
+  'Netherlands Antilles',
+  'Qatar',
+  'Seychelles',
+  'Syrian Arab Republic',
+  'Tanzania',
+  'Tonga',
+  'Yemen',
+  'Zimbabwe',
+];
+
+const targetValues = countries.map(country => {
+  if (countryLabels.includes(country.label)) {
+    return country.value;
+  }
+  return '';
+});
+
+const postalCodeNotRequiredCountries = new Set(targetValues);
+
+function validateAddress(errors, address, formData, currentSchema) {
+  // Adds error message for state if it is blank and one of the following countries:
+  // USA or Canada
   if (
     stateRequiredCountries.has(address.country) &&
     address.state === undefined &&
-    currentSchema.required.includes('country')
+    currentSchema.required.includes('state')
   ) {
-    errors.state.addError('Please select a state or province');
+    errors.state.addError(stateOrProvinceErrorMessage);
   }
-}
 
-/**
- * Require the state when the country field is NOT required and the value is one
- * that requires the state BUT other address data is filled in.
- */
-export function requireStateWithData(errors, address, formData, currentSchema) {
   const hasAddressInfo =
     stateRequiredCountries.has(address.country) &&
     !currentSchema.required.length &&
-    // It's unclear why all three of these need to be undefined to require the
-    // state as well; this merits further discovery.
     typeof address.street !== 'undefined' &&
     typeof address.city !== 'undefined' &&
     typeof address.postalCode !== 'undefined';
 
   if (hasAddressInfo && typeof address.state === 'undefined') {
-    errors.state.addError(
-      'Please enter a state or province, or remove other address information.',
-    );
+    errors.state.addError(stateOrProvinceMissingErrorMessage);
   }
-}
 
-export function validateStreet(errors, address) {
-  validateWhiteSpace(errors.street, address.street);
-}
-
-export function validateCity(errors, address) {
-  validateWhiteSpace(errors.city, address.city);
+  validatePostalCodes(errors, address);
 }
 
 const countryValues = countries.map(object => object.value);
@@ -103,7 +128,7 @@ function isMilitaryCity(city = '') {
   return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
 }
 
-const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
+const requiredFields = ['street', 'city', 'country'];
 
 /*
  * Create schema for addresses
@@ -121,8 +146,8 @@ export function schema(
   const addressSchema = currentSchema.definitions[addressProperty];
   return {
     type: 'object',
-    required: isRequired ? requiredFields : [],
-    properties: Object.assign({}, addressSchema.properties, {
+    required: isRequired ? requiredFields : ['country'],
+    properties: _.assign(addressSchema.properties, {
       country: {
         default: 'USA',
         type: 'string',
@@ -130,11 +155,12 @@ export function schema(
         enumNames: countryNames,
       },
       state: {
-        title: 'State',
+        title: stateTitle,
         type: 'string',
         maxLength: 51,
       },
       postalCode: {
+        title: postalCodeTitle,
         type: 'string',
         maxLength: 10,
       },
@@ -154,6 +180,7 @@ export function schema(
  */
 export function uiSchema(
   label = 'Address',
+  useStreet2 = true,
   useStreet3 = false,
   isRequired = null,
   ignoreRequired = false,
@@ -167,14 +194,17 @@ export function uiSchema(
     'state',
     'postalCode',
   ];
+  if (!useStreet2) {
+    fieldOrder = fieldOrder.filter(field => field !== 'street3');
+  }
   if (!useStreet3) {
     fieldOrder = fieldOrder.filter(field => field !== 'street3');
   }
 
   const addressChangeSelector = createSelector(
-    ({ formData, path }) => get(path.concat('country'), formData),
-    ({ formData, path }) => get(path.concat('city'), formData),
-    (...args) => get('addressSchema', ...args),
+    ({ formData, path }) => _.get(path.concat('country'), formData),
+    ({ formData, path }) => _.get(path.concat('city'), formData),
+    _.get('addressSchema'),
     (currentCountry, city, addressSchema) => {
       const schemaUpdate = {
         properties: addressSchema.properties,
@@ -200,18 +230,23 @@ export function uiSchema(
       if (stateList) {
         // We have a list and it’s different, so we need to make schema updates
         if (addressSchema.properties.state.enum !== stateList) {
-          const withEnum = set(
+          const withEnum = _.set(
             'state.enum',
             stateList,
             schemaUpdate.properties,
           );
-          schemaUpdate.properties = set('state.enumNames', labelList, withEnum);
+          schemaUpdate.properties = _.set(
+            'state.enumNames',
+            labelList,
+            withEnum,
+          );
 
           // all the countries with state lists require the state field, so add that if necessary
           if (
             !ignoreRequired &&
             required &&
-            !addressSchema.required.some(field => field === 'state')
+            !addressSchema.required.some(field => field === 'state') &&
+            country !== 'MEX'
           ) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
@@ -219,8 +254,8 @@ export function uiSchema(
         // We don’t have a state list for the current country, but there’s an enum in the schema
         // so we need to update it
       } else if (addressSchema.properties.state.enum) {
-        const withoutEnum = unset('state.enum', schemaUpdate.properties);
-        schemaUpdate.properties = unset('state.enumNames', withoutEnum);
+        const withoutEnum = _.unset('state.enum', schemaUpdate.properties);
+        schemaUpdate.properties = _.unset('state.enumNames', withoutEnum);
         if (!ignoreRequired && required) {
           schemaUpdate.required = addressSchema.required.filter(
             field => field !== 'state',
@@ -231,20 +266,40 @@ export function uiSchema(
       // Canada has a different title than others, so set that when necessary
       if (
         country === 'CAN' &&
-        addressSchema.properties.state.title !== 'Province'
+        addressSchema.properties.state.title !== canadaStateTitle
       ) {
-        schemaUpdate.properties = set(
+        schemaUpdate.properties = _.set(
           'state.title',
-          'Province',
+          canadaStateTitle,
           schemaUpdate.properties,
         );
       } else if (
         country !== 'CAN' &&
-        addressSchema.properties.state.title !== 'State'
+        addressSchema.properties.state.title !== stateTitle
       ) {
-        schemaUpdate.properties = set(
+        schemaUpdate.properties = _.set(
           'state.title',
-          'State',
+          stateTitle,
+          schemaUpdate.properties,
+        );
+      }
+
+      if (
+        country === 'USA' &&
+        addressSchema.properties.postalCode.title !== zipCodeTitle
+      ) {
+        schemaUpdate.properties = _.set(
+          'postalCode.title',
+          zipCodeTitle,
+          schemaUpdate.properties,
+        );
+      } else if (
+        country !== 'USA' &&
+        addressSchema.properties.postalCode.title !== postalCodeTitle
+      ) {
+        schemaUpdate.properties = _.set(
+          'postalCode.title',
+          postalCodeTitle,
           schemaUpdate.properties,
         );
       }
@@ -255,12 +310,12 @@ export function uiSchema(
         isMilitaryCity(city) &&
         schemaUpdate.properties.state.enum !== militaryStates
       ) {
-        const withEnum = set(
+        const withEnum = _.set(
           'state.enum',
           militaryStates,
           schemaUpdate.properties,
         );
-        schemaUpdate.properties = set(
+        schemaUpdate.properties = _.set(
           'state.enumNames',
           militaryLabels,
           withEnum,
@@ -271,25 +326,41 @@ export function uiSchema(
     },
   );
 
+  function postalCodeRequired(formData) {
+    return !postalCodeNotRequiredCountries.has(formData.address.country);
+  }
+
+  function stateRequired(formData) {
+    return stateRequiredCountries.has(formData.address.country);
+  }
+
+  function setRequiredFields(required, currentSchema, formData) {
+    const addressFields = [];
+    if (required) {
+      requiredFields.forEach(field => {
+        addressFields.push(field);
+      });
+      if (postalCodeRequired(formData)) {
+        addressFields.push('postalCode');
+      }
+      if (stateRequired(formData)) {
+        addressFields.push('state');
+      }
+    } else if (!required) {
+      addressFields.push('country');
+    }
+    return _.set('required', addressFields, currentSchema);
+  }
+
   return {
     'ui:title': label,
-    'ui:validations': [
-      requireStateWithCountry,
-      requireStateWithData,
-      validateStreet,
-      validateCity,
-      validatePostalCodes,
-    ],
+    'ui:validations': [validateAddress],
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
         if (isRequired) {
           const required = isRequired(formData, index);
-          if (required && currentSchema.required.length === 0) {
-            currentSchema = set('required', requiredFields, currentSchema);
-          } else if (!required && currentSchema.required.length > 0) {
-            currentSchema = set('required', [], currentSchema);
-          }
+          currentSchema = setRequiredFields(required, currentSchema, formData);
         }
         return addressChangeSelector({
           formData,
@@ -300,38 +371,38 @@ export function uiSchema(
     },
     'ui:order': fieldOrder,
     country: {
-      'ui:title': 'Country',
+      'ui:title': countryTitle,
     },
     street: {
       'ui:title': 'Street',
       'ui:errorMessages': {
-        required: 'Please enter a street address',
+        required: streetErrorMessage,
       },
     },
     street2: {
-      'ui:title': 'Line 2',
+      'ui:title': streetTwoTitle,
     },
     street3: {
-      'ui:title': 'Line 3',
+      'ui:title': streetThreeTitle,
     },
     city: {
-      'ui:title': 'City',
+      'ui:title': cityTitle,
       'ui:errorMessages': {
-        required: 'Please enter a city',
+        required: cityErrorMessage,
       },
     },
     state: {
       'ui:errorMessages': {
-        required: 'Please enter a state',
+        required: stateErrorMessage,
       },
     },
     postalCode: {
-      'ui:title': 'Postal code',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
       'ui:errorMessages': {
-        required: 'Please enter a postal code',
+        required: zipCodeRequiredErrorMessage,
+        pattern: zipCodePatternErrorMessage,
       },
     },
   };
