@@ -130,7 +130,6 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // it should allow the user to view the next 2 month if viewing the current month
       button = screen.getByRole('button', {
         name: 'Next',
-        pressed: false,
       });
       userEvent.click(button);
       expect(
@@ -294,7 +293,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(checkbox);
 
       // 6. Simulate user selecting PM which should result in error
-      checkbox = screen.getByRole('checkbox', {
+      checkbox = await screen.findByRole('checkbox', {
         name: 'PM appointment',
       });
       userEvent.click(checkbox);
