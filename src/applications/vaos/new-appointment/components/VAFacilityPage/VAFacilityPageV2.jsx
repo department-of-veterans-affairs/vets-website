@@ -228,10 +228,9 @@ function VAFacilityPageV2({
             {requestLocationStatus !== FETCH_STATUS.failed && (
               <p>
                 Or,{' '}
-                <a
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault();
+                <button
+                  className="va-button-link"
+                  onClick={() => {
                     updateFacilitySortMethod(
                       FACILITY_SORT_METHODS.distanceFromCurrentLocation,
                       uiSchema,
@@ -239,7 +238,7 @@ function VAFacilityPageV2({
                   }}
                 >
                   use your current location
-                </a>
+                </button>
               </p>
             )}
           </>
