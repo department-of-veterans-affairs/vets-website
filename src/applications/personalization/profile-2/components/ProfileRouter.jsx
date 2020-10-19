@@ -42,9 +42,9 @@ import { fetchPaymentInformation as fetchPaymentInformationAction } from 'applic
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
-import Profile2Wrapper from './Profile2Wrapper';
+import ProfileWrapper from './ProfileWrapper';
 
-class Profile2Router extends Component {
+class ProfileRouter extends Component {
   componentDidMount() {
     const {
       fetchFullName,
@@ -120,7 +120,7 @@ class Profile2Router extends Component {
     return (
       <BrowserRouter>
         <LastLocationProvider>
-          <Profile2Wrapper
+          <ProfileWrapper
             routes={routes}
             isLOA3={this.props.isLOA3}
             isInMVI={this.props.isInMVI}
@@ -168,7 +168,7 @@ class Profile2Router extends Component {
                 <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
               </Route>
             </Switch>
-          </Profile2Wrapper>
+          </ProfileWrapper>
         </LastLocationProvider>
       </BrowserRouter>
     );
@@ -205,7 +205,7 @@ class Profile2Router extends Component {
   }
 }
 
-Profile2Router.propTypes = {
+ProfileRouter.propTypes = {
   user: PropTypes.object.isRequired,
   showLoader: PropTypes.bool.isRequired,
   shouldFetchDirectDepositInformation: PropTypes.bool.isRequired,
@@ -288,9 +288,9 @@ const mapDispatchToProps = {
   dismissDowntimeWarning,
 };
 
-export { Profile2Router as Profile2, mapStateToProps };
+export { ProfileRouter as Profile2, mapStateToProps };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Profile2Router);
+)(ProfileRouter);
