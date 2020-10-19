@@ -247,7 +247,7 @@ class ConfirmationPage extends React.Component {
             </p>
             <p className="confirmation-guidance-message">
               You'll get a Certificate of Eligibility (COE) or decision letter
-              in the mail. If we approved your application, you can bring the
+              in the mail. If we've approved your application, you can bring the
               COE to the VA certifying official at your school.
             </p>
             <p className="confirmation-guidance-message screen-only">
