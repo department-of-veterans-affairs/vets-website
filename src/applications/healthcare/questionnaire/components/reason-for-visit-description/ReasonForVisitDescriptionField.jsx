@@ -7,21 +7,21 @@ import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
 const ReasonForVisitDescriptionField = props => {
   const { onReviewPage, reviewMode } = props.formContext;
-  const { onChange, appointment, thing } = props;
+  const { onChange, appointment } = props;
   const currentValue = props.value;
   useEffect(
     () => {
-      // if no value
+      // Only try to use the booking note there is not a current value.
       if (!currentValue) {
-        // check if the incoming state
+        // check to see if the current appointment has a booking note,
+        // not all appointments have them
         const bookingNote = getBookingNoteFromAppointment(appointment);
         if (bookingNote) {
-          // if incoming state has value, use that and set the value
           onChange(bookingNote.description);
         }
       }
     },
-    [onChange, currentValue, appointment, thing],
+    [onChange, currentValue, appointment],
   );
 
   const editField = () => {
