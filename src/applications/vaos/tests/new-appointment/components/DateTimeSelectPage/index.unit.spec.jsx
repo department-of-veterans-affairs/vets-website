@@ -23,6 +23,7 @@ import {
   mockAppointmentSlotFetch,
 } from '../../../mocks/helpers';
 import { getClinicMock, getAppointmentSlotMock } from '../../../mocks/v0';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 function getMondayTruFriday(date) {
   if (date.day() === 6) {
@@ -68,7 +69,7 @@ const availableSlots = getAppointmentTimeSlots(
 );
 
 describe('VAOS <DateTimeSelectPage>', () => {
-  xit('should allow user to select date and time for a VA appointment', async () => {
+  it('should allow user to select date and time for a VA appointment', async () => {
     const store = createTestStore({
       newAppointment: {
         availableSlots,
@@ -145,7 +146,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
   });
 
-  xit('should not submit form with validation error', async () => {
+  it('should not submit form with validation error', async () => {
     const store = createTestStore({
       newAppointment: {
         data: {
@@ -175,7 +176,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
   });
 
-  xit('should display loading message when in loading state', async () => {
+  it('should display loading message when in loading state', async () => {
     const store = createTestStore({
       newAppointment: {
         data: {
@@ -195,7 +196,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(screen.getByRole('progressbar')).to.be.ok;
   });
 
-  xit('should display wait time alert message when not in loading state', async () => {
+  it('should display wait time alert message when not in loading state', async () => {
     const store = createTestStore({
       newAppointment: {
         data: {
@@ -219,7 +220,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     ).to.be.ok;
   });
 
-  xit('should display error message if slots call fails', () => {
+  it('should display error message if slots call fails', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
@@ -273,6 +274,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should fetch new slots after clinic change', async () => {
+    // Initial global fetch
+    mockFetch();
+
     const clinics = [
       {
         id: '308',
@@ -365,6 +369,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     };
 
     const store = createTestStore(initialState);
+
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
     await setClinic(store, /green team/i);
@@ -375,26 +380,24 @@ describe('VAOS <DateTimeSelectPage>', () => {
       store,
     });
 
-    // await screen.findByText(/Next/);
-    screen.findByRole('button', {
-      name: 'Next',
-    });
-    // screen.debug(null, 99999);
+    // 1. Wait for progressbar to disappear
     await waitFor(
       () =>
-        expect(screen.queryByText('Finding appointment availability...')).to.not
-          .exist,
+        expect(
+          screen.queryByRole('progressbar', {
+            name: 'Finding appointment availability...',
+          }),
+        ).to.not.exist,
     );
-    const dayWithSlots = screen
-      .getAllByText(slot308Date.date().toString())
-      .find(
-        node =>
-          node.getAttribute('aria-label') ===
-          slot308Date.format('dddd, MMMM Do'),
-      );
-    expect(dayWithSlots).to.exist;
-    userEvent.click(dayWithSlots);
-    expect(await screen.findByText('9:00')).to.contain.text('9:00 a.m. AM');
+
+    // 2. Simulate user selecting a date
+    let button = screen.getByRole('button', {
+      name: slot308Date.format('dddd, MMMM Do'),
+    });
+    userEvent.click(button);
+    expect(
+      await screen.findByRole('radio', { name: '9:00 AM option selected' }),
+    ).to.be.ok;
 
     await cleanup();
 
@@ -404,21 +407,26 @@ describe('VAOS <DateTimeSelectPage>', () => {
       store,
     });
 
-    await screen.findByText(/Next/);
+    // 3. Wait for progressbar to disappear
     await waitFor(
       () =>
-        expect(screen.queryByText('Finding appointment availability...')).to.not
-          .exist,
+        expect(
+          screen.queryByRole('progressbar', {
+            name: 'Finding appointment availability...',
+          }),
+        ).to.not.exist,
     );
-    const newDayWithSlots = screen
-      .getAllByText(slot309Date.date().toString())
-      .find(
-        node =>
-          node.getAttribute('aria-label') ===
-          slot309Date.format('dddd, MMMM Do'),
-      );
-    expect(newDayWithSlots).to.exist;
-    userEvent.click(newDayWithSlots);
-    expect(await screen.findByText('1:00')).to.contain.text('1:00 p.m. PM');
+
+    // 4. Simulate user selecting a date
+    button = screen.getByRole('button', {
+      name: slot309Date.format('dddd, MMMM Do'),
+    });
+    userEvent.click(button);
+    expect(
+      await screen.findByRole('radio', { name: '1:00 PM option selected' }),
+    ).to.be.ok;
+
+    // Cleanup
+    resetFetch();
   });
 });
