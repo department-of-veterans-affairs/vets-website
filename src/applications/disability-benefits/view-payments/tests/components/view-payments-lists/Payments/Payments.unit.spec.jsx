@@ -29,13 +29,14 @@ describe('<Payments />', () => {
     const mockEmptyPayments = [];
     const screen = render(
       <Payments
+        tableVersion="received"
         fields={paymentsReceivedFields}
         data={mockEmptyPayments}
         textContent={paymentsReceivedContent}
       />,
     );
 
-    expect(await screen.findByText(/No Received payments/)).to.exist;
+    expect(await screen.findByText(/No received payments/)).to.exist;
   });
 
   it('should update the display numbers when paginating', async () => {
