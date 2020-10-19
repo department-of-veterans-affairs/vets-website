@@ -27,6 +27,7 @@
       { "name": "ssoe", "value": false },
       { "name": "ssoeInbound", "value": false },
       { "name": "ssoeEbenefitsLinks", "value": false },
+      { "name": "eduBenefitsStemScholarship", "value": true },
       { "name": "form526OriginalClaims", "value": true },
       { "name": "vaViewDependentsAccess", "value": true },
       { "name": "allow_online_10_10cg_submissions", "value": true },

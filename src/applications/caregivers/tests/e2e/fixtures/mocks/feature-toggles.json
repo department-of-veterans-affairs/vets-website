@@ -103,6 +103,10 @@
         "value": false
       },
       {
+        "name": "eduBenefitsStemScholarship",
+        "value": true
+      },
+      {
         "name": "form526OriginalClaims",
         "value": true
       },
