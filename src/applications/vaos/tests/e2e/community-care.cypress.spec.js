@@ -173,7 +173,8 @@ describe('Create new community care appointment', () => {
         .to.equal(
           moment()
             .add(5, 'days')
-            .format('MM/DD/YYYY'),
+            .format('MM/DD/YYYY')
+            .day(1),
         );
       expect(request)
         .to.have.property('optionDate2')
