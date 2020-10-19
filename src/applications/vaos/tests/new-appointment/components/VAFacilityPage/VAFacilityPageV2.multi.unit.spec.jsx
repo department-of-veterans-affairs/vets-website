@@ -292,7 +292,6 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     await screen.findAllByRole('radio');
     fireEvent.click(screen.getByText('use your current location'));
-    await screen.findByText('Finding your location...');
     await screen.findAllByRole('radio');
     expect(screen.baseElement).not.to.contain.text('use your current location');
 
@@ -339,7 +338,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     await screen.findAllByRole('radio');
     fireEvent.click(screen.getByText('use your current location'));
-    await screen.findByText('Finding your location...');
+    await screen.findAllByRole('radio');
     expect(screen.baseElement).to.contain.text('We can’t find your location');
   });
 
