@@ -5,14 +5,12 @@ import { apiRequest } from 'platform/utilities/api';
 import { createMockResults, normalizeResponse } from '../helpers';
 
 export const fetchResultsApi = async options => {
-  const { category, platform, mockRequest, page = 1, perPage = 10 } = options;
+  const { mockRequest, page = 1, perPage = 10 } = options;
 
   // Construct the URL and stub the response.
   const RESULTS_URL = appendQuery(
     '/third-party-applications',
     {
-      category,
-      platform,
       page,
       perPage,
     },
@@ -20,7 +18,7 @@ export const fetchResultsApi = async options => {
   );
 
   // Make the request for the results and update `response` with its repsonse.
-  let response = createMockResults(category, platform);
+  let response = createMockResults();
   if (!mockRequest) {
     response = await apiRequest(RESULTS_URL);
   }

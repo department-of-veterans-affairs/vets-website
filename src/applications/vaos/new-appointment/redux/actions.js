@@ -450,13 +450,22 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION,
       });
+      recordEvent({
+        event: `${GA_PREFIX}-request-current-location-clicked`,
+      });
       try {
         location = await getPreciseLocation();
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-allowed`,
+        });
         dispatch({
           ...action,
           location,
         });
       } catch (e) {
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-blocked`,
+        });
         captureError(e, false, 'facility page');
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
