@@ -248,10 +248,9 @@ function VAFacilityPageV2({
         !requestingLocation && (
           <p>
             Or,{' '}
-            <a
-              href="#"
-              onClick={e => {
-                e.preventDefault();
+            <button
+              className="va-button-link"
+              onClick={() => {
                 updateFacilitySortMethod(
                   FACILITY_SORT_METHODS.distanceFromResidential,
                   uiSchema,
@@ -259,17 +258,16 @@ function VAFacilityPageV2({
               }}
             >
               use your home address on file
-            </a>
+            </button>
           </p>
         )}
       {requestLocationStatus === FETCH_STATUS.failed && (
         <p>
           We can’t find your location. Please make sure to choose "allow" if you
           get a browser pop-up asking for your location and{' '}
-          <a
-            href="#"
-            onClick={e => {
-              e.preventDefault();
+          <button
+            className="va-button-link"
+            onClick={() => {
               updateFacilitySortMethod(
                 FACILITY_SORT_METHODS.distanceFromCurrentLocation,
                 uiSchema,
@@ -277,7 +275,7 @@ function VAFacilityPageV2({
             }}
           >
             try again
-          </a>
+          </button>
           .
         </p>
       )}
