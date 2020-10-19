@@ -109,6 +109,19 @@ export async function getLocation({ facilityId }) {
   }
 }
 
+function supportsSchedulingTypeOfCareFilter(typeOfCareId, setting) {
+  const patientHistoryRequired = setting.patientHistoryRequired;
+
+  // If patientHistoryRequired is blank or null, the scheduling method is
+  // disabled for that type of care.  If "No", it is enabled, but doesn't require
+  // a previous appointment.  If "Yes", it is enabled and requires a previous appt
+  return (
+    setting.id === typeOfCareId &&
+    Object.prototype.hasOwnProperty.call(setting, 'patientHistoryRequired') &&
+    (patientHistoryRequired === 'Yes' || patientHistoryRequired === 'No')
+  );
+}
+
 export async function getLocationsByTypeOfCareAndSiteIds({
   typeOfCareId,
   siteIds,
@@ -126,7 +139,9 @@ export async function getLocationsByTypeOfCareAndSiteIds({
     const directFacilityIds =
       criteria[0]
         ?.filter(facility =>
-          facility?.coreSettings?.some(setting => setting.id === typeOfCareId),
+          facility?.coreSettings?.some(setting =>
+            supportsSchedulingTypeOfCareFilter(typeOfCareId, setting),
+          ),
         )
         ?.map(facility => facility.id) || [];
 
@@ -135,8 +150,8 @@ export async function getLocationsByTypeOfCareAndSiteIds({
     const requestFacilityIds =
       criteria[1]
         ?.filter(facility =>
-          facility?.requestSettings?.some(
-            setting => setting.id === typeOfCareId,
+          facility?.requestSettings?.some(setting =>
+            supportsSchedulingTypeOfCareFilter(typeOfCareId, setting),
           ),
         )
         ?.map(facility => facility.id) || [];
