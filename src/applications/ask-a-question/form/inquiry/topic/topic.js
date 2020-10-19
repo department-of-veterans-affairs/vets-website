@@ -18,7 +18,11 @@ const formFields = {
   vaMedicalCenter: 'vaMedicalCenter',
 };
 
-const getSchemaFromParentTopic = (topicSchema, value, isLevelThree = false) => {
+const getChildSchemaFromParentTopic = (
+  topicSchema,
+  value,
+  isLevelThree = false,
+) => {
   const parentLevel = isLevelThree ? 'subLevelTwo' : 'levelOne';
   const childLevel = isLevelThree ? 'levelThree' : 'levelTwo';
   const parentSchema = topicSchema.anyOf.filter(element => {
@@ -27,12 +31,12 @@ const getSchemaFromParentTopic = (topicSchema, value, isLevelThree = false) => {
   return parentSchema[0].properties[childLevel];
 };
 
-export const filterArrayByValue = (
+export const filterTopicArrayByLabel = (
   topicSchema,
   value,
   isLevelThree = false,
 ) => {
-  const childSchema = getSchemaFromParentTopic(
+  const childSchema = getChildSchemaFromParentTopic(
     topicSchema,
     value,
     isLevelThree,
@@ -54,27 +58,47 @@ const levelOneTopicLabels = topicSchemaCopy.anyOf.map(topicSchema => {
   return topicSchema.properties.levelOne.enum[0];
 });
 
-// In the schema these level twos have level three topics
-const complexLevelTwoTopics = [
-  'Health/Medical Eligibility & Programs',
-  'Prosthetics, Med Devices & Sensory Aids',
-  'Women Veterans Health Care',
-];
+// These are levelTwo topics that have level three subtopics and their respective levelOne parents
+const levelTwoWithLevelThreeTopics = {
+  'Burial & Memorial Benefits (NCA)': ['Burial Benefits'],
+  'Health & Medical Issues & Services': [
+    'Health/Medical Eligibility & Programs',
+    'Prosthetics, Med Devices & Sensory Aids',
+    'Women Veterans Health Care',
+  ],
+};
 
 const valuesByLabelLookup = {};
 levelOneTopicLabels.forEach(label => {
-  valuesByLabelLookup[label] = filterArrayByValue(topicSchemaCopy, label);
-});
-complexLevelTwoTopics.forEach(label => {
-  const parentTopic = 'Health & Medical Issues & Services';
-  valuesByLabelLookup[label] = filterArrayByValue(
-    getSchemaFromParentTopic(topicSchemaCopy, parentTopic),
-    label,
-    true,
-  );
+  valuesByLabelLookup[label] = filterTopicArrayByLabel(topicSchemaCopy, label);
 });
 
-export const levelThreeRequiredTopics = new Set(complexLevelTwoTopics);
+const getLevelThreeTopics = () => {
+  for (const [parentTopic, complexLevelTwo] of Object.entries(
+    levelTwoWithLevelThreeTopics,
+  )) {
+    complexLevelTwo.forEach(label => {
+      valuesByLabelLookup[label] = filterTopicArrayByLabel(
+        getChildSchemaFromParentTopic(topicSchemaCopy, parentTopic),
+        label,
+        true,
+      );
+    });
+  }
+};
+
+getLevelThreeTopics();
+
+export const updateFormData = (oldData, newData) => {
+  if (oldData.topic.levelOne !== newData.topic.levelOne) {
+    Object.assign(newData.topic, { levelTwo: undefined });
+  }
+  return newData;
+};
+
+export const levelThreeRequiredTopics = new Set(
+  _.flatten(Object.values(levelTwoWithLevelThreeTopics)),
+);
 
 export const medicalCenterRequiredTopics = new Set([
   'Medical Care Issues at Specific Facility',
@@ -90,6 +114,7 @@ export function schema(currentSchema, topicProperty = 'topic') {
       levelOne: {
         type: 'string',
         enum: [
+          'Burial & Memorial Benefits (NCA)',
           'Caregiver Support Program',
           'Health & Medical Issues & Services',
           'VA Ctr for Women Vets, Policies & Progs',

@@ -1,4 +1,4 @@
-import { filterArrayByValue } from '../../../../../form/inquiry/topic/topic';
+import { filterTopicArrayByLabel } from '../../../../../form/inquiry/topic/topic';
 import { expect } from 'chai';
 
 describe('topic', () => {
@@ -85,13 +85,41 @@ describe('topic', () => {
               },
             },
           },
+          {
+            properties: {
+              levelOne: {
+                type: 'string',
+                enum: ['Burial & Memorial Benefits (NCA)'],
+              },
+              levelTwo: {
+                type: 'object',
+                anyOf: [
+                  {
+                    properties: {
+                      subLevelTwo: {
+                        type: 'string',
+                        enum: ['Burial Benefits'],
+                      },
+                      levelThree: {
+                        type: 'string',
+                        enum: [
+                          'Compensation Request',
+                          'All Other Burial Benefit Inquiries',
+                        ],
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
         ],
       },
     },
   };
 
   it('should return correct sub topics', () => {
-    const subTopicValues = filterArrayByValue(
+    const subTopicValues = filterTopicArrayByLabel(
       testSchema.properties.topic,
       'Caregiver Support Program',
     );
@@ -103,7 +131,7 @@ describe('topic', () => {
   });
 
   it('should return sub topics for complex levelTwo', () => {
-    const subTopicValues = filterArrayByValue(
+    const subTopicValues = filterTopicArrayByLabel(
       testSchema.properties.topic,
       'Health & Medical Issues & Services',
     );
@@ -116,7 +144,7 @@ describe('topic', () => {
   });
 
   it('should return level three topics when isLevelThree is true', () => {
-    const subTopicValues = filterArrayByValue(
+    const subTopicValues = filterTopicArrayByLabel(
       testSchema.properties.topic.anyOf[1].properties.levelTwo,
       'Health/Medical Eligibility & Programs',
       true,
@@ -124,6 +152,18 @@ describe('topic', () => {
     expect(subTopicValues).to.have.ordered.members([
       'Apply for Health Benefits (Veterans)',
       'Medical Care for Veterans within USA',
+    ]);
+  });
+
+  it('should return level three topics for burial benefits', () => {
+    const subTopicValues = filterTopicArrayByLabel(
+      testSchema.properties.topic.anyOf[2].properties.levelTwo,
+      'Burial Benefits',
+      true,
+    );
+    expect(subTopicValues).to.have.ordered.members([
+      'Compensation Request',
+      'All Other Burial Benefit Inquiries',
     ]);
   });
 });

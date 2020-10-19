@@ -478,7 +478,6 @@
                 "Burial & Memorial Benefits (NCA)"
               ]
             },
-
             "levelTwo": {
               "type": "object",
               "anyOf": [
@@ -511,9 +510,6 @@
                     }
                   }
                 }
-              ],
-              "enum": [
-                "Burial Benefits"
               ]
             }
           }

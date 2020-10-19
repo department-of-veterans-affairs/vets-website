@@ -54,7 +54,8 @@ describe('IntroductionPage', () => {
   let oldWindow;
   beforeEach(() => {
     oldWindow = global.window;
-    global.window = globalWin;
+    global.window = Object.create(global.window);
+    Object.assign(global.window, globalWin);
   });
   afterEach(() => {
     global.window = oldWindow;

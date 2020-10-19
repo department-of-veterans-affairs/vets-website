@@ -8,6 +8,7 @@ import ConfirmationPage from './confirmation/ConfirmationPage';
 import VeteranInformationPage from './veteran/veteranInformationPage';
 import ContactInformationPage from './contactInformation/contactInformationPage';
 import InquiryPage from './inquiry/inquiryPage';
+import * as topic from './inquiry/topic/topic';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
 import {
@@ -108,6 +109,7 @@ const formConfig = {
           title: inquiryPageTitle,
           uiSchema: InquiryPage.uiSchema,
           schema: InquiryPage.schema,
+          updateFormData: topic.updateFormData,
         },
       },
     },
