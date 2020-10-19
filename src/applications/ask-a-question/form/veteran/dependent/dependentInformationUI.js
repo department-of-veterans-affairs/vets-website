@@ -1,4 +1,8 @@
-import { uiSchema } from 'platform/forms/definitions/address';
+import {
+  uiSchema,
+  validateCity,
+  validateStreet,
+} from 'platform/forms/definitions/address';
 import SectionHeader from '../../../components/SectionHeader';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -32,6 +36,7 @@ export const dependentInformationUI = requireIfDisplayed => ({
   },
   [formFields.address]: _.merge(uiSchema(''), {
     'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
+    'ui:validations': [validateStreet, validateCity],
     street: {
       'ui:title': streetAddress,
     },
