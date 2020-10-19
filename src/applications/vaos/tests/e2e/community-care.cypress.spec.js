@@ -162,20 +162,22 @@ describe('Create new community care appointment', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
+      let date = moment().add(5, 'days');
+
+      if (date.weekday() === 0) {
+        date = moment().add(7, 'days');
+      } else if (date.weekday() === 6) {
+        date = moment().add(6, 'days');
+      }
+
       expect(xhr.status).to.eq(200);
       expect(xhr.url, 'post url').to.contain(
         '/vaos/v0/appointment_requests?type=cc',
       );
-
       const request = xhr.requestBody;
       expect(request)
         .to.have.property('optionDate1')
-        .to.equal(
-          moment()
-            .add(5, 'days')
-            .format('MM/DD/YYYY')
-            .day(1),
-        );
+        .to.equal(date.day(1).format('MM/DD/YYYY'));
       expect(request)
         .to.have.property('optionDate2')
         .to.equal('No Date Selected');
