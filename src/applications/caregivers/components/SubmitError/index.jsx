@@ -46,7 +46,7 @@ const SubmitError = ({ form }) => {
 
         <div>
           If you have trouble downloading your application, call our
-          <a className="vads-u-margin-x--0p5" href="VA.gov">
+          <a className="vads-u-margin-x--0p5" href="https://www.va.gov/">
             VA.gov
           </a>
           help desk at <Telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).
