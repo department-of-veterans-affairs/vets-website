@@ -42,19 +42,32 @@ describe('Content on the personal information section in the profile', () => {
     cy.findByText(/Male/i).should('exist');
 
     // Check home address
-    cy.findByText(/1493 Martin Luther King Rd, Apt 1/i).should('exist');
-    cy.findByText(/Fulton, NY 97062/i).should('exist');
+    cy.get('div[data-field-name="mailingAddress"]')
+      .contains(/1493 Martin Luther King Rd, Apt 1/i)
+      .should('exist');
 
-    // Check military address
-    cy.findByText(/PSC 808 Box 37/i).should('exist');
+    cy.get('div[data-field-name="mailingAddress"]')
+      .contains(/Fulton, NY 97062/i)
+      .should('exist');
+
+    // Check home address
+    cy.get('div[data-field-name="residentialAddress"]')
+      .contains(/PSC 808 Box 37/i)
+      .should('exist');
 
     // Check home phone number
-    cy.findByText(/503-222-2222, ext. 0000/i).should('exist');
+    cy.get('div[data-field-name="homePhone"]')
+      .contains(/503-222-2222, ext. 0000/i)
+      .should('exist');
 
     // Check mobile phone number
-    cy.findByText(/503-555-1234, ext. 0000/i).should('exist');
+    cy.get('div[data-field-name="mobilePhone"]')
+      .contains(/503-555-1234, ext. 0000/i)
+      .should('exist');
 
     // Check email
-    cy.findByText(/veteran@gmail.com/i).should('exist');
+    cy.get('div[data-field-name="email"]')
+      .contains(/veteran@gmail.com/i)
+      .should('exist');
   });
 });
