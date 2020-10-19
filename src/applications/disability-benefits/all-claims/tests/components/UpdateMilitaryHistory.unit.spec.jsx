@@ -16,8 +16,7 @@ const inRangeBddDate2 = moment()
 
 describe('UpdateMilitaryHistory', () => {
   let wrapper;
-  let oldSessionStorage;
-  let storage = {};
+
   const servicePeriods = (to = inRangeBddDate2) => [
     {
       serviceBranch: 'Army',
@@ -40,17 +39,11 @@ describe('UpdateMilitaryHistory', () => {
     const setFormData = data => {
       form.data = data;
     };
-    oldSessionStorage = window.sessionStorage;
-    delete window.sessionStorage;
-    window.sessionStorage = {
-      getItem: key => storage[key] || null,
-      setItem: (key, value) => {
-        storage[key] = value;
-      },
-      removeItem: key => delete storage[key],
-    };
     if (separationDate) {
-      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, separationDate);
+      global.window.sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        separationDate,
+      );
     }
     wrapper = mount(
       <UpdateMilitaryHistory form={form} setFormData={setFormData} />,
@@ -59,8 +52,7 @@ describe('UpdateMilitaryHistory', () => {
   }
 
   afterEach(() => {
-    window.sessionStorage = oldSessionStorage;
-    storage = {};
+    global.window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
     wrapper.unmount();
     form.data.serviceInformation.servicePeriods = [];
   });
