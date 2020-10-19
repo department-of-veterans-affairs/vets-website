@@ -51,6 +51,17 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
       ${BUTTON}
     }
   }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldSupportServices {
+          entity {
+            ... supportService
+          }
+        }
+      }
+    }
+  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser

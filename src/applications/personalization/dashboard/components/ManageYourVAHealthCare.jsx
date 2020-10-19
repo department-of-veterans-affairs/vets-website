@@ -13,7 +13,7 @@ import {
   renderWidgetDowntimeNotification,
 } from '../helpers';
 
-import { selectIsCernerPatient } from 'platform/user/selectors';
+import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 
 import MessagingWidget from '../containers/MessagingWidget';
 import PrescriptionsWidget from '../containers/PrescriptionsWidget';
@@ -97,7 +97,7 @@ const ManageYourVAHealthCare = ({
   isEnrolledInHealthCare,
   preferredFacility,
   showServerError,
-  showCernerWidget,
+  showCernerAppointmentWidget,
 }) => (
   <>
     <h2>Manage your VA health care</h2>
@@ -157,9 +157,9 @@ const ManageYourVAHealthCare = ({
       <PrescriptionsWidget />
     </DowntimeNotification>
     {isEnrolledInHealthCare &&
-      !showCernerWidget && <ScheduleAnAppointmentWidget />}
+      !showCernerAppointmentWidget && <ScheduleAnAppointmentWidget />}
     {isEnrolledInHealthCare &&
-      showCernerWidget && <ScheduleAnAppointmentCernerWidget />}
+      showCernerAppointmentWidget && <ScheduleAnAppointmentCernerWidget />}
   </>
 );
 
@@ -167,7 +167,9 @@ const mapStateToProps = state => {
   const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
   const showServerError = hasESRServerError(state);
-  const showCernerWidget = selectIsCernerPatient(state);
+  const showCernerAppointmentWidget = !!selectCernerAppointmentsFacilities(
+    state,
+  )?.length;
   const {
     applicationDate,
     enrollmentDate,
@@ -180,7 +182,7 @@ const mapStateToProps = state => {
     isEnrolledInHealthCare,
     preferredFacility,
     showServerError,
-    showCernerWidget,
+    showCernerAppointmentWidget,
   };
 };
 
