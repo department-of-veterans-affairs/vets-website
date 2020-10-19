@@ -164,7 +164,7 @@ class ConfirmationPage extends React.Component {
             <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
               Update your education benefits
             </h1>
-            <span>Form 22-10203</span>
+            <span>Form 22-1995</span>
           </div>
           <h3 className="confirmation-page-title screen-only">
             We've received your application.
