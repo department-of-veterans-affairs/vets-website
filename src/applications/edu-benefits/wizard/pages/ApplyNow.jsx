@@ -43,8 +43,8 @@ const ApplyNow = ({ getPageStateFromPageName, setWizardStatus }) => {
     receivingSponsorBenefitsAnswer = transferredBenefitsAnswer;
   }
   useEffect(() => {
-    const updateUrl = async () => {
-      const updatedBenefit = await getReferredBenefit();
+    const updateUrl = () => {
+      const updatedBenefit = getReferredBenefit();
       const { FORM_ID_0994, FORM_ID_10203 } = formIdSuffixes;
       setReferredBenefit(updatedBenefit);
       if (updatedBenefit) {
