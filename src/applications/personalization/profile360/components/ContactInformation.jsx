@@ -5,8 +5,6 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import recordEvent from 'platform/monitoring/record-event';
 
-import accountManifest from '../../account/manifest.json';
-
 import { TRANSACTION_CATEGORY_TYPES } from 'vet360/constants';
 
 import Vet360InitializeID from 'vet360/containers/InitializeVet360ID';
@@ -67,7 +65,7 @@ export default class ContactInformation extends React.Component {
             <div>
               <h3>How do I update the email I use to sign in to VA.gov?</h3>
               <a
-                href={accountManifest.rootUrl}
+                href="/profile/account-security"
                 onClick={() => {
                   recordEvent({
                     event: 'profile-navigation',
