@@ -164,6 +164,7 @@ class ConfirmationPage extends React.Component {
             <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
               Update your education benefits
             </h1>
+            do
             <span>Form 22-1995</span>
           </div>
           <h3 className="confirmation-page-title screen-only">
@@ -216,7 +217,10 @@ class ConfirmationPage extends React.Component {
               </li>
             </ul>
           </div>
-          <div id="collapsiblePanel" className="usa-accordion-bordered">
+          <div
+            id="collapsiblePanel"
+            className="usa-accordion-bordered screen-only"
+          >
             <ul className="usa-unstyled-list">
               <li>
                 <div className="accordion-header clearfix">
@@ -240,8 +244,16 @@ class ConfirmationPage extends React.Component {
               What happens after I apply?
             </h4>
             <p className="confirmation-guidance-message">
+              We usually decide on applications within 30 days.
+            </p>
+            <p className="confirmation-guidance-message">
+              You'll get a Certificate of Eligibility (COE) or decision letter
+              in the mail. If we approved your application, you can bring the
+              COE to the VA certifying official at your school.
+            </p>
+            <p className="confirmation-guidance-message">
               <a href="/education/after-you-apply/">
-                Find out what happens after you apply
+                Learn more about what happens after you apply:
               </a>
             </p>
             <h4 className="confirmation-guidance-heading">Need help?</h4>
