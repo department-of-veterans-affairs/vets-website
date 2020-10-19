@@ -132,10 +132,10 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by{' '}
-              <strong> {endDate(dateOfLetter, 60)} </strong> to avoid additional
-              collection action. These include having your debt reported to
-              credit reporting agencies or referred to the U.S. Department of
-              the Treasury.
+              <strong> {dateOfLetter && endDate(dateOfLetter, 60)} </strong> to
+              avoid additional collection action. These include having your debt
+              reported to credit reporting agencies or referred to the U.S.
+              Department of the Treasury.
             </p>
             <p>
               You can{' '}
@@ -159,7 +159,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
-              <strong> {endDate(dateOfLetter, 60)} </strong>
+              <strong> {dateOfLetter && endDate(dateOfLetter, 60)} </strong>
               to avoid collection actions. If you don't pay or make other
               arrangements with us by this date, we're required by law to refer
               your debt to the U.S. Department of the Treasury.
@@ -495,7 +495,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
-              <strong> {endDate(dateOfLetter, 30)} </strong>
+              <strong> {dateOfLetter && endDate(dateOfLetter, 30)} </strong>
               to avoid late charges, interest, or collection actions. We're here
               at 800-827-0648 (or 1-612-713-6415 from overseas), Monday through
               Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
@@ -533,6 +533,14 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
         details: () => <div>Details</div>,
       };
     default:
-      return null;
+      return {
+        card: () => (
+          <div>
+            <strong>Next step: </strong>
+            No code found
+          </div>
+        ),
+        details: () => <div>No code found</div>,
+      };
   }
 };
