@@ -96,7 +96,7 @@ function InstitutionSearchForm({
             </div>
           )}
 
-          <h2>{keywordLabel}</h2>
+          <h3>{keywordLabel}</h3>
 
           {/* prod flag for story BAH-13938 */}
           {environment.isProduction() ? (
