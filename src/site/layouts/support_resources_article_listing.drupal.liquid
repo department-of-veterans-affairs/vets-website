@@ -4,44 +4,41 @@
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
-<div itemscope itemtype="https://schema.org/FAQPage">
-  <div id="content" class="interior">
-    <main class="va-l-detail-page">
-      <div class="usa-grid usa-grid-full">
-        <div class="usa-width-three-fourths">
-          <article class="usa-content">
-            <h1>{{ title }}</h1>
-            <p>{{ paginationTitle }}</p>
-            <ul class="usa-unstyled-list">
-            {% for article in articles %}
-              <li>
-                <div class="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-color--gray-lighter">
-                  <h2 class="vads-u-font-size--h3 vads-u-margin-top--0">
-                    <a href="{{ article.entityUrl.path }}">{{ article.title }}</a>
-                  </h2>
-                  {% assign snippet = article.fieldIntroTextLimitedHtml %}
+<div id="content" class="interior">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+      <div class="usa-width-three-fourths">
+        <article class="usa-content">
+          <h1>{{ title }}</h1>
+          <p>{{ paginationTitle }}</p>
+          <ul class="usa-unstyled-list">
+          {% for article in articles %}
+            <li>
+              <div class="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-color--gray-lighter">
+                <h2 class="vads-u-font-size--h3 vads-u-margin-top--0">
+                  <a href="{{ article.entityUrl.path }}">{{ article.title }}</a>
+                </h2>
+                {% assign snippet = article.fieldIntroTextLimitedHtml %}
 
-                  {% if article.entityBundle == 'q_a' %}
-                    {% assign snippet = article.fieldAnswer.0.entity.fieldWysiwyg %}
-                  {% endif %}
+                {% if article.entityBundle == 'q_a' %}
+                  {% assign snippet = article.fieldAnswer.0.entity.fieldWysiwyg %}
+                {% endif %}
 
-                  {% if snippet %}
-                    {% assign sanitized = snippet.processed | strip_html %}
-                    {% assign truncated = sanitized | truncate: 200 %}
-                    <p class="vads-u-margin-bottom--0">{{ truncated }}{% if truncated != sanitized %}...{% endif %}</p>
-                  {% endif %}
-                </div>
-              </li>
-            {% endfor %}
-            </ul>
-          </article>
-          {% include "src/site/includes/pagination.drupal.liquid" %}
-        </div>
+                {% if snippet %}
+                  {% assign sanitized = snippet.processed | strip_html %}
+                  {% assign truncated = sanitized | truncate: 200 %}
+                  <p class="vads-u-margin-bottom--0">{{ truncated }}{% if truncated != sanitized %}...{% endif %}</p>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+          </ul>
+        </article>
+        {% include "src/site/includes/pagination.drupal.liquid" %}
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
-
 
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}
