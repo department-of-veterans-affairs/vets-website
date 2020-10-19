@@ -112,7 +112,7 @@ const CernerAlertBox = ({
 };
 
 const ScheduleAnAppointmentWidget = () => (
-  <div id="rx-widget">
+  <div id="rx-widget" data-testid="non-cerner-appointment-widget">
     <h3>Schedule an appointment</h3>
     <p>
       Find out how to make a doctor’s appointment with a member of your VA
@@ -130,7 +130,7 @@ const ScheduleAnAppointmentWidget = () => (
 );
 
 const CernerScheduleAnAppointmentWidget = ({ facilityNames }) => (
-  <>
+  <div data-testid="cerner-appointment-widget">
     <h3>View, schedule, or cancel an appointment</h3>
     <CernerAlertBox
       ctaText="Manage appointments at:"
@@ -138,14 +138,14 @@ const CernerScheduleAnAppointmentWidget = ({ facilityNames }) => (
       ctaButtonUrl="/health-care/schedule-view-va-appointments/"
       facilityNames={facilityNames}
     />
-  </>
+  </div>
 );
 
 const CernerSecureMessagingWidget = ({
   facilityNames,
   authenticatedWithSSOe,
 }) => (
-  <>
+  <div data-testid="cerner-messaging-widget">
     <h3>Send or receive a secure message</h3>
     <CernerAlertBox
       ctaText="Send a secure message to a provider at:"
@@ -153,14 +153,14 @@ const CernerSecureMessagingWidget = ({
       ctaButtonUrl={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
       facilityNames={facilityNames}
     />
-  </>
+  </div>
 );
 
 const CernerPrescriptionsWidget = ({
   facilityNames,
   authenticatedWithSSOe,
 }) => (
-  <>
+  <div data-testid="cerner-prescription-widget">
     <h3>Refill and track prescriptions</h3>
     <CernerAlertBox
       ctaText="Refill prescriptions from:"
@@ -171,7 +171,7 @@ const CernerPrescriptionsWidget = ({
       )}
       facilityNames={facilityNames}
     />
-  </>
+  </div>
 );
 
 const ManageYourVAHealthCare = ({

@@ -62,7 +62,7 @@ class PrescriptionsWidget extends React.Component {
     }
 
     return (
-      <div id="rx-widget">
+      <div id="rx-widget" data-testid="non-cerner-prescription-widget">
         <h3>Refill prescriptions</h3>
         <div>{content}</div>
         <p>
