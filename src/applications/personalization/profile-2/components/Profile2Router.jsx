@@ -21,7 +21,12 @@ import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
   selectProfile,
+  isInMPI as isInMVISelector,
+  isLOA1 as isLOA1Selector,
+  isLOA3 as isLOA3Selector,
+  isLoggedIn,
 } from 'platform/user/selectors';
+
 import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -177,6 +182,18 @@ class Profile2Router extends Component {
   };
 
   render() {
+    if (
+      !this.props.isLOA1 &&
+      !this.props.isLOA3 &&
+      this.props.currentlyLoggedIn
+    ) {
+      return (
+        <div className="vads-u-margin-y--5">
+          <LoadingIndicator setFocus message="Loading your information..." />
+        </div>
+      );
+    }
+
     return (
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
@@ -253,6 +270,10 @@ const mapStateToProps = state => {
     (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
 
   return {
+    currentlyLoggedIn: isLoggedIn(state),
+    isLOA1: isLOA1Selector(state),
+    isLOA3: isLOA3Selector(state),
+    isInMVI: isInMVISelector(state),
     user: state.user,
     showLoader: !hasLoadedAllData,
     shouldFetchDirectDepositInformation,
