@@ -34,7 +34,7 @@ class ArrayField extends React.Component {
     this.handleAdd = this.handleAdd.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSetData = this.handleSetData.bind(this);
-    this.scrollToTop = this.scrollToTop.bind(this);
+    this.scrollToAndFocus = this.scrollToAndFocus.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
     this.isLocked = this.isLocked.bind(this);
   }
@@ -64,25 +64,21 @@ class ArrayField extends React.Component {
     return schema.additionalItems;
   }
 
-  scrollToTop(callback) {
-    setTimeout(() => {
-      // Hacky; won’t work if the array field is used in two pages and one isn’t
-      //  a BasicArrayField nor if the array field is used in three pages.
-      scroller.scrollTo(
-        `topOfTable_${this.props.path[this.props.path.length - 1]}${
-          this.isLocked() ? '_locked' : ''
-        }`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: -60,
-        },
-      );
-      if (typeof callback === 'function') {
-        callback();
-      }
-    }, 100);
+  scrollToAndFocus(elementSelector) {
+    if (elementSelector) {
+      setTimeout(() => {
+        scroller.scrollTo(
+          elementSelector,
+          window.Forms?.scroll || {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+            offset: -60,
+          },
+        );
+        focusElement(elementSelector);
+      }, 100);
+    }
   }
 
   scrollToRow(id) {
@@ -132,8 +128,11 @@ class ArrayField extends React.Component {
     });
   }
 
-  /*
+  /**
    * Clicking Remove when editing an item
+   * @param {number} indexToRemove - Index in array
+   * @param {string} fieldName - Name of ArrayField used by the wrapper;
+   *   determined from path
    */
   handleRemove(indexToRemove, fieldName) {
     const { path, formData } = this.props;
@@ -145,7 +144,8 @@ class ArrayField extends React.Component {
     });
     this.setState(newState, () => {
       this.props.setData(_.set(path, this.state.items, formData));
-      this.scrollToTop(() => focusElement(`.${fieldName} .add-btn`));
+      // Move focus back to the add button
+      this.scrollToAndFocus(`[name="${fieldName}"] .add-btn`);
     });
   }
 
@@ -163,17 +163,22 @@ class ArrayField extends React.Component {
     });
   }
 
-  /*
+  /**
    * Clicking Update in edit mode.
    *
    * This is only called if the form is valid
    * and data is already saved through handleSetData, so we just need to change
    * the edting state
+   *
+   * @param {number} indexToRemove - Index in array
+   * @param {string} fieldName - Name of ArrayField used by the wrapper;
+   *   determined from path
    */
   handleSave(index, fieldName) {
     const newEditingArray = _.set(index, false, this.state.editing);
     this.setState({ editing: newEditingArray }, () => {
-      this.scrollToTop(() => focusElement(`.${fieldName}-${index} .edit-btn`));
+      // Return focus to button that toggled edit mode
+      this.scrollToAndFocus(`[name="${fieldName}-${index}"] .edit-btn`);
     });
   }
 
@@ -204,9 +209,8 @@ class ArrayField extends React.Component {
 
     return (
       <div
-        className={`${
-          itemsNeeded ? 'schemaform-review-array-warning' : ''
-        } ${fieldName}`}
+        name={fieldName}
+        className={itemsNeeded ? 'schemaform-review-array-warning' : ''}
       >
         {title && (
           <div className="form-review-panel-page-header-row">
@@ -299,7 +303,8 @@ class ArrayField extends React.Component {
             return (
               <div
                 key={index}
-                className={`va-growable-background ${fieldName}-${index}`}
+                name={`${fieldName}-${index}`}
+                className={'va-growable-background'}
               >
                 <div className="row small-collapse">
                   <SchemaForm
@@ -314,7 +319,7 @@ class ArrayField extends React.Component {
                     name={fieldName}
                     onChange={data => this.handleSetData(index, data)}
                     onEdit={() => this.handleEdit(index, !isEditing)}
-                    onSubmit={() => this.handleSave(index)}
+                    onSubmit={() => this.handleSave(index, fieldName)}
                   >
                     <div />
                   </SchemaForm>
