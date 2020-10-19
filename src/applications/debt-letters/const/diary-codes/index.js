@@ -81,7 +81,7 @@ export const diaryCodes = Object.freeze({
   '820': 'Your waiver request is being reviewed',
 });
 
-export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
+export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
   const endDate = (date, days) => {
     return moment(date)
       .add(days, 'days')
@@ -93,14 +93,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We need to verify your military status to update your account.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please call us at 800-827-0648 (or 1-612-713-6415 from overseas)
@@ -115,14 +107,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              Your payment is past due, and we're adding interest to the amount.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please pay or contact us about payment options now to avoid more
@@ -141,14 +125,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              Your payment is past due.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
@@ -172,14 +148,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              Your payment is past due.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
@@ -206,14 +174,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
         card: () => (
           <div>
             <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We need your address to update your account.
-            </p>
-            <p>
               <strong>Next step: </strong>
               Please call us at 800-827-0648 (or 1-612-713-6415 from overseas)
               to update your address. We’re here Monday through Friday, 7:30
@@ -223,42 +183,10 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
         ),
         details: () => <div>Details</div>,
       };
-    case '811':
-      return {
-        card: () => (
-          <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're reviewing your compromise offer.
-            </p>
-            <p>
-              <strong>Next step: </strong>
-              We'll send you a letter with our decision. Please continue to make
-              payments while we complete our review.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
-            </p>
-          </div>
-        ),
-        details: () => <div>Details</div>,
-      };
     case '815':
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We've accepted your compromise payment.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please pay the amount you offered as a compromise within
@@ -277,92 +205,12 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
         card: () => (
           <div>
             <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We've received your compromise payment.
-            </p>
-            <p>
               <strong>Next step: </strong>
               Please check your debt balance again soon. If it isn't adjusted to
               reflect your payment within
               <strong> 30 days </strong>, call us at 800-827-0648 (or
               1-612-713-6415 from overseas). We’re here Monday through Friday,
               7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
-        ),
-        details: () => <div>Details</div>,
-      };
-    case '821':
-      return {
-        card: () => (
-          <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're reviewing your notice of disagreement.
-            </p>
-            <p>
-              <strong>Next step: </strong>
-              We'll send you a letter with our decision. Please continue to make
-              payments while we complete our review.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
-            </p>
-          </div>
-        ),
-        details: () => <div>Details</div>,
-      };
-    case '822':
-      return {
-        card: () => (
-          <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're reviewing your debt dispute.
-            </p>
-            <p>
-              <strong>Next step: </strong>
-              We'll send you a letter with our decision. Please continue to make
-              payments while we complete our review.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
-            </p>
-          </div>
-        ),
-        details: () => <div>Details</div>,
-      };
-    case '825':
-      return {
-        card: () => (
-          <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're reviewing your request for a waiver or hearing.
-            </p>
-            <p>
-              <strong>Next step: </strong>
-              We'll send you a letter with our decision. Please continue to make
-              payments while we complete our review.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
             </p>
           </div>
         ),
@@ -375,14 +223,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're updating your account.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please check back in 1 week for updates. If your account shows the
@@ -405,14 +245,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
         card: () => (
           <div>
             <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We've paused collection on this debt as you requested.
-            </p>
-            <p>
               <strong>Next step: </strong>
               We'll let you know when we start collecting on this debt again.
               You don't have to do anything until that time. But you can choose
@@ -434,14 +266,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
         card: () => (
           <div>
             <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We referred this debt to the U.S. Department of the Treasury.
-            </p>
-            <p>
               <strong>Next step: </strong>
               Call the U.S. Department of the Treasury's Debt Management Center
               at 888-826-3127, 8:30 a.m. to 6:30 p.m. ET. Don't send us payment
@@ -459,15 +283,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're referring this debt to the U.S. Department of the Treasury
-              today.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please pay the full amount online or by phone now. If we don't
@@ -492,14 +307,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              Your payment is due now.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by [date] to
@@ -528,15 +335,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
         card: () => (
           <div>
             <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're keeping part of your [benefit type] payments each month to
-              pay your debt (called monthly offsets).
-            </p>
-            <p>
               <strong>Next step: </strong>
               We'll keep offsetting your benefits each month until your debt is
               paid in full. If you'd like to pay in full now, please call us
@@ -560,14 +358,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
         card: () => (
           <div>
             <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're updating your account.
-            </p>
-            <p>
               <strong>Next step: </strong>
               Please check back in
               <strong> 30 days </strong>
@@ -585,14 +375,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We've restarted collection on this debt.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please call us at 800-827-0648 (or 1-612-713-6415 from overseas)
@@ -612,14 +394,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
         card: () => (
           <div>
             <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're reviewing your account.
-            </p>
-            <p>
               <strong>Next step: </strong>
               You don't need to do anything at this time.
             </p>
@@ -634,14 +408,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              Your payment is due.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please continue to make payments. If you begin receiving VA
@@ -659,14 +425,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              Your payment is past due.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please pay the amount you agreed to in your monthly payment plan.
@@ -686,15 +444,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We need your completed Financial Status Report to make a decision
-              on your request.
-            </p>
             <p>
               <strong>Next step: </strong>
               Please send us your completed Financial Status Report (VA Form
@@ -723,14 +472,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
         card: () => (
           <div>
             <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              Your payment is due.
-            </p>
-            <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
               <strong> {endDate(dateOfLetter, 30)} </strong>
@@ -751,17 +492,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, amountOwed) => {
     case '804':
     case '809':
     case '820':
+    case '811':
+    case '821':
+    case '822':
+    case '825':
       return {
         card: () => (
           <div>
-            <p>
-              <strong>Amount owed: </strong>
-              {amountOwed}
-            </p>
-            <p>
-              <strong>Status: </strong>
-              We're reviewing your waiver request.
-            </p>
             <p>
               <strong>Next step: </strong>
               We'll send you a letter with our decision. Please continue to make
