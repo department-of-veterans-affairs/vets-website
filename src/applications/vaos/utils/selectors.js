@@ -451,17 +451,14 @@ export function getCancelInfo(state) {
   if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
-    facility = facilityData[getRealFacilityId(locationId)];
+    facility = facilityData[locationId];
   } else if (appointmentToCancel?.facility) {
     // Requests
-    facility =
-      facilityData[
-        `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
-      ];
+    facility = facilityData[`var${appointmentToCancel.facility.facilityCode}`];
   } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
-    facility = facilityData[getRealFacilityId(locationId)];
+    facility = facilityData[locationId];
   }
   let isCerner = null;
   if (appointmentToCancel) {

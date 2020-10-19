@@ -105,11 +105,7 @@ export class PastAppointmentsList extends React.Component {
                       key={index}
                       index={index}
                       appointment={appt}
-                      facility={
-                        facilityData[
-                          getRealFacilityId(getVAAppointmentLocationId(appt))
-                        ]
-                      }
+                      facility={facilityData[getVAAppointmentLocationId(appt)]}
                     />
                   );
                 default:

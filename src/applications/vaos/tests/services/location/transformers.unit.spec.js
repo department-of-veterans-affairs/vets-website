@@ -41,7 +41,7 @@ describe('VAOS Location transformer', () => {
   describe('transformFacility', () => {
     it('should map id', () => {
       const data = transformFacility(facilityDetailsParsed[0]);
-      expect(data.identifier[0].value).to.equal('urn:va:division:442:442');
+      expect(data.identifier[0].value).to.equal('urn:va:division:983:983');
     });
 
     it('should map name', () => {
@@ -148,7 +148,7 @@ describe('VAOS Location transformer', () => {
     it('should map to list', () => {
       const data = transformFacilities(facilityDetailsParsed);
       expect(data.length).to.equal(facilityDetailsParsed.length);
-      expect(data[0].identifier[0].value).to.equal('urn:va:division:442:442');
+      expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
     });
   });
 });

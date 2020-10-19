@@ -85,9 +85,7 @@ function FutureAppointmentsList({
         )}
         <ul className="usa-unstyled-list" id="appointments-list">
           {future.map((appt, index) => {
-            const facilityId = getRealFacilityId(
-              getVAAppointmentLocationId(appt),
-            );
+            const facilityId = getVAAppointmentLocationId(appt);
 
             switch (appt.vaos?.appointmentType) {
               case APPOINTMENT_TYPES.vaAppointment:
