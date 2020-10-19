@@ -39,16 +39,19 @@ export function RatedSearchResult({
 }) {
   const queryParams = useQueryParams();
   const estimate = ({ ratedQualifier, value }) => {
-    return (
-      <span>
-        {formatCurrency(value)}
-        {ratedQualifier}
-      </span>
-    );
+    if (value === 'N/A') {
+      return 'N/A';
+    } else {
+      return (
+        <span>
+          {formatCurrency(value)}
+          {ratedQualifier}
+        </span>
+      );
+    }
   };
 
   const tuition = estimate(estimated.tuition);
-  const NaNCheck = tuition.props.children[0] === '$NaN' ? 'N/A' : tuition;
   const housing = estimate(estimated.housing);
   const books = estimate(estimated.books);
   const version = queryParams.get('version');
@@ -101,7 +104,7 @@ export function RatedSearchResult({
                 <div className="vads-u-font-weight--bold columns small-4 medium-3">
                   Tuition:
                 </div>
-                <div className="columns small-8 medium-9">{NaNCheck}</div>
+                <div className="columns small-8 medium-9">{tuition}</div>
               </div>
               <div className="row">
                 <div className="vads-u-font-weight--bold columns small-4 medium-3">
