@@ -133,7 +133,7 @@ describe('Schemaform review <ArrayField>', () => {
       items: {},
       'ui:options': {
         viewField: f => f,
-        itemName: 'Item name',
+        itemName: 'item name',
       },
     };
     const arrayData = [{}, {}];
@@ -153,9 +153,9 @@ describe('Schemaform review <ArrayField>', () => {
     );
 
     tree.getMountedInstance().handleAdd();
-    expect(tree.everySubTree('h5')[0].text()).to.equal('New Item name');
+    expect(tree.everySubTree('h5')[0].text()).to.equal('New item name');
     expect(tree.everySubTree('button')[2].text()).to.equal(
-      'Add another Item name',
+      'Add another item name',
     );
   });
   it('should render array warning', () => {
