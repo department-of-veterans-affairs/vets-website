@@ -95,8 +95,12 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <div>
             <p>
               <strong>Next step: </strong>
-              Please call us at 800-827-0648 (or 1-612-713-6415 from overseas)
-              to verify your military status. We’re here Monday through Friday,
+              Please{' '}
+              <a href="https://iris.custhelp.va.gov/app/ask">
+                contact us through IRIS
+              </a>{' '}
+              or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
+              verify your military status. We’re here Monday through Friday,
               7:30 a.m. to 7:00 p.m. ET.
             </p>
           </div>
@@ -127,15 +131,19 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <div>
             <p>
               <strong>Next step: </strong>
-              Please pay now or contact us about payment options by
-              <strong> {endDate(dateOfLetter, 60)} </strong> to avoid more late
-              charges, interest, or collection actions. These include having
-              your debt reported to credit reporting agencies or referred to the
-              U.S. Department of the Treasury.
+              Please pay now or contact us about payment options by{' '}
+              <strong> {endDate(dateOfLetter, 60)} </strong> to avoid additional
+              collection action. These include having your debt reported to
+              credit reporting agencies or referred to the U.S. Department of
+              the Treasury.
             </p>
             <p>
-              We're here at 800-827-0648 (or 1-612-713-6415 from overseas),
-              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+              You can{' '}
+              <a href="https://iris.custhelp.va.gov/app/ask">
+                contact us through IRIS
+              </a>{' '}
+              or call us at 800-827-0648 (or 1-612-713-6415 from overseas).
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
               <a href="#howDoIPay" className="vads-u-margin-y--2">
                 Review payment options
               </a>
@@ -152,15 +160,16 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
               <strong> {endDate(dateOfLetter, 60)} </strong>
-              to avoid more late charges, interest, or collection actions. If
-              you don't pay or make other arrangements with us by this date,
-              we're required by law to refer your debt to the U.S. Department of
-              the Treasury. After we do that, we can't help you manage your
-              debt.
+              to avoid collection actions. If you don't pay or make other
+              arrangements with us by this date, we're required by law to refer
+              your debt to the U.S. Department of the Treasury.
             </p>
+
             <p>
-              We're here at 800-827-0648 (or 1-612-713-6415 from overseas),
-              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+              You can [contact us through
+              IRIS](https://iris.custhelp.va.gov/app/ask) or call us at
+              800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
+              through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
               <a href="#howDoIPay" className="vads-u-margin-y--2">
                 Review payment options
               </a>
@@ -175,9 +184,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <div>
             <p>
               <strong>Next step: </strong>
-              Please call us at 800-827-0648 (or 1-612-713-6415 from overseas)
-              to update your address. We’re here Monday through Friday, 7:30
-              a.m. to 7:00 p.m. ET.
+              Please{' '}
+              <a href="https://iris.custhelp.va.gov/app/ask">
+                contact us through IRIS
+              </a>{' '}
+              or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
+              update your address. We’re here Monday through Friday, 7:30 a.m.
+              to 7:00 p.m. ET.
             </p>
           </div>
         ),
@@ -286,15 +299,15 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <p>
               <strong>Next step: </strong>
               Please pay the full amount online or by phone now. If we don't
-              receive your payment by [date/time], we're required by law to
-              refer your debt to the U.S. Department of the Treasury. After we
-              do that, we can't help you manage your debt.
+              receive your payment by <strong>[date/time]</strong>, we're
+              required by law to refer your debt to the U.S. Department of the
+              Treasury. After we do that, we can't help you manage your debt.
             </p>
             <p>
-              <a href="https://www.pay.va.gov/">Pay online now</a> Or may a
-              payment by phone at 800-827-0648 (or 1-612-713-6415 from
-              overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00
-              p.m. ET.
+              <a href="https://www.pay.va.gov/">Pay online now</a> Or{' '}
+              <strong>make</strong> a payment <strong>over the</strong> phone at
+              800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
+              through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </div>
         ),
@@ -309,10 +322,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <div>
             <p>
               <strong>Next step: </strong>
-              Please pay now or contact us about payment options by [date] to
-              avoid late charges, interest, or collection actions. We're here at
-              800-827-0648 (or 1-612-713-6415 from overseas), Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+              Please pay now or contact us to start making payments again to
+              avoid collection actions. You can
+              <a href="https://iris.custhelp.va.gov/app/ask">
+                contact us through IRIS
+              </a>{' '}
+              or call us at 800-827-0648 (or 1-612-713-6415 from overseas).
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
               <a href="#howDoIPay" className="vads-u-margin-y--2">
                 Review payment options
               </a>
@@ -322,6 +338,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
         details: () => <div>Details</div>,
       };
     case '101':
+    case '430':
+    case '431':
     case '450':
     case '602':
     case '607':
@@ -359,11 +377,10 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <div>
             <p>
               <strong>Next step: </strong>
-              Please check back in
-              <strong> 30 days </strong>
-              for updates. If your account shows the same information then, call
-              us at 800-827-0648 (or 1-612-713-6415 from overseas). We’re here
-              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+              Please check back in <strong> 30 days </strong> for updates. If
+              your account shows the same information then, call us at
+              800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
+              through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </div>
         ),
@@ -377,10 +394,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <div>
             <p>
               <strong>Next step: </strong>
-              Please call us at 800-827-0648 (or 1-612-713-6415 from overseas)
-              to start making payments again to avoid more late charges,
-              interest, or collection actions. We’re here Monday through Friday,
-              7:30 a.m. to 7:00 p.m. ET.
+              Please{' '}
+              <a href="https://iris.custhelp.va.gov/app/ask">
+                contact us through IRIS
+              </a>{' '}
+              or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
+              start making payments again to avoid collection actions. We’re
+              here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </div>
         ),
@@ -401,8 +421,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
         ),
         details: () => <div>Details</div>,
       };
-    case '430':
-    case '431':
     case '600':
     case '601':
       return {
@@ -428,9 +446,12 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <p>
               <strong>Next step: </strong>
               Please pay the amount you agreed to in your monthly payment plan.
-              Or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
-              talk about other payment options. We're here Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+              To discuss about other payment options,{' '}
+              <a href="https://iris.custhelp.va.gov/app/ask">
+                contact us through IRIS
+              </a>{' '}
+              or call us at 800-827-0648 (or 1-612-713-6415 from overseas).
+              We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
               <a href="#howDoIPay" className="vads-u-margin-y--2">
                 Review payment options
               </a>
@@ -491,8 +512,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '803':
     case '804':
     case '809':
-    case '820':
     case '811':
+    case '820':
     case '821':
     case '822':
     case '825':
