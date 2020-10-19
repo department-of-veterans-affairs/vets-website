@@ -67,9 +67,8 @@ describe('View Payments Lists', () => {
       allPayments,
       store,
     });
-    expect(await screen.findByText(/Loading payment information.../)).to.exist;
     expect(await screen.findByText(/Payments you received/)).to.exist;
-    expect(await screen.findByText(/Payments returned/)).to.exist;
+    expect(screen.getByText(/Payments returned/)).to.exist;
   });
 
   it('should render a payments received table and handle an empty payments returned table', async () => {
