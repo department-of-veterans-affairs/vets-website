@@ -92,43 +92,50 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '71':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please{' '}
-              <a href="https://iris.custhelp.va.gov/app/ask">
-                contact us through IRIS
-              </a>{' '}
-              or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
-              verify your military status. We’re here Monday through Friday,
-              7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please{' '}
+            <a href="https://iris.custhelp.va.gov/app/ask">
+              contact us through IRIS
+            </a>{' '}
+            or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
+            verify your military status. We’re here Monday through Friday, 7:30
+            a.m. to 7:00 p.m. ET.
+          </p>
         ),
-        details: () => <div>Details</div>,
+        details: () => (
+          <p>
+            <strong>Next step: </strong>
+            Please{' '}
+            <a href="https://iris.custhelp.va.gov/app/ask">
+              contact us through IRIS
+            </a>{' '}
+            or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
+            verify your military status. We’re here Monday through Friday, 7:30
+            a.m. to 7:00 p.m. ET.
+          </p>
+        ),
       };
     case '109':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please pay or contact us about payment options now to avoid more
-              late charges, interest, or collection actions. We're here at
-              800-827-0648 (or 1-612-713-6415 from overseas), Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please pay or contact us about payment options now to avoid more
+            late charges, interest, or collection actions. We're here at
+            800-827-0648 (or 1-612-713-6415 from overseas), Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
+          </p>
         ),
         details: () => <div>Details</div>,
       };
     case '117':
       return {
         card: () => (
-          <div>
+          <>
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by{' '}
@@ -148,14 +155,14 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
                 Review payment options
               </a>
             </p>
-          </div>
+          </>
         ),
         details: () => <div>Details</div>,
       };
     case '123':
       return {
         card: () => (
-          <div>
+          <>
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by
@@ -164,7 +171,6 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
               arrangements with us by this date, we're required by law to refer
               your debt to the U.S. Department of the Treasury.
             </p>
-
             <p>
               You can [contact us through
               IRIS](https://iris.custhelp.va.gov/app/ask) or call us at
@@ -174,58 +180,52 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
                 Review payment options
               </a>
             </p>
-          </div>
+          </>
         ),
         details: () => <div>Details</div>,
       };
     case '212':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please{' '}
-              <a href="https://iris.custhelp.va.gov/app/ask">
-                contact us through IRIS
-              </a>{' '}
-              or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
-              update your address. We’re here Monday through Friday, 7:30 a.m.
-              to 7:00 p.m. ET.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please{' '}
+            <a href="https://iris.custhelp.va.gov/app/ask">
+              contact us through IRIS
+            </a>{' '}
+            or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
+            update your address. We’re here Monday through Friday, 7:30 a.m. to
+            7:00 p.m. ET.
+          </p>
         ),
         details: () => <div>Details</div>,
       };
     case '815':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please pay the amount you offered as a compromise within
-              <strong> 30 days </strong>
-              of the date in your acceptance letter.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please pay the amount you offered as a compromise within
+            <strong> 30 days </strong>
+            of the date in your acceptance letter.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
+          </p>
         ),
         details: () => <div>Details</div>,
       };
     case '816':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please check your debt balance again soon. If it isn't adjusted to
-              reflect your payment within
-              <strong> 30 days </strong>, call us at 800-827-0648 (or
-              1-612-713-6415 from overseas). We’re here Monday through Friday,
-              7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please check your debt balance again soon. If it isn't adjusted to
+            reflect your payment within
+            <strong> 30 days </strong>, call us at 800-827-0648 (or
+            1-612-713-6415 from overseas). We’re here Monday through Friday,
+            7:30 a.m. to 7:00 p.m. ET.
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -235,15 +235,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '609':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please check back in 1 week for updates. If your account shows the
-              same information then, call us at 800-827-0648 (or 1-612-713-6415
-              from overseas). We’re here Monday through Friday, 7:30 a.m. to
-              7:00 p.m. ET.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please check back in 1 week for updates. If your account shows the
+            same information then, call us at 800-827-0648 (or 1-612-713-6415
+            from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00
+            p.m. ET.
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -256,17 +254,15 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '453':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              We'll let you know when we start collecting on this debt again.
-              You don't have to do anything until that time. But you can choose
-              to pay part or all of the debt now if you'd like.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            We'll let you know when we start collecting on this debt again. You
+            don't have to do anything until that time. But you can choose to pay
+            part or all of the debt now if you'd like.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -277,15 +273,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '855':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Call the U.S. Department of the Treasury's Debt Management Center
-              at 888-826-3127, 8:30 a.m. to 6:30 p.m. ET. Don't send us payment
-              directly. This will delay posting of payment to your account. And
-              the Treasury Department may continue adding fees and interest.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Call the U.S. Department of the Treasury's Debt Management Center at
+            888-826-3127, 8:30 a.m. to 6:30 p.m. ET. Don't send us payment
+            directly. This will delay posting of payment to your account. And
+            the Treasury Department may continue adding fees and interest.
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -295,7 +289,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '503':
       return {
         card: () => (
-          <div>
+          <>
             <p>
               <strong>Next step: </strong>
               Please pay the full amount online or by phone now. If we don't
@@ -309,7 +303,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
               800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
               through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
-          </div>
+          </>
         ),
         details: () => <div>Details</div>,
       };
@@ -319,7 +313,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '140':
       return {
         card: () => (
-          <div>
+          <>
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us to start making payments again to
@@ -333,7 +327,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
                 Review payment options
               </a>
             </p>
-          </div>
+          </>
         ),
         details: () => <div>Details</div>,
       };
@@ -351,17 +345,15 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '617':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              We'll keep offsetting your benefits each month until your debt is
-              paid in full. If you'd like to pay in full now, please call us
-              first to make sure you don't overpay. If you stop receiving VA
-              benefits, call us to set up a new payment plan. We're here at
-              800-827-0648 (or 1-612-713-6415 from overseas), Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            We'll keep offsetting your benefits each month until your debt is
+            paid in full. If you'd like to pay in full now, please call us first
+            to make sure you don't overpay. If you stop receiving VA benefits,
+            call us to set up a new payment plan. We're here at 800-827-0648 (or
+            1-612-713-6415 from overseas), Monday through Friday, 7:30 a.m. to
+            7:00 p.m. ET.
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -374,15 +366,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '627':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please check back in <strong> 30 days </strong> for updates. If
-              your account shows the same information then, call us at
-              800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
-              through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please check back in <strong> 30 days </strong> for updates. If your
+            account shows the same information then, call us at 800-827-0648 (or
+            1-612-713-6415 from overseas). We’re here Monday through Friday,
+            7:30 a.m. to 7:00 p.m. ET.
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -391,18 +381,16 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '459':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please{' '}
-              <a href="https://iris.custhelp.va.gov/app/ask">
-                contact us through IRIS
-              </a>{' '}
-              or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
-              start making payments again to avoid collection actions. We’re
-              here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please{' '}
+            <a href="https://iris.custhelp.va.gov/app/ask">
+              contact us through IRIS
+            </a>{' '}
+            or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to
+            start making payments again to avoid collection actions. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -412,12 +400,10 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '484':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              You don't need to do anything at this time.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            You don't need to do anything at this time.
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -425,16 +411,14 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '601':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please continue to make payments. If you begin receiving VA
-              benefits, call us to set up an automatic payment plan. We'll keep
-              part of your benefit amount each month to pay your debt. We're
-              here at 800-827-0648 (or 1-612-713-6415 from overseas), Monday
-              through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please continue to make payments. If you begin receiving VA
+            benefits, call us to set up an automatic payment plan. We'll keep
+            part of your benefit amount each month to pay your debt. We're here
+            at 800-827-0648 (or 1-612-713-6415 from overseas), Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -442,21 +426,19 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '613':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please pay the amount you agreed to in your monthly payment plan.
-              To discuss about other payment options,{' '}
-              <a href="https://iris.custhelp.va.gov/app/ask">
-                contact us through IRIS
-              </a>{' '}
-              or call us at 800-827-0648 (or 1-612-713-6415 from overseas).
-              We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please pay the amount you agreed to in your monthly payment plan. To
+            discuss about other payment options,{' '}
+            <a href="https://iris.custhelp.va.gov/app/ask">
+              contact us through IRIS
+            </a>{' '}
+            or call us at 800-827-0648 (or 1-612-713-6415 from overseas). We're
+            here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -464,7 +446,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '817':
       return {
         card: () => (
-          <div>
+          <>
             <p>
               <strong>Next step: </strong>
               Please send us your completed Financial Status Report (VA Form
@@ -482,7 +464,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
               or call us at 800-827-0648 (or 1-612-713-6415 from overseas).
               We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
-          </div>
+          </>
         ),
         details: () => <div>Details</div>,
       };
@@ -491,19 +473,17 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '682':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              Please pay now or contact us about payment options by
-              <strong> {dateOfLetter && endDate(dateOfLetter, 30)} </strong>
-              to avoid late charges, interest, or collection actions. We're here
-              at 800-827-0648 (or 1-612-713-6415 from overseas), Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            Please pay now or contact us about payment options by
+            <strong> {dateOfLetter && endDate(dateOfLetter, 30)} </strong>
+            to avoid late charges, interest, or collection actions. We're here
+            at 800-827-0648 (or 1-612-713-6415 from overseas), Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
+          </p>
         ),
         details: () => <div>Details</div>,
       };
@@ -519,26 +499,24 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '825':
       return {
         card: () => (
-          <div>
-            <p>
-              <strong>Next step: </strong>
-              We'll send you a letter with our decision. Please continue to make
-              payments while we complete our review.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
-                Review payment options
-              </a>
-            </p>
-          </div>
+          <p>
+            <strong>Next step: </strong>
+            We'll send you a letter with our decision. Please continue to make
+            payments while we complete our review.{' '}
+            <a href="#howDoIPay" className="vads-u-margin-y--2">
+              Review payment options
+            </a>
+          </p>
         ),
         details: () => <div>Details</div>,
       };
     default:
       return {
         card: () => (
-          <div>
+          <p>
             <strong>Next step: </strong>
             No code found
-          </div>
+          </p>
         ),
         details: () => <div>No code found</div>,
       };

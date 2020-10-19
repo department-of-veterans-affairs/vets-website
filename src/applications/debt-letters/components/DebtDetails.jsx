@@ -14,6 +14,7 @@ import first from 'lodash/first';
 import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import { renderAdditionalInfo } from '../const/diary-codes';
 
 class DebtDetails extends Component {
   componentDidMount() {
@@ -29,6 +30,8 @@ class DebtDetails extends Component {
       currency: 'USD',
       minimumFractionDigits: 2,
     });
+
+    const dateOfLetterMock = '2020-10-19T14:01:54.9571247Z';
 
     const { selectedDebt } = this.props;
     return (
@@ -84,6 +87,11 @@ class DebtDetails extends Component {
               status="info"
               level={2}
             />
+
+            <div className="debt-details-nextstep">
+              {renderAdditionalInfo('71', dateOfLetterMock).details()}
+            </div>
+
             <AdditionalInfo triggerText="Why might I have this debt?">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
               excepturi fugit non sunt. Asperiores autem error ipsam magnam

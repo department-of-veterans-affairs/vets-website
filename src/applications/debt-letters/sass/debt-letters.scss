@@ -1,6 +1,6 @@
 .right-heading {
-  font-family: 'Bitter';
-  border-bottom: 3px solid #0071BB;
+  font-family: "Bitter";
+  border-bottom: 3px solid #0071bb;
   margin: 10px 0 10px;
   padding-bottom: 9px;
   font-size: 1.35em;
@@ -33,5 +33,10 @@ a i {
   &:visited {
     color: #0071bc;
   }
+}
 
+.debt-details-nextstep {
+  background-color: #e1f3f8;
+  padding: 0 23px;
+  margin-bottom: 15px;
 }
