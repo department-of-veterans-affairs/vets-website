@@ -64,11 +64,16 @@ class ArrayField extends React.Component {
     return schema.additionalItems;
   }
 
-  scrollToAndFocus(elementSelector) {
-    if (elementSelector) {
+  /**
+   * Scroll to an element, then focus on a button within the element
+   * @param {string} elementName - element with "name" attribute to scroll to
+   * @param {string} button - Button to focus within element
+   */
+  scrollToAndFocus(elementName, button = '') {
+    if (elementName) {
       setTimeout(() => {
         scroller.scrollTo(
-          elementSelector,
+          elementName,
           window.Forms?.scroll || {
             duration: 500,
             delay: 0,
@@ -76,7 +81,7 @@ class ArrayField extends React.Component {
             offset: -60,
           },
         );
-        focusElement(elementSelector);
+        focusElement(`[name="${elementName}"] ${button}`);
       }, 100);
     }
   }
@@ -145,7 +150,7 @@ class ArrayField extends React.Component {
     this.setState(newState, () => {
       this.props.setData(_.set(path, this.state.items, formData));
       // Move focus back to the add button
-      this.scrollToAndFocus(`[name="${fieldName}"] .add-btn`);
+      this.scrollToAndFocus(`add-another-${fieldName}`);
     });
   }
 
@@ -178,7 +183,7 @@ class ArrayField extends React.Component {
     const newEditingArray = _.set(index, false, this.state.editing);
     this.setState({ editing: newEditingArray }, () => {
       // Return focus to button that toggled edit mode
-      this.scrollToAndFocus(`[name="${fieldName}-${index}"] .edit-btn`);
+      this.scrollToAndFocus(`${fieldName}-${index}`, '.edit-btn');
     });
   }
 
@@ -340,6 +345,7 @@ class ArrayField extends React.Component {
               <>
                 <button
                   type="button"
+                  name={`add-another-${fieldName}`}
                   disabled={addAnotherDisabled}
                   className="add-btn primary-outline"
                   onClick={() => this.handleAdd()}
