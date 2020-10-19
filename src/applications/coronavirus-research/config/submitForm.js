@@ -9,7 +9,15 @@ const submitForm = (form, formConfig) => {
   const getFormattedTrueSelectValues = element => {
     return Object.keys(formData[element])
       .filter(key => formData[element][key] === true)
-      .map(value => uiSchema[element][value]['ui:title']);
+      .map(value => {
+        if (element === 'GENDER' && value.includes('SELF_IDENTIFY')) {
+          return `${uiSchema[element][value]['ui:title']}: ${
+            formData.GENDER_SELF_IDENTIFY_DETAILS
+          }`;
+        } else {
+          return uiSchema[element][value]['ui:title'];
+        }
+      });
   };
 
   const getFormattedRadioValues = (element, key) => {
@@ -26,8 +34,8 @@ const submitForm = (form, formConfig) => {
       'closeContactPositive',
       formData.closeContactPositive,
     ),
-    'recent-overnight-stay': resolveBooleanValue(formData.hospitalized),
-    'smoke-or-smoking-history': resolveBooleanValue(formData.smokeOrVape),
+    'hospitalized-w-in-six-months': resolveBooleanValue(formData.hospitalized),
+    'smoke-or-vape-history': resolveBooleanValue(formData.smokeOrVape),
     'historical-health-issues': getFormattedTrueSelectValues('HEALTH_HISTORY'),
     'work-situation': getFormattedTrueSelectValues('EMPLOYMENT_STATUS'),
     'work-transportation': getFormattedTrueSelectValues('TRANSPORTATION'),
