@@ -96,7 +96,7 @@ function InstitutionSearchForm({
             </div>
           )}
 
-          <h3>{keywordLabel}</h3>
+          <h2 className="vads-u-font-size--h3">{keywordLabel}</h2>
 
           {/* prod flag for story BAH-13938 */}
           {environment.isProduction() ? (
