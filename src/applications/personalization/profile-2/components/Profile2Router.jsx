@@ -182,18 +182,6 @@ class Profile2Router extends Component {
   };
 
   render() {
-    if (
-      !this.props.isLOA1 &&
-      !this.props.isLOA3 &&
-      this.props.currentlyLoggedIn
-    ) {
-      return (
-        <div className="vads-u-margin-y--5">
-          <LoadingIndicator setFocus message="Loading your information..." />
-        </div>
-      );
-    }
-
     return (
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
@@ -269,13 +257,16 @@ const mapStateToProps = state => {
     hasLoadedMilitaryInformation &&
     (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
 
+  const isLOA1 = isLOA1Selector(state);
+  const isLOA3 = isLOA3Selector(state);
+
+  const isLoggingIn = !isLoggedIn(state) && !isLOA1 && !isLOA3;
+
   return {
-    currentlyLoggedIn: isLoggedIn(state),
-    isLOA1: isLOA1Selector(state),
-    isLOA3: isLOA3Selector(state),
+    isLOA3,
     isInMVI: isInMVISelector(state),
     user: state.user,
-    showLoader: !hasLoadedAllData,
+    showLoader: !hasLoadedAllData || isLoggingIn,
     shouldFetchDirectDepositInformation,
     shouldShowDirectDeposit:
       shouldFetchDirectDepositInformation &&

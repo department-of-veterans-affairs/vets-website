@@ -1,4 +1,3 @@
-import './sass/profile-360.scss';
 import 'applications/personalization/profile-2/sass/profile-2.scss';
 import 'platform/polyfills';
 import React from 'react';

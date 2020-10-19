@@ -13,7 +13,7 @@ export function wait(timeout) {
  * A custom React Testing Library render function that allows for easy rendering
  * of Profile-related components. This helper sets up the reducers used by the
  * Profile application, as shown in the profile entry file
- * src/applications/personalization/profile360/profile-360-entry.jsx
+ * src/applications/personalization/profile360/profile-entry.jsx
  */
 export function renderWithProfileReducers(
   ui,
