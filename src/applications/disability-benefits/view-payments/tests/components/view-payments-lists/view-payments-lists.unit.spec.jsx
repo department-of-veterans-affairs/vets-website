@@ -2,6 +2,7 @@ import React from 'react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { resetFetch } from 'platform/testing/unit/helpers';
 import { expect } from 'chai';
 import allPayments from '../../../reducers/index';
 import createCommonStore from 'platform/startup/store';
@@ -57,7 +58,10 @@ describe('View Payments Lists', () => {
     );
   };
 
-  before(() => server.listen());
+  before(() => {
+    resetFetch();
+    server.listen();
+  });
   afterEach(() => server.resetHandlers());
   after(() => server.close());
 
