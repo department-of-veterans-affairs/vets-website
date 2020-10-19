@@ -15,7 +15,6 @@ import {
   getTimezoneAbbrBySystemId,
 } from './timezone';
 
-import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
 import {
   FACILITY_TYPES,
