@@ -161,9 +161,17 @@ const createFakeUserStore = (
   };
 };
 
-const createFakeChiefComplaintStore = () => {
+const createFakeReasonForVisitDescriptionStore = reason => {
   return {
-    getState: () => ({}),
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [{ bookingNotes: reason }],
+          },
+        },
+      },
+    }),
     subscribe: () => {},
     dispatch: () => {},
   };
@@ -172,8 +180,12 @@ const createFakeChiefComplaintStore = () => {
 const createFakeReasonForVisitStore = ({ reason = '' }) => {
   return {
     getState: () => ({
-      clipboardAppointmentDetails: {
-        reasonForVisit: reason,
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [{ bookingNotes: reason }],
+          },
+        },
       },
     }),
     subscribe: () => {},
@@ -213,7 +225,7 @@ const createFakeConfirmationStore = ({ hasData }) => {
 
 export {
   createFakeUserStore,
-  createFakeChiefComplaintStore,
+  createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
   createFakeConfirmationStore,
 };

@@ -9,7 +9,7 @@ import { createFakeReasonForVisitStore } from '../utils/createFakeStores';
 describe('healthcare-questionnaire - reason for visit - visit page -', () => {
   it('reason for visit exists', () => {
     const fakeStore = createFakeReasonForVisitStore({
-      reason: 'yes i have a reason',
+      reason: 'Follow-up/Routine:yes i have a reason',
     });
     const wrapper = mount(<ReasonForVisitField store={fakeStore} />);
     expect(wrapper.find('[data-testid="reason-for-visit"]').exists()).to.be
