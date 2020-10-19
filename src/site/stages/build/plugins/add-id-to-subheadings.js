@@ -61,15 +61,10 @@ function generateHeadingIds() {
             !isInAccordion
           ) {
             tableOfContents.append(
-              `<li class="vads-u-margin-bottom--2">
-                  <a href="#${heading.attr(
-                    'id',
-                  )}" onClick="recordEvent({ event: 'nav-jumplink-click' });"
-              class="vads-u-display--flex vads-u-text-decoration--none">
-                    <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"></i>
-                    ${heading.text()}
-                  </a>
-                </li>`,
+              `<li class="vads-u-margin-bottom--2"><a href="#${heading.attr(
+                'id',
+              )}" onClick="recordEvent({ event: 'nav-jumplink-click' });"
+              class="vads-u-display--flex vads-u-text-decoration--none"><i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"></i>${heading.text()}</a></li>`,
             );
             idAdded = true;
           }
