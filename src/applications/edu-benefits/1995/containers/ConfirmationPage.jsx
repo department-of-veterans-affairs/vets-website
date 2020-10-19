@@ -48,7 +48,7 @@ class ConfirmationPage extends React.Component {
           <li>Your reserve kicker</li>
           <li>
             Documentation of additional contributions that would increase your
-            monthly benefits.
+            monthly benefits
           </li>
         </ul>
         <p>
@@ -250,7 +250,12 @@ class ConfirmationPage extends React.Component {
               in the mail. If we approved your application, you can bring the
               COE to the VA certifying official at your school.
             </p>
-            <p className="confirmation-guidance-message">
+            <p className="confirmation-guidance-message screen-only">
+              <a href="/education/after-you-apply/">
+                Learn more about what happens after you apply
+              </a>
+            </p>
+            <p className="confirmation-guidance-message print-only">
               <a href="/education/after-you-apply/">
                 Learn more about what happens after you apply:
               </a>
