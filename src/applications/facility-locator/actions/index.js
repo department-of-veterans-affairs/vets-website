@@ -15,7 +15,7 @@ import {
   GEOCODE_FAILED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
-import { LocationType, BOUNDING_RADIUS } from '../constants';
+import { LocationType, BOUNDING_RADIUS, ZoomLevelMap } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
@@ -268,7 +268,7 @@ export const genBBoxFromAddress = query => {
               lng: features[0].geometry.coordinates[0],
             },
             bounds: minBounds,
-            zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
+            zoomLevel: ZoomLevelMap.leaflet,
             currentPage: 1,
             mapBoxQuery: {
               placeName: features[0].place_name,

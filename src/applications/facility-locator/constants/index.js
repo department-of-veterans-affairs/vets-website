@@ -90,3 +90,11 @@ export const Error = {
   LOCATION:
     'Something’s not quite right. Please enter a valid or different location and try your search again.',
 };
+
+/**
+ * Defines initial map zoom level
+ */
+export const ZoomLevelMap = {
+  leaflet: 11,
+  mapboxGL: 9,
+};
