@@ -61,7 +61,7 @@ fragment nodeMediaListImages on NodeMediaListImages {
   }
   fieldPrimaryCategory {
     entity {
-      ... on taxonomyTermLcCategories
+      ... taxonomyTermLcCategories
     }
   }
   fieldOtherCategories {

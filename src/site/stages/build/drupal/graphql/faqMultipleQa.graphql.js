@@ -69,7 +69,7 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
   }
   fieldPrimaryCategory {
     entity {
-      ... on taxonomyTermLcCategories
+      ... taxonomyTermLcCategories
     }
   }
   fieldOtherCategories {

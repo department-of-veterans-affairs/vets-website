@@ -70,7 +70,7 @@ fragment nodeStepByStep on NodeStepByStep {
   }
   fieldPrimaryCategory {
     entity {
-      ... on taxonomyTermLcCategories
+      ... taxonomyTermLcCategories
     }
   }
   fieldOtherCategories {

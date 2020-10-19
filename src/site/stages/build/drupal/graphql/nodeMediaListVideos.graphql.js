@@ -56,7 +56,7 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
   }
   fieldPrimaryCategory {
     entity {
-      ... on taxonomyTermLcCategories
+      ... taxonomyTermLcCategories
     }
   }
   fieldOtherCategories {

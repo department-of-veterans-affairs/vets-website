@@ -55,7 +55,7 @@ fragment nodeChecklist on NodeChecklist {
   }
   fieldPrimaryCategory {
     entity {
-      ... on taxonomyTermLcCategories
+      ... taxonomyTermLcCategories
     }
   }
   fieldOtherCategories {

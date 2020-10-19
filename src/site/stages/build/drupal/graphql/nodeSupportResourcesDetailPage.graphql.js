@@ -59,7 +59,7 @@ fragment nodeSupportResourcesDetailPage on NodeSupportResourcesDetailPage {
   }
   fieldPrimaryCategory {
     entity {
-      ... on taxonomyTermLcCategories
+      ... taxonomyTermLcCategories
     }
   }
   fieldOtherCategories {
