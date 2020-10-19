@@ -17,6 +17,8 @@ export default function RequestExpressCare({
     environment.isProduction() ? '' : '-staging'
   }.va.gov/var/v4/#new-express-request`;
 
+  const buttonText = 'Request Express Care';
+
   if (!enabled || windowsStatus !== FETCH_STATUS.succeeded || !hasWindow) {
     return null;
   }
@@ -25,7 +27,7 @@ export default function RequestExpressCare({
     return (
       <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
         <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
-          Create a new Express Care request
+          Request a new Express Care appointment
         </h2>
         <p>
           Talk to VA health care staff today about a condition or symptom that’s
@@ -38,7 +40,7 @@ export default function RequestExpressCare({
             onClick={startNewExpressCareFlow}
             to="/new-express-care-request"
           >
-            Create an Express Care request
+            {buttonText}
           </Link>
         ) : (
           <a
@@ -47,7 +49,7 @@ export default function RequestExpressCare({
             target="_blank"
             rel="noreferrer nofollow"
           >
-            Create an Express Care request
+            {buttonText}
           </a>
         )}
       </div>
@@ -65,7 +67,7 @@ export default function RequestExpressCare({
         that’s not urgent and doesn’t need emergency care. To use Express Care,
         check back during the time shown above.
       </p>
-      <button disabled>Create an Express Care request</button>
+      <button disabled>{buttonText}</button>
     </div>
   );
 }

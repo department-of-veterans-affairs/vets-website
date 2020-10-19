@@ -65,7 +65,11 @@ import {
   logEligibilityExplanation,
 } from '../../utils/eligibility';
 
-import { recordEligibilityFailure, resetDataLayer } from '../../utils/events';
+import {
+  recordEligibilityFailure,
+  resetDataLayer,
+  recordItemsRetrieved,
+} from '../../utils/events';
 
 import {
   captureError,
@@ -369,11 +373,10 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           });
         }
 
-        recordEvent({
-          event: `${GA_PREFIX}-get-available-facilities`,
-          [`${GA_PREFIX}-number-of-facilities`]: typeOfCareFacilities?.length,
-        });
-        resetDataLayer();
+        recordItemsRetrieved(
+          'available_facilities',
+          typeOfCareFacilities?.length,
+        );
 
         // If we have an already selected location or only have a single location
         // fetch eligbility data immediately
@@ -429,15 +432,23 @@ export function requestCurrentLocation(uiSchema) {
     dispatch({
       type: FORM_REQUEST_CURRENT_LOCATION,
     });
+    recordEvent({
+      event: `${GA_PREFIX}-request-current-location-clicked`,
+    });
     try {
       const location = await getPreciseLocation();
+      recordEvent({
+        event: `${GA_PREFIX}-request-current-location-allowed`,
+      });
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION_SUCCEEDED,
         location,
         uiSchema,
       });
     } catch (e) {
-      captureError(e, false, 'facility page');
+      recordEvent({
+        event: `${GA_PREFIX}-request-current-location-blocked`,
+      });
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
       });

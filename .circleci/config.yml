@@ -61,7 +61,10 @@ jobs:
             - ~/.cache/yarn
       - run: mkdir -p ./test-results
       - run: mkdir -p ./pacts
-      - run: yarn test:contract
+      - run:
+          command: yarn test:contract
+          environment:
+            MOCHA_FILE: ./test-results/test-results.xml
       - run: yarn pact:publish
       - persist_to_workspace:
           root: .

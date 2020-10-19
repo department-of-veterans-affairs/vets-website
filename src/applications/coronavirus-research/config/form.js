@@ -15,6 +15,8 @@ import {
   ConsentError,
 } from '../containers/ConsentFormContent';
 
+import manifest from '../manifest.json';
+
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 
 const checkBoxElements = [
@@ -83,6 +85,7 @@ export function transform(formConfig, form) {
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/covid-research/volunteer/create`,
   trackingPrefix: 'covid-research-volunteer-',
@@ -90,6 +93,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL,
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your [savedFormDescription] is in progress.',
+    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
+    //   saved: 'Your [benefitType] [appType] has been saved.',
+    // },
+  },
   version: 0,
   prefillEnabled: true,
   customText: {

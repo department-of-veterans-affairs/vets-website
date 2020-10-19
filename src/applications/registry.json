@@ -59,48 +59,12 @@
     }
   },
   {
-    "appName": "Account",
-    "entryName": "account",
-    "rootUrl": "/account",
-    "template": {
-      "title": "Your VA.gov Account",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "account/",
-          "name": "Your account settings"
-        }
-      ]
-    }
-  },
-  {
     "appName": "Rated Disabilities",
     "entryName": "disability-my-rated-disabilities",
     "rootUrl": "/disability/view-disability-rating/rating",
     "template": {
       "layout": "page-react.html",
       "vagovprod": true
-    }
-  },
-  {
-    "appName": "Connected Accounts",
-    "entryName": "connected-accounts",
-    "rootUrl": "/account/connected-accounts",
-    "template": {
-      "title": "Connected Accounts",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "account/",
-          "name": "Your account settings"
-        },
-        {
-          "path": "account/connected-accounts/",
-          "name": "Connected Accounts"
-        }
-      ]
     }
   },
   {
@@ -647,12 +611,12 @@
           "path": "education/"
         },
         {
-          "name": "How to apply",
-          "path": "education/how-to-apply/"
+          "name": "Change your GI Bill school or program",
+          "path": "education/change-gi-bill-benefits/"
         },
         {
-          "name": "Apply for education benefits",
-          "path": "education/apply-for-education-benefits/application/1995"
+          "name": "Change your benefits VA Form 22-1995",
+          "path": "education/apply-for-education-benefits/application/1995/introduction"
         }
       ]
     }
@@ -819,7 +783,22 @@
     "rootUrl": "/careers-employment/vocational-rehabilitation/apply",
     "template": {
       "vagovprod": false,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "careers-employment",
+          "name": "Careers and employment"
+        },
+        {
+          "path": "careers-employment/vocational-rehabilitation",
+          "name": "Veteran Readiness and Employment"
+        },
+        {
+          "path": "careers-employment/vocational-rehabilitation/apply",
+          "name": "Apply for VR&E Form 28-1900"
+        }
+      ]
     }
   },
   {

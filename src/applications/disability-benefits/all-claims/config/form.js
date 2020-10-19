@@ -122,9 +122,12 @@ import { PTSD_INCIDENT_ITERATION, NULL_CONDITION_STRING } from '../constants';
 
 import migrations from '../migrations';
 
+import manifest from '../manifest.json';
+
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
@@ -137,6 +140,15 @@ const formConfig = {
     dependencies: [services.evss, services.emis, services.mvi, services.vet360],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your disability compensation application (21-526EZ) is in progress.',
+      expired:
+        'Your saved disability compensation application (21-526EZ) has expired. If you want to apply for disability compensation, please start a new application.',
+      saved: 'Your disability compensation application has been saved.',
+    },
+  },
   onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
@@ -196,6 +208,13 @@ const formConfig = {
           uiSchema: separationLocation.uiSchema,
           schema: separationLocation.schema,
         },
+        servedInCombatZone: {
+          title: 'Combat status',
+          path: 'review-veteran-details/combat-status',
+          depends: servedAfter911,
+          uiSchema: servedInCombatZone.uiSchema,
+          schema: servedInCombatZone.schema,
+        },
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
@@ -204,13 +223,6 @@ const formConfig = {
           uiSchema: claimType.uiSchema,
           schema: claimType.schema,
           onContinue: captureEvents.claimType,
-        },
-        servedInCombatZone: {
-          title: 'Combat status',
-          path: 'review-veteran-details/combat-status',
-          depends: servedAfter911,
-          uiSchema: servedInCombatZone.uiSchema,
-          schema: servedInCombatZone.schema,
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard service',
