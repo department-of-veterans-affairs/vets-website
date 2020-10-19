@@ -165,9 +165,17 @@ describe('Create new community care appointment', () => {
       let date = moment().add(5, 'days');
 
       if (date.weekday() === 0) {
-        date = moment().add(7, 'days');
+        date = date
+          .add(7, 'days')
+          .day(1)
+          .format('MM/DD/YYYY');
       } else if (date.weekday() === 6) {
-        date = moment().add(6, 'days');
+        date = date
+          .add(1, 'days')
+          .day(1)
+          .format('MM/DD/YYYY');
+      } else {
+        date = date.day(1).format('MM/DD/YYYY');
       }
 
       expect(xhr.status).to.eq(200);
@@ -177,7 +185,7 @@ describe('Create new community care appointment', () => {
       const request = xhr.requestBody;
       expect(request)
         .to.have.property('optionDate1')
-        .to.equal(date.day(1).format('MM/DD/YYYY'));
+        .to.equal(date);
       expect(request)
         .to.have.property('optionDate2')
         .to.equal('No Date Selected');
