@@ -6,5 +6,13 @@
   "pluginsFile": "src/platform/testing/e2e/cypress/plugins/index.js",
   "supportFile": "src/platform/testing/e2e/cypress/support/index.js",
   "testFiles": "**/tests/**/*.cypress.spec.js?(x)",
-  "waitForAnimations": false
+  "waitForAnimations": false,
+  "reporter": "cypress-testrail-reporter",
+  "reporterOptions": {
+    "domain": "dsvavsp.testrail.io",
+    "username": "peter.hill+vspshared@oddball.io",
+    "password": "wTne8owbEm0wHOBYGvV8-rrqfo5jIhKpM0C72yrsV",
+    "projectId": 28,
+    "suiteId": 80
+    }
 }
