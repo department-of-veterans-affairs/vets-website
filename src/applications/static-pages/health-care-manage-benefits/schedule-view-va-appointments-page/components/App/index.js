@@ -35,14 +35,14 @@ App.propTypes = {
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
       isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string,
-      usesCernerMedicalRecords: PropTypes.string,
-      usesCernerMessaging: PropTypes.string,
-      usesCernerRx: PropTypes.string,
-      usesCernerTestResults: PropTypes.string,
+      usesCernerAppointments: PropTypes.bool,
+      usesCernerMedicalRecords: PropTypes.bool,
+      usesCernerMessaging: PropTypes.bool,
+      usesCernerRx: PropTypes.bool,
+      usesCernerTestResults: PropTypes.bool,
     }).isRequired,
   ),
-  showNewScheduleViewAppointmentsPage: PropTypes.bool.isRequired,
+  showNewScheduleViewAppointmentsPage: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
