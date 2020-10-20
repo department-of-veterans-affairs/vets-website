@@ -20,15 +20,17 @@ class DebtDetails extends Component {
     scrollToTop();
   }
   render() {
-    if (Object.keys(this.props.selectedDebt).length === 0) {
-      return window.location.replace('/manage-va-debt/your-debt');
-    }
     const { selectedDebt } = this.props;
+    const [mostRecentHistory] = selectedDebt.debtHistory;
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
     });
+
+    if (Object.keys(selectedDebt).length === 0) {
+      return window.location.replace('/manage-va-debt/your-debt');
+    }
 
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -80,7 +82,7 @@ class DebtDetails extends Component {
               <div className="debt-details-nextstep">
                 {renderAdditionalInfo(
                   selectedDebt.diaryCode,
-                  selectedDebt.debtHistory[0].date,
+                  mostRecentHistory.date,
                 )}
               </div>
             )}

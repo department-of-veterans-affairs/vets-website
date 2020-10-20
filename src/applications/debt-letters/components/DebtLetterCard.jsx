@@ -1,5 +1,4 @@
 import React from 'react';
-import head from 'lodash/head';
 import moment from 'moment';
 import { Link } from 'react-router';
 import { deductionCodes } from '../const/deduction-codes';
@@ -11,14 +10,14 @@ import { renderAdditionalInfo } from '../const/diary-codes';
 
 const DebtLetterCard = props => {
   const { debt } = props;
+  const [mostRecentHistory] = debt.debtHistory;
+  const debtCardHeading =
+    deductionCodes[debt.deductionCode] || debt.benefitType;
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
   });
-  const mostRecentHistory = head(debt.debtHistory);
-  const debtCardHeading =
-    deductionCodes[debt.deductionCode] || debt.benefitType;
 
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
@@ -38,7 +37,7 @@ const DebtLetterCard = props => {
       </p>
       {debt.diaryCode && (
         <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-          {renderAdditionalInfo(debt.diaryCode, debt.debtHistory[0].date)}
+          {renderAdditionalInfo(debt.diaryCode, mostRecentHistory.date)}
         </div>
       )}
       <Link
