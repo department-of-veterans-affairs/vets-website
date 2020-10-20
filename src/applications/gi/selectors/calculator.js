@@ -564,7 +564,6 @@ const getDerivedValues = createSelector(
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm1 = 0;
     } else if (isOJT) {
-      // Changes for 18970. Keeping the changes behind a production flag until EDU can review the fix.
       if (onlineClasses === 'yes') {
         housingAllowTerm1 = ropOjt * ((tier * avgBah) / 2 + kickerBenefit);
       } else {
