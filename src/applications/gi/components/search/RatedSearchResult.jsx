@@ -39,16 +39,12 @@ export function RatedSearchResult({
 }) {
   const queryParams = useQueryParams();
   const estimate = ({ ratedQualifier, value }) => {
-    if (value === 'N/A') {
-      return 'N/A';
-    } else {
-      return (
-        <span>
-          {formatCurrency(value)}
-          {ratedQualifier}
-        </span>
-      );
-    }
+    return (
+      <span>
+        {formatCurrency(value)}
+        {ratedQualifier}
+      </span>
+    );
   };
 
   const tuition = estimate(estimated.tuition);
