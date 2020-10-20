@@ -260,7 +260,9 @@ class ConfirmationPage extends React.Component {
                 Learn more about what happens after you apply:
               </a>
             </p>
-            <h4 className="confirmation-guidance-heading">Need help?</h4>
+            <h4 className="confirmation-guidance-heading pagebreak">
+              Need help?
+            </h4>
             <p className="confirmation-guidance-message">
               If you have questions, call 888-GI-BILL-1 (
               <a href="tel:+18884424551">888-442-4551</a>
