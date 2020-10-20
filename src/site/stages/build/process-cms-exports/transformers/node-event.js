@@ -11,22 +11,16 @@ const { mapKeys, camelCase } = require('lodash');
 const assert = require('assert');
 const moment = require('moment');
 
-function toUtc(timeString) {
+function toUtc(timeString, withExplicitUtc = true) {
   const time = moment.utc(timeString);
   assert(
     time.isValid(),
     `Expected timeString to be a moment-parsable string. Found ${timeString}`,
   );
-  return time.format('YYYY-MM-DD kk:mm:ss [UTC]');
-}
-
-function toUtcTz(timeString) {
-  const time = moment.utc(timeString);
-  assert(
-    time.isValid(),
-    `Expected timeString to be a moment-parsable string. Found ${timeString}`,
-  );
-  return time.format('YYYY-MM-DDTkk:mm:ss');
+  const formatString = withExplicitUtc
+    ? 'YYYY-MM-DD kk:mm:ss [UTC]'
+    : 'YYYY-MM-DD[T]kk:mm:ss';
+  return time.format(formatString);
 }
 
 const transform = entity => ({
@@ -55,9 +49,9 @@ const transform = entity => ({
   },
   fieldDate: {
     startDate: toUtc(entity.fieldDate[0].value),
-    value: toUtcTz(entity.fieldDate[0].value),
+    value: toUtc(entity.fieldDate[0].value, false),
     endDate: toUtc(entity.fieldDate[0].end_value),
-    endValue: toUtcTz(entity.fieldDate[0].end_value),
+    endValue: toUtc(entity.fieldDate[0].end_value, false),
   },
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldEventCost: getDrupalValue(entity.fieldEventCost),
