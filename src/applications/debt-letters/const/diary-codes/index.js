@@ -1,5 +1,9 @@
 import React from 'react';
 import moment from 'moment';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export const diaryCodes = Object.freeze({
   '71': 'Pending Veteran deployment verification',
@@ -81,6 +85,14 @@ export const diaryCodes = Object.freeze({
   '820': 'Your waiver request is being reviewed',
 });
 
+const ContactDMC = () => (
+  <span>
+    <Telephone contact={CONTACTS.DMC} /> (or{' '}
+    <Telephone contact={CONTACTS.DMC_OVERSEAS} pattern={PATTERNS.OUTSIDE_US} />{' '}
+    from overseas)
+  </span>
+);
+
 export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
   const endDate = (date, days) => {
     return moment(date)
@@ -97,9 +109,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <a href="https://iris.custhelp.va.gov/app/ask">
             contact us through IRIS
           </a>{' '}
-          or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to verify
-          your military status. We’re here Monday through Friday, 7:30 a.m. to
-          7:00 p.m. ET.
+          or call us at <ContactDMC /> to verify your military status. We’re
+          here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       );
     case '109':
@@ -131,8 +142,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <a href="https://iris.custhelp.va.gov/app/ask">
               contact us through IRIS
             </a>{' '}
-            or call us at 800-827-0648 (or 1-612-713-6415 from overseas). We’re
-            here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            or call us at <ContactDMC />. We’re here Monday through Friday, 7:30
+            a.m. to 7:00 p.m. ET.{' '}
             <a href="#howDoIPay" className="vads-u-margin-y--2">
               Review payment options
             </a>
@@ -155,8 +166,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <a href="https://iris.custhelp.va.gov/app/ask">
               contact us through IRIS
             </a>{' '}
-            or call us at 800-827-0648 (or 1-612-713-6415 from overseas). We’re
-            here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            or call us at <ContactDMC />. We’re here Monday through Friday, 7:30
+            a.m. to 7:00 p.m. ET.{' '}
             <a href="#howDoIPay" className="vads-u-margin-y--2">
               Review payment options
             </a>
@@ -171,9 +182,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <a href="https://iris.custhelp.va.gov/app/ask">
             contact us through IRIS
           </a>{' '}
-          or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to update
-          your address. We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
-          ET.
+          or call us at <ContactDMC /> to update your address. We’re here Monday
+          through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       );
     case '815':
@@ -260,8 +270,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <p>
             <a href="https://www.pay.va.gov/">Pay online now</a> Or{' '}
             <strong>make</strong> a payment <strong>over the</strong> phone at
-            800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            <ContactDMC />. We’re here Monday through Friday, 7:30 a.m. to 7:00
+            p.m. ET.
           </p>
         </>
       );
@@ -278,8 +288,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <a href="https://iris.custhelp.va.gov/app/ask">
               contact us through IRIS
             </a>{' '}
-            or call us at 800-827-0648 (or 1-612-713-6415 from overseas). We’re
-            here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            or call us at <ContactDMC />. We’re here Monday through Friday, 7:30
+            a.m. to 7:00 p.m. ET.{' '}
             <a href="#howDoIPay" className="vads-u-margin-y--2">
               Review payment options
             </a>
@@ -335,9 +345,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <a href="https://iris.custhelp.va.gov/app/ask">
             contact us through IRIS
           </a>{' '}
-          or call us at 800-827-0648 (or 1-612-713-6415 from overseas) to start
-          making payments again to avoid collection actions. We’re here Monday
-          through Friday, 7:30 a.m. to 7:00 p.m. ET.
+          or call us at <ContactDMC /> to start making payments again to avoid
+          collection actions. We’re here Monday through Friday, 7:30 a.m. to
+          7:00 p.m. ET.
         </p>
       );
     case '481':
@@ -372,8 +382,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <a href="https://iris.custhelp.va.gov/app/ask">
             contact us through IRIS
           </a>{' '}
-          or call us at 800-827-0648 (or 1-612-713-6415 from overseas). We're
-          here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+          or call us at <ContactDMC />. We're here Monday through Friday, 7:30
+          a.m. to 7:00 p.m. ET.{' '}
           <a href="#howDoIPay" className="vads-u-margin-y--2">
             Review payment options
           </a>
@@ -397,8 +407,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <a href="https://www.va.gov/DEBTMAN/Most_Frequently_Asked_Questions.asp">
               frequently asked questions
             </a>{' '}
-            or call us at 800-827-0648 (or 1-612-713-6415 from overseas). We’re
-            here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            or call us at <ContactDMC />. We’re here Monday through Friday, 7:30
+            a.m. to 7:00 p.m. ET.
           </p>
         </>
       );
@@ -411,8 +421,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           Please pay now or contact us about payment options by
           <strong> {dateOfLetter && endDate(dateOfLetter, 30)} </strong>
           to avoid late charges, interest, or collection actions. We're here at
-          800-827-0648 (or 1-612-713-6415 from overseas), Monday through Friday,
-          7:30 a.m. to 7:00 p.m. ET.{' '}
+          <ContactDMC />, Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
           <a href="#howDoIPay" className="vads-u-margin-y--2">
             Review payment options
           </a>
