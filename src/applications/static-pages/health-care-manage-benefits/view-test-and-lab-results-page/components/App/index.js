@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
 // Relative imports.
 import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
@@ -16,7 +17,7 @@ export const App = ({ facilities, showNewViewTestLabResultsPage }) => {
 
   const cernerFacilities = facilities?.filter(f => f.usesCernerTestResults);
   const otherFacilities = facilities?.filter(f => !f.usesCernerTestResults);
-  if (isEmpty(cernerFacilities)) {
+  if (!isEmpty(cernerFacilities)) {
     return (
       <AuthContent
         cernerFacilities={cernerFacilities}

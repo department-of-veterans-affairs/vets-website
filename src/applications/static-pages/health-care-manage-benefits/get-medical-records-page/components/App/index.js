@@ -17,7 +17,7 @@ export const App = ({ facilities, showNewGetMedicalRecordsPage }) => {
 
   const cernerFacilities = facilities?.filter(f => f.usesCernerMedicalRecords);
   const otherFacilities = facilities?.filter(f => !f.usesCernerMedicalRecords);
-  if (isEmpty(cernerFacilities)) {
+  if (!isEmpty(cernerFacilities)) {
     return (
       <AuthContent
         cernerFacilities={cernerFacilities}

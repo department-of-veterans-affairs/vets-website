@@ -17,7 +17,7 @@ export const App = ({ facilities, showNewRefillTrackPrescriptionsPage }) => {
 
   const cernerFacilities = facilities?.filter(f => f.usesCernerRx);
   const otherFacilities = facilities?.filter(f => !f.usesCernerRx);
-  if (isEmpty(cernerFacilities)) {
+  if (!isEmpty(cernerFacilities)) {
     return (
       <AuthContent
         cernerFacilities={cernerFacilities}
