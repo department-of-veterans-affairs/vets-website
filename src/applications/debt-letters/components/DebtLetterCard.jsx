@@ -1,4 +1,5 @@
 import React from 'react';
+import head from 'lodash/head';
 import moment from 'moment';
 import { Link } from 'react-router';
 import { deductionCodes } from '../const/deduction-codes';
@@ -10,7 +11,7 @@ import { renderAdditionalInfo } from '../const/diary-codes';
 
 const DebtLetterCard = props => {
   const { debt } = props;
-  const [mostRecentHistory] = debt.debtHistory;
+  const mostRecentHistory = head(debt.debtHistory);
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
   const formatter = new Intl.NumberFormat('en-US', {

@@ -8,6 +8,7 @@ import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import moment from 'moment';
+import head from 'lodash/head';
 import last from 'lodash/last';
 import first from 'lodash/first';
 import { Link } from 'react-router';
@@ -21,7 +22,7 @@ class DebtDetails extends Component {
   }
   render() {
     const { selectedDebt } = this.props;
-    const [mostRecentHistory] = selectedDebt.debtHistory;
+    const mostRecentHistory = head(selectedDebt.debtHistory);
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
