@@ -103,9 +103,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         </p>
 
         <p>
-          I understand that participation in the Program of Comprehensive
-          Assistance for Family Caregivers does not create an employment
-          relationship with the Department of Veterans Affairs.
+          I understand that participation in PCAFC does not create an employment
+          relationship between me and the Department of Veterans Affairs.
         </p>
 
         <PrivacyPolicy />
@@ -181,9 +180,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         </p>
 
         <p>
-          I understand that participation in the Program of Comprehensive
-          Assistance for Family Caregivers does not create an employment
-          relationship with the Department of Veterans Affairs.
+          I understand that participation in PCAFC does not create an employment
+          relationship between me and the Department of Veterans Affairs.
         </p>
 
         <PrivacyPolicy />

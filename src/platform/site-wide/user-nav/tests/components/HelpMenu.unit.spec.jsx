@@ -10,16 +10,18 @@ describe('<HelpMenu>', () => {
     clickHandler: f => f,
   };
 
-  const oldWindow = global.window;
+  let oldWindow = null;
 
   beforeEach(() => {
-    global.window = {
+    oldWindow = global.window;
+    global.window = Object.create(global.window);
+    Object.assign(global.window, {
       location: {
         hostname: 'www.va.gov',
         replace: () => {},
         pathname: '/',
       },
-    };
+    });
   });
 
   afterEach(() => {

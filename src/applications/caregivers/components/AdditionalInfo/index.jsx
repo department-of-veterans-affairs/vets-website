@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { links } from 'applications/caregivers/definitions/content';
 
-const VeteranSSNInfo = () => (
+export const VeteranSSNInfo = () => (
   <div className="vads-u-margin-y--1p5">
     <AdditionalInfo triggerText="Why is this required?">
       We need the Veteran’s Social Security number or tax identification number
@@ -13,7 +13,7 @@ const VeteranSSNInfo = () => (
   </div>
 );
 
-const VetInfo = ({ pageTitle, headerInfo }) => (
+export const VetInfo = ({ pageTitle, headerInfo }) => (
   <>
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
@@ -29,7 +29,7 @@ VetInfo.propTypes = {
   pageTitle: PropTypes.string,
 };
 
-const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
+export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
   <>
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
     <p className="vads-u-margin-top--2">
@@ -76,7 +76,7 @@ PrimaryCaregiverInfo.defaultProps = {
   additionalInfo: false,
 };
 
-const SecondaryCaregiverLegal = () => (
+export const SecondaryCaregiverLegal = () => (
   <div className="vads-u-margin-y--1p5">
     <AdditionalInfo triggerText="What’s a Secondary Family Caregiver?">
       <p>
@@ -104,7 +104,11 @@ const SecondaryCaregiverLegal = () => (
   </div>
 );
 
-const SecondaryCaregiverInfo = ({ pageTitle, additionalInfo, headerInfo }) => (
+export const SecondaryCaregiverInfo = ({
+  pageTitle,
+  additionalInfo,
+  headerInfo,
+}) => (
   <>
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
     {headerInfo && (
@@ -123,7 +127,7 @@ SecondaryCaregiverInfo.propTypes = {
   pageTitle: PropTypes.string,
 };
 
-const FacilityInfo = () => (
+export const FacilityInfo = () => (
   <div className="vads-u-margin-top--2p5">
     <div className="vads-u-margin-bottom--4">
       <strong>Note:</strong> You should choose the medical center or clinic
@@ -141,7 +145,7 @@ const FacilityInfo = () => (
   </div>
 );
 
-const CaregiverSupportInfo = () => (
+export const CaregiverSupportInfo = () => (
   <div className="vads-u-margin-y--1p5">
     <AdditionalInfo triggerText="What&apos;s a Caregiver Support Coordinator ?">
       A Caregiver Support Coordinator is a clinical professional who connects
@@ -152,11 +156,11 @@ const CaregiverSupportInfo = () => (
   </div>
 );
 
-const PrimaryHealthCoverage = ({ pageTitle }) => (
+export const PrimaryHealthCoverage = ({ pageTitle }) => (
   <>{pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}</>
 );
 
-const PleaseSelectVAFacility = () => (
+export const PleaseSelectVAFacility = () => (
   <section>
     <h3 className="vads-u-font-size--h4">VA health care services</h3>
 
@@ -174,32 +178,9 @@ const PleaseSelectVAFacility = () => (
   </section>
 );
 
-const ReviewInfo = () => (
-  <p>
-    <strong>Note:</strong> According to federal law, there are criminal
-    penalties, including a fine and/or imprisonment for up to 5 years, for
-    withholding information or providing incorrect information. (See 18 U.S.C.
-    1001)
-  </p>
-);
-
-const AdditionalCaregiverInfo = () => (
+export const AdditionalCaregiverInfo = () => (
   <>
     <strong>You can add up to 2 Secondary Family Caregivers.</strong>
     <p>Would you like to add another Secondary Family Caregiver?</p>
   </>
 );
-
-export {
-  AdditionalCaregiverInfo,
-  CaregiverSupportInfo,
-  FacilityInfo,
-  PleaseSelectVAFacility,
-  PrimaryCaregiverInfo,
-  PrimaryHealthCoverage,
-  ReviewInfo,
-  SecondaryCaregiverInfo,
-  SecondaryCaregiverLegal,
-  VetInfo,
-  VeteranSSNInfo,
-};
