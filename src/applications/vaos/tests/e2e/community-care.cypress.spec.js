@@ -164,18 +164,13 @@ describe('Create new community care appointment', () => {
     cy.wait('@appointmentRequests').should(xhr => {
       let date = moment().add(5, 'days');
 
+      // Check for weekend and select following Monday if true
       if (date.weekday() === 0) {
-        date = date
-          .add(7, 'days')
-          .day(1)
-          .format('MM/DD/YYYY');
+        date = date.add(1, 'days').format('MM/DD/YYYY');
       } else if (date.weekday() === 6) {
-        date = date
-          .add(1, 'days')
-          .day(1)
-          .format('MM/DD/YYYY');
+        date = date.add(2, 'days').format('MM/DD/YYYY');
       } else {
-        date = date.day(1).format('MM/DD/YYYY');
+        date = date.format('MM/DD/YYYY');
       }
 
       expect(xhr.status).to.eq(200);
