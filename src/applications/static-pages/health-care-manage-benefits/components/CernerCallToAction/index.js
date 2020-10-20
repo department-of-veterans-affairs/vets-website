@@ -85,8 +85,13 @@ export class CernerCallToAction extends Component {
   };
 
   render() {
-    const { cernerFacilities, linksHeaderText, myVAHealthLink, myHealtheVetLink } = this.props;
-    const { blocklist, error, fetching, facilities } = this.state;
+    const {
+      cernerFacilities,
+      linksHeaderText,
+      myVAHealthLink,
+      myHealtheVetLink,
+    } = this.props;
+    const { error, fetching, facilities } = this.state;
 
     // Escape early if we are fetching.
     if (fetching) {
@@ -103,7 +108,9 @@ export class CernerCallToAction extends Component {
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
         scope.setExtra('facilities', facilities);
-        Sentry.captureMessage(`Facilities - unexpected empty facilities or error`);
+        Sentry.captureMessage(
+          `Facilities - unexpected empty facilities or error`,
+        );
       });
       return (
         <div data-testid="cerner-cta-widget">
@@ -135,7 +142,9 @@ export class CernerCallToAction extends Component {
             const id = facility?.id;
             const strippedID = replace(id, 'vha_', '');
             const name = facility?.attributes?.name;
-            const isCerner = cernerFacilities?.some((cernerFacility) => cernerFacility?.facilityId === strippedID);
+            const isCerner = cernerFacilities?.some(
+              cernerFacility => cernerFacility?.facilityId === strippedID,
+            );
 
             return (
               <p className="usa-alert-text vads-u-margin-bottom--2" key={id}>
@@ -163,7 +172,9 @@ export class CernerCallToAction extends Component {
             const id = facility?.id;
             const strippedID = replace(id, 'vha_', '');
             const name = facility?.attributes?.name;
-            const isCerner = cernerFacilities?.some((cernerFacility) => cernerFacility?.facilityId === strippedID);
+            const isCerner = cernerFacilities?.some(
+              cernerFacility => cernerFacility?.facilityId === strippedID,
+            );
 
             return (
               <div key={`${id}-cta-link`}>
