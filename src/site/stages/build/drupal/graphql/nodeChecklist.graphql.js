@@ -53,6 +53,21 @@ fragment nodeChecklist on NodeChecklist {
       }
     }
   }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
+    }
+  }
 }
 `;
 
