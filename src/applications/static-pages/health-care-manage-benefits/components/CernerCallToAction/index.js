@@ -1,7 +1,6 @@
 // Node modules.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { isEmpty, map, replace } from 'lodash';
 import * as Sentry from '@sentry/browser';
 // Relative imports.
@@ -9,11 +8,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import {
-  CERNER_FACILITY_IDS,
-  appointmentsToolLink,
-} from 'platform/utilities/cerner';
-import { selectPatientFacilities } from 'platform/user/selectors';
+import { appointmentsToolLink } from 'platform/utilities/cerner';
 
 export class CernerCallToAction extends Component {
   static defaultProps = {
