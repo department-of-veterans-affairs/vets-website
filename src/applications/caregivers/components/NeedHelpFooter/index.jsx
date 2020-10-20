@@ -32,7 +32,7 @@ const NeedHelpFooter = () => {
           target="_blank"
           rel="noopener noreferrer"
           href={links.caregiverSupportCoordinators.link}
-          className="vads-u-margin-x--0p5"
+          className="vads-u-margin-right--0p5"
         >
           Use our online Caregiver Support Coordinator search tool
         </a>
