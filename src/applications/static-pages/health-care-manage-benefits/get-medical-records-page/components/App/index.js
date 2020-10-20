@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
 // Relative imports.
 import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
@@ -9,14 +10,18 @@ import UnauthContent from '../UnauthContent';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
-export const App = ({ isCernerPatient, showNewGetMedicalRecordsPage }) => {
+export const App = ({
+  facilities,
+  isCernerPatient,
+  showNewGetMedicalRecordsPage,
+}) => {
   if (!showNewGetMedicalRecordsPage) {
     return <LegacyContent />;
   }
 
   const cernerFacilities = facilities?.filter(f => f.usesCernerMedicalRecords);
   const otherFacilities = facilities?.filter(f => !f.usesCernerMedicalRecords);
-  if (cernerFacilities) {
+  if (isEmpty(cernerFacilities)) {
     return (
       <AuthContent
         cernerFacilities={cernerFacilities}
