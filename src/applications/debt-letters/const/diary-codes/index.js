@@ -87,8 +87,15 @@ export const diaryCodes = Object.freeze({
 
 const ContactDMC = () => (
   <span>
-    <Telephone contact={CONTACTS.DMC} /> (or{' '}
-    <Telephone contact={CONTACTS.DMC_OVERSEAS} pattern={PATTERNS.OUTSIDE_US} />{' '}
+    {CONTACTS.DMC ? <Telephone contact={CONTACTS.DMC} /> : '800-827-0648'} (or{' '}
+    {CONTACTS.DMC_OVERSEAS ? (
+      <Telephone
+        contact={CONTACTS.DMC_OVERSEAS}
+        pattern={PATTERNS.OUTSIDE_US}
+      />
+    ) : (
+      '1-612-713-6415'
+    )}{' '}
     from overseas)
   </span>
 );
