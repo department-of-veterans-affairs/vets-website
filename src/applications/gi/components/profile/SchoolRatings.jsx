@@ -8,10 +8,18 @@ export default function SchoolRatings({
   ratingCount,
   institutionCategoryRatings = [],
 }) {
-  const [openName, setOpenName] = useState('');
+  const [openName, setOpenName] = useState({
+    educationRatings: '',
+    veteranFriendliness: '',
+  });
   const stars = convertRatingToStars(ratingAverage);
 
-  const renderSchoolCategoryRating = (title, categoryName, description) => {
+  const renderSchoolCategoryRating = (
+    title,
+    categoryName,
+    description,
+    groupName,
+  ) => {
     const categoryRating = institutionCategoryRatings.find(
       category => category.categoryName === categoryName,
     );
@@ -19,9 +27,15 @@ export default function SchoolRatings({
       <SchoolCategoryRating
         title={title}
         openHandler={() => {
-          setOpenName(openName === categoryName ? '' : categoryName);
+          const newOpenNames = {
+            ...openName,
+            [groupName]:
+              openName[groupName] === categoryName ? '' : categoryName,
+          };
+
+          setOpenName(newOpenNames);
         }}
-        open={openName === categoryName}
+        open={openName[groupName] === categoryName}
         categoryRating={categoryRating}
         description={description}
       />
@@ -56,21 +70,25 @@ export default function SchoolRatings({
               'Overall experience',
               'overall_experience',
               'How was the overall experience at this school? Would Veterans recommend this school to other Veterans or military family members?',
+              'educationRatings',
             )}
             {renderSchoolCategoryRating(
               'Quality of classes',
               'quality_of_classes',
               'Classes, academic programs, and instruction meet Veteran expectations for a high quality education.',
+              'educationRatings',
             )}
             {renderSchoolCategoryRating(
               'Online instruction',
               'online_instruction',
               'Online classes are comparable quality to in-person instruction. Technology for virtual classes is easy to use. The school offers helpful tech support for online students.',
+              'educationRatings',
             )}
             {renderSchoolCategoryRating(
               'Job preparation',
               'job_preparation',
               'Coursework prepares Veterans for the job market. Instructors and school support systems help them find work in their desired fields.',
+              'educationRatings',
             )}
           </div>
         </div>
@@ -84,16 +102,19 @@ export default function SchoolRatings({
               'GI Bill support',
               'gi_bill_support',
               'It’s easy to use GI Bill education benefits at this school. School officials are helpful if there are challenges processing VA benefits.',
+              'veteranFriendliness',
             )}
             {renderSchoolCategoryRating(
               'Veteran community',
               'veteran_community',
               'There’s a robust community at the school for Veterans and military-connected students. The school supports and engages Veterans.',
+              'veteranFriendliness',
             )}
             {renderSchoolCategoryRating(
               'True to expectations',
               'marketing_practices',
               'The school provides clear and detailed explanations of admissions requirements, academic programs, and all the associated costs.',
+              'veteranFriendliness',
             )}
           </div>
         </div>
