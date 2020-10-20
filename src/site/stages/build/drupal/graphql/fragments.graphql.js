@@ -21,6 +21,7 @@ const embeddedImage = require('./paragraph-fragments/media.paragraph.graphql');
 const button = require('./paragraph-fragments/button.paragraph.graphql');
 const alertParagraphSingle = require('./paragraph-fragments/alertSingle.paragraph.graphql');
 const supportService = require('./supportService.graphql');
+const richTextCharLimit1000 = require('./paragraph-fragments/richTextCharLimit1000.paragraph.graphql');
 
 module.exports = `
   ${alert}
@@ -44,4 +45,5 @@ module.exports = `
   ${button}
   ${alertParagraphSingle}
   ${supportService}
+  ${richTextCharLimit1000}
 `;
