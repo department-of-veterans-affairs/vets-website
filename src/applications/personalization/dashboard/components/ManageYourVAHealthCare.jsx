@@ -193,11 +193,11 @@ const mapStateToProps = state => {
     preferredFacility,
     showServerError,
     showCernerAppointmentWidget:
-      isEnrolledInHealthCare && !!cernerAppointmentFacilities.length,
+      isEnrolledInHealthCare && !!cernerAppointmentFacilities?.length,
     showCernerMessagingWidget:
-      canAccessMessaging && !!cernerMessagingFacilities.length,
+      canAccessMessaging && !!cernerMessagingFacilities?.length,
     showCernerPrescriptionWidget:
-      canAccessPrescriptions && !!cernerPrescriptionFacilities.length,
+      canAccessPrescriptions && !!cernerPrescriptionFacilities?.length,
     appointmentFacilityNames,
     messagingFacilityNames,
     prescriptionFacilityNames,
