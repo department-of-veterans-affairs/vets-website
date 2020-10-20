@@ -70,7 +70,7 @@ class DebtDetails extends Component {
                     'MMMM D, YYYY',
                   )}
                 </p>
-                <p className="vads-u-margin-y--0">
+                <p className="vads-u-margin-y--1">
                   {formatter.format(parseFloat(selectedDebt.originalAr))}
                 </p>
                 <p className="vads-u-margin-y--0">
