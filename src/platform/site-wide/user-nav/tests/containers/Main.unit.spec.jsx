@@ -30,12 +30,17 @@ describe('<Main>', () => {
     initializeProfile: sinon.spy(),
   };
 
-  const oldWindow = global.window;
+  let oldWindow = null;
 
   beforeEach(() => {
-    global.window = mockEventListeners({
-      location: { pathname: '/' },
-    });
+    oldWindow = global.window;
+    global.window = Object.create(global.window);
+    Object.assign(
+      global.window,
+      mockEventListeners({
+        location: { pathname: '/' },
+      }),
+    );
   });
 
   afterEach(() => {
