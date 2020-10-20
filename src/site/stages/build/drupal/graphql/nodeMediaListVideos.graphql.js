@@ -32,6 +32,19 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
       }
     }
   }
+  fieldTags {
+    entity {
+      ... on ParagraphAudienceTopics {
+        fieldTopics {
+          entity {
+            ... on TaxonomyTermTopics {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser

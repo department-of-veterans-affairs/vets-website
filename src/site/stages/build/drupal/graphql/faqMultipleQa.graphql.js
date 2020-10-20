@@ -62,6 +62,19 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
       }
     }
   }
+  fieldTags {
+    entity {
+      ... on ParagraphAudienceTopics {
+        fieldTopics {
+          entity {
+            ... on TaxonomyTermTopics {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser

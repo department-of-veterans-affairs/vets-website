@@ -33,6 +33,19 @@ fragment nodeChecklist on NodeChecklist {
       }
     }
   }
+  fieldTags {
+    entity {
+      ... on ParagraphAudienceTopics {
+        fieldTopics {
+          entity {
+            ... on TaxonomyTermTopics {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser
