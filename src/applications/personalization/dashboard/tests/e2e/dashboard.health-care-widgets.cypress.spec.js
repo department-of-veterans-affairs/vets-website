@@ -102,7 +102,7 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
         isCerner: true,
         messaging: true,
         rx: true,
-        facilities: [{ facilityId: '688', isCerner: true }],
+        facilities: [{ facilityId: '668', isCerner: true }],
       });
       cy.login(mockUser);
       // login() calls cy.server() so we can now mock routes

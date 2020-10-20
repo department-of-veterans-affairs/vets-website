@@ -44,7 +44,7 @@ const CernerAlertBox = ({
       headline="Your VA health care team may be using our new My VA Health portal"
     >
       <h3>Our records show you’re registered at:</h3>
-      <h4>
+      <h4 className="vads-u-font-family--sans">
         <FacilityList facilities={facilityNames} separator=" and " />
         <span className="vads-u-font-weight--normal vads-u-font-size--base">
           {' '}
@@ -58,7 +58,7 @@ const CernerAlertBox = ({
         use the same account you used to sign in on VA.gov.
       </p>
       <h3>{ctaText}</h3>
-      <h4>
+      <h4 className="vads-u-font-family--sans">
         <FacilityList facilities={facilityNames} separator=" or " />
       </h4>
       <a
@@ -74,7 +74,7 @@ const CernerAlertBox = ({
       >
         Go to My VA Health
       </a>
-      <h4>Another VA health facility</h4>
+      <h4 className="vads-u-font-family--sans">Another VA health facility</h4>
       <a href={ctaButtonUrl} type="button" className="usa-button-secondary">
         {ctaButtonText}
       </a>
