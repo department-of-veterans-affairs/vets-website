@@ -106,7 +106,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     // it should display 2 calendar months for VA appointments
     expect(
-      screen.getByRole('heading', {
+      await screen.getByRole('heading', {
         level: 2,
         name: moment().format('MMMM YYYY'),
       }),
