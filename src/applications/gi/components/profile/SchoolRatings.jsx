@@ -8,7 +8,7 @@ export default function SchoolRatings({
   ratingCount,
   institutionCategoryRatings = [],
 }) {
-  const [openName, setOpenName] = useState({
+  const [openNames, setOpenNames] = useState({
     educationRatings: '',
     veteranFriendliness: '',
   });
@@ -28,14 +28,14 @@ export default function SchoolRatings({
         title={title}
         openHandler={() => {
           const newOpenNames = {
-            ...openName,
+            ...openNames,
             [groupName]:
-              openName[groupName] === categoryName ? '' : categoryName,
+              openNames[groupName] === categoryName ? '' : categoryName,
           };
 
-          setOpenName(newOpenNames);
+          setOpenNames(newOpenNames);
         }}
-        open={openName[groupName] === categoryName}
+        open={openNames[groupName] === categoryName}
         categoryRating={categoryRating}
         description={description}
       />
