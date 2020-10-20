@@ -5,7 +5,6 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { resetFetch } from 'platform/testing/unit/helpers';
 import { expect } from 'chai';
 import allPayments from '../../../reducers/index';
-import createCommonStore from 'platform/startup/store';
 import environment from 'platform/utilities/environment';
 import ViewPaymentsLists from '../../../components/view-payments-lists/ViewPaymentsLists.jsx';
 import {
@@ -14,14 +13,6 @@ import {
   emptyPaymentsReceived,
   emptyPaymentsResponse,
 } from '../../helpers';
-
-const initialState = {
-  isLoading: false,
-  payments: null,
-  error: false,
-};
-
-const store = createCommonStore(allPayments);
 
 describe('View Payments Lists', () => {
   let server;
@@ -66,10 +57,15 @@ describe('View Payments Lists', () => {
   after(() => server.close());
 
   it('renders View Payments Lists component with both tables', async () => {
+    const initialState = {
+      isLoading: false,
+      payments: null,
+      error: false,
+    };
+
     const screen = renderInReduxProvider(<ViewPaymentsLists />, {
       initialState,
-      allPayments,
-      store,
+      reducers: allPayments,
     });
     expect(await screen.findByText(/Payments you received/)).to.exist;
     expect(screen.getByText(/Payments returned/)).to.exist;
@@ -77,10 +73,15 @@ describe('View Payments Lists', () => {
 
   it('should render a payments received table and handle an empty payments returned table', async () => {
     overrideServerWithOptions(emptyPaymentsReturned);
+    const initialState = {
+      isLoading: false,
+      payments: null,
+      error: false,
+    };
+
     const screen = renderInReduxProvider(<ViewPaymentsLists />, {
       initialState,
-      allPayments,
-      store,
+      reducers: allPayments,
     });
 
     expect(await screen.findByText(/Payments you received/)).to.exist;
@@ -91,10 +92,15 @@ describe('View Payments Lists', () => {
 
   it('should render a payments returned table and handle an empty payments received table', async () => {
     overrideServerWithOptions(emptyPaymentsReceived);
+    const initialState = {
+      isLoading: false,
+      payments: null,
+      error: false,
+    };
+
     const screen = renderInReduxProvider(<ViewPaymentsLists />, {
       initialState,
-      allPayments,
-      store,
+      reducers: allPayments,
     });
 
     expect(
@@ -107,10 +113,15 @@ describe('View Payments Lists', () => {
 
   it('shows an info error when no payments are present', async () => {
     overrideServerWithOptions(emptyPaymentsResponse);
+    const initialState = {
+      isLoading: false,
+      payments: null,
+      error: false,
+    };
+
     const screen = renderInReduxProvider(<ViewPaymentsLists />, {
       initialState,
-      allPayments,
-      store,
+      reducers: allPayments,
     });
 
     expect(
