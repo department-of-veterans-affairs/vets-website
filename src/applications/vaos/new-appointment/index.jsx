@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import '../sass/new-appointment/new-appointment.scss';
 import {
   Switch,
   Route,
