@@ -31,7 +31,8 @@ let oldWindow;
 
 const fakeWindow = () => {
   oldWindow = global.window;
-  global.window = {
+  global.window = Object.create(global.window);
+  Object.assign(global.window, {
     dataLayer: [],
     location: {
       get: () => global.window.location,
@@ -41,7 +42,7 @@ const fakeWindow = () => {
       pathname: '',
       search: '',
     },
-  };
+  });
 };
 
 describe('checkAutoSession', () => {
