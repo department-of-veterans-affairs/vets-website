@@ -5,6 +5,7 @@ const {
   createLink,
   createMetaTagArray,
   isPublished,
+  getImageCrop,
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
 const assert = require('assert');
@@ -17,6 +18,15 @@ function toUtc(timeString) {
     `Expected timeString to be a moment-parsable string. Found ${timeString}`,
   );
   return time.format('YYYY-MM-DD kk:mm:ss [UTC]');
+}
+
+function toUtcTz(timeString) {
+  const time = moment.utc(timeString);
+  assert(
+    time.isValid(),
+    `Expected timeString to be a moment-parsable string. Found ${timeString}`,
+  );
+  return time.format('YYYY-MM-DDTkk:mm:ss');
 }
 
 const transform = entity => ({
@@ -45,9 +55,9 @@ const transform = entity => ({
   },
   fieldDate: {
     startDate: toUtc(entity.fieldDate[0].value),
-    value: entity.fieldDate[0].value,
+    value: toUtcTz(entity.fieldDate[0].value),
     endDate: toUtc(entity.fieldDate[0].end_value),
-    endValue: entity.fieldDate[0].end_value,
+    endValue: toUtcTz(entity.fieldDate[0].end_value),
   },
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldEventCost: getDrupalValue(entity.fieldEventCost),
@@ -60,7 +70,7 @@ const transform = entity => ({
   fieldLocationHumanreadable: getDrupalValue(entity.fieldLocationHumanreadable),
   fieldMedia:
     entity.fieldMedia && entity.fieldMedia.length
-      ? { entity: entity.fieldMedia[0] }
+      ? { entity: getImageCrop(entity.fieldMedia[0], '_72MEDIUMTHUMBNAIL') }
       : null,
   status: getDrupalValue(entity.status),
 });
