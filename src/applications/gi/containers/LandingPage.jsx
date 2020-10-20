@@ -12,8 +12,6 @@ import {
   showModal,
   hideModal,
 } from '../actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
@@ -38,7 +36,6 @@ export function LandingPage({
   dispatchUpdateAutocompleteSearchTerm,
   eligibility,
   filters,
-  gibctSearchEnhancements,
 }) {
   useEffect(() => {
     dispatchSetPageTitle(`GI Bill® Comparison Tool: VA.gov`);
@@ -136,15 +133,9 @@ export function LandingPage({
     setSearchError(searchQuery === '');
   };
 
-  const buttonLabel = gibctSearchEnhancements ? 'Search' : 'Search Schools';
-
-  let searchLabel = gibctSearchEnhancements
+  const searchLabel = environment.isProduction()
     ? 'Enter a school, location, or employer name'
-    : 'Enter a city, school or employer name';
-  // prod flag for story BAH-13929
-  if (!environment.isProduction()) {
-    searchLabel = 'Enter a school, employer name, city, or zip code';
-  }
+    : 'Enter a school, employer name, city, or zip code';
 
   return (
     <span className="landing-page">
@@ -181,7 +172,6 @@ export function LandingPage({
                 version={queryParams.get('version')}
                 label={searchLabel}
                 searchOnAutcompleteSelection
-                gibctSearchEnhancements={gibctSearchEnhancements}
                 autocomplete={autocomplete}
                 location={location}
                 onClearAutocompleteSuggestions={
@@ -199,7 +189,7 @@ export function LandingPage({
               />
             )}
             <button className="usa-button-big" type="submit" id="search-button">
-              <span>{buttonLabel}</span>
+              <span>Search</span>
             </button>
           </form>
         </div>
@@ -217,9 +207,6 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: calculateFilters(state.filters),
   eligibility: state.eligibility,
-  gibctSearchEnhancements: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctSearchEnhancements
-  ],
 });
 
 const mapDispatchToProps = {

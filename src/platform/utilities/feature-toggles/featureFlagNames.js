@@ -31,7 +31,6 @@ export default Object.freeze({
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
-  gibctSearchEnhancements: 'gibctSearchEnhancements',
   gibctBenefitFilterEnhancement: 'gibctBenefitFilterEnhancement',
   gibctSchoolRatings: 'gibctSchoolRatings',
   form996HigherLevelReview: 'form996HigherLevelReview',
