@@ -89,7 +89,7 @@ class DebtDetails extends Component {
             />
 
             <div className="debt-details-nextstep">
-              {renderAdditionalInfo('71', dateOfLetterMock).details()}
+              {renderAdditionalInfo('71', dateOfLetterMock)}
             </div>
 
             <AdditionalInfo triggerText="Why might I have this debt?">
