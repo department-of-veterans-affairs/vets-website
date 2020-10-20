@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { deductionCodes } from '../const/deduction-codes';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
@@ -24,16 +23,13 @@ class DebtDetails extends Component {
     if (Object.keys(this.props.selectedDebt).length === 0) {
       return window.location.replace('/manage-va-debt/your-debt');
     }
-
+    const { selectedDebt } = this.props;
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
     });
 
-    const dateOfLetterMock = '2020-10-19T14:01:54.9571247Z';
-
-    const { selectedDebt } = this.props;
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <Breadcrumbs className="vads-u-font-family--sans">
@@ -80,17 +76,14 @@ class DebtDetails extends Component {
               </div>
             </div>
 
-            <AlertBox
-              className="vads-u-margin-y--4 debt-details-alert"
-              headline="Hidden alert"
-              content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
-              status="info"
-              level={2}
-            />
-
-            <div className="debt-details-nextstep">
-              {renderAdditionalInfo('71', dateOfLetterMock)}
-            </div>
+            {selectedDebt.diaryCode && (
+              <div className="debt-details-nextstep">
+                {renderAdditionalInfo(
+                  selectedDebt.diaryCode,
+                  selectedDebt.debtHistory[0].date,
+                )}
+              </div>
+            )}
 
             <AdditionalInfo triggerText="Why might I have this debt?">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi

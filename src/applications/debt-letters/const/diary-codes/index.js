@@ -151,10 +151,12 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             your debt to the U.S. Department of the Treasury.
           </p>
           <p>
-            You can [contact us through
-            IRIS](https://iris.custhelp.va.gov/app/ask) or call us at
-            800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            You can{' '}
+            <a href="https://iris.custhelp.va.gov/app/ask">
+              contact us through IRIS
+            </a>{' '}
+            or call us at 800-827-0648 (or 1-612-713-6415 from overseas). We’re
+            here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
             <a href="#howDoIPay" className="vads-u-margin-y--2">
               Review payment options
             </a>
@@ -272,7 +274,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <p>
             <strong>Next step: </strong>
             Please pay now or contact us to start making payments again to avoid
-            collection actions. You can
+            collection actions. You can{' '}
             <a href="https://iris.custhelp.va.gov/app/ask">
               contact us through IRIS
             </a>{' '}

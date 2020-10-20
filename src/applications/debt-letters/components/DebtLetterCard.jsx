@@ -10,17 +10,15 @@ import PropTypes from 'prop-types';
 import { renderAdditionalInfo } from '../const/diary-codes';
 
 const DebtLetterCard = props => {
+  const { debt } = props;
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
   });
-  const { debt } = props;
   const mostRecentHistory = head(debt.debtHistory);
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
-
-  const dateOfLetterMock = '2020-10-19T14:01:54.9571247Z';
 
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
@@ -38,9 +36,9 @@ const DebtLetterCard = props => {
         <strong>Status: </strong>
         {debt.diaryCodeDescription}
       </p>
-      {debt.deductionCode && (
+      {debt.diaryCode && (
         <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-          {renderAdditionalInfo(debt.deductionCode, dateOfLetterMock)}
+          {renderAdditionalInfo(debt.diaryCode, debt.debtHistory[0].date)}
         </div>
       )}
       <Link
