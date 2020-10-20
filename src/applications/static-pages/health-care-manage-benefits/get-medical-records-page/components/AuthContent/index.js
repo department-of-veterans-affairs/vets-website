@@ -1,5 +1,6 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
@@ -308,5 +309,30 @@ const AuthContent = ({ cernerFacilities, otherFacilities }) => (
     </p>
   </>
 );
+
+AuthContent.propTypes = {
+  cernerFacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string.isRequired,
+      usesCernerMedicalRecords: PropTypes.string.isRequired,
+      usesCernerMessaging: PropTypes.string.isRequired,
+      usesCernerRx: PropTypes.string.isRequired,
+      usesCernerTestResults: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  otherFacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string.isRequired,
+      usesCernerMedicalRecords: PropTypes.string.isRequired,
+      usesCernerMessaging: PropTypes.string.isRequired,
+      usesCernerRx: PropTypes.string.isRequired,
+      usesCernerTestResults: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+};
 
 export default AuthContent;

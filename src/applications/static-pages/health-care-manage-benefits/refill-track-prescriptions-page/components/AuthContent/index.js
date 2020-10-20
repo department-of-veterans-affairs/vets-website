@@ -1,5 +1,6 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
@@ -7,9 +8,11 @@ import Telephone, {
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 
-export const AuthContent = () => (
+export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
     <CernerCallToAction
+      cernerFacilities={cernerFacilities}
+      otherFacilities={otherFacilities}
       linksHeaderText="Refill prescriptions from:"
       myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=prescription_refill"
       myVAHealthLink={getCernerURL('/pages/medications/current')}
@@ -400,5 +403,30 @@ export const AuthContent = () => (
     </div>
   </>
 );
+
+AuthContent.propTypes = {
+  cernerFacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string.isRequired,
+      usesCernerMedicalRecords: PropTypes.string.isRequired,
+      usesCernerMessaging: PropTypes.string.isRequired,
+      usesCernerRx: PropTypes.string.isRequired,
+      usesCernerTestResults: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  otherFacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string.isRequired,
+      usesCernerMedicalRecords: PropTypes.string.isRequired,
+      usesCernerMessaging: PropTypes.string.isRequired,
+      usesCernerRx: PropTypes.string.isRequired,
+      usesCernerTestResults: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+};
 
 export default AuthContent;

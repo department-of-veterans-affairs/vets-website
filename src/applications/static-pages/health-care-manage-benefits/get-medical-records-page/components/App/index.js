@@ -8,13 +8,9 @@ import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { selectIsCernerPatient } from 'platform/user/selectors';
+import { selectPatientFacilities } from 'platform/user/selectors';
 
-export const App = ({
-  facilities,
-  isCernerPatient,
-  showNewGetMedicalRecordsPage,
-}) => {
+export const App = ({ facilities, showNewGetMedicalRecordsPage }) => {
   if (!showNewGetMedicalRecordsPage) {
     return <LegacyContent />;
   }
@@ -50,7 +46,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isCernerPatient: selectIsCernerPatient(state),
+  facilities: selectPatientFacilities(state),
   showNewGetMedicalRecordsPage:
     state?.featureToggles?.[featureFlagNames.showNewGetMedicalRecordsPage],
 });

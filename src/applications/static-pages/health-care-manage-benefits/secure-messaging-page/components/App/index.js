@@ -7,15 +7,22 @@ import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { selectIsCernerPatient } from 'platform/user/selectors';
+import { selectPatientFacilities } from 'platform/user/selectors';
 
-export const App = ({ isCernerPatient, showNewSecureMessagingPage }) => {
+export const App = ({ facilities, showNewSecureMessagingPage }) => {
   if (!showNewSecureMessagingPage) {
     return <LegacyContent />;
   }
 
-  if (isCernerPatient) {
-    return <AuthContent />;
+  const cernerFacilities = facilities?.filter(f => f.usesCernerMessaging);
+  const otherFacilities = facilities?.filter(f => !f.usesCernerMessaging);
+  if (isEmpty(cernerFacilities)) {
+    return (
+      <AuthContent
+        cernerFacilities={cernerFacilities}
+        otherFacilities={otherFacilities}
+      />
+    );
   }
 
   return <UnauthContent />;
@@ -23,12 +30,22 @@ export const App = ({ isCernerPatient, showNewSecureMessagingPage }) => {
 
 App.propTypes = {
   // From mapStateToProps.
-  isCernerPatient: PropTypes.bool,
+  facilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string.isRequired,
+      usesCernerMedicalRecords: PropTypes.string.isRequired,
+      usesCernerMessaging: PropTypes.string.isRequired,
+      usesCernerRx: PropTypes.string.isRequired,
+      usesCernerTestResults: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
   showNewSecureMessagingPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isCernerPatient: selectIsCernerPatient(state),
+  facilities: selectPatientFacilities(state),
   showNewSecureMessagingPage:
     state?.featureToggles?.[featureFlagNames.showNewSecureMessagingPage],
 });

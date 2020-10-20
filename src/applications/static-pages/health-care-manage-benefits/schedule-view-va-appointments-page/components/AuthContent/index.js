@@ -1,11 +1,12 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
 
-export const AuthContent = () => (
+export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
     <div
       className="usa-alert usa-alert-info"
@@ -43,6 +44,8 @@ export const AuthContent = () => (
       </h2>
     </div>
     <CernerCallToAction
+      cernerFacilities={cernerFacilities}
+      otherFacilities={otherFacilities}
       linksHeaderText="Manage appointments at:"
       myHealtheVetLink={appointmentsToolLink}
       myVAHealthLink={getCernerURL('/pages/scheduling/upcoming')}
@@ -224,5 +227,30 @@ export const AuthContent = () => (
     <MoreInfoAboutBenefits />
   </>
 );
+
+AuthContent.propTypes = {
+  cernerFacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string.isRequired,
+      usesCernerMedicalRecords: PropTypes.string.isRequired,
+      usesCernerMessaging: PropTypes.string.isRequired,
+      usesCernerRx: PropTypes.string.isRequired,
+      usesCernerTestResults: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  otherFacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string.isRequired,
+      usesCernerMedicalRecords: PropTypes.string.isRequired,
+      usesCernerMessaging: PropTypes.string.isRequired,
+      usesCernerRx: PropTypes.string.isRequired,
+      usesCernerTestResults: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+};
 
 export default AuthContent;
