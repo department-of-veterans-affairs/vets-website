@@ -19,7 +19,7 @@ describe('Get Medical Records Page <App>', () => {
 
   it('renders what we expect when a Cerner patient', () => {
     const wrapper = shallow(
-      <App showNewViewTestLabResultsPage facilities={[{ usesCernerTestResults: false }]} />,
+      <App showNewViewTestLabResultsPage facilities={[{ usesCernerTestResults: true }]} />,
     );
     expect(wrapper.find(UnauthContent)).to.have.lengthOf(0);
     expect(wrapper.find(AuthContent)).to.have.lengthOf(1);

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isEmpty, map } from 'lodash';
+import { isEmpty, map, replace } from 'lodash';
 import * as Sentry from '@sentry/browser';
 // Relative imports.
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -16,19 +16,24 @@ import {
 import { selectPatientFacilities } from 'platform/user/selectors';
 
 export class CernerCallToAction extends Component {
+  static defaultProps = {
+    cernerFacilities: [],
+    otherFacilities: [],
+  };
+
   static propTypes = {
     cernerFacilities: PropTypes.arrayOf(
       PropTypes.shape({
         facilityId: PropTypes.string.isRequired,
         isCerner: PropTypes.bool.isRequired,
       }).isRequired,
-    ).isRequired,
+    ),
     otherFacilities: PropTypes.arrayOf(
       PropTypes.shape({
         facilityId: PropTypes.string.isRequired,
         isCerner: PropTypes.bool.isRequired,
       }).isRequired,
-    ).isRequired,
+    ),
     linksHeaderText: PropTypes.string.isRequired,
     myVAHealthLink: PropTypes.string.isRequired,
     myHealtheVetLink: PropTypes.string.isRequired,
