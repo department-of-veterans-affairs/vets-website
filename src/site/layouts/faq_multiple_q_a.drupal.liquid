@@ -52,7 +52,7 @@
             <div class="usa-accordion-bordered">
               <ul class="usa-unstyled-list">
                 {% for fieldQA in fieldQAGroup.entity.fieldQAs %}
-                  <li>
+                  <li data-faq-entity-id="{{ fieldQA.entity.entityId }}">
                     <button type="button" aria-controls="{{ fieldQA.entity.entityBundle }}-{{ fieldQA.entity.entityId }}"
                       class="usa-accordion-button usa-button-unstyled"
                       aria-expanded="false">{{ fieldQA.entity.title }}</button>
