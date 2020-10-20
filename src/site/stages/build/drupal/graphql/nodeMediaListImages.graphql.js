@@ -38,6 +38,9 @@ fragment nodeMediaListImages on NodeMediaListImages {
         fieldTopics {
           entity {
             ... on TaxonomyTermTopics {
+              entityUrl {
+                path
+              }
               name
             }
           }

@@ -38,6 +38,9 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
         fieldTopics {
           entity {
             ... on TaxonomyTermTopics {
+              entityUrl {
+                path
+              }
               name
             }
           }

@@ -68,6 +68,9 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
         fieldTopics {
           entity {
             ... on TaxonomyTermTopics {
+              entityUrl {
+                path
+              }
               name
             }
           }

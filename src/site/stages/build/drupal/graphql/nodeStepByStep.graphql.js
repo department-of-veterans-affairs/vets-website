@@ -69,6 +69,9 @@ fragment nodeStepByStep on NodeStepByStep {
         fieldTopics {
           entity {
             ... on TaxonomyTermTopics {
+              entityUrl {
+                path
+              }
               name
             }
           }

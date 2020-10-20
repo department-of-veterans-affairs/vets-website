@@ -46,6 +46,9 @@ fragment nodeQa on NodeQA {
         fieldTopics {
           entity {
             ... on TaxonomyTermTopics {
+              entityUrl {
+                path
+              }
               name
             }
           }

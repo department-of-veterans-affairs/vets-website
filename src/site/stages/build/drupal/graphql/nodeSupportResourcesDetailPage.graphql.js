@@ -58,6 +58,9 @@ fragment nodeSupportResourcesDetailPage on NodeSupportResourcesDetailPage {
         fieldTopics {
           entity {
             ... on TaxonomyTermTopics {
+              entityUrl {
+                path
+              }
               name
             }
           }

@@ -39,6 +39,9 @@ fragment nodeChecklist on NodeChecklist {
         fieldTopics {
           entity {
             ... on TaxonomyTermTopics {
+              entityUrl {
+                path
+              }
               name
             }
           }
