@@ -7,7 +7,7 @@ import Telephone, {
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 
-const AuthContent = () => (
+const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
     <h2>On this page:</h2>
     <a href="#va-blue-button">
@@ -16,6 +16,8 @@ const AuthContent = () => (
     <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
     <h2 id="va-blue-button">My HealtheVet (VA Blue Button) and My VA Health</h2>
     <CernerCallToAction
+      cernerFacilities={cernerFacilities}
+      otherFacilities={otherFacilities}
       linksHeaderText="Get your medical records from:"
       myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data"
       myVAHealthLink={getCernerURL(

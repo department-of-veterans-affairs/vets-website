@@ -14,8 +14,15 @@ export const App = ({ isCernerPatient, showNewGetMedicalRecordsPage }) => {
     return <LegacyContent />;
   }
 
-  if (isCernerPatient) {
-    return <AuthContent />;
+  const cernerFacilities = facilities?.filter(f => f.usesCernerMedicalRecords);
+  const otherFacilities = facilities?.filter(f => !f.usesCernerMedicalRecords);
+  if (cernerFacilities) {
+    return (
+      <AuthContent
+        cernerFacilities={cernerFacilities}
+        otherFacilities={otherFacilities}
+      />
+    );
   }
 
   return <UnauthContent />;
@@ -23,7 +30,17 @@ export const App = ({ isCernerPatient, showNewGetMedicalRecordsPage }) => {
 
 App.propTypes = {
   // From mapStateToProps.
-  isCernerPatient: PropTypes.bool,
+  facilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string.isRequired,
+      usesCernerMedicalRecords: PropTypes.string.isRequired,
+      usesCernerMessaging: PropTypes.string.isRequired,
+      usesCernerRx: PropTypes.string.isRequired,
+      usesCernerTestResults: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
   showNewGetMedicalRecordsPage: PropTypes.bool.isRequired,
 };
 

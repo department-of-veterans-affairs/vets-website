@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty, map } from 'lodash';
+import * as Sentry from '@sentry/browser';
 // Relative imports.
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -12,21 +13,25 @@ import {
   CERNER_FACILITY_IDS,
   appointmentsToolLink,
 } from 'platform/utilities/cerner';
-
 import { selectPatientFacilities } from 'platform/user/selectors';
 
 export class CernerCallToAction extends Component {
   static propTypes = {
-    linksHeaderText: PropTypes.string.isRequired,
-    myVAHealthLink: PropTypes.string.isRequired,
-    myHealtheVetLink: PropTypes.string.isRequired,
-    // From mapStateToProps.
-    facilities: PropTypes.arrayOf(
+    cernerFacilities: PropTypes.arrayOf(
       PropTypes.shape({
         facilityId: PropTypes.string.isRequired,
         isCerner: PropTypes.bool.isRequired,
       }).isRequired,
     ).isRequired,
+    otherFacilities: PropTypes.arrayOf(
+      PropTypes.shape({
+        facilityId: PropTypes.string.isRequired,
+        isCerner: PropTypes.bool.isRequired,
+      }).isRequired,
+    ).isRequired,
+    linksHeaderText: PropTypes.string.isRequired,
+    myVAHealthLink: PropTypes.string.isRequired,
+    myHealtheVetLink: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -39,30 +44,27 @@ export class CernerCallToAction extends Component {
   }
 
   componentDidMount() {
-    const { facilities } = this.props;
+    const { cernerFacilities, otherFacilities } = this.props;
+
+    const facilities = [...cernerFacilities, ...otherFacilities];
 
     // Escape early if there are no facilities.
     if (isEmpty(facilities)) {
-      return;
-    }
-
-    // Derive the cerner facilities.
-    const cernerFacilities = facilities.filter(facility => facility.isCerner);
-
-    // Escape early if there are no cerner facilities.
-    if (isEmpty(cernerFacilities)) {
-      // WARNING: Add sentry logging here if there are no cerner facilities found, this should never happen as the component only renders when there ARE cerner facilities.
+      Sentry.withScope(scope => {
+        scope.setExtra('facilities', facilities);
+        Sentry.captureMessage(`Facilities - unexpected empty facilities`);
+      });
       return;
     }
 
     // Derive the list of facility IDs.
-    const cernerFacilityIDs = map(
-      cernerFacilities,
+    const facilityIDs = map(
+      facilities,
       facility => `vha_${facility.facilityId}`,
     );
 
     // Fetch cerner facilities.
-    this.fetchFacilities(cernerFacilityIDs);
+    this.fetchFacilities(facilityIDs);
   }
 
   fetchFacilities = async facilityIDs => {
@@ -83,8 +85,8 @@ export class CernerCallToAction extends Component {
   };
 
   render() {
-    const { linksHeaderText, myVAHealthLink, myHealtheVetLink } = this.props;
-    const { error, fetching, facilities } = this.state;
+    const { cernerFacilities, linksHeaderText, myVAHealthLink, myHealtheVetLink } = this.props;
+    const { blocklist, error, fetching, facilities } = this.state;
 
     // Escape early if we are fetching.
     if (fetching) {
@@ -98,6 +100,11 @@ export class CernerCallToAction extends Component {
     // Escape early if there was an error fetching the Cerner facilities.
     if (error || isEmpty(facilities)) {
       // WARNING: Add sentry logging here if there is an error fetching Cerner facilities.
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        scope.setExtra('facilities', facilities);
+        Sentry.captureMessage(`Facilities - unexpected empty facilities or error`);
+      });
       return (
         <div data-testid="cerner-cta-widget">
           <AlertBox
@@ -126,10 +133,9 @@ export class CernerCallToAction extends Component {
           {map(facilities, facility => {
             // Derive facility properties.
             const id = facility?.id;
+            const strippedID = replace(id, 'vha_', '');
             const name = facility?.attributes?.name;
-            const isCerner = CERNER_FACILITY_IDS.includes(
-              id?.replace('vha_', ''),
-            );
+            const isCerner = cernerFacilities?.some((cernerFacility) => cernerFacility?.facilityId === strippedID);
 
             return (
               <p className="usa-alert-text vads-u-margin-bottom--2" key={id}>
@@ -155,10 +161,9 @@ export class CernerCallToAction extends Component {
           {map(facilities, facility => {
             // Derive facility properties.
             const id = facility?.id;
+            const strippedID = replace(id, 'vha_', '');
             const name = facility?.attributes?.name;
-            const isCerner = CERNER_FACILITY_IDS.includes(
-              id?.replace('vha_', ''),
-            );
+            const isCerner = cernerFacilities?.some((cernerFacility) => cernerFacility?.facilityId === strippedID);
 
             return (
               <div key={`${id}-cta-link`}>
@@ -197,11 +202,4 @@ export class CernerCallToAction extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  facilities: selectPatientFacilities(state),
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(CernerCallToAction);
+export default CernerCallToAction;
