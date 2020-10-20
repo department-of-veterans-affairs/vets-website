@@ -42,9 +42,9 @@ describe('Addresses in the address validation modal on the profile', () => {
       .click()
       .type('Addition to Address');
 
-    cy.findAllByText(/Update/)
-      .first()
-      .click();
+    cy.findByRole('button', { name: 'Update' }).click({
+      force: true,
+    });
 
     // Ensure correct addresses show up
     cy.findByText(
@@ -53,8 +53,6 @@ describe('Addresses in the address validation modal on the profile', () => {
 
     cy.findByText(/400 NW 65th St/i).should('exist');
 
-    cy.findAllByText(/Update/)
-      .first()
-      .click();
+    cy.findByRole('button', { name: 'Update' }).should('exist');
   });
 });
