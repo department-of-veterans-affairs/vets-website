@@ -444,7 +444,7 @@ export function initCommunityCareMock() {
         attributes: {},
       },
     },
-  });
+  }).as('appointmentRequests');
 
   cy.route({
     method: 'POST',

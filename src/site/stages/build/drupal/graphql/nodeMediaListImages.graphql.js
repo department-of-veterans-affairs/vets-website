@@ -59,6 +59,21 @@ fragment nodeMediaListImages on NodeMediaListImages {
       }
     }
   }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
+    }
+  }
 }
 `;
 
