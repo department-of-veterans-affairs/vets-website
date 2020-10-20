@@ -35,13 +35,13 @@ App.propTypes = {
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
       isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string.isRequired,
-      usesCernerMedicalRecords: PropTypes.string.isRequired,
-      usesCernerMessaging: PropTypes.string.isRequired,
-      usesCernerRx: PropTypes.string.isRequired,
-      usesCernerTestResults: PropTypes.string.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
     }).isRequired,
-  ).isRequired,
+  ),
   showNewScheduleViewAppointmentsPage: PropTypes.bool.isRequired,
 };
 

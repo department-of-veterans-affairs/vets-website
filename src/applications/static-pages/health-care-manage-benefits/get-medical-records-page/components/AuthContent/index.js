@@ -311,28 +311,28 @@ const AuthContent = ({ cernerFacilities, otherFacilities }) => (
 );
 
 AuthContent.propTypes = {
-  cernerFacilities: PropTypes.arrayOf(
+  cernerfacilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
       isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string.isRequired,
-      usesCernerMedicalRecords: PropTypes.string.isRequired,
-      usesCernerMessaging: PropTypes.string.isRequired,
-      usesCernerRx: PropTypes.string.isRequired,
-      usesCernerTestResults: PropTypes.string.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
     }).isRequired,
-  ).isRequired,
-  otherFacilities: PropTypes.arrayOf(
+  ),
+  otherfacilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
       isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string.isRequired,
-      usesCernerMedicalRecords: PropTypes.string.isRequired,
-      usesCernerMessaging: PropTypes.string.isRequired,
-      usesCernerRx: PropTypes.string.isRequired,
-      usesCernerTestResults: PropTypes.string.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
     }).isRequired,
-  ).isRequired,
+  ),
 };
 
 export default AuthContent;
