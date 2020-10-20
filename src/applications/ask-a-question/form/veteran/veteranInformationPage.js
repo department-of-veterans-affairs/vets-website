@@ -1,4 +1,4 @@
-import { veteranStatusUI, requireServiceInfo } from './status/veteranStatusUI';
+import { veteranStatusUI } from './status/veteranStatusUI';
 import { veteranServiceInformationUI } from './service/veteranServiceInformationUI';
 import { dependentInformationUI } from './dependent/dependentInformationUI';
 import _ from 'lodash';
@@ -67,8 +67,7 @@ const veteranInformationPage = {
     [formFields.veteranServiceInformation]: {
       ...veteranServiceInformationUI,
       'ui:options': {
-        hideIf: formData =>
-          !requireServiceInfo(formData.veteranStatus.veteranStatus),
+        hideIf: false,
       },
     },
   },
