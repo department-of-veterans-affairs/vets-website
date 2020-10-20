@@ -154,7 +154,7 @@ describe('Veteran Information Page', () => {
     ).shouldBeRequired();
   });
 
-  it('should not require any other fields when veteran status is general question', () => {
+  it.skip('should not require any other fields when veteran status is general question', () => {
     changeVeteranStatus(wrapper, 'general');
 
     expectBranchOfServiceNotToExist(wrapper);
