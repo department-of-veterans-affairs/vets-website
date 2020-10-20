@@ -211,7 +211,6 @@ function setupSchedulingMocks() {
   mockCCPrimaryCareEligibility();
   mockFacilities();
   mockDirectSchedulingFacilities();
-  mockPrimaryCareClinics();
 }
 
 function updateTimeslots(data) {
@@ -399,10 +398,32 @@ export function initExpressCareMocks() {
 
 export function initVAAppointmentMock() {
   setupSchedulingMocks();
+  mockPrimaryCareClinics();
   mockRequestLimits();
   mockVisits();
   mockDirectScheduleSlots();
   mockSubmitVAAppointment();
+}
+
+export function initVARequestMock() {
+  setupSchedulingMocks();
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/clinics*',
+    response: { data: [] },
+  });
+  mockRequestLimits();
+  mockVisits();
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests?type=*',
+    response: {
+      data: {
+        id: 'testing',
+        attributes: {},
+      },
+    },
+  });
 }
 
 export function initCommunityCareMock() {

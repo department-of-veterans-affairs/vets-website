@@ -1,15 +1,15 @@
 import {
   initAppointmentListMock,
-  initVAAppointmentMock,
+  initVARequestMock,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 
-describe('Direct schedule', () => {
+describe('Appointment requests', () => {
   beforeEach(() => {});
 
-  it('should submit an a va appointment', () => {
+  it('should submit form successfully', () => {
     initAppointmentListMock();
-    initVAAppointmentMock();
+    initVARequestMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
@@ -29,26 +29,31 @@ describe('Direct schedule', () => {
     // Choose VA Facility
     newApptTests.chooseVAFacilityTest();
 
-    // Choose Clinic
-    newApptTests.chooseClinicTest();
-
-    // Choose preferred date
-    newApptTests.choosePreferredDateTest();
-
-    // Select time slot
-    newApptTests.selectTimeSlotTest();
+    // Choose date and slot (AM or PM)
+    newApptTests.selectRequestSlotTest();
 
     // Reason for appointment
-    const additionalInfo = 'cough';
-    newApptTests.reasonForAppointmentTest(additionalInfo);
+    newApptTests.reasonForAppointmentTest(
+      'cough',
+      /Please give us more detail about why/,
+    );
+
+    // Visit type
+    newApptTests.howToBeSeenTest();
 
     // Contact info
     newApptTests.contactInfoTest();
 
     // Review
-    newApptTests.reviewTest();
+    cy.url().should('include', '/review');
+    cy.axeCheck();
+    cy.findByText('Request appointment').click();
 
     // Confirmation page
-    newApptTests.confirmationPageTest(additionalInfo);
+    cy.findByText('Your appointment request has been submitted');
+    cy.findByText('VA appointment');
+    cy.findByText('Show more').click();
+    cy.findByText('Follow-up/Routine');
+    cy.findByText('cough');
   });
 });
