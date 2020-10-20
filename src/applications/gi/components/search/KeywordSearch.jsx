@@ -117,6 +117,7 @@ export class KeywordSearch extends React.Component {
           }) => (
             <div>
               <input
+                className="input-box-margin"
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleChange,
