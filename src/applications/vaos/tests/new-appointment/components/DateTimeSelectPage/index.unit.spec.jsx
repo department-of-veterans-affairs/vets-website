@@ -105,20 +105,22 @@ describe('VAOS <DateTimeSelectPage>', () => {
     ).to.be.ok;
 
     // it should display 2 calendar months for VA appointments
-    expect(
-      await screen.getByRole('heading', {
-        level: 2,
-        name: moment().format('MMMM YYYY'),
-      }),
-    ).to.be.ok;
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: moment()
-          .add(1, 'M')
-          .format('MMMM YYYY'),
-      }),
-    ).to.be.ok;
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: moment().format('MMMM YYYY'),
+        }),
+      ).to.be.ok;
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: moment()
+            .add(1, 'M')
+            .format('MMMM YYYY'),
+        }),
+      ).to.be.ok;
+    });
 
     // Find all available appointments for the current month
     const currentMonth = moment().format('MMMM');
