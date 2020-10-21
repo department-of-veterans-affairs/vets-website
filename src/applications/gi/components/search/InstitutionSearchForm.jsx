@@ -50,7 +50,7 @@ function InstitutionSearchForm({
 
   const queryParams = useQueryParams();
   const history = useHistory();
-  const [searchError, setSearchError] = useState(false);
+  const [setSearchError] = useState(false);
 
   const searching = value => {
     for (const key of queryParams.keys()) {
@@ -81,10 +81,6 @@ function InstitutionSearchForm({
   const keywordSearchLabel = !environment.isProduction()
     ? 'Enter a school, employer name, city, or zip code'
     : 'Enter a school, location, or employer name';
-  // prod flag for story BAH-13938
-  const keywordLabel = environment.isProduction()
-    ? 'Refine search'
-    : 'Search by keyword';
 
   return (
     <div className="row">
@@ -96,13 +92,12 @@ function InstitutionSearchForm({
             </div>
           )}
 
-          <h2 className="vads-u-font-size--h3">{keywordLabel}</h2>
+          <h2 className="vads-u-font-size--h3">Search by keyword</h2>
 
-          {/* prod flag for story BAH-13938 */}
-          {environment.isProduction() ? (
-            <div>
-              {' '}
+          <div>
+            <form id="search-page-form" onSubmit={handleSubmit}>
               <KeywordSearch
+                searchOnAutcompleteSelection
                 autocomplete={autocomplete}
                 label={keywordSearchLabel}
                 location={location}
@@ -110,8 +105,22 @@ function InstitutionSearchForm({
                 onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
                 onFilterChange={handleFilterChange}
                 onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
-                searchError={searchError}
               />
+              <div className="search-button-mobile">
+                <button
+                  className="search-button"
+                  type="submit"
+                  id="search-button"
+                  onClick={toggleFilter}
+                >
+                  <span>Search</span>
+                </button>
+              </div>
+              <div className="vads-u-margin-top--2">
+                <h2>Refine search</h2>
+                <p>Make changes below to update your results:</p>
+              </div>
+
               <InstitutionFilterForm
                 search={search}
                 filters={filters}
@@ -135,61 +144,8 @@ function InstitutionSearchForm({
                 handleInputFocus={handleInstitutionSearchInputFocus}
                 gibctBenefitFilterEnhancement={gibctBenefitFilterEnhancement}
               />
-            </div>
-          ) : (
-            <div>
-              <form id="search-page-form" onSubmit={handleSubmit}>
-                <KeywordSearch
-                  searchOnAutcompleteSelection
-                  autocomplete={autocomplete}
-                  label={keywordSearchLabel}
-                  location={location}
-                  onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
-                  onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
-                  onFilterChange={handleFilterChange}
-                  onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
-                />
-                <div className="search-button-mobile">
-                  <button
-                    className="search-button"
-                    type="submit"
-                    id="search-button"
-                    onClick={toggleFilter}
-                  >
-                    <span>Search</span>
-                  </button>
-                </div>
-                <div className="vads-u-margin-top--2">
-                  <h2>Refine search</h2>
-                  <p>Make changes below to update your results:</p>
-                </div>
-
-                <InstitutionFilterForm
-                  search={search}
-                  filters={filters}
-                  handleFilterChange={handleFilterChange}
-                  showModal={showModal}
-                  handleInputFocus={handleInstitutionSearchInputFocus}
-                />
-                <BenefitsForm
-                  eligibilityChange={eligibilityChange}
-                  {...eligibility}
-                  hideModal={hideModal}
-                  showModal={showModal}
-                  showHeader
-                  handleInputFocus={handleInstitutionSearchInputFocus}
-                  gibctBenefitFilterEnhancement={gibctBenefitFilterEnhancement}
-                />
-                <OnlineClassesFilter
-                  onlineClasses={eligibility.onlineClasses}
-                  onChange={eligibilityChange}
-                  showModal={showModal}
-                  handleInputFocus={handleInstitutionSearchInputFocus}
-                  gibctBenefitFilterEnhancement={gibctBenefitFilterEnhancement}
-                />
-              </form>
-            </div>
-          )}
+            </form>
+          </div>
         </div>
         <div id="see-results-button" className="results-button">
           <button
@@ -197,10 +153,9 @@ function InstitutionSearchForm({
             data-cy="see-results"
             onClick={toggleFilter}
           >
-            {/* prod flag for story BAH-13938 */}
-            {environment.isProduction()
-              ? 'See Results'
-              : `See Results (${search.count})`}
+            `See Results ($
+            {search.count}
+            )`
           </button>
         </div>
       </div>
