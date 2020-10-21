@@ -12,10 +12,7 @@ import {
   selectPastAppointments,
   selectExpressCare,
 } from '../../../utils/selectors';
-import {
-  getRealFacilityId,
-  getPastAppointmentDateRangeOptions,
-} from '../../../utils/appointment';
+import { getPastAppointmentDateRangeOptions } from '../../../utils/appointment';
 import ConfirmedAppointmentListItem from '../cards/confirmed/ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
@@ -105,11 +102,7 @@ export class PastAppointmentsList extends React.Component {
                       key={index}
                       index={index}
                       appointment={appt}
-                      facility={
-                        facilityData[
-                          getRealFacilityId(getVAAppointmentLocationId(appt))
-                        ]
-                      }
+                      facility={facilityData[getVAAppointmentLocationId(appt)]}
                     />
                   );
                 default:

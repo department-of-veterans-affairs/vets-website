@@ -8,9 +8,7 @@ function SearchResultTypeOfInstitutionFilter({
   onChange,
   handleInputFocus,
 }) {
-  const optionText = environment.isProduction()
-    ? 'Employers only (OJT, apprenticeships)'
-    : 'Employers (On-the-job training [OJT], apprenticeships)';
+  const optionText = 'Employers (On-the-job training [OJT], apprenticeships)';
   const options = [
     {
       value: 'ALL',

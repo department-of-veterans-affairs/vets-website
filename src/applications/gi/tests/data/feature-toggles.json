@@ -51,10 +51,6 @@
         "value": true
       },
       {
-        "name": "eduBenefitsStemScholarship",
-        "value": false
-      },
-      {
         "name": "gibctEybBottomSheet",
         "value": true
       }

@@ -1,6 +1,3 @@
-// TODO: perhaps make these selectors fail gracefully if state.user, or any of
-// the properties on the user object are not defined
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   CERNER_APPOINTMENTS_BLOCKLIST,
   CERNER_FACILITY_IDS,
@@ -23,27 +20,15 @@ export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
 export const selectPatientFacilities = state =>
   selectProfile(state)?.facilities?.map(({ facilityId, isCerner }) => {
-    // TODO: The work in this selector to override the `isCerner` values will be
-    // removed after the override logic gets moved to vets-api. ie, we will be
-    // able to trust the `isCerner` flags that come directly from vets-api.
-
     // Derive if the user belongs to a Cerner facility in the FE maintained list.
     const hasCernerFacilityID = CERNER_FACILITY_IDS.includes(facilityId);
 
-    // Derive if the feature toggle is on.
-    // TODO: can this feature toggle check be removed since it should always be true now?
-    const showNewScheduleViewAppointmentsPage =
-      state?.featureToggles?.[
-        featureFlagNames.showNewScheduleViewAppointmentsPage
-      ];
-
-    // Derive if they are a 200CRNR Cerner patient.
-    const isCernerPatient = selectProfile(state)?.isCernerPatient;
-
     // Derive if we should consider it a Cerner facility.
+    const isFlipperDisabled =
+      state?.featureToggles?.[`cerner_override_${facilityId}`] === false;
+    const isFlipperEnabled = !isFlipperDisabled;
     const passesCernerChecks =
-      showNewScheduleViewAppointmentsPage &&
-      (isCerner || (isCernerPatient && hasCernerFacilityID));
+      isFlipperEnabled && (isCerner || hasCernerFacilityID);
 
     const facility = {
       facilityId,
