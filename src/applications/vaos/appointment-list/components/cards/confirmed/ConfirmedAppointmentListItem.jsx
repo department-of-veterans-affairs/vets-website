@@ -16,6 +16,7 @@ import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from '../AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
+  getATLASLocation,
   getVARFacilityId,
   getVAAppointmentLocationId,
   isVideoAppointment,
@@ -100,8 +101,7 @@ export default function ConfirmedAppointmentListItem({
   if (isAtlas) {
     header = 'VA Video Connect';
     vvcHeader = ' at an ATLAS location';
-    const address =
-      appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo.address;
+    const { address } = getATLASLocation(appointment);
     if (address) {
       location = `${address.streetAddress}, ${address.city}, ${address.state} ${
         address.zipCode
