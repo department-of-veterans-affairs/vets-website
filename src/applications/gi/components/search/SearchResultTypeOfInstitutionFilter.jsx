@@ -1,16 +1,13 @@
 import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
 
 function SearchResultTypeOfInstitutionFilter({
   category,
   onChange,
   handleInputFocus,
 }) {
-  const optionText = environment.isProduction()
-    ? 'Employers only (OJT, apprenticeships)'
-    : 'Employers (On-the-job training [OJT], apprenticeships)';
+  const optionText = 'Employers (On-the-job training [OJT], apprenticeships)';
   const options = [
     {
       value: 'ALL',
