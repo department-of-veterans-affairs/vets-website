@@ -134,7 +134,7 @@ const ConfirmationPage = props => {
 
           <a
             className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
-            href="VA.gov"
+            href="https://www.va.gov/"
           >
             Go back to VA.gov
           </a>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import environment from 'platform/utilities/environment';
 
 function OnlineClassesFilter({
   showModal,
@@ -12,24 +13,32 @@ function OnlineClassesFilter({
   handleInputFocus,
   gibctBenefitFilterEnhancement,
 }) {
+  // prod flag for story BAH-13929
+  const radioButtonsLabelText = environment.isProduction()
+    ? 'How do you want to take classes?'
+    : 'Will you be taking any classes in person?';
+  // prod flag for story BAH-13929
+  const options = environment.isProduction()
+    ? [
+        { value: 'yes', label: 'Online only' },
+        { value: 'no', label: 'In person only' },
+        { value: 'both', label: 'In person and online' },
+      ]
+    : [{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }];
   if (gibctBenefitFilterEnhancement) {
     return (
       <div className="filter-additional-info vads-u-margin-bottom--4">
         <AdditionalInfo triggerText="Your housing allowance">
           <RadioButtons
             label={renderLearnMoreLabel({
-              text: 'How do you want to take classes?',
+              text: radioButtonsLabelText,
               modal: 'onlineOnlyDistanceLearning',
               showModal,
               ariaLabel: ariaLabels.learnMore.onlineOnlyDistanceLearning,
               component: OnlineClassesFilter,
             })}
             name="onlineClasses"
-            options={[
-              { value: 'yes', label: 'Online only' },
-              { value: 'no', label: 'In person only' },
-              { value: 'both', label: 'In person and online' },
-            ]}
+            options={options}
             value={onlineClasses}
             onChange={onChange}
             onFocus={handleInputFocus}
@@ -41,18 +50,14 @@ function OnlineClassesFilter({
   return (
     <RadioButtons
       label={renderLearnMoreLabel({
-        text: 'How do you want to take classes?',
+        text: radioButtonsLabelText,
         modal: 'onlineOnlyDistanceLearning',
         showModal,
         ariaLabel: ariaLabels.learnMore.onlineOnlyDistanceLearning,
         component: OnlineClassesFilter,
       })}
       name="onlineClasses"
-      options={[
-        { value: 'yes', label: 'Online only' },
-        { value: 'no', label: 'In person only' },
-        { value: 'both', label: 'In person and online' },
-      ]}
+      options={options}
       value={onlineClasses}
       onChange={onChange}
       onFocus={handleInputFocus}

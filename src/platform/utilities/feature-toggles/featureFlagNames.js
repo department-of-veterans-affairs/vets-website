@@ -26,7 +26,6 @@ export default Object.freeze({
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
   ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
-  eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
   form526OriginalClaims: 'form526OriginalClaims',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',

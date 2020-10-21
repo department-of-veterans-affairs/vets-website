@@ -1,10 +1,5 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const WYSIWYG = '... wysiwyg';
-const REACT_WIDGET = '... reactWidget';
-const BUTTON = '... button';
-const ALERT_SINGLE = '... alertSingle';
-
 const fragment = `
 fragment nodeQa on NodeQA {
   ${entityElementsFromPages}
@@ -15,23 +10,49 @@ fragment nodeQa on NodeQA {
     entity {
       entityType
       entityBundle
-      ${WYSIWYG}
-      ${REACT_WIDGET}
+      ... richTextCharLimit1000
+      ... reactWidget
     }
   }
   fieldAlertSingle {
     entity {
-      ${ALERT_SINGLE}
+      ... alertSingle
     }
   }
   fieldButtons {
     entity {
-      ${BUTTON}
+      ... button
+    }
+  }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldSupportServices {
+          entity {
+            ... supportService
+          }
+        }
+      }
     }
   }
   fieldRelatedInformation {
     entity {
       ... linkTeaser
+    }
+  }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
     }
   }
 }

@@ -6,13 +6,16 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
-import ChiefComplaint from '../components/chief-complaint';
+import ReasonForVisitDescription from '../components/reason-for-visit-description';
 import GetHelp from '../components/get-help';
 
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import manifest from '../manifest.json';
+
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
   trackingPrefix: 'healthcare-questionnaire',
@@ -25,6 +28,15 @@ const formConfig = {
     });
   },
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your upcoming appointment questionnaire is in progress.',
+      // TODO: Fix the expired message
+      expired:
+        'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
+      saved: 'Your appointment questionnaire application has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   footerContent: GetHelp.footer,
@@ -38,6 +50,7 @@ const formConfig = {
   },
   title: 'Upcoming appointment questionnaire',
   defaultDefinitions: {},
+  customText: { reviewPageTitle: 'Review', appType: 'questionnaire' },
   chapters: {
     chapter1: {
       title: "Veteran's Information",
@@ -76,8 +89,8 @@ const formConfig = {
               'ui:title': ' ',
               'ui:reviewField': ReasonForVisit.review,
             },
-            chiefComplaint: {
-              'ui:widget': ChiefComplaint.field,
+            reasonForVisitDescription: {
+              'ui:widget': ReasonForVisitDescription.field,
               'ui:title': (
                 <span>
                   Are there any additional details you’d like to share with your
@@ -114,12 +127,12 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['chiefComplaint'],
+            required: ['reasonForVisitDescription'],
             properties: {
               reasonForVisit: {
                 type: 'string',
               },
-              chiefComplaint: {
+              reasonForVisitDescription: {
                 type: 'string',
               },
               lifeEvents: {

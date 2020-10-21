@@ -14,13 +14,13 @@ describe('<RequiredLoginView>', () => {
   const initialSetup = () => {
     localStorage.setItem('hasSession', true);
     oldWindow = global.window;
-
-    global.window = {
+    global.window = Object.create(global.window);
+    Object.assign(global.window, {
       pathname: '',
       location: {
         replace: redirectFunc,
       },
-    };
+    });
   };
 
   const teardown = () => {

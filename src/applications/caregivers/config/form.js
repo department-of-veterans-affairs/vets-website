@@ -31,6 +31,8 @@ import {
   secondaryTwoContactPage,
 } from './pages';
 
+import manifest from '../manifest.json';
+
 const {
   address,
   date,
@@ -51,6 +53,7 @@ const { secondaryCaregiversUI } = definitions;
  * 3 - Secondary & secondaryTwo Family Caregiver (optional -- up to 2 conditionally)
  */
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
   transformForSubmit: submitTransform,
@@ -62,6 +65,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   submissionError: SubmitError,
   formId: VA_FORM_IDS.FORM_10_10CG,
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your [savedFormDescription] is in progress.',
+    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
+    //   saved: 'Your [benefitType] [appType] has been saved.',
+    // },
+  },
   version: 0,
   prefillEnabled: false,
   downtime: {

@@ -57,13 +57,22 @@
 
           <!-- Repeated buttons -->
           {% if fieldButtonsRepeat %}
-            <div class="vads-u-margin-y--3">
+            <div class="vads-u-margin-top--3">
               {% for fieldButton in fieldButtons %}
                 {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
               {% endfor %}
             </div>
           {% endif %}
         </article>
+
+        <!-- Line break -->
+        <hr class="vads-u-margin-top--0" />
+
+        <!-- Tags -->
+        {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}
+
+        <!-- Need more help -->
+        {% include "src/site/includes/related-benefit-hubs.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
 
         <!-- Related information -->
         {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}

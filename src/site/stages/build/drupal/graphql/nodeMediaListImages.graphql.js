@@ -21,6 +21,17 @@ fragment nodeMediaListImages on NodeMediaListImages {
       ... button
     }
   }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldSupportServices {
+          entity {
+            ... supportService
+          }
+        }
+      }
+    }
+  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser
@@ -46,6 +57,21 @@ fragment nodeMediaListImages on NodeMediaListImages {
           }
         }
       }
+    }
+  }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
     }
   }
 }

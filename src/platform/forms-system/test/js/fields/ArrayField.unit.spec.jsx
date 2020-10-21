@@ -141,7 +141,7 @@ describe('Schemaform <ArrayField>', () => {
     // no remove button
     expect(button.length).to.equal(2);
     expect(button[0].text()).to.equal('Save');
-    expect(button[1].text()).to.contain('Add Another');
+    expect(button[1].text()).to.contain('Add another');
   });
   it('should render save button with showSave option', () => {
     const idSchema = {
@@ -188,7 +188,7 @@ describe('Schemaform <ArrayField>', () => {
     expect(button[0].text()).to.equal('Edit');
     expect(button[1].text()).to.equal('Update');
     expect(button[2].text()).to.equal('Remove');
-    expect(button[3].text()).to.contain('Add Another');
+    expect(button[3].text()).to.contain('Add another');
   });
 
   it('should render invalid items', () => {

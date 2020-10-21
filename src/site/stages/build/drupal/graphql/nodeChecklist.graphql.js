@@ -22,6 +22,17 @@ fragment nodeChecklist on NodeChecklist {
       ... alertSingle
     }
   }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldSupportServices {
+          entity {
+            ... supportService
+          }
+        }
+      }
+    }
+  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser
@@ -40,6 +51,21 @@ fragment nodeChecklist on NodeChecklist {
           }
         }
       }
+    }
+  }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
     }
   }
 }
