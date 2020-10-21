@@ -1,7 +1,7 @@
 import { initCommunityCareMock } from './vaos-cypress-helpers';
 import moment from 'moment';
 
-describe('Create new community care appointment', () => {
+describe('VAOS community care flow', () => {
   beforeEach(() => {
     initCommunityCareMock();
     cy.visit(
