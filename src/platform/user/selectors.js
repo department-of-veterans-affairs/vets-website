@@ -22,19 +22,14 @@ export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
 export const selectPatientFacilities = state =>
   selectProfile(state)?.facilities?.map(({ facilityId, isCerner }) => {
-    // Derive if the feature toggle is on.
-    // TODO: can this feature toggle check be removed since it should always be true now?
-    const showNewScheduleViewAppointmentsPage =
-      state?.featureToggles?.[
-        featureFlagNames.showNewScheduleViewAppointmentsPage
-      ];
-
     // Derive if they are a 200CRNR Cerner patient.
     const isCernerPatient = selectProfile(state)?.isCernerPatient;
 
     // Derive if we should consider it a Cerner facility.
-    const isFlipperDisabled = state?.featureToggles?.[`cernerOverride${facilityId}`] === false;
-    const passesCernerChecks = !isFlipperDisabled && (isCerner || (isCernerPatient));
+    const isFlipperDisabled =
+      state?.featureToggles?.[`cernerOverride${facilityId}`] === false;
+    const passesCernerChecks =
+      !isFlipperDisabled && (isCerner || isCernerPatient);
 
     const facility = {
       facilityId,
