@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
-
+import Helmet from 'react-helmet';
 import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+// import 'mapbox-gl/dist/mapbox-gl.css'; weback issue
 import { mapboxToken } from '../utils/mapboxToken';
 import {
   clearSearchResults,
@@ -39,8 +39,8 @@ const FacilitiesMap = props => {
         const mapInit = new mapboxgl.Map({
           container: mapContainerInit.current,
           style: 'mapbox://styles/mapbox/streets-v10',
-          center: [0, 0],
-          zoom: 5,
+          center: [-99.27246093750001, 40.17887331434698], // Initial state search query reducer
+          zoom: 3,
         });
         mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
@@ -186,8 +186,19 @@ const FacilitiesMap = props => {
     });
   };
 
+  const buildMarkers = locations => {
+    if (props.results.length === 0) return;
+    locations.forEach(loc => {
+      new mapboxgl.Marker() // TODO use avc markers
+        .setLngLat([loc.attributes.long, loc.attributes.lat])
+        .addTo(map);
+    });
+    // console.log(props);
+  };
+
   const renderViews = () => {
     // Handle both mobile and desktop here?
+    buildMarkers(props.results);
     const {
       currentQuery,
       results,
@@ -245,6 +256,12 @@ const FacilitiesMap = props => {
 
   return (
     <>
+      <Helmet>
+        <link
+          href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css"
+          rel="stylesheet"
+        />
+      </Helmet>
       <div>
         <div className="title-section">
           <h1>Find VA locations</h1>
