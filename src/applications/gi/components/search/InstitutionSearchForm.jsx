@@ -154,9 +154,7 @@ function InstitutionSearchForm({
             data-cy="see-results"
             onClick={toggleFilter}
           >
-            `See Results ($
-            {search.count}
-            )`
+            See Results ({search.count})
           </button>
         </div>
       </div>
