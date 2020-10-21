@@ -1,14 +1,8 @@
 import React from 'react';
-import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import {
-  getLabelText,
-  getRadioOption,
-  getText,
-} from '../../helpers/queryHelper';
+import { getLabelText, getText } from '../../helpers/queryHelper';
 
 import VeteranInformationPage from '../../../../form/veteran/veteranInformationPage';
-import { veteranStatusUI } from '../../../../form/inquiry/status/veteranStatusUI';
 import { veteranServiceInformationUI } from '../../../../form/veteran/service/veteranServiceInformationUI';
 import formConfig from '../../../../form/form';
 
@@ -34,22 +28,6 @@ function expectBranchOfServiceToBeRequired(wrapper) {
     wrapper,
     veteranServiceInformationUI.branchOfService['ui:title'],
     'veteranServiceInformation',
-  ).shouldBeRequired();
-}
-
-function expectRelationshipToVeteranToBeRequired(wrapper) {
-  getLabelText(
-    wrapper,
-    veteranStatusUI.relationshipToVeteran['ui:title'],
-    'veteranStatus',
-  ).shouldBeRequired();
-}
-
-function expectVeteranIsDeceasedToBeRequired(wrapper) {
-  getText(
-    wrapper,
-    veteranStatusUI.veteranIsDeceased['ui:title'],
-    'veteranStatus',
   ).shouldBeRequired();
 }
 
@@ -197,34 +175,6 @@ describe('Veteran Information Page', () => {
       expectBranchOfServiceToBeRequired(wrapper);
     });
 
-    it.skip('should require relationship to veteran', () => {
-      expectRelationshipToVeteranToBeRequired(wrapper);
-    });
-
-    it.skip('should display date of death when veteran is deceased', () => {
-      expectVeteranIsDeceasedToBeRequired(wrapper);
-
-      getRadioOption(wrapper, 'Yes', 'veteranIsDeceased').click();
-
-      getText(
-        wrapper,
-        veteranStatusUI.dateOfDeath['ui:title'],
-        'veteranStatus',
-      ).shouldExist();
-    });
-
-    it.skip('should not display date of death when veteran is not deceased', () => {
-      expectVeteranIsDeceasedToBeRequired(wrapper);
-
-      getRadioOption(wrapper, 'No', 'veteranIsDeceased').click();
-
-      getText(
-        wrapper,
-        veteranStatusUI.dateOfDeath['ui:title'],
-        'veteranStatus',
-      ).shouldNotExist();
-    });
-
     it('should not show veteran information when relationship to veteran is veteran', () => {
       renderWithVeteranStatus({
         veteranStatus: 'behalf of vet',
@@ -305,45 +255,8 @@ describe('Veteran Information Page', () => {
       renderWithVeteranStatus({ veteranStatus: 'dependent' });
     });
 
-    it.skip('should require are you the dependent', () => {
-      const isDependent = wrapper.getByText(
-        veteranStatusUI.isDependent['ui:title'],
-        { exact: false },
-      );
-
-      expect(isDependent).to.contain.text('Required');
-    });
-
     it('should require branch of service', () => {
       expectBranchOfServiceToBeRequired(wrapper);
-    });
-
-    it.skip('should require relationship to veteran', () => {
-      expectRelationshipToVeteranToBeRequired(wrapper);
-    });
-
-    it.skip('should display date of death when veteran is deceased', () => {
-      expectVeteranIsDeceasedToBeRequired(wrapper);
-
-      getRadioOption(wrapper, 'Yes', 'veteranIsDeceased').click();
-
-      getText(
-        wrapper,
-        veteranStatusUI.dateOfDeath['ui:title'],
-        '',
-      ).shouldExist();
-    });
-
-    it.skip('should not display date of death when veteran is not deceased', () => {
-      expectVeteranIsDeceasedToBeRequired(wrapper);
-
-      getRadioOption(wrapper, 'No', 'veteranIsDeceased').click();
-
-      getText(
-        wrapper,
-        veteranStatusUI.dateOfDeath['ui:title'],
-        '',
-      ).shouldNotExist();
     });
 
     it('should not show dependent information if person filling form is dependent', () => {
