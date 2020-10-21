@@ -52,22 +52,6 @@ fragment nodeSupportResourcesDetailPage on NodeSupportResourcesDetailPage {
       }
     }
   }
-  fieldTags {
-    entity {
-      ... on ParagraphAudienceTopics {
-        fieldTopics {
-          entity {
-            ... on TaxonomyTermTopics {
-              entityUrl {
-                path
-              }
-              name
-            }
-          }
-        }
-      }
-    }
-  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser

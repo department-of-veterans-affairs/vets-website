@@ -32,22 +32,6 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
       }
     }
   }
-  fieldTags {
-    entity {
-      ... on ParagraphAudienceTopics {
-        fieldTopics {
-          entity {
-            ... on TaxonomyTermTopics {
-              entityUrl {
-                path
-              }
-              name
-            }
-          }
-        }
-      }
-    }
-  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser
