@@ -30,7 +30,7 @@ export function choosePreferredDateTest() {
   cy.url().should('include', '/preferred-date');
   cy.axeCheck();
 
-  const preferredDate = today.add(4, 'days');
+  const preferredDate = today.clone().add(4, 'days');
 
   cy.findByLabelText('Month').select(preferredDate.format('MMM'));
   cy.findByLabelText('Day').select(preferredDate.format('D'));
