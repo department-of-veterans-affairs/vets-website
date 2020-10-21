@@ -91,7 +91,7 @@ class MessagingWidget extends React.Component {
     }
 
     return (
-      <div id="msg-widget">
+      <div id="msg-widget" data-testid="non-cerner-messaging-widget">
         <h3>Check secure messages</h3>
         {content}
         <p>
