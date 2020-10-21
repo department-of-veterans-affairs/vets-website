@@ -21,7 +21,7 @@
                 {% assign snippet = article.fieldIntroTextLimitedHtml %}
 
                 {% if article.entityBundle == 'q_a' %}
-                  {% assign snippet = article.fieldAnswer.0.entity.fieldWysiwyg %}
+                  {% assign snippet = article.fieldAnswer.entity.fieldWysiwyg %}
                 {% endif %}
 
                 {% if snippet %}
