@@ -77,15 +77,6 @@ function InstitutionSearchForm({
     doSearch(autocomplete.searchTerm);
   };
 
-  // prod flag for story BAH-13929
-  const keywordSearchLabel = !environment.isProduction()
-    ? 'Enter a school, employer name, city, or zip code'
-    : 'Enter a school, location, or employer name';
-  // prod flag for story BAH-13938
-  const keywordLabel = environment.isProduction()
-    ? 'Refine search'
-    : 'Search by keyword';
-
   return (
     <div className="row">
       <div id="institution-search" className={filtersClass}>
@@ -96,7 +87,7 @@ function InstitutionSearchForm({
             </div>
           )}
 
-          <h2 className="vads-u-font-size--h3">{keywordLabel}</h2>
+          <h2 className="vads-u-font-size--h3">Search by keyword</h2>
 
           {/* prod flag for story BAH-13938 */}
           {environment.isProduction() ? (
@@ -104,7 +95,7 @@ function InstitutionSearchForm({
               {' '}
               <KeywordSearch
                 autocomplete={autocomplete}
-                label={keywordSearchLabel}
+                label="Enter a school, location, or employer name"
                 location={location}
                 onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
                 onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
@@ -142,7 +133,7 @@ function InstitutionSearchForm({
                 <KeywordSearch
                   searchOnAutcompleteSelection
                   autocomplete={autocomplete}
-                  label={keywordSearchLabel}
+                  label="Enter a school, location, or employer name"
                   location={location}
                   onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
                   onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
