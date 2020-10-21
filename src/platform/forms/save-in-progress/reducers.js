@@ -95,7 +95,7 @@ export const saveInProgressReducers = {
     newState.data = newState.loadedData.formData;
     newState.pages = action.pages;
 
-    return recalculateSchemaAndData(newState);
+    return recalculateSchemaAndData(newState, true);
   },
   [SET_START_OVER]: state =>
     Object.assign({}, state, {

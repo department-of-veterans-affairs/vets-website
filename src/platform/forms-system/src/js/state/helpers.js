@@ -578,7 +578,10 @@ export function updateSchemaAndData(
   };
 }
 
-export function recalculateSchemaAndData(initialState) {
+export function recalculateSchemaAndData(
+  initialState,
+  preserveHiddenData = false,
+) {
   return Object.keys(initialState.pages).reduce((state, pageKey) => {
     // on each data change, we need to do the following steps
     // Recalculate any required fields, based on the new data
@@ -589,6 +592,7 @@ export function recalculateSchemaAndData(initialState) {
       page.schema,
       page.uiSchema,
       formData,
+      preserveHiddenData,
     );
 
     let newState = state;
