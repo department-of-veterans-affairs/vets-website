@@ -2,6 +2,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "../../../platform/forms/sass/m-schemaform";
 
+@import "../new-appointment/sass/styles";
+@import "../express-care/sass/styles";
+@import "../appointment-list/sass/styles";
+
 .vaos-form__title {
   text-transform: uppercase;
 }
