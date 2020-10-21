@@ -66,18 +66,21 @@ describe('schemaform createSaveInProgressInitialState', () => {
   });
 
   describe('reducer', () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        field: { type: 'string' },
+        field2: { type: 'string', 'ui:hidden': true },
+      },
+    };
+
     const formConfig = {
       chapters: {
         test: {
           pages: {
             page1: {
               initialData: { field: 'test' },
-              schema: {
-                type: 'object',
-                properties: {
-                  field: { type: 'string' },
-                },
-              },
+              schema,
             },
           },
         },
@@ -88,6 +91,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
     const data = {
       formData: {
         field: 'foo',
+        field2: 'frodo',
       },
       metadata: {
         version: 0,
@@ -187,6 +191,24 @@ describe('schemaform createSaveInProgressInitialState', () => {
       expect(state.data.existingProp).to.be.true;
       expect(state.data.field).to.equal('foo');
       expect(state.prefillStatus).to.equal(PREFILL_STATUSES.success);
+    });
+    it('should prefill data even if fields are hidden', () => {
+      const state = reducer(
+        {
+          prefillStatus: PREFILL_STATUSES.pending,
+        },
+        {
+          type: SET_IN_PROGRESS_FORM,
+          data,
+          pages: {
+            page1: {
+              schema,
+            },
+          },
+        },
+      );
+
+      expect(state.data.field2).to.equal('frodo');
     });
     it('should not mark prefill successful when data is empty', () => {
       const state = reducer(
