@@ -22,11 +22,9 @@
           <h1>{{ title }}</h1>
 
           <!-- QA -->
-          {% for block in fieldAnswer %}
-            {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
-            {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-            {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
-          {% endfor %}
+          {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
+          {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+          {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
 
           <!-- Alert -->
           {% if fieldAlertSingle %}
