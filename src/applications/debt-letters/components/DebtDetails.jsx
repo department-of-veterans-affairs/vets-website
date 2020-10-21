@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { deductionCodes } from '../const/deduction-codes';
@@ -32,6 +33,11 @@ class DebtDetails extends Component {
     if (Object.keys(selectedDebt).length === 0) {
       return window.location.replace('/manage-va-debt/your-debt');
     }
+
+    const nextStep = renderAdditionalInfo(
+      selectedDebt.diaryCode,
+      mostRecentHistory.date,
+    );
 
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -79,13 +85,16 @@ class DebtDetails extends Component {
               </div>
             </div>
 
-            {selectedDebt.diaryCode && (
-              <div className="debt-details-nextstep">
-                {renderAdditionalInfo(
-                  selectedDebt.diaryCode,
-                  mostRecentHistory.date,
-                )}
-              </div>
+            {nextStep ? (
+              <div className="debt-details-nextstep">{nextStep}</div>
+            ) : (
+              <AlertBox
+                className="vads-u-margin-y--4 debt-details-alert"
+                headline="Hidden alert"
+                content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
+                status="info"
+                level={2}
+              />
             )}
 
             <AdditionalInfo triggerText="Why might I have this debt?">
