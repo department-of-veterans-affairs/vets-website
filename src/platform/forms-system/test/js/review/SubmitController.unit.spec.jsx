@@ -186,7 +186,7 @@ describe('Schemaform review: SubmitController', () => {
   });
 
   it('should not submit when invalid data is entered', () => {
-    // Form with missing rquired field
+    // Form with missing required field
     const page = {
       title: 'Missing stuff',
       schema: {
