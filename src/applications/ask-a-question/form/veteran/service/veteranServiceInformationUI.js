@@ -15,7 +15,7 @@ import {
   branchOfServiceTitle,
 } from '../../../constants/labels';
 import SectionHeader from '../../../components/SectionHeader';
-import { requireServiceInfo } from '../status/veteranStatusUI';
+import { requireServiceInfo } from '../../inquiry/status/veteranStatusUI';
 
 const formFields = {
   dateOfBirth: 'dateOfBirth',

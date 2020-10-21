@@ -1,20 +1,18 @@
-import { veteranStatusUI } from './status/veteranStatusUI';
 import { veteranServiceInformationUI } from './service/veteranServiceInformationUI';
 import { dependentInformationUI } from './dependent/dependentInformationUI';
 import _ from 'lodash';
 import { schema } from 'platform/forms/definitions/address';
 import fullSchema from '../0873-schema.json';
 import { veteranInformationUI } from './veteranInformationUI';
+import { requireServiceInfo } from '../inquiry/status/veteranStatusUI';
 
 const {
-  veteranStatus,
   dependentInformation,
   veteranInformation,
   veteranServiceInformation,
 } = fullSchema.properties;
 
 const formFields = {
-  veteranStatus: 'veteranStatus',
   dependentInformation: 'dependentInformation',
   veteranInformation: 'veteranInformation',
   veteranServiceInformation: 'veteranServiceInformation',
@@ -49,9 +47,6 @@ const hideDependentInformation = formData => {
 
 const veteranInformationPage = {
   uiSchema: {
-    [formFields.veteranStatus]: {
-      ...veteranStatusUI,
-    },
     [formFields.dependentInformation]: {
       ...dependentInformationUI(showDependentInformation),
       'ui:options': {
@@ -67,14 +62,14 @@ const veteranInformationPage = {
     [formFields.veteranServiceInformation]: {
       ...veteranServiceInformationUI,
       'ui:options': {
-        hideIf: false,
+        hideIf: formData =>
+          !requireServiceInfo(formData.veteranStatus.veteranStatus),
       },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      [formFields.veteranStatus]: veteranStatus,
       [formFields.dependentInformation]: _.set(
         dependentInformation,
         'properties.address',
