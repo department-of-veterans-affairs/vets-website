@@ -46,6 +46,7 @@ export function selectTimeSlotTest() {
   cy.get(
     '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
   ).click();
+
   cy.axeCheck();
   cy.findByText(/Continue/).click();
 }

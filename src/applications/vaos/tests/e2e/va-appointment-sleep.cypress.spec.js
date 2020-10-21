@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   initAppointmentListMock,
   initVAAppointmentMock,
@@ -45,6 +46,27 @@ describe('Appointment Request', () => {
 
     // Review
     newApptTests.reviewTest();
+
+    // Check form requestBody is as expected
+    cy.wait('@appointmentSubmission').should(xhr => {
+      const request = xhr.requestBody;
+
+      expect(request.clinic.siteCode).to.eq('983');
+      expect(request.clinic.clinicId).to.eq('455');
+      expect(request).to.have.property(
+        'desiredDate',
+        `${moment()
+          .add(4, 'days')
+          .startOf('day')
+          .format('YYYY-MM-DD')}T00:00:00+00:00`,
+      );
+      expect(request).to.have.property('dateTime');
+      expect(request).to.have.property(
+        'bookingNotes',
+        'Follow-up/Routine: insomnia',
+      );
+      expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
+    });
 
     // Confirmation page
     newApptTests.confirmationPageTest(additionalInfo);
