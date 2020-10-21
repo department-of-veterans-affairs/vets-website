@@ -77,7 +77,7 @@ function InstitutionSearchForm({
     doSearch(autocomplete.searchTerm);
   };
 
-  const keywordSearchLabel = 'Enter a school, location, or employer name';
+  const keywordSearchLabel = 'Enter a school, employer name, city, or zip code';
 
   return (
     <div className="row">
