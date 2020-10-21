@@ -1,6 +1,3 @@
-// TODO: perhaps make these selectors fail gracefully if state.user, or any of
-// the properties on the user object are not defined
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   CERNER_APPOINTMENTS_BLOCKLIST,
   CERNER_FACILITY_IDS,
