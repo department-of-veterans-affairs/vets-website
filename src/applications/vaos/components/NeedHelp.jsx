@@ -15,8 +15,8 @@ export default function NeedHelp() {
         className="vads-u-margin-y--1p5 vads-u-border-color--primary"
       />
       <p className="vads-u-margin-top--0">
-        If you need help scheduling a VA or community care appointment, please
-        call your VA or community care facility.{' '}
+        If you need help scheduling a VA or community care appointment tool,
+        please call your VA or community care facility.{' '}
         <a href="tel:8774705947">877-470-5947</a> (TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
