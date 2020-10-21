@@ -66,17 +66,18 @@ Row 3 Column 2 Row 3 Column 3",
 			{% else %}
 			<td>
 				<!-- formation.js?c106:1 Uncaught TypeError: Cannot read property 'innerHTML' of null
-    at eval (formation.js?c106:1)
-    at Array.forEach (<anonymous>)
-    at u (formation.js?c106:1)
-	at eval (formation.js?c106:1)
-https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/formation/js/additional-info.js#L30
-this error is coming from the fact that we are in an else and the additonal info conent isn't a child to the container
- one solution is to move this div inside the if above
-and just like below, make a change to the entity to return the necessary processed nodes for the correct columns to show up
-either that, or make a PR to the formation/js repo to handle displaying/hiding sibling nodes rather than expecting additional-info-content to always be a child of  additional-info-container
-as an alternative we could use a query selecotr by data-entity id, and add that attribbute below.
--->
+					at eval (formation.js?c106:1)
+					at Array.forEach (<anonymous>)
+					at u (formation.js?c106:1)
+					at eval (formation.js?c106:1)
+					where this error is coming from:
+					https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/formation/js/additional-info.js#L30
+					this error is coming from the fact that the class additional-info-content isn't a child to the additional-info-container
+					one solution is to move the additional-info-container div inside the if above
+					and just like below, make a change to the entity to return the necessary processed nodes for the correct columns to show up
+					either that, or make a PR to the formation/js repo to handle displaying/hiding sibling nodes rather than expecting additional-info-content to always be a child of  additional-info-container
+					to accomplish this we could use a query selecotr by data-entity-id in formation/js/additional-info.js, and add that attribute to the div below.
+					-->
 				<div class="additional-info-content">
 					<!-- this is how every other single drupal template displays additional content: -->
 					{{ entity.fieldWysiwyg.processed }}
