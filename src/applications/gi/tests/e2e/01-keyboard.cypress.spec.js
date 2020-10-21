@@ -106,7 +106,6 @@ describe('Comparison Tool', () => {
     // keyboard navigation with arrow keys does not work
     cy.tab()
       .tab()
-      .tab()
       .get(
         '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]',
       )
