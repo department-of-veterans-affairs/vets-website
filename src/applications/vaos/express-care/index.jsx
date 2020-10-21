@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import '../sass/express-care.scss';
+import './sass/styles.scss';
 import { connect } from 'react-redux';
 import {
   Switch,

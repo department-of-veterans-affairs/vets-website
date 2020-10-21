@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../../sass/appointment-list.scss';
+import '../../sass/styles.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';

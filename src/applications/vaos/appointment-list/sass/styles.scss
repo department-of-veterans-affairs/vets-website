@@ -1,6 +1,6 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "../../../platform/forms/sass/m-schemaform";
+@import "../../../../../node_modules/@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "../../../../../node_modules/@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "../../../../platform/forms/sass/m-schemaform";
 
 .vaos-flex-break {
   flex-basis: 100%;
