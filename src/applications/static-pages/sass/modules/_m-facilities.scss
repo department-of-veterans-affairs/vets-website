@@ -15,6 +15,10 @@ $duo-tone-lighten: #000;
   .rwd thead {
     display: none;
   }
+
+  .rwd .column-value {
+    display: none;
+  }
   .rwd tr {
     border-top: 2px solid #999;
   }

@@ -78,7 +78,7 @@ Row 3 Column 2 Row 3 Column 3",
 					either that, or make a PR to the formation/js repo to handle displaying/hiding sibling nodes rather than expecting additional-info-content to always be a child of  additional-info-container
 					to accomplish this we could use a query selecotr by data-entity-id in formation/js/additional-info.js, and add that attribute to the div below.
 					-->
-						{{column}}
+					<div class="column-value"> {{column}} </div>	
 				<div class="additional-info-content">
 					<!-- this is how every other single drupal template displays additional content: -->
 					{{ entity.fieldWysiwyg.processed }}
