@@ -68,6 +68,21 @@ fragment nodeStepByStep on NodeStepByStep {
       ... linkTeaser
     }
   }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
+    }
+  }
 }
 `;
 

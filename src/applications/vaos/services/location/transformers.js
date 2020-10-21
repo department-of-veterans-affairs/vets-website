@@ -217,6 +217,38 @@ export function transformFacility(facility) {
 }
 
 /**
+ * Transform an ATLAS facility from LegacyVAR to a FHIR location resource
+ * @export
+ * @param {Object} tasInfo The tasInfo object from legacyVAR
+ * @returns {Object} A FHIR Location resource
+ */
+export function transformATLASLocation(tasInfo) {
+  const { address, siteCode } = tasInfo;
+  const {
+    city,
+    longitude,
+    latitude,
+    state,
+    streetAddress,
+    zipCode: postalCode,
+  } = address;
+  return {
+    resourceType: 'Location',
+    id: `var${siteCode}`,
+    address: {
+      line: [streetAddress],
+      city,
+      state,
+      postalCode,
+    },
+    position: {
+      longitude,
+      latitude,
+    },
+  };
+}
+
+/**
  * Sets requestSupported and directSchedulingSupported in legacyVAR
  * for locations that are retrieved from the v1 facilities API.  This
  * also replaces the ids when running locally or on staging since there

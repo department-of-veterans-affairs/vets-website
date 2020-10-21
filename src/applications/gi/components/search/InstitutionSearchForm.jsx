@@ -96,7 +96,7 @@ function InstitutionSearchForm({
             </div>
           )}
 
-          <h2>{keywordLabel}</h2>
+          <h2 className="vads-u-font-size--h3">{keywordLabel}</h2>
 
           {/* prod flag for story BAH-13938 */}
           {environment.isProduction() ? (
@@ -160,7 +160,7 @@ function InstitutionSearchForm({
                   </button>
                 </div>
                 <div className="vads-u-margin-top--2">
-                  <h2>Refine search</h2>
+                  <h2 className="vads-u-font-size--h3">Refine search</h2>
                   <p>Make changes below to update your results:</p>
                 </div>
 

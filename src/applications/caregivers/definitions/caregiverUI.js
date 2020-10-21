@@ -105,6 +105,17 @@ export default {
     previousTreatmentFacilityUI: {
       'ui:title': ' ',
       'ui:order': ['name', 'type'],
+      'ui:description': (
+        <div>
+          <h3 className="vads-u-font-size--h4">Recent medical care</h3>
+          <p>
+            Please enter the name of the medical facility where the Veteran
+            <strong className="vads-u-margin-left--0p5">
+              last received medical treatment.
+            </strong>
+          </p>
+        </div>
+      ),
       name: {
         'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
         'ui:validations': [
@@ -114,19 +125,7 @@ export default {
             },
           },
         ],
-        'ui:title': (
-          <div>
-            <h3 className="vads-u-font-size--h4">Recent medical care</h3>
-            <p>
-              Please enter the name of the medical facility where the Veteran
-              <strong className="vads-u-margin-left--0p5">
-                last received medical treatment.
-              </strong>
-            </p>
-
-            <p>Name of medical facility</p>
-          </div>
-        ),
+        'ui:title': 'Name of medical facility',
       },
       type: {
         'ui:required': formData => !!formData.veteranLastTreatmentFacility.name,
