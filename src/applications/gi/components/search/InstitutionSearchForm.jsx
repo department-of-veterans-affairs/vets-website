@@ -117,7 +117,7 @@ function InstitutionSearchForm({
                 </button>
               </div>
               <div className="vads-u-margin-top--2">
-                <h2>Refine search</h2>
+                <h2 className="vads-u-font-size--h3">Refine search</h2>
                 <p>Make changes below to update your results:</p>
               </div>
 
