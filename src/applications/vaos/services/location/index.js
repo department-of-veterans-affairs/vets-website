@@ -126,9 +126,16 @@ export async function getLocationsByTypeOfCareAndSiteIds({
     const directFacilityIds =
       criteria[0]
         ?.filter(facility =>
-          facility?.coreSettings?.some(setting => setting.id === typeOfCareId),
+          facility?.coreSettings?.some(
+            setting =>
+              setting.id === typeOfCareId && !!setting.patientHistoryRequired,
+          ),
         )
         ?.map(facility => facility.id) || [];
+
+    // If patientHistoryRequired is blank or null, the scheduling method is
+    // disabled for that type of care.  If "No", it is enabled, but doesn't require
+    // a previous appointment.  If "Yes", it is enabled and requires a previous appt
 
     // Fetch facilities that support requests and filter
     // only those that support the selected type of care
@@ -136,7 +143,8 @@ export async function getLocationsByTypeOfCareAndSiteIds({
       criteria[1]
         ?.filter(facility =>
           facility?.requestSettings?.some(
-            setting => setting.id === typeOfCareId,
+            setting =>
+              setting.id === typeOfCareId && !!setting.patientHistoryRequired,
           ),
         )
         ?.map(facility => facility.id) || [];

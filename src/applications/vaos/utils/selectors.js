@@ -126,6 +126,13 @@ export function getCCEType(state) {
   return typeOfCare?.cceType;
 }
 
+export function getSelectedTypeOfCareFacilities(state) {
+  const data = getFormData(state);
+  const newAppointment = getNewAppointment(state);
+  const typeOfCare = getTypeOfCare(data);
+  return newAppointment.facilities[(typeOfCare?.id)];
+}
+
 export function getParentFacilities(state) {
   return getNewAppointment(state).parentFacilities;
 }

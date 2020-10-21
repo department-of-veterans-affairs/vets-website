@@ -12,6 +12,7 @@ import {
   getDirectBookingEligibilityCriteriaMock,
   getVAFacilityMock,
 } from '../mocks/v0';
+import sinon from 'sinon';
 
 export function mockAppointmentInfo({
   va = [],
@@ -609,4 +610,26 @@ export function mockCommunityCareEligibility({
       },
     },
   );
+}
+
+export function mockGetCurrentPosition({
+  latitude = 53.2734, // San Diego, CA
+  longitude = -7.77832031,
+  fail = false,
+} = {}) {
+  global.navigator.geolocation = {
+    getCurrentPosition: sinon.stub().callsFake(
+      (successCallback, failureCallback) =>
+        fail
+          ? Promise.resolve(
+              failureCallback({
+                code: 1,
+                message: 'User denied Geolocation',
+              }),
+            )
+          : Promise.resolve(
+              successCallback({ coords: { latitude, longitude } }),
+            ),
+    ),
+  };
 }

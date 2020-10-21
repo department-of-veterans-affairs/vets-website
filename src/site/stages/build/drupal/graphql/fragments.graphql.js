@@ -20,6 +20,9 @@ const downloadableFile = require('./paragraph-fragments/downloadableFile.paragra
 const embeddedImage = require('./paragraph-fragments/media.paragraph.graphql');
 const button = require('./paragraph-fragments/button.paragraph.graphql');
 const alertParagraphSingle = require('./paragraph-fragments/alertSingle.paragraph.graphql');
+const audienceTopics = require('./paragraph-fragments/audienceTopics.paragraph.graphql');
+const termLcCategory = require('./taxonomy-fragments/termLcCategory.taxonomy.graphql');
+const termTopics = require('./taxonomy-fragments/termTopics.taxonomy.graphql');
 const supportService = require('./supportService.graphql');
 
 module.exports = `
@@ -43,5 +46,8 @@ module.exports = `
   ${embeddedImage}
   ${button}
   ${alertParagraphSingle}
+  ${termLcCategory}
+  ${termTopics}
+  ${audienceTopics}
   ${supportService}
 `;
