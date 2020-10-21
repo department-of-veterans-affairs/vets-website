@@ -133,6 +133,7 @@ export function LandingPage({
     setSearchError(searchQuery === '');
   };
 
+  // prod flag for story BAH-13929
   const searchLabel = environment.isProduction()
     ? 'Enter a school, location, or employer name'
     : 'Enter a school, employer name, city, or zip code';
