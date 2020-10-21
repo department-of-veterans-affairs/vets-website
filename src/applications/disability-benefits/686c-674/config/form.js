@@ -10,6 +10,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import GetFormHelp from '../components/GetFormHelp.jsx';
 import { customSubmit686 } from '../analytics/helpers';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import React from 'react';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -58,6 +60,16 @@ import manifest from '../manifest.json';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
+
+const netWorthCalculation = (
+  <AdditionalInfo triggerText="How do I figure out my net worth?">
+    <p>
+      Your net worth includes all personal property you own (except your house,
+      your car, and most home furnishings), minus any debt you owe. Your net
+      worth includes the net worth of your spouse.
+    </p>
+  </AdditionalInfo>
+);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -480,12 +492,20 @@ const formConfig = {
               'ui:description': 'Is your net worth less than $129,094?',
               'ui:widget': 'radio',
             },
+            'view:calculateNetWorth': {
+              'ui:title': '',
+              'ui:description': netWorthCalculation,
+            },
           },
           schema: {
             type: 'object',
             properties: {
               householdIncome: {
                 type: 'boolean',
+              },
+              'view:calculateNetWorth': {
+                type: 'object',
+                properties: {},
               },
             },
           },
