@@ -74,7 +74,7 @@ export class CernerCallToAction extends Component {
     try {
       // Fetch facilities and store them in state.
       const response = await apiRequest(
-        `https://dev-api.va.gov/v1/facilities/va?ids=${facilityIDs.join(',')}`,
+        `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(',')}`,
       );
       this.setState({ facilities: response?.data, fetching: false });
 

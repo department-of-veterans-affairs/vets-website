@@ -127,14 +127,6 @@ export function mapRawUserDataToState(json) {
     userState.vet360 = { status: getErrorStatusDesc(errorStatus) };
   }
 
-  userState.vaPatient = true;
-  userState.isCernerPatient = true;
-
-  userState.facilities = [
-    { facilityId: '668', isCerner: false },
-    { facilityId: '757', isCerner: false },
-  ]
-
   return userState;
 }
 
