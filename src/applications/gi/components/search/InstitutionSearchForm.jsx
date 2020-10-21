@@ -50,7 +50,7 @@ function InstitutionSearchForm({
 
   const queryParams = useQueryParams();
   const history = useHistory();
-  const [setSearchError] = useState(false);
+  const [searchError, setSearchError] = useState(false);
 
   const searching = value => {
     for (const key of queryParams.keys()) {
@@ -105,6 +105,7 @@ function InstitutionSearchForm({
                 onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
                 onFilterChange={handleFilterChange}
                 onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
+                searchError={searchError}
               />
               <div className="search-button-mobile">
                 <button
