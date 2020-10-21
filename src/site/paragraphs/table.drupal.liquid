@@ -1,57 +1,93 @@
 {% comment %}
-    Example data:
-    entity: {
-        "entityId": "3944",
-        "fieldTable": {
-            "tableValue": "Row 1 Column 1 Row 1 Column 2 Row 1 Column 3 Row 2 Column 1 Row 2 Column 2 Row 2 Column 3 Row 3 Column 1 Row 3 Column 2 Row 3 Column 3",
-            "value": {
-                "0": [
-                "Row 1 Column 1",
-                "Row 1 Column 2",
-                "Row 1 Column 3"
-                ],
-                "1": [
-                "Row 2 Column 1",
-                "Row 2 Column 2",
-                "Row 2 Column 3"
-                ],
-                "2": [
-                "Row 3 Column 1",
-                "Row 3 Column 2",
-                "Row 3 Column 3"
-                ],
-            }
-            "format": "rich_text",
-            "caption": "Test Table"
-        }
-    }
+Example data:
+entity: {
+"entityId": "3944",
+"fieldTable": {
+"tableValue": "Row 1 Column 1 Row 1 Column 2 Row 1 Column 3 Row 2 Column 1 Row 2 Column 2 Row 2 Column 3 Row 3 Column 1
+Row 3 Column 2 Row 3 Column 3",
+"value": {
+"0": [
+"Row 1 Column 1",
+"Row 1 Column 2",
+"Row 1 Column 3"
+],
+"1": [
+"Row 2 Column 1",
+"Row 2 Column 2",
+"Row 2 Column 3"
+],
+"2": [
+"Row 3 Column 1",
+"Row 3 Column 2",
+"Row 3 Column 3"
+],
+}
+"format": "rich_text",
+"caption": "Test Table"
+}
+}
 {% endcomment %}
 
 
-<table data-template="paragraphs/table" data-entity-id="{{ entity.entityId }}" class="va-table">
+<table data-template="paragraphs/table" data-entity-id="{{ entity.entityId }}" class="va-table rwd">
 
-    {% if entity.fieldTable.caption %}
-        <caption>{{ entity.fieldTable.caption }}</caption>
-    {% endif %}
+	{% if entity.fieldTable.caption %}
+	<caption>{{ entity.fieldTable.caption }} <a class="small-screen:vads-u-display--none">Show All</a></caption>
+	{% endif %}
 
-    {% for value in entity.fieldTable.value %}
-        {% if forloop.first == true %}
-            <thead>
-                <tr>
-                    {% for column in value %}
-                        <th>{{ column }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-        {% elsif forloop.last == false %}
-            <tbody>
-                <tr class="class">
-                    {% for column in value %}
-                        <td>{{ column }}</td>
-                    {% endfor %}
-                </tr>
-            </tbody>
-        {% endif %}
-    {% endfor %}
+	{% for value in entity.fieldTable.value %}
+	{% if forloop.first == true %}
+	<thead>
+		<tr>
+			{% for column in value %}
+			{% if forloop.first == true %}
+			{% assign col_header = column %}
+			{% endif %}
+
+			<th>{{ column }}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% elsif forloop.last == false %}
+
+	<tbody>
+
+		<tr class="class">
+			{% for column in value %}
+			{% if forloop.first == true %}
+			<td>
+				<div class="col-header small-screen:vads-u-display--none"> {{col_header}}</div>
+				<div> {{ column }} </div>
+				<div data-template="paragraphs/expandable_text" data-entity-id="{{ entity.entityId }}"
+					class="form-expanding-group borderless-alert additional-info-container small-screen:vads-u-display--none">
+					<div class="additional-info-title">Show details...</div>
+				</div>
+			</td>
+			{% else %}
+			<td>
+				<!-- formation.js?c106:1 Uncaught TypeError: Cannot read property 'innerHTML' of null
+    at eval (formation.js?c106:1)
+    at Array.forEach (<anonymous>)
+    at u (formation.js?c106:1)
+	at eval (formation.js?c106:1)
+https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/formation/js/additional-info.js#L30
+this error is coming from the fact that we are in an else and the additonal info conent isn't a child to the container
+ one solution is to move this div inside the if above
+and just like below, make a change to the entity to return the necessary processed nodes for the correct columns to show up
+either that, or make a PR to the formation/js repo to handle displaying/hiding sibling nodes rather than expecting additional-info-content to always be a child of  additional-info-container
+as an alternative we could use a query selecotr by data-entity id, and add that attribbute below.
+-->
+				<div class="additional-info-content">
+					<!-- this is how every other single drupal template displays additional content: -->
+					{{ entity.fieldWysiwyg.processed }}
+					<!-- {{column}} -->
+				</div>
+			</td>
+			{% endif %}
+			{% endfor %}
+		</tr>
+	</tbody>
+	{% endif %}
+	{% endfor %}
 
 </table>

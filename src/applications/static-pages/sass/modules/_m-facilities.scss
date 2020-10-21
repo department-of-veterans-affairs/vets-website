@@ -11,6 +11,68 @@ $duo-tone-lighten: #000;
 .lighten::after {
   background-color: $duo-tone-lighten;
 }
+@media screen and (max-width: 509px) {
+  .rwd thead {
+    display: none;
+  }
+  .rwd tr {
+    border-top: 2px solid #999;
+  }
+  .rwd td,
+  .rwd th {
+    border: none;
+    display: block;
+  }
+  .rwd td {
+    display: grid;
+    // grid-template-columns: 85px 1fr;
+    margin: 0;
+    padding: 0.5rem;
+  }
+
+  .rwd caption {
+    display: flex;
+    justify-content: space-between;
+  }
+  .rwd td div{
+    display: flex;
+
+  }
+  .rwd td div strong{
+    padding-right: 2px;
+    font-weight: normal;
+  }
+  .rwd .col-header{
+    font-weight: bold;
+  }
+  .rwd dfn {
+    display: block;
+    font-style: normal;
+    font-weight: 800;
+    margin: 0;
+    padding: 0;
+  }
+  span {
+    text-align: right;
+  }
+  .rwd tr td:nth-child(3) {
+    display: block;
+  }
+  tr td:nth-child(3) dfn {
+    display: block;
+  }
+}
+@media screen and (min-width: 510px) {
+  .rwd tr {
+    border: none;
+  }
+  .rwd td {
+    display: table-cell;
+  }
+  .rwd dfn {
+    display: none;
+  }
+}
 
 /* Duo-tone effect */
 .duotone {
