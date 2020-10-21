@@ -23,7 +23,7 @@ function OnlineClassesFilter({
         <AdditionalInfo triggerText="Your housing allowance">
           <RadioButtons
             label={renderLearnMoreLabel({
-              text: { radioButtonsLabelText },
+              text: radioButtonsLabelText,
               modal: 'onlineOnlyDistanceLearning',
               showModal,
               ariaLabel: ariaLabels.learnMore.onlineOnlyDistanceLearning,
@@ -42,7 +42,7 @@ function OnlineClassesFilter({
   return (
     <RadioButtons
       label={renderLearnMoreLabel({
-        text: { radioButtonsLabelText },
+        text: radioButtonsLabelText,
         modal: 'onlineOnlyDistanceLearning',
         showModal,
         ariaLabel: ariaLabels.learnMore.onlineOnlyDistanceLearning,
