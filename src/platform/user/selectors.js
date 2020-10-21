@@ -43,7 +43,7 @@ export const selectPatientFacilities = state =>
     // Derive if we should consider it a Cerner facility.
     const isFlipperDisabled = state?.featureToggles?.[`cernerOverride${facilityId}`] === false;
     const passesCernerChecks =
-      showNewScheduleViewAppointmentsPage && isFlipperDisabled &&
+      showNewScheduleViewAppointmentsPage && !isFlipperDisabled &&
       (isCerner || (isCernerPatient && hasCernerFacilityID));
 
     const facility = {
