@@ -30,7 +30,8 @@ export const selectPatientFacilities = state =>
     const isFlipperDisabled =
       state?.featureToggles?.[`cernerOverride${facilityId}`] === false;
     const isFlipperEnabled = !isFlipperDisabled;
-    const passesCernerChecks = isFlipperEnabled && (isCerner || hasCernerFacilityID);
+    const passesCernerChecks =
+      isFlipperEnabled && (isCerner || hasCernerFacilityID);
 
     const facility = {
       facilityId,
