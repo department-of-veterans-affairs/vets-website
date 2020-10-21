@@ -109,6 +109,7 @@ const formConfig = {
         },
       },
     },
+
     veteranInformation: {
       title: "Veteran's Information",
       pages: {
@@ -189,6 +190,26 @@ const formConfig = {
           uiSchema: veteranMarriageHistoryDetails.uiSchema,
           schema: veteranMarriageHistoryDetails.schema,
         },
+        spouseIncome: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          title: 'Spouse Income',
+          path: 'spouse-income',
+          uiSchema: {
+            spouseIncome: {
+              'ui:title': 'Did your spouse have income in the last tax year?',
+              'ui:widget': 'radio',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              spouseIncome: {
+                type: 'boolean',
+              },
+            },
+          },
+        },
         marriageAdditionalEvidence: {
           depends: formData =>
             typeof formData?.currentMarriageInformation?.type === 'string' &&
@@ -232,6 +253,41 @@ const formConfig = {
           arrayPath: 'childrenToAdd',
           uiSchema: childAdditionalInformation.uiSchema,
           schema: childAdditionalInformation.schema,
+        },
+        addChildIncome: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
+          title: 'Child Income',
+          path: 'add-child/:index/child-income',
+          showPagePerItem: true,
+          arrayPath: 'childrenToAdd',
+          uiSchema: {
+            childrenToAdd: {
+              items: {
+                childIncome: {
+                  'ui:title':
+                    'Did this child have income in the last tax year?',
+                  'ui:widget': 'radio',
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              childrenToAdd: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    childIncome: {
+                      type: 'boolean',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         childAdditionalEvidence: {
           depends: formData =>
@@ -408,6 +464,31 @@ const formConfig = {
           path: 'report-child-stopped-attending-school',
           uiSchema: reportChildStoppedAttendingSchool.uiSchema,
           schema: reportChildStoppedAttendingSchool.schema,
+        },
+      },
+    },
+    householdIncome: {
+      title: 'Household Income',
+      pages: {
+        householdIncome: {
+          path: 'household-income',
+          title: 'Household Income',
+          uiSchema: {
+            householdIncome: {
+              'ui:title':
+                'If you are entitled to a Veterans’ pension instead of disability compensation, VA needs to know the total value of your assets. If your married, include the value of your spouse’s assets too.',
+              'ui:description': 'Is your net worth less than $129,094?',
+              'ui:widget': 'radio',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              householdIncome: {
+                type: 'boolean',
+              },
+            },
+          },
         },
       },
     },
