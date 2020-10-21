@@ -73,6 +73,8 @@ import {
 } from '../validation';
 import migrations from '../migrations';
 
+import manifest from '../manifest.json';
+
 const {
   nationalGuardActivation,
   nationalGuard,
@@ -190,12 +192,21 @@ function createSpouseLabelSelector(nameTemplate) {
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submit,
   trackingPrefix: 'pensions-527EZ-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_21P_527EZ,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your Veterans pension benefits is in progress.',
+      expired:
+        'Your saved Veterans pension benefits has expired. If you want to apply for Veterans pension benefits application (21-527EZ), please start a new application.',
+      saved: 'Your Veterans pension benefits application has been saved.',
+    },
+  },
   version: 3,
   migrations,
   prefillEnabled: true,

@@ -242,8 +242,8 @@
                 "state": "MT",
                 "zipCode": "59917",
                 "country": "USA",
-                "longitude": null,
-                "latitude": null,
+                "longitude": -115.1,
+                "latitude": 48.8,
                 "additionalDetails": ""
               },
               "contacts": [

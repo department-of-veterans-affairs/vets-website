@@ -1,0 +1,144 @@
+// Node modules.
+import React, { Component } from 'react';
+import isEmpty from 'lodash/isEmpty';
+import join from 'lodash/join';
+import map from 'lodash/map';
+// Relative imports
+import { SearchResultPropTypes } from '../../prop-types';
+
+export class SearchResult extends Component {
+  static propTypes = {
+    item: SearchResultPropTypes,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      learnIcon: 'down',
+      show: false,
+    };
+  }
+
+  setShow = show => {
+    if (show) {
+      this.setState({ learnIcon: 'up' });
+    } else {
+      this.setState({ learnIcon: 'down' });
+    }
+    this.setState({ show });
+  };
+
+  render() {
+    const { item } = this.props;
+    const { setShow } = this;
+    const { learnIcon, show } = this.state;
+
+    return (
+      <li className="third-party-app vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px">
+        <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
+          {/* App Icon */}
+          <img
+            alt={item?.name}
+            aria-hidden="true"
+            role="presentation"
+            src={item?.iconURL}
+          />
+
+          <div className="vads-u-flex--1 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--2">
+            {/* App Name */}
+            <h3
+              className="vads-u-margin--0 vads-u-margin-bottom--0p5"
+              data-e2e-id="result-title"
+              id={item?.id}
+            >
+              {item?.name}
+            </h3>
+
+            {/* Category and Platform */}
+            <p className="vads-u-margin--0">
+              {join(item?.categories, ', ') || 'Unknown category'} app available
+              for {join(item?.platforms, ', ') || 'unknown platforms'}
+            </p>
+          </div>
+
+          {/* App URL */}
+          <a
+            className="usa-button usa-button-secondary vads-u-width--auto"
+            href={item?.appURL}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Find app
+          </a>
+        </div>
+
+        {/* Toggle More Info */}
+        <div className="learn-more">
+          <button
+            className="va-button-link vads-u-text-decoration--none vads-u-border-color--link-default vads-u-border-style--dotted vads-u-border-bottom--1px vads-u-margin-top--1p5"
+            onClick={() => setShow(!show)}
+            type="button"
+          >
+            Learn about {item?.name}{' '}
+            <i className={`fa fa-chevron-${learnIcon}`} />
+          </button>
+        </div>
+
+        {show && (
+          <>
+            <hr />
+
+            {/* Description */}
+            {item?.description && (
+              <>
+                <h4>About this app:</h4>
+                <p className="vads-u-margin-bottom--0">{item?.description}</p>
+              </>
+            )}
+
+            {/* Permissions */}
+            {!isEmpty(item?.permissions) && (
+              <>
+                <h4>{item?.name} asks for:</h4>
+                <ol className="vads-u-margin--0 vads-u-padding-left--2p5">
+                  {map(item?.permissions, permission => (
+                    <li key={permission}>{permission}</li>
+                  ))}
+                </ol>
+              </>
+            )}
+
+            {/* Legal Links */}
+            <h4>More information:</h4>
+            <a
+              href={item?.privacyPolicyURL}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              View privacy policy
+            </a>
+            <a
+              className="vads-u-margin-top--1"
+              href={item?.termsOfServiceURL}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              View terms of service
+            </a>
+            <a
+              className="vads-u-margin-top--1"
+              href={encodeURIComponent(
+                `mailto:api@va.gov?subject=Report ${item?.name} to VA`,
+              )}
+              rel="noopener noreferrer"
+            >
+              Report this app to VA
+            </a>
+          </>
+        )}
+      </li>
+    );
+  }
+}
+
+export default SearchResult;

@@ -28,6 +28,8 @@ import { urlMigration } from '../../config/migrations';
 
 import { survivorBenefitsLabels } from '../../utils/labels';
 
+import manifest from '../manifest.json';
+
 const {
   benefit,
   outstandingFelony,
@@ -37,10 +39,20 @@ const {
 const { school, educationType, date, fullName } = fullSchema5495.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5495`,
   trackingPrefix: 'edu-5495-',
   formId: VA_FORM_IDS.FORM_22_5495,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your education benefits application (22-5495) is in progress.',
+      expired:
+        'Your saved education benefits application (22-5495) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
+  },
   version: 1,
   migrations: [urlMigration('/5495')],
   prefillEnabled: true,

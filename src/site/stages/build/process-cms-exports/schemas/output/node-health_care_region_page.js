@@ -121,7 +121,6 @@ module.exports = {
       $ref: 'output/paragraph-list_of_link_teasers',
     },
     fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
-    entityMetaTags: { $ref: 'MetaTags' },
     fieldLeadership: {
       type: 'array',
       items: {

@@ -9,7 +9,12 @@ export const formatNumber = value => {
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
 };
 
-export const formatCurrency = value => `$${formatNumber(Math.round(+value))}`;
+export const formatCurrency = value => {
+  if (isNaN(value)) {
+    return value;
+  }
+  return `$${formatNumber(Math.round(+value))}`;
+};
 
 export const isVetTecSelected = filters => filters.category === 'vettec';
 

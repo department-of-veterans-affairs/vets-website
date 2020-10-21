@@ -335,8 +335,8 @@ class ArrayField extends React.Component {
                   onClick={() => this.handleAdd()}
                 >
                   {uiOptions.itemName
-                    ? `Add Another ${uiOptions.itemName}`
-                    : 'Add Another'}
+                    ? `Add another ${uiOptions.itemName}`
+                    : 'Add another'}
                 </button>
                 <div>
                   {addAnotherDisabled &&
