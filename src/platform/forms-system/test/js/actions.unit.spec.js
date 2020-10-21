@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { testkit } from 'platform/testing/unit/sentry';
 
 import {
   setData,
@@ -78,6 +79,7 @@ describe('Schemaform actions:', () => {
     let requests = [];
 
     beforeEach(() => {
+      testkit.reset();
       global.FormData = sinon.stub().returns({
         append: sinon.spy(),
       });
@@ -89,6 +91,7 @@ describe('Schemaform actions:', () => {
     });
 
     afterEach(() => {
+      testkit.reset(); // reset before and after until we can do this in a global hook
       delete global.FormData;
       global.XMLHttpRequest = window.XMLHttpRequest;
       xhr.restore();
@@ -158,6 +161,39 @@ describe('Schemaform actions:', () => {
           value: 'serverError',
           extra: null,
         });
+      });
+
+      requests[0].respond(400, null, JSON.stringify(response));
+
+      return promise;
+    });
+    it('should send data to Sentry on submission error', () => {
+      const formConfig = {
+        chapters: {},
+      };
+      const form = {
+        pages: {
+          testing: {},
+        },
+        data: {
+          test: 1,
+        },
+        // Data from SiP
+        loadedData: {
+          metadata: {
+            inProgressFormId: '123',
+          },
+        },
+      };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = () => {};
+      const response = { data: {} };
+
+      const promise = thunk(dispatch).then(() => {
+        const sentryReports = testkit.reports();
+        expect(sentryReports[0].extra.inProgressFormId).to.equal('123');
+        expect(sentryReports[0].extra.errorType).to.equal('serverError');
+        expect(sentryReports[0].extra.statusText).to.equal('Bad Request');
       });
 
       requests[0].respond(400, null, JSON.stringify(response));
