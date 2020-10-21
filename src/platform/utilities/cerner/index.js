@@ -1,11 +1,6 @@
 // Relative imports.
 import environment from 'platform/utilities/environment';
 
-// Cerner facilities that do not have the `isCerner` flag set to true
-// 757: Chalmers P. Wylie Veterans Outpatient Clinic
-// 668: Mann Grandstaff
-export const CERNER_FACILITY_IDS = ['757', '668'];
-
 // Not all Cerner facilities have the same capabilities. These blocklists are
 // used to determine which facilities lack certain capabilities.
 // Facilities that are Cerner but do not have Cerner prescription features:
