@@ -108,7 +108,7 @@ describe('Comparison Tool', () => {
       .tab()
       .tab()
       .get(
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]',
       )
       .should('have.focus')
       .should('be.checked')
