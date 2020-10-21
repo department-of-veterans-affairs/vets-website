@@ -32,11 +32,11 @@ function injectAxeCore(buildOptions) {
       const { dom } = file;
 
       const axeCoreScript = dom(
-        `<script type="text/javascript" src="/${axeCoreFileName}"></script>`,
+        `<script nonce="**CSP_NONCE**" type="text/javascript" src="/${axeCoreFileName}"></script>`,
       );
 
       const executeAxeCheckScript = dom(
-        `<script type="text/javascript" src="/js/execute-axe-check.js"></script>`,
+        `<script nonce="**CSP_NONCE**" type="text/javascript" src="/js/execute-axe-check.js"></script>`,
       );
 
       dom('body').append(axeCoreScript);
