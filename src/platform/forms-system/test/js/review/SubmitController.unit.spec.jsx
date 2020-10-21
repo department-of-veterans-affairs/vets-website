@@ -185,29 +185,35 @@ describe('Schemaform review: SubmitController', () => {
     tree.unmount();
   });
 
-  it('should not submit when invalid', () => {
-    const form = createForm();
+  it('should not submit when invalid data is entered', () => {
     // Form with missing rquired field
+    const page = {
+      title: 'Missing stuff',
+      schema: {
+        type: 'object',
+        required: ['stuff'],
+        properties: {
+          stuff: { type: 'string' },
+        },
+      },
+    };
+    const form = createForm({
+      data: { privacyAgreementAccepted: true },
+      pages: { page1: { schema: page.schema } },
+    });
     const formConfig = createFormConfig({
       chapters: {
         chapter1: {
           pages: {
-            page1: {
-              title: 'Missing stuff',
-              schema: {
-                type: 'object',
-                required: ['stuff'],
-                properties: {
-                  stuff: { type: 'string' },
-                },
-              },
-            },
+            page1: page,
           },
         },
       },
       data: { privacyAgreementAccepted: true },
     });
-    const pageList = createPageList();
+    const pageList = [
+      { path: 'page-1', pageKey: 'page1', schema: page.schema },
+    ];
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
@@ -236,6 +242,7 @@ describe('Schemaform review: SubmitController', () => {
 
     expect(submitForm.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
+    expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
     tree.unmount();
   });
 
