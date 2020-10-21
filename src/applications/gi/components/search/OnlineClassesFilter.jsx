@@ -12,6 +12,7 @@ function OnlineClassesFilter({
   handleInputFocus,
   gibctBenefitFilterEnhancement,
 }) {
+  const radioButtonsLabelText = 'Will you be taking any classes in person?';
   const options = [
     { value: 'no', label: 'Yes' },
     { value: 'yes', label: 'No' },
@@ -22,7 +23,7 @@ function OnlineClassesFilter({
         <AdditionalInfo triggerText="Your housing allowance">
           <RadioButtons
             label={renderLearnMoreLabel({
-              text: 'Will you be taking any classes in person?',
+              text: { radioButtonsLabelText },
               modal: 'onlineOnlyDistanceLearning',
               showModal,
               ariaLabel: ariaLabels.learnMore.onlineOnlyDistanceLearning,
@@ -41,7 +42,7 @@ function OnlineClassesFilter({
   return (
     <RadioButtons
       label={renderLearnMoreLabel({
-        text: 'Will you be taking any classes in person?',
+        text: { radioButtonsLabelText },
         modal: 'onlineOnlyDistanceLearning',
         showModal,
         ariaLabel: ariaLabels.learnMore.onlineOnlyDistanceLearning,

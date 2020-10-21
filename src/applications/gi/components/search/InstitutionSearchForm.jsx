@@ -77,6 +77,8 @@ function InstitutionSearchForm({
     doSearch(autocomplete.searchTerm);
   };
 
+  const keywordSearchLabel = 'Enter a school, location, or employer name';
+
   return (
     <div className="row">
       <div id="institution-search" className={filtersClass}>
@@ -95,7 +97,7 @@ function InstitutionSearchForm({
               {' '}
               <KeywordSearch
                 autocomplete={autocomplete}
-                label="Enter a school, location, or employer name"
+                label={keywordSearchLabel}
                 location={location}
                 onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
                 onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
@@ -133,7 +135,7 @@ function InstitutionSearchForm({
                 <KeywordSearch
                   searchOnAutcompleteSelection
                   autocomplete={autocomplete}
-                  label="Enter a school, location, or employer name"
+                  label={keywordSearchLabel}
                   location={location}
                   onClearAutocompleteSuggestions={clearAutocompleteSuggestions}
                   onFetchAutocompleteSuggestions={fetchAutocompleteSuggestions}
