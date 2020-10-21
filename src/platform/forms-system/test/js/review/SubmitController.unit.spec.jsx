@@ -209,7 +209,6 @@ describe('Schemaform review: SubmitController', () => {
           },
         },
       },
-      data: { privacyAgreementAccepted: true },
     });
     const pageList = [
       { path: 'page-1', pageKey: 'page1', schema: page.schema },
