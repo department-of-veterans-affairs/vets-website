@@ -3,6 +3,7 @@
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   CERNER_APPOINTMENTS_BLOCKLIST,
+  CERNER_FACILITY_IDS,
   CERNER_MEDICAL_RECORDS_BLOCKLIST,
   CERNER_MESSAGING_BLOCKLIST,
   CERNER_RX_BLOCKLIST,
@@ -22,14 +23,14 @@ export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
 export const selectPatientFacilities = state =>
   selectProfile(state)?.facilities?.map(({ facilityId, isCerner }) => {
-    // Derive if they are a 200CRNR Cerner patient.
-    const isCernerPatient = selectProfile(state)?.isCernerPatient;
+    // Derive if the user belongs to a Cerner facility in the FE maintained list.
+    const hasCernerFacilityID = CERNER_FACILITY_IDS.includes(facilityId);
 
     // Derive if we should consider it a Cerner facility.
     const isFlipperDisabled =
       state?.featureToggles?.[`cernerOverride${facilityId}`] === false;
-    const passesCernerChecks =
-      !isFlipperDisabled && (isCerner || isCernerPatient);
+    const isFlipperEnabled = !isFlipperDisabled;
+    const passesCernerChecks = isFlipperEnabled && (isCerner || hasCernerFacilityID);
 
     const facility = {
       facilityId,
