@@ -21,7 +21,7 @@ const testConfig = createTestConfig(
           .click();
       },
     },
-    // skip: true,
+    skip: true,
     setupPerTest: () => {
       cy.route({
         method: 'POST',
