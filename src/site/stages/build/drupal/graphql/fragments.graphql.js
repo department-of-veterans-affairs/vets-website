@@ -23,6 +23,7 @@ const alertParagraphSingle = require('./paragraph-fragments/alertSingle.paragrap
 const audienceTopics = require('./paragraph-fragments/audienceTopics.paragraph.graphql');
 const termLcCategory = require('./taxonomy-fragments/termLcCategory.taxonomy.graphql');
 const termTopics = require('./taxonomy-fragments/termTopics.taxonomy.graphql');
+const audienceBeneficiaries = require('./taxonomy-fragments/audienceBeneficiaries.taxonomy.graphql');
 const supportService = require('./supportService.graphql');
 const richTextCharLimit1000 = require('./paragraph-fragments/richTextCharLimit1000.paragraph.graphql');
 
@@ -49,6 +50,7 @@ module.exports = `
   ${alertParagraphSingle}
   ${termLcCategory}
   ${termTopics}
+  ${audienceBeneficiaries}
   ${audienceTopics}
   ${supportService}
   ${richTextCharLimit1000}
