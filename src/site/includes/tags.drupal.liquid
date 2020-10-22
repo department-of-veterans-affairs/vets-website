@@ -1,12 +1,10 @@
 {% if fieldTags.entity != empty %}
-  <p>
-    <strong>Tags</strong>
+  <p class="vads-u-display--flex vads-u-align-items--flex-start medium-screen:vads-u-align-items--center vads-u-flex-direction--column vads-u-padding-x--1 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-padding-x--0">
+    <strong class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">Tags</strong>
     {% for topic in fieldTags.entity.fieldTopics %}
-      <a href="{{ topic.entity.entityUrl.path }}" class="usa-button-secondary vads-u-font-size--sm vads-u-border--2px vads-u-border-color--primary-alt vads-u-padding--0p25 vads-u-margin-left--1 vads-u-text-decoration--none vads-u-color--base">{{ topic.entity.name }}</a>
+      <a href="{{ topic.entity.entityUrl.path }}" class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 usa-button-secondary vads-u-font-size--sm vads-u-border--2px vads-u-border-color--primary-alt vads-u-padding--0p25 medium-screen:vads-u-margin-left--1 vads-u-text-decoration--none vads-u-color--base">{{ topic.entity.name }}</a>
     {% endfor %}
-    {% for topic in fieldTags.entity.fieldAudienceBeneficiares %}
-      <a href="{{ topic.entity.entityUrl.path }}" class="usa-button-secondary vads-u-font-size--sm vads-u-border--2px vads-u-border-color--primary-alt vads-u-padding--0p25 vads-u-margin-left--1 vads-u-text-decoration--none vads-u-color--base">{{ topic.entity.name }}</a>
-    {% endfor %}
+    <a href="{{ fieldTags.entity.fieldAudienceBeneficiares.entity.entityUrl.path }}" class="usa-button-secondary vads-u-font-size--sm vads-u-border--2px vads-u-border-color--primary-alt vads-u-padding--0p25 medium-screen:vads-u-margin-left--1 vads-u-text-decoration--none vads-u-color--base">{{ fieldTags.entity.fieldAudienceBeneficiares.entity.name }}</a>
     <hr />
   </p>
 {% endif %}
