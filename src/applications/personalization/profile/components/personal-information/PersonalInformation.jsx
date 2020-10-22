@@ -11,7 +11,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import PaymentInformationBlocked from 'applications/personalization/profile360/components/PaymentInformationBlocked';
 import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
-import { directDepositIsBlocked } from 'applications/personalization/profile360/selectors';
+import { directDepositIsBlocked } from 'applications/personalization/profile/selectors';
 
 import PersonalInformationContent from './PersonalInformationContent';
 

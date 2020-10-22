@@ -12,7 +12,7 @@ import {
   fullNameLoadError,
   militaryInformationLoadError,
   personalInformationLoadError,
-} from 'applications/personalization/profile360/selectors';
+} from 'applications/personalization/profile/selectors';
 
 import ProfileHeader from './ProfileHeader';
 import ProfileSubNav from './ProfileSubNav';

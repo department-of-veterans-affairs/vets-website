@@ -13,7 +13,7 @@ import {
   hasInvalidRoutingNumberError,
   hasInvalidWorkPhoneNumberError,
   hasPaymentRestrictionIndicatorsError,
-} from '../util';
+} from 'applications/personalization/profile/util';
 
 function FlaggedAccount() {
   return (

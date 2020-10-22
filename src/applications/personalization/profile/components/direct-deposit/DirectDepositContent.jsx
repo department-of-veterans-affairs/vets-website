@@ -16,13 +16,13 @@ import { usePrevious } from 'platform/utilities/react-hooks';
 import {
   editModalToggled,
   savePaymentInformation as savePaymentInformationAction,
-} from 'applications/personalization/profile360/actions/paymentInformation';
+} from 'applications/personalization/profile/actions/paymentInformation';
 import {
   directDepositAccountInformation,
   directDepositInformation,
   directDepositIsSetUp,
   directDepositUiState as directDepositUiStateSelector,
-} from 'applications/personalization/profile360/selectors';
+} from 'applications/personalization/profile/selectors';
 
 import BankInfoForm from 'applications/personalization/profile360/components/BankInfoForm';
 import PaymentInformationEditError from 'applications/personalization/profile360/components/PaymentInformationEditModalError';
