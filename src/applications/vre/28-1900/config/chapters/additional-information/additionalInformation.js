@@ -5,7 +5,7 @@ import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 const { newAddress, isMoving, yearsOfEducation } = fullSchema.properties;
 
 const checkboxTitle =
-  'I will live on a United States Military base outside of the U.S.';
+  'I will live on a United States military base outside of the U.S.';
 
 const newAddressUi = addressUiSchema(
   'newAddress',

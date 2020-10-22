@@ -5,7 +5,7 @@ import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 const { veteranAddress, mainPhone, cellPhone, email } = fullSchema.properties;
 
 const checkboxTitle =
-  'I live on a United States Military base outside of the U.S.';
+  'I live on a United States military base outside of the U.S.';
 
 export const schema = {
   type: 'object',
