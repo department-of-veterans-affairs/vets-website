@@ -9,6 +9,7 @@ import {
   updateUiSchema,
   updateItemsSchema,
   replaceRefSchemas,
+  getVisibleFormData,
 } from '../../../src/js/state/helpers';
 
 describe('Schemaform formState:', () => {
@@ -737,6 +738,37 @@ describe('Schemaform formState:', () => {
       const newSchema = updateItemsSchema(schema, data);
 
       expect(newSchema.items.length).to.equal(data.length);
+    });
+  });
+  describe('getVisibleFormData', () => {
+    it('removes form data for hidden fields', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    field1: { type: 'string' },
+                    field2: { 'ui:hidden': true, type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+      const form = {
+        data: {
+          field1: 'foo',
+          field2: 'bar',
+        },
+      };
+
+      const visibleForm = getVisibleFormData(formConfig, form);
+
+      expect(visibleForm.data).to.eql({ field1: 'foo' });
     });
   });
 });

@@ -623,6 +623,26 @@ export function recalculateSchemaAndData(
   }, initialState);
 }
 
+/**
+ * A function that removes all form data that corresponds to properties
+ * in the form schema which have `'ui:hidden': true`
+ *
+ * @param {Object} formConfig - The form configuration object
+ * @param {Object} form - The object containing form data which is to be submitted
+ * @returns {Object} The form object, where the data property is a subset with data for hidden fields removed
+ */
+export function getVisibleFormData(formConfig, form) {
+  const pages = createFormPageList(formConfig);
+
+  let newData = form.data;
+
+  pages.forEach(page => {
+    newData = removeHiddenData(page.schema, newData);
+  });
+
+  return { ...form, data: newData };
+}
+
 export function createInitialState(formConfig) {
   let initialState = {
     submission: {

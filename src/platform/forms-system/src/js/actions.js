@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import { transformForSubmit } from './helpers';
+import { getVisibleFormData } from './state/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import { timeFromNow } from './utilities/date';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -159,13 +160,15 @@ export function submitForm(formConfig, form) {
       event: `${formConfig.trackingPrefix}-submission`,
     });
 
+    const visibleForm = getVisibleFormData(formConfig, form);
+
     let promise;
     if (formConfig.submit) {
-      promise = formConfig.submit(form, formConfig);
+      promise = formConfig.submit(visibleForm, formConfig);
     } else {
       const body = formConfig.transformForSubmit
-        ? formConfig.transformForSubmit(formConfig, form)
-        : transformForSubmit(formConfig, form);
+        ? formConfig.transformForSubmit(formConfig, visibleForm)
+        : transformForSubmit(formConfig, visibleForm);
 
       promise = submitToUrl(
         body,
