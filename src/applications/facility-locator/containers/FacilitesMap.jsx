@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import Helmet from 'react-helmet';
 import mapboxgl from 'mapbox-gl';
-// import 'mapbox-gl/dist/mapbox-gl.css'; webpack issue
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
   clearSearchResults,
