@@ -237,6 +237,43 @@ describe('Schemaform actions:', () => {
         });
       });
     });
+    it('should remove data for hidden form fields', () => {
+      const response = { data: {} };
+      const formConfig = {
+        submit: sinon.stub().resolves(response),
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    visibleField: { type: 'string' },
+                    hiddenField: { 'ui:hidden': true, type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const form = {
+        data: {
+          visibleField: 'hello',
+          hiddenField: 'goodbye',
+        },
+      };
+
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+
+      return thunk(dispatch).then(() => {
+        expect(formConfig.submit.firstCall.args[0].data).to.eql({
+          visibleField: 'hello',
+        });
+      });
+    });
   });
   describe('uploadFile', () => {
     let xhr;
