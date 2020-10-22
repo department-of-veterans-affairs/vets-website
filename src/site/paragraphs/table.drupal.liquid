@@ -30,65 +30,55 @@ Row 3 Column 2 Row 3 Column 3",
 
 <!-- Mobile -->
 <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--none" data-template="paragraphs/table-mobile">
-    <!-- Caption -->
-    <p>
-        <strong>{{ entity.fieldTable.caption }}</strong>
-    </p>
+  <!-- Assign mobile table data -->
+  {% assign mobileTableData = entity | formatMobileTableData %}
 
-    <!-- Show all -->
-    
-    
-    	<!-- Iterate over rows -->
-    {% for row in entity.fieldTable.value %}
-        <!-- Skip the first table header row -->
-        {% if forloop.first == true %}
-            {%for col in row%}
-                {% if forloop.first == true %}
-                    {% assign col_header = col %}
-                {% endif %}
-            {% endfor %}
+  <!-- Caption -->
+  <p><strong>{{ mobileTableData.caption }}</strong></p>
 
-        {% else %}
-            <!-- Iterate over columns -->
-            {% for column in row %}
-                {% assign columnIndex = forloop.index %}
-                {% if forloop.first == true %}
-                    <div>{{col_header}}</div>
-                {% endif %}
-                <p>
-                    <strong>{{ colHeaders[columnIndex] }}</strong>
-                    {{ column }}</p>
-            {% endfor %}
-        {% endif %}
+  <!-- Show all -->
 
-        <!-- Line break -->
-        <hr/>
+
+  <!-- Iterate over rows -->
+  {% for row in mobileTableData.rows %}
+    <!-- First key-value pair -->
+    <p><strong>{{ row.dataPoints.0.label }}:</strong> {{ row.dataPoints.0.value }}</p>
+
+    <!-- Additional info toggle -->
+    {% for dataPoint in row.dataPoints %}
+      {% unless forloop.first %}
+        <p><strong>{{ dataPoint.label }}:</strong> {{ dataPoint.value }}</p>
+      {% endunless %}
     {% endfor %}
+
+    <!-- Line break -->
+    <hr/>
+  {% endfor %}
 </div>
 
 <!-- Desktop -->
 <table data-template="paragraphs/table-desktop" data-entity-id="{{ entity.entityId }}" class="va-table vads-u-display--none medium-screen:vads-u-display--block">
-    {% if entity.fieldTable.caption %}
-        <caption>{{ entity.fieldTable.caption }}</caption>
-    {% endif %}
+  {% if entity.fieldTable.caption %}
+    <caption>{{ entity.fieldTable.caption }}</caption>
+  {% endif %}
 
-    {% for value in entity.fieldTable.value %}
-        {% if forloop.first == true %}
-            <thead>
-                <tr>
-                    {% for column in value %}
-                        <th>{{ column }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-        {% elsif forloop.last == false %}
-            <tbody>
-                <tr class="class">
-                    {% for column in value %}
-                        <td>{{ column }}</td>
-                    {% endfor %}
-                </tr>
-            </tbody>
-        {% endif %}
-    {% endfor %}
+  {% for value in entity.fieldTable.value %}
+    {% if forloop.first == true %}
+      <thead>
+        <tr>
+          {% for column in value %}
+            <th>{{ column }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+    {% elsif forloop.last == false %}
+      <tbody>
+        <tr class="class">
+          {% for column in value %}
+            <td>{{ column }}</td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    {% endif %}
+  {% endfor %}
 </table>
