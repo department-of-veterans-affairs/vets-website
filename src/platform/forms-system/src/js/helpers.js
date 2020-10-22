@@ -2,6 +2,8 @@ import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
+import { removeHiddenData } from './state/helpers';
+
 // An active page is one that will be shown to the user.
 // Pages become inactive if they are conditionally shown based
 // on answers to previous questions.
@@ -619,6 +621,24 @@ export function omitRequired(schema) {
   return newSchema;
 }
 
+/**
+ * Removes any data corresponding to a property on a page which has `ui:hidden` set to true
+ *
+ * @param {array} pages - An array of pages which should each contain a schema with properties
+ * @param {Object} data - An object containing form data
+ * @returns {Object} The data parameter with any data corresponding to hidden fields removed
+ */
+
+function filterHiddenData(pages, data) {
+  let filteredData = data;
+
+  pages.forEach(page => {
+    filteredData = removeHiddenData(page.schema, filteredData);
+  });
+
+  return filteredData;
+}
+
 /*
  * Normal transform for schemaform data
  */
@@ -632,12 +652,16 @@ export function transformForSubmit(
     form.data,
   );
   const activePages = getActivePages(expandedPages, form.data);
+  // eslint-disable-next-line no-param-reassign
+  form.data = filterHiddenData(activePages, form.data);
+
   const inactivePages = getInactivePages(expandedPages, form.data);
   const withoutInactivePages = filterInactivePageData(
     inactivePages,
     activePages,
     form,
   );
+
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';
