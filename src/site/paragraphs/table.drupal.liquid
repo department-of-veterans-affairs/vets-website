@@ -27,31 +27,57 @@
     }
 {% endcomment %}
 
+<!-- Mobile -->
+<div data-template="paragraphs/table-mobile" class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--none">
+  <!-- Caption -->
+  <p><strong>{{ entity.fieldTable.caption }}</strong></p>
 
-<table data-template="paragraphs/table" data-entity-id="{{ entity.entityId }}" class="va-table">
+  <!-- Show all -->
 
-    {% if entity.fieldTable.caption %}
-        <caption>{{ entity.fieldTable.caption }}</caption>
+
+  <!-- Iterate over rows -->
+  {% for row in entity.fieldTable.value %}
+    {% assign rowIndex = forloop.index %}
+
+    <!-- Skip the first table header row -->
+    {% if forloop.first == true %}
+      {% assign colHeaders = row %}
+    {% else %}
+      <!-- Iterate over columns -->
+      {% for column in row %}
+        {% assign columnIndex = forloop.index %}
+        <p><strong>{{ column[columnIndex] }}:</strong> {{ column }}</p>
+      {% endfor %}
     {% endif %}
 
-    {% for value in entity.fieldTable.value %}
-        {% if forloop.first == true %}
-            <thead>
-                <tr>
-                    {% for column in value %}
-                        <th>{{ column }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-        {% elsif forloop.last == false %}
-            <tbody>
-                <tr class="class">
-                    {% for column in value %}
-                        <td>{{ column }}</td>
-                    {% endfor %}
-                </tr>
-            </tbody>
-        {% endif %}
-    {% endfor %}
+    <!-- Line break -->
+    <hr />
+  {% endfor %}
+</div>
 
+<!-- Desktop -->
+<table data-template="paragraphs/table-desktop" data-entity-id="{{ entity.entityId }}" class="va-table vads-u-display--none medium-screen:vads-u-display--block">
+  {% if entity.fieldTable.caption %}
+      <caption>{{ entity.fieldTable.caption }}</caption>
+  {% endif %}
+
+  {% for value in entity.fieldTable.value %}
+    {% if forloop.first == true %}
+      <thead>
+        <tr>
+          {% for column in value %}
+            <th>{{ column }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+    {% elsif forloop.last == false %}
+      <tbody>
+        <tr class="class">
+          {% for column in value %}
+            <td>{{ column }}</td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    {% endif %}
+  {% endfor %}
 </table>
