@@ -8,9 +8,14 @@
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
-        <article class="usa-content">
+        <div class="usa-content">
           <h1>{{ title }}</h1>
+
+          <!-- Search bar -->
+          {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
+
           <p>{{ paginationTitle }}</p>
+
           <ul class="usa-unstyled-list">
           {% for article in articles %}
             <li>
@@ -33,7 +38,7 @@
             </li>
           {% endfor %}
           </ul>
-        </article>
+        </div>
         {% include "src/site/includes/pagination.drupal.liquid" %}
       </div>
     </div>
