@@ -14,13 +14,44 @@ export const setFocus = selector => {
   }
 };
 
-export const clearMarkers = () => {
-  const currentMarkers = window.document.getElementsByClassName(
+export const clearLocationMarkers = () => {
+  const locationMarkers = window.document.getElementsByClassName(
     'mapboxgl-marker',
   );
-  for (let i = currentMarkers.length - 1; i >= 0; i--) {
-    currentMarkers[i].remove();
+  for (let i = locationMarkers.length - 1; i >= 0; i--) {
+    locationMarkers[i].remove();
   }
+};
+
+export const buildMarker = (type, values) => {
+  if (type === 'location') {
+    const { loc, attrs } = values;
+    const markerElement = document.createElement('span');
+    markerElement.className = 'i-pin-card-map';
+    markerElement.style.cursor = 'pointer';
+    markerElement.textContent = attrs.letter;
+    markerElement.addEventListener('click', function() {
+      const locationElement = document.getElementById(loc.id);
+      if (locationElement) {
+        Array.from(document.getElementsByClassName('facility-result')).forEach(
+          e => {
+            e.classList.remove('active');
+          },
+        );
+        locationElement.classList.add('active');
+        document.getElementById('searchResultsContainer').scrollTop =
+          locationElement.offsetTop;
+      }
+    });
+    return markerElement;
+  }
+
+  if (type === 'currentPos') {
+    const markerElement = document.createElement('div');
+    markerElement.className = 'current-pos-pin';
+    return markerElement;
+  }
+  return null;
 };
 
 /**

@@ -23,7 +23,9 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
-import { setFocus, clearMarkers } from '../utils/helpers';
+import { setFocus, clearLocationMarkers, buildMarker } from '../utils/helpers';
+import { MARKER_LETTERS } from '../constants';
+import { distBetween } from '../utils/facilityDistance';
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
@@ -47,7 +49,7 @@ const FacilitiesMap = props => {
       const initializeMap = (setMapInit, mapContainerInit) => {
         const mapInit = new mapboxgl.Map({
           container: mapContainerInit.current,
-          style: 'mapbox://styles/mapbox/streets-v10',
+          style: 'mapbox://styles/mapbox/outdoors-v11',
           center: [-99.27246093750001, 40.17887331434698], // Initial state search query reducer
           zoom: 3,
         });
@@ -148,10 +150,33 @@ const FacilitiesMap = props => {
     [props.currentQuery.id], // Handle search when query changes
   );
 
-  const buildMarkers = locations => {
+  const renderMarkers = locations => {
     if (locations.length === 0) return;
-    locations.forEach(loc => {
-      new mapboxgl.Marker() // TODO - change to new style marker
+    const currentLocation = props.currentQuery.position;
+    const markersLetters = MARKER_LETTERS.values();
+    const sortedLocations = locations
+      .map(r => {
+        const distance = currentLocation
+          ? distBetween(
+              currentLocation.latitude,
+              currentLocation.longitude,
+              r.attributes.lat,
+              r.attributes.long,
+            )
+          : null;
+        return {
+          ...r,
+          distance,
+        };
+      })
+      .sort((resultA, resultB) => resultA.distance - resultB.distance);
+
+    sortedLocations.forEach(loc => {
+      const attrs = {
+        letter: markersLetters.next().value,
+      };
+      const markerElement = buildMarker('location', { loc, attrs });
+      new mapboxgl.Marker(markerElement)
         .setLngLat([loc.attributes.long, loc.attributes.lat])
         .addTo(map);
     });
@@ -159,14 +184,23 @@ const FacilitiesMap = props => {
     if (props.currentQuery.bounds) {
       map.fitBounds(props.currentQuery.bounds);
     }
+    if (props.currentQuery.searchCoords) {
+      const markerElement = buildMarker('currentPos');
+      new mapboxgl.Marker(markerElement)
+        .setLngLat([
+          props.currentQuery.searchCoords.lng,
+          props.currentQuery.searchCoords.lat,
+        ])
+        .addTo(map);
+    }
   };
 
   useEffect(
     () => {
       if (!previousResults || (results && results.length === 0)) return;
       if (JSON.stringify(previousResults.results) !== JSON.stringify(results)) {
-        clearMarkers();
-        buildMarkers(results);
+        clearLocationMarkers();
+        renderMarkers(results);
       }
     },
     [props.results], // Handle build markers when we get results
