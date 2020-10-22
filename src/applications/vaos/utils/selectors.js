@@ -48,7 +48,7 @@ export const selectIsCernerOnlyPatient = state =>
 
 export const selectIsCernerPatient = state =>
   selectPatientFacilities(state)?.some(
-    f => f.isCerner && f.usersCernerAppointments,
+    f => f.isCerner && f.usesCernerAppointments,
   );
 
 export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
@@ -478,7 +478,7 @@ export function getCancelInfo(state) {
   let isCerner = null;
   if (appointmentToCancel) {
     const facilityId = getVARFacilityId(appointmentToCancel);
-    isCerner = selectCernerAppointmentsFacilities(state).some(cernerSite =>
+    isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
       facilityId?.startsWith(cernerSite.facilityId),
     );
   }

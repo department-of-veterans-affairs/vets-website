@@ -121,7 +121,11 @@ describe('VAOS selectors', () => {
         user: {
           profile: {
             facilities: [
-              { facilityId: '668', isCerner: true },
+              {
+                facilityId: '668',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
               { facilityId: '124', isCerner: false },
             ],
             isCernerPatient: true,
@@ -430,7 +434,13 @@ describe('VAOS selectors', () => {
         },
         user: {
           profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
+            facilities: [
+              {
+                facilityId: '123',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
+            ],
             isCernerPatient: true,
           },
         },
@@ -460,7 +470,13 @@ describe('VAOS selectors', () => {
         },
         user: {
           profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
+            facilities: [
+              {
+                facilityId: '123',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
+            ],
             isCernerPatient: true,
           },
         },
@@ -505,7 +521,13 @@ describe('VAOS selectors', () => {
         },
         user: {
           profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
+            facilities: [
+              {
+                facilityId: '123',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
+            ],
             isCernerPatient: true,
           },
         },
@@ -600,7 +622,13 @@ describe('VAOS selectors', () => {
         },
         user: {
           profile: {
-            facilities: [{ facilityId: '668', isCerner: true }],
+            facilities: [
+              {
+                facilityId: '668',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
+            ],
           },
           isCernerPatient: true,
         },
@@ -616,7 +644,11 @@ describe('VAOS selectors', () => {
         user: {
           profile: {
             facilities: [
-              { facilityId: '668', isCerner: true },
+              {
+                facilityId: '668',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
               { facilityId: '124', isCerner: false },
             ],
             isCernerPatient: true,
