@@ -62,4 +62,11 @@ const PasswordLabel = () => (
   </p>
 );
 
-export { ShowPdfPassword, PasswordLabel };
+const PasswordSuccess = () => (
+  <>
+    <p>PDF password</p>
+    <strong>The PDF password has been added.</strong>
+  </>
+);
+
+export { ShowPdfPassword, PasswordLabel, PasswordSuccess };

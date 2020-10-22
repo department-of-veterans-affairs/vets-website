@@ -9,6 +9,7 @@ import { focusElement } from '../utilities/ui';
 import {
   ShowPdfPassword,
   PasswordLabel,
+  PasswordSuccess,
   PdfPasswordFeature,
   checkForEncryptedPdf,
 } from '../utilities/file';
@@ -309,6 +310,11 @@ export default class FileField extends React.Component {
                 (files[index].isEncrypted || // needs password
                   // incorrect password, returning error message
                   (files[index].password && files[index].errorMessage));
+              const showPasswordSuccess =
+                pdfPasswordFeature &&
+                file.password &&
+                !hasErrors &&
+                !file.errorMessage;
 
               if (showPasswordInput) {
                 setTimeout(() => {
@@ -346,7 +352,10 @@ export default class FileField extends React.Component {
                       {file.unlocked && '(unlocked)'}
                     </span>
                   )}
-                  {showPasswordInput && <PasswordLabel />}
+                  {(showPasswordInput || showPasswordSuccess) && (
+                    <PasswordLabel />
+                  )}
+                  {showPasswordSuccess && <PasswordSuccess />}
                   {!hasErrors &&
                     _.get('properties.attachmentId', itemSchema) && (
                       <Tag className="schemaform-file-attachment review">
