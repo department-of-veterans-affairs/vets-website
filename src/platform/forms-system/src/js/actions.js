@@ -248,6 +248,7 @@ export function uploadFile(
     onChange({
       name: file.name,
       uploading: true,
+      password: file.password,
     });
 
     const payload = uiOptions.createPayload(
@@ -265,12 +266,13 @@ export function uploadFile(
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
 
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange(fileData);
+        onChange({ ...fileData, password });
       } else {
         let errorMessage;
         try {
           // detail contains a better error message
-          errorMessage = JSON.parse(req.responseText)?.detail || req.statusText;
+          errorMessage =
+            JSON.parse(req?.response)?.errors?.[0]?.detail || req.statusText;
         } catch (error) {
           errorMessage = req.statusText;
         }
@@ -285,6 +287,7 @@ export function uploadFile(
         onChange({
           name: file.name,
           errorMessage,
+          password: file.password,
         });
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();
@@ -296,6 +299,7 @@ export function uploadFile(
       onChange({
         name: file.name,
         errorMessage,
+        password: file.password,
       });
       Sentry.withScope(scope => {
         scope.setExtra('statusText', req.statusText);

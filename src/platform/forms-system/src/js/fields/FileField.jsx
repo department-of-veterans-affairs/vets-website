@@ -1,36 +1,29 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 
 import ProgressBar from '../components/ProgressBar';
 import { focusElement } from '../utilities/ui';
 import {
+  ShowPdfPassword,
+  PasswordLabel,
+  PdfPasswordFeature,
   checkForEncryptedPdf,
-  getRequestLockedPdfPassword,
 } from '../utilities/file';
 
-class FileField extends React.Component {
+export default class FileField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       progress: 0,
-      pdf: {
-        file: null,
-        index: null,
-        getEncryptedPassword: false,
-      },
-      field: {
-        dirty: false,
-        charMax: 255,
-        value: '',
-      },
+      files: [], // see Files~state definition
+      pdfPasswordFeature: false,
     };
-    this.fileInputRef = React.createRef();
   }
+  fileInputRef = React.createRef();
+  pdfPasswordFeature = React.createRef();
 
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
@@ -47,43 +40,85 @@ class FileField extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      // Check PDF password feature flag in a secondary connected component
+      // ref: https://medium.com/octopus-labs-london/how-to-access-a-redux-components-methods-with-createref-ca28a96efd59
+      pdfPasswordFeature: this.pdfPasswordFeature.current?.getWrappedInstance()
+        ?.props.requestLockedPdfPassword,
+    });
+  }
+
   focusAddAnotherButton = () => {
     // focus on span pseudo-button, not the label
     focusElement(`#${this.props.idSchema.$id}_add_label span`);
   };
 
-  onSubmitPassword = index => {
-    const password = this.state.field.value;
-    if (password) {
-      const { file } = this.state.pdf;
-      this.resetSubmitPassword();
-      this.onAddFile({ target: { files: [file] } }, index, password);
+  /**
+   * @typedef Files~state - File state object
+   * @type {object}
+   * @property {object|null} file - upload API supplied File object: see
+   *   https://developer.mozilla.org/en-US/docs/Web/API/File
+   * @property {number} index - index matching formData array position
+   * @property {boolean} isEncrypted - detected encrypted state of a PDF file
+   * @property {boolean} isTemporary - indicates state data that needs needs a
+   *   placeholder
+   */
+  /**
+   * Update file state
+   * @param {object|null} file - API supplied File object; store the entire File
+   *   object because it needs to be passed to the `uploadRequest` function
+   * @param {number} index - index of file in formData
+   * @param {boolean} isEncrypted - encrypted state
+   */
+  setFileState = ({ file, index, isEncrypted }) => {
+    // remove already uploaded files from state
+    const files = this.state.files.filter(
+      fileObj =>
+        this.props.formData.findIndex(
+          fileData => fileData.name === fileObj.file.name,
+        ) < 0,
+    );
+
+    const existingIndex = files.findIndex(fileData => fileData.index === index);
+    const data = { file, index, isEncrypted, isTemporary: true };
+    if (existingIndex > -1) {
+      files[existingIndex] = data;
+      this.setState({ files });
     } else {
-      this.setState({
-        field: {
-          dirty: true,
-          charMax: 255,
-          value: '',
-        },
-      });
+      this.setState({ files: [...files, data] });
     }
   };
 
-  resetSubmitPassword = () => {
-    this.setState({
-      pdf: {
-        file: null,
-        index: null,
-        getEncryptedPassword: false,
-      },
-      field: {
-        dirty: false,
-        charMax: 255,
-        value: '',
-      },
-    });
+  onSubmitPassword = (file, index, password) => {
+    if (file && password) {
+      this.onAddFile({ target: { files: [file] } }, index, password);
+    }
   };
 
+  processFile = async (file, index) =>
+    checkForEncryptedPdf(file)
+      .then(result => {
+        if (result) {
+          this.setFileState({ file, index, isEncrypted: true });
+        }
+        return result;
+      })
+      .catch(() => {
+        // This _should_ only be called if a file is deleted after the
+        // user selects it for upload
+        this.setFileState({ index, isEncrypted: false });
+        return false;
+      });
+
+  /**
+   * Add file to list and upload
+   * @param {Event} event - DOM File upload event
+   * @param {number} index - uploaded file index, if already uploaded
+   * @param {string} password - encrypted PDF password, only defined by
+   *   `onSubmitPassword` function
+   * @listens
+   */
   onAddFile = async (event, index = null, password) => {
     if (event.target.files && event.target.files.length) {
       const files = this.props.formData || [];
@@ -92,45 +127,28 @@ class FileField extends React.Component {
         idx = files.length === 0 ? 0 : files.length;
       }
       const currentFile = event.target.files[0];
-      const uiOptions = this.props.uiSchema['ui:options'] || {};
-      if (
-        this.props.requestLockedPdfPassword && // feature flag
-        uiOptions.getEncryptedPassword
-      ) {
-        const isEncrypted = await checkForEncryptedPdf(currentFile)
-          .then(result => {
-            // the input value will be empty if the password is submitted
-            if (result && !this.state.field.value) {
-              this.setState({
-                pdf: {
-                  file: currentFile,
-                  index: idx,
-                  getEncryptedPassword: true,
-                },
-              });
-            }
-            return result;
-          })
-          .catch(() => {
-            // This _should_ only be called if a file is deleted after the
-            // user selects it for upload
-            this.uploadRequest = null;
-          });
 
-        if (isEncrypted) {
-          focusElement('[name="get_password"]');
-          // Don't upload until after we have a password
-          if (!password) {
-            return;
-          }
+      // Check if the file is an encrypted PDF
+      if (
+        this.state.pdfPasswordFeature &&
+        !password &&
+        currentFile.name.endsWith('pdf') &&
+        (this.props.uiSchema['ui:options'] || {}).getEncryptedPassword
+      ) {
+        const needsPassword = await this.processFile(currentFile, idx);
+        if (needsPassword) {
+          // wait for user to enter a password before uploading
+          return;
         }
       }
+
       this.uploadRequest = this.props.formContext.uploadFile(
         currentFile,
-        uiOptions,
+        this.props.uiSchema['ui:options'] || {},
         this.updateProgress,
         file => {
-          this.props.onChange(_.set(idx, file, this.props.formData || []));
+          const data = password ? { ...file, password } : file;
+          this.props.onChange(_.set(idx, data, this.props.formData || []));
           this.uploadRequest = null;
         },
         () => {
@@ -174,22 +192,62 @@ class FileField extends React.Component {
   };
 
   removeFile = index => {
-    const newFileList = this.props.formData.filter(
-      (file, idx) => index !== idx,
-    );
+    const newFileList = this.props.formData.filter((__, idx) => index !== idx);
     if (!newFileList.length) {
       this.props.onChange();
     } else {
       this.props.onChange(newFileList);
     }
-    if (index === this.state.pdf.index) {
-      this.resetSubmitPassword();
-    }
+    this.setState({
+      files: this.state.files.filter(entry => entry.index !== index),
+    });
     // clear file input value; just in case
     if (this.fileInputRef.current) {
       this.fileInputRef.current.value = '';
     }
     this.focusAddAnotherButton();
+  };
+
+  /**
+   * @typeof Files~ApiResponse
+   * @type {object}
+   * @property {string} name - file name
+   * @property {string} confirmationCode - uuid of uploaded file
+   * @property {string} attachmentId - form ID set by user
+   */
+  /**
+   * @typedef Files~render
+   * @type {object}
+   * @property {Files~ApiResponse} file - File object, used when user submits
+   *   password
+   * @property {string} name - file name for UI
+   * @property {boolean} isEncrypted - encrypted state
+   * @property {boolean} isTemporary - temporary file listing added
+   *   before uploading to have a placeholder in the UI
+   */
+  /**
+   * Get file list. it needs to add files that have been marked as encrypted in
+   * the state file data
+   * @return {Files~render}
+   */
+  getFiles = () => {
+    // remove temp placeholders; just in case
+    const fileList =
+      this.props.formData?.filter(file => !file.isTemporary) || [];
+    this.state.files.forEach(({ file, index, isEncrypted }) => {
+      if (file.name === fileList[index]?.name) {
+        // already uploaded; remove from state list
+        return false;
+      }
+      fileList.push({
+        file,
+        name: file.name,
+        isEncrypted,
+        isTemporary: true,
+      });
+      return true;
+    });
+    return fileList;
   };
 
   render() {
@@ -202,44 +260,14 @@ class FileField extends React.Component {
       formContext,
       onBlur,
     } = this.props;
-
+    const { pdfPasswordFeature } = this.state;
     const uiOptions = uiSchema?.['ui:options'] || {};
-    // remove temp placeholders
-    const files = formData?.filter(file => !file.isTemporary) || [];
+    const files = this.getFiles();
     const maxItems = schema.maxItems || Infinity;
     const SchemaField = this.props.registry.fields.SchemaField;
-    const getEncryptedPassword =
-      this.props.requestLockedPdfPassword && // feature flag
-      this.state.pdf.getEncryptedPassword &&
-      uiOptions.getEncryptedPassword;
-    let encryptedFileIndex = this.state.pdf.index;
     const attachmentIdRequired = schema.additionalItems.required
       ? schema.additionalItems.required.includes('attachmentId')
       : false;
-
-    // Find existing entry instead of always adding a new entry
-    // Looks for an exact same filename in reverse order
-    if (getEncryptedPassword) {
-      const encryptedFileName = this.state.pdf.file?.name;
-      const findEncryptedFileIndex = files
-        .slice()
-        .reverse()
-        .findIndex(
-          file => file.name === encryptedFileName && file.errorMessage,
-        );
-      // Add temporary placeholder for files not yet uploaded
-      if (findEncryptedFileIndex < 0) {
-        files.push({ name: this.state.pdf.file?.name, isTemporary: true });
-      } else if (
-        encryptedFileIndex !==
-        files.length - findEncryptedFileIndex - 1
-      ) {
-        // File may be in SiPs, and since we don't prevent duplicate files
-        // so this will make the password show up on the last instance of a
-        // file with the exact name filename
-        encryptedFileIndex = files.length - findEncryptedFileIndex - 1;
-      }
-    }
 
     const isUploading = files.some(file => file.uploading);
     let { buttonText = 'Upload' } = uiOptions;
@@ -254,6 +282,7 @@ class FileField extends React.Component {
           formContext.reviewMode ? 'schemaform-file-upload-review' : undefined
         }
       >
+        <PdfPasswordFeature ref={this.pdfPasswordFeature} />
         {files.length > 0 && (
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
@@ -275,8 +304,17 @@ class FileField extends React.Component {
                 errorSchema,
               );
               const attachmentNameErrors = _.get([index, 'name'], errorSchema);
-              const showPdfPasswordContent =
-                (getEncryptedPassword && encryptedFileIndex === index) || false;
+              const showPasswordInput =
+                pdfPasswordFeature && // feature flag
+                (files[index].isEncrypted || // needs password
+                  // incorrect password, returning error message
+                  (files[index].password && files[index].errorMessage));
+
+              if (showPasswordInput) {
+                setTimeout(() => {
+                  focusElement(`[name="get_password_${index}"]`);
+                }, 100);
+              }
 
               return (
                 <li
@@ -308,13 +346,7 @@ class FileField extends React.Component {
                       {file.unlocked && '(unlocked)'}
                     </span>
                   )}
-                  {showPdfPasswordContent && (
-                    <p>
-                      This is en encrypted PDF document. In order for us to be
-                      able to view the document, we will need the password to
-                      decrypt it.
-                    </p>
-                  )}
+                  {showPasswordInput && <PasswordLabel />}
                   {!hasErrors &&
                     _.get('properties.attachmentId', itemSchema) && (
                       <Tag className="schemaform-file-attachment review">
@@ -337,6 +369,7 @@ class FileField extends React.Component {
                       </Tag>
                     )}
                   {!hasErrors &&
+                    !showPasswordInput &&
                     uiOptions.attachmentName && (
                       <Tag className="schemaform-file-attachment review">
                         <SchemaField
@@ -363,32 +396,12 @@ class FileField extends React.Component {
                         {errors[0] || file.errorMessage}
                       </span>
                     )}
-                  {showPdfPasswordContent && (
-                    // See va.gov-team/issues/14695
-                    <div onKeyPress={e => e.preventDefault()}>
-                      <ErrorableTextInput
-                        label={'PDF password'}
-                        errorMessage={
-                          this.state.field.dirty &&
-                          !this.state.field.value &&
-                          'Please provide a password to decrypt this file'
-                        }
-                        name={'get_password'}
-                        required
-                        field={this.state.field}
-                        onValueChange={field => this.setState({ field })}
-                      />
-                      <button
-                        type="button"
-                        className="usa-button-primary va-button-primary vads-u-width--auto"
-                        onClick={() =>
-                          this.onSubmitPassword(encryptedFileIndex)
-                        }
-                      >
-                        Add password
-                      </button>
-                      <p />
-                    </div>
+                  {showPasswordInput && (
+                    <ShowPdfPassword
+                      file={file.file}
+                      index={index}
+                      onSubmitPassword={this.onSubmitPassword}
+                    />
                   )}
                   {!file.uploading && (
                     <div>
@@ -462,13 +475,4 @@ FileField.propTypes = {
   formData: PropTypes.array,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  requestLockedPdfPassword: PropTypes.bool,
 };
-
-const mapStateToProps = state => ({
-  requestLockedPdfPassword: getRequestLockedPdfPassword(state),
-});
-
-export { FileField };
-
-export default connect(mapStateToProps)(FileField);
