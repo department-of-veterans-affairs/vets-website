@@ -46,7 +46,7 @@
       <!-- Iterate over columns -->
       {% for column in row %}
         {% assign columnIndex = forloop.index %}
-        <p><strong>{{ column[columnIndex] }}:</strong> {{ column }}</p>
+        <p><strong>{{ colHeaders[columnIndex] }}:</strong> {{ column }}</p>
       {% endfor %}
     {% endif %}
 
