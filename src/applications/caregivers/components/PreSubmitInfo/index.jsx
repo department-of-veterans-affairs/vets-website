@@ -103,8 +103,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         </p>
 
         <p>
-          I understand that participation in PCAFC does not create an employment
-          relationship between me and the Department of Veterans Affairs.
+          I understand that participation in the Program of Comprehensive
+          Assistance for Family Caregivers does not create an employment
+          relationship with the Department of Veterans Affairs.
         </p>
 
         <PrivacyPolicy />
@@ -135,9 +136,10 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       >
         <h3>Veteran&apos;s statement of truth</h3>
         <p>
-          I certify that I am a family member of the Veteran named in this
-          application or I reside with the Veteran, or will do so upon
-          designation as the Veteran's Primary Family Caregiver.
+          I certify that I give consent to the individual(s) named in this
+          application to perform personal care services for me upon being
+          approved as Primary and/or Secondary Family Caregivers in the Program
+          of Comprehensive Assistance for Family Caregivers.
         </p>
 
         <PrivacyPolicy />
@@ -180,8 +182,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         </p>
 
         <p>
-          I understand that participation in PCAFC does not create an employment
-          relationship between me and the Department of Veterans Affairs.
+          I understand that participation in the PCAFC does not create an
+          employment relationship between me and the Department of Veterans
+          Affairs.
         </p>
 
         <PrivacyPolicy />
