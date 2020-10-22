@@ -14,6 +14,15 @@ export const setFocus = selector => {
   }
 };
 
+export const clearMarkers = () => {
+  const currentMarkers = window.document.getElementsByClassName(
+    'mapboxgl-marker',
+  );
+  for (let i = currentMarkers.length - 1; i >= 0; i--) {
+    currentMarkers[i].remove();
+  }
+};
+
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *

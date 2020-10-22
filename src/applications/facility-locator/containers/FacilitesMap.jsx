@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import Helmet from 'react-helmet';
 import mapboxgl from 'mapbox-gl';
-// import 'mapbox-gl/dist/mapbox-gl.css'; weback issue
+// import 'mapbox-gl/dist/mapbox-gl.css'; webpack issue
 import { mapboxToken } from '../utils/mapboxToken';
 import {
   clearSearchResults,
@@ -23,7 +23,7 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
-import { setFocus } from '../utils/helpers';
+import { setFocus, clearMarkers } from '../utils/helpers';
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
@@ -31,6 +31,15 @@ const FacilitiesMap = props => {
   const searchResultTitleRef = useRef(null);
   // const [isMobile, setIsMobile] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
+  const { results } = props;
+  const usePreviousResults = value => {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  };
+  const previousResults = usePreviousResults({ results });
 
   useEffect(
     () => {
@@ -139,6 +148,30 @@ const FacilitiesMap = props => {
     [props.currentQuery.id], // Handle search when query changes
   );
 
+  const buildMarkers = locations => {
+    if (locations.length === 0) return;
+    locations.forEach(loc => {
+      new mapboxgl.Marker() // TODO - change to new style marker
+        .setLngLat([loc.attributes.long, loc.attributes.lat])
+        .addTo(map);
+    });
+
+    if (props.currentQuery.bounds) {
+      map.fitBounds(props.currentQuery.bounds);
+    }
+  };
+
+  useEffect(
+    () => {
+      if (!previousResults || (results && results.length === 0)) return;
+      if (JSON.stringify(previousResults.results) !== JSON.stringify(results)) {
+        clearMarkers();
+        buildMarkers(results);
+      }
+    },
+    [props.results], // Handle build markers when we get results
+  );
+
   const otherToolsLink = () => (
     <div id="other-tools">
       Can’t find what you’re looking for?&nbsp;&nbsp;
@@ -173,6 +206,7 @@ const FacilitiesMap = props => {
       ...currentQuery,
       usePredictiveGeolocation,
     });
+
     setIsSearching(true);
   };
 
@@ -186,22 +220,10 @@ const FacilitiesMap = props => {
     });
   };
 
-  const buildMarkers = locations => {
-    if (props.results.length === 0) return;
-    locations.forEach(loc => {
-      new mapboxgl.Marker() // TODO use avc markers
-        .setLngLat([loc.attributes.long, loc.attributes.lat])
-        .addTo(map);
-    });
-    // console.log(props);
-  };
-
   const renderViews = () => {
     // Handle both mobile and desktop here?
-    buildMarkers(props.results);
     const {
       currentQuery,
-      results,
       pagination: { currentPage, totalPages },
     } = props;
     const facilityType = currentQuery.facilityType;
