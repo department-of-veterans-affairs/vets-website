@@ -3,13 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
 
+import {
+  uploadStore,
+  uploadFeatureData,
+} from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
-import { FileField } from '../../../src/js/fields/FileField';
+import FileField from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 
 const formContext = {
@@ -357,10 +362,7 @@ describe('Schemaform <FileField>', () => {
   });
 
   it('should delete file', () => {
-    const uiSchema = {
-      ...fileUploadUI('Files'),
-      'ui:field': FileField,
-    };
+    const uiSchema = fileUploadUI('Files');
     const schema = {
       type: 'object',
       properties: {
@@ -368,19 +370,22 @@ describe('Schemaform <FileField>', () => {
       },
     };
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          fileField: [
-            {
-              confirmationCode: 'asdfasfd',
-            },
-          ],
-        }}
-        uiSchema={{
-          fileField: uiSchema,
-        }}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            ...uploadFeatureData,
+            fileField: [
+              {
+                confirmationCode: 'asdfasfd',
+              },
+            ],
+          }}
+          uiSchema={{
+            fileField: uiSchema,
+          }}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 
@@ -392,10 +397,7 @@ describe('Schemaform <FileField>', () => {
   });
 
   it('should upload file', () => {
-    const uiSchema = {
-      ...fileUploadUI('Files'),
-      'ui:field': FileField,
-    };
+    const uiSchema = fileUploadUI('Files');
     const schema = {
       type: 'object',
       properties: {
@@ -404,16 +406,19 @@ describe('Schemaform <FileField>', () => {
     };
     const uploadFile = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          fileField: [],
-        }}
-        uploadFile={uploadFile}
-        uiSchema={{
-          fileField: uiSchema,
-        }}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            ...uploadFeatureData,
+            fileField: [],
+          }}
+          uploadFile={uploadFile}
+          uiSchema={{
+            fileField: uiSchema,
+          }}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 

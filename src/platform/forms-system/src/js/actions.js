@@ -244,12 +244,11 @@ export function uploadFile(
       onError();
       return null;
     }
-
-    onChange({
-      name: file.name,
-      uploading: true,
-      password: file.password,
-    });
+    if (password) {
+      onChange({ name: file.name, uploading: true, password });
+    } else {
+      onChange({ name: file.name, uploading: true });
+    }
 
     const payload = uiOptions.createPayload(
       file,
@@ -266,7 +265,11 @@ export function uploadFile(
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
 
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange({ ...fileData, password });
+        if (password) {
+          onChange({ ...fileData, password });
+        } else {
+          onChange(fileData);
+        }
       } else {
         let errorMessage;
         try {
@@ -284,11 +287,11 @@ export function uploadFile(
           )}.`;
         }
 
-        onChange({
-          name: file.name,
-          errorMessage,
-          password: file.password,
-        });
+        if (password) {
+          onChange({ name: file.name, errorMessage, password: file.password });
+        } else {
+          onChange({ name: file.name, errorMessage });
+        }
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();
       }
@@ -296,11 +299,11 @@ export function uploadFile(
 
     req.addEventListener('error', () => {
       const errorMessage = 'Network request failed';
-      onChange({
-        name: file.name,
-        errorMessage,
-        password: file.password,
-      });
+      if (password) {
+        onChange({ name: file.name, errorMessage, password: file.password });
+      } else {
+        onChange({ name: file.name, errorMessage });
+      }
       Sentry.withScope(scope => {
         scope.setExtra('statusText', req.statusText);
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);

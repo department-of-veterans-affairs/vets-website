@@ -2,13 +2,19 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 
+import {
+  uploadStore,
+  uploadFeatureData,
+} from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 const invalidDocumentData = {
+  ...uploadFeatureData,
   additionalDocuments: [
     {
       confirmationCode: 'testing',
@@ -18,6 +24,7 @@ const invalidDocumentData = {
 };
 
 const validDocumentData = {
+  ...uploadFeatureData,
   additionalDocuments: [
     {
       name: 'Form526.pdf',
@@ -33,14 +40,16 @@ describe('526EZ document upload', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={uploadFeatureData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     expect(form.find('input').length).to.equal(1);
@@ -50,15 +59,17 @@ describe('526EZ document upload', () => {
   it('should not submit without an upload', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          onSubmit={onSubmit}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={uploadFeatureData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -71,15 +82,17 @@ describe('526EZ document upload', () => {
   it('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        onSubmit={onSubmit}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={invalidDocumentData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          onSubmit={onSubmit}
+          pagePerItemIndex={0}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={invalidDocumentData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -92,15 +105,17 @@ describe('526EZ document upload', () => {
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        onSubmit={onSubmit}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={validDocumentData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          onSubmit={onSubmit}
+          pagePerItemIndex={0}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={validDocumentData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');

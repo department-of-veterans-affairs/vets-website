@@ -2,7 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 
+import {
+  uploadStore,
+  uploadFeatureData,
+} from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
 } from 'platform/testing/unit/schemaform-utils.jsx';
@@ -17,17 +22,20 @@ describe('8940 supporting documents upload', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          'view:unemployabilityUploadChoice': 'answerQuestions',
-          'view:uploadUnemployabilitySupportingDocumentsChoice': true,
-        }}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            ...uploadFeatureData,
+            'view:unemployabilityUploadChoice': 'answerQuestions',
+            'view:uploadUnemployabilitySupportingDocumentsChoice': true,
+          }}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     expect(form.find('input').length).to.equal(1);
@@ -37,18 +45,21 @@ describe('8940 supporting documents upload', () => {
   it('should submit without required upload', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          'view:unemployabilityUploadChoice': 'answerQuestions',
-          'view:uploadUnemployabilitySupportingDocumentsChoice': true,
-        }}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          onSubmit={onSubmit}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            ...uploadFeatureData,
+            'view:unemployabilityUploadChoice': 'answerQuestions',
+            'view:uploadUnemployabilitySupportingDocumentsChoice': true,
+          }}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -60,23 +71,26 @@ describe('8940 supporting documents upload', () => {
   it('should submit with uploaded documents', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          unemployabilitySupportingDocuments: [
-            {
-              confirmationCode: 'testing',
-              name: '8940.pdf',
-              attachmentId: 'L149',
-            },
-          ],
-        }}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          onSubmit={onSubmit}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            ...uploadFeatureData,
+            unemployabilitySupportingDocuments: [
+              {
+                confirmationCode: 'testing',
+                name: '8940.pdf',
+                attachmentId: 'L149',
+              },
+            ],
+          }}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');

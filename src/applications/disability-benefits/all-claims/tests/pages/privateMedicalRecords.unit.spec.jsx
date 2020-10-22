@@ -2,6 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+
+import {
+  uploadStore,
+  uploadFeatureData,
+} from 'platform/forms-system/test/config/helpers';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
@@ -13,13 +19,15 @@ describe('526 All Claims Private medical records', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={uploadFeatureData}
+          formData={{}}
+        />
+      </Provider>,
     );
 
     expect(form.find('input').length).to.equal(2);
@@ -28,13 +36,15 @@ describe('526 All Claims Private medical records', () => {
 
   it('should not expand the upload button by default', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{}}
+          formData={uploadFeatureData}
+        />
+      </Provider>,
     );
 
     expect(
@@ -45,17 +55,20 @@ describe('526 All Claims Private medical records', () => {
 
   it('should expand upload when "yes" option selected', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': true,
-          },
-        }}
-        formData={{}}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...uploadFeatureData,
+            'view:uploadPrivateRecordsQualifier': {
+              'view:hasPrivateRecordsToUpload': true,
+            },
+          }}
+          formData={{}}
+        />
+      </Provider>,
     );
 
     expect(
@@ -68,18 +81,21 @@ describe('526 All Claims Private medical records', () => {
   it('should submit when user selects "no" to upload', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': false,
-          },
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...uploadFeatureData,
+            'view:uploadPrivateRecordsQualifier': {
+              'view:hasPrivateRecordsToUpload': false,
+            },
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -91,18 +107,21 @@ describe('526 All Claims Private medical records', () => {
   it('should not submit without an upload if one indicated', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': true,
-          },
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...uploadFeatureData,
+            'view:uploadPrivateRecordsQualifier': {
+              'view:hasPrivateRecordsToUpload': true,
+            },
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -114,19 +133,24 @@ describe('526 All Claims Private medical records', () => {
   it('should not submit without additional upload info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': true,
-          },
-          privateMedicalRecordAttachments: [{ confirmationCode: '123345asdf' }],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...uploadFeatureData,
+            'view:uploadPrivateRecordsQualifier': {
+              'view:hasPrivateRecordsToUpload': true,
+            },
+            privateMedicalRecordAttachments: [
+              { confirmationCode: '123345asdf' },
+            ],
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -138,25 +162,28 @@ describe('526 All Claims Private medical records', () => {
   it('should submit with all required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': true,
-          },
-          privateMedicalRecordAttachments: [
-            {
-              name: 'Test document.pdf',
-              attachmentId: 'L107',
-              confirmationCode: '123345asdf',
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...uploadFeatureData,
+            'view:uploadPrivateRecordsQualifier': {
+              'view:hasPrivateRecordsToUpload': true,
             },
-          ],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+            privateMedicalRecordAttachments: [
+              {
+                name: 'Test document.pdf',
+                attachmentId: 'L107',
+                confirmationCode: '123345asdf',
+              },
+            ],
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');

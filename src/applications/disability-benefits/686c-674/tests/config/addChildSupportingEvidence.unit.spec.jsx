@@ -2,6 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
+
+import {
+  uploadStore,
+  uploadFeatureData,
+} from 'platform/forms-system/test/config/helpers';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
@@ -26,12 +32,14 @@ describe('686 upload additional evidence for spouse', () => {
   };
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{ ...uploadFeatureData, formData }}
+        />
+      </Provider>,
     );
     expect(form.find('input').length).to.equal(1);
     form.unmount();
@@ -40,13 +48,15 @@ describe('686 upload additional evidence for spouse', () => {
   it('should submit an empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{ ...uploadFeatureData, formData }}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -66,13 +76,15 @@ describe('686 upload additional evidence for spouse', () => {
       },
     };
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={fileData}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{ ...uploadFeatureData, fileData }}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
