@@ -153,6 +153,19 @@ export const specialIssueTypes = {
   POW: 'POW',
 };
 
+export const defaultDisabilityDescriptions = {
+  primaryDescription:
+    'This disability/symptom is related to my military service.',
+  causedByDisabilityDescription:
+    'This disability/symptom was caused by another condition.',
+  worsenedDescription:
+    'This pre-existing disability/symptom was worsened by military service.',
+  worsenedEffects:
+    'This pre-existing disability/symptom was worsened by military service.',
+  vaMistreatmentDescription:
+    'This disability/symptom was caused by an injury or event that happened while I was receiving VA care.',
+};
+
 export const PTSD_CHANGE_LABELS = {
   changeAssignment:
     'Sudden requests for a change in occupational series or duty assignment',

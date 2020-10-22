@@ -13,6 +13,7 @@ import {
   PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
   disabilityActionTypes,
+  defaultDisabilityDescriptions,
 } from './constants';
 
 import { disabilityIsSelected, hasGuardOrReservePeriod, isBDD } from './utils';
@@ -370,21 +371,21 @@ export function transform(formConfig, form) {
         switch (disability.cause) {
           case causeTypes.NEW:
             disabilityDescription.primaryDescription =
-              'This disability/symptom is related to my military service.';
+              defaultDisabilityDescriptions.primaryDescription;
             break;
           case causeTypes.SECONDARY:
             disabilityDescription.causedByDisabilityDescription =
-              'This disability/symptom was caused by another condition.';
+              defaultDisabilityDescriptions.causedByDisabilityDescription;
             break;
           case causeTypes.WORSENED:
             disabilityDescription.worsenedDescription =
-              'This pre-existing disability/symptom was worsened by military service.';
+              defaultDisabilityDescriptions.worsenedDescription;
             disabilityDescription.worsenedEffects =
-              'This pre-existing disability/symptom was worsened by military service.';
+              defaultDisabilityDescriptions.worsenedEffects;
             break;
           case causeTypes.VA:
             disabilityDescription.vaMistreatmentDescription =
-              'This disability/symptom was caused by an injury or event that happened while I was receiving VA care.';
+              defaultDisabilityDescriptions.vaMistreatmentDescription;
             break;
           default:
         }
