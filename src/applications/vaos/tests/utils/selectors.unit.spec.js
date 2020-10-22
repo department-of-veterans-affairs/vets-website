@@ -20,9 +20,9 @@ import {
   isWelcomeModalDismissed,
   selectLocalExpressCareWindowString,
   selectNextAvailableExpressCareWindowString,
+  selectIsCernerOnlyPatient,
 } from '../../utils/selectors';
 
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { VHA_FHIR_ID, APPOINTMENT_TYPES } from '../../utils/constants';
 
 describe('VAOS selectors', () => {

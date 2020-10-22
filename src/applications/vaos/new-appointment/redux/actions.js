@@ -7,7 +7,6 @@ import {
   selectVet360EmailAddress,
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
-  selectIsCernerOnlyPatient,
   selectVet360ResidentialAddress,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
@@ -24,6 +23,7 @@ import {
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
+  selectIsCernerOnlyPatient,
 } from '../../utils/selectors';
 import {
   getPreferences,
