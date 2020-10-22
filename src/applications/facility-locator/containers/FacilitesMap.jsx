@@ -34,14 +34,14 @@ const FacilitiesMap = props => {
   // const [isMobile, setIsMobile] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
   const { results } = props;
-  const usePreviousResults = value => {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  };
-  const previousResults = usePreviousResults({ results });
+  //  const usePreviousResults = value => {
+  //     const ref = useRef();
+  //     useEffect(() => {
+  //       ref.current = value;
+  //     });
+  //     return ref.current;
+  //   };
+  //   const previousResults = usePreviousResults({ results });
 
   useEffect(
     () => {
@@ -197,11 +197,11 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
-      if (!previousResults || (results && results.length === 0)) return;
-      if (JSON.stringify(previousResults.results) !== JSON.stringify(results)) {
-        clearLocationMarkers();
-        renderMarkers(results);
-      }
+      // if (!previousResults || (results && results.length === 0)) return;
+      // if (JSON.stringify(previousResults.results) !== JSON.stringify(results)) {
+      clearLocationMarkers();
+      renderMarkers(results);
+      // }
     },
     [props.results], // Handle build markers when we get results
   );
