@@ -90,8 +90,17 @@ class DebtDetails extends Component {
             ) : (
               <AlertBox
                 className="vads-u-margin-y--4 debt-details-alert"
-                headline="Hidden alert"
-                content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
+                headline="Lorem ipsum dolor sit"
+                content={
+                  <>
+                    <p>
+                      <strong>Lorem ipsum dolor sit.</strong> Ducimus, maxime.
+                      Maxime neque alias unde totam beatae repellat aliquam
+                      ipsam, quas tempore nostrum et facere? Nulla nisi dolorum
+                      maiores molestiae fugiat.
+                    </p>
+                  </>
+                }
                 status="info"
                 level={2}
               />
