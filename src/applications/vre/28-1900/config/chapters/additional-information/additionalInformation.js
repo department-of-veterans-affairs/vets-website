@@ -1,17 +1,17 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
-import { addressUISchema } from '../../../../../disability-benefits/686c-674/config/address-schema';
+import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
 const { newAddress, isMoving, yearsOfEducation } = fullSchema.properties;
 
-const newAddressUI = addressUISchema(
-  true,
+const checkboxTitle =
+  'I will live on a United States Military base outside of the U.S.';
+
+const newAddressUi = addressUiSchema(
   'newAddress',
-  formData => formData.isMoving,
+  checkboxTitle,
+  formData => formData?.isMoving,
 );
-// reset title for checkbox
-newAddressUI['view:livesOnMilitaryBase']['ui:title'] =
-  'I will live on a United States military base outside of the U.S.';
 
 export const schema = {
   type: 'object',
@@ -51,7 +51,7 @@ export const uiSchema = {
         Your new address
       </p>
     ),
-    ...newAddressUI,
+    ...newAddressUi,
     'ui:options': {
       expandUnder: 'isMoving',
       expandUnderCondition: true,

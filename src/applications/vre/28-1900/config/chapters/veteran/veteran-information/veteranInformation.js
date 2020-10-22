@@ -1,3 +1,4 @@
+import React from 'react';
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -41,7 +42,14 @@ export const uiSchema = {
       ...ssnUI,
     },
     vaFileNumber: {
-      'ui:title': 'Your VA file number (*If different from SSN)',
+      'ui:title': (
+        <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
+          Your VA file number{' '}
+          <span className="schemaform-required-span">
+            (*If different from SSN)
+          </span>
+        </p>
+      ),
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },

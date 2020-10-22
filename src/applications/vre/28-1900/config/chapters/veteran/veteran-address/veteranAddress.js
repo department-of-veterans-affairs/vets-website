@@ -1,8 +1,11 @@
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import { addressUISchema } from '../../../../../../disability-benefits/686c-674/config/address-schema';
+import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
 const { veteranAddress, mainPhone, cellPhone, email } = fullSchema.properties;
+
+const checkboxTitle =
+  'I live on a United States Military base outside of the U.S.';
 
 export const schema = {
   type: 'object',
@@ -19,7 +22,7 @@ export const schema = {
 };
 
 export const uiSchema = {
-  veteranAddress: addressUISchema(true, 'veteranAddress', () => true),
+  veteranAddress: addressUiSchema('veteranAddress', checkboxTitle, () => true),
   mainPhone: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',

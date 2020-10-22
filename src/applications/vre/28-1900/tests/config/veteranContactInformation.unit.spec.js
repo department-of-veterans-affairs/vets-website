@@ -24,7 +24,7 @@ describe('Chapter 31 veteran contact information', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(11);
     form.unmount();
   });
   it('should require address and email', () => {
@@ -38,7 +38,7 @@ describe('Chapter 31 veteran contact information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -52,11 +52,11 @@ describe('Chapter 31 veteran contact information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'select#root_veteranAddress_countryName', 'USA');
-    fillData(form, 'input#root_veteranAddress_addressLine1', 'Some road');
+    fillData(form, 'select#root_veteranAddress_country', 'USA');
+    fillData(form, 'input#root_veteranAddress_street', 'Some road');
     fillData(form, 'input#root_veteranAddress_city', 'Some city');
-    changeDropdown(form, 'select#root_veteranAddress_stateCode', 'DC');
-    fillData(form, 'input#root_veteranAddress_zipCode', '12345');
+    changeDropdown(form, 'select#root_veteranAddress_state', 'DC');
+    fillData(form, 'input#root_veteranAddress_postalCode', '12345');
     fillData(form, 'input#root_email', 'me2@home.com');
     form.find('input[name="root_view:confirmEmail"]').simulate('change', {
       target: {
@@ -78,11 +78,11 @@ describe('Chapter 31 veteran contact information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'select#root_veteranAddress_countryName', 'USA');
-    fillData(form, 'input#root_veteranAddress_addressLine1', 'Some road');
+    fillData(form, 'select#root_veteranAddress_country', 'USA');
+    fillData(form, 'input#root_veteranAddress_street', 'Some road');
     fillData(form, 'input#root_veteranAddress_city', 'Some city');
-    changeDropdown(form, 'select#root_veteranAddress_stateCode', 'DC');
-    fillData(form, 'input#root_veteranAddress_zipCode', '12345');
+    changeDropdown(form, 'select#root_veteranAddress_state', 'DC');
+    fillData(form, 'input#root_veteranAddress_postalCode', '12345');
     fillData(form, 'input#root_email', 'test@test.com');
     form.find('input[name="root_view:confirmEmail"]').simulate('change', {
       target: {
