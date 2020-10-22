@@ -72,29 +72,6 @@ describe('Actions', () => {
       };
     });
 
-    it('updates search params', async () => {
-      const dispatch = () => {};
-      const thunk = fetchResultsThunk({
-        category: 'Health',
-        platform: 'iOS',
-        hideFetchingState: false,
-        history: mockedHistory,
-        location: mockedLocation,
-        mockRequest: true,
-        page: 1,
-        perPage: 10,
-      });
-
-      await thunk(dispatch);
-
-      const replaceStateStub = mockedHistory.replaceState;
-
-      expect(replaceStateStub.calledOnce).to.be.true;
-      expect(replaceStateStub.firstCall.args[2]).to.be.equal(
-        '?category=Health&platform=iOS',
-      );
-    });
-
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const thunk = fetchResultsThunk({
@@ -113,8 +90,6 @@ describe('Actions', () => {
       expect(
         dispatch.firstCall.calledWith({
           options: {
-            category: 'Health',
-            platform: 'iOS',
             hideFetchingState: false,
             page: 1,
           },
