@@ -19,7 +19,6 @@ const { shouldPullDrupal } = require('./drupal/metalsmith-drupal');
 const { defaultCMSExportContentDir } = require('./process-cms-exports/helpers');
 const { logDrupal } = require('./drupal/utilities-drupal');
 const { useFlags } = require('./drupal/load-saved-flags');
-const DRUPALS = require('../../constants/drupals');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
