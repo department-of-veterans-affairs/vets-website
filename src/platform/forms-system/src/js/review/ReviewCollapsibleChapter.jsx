@@ -102,6 +102,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
               push
             />
           )}
+
           {expandedPages.map(page => {
             const pageState = form.pages[page.pageKey];
             let pageSchema;
@@ -145,6 +146,42 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 !pageSchema && arrayFields.length === 0,
             });
             const title = page.reviewTitle || page.title || '';
+
+            const hasVisibleFields =
+              pageSchema &&
+              pageSchema.properties &&
+              Object.entries(pageSchema.properties)
+                .map(entry => entry[0])
+                .filter(propName => {
+                  const hiddenOnSchema =
+                    pageSchema.properties[propName] &&
+                    pageSchema.properties[propName]['ui:hidden'];
+                  const collapsedOnSchema =
+                    pageSchema.properties[propName] &&
+                    pageSchema.properties[propName]['ui:collapsed'];
+                  const hideOnReviewIfFalse =
+                    _.get(
+                      [propName, 'ui:options', 'hideOnReviewIfFalse'],
+                      pageUiSchema,
+                    ) === true;
+                  let hideOnReview = _.get(
+                    [propName, 'ui:options', 'hideOnReview'],
+                    pageUiSchema,
+                  );
+                  if (typeof hideOnReview === 'function') {
+                    hideOnReview = hideOnReview(form.data, formContext);
+                  }
+                  return (
+                    (!hideOnReviewIfFalse || !!form.data[propName]) &&
+                    !hideOnReview &&
+                    !hiddenOnSchema &&
+                    !collapsedOnSchema
+                  );
+                }).length > 0;
+
+            if (pageSchema && !hasVisibleFields) {
+              return null;
+            }
 
             return (
               <div key={`${fullPageKey}`} className={classes}>
