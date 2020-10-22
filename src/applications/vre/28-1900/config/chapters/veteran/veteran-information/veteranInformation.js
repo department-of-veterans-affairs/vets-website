@@ -46,7 +46,11 @@ export const uiSchema = {
         <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
           Your VA file number{' '}
           <span className="schemaform-required-span">
-            (*If different from SSN)
+            (*If different from{' '}
+            <dfn>
+              <abbr title="social security number">SSN</abbr>
+            </dfn>
+            )
           </span>
         </p>
       ),
