@@ -38,7 +38,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
   const clientOptions = { ...defaultClientOptions, ...clientOptionsArg };
   // Set up debug logging
   // eslint-disable-next-line no-console
-  const say = clientOptions.verbose ? console.log : () => { };
+  const say = clientOptions.verbose ? console.log : () => {};
 
   const envConfig = DRUPALS[buildOptions.buildtype];
   const drupalConfig = Object.assign({}, envConfig, buildArgs);

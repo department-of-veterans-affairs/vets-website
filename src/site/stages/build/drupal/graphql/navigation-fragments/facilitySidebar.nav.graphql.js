@@ -6,7 +6,7 @@
 // String Helpers
 const { camelize } = require('./../../../../../utilities/stringHelpers');
 
-const { getsideNavsViaGraphQL } = require('../../metalsmith-drupal');
+const { getSideNavsViaGraphQL } = require('../../metalsmith-drupal');
 
 const FACILITY_SIDEBAR_QUERY = `
     name
@@ -63,14 +63,16 @@ const FACILITY_SIDEBAR_QUERY = `
 
 let compiledQuery = '';
 
-getsideNavsViaGraphQL.forEach(facilityMenuName => {
-  compiledQuery += `
+getSideNavsViaGraphQL().then(sideNavs => {
+  sideNavs.forEach(facilityMenuName => {
+    compiledQuery += `
          ${camelize(
-    facilityMenuName,
-  )}FacilitySidebarQuery: menuByName(name: "${facilityMenuName}") {
+           facilityMenuName,
+         )}FacilitySidebarQuery: menuByName(name: "${facilityMenuName}") {
             ${FACILITY_SIDEBAR_QUERY}
          }
         `;
+  });
 });
 
-module.exports = compiledQuery;*/
+module.exports = compiledQuery;

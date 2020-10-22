@@ -140,9 +140,9 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
  * @param {Object} buildOptions
  * @return {Object} - The result of the GraphQL query
  */
-async function getsideNavsViaGraphQL(buildOptions) {
+async function getSideNavsViaGraphQL(buildOptions = global.buildOptions) {
   global.buildtype = buildOptions.buildtype;
-  let SideNavs;
+  let sideNavs;
 
   const sideNavFile = path.join(
     buildOptions.cacheDirectory,
@@ -153,22 +153,22 @@ async function getsideNavsViaGraphQL(buildOptions) {
   if (shouldPullDrupal(buildOptions)) {
     const contentApi = getApiClient(buildOptions);
     log('Pulling side nav menus from Drupal...');
-    SideNavs = await contentApi.getSideNavigations();
+    sideNavs = await contentApi.getSideNavigations();
 
     // Write them to .cache/{buildtype}/drupal/side-nav-menus.json
     fs.ensureDirSync(buildOptions.cacheDirectory);
     fs.emptyDirSync(path.dirname(sideNavFile));
-    fs.writeJsonSync(sideNavFile, SideNavs, { spaces: 2 });
+    fs.writeJsonSync(sideNavFile, sideNavs, { spaces: 2 });
   } else {
     log('Using cached side navs');
-    SideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
+    sideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
   }
 
   if (global.verbose) {
-    log(`Drupal side navs:\n${JSON.stringify(SideNavs, null, 2)}`);
+    log(`Drupal side navs:\n${JSON.stringify(sideNavs, null, 2)}`);
   }
 
-  return SideNavs;
+  return sideNavs.sideNavMenus || [];
 }
 
 /**
@@ -296,7 +296,7 @@ async function loadCachedDrupalFiles(buildOptions, files) {
 function getDrupalContent(buildOptions) {
   if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
     log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
-    return () => { };
+    return () => {};
   }
 
   return async (files, metalsmith, done) => {
@@ -330,4 +330,4 @@ function getDrupalContent(buildOptions) {
   };
 }
 
-module.exports = { getsideNavsViaGraphQL, getDrupalContent, shouldPullDrupal };
+module.exports = { getSideNavsViaGraphQL, getDrupalContent, shouldPullDrupal };
