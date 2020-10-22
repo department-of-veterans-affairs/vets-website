@@ -87,15 +87,13 @@ export const diaryCodes = Object.freeze({
 
 const ContactDMC = () => (
   <span>
-    {CONTACTS.DMC ? <Telephone contact={CONTACTS.DMC} /> : '800-827-0648'} (or{' '}
-    {CONTACTS.DMC_OVERSEAS ? (
+    {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or{' '}
+    {
       <Telephone
-        contact={CONTACTS.DMC_OVERSEAS}
+        contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
         pattern={PATTERNS.OUTSIDE_US}
       />
-    ) : (
-      '1-612-713-6415'
-    )}{' '}
+    }{' '}
     from overseas)
   </span>
 );
@@ -125,9 +123,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
         <p>
           <strong>Next step: </strong>
           Please pay or contact us about payment options now to avoid more late
-          charges, interest, or collection actions. We're here at 800-827-0648
-          (or 1-612-713-6415 from overseas), Monday through Friday, 7:30 a.m. to
-          7:00 p.m. ET.{' '}
+          charges, interest, or collection actions. We're here at <ContactDMC />
+          , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
           <a href="#howDoIPay" className="vads-u-margin-y--2">
             Review payment options
           </a>
@@ -211,9 +208,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <strong>Next step: </strong>
           Please check your debt balance again soon. If it isn't adjusted to
           reflect your payment within
-          <strong> 30 days </strong>, call us at 800-827-0648 (or 1-612-713-6415
-          from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00
-          p.m. ET.
+          <strong> 30 days </strong>, call us at <ContactDMC />. We’re here
+          Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       );
     case '002':
@@ -224,9 +220,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
         <p>
           <strong>Next step: </strong>
           Please check back in 1 week for updates. If your account shows the
-          same information then, call us at 800-827-0648 (or 1-612-713-6415 from
-          overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
-          ET.
+          same information then, call us at <ContactDMC />. We’re here Monday
+          through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       );
     case '061':
@@ -255,10 +250,11 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
       return (
         <p>
           <strong>Next step: </strong>
-          Call the U.S. Department of the Treasury's Debt Management Center at
-          888-826-3127, 8:30 a.m. to 6:30 p.m. ET. Don't send us payment
-          directly. This will delay posting of payment to your account. And the
-          Treasury Department may continue adding fees and interest.
+          Call the U.S. Department of the Treasury's Debt Management Center at{' '}
+          <Telephone contact={CONTACTS.DMC_TREASURY || '888-826-3127'} />, 8:30
+          a.m. to 6:30 p.m. ET. Don't send us payment directly. This will delay
+          posting of payment to your account. And the Treasury Department may
+          continue adding fees and interest.
         </p>
       );
     case '081':
@@ -321,9 +317,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           We'll keep offsetting your benefits each month until your debt is paid
           in full. If you'd like to pay in full now, please call us first to
           make sure you don't overpay. If you stop receiving VA benefits, call
-          us to set up a new payment plan. We're here at 800-827-0648 (or
-          1-612-713-6415 from overseas), Monday through Friday, 7:30 a.m. to
-          7:00 p.m. ET.
+          us to set up a new payment plan. We're here at <ContactDMC />, Monday
+          through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       );
     case '321':
@@ -337,9 +332,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
         <p>
           <strong>Next step: </strong>
           Please check back in <strong> 30 days </strong> for updates. If your
-          account shows the same information then, call us at 800-827-0648 (or
-          1-612-713-6415 from overseas). We’re here Monday through Friday, 7:30
-          a.m. to 7:00 p.m. ET.
+          account shows the same information then, call us at <ContactDMC />.
+          We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       );
     case '439':
@@ -374,9 +368,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <strong>Next step: </strong>
           Please continue to make payments. If you begin receiving VA benefits,
           call us to set up an automatic payment plan. We'll keep part of your
-          benefit amount each month to pay your debt. We're here at 800-827-0648
-          (or 1-612-713-6415 from overseas), Monday through Friday, 7:30 a.m. to
-          7:00 p.m. ET.
+          benefit amount each month to pay your debt. We're here at{' '}
+          <ContactDMC />, Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
       );
     case '603':
