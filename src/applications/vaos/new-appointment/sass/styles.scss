@@ -1,7 +1,4 @@
-@import "../../../../../node_modules/@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "../../../../../node_modules/@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "../../../../platform/forms/sass/m-schemaform";
-@import "src/applications/vaos/new-appointment/sass/calendar";
+@import "./calendar";
 
 .vaos-appts__block-label {
   margin: 0;
