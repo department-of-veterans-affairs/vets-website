@@ -10,7 +10,6 @@ import {
   sortOptionsByStateName,
 } from '../../utils/helpers';
 import CautionaryWarningsFilter from './CautionaryWarningsFilter';
-import environment from 'platform/utilities/environment';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -140,14 +139,9 @@ class InstitutionFilterForm extends React.Component {
       })),
     ];
 
-    // prod flag for story BAH-13928
-    const searchDropDown = environment.isProduction()
-      ? 'Institution categories'
-      : 'Type of school or employer';
-
     return (
       <Dropdown
-        label={searchDropDown}
+        label="Type of school or employer"
         name="type"
         options={options}
         value={this.props.filters.type}

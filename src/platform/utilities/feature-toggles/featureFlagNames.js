@@ -1,6 +1,7 @@
 export default Object.freeze({
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
+  dashboardShowDashboard2: 'dashboard_show_dashboard_2',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
@@ -53,6 +54,8 @@ export default Object.freeze({
     'show_new_schedule_view_appointments_page',
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
+  cernerOverride668: 'cerner_override_668',
+  cernerOverride757: 'cerner_override_757',
   show526Wizard: 'show526Wizard',
   showChapter36: 'show_chapter_36',
   form1995EduUpdates: 'form_1995_edu_updates',

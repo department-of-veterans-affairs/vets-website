@@ -119,6 +119,7 @@ const formConfig = {
         [formPages.veteranInformation]: {
           path: 'veteran-information',
           title: veteranInformationPageTitle,
+          depends: form => form.veteranStatus.veteranStatus !== 'general',
           uiSchema: VeteranInformationPage.uiSchema,
           schema: VeteranInformationPage.schema,
         },
