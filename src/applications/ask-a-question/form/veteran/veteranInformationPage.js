@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { schema } from 'platform/forms/definitions/address';
 import fullSchema from '../0873-schema.json';
 import { veteranInformationUI } from './veteranInformationUI';
-import { requireServiceInfo } from '../inquiry/status/veteranStatusUI';
 
 const {
   dependentInformation,
@@ -59,13 +58,7 @@ const veteranInformationPage = {
         hideIf: formData => hideVeteranInformation(formData),
       },
     },
-    [formFields.veteranServiceInformation]: {
-      ...veteranServiceInformationUI,
-      'ui:options': {
-        hideIf: formData =>
-          !requireServiceInfo(formData.veteranStatus.veteranStatus),
-      },
-    },
+    [formFields.veteranServiceInformation]: veteranServiceInformationUI,
   },
   schema: {
     type: 'object',
