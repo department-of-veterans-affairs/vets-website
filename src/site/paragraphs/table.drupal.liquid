@@ -1,83 +1,94 @@
 {% comment %}
-    Example data:
-    entity: {
-        "entityId": "3944",
-        "fieldTable": {
-            "tableValue": "Row 1 Column 1 Row 1 Column 2 Row 1 Column 3 Row 2 Column 1 Row 2 Column 2 Row 2 Column 3 Row 3 Column 1 Row 3 Column 2 Row 3 Column 3",
-            "value": {
-                "0": [
-                "Row 1 Column 1",
-                "Row 1 Column 2",
-                "Row 1 Column 3"
-                ],
-                "1": [
-                "Row 2 Column 1",
-                "Row 2 Column 2",
-                "Row 2 Column 3"
-                ],
-                "2": [
-                "Row 3 Column 1",
-                "Row 3 Column 2",
-                "Row 3 Column 3"
-                ],
-            }
-            "format": "rich_text",
-            "caption": "Test Table"
-        }
-    }
+Example data:
+entity: {
+"entityId": "3944",
+"fieldTable": {
+"tableValue": "Row 1 Column 1 Row 1 Column 2 Row 1 Column 3 Row 2 Column 1 Row 2 Column 2 Row 2 Column 3 Row 3 Column 1
+Row 3 Column 2 Row 3 Column 3",
+"value": {
+"0": [
+"Row 1 Column 1",
+"Row 1 Column 2",
+"Row 1 Column 3"
+],
+"1": [
+"Row 2 Column 1",
+"Row 2 Column 2",
+"Row 2 Column 3"
+],
+"2": [
+"Row 3 Column 1",
+"Row 3 Column 2",
+"Row 3 Column 3"
+],
+}
+"format": "rich_text",
+"caption": "Test Table"
+}
+}
 {% endcomment %}
 
 <!-- Mobile -->
-<div data-template="paragraphs/table-mobile" class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--none">
-  <!-- Caption -->
-  <p><strong>{{ entity.fieldTable.caption }}</strong></p>
+<div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--none" data-template="paragraphs/table-mobile">
+    <!-- Caption -->
+    <p>
+        <strong>{{ entity.fieldTable.caption }}</strong>
+    </p>
 
-  <!-- Show all -->
+    <!-- Show all -->
+    
+    
+    	<!-- Iterate over rows -->
+    {% for row in entity.fieldTable.value %}
+        <!-- Skip the first table header row -->
+        {% if forloop.first == true %}
+            {%for col in row%}
+                {% if forloop.first == true %}
+                    {% assign col_header = col %}
+                {% endif %}
+            {% endfor %}
 
+        {% else %}
+            <!-- Iterate over columns -->
+            {% for column in row %}
+                {% assign columnIndex = forloop.index %}
+                {% if forloop.first == true %}
+                    <div>{{col_header}}</div>
+                {% endif %}
+                <p>
+                    <strong>{{ colHeaders[columnIndex] }}</strong>
+                    {{ column }}</p>
+            {% endfor %}
+        {% endif %}
 
-  <!-- Iterate over rows -->
-  {% for row in entity.fieldTable.value %}
-    {% assign rowIndex = forloop.index %}
-
-    <!-- Skip the first table header row -->
-    {% if forloop.first == true %}
-      {% assign colHeaders = row %}
-    {% else %}
-      <!-- Iterate over columns -->
-      {% for column in row %}
-        {% assign columnIndex = forloop.index %}
-        <p><strong>{{ colHeaders[columnIndex] }}:</strong> {{ column }}</p>
-      {% endfor %}
-    {% endif %}
-
-    <!-- Line break -->
-    <hr />
-  {% endfor %}
+        <!-- Line break -->
+        <hr/>
+    {% endfor %}
 </div>
 
 <!-- Desktop -->
 <table data-template="paragraphs/table-desktop" data-entity-id="{{ entity.entityId }}" class="va-table vads-u-display--none medium-screen:vads-u-display--block">
-  {% if entity.fieldTable.caption %}
-      <caption>{{ entity.fieldTable.caption }}</caption>
-  {% endif %}
-
-  {% for value in entity.fieldTable.value %}
-    {% if forloop.first == true %}
-      <thead>
-        <tr>
-          {% for column in value %}
-            <th>{{ column }}</th>
-          {% endfor %}
-        </tr>
-      </thead>
-    {% elsif forloop.last == false %}
-      <tbody>
-        <tr class="class">
-          {% for column in value %}
-            <td>{{ column }}</td>
-          {% endfor %}
-        </tr>
-      </tbody>
+    {% if entity.fieldTable.caption %}
+        <caption>{{ entity.fieldTable.caption }}</caption>
     {% endif %}
-  {% endfor %}
+
+    {% for value in entity.fieldTable.value %}
+        {% if forloop.first == true %}
+            <thead>
+                <tr>
+                    {% for column in value %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+        {% elsif forloop.last == false %}
+            <tbody>
+                <tr class="class">
+                    {% for column in value %}
+                        <td>{{ column }}</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        {% endif %}
+    {% endfor %}
 </table>
