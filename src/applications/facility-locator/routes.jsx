@@ -17,11 +17,12 @@ const getMap = () => {
   const isReviewEnvironment = environment.API_URL.includes('review.vetsgov');
   const isLocal = environment.isLocalhost();
   const isStaging = environment.isStaging();
+  const isDev = environment.isDev();
   const isCypress = window.Cypress;
 
   if (isUnitTest || isCypress) return VAMap;
 
-  if (isReviewEnvironment || isLocal || isStaging) {
+  if (isReviewEnvironment || isLocal || isStaging || isDev) {
     return FacilitiesMap;
   }
   return VAMap;

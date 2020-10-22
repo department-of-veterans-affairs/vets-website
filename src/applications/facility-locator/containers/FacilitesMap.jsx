@@ -26,6 +26,7 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import { setFocus, clearLocationMarkers, buildMarker } from '../utils/helpers';
 import { MARKER_LETTERS } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
+import { isEmpty } from 'lodash';
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
@@ -33,7 +34,6 @@ const FacilitiesMap = props => {
   const searchResultTitleRef = useRef(null);
   // const [isMobile, setIsMobile] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
-  const { results } = props;
   //  const usePreviousResults = value => {
   //     const ref = useRef();
   //     useEffect(() => {
@@ -42,29 +42,6 @@ const FacilitiesMap = props => {
   //     return ref.current;
   //   };
   //   const previousResults = usePreviousResults({ results });
-
-  useEffect(
-    () => {
-      mapboxgl.accessToken = mapboxToken;
-      const initializeMap = (setMapInit, mapContainerInit) => {
-        const mapInit = new mapboxgl.Map({
-          container: mapContainerInit.current,
-          style: 'mapbox://styles/mapbox/outdoors-v11',
-          center: [-99.27246093750001, 40.17887331434698], // Initial state search query reducer
-          zoom: 3,
-        });
-        mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
-
-        mapInit.on('load', () => {
-          setMapInit(mapInit);
-          mapInit.resize();
-        });
-      };
-
-      if (!map) initializeMap(setMap, mapContainer);
-    },
-    [map],
-  );
 
   const syncStateWithLocation = location => {
     if (
@@ -80,6 +57,33 @@ const FacilitiesMap = props => {
     }
   };
 
+  /**
+   * Search when the component renders with a sharable url
+   */
+  const searchWithUrl = () => {
+    // Check for scenario when results are in the store
+    if (!!props.location.search && props.results && props.results.length > 0) {
+      return;
+    }
+    const { location, usePredictiveGeolocation } = props;
+
+    if (!isEmpty(location.query)) {
+      props.updateSearchQuery({
+        facilityType: location.query.facilityType,
+        serviceType: location.query.serviceType,
+      });
+    }
+
+    if (location.query.address) {
+      props.genBBoxFromAddress({
+        searchString: location.query.address,
+        context: location.query.context,
+        usePredictiveGeolocation,
+      });
+      setIsSearching(true);
+    }
+  };
+
   useEffect(() => {
     const listener = browserHistory.listen(location => {
       syncStateWithLocation(location);
@@ -88,6 +92,8 @@ const FacilitiesMap = props => {
     const setMobile = () => {
       // setIsMobile(window.innerWidth <= 481);
     };
+
+    searchWithUrl();
 
     const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);
@@ -197,10 +203,11 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
+      if (!map) return;
       // if (!previousResults || (results && results.length === 0)) return;
       // if (JSON.stringify(previousResults.results) !== JSON.stringify(results)) {
       clearLocationMarkers();
-      renderMarkers(results);
+      renderMarkers(props.results);
       // }
     },
     [props.results], // Handle build markers when we get results
@@ -254,6 +261,37 @@ const FacilitiesMap = props => {
     });
   };
 
+  useEffect(
+    () => {
+      mapboxgl.accessToken = mapboxToken;
+      const initializeMap = (setMapInit, mapContainerInit) => {
+        const mapInit = new mapboxgl.Map({
+          container: mapContainerInit.current,
+          style: 'mapbox://styles/mapbox/outdoors-v11',
+          center: [-99.27246093750001, 40.17887331434698], // Initial state search query reducer
+          zoom: 3,
+        });
+        mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+        mapInit.on('load', () => {
+          setMapInit(mapInit);
+        });
+      };
+
+      if (!map) initializeMap(setMap, mapContainer);
+    },
+    [map],
+  );
+
+  /**
+   * Map is ready and there is results in the store
+   * For example coming back from a detail page
+   */
+
+  if (props.results.length > 0 && map) {
+    renderMarkers(props.results);
+  }
+
   const renderViews = () => {
     // Handle both mobile and desktop here?
     const {
@@ -274,7 +312,7 @@ const FacilitiesMap = props => {
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
-            results={results}
+            results={props.results}
             facilityType={facilityType}
             serviceType={serviceType}
             context={queryContext}
@@ -303,7 +341,7 @@ const FacilitiesMap = props => {
           handlePageSelect={handlePageSelect}
           currentPage={currentPage}
           totalPages={totalPages}
-          results={results}
+          results={props.results}
           inProgress={currentQuery.inProgress}
         />
       </div>
