@@ -253,35 +253,6 @@ describe('Schemaform helpers:', () => {
         field: 'testing',
       });
     });
-    it('should remove hidden fields', () => {
-      const formConfig = {
-        chapters: {
-          chapter1: {
-            pages: {
-              page1: {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    visibleField: { type: 'string' },
-                    hiddenField: { type: 'string', 'ui:hidden': true },
-                  },
-                },
-              },
-            },
-          },
-        },
-      };
-      const form = {
-        data: {
-          visibleField: 'hello',
-          hiddenField: 'goodbye',
-        },
-      };
-
-      const output = JSON.parse(transformForSubmit(formConfig, form));
-
-      expect(output.hiddenField).to.be.undefined;
-    });
     it('should remove view fields', () => {
       const formConfig = {
         chapters: {
