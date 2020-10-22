@@ -15,14 +15,6 @@ import {
   veteranInformationHeader,
 } from '../../../../constants/labels';
 
-function expectBranchOfServiceNotToExist(wrapper) {
-  getLabelText(
-    wrapper,
-    veteranServiceInformationUI.branchOfService['ui:title'],
-    'veteranServiceInformation',
-  ).shouldNotExist();
-}
-
 function expectBranchOfServiceToBeRequired(wrapper) {
   getLabelText(
     wrapper,
@@ -145,13 +137,13 @@ describe('Veteran Information Page', () => {
     ).shouldExist();
   });
 
-  describe('when a general question', () => {
+  describe('when on behalf of veteran', () => {
     beforeEach(() => {
-      renderWithVeteranStatus('general');
+      renderWithVeteranStatus({ veteranStatus: 'behalf of vet' });
     });
 
-    it('should not require any other fields when veteran status is general question', () => {
-      expectBranchOfServiceNotToExist(wrapper);
+    it('should require branch of service', () => {
+      expectBranchOfServiceToBeRequired(wrapper);
     });
 
     it('should not show veteran information if veteran status is not myself as a veteran', () => {
@@ -163,16 +155,6 @@ describe('Veteran Information Page', () => {
         'veteranInformation',
       ).shouldNotExist();
       getLabelText(wrapper, emailTitle, 'veteranInformation').shouldNotExist();
-    });
-  });
-
-  describe('when on behalf of veteran', () => {
-    beforeEach(() => {
-      renderWithVeteranStatus({ veteranStatus: 'behalf of vet' });
-    });
-
-    it('should require branch of service', () => {
-      expectBranchOfServiceToBeRequired(wrapper);
     });
 
     it('should not show veteran information when relationship to veteran is veteran', () => {
