@@ -142,14 +142,17 @@ module.exports = env => {
             {
               loader: 'css-loader',
               options: {
-                minimize: isOptimizedBuild,
                 sourceMap: enableCSSSourcemaps,
               },
             },
             {
               loader: 'postcss-loader',
               options: {
-                plugins: () => [require('autoprefixer')],
+                postcssOptions: {
+                  plugins: isOptimizedBuild
+                    ? ['autoprefixer', 'cssnano']
+                    : ['autoprefixer'],
+                },
               },
             },
             {
