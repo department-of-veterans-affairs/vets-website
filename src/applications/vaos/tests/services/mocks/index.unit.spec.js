@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { generateMockSlots } from '../../utils/calendar';
+import { generateMockSlots } from '../../../services/mocks';
 
 describe('calendar mock data', () => {
   it('should generate 300 mock slots', () => {

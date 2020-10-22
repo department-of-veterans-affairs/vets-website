@@ -7,18 +7,15 @@ import {
   selectCernerAppointmentsFacilities,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
-
 import {
   getTimezoneBySystemId,
   getTimezoneDescBySystemId,
   getTimezoneAbbrBySystemId,
 } from './timezone';
-
-import { isEligible } from './eligibility';
+import { isEligible } from '../new-appointment/redux/helpers/eligibility';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
-  AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
@@ -50,6 +47,16 @@ export const selectIsCernerPatient = state =>
   selectPatientFacilities(state)?.some(
     f => f.isCerner && f.usesCernerAppointments,
   );
+const AUDIOLOGY_TYPES_OF_CARE = [
+  {
+    ccId: 'CCAUDRTNE',
+    name: 'Routine hearing exam',
+  },
+  {
+    ccId: 'CCAUDHEAR',
+    name: 'Hearing aid support',
+  },
+];
 
 export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;

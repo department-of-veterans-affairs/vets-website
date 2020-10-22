@@ -4,13 +4,13 @@ import {
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
   APPOINTMENT_STATUS,
-  CANCELLED_APPOINTMENT_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
 } from '../../../utils/constants';
 import {
   transformConfirmedAppointments,
   transformPendingAppointments,
+  CANCELLED_APPOINTMENT_SET,
+  PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
 } from '../../../services/appointment/transformers';
 import { transformATLASLocation } from '../../../services/location/transformers';
 

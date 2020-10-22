@@ -8,11 +8,24 @@ import { mapToFHIRErrors } from '../utils';
 import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
-  PAST_APPOINTMENTS_HIDDEN_SET,
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
   VIDEO_TYPES,
-  CONFIRMED_APPOINTMENT_TYPES,
 } from '../../utils/constants';
+
+const CONFIRMED_APPOINTMENT_TYPES = new Set([
+  APPOINTMENT_TYPES.ccAppointment,
+  APPOINTMENT_TYPES.vaAppointment,
+]);
+
+// Appointments in these "HIDDEN_SET"s should not be shown in appointment lists at all
+export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
+
+const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
+  'FUTURE',
+  'DELETED',
+  null,
+  '<null>',
+  'Deleted',
+]);
 
 /**
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate

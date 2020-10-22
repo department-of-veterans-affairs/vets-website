@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from '../../utils/moment-tz';
+import moment from '../../lib/moment-tz';
 
 import {
   getChosenClinicInfo,

@@ -1,17 +1,41 @@
-import moment from '../../utils/moment-tz';
+import moment from '../../lib/moment-tz';
 
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  CANCELLED_APPOINTMENT_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
   PURPOSE_TEXT,
   EXPRESS_CARE,
   UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
 import { transformATLASLocation } from '../location/transformers';
+
+export const CANCELLED_APPOINTMENT_SET = new Set([
+  'CANCELLED BY CLINIC & AUTO RE-BOOK',
+  'CANCELLED BY CLINIC',
+  'CANCELLED BY PATIENT & AUTO-REBOOK',
+  'CANCELLED BY PATIENT',
+]);
+
+// Appointments in these "HIDE_STATUS_SET"s should show in list, but their status should be hidden
+export const FUTURE_APPOINTMENTS_HIDE_STATUS_SET = new Set([
+  'ACT REQ/CHECKED IN',
+  'ACT REQ/CHECKED OUT',
+]);
+
+export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
+  'ACTION REQUIRED',
+  'INPATIENT APPOINTMENT',
+  'INPATIENT/ACT REQ',
+  'INPATIENT/CHECKED IN',
+  'INPATIENT/CHECKED OUT',
+  'INPATIENT/FUTURE',
+  'INPATIENT/NO ACT TAKN',
+  'NO ACTION TAKEN',
+  'NO-SHOW & AUTO RE-BOOK',
+  'NO-SHOW',
+  'NON-COUNT',
+]);
 
 /**
  * Determines what type of appointment a VAR appointment object is depending on
