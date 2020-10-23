@@ -99,11 +99,11 @@ export default class FileField extends React.Component {
 
   processFile = async (file, index) =>
     checkForEncryptedPdf(file)
-      .then(result => {
-        if (result) {
+      .then(isEncrypted => {
+        if (isEncrypted) {
           this.setFileState({ file, index, isEncrypted: true });
         }
-        return result;
+        return isEncrypted;
       })
       .catch(() => {
         // This _should_ only be called if a file is deleted after the
