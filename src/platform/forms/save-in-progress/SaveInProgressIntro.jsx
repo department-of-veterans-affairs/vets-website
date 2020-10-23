@@ -377,7 +377,6 @@ SaveInProgressIntro.propTypes = {
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
-      appAction: PropTypes.string,
     }),
   }),
 };
