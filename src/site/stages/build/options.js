@@ -245,6 +245,8 @@ async function setUpSideNavMenuList(options) {
     const encodedCredentials = Buffer.from(`${user}:${password}`).toString(
       'base64',
     );
+
+    // TODO: move to src/site/stages/build/drupal/api.j
     const result = await apiClient.proxyFetch(
       `${apiClient.getSiteUri()}/graphql/`,
       {
@@ -292,6 +294,8 @@ async function getOptions(commandLineOptions) {
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
   await setUpFeatureFlags(options);
+
+  // TODO: move to src/site/stages/build/drupal/metalsmith-drupal.js
   await setUpSideNavMenuList(options);
 
   // Setting verbosity for the whole content build process as global so we don't

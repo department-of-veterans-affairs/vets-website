@@ -5,8 +5,9 @@
 
 // String Helpers
 const { camelize } = require('./../../../../../utilities/stringHelpers');
-/* eslint-disable no-undef */
-const FACILITY_MENU_NAMES = cmsSideNavs;
+
+// TODO - refactor code to avoid use of global
+const FACILITY_MENU_NAMES = global.cmsSideNavs;
 
 const FACILITY_SIDEBAR_QUERY = `
     name
