@@ -45,6 +45,7 @@ class SaveInProgressIntro extends React.Component {
     );
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
+
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const lastUpdated =
