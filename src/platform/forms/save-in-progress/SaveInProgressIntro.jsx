@@ -45,7 +45,6 @@ class SaveInProgressIntro extends React.Component {
     );
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
-
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const lastUpdated =
@@ -67,10 +66,15 @@ class SaveInProgressIntro extends React.Component {
                   <strong>Your {appType} is in progress</strong>
                 </div>
                 <div className="saved-form-metadata-container">
-                  <span className="saved-form-item-metadata">
-                    {inProgressMessage(formConfig)}
-                  </span>
-                  <br />
+                  {!formConfig.saveInProgress.messages
+                    .hideInProgressMessage && (
+                    <>
+                      <span className="saved-form-item-metadata">
+                        {inProgressMessage(formConfig)}
+                      </span>
+                      <br />
+                    </>
+                  )}
                   <span className="saved-form-item-metadata">
                     Your {appType} was last saved on {lastSavedDateTime}
                   </span>
@@ -373,6 +377,7 @@ SaveInProgressIntro.propTypes = {
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
+      appAction: PropTypes.string,
     }),
   }),
 };
