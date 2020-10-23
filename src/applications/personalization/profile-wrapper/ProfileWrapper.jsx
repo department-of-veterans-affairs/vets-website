@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Profile2Router from 'applications/personalization/profile-2/components/Profile2Router';
+import Profile2Router from 'applications/personalization/profile/components/Profile2Router';
 
 import {
   isInMPI as isInMVISelector,

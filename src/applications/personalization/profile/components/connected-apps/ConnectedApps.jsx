@@ -8,7 +8,7 @@ import {
   deleteConnectedApp,
   dismissDeletedAppAlert,
   loadConnectedApps,
-} from 'applications/personalization/profile-2/components/connected-apps/actions';
+} from 'applications/personalization/profile/components/connected-apps/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { AdditionalInfoSections } from './AdditionalInfoSections';
