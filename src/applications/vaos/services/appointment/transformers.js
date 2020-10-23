@@ -287,7 +287,9 @@ function setParticipant(appt) {
         });
       }
 
-      const providers = appt.vvsAppointments?.[0]?.providers;
+      const providers = appt.vvsAppointments?.[0]?.providers?.filter(
+        provider => !!provider.name,
+      );
       if (providers?.length) {
         participant = participant.concat(
           providers.map(provider => ({

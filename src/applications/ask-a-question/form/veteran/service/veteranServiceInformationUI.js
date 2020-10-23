@@ -15,7 +15,7 @@ import {
   branchOfServiceTitle,
 } from '../../../constants/labels';
 import SectionHeader from '../../../components/SectionHeader';
-import { requireServiceInfo } from '../status/veteranStatusUI';
+import { requireServiceInfo } from '../../inquiry/status/veteranStatusUI';
 
 const formFields = {
   dateOfBirth: 'dateOfBirth',
@@ -56,10 +56,6 @@ export const veteranServiceInformationUI = {
     'ui:title': branchOfServiceTitle,
     'ui:required': formData =>
       requireServiceInfo(formData.veteranStatus.veteranStatus),
-    'ui:options': {
-      hideIf: formData =>
-        !requireServiceInfo(formData.veteranStatus.veteranStatus),
-    },
   },
   [formFields.dateOfBirth]: {
     ...currentOrPastDateUI(dateOfBirthTitle),
