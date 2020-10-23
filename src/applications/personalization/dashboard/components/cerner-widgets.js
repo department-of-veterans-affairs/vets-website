@@ -1,16 +1,17 @@
 import React, { Fragment } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import environment from 'platform/utilities/environment';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import { getCernerURL } from 'platform/utilities/cerner';
 
 // Returns an AlertBox to present the user with info about working with the
 // Cerner facility they are enrolled at. Props allow you to edit a small amount
 // of the content that is rendered in the AlertBox.
 const CernerAlertBox = ({
-  ctaButtonText,
-  ctaButtonUrl,
-  ctaText,
+  primaryCtaText,
+  primaryCtaButtonUrl,
+  secondaryCtaButtonText,
+  secondaryCtaButtonUrl,
   facilityNames,
 }) => {
   // Helper component that takes an array of facility names and a separator string and returns some JSX to style the list of facility names.
@@ -57,16 +58,12 @@ const CernerAlertBox = ({
         pop-up blocker to open the portal. If you’re prompted to sign in again,
         use the same account you used to sign in on VA.gov.
       </p>
-      <h3>{ctaText}</h3>
+      <h3>{primaryCtaText}</h3>
       <h4 className="vads-u-font-family--sans">
         <FacilityList facilities={facilityNames} separator=" or " />
       </h4>
       <a
-        href={
-          environment.isProduction()
-            ? 'https://patientportal.myhealth.va.gov/'
-            : 'https://ehrm-va-test.patientportal.us.healtheintent.com/'
-        }
+        href={primaryCtaButtonUrl}
         type="button"
         className="usa-button-primary"
         rel="noopener noreferrer"
@@ -75,8 +72,12 @@ const CernerAlertBox = ({
         Go to My VA Health
       </a>
       <h4 className="vads-u-font-family--sans">Another VA health facility</h4>
-      <a href={ctaButtonUrl} type="button" className="usa-button-secondary">
-        {ctaButtonText}
+      <a
+        href={secondaryCtaButtonUrl}
+        type="button"
+        className="usa-button-secondary"
+      >
+        {secondaryCtaButtonText}
       </a>
     </AlertBox>
   );
@@ -86,9 +87,10 @@ export const CernerScheduleAnAppointmentWidget = ({ facilityNames }) => (
   <div data-testid="cerner-appointment-widget">
     <h3>View, schedule, or cancel an appointment</h3>
     <CernerAlertBox
-      ctaText="Manage appointments at:"
-      ctaButtonText="Go to the VA appointments tool"
-      ctaButtonUrl="/health-care/schedule-view-va-appointments/"
+      primaryCtaButtonUrl={getCernerURL('/pages/scheduling/upcoming')}
+      primaryCtaText="Manage appointments at:"
+      secondaryCtaButtonText="Go to the VA appointments tool"
+      secondaryCtaButtonUrl="/health-care/schedule-view-va-appointments/"
       facilityNames={facilityNames}
     />
   </div>
@@ -101,9 +103,10 @@ export const CernerSecureMessagingWidget = ({
   <div data-testid="cerner-messaging-widget">
     <h3>Send or receive a secure message</h3>
     <CernerAlertBox
-      ctaText="Send a secure message to a provider at:"
-      ctaButtonText="Go to My HealtheVet"
-      ctaButtonUrl={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+      primaryCtaButtonUrl={getCernerURL('/pages/messaging/inbox')}
+      primaryCtaText="Send a secure message to a provider at:"
+      secondaryCtaButtonText="Go to My HealtheVet"
+      secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
       facilityNames={facilityNames}
     />
   </div>
@@ -116,9 +119,10 @@ export const CernerPrescriptionsWidget = ({
   <div data-testid="cerner-prescription-widget">
     <h3>Refill and track prescriptions</h3>
     <CernerAlertBox
-      ctaText="Refill prescriptions from:"
-      ctaButtonText="Go to My HealtheVet"
-      ctaButtonUrl={mhvUrl(
+      primaryCtaButtonUrl={getCernerURL('/pages/medications/current')}
+      primaryCtaText="Refill prescriptions from:"
+      secondaryCtaButtonText="Go to My HealtheVet"
+      secondaryCtaButtonUrl={mhvUrl(
         authenticatedWithSSOe,
         'web/myhealthevet/refill-prescriptions',
       )}
