@@ -3,12 +3,23 @@
     <h2 class="vads-u-margin-top--0">Need more help?</h2>
 
     <ul class="usa-unstyled-list">
+      <!-- Create empty list of IDs -->
+      {% assign supportServiceIDs = "" %}
+
       {% for relatedBenefitHub in fieldRelatedBenefitHubs %}
         {% for supportService in relatedBenefitHub.entity.fieldSupportServices %}
-          <li>
-            <p class="vads-u-margin-top--0"><strong>{{ supportService.entity.title }}</strong> <a href="{{ supportService.entity.fieldLink.url.path }}"
-                rel="noreferrer noopener">{{ supportService.entity.fieldPhoneNumber }}</a></p>
-          </li>
+          <script>console.log("{{ supportServiceIDs }}")</script>
+          <!-- Show the link if it hasn't been rendered yet -->
+          {% unless supportServiceIDs contains supportService.entity.entityId %}
+            <li>
+              <p class="vads-u-margin-top--0"><strong>{{ supportService.entity.title }}</strong> <a href="{{ supportService.entity.fieldLink.url.path }}"
+                  rel="noreferrer noopener">{{ supportService.entity.fieldPhoneNumber }}</a></p>
+            </li>
+          {% endunless %}
+
+          <!-- Add the entity ID to our list of IDs -->
+          {% assign supportServiceIDs = supportServiceIDs | append: supportService.entity.entityId %}
+          {% assign supportServiceIDs = supportServiceIDs | append: "," %}
         {% endfor %}
       {% endfor %}
     </ul>
