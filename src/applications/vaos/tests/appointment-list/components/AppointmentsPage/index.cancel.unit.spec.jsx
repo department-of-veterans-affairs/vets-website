@@ -100,6 +100,68 @@ describe('VAOS integration appointment cancellation:', () => {
     expect(modal).to.contain.text('307-778-7550');
   });
 
+  it('ATLAS video appointments should display modal with facility information', async () => {
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: null,
+      facilityId: '983',
+      sta6aid: null,
+      startDate: moment()
+        .add(1, 'days')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(1, 'days')
+        .format(),
+      status: { description: 'F', code: 'FUTURE' },
+      tasInfo: {
+        address: {},
+      },
+    };
+    mockAppointmentInfo({
+      va: [appointment],
+    });
+    const facility = {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+    mockFacilitiesFetch('vha_442', [facility]);
+
+    const { getByRole, findByText } = renderWithStoreAndRouter(
+      <AppointmentsPage />,
+      {
+        initialState,
+      },
+    );
+
+    await findByText(/at an ATLAS location/);
+    fireEvent.click(await findByText(/cancel appointment/i));
+
+    await findByText(/VA Video Connect appointments can’t be canceled online/i);
+    const modal = getByRole('alertdialog');
+
+    await findByText(/Cheyenne VA Medical Center/);
+    expect(modal).to.contain.text('307-778-7550');
+  });
+
   it('community care appointments should display modal with provider information', async () => {
     const appointmentTime = moment().add(1, 'days');
     const appointment = getCCAppointmentMock();
