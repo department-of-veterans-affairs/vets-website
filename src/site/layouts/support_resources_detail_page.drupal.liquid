@@ -7,77 +7,79 @@
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
-        <!-- Draft status -->
-        {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info">
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
+        <div class="usa-content">
+          <!-- Draft status -->
+          {% if !entityPublished %}
+            <div class="usa-alert usa-alert-info">
+              <div class="usa-alert-body">
+                <p class="usa-alert-text">You are viewing a draft.</p>
+              </div>
             </div>
-          </div>
-        {% endif %}
-
-        <!-- Search bar -->
-        <div class="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-margin-bottom--3">
-          {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
-        </div>
-
-        <article class="usa-content">
-          <!-- Title -->
-          <h1>{{ title }}</h1>
-
-          <!-- Intro -->
-          <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
-
-          <!-- Alert -->
-          {% if fieldAlertSingle %}
-            {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
           {% endif %}
 
-          <!-- Buttons -->
-          <div class="vads-u-margin-y--3">
-            {% for fieldButton in fieldButtons %}
-              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-            {% endfor %}
+          <!-- Search bar -->
+          <div class="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-margin-bottom--3">
+            {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
           </div>
 
-          <!-- TOC -->
-          {% if fieldTableOfContentsBoolean %}
-            <section id="table-of-contents">
-              <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
-              <ul class="usa-unstyled-list"></ul>
-            </section>
-          {% endif %}
+          <article>
+            <!-- Title -->
+            <h1>{{ title }}</h1>
 
-          <!-- Content blocks -->
-          {% for block in fieldContentBlock %}
-            {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
-            {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-            {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
-          {% endfor %}
+            <!-- Intro -->
+            <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
 
-          <!-- Repeated buttons -->
-          {% if fieldButtonsRepeat %}
-            <div class="vads-u-margin-top--3">
+            <!-- Alert -->
+            {% if fieldAlertSingle %}
+              {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
+            {% endif %}
+
+            <!-- Buttons -->
+            <div class="vads-u-margin-y--3">
               {% for fieldButton in fieldButtons %}
                 {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
               {% endfor %}
             </div>
-          {% endif %}
-        </article>
 
-        <!-- Tags -->
-        {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}
+            <!-- TOC -->
+            {% if fieldTableOfContentsBoolean %}
+              <section id="table-of-contents">
+                <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+                <ul class="usa-unstyled-list"></ul>
+              </section>
+            {% endif %}
 
-        <!-- Need more help -->
-        {% include "src/site/includes/related-benefit-hubs.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
+            <!-- Content blocks -->
+            {% for block in fieldContentBlock %}
+              {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+              {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+              {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+            {% endfor %}
 
-        <!-- Related information -->
-        {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}
+            <!-- Repeated buttons -->
+            {% if fieldButtonsRepeat %}
+              <div class="vads-u-margin-top--3">
+                {% for fieldButton in fieldButtons %}
+                  {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </article>
 
-        <!-- Last Updated -->
-        <div class="last-updated usa-content">
-          Last updated: <time
-            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+          <!-- Tags -->
+          {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}
+
+          <!-- Need more help -->
+          {% include "src/site/includes/related-benefit-hubs.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
+
+          <!-- Related information -->
+          {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}
+
+          <!-- Last Updated -->
+          <div class="last-updated usa-content">
+            Last updated: <time
+              datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+          </div>
         </div>
       </div>
     </div>
