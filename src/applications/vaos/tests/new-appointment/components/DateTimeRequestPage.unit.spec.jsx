@@ -192,8 +192,13 @@ describe('VAOS <DateTimeRequestPage>', () => {
 
       // Find all available appointments for the current month
       const currentMonth = moment().format('MMMM');
+      const nextMonth = moment()
+        .add(1, 'month')
+        .format('MMMM');
       const buttons = screen
-        .getAllByRole('button', { name: new RegExp(`${currentMonth}`) })
+        .getAllByRole('button', {
+          name: new RegExp(`(${currentMonth}|${nextMonth})`),
+        })
         .filter(button => button.disabled === false);
 
       // it should display an alert when the users selects more than the allowed dates
@@ -201,7 +206,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[0]);
 
       // 2. Simulate user selecting AM
-      let checkbox = screen.getByRole('checkbox', {
+      let checkbox = await screen.findByRole('checkbox', {
         name: 'AM appointment',
       });
       userEvent.click(checkbox);
@@ -210,7 +215,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[1]);
 
       // 3. Simulate user selecting PM
-      checkbox = screen.getByRole('checkbox', {
+      checkbox = await screen.findByRole('checkbox', {
         name: 'PM appointment',
       });
       userEvent.click(checkbox);
@@ -219,7 +224,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[2]);
 
       // 5. Simulate user selecting AM
-      checkbox = screen.getByRole('checkbox', {
+      checkbox = await screen.findByRole('checkbox', {
         name: 'AM appointment',
       });
       userEvent.click(checkbox);
@@ -228,13 +233,13 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[3]);
 
       // 7. Simulate user selecting PM which should result in error
-      checkbox = screen.getByRole('checkbox', {
+      checkbox = await screen.findByRole('checkbox', {
         name: 'PM appointment',
       });
       userEvent.click(checkbox);
 
       // NOTE: alert doesn't have a name so search for text too
-      expect(screen.getByRole('alert')).to.be.ok;
+      expect(await screen.findByRole('alert')).to.be.ok;
       expect(
         screen.getByText(
           'You can only choose up to 3 dates for your appointment.',
