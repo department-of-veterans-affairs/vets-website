@@ -70,7 +70,6 @@ class SaveInProgressIntro extends React.Component {
                     {inProgressMessage(formConfig)}
                   </span>
                   <br />
-
                   <span className="saved-form-item-metadata">
                     Your {appType} was last saved on {lastSavedDateTime}
                   </span>
