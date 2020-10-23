@@ -20,6 +20,6 @@ Users must be LOA3 and have 2FA set up to access Direct Deposit. Users must also
 
 There is a dedicated team that manages the connected app integrations. The slack channel is #connected-apps.
 
-When running the app locally, all test users will have 2 connected apps available to them as they are mocked [here](src/applications/personalization/profile360/util/connected-apps.js).
+When running the app locally, all test users will have 2 connected apps available to them as they are mocked [here](src/applications/personalization/profile/util/connected-apps.js).
 
 [How to connect apps in staging](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/identity-personalization/profile/Combine%20Profile%20and%20Account/QA/how-to-turn-on-connected-apps.md)

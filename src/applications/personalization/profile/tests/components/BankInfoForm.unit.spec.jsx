@@ -3,7 +3,10 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import BankInfoForm, { schema, uiSchema } from '../../components/BankInfoForm';
+import BankInfoForm, {
+  schema,
+  uiSchema,
+} from '../../../profile360/components/BankInfoForm';
 
 describe('<BankInfoForm/>', () => {
   let wrapper;

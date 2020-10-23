@@ -1,10 +1,10 @@
 
 ## Components also used in profile 2
-src/applications/personalization/profile360/components/BankInfoForm.jsx
-src/applications/personalization/profile360/components/PaymentInformationEditModal.jsx
-src/applications/personalization/profile360/components/DowntimeBanner.jsx
-src/applications/personalization/profile360/components/LoadFail.jsx
-src/applications/personalization/profile360/components/PaymentInformationBlocked.jsx
+src/applications/personalization/profile/components/BankInfoForm.jsx
+src/applications/personalization/profile/components/PaymentInformationEditModal.jsx
+src/applications/personalization/profile/components/DowntimeBanner.jsx
+src/applications/personalization/profile/components/LoadFail.jsx
+src/applications/personalization/profile/components/PaymentInformationBlocked.jsx
 src/platform/user/profile/vet360/components/base/Vet360EditModalErrorMessage.jsx
 src/platform/user/profile/vet360/components/PhoneField/PhoneEditView.jsx
 src/platform/user/profile/vet360/components/AddressField/AddressEditView.jsx
@@ -18,8 +18,8 @@ src/platform/user/profile/vet360/components/base/Vet360TransactionErrorBanner.js
 
 
 ## Other reused components
-src/applications/personalization/profile360/components/ContactInformation.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
-src/applications/personalization/profile360/components/ContactInformationExplanation.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
+src/applications/personalization/profile/components/ContactInformation.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
+src/applications/personalization/profile/components/ContactInformationExplanation.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
 src/platform/user/profile/vet360/components/ResidentialAddress.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
 src/platform/user/profile/vet360/components/FaxNumber.jsx USED BY src/applications/gi/components/vet-tec/VetTecInstitutionProfile.jsx
 src/platform/user/profile/vet360/containers/Vet360ProfileField.jsx USED BY src/applications/letters/letters-entry.jsx
@@ -30,8 +30,8 @@ Basically all vet360 components under 'base' are used by letters
 
 
 ## Other logic also used in profile 2
-src/applications/personalization/profile360/constants/index.js
-src/applications/personalization/profile360/reducers/index.js
-src/applications/personalization/profile360/util/connected-apps.js
-some functions (last one surely) in src/applications/personalization/profile360/util/index.js
-src/applications/personalization/profile360/selectors.js
+src/applications/personalization/profile/constants/index.js
+src/applications/personalization/profile/reducers/index.js
+src/applications/personalization/profile/util/connected-apps.js
+some functions (last one surely) in src/applications/personalization/profile/util/index.js
+src/applications/personalization/profile/selectors.js
