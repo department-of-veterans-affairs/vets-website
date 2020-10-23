@@ -643,6 +643,16 @@ export function transformForSubmit(
   return JSON.stringify(withoutViewFields, replacer) || '{}';
 }
 
+/**
+ * Determines whether or not the review field should be displayed on the review page
+ *
+ * @param propName {string} The name of the field to check
+ * @param schema {Object} The current JSON Schema
+ * @param uiSchema {Object} The current UI Schema
+ * @param formData {Object} The current form data
+ * @param formContext {Object} The context of the current form
+ * @returns {boolean} the display status of the field
+ */
 export function showReviewField(
   propName,
   schema,

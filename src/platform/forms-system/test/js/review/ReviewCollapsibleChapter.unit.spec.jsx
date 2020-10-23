@@ -588,37 +588,37 @@ describe('<ReviewCollapsibleChapter>', () => {
           editMode: false,
           schema: {
             properties: {
-              hiddenOnSchema: {
+              field1: {
                 type: 'boolean',
                 'ui:hidden': true,
               },
-              collapsedOnSchema: {
+              field2: {
                 type: 'boolean',
                 'ui:collapsed': true,
               },
-              hiddenByUiHideOnReview: {
+              field3: {
                 type: 'boolean',
               },
-              hiddenByUiHideOnReviewFunction: {
+              field4: {
                 type: 'boolean',
               },
-              hiddenByUiHideOnReviewIfFalse: {
+              field5: {
                 type: 'boolean',
               },
             },
           },
           uiSchema: {
-            hiddenByUiHideOnReview: {
+            field3: {
               'ui:options': {
                 hideOnReview: true,
               },
             },
-            hiddenByUiHideOnReviewFunction: {
+            field4: {
               'ui:options': {
                 hideOnReview: () => true,
               },
             },
-            hiddenByUiHideOnReviewIfFalse: {
+            field5: {
               'ui:options': {
                 hideOnReviewIfFalse: true,
               },
@@ -626,7 +626,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           },
         },
       },
-      data: { hiddenByUiHideOnReviewIfFalse: false },
+      data: { field5: false },
     };
 
     const tree = shallow(
