@@ -54,6 +54,7 @@ const formConfig = {
     appType: 'questionnaire',
     appAction: 'answering questions',
     continueAppButtonText: 'Continue questions',
+    appSavedSuccessfullyMessage: 'Questionnaire has been saved',
   },
   chapters: {
     chapter1: {
