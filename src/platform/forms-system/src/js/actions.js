@@ -271,13 +271,13 @@ export function uploadFile(
           onChange(fileData);
         }
       } else {
-        let errorMessage;
+        let errorMessage = req.statusText;
         try {
           // detail contains a better error message
           errorMessage =
             JSON.parse(req?.response)?.errors?.[0]?.detail || req.statusText;
         } catch (error) {
-          errorMessage = req.statusText;
+          // intentionally empty
         }
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
