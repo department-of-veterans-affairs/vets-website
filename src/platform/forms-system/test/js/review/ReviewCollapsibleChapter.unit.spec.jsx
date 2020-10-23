@@ -592,37 +592,41 @@ describe('<ReviewCollapsibleChapter>', () => {
                 type: 'boolean',
                 'ui:hidden': true,
               },
-              hiddenByHideOnReview: {
+              collapsedOnSchema: {
+                type: 'boolean',
+                'ui:collapsed': true,
+              },
+              hiddenByUiHideOnReview: {
                 type: 'boolean',
               },
-              hiddenByHideOnReviewFunction: {
+              hiddenByUiHideOnReviewFunction: {
                 type: 'boolean',
               },
-              hiddenByHideOnReviewIfFalse: {
+              hiddenByUiHideOnReviewIfFalse: {
                 type: 'boolean',
               },
             },
           },
           uiSchema: {
-            hiddenByHideOnReview: {
+            hiddenByUiHideOnReview: {
               'ui:options': {
                 hideOnReview: true,
               },
             },
-            hiddenByHideOnReviewIfFalse: {
-              'ui:options': {
-                hideOnReviewIfFalse: true,
-              },
-            },
-            hiddenByHideOnReviewFunction: {
+            hiddenByUiHideOnReviewFunction: {
               'ui:options': {
                 hideOnReview: () => true,
+              },
+            },
+            hiddenByUiHideOnReviewIfFalse: {
+              'ui:options': {
+                hideOnReviewIfFalse: true,
               },
             },
           },
         },
       },
-      data: { hideOnReviewIfFalse: false },
+      data: { hiddenByUiHideOnReviewIfFalse: false },
     };
 
     const tree = shallow(
