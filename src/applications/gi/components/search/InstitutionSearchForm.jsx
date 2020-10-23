@@ -77,10 +77,7 @@ function InstitutionSearchForm({
     doSearch(autocomplete.searchTerm);
   };
 
-  // prod flag for story BAH-13929
-  const keywordSearchLabel = !environment.isProduction()
-    ? 'Enter a school, employer name, city, or zip code'
-    : 'Enter a school, location, or employer name';
+  const keywordSearchLabel = 'Enter a school, employer name, city, or zip code';
 
   return (
     <div className="row">
