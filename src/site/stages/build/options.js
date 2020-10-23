@@ -19,7 +19,6 @@ const { shouldPullDrupal } = require('./drupal/metalsmith-drupal');
 const { defaultCMSExportContentDir } = require('./process-cms-exports/helpers');
 const { logDrupal } = require('./drupal/utilities-drupal');
 const { useFlags } = require('./drupal/load-saved-flags');
-const DRUPALS = require('../../constants/drupals');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
@@ -227,7 +226,7 @@ async function setUpFeatureFlags(options) {
  */
 async function setUpSideNavMenuList(options) {
   global.buildtype = options.buildtype;
-  let SideNavs;
+  let sideNavs;
 
   const sideNavFile = path.join(
     options.cacheDirectory,
@@ -238,34 +237,12 @@ async function setUpSideNavMenuList(options) {
   if (shouldPullDrupal(options)) {
     logDrupal('Pulling side nav menus from Drupal...');
     const apiClient = getDrupalClient(options);
-    const envConfig = DRUPALS[global.buildtype];
-    const drupalConfig = Object.assign({}, envConfig);
-    const { user, password } = drupalConfig;
 
-    const encodedCredentials = Buffer.from(`${user}:${password}`).toString(
-      'base64',
-    );
-
-    // TODO: move to src/site/stages/build/drupal/api.j
-    const result = await apiClient.proxyFetch(
-      `${apiClient.getSiteUri()}/graphql/`,
-      {
-        headers: {
-          Authorization: `Basic ${encodedCredentials}`,
-          'Content-Type': 'application/json',
-        },
-        method: 'post',
-        body: JSON.stringify({
-          query: `{
-         sideNavMenus
-       }`,
-        }),
-      },
-    );
+    const result = await apiClient.getSideNavMenus();
 
     const responseBody = await result.text();
     try {
-      SideNavs = JSON.parse(responseBody).data.sideNavMenus;
+      sideNavs = JSON.parse(responseBody).data.sideNavMenus;
     } catch (e) {
       throw new TypeError(
         `Could not parse Drupal side nav menus. Response:\n${responseBody}`,
@@ -275,16 +252,16 @@ async function setUpSideNavMenuList(options) {
     // Write them to .cache/{buildtype}/drupal/side-nav-menus.json
     fs.ensureDirSync(options.cacheDirectory);
     fs.emptyDirSync(path.dirname(sideNavFile));
-    fs.writeJsonSync(sideNavFile, SideNavs, { spaces: 2 });
+    fs.writeJsonSync(sideNavFile, sideNavs, { spaces: 2 });
   } else {
     logDrupal('Using cached side navs');
-    SideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
+    sideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
   }
 
   if (global.verbose) {
-    logDrupal(`Drupal side navs:\n${JSON.stringify(SideNavs, null, 2)}`);
+    logDrupal(`Drupal side navs:\n${JSON.stringify(sideNavs, null, 2)}`);
   }
-  global.cmsSideNavs = SideNavs;
+  global.cmsSideNavs = sideNavs;
 }
 
 async function getOptions(commandLineOptions) {
