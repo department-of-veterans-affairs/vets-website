@@ -64,11 +64,11 @@ describe('Chapter 31 Additional Information Page', () => {
     selectRadio(form, 'root_isMoving', 'Y');
 
     // New address
-    changeDropdown(form, 'select#root_newAddress_countryName', 'USA');
-    fillData(form, 'input#root_newAddress_addressLine1', '101 someplace drive');
+    changeDropdown(form, 'select#root_newAddress_country', 'USA');
+    fillData(form, 'input#root_newAddress_street', '101 someplace drive');
     fillData(form, 'input#root_newAddress_city', 'Someplace');
-    changeDropdown(form, 'select#root_newAddress_stateCode', 'AL');
-    fillData(form, 'input#root_newAddress_zipCode', '12345');
+    changeDropdown(form, 'select#root_newAddress_state', 'AL');
+    fillData(form, 'input#root_newAddress_postalCode', '12345');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
