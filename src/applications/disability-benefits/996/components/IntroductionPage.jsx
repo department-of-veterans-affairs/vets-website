@@ -18,7 +18,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
 
-import { higherLevelReviewFeature } from '../helpers';
+import { higherLevelReviewFeature, scrollToTop } from '../helpers';
 import {
   noContestableIssuesFound,
   showContestableIssueError,
@@ -45,6 +45,7 @@ export class IntroductionPage extends React.Component {
         ? 'h1'
         : '.va-nav-breadcrumbs-list';
     focusElement(focusTarget);
+    scrollToTop();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -74,6 +75,7 @@ export class IntroductionPage extends React.Component {
       // set focus on h1 only after wizard completes
       if (prevState.status !== WIZARD_STATUS_COMPLETE) {
         setTimeout(() => {
+          scrollToTop();
           focusElement('h1');
         }, 100);
       }
