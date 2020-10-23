@@ -262,7 +262,7 @@ const ccpSpecialtiesInteraction = {
 
 const dispatch = sinon.stub();
 
-contractTest('Facility Locator', 'VA.gov API', mockApi => {
+contractTest.skip('Facility Locator', 'VA.gov API', mockApi => {
   describe('GET /v1/facilities/ccp', () => {
     context('facilities: ccp data exists', () => {
       it('responds appropriately', async () => {
