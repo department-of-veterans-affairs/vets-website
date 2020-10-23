@@ -44,6 +44,7 @@ const IntroductionPage = props => {
         pageList={props.route.pageList}
         startText="Start the questionnaire"
         formConfig={props.route.formConfig}
+        resumeOnly
         renderSignInMessage={() => (
           <IntroductionPageHelpers.WelcomeAlert
             toggleLoginModal={showLoginModel}
