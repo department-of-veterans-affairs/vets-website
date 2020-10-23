@@ -10,7 +10,7 @@
 {% assign isInAbout = aboutMenu | isAboutItem: entityUrl.path %}
 {% assign deepLinks = deepLinksObj.link.links %}
 
-<script type="text/javascript">
+<script nonce="**CSP_NONCE**" type="text/javascript">
     window.sideNav = {{ sidebarData | json }};
 </script>
 
