@@ -1,17 +1,17 @@
-// import fullSchema from 'vets-json-schema/dist/5655-schema.json';
-
+import _ from 'lodash/fp';
+import moment from 'moment';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
+import applicantInformation from 'platform/forms/pages/applicantInformation';
+import fullSchema from '../schema/5655-schema.json';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-const formFields = {
-  firstName: 'firstName',
-};
+const { vaFileNumber } = fullSchema.properties;
+const { fullName } = fullSchema.definitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -34,30 +34,69 @@ const formConfig = {
     //   saved: 'Your [benefitType] [appType] has been saved.',
     // },
   },
-  title: 'Financial Status Report',
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    fullName,
+  },
+  title: 'Financial Status Report (5655)',
+  subTitle: 'Form 5655',
+  preSubmitInfo,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   chapters: {
-    chapter1: {
-      title: 'Personal Information',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        page1: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
-          uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
+        applicantInformation: _.merge(
+          applicantInformation(fullSchema, {
+            isVeteran: true,
+            fields: [
+              'veteranFullName',
+              'veteranSocialSecurityNumber',
+              'vaFileNumber',
+              'veteranDateOfBirth',
+              'myField',
+            ],
+            required: [
+              'veteranFullName',
+              'veteranSocialSecurityNumber',
+              'vaFileNumber',
+              'veteranDateOfBirth',
+            ],
+          }),
+          {
+            uiSchema: {
+              veteranDateOfBirth: {
+                'ui:validations': [
+                  (errors, dob) => {
+                    // If we have a complete date, check to make sure it’s a valid dob
+                    if (
+                      /\d{4}-\d{2}-\d{2}/.test(dob) &&
+                      moment(dob).isAfter(
+                        moment()
+                          .endOf('day')
+                          .subtract(17, 'years'),
+                      )
+                    ) {
+                      errors.addError('You must be at least 17 to apply');
+                    }
+                  },
+                ],
+              },
+              myField: {
+                'ui:title': 'File Number',
+              },
             },
-          },
-          schema: {
-            required: [formFields.firstName],
-            type: 'object',
-            properties: {
-              [formFields.firstName]: {
-                type: 'string',
+            schema: {
+              type: 'object',
+              properties: {
+                myField: {
+                  type: 'string',
+                },
+                vaFileNumber,
               },
             },
           },
-        },
+        ),
       },
     },
   },
