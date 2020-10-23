@@ -27,22 +27,15 @@ import { setFocus, clearLocationMarkers, buildMarker } from '../utils/helpers';
 import { MARKER_LETTERS } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import SearchResult from '../components/SearchResult';
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
-  const mapContainer = useRef(null);
+  // const mapContainer = useRef(null);
   const searchResultTitleRef = useRef(null);
-  // const [isMobile, setIsMobile] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
-  //  const usePreviousResults = value => {
-  //     const ref = useRef();
-  //     useEffect(() => {
-  //       ref.current = value;
-  //     });
-  //     return ref.current;
-  //   };
-  //   const previousResults = usePreviousResults({ results });
-
   const syncStateWithLocation = location => {
     if (
       location.query.address &&
@@ -90,7 +83,7 @@ const FacilitiesMap = props => {
     });
 
     const setMobile = () => {
-      // setIsMobile(window.innerWidth <= 481);
+      setIsMobile(window.innerWidth <= 481);
     };
 
     searchWithUrl();
@@ -204,11 +197,8 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       if (!map) return;
-      // if (!previousResults || (results && results.length === 0)) return;
-      // if (JSON.stringify(previousResults.results) !== JSON.stringify(results)) {
       clearLocationMarkers();
       renderMarkers(props.results);
-      // }
     },
     [props.results], // Handle build markers when we get results
   );
@@ -266,7 +256,7 @@ const FacilitiesMap = props => {
       mapboxgl.accessToken = mapboxToken;
       const initializeMap = (setMapInit, mapContainerInit) => {
         const mapInit = new mapboxgl.Map({
-          container: mapContainerInit.current,
+          container: mapContainerInit,
           style: 'mapbox://styles/mapbox/outdoors-v11',
           center: [-99.27246093750001, 40.17887331434698], // Initial state search query reducer
           zoom: 3,
@@ -275,10 +265,15 @@ const FacilitiesMap = props => {
 
         mapInit.on('load', () => {
           setMapInit(mapInit);
+          mapInit.resize();
         });
+        // mapInit.on('resize', function() {
+        // console.log('A resize event occurred.');
+        // });
       };
 
-      if (!map) initializeMap(setMap, mapContainer);
+      if (!window.document.getElementById('mapContainer')) return;
+      if (!map) initializeMap(setMap, 'mapContainer');
     },
     [map],
   );
@@ -292,8 +287,102 @@ const FacilitiesMap = props => {
     renderMarkers(props.results);
   }
 
-  const renderViews = () => {
-    // Handle both mobile and desktop here?
+  const setMapResize = () => {
+    setTimeout(function() {
+      const mapMobileTab = new mapboxgl.Map({
+        container: 'mapContainer',
+        style: 'mapbox://styles/mapbox/outdoors-v11',
+        center: [-99.27246093750001, 40.17887331434698],
+        zoom: 3,
+      });
+      mapMobileTab.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+      mapMobileTab.on('load', () => {
+        mapMobileTab.resize();
+      });
+      setMap(mapMobileTab);
+    }, 10);
+  };
+
+  const renderMobileView = () => {
+    const {
+      currentQuery,
+      selectedResult,
+      results,
+      pagination: { currentPage, totalPages },
+    } = props;
+    const facilityType = currentQuery.facilityType;
+    const serviceType = currentQuery.serviceType;
+    const queryContext = currentQuery.context;
+
+    return (
+      <>
+        <SearchControls
+          currentQuery={currentQuery}
+          onChange={props.updateSearchQuery}
+          onSubmit={handleSearch}
+          suppressCCP={props.suppressCCP}
+          suppressPharmacies={props.suppressPharmacies}
+        />
+        <div id="search-results-title" ref={searchResultTitleRef}>
+          <SearchResultsHeader
+            results={props.results}
+            facilityType={facilityType}
+            serviceType={serviceType}
+            context={queryContext}
+            inProgress={currentQuery.inProgress}
+          />
+        </div>
+        <div className="columns small-12">
+          <Tabs>
+            <TabList>
+              <Tab className="small-6 tab">View List</Tab>
+              <Tab
+                onClick={() => {
+                  setMapResize();
+                }}
+                className="small-6 tab"
+              >
+                View Map
+              </Tab>
+            </TabList>
+            <TabPanel>
+              <div className="facility-search-results">
+                <ResultsList
+                  updateUrlParams={updateUrlParams}
+                  query={currentQuery}
+                />
+              </div>
+              <PaginationWrapper
+                handlePageSelect={handlePageSelect}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                results={results}
+                inProgress={currentQuery.inProgress}
+              />
+            </TabPanel>
+            <TabPanel>
+              <div
+                style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
+                id="mapContainer"
+              />
+              {selectedResult && (
+                <div className="mobile-search-result">
+                  <SearchResult result={selectedResult} query={currentQuery} />
+                </div>
+              )}
+            </TabPanel>
+          </Tabs>
+        </div>
+      </>
+    );
+  };
+
+  const renderDesktopView = () => {
+    // Reset the map after resize event
+    if (document.getElementsByClassName('mapboxgl-canvas').length === 0) {
+      setMapResize();
+    }
     const {
       currentQuery,
       pagination: { currentPage, totalPages },
@@ -330,13 +419,7 @@ const FacilitiesMap = props => {
             />
           </div>
         </div>
-        <div
-          className="desktop-map-container"
-          ref={el => {
-            mapContainer.current = el;
-            return true;
-          }}
-        />
+        <div className="desktop-map-container" id="mapContainer" />
         <PaginationWrapper
           handlePageSelect={handlePageSelect}
           currentPage={currentPage}
@@ -370,7 +453,7 @@ const FacilitiesMap = props => {
             <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
         </div>
-        {renderViews()}
+        {isMobile ? renderMobileView() : renderDesktopView()}
       </div>
       {props.results && props.results.length > 0 && otherToolsLink()}
     </>
