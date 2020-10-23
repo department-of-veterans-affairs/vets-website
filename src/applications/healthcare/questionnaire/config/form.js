@@ -30,8 +30,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     messages: {
-      inProgress: 'Your upcoming appointment questionnaire is in progress.',
-      // TODO: Fix the expired message
+      hideInProgressMessage: true,
       expired:
         'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
       saved: 'Your appointment questionnaire application has been saved.',
@@ -50,7 +49,11 @@ const formConfig = {
   },
   title: 'Upcoming appointment questionnaire',
   defaultDefinitions: {},
-  customText: { reviewPageTitle: 'Review', appType: 'questionnaire' },
+  customText: {
+    reviewPageTitle: 'Review',
+    appType: 'questionnaire',
+    appAction: 'answering questions',
+  },
   chapters: {
     chapter1: {
       title: "Veteran's Information",
