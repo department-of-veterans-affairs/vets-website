@@ -1,9 +1,8 @@
-/**
- * The alerts that appear above content.
- */
+const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 module.exports = `
 fragment nodeBasicLandingPage on NodeBasicLandingPage {
+  ${entityElementsFromPages}
   title
   created
   fieldContentBlock {
