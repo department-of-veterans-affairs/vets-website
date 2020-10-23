@@ -25,8 +25,6 @@ import {
 } from '../../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../../mocks/setup';
 
-import reducers from '../../../../redux/reducer';
-import FutureAppointmentsList from '../../../../appointment-list/components/FutureAppointmentsList';
 import AppointmentsPage from '../../../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
@@ -82,12 +80,9 @@ describe('VAOS integration appointment cancellation:', () => {
     mockFacilitiesFetch('vha_442', [facility]);
 
     const { getByRole, findByText } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -187,15 +182,9 @@ describe('VAOS integration appointment cancellation:', () => {
       getByRole,
       findByText,
       queryByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     fireEvent.click(await findByText(/cancel appointment/i));
 
@@ -243,15 +232,9 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     await findByText(/cancel appointment/i);
     expect(baseElement).not.to.contain.text('Canceled');
@@ -347,15 +330,9 @@ describe('VAOS integration appointment cancellation:', () => {
       findByText,
       queryByRole,
       getByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     await findByText(/cancel appointment/i);
     expect(baseElement).not.to.contain.text('Canceled');
@@ -444,15 +421,9 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       getByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     await findByText(/cancel appointment/i);
     expect(baseElement).not.to.contain.text('Canceled');
@@ -510,15 +481,9 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     await findByText(/cancel appointment/i);
     expect(baseElement).not.to.contain.text('Canceled');
@@ -566,26 +531,20 @@ describe('VAOS integration appointment cancellation:', () => {
 
     mockAppointmentInfo({ va: [appointment] });
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState: {
-          ...initialState,
-          user: {
-            profile: {
-              facilities: [
-                { facilityId: '983', isCerner: false },
-                { facilityId: '668', isCerner: true },
-              ],
-              isCernerPatient: true,
-            },
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false },
+              { facilityId: '668', isCerner: true },
+            ],
+            isCernerPatient: true,
           },
         },
-        reducers,
       },
-    );
+    });
 
     await screen.findByText(/cancel appointment/i);
     expect(screen.baseElement).not.to.contain.text('Canceled');
