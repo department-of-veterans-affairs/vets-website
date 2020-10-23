@@ -3,6 +3,7 @@ import fullSchema from './0873-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/0873-schema.json';
 
+import React from 'react';
 import IntroductionPage from './introduction/IntroductionPage';
 import ConfirmationPage from './confirmation/ConfirmationPage';
 import VeteranInformationPage from './veteran/veteranInformationPage';
@@ -27,6 +28,7 @@ import {
 } from '../constants/labels';
 
 import manifest from '../manifest.json';
+import CallMyVA311 from './review/error/CallMyVA311';
 
 const {
   fullName,
@@ -75,6 +77,11 @@ const formConfig = {
       // saved: 'Your [benefitType] [appType] has been saved.',
     },
   },
+  errorText: () => (
+    <p>
+      If it still doesn’t work, please <CallMyVA311 />
+    </p>
+  ),
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
@@ -86,6 +93,7 @@ const formConfig = {
   customText: {
     submitButtonText,
     reviewPageTitle,
+    appType: 'inquiry',
   },
   defaultDefinitions: {
     address,
