@@ -30,7 +30,6 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     messages: {
-      hideInProgressMessage: true,
       expired:
         'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
       saved: 'Your appointment questionnaire application has been saved.',
