@@ -25,7 +25,7 @@ import {
 } from 'applications/personalization/profile/selectors';
 
 import BankInfoForm from 'applications/personalization/profile/components/BankInfoForm';
-
+import PaymentInformationEditError from 'applications/personalization/profile/components/PaymentInformationEditModalError';
 import ProfileInfoTable from '../ProfileInfoTable';
 import FraudVictimAlert from './FraudVictimAlert';
 
