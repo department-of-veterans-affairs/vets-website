@@ -5,6 +5,7 @@ const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const alertsQuery = require('./alerts.graphql');
 const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
 const bannerAlertsQuery = require('./bannerAlerts.graphql');
+const basicLandingPage = require('./nodeBasicLandingPage.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const bioPage = require('./bioPage.graphql');
 const checklistPage = require('./nodeChecklist.graphql');
@@ -85,6 +86,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${checklistPage}
   ${mediaListVideos}
   ${supportResourcesDetailPage}
+  ${basicLandingPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -124,6 +126,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... nodeChecklist
         ... nodeMediaListVideos
         ... nodeSupportResourcesDetailPage
+        ... nodeBasicLandingPage
       }
     }`;
 
