@@ -10,8 +10,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import GetFormHelp from '../components/GetFormHelp.jsx';
 import { customSubmit686 } from '../analytics/helpers';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import React from 'react';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -55,21 +53,12 @@ import {
   studentIncomeInformation,
   studentNetworthInformation,
 } from './chapters/674';
+import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
-
-const netWorthCalculation = (
-  <AdditionalInfo triggerText="How do I figure out my net worth?">
-    <p>
-      Your net worth includes all personal property you own (except your house,
-      your car, and most home furnishings), minus any debt you owe. Your net
-      worth includes the net worth of your spouse.
-    </p>
-  </AdditionalInfo>
-);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -425,35 +414,13 @@ const formConfig = {
       },
     },
     householdIncome: {
-      title: 'Household Income',
+      title: 'Your net worth',
       pages: {
         householdIncome: {
-          path: 'household-income',
-          title: 'Household Income',
-          uiSchema: {
-            householdIncome: {
-              'ui:title':
-                'If you are entitled to a Veterans’ pension instead of disability compensation, VA needs to know the total value of your assets. If your married, include the value of your spouse’s assets too.',
-              'ui:description': 'Is your net worth less than $129,094?',
-              'ui:widget': 'radio',
-            },
-            'view:calculateNetWorth': {
-              'ui:title': '',
-              'ui:description': netWorthCalculation,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              householdIncome: {
-                type: 'boolean',
-              },
-              'view:calculateNetWorth': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          path: 'net-worth',
+          title: 'Your net worth',
+          uiSchema: householdIncome.uiSchema,
+          schema: householdIncome.schema,
         },
       },
     },

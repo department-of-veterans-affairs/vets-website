@@ -23,10 +23,6 @@ export const uiSchema = {
           isChapterFieldRequired(formData, 'addSpouse'),
       },
     },
-    spouseIncome: {
-      'ui:title': 'Did your spouse have income in the last tax year?',
-      'ui:widget': 'radio',
-    },
     location: locationUISchema(
       'currentMarriageInformation',
       'location',
