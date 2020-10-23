@@ -53,6 +53,7 @@ const formConfig = {
     reviewPageTitle: 'Review',
     appType: 'questionnaire',
     appAction: 'answering questions',
+    continueAppButtonText: 'Continue questions',
   },
   chapters: {
     chapter1: {
