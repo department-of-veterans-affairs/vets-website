@@ -49,14 +49,7 @@ const formConfig = {
   },
   title: 'Upcoming appointment questionnaire',
   defaultDefinitions: {},
-  customText: {
-    reviewPageTitle: 'Review',
-    appType: 'questionnaire',
-    appAction: 'answering questions',
-    continueAppButtonText: 'Continue questions',
-    finishAppLaterMessage: 'Finish this questionnaire later',
-    appSavedSuccessfullyMessage: 'Questionnaire has been saved',
-  },
+  customText: { reviewPageTitle: 'Review', appType: 'questionnaire' },
   chapters: {
     chapter1: {
       title: "Veteran's Information",
