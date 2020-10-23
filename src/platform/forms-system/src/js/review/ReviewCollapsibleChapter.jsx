@@ -145,9 +145,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 !pageSchema && arrayFields.length === 0,
             });
             const title = page.reviewTitle || page.title || '';
+
             const hasVisibleFields =
               pageSchema &&
-              pageSchema.properties &&
               Object.entries(pageSchema.properties)
                 .map(entry => entry[0])
                 .filter(propName =>
