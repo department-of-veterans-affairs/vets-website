@@ -66,15 +66,11 @@ class SaveInProgressIntro extends React.Component {
                   <strong>Your {appType} is in progress</strong>
                 </div>
                 <div className="saved-form-metadata-container">
-                  {!formConfig.saveInProgress.messages
-                    .hideInProgressMessage && (
-                    <>
-                      <span className="saved-form-item-metadata">
-                        {inProgressMessage(formConfig)}
-                      </span>
-                      <br />
-                    </>
-                  )}
+                  <span className="saved-form-item-metadata">
+                    {inProgressMessage(formConfig)}
+                  </span>
+                  <br />
+
                   <span className="saved-form-item-metadata">
                     Your {appType} was last saved on {lastSavedDateTime}
                   </span>
