@@ -262,6 +262,9 @@ const ccpSpecialtiesInteraction = {
 
 const dispatch = sinon.stub();
 
+// TODO enable test after backend support is available
+// The pact that hasn’t been verified yet
+
 contractTest('Facility Locator', 'VA.gov API', mockApi => {
   describe.skip('GET /v1/facilities/ccp', () => {
     context('facilities: ccp data exists', () => {
