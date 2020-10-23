@@ -380,9 +380,9 @@ const FacilitiesMap = props => {
 
   const renderDesktopView = () => {
     // Reset the map after resize event
-    if (document.getElementsByClassName('mapboxgl-canvas').length === 0) {
-      setMapResize();
-    }
+    // if (document.getElementsByClassName('mapboxgl-canvas').length === 0) {
+    // setMapResize();
+    // }
     const {
       currentQuery,
       pagination: { currentPage, totalPages },
