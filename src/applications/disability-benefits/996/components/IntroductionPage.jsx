@@ -38,10 +38,16 @@ export class IntroductionPage extends React.Component {
   };
 
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    // focus on h1 if wizard has completed
+    // focus on breadcrumb nav when wizard is visible
+    const focusTarget =
+      this.state.status === WIZARD_STATUS_COMPLETE
+        ? 'h1'
+        : '.va-nav-breadcrumbs-list';
+    focusElement(focusTarget);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const {
       contestableIssues = {},
       getContestableIssues,
@@ -63,6 +69,13 @@ export class IntroductionPage extends React.Component {
           benefitType,
           contestedIssues: contestableIssues.issues,
         });
+      }
+
+      // set focus on h1 only after wizard completes
+      if (prevState.status !== WIZARD_STATUS_COMPLETE) {
+        setTimeout(() => {
+          focusElement('h1');
+        }, 100);
       }
     }
   }
