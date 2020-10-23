@@ -11,7 +11,7 @@ Currently, Vet360's scope is limited to veteran contact information, which consi
 - Residential Address
 
 ## Getting started
-The [Profile](https://github.com/department-of-veterans-affairs/vets-website/tree/master/src/applications/personalization/profile360) application serves as an example for how to use this work.
+The [Profile](https://github.com/department-of-veterans-affairs/vets-website/tree/master/src/applications/personalization/profile) application serves as an example for how to use this work.
 
 Follow these steps to get started in your own application:
 

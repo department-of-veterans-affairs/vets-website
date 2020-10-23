@@ -15,7 +15,7 @@ const getDirectDepositInfoError = {
 
 const errors = [{ name: 'error1' }, { name: 'error2' }];
 
-describe('profile360 selectors', () => {
+describe('profile selectors', () => {
   describe('directDepositIsSetUp selector', () => {
     let state;
     beforeEach(() => {
