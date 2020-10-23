@@ -168,11 +168,7 @@ class VetTecSearchForm extends React.Component {
             <h2>Refine search</h2>
             <KeywordSearch
               autocomplete={this.props.autocomplete}
-              label={
-                this.props.gibctSearchEnhancements
-                  ? 'Program, provider, or location'
-                  : 'City, VET TEC program or provider'
-              }
+              label="Program, provider, or location"
               location={this.props.location}
               onClearAutocompleteSuggestions={
                 this.props.clearAutocompleteSuggestions
