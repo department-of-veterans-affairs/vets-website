@@ -12,7 +12,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['minimal-test', 'maximal-test'],
     fixtures: {
-      data: path.join(__dirname, 'data'),
+      data: path.join(__dirname, 'fixtures', 'data'),
     },
     pageHooks: {
       introduction: () => {
@@ -28,7 +28,8 @@ const testConfig = createTestConfig(
         url: '/v0/ask/asks',
         status: 200,
         response: {
-          body: '200 ok',
+          confirmationNumber: '000123456000A',
+          dateSubmitted: '10-30-2020',
         },
       });
     },
