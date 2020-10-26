@@ -1,0 +1,18 @@
+{
+  "data": {
+    "id": "1234",
+    "type": "in_progress_forms",
+    "attributes": {
+      "formId": "0873",
+      "createdAt": "2020-06-16T00:00:00.000Z",
+      "updatedAt": "2020-06-16T00:00:00.000Z",
+      "metadata": {
+        "version": 6,
+        "returnUrl": "/review-and-submit",
+        "savedAt": 1592265600000,
+        "expiresAt": 9999999999999,
+        "lastUpdated": 1592265600000
+      }
+    }
+  }
+}

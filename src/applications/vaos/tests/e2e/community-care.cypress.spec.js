@@ -1,7 +1,7 @@
 import { initCommunityCareMock } from './vaos-cypress-helpers';
 import moment from 'moment';
 
-describe('Create new community care appointment', () => {
+describe('VAOS community care flow', () => {
   beforeEach(() => {
     initCommunityCareMock();
     cy.visit(
@@ -208,11 +208,23 @@ describe('Create new community care appointment', () => {
         'newMessage',
         'This is a very good reason.',
       );
+      expect(request.facility.facilityCode).to.eq('983');
+      expect(request.facility.parentSiteCode).to.eq('983');
+      expect(request).to.have.property('typeOfCareId', 'CCPRMYRTNE');
       expect(request).to.have.property('optionTime1', 'AM');
       expect(request).to.have.property('optionTime2', 'No Time Selected');
       expect(request).to.have.property('optionTime3', 'No Time Selected');
       expect(request).to.have.property('email', 'veteran@gmail.com');
       expect(request).to.have.property('phoneNumber', '5035551234');
+    });
+
+    // Check messages requestBody is as expected
+    cy.wait('@requestMessages').should(xhr => {
+      const request = xhr.requestBody;
+      expect(request).to.have.property(
+        'messageText',
+        'This is a very good reason.',
+      );
     });
 
     // Your appointment request has been submitted step

@@ -4,6 +4,7 @@ const staffProfile = require('./paragraph-fragments/staffProfile.paragraph.graph
 const {
   listOfLinkTeasers,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
+const listsOfLinks = require('./paragraph-fragments/listsOfLinks.paragraph.graphql');
 const process = require('./paragraph-fragments/process.paragraph.graphql');
 const qaSection = require('./paragraph-fragments/qaSection.paragraph.graphql');
 const qa = require('./paragraph-fragments/qa.paragraph.graphql');
@@ -23,6 +24,7 @@ const alertParagraphSingle = require('./paragraph-fragments/alertSingle.paragrap
 const audienceTopics = require('./paragraph-fragments/audienceTopics.paragraph.graphql');
 const termLcCategory = require('./taxonomy-fragments/termLcCategory.taxonomy.graphql');
 const termTopics = require('./taxonomy-fragments/termTopics.taxonomy.graphql');
+const audienceBeneficiaries = require('./taxonomy-fragments/audienceBeneficiaries.taxonomy.graphql');
 const supportService = require('./supportService.graphql');
 const richTextCharLimit1000 = require('./paragraph-fragments/richTextCharLimit1000.paragraph.graphql');
 
@@ -31,6 +33,7 @@ module.exports = `
   ${collapsiblePanel}
   ${staffProfile}
   ${linkTeaser}
+  ${listsOfLinks}
   ${listOfLinkTeasers}
   ${process}
   ${promo}
@@ -49,6 +52,7 @@ module.exports = `
   ${alertParagraphSingle}
   ${termLcCategory}
   ${termTopics}
+  ${audienceBeneficiaries}
   ${audienceTopics}
   ${supportService}
   ${richTextCharLimit1000}
