@@ -4,6 +4,7 @@ const staffProfile = require('./paragraph-fragments/staffProfile.paragraph.graph
 const {
   listOfLinkTeasers,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
+const listsOfLinks = require('./paragraph-fragments/listsOfLinks.paragraph.graphql');
 const process = require('./paragraph-fragments/process.paragraph.graphql');
 const qaSection = require('./paragraph-fragments/qaSection.paragraph.graphql');
 const qa = require('./paragraph-fragments/qa.paragraph.graphql');
@@ -32,6 +33,7 @@ module.exports = `
   ${collapsiblePanel}
   ${staffProfile}
   ${linkTeaser}
+  ${listsOfLinks}
   ${listOfLinkTeasers}
   ${process}
   ${promo}

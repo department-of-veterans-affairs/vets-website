@@ -45,6 +45,11 @@
             </section>
           {% endif %}
 
+          <!-- Search bar -->
+          <div class="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-margin-bottom--3">
+            {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
+          </div>
+
           <!-- Content blocks -->
           {% for block in fieldContentBlock %}
             {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
@@ -61,9 +66,6 @@
             </div>
           {% endif %}
         </article>
-
-        <!-- Line break -->
-        <hr class="vads-u-margin-top--0" />
 
         <!-- Tags -->
         {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}

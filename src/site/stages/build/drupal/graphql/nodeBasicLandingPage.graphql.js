@@ -4,7 +4,7 @@ module.exports = `
 fragment nodeBasicLandingPage on NodeBasicLandingPage {
   ${entityElementsFromPages}
   title
-  created
+  changed
   fieldContentBlock {
     entity {
       entityType
@@ -22,6 +22,7 @@ fragment nodeBasicLandingPage on NodeBasicLandingPage {
       ... downloadableFile
       ... embeddedImage
       ... numberCallout
+      ... listsOfLinks
     }
   }
   fieldDescription
