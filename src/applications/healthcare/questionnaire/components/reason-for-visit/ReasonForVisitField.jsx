@@ -7,10 +7,8 @@ const ReasonForVisitField = ({ appointment }) => {
   if (bookingNote?.reasonForVisit) {
     return (
       <section data-testid="reason-for-visit">
-        <p>
-          <strong>What's the reason for your visit?</strong>:{' '}
-        </p>
-        <p>{bookingNote?.reasonForVisit}</p>
+        <strong>What's the reason for your visit?</strong>
+        <p className="reason-for-visit">{bookingNote?.reasonForVisit}</p>
       </section>
     );
   } else {
