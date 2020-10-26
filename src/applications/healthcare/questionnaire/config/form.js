@@ -113,17 +113,17 @@ const formConfig = {
               items: {
                 additionalQuestions: {
                   'ui:title':
-                    'Do you have other questions you want to ask your provider? Please enter them below with your most important question listed first.',
+                    'Do you have a question you want to ask your provider? Please enter your most important question first.',
                 },
               },
               'ui:options': {
                 keepInPageOnReview: true,
-                itemName: 'Question',
+                itemName: 'question',
                 viewField: formData => {
                   return <>{formData.formData.additionalQuestions}</>;
                 },
               },
-              'ui:title': 'Ranked questions for your provider',
+              'ui:title': 'Additional questions for your provider',
             },
           },
           schema: {
