@@ -2,7 +2,7 @@
 
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = true %}
 
 <div id="content" class="interior">
   <main class="va-l-detail-page">
@@ -60,22 +60,7 @@
                     {{ fieldStep.entity.fieldWysiwyg.processed }}
                     <br />
 
-                    <!-- Step alert -->
-                    {% if fieldStep.entity.fieldAlert.length %}
-                      {% for alert in fieldStep.entity.fieldAlert %}
-                        {% if alert.entity != empty %}
-                          <div class="vads-u-margin-bottom--4">
-                            {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
-                          </div>
-                        {% endif %}
-                      {% endfor %}
-                    {% else %}
-                      {% if fieldStep.entity.fieldAlert.entity != empty %}
-                        <div class="vads-u-margin-bottom--4">
-                          {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldStep.entity.fieldAlert.entity %}
-                        </div>
-                      {% endif %}
-                    {% endif %}
+                    {% include "src/site/paragraphs/alert_single.drupal.liquid" with alert = fieldStep.entity.fieldAlert.entity %}
 
                     <!-- Step image -->
                     {% if fieldStep.entity.fieldMedia.entity != empty %}

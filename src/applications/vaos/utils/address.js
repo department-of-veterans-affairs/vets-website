@@ -177,7 +177,8 @@ export function getPreciseLocation() {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       position => resolve(position),
-      error => reject(error),
+      error =>
+        reject(new Error(`Geolocation error ${error.code}: ${error.message}`)),
     );
   });
 }
