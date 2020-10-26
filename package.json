@@ -10,6 +10,7 @@
     "build:compare": "node script/content-build-compare.js && diff --color websiteContentBuildHash.txt standaloneContentBuildHash.txt",
     "build:compare:cms": "./script/cms/compare.sh",
     "build:content": "node --max-old-space-size=8192 script/build-content.js",
+    "build:diff": "./script/cms/diff.sh",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js",
     "build:webpack:prod": "NODE_ENV=production yarn build:webpack --env.buildtype vagovprod",
