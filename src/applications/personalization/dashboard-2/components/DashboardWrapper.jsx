@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import localStorage from 'platform/utilities/storage/localStorage';
 import { selectShowDashboard2 } from '../selectors';
 
-import DashboardOne from 'applications/personalization/dashboard/components/Dashboard';
-import DashboardTwo from './Dashboard';
+const DashboardV1 = React.lazy(() => {
+  return import('../../dashboard/components/Dashboard');
+});
+const DashboardV2 = React.lazy(() => {
+  return import('./Dashboard');
+});
 
 // The root component for the My VA Dashboard app that lives at /my-va
 //
@@ -16,13 +21,22 @@ import DashboardTwo from './Dashboard';
 // The 'DASHBOARD_VERSION' local storage value will override the value of the
 // feature flag.
 function DashboardWrapper({ showDashboard2, rootUrl }) {
-  let dashboard;
+  const loader = (
+    <div className="vads-u-margin-y--4 vads-u-padding-y--0p5">
+      <LoadingIndicator message="Please wait while we load the application for you." />
+    </div>
+  );
+  let content;
   if (showDashboard2) {
-    dashboard = <DashboardTwo />;
+    content = <DashboardV2 />;
   } else {
-    dashboard = <DashboardOne rootUrl={rootUrl} />;
+    content = <DashboardV1 rootUrl={rootUrl} />;
   }
-  return dashboard;
+  return (
+    <div>
+      <Suspense fallback={loader}>{content}</Suspense>
+    </div>
+  );
 }
 
 const mapStateToProps = state => {
