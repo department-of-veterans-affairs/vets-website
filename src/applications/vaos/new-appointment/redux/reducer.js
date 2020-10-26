@@ -692,7 +692,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(action.eligibilityData);
       const canSchedule = isEligible(eligibility);
-      const facilityId = action.facilityId;
+      const facilityId = action.facilityId || state.data.vaFacility;
 
       let clinics = state.clinics;
 
