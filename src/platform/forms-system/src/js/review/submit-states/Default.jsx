@@ -7,23 +7,19 @@ import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection'
 
 export default function Default(props) {
   const { buttonText, formConfig, onBack, onSubmit } = props;
-  const buttonSize = formConfig.reviewPage?.buttonSize || '5';
   return (
     <>
       <PreSubmitSection formConfig={formConfig} />
-      <Row classNames="form-progress-buttons">
-        <Column classNames={`small-6 medium-${buttonSize}`}>
+      <Row classNames="form-progress-buttons vads-u-display--flex">
+        <Column classNames={`vads-u-flex--1`}>
           <Back onButtonClick={onBack} />
         </Column>
-        <Column classNames={`small-6 medium-${buttonSize}`}>
+        <Column classNames={`vads-u-flex--1`}>
           <ProgressButton
             onButtonClick={onSubmit}
             buttonText={buttonText}
             buttonClass="usa-button-primary"
           />
-        </Column>
-        <Column classNames="small-1 medium-1 end">
-          <div className="hidden">&nbsp;</div>
         </Column>
       </Row>
     </>

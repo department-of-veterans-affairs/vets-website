@@ -27,9 +27,6 @@ const formConfig = {
       resolve(form.data);
     });
   },
-  reviewPage: {
-    buttonSize: '6',
-  },
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     messages: {
