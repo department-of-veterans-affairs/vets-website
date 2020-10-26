@@ -62,7 +62,6 @@ export default function ResourcesAndSupportSearchApp() {
       });
 
       setResults(filteredArticles);
-      focusElement('#pagination-summary');
     },
     [articles, setResults, query, page],
   );
@@ -77,6 +76,7 @@ export default function ResourcesAndSupportSearchApp() {
 
       setPage(1);
       setQuery(userInput);
+      focusElement('#pagination-summary');
     },
     [userInput, setQuery],
   );
@@ -84,6 +84,7 @@ export default function ResourcesAndSupportSearchApp() {
   const onPageSelect = useCallback(
     selectedPage => {
       setPage(selectedPage);
+      focusElement('#pagination-summary');
     },
     [setPage],
   );
