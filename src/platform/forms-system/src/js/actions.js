@@ -288,7 +288,12 @@ export function uploadFile(
         }
 
         if (password) {
-          onChange({ name: file.name, errorMessage, password: file.password });
+          onChange({
+            file, // return file object to allow resubmit
+            name: file.name,
+            errorMessage,
+            password: file.password,
+          });
         } else {
           onChange({ name: file.name, errorMessage });
         }
