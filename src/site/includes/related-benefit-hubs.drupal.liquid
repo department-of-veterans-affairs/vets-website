@@ -12,8 +12,12 @@
           <!-- Show the link if it hasn't been rendered yet -->
           {% unless supportServiceIDs contains supportService.entity.entityId %}
             <li>
-              <p class="vads-u-margin-top--0"><strong>{{ supportService.entity.title }}</strong> <a href="{{ supportService.entity.fieldLink.url.path }}"
-                  rel="noreferrer noopener">{{ supportService.entity.fieldPhoneNumber }}</a></p>
+              <p class="vads-u-margin-top--0"><strong>{{ supportService.entity.title }}</strong>
+              {% if supportService.entity.fieldLink %}
+                <a href="{{ supportService.entity.fieldLink.url.path }}"
+                    rel="noreferrer noopener">{{ supportService.entity.fieldPhoneNumber }}</a>
+              {% endif %}
+              </p>
             </li>
           {% endunless %}
 
