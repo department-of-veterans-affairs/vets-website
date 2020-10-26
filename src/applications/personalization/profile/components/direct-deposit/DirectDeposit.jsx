@@ -5,7 +5,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
-import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
+import { handleDowntimeForSection } from 'applications/personalization/profile/components/DowntimeBanner';
 
 import DirectDepositContent from './DirectDepositContent';
 

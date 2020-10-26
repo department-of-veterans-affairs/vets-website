@@ -38,3 +38,8 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   CONNECTED_APPLICATIONS: 'Connected apps',
   ACCOUNT_SECURITY: 'Account security',
 });
+
+export const ACCOUNT_TYPES_OPTIONS = {
+  checking: 'Checking',
+  savings: 'Savings',
+};

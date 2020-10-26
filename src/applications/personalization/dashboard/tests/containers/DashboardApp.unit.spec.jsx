@@ -82,9 +82,9 @@ describe('<DashboardApp>', () => {
     );
   });
 
-  it('should render the ViewYourProfile2 section', () => {
+  it('should render the ViewYourProfile section', () => {
     const tree = SkinDeep.shallowRender(<DashboardApp {...defaultProps} />);
-    expect(tree.toString()).to.contain('<ViewYourProfile2 />');
+    expect(tree.toString()).to.contain('<ViewYourProfile />');
   });
 
   it('should not render the Manage Your Account section', () => {
