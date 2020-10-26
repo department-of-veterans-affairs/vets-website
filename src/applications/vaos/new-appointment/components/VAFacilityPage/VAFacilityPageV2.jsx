@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import classNames from 'classnames';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -9,7 +11,6 @@ import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { getParentOfLocation } from '../../../services/location';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
@@ -206,6 +207,10 @@ function VAFacilityPageV2({
 
   const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
 
+  const listClasses = classNames({
+    'vaos-facilities-list__loading': true,
+  });
+
   return (
     <div>
       {title}
@@ -276,39 +281,43 @@ function VAFacilityPageV2({
       )}
       {childFacilitiesStatus === FETCH_STATUS.succeeded &&
         !requestingLocation && (
-          <SchemaForm
-            name="VA Facility"
-            title="VA Facility"
-            schema={schema}
-            uiSchema={uiSchema}
-            onChange={onFacilityChange}
-            onSubmit={goForward}
-            formContext={{ loadingEligibility, sortMethod }}
-            data={data}
-          >
-            <FormButtons
-              continueLabel=""
-              pageChangeInProgress={pageChangeInProgress}
-              onBack={goBack}
-              disabled={
-                loadingParents ||
-                loadingFacilities ||
-                loadingEligibility ||
-                (facilities?.length === 1 && !canScheduleAtChosenFacility)
-              }
-            />
-            {loadingEligibility && (
-              <div aria-atomic="true" aria-live="assertive">
-                <AlertBox isVisible status="info" headline="Please wait">
-                  We’re checking if we can create an appointment for you at this
-                  facility. This may take up to a minute. Thank you for your
-                  patience.
-                </AlertBox>
-              </div>
-            )}
-          </SchemaForm>
+          <>
+            <div className={listClasses}>
+              <SchemaForm
+                name="VA Facility"
+                title="VA Facility"
+                schema={schema}
+                uiSchema={uiSchema}
+                onChange={onFacilityChange}
+                onSubmit={goForward}
+                formContext={{ loadingEligibility, sortMethod }}
+                data={data}
+              >
+                <FormButtons
+                  continueLabel=""
+                  pageChangeInProgress={pageChangeInProgress}
+                  onBack={goBack}
+                  disabled={
+                    loadingParents ||
+                    loadingFacilities ||
+                    loadingEligibility ||
+                    (facilities?.length === 1 && !canScheduleAtChosenFacility)
+                  }
+                />
+              </SchemaForm>
+            </div>
+          </>
         )}
 
+      {loadingEligibility && (
+        <div className="vaos-facilities-list__loading-overlay">
+          <LoadingIndicator
+            message="We’re checking if we can create an appointment for you at this
+                      facility. This may take up to a minute. Thank you for your
+                      patience."
+          />
+        </div>
+      )}
       {showEligibilityModal && (
         <EligibilityModal
           onClose={hideEligibilityModal}

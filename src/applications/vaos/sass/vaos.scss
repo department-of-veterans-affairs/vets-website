@@ -119,11 +119,11 @@
   margin-left: 30px;
 }
 
-.vaos-calendar__loading {
-  opacity: 0.3;
+.vaos-calendar__loading, .vaos-facilities-list__loading {
+  opacity: 0.2;
 }
 
-.vaos-calendar__loading-overlay {
+.vaos-calendar__loading-overlay, .vaos-facilities-list__loading-overlay {
   position: absolute;
   width: 100%;
   top: 25%;
