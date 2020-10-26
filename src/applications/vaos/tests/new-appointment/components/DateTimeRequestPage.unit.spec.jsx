@@ -9,7 +9,7 @@ import { FETCH_STATUS } from '../../../utils/constants';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-xdescribe('VAOS <DateTimeRequestPage>', () => {
+describe('VAOS <DateTimeRequestPage>', () => {
   describe('Add community care appointment to calendar', async () => {
     it('should allow user to request date and time for a community care appointment', async () => {
       const store = createTestStore({
