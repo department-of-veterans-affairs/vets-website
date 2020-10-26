@@ -21,6 +21,9 @@ import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
   selectProfile,
+  isLOA1 as isLOA1Selector,
+  isLOA3 as isLOA3Selector,
+  isLoggedIn,
 } from 'platform/user/selectors';
 import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
 import {
@@ -222,6 +225,9 @@ const mapStateToProps = state => {
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
   const shouldFetchDirectDepositInformation = isEvssAvailable && is2faEnabled;
+  const currentlyLoggedIn = isLoggedIn(state);
+  const isLOA1 = isLOA1Selector(state);
+  const isLOA3 = isLOA3Selector(state);
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -252,9 +258,12 @@ const mapStateToProps = state => {
     hasLoadedMilitaryInformation &&
     (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
 
+  const showLoader =
+    !hasLoadedAllData || (!isLOA3 && !isLOA1 && currentlyLoggedIn);
+
   return {
     user: state.user,
-    showLoader: !hasLoadedAllData,
+    showLoader,
     shouldFetchDirectDepositInformation,
     shouldShowDirectDeposit:
       shouldFetchDirectDepositInformation &&
