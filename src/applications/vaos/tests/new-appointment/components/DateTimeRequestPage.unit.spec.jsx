@@ -170,7 +170,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       ).to.be.ok;
     });
 
-    it('should display an alert when user selects more than 3 dates', async () => {
+    xit('should display an alert when user selects more than 3 dates', async () => {
       const store = createTestStore({
         newAppointment: {
           data: {
