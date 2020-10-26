@@ -37,7 +37,7 @@ function getArticlesBelongingToResourcesAndSupportSection(files) {
 }
 
 function groupByTags(allArticles) {
-  const tagMap = {};
+  const articleListingsByTag = {};
   const allTaggedArticles = allArticles.filter(a => !!a.fieldTags);
 
   for (const article of allTaggedArticles) {
@@ -47,56 +47,76 @@ function groupByTags(allArticles) {
       },
     } = article;
 
-    fieldTopics.map(fieldTopic => fieldTopic.entity.name).forEach(tag => {
-      const taggedArticles = tagMap[tag] || [];
-      tagMap[tag] = taggedArticles.concat(article);
+    fieldTopics.map(fieldTopic => fieldTopic.entity).forEach(fieldTopic => {
+      const articleListing = articleListingsByTag[fieldTopic.name];
+
+      if (!articleListing) {
+        articleListingsByTag[fieldTopic.name] = {
+          articles: [article],
+          entityUrl: fieldTopic.entityUrl,
+        };
+      } else {
+        articleListing.articles.push(article);
+      }
     });
   }
 
-  return tagMap;
+  return articleListingsByTag;
 }
 
 function groupByCategory(allArticles) {
-  const categoryMap = {};
+  const articleListingsByCategory = {};
   const categorizedArticles = allArticles.filter(a => !!a.fieldPrimaryCategory);
 
   for (const article of categorizedArticles) {
-    const {
-      fieldPrimaryCategory: {
-        entity: { name: primaryCategoryName },
-      },
-      fieldOtherCategories,
-    } = article;
+    const { fieldPrimaryCategory, fieldOtherCategories } = article;
 
-    const primaryCategoryArticles = categoryMap[primaryCategoryName] || [];
-    categoryMap[primaryCategoryName] = primaryCategoryArticles.concat(article);
+    const primaryCategoryName = fieldPrimaryCategory.entity.name;
+    const primaryCategoryArticleListing =
+      articleListingsByCategory[primaryCategoryName];
+
+    if (!primaryCategoryArticleListing) {
+      articleListingsByCategory[primaryCategoryName] = {
+        articles: [article],
+        entityUrl: fieldPrimaryCategory.entity.entityUrl,
+      };
+    } else {
+      primaryCategoryArticleListing.articles.push(article);
+    }
 
     for (const otherCategory of fieldOtherCategories) {
       const otherCategoryName = otherCategory.entity.name;
-      const otherCategoryArticles = categoryMap[otherCategoryName] || [];
-      categoryMap[otherCategoryName] = otherCategoryArticles.concat(article);
+      const otherCategoryArticles =
+        articleListingsByCategory[otherCategoryName];
+
+      if (!otherCategoryArticles) {
+        articleListingsByCategory[otherCategoryName] = {
+          articles: [article],
+          entityUrl: otherCategory.entity.entityUrl,
+        };
+      } else {
+        otherCategoryArticles.articles.push(article);
+      }
     }
   }
 
-  return categoryMap;
+  return articleListingsByCategory;
 }
 
 function createPaginatedArticleListings({
   articlesByGroupName,
   getTitle,
-  getRootUrl,
   getPaginationSummary,
 }) {
   return Object.entries(articlesByGroupName).reduce(
     (files, groupNameArticlePairs) => {
-      const [groupName, allArticlesForGroupUnsorted] = groupNameArticlePairs;
+      const [groupName, articleListing] = groupNameArticlePairs;
 
-      const allArticlesForGroup = _.sortBy(
-        allArticlesForGroupUnsorted,
-        'title',
-      );
+      const allArticlesForGroup = _.sortBy(articleListing.articles, 'title');
 
-      const groupRootUrl = getRootUrl(groupName);
+      // Example "articleListing.entityUrl.path" -> "/taxonomy/term/282"
+      // Slice off the leading slash
+      const groupRootUrl = articleListing.entityUrl.path.slice(1);
       const paginatedArticles = _.chunk(allArticlesForGroup, PAGE_SIZE);
 
       paginatedArticles.forEach((pageOfArticles, index) => {
@@ -121,10 +141,10 @@ function createPaginatedArticleListings({
       const pagesForCategory = paginatedArticles.map(
         (pageOfArticles, index) => {
           const paginatorInner = paginatedArticles.map(
-            (articleListing, pageIndex) => {
+            (nextPage, pageIndex) => {
               return {
                 label: pageIndex + 1,
-                href: `/${articleListing.uri}`,
+                href: `/${nextPage.uri}`,
                 class: pageIndex === index ? 'va-pagination-active' : '',
               };
             },
@@ -214,10 +234,6 @@ function createResourcesAndSupportWebsiteSection(buildOptions) {
         return `All articles in: ${categoryName}`;
       },
 
-      getRootUrl(categoryName) {
-        return `resources/${_.kebabCase(categoryName)}`;
-      },
-
       getPaginationSummary({
         pageStart,
         pageEnd,
@@ -233,10 +249,6 @@ function createResourcesAndSupportWebsiteSection(buildOptions) {
 
       getTitle(tag) {
         return `All articles tagged: ${tag}`;
-      },
-
-      getRootUrl(tag) {
-        return `resources/tag/${_.kebabCase(tag)}`;
       },
 
       getPaginationSummary({

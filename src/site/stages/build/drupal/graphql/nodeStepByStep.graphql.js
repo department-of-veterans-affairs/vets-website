@@ -33,7 +33,7 @@ fragment nodeStepByStep on NodeStepByStep {
               }
               fieldAlert {
                 entity {
-                  ... alertParagraph
+                  ... alertSingle
                 }
               }
               fieldMedia {

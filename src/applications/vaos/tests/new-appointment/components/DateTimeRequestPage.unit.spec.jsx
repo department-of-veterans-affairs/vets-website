@@ -9,7 +9,7 @@ import { FETCH_STATUS } from '../../../utils/constants';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-describe('VAOS <DateTimeRequestPage>', () => {
+xdescribe('VAOS <DateTimeRequestPage>', () => {
   describe('Add community care appointment to calendar', async () => {
     it('should allow user to request date and time for a community care appointment', async () => {
       const store = createTestStore({
@@ -170,7 +170,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       ).to.be.ok;
     });
 
-    it('should display an alert when user selects more than 3 dates', async () => {
+    xit('should display an alert when user selects more than 3 dates', async () => {
       const store = createTestStore({
         newAppointment: {
           data: {
