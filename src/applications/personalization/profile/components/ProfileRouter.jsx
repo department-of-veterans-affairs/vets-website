@@ -266,6 +266,7 @@ const mapStateToProps = state => {
     user: state.user,
     showLoader,
     isInMVI: isInMVISelector(state),
+    isLOA3,
     shouldFetchDirectDepositInformation,
     shouldShowDirectDeposit:
       shouldFetchDirectDepositInformation &&
