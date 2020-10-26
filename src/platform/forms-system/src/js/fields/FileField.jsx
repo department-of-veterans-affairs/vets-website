@@ -335,12 +335,7 @@ class FileField extends React.Component {
                     </div>
                   )}
                   {!file.uploading && <p>{uiOptions.itemDescription}</p>}
-                  {!file.uploading && (
-                    <span>
-                      <strong>{file.name}</strong>{' '}
-                      {file.unlocked && '(unlocked)'}
-                    </span>
-                  )}
+                  {!file.uploading && <strong>{file.name}</strong>}
                   {(showPasswordInput || showPasswordSuccess) && (
                     <PasswordLabel />
                   )}
