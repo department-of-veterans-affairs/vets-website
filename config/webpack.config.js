@@ -139,19 +139,29 @@ module.exports = env => {
             {
               loader: MiniCssExtractPlugin.loader,
             },
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: enableCSSSourcemaps,
-              },
-            },
+            buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING
+              ? {
+                  loader: 'css-loader-1.0.10',
+                  options: {
+                    sourceMap: enableCSSSourcemaps,
+                  },
+                }
+              : {
+                  loader: 'css-loader-0.28.10',
+                  options: {
+                    minimize: isOptimizedBuild,
+                    sourceMap: enableCSSSourcemaps,
+                  },
+                },
             {
               loader: 'postcss-loader',
               options: {
                 postcssOptions: {
-                  plugins: isOptimizedBuild
-                    ? ['autoprefixer', 'cssnano']
-                    : ['autoprefixer'],
+                  plugins:
+                    // check if isOptimizedBuild when ready for production
+                    buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING
+                      ? ['autoprefixer', 'cssnano']
+                      : ['autoprefixer'],
                 },
               },
             },
