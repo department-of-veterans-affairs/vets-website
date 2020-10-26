@@ -122,6 +122,32 @@ export function isVideoGFE(appointment) {
 }
 
 /**
+ * Gets legacy VAR ATLAS location from HealthcareService reference
+ *
+ * @param {Object} appointment VAR Appointment in FHIR schema
+ * @returns {Object} the address from legacy VAR tasInfo.address
+ */
+export function getATLASLocation(appointment) {
+  return appointment?.contained.find(res => res.resourceType === 'Location');
+}
+
+/**
+ * Gets legacy VAR ATLAS confirmation code from HealthcareService reference
+ *
+ * @param {Object} appointment VAR Appointment in FHIR schema
+ * @returns {Object} the confirmation code from legacy VAR tasInfo.confirmationCode
+ */
+export function getATLASConfirmationCode(appointment) {
+  const characteristic = appointment.contained
+    ?.find(contained => contained.resourceType === 'HealthcareService')
+    ?.characteristic?.find(c =>
+      c.coding?.find(code => code.system === 'ATLAS_CC'),
+    );
+
+  return characteristic?.coding[0].code;
+}
+
+/**
  * Gets legacy VAR facility id from HealthcareService reference
  *
  * @param {Object} appointment VAR Appointment in FHIR schema
@@ -201,19 +227,6 @@ export function getVAAppointmentLocationId(appointment) {
   }
 
   return null;
-}
-
-/**
- * Returns the location name of a VA appointment
- *
- * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns The location name where the VA appointment is located
- */
-export function getVAAppointmentLocationName(appointment) {
-  return appointment.participant?.find(p =>
-    p.actor.reference?.startsWith('Location'),
-  )?.actor?.display;
 }
 
 /**

@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 export const paymentsReceivedFields = [
   {
@@ -12,6 +13,18 @@ export const paymentsReceivedFields = [
   {
     label: 'Type',
     value: 'payCheckType',
+  },
+  {
+    label: 'Method',
+    value: 'paymentMethod',
+  },
+  {
+    label: 'Bank',
+    value: 'bankName',
+  },
+  {
+    label: 'Account',
+    value: 'accountNumber',
   },
 ];
 
@@ -29,8 +42,16 @@ export const paymentsReturnedFields = [
     value: 'returnedCheckAmount',
   },
   {
+    label: 'Check #',
+    value: 'returnedCheckNumber',
+  },
+  {
     label: 'Type',
     value: 'returnedCheckType',
+  },
+  {
+    label: 'Reason',
+    value: 'returnReason',
   },
 ];
 
@@ -66,3 +87,37 @@ export const paymentsReturnedContent = (
     </p>
   </>
 );
+
+export const filterReturnPayments = payments => {
+  return payments.filter(payment => {
+    for (const [key] of Object.entries(payment)) {
+      if (payment[key] !== null) {
+        return true;
+      }
+    }
+    return false;
+  });
+};
+
+export const reformatReturnPaymentDates = payments => {
+  return payments.map(payment => {
+    return {
+      ...payment,
+      returnedCheckCancelDt: payment.returnedCheckCancelDt
+        ? moment(payment.returnedCheckCancelDt).format('MMM D, YYYY')
+        : null,
+      returnedCheckIssueDt: payment.returnedCheckIssueDt
+        ? moment(payment.returnedCheckIssueDt).format('MMM D, YYYY')
+        : null,
+    };
+  });
+};
+
+export const reformatPaymentDates = payments => {
+  return payments.map(payment => {
+    return {
+      ...payment,
+      payCheckDt: moment(payment.payCheckDt).format('MMM D, YYYY'),
+    };
+  });
+};

@@ -24,6 +24,7 @@ fragment nodeStepByStep on NodeStepByStep {
   fieldSteps {
     entity {
       ... on ParagraphStepByStep {
+        fieldSectionHeader
         fieldStep {
           entity {
             ... on ParagraphStep {
@@ -32,7 +33,7 @@ fragment nodeStepByStep on NodeStepByStep {
               }
               fieldAlert {
                 entity {
-                  ... alertParagraph
+                  ... alertSingle
                 }
               }
               fieldMedia {
@@ -51,9 +52,35 @@ fragment nodeStepByStep on NodeStepByStep {
       }
     }
   }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldSupportServices {
+          entity {
+            ... supportService
+          }
+        }
+      }
+    }
+  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser
+    }
+  }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
     }
   }
 }

@@ -48,8 +48,7 @@ export function SearchPage({
   dispatchUpdateAutocompleteSearchTerm,
   eligibility,
   filters,
-  gibctFilterEnhancement,
-  gibctSearchEnhancements,
+  gibctBenefitFilterEnhancement,
   gibctSchoolRatings,
   search,
 }) {
@@ -120,7 +119,7 @@ export function SearchPage({
 
         dispatchInstitutionFilterChange(institutionFilter);
 
-        dispatchFetchInstitutionSearchResults(query, gibctSearchEnhancements);
+        dispatchFetchInstitutionSearchResults(query);
       }
     },
     [location.search],
@@ -274,7 +273,8 @@ export function SearchPage({
           showModal={dispatchShowModal}
           eligibilityChange={dispatchEligibilityChange}
           hideModal={dispatchHideModal}
-          gibctFilterEnhancement={gibctFilterEnhancement}
+          searchOnAutcompleteSelection
+          gibctBenefitFilterEnhancement={gibctBenefitFilterEnhancement}
         />
       </div>
     );
@@ -296,14 +296,11 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
-  gibctSearchEnhancements: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctSearchEnhancements
-  ],
-  gibctFilterEnhancement: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctFilterEnhancement
-  ],
   gibctSchoolRatings: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSchoolRatings
+  ],
+  gibctBenefitFilterEnhancement: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctBenefitFilterEnhancement
   ],
 });
 

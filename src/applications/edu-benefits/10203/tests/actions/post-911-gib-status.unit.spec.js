@@ -17,11 +17,14 @@ const setup = () => {
       json: () => Promise.resolve({}),
     }),
   );
-  global.window.dataLayer = [];
-  global.window.URL = {
-    createObjectURL: () => {},
-    revokeObjectURL: () => {},
-  };
+  global.window = Object.create(global.window);
+  Object.assign(global.window, {
+    dataLayer: [],
+    URL: {
+      createObjectURL: () => {},
+      revokeObjectURL: () => {},
+    },
+  });
 };
 
 const teardown = () => {

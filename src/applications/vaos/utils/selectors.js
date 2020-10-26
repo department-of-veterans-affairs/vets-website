@@ -4,6 +4,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   selectPatientFacilities,
   selectIsCernerOnlyPatient,
+  selectIsCernerPatient,
   selectVet360ResidentialAddress,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
@@ -14,7 +15,6 @@ import {
   getTimezoneAbbrBySystemId,
 } from './timezone';
 
-import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
 import {
   FACILITY_TYPES,
@@ -58,9 +58,11 @@ export const vaosExpressCare = state =>
   toggleValues(state).vaOnlineSchedulingExpressCare;
 export const vaosExpressCareNew = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
-export const vaosFlatFacilityPage = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
+const vaosFlatFacilityPage = state =>
+  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
+export const selectUseFlatFacilityPage = state =>
+  vaosFlatFacilityPage(state) && !selectIsCernerPatient(state);
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -123,6 +125,13 @@ export function getCCEType(state) {
   return typeOfCare?.cceType;
 }
 
+export function getSelectedTypeOfCareFacilities(state) {
+  const data = getFormData(state);
+  const newAppointment = getNewAppointment(state);
+  const typeOfCare = getTypeOfCare(data);
+  return newAppointment.facilities[(typeOfCare?.id)];
+}
+
 export function getParentFacilities(state) {
   return getNewAppointment(state).parentFacilities;
 }
@@ -131,7 +140,7 @@ export function getChosenFacilityInfo(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
-  const selectedTypeOfCareFacilities = vaosFlatFacilityPage(state)
+  const selectedTypeOfCareFacilities = selectUseFlatFacilityPage(state)
     ? facilities[`${typeOfCareId}`]
     : facilities[`${typeOfCareId}_${data.vaParent}`];
 
@@ -211,7 +220,7 @@ export function getParentOfChosenFacility(state) {
 }
 
 export function getChosenFacilityDetails(state) {
-  if (vaosFlatFacilityPage(state)) {
+  if (selectUseFlatFacilityPage(state)) {
     return getChosenFacilityInfo(state);
   }
 
@@ -313,11 +322,18 @@ export function getFacilityPageV2Info(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCare = getTypeOfCare(data);
-  const parentFacilitiesStatus = newAppointment.parentFacilitiesStatus;
-  const childFacilitiesStatus = newAppointment.childFacilitiesStatus;
+
+  const {
+    childFacilitiesStatus,
+    facilityPageSortMethod,
+    parentFacilities,
+    parentFacilitiesStatus,
+    requestLocationStatus,
+    showEligibilityModal,
+  } = newAppointment;
+
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibilityStatus = getEligibilityStatus(state);
-  const parentFacilities = newAppointment.parentFacilities;
 
   return {
     ...formInfo,
@@ -340,12 +356,12 @@ export function getFacilityPageV2Info(state) {
     parentFacilities,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentFacilitiesStatus,
+    requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: facilities?.length === 1,
-    showEligibilityModal:
-      facilities?.length > 1 && newAppointment.showEligibilityModal,
+    showEligibilityModal: facilities?.length > 1 && showEligibilityModal,
     typeOfCare: typeOfCare?.name,
-    sortMethod: newAppointment.facilityPageSortMethod,
+    sortMethod: facilityPageSortMethod,
     address: selectVet360ResidentialAddress(state),
   };
 }
@@ -441,17 +457,14 @@ export function getCancelInfo(state) {
   if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
-    facility = facilityData[getRealFacilityId(locationId)];
+    facility = facilityData[locationId];
   } else if (appointmentToCancel?.facility) {
     // Requests
-    facility =
-      facilityData[
-        `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
-      ];
+    facility = facilityData[`var${appointmentToCancel.facility.facilityCode}`];
   } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
-    facility = facilityData[getRealFacilityId(locationId)];
+    facility = facilityData[locationId];
   }
   let isCerner = null;
   if (appointmentToCancel) {

@@ -1,35 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { deductionCodes } from '../const/deduction-codes';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import moment from 'moment';
+import head from 'lodash/head';
 import last from 'lodash/last';
 import first from 'lodash/first';
 import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import { renderAdditionalInfo } from '../const/diary-codes';
 
 class DebtDetails extends Component {
   componentDidMount() {
     scrollToTop();
   }
   render() {
-    if (Object.keys(this.props.selectedDebt).length === 0) {
-      return window.location.replace('/manage-va-debt/your-debt');
-    }
-
+    const { selectedDebt } = this.props;
+    const mostRecentHistory = head(selectedDebt.debtHistory);
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
     });
 
-    const { selectedDebt } = this.props;
+    if (Object.keys(selectedDebt).length === 0) {
+      return window.location.replace('/manage-va-debt/your-debt');
+    }
+
+    const nextStep = renderAdditionalInfo(
+      selectedDebt.diaryCode,
+      mostRecentHistory.date,
+    );
+
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <Breadcrumbs className="vads-u-font-family--sans">
@@ -67,7 +76,7 @@ class DebtDetails extends Component {
                     'MMMM D, YYYY',
                   )}
                 </p>
-                <p className="vads-u-margin-y--0">
+                <p className="vads-u-margin-y--1">
                   {formatter.format(parseFloat(selectedDebt.originalAr))}
                 </p>
                 <p className="vads-u-margin-y--0">
@@ -76,13 +85,27 @@ class DebtDetails extends Component {
               </div>
             </div>
 
-            <AlertBox
-              className="vads-u-margin-y--4 debt-details-alert"
-              headline="Hidden alert"
-              content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
-              status="info"
-              level={2}
-            />
+            {nextStep ? (
+              <div className="debt-details-nextstep">{nextStep}</div>
+            ) : (
+              <AlertBox
+                className="vads-u-margin-y--4 debt-details-alert"
+                headline="Lorem ipsum dolor sit"
+                content={
+                  <>
+                    <p>
+                      <strong>Lorem ipsum dolor sit.</strong> Ducimus, maxime.
+                      Maxime neque alias unde totam beatae repellat aliquam
+                      ipsam, quas tempore nostrum et facere? Nulla nisi dolorum
+                      maiores molestiae fugiat.
+                    </p>
+                  </>
+                }
+                status="info"
+                level={2}
+              />
+            )}
+
             <AdditionalInfo triggerText="Why might I have this debt?">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
               excepturi fugit non sunt. Asperiores autem error ipsam magnam
@@ -104,10 +127,7 @@ class DebtDetails extends Component {
               <strong>Note:</strong> The content of the debt letters below may
               not include recent updates to your debt reflected above. If you
               have any questions about your debt history, please contact the
-              Debt Management Center at{' '}
-              <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-                800-827-0648
-              </a>
+              Debt Management Center at <Telephone contact="8008270648" />
               {'.'}
             </p>
             <table className="vads-u-margin-y--4">

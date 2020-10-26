@@ -51,6 +51,10 @@
      primary care provider first.
   </p>
 
+  {% comment %}
+    TODO - Add support for multiple phone numbers and add label. Use phone-number template.
+  {% endcomment %}
+
   {% assign appointmentPhoneNumber = locationEntity.fieldPhoneNumbersParagraph.0.entity.fieldPhoneNumber %}
   {% assign appointmentPhoneExtension = locationEntity.fieldPhoneNumbersParagraph.0.entity.fieldPhoneExtension %}
 

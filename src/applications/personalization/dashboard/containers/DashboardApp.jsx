@@ -20,7 +20,6 @@ import {
   hasServerError as hasESRServerError,
   isEnrolledInVAHealthCare,
 } from 'applications/hca/selectors';
-import { selectShowProfile2 } from 'applications/personalization/profile-2/selectors';
 
 import { recordDashboardClick } from '../helpers';
 import {
@@ -35,8 +34,7 @@ import ESRError, { ESR_ERROR_TYPES } from '../components/ESRError';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PreferencesWidget from 'applications/personalization/preferences/containers/PreferencesWidget';
 
-import profileManifest from 'applications/personalization/profile360/manifest.json';
-import accountManifest from 'applications/personalization/account/manifest.json';
+import profileManifest from 'applications/personalization/profile/manifest.json';
 import lettersManifest from 'applications/letters/manifest.json';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
@@ -149,45 +147,6 @@ const ManageBenefitsOrRequestRecords = () => (
         </a>
       </li>
     </ul>
-  </>
-);
-
-const ViewYourProfile = () => (
-  <>
-    <h2>View your profile</h2>
-    <p>
-      Review your contact, personal, and military service information—and find
-      out how to make any needed updates or corrections.
-      <br />
-      <a
-        className="usa-button-primary"
-        href={profileManifest.rootUrl}
-        onClick={recordDashboardClick('view-your-profile', 'view-button')}
-      >
-        View your profile
-      </a>
-    </p>
-  </>
-);
-
-const ManageYourAccount = () => (
-  <>
-    <h2>Manage your account</h2>
-    <p>
-      View your current account settings—and find out how to update them as
-      needed to access more site tools or add extra security to your account.
-      <br />
-      <a
-        className="usa-button-primary"
-        href={accountManifest.rootUrl}
-        onClick={recordDashboardClick(
-          'view-your-account-settings',
-          'view-button',
-        )}
-      >
-        View your account settings
-      </a>
-    </p>
   </>
 );
 
@@ -328,7 +287,6 @@ class DashboardApp extends React.Component {
       profile,
       showCOVID19Alert,
       showManageYourVAHealthCare,
-      showProfile2,
       showServerError,
       vaHealthChatEligibleSystemId,
     } = this.props;
@@ -373,14 +331,7 @@ class DashboardApp extends React.Component {
         {showManageYourVAHealthCare && <ManageYourVAHealthCare />}
         <ManageBenefitsOrRequestRecords />
 
-        {!showProfile2 && (
-          <>
-            <ViewYourProfile />
-            <ManageYourAccount />
-          </>
-        )}
-
-        {showProfile2 && <ViewYourProfile2 />}
+        <ViewYourProfile2 />
       </>
     );
 
@@ -398,7 +349,6 @@ class DashboardApp extends React.Component {
 
 export const mapStateToProps = state => {
   const profileState = selectProfile(state);
-  const showProfile2 = selectShowProfile2(state);
   const canAccessRx = profileState.services.includes(backendServices.RX);
   const canAccessMessaging = profileState.services.includes(
     backendServices.MESSAGING,
@@ -429,7 +379,6 @@ export const mapStateToProps = state => {
     canAccessAppeals,
     canAccessClaims,
     profile: profileState,
-    showProfile2,
     showManageYourVAHealthCare:
       isEnrolledInVAHealthCare(state) || canAccessRx || canAccessMessaging,
     showServerError,

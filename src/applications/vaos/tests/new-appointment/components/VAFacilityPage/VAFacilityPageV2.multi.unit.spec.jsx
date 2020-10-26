@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import {
@@ -22,6 +22,7 @@ import {
   mockRequestEligibilityCriteria,
   mockDirectBookingEligibilityCriteria,
   mockFacilitiesFetch,
+  mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 
 const initialState = {
@@ -152,13 +153,19 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    expect(global.document.title).to.equal(
-      'Choose a VA location for your appointment | Veterans Affairs',
-    );
+    await screen.findAllByRole('radio');
 
-    await screen.findByText(
-      /Choose a VA location for your Primary care appointment/i,
-    );
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        'Choose a VA location for your appointment | Veterans Affairs',
+      );
+    });
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
 
     expect(screen.baseElement).to.contain.text(
       'Below is a list of VA locations where you’re registered that offer Primary care appointments',
@@ -170,7 +177,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     });
 
     // Should not show address
-    expect(screen.baseElement).not.to.contain.text('Your address on file');
+    expect(screen.baseElement).not.to.contain.text(
+      'Facilities based on your home address',
+    );
 
     // Should not show 6th facility
     expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
@@ -225,13 +234,21 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findByText(
-      /Choose a VA location for your Primary care appointment/i,
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'Locations closest to you are at the top of the list',
     );
     expect(screen.baseElement).to.contain.text(
-      'We base this on the address we have on file',
+      'Facilities based on your home address',
     );
-    expect(screen.baseElement).to.contain.text('Your address on file');
     expect(screen.baseElement).to.contain.text('290 Ludlow Ave');
     expect(screen.baseElement).to.contain.text('Cincinatti, OH 45220');
     expect(screen.baseElement).to.contain.text(' miles');
@@ -239,6 +256,101 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     // It should sort by distance, making Closest facility the first facility
     const firstRadio = screen.container.querySelector('.form-radio-buttons');
     expect(firstRadio).to.contain.text('Closest facility');
+  });
+
+  it('should sort by distance from current location if user clicks "use current location"', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+    mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    mockGetCurrentPosition();
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vet360: {
+            residentialAddress: {
+              addressLine1: '290 Ludlow Ave',
+              city: 'Cincinatti',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1362562, // Cincinatti, OH
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    await screen.findAllByRole('radio');
+    fireEvent.click(screen.getByText('use your current location'));
+    await screen.findAllByRole('radio');
+    expect(screen.baseElement).to.contain.text(
+      'Facilities based on your location',
+    );
+    expect(screen.baseElement).not.to.contain.text('use your current location');
+
+    // Clicking use home address should revert sort back to distance from hoem address
+    fireEvent.click(screen.getByText('use your home address on file'));
+    expect(screen.baseElement).to.contain.text(
+      'Facilities based on your home address',
+    );
+  });
+
+  it('should display error messaging if user denied location permissions', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+    mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    mockGetCurrentPosition({ fail: true });
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vet360: {
+            residentialAddress: {
+              addressLine1: '290 Ludlow Ave',
+              city: 'Cincinatti',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1362562, // Cincinatti, OH
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    await screen.findAllByRole('radio');
+    fireEvent.click(screen.getByText('use your current location'));
+    await screen.findAllByRole('radio');
+    expect(screen.baseElement).to.contain.text(
+      'Your browser is blocked from finding your current location',
+    );
   });
 
   it('should not display show more button if < 6 locations', async () => {
@@ -264,9 +376,15 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findByText(
-      /Choose a VA location for your Primary care appointment/i,
-    );
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
 
     // Should contain radio buttons
     facilities.slice(0, 5).forEach(f => {
@@ -293,7 +411,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findByText(/below is a list of VA locations/i);
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
 
@@ -303,9 +423,9 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    expect(screen.getByLabelText(/Fake facility name 1/i)).to.have.attribute(
-      'checked',
-    );
+    expect(
+      await screen.findByLabelText(/Fake facility name 1/i),
+    ).to.have.attribute('checked');
   });
 
   it('should show unsupported facilities alert with facility locator tool link', async () => {

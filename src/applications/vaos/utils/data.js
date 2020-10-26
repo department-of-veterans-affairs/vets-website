@@ -1,5 +1,6 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
+import environment from 'platform/utilities/environment';
 import {
   PURPOSE_TEXT,
   CC_PURPOSE,
@@ -17,7 +18,7 @@ import {
   getChosenCCSystemId,
   getChosenSlot,
   selectExpressCareFormData,
-  vaosFlatFacilityPage,
+  selectUseFlatFacilityPage,
 } from './selectors';
 import { getTimezoneBySystemId } from './timezone';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
@@ -54,30 +55,50 @@ function getUserMessage(data) {
   return `${label}: ${data.reasonAdditionalInfo}`;
 }
 
+function getTestFacilityName(id, name) {
+  if (!environment.isProduction() && id.startsWith('983')) {
+    return `CHYSHR-${name}`;
+  }
+
+  if (!environment.isProduction() && id.startsWith('984')) {
+    // The extra space here is intentional, that appears to be how it is named
+    // in CDW
+    return `DAYTSHR -${name}`;
+  }
+
+  return name;
+}
+
 export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
   const siteId = getSiteIdForChosenFacility(state);
-  const isFacilityV2Page = vaosFlatFacilityPage(state);
+  const isFacilityV2Page = selectUseFlatFacilityPage(state);
   const facilityId = isFacilityV2Page
     ? facility.id.replace('var', '')
     : getFacilityIdFromLocation(facility);
+  const facilityName = isFacilityV2Page
+    ? getTestFacilityName(facilityId, facility.name)
+    : facility.name;
 
   return {
     typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
     appointmentType: typeOfCare.name,
     facility: {
-      name: facility.name,
+      name: facilityName,
       facilityCode: facilityId,
       parentSiteCode: siteId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
     )?.serviceName,
+    // sending data to BE for SM Other Reason for Appt field
     otherPurposeOfVisit:
-      data.reasonForAppointment === 'other' ? 'See message' : null,
+      data.reasonForAppointment === 'other'
+        ? 'See additional information'
+        : null,
     visitType: TYPE_OF_VISIT.find(type => type.id === data.visitType)
       ?.serviceName,
     phoneNumber: data.phoneNumber,

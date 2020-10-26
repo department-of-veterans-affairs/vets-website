@@ -7,7 +7,6 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
 
   changed
   title
-  fieldDescription
   fieldIntroTextLimitedHtml {
     processed
   }
@@ -20,6 +19,17 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
   fieldButtons {
     entity {
       ... button
+    }
+  }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldSupportServices {
+          entity {
+            ... supportService
+          }
+        }
+      }
     }
   }
   fieldRelatedInformation {
@@ -42,6 +52,21 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
           }
         }
       }
+    }
+  }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
     }
   }
 }

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getTestFacilityId } from '.';
+import environment from 'platform/utilities/environment';
 import { VHA_FHIR_ID } from '../../utils/constants';
 
 /*
@@ -149,6 +149,21 @@ function transformOperatingHours(facilityHours) {
 }
 
 /**
+ * Converts back from a real facility id to our test facility ids
+ * in lower environments
+ *
+ * @export
+ * @param {String} facilityId - facility id to convert
+ * @returns A facility id with either 442 or 552 replaced with 983 or 984
+ */
+function getTestFacilityId(facilityId) {
+  if (!environment.isProduction() && facilityId) {
+    return facilityId.replace('442', '983').replace('552', '984');
+  }
+
+  return facilityId;
+}
+/**
  * Transforms /facilities/va/vha_983 to
  * /Location/var983
  *
@@ -157,19 +172,18 @@ function transformOperatingHours(facilityHours) {
  * @returns {Object} A FHIR Location resource
  */
 export function transformFacility(facility) {
+  const id = getTestFacilityId(facility.uniqueId);
   return {
     resourceType: 'Location',
-    id: `var${facility.uniqueId}`,
+    id: `var${id}`,
     identifier: [
       {
         system: 'http://med.va.gov/fhir/urn',
-        value: `urn:va:division:${facility.uniqueId.substr(0, 3)}:${
-          facility.uniqueId
-        }`,
+        value: `urn:va:division:${id.substr(0, 3)}:${id}`,
       },
       {
         system: VHA_FHIR_ID,
-        value: getTestFacilityId(facility.uniqueId),
+        value: id,
       },
     ],
     name: facility.name,
@@ -197,7 +211,39 @@ export function transformFacility(facility) {
     },
     hoursOfOperation: transformOperatingHours(facility.hours),
     managingOrganization: {
-      reference: `Organization/var${facility.uniqueId.substr(0, 3)}`,
+      reference: `Organization/var${id.substr(0, 3)}`,
+    },
+  };
+}
+
+/**
+ * Transform an ATLAS facility from LegacyVAR to a FHIR location resource
+ * @export
+ * @param {Object} tasInfo The tasInfo object from legacyVAR
+ * @returns {Object} A FHIR Location resource
+ */
+export function transformATLASLocation(tasInfo) {
+  const { address, siteCode } = tasInfo;
+  const {
+    city,
+    longitude,
+    latitude,
+    state,
+    streetAddress,
+    zipCode: postalCode,
+  } = address;
+  return {
+    resourceType: 'Location',
+    id: `var${siteCode}`,
+    address: {
+      line: [streetAddress],
+      city,
+      state,
+      postalCode,
+    },
+    position: {
+      longitude,
+      latitude,
     },
   };
 }
@@ -220,7 +266,7 @@ export function setSupportedSchedulingMethods({
   requestFacilityIds,
   directFacilityIds,
 } = {}) {
-  const id = getTestFacilityId(location.id);
+  const id = location.id;
 
   const requestSupported = requestFacilityIds.some(
     facilityId => `var${facilityId}` === id,
@@ -249,7 +295,7 @@ export function setSupportedSchedulingMethods({
       directSchedulingSupported,
     },
     managingOrganization: {
-      reference: getTestFacilityId(location.managingOrganization?.reference),
+      reference: location.managingOrganization?.reference,
     },
   };
 }

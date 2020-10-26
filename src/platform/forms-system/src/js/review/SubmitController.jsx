@@ -44,13 +44,7 @@ class SubmitController extends Component {
   };
 
   handleSubmit = () => {
-    const {
-      form,
-      formConfig,
-      pageList,
-      trackingPrefix,
-      inProgressFormId,
-    } = this.props;
+    const { form, formConfig, pageList, trackingPrefix } = this.props;
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
@@ -64,6 +58,7 @@ class SubmitController extends Component {
     // like to know if they’re common
     const { isValid, errors } = isValidForm(form, pageList);
     if (!isValid) {
+      const inProgressFormId = form.loadedData?.metadata?.inProgressFormId;
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
       });
@@ -83,7 +78,7 @@ class SubmitController extends Component {
   };
 
   render() {
-    const { form, formConfig, renderErrorMessage } = this.props;
+    const { form, formConfig } = this.props;
 
     return (
       <SubmitButtons
@@ -91,14 +86,13 @@ class SubmitController extends Component {
         onBack={this.goBack}
         onSubmit={this.handleSubmit}
         submission={form.submission}
-        renderErrorMessage={renderErrorMessage}
       />
     );
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const { formConfig, pageList, renderErrorMessage } = ownProps;
+  const { formConfig, pageList } = ownProps;
   const router = ownProps.router;
 
   const form = state.form;
@@ -106,19 +100,16 @@ function mapStateToProps(state, ownProps) {
   const trackingPrefix = formConfig.trackingPrefix;
   const submission = form.submission;
   const showPreSubmitError = submission.hasAttemptedSubmit;
-  const inProgressFormId = form.loadedData?.metadata?.inProgressFormId;
 
   return {
     form,
     formConfig,
     pagesByChapter,
     pageList,
-    renderErrorMessage,
     router,
     submission,
     showPreSubmitError,
     trackingPrefix,
-    inProgressFormId,
   };
 }
 
@@ -133,7 +124,6 @@ SubmitController.propTypes = {
   formConfig: PropTypes.object.isRequired,
   pagesByChapter: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
-  renderErrorMessage: PropTypes.bool,
   router: PropTypes.object.isRequired,
   setPreSubmit: PropTypes.func.isRequired,
   setSubmission: PropTypes.func.isRequired,
