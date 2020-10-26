@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Profile2Router from 'applications/personalization/profile/components/Profile2Router';
+import ProfileRouter from 'applications/personalization/profile/components/ProfileRouter';
 
 import {
   isInMPI as isInMVISelector,
@@ -25,7 +25,7 @@ const ProfileWrapper = ({ isLOA1, isLOA3, isInMVI, currentlyLoggedIn }) => {
     return <LoadingPage />;
   }
 
-  return <Profile2Router isLOA3={isLOA3} isInMVI={isInMVI} />;
+  return <ProfileRouter isLOA3={isLOA3} isInMVI={isInMVI} />;
 };
 
 const mapStateToProps = state => ({
