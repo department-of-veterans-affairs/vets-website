@@ -695,6 +695,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
           typeOfCareId,
           eligibilityData,
+          facilityId: data.vaFacility,
         });
 
         try {
