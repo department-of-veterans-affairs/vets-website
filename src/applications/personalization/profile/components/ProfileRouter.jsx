@@ -23,6 +23,7 @@ import {
   selectProfile,
   isLOA1 as isLOA1Selector,
   isLOA3 as isLOA3Selector,
+  isInMPI as isInMVISelector,
   isLoggedIn,
 } from 'platform/user/selectors';
 import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
@@ -264,6 +265,7 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     showLoader,
+    isInMVI: isInMVISelector(state),
     shouldFetchDirectDepositInformation,
     shouldShowDirectDeposit:
       shouldFetchDirectDepositInformation &&
