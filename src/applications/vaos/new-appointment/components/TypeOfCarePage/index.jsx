@@ -5,7 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../../../services/var';
 import FormButtons from '../../../components/FormButtons';
-import TypeOfCareUnavailableModal from './TypeOfCareUnavailableModal';
+import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
 import UpdateAddressAlert from './UpdateAddressAlert';
 import {
   openTypeOfCarePage,
@@ -100,9 +100,9 @@ export class TypeOfCarePage extends React.Component {
 
   render() {
     const {
-      schema,
       data,
       pageChangeInProgress,
+      schema,
       showToCUnavailableModal,
     } = this.props;
 
@@ -134,8 +134,7 @@ export class TypeOfCarePage extends React.Component {
             loadingText="Page change in progress"
           />
         </SchemaForm>
-        <TypeOfCareUnavailableModal
-          typeOfCare="Podiatry"
+        <PodiatryAppointmentUnavailableModal
           showModal={showToCUnavailableModal}
           onClose={this.props.hideTypeOfCareUnavailableModal}
         />
