@@ -207,6 +207,8 @@ class ProfileRouter extends Component {
 ProfileRouter.propTypes = {
   user: PropTypes.object.isRequired,
   showLoader: PropTypes.bool.isRequired,
+  isInMVI: PropTypes.bool.isRequired,
+  isLOA3: PropTypes.bool.isRequired,
   shouldFetchDirectDepositInformation: PropTypes.bool.isRequired,
   shouldShowDirectDeposit: PropTypes.bool.isRequired,
   fetchFullName: PropTypes.func.isRequired,
@@ -287,6 +289,8 @@ const mapDispatchToProps = {
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
 };
+
+export { ProfileRouter as Profile, mapStateToProps };
 
 export default connect(
   mapStateToProps,

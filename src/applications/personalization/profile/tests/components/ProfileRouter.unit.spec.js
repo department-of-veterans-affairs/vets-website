@@ -6,7 +6,10 @@ import sinon from 'sinon';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 
-import { ProfileRouter, mapStateToProps } from '../../components/ProfileRouter';
+import {
+  Profile as ProfileRouter,
+  mapStateToProps,
+} from '../../components/ProfileRouter';
 
 describe('ProfileRouter', () => {
   let defaultProps;
@@ -125,6 +128,9 @@ describe('mapStateToProps', () => {
     veteranStatus: {
       servedInMilitary: true,
     },
+    loa: {
+      current: 3,
+    },
   });
   const makeDefaultVaProfileState = () => ({
     hero: {
@@ -193,6 +199,9 @@ describe('mapStateToProps', () => {
   const makeDefaultState = () => ({
     user: {
       profile: makeDefaultProfileState(),
+      login: {
+        currentlyLoggedIn: true,
+      },
     },
     vaProfile: makeDefaultVaProfileState(),
   });
@@ -203,6 +212,8 @@ describe('mapStateToProps', () => {
     const expectedKeys = [
       'user',
       'showLoader',
+      'isInMVI',
+      'isLOA3',
       'shouldFetchDirectDepositInformation',
       'shouldShowDirectDeposit',
       'isDowntimeWarningDismissed',
