@@ -40,7 +40,6 @@ VeteranInfoBox.propTypes = {
   last: PropTypes.string.isRequired,
   suffix: PropTypes.string,
   middle: PropTypes.string,
-  gender: PropTypes.string.isRequired,
   dateOfBirth: PropTypes.string.isRequired,
   ssnLastFour: PropTypes.string.isRequired,
 };
@@ -50,7 +49,6 @@ VeteranInfoBox.defaultProps = {
   last: '',
   middle: '',
   suffix: '',
-  gender: '',
   dateOfBirth: '',
   ssnLastFour: '',
 };
@@ -61,7 +59,6 @@ const mapStateToProps = state => ({
   last: state.form?.data?.fullName?.last,
   suffix: state.form?.data?.fullName?.suffix,
   dateOfBirth: state.form?.data?.dateOfBirth,
-  gender: state.form?.data?.gender,
   ssnLastFour: state.form?.data?.ssnLastFour,
 });
 

@@ -1,10 +1,8 @@
-// import _ from 'lodash/fp';
-// import moment from 'moment';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
-// import applicantInformation from 'platform/forms/pages/applicantInformation';
 import fullSchema from '../schema/5655-schema.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
@@ -17,7 +15,7 @@ const { fullName } = fullSchema.definitions;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/v0/api`,
   trackingPrefix: 'fsr-5655-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -25,15 +23,17 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: 'Please start over to submit a Financial Status Report (5655).',
+    noAuth:
+      'Please sign in again to continue your Financial Status Report (5655).',
   },
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your [savedFormDescription] is in progress.',
-    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
-    //   saved: 'Your [benefitType] [appType] has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your Financial Status Report (5655) is in progress.',
+      expired:
+        'Your saved Financial Status Report (5655) has expired. If you want to submit a Financial Status Report (5655), please start a new Financial Status Report (5655).',
+      saved: 'Your Financial Status Report (5655) has been saved.',
+    },
   },
   defaultDefinitions: {
     fullName,
