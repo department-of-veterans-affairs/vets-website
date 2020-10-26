@@ -16,7 +16,7 @@ export default function ResourcesAndSupportSearchApp() {
   const [page, setPage] = useState(1);
   const [results, setResults] = useState([]);
 
-  const totalPages = results.length / RESULTS_PER_PAGE;
+  const totalPages = Math.ceil(results.length / RESULTS_PER_PAGE);
 
   // Load up the article data file
   useEffect(
