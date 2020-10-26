@@ -1,5 +1,8 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
+import { Article } from '../prop-types';
+
 export default function SearchResultList({ results }) {
   return (
     <ul className="usa-unstyled-list">
@@ -18,3 +21,7 @@ export default function SearchResultList({ results }) {
     </ul>
   );
 }
+
+SearchResultList.propTypes = {
+  results: PropTypes.arrayOf(Article).isRequired,
+};
