@@ -8,13 +8,21 @@ import SecondaryCaregiverCopy from './components/SecondaryCaregiverCopy';
 
 const PreSubmitCheckboxGroup = props => {
   const { onSectionComplete, formData, showError } = props;
-  console.log('group props: ', props);
+  // console.log('group props: ', props);
   const veteranLabel = `Veteran\u2019s`;
   const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
   const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
   const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
+
+  // veteranCertifications (always required)
+  // primaryCertifications
+  // secondaryOneCertifications
+  // secondaryTwoCertifications
+  const [certifications, setCertifications] = useState({
+    [veteranLabel]: [],
+  });
 
   const [signatures, setSignatures] = useState({
     [veteranLabel]: false,
@@ -24,6 +32,13 @@ const PreSubmitCheckboxGroup = props => {
   const unSignedLength = Object.values(signatures).filter(
     obj => Boolean(obj) === false,
   ).length;
+
+  useEffect(
+    () => {
+      console.log('certifications: ', certifications);
+    },
+    [certifications],
+  );
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
@@ -82,6 +97,7 @@ const PreSubmitCheckboxGroup = props => {
         setSignature={setSignatures}
         isRequired
         showError={showError}
+        setCertifications={setCertifications}
       >
         <h3>Veteran&apos;s statement of truth</h3>
         <p>
@@ -101,6 +117,7 @@ const PreSubmitCheckboxGroup = props => {
         setSignature={setSignatures}
         isRequired
         showError={showError}
+        setCertifications={setCertifications}
       >
         <h3 className="vads-u-margin-top--4">
           Primary Family Caregiver applicant&apos;s statement of truth
@@ -145,6 +162,7 @@ const PreSubmitCheckboxGroup = props => {
           setSignature={setSignatures}
           isRequired
           showError={showError}
+          setCertifications={setCertifications}
         >
           <SecondaryCaregiverCopy label={secondaryOneLabel} />
         </SignatureCheckbox>
@@ -158,6 +176,7 @@ const PreSubmitCheckboxGroup = props => {
           setSignature={setSignatures}
           isRequired
           showError={showError}
+          setCertifications={setCertifications}
         >
           <SecondaryCaregiverCopy label={secondaryTwoLabel} />
         </SignatureCheckbox>

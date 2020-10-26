@@ -14,9 +14,10 @@ const SignatureCheckbox = props => {
     label,
     setSignature,
     showError,
+    setCertifications,
   } = props;
 
-  console.log('signature props: ', props);
+  // console.log('signature props: ', props);
 
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -46,6 +47,32 @@ const SignatureCheckbox = props => {
       if (isChecked === true) setError(false);
     },
     [showError, setIsChecked, isChecked],
+  );
+
+  // onCheckboxChange add/remove default values
+  useEffect(
+    () => {
+      console.log('isChecked: ', isChecked);
+      setCertifications(prevState => {
+        return isChecked
+          ? {
+              ...prevState,
+              [label]: [
+                'information-is-correct-and-true',
+                'consent-to-caregivers-to-perform-care',
+              ],
+            }
+          : {
+              ...prevState,
+              [label]: prevState[label]?.filter(
+                cert =>
+                  cert !== 'information-is-correct-and-true' &&
+                  cert !== 'consent-to-caregivers-to-perform-care',
+              ),
+            };
+      });
+    },
+    [isChecked, label, setCertifications],
   );
 
   return (
@@ -110,6 +137,7 @@ SignatureCheckbox.propTypes = {
   setSignature: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   signatures: PropTypes.object.isRequired,
+  setCertifications: PropTypes.func.isRequired,
 };
 
 export default SignatureCheckbox;
