@@ -360,7 +360,12 @@
       white-space: nowrap;
     }
 
+    .responsive-table-row-separator {
+      display: none;
+    }
+
     .extension-row {
+      padding-left: 16px;
       .extension-cell-label {
         padding-left: 0.5em;
       }
@@ -379,13 +384,31 @@
         font-size: 1em;
       }
 
+      .responsive-table-row-separator {
+        display: block;
+        margin-top: 0.7em;
+        margin-bottom: 0.5em;
+      }
+
+      .location-cell,
+      .estimated-housing-cell {
+        margin-left: -1px;
+      }
+
       .extension-row {
-        .location-cell, .school-name-cell, .estimated-housing-cell {
+        .location-cell,
+        .school-name-cell,
+        .estimated-housing-cell {
           padding-left: 1.3em;
         }
 
         .extension-cell-label {
           padding-left: 0;
+        }
+
+        .location-cell,
+        .estimated-housing-cell {
+          margin-left: -2px;
         }
       }
 

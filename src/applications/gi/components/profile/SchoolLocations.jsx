@@ -56,7 +56,11 @@ export class SchoolLocations extends React.Component {
     const { version } = this.props;
     const query = version ? `?version=${version}` : '';
 
-    return <Link to={`${facilityCode}${query}`}>{name}</Link>;
+    return (
+      <div>
+        <Link to={`${facilityCode}${query}`}>{name}</Link>
+      </div>
+    );
   };
 
   handleViewAllClicked = async () => {
@@ -139,17 +143,17 @@ export class SchoolLocations extends React.Component {
     );
 
     const schoolName =
-      type === 'extension'
-        ? {
+      type === 'main'
+        ? nameLabel
+        : {
             value: nameLabel,
-            mobileHeader: 'Extension campus',
-          }
-        : nameLabel;
+            mobileHeader: type.charAt(0).toUpperCase() + type.slice(1),
+          };
 
     return {
       key: `${facilityCode}-${type}`,
       rowClassName: `${type}-row`,
-      'School Name': schoolName,
+      'School name': schoolName,
       Location: this.schoolLocationTableInfo(
         physicalCity,
         physicalState,
@@ -220,7 +224,7 @@ export class SchoolLocations extends React.Component {
   renderFacilityTable = main => {
     const maxRows = this.state.viewableRowCount;
 
-    const fields = ['School Name', 'Location', 'Estimated housing'];
+    const fields = ['School name', 'Location', 'Estimated housing'];
 
     const data = Array.of(this.createMainRow(main.institution)).concat(
       this.createBranchesAndExtensionsRows(main, maxRows),
