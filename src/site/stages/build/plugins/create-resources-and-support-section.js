@@ -294,8 +294,11 @@ function createSearchResults(files) {
     }
 
     return {
+      entityId: article.entityId,
       entityBundle: article.entityBundle,
-      entityUrl: article.entityUrl,
+      entityUrl: {
+        path: article.entityUrl.path,
+      },
       title: article.title,
       description: limitedDescription,
       fieldPrimaryCategory: article.fieldPrimaryCategory,
@@ -306,12 +309,6 @@ function createSearchResults(files) {
 
   files['resources/search/articles.json'] = {
     contents: Buffer.from(JSON.stringify(articleSearchData)),
-  };
-
-  files['resources/search/index.html'] = {
-    contents: Buffer.from(''),
-    layout: 'support_resources_search_results.drupal.liquid',
-    title: 'Search results',
   };
 }
 
