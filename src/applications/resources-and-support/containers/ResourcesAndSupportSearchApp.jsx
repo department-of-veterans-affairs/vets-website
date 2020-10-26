@@ -54,6 +54,13 @@ export default function ResourcesAndSupportSearchApp() {
 
   const onSearch = useCallback(
     () => {
+      const queryParams = new URLSearchParams();
+      queryParams.set('query', query);
+      history.replaceState(
+        {},
+        '',
+        `${window.location.pathname}?${queryParams}`,
+      );
       renderResults(query);
     },
     [query, renderResults],
