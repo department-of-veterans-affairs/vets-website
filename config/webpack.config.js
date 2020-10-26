@@ -141,7 +141,7 @@ module.exports = env => {
             },
             buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING
               ? {
-                  loader: 'css-loader-1.0.10',
+                  loader: 'css-loader-1.0.0',
                   options: {
                     sourceMap: enableCSSSourcemaps,
                   },
