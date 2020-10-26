@@ -22,6 +22,12 @@ fragment nodeChecklist on NodeChecklist {
       ... alertSingle
     }
   }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
   fieldRelatedBenefitHubs {
     entity {
       ... on NodeLandingPage {

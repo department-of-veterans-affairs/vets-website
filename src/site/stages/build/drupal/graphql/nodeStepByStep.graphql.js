@@ -52,6 +52,12 @@ fragment nodeStepByStep on NodeStepByStep {
       }
     }
   }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
   fieldRelatedBenefitHubs {
     entity {
       ... on NodeLandingPage {

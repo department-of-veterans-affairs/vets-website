@@ -46,6 +46,12 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
       ... button
     }
   }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
   fieldRelatedBenefitHubs {
     entity {
       ... on NodeLandingPage {

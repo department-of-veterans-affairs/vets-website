@@ -21,6 +21,12 @@ fragment nodeMediaListImages on NodeMediaListImages {
       ... button
     }
   }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
   fieldRelatedBenefitHubs {
     entity {
       ... on NodeLandingPage {

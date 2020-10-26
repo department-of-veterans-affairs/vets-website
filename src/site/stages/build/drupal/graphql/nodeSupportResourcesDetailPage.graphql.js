@@ -41,6 +41,12 @@ fragment nodeSupportResourcesDetailPage on NodeSupportResourcesDetailPage {
       ... button
     }
   }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
   fieldRelatedBenefitHubs {
     entity {
       ... on NodeLandingPage {

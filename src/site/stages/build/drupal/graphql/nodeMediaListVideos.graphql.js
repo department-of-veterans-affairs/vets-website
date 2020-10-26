@@ -21,6 +21,12 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
       ... button
     }
   }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
   fieldRelatedBenefitHubs {
     entity {
       ... on NodeLandingPage {
