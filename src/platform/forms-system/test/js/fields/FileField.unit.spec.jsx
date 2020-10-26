@@ -14,7 +14,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
-import FileField from '../../../src/js/fields/FileField';
+import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 
 const formContext = {

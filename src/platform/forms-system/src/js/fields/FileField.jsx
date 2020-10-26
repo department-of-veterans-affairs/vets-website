@@ -1,30 +1,29 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import ProgressBar from '../components/ProgressBar';
 import { focusElement } from '../utilities/ui';
 import {
   ShowPdfPassword,
   PasswordLabel,
   PasswordSuccess,
-  PdfPasswordFeature,
   checkForEncryptedPdf,
 } from '../utilities/file';
 
-export default class FileField extends React.Component {
+class FileField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       progress: 0,
       files: [], // see Files~state definition
-      pdfPasswordFeature: false,
     };
   }
   fileInputRef = React.createRef();
-  pdfPasswordFeature = React.createRef();
 
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
@@ -39,15 +38,6 @@ export default class FileField extends React.Component {
     if (isUploading && !wasUploading) {
       this.setState({ progress: 0 });
     }
-  }
-
-  componentDidMount() {
-    this.setState({
-      // Check PDF password feature flag in a secondary connected component
-      // ref: https://medium.com/octopus-labs-london/how-to-access-a-redux-components-methods-with-createref-ca28a96efd59
-      pdfPasswordFeature: this.pdfPasswordFeature.current?.getWrappedInstance()
-        ?.props.requestLockedPdfPassword,
-    });
   }
 
   focusAddAnotherButton = () => {
@@ -131,7 +121,7 @@ export default class FileField extends React.Component {
 
       // Check if the file is an encrypted PDF
       if (
-        this.state.pdfPasswordFeature &&
+        this.props.requestLockedPdfPassword &&
         !password &&
         currentFile.name.endsWith('pdf') &&
         (this.props.uiSchema['ui:options'] || {}).getEncryptedPassword
@@ -260,8 +250,8 @@ export default class FileField extends React.Component {
       schema,
       formContext,
       onBlur,
+      requestLockedPdfPassword,
     } = this.props;
-    const { pdfPasswordFeature } = this.state;
     const uiOptions = uiSchema?.['ui:options'] || {};
     const files = this.getFiles();
     const maxItems = schema.maxItems || Infinity;
@@ -283,7 +273,6 @@ export default class FileField extends React.Component {
           formContext.reviewMode ? 'schemaform-file-upload-review' : undefined
         }
       >
-        <PdfPasswordFeature ref={this.pdfPasswordFeature} />
         {files.length > 0 && (
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
@@ -306,12 +295,12 @@ export default class FileField extends React.Component {
               );
               const attachmentNameErrors = _.get([index, 'name'], errorSchema);
               const showPasswordInput =
-                pdfPasswordFeature && // feature flag
+                requestLockedPdfPassword && // feature flag
                 (files[index].isEncrypted || // needs password
                   // incorrect password, returning error message
                   (files[index].password && files[index].errorMessage));
               const showPasswordSuccess =
-                pdfPasswordFeature &&
+                requestLockedPdfPassword &&
                 file.password &&
                 !hasErrors &&
                 !file.errorMessage;
@@ -485,3 +474,11 @@ FileField.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
 };
+
+const mapStateToProps = state => ({
+  requestLockedPdfPassword: toggleValues(state).request_locked_pdf_password,
+});
+
+export { FileField };
+
+export default connect(mapStateToProps)(FileField);
