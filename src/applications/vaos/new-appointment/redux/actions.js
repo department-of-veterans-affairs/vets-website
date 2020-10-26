@@ -316,6 +316,7 @@ export function checkEligibility(location, siteId) {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId,
         eligibilityData,
+        facilityId: location.id,
       });
 
       try {
