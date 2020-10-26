@@ -25,8 +25,6 @@ import {
 } from '../../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../../mocks/setup';
 
-import reducers from '../../../../redux/reducer';
-import FutureAppointmentsList from '../../../../appointment-list/components/FutureAppointmentsList';
 import AppointmentsPage from '../../../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
@@ -82,15 +80,74 @@ describe('VAOS integration appointment cancellation:', () => {
     mockFacilitiesFetch('vha_442', [facility]);
 
     const { getByRole, findByText } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
+    fireEvent.click(await findByText(/cancel appointment/i));
+
+    await findByText(/VA Video Connect appointments can’t be canceled online/i);
+    const modal = getByRole('alertdialog');
+
+    await findByText(/Cheyenne VA Medical Center/);
+    expect(modal).to.contain.text('307-778-7550');
+  });
+
+  it('ATLAS video appointments should display modal with facility information', async () => {
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: null,
+      facilityId: '983',
+      sta6aid: null,
+      startDate: moment()
+        .add(1, 'days')
+        .format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: moment()
+        .add(1, 'days')
+        .format(),
+      status: { description: 'F', code: 'FUTURE' },
+      tasInfo: {
+        address: {},
+      },
+    };
+    mockAppointmentInfo({
+      va: [appointment],
+    });
+    const facility = {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+    mockFacilitiesFetch('vha_442', [facility]);
+
+    const { getByRole, findByText } = renderWithStoreAndRouter(
+      <AppointmentsPage />,
+      {
+        initialState,
+      },
+    );
+
+    await findByText(/at an ATLAS location/);
     fireEvent.click(await findByText(/cancel appointment/i));
 
     await findByText(/VA Video Connect appointments can’t be canceled online/i);
@@ -125,15 +182,9 @@ describe('VAOS integration appointment cancellation:', () => {
       getByRole,
       findByText,
       queryByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     fireEvent.click(await findByText(/cancel appointment/i));
 
@@ -181,15 +232,9 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     await findByText(/cancel appointment/i);
     expect(baseElement).not.to.contain.text('Canceled');
@@ -285,15 +330,9 @@ describe('VAOS integration appointment cancellation:', () => {
       findByText,
       queryByRole,
       getByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     await findByText(/cancel appointment/i);
     expect(baseElement).not.to.contain.text('Canceled');
@@ -382,15 +421,9 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       getByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     await findByText(/cancel appointment/i);
     expect(baseElement).not.to.contain.text('Canceled');
@@ -448,15 +481,9 @@ describe('VAOS integration appointment cancellation:', () => {
       baseElement,
       findByText,
       queryByRole,
-    } = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     await findByText(/cancel appointment/i);
     expect(baseElement).not.to.contain.text('Canceled');
@@ -504,26 +531,20 @@ describe('VAOS integration appointment cancellation:', () => {
 
     mockAppointmentInfo({ va: [appointment] });
 
-    const screen = renderWithStoreAndRouter(
-      <AppointmentsPage>
-        <FutureAppointmentsList />
-      </AppointmentsPage>,
-      {
-        initialState: {
-          ...initialState,
-          user: {
-            profile: {
-              facilities: [
-                { facilityId: '983', isCerner: false },
-                { facilityId: '668', isCerner: true },
-              ],
-              isCernerPatient: true,
-            },
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false },
+              { facilityId: '668', isCerner: true },
+            ],
+            isCernerPatient: true,
           },
         },
-        reducers,
       },
-    );
+    });
 
     await screen.findByText(/cancel appointment/i);
     expect(screen.baseElement).not.to.contain.text('Canceled');
