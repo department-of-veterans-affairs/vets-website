@@ -267,12 +267,13 @@ const FacilitiesMap = props => {
           setMapInit(mapInit);
           mapInit.resize();
         });
-        // mapInit.on('resize', function() {
-        // console.log('A resize event occurred.');
-        // });
       };
 
-      if (!window.document.getElementById('mapContainer')) return;
+      // Container exists
+      if (!window.document.getElementById('mapContainer')) {
+        return;
+      }
+
       if (!map) initializeMap(setMap, 'mapContainer');
     },
     [map],
@@ -289,18 +290,18 @@ const FacilitiesMap = props => {
 
   const setMapResize = () => {
     setTimeout(function() {
-      const mapMobileTab = new mapboxgl.Map({
+      const mapResize = new mapboxgl.Map({
         container: 'mapContainer',
         style: 'mapbox://styles/mapbox/outdoors-v11',
         center: [-99.27246093750001, 40.17887331434698],
         zoom: 3,
       });
-      mapMobileTab.addControl(new mapboxgl.NavigationControl(), 'top-left');
+      mapResize.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
-      mapMobileTab.on('load', () => {
-        mapMobileTab.resize();
+      mapResize.on('load', () => {
+        mapResize.resize();
       });
-      setMap(mapMobileTab);
+      setMap(mapResize); // Set current map
     }, 10);
   };
 
@@ -380,9 +381,16 @@ const FacilitiesMap = props => {
 
   const renderDesktopView = () => {
     // Reset the map after resize event
-    // if (document.getElementsByClassName('mapboxgl-canvas').length === 0) {
-    // setMapResize();
-    // }
+    if (
+      map &&
+      (!window.document.getElementById('mapContainer') ||
+        window.document.getElementsByClassName('desktop-map-container')
+          .length === 0)
+    ) {
+      setMap(null);
+      setMapResize();
+    }
+
     const {
       currentQuery,
       pagination: { currentPage, totalPages },
