@@ -8,17 +8,8 @@ import SearchResultList from '../components/SearchResultList';
 export default function ResourcesAndSupportSearchApp() {
   const [articles, setArticles] = useState(null);
   const [userInput, setUserInput] = useState('');
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
-
-  const renderResults = useCallback(
-    searchValue => {
-      const filteredArticles = articles.filter(article => {
-        return article.title.toLowerCase().includes(searchValue.toLowerCase());
-      });
-      setResults(filteredArticles);
-    },
-    [articles, setResults],
-  );
 
   // Load up the article data file
   useEffect(
@@ -35,7 +26,7 @@ export default function ResourcesAndSupportSearchApp() {
     [setArticles],
   );
 
-  // Intialize the query via the URL params
+  // Initialize the query via the URL params
   useEffect(
     () => {
       if (!articles) {
@@ -46,21 +37,39 @@ export default function ResourcesAndSupportSearchApp() {
       const queryFromUrl = searchParams.get('query');
       if (queryFromUrl) {
         setUserInput(queryFromUrl);
-        renderResults(queryFromUrl);
+        setQuery(queryFromUrl);
       }
     },
-    [articles, setUserInput, renderResults],
+    [articles, setUserInput, setQuery],
+  );
+
+  // Refresh the results list when the query is submitted
+  useEffect(
+    () => {
+      if (!articles || !query) {
+        return;
+      }
+
+      const filteredArticles = articles.filter(article => {
+        return article.title.toLowerCase().includes(query.toLowerCase());
+      });
+
+      setResults(filteredArticles);
+    },
+    [articles, query, setResults],
   );
 
   const onSearch = useCallback(
     () => {
       const queryParams = new URLSearchParams();
       queryParams.set('query', userInput);
+
       const newUrl = `${window.location.pathname}?${queryParams}`;
       history.replaceState({}, '', newUrl);
-      renderResults(userInput);
+
+      setQuery(userInput);
     },
-    [userInput, renderResults],
+    [userInput, setQuery],
   );
 
   return (
@@ -76,8 +85,7 @@ export default function ResourcesAndSupportSearchApp() {
                 onInputChange={setUserInput}
               />
               <p>
-                Showing {results.length} results for "
-                <strong>{userInput}</strong>"
+                Showing {results.length} results for "<strong>{query}</strong>"
               </p>
               <SearchResultList results={results} />
             </>
