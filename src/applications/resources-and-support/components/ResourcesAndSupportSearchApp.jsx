@@ -57,8 +57,12 @@ export default function ResourcesAndSupportSearchApp() {
         return;
       }
 
+      const keywords = query.split(' ').map(keyword => keyword.toLowerCase());
+
       const filteredArticles = articles.filter(article => {
-        return article.title.toLowerCase().includes(query.toLowerCase());
+        return keywords.some(k => {
+          return article.title.toLowerCase().includes(k);
+        });
       });
 
       setResults(filteredArticles);
@@ -94,6 +98,25 @@ export default function ResourcesAndSupportSearchApp() {
 
   const currentPageOfResults = results.slice(startIndex, endIndex);
 
+  let paginationSummary = null;
+
+  if (results.length > 0) {
+    paginationSummary = (
+      <>
+        Showing {startIndex + 1} - {endIndex} of {results.length} results for "
+        <strong>{query}</strong>"
+      </>
+    );
+  } else if (!query) {
+    paginationSummary = <>Please enter a query.</>;
+  } else {
+    paginationSummary = (
+      <>
+        No results found for "<strong>{query}</strong>"
+      </>
+    );
+  }
+
   return (
     <div className="usa-grid usa-grid-full">
       <div className="usa-width-three-fourths">
@@ -106,20 +129,7 @@ export default function ResourcesAndSupportSearchApp() {
                 userInput={userInput}
                 onInputChange={setUserInput}
               />
-              <p id="pagination-summary">
-                {results.length > 0 ? (
-                  <>
-                    Showing {startIndex + 1} - {endIndex} of {results.length}{' '}
-                    results for "<strong>{query}</strong>"
-                  </>
-                ) : !query ? (
-                  <>Please enter a query.</>
-                ) : (
-                  <>
-                    No results found for "<strong>{query}</strong>"
-                  </>
-                )}
-              </p>
+              <p id="pagination-summary">{paginationSummary}</p>
               <SearchResultList results={currentPageOfResults} />
               <Pagination
                 maxPageListLength={RESULTS_PER_PAGE}
