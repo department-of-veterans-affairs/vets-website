@@ -1,6 +1,10 @@
-import contractTest from 'platform/testing/contract';
+import sinon from 'sinon';
 import { like, term } from '@pact-foundation/pact/dsl/matchers';
-import { apiRequest } from 'platform/utilities/api';
+
+import contractTest from 'platform/testing/contract';
+import { submitForm } from 'platform/forms-system/src/js/actions';
+
+import formConfig from '../../form/form';
 
 contractTest('Ask a Question', 'VA.gov API', mockApi => {
   describe('POST /ask/asks', () => {
@@ -17,7 +21,7 @@ contractTest('Ask a Question', 'VA.gov API', mockApi => {
           },
           body: {
             inquiry: {
-              form: '',
+              form: '{"veteranStatus":{"veteranStatus":""}}',
             },
           },
         },
@@ -35,18 +39,11 @@ contractTest('Ask a Question', 'VA.gov API', mockApi => {
           }),
         },
       });
+      const form = { data: { veteranStatus: { veteranStatus: '' } } };
 
-      await apiRequest('/ask/asks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          inquiry: {
-            form: '',
-          },
-        }),
-      });
+      const dispatch = sinon.stub();
+
+      await submitForm(formConfig, form)(dispatch);
     });
   });
 });
