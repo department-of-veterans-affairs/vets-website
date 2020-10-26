@@ -437,5 +437,25 @@ describe('mapStateToProps', () => {
         expect(props.showLoader).to.be.true;
       });
     });
+
+    describe('when the user is not LOA1 or LOA3 and is logged in', () => {
+      it('is `true`', () => {
+        const state = makeDefaultState();
+        state.user.login.currentlyLoggedIn = true;
+        state.user.profile.loa.current = undefined;
+        const props = mapStateToProps(state);
+        expect(props.showLoader).to.be.true;
+      });
+    });
+
+    describe('when the user is LOA3 and is logged in', () => {
+      it('is `false`', () => {
+        const state = makeDefaultState();
+        state.user.login.currentlyLoggedIn = true;
+        state.user.profile.loa.current = 3;
+        const props = mapStateToProps(state);
+        expect(props.showLoader).to.be.false;
+      });
+    });
   });
 });
