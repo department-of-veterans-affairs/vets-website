@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import sortBy from 'lodash/sortBy';
+
 import URLSearchParams from 'url-search-params';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
@@ -65,7 +67,9 @@ export default function ResourcesAndSupportSearchApp() {
         });
       });
 
-      setResults(filteredArticles);
+      const orderedResults = sortBy(filteredArticles, 'title');
+
+      setResults(orderedResults);
     },
     [articles, setResults, query, page],
   );
