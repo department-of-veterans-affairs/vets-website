@@ -49,7 +49,6 @@ export function SearchPage({
   eligibility,
   filters,
   gibctBenefitFilterEnhancement,
-  gibctSearchEnhancements,
   gibctSchoolRatings,
   search,
 }) {
@@ -120,7 +119,7 @@ export function SearchPage({
 
         dispatchInstitutionFilterChange(institutionFilter);
 
-        dispatchFetchInstitutionSearchResults(query, gibctSearchEnhancements);
+        dispatchFetchInstitutionSearchResults(query);
       }
     },
     [location.search],
@@ -297,9 +296,6 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
-  gibctSearchEnhancements: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctSearchEnhancements
-  ],
   gibctSchoolRatings: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctSchoolRatings
   ],

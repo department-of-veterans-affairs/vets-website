@@ -1,0 +1,66 @@
+{
+  "data": {
+    "inquiryType": "Question",
+    "topic": {
+      "levelOne": "Health & Medical Issues & Services",
+      "levelTwo": "Prosthetics, Med Devices & Sensory Aids",
+      "levelThree": "Eyeglasses",
+      "vaMedicalCenter": "405GC"
+    },
+    "query": "Some question?",
+    "fullName": {
+      "first": "Jane",
+      "last": "Doe",
+      "suffix": "IV"
+    },
+    "preferredContactMethod": "email",
+    "email": "jane.doe@va.gov",
+    "view:email": "jane.doe@va.gov",
+    "address": {
+      "country": "USA",
+      "state": "IL",
+      "street": "123 Main St",
+      "street2": "Apt 3",
+      "city": "Chicago",
+      "postalCode": "60601"
+    },
+    "phoneNumber": "8001234567",
+    "veteranStatus": {
+      "veteranStatus": "For the dependent of a Veteran",
+      "isDependent": false,
+      "relationshipToVeteran": "Daughter",
+      "veteranIsDeceased": true,
+      "dateOfDeath": "2000-06-04"
+    },
+    "dependentInformation": {
+      "relationshipToVeteran": "Spouse",
+      "first": "Cassandra",
+      "last": "Jackson",
+      "address": {
+        "street": "401 Doppler Ave",
+        "city": "Cleveland",
+        "country": "USA",
+        "state": "OH",
+        "postalCode": "41014"
+      },
+      "phone": "5554248007",
+      "email":"cjackson@fake.email"
+    },
+    "veteranInformation": {
+      "first": "Walker",
+      "last": "Texas"
+    },
+    "veteranServiceInformation": {
+      "dateOfBirth": "1980-02-02",
+      "socialSecurityNumber": "312549876",
+      "serviceNumber": "112233445567",
+      "claimNumber": "1234567",
+      "branchOfService": "Army",
+      "serviceDateRange": {
+        "from": "2000-01-01",
+        "to": "2000-12-12"
+      }
+    },
+    "privacyAgreementAccepted": true
+  }
+}
