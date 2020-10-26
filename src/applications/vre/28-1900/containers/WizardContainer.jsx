@@ -11,7 +11,7 @@ const WizardContainer = () => (
   <div className="row vads-u-margin-bottom--1">
     <div className="usa-width-two-thirds medium-8 columns">
       <h1 className="vads-u-margin-top--1">
-        Apply for Personalized Career Planning and Guidance
+        Apply for Veteran Readiness and Employment
       </h1>
       <p>
         Equal to VA Form 28-1900 (Vocational Rehabilitation for Claimants With
