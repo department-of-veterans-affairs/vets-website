@@ -3,7 +3,7 @@
 export default function checkForEncryptedPdf(
   file,
   requestLockedPdfPassword,
-  uiSchema,
+  uiSchema = {},
 ) {
   const { getEncryptedPassword } = uiSchema['ui:options'] || {};
   return new Promise((resolve, reject) => {

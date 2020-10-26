@@ -422,9 +422,9 @@ describe('Schemaform <FileField>', () => {
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.files('input[type=file]', [{}]);
+    formDOM.files('input[type=file]', [{ name: 'test.png' }]);
 
-    expect(uploadFile.firstCall.args[0]).to.eql({});
+    expect(uploadFile.firstCall.args[0]).to.eql({ name: 'test.png' });
     expect(uploadFile.firstCall.args[1]).to.eql(uiSchema['ui:options']);
     expect(uploadFile.firstCall.args[2]).to.be.a('function');
     expect(uploadFile.firstCall.args[3]).to.be.a('function');
@@ -458,7 +458,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'asdfds',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
@@ -479,7 +479,7 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('li').text()).to.contain('Test file name');
+    expect(tree.find('li').text()).to.contain('Test file name.pdf');
     expect(tree.find('SchemaField').prop('schema')).to.equal(
       schema.items[0].properties.attachmentId,
     );

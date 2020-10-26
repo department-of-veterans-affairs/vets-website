@@ -123,7 +123,7 @@ class FileField extends React.Component {
       }
 
       // Check if the file is an encrypted PDF
-      if (currentFile.name.endsWith('pdf') && !password) {
+      if (currentFile.name?.endsWith('pdf') && !password) {
         const needsPassword = await this.processFile(currentFile, idx);
         if (needsPassword) {
           // wait for user to enter a password before uploading
@@ -136,8 +136,9 @@ class FileField extends React.Component {
         this.props.uiSchema['ui:options'] || {},
         this.updateProgress,
         file => {
+          const { formData, onChange } = this.props;
           const data = password ? { ...file, password } : file;
-          this.props.onChange(_.set(idx, data, this.props.formData || []));
+          onChange(_.set(idx, data, formData || []));
           this.uploadRequest = null;
         },
         () => {
