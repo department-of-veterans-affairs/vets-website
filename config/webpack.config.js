@@ -156,13 +156,11 @@ module.exports = env => {
             {
               loader: 'postcss-loader',
               options: {
-                postcssOptions: {
-                  plugins:
-                    // check if isOptimizedBuild when ready for production
-                    buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING
-                      ? ['autoprefixer', 'cssnano']
-                      : ['autoprefixer'],
-                },
+                plugins:
+                  buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING
+                    ? // TODO: check if isOptimizedBuild when ready for production
+                      () => [require('autoprefixer'), require('cssnano')]
+                    : () => [require('autoprefixer')],
               },
             },
             {
