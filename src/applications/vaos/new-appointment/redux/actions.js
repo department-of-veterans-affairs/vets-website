@@ -466,7 +466,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
         recordEvent({
           event: `${GA_PREFIX}-request-current-location-blocked`,
         });
-        captureError(e, false, 'facility page');
+        captureError(e, true, 'facility page');
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });

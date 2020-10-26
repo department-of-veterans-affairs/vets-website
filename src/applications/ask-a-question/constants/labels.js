@@ -63,8 +63,9 @@ export const daytimePhoneAreaCodeTitle = 'Daytime phone';
 /* --------------- Dependent Information ------------- */
 export const dependentInformationHeader = 'Dependent information';
 
-export const dependentsFirstName = "Dependent's first name";
-export const dependentsLastName = "Dependent's last name";
+export const dependentFirstName = "Dependent's first name";
+export const dependentLastName = "Dependent's last name";
+export const dependentRelationshipToVeteran = 'Your relation to the Veteran';
 
 /* --------------- Veteran Information ------------- */
 export const veteranInformationHeader = 'Veteran information';

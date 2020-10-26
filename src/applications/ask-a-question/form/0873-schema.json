@@ -1637,6 +1637,19 @@
     "dependentInformation": {
       "type": "object",
       "properties": {
+        "relationshipToVeteran": {
+          "enum": [
+            "Daughter",
+            "Son",
+            "Stepson",
+            "Stepdaughter",
+            "Father",
+            "Mother",
+            "Spouse",
+            "Other"
+          ],
+          "type": "string"
+        },
         "first": {
           "$ref": "#/definitions/first"
         },
