@@ -6,7 +6,6 @@ import manifest from '../manifest.json';
 import fullSchema from '../schema/5655-schema.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import VeteranInfoBox from '../components/VeteranInfoBox';
 
 const { fullName } = fullSchema.definitions;
@@ -17,6 +16,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/api`,
   trackingPrefix: 'fsr-5655-',
+  verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_5655,
@@ -40,7 +40,6 @@ const formConfig = {
   },
   title: 'Financial Status Report (5655)',
   subTitle: 'Form 5655',
-  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
