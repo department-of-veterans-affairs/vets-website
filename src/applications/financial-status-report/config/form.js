@@ -1,17 +1,18 @@
-import _ from 'lodash/fp';
-import moment from 'moment';
+// import _ from 'lodash/fp';
+// import moment from 'moment';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
-import applicantInformation from 'platform/forms/pages/applicantInformation';
+// import applicantInformation from 'platform/forms/pages/applicantInformation';
 import fullSchema from '../schema/5655-schema.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import VeteranInfoBox from '../components/VeteranInfoBox';
 
-const { vaFileNumber } = fullSchema.properties;
 const { fullName } = fullSchema.definitions;
+// const { vaFileNumber } = fullSchema.properties;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -43,60 +44,48 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
-    applicantInformation: {
-      title: 'Applicant Information',
+    veteranInformationChapter: {
+      title: 'Veteran Information',
       pages: {
-        applicantInformation: _.merge(
-          applicantInformation(fullSchema, {
-            isVeteran: true,
-            fields: [
-              'veteranFullName',
-              'veteranSocialSecurityNumber',
-              'vaFileNumber',
-              'veteranDateOfBirth',
-              'myField',
-            ],
-            required: [
-              'veteranFullName',
-              'veteranSocialSecurityNumber',
-              'vaFileNumber',
-              'veteranDateOfBirth',
-            ],
-          }),
-          {
-            uiSchema: {
-              veteranDateOfBirth: {
-                'ui:validations': [
-                  (errors, dob) => {
-                    // If we have a complete date, check to make sure it’s a valid dob
-                    if (
-                      /\d{4}-\d{2}-\d{2}/.test(dob) &&
-                      moment(dob).isAfter(
-                        moment()
-                          .endOf('day')
-                          .subtract(17, 'years'),
-                      )
-                    ) {
-                      errors.addError('You must be at least 17 to apply');
-                    }
-                  },
-                ],
-              },
-              myField: {
-                'ui:title': 'File Number',
-              },
-            },
-            schema: {
-              type: 'object',
-              properties: {
-                myField: {
-                  type: 'string',
+        'Veteran information': {
+          path: 'veteran-information',
+          title: 'Veteran information',
+          uiSchema: {
+            'view:veteranInfo': {
+              'ui:field': VeteranInfoBox,
+              first: {
+                'ui:title': 'First name',
+                'ui:errorMessages': {
+                  required: 'Please enter a first name',
                 },
-                vaFileNumber,
+              },
+              last: {
+                'ui:title': 'Last name',
+                'ui:errorMessages': {
+                  required: 'Please enter a last name',
+                },
+              },
+              middle: {
+                'ui:title': 'Middle name',
+              },
+              suffix: {
+                'ui:title': 'Suffix',
+                'ui:options': {
+                  widgetClassNames: 'form-select-medium',
+                },
               },
             },
           },
-        ),
+          schema: {
+            type: 'object',
+            properties: {
+              'view:veteranInfo': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
       },
     },
   },
