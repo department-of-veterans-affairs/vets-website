@@ -18,7 +18,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
         onSubmit={isGlobalSearch ? null : onSubmit}
         id="resources-support-search"
         method="get"
-        action="/resources/search"
+        action={isGlobalSearch ? '/search' : '/resources/search'}
       >
         <fieldset className="fieldset-input vads-u-margin--0">
           <legend className="vads-u-font-size--md vads-u-font-family--serif">
@@ -34,7 +34,6 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
             <div className="radio-button vads-u-display--inline-block vads-u-margin-right--3">
               <input
                 type="radio"
-                name="path"
                 checked={!isGlobalSearch}
                 onChange={event => {
                   setGlobalSearch(!event.target.checked);
@@ -52,7 +51,6 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
             <div className="radio-button vads-u-display--inline-block">
               <input
                 type="radio"
-                name="path"
                 checked={isGlobalSearch}
                 onChange={event => {
                   setGlobalSearch(event.target.checked);
@@ -67,7 +65,10 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
             </div>
           </div>
         </fieldset>
-        <label className="vads-u-margin-top--1" htmlFor="query">
+        <label
+          className="vads-u-margin-top--1"
+          htmlFor="resources-and-support-query"
+        >
           Enter a keyword, phrase, or question
         </label>
         <div className="vads-l-row">
@@ -76,7 +77,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
               type="text"
               required
               name="query"
-              id="query"
+              id="resources-and-support-query"
               className="usa-input vads-u-max-width--100 vads-u-width--full vads-u-height--full vads-u-margin--0"
               value={userInput}
               onChange={event => onInputChange(event.target.value)}
