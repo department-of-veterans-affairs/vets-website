@@ -66,14 +66,15 @@ class ArrayField extends React.Component {
 
   /**
    * Scroll to an element, then focus on a button within the element
-   * @param {string} elementName - element with "name" attribute to scroll to
-   * @param {string} button - Button to focus within element
+   * @param {string} scrollElementName - element with "name" attribute to scroll
+   *   to
+   * @param {string} focusElementSelector - element to focus within element
    */
-  scrollToAndFocus(elementName, button = '') {
-    if (elementName) {
+  scrollToAndFocus(scrollElementName, focusElementSelector = '') {
+    if (scrollElementName) {
       setTimeout(() => {
         scroller.scrollTo(
-          elementName,
+          scrollElementName,
           window.Forms?.scroll || {
             duration: 500,
             delay: 0,
@@ -81,7 +82,7 @@ class ArrayField extends React.Component {
             offset: -60,
           },
         );
-        focusElement(`[name="${elementName}"] ${button}`);
+        focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
       }, 100);
     }
   }
