@@ -3,6 +3,21 @@ import { cloneDeep } from 'lodash';
 
 import SignatureCheckbox from './SignatureCheckbox';
 
+export const PrivacyPolicy = () => (
+  <p>
+    I have read and accept the
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      className="vads-u-margin-left--0p5"
+      href="https://www.va.gov/privacy-policy/"
+    >
+      privacy policy
+    </a>
+    .
+  </p>
+);
+
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const veteranLabel = `Veteran\u2019s`;
   const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
@@ -57,21 +72,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
     [hasSecondaryOne, hasSecondaryTwo, secondaryOneLabel, secondaryTwoLabel],
   );
 
-  const PrivacyPolicy = () => (
-    <p>
-      I have read and accept the
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        className="vads-u-margin-left--0p5"
-        href="https://www.va.gov/privacy-policy/"
-      >
-        privacy policy
-      </a>
-      .
-    </p>
-  );
-
   const SecondaryCaregiverCopy = ({ label }) => {
     const header = title => `${title} Statement of Truth`;
     return (
@@ -107,8 +107,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           Assistance for Family Caregivers does not create an employment
           relationship with the Department of Veterans Affairs.
         </p>
-
-        <PrivacyPolicy />
       </div>
     );
   };
@@ -186,8 +184,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           employment relationship between me and the Department of Veterans
           Affairs.
         </p>
-
-        <PrivacyPolicy />
       </SignatureCheckbox>
 
       {hasSecondaryOne && (
