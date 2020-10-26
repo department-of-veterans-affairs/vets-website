@@ -16,13 +16,26 @@
       {% endif %}
 
       <!-- Additional contact -->
-      {% if entity.fieldBenefitHubContacts == empty and entity.fieldAdditionalContact != empty %}
+      {% if entity.fieldAdditionalContact != empty %}
         <li class="vads-u-margin-top--1">
-          <strong>{{ entity.fieldAdditionalContact.entity.fieldEmailLabel }} </strong>
-          {% if entity.fieldAdditionalContact.entity.fieldEmailAddress %}
-            <a href="mailto:{{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}" rel="noreferrer noopener">
-              {{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}
-            </a>
+          <!-- Email -->
+          {% if entity.fieldAdditionalContact.entity.fieldEmailLabel and entity.fieldAdditionalContact.entity.fieldEmailAddress %}
+            <strong>{{ entity.fieldAdditionalContact.entity.fieldEmailLabel }}: </strong>
+            {% if entity.fieldAdditionalContact.entity.fieldEmailAddress %}
+              <a href="mailto:{{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}" rel="noreferrer noopener">
+                {{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}
+              </a>
+            {% endif %}
+          {% endif %}
+
+          <!-- Phone number -->
+          {% if entity.fieldAdditionalContact.entity.fieldPhoneLabel and entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
+            <strong>{{ entity.fieldAdditionalContact.entity.fieldPhoneLabel }}: </strong>
+            {% if entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
+              <a href="tel:{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}" rel="noreferrer noopener">
+                {{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}
+              </a>
+            {% endif %}
           {% endif %}
         </li>
       {% endif %}

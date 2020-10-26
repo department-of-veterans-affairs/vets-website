@@ -25,6 +25,7 @@ module.exports = `
       entity {
         entityBundle
         ... emailContact
+        ... phoneNumber
       }
     }
   }

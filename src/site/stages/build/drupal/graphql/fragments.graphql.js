@@ -12,6 +12,7 @@ const embeddedImage = require('./paragraph-fragments/media.paragraph.graphql');
 const linkTeaser = require('./paragraph-fragments/linkTeaser.paragraph.graphql');
 const listsOfLinks = require('./paragraph-fragments/listsOfLinks.paragraph.graphql');
 const numberCallout = require('./paragraph-fragments/numberCallout.paragraph.graphql');
+const phoneNumber = require('./paragraph-fragments/phoneNumber.paragraph.graphql');
 const process = require('./paragraph-fragments/process.paragraph.graphql');
 const qa = require('./paragraph-fragments/qa.paragraph.graphql');
 const qaSection = require('./paragraph-fragments/qaSection.paragraph.graphql');
@@ -45,6 +46,7 @@ module.exports = `
   ${listOfLinkTeasers}
   ${listsOfLinks}
   ${numberCallout}
+  ${phoneNumber}
   ${process}
   ${promo}
   ${qaSection}
