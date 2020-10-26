@@ -1,5 +1,3 @@
-import environment from 'platform/utilities/environment';
-
 /*
  * Functions in here should map a var-resources API request to a similar response from
  * a FHIR resource request
@@ -126,9 +124,16 @@ export async function getLocationsByTypeOfCareAndSiteIds({
     const directFacilityIds =
       criteria[0]
         ?.filter(facility =>
-          facility?.coreSettings?.some(setting => setting.id === typeOfCareId),
+          facility?.coreSettings?.some(
+            setting =>
+              setting.id === typeOfCareId && !!setting.patientHistoryRequired,
+          ),
         )
         ?.map(facility => facility.id) || [];
+
+    // If patientHistoryRequired is blank or null, the scheduling method is
+    // disabled for that type of care.  If "No", it is enabled, but doesn't require
+    // a previous appointment.  If "Yes", it is enabled and requires a previous appt
 
     // Fetch facilities that support requests and filter
     // only those that support the selected type of care
@@ -136,7 +141,8 @@ export async function getLocationsByTypeOfCareAndSiteIds({
       criteria[1]
         ?.filter(facility =>
           facility?.requestSettings?.some(
-            setting => setting.id === typeOfCareId,
+            setting =>
+              setting.id === typeOfCareId && !!setting.patientHistoryRequired,
           ),
         )
         ?.map(facility => facility.id) || [];
@@ -205,20 +211,4 @@ export function getFacilityIdFromLocation(location) {
  */
 export function getSiteIdFromFakeFHIRId(id) {
   return parseId(id).substr(0, 3);
-}
-
-/**
- * Converts back from a real facility id to our test facility ids
- * in lower environments
- *
- * @export
- * @param {String} facilityId - facility id to convert
- * @returns A facility id with either 442 or 552 replaced with 983 or 984
- */
-export function getTestFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
-    return facilityId.replace('442', '983').replace('552', '984');
-  }
-
-  return facilityId;
 }

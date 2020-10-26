@@ -31,7 +31,7 @@ describe('Comparison Tool', () => {
 
   it('tab through CT via keyboard', () => {
     // Assert the correct number of focusable elements in the form
-    hasFocusableCount('#landing-page-form', 15);
+    hasFocusableCount('#landing-page-form', 14);
 
     // Assert the correct number of tabbable elements in the form
     hasTabbableCount('#landing-page-form', 11);
@@ -106,9 +106,8 @@ describe('Comparison Tool', () => {
     // keyboard navigation with arrow keys does not work
     cy.tab()
       .tab()
-      .tab()
       .get(
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]',
       )
       .should('have.focus')
       .should('be.checked')

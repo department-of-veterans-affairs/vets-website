@@ -18,7 +18,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
 
-import { higherLevelReviewFeature } from '../helpers';
+import { higherLevelReviewFeature, scrollToTop } from '../helpers';
 import {
   noContestableIssuesFound,
   showContestableIssueError,
@@ -38,10 +38,17 @@ export class IntroductionPage extends React.Component {
   };
 
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    // focus on h1 if wizard has completed
+    // focus on breadcrumb nav when wizard is visible
+    const focusTarget =
+      this.state.status === WIZARD_STATUS_COMPLETE
+        ? 'h1'
+        : '.va-nav-breadcrumbs-list';
+    focusElement(focusTarget);
+    scrollToTop();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const {
       contestableIssues = {},
       getContestableIssues,
@@ -63,6 +70,14 @@ export class IntroductionPage extends React.Component {
           benefitType,
           contestedIssues: contestableIssues.issues,
         });
+      }
+
+      // set focus on h1 only after wizard completes
+      if (prevState.status !== WIZARD_STATUS_COMPLETE) {
+        setTimeout(() => {
+          scrollToTop();
+          focusElement('h1');
+        }, 100);
       }
     }
   }
@@ -118,14 +133,14 @@ export class IntroductionPage extends React.Component {
 
   render() {
     const callToActionContent = this.getCallToActionContent();
-    const show = this.state.status !== WIZARD_STATUS_COMPLETE;
+    const showWizard = this.state.status !== WIZARD_STATUS_COMPLETE;
 
     return (
       <article className="schemaform-intro">
         <FormTitle title="Request a Higher-Level Review" />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
 
-        {show ? (
+        {showWizard ? (
           <WizardContainer setWizardStatus={this.setWizardStatus} />
         ) : (
           <>

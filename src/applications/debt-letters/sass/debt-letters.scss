@@ -1,6 +1,8 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
 .right-heading {
-  font-family: 'Bitter';
-  border-bottom: 3px solid #0071BB;
+  font-family: "Bitter";
+  border-bottom: 3px solid $color-blue;
   margin: 10px 0 10px;
   padding-bottom: 9px;
   font-size: 1.35em;
@@ -21,17 +23,22 @@ a i {
 
 .mobile-button {
   padding: 4px;
-  border: 2px solid #0071bc;
+  border: 2px solid $color-purple;
   border-radius: 5px;
-  background-color: #ffffff;
+  background-color: $color-white;
   background-size: cover;
   font-size: 16px;
-  color: #0071bc;
+  color: $color-purple;
   text-decoration: none solid rgb(0, 113, 188);
   text-align: center;
 
   &:visited {
-    color: #0071bc;
+    color: $color-visited;
   }
+}
 
+.debt-details-nextstep {
+  background-color: $color-aqua-lightest;
+  padding: 0 23px;
+  margin: 15px 0;
 }

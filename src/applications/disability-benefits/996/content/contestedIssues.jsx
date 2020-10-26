@@ -80,7 +80,7 @@ const disabilitiesList = (
       </li>
       <li>
         You’re requesting a review of another Higher-Level Review. You can
-        either submit a supplmental claim or appeal to the Board of Veterans’
+        either submit a supplemental claim or appeal to the Board of Veterans’
         Appeals.
       </li>
     </ul>

@@ -37,7 +37,7 @@
 
 {% endcase %}
 
-<script data-e2e="analytics-script">
+<script data-e2e="analytics-script" nonce="**CSP_NONCE**">
   {{ google_analytics_js }}
   recordEvent({ environment: '{{ buildtype }}' });
   if ( self !== top ) {

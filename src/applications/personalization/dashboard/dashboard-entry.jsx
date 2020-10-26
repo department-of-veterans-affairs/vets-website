@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import '../profile360/sass/user-profile.scss';
+import '../profile/sass/user-profile.scss';
 import '../../claims-status/sass/claims-status.scss';
 import './sass/dashboard.scss';
 import './sass/dashboard-alert.scss';

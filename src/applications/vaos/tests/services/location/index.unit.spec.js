@@ -88,7 +88,7 @@ describe('VAOS Location service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/facilities/va?ids=vha_442A6',
       );
-      expect(data[0].identifier[0].value).to.equal('urn:va:division:442:442');
+      expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
     });
     it('should return OperationOutcome error', async () => {
       mockFetch();
@@ -125,7 +125,7 @@ describe('VAOS Location service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/facilities/va/vha_442A6',
       );
-      expect(data.identifier[0].value).to.equal('urn:va:division:442:442');
+      expect(data.identifier[0].value).to.equal('urn:va:division:983:983');
     });
 
     it('should return OperationOutcome error', async () => {

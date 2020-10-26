@@ -1,5 +1,6 @@
 import { validateWhiteSpace } from 'platform/forms/validations';
 import * as topic from './topic/topic';
+import { veteranStatusUI } from './status/veteranStatusUI';
 
 import fullSchema from '../0873-schema.json';
 import {
@@ -8,12 +9,13 @@ import {
   queryTitle,
 } from '../../constants/labels';
 
-const { inquiryType, query } = fullSchema.properties;
+const { inquiryType, query, veteranStatus } = fullSchema.properties;
 
 const formFields = {
   topic: 'topic',
   inquiryType: 'inquiryType',
   query: 'query',
+  veteranStatus: 'veteranStatus',
 };
 
 const inquiryPage = {
@@ -28,6 +30,9 @@ const inquiryPage = {
       'ui:widget': 'textarea',
       'ui:validations': [validateWhiteSpace],
     },
+    [formFields.veteranStatus]: {
+      ...veteranStatusUI,
+    },
   },
   schema: {
     type: 'object',
@@ -36,6 +41,7 @@ const inquiryPage = {
       [formFields.topic]: topic.schema(fullSchema),
       [formFields.inquiryType]: inquiryType,
       [formFields.query]: query,
+      [formFields.veteranStatus]: veteranStatus,
     },
   },
 };
