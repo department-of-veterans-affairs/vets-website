@@ -13,7 +13,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { AdditionalInfoSections } from './AdditionalInfoSections';
 import { AppDeletedAlert } from './AppDeletedAlert';
-import availableConnectedApps from './availableConnectedApps';
 import { ConnectedApp } from './ConnectedApp';
 
 export class ConnectedApps extends Component {
@@ -106,26 +105,7 @@ export class ConnectedApps extends Component {
           />
         ))}
 
-        {showHasNoConnectedApps && (
-          <div className="connected-apps-intro vads-u-margin-bottom--2">
-            <h3>Third-party apps you can connect to your profile</h3>
-            <ul className="vads-u-padding-left--0 vads-u-margin-bottom--2">
-              {availableConnectedApps?.map(app => {
-                return (
-                  <li key={app.name} className="vads-u-padding-left--3">
-                    <a
-                      href={app.appURL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {app.name}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
+        {showHasNoConnectedApps && <button>Go to app directory</button>}
 
         {loading && (
           <LoadingIndicator setFocus message="Loading your connected apps..." />
