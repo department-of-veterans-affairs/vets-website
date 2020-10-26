@@ -294,7 +294,6 @@ function createSearchResults(files) {
     }
 
     return {
-      entityId: article.entityId,
       entityBundle: article.entityBundle,
       entityUrl: {
         path: article.entityUrl.path,

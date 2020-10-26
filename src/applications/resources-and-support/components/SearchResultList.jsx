@@ -3,9 +3,9 @@ import React from 'react';
 export default function SearchResultList({ results }) {
   return (
     <ul className="usa-unstyled-list">
-      {results.map(article => {
+      {results.map((article, index) => {
         return (
-          <li key={article.entityId}>
+          <li key={index}>
             <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-color--gray-lighter">
               <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
                 <a href="{{ article.entityUrl.path }}">{article.title}</a>

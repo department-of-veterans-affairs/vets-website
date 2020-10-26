@@ -3,9 +3,13 @@ import React, { useState } from 'react';
 export default function SearchBar({ onSearch, userInput, onInputChange }) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
 
+  const disabled = userInput.length < 3;
+
   const onSubmit = event => {
     event.preventDefault();
-    onSearch();
+    if (!disabled) {
+      onSearch();
+    }
   };
 
   return (
@@ -81,6 +85,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
           <div className="vads-l-col--12 vads-u-flex--auto vads-u-width--auto">
             <button
               type="submit"
+              disabled={disabled}
               className="usa-button vads-u-margin--0 vads-u-width--full vads-u-width--auto vads-u-height--full"
               style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
             >
