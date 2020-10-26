@@ -26,7 +26,9 @@ const termLcCategory = require('./taxonomy-fragments/termLcCategory.taxonomy.gra
 const termTopics = require('./taxonomy-fragments/termTopics.taxonomy.graphql');
 const wysiwyg = require('./paragraph-fragments/wysiwyg.paragraph.graphql');
 const { alert } = require('./block-fragments/alert.block.graphql');
-const { listOfLinkTeasers } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
+const {
+  listOfLinkTeasers,
+} = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
 const { promo } = require('./block-fragments/promo.block.graphql');
 
 module.exports = `
