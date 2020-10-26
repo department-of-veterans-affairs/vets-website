@@ -1,5 +1,6 @@
 module.exports = `
   fragment supportService on NodeSupportService {
+    entityId
     title
     fieldLink {
       title

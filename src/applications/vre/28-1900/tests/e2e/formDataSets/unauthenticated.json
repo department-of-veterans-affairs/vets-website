@@ -13,22 +13,22 @@
   "yearsOfEducation": "10",
   "isMoving": true,
   "newAddress": {
-    "view:livesOnMilitaryBaseInfo": {},
-    "countryName": "USA",
-    "addressLine1": "124 Someplace Lane",
-    "addressLine2": "Apartment 98",
+    "view:militaryBaseDescription": {},
+    "country": "USA",
+    "street": "124 Someplace Lane",
+    "street2": "Apartment 98",
     "city": "Yet Another Place",
-    "stateCode": "AL",
-    "zipCode": "12343"
+    "state": "AL",
+    "postalCode": "12343"
   },
   "veteranAddress": {
-    "view:livesOnMilitaryBaseInfo": {},
-    "countryName": "USA",
-    "addressLine1": "123 Someplace Lane",
-    "addressLine2": "Apartment 4",
+    "view:militaryBaseDescription": {},
+    "country": "USA",
+    "street": "123 Someplace Lane",
+    "street2": "Apartment 4",
     "city": "Another Place",
-    "stateCode": "AL",
-    "zipCode": "12345"
+    "state": "AL",
+    "postalCode": "12345"
   },
   "mainPhone": "555-555-5555",
   "cellPhone": "555-555-5551",

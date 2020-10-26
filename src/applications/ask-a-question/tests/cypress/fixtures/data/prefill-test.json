@@ -1,0 +1,16 @@
+{
+  "data": {
+    "veteranStatus": {
+      "veteranStatus": "For myself as a Veteran"
+    },
+    "preferredContactMethod": "email",
+    "view:email": "myemail65825144@unattended.com",
+    "privacyAgreementAccepted": true,
+    "inquiryType": "Question",
+    "topic": {
+      "levelOne": "Caregiver Support Program",
+      "levelTwo": "VA Supportive Services"
+    },
+    "query": "Some question?"
+  }
+}

@@ -1,7 +1,6 @@
 import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
 
 import classNames from 'classnames';
 import { renderVetTecLogo } from '../../utils/render';
@@ -52,16 +51,10 @@ function LandingPageTypeOfInstitutionFilter({
       additional: vetTecLogo,
     });
   }
-
-  // prod flag for story BAH-13929
   return (
     <div className="type-of-institution-filter">
       <RadioButtons
-        label={
-          environment.isProduction()
-            ? 'Type of institution'
-            : 'Select an institution'
-        }
+        label="Select an institution"
         name="category"
         options={options}
         value={category}

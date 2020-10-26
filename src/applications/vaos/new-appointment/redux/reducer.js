@@ -412,14 +412,14 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
       const formData = state.data;
-      const typeOfCareId = formData.typeOfCareId;
+      const typeOfCareId = getTypeOfCare(formData).id;
       const sortMethod = action.sortMethod;
       const location = action.location;
       let typeOfCareFacilities = state.facilities[typeOfCareId];
       let newSchema = state.pages.vaFacilityV2;
       let requestLocationStatus = state.requestLocationStatus;
 
-      if (location) {
+      if (location && typeOfCareFacilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
 
