@@ -6,7 +6,7 @@ import startApp from 'platform/startup';
 
 import manifest from './manifest.json';
 import reducer from './reducers';
-import ResourcesAndSupportSearchApp from './containers/ResourcesAndSupportSearchApp';
+import ResourcesAndSupportSearchApp from './components/ResourcesAndSupportSearchApp';
 
 startApp({
   reducer,

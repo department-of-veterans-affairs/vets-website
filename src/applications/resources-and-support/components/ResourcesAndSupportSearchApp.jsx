@@ -4,8 +4,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { focusElement } from 'platform/utilities/ui';
 
-import SearchBar from '../components/SearchBar';
-import SearchResultList from '../components/SearchResultList';
+import SearchBar from './SearchBar';
+import SearchResultList from './SearchResultList';
 
 const RESULTS_PER_PAGE = 10;
 
