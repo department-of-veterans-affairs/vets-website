@@ -13,7 +13,12 @@ export default function SearchResultList({ results }) {
               <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
                 <a href="{{ article.entityUrl.path }}">{article.title}</a>
               </h2>
-              <p className="vads-u-margin-bottom--0">{article.description}</p>
+              <p
+                className="vads-u-margin-bottom--0"
+                // the article descriptions contain HTML entities
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: article.description }}
+              />
             </div>
           </li>
         );
