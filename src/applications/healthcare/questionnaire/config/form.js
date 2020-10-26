@@ -102,9 +102,10 @@ const formConfig = {
               'ui:widget': 'textarea',
               'ui:title': (
                 <span>
-                  Are there any life events that are positively or negatively
-                  affecting your health (e.g. marriage, divorce, new job,
-                  retirement, parenthood, or finances)?
+                  Are there any other concerns or changes in your life that are
+                  affecting you or your health? (For example, a marriage,
+                  divorce, new baby, change in your job, or other medical
+                  conditions)
                 </span>
               ),
             },
