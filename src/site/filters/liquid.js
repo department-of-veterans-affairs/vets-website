@@ -416,6 +416,27 @@ module.exports = function registerFilters() {
     return breadcrumbs;
   };
 
+  liquid.filters.deriveLcBreadcrumbs = (
+    breadcrumbs,
+    string,
+    currentPath,
+    pageTitle,
+  ) => {
+    breadcrumbs.push({
+      url: { path: '/resources', routed: false },
+      text: 'Resources and support',
+    });
+
+    if (pageTitle) {
+      breadcrumbs.push({
+        url: { path: currentPath, routed: true },
+        text: string,
+      });
+    }
+
+    return breadcrumbs;
+  };
+
   // used to get a base url path of a health care region from entityUrl.path
   liquid.filters.regionBasePath = path => path.split('/')[1];
 

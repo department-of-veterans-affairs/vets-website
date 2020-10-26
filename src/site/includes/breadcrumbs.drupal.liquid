@@ -4,6 +4,11 @@
     {% if deriveBreadcrumbsFromUrl == true %}
     {% assign crumbs = entityUrl.breadcrumb | deriveLastBreadcrumbFromPath: title, entityUrl.path %}
     {% endif %}
+
+    {% if constructLcBreadcrumbs == true %}
+    {% assign crumbs = entityUrl.breadcrumb | deriveLcBreadcrumbs: title, entityUrl.path, titleInclude %}
+    {% endif %}
+
     {% for crumb in crumbs %}
       {% if forloop.last == true %}
         <li><a aria-current="page" href="/{{ path }}">{{ crumb.text }}</a></li>
