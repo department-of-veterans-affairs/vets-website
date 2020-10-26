@@ -6,10 +6,12 @@ const ReasonForVisitField = ({ appointment }) => {
   const bookingNote = getBookingNoteFromAppointment(appointment);
   if (bookingNote?.reasonForVisit) {
     return (
-      <span data-testid="reason-for-visit">
-        <strong>Main reason for your appointment</strong>:{' '}
-        {bookingNote?.reasonForVisit}
-      </span>
+      <section data-testid="reason-for-visit">
+        <p>
+          <strong>What's the reason for your visit?</strong>:{' '}
+        </p>
+        <p>{bookingNote?.reasonForVisit}</p>
+      </section>
     );
   } else {
     return <></>;
