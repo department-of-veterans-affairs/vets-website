@@ -11,7 +11,7 @@ export default function SearchResultList({ results }) {
           <li key={index}>
             <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-color--gray-lighter">
               <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-                <a href="{{ article.entityUrl.path }}">{article.title}</a>
+                <a href={article.entityUrl.path}>{article.title}</a>
               </h2>
               <p
                 className="vads-u-margin-bottom--0"
