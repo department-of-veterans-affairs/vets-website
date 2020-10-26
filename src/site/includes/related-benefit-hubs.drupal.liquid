@@ -1,23 +1,19 @@
 {% if fieldRelatedBenefitHubs != empty %}
-  <section class="vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-y--3 vads-u-display--flex vads-u-flex-direction--column" data-template="includes/related-benefit-hubs">
-    <h2 class="vads-u-margin-top--0">Need more help?</h2>
+  <section class="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-light-alt vads-u-padding--2">
+    <h2 class="vads-u-font-size--h3 vads-u-border-bottom--4px vads-u-border-color--primary vads-u-margin--0 vads-u-margin-y--1 vads-u-padding-bottom--1">Need more help?</h2>
 
-    <ul class="usa-unstyled-list">
-      <!-- Create empty list of IDs -->
-      {% assign supportServiceIDs = "" %}
-
+    <ul class="usa-unstyled-list vads-u-display--flex vads-u-flex-direction--column">
       {% for relatedBenefitHub in fieldRelatedBenefitHubs %}
         {% for supportService in relatedBenefitHub.entity.fieldSupportServices %}
-          <script>console.log("{{ supportServiceIDs }}")</script>
           <!-- Show the link if it hasn't been rendered yet -->
           {% unless supportServiceIDs contains supportService.entity.entityId %}
-            <li>
-              <p class="vads-u-margin-top--0"><strong>{{ supportService.entity.title }}</strong>
+            <li class="vads-u-margin-top--1">
+              <strong>{{ supportService.entity.title }} </strong>
               {% if supportService.entity.fieldLink %}
-                <a href="{{ supportService.entity.fieldLink.url.path }}"
-                    rel="noreferrer noopener">{{ supportService.entity.fieldPhoneNumber }}</a>
+                <a href="{{ supportService.entity.fieldLink.url.path }}" rel="noreferrer noopener">
+                  {{ supportService.entity.fieldPhoneNumber }}
+                </a>
               {% endif %}
-              </p>
             </li>
           {% endunless %}
 

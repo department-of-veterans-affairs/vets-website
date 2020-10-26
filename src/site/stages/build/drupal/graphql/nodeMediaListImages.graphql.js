@@ -24,6 +24,11 @@ fragment nodeMediaListImages on NodeMediaListImages {
   fieldRelatedBenefitHubs {
     entity {
       ... on NodeLandingPage {
+        fieldHomePageHubLabel
+        fieldTeaserText
+        path {
+          alias
+        }
         fieldSupportServices {
           entity {
             ... supportService
