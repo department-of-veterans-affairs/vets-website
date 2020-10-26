@@ -87,8 +87,9 @@ class FileField extends React.Component {
     }
   };
 
-  processFile = async (file, index) =>
-    checkForEncryptedPdf(file)
+  processFile = async (file, index) => {
+    const { requestLockedPdfPassword, uiSchema } = this.props;
+    return checkForEncryptedPdf(file, requestLockedPdfPassword, uiSchema)
       .then(isEncrypted => {
         if (isEncrypted) {
           this.setFileState({ file, index, isEncrypted: true });
@@ -101,6 +102,7 @@ class FileField extends React.Component {
         this.setFileState({ index, isEncrypted: false });
         return false;
       });
+  };
 
   /**
    * Add file to list and upload
@@ -112,20 +114,16 @@ class FileField extends React.Component {
    */
   onAddFile = async (event, index = null, password) => {
     if (event.target.files && event.target.files.length) {
+      const currentFile = event.target.files[0];
       const files = this.props.formData || [];
+
       let idx = index;
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
-      const currentFile = event.target.files[0];
 
       // Check if the file is an encrypted PDF
-      if (
-        this.props.requestLockedPdfPassword &&
-        !password &&
-        currentFile.name.endsWith('pdf') &&
-        (this.props.uiSchema['ui:options'] || {}).getEncryptedPassword
-      ) {
+      if (currentFile.name.endsWith('pdf') && !password) {
         const needsPassword = await this.processFile(currentFile, idx);
         if (needsPassword) {
           // wait for user to enter a password before uploading
@@ -217,7 +215,7 @@ class FileField extends React.Component {
    *   before uploading to have a placeholder in the UI
    */
   /**
-   * Get file list. it needs to add files that have been marked as encrypted in
+   * Get file list. It needs to add files that have been marked as encrypted in
    * the state file data
    * @return {Files~render}
    */
@@ -226,6 +224,8 @@ class FileField extends React.Component {
     const fileList =
       this.props.formData?.filter(file => !file.isTemporary) || [];
     this.state.files.forEach(({ file, index, isEncrypted }) => {
+      // This does not remove duplicate file uploads! The user may have same
+      // file names from different paths
       if (file.name === fileList[index]?.name) {
         // already uploaded; remove from state list
         return false;

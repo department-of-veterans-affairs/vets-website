@@ -1,6 +1,13 @@
-export default function checkForEncryptedPdf(file) {
+// requestLockedPdfPassword = feature flag
+// getEncryptedPassword = file option set in uiSchema
+export default function checkForEncryptedPdf(
+  file,
+  requestLockedPdfPassword,
+  uiSchema,
+) {
+  const { getEncryptedPassword } = uiSchema['ui:options'] || {};
   return new Promise((resolve, reject) => {
-    if (file.name.endsWith('pdf')) {
+    if (requestLockedPdfPassword && getEncryptedPassword) {
       const reader = new FileReader();
       reader.onloadend = event => {
         if (event.target.readyState === FileReader.DONE) {
