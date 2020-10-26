@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import { ENTITY_BUNDLES } from './constants';
 
-const TaxonomyTerm = PropTypes.shape({
+export const TaxonomyTerm = PropTypes.shape({
   entityUrl: PropTypes.shape({
     path: PropTypes.string,
   }),
