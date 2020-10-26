@@ -7,7 +7,7 @@ import SearchResultList from '../components/SearchResultList';
 
 export default function ResourcesAndSupportSearchApp() {
   const [articles, setArticles] = useState(null);
-  const [query, setQuery] = useState('');
+  const [userInput, setUserInput] = useState('');
   const [results, setResults] = useState([]);
 
   const renderResults = useCallback(
@@ -45,25 +45,22 @@ export default function ResourcesAndSupportSearchApp() {
       const searchParams = new URLSearchParams(window.location.search);
       const queryFromUrl = searchParams.get('query');
       if (queryFromUrl) {
-        setQuery(queryFromUrl);
+        setUserInput(queryFromUrl);
         renderResults(queryFromUrl);
       }
     },
-    [articles, setQuery, renderResults],
+    [articles, setUserInput, renderResults],
   );
 
   const onSearch = useCallback(
     () => {
       const queryParams = new URLSearchParams();
-      queryParams.set('query', query);
-      history.replaceState(
-        {},
-        '',
-        `${window.location.pathname}?${queryParams}`,
-      );
-      renderResults(query);
+      queryParams.set('query', userInput);
+      const newUrl = `${window.location.pathname}?${queryParams}`;
+      history.replaceState({}, '', newUrl);
+      renderResults(userInput);
     },
-    [query, renderResults],
+    [userInput, renderResults],
   );
 
   return (
@@ -75,11 +72,12 @@ export default function ResourcesAndSupportSearchApp() {
               <h1>Search results</h1>
               <SearchBar
                 onSearch={onSearch}
-                query={query}
-                onInputChange={setQuery}
+                userInput={userInput}
+                onInputChange={setUserInput}
               />
               <p>
-                Showing {results.length} results for "<strong>{query}</strong>"
+                Showing {results.length} results for "
+                <strong>{userInput}</strong>"
               </p>
               <SearchResultList results={results} />
             </>

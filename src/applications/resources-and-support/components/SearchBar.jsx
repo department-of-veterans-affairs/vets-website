@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function SearchBar({ onSearch, query, onInputChange }) {
+export default function SearchBar({ onSearch, userInput, onInputChange }) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
 
   const onSubmit = event => {
@@ -74,7 +74,7 @@ export default function SearchBar({ onSearch, query, onInputChange }) {
               name="query"
               id="query"
               className="usa-input vads-u-max-width--100 vads-u-width--full vads-u-height--full vads-u-margin--0"
-              value={query}
+              value={userInput}
               onChange={event => onInputChange(event.target.value)}
             />
           </div>
