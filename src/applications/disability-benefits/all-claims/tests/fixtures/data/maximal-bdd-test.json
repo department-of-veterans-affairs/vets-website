@@ -160,32 +160,25 @@
       "newDisabilities": [
         {
           "cause": "NEW",
-          "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
           "condition": "asthma",
           "view:descriptionInfo": {}
         },
         {
           "cause": "SECONDARY",
           "view:secondaryFollowUp": {
-            "causedByDisability": "Asthma",
-            "causedByDisabilityDescription": "Again, this doesn't really make sense."
+            "causedByDisability": "Asthma"
           },
           "condition": "phlebitis",
           "view:descriptionInfo": {}
         },
         {
           "cause": "WORSENED",
-          "view:worsenedFollowUp": {
-            "worsenedDescription": "My knee was strained in the service",
-            "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?"
-          },
           "condition": "knee replacement",
           "view:descriptionInfo": {}
         },
         {
           "cause": "VA",
           "view:vaFollowUp": {
-            "vaMistreatmentDescription": "A thing happened.",
             "vaMistreatmentLocation": "Somewhereville",
             "vaMistreatmentDate": "A while ago"
           },

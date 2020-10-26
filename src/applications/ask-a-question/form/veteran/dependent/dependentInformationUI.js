@@ -10,13 +10,15 @@ import _ from 'lodash';
 import {
   daytimePhoneAreaCodeTitle,
   dependentInformationHeader,
-  dependentsFirstName,
-  dependentsLastName,
+  dependentRelationshipToVeteran,
+  dependentFirstName,
+  dependentLastName,
   emailTitle,
   streetAddress,
 } from '../../../constants/labels';
 
 const formFields = {
+  relationshipToVeteran: 'relationshipToVeteran',
   first: 'first',
   last: 'last',
   address: 'address',
@@ -24,15 +26,19 @@ const formFields = {
   email: 'email',
 };
 
-export const dependentInformationUI = requireIfDisplayed => ({
+export const dependentInformationUI = dependentInformationDisplayed => ({
   'ui:description': SectionHeader(dependentInformationHeader),
+  [formFields.relationshipToVeteran]: {
+    'ui:title': dependentRelationshipToVeteran,
+    'ui:required': dependentInformationDisplayed,
+  },
   [formFields.first]: {
-    'ui:title': dependentsFirstName,
-    'ui:required': requireIfDisplayed,
+    'ui:title': dependentFirstName,
+    'ui:required': dependentInformationDisplayed,
   },
   [formFields.last]: {
-    'ui:title': dependentsLastName,
-    'ui:required': requireIfDisplayed,
+    'ui:title': dependentLastName,
+    'ui:required': dependentInformationDisplayed,
   },
   [formFields.address]: _.merge(uiSchema('', false, null, true), {
     'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
@@ -42,7 +48,7 @@ export const dependentInformationUI = requireIfDisplayed => ({
     },
     country: {
       'ui:required': formData => {
-        return requireIfDisplayed(formData);
+        return dependentInformationDisplayed(formData);
       },
     },
     street2: {
@@ -53,6 +59,6 @@ export const dependentInformationUI = requireIfDisplayed => ({
   }),
   [formFields.phone]: phoneUI(daytimePhoneAreaCodeTitle),
   [formFields.email]: _.merge(emailUI(emailTitle), {
-    'ui:required': formData => requireIfDisplayed(formData),
+    'ui:required': formData => dependentInformationDisplayed(formData),
   }),
 });

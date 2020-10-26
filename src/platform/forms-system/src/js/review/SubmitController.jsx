@@ -44,13 +44,7 @@ class SubmitController extends Component {
   };
 
   handleSubmit = () => {
-    const {
-      form,
-      formConfig,
-      pageList,
-      trackingPrefix,
-      inProgressFormId,
-    } = this.props;
+    const { form, formConfig, pageList, trackingPrefix } = this.props;
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
@@ -64,6 +58,7 @@ class SubmitController extends Component {
     // like to know if they’re common
     const { isValid, errors } = isValidForm(form, pageList);
     if (!isValid) {
+      const inProgressFormId = form.loadedData?.metadata?.inProgressFormId;
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
       });
@@ -105,7 +100,6 @@ function mapStateToProps(state, ownProps) {
   const trackingPrefix = formConfig.trackingPrefix;
   const submission = form.submission;
   const showPreSubmitError = submission.hasAttemptedSubmit;
-  const inProgressFormId = form.loadedData?.metadata?.inProgressFormId;
 
   return {
     form,
@@ -116,7 +110,6 @@ function mapStateToProps(state, ownProps) {
     submission,
     showPreSubmitError,
     trackingPrefix,
-    inProgressFormId,
   };
 }
 
