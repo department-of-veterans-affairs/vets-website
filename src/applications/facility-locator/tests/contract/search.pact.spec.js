@@ -262,8 +262,11 @@ const ccpSpecialtiesInteraction = {
 
 const dispatch = sinon.stub();
 
+// TODO enable test after backend support is available
+// The pact that hasn’t been verified yet
+
 contractTest('Facility Locator', 'VA.gov API', mockApi => {
-  describe('GET /v1/facilities/ccp', () => {
+  describe.skip('GET /v1/facilities/ccp', () => {
     context('facilities: ccp data exists', () => {
       it('responds appropriately', async () => {
         await mockApi().addInteraction(ccpInteraction);
@@ -272,7 +275,7 @@ contractTest('Facility Locator', 'VA.gov API', mockApi => {
     });
   });
 
-  describe('GET /v1/facilities/ccp/specialties', () => {
+  describe.skip('GET /v1/facilities/ccp/specialties', () => {
     context('facilities: ccp specialties data exists', () => {
       it('responds appropriately', async () => {
         await mockApi().addInteraction(ccpSpecialtiesInteraction);
@@ -281,7 +284,7 @@ contractTest('Facility Locator', 'VA.gov API', mockApi => {
     });
   });
 
-  describe('GET /v1/facilities/va', () => {
+  describe.skip('GET /v1/facilities/va', () => {
     context('facilities: va data exists', () => {
       it('responds appropriately', async () => {
         await mockApi().addInteraction(vaInteraction);
@@ -297,7 +300,7 @@ contractTest('Facility Locator', 'VA.gov API', mockApi => {
     });
   });
 
-  describe('GET /v1/facilities/va/:id', () => {
+  describe.skip('GET /v1/facilities/va/:id', () => {
     context('facilities: va data exists', () => {
       it('responds appropriately', async () => {
         await mockApi().addInteraction(vaDetailInteraction);
@@ -306,7 +309,7 @@ contractTest('Facility Locator', 'VA.gov API', mockApi => {
     });
   });
 
-  describe('GET /v1/facilities/va_ccp/urgent_care', () => {
+  describe.skip('GET /v1/facilities/va_ccp/urgent_care', () => {
     context('facilities: mashup urgent_care data exists', () => {
       it('responds appropriately', async () => {
         await mockApi().addInteraction(mashupUrgentCareInteraction);

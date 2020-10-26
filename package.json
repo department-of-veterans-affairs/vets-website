@@ -58,7 +58,7 @@
     "test:accessibility:docker": "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility && docker-compose -p accessibility stop",
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
     "test:contract": "BUILDTYPE=localhost npm run test:unit -- --reporter mocha-junit-reporter 'src/**/tests/**/*.pact.spec.js'",
-    "test:coverage": "npm run test:unit -- --coverage",
+    "test:coverage": "npm run test:unit -- --coverage --log-level debug",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
     "test:puppeteer": "./script/run-puppeteer-tests.sh",
     "test:puppeteer:docker": "IN_DOCKER=true jest -c=config/jest-puppeteer.config.js",
@@ -343,7 +343,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#0aea5769bad46b9da4e60f8d40c613ad7a1c6bad",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#10047a793c01b7119fc418545b3e7bad05059736",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

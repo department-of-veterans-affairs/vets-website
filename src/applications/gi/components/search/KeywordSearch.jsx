@@ -53,11 +53,8 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
-    // prod flag for story BAH-13928
-    if (
-      this.props.searchOnAutcompleteSelection &&
-      !environment.isProduction()
-    ) {
+
+    if (this.props.searchOnAutcompleteSelection) {
       this.props.onUpdateAutocompleteSearchTerm(searchQuery);
     } else {
       this.props.onFilterChange('name', searchQuery);
