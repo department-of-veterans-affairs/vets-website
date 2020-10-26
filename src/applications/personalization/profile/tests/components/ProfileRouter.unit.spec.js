@@ -6,10 +6,7 @@ import sinon from 'sinon';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 
-import {
-  Profile2 as ProfileRouter,
-  mapStateToProps,
-} from '../../components/ProfileRouter';
+import { ProfileRouter, mapStateToProps } from '../../components/ProfileRouter';
 
 describe('ProfileRouter', () => {
   let defaultProps;
