@@ -2,18 +2,22 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import { PrivacyPolicy } from 'applications/caregivers/components/PreSubmitInfo';
 
 import SignatureInput from './SignatureInput';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
-const SignatureCheckbox = ({
-  children,
-  fullName,
-  isRequired,
-  label,
-  setSignature,
-  showError,
-}) => {
+const SignatureCheckbox = props => {
+  const {
+    children,
+    fullName,
+    isRequired,
+    label,
+    setSignature,
+    showError,
+  } = props;
+
+  console.log('signature props: ', props);
+
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [hasError, setError] = useState(null);
