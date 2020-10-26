@@ -15,6 +15,7 @@ const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
+const nodeBasicLandingPage = require('./nodeBasicLandingPage.graphql');
 const nodeChecklist = require('./nodeChecklist.graphql');
 const nodeMediaListImages = require('./nodeMediaListImages.graphql');
 const nodeMediaListVideos = require('./nodeMediaListVideos.graphql');
@@ -60,6 +61,7 @@ module.exports = `
   ${nodeChecklist}
   ${nodeMediaListVideos}
   ${nodeSupportResourcesDetailPage}
+  ${nodeBasicLandingPage}
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -86,6 +88,7 @@ module.exports = `
         ... nodeChecklist
         ... nodeMediaListVideos
         ... nodeSupportResourcesDetailPage
+        ... nodeBasicLandingPage
       }
     }
     ${icsFileQuery}
