@@ -10,7 +10,7 @@ const GetFormHelp = () => (
     call VA Benefits and Services at{' '}
     <Telephone contact={CONTACTS.VA_BENEFITS} />.<br />
     If you have hearing loss, call TTY:{' '}
-    <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+    <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />.
   </p>
 );
 
