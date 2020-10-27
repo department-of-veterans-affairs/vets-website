@@ -10,10 +10,10 @@
   "reporter": "cypress-testrail-reporter",
   "reporterOptions": {
     "domain": "dsvavsp.testrail.io",
-    "username": "peter.hill+vspshared@oddball.io",
-    "password": "P/9sSa4c.Qqy59tV2lx9-8glP5dSdZeAewgXK9e2S",
-    "projectId": 28,
-    "suiteId": 80,
+    "username": "TR_USER",
+    "password": "TR_API_KEY",
+    "projectId": "TR_PROJECTID",
+    "suiteId": "TR_SUITEID",
     "runName": "Dashboard"
     }
 }
