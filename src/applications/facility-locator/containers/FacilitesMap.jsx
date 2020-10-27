@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
-import Helmet from 'react-helmet';
 import mapboxgl from 'mapbox-gl';
 // import 'mapbox-gl/dist/mapbox-gl.css'; webpack issue // TODO: uncomment when VSP fixes webpackissue
 import { mapboxToken } from '../utils/mapboxToken';
@@ -425,12 +424,6 @@ const FacilitiesMap = props => {
 
   return (
     <>
-      <Helmet>
-        <link
-          href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css"
-          rel="stylesheet"
-        />
-      </Helmet>
       <div>
         <div className="title-section">
           <h1>Find VA locations</h1>
