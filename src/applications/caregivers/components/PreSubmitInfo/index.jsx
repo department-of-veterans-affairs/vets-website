@@ -24,6 +24,13 @@ const PreSubmitCheckboxGroup = props => {
     [veteranLabel]: [],
   });
 
+  useEffect(
+    () => {
+      console.log('certifications: ', certifications);
+    },
+    [certifications],
+  );
+
   const [signatures, setSignatures] = useState({
     [veteranLabel]: false,
     [primaryLabel]: false,
@@ -32,13 +39,6 @@ const PreSubmitCheckboxGroup = props => {
   const unSignedLength = Object.values(signatures).filter(
     obj => Boolean(obj) === false,
   ).length;
-
-  useEffect(
-    () => {
-      console.log('certifications: ', certifications);
-    },
-    [certifications],
-  );
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false

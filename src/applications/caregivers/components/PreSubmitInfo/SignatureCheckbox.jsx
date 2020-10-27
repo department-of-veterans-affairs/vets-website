@@ -6,6 +6,25 @@ import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-rea
 import SignatureInput from './SignatureInput';
 import PrivacyPolicy from './components/PrivacyPolicy';
 
+const veteranContentCertifications = ['consent-to-caregivers-to-perform-care'];
+const primaryContentCertifications = [
+  'information-is-correct-and-true',
+  'at-least-18-years-of-age',
+  'member-of-veterans-family',
+  'agree-to-perform-services--as-primary',
+  'understand-revocable-status--as-primary',
+  'have-understanding-of-non-employment-relationship',
+];
+const secondaryContentCertifications = [
+  'information-is-correct-and-true',
+  'at-least-18-years-of-age',
+  'not-member-of-veterans-family',
+  'currently-or-will-reside-with-veteran--as-secondary',
+  'agree-to-perform-services--as-secondary',
+  'understand-revocable-status--as-secondary',
+  'have-understanding-of-non-employment-relationship',
+];
+
 const SignatureCheckbox = props => {
   const {
     children,
@@ -30,6 +49,7 @@ const SignatureCheckbox = props => {
   const isSignatureComplete = isSigned && isChecked;
   const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
 
+  // add/remove signatures from boolean values
   useEffect(
     () => {
       setSignature(prevState => {
@@ -40,6 +60,7 @@ const SignatureCheckbox = props => {
     [isSignatureComplete, label, setSignature],
   );
 
+  // add/remove error state
   useEffect(
     () => {
       setError(showError);
@@ -49,25 +70,19 @@ const SignatureCheckbox = props => {
     [showError, setIsChecked, isChecked],
   );
 
-  // onCheckboxChange add/remove default values
+  // onCheckboxChange add/remove information-is-correct-and-true
   useEffect(
     () => {
-      console.log('isChecked: ', isChecked);
       setCertifications(prevState => {
         return isChecked
           ? {
               ...prevState,
-              [label]: [
-                'information-is-correct-and-true',
-                'consent-to-caregivers-to-perform-care',
-              ],
+              [label]: ['information-is-correct-and-true'],
             }
           : {
               ...prevState,
               [label]: prevState[label]?.filter(
-                cert =>
-                  cert !== 'information-is-correct-and-true' &&
-                  cert !== 'consent-to-caregivers-to-perform-care',
+                cert => cert !== 'information-is-correct-and-true',
               ),
             };
       });
@@ -86,7 +101,7 @@ const SignatureCheckbox = props => {
         <>
           <ErrorableRadioButtons
             additionalFieldsetClass="vads-u-margin-top--0p5"
-            onValueChange={value => setCertification({ ...value })}
+            onValueChange={value => setCertification({ [label]: [...value] })}
             errorMessage={
               showError && 'You must certify this party before continuing'
             }
