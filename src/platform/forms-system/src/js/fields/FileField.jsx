@@ -284,10 +284,9 @@ class FileField extends React.Component {
         {files.length > 0 && (
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
-              const errors = [
-                ...(_.get([index, '__errors'], errorSchema) || []),
-                file.errorMessage,
-              ].filter(error => error);
+              const errors =
+                _.get([index, '__errors'], errorSchema) ||
+                [file.errorMessage].filter(error => error);
               const hasErrors = errors.length > 0;
               const itemClasses = classNames('va-growable-background', {
                 'schemaform-file-error usa-input-error':
