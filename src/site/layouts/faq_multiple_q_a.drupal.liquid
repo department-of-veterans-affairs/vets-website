@@ -54,7 +54,11 @@
 
             <!-- QAs -->
             {% for fieldQAGroup in fieldQAGroups %}
-              <h2>{{ fieldQAGroup.entity.fieldSectionHeader }}</h2>
+              <!-- Optional section header -->
+              {% if fieldQAGroup.entity.fieldSectionHeader %}
+                <h2>{{ fieldQAGroup.entity.fieldSectionHeader }}</h2>
+              {% endif %}
+
               <div class="usa-accordion-bordered">
                 <ul class="usa-unstyled-list">
                   {% for fieldQA in fieldQAGroup.entity.fieldQAs %}
