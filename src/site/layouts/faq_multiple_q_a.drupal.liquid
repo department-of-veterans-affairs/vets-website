@@ -59,7 +59,28 @@
                 <h2>{{ fieldQAGroup.entity.fieldSectionHeader }}</h2>
               {% endif %}
 
-              <div class="usa-accordion-bordered">
+              {% if fieldQAGroup.entity.fieldAccordionDisplay %}
+                <div class="usa-accordion-bordered">
+                  <ul class="usa-unstyled-list">
+                    {% for fieldQA in fieldQAGroup.entity.fieldQAs %}
+                      {% if fieldQA.entity %}
+                        <li data-faq-entity-id="{{ fieldQA.entity.entityId }}">
+                          <button type="button" aria-controls="{{ fieldQA.entity.entityBundle }}-{{ fieldQA.entity.entityId }}"
+                            class="usa-accordion-button usa-button-unstyled"
+                            aria-expanded="false">{{ fieldQA.entity.title }}</button>
+                          <div id="{{ fieldQA.entity.entityBundle }}-{{ fieldQA.entity.entityId }}" class="usa-accordion-content"
+                            aria-hidden="true">
+                            {% assign fieldAnswer = fieldQA.entity.fieldAnswer %}
+                            {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
+                            {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                            {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
+                          </div>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% else %}
                 <ul class="usa-unstyled-list">
                   {% for fieldQA in fieldQAGroup.entity.fieldQAs %}
                     {% if fieldQA.entity %}
@@ -78,7 +99,7 @@
                     {% endif %}
                   {% endfor %}
                 </ul>
-              </div>
+              {% endif %}
             {% endfor %}
 
             <!-- Repeated buttons -->
