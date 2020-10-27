@@ -13,8 +13,8 @@ import {
   selectFutureAppointments,
   selectExpressCare,
   selectFutureStatus,
+  selectIsCernerOnlyPatient,
 } from '../../utils/selectors';
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
