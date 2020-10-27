@@ -7,10 +7,10 @@ import { setupServer } from 'msw/node';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
 
-import * as mocks from '../../msw-mocks';
-import { renderWithProfileReducers } from '../unit-test-helpers';
+import * as mocks from 'applications/personalization/profile/msw-mocks';
+import { renderWithProfileReducers } from 'applications/personalization/profile/tests/unit-test-helpers';
 
-import DirectDepositContent from '../../components/direct-deposit/DirectDepositContent';
+import DirectDepositContent from 'applications/personalization/profile/components/direct-deposit/DirectDepositContent';
 
 const paymentAccount = {
   accountType: 'Checking',
