@@ -26,7 +26,12 @@ export function isValidFileType(file) {
 }
 
 export function isValidFile(file) {
-  return !!file && isValidFileSize(file) && isValidFileType(file);
+  return (
+    !!file &&
+    isValidFileSize(file) &&
+    !isEmptyFileSize(file) &&
+    isValidFileType(file)
+  );
 }
 
 export function isValidDocument({ file, docType }) {

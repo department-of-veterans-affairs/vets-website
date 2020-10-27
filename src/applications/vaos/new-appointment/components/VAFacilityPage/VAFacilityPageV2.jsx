@@ -162,7 +162,7 @@ function VAFacilityPageV2({
     );
   }
 
-  if (singleValidVALocation && !canScheduleAtChosenFacility) {
+  if (singleValidVALocation && !canScheduleAtChosenFacility && !!eligibility) {
     return (
       <div>
         {title}

@@ -199,9 +199,12 @@ export function getVARClinicId(appointment) {
  * @returns {String} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
+  const serviceResource = appointment.contained.find(
+    res => res.resourceType === 'HealthcareService',
+  );
   const locationReference =
-    appointment.contained?.[0]?.location?.reference ||
-    appointment.contained?.[0]?.providedBy?.reference;
+    serviceResource?.location?.reference ||
+    serviceResource?.providedBy?.reference;
 
   if (locationReference) {
     return locationReference.split('/')[1];

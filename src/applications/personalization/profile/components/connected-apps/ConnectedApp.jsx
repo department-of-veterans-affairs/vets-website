@@ -68,7 +68,7 @@ export class ConnectedApp extends Component {
           <AdditionalInfo triggerText={`Learn about ${title}`}>
             <p>
               <strong>{title}</strong>
-              &nbsp;can view your:
+              &nbsp;can access:
             </p>
             <ul>
               {grants && grants.map((a, idx) => <li key={idx}>{a.title}</li>)}
