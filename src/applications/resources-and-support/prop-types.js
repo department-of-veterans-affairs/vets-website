@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { ENTITY_BUNDLES } from './constants';
+import { ENTITY_BUNDLES } from 'site/constants/content-modeling';
 
 export const TaxonomyTerm = PropTypes.shape({
   entityUrl: PropTypes.shape({

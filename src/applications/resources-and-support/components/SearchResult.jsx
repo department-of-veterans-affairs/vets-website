@@ -1,7 +1,8 @@
 import React from 'react';
 
+import { ENTITY_BUNDLES } from 'site/constants/content-modeling';
+
 import { Article } from '../prop-types';
-import { ENTITY_BUNDLES } from '../constants';
 
 import Tag from './Tag';
 
