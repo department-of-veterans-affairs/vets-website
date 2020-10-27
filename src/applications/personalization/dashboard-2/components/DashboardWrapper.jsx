@@ -26,17 +26,12 @@ function DashboardWrapper({ showDashboard2, rootUrl }) {
       <LoadingIndicator message="Please wait while we load the application for you." />
     </div>
   );
-  let content;
-  if (showDashboard2) {
-    content = <DashboardV2 />;
-  } else {
-    content = <DashboardV1 rootUrl={rootUrl} />;
-  }
-  return (
-    <div>
-      <Suspense fallback={loader}>{content}</Suspense>
-    </div>
+  const content = showDashboard2 ? (
+    <DashboardV2 />
+  ) : (
+    <DashboardV1 rootUrl={rootUrl} />
   );
+  return <Suspense fallback={loader}>{content}</Suspense>;
 }
 
 const mapStateToProps = state => {
