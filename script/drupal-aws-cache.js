@@ -119,7 +119,10 @@ async function createCacheFile() {
 }
 
 if (options.fetch) {
-  fetchCache();
+  fetchCache().catch(error => {
+    console.error(`Error in fetchCache: ${error}`);
+    process.exit(1);
+  });
 } else {
   createCacheFile().catch(error => {
     console.error(`Error in createCacheFile: ${error}`);
