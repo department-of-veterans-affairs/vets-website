@@ -61,5 +61,5 @@ export default function SearchResult({ article }) {
 }
 
 SearchResult.propTypes = {
-  article: Article
+  article: Article,
 };
