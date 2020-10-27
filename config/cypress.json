@@ -11,8 +11,9 @@
   "reporterOptions": {
     "domain": "dsvavsp.testrail.io",
     "username": "peter.hill+vspshared@oddball.io",
-    "password": "wTne8owbEm0wHOBYGvV8-rrqfo5jIhKpM0C72yrsV",
+    "password": "P/9sSa4c.Qqy59tV2lx9-8glP5dSdZeAewgXK9e2S",
     "projectId": 28,
-    "suiteId": 80
+    "suiteId": 80,
+    "runName": "Dashboard"
     }
 }
