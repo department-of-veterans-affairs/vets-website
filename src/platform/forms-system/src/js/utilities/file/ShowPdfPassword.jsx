@@ -10,7 +10,7 @@ const ShowPdfPassword = ({ file, index, onSubmitPassword }) => {
 
   const showError = fieldObj.dirty && !fieldObj.value;
   return (
-    <>
+    <div className="vads-u-margin-bottom--2">
       <ErrorableTextInput
         label={'PDF password'}
         errorMessage={
@@ -40,8 +40,7 @@ const ShowPdfPassword = ({ file, index, onSubmitPassword }) => {
       >
         Add password
       </button>
-      <p />
-    </>
+    </div>
   );
 };
 
