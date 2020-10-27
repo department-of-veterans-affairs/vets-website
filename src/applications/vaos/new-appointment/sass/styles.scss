@@ -36,3 +36,14 @@
     margin-top: 0;
   }
 }
+
+.vaos-facilities-list__loading {
+  opacity: 0.1;
+}
+
+.vaos-facilities-list__loading-overlay {
+  z-index: 10000;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
