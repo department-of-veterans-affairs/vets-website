@@ -7,11 +7,11 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 
 import {
-  Profile2 as Profile2Router,
+  Profile as ProfileRouter,
   mapStateToProps,
-} from '../../components/Profile2Router';
+} from '../../components/ProfileRouter';
 
-describe('Profile2Router', () => {
+describe('ProfileRouter', () => {
   let defaultProps;
   let fetchFullNameSpy;
   let fetchMilitaryInfoSpy;
@@ -42,7 +42,7 @@ describe('Profile2Router', () => {
   });
 
   it('renders a RequiredLoginView component that requires the USER_PROFILE', () => {
-    const wrapper = shallow(<Profile2Router {...defaultProps} />);
+    const wrapper = shallow(<ProfileRouter {...defaultProps} />);
     expect(wrapper.type()).to.equal(RequiredLoginView);
     expect(wrapper.prop('serviceRequired')).to.equal(
       backendServices.USER_PROFILE,
@@ -52,7 +52,7 @@ describe('Profile2Router', () => {
 
   it('should render a spinner if it is loading data', () => {
     defaultProps.showLoader = true;
-    const wrapper = shallow(<Profile2Router {...defaultProps} />);
+    const wrapper = shallow(<ProfileRouter {...defaultProps} />);
     wrapper.setProps({ showLoader: true });
     const loader = wrapper.find('LoadingIndicator');
     expect(loader.length).to.equal(1);
@@ -61,32 +61,32 @@ describe('Profile2Router', () => {
 
   describe('when the component mounts', () => {
     it('should fetch the military information data', () => {
-      const wrapper = shallow(<Profile2Router {...defaultProps} />);
+      const wrapper = shallow(<ProfileRouter {...defaultProps} />);
       expect(fetchMilitaryInfoSpy.called).to.be.true;
       wrapper.unmount();
     });
 
     it('should fetch the full name data', () => {
-      const wrapper = shallow(<Profile2Router {...defaultProps} />);
+      const wrapper = shallow(<ProfileRouter {...defaultProps} />);
       expect(fetchFullNameSpy.called).to.be.true;
       wrapper.unmount();
     });
 
     it('should fetch the personal information data', () => {
-      const wrapper = shallow(<Profile2Router {...defaultProps} />);
+      const wrapper = shallow(<ProfileRouter {...defaultProps} />);
       expect(fetchPersonalInfoSpy.called).to.be.true;
       wrapper.unmount();
     });
 
     it('should fetch the My HealtheVet data', () => {
-      const wrapper = shallow(<Profile2Router {...defaultProps} />);
+      const wrapper = shallow(<ProfileRouter {...defaultProps} />);
       expect(fetchMHVAccountSpy.called).to.be.true;
       wrapper.unmount();
     });
 
     describe('when `shouldFetchDirectDepositInformation` is `true`', () => {
       it('should fetch the payment information data', () => {
-        const wrapper = shallow(<Profile2Router {...defaultProps} />);
+        const wrapper = shallow(<ProfileRouter {...defaultProps} />);
         expect(fetchPaymentInfoSpy.called).to.be.true;
         wrapper.unmount();
       });
@@ -95,7 +95,7 @@ describe('Profile2Router', () => {
     describe('when `shouldFetchDirectDepositInformation` is `false`', () => {
       it('should not fetch the payment information data', () => {
         defaultProps.shouldFetchDirectDepositInformation = false;
-        const wrapper = shallow(<Profile2Router {...defaultProps} />);
+        const wrapper = shallow(<ProfileRouter {...defaultProps} />);
         expect(fetchPaymentInfoSpy.called).to.be.false;
         wrapper.unmount();
       });
@@ -106,7 +106,7 @@ describe('Profile2Router', () => {
     describe('when `shouldFetchDirectDepositInformation` goes from `false` to `true', () => {
       it('should fetch the payment information data', () => {
         defaultProps.shouldFetchDirectDepositInformation = false;
-        const wrapper = shallow(<Profile2Router {...defaultProps} />);
+        const wrapper = shallow(<ProfileRouter {...defaultProps} />);
         expect(fetchPaymentInfoSpy.called).to.be.false;
         wrapper.setProps({ shouldFetchDirectDepositInformation: true });
         expect(fetchPaymentInfoSpy.called).to.be.true;
@@ -127,6 +127,9 @@ describe('mapStateToProps', () => {
     },
     veteranStatus: {
       servedInMilitary: true,
+    },
+    loa: {
+      current: 3,
     },
   });
   const makeDefaultVaProfileState = () => ({
@@ -196,6 +199,9 @@ describe('mapStateToProps', () => {
   const makeDefaultState = () => ({
     user: {
       profile: makeDefaultProfileState(),
+      login: {
+        currentlyLoggedIn: true,
+      },
     },
     vaProfile: makeDefaultVaProfileState(),
   });
@@ -206,6 +212,8 @@ describe('mapStateToProps', () => {
     const expectedKeys = [
       'user',
       'showLoader',
+      'isInMVI',
+      'isLOA3',
       'shouldFetchDirectDepositInformation',
       'shouldShowDirectDeposit',
       'isDowntimeWarningDismissed',
@@ -427,6 +435,26 @@ describe('mapStateToProps', () => {
         };
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.true;
+      });
+    });
+
+    describe('when the user is not LOA1 or LOA3 and is logged in', () => {
+      it('is `true`', () => {
+        const state = makeDefaultState();
+        state.user.login.currentlyLoggedIn = true;
+        state.user.profile.loa.current = undefined;
+        const props = mapStateToProps(state);
+        expect(props.showLoader).to.be.true;
+      });
+    });
+
+    describe('when the user is LOA3 and is logged in', () => {
+      it('is `false`', () => {
+        const state = makeDefaultState();
+        state.user.login.currentlyLoggedIn = true;
+        state.user.profile.loa.current = 3;
+        const props = mapStateToProps(state);
+        expect(props.showLoader).to.be.false;
       });
     });
   });

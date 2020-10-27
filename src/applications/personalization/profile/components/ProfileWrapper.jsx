@@ -35,7 +35,7 @@ const NotAllDataAvailableError = () => (
   </div>
 );
 
-const Profile2Wrapper = ({
+const ProfileWrapper = ({
   children,
   routes,
   isLOA3,
@@ -122,7 +122,7 @@ const mapStateToProps = state => {
   };
 };
 
-Profile2Wrapper.propTypes = {
+ProfileWrapper.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object,
   hero: PropTypes.object,
@@ -138,4 +138,4 @@ Profile2Wrapper.propTypes = {
   showNotAllDataAvailableError: PropTypes.bool.isRequired,
 };
 
-export default connect(mapStateToProps)(Profile2Wrapper);
+export default connect(mapStateToProps)(ProfileWrapper);

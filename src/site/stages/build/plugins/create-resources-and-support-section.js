@@ -1,4 +1,7 @@
+/* eslint-disable no-param-reassign */
+
 const _ = require('lodash');
+const liquid = require('tinyliquid');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const { logDrupal } = require('../drupal/utilities-drupal');
@@ -43,11 +46,17 @@ function groupByTags(allArticles) {
   for (const article of allTaggedArticles) {
     const {
       fieldTags: {
-        entity: { fieldTopics },
+        entity: { fieldTopics, fieldAudienceBeneficiares },
       },
     } = article;
 
-    fieldTopics.map(fieldTopic => fieldTopic.entity).forEach(fieldTopic => {
+    const terms = [...fieldTopics];
+
+    if (fieldAudienceBeneficiares) {
+      terms.push(fieldAudienceBeneficiares);
+    }
+
+    terms.map(fieldTopic => fieldTopic.entity).forEach(fieldTopic => {
       const articleListing = articleListingsByTag[fieldTopic.name];
 
       if (!articleListing) {
@@ -209,68 +218,113 @@ function createPaginatedArticleListings({
   );
 }
 
+function createArticleListingsPages(files) {
+  const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
+
+  if (allArticles.length === 0) {
+    logDrupal(
+      'No articles found for the Resources and Support section of the website.',
+    );
+    return;
+  }
+
+  const articlesByTag = groupByTags(allArticles);
+  const articlesByCategory = groupByCategory(allArticles);
+
+  const articleListingsByCategoryFiles = createPaginatedArticleListings({
+    articlesByGroupName: articlesByCategory,
+
+    getTitle(categoryName) {
+      return `All articles in: ${categoryName}`;
+    },
+
+    getPaginationSummary({
+      pageStart,
+      pageEnd,
+      totalArticles,
+      groupName: categoryName,
+    }) {
+      return `Showing ${pageStart} - ${pageEnd} of ${totalArticles} articles in "<strong>${categoryName}</strong>"`;
+    },
+  });
+
+  const articleListingsByTagFiles = createPaginatedArticleListings({
+    articlesByGroupName: articlesByTag,
+
+    getTitle(tag) {
+      return `All articles tagged: ${tag}`;
+    },
+
+    getPaginationSummary({
+      pageStart,
+      pageEnd,
+      totalArticles,
+      groupName: tag,
+    }) {
+      return `Showing ${pageStart} - ${pageEnd} of ${totalArticles} articles tagged "<strong>${tag}</strong>"`;
+    },
+  });
+
+  [...articleListingsByCategoryFiles, ...articleListingsByTagFiles].forEach(
+    page => {
+      const path = `${page.path}index.html`;
+      logDrupal(`Generating Resources and Support article listing at: ${path}`);
+      files[path] = page;
+    },
+  );
+}
+
+function createArticleResultSnippet(text) {
+  const sanitized = liquid.filters.strip_html(text);
+  const truncated = liquid.filters.truncate(sanitized, 200);
+
+  if (sanitized !== truncated) {
+    return `${truncated}...`;
+  }
+
+  return truncated;
+}
+
+function createSearchResults(files) {
+  const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
+  const articleSearchData = allArticles.map(article => {
+    let limitedDescription = null;
+
+    if (article.entityBundle === 'q_a') {
+      const answer = article.fieldAnswer.entity.fieldWysiwyg.processed;
+      limitedDescription = createArticleResultSnippet(answer);
+    } else {
+      limitedDescription = createArticleResultSnippet(
+        article.fieldIntroTextLimitedHtml.processed,
+      );
+    }
+
+    return {
+      entityBundle: article.entityBundle,
+      entityUrl: {
+        path: article.entityUrl.path,
+      },
+      title: article.title,
+      description: limitedDescription,
+      fieldPrimaryCategory: article.fieldPrimaryCategory,
+      fieldOtherCategories: article.fieldOtherCategories,
+      fieldTags: article.fieldTags,
+    };
+  });
+
+  files['resources/search/articles.json'] = {
+    contents: Buffer.from(JSON.stringify(articleSearchData)),
+  };
+}
+
 function createResourcesAndSupportWebsiteSection(buildOptions) {
   if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
     return () => {};
   }
 
   return files => {
-    const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
-
-    if (allArticles.length === 0) {
-      logDrupal(
-        'No articles found for the Resources and Support section of the website.',
-      );
-      return;
-    }
-
-    const articlesByTag = groupByTags(allArticles);
-    const articlesByCategory = groupByCategory(allArticles);
-
-    const articleListingsByCategoryFiles = createPaginatedArticleListings({
-      articlesByGroupName: articlesByCategory,
-
-      getTitle(categoryName) {
-        return `All articles in: ${categoryName}`;
-      },
-
-      getPaginationSummary({
-        pageStart,
-        pageEnd,
-        totalArticles,
-        groupName: categoryName,
-      }) {
-        return `Showing ${pageStart} - ${pageEnd} of ${totalArticles} articles in "<strong>${categoryName}</strong>"`;
-      },
-    });
-
-    const articleListingsByTagFiles = createPaginatedArticleListings({
-      articlesByGroupName: articlesByTag,
-
-      getTitle(tag) {
-        return `All articles tagged: ${tag}`;
-      },
-
-      getPaginationSummary({
-        pageStart,
-        pageEnd,
-        totalArticles,
-        groupName: tag,
-      }) {
-        return `Showing ${pageStart} - ${pageEnd} of ${totalArticles} articles tagged "<strong>${tag}</strong>"`;
-      },
-    });
-
-    [...articleListingsByCategoryFiles, ...articleListingsByTagFiles].forEach(
-      page => {
-        const path = `${page.path}index.html`;
-        logDrupal(
-          `Generating Resources and Support article listing at: ${path}`,
-        );
-        // eslint-disable-next-line no-param-reassign
-        files[path] = page;
-      },
-    );
+    createArticleListingsPages(files);
+    createSearchResults(files);
   };
 }
 
