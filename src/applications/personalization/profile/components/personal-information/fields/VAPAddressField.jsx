@@ -13,11 +13,14 @@ import {
 
 import VAPProfileField from 'vet360/containers/VAPProfileField';
 
-import AddressEditView from './AddressEditView';
-import AddressValidationView from '../../containers/AddressValidationView';
-import AddressView from './AddressView';
+import AddressEditView from 'platform/user/profile/vet360/components/AddressField/AddressEditView';
+import AddressValidationView from 'platform/user/profile/vet360/containers/AddressValidationView';
+import AddressView from 'platform/user/profile/vet360/components/AddressField/AddressView';
 
-import { getFormSchema, getUiSchema } from './address-schemas';
+import {
+  getFormSchema,
+  getUiSchema,
+} from 'platform/user/profile/vet360/components/AddressField/address-schemas';
 
 const inferAddressType = (countryCodeIso3, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;

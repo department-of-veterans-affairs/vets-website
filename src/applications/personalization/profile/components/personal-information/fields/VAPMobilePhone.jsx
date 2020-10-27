@@ -1,5 +1,5 @@
 import React from 'react';
-import PhoneField from 'platform/user/profile/vet360/components/PhoneField/VAPPhoneField';
+import PhoneField from './VAPPhoneField';
 import {
   FIELD_NAMES,
   FIELD_TITLES,

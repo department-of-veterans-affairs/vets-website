@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AddressField from 'platform/user/profile/vet360/components/AddressField/VAPAddressField';
+import AddressField from './VAPAddressField';
 
 import {
   FIELD_NAMES,

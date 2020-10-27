@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EmailField from 'platform/user/profile/vet360/components/EmailField/VAPEmailField';
+import EmailField from './VAPEmailField';
 
 import {
   FIELD_NAMES,
