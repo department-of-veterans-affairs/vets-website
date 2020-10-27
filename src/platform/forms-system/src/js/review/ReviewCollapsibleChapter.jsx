@@ -146,21 +146,19 @@ export default class ReviewCollapsibleChapter extends React.Component {
             });
             const title = page.reviewTitle || page.title || '';
 
-            const hasVisibleFields =
+            const noVisibleFields =
               pageSchema &&
-              Object.entries(pageSchema.properties)
-                .map(entry => entry[0])
-                .filter(propName =>
-                  showReviewField(
-                    propName,
-                    pageSchema,
-                    pageUiSchema,
-                    form.data,
-                    formContext,
-                  ),
-                ).length > 0;
+              !Object.entries(pageSchema.properties).filter(([propName]) =>
+                showReviewField(
+                  propName,
+                  pageSchema,
+                  pageUiSchema,
+                  form.data,
+                  formContext,
+                ),
+              ).length > 0;
 
-            if (pageSchema && !hasVisibleFields) {
+            if (noVisibleFields) {
               return null;
             }
 
