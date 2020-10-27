@@ -229,19 +229,6 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         },
       });
     },
-
-    getSideNavMenus() {
-      return this.proxyFetch(`${this.getSiteUri()}/graphql/`, {
-        headers: {
-          Authorization: `Basic ${encodedCredentials}`,
-          'Content-Type': 'application/json',
-        },
-        method: 'post',
-        body: JSON.stringify({
-          query: `{ sideNavMenus }`,
-        }),
-      });
-    },
   };
 }
 

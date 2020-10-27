@@ -10,7 +10,7 @@ const options = [
 const yesActiveDutySeparation = ({ setPageState, state = {} }) => (
   <ErrorableRadioButtons
     name={`${veteranPathPageNames.yesActiveDutySeparation}-option`}
-    label={<p>Are you interested in readiness & employment help?</p>}
+    label={<p>Are you interested in Veteran Readiness & Employment help?</p>}
     id={`${veteranPathPageNames.yesActiveDutySeparation}-option`}
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}
