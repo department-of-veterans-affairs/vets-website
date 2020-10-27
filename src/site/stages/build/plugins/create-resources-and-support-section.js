@@ -46,11 +46,17 @@ function groupByTags(allArticles) {
   for (const article of allTaggedArticles) {
     const {
       fieldTags: {
-        entity: { fieldTopics },
+        entity: { fieldTopics, fieldAudienceBeneficiares },
       },
     } = article;
 
-    fieldTopics.map(fieldTopic => fieldTopic.entity).forEach(fieldTopic => {
+    const terms = [...fieldTopics];
+
+    if (fieldAudienceBeneficiares) {
+      terms.push(fieldAudienceBeneficiares);
+    }
+
+    terms.map(fieldTopic => fieldTopic.entity).forEach(fieldTopic => {
       const articleListing = articleListingsByTag[fieldTopic.name];
 
       if (!articleListing) {

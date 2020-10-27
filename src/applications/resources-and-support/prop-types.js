@@ -26,6 +26,9 @@ export const Article = PropTypes.shape({
   ),
   fieldTags: PropTypes.shape({
     entity: PropTypes.shape({
+      fieldAudienceBeneficiares: PropTypes.shape({
+        entity: TaxonomyTerm,
+      }),
       fieldTopics: PropTypes.arrayOf(
         PropTypes.shape({
           entity: TaxonomyTerm,
