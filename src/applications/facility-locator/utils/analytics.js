@@ -124,3 +124,26 @@ export const recordZoomEvent = (lastZoom, currentZoom) => {
     recordEvent({ event: 'fl-map-zoom-out' });
   }
 };
+
+/**
+ * Helper fn to record map panning
+ */
+export const recordPanEvent = (mapCenter, searchCoords) => {
+  if (searchCoords && searchCoords.lat && searchCoords.lng) {
+    const distanceMoved = distBetween(
+      searchCoords.lat,
+      searchCoords.lng,
+      mapCenter.lat,
+      mapCenter.lng,
+    );
+    if (distanceMoved > 0) {
+      recordEvent({
+        event: 'fl-search',
+        'fl-map-miles-moved': distanceMoved,
+      });
+      recordEvent({
+        'fl-map-miles-moved': undefined,
+      });
+    }
+  }
+};

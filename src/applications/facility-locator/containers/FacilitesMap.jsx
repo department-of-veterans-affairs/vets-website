@@ -28,7 +28,7 @@ import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SearchResult from '../components/SearchResult';
-import { recordZoomEvent } from '../utils/analytics';
+import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 
 let currentZoom = 3;
@@ -245,8 +245,6 @@ const FacilitiesMap = props => {
       mapInit.resize();
     });
 
-    mapInit.on('dragend', () => {});
-
     mapInit.on('zoomend', () => {
       const zoomNotFromSearch =
         document.activeElement.id !== 'search-results-title';
@@ -277,6 +275,10 @@ const FacilitiesMap = props => {
    * For example coming back from a detail page
    */
   if (props.results.length > 0 && map) {
+    // Set dragend to track map-moved ga event
+    map.on('dragend', () => {
+      recordPanEvent(map.getCenter(), props.currentQuery.searchCoords);
+    });
     renderMarkers(props.results);
   }
 
