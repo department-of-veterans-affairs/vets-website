@@ -48,7 +48,7 @@ describe('<SchoolLocations>', () => {
 
     const facilityTable = wrapper.find(ResponsiveTable);
     expect(facilityTable).to.have.lengthOf(1);
-    ['School Name', 'Location', 'Estimated housing'].forEach(column => {
+    ['School name', 'Location', 'Estimated housing'].forEach(column => {
       expect(facilityTable.props().columns).include(column);
     });
     expect(facilityTable.props().tableClass).to.eq('school-locations');

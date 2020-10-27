@@ -21,6 +21,10 @@ import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
   selectProfile,
+  isLOA1 as isLOA1Selector,
+  isLOA3 as isLOA3Selector,
+  isInMPI as isInMVISelector,
+  isLoggedIn,
 } from 'platform/user/selectors';
 import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
 import {
@@ -37,9 +41,9 @@ import { fetchPaymentInformation as fetchPaymentInformationAction } from 'applic
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
-import Profile2Wrapper from './Profile2Wrapper';
+import ProfileWrapper from './ProfileWrapper';
 
-class Profile2Router extends Component {
+class ProfileRouter extends Component {
   componentDidMount() {
     const {
       fetchFullName,
@@ -115,7 +119,7 @@ class Profile2Router extends Component {
     return (
       <BrowserRouter>
         <LastLocationProvider>
-          <Profile2Wrapper
+          <ProfileWrapper
             routes={routes}
             isLOA3={this.props.isLOA3}
             isInMVI={this.props.isInMVI}
@@ -163,7 +167,7 @@ class Profile2Router extends Component {
                 <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
               </Route>
             </Switch>
-          </Profile2Wrapper>
+          </ProfileWrapper>
         </LastLocationProvider>
       </BrowserRouter>
     );
@@ -200,9 +204,11 @@ class Profile2Router extends Component {
   }
 }
 
-Profile2Router.propTypes = {
+ProfileRouter.propTypes = {
   user: PropTypes.object.isRequired,
   showLoader: PropTypes.bool.isRequired,
+  isInMVI: PropTypes.bool.isRequired,
+  isLOA3: PropTypes.bool.isRequired,
   shouldFetchDirectDepositInformation: PropTypes.bool.isRequired,
   shouldShowDirectDeposit: PropTypes.bool.isRequired,
   fetchFullName: PropTypes.func.isRequired,
@@ -222,6 +228,9 @@ const mapStateToProps = state => {
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
   const shouldFetchDirectDepositInformation = isEvssAvailable && is2faEnabled;
+  const currentlyLoggedIn = isLoggedIn(state);
+  const isLOA1 = isLOA1Selector(state);
+  const isLOA3 = isLOA3Selector(state);
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -252,9 +261,14 @@ const mapStateToProps = state => {
     hasLoadedMilitaryInformation &&
     (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
 
+  const showLoader =
+    !hasLoadedAllData || (!isLOA3 && !isLOA1 && currentlyLoggedIn);
+
   return {
     user: state.user,
-    showLoader: !hasLoadedAllData,
+    showLoader,
+    isInMVI: isInMVISelector(state),
+    isLOA3,
     shouldFetchDirectDepositInformation,
     shouldShowDirectDeposit:
       shouldFetchDirectDepositInformation &&
@@ -276,9 +290,9 @@ const mapDispatchToProps = {
   dismissDowntimeWarning,
 };
 
-export { Profile2Router as Profile2, mapStateToProps };
+export { ProfileRouter as Profile, mapStateToProps };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Profile2Router);
+)(ProfileRouter);

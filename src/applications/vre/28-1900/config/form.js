@@ -8,6 +8,7 @@ import { additionalInformation } from './chapters/additional-information';
 import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
 import StaticInformationReviewField from '../containers/StaticInformationReviewField';
+import GetFormHelp from 'applications/vre/components/GetFormHelp';
 
 import manifest from '../manifest.json';
 
@@ -30,6 +31,7 @@ const formConfig = {
     },
   },
   version: 0,
+  getHelp: GetFormHelp,
   prefillEnabled: true,
   // TODO: Currently if a user is logged in, veteran information does NOT get sent to the backend with the payload. We can either add it in
   // transformForSubmit, OR add it once the payload reaches vets-api.
