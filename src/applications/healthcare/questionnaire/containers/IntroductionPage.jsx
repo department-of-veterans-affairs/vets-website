@@ -21,7 +21,9 @@ const IntroductionPage = props => {
   const facilityName = appointment?.vdsAppointments
     ? appointment?.vdsAppointments[0]?.clinic?.facility?.displayName
     : '';
+
   const { isLoggedIn, route, savedForms, formId } = props;
+
   const goToFirstPage = () => {
     const firstPage = route.pageList[1];
     props.router.push(firstPage.path);
