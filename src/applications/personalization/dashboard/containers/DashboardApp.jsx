@@ -150,7 +150,7 @@ const ManageBenefitsOrRequestRecords = () => (
   </>
 );
 
-const ViewYourProfile2 = () => (
+const ViewYourProfile = () => (
   <>
     <h2>View your profile</h2>
     <p>
@@ -331,7 +331,7 @@ class DashboardApp extends React.Component {
         {showManageYourVAHealthCare && <ManageYourVAHealthCare />}
         <ManageBenefitsOrRequestRecords />
 
-        <ViewYourProfile2 />
+        <ViewYourProfile />
       </>
     );
 

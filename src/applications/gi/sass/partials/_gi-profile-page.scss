@@ -414,6 +414,17 @@
       }
     }
 
+    .responsive-table-row-separator {
+      display: none;
+    }
+
+    .extension-row {
+      padding-left: 16px;
+      .extension-cell-label {
+        padding-left: 0.5em;
+      }
+    }
+
     .estimated-housing-cell {
       .estimated-housing-cell-title {
         display: none;
