@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import sortBy from 'lodash/sortBy';
 import URLSearchParams from 'url-search-params';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -7,6 +6,7 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { focusElement } from 'platform/utilities/ui';
 
 import useArticleData from '../hooks/useArticleData';
+import useGetSearchResults from '../hooks/useGetSearchResults';
 
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
@@ -14,42 +14,13 @@ import SearchResultList from './SearchResultList';
 const RESULTS_PER_PAGE = 10;
 
 export default function ResourcesAndSupportSearchApp() {
-  // const [articles, setArticles] = useState(null);
   const [articles, errorMessage] = useArticleData();
   const [userInput, setUserInput] = useState('');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-  const [results, setResults] = useState([]);
-  // const [errorMessage, setErrorMessage] = useState(null);
+  const [results] = useGetSearchResults(articles, query, page);
 
   const totalPages = Math.ceil(results.length / RESULTS_PER_PAGE);
-
-  // Load up the article data file
-  // useEffect(
-  //   () => {
-  //     const getJson = async () => {
-  //       try {
-  //         const response = await fetch('/resources/search/articles.json');
-  //         const json = await response.json();
-
-  //         setArticles(json);
-  //       } catch (error) {
-  //         Sentry.withScope(scope => {
-  //           scope.setExtra('error', error);
-  //           Sentry.captureMessage(
-  //             'Resources and support - failed to load dataset',
-  //           );
-  //         });
-  //         setErrorMessage(
-  //           'We’re sorry. Something went wrong on our end. Please try again later.',
-  //         );
-  //       }
-  //     };
-
-  //     getJson();
-  //   },
-  //   [setArticles, setErrorMessage],
-  // );
 
   // Initialize the query via the URL params
   useEffect(
@@ -66,46 +37,6 @@ export default function ResourcesAndSupportSearchApp() {
       }
     },
     [articles, setUserInput, setQuery],
-  );
-
-  // Refresh the results list when the query is submitted or the page is changed.
-  useEffect(
-    () => {
-      if (!articles || !query) {
-        return;
-      }
-
-      const keywords = query
-        .split(' ')
-        .map(keyword => keyword.toLowerCase())
-        .map(keyword => {
-          if (keyword.length > 3 && keyword.endsWith('s')) {
-            // Unpluralize the word, so that a search for "claims"
-            // will still yield articles titled "claim or appeal status"
-            return keyword.slice(0, keyword.length - 1);
-          }
-          return keyword;
-        });
-
-      const filteredArticles = articles.filter(article => {
-        const tags = article.fieldTags?.entity?.fieldTopics
-          ?.map(topic => topic.entity.name)
-          .join();
-
-        return keywords.some(k => {
-          return (
-            article.title.toLowerCase().includes(k) ||
-            article.fieldPrimaryCategory?.entity?.name?.includes(k) ||
-            tags?.includes(k)
-          );
-        });
-      });
-
-      const orderedResults = sortBy(filteredArticles, 'title');
-
-      setResults(orderedResults);
-    },
-    [articles, setResults, query, page],
   );
 
   const onSearch = useCallback(
