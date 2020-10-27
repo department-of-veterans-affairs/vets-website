@@ -470,6 +470,7 @@ describe('VAOS reducer: newAppointment', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId: '323',
+        facilityId: 'var983',
         eligibilityData: {
           clinics: [],
           directPastVisit: {},
@@ -500,6 +501,7 @@ describe('VAOS reducer: newAppointment', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId: '323',
+        facilityId: 'var983',
         eligibilityData: {
           clinics: { directFailed: true },
           directPastVisit: {},

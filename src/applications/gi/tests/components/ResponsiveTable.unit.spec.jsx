@@ -115,17 +115,23 @@ describe('<ResponsiveTable>', () => {
 
     const column1 = wrapper.find(`.${createId(column1Header)}-cell`).first();
     expect(column1).to.have.lengthOf(1);
-    expect(column1.matchesElement(<th>{row1Data[column1Header]}</th>)).to.equal(
-      true,
-    );
-
     expect(column1.html()).to.contain(row1Data[column1Header]);
     expect(column1.props().scope).to.equal('row');
-    expect(column1.props().role).to.equal('cell');
+    expect(column1.props().role).to.equal('rowheader');
     expect(column1.props().tabIndex).to.equal('-1');
     expect(column1.key()).to.equal(
       `${row1Data.key}-${createId(column1Header)}`,
     );
+
+    const dfn = column1.find('dfn');
+    expect(dfn.matchesElement(<dfn>{`${column1Header}: `}</dfn>)).to.equal(
+      true,
+    );
+
+    const span = column1.find('span');
+    expect(
+      span.matchesElement(<span>{row1Data[column1Header]}</span>),
+    ).to.equal(true);
 
     wrapper.unmount();
   });
@@ -151,9 +157,6 @@ describe('<ResponsiveTable>', () => {
 
     const column2 = wrapper.find(`.${createId(column2Header)}-cell`).first();
     expect(column2).to.have.lengthOf(1);
-    expect(column2.matchesElement(<td>{row1Data[column2Header]}</td>)).to.equal(
-      true,
-    );
 
     expect(column2.html()).to.contain(row1Data[column2Header]);
     expect(column2.props().scope).to.be.undefined;
@@ -162,6 +165,16 @@ describe('<ResponsiveTable>', () => {
     expect(column2.key()).to.equal(
       `${row1Data.key}-${createId(column2Header)}`,
     );
+
+    const dfn = column2.find('dfn');
+    expect(dfn.matchesElement(<dfn>{`${column2Header}: `}</dfn>)).to.equal(
+      true,
+    );
+
+    const span = column2.find('span');
+    expect(
+      span.matchesElement(<span>{row1Data[column2Header]}</span>),
+    ).to.equal(true);
 
     wrapper.unmount();
   });

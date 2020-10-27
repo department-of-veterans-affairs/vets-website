@@ -34,7 +34,7 @@ import ESRError, { ESR_ERROR_TYPES } from '../components/ESRError';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PreferencesWidget from 'applications/personalization/preferences/containers/PreferencesWidget';
 
-import profileManifest from 'applications/personalization/profile360/manifest.json';
+import profileManifest from 'applications/personalization/profile/manifest.json';
 import lettersManifest from 'applications/letters/manifest.json';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
@@ -150,7 +150,7 @@ const ManageBenefitsOrRequestRecords = () => (
   </>
 );
 
-const ViewYourProfile2 = () => (
+const ViewYourProfile = () => (
   <>
     <h2>View your profile</h2>
     <p>
@@ -331,7 +331,7 @@ class DashboardApp extends React.Component {
         {showManageYourVAHealthCare && <ManageYourVAHealthCare />}
         <ManageBenefitsOrRequestRecords />
 
-        <ViewYourProfile2 />
+        <ViewYourProfile />
       </>
     );
 
