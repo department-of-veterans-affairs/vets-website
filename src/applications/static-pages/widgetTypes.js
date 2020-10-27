@@ -25,4 +25,5 @@ export default {
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
   CHAPTER_31_WIZARD: 'chapter-31-Wizard',
   CHAPTER_36_CTA: 'chapter-36-cta',
+  CHAPTER_31_CTA: 'chapter-31-cta',
 };

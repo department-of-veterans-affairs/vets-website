@@ -54,6 +54,7 @@ import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
 import createChapter31Wizard from '../vre/28-1900/wizard/app';
 import createChapter36CTA from './vre-chapter36/createChapter36CTA';
+import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 
 // School resources widgets
@@ -178,6 +179,7 @@ createViewTestAndLabResultsPage(
 
 createChapter31Wizard(store, widgetTypes.CHAPTER_31_WIZARD);
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
+createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 
 // homepage widgets
 if (location.pathname === '/') {
