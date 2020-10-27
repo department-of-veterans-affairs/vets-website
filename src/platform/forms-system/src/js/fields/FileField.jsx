@@ -116,6 +116,8 @@ class FileField extends React.Component {
     if (event.target.files && event.target.files.length) {
       const currentFile = event.target.files[0];
       const files = this.props.formData || [];
+      const { requestLockedPdfPassword, uiSchema } = this.props;
+      const { getEncryptedPassword } = uiSchema['ui:options'] || {};
 
       let idx = index;
       if (idx === null) {
@@ -124,7 +126,8 @@ class FileField extends React.Component {
 
       // Check if the file is an encrypted PDF
       if (
-        this.props.requestLockedPdfPassword && // feature flag
+        requestLockedPdfPassword && // feature flag
+        getEncryptedPassword && // uiSchema flag
         currentFile.name?.endsWith('pdf') &&
         !password
       ) {
