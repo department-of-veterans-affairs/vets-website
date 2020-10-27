@@ -16,7 +16,7 @@ export default function LoadingOverlay({ show, message }) {
   if (show) {
     return (
       <div className="vaos__loading-overlay">
-        <div className="vaos__loading-overlay-inner ">
+        <div className="vaos__loading-overlay-inner">
           <LoadingIndicator message={message} />
         </div>
       </div>
