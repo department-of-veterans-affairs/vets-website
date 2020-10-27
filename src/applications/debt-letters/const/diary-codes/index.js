@@ -320,9 +320,11 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
             <p>
               <strong>Next step: </strong>
               Please pay the full amount online or by phone now. If we don't
-              receive your payment by <strong>[date/time]</strong>, we're
-              required by law to refer your debt to the U.S. Department of the
-              Treasury. After we do that, we can't help you manage your debt.
+              receive your payment by{' '}
+              <strong>{dateOfLetter && endDate(dateOfLetter, 30)}</strong>,
+              we're required by law to refer your debt to the U.S. Department of
+              the Treasury. After we do that, we can't help you manage your
+              debt.
             </p>
             <p>
               <a href="https://www.pay.va.gov/">Pay online now</a> Or{' '}
