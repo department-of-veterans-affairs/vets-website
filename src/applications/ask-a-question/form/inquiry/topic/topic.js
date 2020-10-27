@@ -1,8 +1,16 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
+import { states } from 'vets-json-schema/dist/constants.json';
 
 import fullSchema from '../../0873-schema.json';
-import { topicTitle } from '../../../constants/labels';
+import {
+  topicTitle,
+  topicLevelOneTitle,
+  topicLevelTwoTitle,
+  topicLevelThreeTitle,
+  vaMedicalCenterTitle,
+  routeToStateTitle,
+} from '../../../constants/labels';
 import {
   vaMedicalCentersLabels,
   vaMedicalCentersValues,
@@ -16,6 +24,7 @@ const formFields = {
   levelTwo: 'levelTwo',
   levelThree: 'levelThree',
   vaMedicalCenter: 'vaMedicalCenter',
+  routeToState: 'routeToState',
 };
 
 const getChildSchemaFromParentTopic = (
@@ -61,6 +70,9 @@ const levelOneTopicLabels = topicSchemaCopy.anyOf.map(topicSchema => {
 // These are levelTwo topics that have level three subtopics and their respective levelOne parents
 const levelTwoWithLevelThreeTopics = {
   'Burial & Memorial Benefits (NCA)': ['Burial Benefits'],
+  'Homeloan Guaranty/All VA Mortgage Issues': [
+    'Home Loan/Mortgage Webaccess & Tech prob',
+  ],
   'Health & Medical Issues & Services': [
     'Health/Medical Eligibility & Programs',
     'Prosthetics, Med Devices & Sensory Aids',
@@ -105,6 +117,10 @@ export const medicalCenterRequiredTopics = new Set([
   'Prosthetics, Med Devices & Sensory Aids',
 ]);
 
+const routeToStateRequiredTopics = new Set([
+  'Home Loan/Mortgage Guaranty Issues',
+]);
+
 export function schema(currentSchema, topicProperty = 'topic') {
   const topicSchema = currentSchema.properties[topicProperty];
   return {
@@ -117,22 +133,25 @@ export function schema(currentSchema, topicProperty = 'topic') {
           'Burial & Memorial Benefits (NCA)',
           'Caregiver Support Program',
           'Health & Medical Issues & Services',
+          'Homeloan Guaranty/All VA Mortgage Issues',
           'VA Ctr for Women Vets, Policies & Progs',
         ],
       },
       levelTwo: {
-        title: topicTitle,
         type: 'string',
       },
       levelThree: {
-        title: topicTitle,
         type: 'string',
       },
       vaMedicalCenter: {
-        title: 'Medical Center List',
         type: 'string',
         enum: vaMedicalCentersValues,
         enumNames: vaMedicalCentersLabels,
+      },
+      routeToState: {
+        type: 'string',
+        enum: states.USA.map(state => state.value),
+        enumNames: states.USA.map(state => state.label),
       },
     }),
   };
@@ -211,15 +230,21 @@ export function uiSchema() {
         });
       },
     },
-    'ui:order': ['levelOne', 'levelTwo', 'levelThree', 'vaMedicalCenter'],
+    'ui:order': [
+      'levelOne',
+      'levelTwo',
+      'levelThree',
+      'vaMedicalCenter',
+      'routeToState',
+    ],
     [formFields.levelOne]: {
-      'ui:title': topicTitle,
+      'ui:title': topicLevelOneTitle,
     },
     [formFields.levelTwo]: {
-      'ui:title': topicTitle,
+      'ui:title': topicLevelTwoTitle,
     },
     [formFields.levelThree]: {
-      'ui:title': topicTitle,
+      'ui:title': topicLevelThreeTitle,
       'ui:required': formData => {
         return !!levelThreeRequiredTopics.has(formData.topic.levelTwo);
       },
@@ -231,7 +256,7 @@ export function uiSchema() {
       },
     },
     [formFields.vaMedicalCenter]: {
-      'ui:title': 'Medical Center List',
+      'ui:title': vaMedicalCenterTitle,
       'ui:required': formData => {
         return !!medicalCenterRequiredTopics.has(formData.topic.levelTwo);
       },
@@ -239,6 +264,18 @@ export function uiSchema() {
         expandUnder: 'levelTwo',
         expandUnderCondition: levelTwo => {
           return !!medicalCenterRequiredTopics.has(levelTwo);
+        },
+      },
+    },
+    [formFields.routeToState]: {
+      'ui:title': routeToStateTitle,
+      'ui:required': formData => {
+        return !!routeToStateRequiredTopics.has(formData.topic.levelTwo);
+      },
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!routeToStateRequiredTopics.has(levelTwo);
         },
       },
     },

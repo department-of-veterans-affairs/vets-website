@@ -8,9 +8,17 @@ export const inquiryPageDescription = PageDescription('Your message');
 
 export const topicTitle =
   'Which topic best describes your question or message?';
+export const topicLevelOneTitle =
+  'Which category best describes your question or message?';
+export const topicLevelTwoTitle =
+  'Which topic best describes your question or message?';
+export const topicLevelThreeTitle =
+  'Which subtopic best describes your question or message?';
 export const topicDescription =
   'Please start typing below. If you do not find a match, type space to see all possible categories';
 export const topicErrorMessage = 'Please enter a valid topic.';
+export const vaMedicalCenterTitle = 'Medical Center List';
+export const routeToStateTitle = 'Route to State';
 export const inquiryTypeTitle = "Tell us the reason you're contacting us";
 export const queryTitle = 'Please enter your question or message below';
 
