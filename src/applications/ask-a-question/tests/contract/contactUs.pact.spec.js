@@ -6,12 +6,12 @@ import { submitForm } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../../form/form';
 
-contractTest('Ask a Question', 'VA.gov API', mockApi => {
+contractTest('Contact Us', 'VA.gov API', mockApi => {
   describe('POST /ask/asks', () => {
     it('responds with 200 when submitting form', async () => {
       await mockApi().addInteraction({
-        state: 'there are no service history records',
-        uponReceiving: 'a GET request',
+        state: 'minimum required data',
+        uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
           path: '/v0/ask/asks',
