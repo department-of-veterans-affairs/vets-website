@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import sortBy from 'lodash/sortBy';
-import * as Sentry from '@sentry/browser';
 import URLSearchParams from 'url-search-params';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { focusElement } from 'platform/utilities/ui';
+
+import useArticleData from '../hooks/useArticleData';
 
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
@@ -13,41 +14,42 @@ import SearchResultList from './SearchResultList';
 const RESULTS_PER_PAGE = 10;
 
 export default function ResourcesAndSupportSearchApp() {
-  const [articles, setArticles] = useState(null);
+  // const [articles, setArticles] = useState(null);
+  const [articles, errorMessage] = useArticleData();
   const [userInput, setUserInput] = useState('');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [results, setResults] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
+  // const [errorMessage, setErrorMessage] = useState(null);
 
   const totalPages = Math.ceil(results.length / RESULTS_PER_PAGE);
 
   // Load up the article data file
-  useEffect(
-    () => {
-      const getJson = async () => {
-        try {
-          const response = await fetch('/resources/search/articles.json');
-          const json = await response.json();
+  // useEffect(
+  //   () => {
+  //     const getJson = async () => {
+  //       try {
+  //         const response = await fetch('/resources/search/articles.json');
+  //         const json = await response.json();
 
-          setArticles(json);
-        } catch (error) {
-          Sentry.withScope(scope => {
-            scope.setExtra('error', error);
-            Sentry.captureMessage(
-              'Resources and support - failed to load dataset',
-            );
-          });
-          setErrorMessage(
-            'We’re sorry. Something went wrong on our end. Please try again later.',
-          );
-        }
-      };
+  //         setArticles(json);
+  //       } catch (error) {
+  //         Sentry.withScope(scope => {
+  //           scope.setExtra('error', error);
+  //           Sentry.captureMessage(
+  //             'Resources and support - failed to load dataset',
+  //           );
+  //         });
+  //         setErrorMessage(
+  //           'We’re sorry. Something went wrong on our end. Please try again later.',
+  //         );
+  //       }
+  //     };
 
-      getJson();
-    },
-    [setArticles, setErrorMessage],
-  );
+  //     getJson();
+  //   },
+  //   [setArticles, setErrorMessage],
+  // );
 
   // Initialize the query via the URL params
   useEffect(
