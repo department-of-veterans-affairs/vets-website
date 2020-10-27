@@ -2,17 +2,17 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 
-import Profile2Wrapper from '../../components/Profile2Wrapper';
+import ProfileWrapper from '../../components/ProfileWrapper';
 import getRoutes from '../../routes';
 import { PROFILE_PATHS } from '../../constants';
 
 import { renderWithProfileReducers as render } from '../unit-test-helpers';
 
-describe('Profile2Wrapper', () => {
+describe('ProfileWrapper', () => {
   const config = {};
   const ui = (
     <MemoryRouter initialEntries={[PROFILE_PATHS.PERSONAL_INFORMATION]}>
-      <Profile2Wrapper routes={getRoutes(config)} />
+      <ProfileWrapper routes={getRoutes(config)} />
     </MemoryRouter>
   );
 

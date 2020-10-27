@@ -10,7 +10,11 @@ const options = [
 const yesIDES = ({ setPageState, state = {} }) => (
   <ErrorableRadioButtons
     name={`${serviceMemberPathPageNames.yesIDES}-option`}
-    label={<p>Are you interested in readiness & employment help?</p>}
+    label={
+      <p>
+        Would you like to apply for Veteran Readiness & Employment benefits now?
+      </p>
+    }
     id={`${serviceMemberPathPageNames.yesIDES}-option`}
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}

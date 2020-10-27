@@ -361,7 +361,7 @@ export default class ArrayField extends React.Component {
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
 
-            const Tag = formContext.onReviewPage ? 'h5' : 'h3';
+            const Tag = formContext.onReviewPage ? 'h4' : 'h3';
 
             if (isEditing) {
               return (
