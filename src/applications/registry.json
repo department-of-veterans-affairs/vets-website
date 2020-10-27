@@ -78,7 +78,7 @@
   },
   {
     "appName": "VA Profile",
-    "entryName": "profile-360",
+    "entryName": "profile",
     "rootUrl": "/profile",
     "template": {
       "title": "Your Profile",
@@ -891,6 +891,27 @@
       "title:": "Financial Status Report",
       "layout": "page-react.html",
       "vagovprod": false
+    }
+  },
+  {
+    "appName": "Resources and support",
+    "entryName": "resources-and-support",
+    "rootUrl": "/resources/search",
+    "template": {
+      "title:": "Search results",
+      "layout": "page-react.html",
+      "vagovprod": false,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "resources/",
+          "name": "Resources and support"
+        },
+        {
+          "path": "resources/search",
+          "name": "Search results"
+        }
+      ]
     }
   }
 ]

@@ -29,7 +29,9 @@ export default function VideoLink({ appointment }) {
       </span>
     );
   } else if (isVideoHome(appointment)) {
-    const url = appointment.contained?.[0]?.telecom?.[0]?.value;
+    const url = appointment.contained?.find(
+      res => res.resourceType === 'HealthcareService',
+    )?.telecom?.[0]?.value;
     const diff = moment().diff(moment(appointment.start), 'minutes');
 
     // Button is enabled 30 minutes prior to start time, until 4 hours after start time

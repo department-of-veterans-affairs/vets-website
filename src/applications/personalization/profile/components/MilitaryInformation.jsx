@@ -16,8 +16,8 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
-import LoadFail from 'applications/personalization/profile360/components/LoadFail';
-import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
+import LoadFail from 'applications/personalization/profile/components/LoadFail';
+import { handleDowntimeForSection } from 'applications/personalization/profile/components/DowntimeBanner';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
 import ProfileInfoTable from './ProfileInfoTable';
