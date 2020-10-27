@@ -148,6 +148,7 @@ module.exports = env => {
             {
               loader: 'postcss-loader',
               options: {
+                // use cssnano to minimize css only on optimized builds
                 plugins: isOptimizedBuild
                   ? () => [require('autoprefixer'), require('cssnano')]
                   : () => [require('autoprefixer')],
