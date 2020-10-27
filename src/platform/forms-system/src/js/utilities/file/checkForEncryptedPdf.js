@@ -1,17 +1,14 @@
-// getEncryptedPassword = file option set in uiSchema
 export default function checkForEncryptedPdf(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = event => {
-      if (event.target.readyState === FileReader.DONE) {
-        // const { result } = event.target // with readAsBinaryString
-        const result = Array.from(new Int8Array(event.target.result))
-          .map(v => String.fromCharCode(v))
-          .join('');
-        if (result.includes('/Encrypt')) {
-          resolve(true);
-          return;
-        }
+      // const { result } = event.target // with readAsBinaryString
+      const result = Array.from(new Int8Array(event.target.result))
+        .map(v => String.fromCharCode(v))
+        .join('');
+      if (result.includes('/Encrypt')) {
+        resolve(true);
+        return;
       }
       resolve(false);
     };
