@@ -118,6 +118,9 @@ export const recordSearchResultsEvents = (props, results) => {
  */
 export const recordZoomEvent = (lastZoom, currentZoom) => {
   if (lastZoom === currentZoom) return;
-  // console.log({lastZoom})
-  // console.log({currentZoom})
+  if (lastZoom < currentZoom) {
+    recordEvent({ event: 'fl-map-zoom-in' });
+  } else if (lastZoom > currentZoom) {
+    recordEvent({ event: 'fl-map-zoom-out' });
+  }
 };

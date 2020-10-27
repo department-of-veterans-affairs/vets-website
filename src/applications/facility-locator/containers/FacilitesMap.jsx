@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import Helmet from 'react-helmet';
 import mapboxgl from 'mapbox-gl';
-// import 'mapbox-gl/dist/mapbox-gl.css'; webpack issue
+// import 'mapbox-gl/dist/mapbox-gl.css'; webpack issue // TODO: uncomment when VSP fixes webpackissue
 import { mapboxToken } from '../utils/mapboxToken';
 import {
   clearSearchResults,
@@ -184,7 +184,7 @@ const FacilitiesMap = props => {
     });
 
     if (props.currentQuery.bounds) {
-      map.fitBounds(props.currentQuery.bounds);
+      map.fitBounds(props.currentQuery.bounds); // {duration: 0} to disable animation
     }
     if (props.currentQuery.searchCoords) {
       const markerElement = buildMarker('currentPos');
@@ -231,45 +231,44 @@ const FacilitiesMap = props => {
     });
   };
 
+  const setupMap = (setMapInit, mapContainerInit) => {
+    mapboxgl.accessToken = mapboxToken;
+    const mapInit = new mapboxgl.Map({
+      container: mapContainerInit,
+      style: 'mapbox://styles/mapbox/outdoors-v11',
+      center: [-99.27246093750001, 40.17887331434698], // Initial state search query reducer
+      zoom: 3,
+    });
+    mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+    mapInit.on('load', () => {
+      setMapInit(mapInit);
+      mapInit.resize();
+    });
+
+    mapInit.on('dragend', () => {});
+
+    mapInit.on('zoomend', () => {
+      const zoomNotFromSearch =
+        document.activeElement.id !== 'search-results-title';
+      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
+        recordZoomEvent(currentZoom, parseInt(mapInit.getZoom(), 10));
+      }
+      currentZoom = parseInt(mapInit.getZoom(), 10);
+    });
+    return mapInit;
+  };
+
   useEffect(
     () => {
-      mapboxgl.accessToken = mapboxToken;
-      const initializeMap = (setMapInit, mapContainerInit) => {
-        const mapInit = new mapboxgl.Map({
-          container: mapContainerInit,
-          style: 'mapbox://styles/mapbox/outdoors-v11',
-          center: [-99.27246093750001, 40.17887331434698], // Initial state search query reducer
-          zoom: 3,
-        });
-        mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
-
-        mapInit.on('load', () => {
-          setMapInit(mapInit);
-          mapInit.resize();
-        });
-
-        mapInit.on('dragend', () => {});
-
-        mapInit.on('zoomend', () => {
-          const zoomNotFromSearch =
-            window.document.activeElement.id !== 'search-results-title';
-          if (
-            currentZoom &&
-            parseInt(currentZoom, 10) > 3 &&
-            zoomNotFromSearch
-          ) {
-            recordZoomEvent(currentZoom, parseInt(mapInit.getZoom(), 10));
-          }
-          currentZoom = parseInt(mapInit.getZoom(), 10);
-        });
-      };
-
       // Container exists
       if (!window.document.getElementById('mapContainer')) {
         return;
       }
 
-      if (!map) initializeMap(setMap, 'mapContainer');
+      if (!map) {
+        setupMap(setMap, 'mapContainer');
+      }
     },
     [map],
   );
@@ -278,25 +277,16 @@ const FacilitiesMap = props => {
    * Map is ready and there is results in the store
    * For example coming back from a detail page
    */
-
   if (props.results.length > 0 && map) {
     renderMarkers(props.results);
   }
 
+  /**
+   * Setup map on resize
+   */
   const setMapResize = () => {
     setTimeout(function() {
-      const mapResize = new mapboxgl.Map({
-        container: 'mapContainer',
-        style: 'mapbox://styles/mapbox/outdoors-v11',
-        center: [-99.27246093750001, 40.17887331434698],
-        zoom: 3,
-      });
-      mapResize.addControl(new mapboxgl.NavigationControl(), 'top-left');
-
-      mapResize.on('load', () => {
-        mapResize.resize();
-      });
-      setMap(mapResize); // Set current map
+      setupMap(setMap, 'mapContainer');
     }, 10);
   };
 
