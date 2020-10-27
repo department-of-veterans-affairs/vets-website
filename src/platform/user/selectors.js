@@ -11,9 +11,9 @@ export const selectUser = state => state.user;
 export const isLoggedIn = state => selectUser(state).login.currentlyLoggedIn;
 export const selectProfile = state => selectUser(state)?.profile || {};
 export const isVAPatient = state => selectProfile(state).vaPatient === true;
-export const isInMPI = state => selectProfile(state).status === 'OK';
+  selectProfile(state).veteranStatus?.status === 'OK';
 export const hasMPIConnectionError = state =>
-  selectProfile(state).status === 'SERVER_ERROR';
+  selectProfile(state).veteranStatus?.status === 'SERVER_ERROR';
 export const isProfileLoading = state => selectProfile(state).loading;
 export const isLOA3 = state => selectProfile(state).loa.current === 3;
 export const isLOA1 = state => selectProfile(state).loa.current === 1;

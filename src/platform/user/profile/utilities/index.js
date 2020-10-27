@@ -101,7 +101,6 @@ export function mapRawUserDataToState(json) {
     ).status;
     userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {
-    userState.isVeteran = veteranStatus.isVeteran;
     userState.veteranStatus = {
       isVeteran: veteranStatus.isVeteran,
       status: veteranStatus.status,
@@ -113,9 +112,9 @@ export function mapRawUserDataToState(json) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.MVI,
     ).status;
-    userState.status = getErrorStatusDesc(errorStatus);
+    userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {
-    userState.status = vaProfile.status;
+    userState.veteranStatus.status = vaProfile.status;
     if (vaProfile.facilities) {
       userState.facilities = vaProfile.facilities;
     }
