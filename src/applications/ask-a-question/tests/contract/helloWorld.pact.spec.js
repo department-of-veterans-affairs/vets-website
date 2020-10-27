@@ -21,7 +21,8 @@ contractTest('Ask a Question', 'VA.gov API', mockApi => {
           },
           body: {
             inquiry: {
-              form: '{"veteranStatus":{"veteranStatus":""}}',
+              form:
+                '{"fullName":{"first":"Jane","last":"Doe","suffix":"IV"},"preferredContactMethod":"email","email":"jane.doe@va.gov","phone":"8001234567","address":{"street":"123 Main St","street2":"Apt 3","city":"Chicago","country":"USA","state":"IL","postalCode":"60601"},"veteranStatus":{"veteranStatus":"dependent","isDependent":true,"relationshipToVeteran":"Daughter","veteranIsDeceased":true,"dateOfDeath":"2000-01-01","branchOfService":"Air Force"},"veteranInformation":{"dateOfBirth":"1957-03-07","socialSecurityNumber":"222113333","serviceNumber":"123456789001","claimNumber":"12345678","serviceDateRange":{"from":"1973-02-16","to":"1976-05-07"}},"topic":{"vaMedicalCenter":"405GC","levelOne":"Health & Medical Issues & Services","levelTwo":"Prosthetics, Med Devices & Sensory Aids","levelThree":"Eyeglasses"},"inquiryType":"Status of Claim","query":"What is the status of my claim submitted in April?"}',
             },
           },
         },
@@ -39,7 +40,45 @@ contractTest('Ask a Question', 'VA.gov API', mockApi => {
           }),
         },
       });
-      const form = { data: { veteranStatus: { veteranStatus: '' } } };
+      const form = {
+        data: {
+          fullName: { first: 'Jane', last: 'Doe', suffix: 'IV' },
+          preferredContactMethod: 'email',
+          email: 'jane.doe@va.gov',
+          phone: '8001234567',
+          address: {
+            street: '123 Main St',
+            street2: 'Apt 3',
+            city: 'Chicago',
+            country: 'USA',
+            state: 'IL',
+            postalCode: '60601',
+          },
+          veteranStatus: {
+            veteranStatus: 'dependent',
+            isDependent: true,
+            relationshipToVeteran: 'Daughter',
+            veteranIsDeceased: true,
+            dateOfDeath: '2000-01-01',
+            branchOfService: 'Air Force',
+          },
+          veteranInformation: {
+            dateOfBirth: '1957-03-07',
+            socialSecurityNumber: '222113333',
+            serviceNumber: '123456789001',
+            claimNumber: '12345678',
+            serviceDateRange: { from: '1973-02-16', to: '1976-05-07' },
+          },
+          topic: {
+            vaMedicalCenter: '405GC',
+            levelOne: 'Health & Medical Issues & Services',
+            levelTwo: 'Prosthetics, Med Devices & Sensory Aids',
+            levelThree: 'Eyeglasses',
+          },
+          inquiryType: 'Status of Claim',
+          query: 'What is the status of my claim submitted in April?',
+        },
+      };
 
       const dispatch = sinon.stub();
 
