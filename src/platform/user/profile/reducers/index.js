@@ -48,6 +48,7 @@ const initialState = {
   loading: true,
   services: [],
   session: {},
+  veteranStatus: {},
 };
 
 const updateMhvAccountState = (state, mhvAccount) =>
@@ -66,6 +67,7 @@ function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS: {
       const newState = mapRawUserDataToState(action.payload);
+      console.log('This is new state');
       return Object.assign({}, state, newState);
     }
 

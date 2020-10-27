@@ -16,7 +16,7 @@ export const isProfileLoading = state => selectProfile(state).loading;
 export const isLOA3 = state => selectProfile(state).loa.current === 3;
 export const isLOA1 = state => selectProfile(state).loa.current === 1;
 
-export const selectVeteranStatus = state => selectProfile(state).veteranStatus;
+export const selectVeteranStatus = state => selectProfile(state)?.veteranStatus;
 
 // These selectors are now based on
 
@@ -39,10 +39,11 @@ export const selectVeteranStatus = state => selectProfile(state).veteranStatus;
 //   servedInMilitary: true,
 // }
 // status: "OK",
-export const isInMPI = state => selectVeteranStatus(state).status === 'OK';
-export const isVeteran = state => selectVeteranStatus(state).isVeteran === true;
+export const isInMPI = state => selectVeteranStatus(state)?.status === 'OK';
+export const isVeteran = state =>
+  selectVeteranStatus(state)?.isVeteran === true;
 export const servedInMilitary = state =>
-  selectVeteranStatus(state).servedInMilitary === true;
+  selectVeteranStatus(state)?.servedInMilitary === true;
 
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;

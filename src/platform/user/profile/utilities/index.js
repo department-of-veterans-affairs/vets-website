@@ -55,11 +55,11 @@ export function mapRawUserDataToState(json) {
           middleName: middle,
           multifactor,
           verified,
+          veteranStatus,
         },
         services,
         vaProfile,
         vet360ContactInformation,
-        veteranStatus,
         session,
       },
     },
@@ -94,7 +94,7 @@ export function mapRawUserDataToState(json) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.EMIS,
     ).status;
-    userState.veteranStatus = getErrorStatusDesc(errorStatus);
+    userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {
     userState.veteranStatus = {
       isVeteran: veteranStatus.isVeteran,
@@ -107,9 +107,9 @@ export function mapRawUserDataToState(json) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.MVI,
     ).status;
-    userState.status = getErrorStatusDesc(errorStatus);
+    userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {
-    userState.status = vaProfile.status;
+    userState.veteranStatus.status = vaProfile.status;
     if (vaProfile.facilities) {
       userState.facilities = vaProfile.facilities;
     }
