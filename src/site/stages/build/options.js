@@ -221,49 +221,6 @@ async function setUpFeatureFlags(options) {
   });
 }
 
-/**
- * Sets up the CMS SideNav Menus list.
- */
-async function setUpSideNavMenuList(options) {
-  global.buildtype = options.buildtype;
-  let sideNavs;
-
-  const sideNavFile = path.join(
-    options.cacheDirectory,
-    'drupal',
-    'side-nav-menus.json',
-  );
-
-  if (shouldPullDrupal(options)) {
-    logDrupal('Pulling side nav menus from Drupal...');
-    const apiClient = getDrupalClient(options);
-
-    const result = await apiClient.getSideNavMenus();
-
-    const responseBody = await result.text();
-    try {
-      sideNavs = JSON.parse(responseBody).data.sideNavMenus;
-    } catch (e) {
-      throw new TypeError(
-        `Could not parse Drupal side nav menus. Response:\n${responseBody}`,
-      );
-    }
-
-    // Write them to .cache/{buildtype}/drupal/side-nav-menus.json
-    fs.ensureDirSync(options.cacheDirectory);
-    fs.emptyDirSync(path.dirname(sideNavFile));
-    fs.writeJsonSync(sideNavFile, sideNavs, { spaces: 2 });
-  } else {
-    logDrupal('Using cached side navs');
-    sideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
-  }
-
-  if (global.verbose) {
-    logDrupal(`Drupal side navs:\n${JSON.stringify(sideNavs, null, 2)}`);
-  }
-  global.cmsSideNavs = sideNavs;
-}
-
 async function getOptions(commandLineOptions) {
   const options = commandLineOptions || gatherFromCommandLine();
 
@@ -271,9 +228,6 @@ async function getOptions(commandLineOptions) {
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
   await setUpFeatureFlags(options);
-
-  // TODO: move to src/site/stages/build/drupal/metalsmith-drupal.js
-  await setUpSideNavMenuList(options);
 
   // Setting verbosity for the whole content build process as global so we don't
   // have to pass the buildOptions around for just that.

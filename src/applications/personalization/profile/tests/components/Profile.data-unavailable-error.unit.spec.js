@@ -10,12 +10,12 @@ import { resetFetch } from 'platform/testing/unit/helpers';
 import * as mocks from '../../msw-mocks';
 import { renderWithProfileReducers as render } from '../unit-test-helpers';
 
-import Profile2Router from '../../components/Profile2Router';
+import ProfileRouter from '../../components/ProfileRouter';
 import { PROFILE_PATH_NAMES } from '../../constants';
 
 const ALERT_ID = 'not-all-data-available-error';
 
-// Returns the Redux state needed by the Profile2Router and its child components
+// Returns the Redux state needed by the ProfileRouter and its child components
 function createBasicInitialState() {
   return {
     scheduledDowntime: {
@@ -73,7 +73,7 @@ async function errorAppearsOnAllPages(
   ],
 ) {
   const initialState = createBasicInitialState();
-  const view = render(<Profile2Router isLOA3 isInMVI />, {
+  const view = render(<ProfileRouter isLOA3 isInMVI />, {
     initialState,
   });
   const spinner = view.queryByRole('progressbar');
@@ -104,7 +104,7 @@ async function hideErrorNonVet(
   const initialState = createBasicInitialState();
   initialState.user.profile.veteranStatus = null;
 
-  const view = render(<Profile2Router isLOA3 isInMVI />, {
+  const view = render(<ProfileRouter isLOA3 isInMVI />, {
     initialState,
   });
   const spinner = view.queryByRole('progressbar');
@@ -135,7 +135,7 @@ describe('Profile "Not all data available" error', () => {
   });
   it('should not be shown if we can get data from all required endpoints', async () => {
     const initialState = createBasicInitialState();
-    const view = render(<Profile2Router isLOA3 isInMVI />, {
+    const view = render(<ProfileRouter isLOA3 isInMVI />, {
       initialState,
     });
     const spinner = view.queryByRole('progressbar');
