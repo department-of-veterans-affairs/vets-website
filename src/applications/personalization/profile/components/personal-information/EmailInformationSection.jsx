@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import Email from 'vet360/components/VAPEmail';
+import Email from './VAPEmail';
 
 import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
 
