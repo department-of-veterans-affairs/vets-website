@@ -51,11 +51,10 @@
   }
 
   .main-rating {
-    width:160px;
+    width: 160px;
   }
 
   .category-rating {
-
     .rating {
       max-width: 320px;
       @include media-maxwidth($medium-screen - 1) {
@@ -65,8 +64,8 @@
 
     .bar-outer {
       width: 120px;
-      position:absolute;
-      top:5px;
+      position: absolute;
+      top: 5px;
       @include media-maxwidth($small-screen - 1) {
         width: 100px;
       }
@@ -79,8 +78,8 @@
     button {
       background-size: 12px;
       background-color: transparent;
-      padding-left:0;
-      padding-right:0rem;
+      padding-left: 0;
+      padding-right: 0rem;
       background-position: right 1rem center;
 
       @include media-maxwidth($medium-screen - 1) {
@@ -351,6 +350,8 @@
     padding-bottom: 1rem;
 
     table {
+      table-layout: fixed;
+      width: 100%;
       border: hidden;
       margin-top: 1.5em;
       margin-bottom: 0.5em;
@@ -400,10 +401,6 @@
         margin-top: 0;
         font-weight: bold;
       }
-    }
-
-    .location-cell {
-      white-space: nowrap;
     }
 
     .responsive-table-row-separator {
