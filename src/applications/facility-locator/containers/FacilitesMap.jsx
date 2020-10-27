@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import mapboxgl from 'mapbox-gl';
-// import 'mapbox-gl/dist/mapbox-gl.css'; webpack issue // TODO: uncomment when VSP fixes webpackissue
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
   clearSearchResults,
