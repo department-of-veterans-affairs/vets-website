@@ -29,6 +29,10 @@ import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SearchResult from '../components/SearchResult';
+import { recordZoomEvent } from '../utils/analytics';
+import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
+
+let currentZoom = 3;
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
@@ -36,6 +40,7 @@ const FacilitiesMap = props => {
   const searchResultTitleRef = useRef(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
+
   const syncStateWithLocation = location => {
     if (
       location.query.address &&
@@ -45,7 +50,6 @@ const FacilitiesMap = props => {
       props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
-        usePredictiveGeolocation: props.usePredictiveGeolocation,
       });
     }
   };
@@ -58,7 +62,7 @@ const FacilitiesMap = props => {
     if (!!props.location.search && props.results && props.results.length > 0) {
       return;
     }
-    const { location, usePredictiveGeolocation } = props;
+    const { location } = props;
 
     if (!isEmpty(location.query)) {
       props.updateSearchQuery({
@@ -71,7 +75,6 @@ const FacilitiesMap = props => {
       props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
-        usePredictiveGeolocation,
       });
       setIsSearching(true);
     }
@@ -203,31 +206,9 @@ const FacilitiesMap = props => {
     [props.results], // Handle build markers when we get results
   );
 
-  const otherToolsLink = () => (
-    <div id="other-tools">
-      Can’t find what you’re looking for?&nbsp;&nbsp;
-      {/* Add a line break for mobile, which uses white-space: pre-line */}
-      {'\n'}
-      <a href="https://www.va.gov/directory/guide/home.asp">
-        Try using our other tools to search.
-      </a>
-    </div>
-  );
-
-  const coronavirusUpdate = (
-    <>
-      Please call first to confirm services or ask about getting help by phone
-      or video. We require everyone entering a VA facility to wear a{' '}
-      <a href="/coronavirus-veteran-frequently-asked-questions/#more-health-care-questions">
-        mask that covers their mouth and nose.
-      </a>{' '}
-      Get answers to questions about COVID-19 and VA benefits and services with
-      our <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
-    </>
-  );
-
   const handleSearch = async () => {
-    const { currentQuery, usePredictiveGeolocation } = props;
+    const { currentQuery } = props;
+    currentZoom = null;
 
     updateUrlParams({
       address: currentQuery.searchString,
@@ -235,7 +216,6 @@ const FacilitiesMap = props => {
 
     props.genBBoxFromAddress({
       ...currentQuery,
-      usePredictiveGeolocation,
     });
 
     setIsSearching(true);
@@ -266,6 +246,21 @@ const FacilitiesMap = props => {
         mapInit.on('load', () => {
           setMapInit(mapInit);
           mapInit.resize();
+        });
+
+        mapInit.on('dragend', () => {});
+
+        mapInit.on('zoomend', () => {
+          const zoomNotFromSearch =
+            window.document.activeElement.id !== 'search-results-title';
+          if (
+            currentZoom &&
+            parseInt(currentZoom, 10) > 3 &&
+            zoomNotFromSearch
+          ) {
+            recordZoomEvent(currentZoom, parseInt(mapInit.getZoom(), 10));
+          }
+          currentZoom = parseInt(mapInit.getZoom(), 10);
         });
       };
 
@@ -387,7 +382,6 @@ const FacilitiesMap = props => {
         window.document.getElementsByClassName('desktop-map-container')
           .length === 0)
     ) {
-      setMap(null);
       setMapResize();
     }
 

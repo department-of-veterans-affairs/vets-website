@@ -112,3 +112,12 @@ export const recordSearchResultsEvents = (props, results) => {
 
   recordEvent(dataPush);
 };
+
+/**
+ * Helper fn to record map zoom
+ */
+export const recordZoomEvent = (lastZoom, currentZoom) => {
+  if (lastZoom === currentZoom) return;
+  // console.log({lastZoom})
+  // console.log({currentZoom})
+};

@@ -4,6 +4,7 @@ import moment from 'moment';
 import { first, includes, last, split, toLower } from 'lodash';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 import UrgentCareAlert from '../containers/UrgentCareAlert';
+import { recordMarkerEvents } from '../utils/analytics';
 
 export const setFocus = selector => {
   const el =
@@ -39,6 +40,7 @@ export const buildMarker = (type, values) => {
           },
         );
         locationElement.classList.add('active');
+        recordMarkerEvents(loc);
         document.getElementById('searchResultsContainer').scrollTop =
           locationElement.offsetTop;
       }
