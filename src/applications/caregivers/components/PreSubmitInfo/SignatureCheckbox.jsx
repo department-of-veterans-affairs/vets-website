@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 
 import SignatureInput from './SignatureInput';
 import PrivacyPolicy from './components/PrivacyPolicy';
 
-const veteranContentCertifications = ['consent-to-caregivers-to-perform-care'];
-const primaryContentCertifications = [
+// these are the required creds minus the information is correct
+const veteranCert = [
+  'consent-to-caregivers-to-perform-care',
+  'information-is-correct-and-true',
+];
+
+const primaryCertOne = [
   'information-is-correct-and-true',
   'at-least-18-years-of-age',
   'member-of-veterans-family',
@@ -15,7 +21,27 @@ const primaryContentCertifications = [
   'understand-revocable-status--as-primary',
   'have-understanding-of-non-employment-relationship',
 ];
-const secondaryContentCertifications = [
+
+const primaryCertTwo = [
+  'information-is-correct-and-true',
+  'at-least-18-years-of-age',
+  'not-member-of-veterans-family',
+  'currently-or-will-reside-with-veteran--as-primary ',
+  'agree-to-perform-services--as-primary',
+  'understand-revocable-status--as-primary',
+  'have-understanding-of-non-employment-relationship',
+];
+
+const secondaryCertOne = [
+  'information-is-correct-and-true',
+  'at-least-18-years-of-age',
+  'member-of-veterans-family',
+  'agree-to-perform-services--as-secondary',
+  'understand-revocable-status--as-secondary',
+  'have-understanding-of-non-employment-relationship',
+];
+
+const secondaryCertTwo = [
   'information-is-correct-and-true',
   'at-least-18-years-of-age',
   'not-member-of-veterans-family',
@@ -25,7 +51,11 @@ const secondaryContentCertifications = [
   'have-understanding-of-non-employment-relationship',
 ];
 
+const getSchemaEnum = party =>
+  fullSchema.properties[party].properties.certifications.items.enum;
+
 const SignatureCheckbox = props => {
+  console.log('secondaryOne enums: ', getSchemaEnum('secondaryCaregiverOne'));
   const {
     children,
     fullName,
@@ -110,7 +140,7 @@ const SignatureCheckbox = props => {
               {
                 label:
                   "I certify that I am a member of the Veteran's family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member).",
-                value: 'a-value-like-this',
+                value: 'member-of-veterans-family',
               },
               {
                 label:
