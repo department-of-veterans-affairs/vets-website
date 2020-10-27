@@ -435,7 +435,9 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            status: 'OK',
+            veteranStatus: {
+              status: 'OK',
+            },
           },
         },
       };
@@ -444,7 +446,7 @@ describe('user selectors', () => {
     it('returns `false` if the profile.status is anything other than `OK`', () => {
       const state = {
         user: {
-          profile: {
+          veteranStatus: {
             status: 'blah',
           },
         },
@@ -460,7 +462,9 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            status: 'SERVER_ERROR',
+            veteranStatus: {
+              status: 'SERVER_ERROR',
+            },
           },
         },
       };
@@ -470,7 +474,9 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            status: 'ERROR',
+            veteranStatus: {
+              status: 'ERROR',
+            },
           },
         },
       };
