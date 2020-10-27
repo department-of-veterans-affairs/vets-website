@@ -99,7 +99,7 @@ export function mapRawUserDataToState(json) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.EMIS,
     ).status;
-    userState.veteranStatus = getErrorStatusDesc(errorStatus);
+    userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {
     userState.isVeteran = veteranStatus.isVeteran;
     userState.veteranStatus = {
