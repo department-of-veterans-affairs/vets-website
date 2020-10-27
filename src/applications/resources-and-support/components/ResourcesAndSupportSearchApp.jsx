@@ -73,11 +73,29 @@ export default function ResourcesAndSupportSearchApp() {
         return;
       }
 
-      const keywords = query.split(' ').map(keyword => keyword.toLowerCase());
+      const keywords = query
+        .split(' ')
+        .map(keyword => keyword.toLowerCase())
+        .map(keyword => {
+          if (keyword.length > 3 && keyword.endsWith('s')) {
+            // Unpluralize the word, so that a search for "claims"
+            // will still yield articles titled "claim or appeal status"
+            return keyword.slice(0, keyword.length - 1);
+          }
+          return keyword;
+        });
 
       const filteredArticles = articles.filter(article => {
+        const tags = article.fieldTags?.entity?.fieldTopics
+          ?.map(topic => topic.entity.name)
+          .join();
+
         return keywords.some(k => {
-          return article.title.toLowerCase().includes(k);
+          return (
+            article.title.toLowerCase().includes(k) ||
+            article.fieldPrimaryCategory?.entity?.name?.includes(k) ||
+            tags?.includes(k)
+          );
         });
       });
 
