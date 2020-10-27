@@ -499,7 +499,7 @@ export function getChosenVACityState(state) {
   return null;
 }
 
-export const isWelcomeModalDismissed = state =>
+export const selectIsWelcomeModalDismissed = state =>
   state.announcements.dismissed.some(
     announcement => announcement === 'welcome-to-new-vaos',
   );
