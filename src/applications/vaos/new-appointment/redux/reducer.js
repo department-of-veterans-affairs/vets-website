@@ -41,6 +41,7 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
+  FORM_SHOW_ELIGIBILITY_LOADING_OVERLAY,
   FORM_HIDE_ELIGIBILITY_MODAL,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
@@ -93,6 +94,7 @@ const initialState = {
   childFacilitiesStatus: FETCH_STATUS.notStarted,
   parentFacilitiesStatus: FETCH_STATUS.notStarted,
   eligibilityStatus: FETCH_STATUS.notStarted,
+  showEligibilityLoadingOverlay: false,
   facilityDetailsStatus: FETCH_STATUS.notStarted,
   pastAppointments: null,
   appointmentSlotsStatus: FETCH_STATUS.notStarted,
@@ -713,18 +715,27 @@ export default function formReducer(state = initialState, action) {
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,
         showEligibilityModal: !canSchedule.direct && !canSchedule.request,
+        showEligibilityLoadingOverlay: false,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
       return {
         ...state,
         eligibilityStatus: FETCH_STATUS.failed,
+        showEligibilityLoadingOverlay: false,
       };
     }
     case FORM_HIDE_ELIGIBILITY_MODAL: {
       return {
         ...state,
         showEligibilityModal: false,
+      };
+    }
+    case FORM_SHOW_ELIGIBILITY_LOADING_OVERLAY: {
+      return {
+        ...state,
+        showEligibilityLoadingOverlay:
+          state.eligibilityStatus === FETCH_STATUS.loading,
       };
     }
     case START_DIRECT_SCHEDULE_FLOW:
