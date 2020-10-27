@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from '../../../../lib/moment-tz';
-import { formatFacilityAddress } from '../../../../services/location/transformers';
+import { formatFacilityAddress } from '../../../../services/location';
 import {
   APPOINTMENT_STATUS,
   PURPOSE_TEXT,

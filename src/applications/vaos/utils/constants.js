@@ -150,6 +150,17 @@ export const TYPES_OF_EYE_CARE = [
   },
 ];
 
+export const AUDIOLOGY_TYPES_OF_CARE = [
+  {
+    ccId: 'CCAUDRTNE',
+    name: 'Routine hearing exam',
+  },
+  {
+    ccId: 'CCAUDHEAR',
+    name: 'Hearing aid support',
+  },
+];
+
 export const FACILITY_TYPES = {
   VAMC: 'vamc',
   COMMUNITY_CARE: 'communityCare',

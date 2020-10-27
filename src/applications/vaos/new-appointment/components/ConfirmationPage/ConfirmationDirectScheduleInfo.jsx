@@ -3,7 +3,7 @@ import moment from '../../../lib/moment-tz.js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AddToCalendar from '../../../components/AddToCalendar';
-import { formatFacilityAddress } from '../../../services/location/transformers';
+import { formatFacilityAddress } from '../../../services/location';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,

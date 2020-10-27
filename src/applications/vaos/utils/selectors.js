@@ -20,6 +20,7 @@ import {
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
   APPOINTMENT_STATUS,
+  AUDIOLOGY_TYPES_OF_CARE,
 } from './constants';
 import {
   getRootOrganization,
@@ -47,16 +48,6 @@ export const selectIsCernerPatient = state =>
   selectPatientFacilities(state)?.some(
     f => f.isCerner && f.usesCernerAppointments,
   );
-const AUDIOLOGY_TYPES_OF_CARE = [
-  {
-    ccId: 'CCAUDRTNE',
-    name: 'Routine hearing exam',
-  },
-  {
-    ccId: 'CCAUDHEAR',
-    name: 'Hearing aid support',
-  },
-];
 
 export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
