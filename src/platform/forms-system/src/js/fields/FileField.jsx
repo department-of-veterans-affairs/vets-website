@@ -284,8 +284,11 @@ class FileField extends React.Component {
         {files.length > 0 && (
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
-              const errors = _.get([index, '__errors'], errorSchema) || [];
-              const hasErrors = errors.length > 0 || file.errorMessage;
+              const errors = [
+                ...(_.get([index, '__errors'], errorSchema) || []),
+                file.errorMessage,
+              ].filter(error => error);
+              const hasErrors = errors.length > 0;
               const itemClasses = classNames('va-growable-background', {
                 'schemaform-file-error usa-input-error':
                   hasErrors && !file.uploading,
@@ -308,10 +311,7 @@ class FileField extends React.Component {
                   // incorrect password, returning error message
                   (files[index].password && files[index].errorMessage));
               const showPasswordSuccess =
-                requestLockedPdfPassword &&
-                file.password &&
-                !hasErrors &&
-                !file.errorMessage;
+                requestLockedPdfPassword && file.password && !hasErrors;
 
               if (showPasswordInput) {
                 setTimeout(() => {
@@ -394,7 +394,7 @@ class FileField extends React.Component {
                   {!file.uploading &&
                     hasErrors && (
                       <span className="usa-input-error-message">
-                        {errors[0] || file.errorMessage}
+                        {errors[0]}
                       </span>
                     )}
                   {showPasswordInput && (
