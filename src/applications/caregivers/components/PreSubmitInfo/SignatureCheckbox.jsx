@@ -8,6 +8,7 @@ import SignatureInput from './SignatureInput';
 import PrivacyPolicy from './components/PrivacyPolicy';
 
 // these are the required creds minus the information is correct
+// TODO derive these arrays from schema once schema is changes to return only valid arrays using anyOf
 const veteranCert = [
   'consent-to-caregivers-to-perform-care',
   'information-is-correct-and-true',
@@ -55,7 +56,7 @@ const getSchemaEnum = party =>
   fullSchema.properties[party].properties.certifications.items.enum;
 
 const SignatureCheckbox = props => {
-  console.log('secondaryOne enums: ', getSchemaEnum('secondaryCaregiverOne'));
+  getSchemaEnum('secondaryCaregiverOne');
   const {
     children,
     fullName,
@@ -71,7 +72,7 @@ const SignatureCheckbox = props => {
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [hasError, setError] = useState(null);
-  const [certification, setCertification] = useState({
+  const [radioValue, setRadioValue] = useState({
     value: '',
     dirty: false,
   });
@@ -100,24 +101,39 @@ const SignatureCheckbox = props => {
     [showError, setIsChecked, isChecked],
   );
 
-  // onCheckboxChange add/remove information-is-correct-and-true
+  // function that returns array of ids
+
+  const getEnumsFromLabel = option => {
+    const optionValue = option.value;
+    const hashMap = {
+      [`Veteran\u2019s`]: veteranCert,
+      [`Primary Family Caregiver applicant\u2019s`]: {
+        optionOne: primaryCertOne,
+        optionTwo: primaryCertTwo,
+      },
+      [`Secondary Family Caregiver applicant\u2019s`]: {
+        optionOne: secondaryCertOne,
+        optionTwo: secondaryCertTwo,
+      },
+      [`Secondary Family Caregiver (2) applicant\u2019s`]: {
+        optionOne: secondaryCertOne,
+        optionTwo: secondaryCertTwo,
+      },
+    };
+
+    // debugger;
+    if (label === `Veteran\u2019s`) {
+      return hashMap[label];
+    } else {
+      return hashMap[label][optionValue];
+    }
+  };
+
   useEffect(
     () => {
-      setCertifications(prevState => {
-        return isChecked
-          ? {
-              ...prevState,
-              [label]: ['information-is-correct-and-true'],
-            }
-          : {
-              ...prevState,
-              [label]: prevState[label]?.filter(
-                cert => cert !== 'information-is-correct-and-true',
-              ),
-            };
-      });
+      getEnumsFromLabel(radioValue);
     },
-    [isChecked, label, setCertifications],
+    [radioValue],
   );
 
   return (
@@ -131,7 +147,7 @@ const SignatureCheckbox = props => {
         <>
           <ErrorableRadioButtons
             additionalFieldsetClass="vads-u-margin-top--0p5"
-            onValueChange={value => setCertification({ [label]: [...value] })}
+            onValueChange={value => setRadioValue({ ...value })}
             errorMessage={
               showError && 'You must certify this party before continuing'
             }
@@ -140,15 +156,15 @@ const SignatureCheckbox = props => {
               {
                 label:
                   "I certify that I am a member of the Veteran's family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member).",
-                value: 'member-of-veterans-family',
+                value: 'optionOne',
               },
               {
                 label:
                   "I certify that I am not a member of the Veteran's family, and I reside with the Veteran full-time or will do so upon designation as the Veteran's Primary Family Caregiver.",
-                value: 'a-value-like-that',
+                value: 'optionTwo',
               },
             ]}
-            value={certification}
+            value={radioValue}
             required
           />
 
