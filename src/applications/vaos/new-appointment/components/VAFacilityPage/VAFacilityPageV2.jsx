@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -19,6 +18,7 @@ import NoVASystems from './NoVASystems';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
+import LoadingOverlay from '../../../components/LoadingOverlay';
 
 const initialSchema = {
   type: 'object',
@@ -207,115 +207,107 @@ function VAFacilityPageV2({
 
   const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
 
-  const contentClasses = classNames({
-    'vaos-facilities-list__loading': showEligibilityLoadingOverlay,
-  });
-
   return (
     <div>
       {title}
-      <div className={contentClasses}>
-        <p>
-          Below is a list of VA locations where you’re registered that offer{' '}
-          {typeOfCare} appointments.
-          {(sortByDistanceFromResidential ||
-            sortByDistanceFromCurrentLocation) &&
-            ' Locations closest to you are at the top of the list.'}
-        </p>
-        {sortByDistanceFromResidential &&
-          !requestingLocation && (
-            <>
-              <ResidentialAddress address={address} />
-              {requestLocationStatus !== FETCH_STATUS.failed && (
-                <p>
-                  Or,{' '}
-                  <button
-                    className="va-button-link"
-                    onClick={() => {
-                      updateFacilitySortMethod(
-                        FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                        uiSchema,
-                      );
-                    }}
-                  >
-                    use your current location
-                  </button>
-                </p>
-              )}
-            </>
-          )}
-        {sortByDistanceFromCurrentLocation &&
-          !requestingLocation && (
-            <>
-              <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-                Facilities based on your location
-              </h2>
+      <p>
+        Below is a list of VA locations where you’re registered that offer{' '}
+        {typeOfCare} appointments.
+        {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
+          ' Locations closest to you are at the top of the list.'}
+      </p>
+      {sortByDistanceFromResidential &&
+        !requestingLocation && (
+          <>
+            <ResidentialAddress address={address} />
+            {requestLocationStatus !== FETCH_STATUS.failed && (
               <p>
                 Or,{' '}
                 <button
                   className="va-button-link"
                   onClick={() => {
                     updateFacilitySortMethod(
-                      FACILITY_SORT_METHODS.distanceFromResidential,
+                      FACILITY_SORT_METHODS.distanceFromCurrentLocation,
                       uiSchema,
                     );
                   }}
                 >
-                  use your home address on file
+                  use your current location
                 </button>
               </p>
-            </>
-          )}
-        {requestLocationStatus === FETCH_STATUS.failed && (
-          <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--2">
-            <div className="usa-alert-body">
-              Your browser is blocked from finding your current location. Make
-              sure your browser’s location feature is turned on. If it isn’t
-              enabled, we’ll sort your VA facilities using your home address
-              that’s on file.
-            </div>
-          </div>
+            )}
+          </>
         )}
-        {requestingLocation && (
-          <div className="vads-u-padding-bottom--2">
-            <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
-          </div>
+      {sortByDistanceFromCurrentLocation &&
+        !requestingLocation && (
+          <>
+            <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+              Facilities based on your location
+            </h2>
+            <p>
+              Or,{' '}
+              <button
+                className="va-button-link"
+                onClick={() => {
+                  updateFacilitySortMethod(
+                    FACILITY_SORT_METHODS.distanceFromResidential,
+                    uiSchema,
+                  );
+                }}
+              >
+                use your home address on file
+              </button>
+            </p>
+          </>
         )}
-        {childFacilitiesStatus === FETCH_STATUS.succeeded &&
-          !requestingLocation && (
-            <SchemaForm
-              name="VA Facility"
-              title="VA Facility"
-              schema={schema}
-              uiSchema={uiSchema}
-              onChange={onFacilityChange}
-              onSubmit={goForward}
-              formContext={{ loadingEligibility, sortMethod }}
-              data={data}
-            >
-              <FormButtons
-                continueLabel=""
-                pageChangeInProgress={pageChangeInProgress}
-                onBack={goBack}
-                disabled={
-                  loadingParents ||
-                  loadingFacilities ||
-                  loadingEligibility ||
-                  (facilities?.length === 1 && !canScheduleAtChosenFacility)
-                }
-              />
-            </SchemaForm>
-          )}
-      </div>
-      {showEligibilityLoadingOverlay && (
-        <div className="vaos-facilities-list__loading-overlay">
-          <LoadingIndicator
-            message="We’re checking if we can create an appointment for you at this
-                      facility. This may take up to a minute. Thank you for your
-                      patience."
-          />
+      {requestLocationStatus === FETCH_STATUS.failed && (
+        <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--2">
+          <div className="usa-alert-body">
+            Your browser is blocked from finding your current location. Make
+            sure your browser’s location feature is turned on. If it isn’t
+            enabled, we’ll sort your VA facilities using your home address
+            that’s on file.
+          </div>
         </div>
       )}
+      {requestingLocation && (
+        <div className="vads-u-padding-bottom--2">
+          <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
+        </div>
+      )}
+      {childFacilitiesStatus === FETCH_STATUS.succeeded &&
+        !requestingLocation && (
+          <SchemaForm
+            name="VA Facility"
+            title="VA Facility"
+            schema={schema}
+            uiSchema={uiSchema}
+            onChange={onFacilityChange}
+            onSubmit={goForward}
+            formContext={{ loadingEligibility, sortMethod }}
+            data={data}
+          >
+            <FormButtons
+              continueLabel=""
+              pageChangeInProgress={pageChangeInProgress}
+              onBack={goBack}
+              disabled={
+                loadingParents ||
+                loadingFacilities ||
+                loadingEligibility ||
+                (facilities?.length === 1 && !canScheduleAtChosenFacility)
+              }
+            />
+          </SchemaForm>
+        )}
+
+      <LoadingOverlay
+        show={showEligibilityLoadingOverlay}
+        message="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
+      />
+
       {showEligibilityModal && (
         <EligibilityModal
           onClose={hideEligibilityModal}
