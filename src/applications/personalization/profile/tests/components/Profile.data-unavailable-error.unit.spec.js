@@ -40,18 +40,12 @@ function createBasicInitialState() {
         vet360: {},
         multifactor: true,
         services: ['evss-claims', 'user-profile', 'vet360'],
-        isVeteran: true,
         veteranStatus: {
           isVeteran: true,
-          veteranStatus: {
-            status: 'OK',
-            isVeteran: true,
-            servedInMilitary: true,
-          },
+          status: 'OK',
           servedInMilitary: true,
         },
         verified: true,
-        status: 'OK',
       },
     },
   };

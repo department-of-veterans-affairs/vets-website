@@ -100,13 +100,11 @@ describe('Profile utilities', () => {
         data.attributes.veteran_status.is_veteran,
       );
       expect(mappedData.veteranStatus).to.deep.equal({
-        isVeteran: data.attributes.veteran_status.is_veteran,
         veteranStatus: {
           status: data.attributes.veteran_status.status,
           isVeteran: data.attributes.veteran_status.is_veteran,
           servedInMilitary: data.attributes.veteran_status.served_in_military,
         },
-        servedInMilitary: data.attributes.veteran_status.served_in_military,
       });
     });
 

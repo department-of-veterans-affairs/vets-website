@@ -96,11 +96,10 @@ export function mapRawUserDataToState(json) {
     ).status;
     userState.veteranStatus = getErrorStatusDesc(errorStatus);
   } else {
-    userState.isVeteran = veteranStatus.isVeteran;
     userState.veteranStatus = {
       isVeteran: veteranStatus.isVeteran,
-      veteranStatus,
       servedInMilitary: veteranStatus.servedInMilitary,
+      status: veteranStatus.status,
     };
   }
 

@@ -10,12 +10,40 @@ import {
 export const selectUser = state => state.user;
 export const isLoggedIn = state => selectUser(state).login.currentlyLoggedIn;
 export const selectProfile = state => selectUser(state)?.profile || {};
-export const isInMPI = state => selectProfile(state).status === 'OK';
 export const hasMPIConnectionError = state =>
   selectProfile(state).status === 'SERVER_ERROR';
 export const isProfileLoading = state => selectProfile(state).loading;
 export const isLOA3 = state => selectProfile(state).loa.current === 3;
 export const isLOA1 = state => selectProfile(state).loa.current === 1;
+
+export const selectVeteranStatus = state => selectProfile(state).veteranStatus;
+
+// These selectors are now based on
+
+// veteranStatus {
+//   status: "OK",
+//   isVeteran: true,
+//   servedInMilitary: true,
+// }
+
+// Instead of
+
+// isVeteran: true,
+// veteranStatus {
+//   isVeteran: true,
+//   veteranStatus {
+//     status: "OK",
+//     isVeteran: true,
+//     servedInMilitary: true,
+//   },
+//   servedInMilitary: true,
+// }
+// status: "OK",
+export const isInMPI = state => selectVeteranStatus(state).status === 'OK';
+export const isVeteran = state => selectVeteranStatus(state).isVeteran === true;
+export const servedInMilitary = state =>
+  selectVeteranStatus(state).servedInMilitary === true;
+
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
 export const selectPatientFacilities = state =>
