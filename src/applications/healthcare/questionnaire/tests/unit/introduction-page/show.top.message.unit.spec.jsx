@@ -7,11 +7,13 @@ import IntroductionPage from '../../../containers/IntroductionPage';
 import { createFakeIntroductionPageStore } from '../utils/createFakeStores';
 
 describe('healthcare-questionnaire - introduction page  -', () => {
-  it('thing!', () => {
-    const fakeStore = createFakeIntroductionPageStore();
+  it('does not have a saved form', () => {
+    const fakeStore = createFakeIntroductionPageStore('my-test-form', []);
     const wrapper = mount(<IntroductionPage store={fakeStore} />);
 
-    expect(true).to.equal(true);
+    expect(wrapper.find('[data-testid="sign-in-header"]').text()).to.equal(
+      'Please sign in to start your questionnaire',
+    );
     wrapper.unmount();
   });
 });

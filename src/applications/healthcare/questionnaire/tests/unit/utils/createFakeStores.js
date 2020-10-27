@@ -223,16 +223,16 @@ const createFakeConfirmationStore = ({ hasData }) => {
   };
 };
 
-const createFakeIntroductionPageStore = _data => {
+const createFakeIntroductionPageStore = (formId, savedForms) => {
   return {
     getState: () => ({
       form: {
         pages: [],
-        formId: 'fake-123',
+        formId,
       },
       user: {
         profile: {
-          savedForms: [],
+          savedForms: [...savedForms],
         },
       },
       questionnaireData: {

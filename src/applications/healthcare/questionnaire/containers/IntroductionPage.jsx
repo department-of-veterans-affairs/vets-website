@@ -46,11 +46,11 @@ const IntroductionPage = props => {
       {savedForm ? (
         <SaveInProgressIntro
           hideUnauthedStartLink
-          prefillEnabled={props.route.formConfig.prefillEnabled}
-          messages={props.route.formConfig.savedFormMessages}
-          pageList={props.route.pageList}
+          prefillEnabled={props.route?.formConfig.prefillEnabled}
+          messages={props.route?.formConfig.savedFormMessages}
+          pageList={props.route?.pageList}
           startText="Start the questionnaire"
-          formConfig={props.route.formConfig}
+          formConfig={props.route?.formConfig}
           resumeOnly
           renderSignInMessage={UnAuthedWelcomeMessage}
         />

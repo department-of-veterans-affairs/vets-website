@@ -4,7 +4,7 @@ export default function TopAlert({ toggleLoginModal }) {
   return (
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
       <div className="usa-alert-body">
-        <h3 className="usa-alert-heading">
+        <h3 className="usa-alert-heading" data-testid="sign-in-header">
           Please sign in to start your questionnaire
         </h3>
         <div className="usa-alert-text">
