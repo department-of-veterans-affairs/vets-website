@@ -4,8 +4,6 @@ import { ENTITY_BUNDLES } from 'site/constants/content-modeling';
 
 import { Article } from '../prop-types';
 
-import Tag from './Tag';
-
 const articleTypes = {
   [ENTITY_BUNDLES.Q_A]: 'Question and answer',
   [ENTITY_BUNDLES.CHECKLIST]: 'Checklist',
@@ -17,10 +15,6 @@ const articleTypes = {
 };
 
 export default function SearchResult({ article }) {
-  const hasTopics =
-    article.fieldPrimaryCategory?.entity?.entityUrl ||
-    article.fieldOtherCategories?.length > 0;
-
   return (
     <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-color--gray-lighter">
       <div>
@@ -36,27 +30,6 @@ export default function SearchResult({ article }) {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: article.description }}
       />
-      {hasTopics && (
-        <div className="vads-u-margin-top--1">
-          <dfn className="vads-u-font-weight--bold">Topics </dfn>
-          {article.fieldPrimaryCategory?.entity?.entityUrl && (
-            <Tag term={article.fieldPrimaryCategory?.entity} />
-          )}
-          {article.fieldOtherCategories?.map((otherCategory, index) => {
-            return (
-              <Tag key={`category-${index}`} term={otherCategory.entity} />
-            );
-          })}
-        </div>
-      )}
-      {article.fieldTags?.entity?.fieldAudienceBeneficiares?.entity?.name && (
-        <div className="vads-u-margin-top--1">
-          <dfn className="vads-u-font-weight--bold">Audience </dfn>
-          <Tag
-            term={article.fieldTags.entity.fieldAudienceBeneficiares.entity}
-          />
-        </div>
-      )}
     </div>
   );
 }
