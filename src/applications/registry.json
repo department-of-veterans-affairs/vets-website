@@ -245,7 +245,7 @@
         },
         {
           "path": "view-change-dependents/add-remove-form-686c/",
-          "name": "Add or remove dependents form 21-686c"
+          "name": "Add or remove dependents form 21‑686c"
         }
       ]
     }
@@ -796,7 +796,7 @@
         },
         {
           "path": "careers-employment/vocational-rehabilitation/apply",
-          "name": "Apply for VR&E Form 28-1900"
+          "name": "Apply for VR&E Form 28‑1900"
         }
       ]
     }
@@ -817,7 +817,7 @@
         },
         {
           "path": "careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/introduction",
-          "name": "Apply for PCPG Form 28-8832"
+          "name": "Apply for PCPG Form 28‑8832"
         }
       ]
     }
@@ -891,6 +891,27 @@
       "title:": "Financial Status Report",
       "layout": "page-react.html",
       "vagovprod": false
+    }
+  },
+  {
+    "appName": "Resources and support",
+    "entryName": "resources-and-support",
+    "rootUrl": "/resources/search",
+    "template": {
+      "title:": "Search results",
+      "layout": "page-react.html",
+      "vagovprod": false,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "resources/",
+          "name": "Resources and support"
+        },
+        {
+          "path": "resources/search",
+          "name": "Search results"
+        }
+      ]
     }
   }
 ]

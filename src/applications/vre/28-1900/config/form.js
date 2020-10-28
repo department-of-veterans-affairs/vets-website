@@ -1,20 +1,22 @@
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
+import { hasSession } from 'platform/user/profile/utilities';
+import environment from 'platform/utilities/environment';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { hasSession } from 'platform/user/profile/utilities';
 import PreSubmitInfo from 'applications/vre/28-1900/components/PreSubmitInfo';
 import VeteranInformationViewComponent from '../components/VeteranInformationViewComponent';
 import { additionalInformation } from './chapters/additional-information';
 import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
 import StaticInformationReviewField from '../containers/StaticInformationReviewField';
+import GetFormHelp from 'applications/vre/components/GetFormHelp';
 
 import manifest from '../manifest.json';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/v0/veteran_readiness_employment_claims`,
   trackingPrefix: '28-1900-chapter-31-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -30,6 +32,7 @@ const formConfig = {
     },
   },
   version: 0,
+  getHelp: GetFormHelp,
   prefillEnabled: true,
   // TODO: Currently if a user is logged in, veteran information does NOT get sent to the backend with the payload. We can either add it in
   // transformForSubmit, OR add it once the payload reaches vets-api.
