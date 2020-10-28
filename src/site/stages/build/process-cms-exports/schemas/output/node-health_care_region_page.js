@@ -1,4 +1,4 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
 const personProfileSchema = require('./node-person_profile');
 const healthCareLocalFacilitySchema = require('./node-health_care_local_facility');
 const newsStorySchema = require('./node-news_story');
@@ -26,8 +26,7 @@ const facilitiesSchema = {
     entities: {
       type: 'array',
       items: {
-        /* eslint-disable react-hooks/rules-of-hooks */
-        entity: usePartialSchema(healthCareLocalFacilitySchema, [
+        entity: partialSchema(healthCareLocalFacilitySchema, [
           'entityUrl',
           'entityBundle',
           'title',
@@ -56,7 +55,7 @@ const eventTeasersSchema = max => ({
       type: 'array',
       maxItems: max,
       items: {
-        entity: usePartialSchema(eventSchema, [
+        entity: partialSchema(eventSchema, [
           'title',
           'fieldDate',
           'fieldDescription',
@@ -76,7 +75,7 @@ const newsTeasersSchema = max => ({
       type: 'array',
       maxItems: max,
       items: {
-        entity: usePartialSchema(newsStorySchema, [
+        entity: partialSchema(newsStorySchema, [
           'title',
           'fieldFeatured',
           'fieldIntroText',
@@ -124,8 +123,7 @@ module.exports = {
     fieldLeadership: {
       type: 'array',
       items: {
-        /* eslint-disable react-hooks/rules-of-hooks */
-        entity: usePartialSchema(personProfileSchema, [
+        entity: partialSchema(personProfileSchema, [
           'entityPublished',
           'title',
           'fieldNameFirst',
@@ -150,7 +148,7 @@ module.exports = {
         entities: {
           type: 'array',
           items: {
-            entity: usePartialSchema(healthCareLocalFacilitySchema, [
+            entity: partialSchema(healthCareLocalFacilitySchema, [
               'title',
               'fieldOperatingStatusFacility',
             ]),
@@ -169,7 +167,7 @@ module.exports = {
           type: 'array',
           maxItems: 100,
           items: {
-            entity: usePartialSchema(pressRelease, [
+            entity: partialSchema(pressRelease, [
               'title',
               'fieldReleaseDate',
               'entityUrl',
