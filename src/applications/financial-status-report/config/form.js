@@ -6,7 +6,22 @@ import manifest from '../manifest.json';
 import fullSchema from '../schema/5655-schema.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-import VeteranInfoBox from '../components/VeteranInfoBox';
+import { schemaFields } from '../constants';
+import uiDefinitions from '../schema/5655-ui';
+
+const { viewVeteranInfoField } = schemaFields;
+const { veteranInfoUI } = uiDefinitions;
+
+const formChapterTitles = {
+  veteranInformation: 'Veteran information',
+  selectSupplies: 'Select your supplies',
+};
+
+const formPageTitles = {
+  veteranInfo: 'Veteran information',
+  address: 'Shipping address',
+  addSuppliesPage: 'Add supplies to your order',
+};
 
 const { fullName } = fullSchema.definitions;
 // const { vaFileNumber } = fullSchema.properties;
@@ -44,41 +59,18 @@ const formConfig = {
   getHelp: GetFormHelp,
   chapters: {
     veteranInformationChapter: {
-      title: 'Veteran Information',
+      title: formChapterTitles.veteranInformation,
       pages: {
-        'Veteran information': {
+        [formPageTitles.veteranInfo]: {
           path: 'veteran-information',
-          title: 'Veteran information',
+          title: formPageTitles.veteranInfo,
           uiSchema: {
-            'view:veteranInfo': {
-              'ui:field': VeteranInfoBox,
-              first: {
-                'ui:title': 'First name',
-                'ui:errorMessages': {
-                  required: 'Please enter a first name',
-                },
-              },
-              last: {
-                'ui:title': 'Last name',
-                'ui:errorMessages': {
-                  required: 'Please enter a last name',
-                },
-              },
-              middle: {
-                'ui:title': 'Middle name',
-              },
-              suffix: {
-                'ui:title': 'Suffix',
-                'ui:options': {
-                  widgetClassNames: 'form-select-medium',
-                },
-              },
-            },
+            [viewVeteranInfoField]: veteranInfoUI,
           },
           schema: {
             type: 'object',
             properties: {
-              'view:veteranInfo': {
+              [viewVeteranInfoField]: {
                 type: 'object',
                 properties: {},
               },

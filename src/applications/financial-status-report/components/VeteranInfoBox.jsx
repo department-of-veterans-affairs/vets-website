@@ -36,8 +36,8 @@ const VeteranInfoBox = props => {
 };
 
 VeteranInfoBox.propTypes = {
-  first: PropTypes.string.isRequired,
-  last: PropTypes.string.isRequired,
+  first: PropTypes.string,
+  last: PropTypes.string,
   suffix: PropTypes.string,
   middle: PropTypes.string,
   dateOfBirth: PropTypes.string.isRequired,
@@ -54,12 +54,13 @@ VeteranInfoBox.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  first: state.form?.data?.fullName?.first,
-  middle: state.form?.data?.fullName?.middle,
-  last: state.form?.data?.fullName?.last,
+  first: state.user?.profile?.userFullName?.first,
+  middle: state.user?.profile?.userFullName?.middle,
+  last: state.user?.profile?.userFullName?.last,
   suffix: state.form?.data?.fullName?.suffix,
   dateOfBirth: state.form?.data?.dateOfBirth,
   ssnLastFour: state.form?.data?.ssnLastFour,
+  profile: state.user.profile,
 });
 
 export default connect(
