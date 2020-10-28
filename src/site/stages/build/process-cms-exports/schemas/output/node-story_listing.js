@@ -1,4 +1,4 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
 const newsStorySchema = require('./node-news_story');
 
 module.exports = {
@@ -27,8 +27,7 @@ module.exports = {
         entities: {
           type: 'array',
           items: {
-            /* eslint-disable react-hooks/rules-of-hooks */
-            entity: usePartialSchema(newsStorySchema, [
+            entity: partialSchema(newsStorySchema, [
               'title',
               'fieldFeatured',
               'entityUrl',
