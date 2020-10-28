@@ -6,6 +6,7 @@ fragment nodeQa on NodeQA {
   entityBundle
 
   changed
+  fieldStandalonePage
   fieldAnswer {
     entity {
       entityType

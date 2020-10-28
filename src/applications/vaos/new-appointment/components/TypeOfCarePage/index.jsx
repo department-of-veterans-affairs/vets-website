@@ -20,13 +20,11 @@ import {
   getFormPageInfo,
   getNewAppointment,
   vaosDirectScheduling,
+  selectIsCernerOnlyPatient,
 } from '../../../utils/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
-import {
-  selectIsCernerOnlyPatient,
-  selectVet360ResidentialAddress,
-} from 'platform/user/selectors';
+import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',

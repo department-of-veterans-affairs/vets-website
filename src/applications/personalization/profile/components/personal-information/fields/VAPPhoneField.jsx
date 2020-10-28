@@ -11,7 +11,7 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 import VAPProfileField from 'vet360/containers/VAPProfileField';
 import ReceiveTextMessages from 'vet360/containers/ReceiveTextMessages';
 
-import PhoneEditView from './PhoneEditView';
+import PhoneEditView from 'platform/user/profile/vet360/components/PhoneField/PhoneEditView';
 
 const formSchema = {
   type: 'object',
