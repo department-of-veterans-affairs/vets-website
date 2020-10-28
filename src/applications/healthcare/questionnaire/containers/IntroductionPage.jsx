@@ -21,12 +21,18 @@ const IntroductionPage = props => {
   const facilityName = appointment?.vdsAppointments
     ? appointment?.vdsAppointments[0]?.clinic?.facility?.displayName
     : '';
-  const { isLoggedIn, route } = props;
+
+  const { isLoggedIn, route, savedForms, formId } = props;
+
   const goToFirstPage = () => {
     const firstPage = route.pageList[1];
     props.router.push(firstPage.path);
   };
+  const savedForm = savedForms.find(f => f.form === formId);
   const showLoginModel = () => props.toggleLoginModal(true, 'cta-form');
+  const UnAuthedWelcomeMessage = () => (
+    <IntroductionPageHelpers.WelcomeAlert toggleLoginModal={showLoginModel} />
+  );
   return (
     <div className="schemaform-intro healthcare-experience">
       <FormTitle
@@ -37,20 +43,21 @@ const IntroductionPage = props => {
         Better prepare yourself and your provider for your upcoming appointment
         with this questionnaire.
       </h2>
-      <SaveInProgressIntro
-        hideUnauthedStartLink
-        prefillEnabled={props.route.formConfig.prefillEnabled}
-        messages={props.route.formConfig.savedFormMessages}
-        pageList={props.route.pageList}
-        startText="Start the questionnaire"
-        formConfig={props.route.formConfig}
-        resumeOnly
-        renderSignInMessage={() => (
-          <IntroductionPageHelpers.WelcomeAlert
-            toggleLoginModal={showLoginModel}
-          />
-        )}
-      />
+      {savedForm ? (
+        <SaveInProgressIntro
+          hideUnauthedStartLink
+          prefillEnabled={props.route?.formConfig.prefillEnabled}
+          messages={props.route?.formConfig.savedFormMessages}
+          pageList={props.route?.pageList}
+          startText="Start the questionnaire"
+          formConfig={props.route?.formConfig}
+          resumeOnly
+          renderSignInMessage={UnAuthedWelcomeMessage}
+        />
+      ) : (
+        <UnAuthedWelcomeMessage />
+      )}
+
       <section>
         <h3 className="urgent-needs-header">
           Can I use this questionnaire for medical emergencies or urgent needs?
@@ -186,6 +193,8 @@ const mapStateToProps = state => {
     pages: state?.form?.pages,
     isLoggedIn: state?.user?.login?.currentlyLoggedIn,
     questionnaire: state?.questionnaireData,
+    savedForms: state?.user?.profile?.savedForms,
+    formId: state.form.formId,
   };
 };
 
