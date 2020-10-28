@@ -4,8 +4,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const VeteranInfoBox = props => {
-  const { first, middle, last, suffix, dateOfBirth, ssnLastFour } = props;
-  const fullName = [first, middle, last, suffix]
+  const { first, middle, last, dateOfBirth, ssnLastFour, vaFileNumber } = props;
+  const fullName = [first, middle, last]
     .filter(name => !!name)
     .join(' ')
     .toUpperCase();
@@ -19,7 +19,7 @@ const VeteranInfoBox = props => {
           <p className="vads-u-margin--1px">
             Last 4 of Social Security number: {ssnLastFour}
           </p>
-          <p className="vads-u-margin--1px">File number:</p>
+          <p className="vads-u-margin--1px">File number: {vaFileNumber}</p>
           <p className="vads-u-margin--1px">
             Date of birth: {moment(dateOfBirth).format('MMMM DD, YYYY')}
           </p>
@@ -38,29 +38,28 @@ const VeteranInfoBox = props => {
 VeteranInfoBox.propTypes = {
   first: PropTypes.string,
   last: PropTypes.string,
-  suffix: PropTypes.string,
   middle: PropTypes.string,
-  dateOfBirth: PropTypes.string.isRequired,
-  ssnLastFour: PropTypes.string.isRequired,
+  dateOfBirth: PropTypes.string,
+  ssnLastFour: PropTypes.string,
+  vaFileNumber: PropTypes.string,
 };
 
 VeteranInfoBox.defaultProps = {
   first: '',
   last: '',
   middle: '',
-  suffix: '',
   dateOfBirth: '',
   ssnLastFour: '',
+  vaFileNumber: '',
 };
 
 const mapStateToProps = state => ({
-  first: state.user?.profile?.userFullName?.first,
-  middle: state.user?.profile?.userFullName?.middle,
-  last: state.user?.profile?.userFullName?.last,
-  suffix: state.form?.data?.fullName?.suffix,
-  dateOfBirth: state.form?.data?.dateOfBirth,
-  ssnLastFour: state.form?.data?.ssnLastFour,
-  profile: state.user.profile,
+  first: state.form?.data?.personalData?.fullName?.first,
+  middle: state.form?.data?.personalData?.fullName?.middle,
+  last: state.form?.data?.personalData?.fullName?.last,
+  dateOfBirth: state.form?.data?.personalData?.dateOfBirth,
+  ssnLastFour: '0000',
+  vaFileNumber: '0123456789',
 });
 
 export default connect(
