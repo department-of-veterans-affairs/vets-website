@@ -4,7 +4,6 @@ import { states } from 'vets-json-schema/dist/constants.json';
 
 import fullSchema from '../../0873-schema.json';
 import {
-  topicTitle,
   topicLevelOneTitle,
   topicLevelTwoTitle,
   topicLevelThreeTitle,
@@ -220,7 +219,6 @@ export function uiSchema() {
   );
 
   return {
-    'ui:title': topicTitle,
     'ui:options': {
       updateSchema: (formData, topicSchema, index, path) => {
         return topicChangeSelector({

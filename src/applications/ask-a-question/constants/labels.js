@@ -6,8 +6,6 @@ export const inquiryChapterTitle = "Share why you're contacting us";
 export const inquiryPageTitle = 'Your message';
 export const inquiryPageDescription = PageDescription('Your message');
 
-export const topicTitle =
-  'Which topic best describes your question or message?';
 export const topicLevelOneTitle =
   'Which category best describes your question or message?';
 export const topicLevelTwoTitle =
