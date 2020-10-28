@@ -209,25 +209,21 @@ class FileField extends React.Component {
   };
 
   /**
-   * @typeof Files~ApiResponse
+   * FormData of supported files
+   * @typeof Files
    * @type {object}
    * @property {string} name - file name
+   * @property {boolean} uploading - flag indicating that an upload is in
+   *  progress
    * @property {string} confirmationCode - uuid of uploaded file
    * @property {string} attachmentId - form ID set by user
    * @property {string} errorMessage - error message string returned from API
+   * @property {string} password - (Encrypted PDF only) password entered by user
+   * @property {boolean} isEncrypted - (Encrypted PDF only; pre-upload only)
+   *  encrypted state of the file
+   * @property {DOMFileObject} file - (Encrypted PDF only) File object, used
+   *  when user submits password
    */
-  /**
-   * @typedef Files~render
-   * @type {object}
-   * @property {Files~ApiResponse} file - File object, used when user submits
-   *   password
-   * @property {string} name - file name for UI
-   * @property {string} password - password entered by user
-   * @property {boolean} isEncrypted - (pre-upload only) encrypted state
-   * @property {string} errorMessage - (post-upload only) error message string
-   *   returned from API
-   */
-
   render() {
     const {
       uiSchema,
