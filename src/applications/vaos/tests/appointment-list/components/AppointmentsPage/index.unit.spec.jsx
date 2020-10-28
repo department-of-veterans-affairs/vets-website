@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import environment from 'platform/utilities/environment';
 import {
   setFetchJSONFailure,
@@ -519,5 +520,73 @@ describe('VAOS integration: appointment list', () => {
     expect(screen.baseElement).to.contain.text(
       `${closestStart.format('h:mm a')} to ${closestEnd.format('h:mm a')}`,
     );
+  });
+
+  it('should allow tabbing to tab group, but not individual tabs', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+    });
+    mockRequestEligibilityCriteria(['983'], []);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+    });
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'Upcoming',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'Past',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+    expect(
+      screen.getByRole('tab', {
+        name: 'Express Care',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+
+    userEvent.click(
+      screen.getByRole('tab', {
+        name: 'Past',
+      }),
+    );
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'Past',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'Upcoming',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+    expect(
+      screen.getByRole('tab', {
+        name: 'Express Care',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
   });
 });

@@ -68,6 +68,7 @@ describe('VAOS <VAOSApp>', () => {
       true,
       initialState,
     );
+    stateWithCernerUser.user.profile.facilities[0].usesCernerAppointments = true;
     const store = createTestStore(stateWithCernerUser);
     const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
       store,

@@ -10,6 +10,7 @@ export const veteranPathPageNames = {
   disabilityRating: 'disabilityRating',
   noDisabilityRating: 'noDisabilityRating',
   yesActiveDutySeparation: 'yesActiveDutySeparation',
+  noActiveDutySeparation: 'noActiveDutySeparation',
   interestedInEmploymentHelp: 'interestedInEmploymentHelp',
   notInterestedInEmploymentHelp: 'notInterestedInEmploymentHelp',
 };

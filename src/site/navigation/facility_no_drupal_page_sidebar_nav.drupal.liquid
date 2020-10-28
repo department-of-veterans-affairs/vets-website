@@ -7,7 +7,7 @@
 {% endcomment %}
 
 {% if buildtype != 'vagovprod' %}
-    <script type="text/javascript">
+    <script nonce="**CSP_NONCE**" type="text/javascript">
       window.sideNav = {{ sidebarData | json }};
     </script>
 

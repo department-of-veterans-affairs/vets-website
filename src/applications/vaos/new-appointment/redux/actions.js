@@ -7,7 +7,6 @@ import {
   selectVet360EmailAddress,
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
-  selectIsCernerOnlyPatient,
   selectVet360ResidentialAddress,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
@@ -24,6 +23,7 @@ import {
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
+  selectIsCernerOnlyPatient,
 } from '../../utils/selectors';
 import {
   getPreferences,
@@ -316,6 +316,7 @@ export function checkEligibility(location, siteId) {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId,
         eligibilityData,
+        facilityId: location.id,
       });
 
       try {
@@ -380,6 +381,16 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           typeOfCareFacilities?.length,
         );
 
+        dispatch({
+          type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+          facilities: typeOfCareFacilities || [],
+          parentFacilities,
+          typeOfCareId,
+          schema,
+          uiSchema,
+          address: selectVet360ResidentialAddress(initialState),
+        });
+
         // If we have an already selected location or only have a single location
         // fetch eligbility data immediately
         const eligibilityDataNeeded =
@@ -409,16 +420,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
           dispatch(checkEligibility(selectedFacility, siteId));
         }
-
-        dispatch({
-          type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
-          facilities: typeOfCareFacilities || [],
-          parentFacilities,
-          typeOfCareId,
-          schema,
-          uiSchema,
-          address: selectVet360ResidentialAddress(initialState),
-        });
       }
     } catch (e) {
       captureError(e, false, 'facility page');
@@ -466,7 +467,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
         recordEvent({
           event: `${GA_PREFIX}-request-current-location-blocked`,
         });
-        captureError(e, false, 'facility page');
+        captureError(e, true, 'facility page');
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
@@ -694,6 +695,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
           typeOfCareId,
           eligibilityData,
+          facilityId: data.vaFacility,
         });
 
         try {
