@@ -52,7 +52,7 @@
         "root": "./src",
         "alias": {
           "vet360": "./src/platform/user/profile/vet360",
-          "#profile": "./src/#profile"
+          "#profile": "./src/applications/personalization/profile"
         }
       }
     ]
