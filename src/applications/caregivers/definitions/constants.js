@@ -58,3 +58,10 @@ export const secondaryCaregiverFields = {
     vetRelationship: 'secondaryTwoVetRelationship',
   },
 };
+
+export const reviewPageLabels = {
+  veteranLabel: `Veteran\u2019s`,
+  primaryLabel: `Primary Family Caregiver applicant\u2019s`,
+  secondaryOneLabel: `Secondary Family Caregiver applicant\u2019s`,
+  secondaryTwoLabel: `Secondary Family Caregiver (2) applicant\u2019s`,
+};

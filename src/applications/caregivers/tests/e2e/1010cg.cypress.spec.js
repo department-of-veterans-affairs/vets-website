@@ -4,11 +4,14 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
+import { reviewPageLabels } from 'applications/caregivers/definitions/constants';
 
-const veteranLabel = `Veteran\u2019s`;
-const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
-const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+const {
+  veteranLabel,
+  primaryLabel,
+  secondaryOneLabel,
+  secondaryTwoLabel,
+} = reviewPageLabels;
 
 const testSecondaryTwo = createTestConfig(
   {

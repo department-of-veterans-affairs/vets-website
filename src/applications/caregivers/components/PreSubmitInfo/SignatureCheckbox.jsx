@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import { reviewPageLabels } from 'applications/caregivers/definitions/constants';
 
 import SignatureInput from './SignatureInput';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -55,6 +56,13 @@ const secondaryCertTwo = [
 const getSchemaEnum = party =>
   fullSchema.properties[party].properties.certifications.items.enum;
 
+const {
+  veteranLabel,
+  primaryLabel,
+  secondaryOneLabel,
+  secondaryTwoLabel,
+} = reviewPageLabels;
+
 const SignatureCheckbox = props => {
   getSchemaEnum('secondaryCaregiverOne');
   const {
@@ -76,7 +84,7 @@ const SignatureCheckbox = props => {
     dirty: false,
   });
   const hasRadioValue =
-    label === 'Veteran\u2019s' ? true : radioValue.dirty === true;
+    label === veteranLabel ? true : radioValue.dirty === true;
   const isSignatureComplete = isSigned && isChecked && hasRadioValue;
   const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
 
@@ -105,22 +113,22 @@ const SignatureCheckbox = props => {
   const getEnumsFromLabel = option => {
     const optionValue = option.value;
     const hashMap = {
-      [`Veteran\u2019s`]: veteranCert,
-      [`Primary Family Caregiver applicant\u2019s`]: {
+      [veteranLabel]: veteranCert,
+      [primaryLabel]: {
         optionOne: primaryCertOne,
         optionTwo: primaryCertTwo,
       },
-      [`Secondary Family Caregiver applicant\u2019s`]: {
+      [secondaryOneLabel]: {
         optionOne: secondaryCertOne,
         optionTwo: secondaryCertTwo,
       },
-      [`Secondary Family Caregiver (2) applicant\u2019s`]: {
+      [secondaryTwoLabel]: {
         optionOne: secondaryCertOne,
         optionTwo: secondaryCertTwo,
       },
     };
 
-    if (label === `Veteran\u2019s`) {
+    if (label === veteranLabel) {
       return hashMap[label];
     } else {
       return hashMap[label][optionValue];
@@ -154,7 +162,7 @@ const SignatureCheckbox = props => {
     >
       {children && <header>{children}</header>}
 
-      {label !== 'Veteran\u2019s' && (
+      {label !== veteranLabel && (
         <>
           <ErrorableRadioButtons
             additionalFieldsetClass="vads-u-margin-top--0p5"

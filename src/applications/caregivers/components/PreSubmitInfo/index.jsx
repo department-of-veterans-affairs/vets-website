@@ -5,18 +5,21 @@ import { cloneDeep } from 'lodash';
 import SignatureCheckbox from './SignatureCheckbox';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import SecondaryCaregiverCopy from './components/SecondaryCaregiverCopy';
+import { reviewPageLabels } from 'applications/caregivers/definitions/constants';
 
 const PreSubmitCheckboxGroup = props => {
   const { onSectionComplete, formData, showError } = props;
-
-  const veteranLabel = `Veteran\u2019s`;
-  const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-  const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
-  const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+  const {
+    veteranLabel,
+    primaryLabel,
+    secondaryOneLabel,
+    secondaryTwoLabel,
+  } = reviewPageLabels;
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
 
   // veteranCertifications (always required)
+  // all optional
   // primaryCertifications
   // secondaryOneCertifications
   // secondaryTwoCertifications
