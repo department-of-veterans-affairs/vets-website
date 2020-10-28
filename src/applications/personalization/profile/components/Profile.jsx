@@ -43,7 +43,7 @@ import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
 
-class ProfileRouter extends Component {
+class Profile extends Component {
   componentDidMount() {
     const {
       fetchFullName,
@@ -204,7 +204,7 @@ class ProfileRouter extends Component {
   }
 }
 
-ProfileRouter.propTypes = {
+Profile.propTypes = {
   user: PropTypes.object.isRequired,
   showLoader: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
@@ -290,9 +290,9 @@ const mapDispatchToProps = {
   dismissDowntimeWarning,
 };
 
-export { ProfileRouter as Profile, mapStateToProps };
+export { Profile as ProfileUnconnected, mapStateToProps };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProfileRouter);
+)(Profile);
