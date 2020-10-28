@@ -7,7 +7,7 @@ import {
   isPendingTransaction,
 } from 'vet360/util/transactions';
 import VAPEditModalActionButtons from './VAPEditModalActionButtons';
-import Vet360EditModalErrorMessage from 'platform/user/profile/vet360/components/base/Vet360EditModalErrorMessage';
+import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
 
 class VAPEditView extends Component {
   static propTypes = {

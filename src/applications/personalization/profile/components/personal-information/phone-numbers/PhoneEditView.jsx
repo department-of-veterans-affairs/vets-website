@@ -7,7 +7,7 @@ import { isEnrolledInVAHealthCare as isEnrolledInVAHealthCareSelector } from 'ap
 
 import { FIELD_NAMES } from 'vet360/constants';
 
-import ContactInfoForm from 'platform/user/profile/vet360/components/ContactInfoForm';
+import ContactInfoForm from 'vet360/components/ContactInfoForm';
 
 class PhoneEditView extends React.Component {
   getInitialFormValues = () => {
