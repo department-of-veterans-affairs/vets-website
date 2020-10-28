@@ -45,6 +45,9 @@ const PreSubmitCheckboxGroup = props => {
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
+  // TODO compute certs for all parties
+  // once all parties are computed add to AGREED logic
+  // once AGREED logic is fulfilled hoist data to redux state
   useEffect(
     () => {
       onSectionComplete(!unSignedLength);
@@ -58,6 +61,7 @@ const PreSubmitCheckboxGroup = props => {
     [unSignedLength],
   );
 
+  // prune party if they no longer exist
   useEffect(
     () => {
       if (!hasSecondaryOne) {

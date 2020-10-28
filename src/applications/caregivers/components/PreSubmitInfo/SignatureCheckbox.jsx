@@ -75,7 +75,6 @@ const SignatureCheckbox = props => {
     setCertifications,
   } = props;
 
-  // console.log('signature props: ', props);
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [hasError, setError] = useState(null);
@@ -83,8 +82,10 @@ const SignatureCheckbox = props => {
     value: '',
     dirty: false,
   });
+  // checking for radio value, if veteran always pass true since veteran does not have radio certs
   const hasRadioValue =
     label === veteranLabel ? true : radioValue.dirty === true;
+  // used to check for SignatureBox validity
   const isSignatureComplete = isSigned && isChecked && hasRadioValue;
   const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
 
@@ -112,7 +113,7 @@ const SignatureCheckbox = props => {
   // function that returns array of cert ids
   const getEnumsFromLabel = option => {
     const optionValue = option.value;
-    const hashMap = {
+    const certOptionsMap = {
       [veteranLabel]: veteranCert,
       [primaryLabel]: {
         optionOne: primaryCertOne,
@@ -129,12 +130,13 @@ const SignatureCheckbox = props => {
     };
 
     if (label === veteranLabel) {
-      return hashMap[label];
+      return certOptionsMap[label];
     } else {
-      return hashMap[label][optionValue];
+      return certOptionsMap[label][optionValue];
     }
   };
 
+  // add/remove certs depending upon if valid
   useEffect(
     () => {
       if (isSignatureComplete) {
@@ -146,9 +148,9 @@ const SignatureCheckbox = props => {
 
       if (!isSignatureComplete) {
         setCertifications(prevState => {
-          const oldState = prevState;
-          delete oldState[label];
-          return { ...oldState };
+          const newState = prevState;
+          delete newState[label];
+          return { ...newState };
         });
       }
     },
