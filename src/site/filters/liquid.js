@@ -422,19 +422,27 @@ module.exports = function registerFilters() {
     currentPath,
     pageTitle,
   ) => {
-    breadcrumbs.push({
+    const filteredCrumbs = [];
+    breadcrumbs.forEach(crumb => {
+      // Remove any resources crumb - we don't want the drupal page title.
+      if (crumb.url.path !== '/resources') {
+        filteredCrumbs.push(crumb);
+      }
+    });
+    // Add the resources crumb with the correct crumb title.
+    filteredCrumbs.push({
       url: { path: '/resources', routed: false },
       text: 'Resources and support',
     });
 
     if (pageTitle) {
-      breadcrumbs.push({
+      filteredCrumbs.push({
         url: { path: currentPath, routed: true },
         text: string,
       });
     }
 
-    return breadcrumbs;
+    return filteredCrumbs;
   };
 
   // used to get a base url path of a health care region from entityUrl.path
