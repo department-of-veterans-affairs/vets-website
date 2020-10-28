@@ -6,8 +6,8 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import AccountSecurity from 'applications/personalization/profile/components/account-security/AccountSecurity';
-import AccountSecurityContent from 'applications/personalization/profile/components/account-security/AccountSecurityContent';
+import AccountSecurity from '#profile/components/account-security/AccountSecurity';
+import AccountSecurityContent from '#profile/components/account-security/AccountSecurityContent';
 
 describe('AccountSecurity', () => {
   let wrapper;

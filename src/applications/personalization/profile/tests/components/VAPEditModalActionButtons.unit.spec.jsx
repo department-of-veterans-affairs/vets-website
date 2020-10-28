@@ -2,7 +2,7 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import VAPEditModalActionButtons from 'applications/personalization/profile/components/personal-information/VAPEditModalActionButtons';
+import VAPEditModalActionButtons from '#profile/components/personal-information/VAPEditModalActionButtons';
 
 describe('<VAPEditModalActionButtons/>', () => {
   let props = null;

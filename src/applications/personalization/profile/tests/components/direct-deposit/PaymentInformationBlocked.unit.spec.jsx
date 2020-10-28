@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import PaymentInformationBlocked from 'applications/personalization/profile/components/direct-deposit/PaymentInformationBlocked';
+import PaymentInformationBlocked from '#profile/components/direct-deposit/PaymentInformationBlocked';
 
 describe('<PaymentInformationBlocked />', () => {
   it('renders', () => {

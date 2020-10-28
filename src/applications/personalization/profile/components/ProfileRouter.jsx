@@ -31,13 +31,13 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
   fetchPersonalInformation as fetchPersonalInformationAction,
-} from 'applications/personalization/profile/actions';
+} from '#profile/actions';
 import {
   directDepositAddressIsSetUp,
   directDepositIsBlocked,
   directDepositIsSetUp,
-} from 'applications/personalization/profile/selectors';
-import { fetchPaymentInformation as fetchPaymentInformationAction } from 'applications/personalization/profile/actions/paymentInformation';
+} from '#profile/selectors';
+import { fetchPaymentInformation as fetchPaymentInformationAction } from '#profile/actions/paymentInformation';
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 

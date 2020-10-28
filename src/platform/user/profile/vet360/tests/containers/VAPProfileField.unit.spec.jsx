@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import {
   VAPProfileField,
   mapStateToProps,
-} from 'applications/personalization/profile/components/personal-information/VAPProfileField';
+} from '#profile/components/personal-information/VAPProfileField';
 import { FIELD_NAMES, TRANSACTION_STATUS } from '../../constants';
 
 function ContentView() {

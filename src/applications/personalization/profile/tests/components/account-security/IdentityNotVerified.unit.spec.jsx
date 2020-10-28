@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import IdentityNotVerified from 'applications/personalization/profile/components/account-security/IdentityNotVerified';
+import IdentityNotVerified from '#profile/components/account-security/IdentityNotVerified';
 
 describe('IdentityNotVerified', () => {
   let wrapper;
