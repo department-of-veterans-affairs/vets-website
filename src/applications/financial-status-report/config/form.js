@@ -1,59 +1,78 @@
-// import fullSchema from 'vets-json-schema/dist/5655-schema.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
+import fullSchema from '../schema/5655-schema.json';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp';
+import { schemaFields } from '../constants';
+import uiDefinitions from '../schema/5655-ui';
 
-// const { } = fullSchema.properties;
+const { viewVeteranInfoField } = schemaFields;
+const { veteranInfoUI } = uiDefinitions;
 
-// const { } = fullSchema.definitions;
-
-const formFields = {
-  firstName: 'firstName',
+const formChapterTitles = {
+  veteranInformation: 'Veteran information',
+  selectSupplies: 'Select your supplies',
 };
+
+const formPageTitles = {
+  veteranInfo: 'Veteran information',
+  address: 'Shipping address',
+  addSuppliesPage: 'Add supplies to your order',
+};
+
+const { fullName } = fullSchema.definitions;
+// const { vaFileNumber } = fullSchema.properties;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/v0/api`,
   trackingPrefix: 'fsr-5655-',
+  verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: 'Please start over to submit a Financial Status Report (5655).',
+    noAuth:
+      'Please sign in again to continue your Financial Status Report (5655).',
   },
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your [savedFormDescription] is in progress.',
-    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
-    //   saved: 'Your [benefitType] [appType] has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your Financial Status Report (5655) is in progress.',
+      expired:
+        'Your saved Financial Status Report (5655) has expired. If you want to submit a Financial Status Report (5655), please start a new Financial Status Report (5655).',
+      saved: 'Your Financial Status Report (5655) has been saved.',
+    },
   },
-  title: 'Financial Status Report',
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    fullName,
+  },
+  title: 'Financial Status Report (5655)',
+  subTitle: 'Form 5655',
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   chapters: {
-    chapter1: {
-      title: 'Personal Information',
+    veteranInformationChapter: {
+      title: formChapterTitles.veteranInformation,
       pages: {
-        page1: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
+        [formPageTitles.veteranInfo]: {
+          path: 'veteran-information',
+          title: formPageTitles.veteranInfo,
           uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
-            },
+            [viewVeteranInfoField]: veteranInfoUI,
           },
           schema: {
-            required: [formFields.firstName],
             type: 'object',
             properties: {
-              [formFields.firstName]: {
-                type: 'string',
+              [viewVeteranInfoField]: {
+                type: 'object',
+                properties: {},
               },
             },
           },
