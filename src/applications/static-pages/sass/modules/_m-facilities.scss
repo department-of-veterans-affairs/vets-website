@@ -267,6 +267,13 @@ $duo-tone-lighten: #000;
   max-height: 227px;
 }
 
+.mobile-value p {
+  margin-left: 2px;
+}
+.mobile-value strong {
+  font-weight: normal;
+}
+
 .va-facility-page {
   .va-address-block {
     margin-left: 1rem;
