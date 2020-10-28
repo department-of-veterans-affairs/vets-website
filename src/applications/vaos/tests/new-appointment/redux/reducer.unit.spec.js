@@ -25,8 +25,8 @@ import {
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
-  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
 } from '../../../new-appointment/redux/actions';
@@ -1096,32 +1096,32 @@ describe('VAOS reducer: newAppointment', () => {
     ).to.be.false;
   });
 
-  it('should set ToC modal to show', () => {
+  it('should set podiatry appointment unavailable modal to show', () => {
     const currentState = {
       data: {},
       pageChangeInProgress: true,
     };
     const action = {
-      type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     };
 
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.pageChangeInProgress).to.be.false;
-    expect(newState.showTypeOfCareUnavailableModal).to.be.true;
+    expect(newState.showPodiatryAppointmentUnavailableModal).to.be.true;
   });
 
-  it('should set ToC modal to hidden', () => {
+  it('should set podiatry appointment unavailable modal to hidden', () => {
     const currentState = {
       data: {},
     };
     const action = {
-      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     };
 
     const newState = newAppointmentReducer(currentState, action);
 
-    expect(newState.showTypeOfCareUnavailableModal).to.be.false;
+    expect(newState.showPodiatryAppointmentUnavailableModal).to.be.false;
   });
 
   it('should reset form when new appointment button is clicked', () => {

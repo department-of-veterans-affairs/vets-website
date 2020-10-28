@@ -45,8 +45,8 @@ import {
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
@@ -285,17 +285,17 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+    case FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
       return {
         ...state,
-        showTypeOfCareUnavailableModal: true,
+        showPodiatryAppointmentUnavailableModal: true,
         pageChangeInProgress: false,
       };
     }
-    case FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+    case FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
       return {
         ...state,
-        showTypeOfCareUnavailableModal: false,
+        showPodiatryAppointmentUnavailableModal: false,
       };
     }
     case CLICKED_UPDATE_ADDRESS_BUTTON: {

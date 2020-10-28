@@ -6,6 +6,7 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
   if (!showModal) {
     return null;
   }
+  const title = 'You need to call your VA facility for a Podiatry appointment';
 
   return (
     <Modal
@@ -13,7 +14,7 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
       status="warning"
       visible
       onClose={onClose}
-      title={`You need to call your VA facility for a Podiatry appointment`}
+      title={title}
     >
       You’re not eligible to request a community care Podiatry appointment
       online at this time. Please call your local VA medical center to schedule

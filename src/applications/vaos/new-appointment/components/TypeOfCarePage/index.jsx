@@ -12,8 +12,8 @@ import {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  showTypeOfCareUnavailableModal,
-  hideTypeOfCareUnavailableModal,
+  showPodiatryAppointmentUnavailableModal,
+  hidePodiatryAppointmentUnavailableModal,
   clickUpdateAddressButton,
 } from '../../redux/actions';
 import {
@@ -103,7 +103,7 @@ export class TypeOfCarePage extends React.Component {
       data,
       pageChangeInProgress,
       schema,
-      showToCUnavailableModal,
+      showPodiatryApptUnavailableModal,
     } = this.props;
 
     if (!schema) {
@@ -135,8 +135,8 @@ export class TypeOfCarePage extends React.Component {
           />
         </SchemaForm>
         <PodiatryAppointmentUnavailableModal
-          showModal={showToCUnavailableModal}
-          onClose={this.props.hideTypeOfCareUnavailableModal}
+          showModal={showPodiatryApptUnavailableModal}
+          onClose={this.props.hidePodiatryAppointmentUnavailableModal}
         />
       </div>
     );
@@ -150,7 +150,8 @@ function mapStateToProps(state) {
   return {
     ...formInfo,
     ...address,
-    showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
+    showPodiatryApptUnavailableModal:
+      newAppointment.showPodiatryAppointmentUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showDirectScheduling: vaosDirectScheduling(state),
     hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
@@ -162,8 +163,8 @@ const mapDispatchToProps = {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  showTypeOfCareUnavailableModal,
-  hideTypeOfCareUnavailableModal,
+  showPodiatryAppointmentUnavailableModal,
+  hidePodiatryAppointmentUnavailableModal,
   clickUpdateAddressButton,
 };
 

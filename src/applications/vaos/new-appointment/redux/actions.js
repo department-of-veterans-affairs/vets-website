@@ -153,10 +153,10 @@ export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
   'newAppointment/FORM_CALENDAR_FETCH_SLOTS_FAILED';
 export const FORM_CALENDAR_DATA_CHANGED =
   'newAppointment/FORM_CALENDAR_DATA_CHANGED';
-export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
-  'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
-export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
-  'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
+export const FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
+export const FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
 export const FORM_HIDE_ELIGIBILITY_MODAL =
   'newAppointment/FORM_HIDE_ELIGIBILITY_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
@@ -206,15 +206,15 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function showTypeOfCareUnavailableModal() {
+export function showPodiatryAppointmentUnavailableModal() {
   return {
-    type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    type: FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   };
 }
 
-export function hideTypeOfCareUnavailableModal() {
+export function hidePodiatryAppointmentUnavailableModal() {
   return {
-    type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    type: FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   };
 }
 
