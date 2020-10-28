@@ -42,7 +42,7 @@ Row 3 Column 2 Row 3 Column 3",
   <!-- Iterate over rows -->
   {% for row in mobileTableData.rows %}
     <!-- First key-value pair -->
-    <p><strong>{{ row.dataPoints.0.label }}</strong> </p>
+    <p class="vads-u-margin-bottom--0"><strong>{{ row.dataPoints.0.label }}</strong> </p>
 	<div class="mobile-value vads-u-display--flex .vads-u-margin-x--1px"  >{{ row.dataPoints.0.value }}</div>
     <!-- Additional info toggle -->
     {% for dataPoint in row.dataPoints %}
