@@ -67,8 +67,6 @@ const SignatureCheckbox = props => {
     setCertifications,
   } = props;
 
-  // console.log('signature props: ', props);
-
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [hasError, setError] = useState(null);
@@ -76,8 +74,9 @@ const SignatureCheckbox = props => {
     value: '',
     dirty: false,
   });
-
-  const isSignatureComplete = isSigned && isChecked;
+  const hasRadioValue =
+    label === 'Veteran\u2019s' ? true : radioValue.dirty === true;
+  const isSignatureComplete = isSigned && isChecked && hasRadioValue;
   const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
 
   // add/remove signatures from boolean values
@@ -101,8 +100,7 @@ const SignatureCheckbox = props => {
     [showError, setIsChecked, isChecked],
   );
 
-  // function that returns array of ids
-
+  // function that returns array of cert ids
   const getEnumsFromLabel = option => {
     const optionValue = option.value;
     const hashMap = {
@@ -121,7 +119,6 @@ const SignatureCheckbox = props => {
       },
     };
 
-    // debugger;
     if (label === `Veteran\u2019s`) {
       return hashMap[label];
     } else {
@@ -131,9 +128,14 @@ const SignatureCheckbox = props => {
 
   useEffect(
     () => {
-      getEnumsFromLabel(radioValue);
+      if (isSignatureComplete) {
+        const newValue = { [label]: getEnumsFromLabel(radioValue) };
+        setCertifications(prevState => {
+          return { ...prevState, ...newValue };
+        });
+      }
     },
-    [radioValue],
+    [radioValue, isSignatureComplete],
   );
 
   return (
