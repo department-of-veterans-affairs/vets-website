@@ -20,7 +20,6 @@ class FileField extends React.Component {
     super(props);
     this.state = {
       progress: 0,
-      files: [], // see Files~state definition
     };
   }
   fileInputRef = React.createRef();
@@ -40,45 +39,25 @@ class FileField extends React.Component {
     }
   }
 
+  componentDidMount() {
+    // The File object is not preserved in the save-in-progress data
+    // We need to remove these entries; an empty `file` is included in the
+    // entry, but if API File Object still exists (within the same session), we
+    // can't use Object.keys() on it because it returns an empty array
+    const formData = (this.props.formData || []).filter(
+      // keep - file may not exist (already uploaded)
+      // keep - file may contain File object; ensure name isn't empty
+      // remove - file may be an empty object
+      data => !data.file || (data.file?.name || '') !== '',
+    );
+    if (formData.length !== (this.props.formData || []).length) {
+      this.props.onChange(formData);
+    }
+  }
+
   focusAddAnotherButton = () => {
     // focus on span pseudo-button, not the label
     focusElement(`#${this.props.idSchema.$id}_add_label span`);
-  };
-
-  /**
-   * @typedef Files~state - File state object
-   * @type {object}
-   * @property {object|null} file - upload API supplied File object: see
-   *   https://developer.mozilla.org/en-US/docs/Web/API/File
-   * @property {number} index - index matching formData array position
-   * @property {boolean} isEncrypted - detected encrypted state of a PDF file
-   * @property {boolean} isTemporary - indicates state data that needs needs a
-   *   placeholder
-   */
-  /**
-   * Update file state
-   * @param {object|null} file - API supplied File object; store the entire File
-   *   object because it needs to be passed to the `uploadRequest` function
-   * @param {number} index - index of file in formData
-   * @param {boolean} isEncrypted - encrypted state
-   */
-  setFileState = ({ file, index, isEncrypted }) => {
-    // remove already uploaded files from state
-    const files = this.state.files.filter(
-      fileObj =>
-        this.props.formData.findIndex(
-          fileData => fileData.name === fileObj.file.name,
-        ) < 0,
-    );
-
-    const existingIndex = files.findIndex(fileData => fileData.index === index);
-    const data = { file, index, isEncrypted, isTemporary: true };
-    if (existingIndex > -1) {
-      files[existingIndex] = data;
-      this.setState({ files });
-    } else {
-      this.setState({ files: [...files, data] });
-    }
   };
 
   onSubmitPassword = (file, index, password) => {
@@ -88,11 +67,17 @@ class FileField extends React.Component {
   };
 
   processFile = async (file, index) => {
-    const { uiSchema } = this.props;
-    return checkForEncryptedPdf(file, uiSchema)
+    const { onChange, formData } = this.props;
+    return checkForEncryptedPdf(file)
       .then(isEncrypted => {
         if (isEncrypted) {
-          this.setFileState({ file, index, isEncrypted: true });
+          onChange(
+            _.set(
+              index,
+              { file, name: file.name, index, isEncrypted: true },
+              formData || [],
+            ),
+          );
         }
         return isEncrypted;
       })
@@ -100,6 +85,13 @@ class FileField extends React.Component {
         // This _should_ only be called if a file is deleted after the
         // user selects it for upload
         this.setFileState({ index, isEncrypted: false });
+        onChange(
+          _.set(
+            index,
+            { file, name: file.name, index, isEncrypted: false },
+            formData || [],
+          ),
+        );
         return false;
       });
   };
@@ -134,6 +126,17 @@ class FileField extends React.Component {
         const needsPassword = await this.processFile(currentFile, idx);
         if (needsPassword) {
           // wait for user to enter a password before uploading
+          this.props.onChange(
+            _.set(
+              idx,
+              {
+                file: currentFile,
+                name: currentFile.name,
+                isEncrypted: true,
+              },
+              this.props.formData || [],
+            ),
+          );
           return;
         }
       }
@@ -189,16 +192,16 @@ class FileField extends React.Component {
   };
 
   removeFile = index => {
+    // const removedFile = this.props.formData[index];
     const newFileList = this.props.formData.filter((__, idx) => index !== idx);
     if (!newFileList.length) {
       this.props.onChange();
     } else {
       this.props.onChange(newFileList);
     }
-    this.setState({
-      files: this.state.files.filter(entry => entry.index !== index),
-    });
-    // clear file input value; just in case
+
+    // clear file input value; without this, the user won't be able to open the
+    // upload file window
     if (this.fileInputRef.current) {
       this.fileInputRef.current.value = '';
     }
@@ -211,6 +214,7 @@ class FileField extends React.Component {
    * @property {string} name - file name
    * @property {string} confirmationCode - uuid of uploaded file
    * @property {string} attachmentId - form ID set by user
+   * @property {string} errorMessage - error message string returned from API
    */
   /**
    * @typedef Files~render
@@ -218,36 +222,11 @@ class FileField extends React.Component {
    * @property {Files~ApiResponse} file - File object, used when user submits
    *   password
    * @property {string} name - file name for UI
-   * @property {boolean} isEncrypted - encrypted state
-   * @property {boolean} isTemporary - temporary file listing added
-   *   before uploading to have a placeholder in the UI
+   * @property {string} password - password entered by user
+   * @property {boolean} isEncrypted - (pre-upload only) encrypted state
+   * @property {string} errorMessage - (post-upload only) error message string
+   *   returned from API
    */
-  /**
-   * Get file list. It needs to add files that have been marked as encrypted in
-   * the state file data
-   * @return {Files~render}
-   */
-  getFiles = () => {
-    // remove temp placeholders; just in case
-    const fileList =
-      this.props.formData?.filter(file => !file.isTemporary) || [];
-    this.state.files.forEach(({ file, index, isEncrypted }) => {
-      // This does not remove duplicate file uploads! The user may have same
-      // file names from different paths
-      if (file.name === fileList[index]?.name) {
-        // already uploaded; remove from state list
-        return false;
-      }
-      fileList.push({
-        file,
-        name: file.name,
-        isEncrypted,
-        isTemporary: true,
-      });
-      return true;
-    });
-    return fileList;
-  };
 
   render() {
     const {
@@ -261,7 +240,7 @@ class FileField extends React.Component {
       requestLockedPdfPassword,
     } = this.props;
     const uiOptions = uiSchema?.['ui:options'] || {};
-    const files = this.getFiles();
+    const files = this.props.formData || [];
     const maxItems = schema.maxItems || Infinity;
     const SchemaField = this.props.registry.fields.SchemaField;
     const attachmentIdRequired = schema.additionalItems.required
@@ -348,6 +327,7 @@ class FileField extends React.Component {
                   )}
                   {showPasswordSuccess && <PasswordSuccess />}
                   {!hasErrors &&
+                    !showPasswordInput &&
                     _.get('properties.attachmentId', itemSchema) && (
                       <Tag className="schemaform-file-attachment review">
                         <SchemaField
