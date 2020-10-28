@@ -35,7 +35,6 @@ let currentZoom = 3;
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
-  // const mapContainer = useRef(null);
   const searchResultTitleRef = useRef(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
@@ -259,12 +258,12 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       // Container exists
-      if (!window.document.getElementById('mapContainer')) {
+      if (!window.document.getElementById('mapbox-gl-container')) {
         return;
       }
 
       if (!map) {
-        setupMap(setMap, 'mapContainer');
+        setupMap(setMap, 'mapbox-gl-container');
       }
     },
     [map],
@@ -287,7 +286,7 @@ const FacilitiesMap = props => {
    */
   const setMapResize = () => {
     setTimeout(function() {
-      setupMap(setMap, 'mapContainer');
+      setupMap(setMap, 'mapbox-gl-container');
     }, 10);
   };
 
@@ -351,7 +350,7 @@ const FacilitiesMap = props => {
             <TabPanel>
               <div
                 style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
-                id="mapContainer"
+                id="mapbox-gl-container"
               />
               {selectedResult && (
                 <div className="mobile-search-result">
@@ -369,7 +368,7 @@ const FacilitiesMap = props => {
     // Reset the map after resize event
     if (
       map &&
-      (!window.document.getElementById('mapContainer') ||
+      (!window.document.getElementById('mapbox-gl-container') ||
         window.document.getElementsByClassName('desktop-map-container')
           .length === 0)
     ) {
@@ -412,7 +411,7 @@ const FacilitiesMap = props => {
             />
           </div>
         </div>
-        <div className="desktop-map-container" id="mapContainer" />
+        <div className="desktop-map-container" id="mapbox-gl-container" />
         <PaginationWrapper
           handlePageSelect={handlePageSelect}
           currentPage={currentPage}
