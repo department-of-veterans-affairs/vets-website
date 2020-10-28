@@ -30,6 +30,8 @@ const transform = (entity, { ancestors }) => ({
       ? {
           entity: {
             entityUrl: entity.fieldOffice[0].entityUrl,
+            entityLabel: entity.fieldOffice[0].entityLabel,
+            entityType: entity.fieldOffice[0].entityType,
             title: entity.fieldOffice[0].title,
             reverseFieldRegionPageNode: {
               entities: entity.fieldOffice[0].reverseFieldRegionPageNode

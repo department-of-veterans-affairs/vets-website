@@ -29,6 +29,7 @@ module.exports = {
         /* eslint-disable react-hooks/rules-of-hooks */
         entity: usePartialSchema(healthCareRegionPageSchema, [
           'entityUrl',
+          'entityType',
           'title',
           'reverseFieldRegionPageNode',
         ]),
