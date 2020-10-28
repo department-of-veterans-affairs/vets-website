@@ -66,7 +66,7 @@ class FileField extends React.Component {
     }
   };
 
-  processFile = async (file, index) => {
+  isFileEncrypted = async (file, index) => {
     const { onChange, formData } = this.props;
     return checkForEncryptedPdf(file)
       .then(isEncrypted => {
@@ -123,7 +123,7 @@ class FileField extends React.Component {
         currentFile.name?.endsWith('pdf') &&
         !password
       ) {
-        const needsPassword = await this.processFile(currentFile, idx);
+        const needsPassword = await this.isFileEncrypted(currentFile, idx);
         if (needsPassword) {
           // wait for user to enter a password before uploading
           this.props.onChange(
