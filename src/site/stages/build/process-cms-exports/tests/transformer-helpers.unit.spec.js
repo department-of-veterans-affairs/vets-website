@@ -231,7 +231,7 @@ describe('CMS export transformer helpers', () => {
     });
   });
 
-  describe('usePartialSchema', () => {
+  describe('partialSchema', () => {
     it('Should throw an error when a non-object schema is passed', () => {
       expect(() => partialSchema({ type: 'array' })).to.throw();
       expect(() => partialSchema(['invalid schema'])).to.throw();
