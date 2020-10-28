@@ -1,4 +1,4 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
 const healthCareRegionPageSchema = require('./node-health_care_region_page');
 
 module.exports = {
@@ -27,7 +27,7 @@ module.exports = {
       type: 'object',
       properties: {
         /* eslint-disable react-hooks/rules-of-hooks */
-        entity: usePartialSchema(healthCareRegionPageSchema, [
+        entity: partialSchema(healthCareRegionPageSchema, [
           'entityUrl',
           'entityType',
           'title',
