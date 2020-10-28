@@ -7,8 +7,10 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { selectUseFlatFacilityPage } from '../utils/selectors';
+import {
+  selectUseFlatFacilityPage,
+  selectIsCernerOnlyPatient,
+} from '../utils/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import TypeOfCarePage from './components/TypeOfCarePage';

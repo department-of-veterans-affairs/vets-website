@@ -2,114 +2,109 @@
 
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = true %}
 
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
-        <!-- Draft status -->
-        {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info">
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
+        <div class="usa-content">
+          <!-- Draft status -->
+          {% if !entityPublished %}
+            <div class="usa-alert usa-alert-info">
+              <div class="usa-alert-body">
+                <p class="usa-alert-text">You are viewing a draft.</p>
+              </div>
             </div>
-          </div>
-        {% endif %}
-
-        <article class="usa-content">
-          <!-- Title -->
-          <h1>{{ title }}</h1>
-
-          <!-- Intro -->
-          <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
-
-          <!-- Alert -->
-          {% if fieldAlertSingle %}
-            {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
           {% endif %}
 
-          <!-- Buttons -->
-          <div class="vads-u-margin-top--3">
-            {% for fieldButton in fieldButtons  %}
-              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-            {% endfor %}
+          <!-- Search bar -->
+          <div class="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-margin-bottom--3">
+            {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
           </div>
 
-          <!-- Steps -->
-          {% for fieldStepsItem in fieldSteps %}
+          <article>
+            <!-- Title -->
+            <h1>{{ title }}</h1>
 
-            <!-- Initialize step number -->
-            {% assign stepNumber = 1 %}
+            <!-- Intro -->
+            <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
 
-            <!-- Step list header -->
-            <h2 class="vads-u-font-size--h2 vads-u-margin-y--4 vads-u-padding-top--0 ">
-              {{ fieldStepsItem.entity.fieldSectionHeader }}</h2>
+            <!-- Alert -->
+            {% if fieldAlertSingle %}
+              {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
+            {% endif %}
 
-            <ol class="process">
-              {% for fieldStep in fieldStepsItem.entity.fieldStep %}
-                <!-- Step -->
-                <li class="process-step list-{{ stepNumber | numToWord }}">
-                  <!-- Step wysiyg -->
-                  {{ fieldStep.entity.fieldWysiwyg.processed }}
-                  <br />
-
-                  <!-- Step alert -->
-                  {% if fieldStep.entity.fieldAlert.length %}
-                    {% for alert in fieldStep.entity.fieldAlert %}
-                      {% if alert.entity != empty %}
-                        <div class="vads-u-margin-bottom--4">
-                          {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
-                        </div>
-                      {% endif %}
-                    {% endfor %}
-                  {% else %}
-                    {% if fieldStep.entity.fieldAlert.entity != empty %}
-                      <div class="vads-u-margin-bottom--4">
-                        {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldStep.entity.fieldAlert.entity %}
-                      </div>
-                    {% endif %}
-                  {% endif %}
-
-                  <!-- Step image -->
-                  {% if fieldStep.entity.fieldMedia.entity != empty %}
-                    <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
-                      src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
-                  {% endif %}
-                </li>
-
-                <!-- Increment step number -->
-                {% assign stepNumber = stepNumber | plus: 1 %}
-              {% endfor %}
-            </ol>
-          {% endfor %}
-
-          <!-- Repeated buttons -->
-          {% if fieldButtonsRepeat %}
+            <!-- Buttons -->
             <div class="vads-u-margin-top--3">
               {% for fieldButton in fieldButtons  %}
                 {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
               {% endfor %}
             </div>
-          {% endif %}
-        </article>
 
-        <!-- Line break -->
-        <hr class="vads-u-margin-top--0" />
+            <!-- Steps -->
+            {% for fieldStepsItem in fieldSteps %}
 
-        <!-- Tags -->
-        {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}
+              <!-- Initialize step number -->
+              {% assign stepNumber = 1 %}
 
-        <!-- Need more help -->
-        {% include "src/site/includes/related-benefit-hubs.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
+              <!-- Step list header -->
+              <h2 class="vads-u-font-size--h2 vads-u-margin-y--4 vads-u-padding-top--0 ">
+                {{ fieldStepsItem.entity.fieldSectionHeader }}</h2>
 
-        <!-- Related information -->
-        {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}
+              <ol class="process">
+                {% for fieldStep in fieldStepsItem.entity.fieldStep %}
+                  <!-- Step -->
+                  <li class="process-step list-{{ stepNumber | numToWord }}">
+                    <!-- Step wysiyg -->
+                    {{ fieldStep.entity.fieldWysiwyg.processed }}
+                    <br />
 
-        <!-- Last updated -->
-        <div class="last-updated usa-content">
-          Last updated: <time
-            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+                    {% include "src/site/paragraphs/alert_single.drupal.liquid" with alert = fieldStep.entity.fieldAlert.entity %}
+
+                    <!-- Step image -->
+                    {% if fieldStep.entity.fieldMedia.entity != empty %}
+                      <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
+                        src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
+                    {% endif %}
+                  </li>
+
+                  <!-- Increment step number -->
+                  {% assign stepNumber = stepNumber | plus: 1 %}
+                {% endfor %}
+              </ol>
+            {% endfor %}
+
+            <!-- Repeated buttons -->
+            {% if fieldButtonsRepeat %}
+              <div class="vads-u-margin-top--3">
+                {% for fieldButton in fieldButtons  %}
+                  {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </article>
+
+          <!-- Tags -->
+          {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}
+
+          <!-- How do you rate -->
+          {% include "src/site/includes/how-do-you-rate.drupal.liquid" %}
+
+          <!-- Related information -->
+          {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}
+
+          <!-- VA benefits -->
+          {% include "src/site/includes/benefit-hubs-links.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
+
+          <!-- Need more help -->
+          {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
+
+          <!-- Last updated -->
+          <div class="last-updated usa-content">
+            Last updated: <time
+              datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+          </div>
         </div>
       </div>
     </div>

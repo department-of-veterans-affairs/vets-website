@@ -10,6 +10,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
   daytimePhoneAreaCodeTitle,
   dependentInformationHeader,
+  dependentRelationshipToVeteran,
   emailTitle,
   streetAddress,
   veteranInformationHeader,
@@ -21,6 +22,11 @@ function expectBranchOfServiceToBeRequired(wrapper) {
     veteranServiceInformationUI.branchOfService['ui:title'],
     'veteranServiceInformation',
   ).shouldBeRequired();
+}
+
+function relationshipToVeteranShouldExist(wrapper) {
+  getLabelText(wrapper, dependentRelationshipToVeteran).shouldExist();
+  getLabelText(wrapper, dependentRelationshipToVeteran).shouldBeRequired();
 }
 
 function addressFieldsShouldNotExist(wrapper, fieldSetName) {
@@ -271,6 +277,7 @@ describe('Veteran Information Page', () => {
 
       getText(wrapper, dependentInformationHeader, '').shouldExist();
 
+      relationshipToVeteranShouldExist(wrapper);
       nameFieldsShouldExist(wrapper, 'dependentInformation');
       addressFieldsShouldExist(wrapper, 'dependentInformation');
       getLabelText(

@@ -12,7 +12,7 @@ const yesHonorableDischarge = ({ setPageState, state = {} }) => (
     name={`${veteranPathPageNames.yesHonorableDischarge}-option`}
     label={
       <p>
-        Do you have a service-connected disability rating of
+        Do you have a service-connected disability rating of{' '}
         <strong>10% or higher</strong>?
       </p>
     }
