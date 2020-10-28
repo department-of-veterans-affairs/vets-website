@@ -1,3 +1,6 @@
+const { usePartialSchema } = require('../../transformers/helpers');
+const healthCareRegionPageSchema = require('./node-health_care_region_page');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -22,7 +25,14 @@ module.exports = {
     fieldMetaTitle: { type: 'string' },
     fieldOffice: {
       type: 'object',
-      properties: { entity: { $ref: 'output/node-health_care_region_page' } },
+      properties: {
+        /* eslint-disable react-hooks/rules-of-hooks */
+        entity: usePartialSchema(healthCareRegionPageSchema, [
+          'entityUrl',
+          'title',
+          'reverseFieldRegionPageNode',
+        ]),
+      },
     },
   },
   required: [
