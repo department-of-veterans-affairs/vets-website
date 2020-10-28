@@ -102,6 +102,63 @@ describe('Schemaform <FileField>', () => {
     tree.unmount();
   });
 
+  it('should remove files with empty file object when initializing', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test1',
+      },
+      {
+        file: {},
+        name: 'Test2',
+      },
+      {
+        file: new File([1, 2, 3], 'Test3'),
+        name: 'Test3',
+      },
+      {
+        file: {
+          name: 'fake', // should never happen
+        },
+        name: 'Test4',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const onChange = sinon.spy();
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={onChange}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(onChange.calledOnce).to.be.true;
+    expect(onChange.firstCall.args[0].length).to.equal(3);
+    tree.unmount();
+  });
+
   it('should call onChange once when deleting files', () => {
     const idSchema = {
       $id: 'field',
