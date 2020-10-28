@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HomePhone from 'vet360/components/VAPHomePhone';
-import WorkPhone from 'vet360/components/VAPWorkPhone';
-import MobilePhone from 'vet360/components/VAPMobilePhone';
-import FaxNumber from 'vet360/components/VAPFaxNumber';
+import HomePhone from './fields/VAPHomePhone';
+import WorkPhone from './fields/VAPWorkPhone';
+import MobilePhone from './fields/VAPMobilePhone';
+import FaxNumber from './fields/VAPFaxNumber';
 
 import ProfileInfoTable from '../ProfileInfoTable';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MailingAddress from 'platform/user/profile/vet360/components/VAPMailingAddress';
-import ResidentialAddress from 'platform/user/profile/vet360/components/VAPResidentialAddress';
+import MailingAddress from './fields/VAPMailingAddress';
+import ResidentialAddress from './fields/VAPResidentialAddress';
 
 import ProfileInfoTable from '../ProfileInfoTable';
 
