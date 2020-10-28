@@ -17,7 +17,7 @@ export default async function keepAlive() {
       credentials: 'include',
       cache: 'no-store',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
     });
     const alive = resp.headers.get('session-alive') === 'true';
