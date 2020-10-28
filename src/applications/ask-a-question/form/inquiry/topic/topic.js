@@ -66,17 +66,20 @@ const levelOneTopicLabels = topicSchemaCopy.anyOf.map(topicSchema => {
   return topicSchema.properties.levelOne.enum[0];
 });
 
-// These are levelTwo topics that have level three subtopics and their respective levelOne parents
-const levelTwoWithLevelThreeTopics = {
-  'Burial & Memorial Benefits (NCA)': ['Burial Benefits'],
-  'Homeloan Guaranty/All VA Mortgage Issues': [
-    'Home Loan/Mortgage Webaccess & Tech prob',
-  ],
-  'Health & Medical Issues & Services': [
-    'Health/Medical Eligibility & Programs',
-    'Prosthetics, Med Devices & Sensory Aids',
-    'Women Veterans Health Care',
-  ],
+// Maps levelOne categories to list of levelTwo topics that have levelThree subtopics
+export const getTopicsWithSubtopicsByCategory = topicSchema => {
+  const topicsWithSubtopicsByCategory = {};
+  topicSchema.anyOf.forEach(categorySchema => {
+    if (categorySchema.properties.levelTwo.type === 'object') {
+      const topicsWithSubtopics = categorySchema.properties.levelTwo.anyOf
+        .filter(levelTwoSchema => levelTwoSchema.properties.levelThree)
+        .map(levelTwoSchema => levelTwoSchema.properties.subLevelTwo.enum[0]);
+      topicsWithSubtopicsByCategory[
+        categorySchema.properties.levelOne.enum[0]
+      ] = topicsWithSubtopics;
+    }
+  });
+  return topicsWithSubtopicsByCategory;
 };
 
 const valuesByLabelLookup = {};
@@ -86,7 +89,7 @@ levelOneTopicLabels.forEach(label => {
 
 const getLevelThreeTopics = () => {
   for (const [parentTopic, complexLevelTwo] of Object.entries(
-    levelTwoWithLevelThreeTopics,
+    getTopicsWithSubtopicsByCategory(topicSchemaCopy),
   )) {
     complexLevelTwo.forEach(label => {
       valuesByLabelLookup[label] = filterTopicArrayByLabel(
@@ -108,7 +111,7 @@ export const updateFormData = (oldData, newData) => {
 };
 
 export const levelThreeRequiredTopics = new Set(
-  _.flatten(Object.values(levelTwoWithLevelThreeTopics)),
+  _.flatten(Object.values(getTopicsWithSubtopicsByCategory(topicSchemaCopy))),
 );
 
 export const medicalCenterRequiredTopics = new Set([
@@ -128,13 +131,7 @@ export function schema(currentSchema, topicProperty = 'topic') {
     properties: _.assign(topicSchema.properties, {
       levelOne: {
         type: 'string',
-        enum: [
-          'Burial & Memorial Benefits (NCA)',
-          'Caregiver Support Program',
-          'Health & Medical Issues & Services',
-          'Homeloan Guaranty/All VA Mortgage Issues',
-          'VA Ctr for Women Vets, Policies & Progs',
-        ],
+        enum: _.orderBy([], 'asc', levelOneTopicLabels),
       },
       levelTwo: {
         type: 'string',
