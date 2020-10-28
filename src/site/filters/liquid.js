@@ -22,35 +22,38 @@ module.exports = function registerFilters() {
     moment.unix(dt).format('MMMM D, YYYY');
 
   liquid.filters.formatMobileTableData = entity => {
-    const labels = entity.fieldTable.value[0]
-    const rows = Object.values(entity.fieldTable.value).reduce((rows, row, rowIndex) => {
-      // If it's the header row, continue.
-      if (rowIndex === 0 || !row) return rows;
+    const labels = entity.fieldTable.value[0];
+    const rows = Object.values(entity.fieldTable.value).reduce(
+      (rows, row, rowIndex) => {
+        // If it's the header row, continue.
+        if (rowIndex === 0 || !row) return rows;
 
-      // Row can either be a string or an array of strings depending on cardinality.
-      if (typeof row === 'string') {
-        rows.push({ dataPoints: [{ label: labels[0], value: row }] });
+        // Row can either be a string or an array of strings depending on cardinality.
+        if (typeof row === 'string') {
+          rows.push({ dataPoints: [{ label: labels[0], value: row }] });
+          return rows;
+        }
+
+        // Derive the key-value pairs (label + value).
+        const dataPoints = row.map((column, columnIndex) => ({
+          label: labels[columnIndex],
+          value: column,
+        }));
+
+        // Add the item to our items.
+        rows.push({ dataPoints });
+
+        // Continue.
         return rows;
-      }
-
-      // Derive the key-value pairs (label + value).
-      const dataPoints = row.map((column, columnIndex) => ({
-        label: labels[columnIndex],
-        value: column,
-      }));
-
-      // Add the item to our items.
-      rows.push({ dataPoints });
-
-      // Continue.
-      return rows;
-    }, [])
+      },
+      [],
+    );
 
     return {
       caption: entity.fieldTable.caption,
       rows,
-    }
-  }
+    };
+  };
 
   function prettyTimeFormatted(dt, format) {
     const date = moment.utc(dt).format(format);
