@@ -26,7 +26,6 @@ module.exports = {
     fieldOffice: {
       type: 'object',
       properties: {
-        /* eslint-disable react-hooks/rules-of-hooks */
         entity: partialSchema(healthCareRegionPageSchema, [
           'entityUrl',
           'entityType',
