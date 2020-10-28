@@ -13,13 +13,15 @@ export const AdditionalInfoSections = ({ activeApps }) => {
 
   return (
     <>
-      <div className="vads-u-margin-y--3 available-connected-apps">
-        <AdditionalInfo
-          triggerText={`What other third-party apps can I connect to my profile?`}
-        >
-          This is the copy
-        </AdditionalInfo>
-      </div>
+      {hasConnectedApps && (
+        <div className="vads-u-margin-y--3 available-connected-apps">
+          <AdditionalInfo
+            triggerText={`What other third-party apps can I connect to my profile?`}
+          >
+            This is the copy
+          </AdditionalInfo>
+        </div>
+      )}
 
       <div className="vads-u-margin-bottom--3">
         <AdditionalInfo

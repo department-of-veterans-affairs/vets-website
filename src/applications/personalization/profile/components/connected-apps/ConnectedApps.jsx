@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { isEmpty } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -84,6 +85,12 @@ export class ConnectedApps extends Component {
               choice whether to connect, or stay connected, to a third-party
               app.
             </p>
+
+            <p className="va-introtext vads-u-font-size--md">
+              You don’t have any third-party apps connected to your profile. Go
+              to the app directory to find out what apps are available to
+              connect to your profile.
+            </p>
           </>
         )}
 
@@ -105,7 +112,14 @@ export class ConnectedApps extends Component {
           />
         ))}
 
-        {showHasNoConnectedApps && <button>Go to app directory</button>}
+        {showHasNoConnectedApps && (
+          <Link
+            className="usa-button vads-u-margin-bottom--3"
+            to={`/to-be-determined`}
+          >
+            Go to app directory
+          </Link>
+        )}
 
         {loading && (
           <LoadingIndicator setFocus message="Loading your connected apps..." />
