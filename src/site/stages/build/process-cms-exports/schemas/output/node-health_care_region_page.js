@@ -149,12 +149,6 @@ module.exports = {
       properties: {
         entities: {
           type: 'array',
-          items: {
-            entity: usePartialSchema(healthCareLocalFacilitySchema, [
-              'title',
-              'fieldOperatingStatusFacility',
-            ]),
-          },
         },
       },
     },
