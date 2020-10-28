@@ -8,7 +8,7 @@ import SecondaryCaregiverCopy from './components/SecondaryCaregiverCopy';
 
 const PreSubmitCheckboxGroup = props => {
   const { onSectionComplete, formData, showError } = props;
-  // console.log('group props: ', props);
+
   const veteranLabel = `Veteran\u2019s`;
   const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
   const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
@@ -26,7 +26,7 @@ const PreSubmitCheckboxGroup = props => {
 
   useEffect(
     () => {
-      console.log('certifications: ', certifications);
+      // console.log('certifications: ', certifications);
     },
     [certifications],
   );

@@ -67,6 +67,7 @@ const SignatureCheckbox = props => {
     setCertifications,
   } = props;
 
+  // console.log('signature props: ', props);
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [hasError, setError] = useState(null);
@@ -132,6 +133,14 @@ const SignatureCheckbox = props => {
         const newValue = { [label]: getEnumsFromLabel(radioValue) };
         setCertifications(prevState => {
           return { ...prevState, ...newValue };
+        });
+      }
+
+      if (!isSignatureComplete) {
+        setCertifications(prevState => {
+          const oldState = prevState;
+          delete oldState[label];
+          return { ...oldState };
         });
       }
     },
