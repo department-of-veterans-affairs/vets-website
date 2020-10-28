@@ -10,6 +10,7 @@ import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/med
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import {
+  isVAPatient as isVAPatientSelector,
   selectCernerAppointmentsFacilities,
   selectCernerMessagingFacilities,
   selectCernerRxFacilities,
@@ -17,7 +18,7 @@ import {
 
 import {
   hasServerError as hasESRServerError,
-  isEnrolledInVAHealthCare,
+  isEnrolledInESR,
   selectEnrollmentStatus,
 } from 'applications/hca/selectors';
 import { getEnrollmentDetails } from 'applications/hca/enrollment-status-helpers';
@@ -61,9 +62,10 @@ const ManageYourVAHealthCare = ({
   prescriptionFacilityNames,
   authenticatedWithSSOe,
   enrollmentDate,
-  isEnrolledInHealthCare,
+  isInESR,
   preferredFacility,
   showServerError,
+  showNonCernerAppointmentWidget,
   showCernerAppointmentWidget,
   showCernerMessagingWidget,
   showCernerPrescriptionWidget,
@@ -101,7 +103,7 @@ const ManageYourVAHealthCare = ({
         </div>
       }
       status="info"
-      isVisible={isEnrolledInHealthCare}
+      isVisible={isInESR}
       className="background-color-only"
     />
 
@@ -143,8 +145,7 @@ const ManageYourVAHealthCare = ({
       />
     )}
 
-    {isEnrolledInHealthCare &&
-      !showCernerAppointmentWidget && <ScheduleAnAppointmentWidget />}
+    {showNonCernerAppointmentWidget && <ScheduleAnAppointmentWidget />}
     {showCernerAppointmentWidget && (
       <CernerScheduleAnAppointmentWidget
         facilityNames={appointmentFacilityNames}
@@ -154,7 +155,10 @@ const ManageYourVAHealthCare = ({
 );
 
 const mapStateToProps = state => {
-  const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
+  // used to decided if an appointment widget is shown
+  const isVAPatient = isVAPatientSelector(state);
+  // used to decided if the "You Are Enrolled In VA Health Care" alert is shown
+  const isInESR = isEnrolledInESR(state);
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
 
   const showServerError = hasESRServerError(state);
@@ -189,11 +193,13 @@ const mapStateToProps = state => {
   return {
     applicationDate,
     enrollmentDate,
-    isEnrolledInHealthCare,
+    isInESR,
     preferredFacility,
     showServerError,
+    showNonCernerAppointmentWidget:
+      isVAPatient && !cernerAppointmentFacilities?.length,
     showCernerAppointmentWidget:
-      isEnrolledInHealthCare && !!cernerAppointmentFacilities?.length,
+      isVAPatient && !!cernerAppointmentFacilities?.length,
     showCernerMessagingWidget:
       canAccessMessaging && !!cernerMessagingFacilities?.length,
     showCernerPrescriptionWidget:
