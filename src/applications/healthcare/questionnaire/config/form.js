@@ -83,11 +83,11 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Prepare for Your Appointment',
+      title: 'Prepare for your visit',
       pages: {
         reasonForVisit: {
           path: 'reason-for-visit',
-          title: 'Prepare for Your Appointment',
+          title: 'Prepare for your visit',
           uiSchema: {
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
@@ -107,9 +107,10 @@ const formConfig = {
               'ui:widget': 'textarea',
               'ui:title': (
                 <span>
-                  Are there any life events that are positively or negatively
-                  affecting your health (e.g. marriage, divorce, new job,
-                  retirement, parenthood, or finances)?
+                  Are there any other concerns or changes in your life that are
+                  affecting you or your health? (For example, a marriage,
+                  divorce, new baby, change in your job, or other medical
+                  conditions)
                 </span>
               ),
             },
@@ -117,17 +118,17 @@ const formConfig = {
               items: {
                 additionalQuestions: {
                   'ui:title':
-                    'Do you have other questions you want to ask your provider? Please enter them below with your most important question listed first.',
+                    'Do you have a question you want to ask your provider? Please enter your most important question first.',
                 },
               },
               'ui:options': {
                 keepInPageOnReview: true,
-                itemName: 'Question',
+                itemName: 'question',
                 viewField: formData => {
                   return <>{formData.formData.additionalQuestions}</>;
                 },
               },
-              'ui:title': 'Ranked questions for your provider',
+              'ui:title': 'Additional questions for your provider',
             },
           },
           schema: {
