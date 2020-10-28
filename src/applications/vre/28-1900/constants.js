@@ -9,3 +9,5 @@ export const CAREERS_EMPLOYMENT_ROOT_URL =
   '/careers-employment/education-and-career-counseling/';
 export const VRE_COUNSELOR_ROOT_URL =
   'https://www.benefits.va.gov/benefits/offices.asp';
+
+export const ORIENTATION_STATUS = 'chp31OrientationStatus';
