@@ -18,8 +18,9 @@ module.exports = {
                 type: 'object',
                 properties: {
                   name: { type: 'string' },
+                  weight: { type: ['number', 'null'] },
                 },
-                required: ['name'],
+                required: ['name', 'weight'],
               },
             },
             required: ['entity'],
@@ -29,6 +30,7 @@ module.exports = {
         fieldAlsoKnownAs: { type: ['string', 'null'] },
         fieldCommonlyTreatedCondition: { type: ['string', 'null'] },
         fieldHealthServiceApiId: { type: ['string', 'null'] },
+        weight: { type: ['number', 'null'] },
       },
       required: [
         'name',
@@ -37,6 +39,7 @@ module.exports = {
         'fieldAlsoKnownAs',
         'fieldCommonlyTreatedCondition',
         'fieldHealthServiceApiId',
+        'weight',
       ],
     },
   },

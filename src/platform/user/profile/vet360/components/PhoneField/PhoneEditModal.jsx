@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Vet360EditModal from '../base/Vet360EditModal';
 
-import { isEnrolledInVAHealthCare as isEnrolledInVAHealthCareSelector } from 'applications/hca/selectors';
+import { isVAPatient } from 'platform/user/selectors';
 
 import { FIELD_NAMES } from 'vet360/constants';
 
@@ -63,11 +63,10 @@ class PhoneEditModal extends React.Component {
 }
 
 export function mapStateToProps(state, ownProps) {
-  const isEnrolledInVAHealthCare = isEnrolledInVAHealthCareSelector(state);
+  const isEnrolledInVAHealthCare = isVAPatient(state);
   const showSMSCheckbox =
     ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
   return {
-    isEnrolledInVAHealthCare,
     showSMSCheckbox,
   };
 }

@@ -19,8 +19,8 @@ import {
   selectIsWelcomeModalDismissed,
   selectExpressCare,
   selectFutureStatus,
+  selectIsCernerOnlyPatient,
 } from '../../../utils/selectors';
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import TabNav from './TabNav';

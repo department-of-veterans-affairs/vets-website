@@ -29,6 +29,7 @@ module.exports = {
     field_also_known_as: { $ref: 'GenericNestedString' },
     field_commonly_treated_condition: { $ref: 'GenericNestedString' },
     field_health_service_api_id: { $ref: 'GenericNestedString' },
+    weight: { $ref: 'GenericNestedNumber' },
   },
   required: [
     'name',
@@ -37,5 +38,6 @@ module.exports = {
     'field_also_known_as',
     'field_commonly_treated_condition',
     'field_health_service_api_id',
+    'weight',
   ],
 };
