@@ -66,32 +66,12 @@ class FileField extends React.Component {
     }
   };
 
-  isFileEncrypted = async (file, index) => {
-    const { onChange, formData } = this.props;
+  isFileEncrypted = async file => {
     return checkForEncryptedPdf(file)
-      .then(isEncrypted => {
-        if (isEncrypted) {
-          onChange(
-            _.set(
-              index,
-              { file, name: file.name, index, isEncrypted: true },
-              formData || [],
-            ),
-          );
-        }
-        return isEncrypted;
-      })
+      .then(isEncrypted => isEncrypted)
       .catch(() => {
-        // This _should_ only be called if a file is deleted after the
-        // user selects it for upload
-        this.setFileState({ index, isEncrypted: false });
-        onChange(
-          _.set(
-            index,
-            { file, name: file.name, index, isEncrypted: false },
-            formData || [],
-          ),
-        );
+        // This _should_ only happen if a file is deleted after the user selects
+        // it for upload
         return false;
       });
   };
@@ -123,20 +103,15 @@ class FileField extends React.Component {
         currentFile.name?.endsWith('pdf') &&
         !password
       ) {
-        const needsPassword = await this.isFileEncrypted(currentFile, idx);
+        const needsPassword = await this.isFileEncrypted(currentFile);
+        files[idx] = {
+          file: currentFile,
+          name: currentFile.name,
+          isEncrypted: needsPassword,
+        };
+        this.props.onChange(files);
         if (needsPassword) {
           // wait for user to enter a password before uploading
-          this.props.onChange(
-            _.set(
-              idx,
-              {
-                file: currentFile,
-                name: currentFile.name,
-                isEncrypted: true,
-              },
-              this.props.formData || [],
-            ),
-          );
           return;
         }
       }
