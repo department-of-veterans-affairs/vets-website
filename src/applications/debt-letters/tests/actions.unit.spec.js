@@ -19,9 +19,8 @@ describe('fetchDebtLetters', () => {
           personEntitled: 'STUB_M',
           deductionCode: '44',
           benefitType: 'CH35 EDU',
-          diaryCode: '618',
-          diaryCodeDescription:
-            'Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available.',
+          diaryCode: '680',
+          diaryCodeDescription: 'Your payment is due.',
           amountOverpaid: 26000,
           amountWithheld: 0,
           originalAr: 100,
@@ -68,9 +67,8 @@ describe('fetchDebtLetters', () => {
           personEntitled: 'AJOHNS',
           deductionCode: '71',
           benefitType: 'CH33 Books, Supplies/MISC EDU',
-          diaryCode: '100',
-          diaryCodeDescription:
-            'First Demand Letter - Inactive Benefits - Due Process',
+          diaryCode: '811',
+          diaryCodeDescription: `We’re reviewing your compromise offer`,
           amountOverpaid: 0,
           amountWithheld: 0,
           originalAr: 166.67,

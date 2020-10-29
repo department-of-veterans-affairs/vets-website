@@ -24,8 +24,8 @@ import {
   directDepositUiState as directDepositUiStateSelector,
 } from 'applications/personalization/profile/selectors';
 
-import BankInfoForm from 'applications/personalization/profile/components/BankInfoForm';
-import PaymentInformationEditError from 'applications/personalization/profile/components/PaymentInformationEditModalError';
+import BankInfoForm from './BankInfoForm';
+import PaymentInformationEditError from './PaymentInformationEditModalError';
 import ProfileInfoTable from '../ProfileInfoTable';
 import FraudVictimAlert from './FraudVictimAlert';
 

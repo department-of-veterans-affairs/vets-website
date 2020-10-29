@@ -259,7 +259,7 @@ module.exports = {
    *                                     that we want to use
    * @return {Object} The new schema
    */
-  usePartialSchema(schema, properties) {
+  partialSchema(schema, properties) {
     // Some sanity checking before we start
     assert(
       schema.type === 'object' ||
