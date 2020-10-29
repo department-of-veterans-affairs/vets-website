@@ -83,43 +83,9 @@
         }
       ],
       "view:vaMedicalRecordsIntro": {},
-      "vaTreatmentFacilities": [
-        {
-          "treatmentCenterName": "Treatment Center the First",
-          "treatmentDateRange": {
-            "from": "2008-01-XX",
-            "to": "2010-01-XX"
-          },
-          "treatmentCenterAddress": {
-            "country": "USA",
-            "city": "Bigcity",
-            "state": "AK"
-          },
-          "treatedDisabilityNames": {
-            "myocardial infarction (mi)": true
-          }
-        },
-        {
-          "treatmentCenterName": "Treatment Center the Second",
-          "treatmentDateRange": {
-            "from": "2010-01-XX",
-            "to": "2018-02-XX"
-          },
-          "treatmentCenterAddress": {
-            "country": "Uganda",
-            "city": "Ugandan City"
-          },
-          "treatedDisabilityNames": {
-            "asthma": true,
-            "phlebitis": true,
-            "knee replacement": true
-          }
-        }
-      ],
       "view:hasEvidence": true,
       "view:hasEvidenceFollowUp": {
         "view:selectableEvidenceTypes": {
-          "view:hasVaMedicalRecords": true,
           "view:hasPrivateMedicalRecords": true,
           "view:hasOtherEvidence": true
         },
