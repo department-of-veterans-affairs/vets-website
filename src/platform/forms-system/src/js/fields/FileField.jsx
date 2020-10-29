@@ -119,8 +119,8 @@ class FileField extends React.Component {
         this.updateProgress,
         file => {
           const { formData, onChange } = this.props;
-          const data = password ? { ...file, password } : file;
-          onChange(_.set(idx, data, formData || []));
+          formData[idx] = file;
+          onChange(formData);
           this.uploadRequest = null;
         },
         () => {
@@ -190,7 +190,6 @@ class FileField extends React.Component {
    * @property {string} confirmationCode - uuid of uploaded file
    * @property {string} attachmentId - form ID set by user
    * @property {string} errorMessage - error message string returned from API
-   * @property {string} password - (Encrypted PDF only) password entered by user
    * @property {boolean} isEncrypted - (Encrypted PDF only; pre-upload only)
    *  encrypted state of the file
    * @property {DOMFileObject} file - (Encrypted PDF only) File object, used
@@ -255,9 +254,9 @@ class FileField extends React.Component {
                 requestLockedPdfPassword && // feature flag
                 (files[index].isEncrypted || // needs password
                   // incorrect password, returning error message
-                  (files[index].password && files[index].errorMessage));
+                  (files[index].file && files[index].errorMessage));
               const showPasswordSuccess =
-                requestLockedPdfPassword && file.password && !hasErrors;
+                requestLockedPdfPassword && !hasErrors;
 
               if (showPasswordInput) {
                 setTimeout(() => {

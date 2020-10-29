@@ -265,11 +265,7 @@ export function uploadFile(
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
 
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        if (password) {
-          onChange({ ...fileData, password });
-        } else {
-          onChange(fileData);
-        }
+        onChange(fileData);
       } else {
         let errorMessage = req.statusText;
         try {
@@ -291,7 +287,6 @@ export function uploadFile(
             file, // return file object to allow resubmit
             name: file.name,
             errorMessage,
-            password: file.password,
           });
         } else {
           onChange({ name: file.name, errorMessage });
