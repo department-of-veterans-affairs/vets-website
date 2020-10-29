@@ -6,8 +6,8 @@ import { setupServer } from 'msw/node';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
 
-import * as mocks from '#profile/msw-mocks';
-import PersonalInformation from '#profile/components/personal-information/PersonalInformation';
+import * as mocks from '@@profile/msw-mocks';
+import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
 import {
   createBasicInitialState,

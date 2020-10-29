@@ -2,8 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import MHVTermsAndConditionsStatus from '#profile/components/account-security/MHVTermsAndConditionsStatus';
-import Verified from '#profile/components/account-security/Verified';
+import MHVTermsAndConditionsStatus from '@@profile/components/account-security/MHVTermsAndConditionsStatus';
+import Verified from '@@profile/components/account-security/Verified';
 
 describe('MHVTermsAndConditionsStatus', () => {
   describe('render output', () => {

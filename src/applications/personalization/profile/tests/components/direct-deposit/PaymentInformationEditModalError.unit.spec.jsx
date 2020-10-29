@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import PaymentInformationEditModalError from '#profile/components/direct-deposit/PaymentInformationEditModalError';
+import PaymentInformationEditModalError from '@@profile/components/direct-deposit/PaymentInformationEditModalError';
 
 describe('<PaymentInformationEditModalError />', () => {
   const checksumError = {

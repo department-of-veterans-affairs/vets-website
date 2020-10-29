@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import Verified from '#profile/components/account-security/Verified';
+import Verified from '@@profile/components/account-security/Verified';
 
 describe('Verified component', () => {
   let wrapper;

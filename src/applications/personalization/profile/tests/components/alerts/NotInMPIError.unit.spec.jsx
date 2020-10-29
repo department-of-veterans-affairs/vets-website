@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import NotInMPI from '#profile/components/account-security/NotInMPIError';
+import NotInMPI from '@@profile/components/account-security/NotInMPIError';
 
 describe('NotInMPI', () => {
   let wrapper;

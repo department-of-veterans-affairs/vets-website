@@ -2,7 +2,7 @@ export * from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { mockConnectedApps } from '#profile/util/connected-apps.js';
+import { mockConnectedApps } from '@@profile/util/connected-apps.js';
 
 export const LOADING_CONNECTED_APPS = 'connected-apps/LOADING_CONNECTED_APPS';
 export const FINISHED_LOADING_CONNECTED_APPS =

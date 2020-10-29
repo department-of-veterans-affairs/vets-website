@@ -7,11 +7,11 @@ import { setupServer } from 'msw/node';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
 
-import * as mocks from '#profile/msw-mocks';
+import * as mocks from '@@profile/msw-mocks';
 import { renderWithProfileReducers as render } from '../../unit-test-helpers';
 
-import Profile from '#profile/components/Profile';
-import { PROFILE_PATH_NAMES } from '#profile/constants';
+import Profile from '@@profile/components/Profile';
+import { PROFILE_PATH_NAMES } from '@@profile/constants';
 
 const ALERT_ID = 'not-all-data-available-error';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import VAPEditView from '#profile/components/personal-information/VAPEditView';
+import VAPEditView from '@@profile/components/personal-information/VAPEditView';
 
 import { isEnrolledInVAHealthCare as isEnrolledInVAHealthCareSelector } from 'applications/hca/selectors';
 

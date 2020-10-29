@@ -16,13 +16,13 @@ import { usePrevious } from 'platform/utilities/react-hooks';
 import {
   editModalToggled,
   savePaymentInformation as savePaymentInformationAction,
-} from '#profile/actions/paymentInformation';
+} from '@@profile/actions/paymentInformation';
 import {
   directDepositAccountInformation,
   directDepositInformation,
   directDepositIsSetUp,
   directDepositUiState as directDepositUiStateSelector,
-} from '#profile/selectors';
+} from '@@profile/selectors';
 
 import BankInfoForm from './BankInfoForm';
 import PaymentInformationEditError from './PaymentInformationEditModalError';

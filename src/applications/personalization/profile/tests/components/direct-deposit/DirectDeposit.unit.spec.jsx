@@ -8,8 +8,8 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import DirectDeposit from '#profile/components/direct-deposit/DirectDeposit';
-import DirectDepositContent from '#profile/components/direct-deposit/DirectDepositContent';
+import DirectDeposit from '@@profile/components/direct-deposit/DirectDeposit';
+import DirectDepositContent from '@@profile/components/direct-deposit/DirectDepositContent';
 
 describe('DirectDeposit', () => {
   let wrapper;
