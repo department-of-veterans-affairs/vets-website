@@ -23,7 +23,7 @@ import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
 import { setFocus, clearLocationMarkers, buildMarker } from '../utils/helpers';
-import { MARKER_LETTERS } from '../constants';
+import { MapboxInit, MARKER_LETTERS } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -102,7 +102,6 @@ const FacilitiesMap = props => {
 
     const queryParams = {
       ...location.query,
-      zoomLevel: currentQuery.zoomLevel,
       page: currentQuery.currentPage,
       address: currentQuery.searchString,
       facilityType: currentQuery.facilityType,
@@ -249,8 +248,8 @@ const FacilitiesMap = props => {
     const mapInit = new mapboxgl.Map({
       container: mapContainerInit,
       style: 'mapbox://styles/mapbox/outdoors-v11',
-      center: [-99.27246093750001, 40.17887331434698], // Initial state search query reducer
-      zoom: 3,
+      center: [MapboxInit.centerInit.lng, MapboxInit.centerInit.lat],
+      zoom: MapboxInit.zoomInit,
     });
     mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
