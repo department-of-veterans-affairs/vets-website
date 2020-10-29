@@ -738,7 +738,7 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
 );
 
 export const hasRatedDisabilities = formData =>
-  formData.ratedDisabilities && formData.ratedDisabilities.length;
+  formData?.ratedDisabilities?.length > 0;
 
 const isClaimingNew = formData =>
   _.get(
@@ -749,19 +749,18 @@ const isClaimingNew = formData =>
   ) || _.get('view:newDisabilities', formData, false);
 
 const isClaimingIncrease = formData =>
-  hasRatedDisabilities(formData) &&
   _.get('view:claimType.view:claimingIncrease', formData, false);
 
 export const increaseOnly = formData =>
-  (isClaimingIncrease(formData) && !isClaimingNew(formData)) || false;
+  isClaimingIncrease(formData) && !isClaimingNew(formData);
 export const newConditionsOnly = formData =>
-  (!isClaimingIncrease(formData) && isClaimingNew(formData)) || false;
+  !isClaimingIncrease(formData) && isClaimingNew(formData);
 export const newAndIncrease = formData =>
-  (isClaimingNew(formData) && isClaimingIncrease(formData)) || false;
+  isClaimingNew(formData) && isClaimingIncrease(formData);
 
 // Shouldn't be possible, but just in case this requirement is lifted later...
 export const noClaimTypeSelected = formData =>
-  (!isClaimingNew(formData) && !isClaimingIncrease(formData)) || false;
+  !isClaimingNew(formData) && !isClaimingIncrease(formData);
 
 export const hasNewDisabilities = formData =>
   formData['view:newDisabilities'] === true;
@@ -816,16 +815,12 @@ export const directToCorrectForm = ({
 };
 
 export const claimingRated = formData =>
-  (isClaimingIncrease(formData) &&
-    formData.ratedDisabilities &&
-    formData.ratedDisabilities.some(d => d['view:selected'])) ||
-  false;
+  isClaimingIncrease(formData) &&
+  formData?.ratedDisabilities?.some(d => d['view:selected']);
 
 // TODO: Rename this to avoid collision with `isClaimingNew` above
 export const claimingNew = formData =>
-  (formData.newDisabilities &&
-    formData.newDisabilities.some(d => d.condition)) ||
-  false;
+  formData?.newDisabilities?.some(d => d.condition);
 
 export const hasClaimedConditions = formData =>
   (isClaimingIncrease(formData) && claimingRated(formData)) ||
@@ -839,24 +834,6 @@ export const activeServicePeriods = formData =>
   _.get('serviceInformation.servicePeriods', formData, []).filter(
     sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
   );
-
-export const DISABILITY_SHARED_CONFIG = {
-  orientation: {
-    path: 'disabilities/orientation',
-    // Only show the page if both (or potentially neither) options are chosen on the claim-type page
-    depends: formData =>
-      newAndIncrease(formData) || noClaimTypeSelected(formData),
-  },
-  ratedDisabilities: {
-    path: 'disabilities/rated-disabilities',
-    depends: formData =>
-      hasRatedDisabilities(formData) && !newConditionsOnly(formData),
-  },
-  addDisabilities: {
-    path: 'new-disabilities/add',
-    depends: hasNewDisabilities,
-  },
-};
 
 export const isBDD = formData => {
   const servicePeriods = formData?.serviceInformation?.servicePeriods;
@@ -900,6 +877,24 @@ export const isBDD = formData => {
     window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
   }
   return result;
+};
+
+export const DISABILITY_SHARED_CONFIG = {
+  orientation: {
+    path: 'disabilities/orientation',
+    // Only show the page if both (or potentially neither) options are chosen on the claim-type page
+    depends: formData =>
+      newAndIncrease(formData) ||
+      (noClaimTypeSelected(formData) && !isBDD(formData)),
+  },
+  ratedDisabilities: {
+    path: 'disabilities/rated-disabilities',
+    depends: formData => isClaimingIncrease(formData) && !isBDD(formData),
+  },
+  addDisabilities: {
+    path: 'new-disabilities/add',
+    depends: hasNewDisabilities,
+  },
 };
 
 export const getPageTitle = formData => {
