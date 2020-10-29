@@ -12,6 +12,7 @@ module.exports = {
     fieldDescription: {
       type: ['string', 'null'],
     },
+    fieldTableOfContentsBoolean: { type: ['boolean', 'null'] },
     fieldFeaturedContent: {
       type: 'array',
       items: {
