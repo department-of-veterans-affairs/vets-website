@@ -84,7 +84,9 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.status).to.equal(data.attributes.va_profile.status);
+      expect(mappedData.veteranStatus.status).to.equal(
+        data.attributes.va_profile.status,
+      );
     });
 
     it('should map veteran status', () => {
@@ -96,16 +98,9 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.isVeteran).to.equal(
-        data.attributes.veteran_status.is_veteran,
-      );
       expect(mappedData.veteranStatus).to.deep.equal({
+        status: data.attributes.veteran_status.status,
         isVeteran: data.attributes.veteran_status.is_veteran,
-        veteranStatus: {
-          status: data.attributes.veteran_status.status,
-          isVeteran: data.attributes.veteran_status.is_veteran,
-          servedInMilitary: data.attributes.veteran_status.served_in_military,
-        },
         servedInMilitary: data.attributes.veteran_status.served_in_military,
       });
     });
@@ -166,7 +161,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.status).to.equal('SERVER_ERROR');
+      expect(mappedData.veteranStatus.status).to.equal('SERVER_ERROR');
     });
 
     it('should handle veteran status error', () => {
@@ -184,7 +179,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.veteranStatus).to.equal('NOT_FOUND');
+      expect(mappedData.veteranStatus.status).to.equal('NOT_FOUND');
     });
 
     it('should handle vet 360 error', () => {
