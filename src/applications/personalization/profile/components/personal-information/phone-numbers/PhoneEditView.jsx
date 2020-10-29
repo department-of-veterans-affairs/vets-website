@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import VAPEditView from 'applications/personalization/profile/components/personal-information/VAPEditView';
 
-import { isEnrolledInVAHealthCare as isEnrolledInVAHealthCareSelector } from 'applications/hca/selectors';
+import { isVAPatient } from 'platform/user/selectors';
 
 import { FIELD_NAMES } from 'vet360/constants';
 
@@ -62,7 +62,7 @@ class PhoneEditView extends React.Component {
 }
 
 export function mapStateToProps(state, ownProps) {
-  const isEnrolledInVAHealthCare = isEnrolledInVAHealthCareSelector(state);
+  const isEnrolledInVAHealthCare = isVAPatient(state);
   const showSMSCheckbox =
     ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
   return { showSMSCheckbox };
