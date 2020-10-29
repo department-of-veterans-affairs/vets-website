@@ -186,7 +186,7 @@ const FacilitiesMap = props => {
         .addTo(map);
     });
 
-    if (props.currentQuery.bounds) {
+    if (sortedLocations.length > 0) {
       const boundsOption = {};
       if (sortedLocations.length === 1) {
         // For results with one location, set use a maximum zoom level
