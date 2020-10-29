@@ -14,6 +14,7 @@ export const vetFields = {
   primaryPhoneNumber: 'veteranPrimaryPhoneNumber',
   ssn: 'veteranSsnOrTin',
   verifyEmail: 'view:veteranEmail',
+  certifications: 'veteranCertifications',
 };
 
 export const primaryCaregiverFields = {
@@ -29,6 +30,7 @@ export const primaryCaregiverFields = {
   verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
   hasHealthInsurance: 'primaryHasHealthInsurance',
+  certifications: 'primaryCertifications',
 };
 
 export const secondaryCaregiverFields = {
@@ -44,6 +46,7 @@ export const secondaryCaregiverFields = {
     ssn: 'secondaryOneSsnOrTin',
     verifyEmail: 'view:secondaryOneEmail',
     vetRelationship: 'secondaryOneVetRelationship',
+    certifications: 'secondaryOneCertifications',
   },
   secondaryTwo: {
     address: 'secondaryTwoAddress',
@@ -56,6 +59,7 @@ export const secondaryCaregiverFields = {
     ssn: 'secondaryTwoSsnOrTin',
     verifyEmail: 'view:secondaryTwoEmail',
     vetRelationship: 'secondaryTwoVetRelationship',
+    certifications: 'secondaryTwoCertifications',
   },
 };
 

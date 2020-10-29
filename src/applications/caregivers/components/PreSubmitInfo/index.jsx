@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { cloneDeep } from 'lodash';
+import { connect } from 'react-redux';
 
 import SignatureCheckbox from './SignatureCheckbox';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import SecondaryCaregiverCopy from './components/SecondaryCaregiverCopy';
 // import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { reviewPageLabels } from 'applications/caregivers/definitions/constants';
+import { setData } from 'platform/forms-system/src/js/actions';
+import {
+  secondaryCaregiverFields,
+  primaryCaregiverFields,
+  vetFields,
+  reviewPageLabels,
+} from 'applications/caregivers/definitions/constants.js';
 
 const PreSubmitCheckboxGroup = props => {
-  const { onSectionComplete, formData, showError } = props;
+  const { onSectionComplete, formData, showError, setGlobalFormData } = props;
+
   const {
     veteranLabel,
     primaryLabel,
@@ -42,8 +50,6 @@ const PreSubmitCheckboxGroup = props => {
   ).length;
 
   const allPartiesSignedAndCertified = !unSignedLength && !uncertifiedLength;
-
-  console.log('allPartiesSignedAndCertified: ', allPartiesSignedAndCertified);
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
@@ -86,10 +92,54 @@ const PreSubmitCheckboxGroup = props => {
     [hasSecondaryOne, hasSecondaryTwo, secondaryOneLabel, secondaryTwoLabel],
   );
 
+  // take certifications and map it to redux state
+
+  const mapCertsToRedux = () => {
+    const veteranCert = certifications[veteranLabel]
+      ? { [vetFields.certifications]: certifications[veteranLabel] }
+      : {};
+    const primaryCert = certifications[primaryLabel]
+      ? {
+          [primaryCaregiverFields.certifications]: certifications[primaryLabel],
+        }
+      : {};
+    const secondaryOneCert = certifications[secondaryOneLabel]
+      ? {
+          [secondaryCaregiverFields.secondaryOne.certifications]:
+            certifications[secondaryOneLabel],
+        }
+      : {};
+    const secondaryTwoCert = certifications[secondaryTwoLabel]
+      ? {
+          [secondaryCaregiverFields.secondaryTwo.certifications]:
+            certifications[secondaryTwoLabel],
+        }
+      : {};
+
+    const consolidatedCerts = {
+      ...veteranCert,
+      ...primaryCert,
+      ...secondaryOneCert,
+      ...secondaryTwoCert,
+    };
+
+    return { ...formData, ...consolidatedCerts };
+  };
+
+  useEffect(
+    () => {
+      if (allPartiesSignedAndCertified) {
+        setGlobalFormData({ ...mapCertsToRedux() });
+        console.log('formData: ', formData);
+      }
+    },
+    [allPartiesSignedAndCertified],
+  );
+
   /*
     - Vet first && last name must match, and be checked
     - PrimaryCaregiver first && last name must match, and be checked
-    - if hasSecondary one || two, first & last name must match, and be checked to submit
+    - if hasSeco`ndary one || two, first & last name must match, and be checked to submit
    */
 
   return (
@@ -201,7 +251,14 @@ const PreSubmitCheckboxGroup = props => {
   );
 };
 
+const mapDispatchToProps = dispatch => ({
+  setGlobalFormData: () => dispatch(setData()),
+});
+
 export default {
   required: true,
-  CustomComponent: PreSubmitCheckboxGroup,
+  CustomComponent: connect(
+    null,
+    mapDispatchToProps,
+  )(PreSubmitCheckboxGroup),
 };
