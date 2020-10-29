@@ -69,7 +69,7 @@ function unescapeUnicode(string) {
  * @return {string} The value of `processed` if it exists or `value` otherwise.
  */
 function getDrupalValue(arr) {
-  if (arr.length === 0) return null;
+  if (!arr || arr.length === 0) return null;
   if (arr.length === 1)
     if (arr[0].processed)
       return typeof arr[0].processed === 'string'
@@ -259,7 +259,7 @@ module.exports = {
    *                                     that we want to use
    * @return {Object} The new schema
    */
-  usePartialSchema(schema, properties) {
+  partialSchema(schema, properties) {
     // Some sanity checking before we start
     assert(
       schema.type === 'object' ||

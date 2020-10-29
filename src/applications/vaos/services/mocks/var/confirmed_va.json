@@ -55,89 +55,83 @@
       }
     },
     {
-      "id": "c3e3e32701223fdf389c06eae00fcb24",
+      "id": "a784f714fa1606e39dee11e3bdbb7901",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-09-24T20:00:00Z",
-        "sta6aid": "983GC",
-        "clinicId": "1234",
-        "clinicFriendlyName": "Video visit clinic",
+        "startDate": "2020-11-14T12:52:00Z",
+        "sta6aid": "983",
+        "clinicId": "848",
+        "clinicFriendlyName": "CHY PC VAR2",
         "facilityId": "983",
-        "communityCare": null,
+        "communityCare": false,
         "vdsAppointments": [],
         "vvsAppointments": [
           {
-            "id": "465f0120-e268-2f66-bdbf-96f44d9ad3a9",
+            "id": "CB2349303442341141231a",
             "appointmentKind": "CLINIC_BASED",
             "sourceSystem": "TMP",
-            "dateTime": "2020-09-24T20:00:00Z",
-            "desiredDate": "2020-09-24T20:00:00Z",
-            "duration": 30,
+            "dateTime": "2020-11-14T12:52:00Z",
+            "desiredDate": "2020-10-10T17:40:00Z",
+            "duration": 20,
             "status": {
               "description": "F",
               "code": "FUTURE"
             },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",
             "type": "REGULAR",
-            "instructionsOther": false,
+            "bookingNotes": "Test",
+            "instruction": "this is a test of instruction",
+            "instructionsOther": true,
             "patients": [
               {
                 "name": {
-                  "firstName": "JUDY",
-                  "lastName": "MORRISON"
+                  "firstName": "John",
+                  "lastName": "Morrison"
                 },
                 "contactInformation": {
-                  "mobile": "8888888888",
-                  "preferredEmail": "test@va.gov",
-                  "timeZone": "10"
+                  "mobile": "1234567890",
+                  "preferredEmail": "fake@email.gov",
+                  "timeZone": "10",
+                  "timeZoneName": "America/Denver"
                 },
                 "location": {
                   "type": "VA",
                   "facility": {
                     "name": "CHEYENNE VAMC",
                     "siteCode": "983",
-                    "timeZone": "10"
+                    "timeZone": "10",
+                    "timeZoneName": "America/Denver"
                   },
                   "clinic": {
-                    "ien": "1234",
-                    "name": "VVC CLINIC"
+                    "ien": "848",
+                    "name": "CHY PC VAR2"
                   }
                 },
-                "patientAppointment": true,
-                "virtualMeetingRoom": {
-                  "conference": "patientConference",
-                  "pin": "12345",
-                  "url": "http://patientConference.com"
-                }
+                "patientAppointment": true
               }
             ],
             "providers": [
               {
-                "name": {
-                  "firstName": "Meg",
-                  "lastName": "Smith"
-                },
                 "contactInformation": {
-                  "preferredEmail": "test@va.gov",
-                  "timeZone": "10"
+                  "mobile": "9912567890",
+                  "preferredEmail": "fake@email.gov",
+                  "timeZone": "10",
+                  "timeZoneName": "America/Denver"
                 },
                 "location": {
                   "type": "VA",
                   "facility": {
                     "name": "CHEYENNE VAMC",
                     "siteCode": "983",
-                    "timeZone": "10"
+                    "timeZone": "10",
+                    "timeZoneName": "America/Denver"
                   },
                   "clinic": {
-                    "ien": "1234",
-                    "name": "VVC CLINIC"
+                    "ien": "848",
+                    "name": "CHY PC VAR2"
                   }
                 },
-                "virtualMeetingRoom": {
-                  "conference": "patientConference",
-                  "pin": "12345",
-                  "url": "http://patientConference.com"
-                }
+                "vistaDateTime": "2019-12-10T17:45:00Z"
               }
             ]
           }
@@ -148,7 +142,7 @@
       "id": "c3e3e32701e23fdf389c06eae00fcb24",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-10-22T20:00:00Z",
+        "startDate": "2020-11-22T20:00:00Z",
         "sta6aid": null,
         "clinicId": null,
         "clinicFriendlyName": null,
@@ -160,8 +154,8 @@
             "id": "465f0120-e268-4f66-bdbf-96f44d9ad3a9",
             "appointmentKind": "ADHOC",
             "sourceSystem": "PV",
-            "dateTime": "2020-10-22T20:00:00Z",
-            "desiredDate": "2020-10-22T20:00:00Z",
+            "dateTime": "2020-11-22T20:00:00Z",
+            "desiredDate": "2020-11-22T20:00:00Z",
             "duration": 30,
             "status": {
               "description": "F",

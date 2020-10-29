@@ -6,11 +6,17 @@ export const inquiryChapterTitle = "Share why you're contacting us";
 export const inquiryPageTitle = 'Your message';
 export const inquiryPageDescription = PageDescription('Your message');
 
-export const topicTitle =
+export const topicLevelOneTitle =
+  'Which category best describes your question or message?';
+export const topicLevelTwoTitle =
   'Which topic best describes your question or message?';
+export const topicLevelThreeTitle =
+  'Which subtopic best describes your question or message?';
 export const topicDescription =
   'Please start typing below. If you do not find a match, type space to see all possible categories';
 export const topicErrorMessage = 'Please enter a valid topic.';
+export const vaMedicalCenterTitle = 'Medical Center List';
+export const routeToStateTitle = 'Route to State';
 export const inquiryTypeTitle = "Tell us the reason you're contacting us";
 export const queryTitle = 'Please enter your question or message below';
 
@@ -63,8 +69,9 @@ export const daytimePhoneAreaCodeTitle = 'Daytime phone';
 /* --------------- Dependent Information ------------- */
 export const dependentInformationHeader = 'Dependent information';
 
-export const dependentsFirstName = "Dependent's first name";
-export const dependentsLastName = "Dependent's last name";
+export const dependentFirstName = "Dependent's first name";
+export const dependentLastName = "Dependent's last name";
+export const dependentRelationshipToVeteran = 'Your relation to the Veteran';
 
 /* --------------- Veteran Information ------------- */
 export const veteranInformationHeader = 'Veteran information';

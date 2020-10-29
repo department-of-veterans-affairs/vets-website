@@ -7,6 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
+  isVAPatient,
   selectProfile,
   selectPatientFacilities,
 } from 'platform/user/selectors';
@@ -16,10 +17,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { removeSavedForm as removeSavedFormAction } from '../actions';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
-import {
-  hasServerError as hasESRServerError,
-  isEnrolledInVAHealthCare,
-} from 'applications/hca/selectors';
+import { hasServerError as hasESRServerError } from 'applications/hca/selectors';
 
 import { recordDashboardClick } from '../helpers';
 import {
@@ -34,7 +32,7 @@ import ESRError, { ESR_ERROR_TYPES } from '../components/ESRError';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PreferencesWidget from 'applications/personalization/preferences/containers/PreferencesWidget';
 
-import profileManifest from 'applications/personalization/profile360/manifest.json';
+import profileManifest from 'applications/personalization/profile/manifest.json';
 import lettersManifest from 'applications/letters/manifest.json';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
@@ -150,7 +148,7 @@ const ManageBenefitsOrRequestRecords = () => (
   </>
 );
 
-const ViewYourProfile2 = () => (
+const ViewYourProfile = () => (
   <>
     <h2>View your profile</h2>
     <p>
@@ -331,7 +329,7 @@ class DashboardApp extends React.Component {
         {showManageYourVAHealthCare && <ManageYourVAHealthCare />}
         <ManageBenefitsOrRequestRecords />
 
-        <ViewYourProfile2 />
+        <ViewYourProfile />
       </>
     );
 
@@ -380,7 +378,7 @@ export const mapStateToProps = state => {
     canAccessClaims,
     profile: profileState,
     showManageYourVAHealthCare:
-      isEnrolledInVAHealthCare(state) || canAccessRx || canAccessMessaging,
+      isVAPatient(state) || canAccessRx || canAccessMessaging,
     showServerError,
     showCOVID19Alert,
     vaHealthChatEligibleSystemId,

@@ -412,14 +412,14 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
       const formData = state.data;
-      const typeOfCareId = formData.typeOfCareId;
+      const typeOfCareId = getTypeOfCare(formData).id;
       const sortMethod = action.sortMethod;
       const location = action.location;
       let typeOfCareFacilities = state.facilities[typeOfCareId];
       let newSchema = state.pages.vaFacilityV2;
       let requestLocationStatus = state.requestLocationStatus;
 
-      if (location) {
+      if (location && typeOfCareFacilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
 
@@ -692,14 +692,15 @@ export default function formReducer(state = initialState, action) {
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(action.eligibilityData);
       const canSchedule = isEligible(eligibility);
+      const facilityId = action.facilityId || state.data.vaFacility;
 
       let clinics = state.clinics;
 
       if (!action.eligibilityData.clinics?.directFailed) {
         clinics = {
           ...state.clinics,
-          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
-            .eligibilityData.clinics,
+          [`${facilityId}_${action.typeOfCareId}`]: action.eligibilityData
+            .clinics,
         };
       }
 
@@ -708,7 +709,7 @@ export default function formReducer(state = initialState, action) {
         clinics,
         eligibility: {
           ...state.eligibility,
-          [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
+          [`${facilityId}_${action.typeOfCareId}`]: eligibility,
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,

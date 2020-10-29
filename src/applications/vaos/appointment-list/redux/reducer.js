@@ -35,10 +35,7 @@ import {
   WEEKDAY_INDEXES,
 } from '../../utils/constants';
 import { distanceBetween } from '../../utils/address';
-import {
-  getFacilityIdFromLocation,
-  getTestFacilityId,
-} from '../../services/location';
+import { getFacilityIdFromLocation } from '../../services/location';
 
 const initialState = {
   pending: null,
@@ -180,10 +177,7 @@ export default function appointmentsReducer(state = initialState, action) {
       if (address && facilityData) {
         const facilityMap = new Map();
         facilityData.forEach(facility => {
-          facilityMap.set(
-            getTestFacilityId(getFacilityIdFromLocation(facility)),
-            facility,
-          );
+          facilityMap.set(getFacilityIdFromLocation(facility), facility);
         });
 
         expressCareFacilities.sort((facility1, facility2) => {

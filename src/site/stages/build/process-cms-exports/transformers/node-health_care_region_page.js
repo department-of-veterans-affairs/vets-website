@@ -94,17 +94,7 @@ const transform = ({
       }))
     : [],
   reverseFieldRegionPageNode: {
-    entities: reverseFieldRegionPage
-      ? reverseFieldRegionPage
-          .filter(
-            reverseField =>
-              reverseField.entityBundle === 'health_care_local_facility',
-          )
-          .map(r => ({
-            title: r.title,
-            fieldOperatingStatusFacility: r.fieldOperatingStatusFacility,
-          }))
-      : [],
+    entities: reverseFieldRegionPage || [],
   },
   newsStoryTeasers: {
     entities: reverseFieldOffice

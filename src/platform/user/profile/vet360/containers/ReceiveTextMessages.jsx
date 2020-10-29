@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import {
+  isVAPatient,
   selectProfile,
   selectVet360MobilePhone,
 } from 'platform/user/selectors';
@@ -17,21 +18,12 @@ import {
   isFailedTransaction,
 } from '../util/transactions';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
-import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
-
 class ReceiveTextMessages extends React.Component {
   state = {
     startedTransaction: false,
     completedTransaction: false,
     lastTransaction: null,
   };
-
-  componentDidMount() {
-    if (this.props.isVerified) {
-      this.props.getEnrollmentStatus();
-    }
-  }
 
   /* eslint-disable camelcase */
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -127,16 +119,14 @@ export function mapStateToProps(state, ownProps) {
   const profileState = selectProfile(state);
   const mobilePhone = selectVet360MobilePhone(state);
   const isTextable = mobilePhone?.phoneType === VET360.PHONE_TYPE.mobilePhone;
-  const isVerified = profileState.verified;
   const hideCheckbox =
-    !isTextable || !isEnrolledInVAHealthCare(state) || hasError || isPending;
+    !isTextable || !isVAPatient(state) || hasError || isPending;
   const transactionSuccess =
     state.vet360.transactionStatus ===
     VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS;
   return {
     profile: profileState,
     hideCheckbox,
-    isVerified,
     transaction,
     transactionSuccess,
     apiRoute: VET360.API_ROUTES.TELEPHONES,
@@ -144,7 +134,6 @@ export function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
-  getEnrollmentStatus: getEnrollmentStatusAction,
   createTransaction,
   clearTransactionStatus,
 };

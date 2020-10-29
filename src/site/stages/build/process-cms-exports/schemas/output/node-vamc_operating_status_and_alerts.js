@@ -1,4 +1,4 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
 const localFacilitySchema = require('./node-health_care_local_facility');
 
 module.exports = {
@@ -21,8 +21,7 @@ module.exports = {
       type: 'array',
       items: {
         // Yes, it's wrapped in entity here, but not in the originating schema
-        /* eslint-disable react-hooks/rules-of-hooks */
-        entity: usePartialSchema(localFacilitySchema, [
+        entity: partialSchema(localFacilitySchema, [
           'title',
           'entityUrl',
           'fieldOperatingStatusFacility',

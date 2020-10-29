@@ -11,6 +11,7 @@ describe('DebtLetterCard', () => {
       payeeNumber: '00',
       personEntitled: 'STUB_M',
       deductionCode: '44',
+      diaryCode: '680',
       benefitType: 'CH35 EDU',
       amountOverpaid: 16000.0,
       amountWithheld: 0.0,

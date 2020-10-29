@@ -3,9 +3,8 @@ import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   selectPatientFacilities,
-  selectIsCernerOnlyPatient,
-  selectIsCernerPatient,
   selectVet360ResidentialAddress,
+  selectCernerAppointmentsFacilities,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
 
@@ -15,7 +14,6 @@ import {
   getTimezoneAbbrBySystemId,
 } from './timezone';
 
-import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
 import {
   FACILITY_TYPES,
@@ -42,6 +40,16 @@ import {
   sortUpcoming,
   getVARFacilityId,
 } from '../services/appointment';
+
+export const selectIsCernerOnlyPatient = state =>
+  !!selectPatientFacilities(state)?.every(
+    f => f.isCerner && f.usesCernerAppointments,
+  );
+
+export const selectIsCernerPatient = state =>
+  selectPatientFacilities(state)?.some(
+    f => f.isCerner && f.usesCernerAppointments,
+  );
 
 export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
@@ -307,7 +315,7 @@ export function hasSingleValidVALocation(state) {
 }
 
 export function selectCernerOrgIds(state) {
-  const cernerSites = selectPatientFacilities(state)?.filter(f => f.isCerner);
+  const cernerSites = selectCernerAppointmentsFacilities(state);
   return getNewAppointment(state)
     .parentFacilities?.filter(parent => {
       const facilityId = getSiteIdFromOrganization(parent);
@@ -458,24 +466,21 @@ export function getCancelInfo(state) {
   if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
-    facility = facilityData[getRealFacilityId(locationId)];
+    facility = facilityData[locationId];
   } else if (appointmentToCancel?.facility) {
     // Requests
-    facility =
-      facilityData[
-        `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
-      ];
+    facility = facilityData[`var${appointmentToCancel.facility.facilityCode}`];
   } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
-    facility = facilityData[getRealFacilityId(locationId)];
+    facility = facilityData[locationId];
   }
   let isCerner = null;
   if (appointmentToCancel) {
     const facilityId = getVARFacilityId(appointmentToCancel);
-    isCerner = selectPatientFacilities(state)
-      ?.filter(f => f.isCerner)
-      .some(cernerSite => facilityId?.startsWith(cernerSite.facilityId));
+    isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
+      facilityId?.startsWith(cernerSite.facilityId),
+    );
   }
 
   return {
