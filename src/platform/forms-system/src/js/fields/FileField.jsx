@@ -66,15 +66,12 @@ class FileField extends React.Component {
     }
   };
 
-  isFileEncrypted = async file => {
-    return checkForEncryptedPdf(file)
+  isFileEncrypted = async file =>
+    checkForEncryptedPdf(file)
       .then(isEncrypted => isEncrypted)
-      .catch(() => {
-        // This _should_ only happen if a file is deleted after the user selects
-        // it for upload
-        return false;
-      });
-  };
+      // This _should_ only happen if a file is deleted after the user selects
+      // it for upload
+      .catch(() => false);
 
   /**
    * Add file to list and upload
