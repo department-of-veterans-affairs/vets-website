@@ -1,4 +1,7 @@
-import { filterTopicArrayByLabel } from '../../../../../form/inquiry/topic/topic';
+import {
+  filterTopicArrayByLabel,
+  getTopicsWithSubtopicsByCategory,
+} from '../../../../../form/inquiry/topic/topic';
 import { expect } from 'chai';
 
 describe('topic', () => {
@@ -118,52 +121,71 @@ describe('topic', () => {
     },
   };
 
-  it('should return correct sub topics', () => {
-    const subTopicValues = filterTopicArrayByLabel(
-      testSchema.properties.topic,
-      'Caregiver Support Program',
-    );
-    expect(subTopicValues).to.have.ordered.members([
-      'Comprehensive Family Caregiver Program',
-      'General Caregiver Support/Education',
-      'VA Supportive Services',
-    ]);
+  describe('filterTopicArrayByLabel', () => {
+    it('should return correct sub topics', () => {
+      const subTopicValues = filterTopicArrayByLabel(
+        testSchema.properties.topic,
+        'Caregiver Support Program',
+      );
+      expect(subTopicValues).to.have.ordered.members([
+        'Comprehensive Family Caregiver Program',
+        'General Caregiver Support/Education',
+        'VA Supportive Services',
+      ]);
+    });
+
+    it('should return sub topics for complex levelTwo', () => {
+      const subTopicValues = filterTopicArrayByLabel(
+        testSchema.properties.topic,
+        'Health & Medical Issues & Services',
+      );
+      expect(subTopicValues).to.have.ordered.members([
+        'Health/Medical Eligibility & Programs',
+        'Medical Care Issues at Specific Facility',
+        'Prosthetics, Med Devices & Sensory Aids',
+        'Women Veterans Health Care',
+      ]);
+    });
+
+    it('should return level three topics when isLevelThree is true', () => {
+      const subTopicValues = filterTopicArrayByLabel(
+        testSchema.properties.topic.anyOf[1].properties.levelTwo,
+        'Health/Medical Eligibility & Programs',
+        true,
+      );
+      expect(subTopicValues).to.have.ordered.members([
+        'Apply for Health Benefits (Veterans)',
+        'Medical Care for Veterans within USA',
+      ]);
+    });
+
+    it('should return level three topics for burial benefits', () => {
+      const subTopicValues = filterTopicArrayByLabel(
+        testSchema.properties.topic.anyOf[2].properties.levelTwo,
+        'Burial Benefits',
+        true,
+      );
+      expect(subTopicValues).to.have.ordered.members([
+        'Compensation Request',
+        'All Other Burial Benefit Inquiries',
+      ]);
+    });
   });
 
-  it('should return sub topics for complex levelTwo', () => {
-    const subTopicValues = filterTopicArrayByLabel(
-      testSchema.properties.topic,
-      'Health & Medical Issues & Services',
-    );
-    expect(subTopicValues).to.have.ordered.members([
-      'Health/Medical Eligibility & Programs',
-      'Medical Care Issues at Specific Facility',
-      'Prosthetics, Med Devices & Sensory Aids',
-      'Women Veterans Health Care',
-    ]);
-  });
-
-  it('should return level three topics when isLevelThree is true', () => {
-    const subTopicValues = filterTopicArrayByLabel(
-      testSchema.properties.topic.anyOf[1].properties.levelTwo,
-      'Health/Medical Eligibility & Programs',
-      true,
-    );
-    expect(subTopicValues).to.have.ordered.members([
-      'Apply for Health Benefits (Veterans)',
-      'Medical Care for Veterans within USA',
-    ]);
-  });
-
-  it('should return level three topics for burial benefits', () => {
-    const subTopicValues = filterTopicArrayByLabel(
-      testSchema.properties.topic.anyOf[2].properties.levelTwo,
-      'Burial Benefits',
-      true,
-    );
-    expect(subTopicValues).to.have.ordered.members([
-      'Compensation Request',
-      'All Other Burial Benefit Inquiries',
-    ]);
+  describe('getTopicsWithSubtopicsByCategory', () => {
+    it('should return levelTwo topics with levelThree subtopics', () => {
+      const topicsWithSubtopicsByCategory = getTopicsWithSubtopicsByCategory(
+        testSchema.properties.topic,
+      );
+      const expectedResult = {
+        'Burial & Memorial Benefits (NCA)': ['Burial Benefits'],
+        'Health & Medical Issues & Services': [
+          'Health/Medical Eligibility & Programs',
+          'Prosthetics, Med Devices & Sensory Aids',
+          'Women Veterans Health Care',
+        ],
+      };
+      expect(topicsWithSubtopicsByCategory).to.deep.include(expectedResult);
+    });
   });
 });

@@ -22,11 +22,6 @@ class IntroductionPage extends React.Component {
         >
           Please complete the 0873 form to apply for ask a question.
         </SaveInProgressIntro>
-        <SaveInProgressIntro
-          buttonOnly
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-        />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={10} ombNumber="2900-0619" expDate="11/30/2019" />
         </div>

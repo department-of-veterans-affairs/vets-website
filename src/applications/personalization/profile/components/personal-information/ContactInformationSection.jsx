@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
-import AddressesTable from './AddressesTable';
-import PhoneNumbersTable from './PhoneNumbersTable';
+import AddressesTable from './addresses/AddressesTable';
+import PhoneNumbersTable from './phone-numbers/PhoneNumbersTable';
 
 const ContactInformationSection = ({ className }) => (
   <div className={className}>

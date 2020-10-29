@@ -7,6 +7,7 @@ const transform = entity => {
     entity: {
       entityType: 'taxonomy_term',
       entityBundle: 'administration',
+      entityLabel: getDrupalValue(entity.name),
       name: getDrupalValue(entity.name),
       fieldAcronym: getDrupalValue(entity.fieldAcronym),
       fieldDescription: getDrupalValue(entity.fieldDescription),

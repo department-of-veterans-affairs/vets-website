@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 
 import GenderAndDOBSection from './GenderAndDOBSection';
 import ContactInformationSection from './ContactInformationSection';
-import EmailInformationSection from './EmailInformationSection';
+import EmailInformationSection from './email-addresses/EmailInformationSection';
 
 const PersonalInformationContent = () => (
   <>

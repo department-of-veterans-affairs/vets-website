@@ -20,6 +20,11 @@ const DebtLetterCard = props => {
     minimumFractionDigits: 2,
   });
 
+  const additionalInfo = renderAdditionalInfo(
+    debt.diaryCode,
+    mostRecentHistory.date,
+  );
+
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
       <h3 className="vads-u-margin--0">{debtCardHeading}</h3>
@@ -36,11 +41,9 @@ const DebtLetterCard = props => {
         <strong>Status: </strong>
         {debt.diaryCodeDescription}
       </p>
-      {debt.diaryCode && (
-        <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-          {renderAdditionalInfo(debt.diaryCode, mostRecentHistory.date)}
-        </div>
-      )}
+      <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+        {additionalInfo.nextStep}
+      </div>
       <Link
         className="usa-button"
         onClick={() => props.setActiveDebt(debt)}
