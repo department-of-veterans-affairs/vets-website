@@ -171,10 +171,15 @@ const FacilitiesMap = props => {
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance);
 
+    const locationBounds = new mapboxgl.LngLatBounds();
+
     sortedLocations.forEach(loc => {
       const attrs = {
         letter: markersLetters.next().value,
       };
+      locationBounds.extend(
+        new mapboxgl.LngLat(loc.attributes.long, loc.attributes.lat),
+      );
       const markerElement = buildMarker('location', { loc, attrs });
       new mapboxgl.Marker(markerElement)
         .setLngLat([loc.attributes.long, loc.attributes.lat])
@@ -182,7 +187,17 @@ const FacilitiesMap = props => {
     });
 
     if (props.currentQuery.bounds) {
-      map.fitBounds(props.currentQuery.bounds); // {duration: 0} to disable animation
+      const boundsOption = {};
+      if (sortedLocations.length === 1) {
+        // For results with one location, set use a maximum zoom level
+        // so that the location shows in a street view
+        // https://docs.mapbox.com/help/glossary/zoom-level
+        boundsOption.maxZoom = 15;
+      } else {
+        // Otherwise add some padding show the locations close to the border bbox
+        boundsOption.padding = 20;
+      }
+      map.fitBounds(locationBounds, boundsOption); // {duration: 0} to disable animation
     }
     if (props.currentQuery.searchCoords) {
       const markerElement = buildMarker('currentPos');
