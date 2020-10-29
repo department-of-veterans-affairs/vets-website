@@ -81,9 +81,7 @@ function disconnectApps(mobile = false) {
     'exist',
   );
 
-  cy.findByText(/Third-party apps you can connect to your profile/i).should(
-    'exist',
-  );
+  cy.findByText(/Go to app directory/i).should('exist');
 }
 
 describe('Connected applications', () => {
