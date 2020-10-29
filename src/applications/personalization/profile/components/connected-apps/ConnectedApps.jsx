@@ -115,7 +115,7 @@ export class ConnectedApps extends Component {
         {showHasNoConnectedApps && (
           <Link
             className="usa-button vads-u-margin-bottom--3"
-            to={`/to-be-determined`}
+            href="/resources/find-apps-to-use"
           >
             Go to app directory
           </Link>

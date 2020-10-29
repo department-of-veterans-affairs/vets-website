@@ -19,7 +19,8 @@ export const AdditionalInfoSections = ({ activeApps }) => {
             triggerText={`What other third-party apps can I connect to my profile?`}
           >
             To find out what other third-party apps are available to connect to
-            your profile, [go to the app directory].
+            your profile,{' '}
+            <a href="/resources/find-apps-to-use">go to the app directory</a>.
           </AdditionalInfo>
         </div>
       )}
