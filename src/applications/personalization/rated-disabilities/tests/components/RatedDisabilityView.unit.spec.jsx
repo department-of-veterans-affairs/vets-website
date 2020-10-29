@@ -8,7 +8,9 @@ describe('<RatedDisabilityView/>', () => {
   const user = {
     profile: {
       verified: true,
-      status: 'OK',
+      veteranStatus: {
+        status: 'OK',
+      },
     },
   };
   const ratedDisabilities = { ratedDisabilities: [] };

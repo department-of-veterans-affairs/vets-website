@@ -18,7 +18,9 @@ function createBasicInitialState() {
     },
     user: {
       profile: {
-        veteranStatus: 'OK',
+        veteranStatus: {
+          status: 'OK',
+        },
       },
     },
     vaProfile: {
