@@ -403,10 +403,6 @@
       }
     }
 
-    .responsive-table-row-separator {
-      display: none;
-    }
-
     .extension-row {
       padding-left: 16px;
       .extension-cell-label {
@@ -440,8 +436,7 @@
 
       .responsive-table-row-separator {
         display: block;
-        margin-top: 0.7em;
-        margin-bottom: 0.5em;
+        margin: 0.7em 1em 0.5em;
       }
 
       .location-cell,
