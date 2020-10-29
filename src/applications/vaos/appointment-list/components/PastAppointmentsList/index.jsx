@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { focusElement } from 'platform/utilities/ui';
 import * as actions from '../../redux/actions';
@@ -13,9 +14,76 @@ import {
   selectPastAppointments,
   selectExpressCare,
 } from '../../../utils/selectors';
-import { getPastAppointmentDateRangeOptions } from '../../../utils/appointment';
 import ConfirmedAppointmentListItem from '../cards/confirmed/ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+
+export function getPastAppointmentDateRangeOptions(today = moment()) {
+  const startOfToday = today.clone().startOf('day');
+
+  // Past 3 months
+  const options = [
+    {
+      value: 0,
+      label: 'Past 3 months',
+      startDate: startOfToday
+        .clone()
+        .subtract(3, 'months')
+        .format(),
+      endDate: today.format(),
+    },
+  ];
+
+  // 3 month ranges going back ~1 year
+  let index = 1;
+  let monthsToSubtract = 3;
+
+  while (index < 4) {
+    const start = startOfToday
+      .clone()
+      .subtract(index === 1 ? 5 : monthsToSubtract + 2, 'months')
+      .startOf('month');
+    const end = startOfToday
+      .clone()
+      .subtract(index === 1 ? 3 : monthsToSubtract, 'months')
+      .endOf('month');
+
+    options.push({
+      value: index,
+      label: `${start.format('MMM YYYY')} – ${end.format('MMM YYYY')}`,
+      startDate: start.format(),
+      endDate: end.format(),
+    });
+
+    monthsToSubtract += 3;
+    index += 1;
+  }
+
+  // All of current year
+  options.push({
+    value: 4,
+    label: `All of ${startOfToday.format('YYYY')}`,
+    startDate: startOfToday
+      .clone()
+      .startOf('year')
+      .format(),
+    endDate: startOfToday.format(),
+  });
+
+  // All of last year
+  const lastYear = startOfToday.clone().subtract(1, 'years');
+
+  options.push({
+    value: 5,
+    label: `All of ${lastYear.format('YYYY')}`,
+    startDate: lastYear.startOf('year').format(),
+    endDate: lastYear
+      .clone()
+      .endOf('year')
+      .format(),
+  });
+
+  return options;
+}
 
 function PastAppointmentsList({
   expressCare,

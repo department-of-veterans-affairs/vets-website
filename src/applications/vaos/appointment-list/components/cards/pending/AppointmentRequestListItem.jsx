@@ -8,11 +8,17 @@ import {
   getPatientTelecom,
   isVideoAppointment,
 } from '../../../../services/appointment';
-import { APPOINTMENT_STATUS, TIME_TEXT } from '../../../../utils/constants';
+import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import AppointmentStatus from '../AppointmentStatus';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 import AppointmentRequestCommunityCareLocation from './AppointmentRequestCommunityCareLocation';
 import AdditionalInfoRow from '../AdditionalInfoRow';
+
+const TIME_TEXT = {
+  AM: 'in the morning',
+  PM: 'in the afternoon',
+  'No Time Selected': '',
+};
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions

@@ -10,7 +10,7 @@ import {
 } from 'platform/forms-system/src/js/state/helpers';
 
 import { getParentOfLocation } from '../../services/location';
-import { getEligibilityChecks, isEligible } from '../../utils/eligibility';
+import { getEligibilityChecks, isEligible } from './helpers/eligibility';
 
 import {
   FORM_DATA_UPDATED,
@@ -66,8 +66,6 @@ import {
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
-  REASON_ADDITIONAL_INFO_TITLES,
-  REASON_MAX_CHARS,
   FETCH_STATUS,
   PURPOSE_TEXT,
   TYPES_OF_CARE,
@@ -78,6 +76,18 @@ import { getTypeOfCare } from '../../utils/selectors';
 import { distanceBetween } from '../../utils/address';
 import { getSiteIdFromOrganization } from '../../services/organization';
 import { getClinicId } from '../../services/healthcare-service/transformers';
+
+export const REASON_ADDITIONAL_INFO_TITLES = {
+  request:
+    'Please give us more detail about why you’re making this appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can’t have an appointment on a certain day or time.',
+  direct:
+    'Please provide any additional details you’d like to share with your provider about this appointment.',
+};
+
+export const REASON_MAX_CHARS = {
+  request: 100,
+  direct: 150,
+};
 
 const initialState = {
   pages: {},

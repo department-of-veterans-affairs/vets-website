@@ -27,7 +27,23 @@ const transform = (entity, { ancestors }) => ({
   fieldOffice:
     entity.fieldOffice[0] &&
     !ancestors.find(r => r.entity.uuid === entity.fieldOffice[0].uuid)
-      ? { entity: entity.fieldOffice[0] }
+      ? {
+          entity: {
+            entityUrl: entity.fieldOffice[0].entityUrl,
+            entityLabel: entity.fieldOffice[0].entityLabel,
+            entityType: entity.fieldOffice[0].entityType,
+            title: entity.fieldOffice[0].title,
+            reverseFieldRegionPageNode: {
+              entities: entity.fieldOffice[0].reverseFieldRegionPageNode
+                ? entity.fieldOffice[0].reverseFieldRegionPageNode.entities.filter(
+                    reverseField =>
+                      reverseField.entityBundle ===
+                      'regional_health_care_service_des',
+                  )
+                : [],
+            },
+          },
+        }
       : null,
 });
 
