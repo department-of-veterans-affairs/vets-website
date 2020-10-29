@@ -86,7 +86,7 @@ class FileField extends React.Component {
       const currentFile = event.target.files[0];
       const files = this.props.formData || [];
       const { requestLockedPdfPassword, uiSchema } = this.props;
-      const { getEncryptedPassword } = uiSchema['ui:options'] || {};
+      const { getEncryptedPassword } = uiSchema['ui:options'];
 
       let idx = index;
       if (idx === null) {
@@ -101,13 +101,13 @@ class FileField extends React.Component {
         !password
       ) {
         const needsPassword = await this.isFileEncrypted(currentFile);
-        files[idx] = {
-          file: currentFile,
-          name: currentFile.name,
-          isEncrypted: needsPassword,
-        };
-        this.props.onChange(files);
         if (needsPassword) {
+          files[idx] = {
+            file: currentFile,
+            name: currentFile.name,
+            isEncrypted: true,
+          };
+          this.props.onChange(files);
           // wait for user to enter a password before uploading
           return;
         }
@@ -115,10 +115,11 @@ class FileField extends React.Component {
 
       this.uploadRequest = this.props.formContext.uploadFile(
         currentFile,
-        this.props.uiSchema['ui:options'] || {},
+        this.props.uiSchema['ui:options'],
         this.updateProgress,
         file => {
-          const { formData, onChange } = this.props;
+          // formData is undefined initially
+          const { formData = [], onChange } = this.props;
           formData[idx] = file;
           onChange(formData);
           this.uploadRequest = null;
@@ -164,7 +165,6 @@ class FileField extends React.Component {
   };
 
   removeFile = index => {
-    // const removedFile = this.props.formData[index];
     const newFileList = this.props.formData.filter((__, idx) => index !== idx);
     if (!newFileList.length) {
       this.props.onChange();
@@ -204,12 +204,13 @@ class FileField extends React.Component {
       schema,
       formContext,
       onBlur,
+      registry,
       requestLockedPdfPassword,
     } = this.props;
-    const uiOptions = uiSchema?.['ui:options'] || {};
-    const files = this.props.formData || [];
+    const uiOptions = uiSchema?.['ui:options'];
+    const files = formData || [];
     const maxItems = schema.maxItems || Infinity;
-    const SchemaField = this.props.registry.fields.SchemaField;
+    const SchemaField = registry.fields.SchemaField;
     const attachmentIdRequired = schema.additionalItems.required
       ? schema.additionalItems.required.includes('attachmentId')
       : false;
