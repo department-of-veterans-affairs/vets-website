@@ -119,7 +119,7 @@ export const medicalCenterRequiredTopics = new Set([
   'Prosthetics, Med Devices & Sensory Aids',
 ]);
 
-const routeToStateRequiredTopics = new Set([
+export const routeToStateRequiredTopics = new Set([
   'Home Loan/Mortgage Guaranty Issues',
 ]);
 
