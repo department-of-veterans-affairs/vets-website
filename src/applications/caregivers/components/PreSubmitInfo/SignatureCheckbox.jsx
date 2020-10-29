@@ -164,6 +164,7 @@ const SignatureCheckbox = props => {
     >
       {children && <header>{children}</header>}
 
+      {/* only render radios on parties that are not the veteran due to the radios are agreements with veteran */}
       {label !== veteranLabel && (
         <>
           <ErrorableRadioButtons
