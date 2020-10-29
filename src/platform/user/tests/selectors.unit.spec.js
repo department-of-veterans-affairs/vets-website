@@ -245,6 +245,28 @@ describe('user selectors', () => {
     });
   });
 
+  describe('selectVeteranStatus', () => {
+    it('pulls out the veteranStatus object', () => {
+      const state = {
+        user: {
+          profile: {
+            veteranStatus: {
+              status: 'OK',
+              isVeteran: true,
+              servedInMilitary: true,
+            },
+          },
+        },
+      };
+      const expected = {
+        status: 'OK',
+        isVeteran: true,
+        servedInMilitary: true,
+      };
+      expect(selectors.selectVeteranStatus(state)).to.deep.equal(expected);
+    });
+  });
+
   describe('selectPatientFacilities', () => {
     it('pulls out the state.profile.facilities array', () => {
       const state = {
@@ -446,8 +468,10 @@ describe('user selectors', () => {
     it('returns `false` if the profile.status is anything other than `OK`', () => {
       const state = {
         user: {
-          veteranStatus: {
-            status: 'blah',
+          profile: {
+            veteranStatus: {
+              status: 'blah',
+            },
           },
         },
       };
