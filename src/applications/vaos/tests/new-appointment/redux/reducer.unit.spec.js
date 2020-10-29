@@ -1,5 +1,8 @@
 import { expect } from 'chai';
-import newAppointmentReducer from '../../../new-appointment/redux/reducer';
+import newAppointmentReducer, {
+  REASON_ADDITIONAL_INFO_TITLES,
+  REASON_MAX_CHARS,
+} from '../../../new-appointment/redux/reducer';
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
@@ -39,9 +42,7 @@ import parentFacilities from '../../../services/mocks/var/facilities.json';
 import facilities983 from '../../../services/mocks/var/facilities_983.json';
 import {
   FETCH_STATUS,
-  REASON_ADDITIONAL_INFO_TITLES,
   FLOW_TYPES,
-  REASON_MAX_CHARS,
   PURPOSE_TEXT,
   VHA_FHIR_ID,
   FACILITY_TYPES,

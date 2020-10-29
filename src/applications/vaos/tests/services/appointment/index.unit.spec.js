@@ -17,6 +17,7 @@ import {
   isVideoGFE,
   hasPractitioner,
   getPractitionerDisplay,
+  FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../services/appointment';
 import {
   transformConfirmedAppointments,
@@ -34,7 +35,6 @@ import { setRequestedPeriod } from '../../mocks/helpers';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../utils/constants';
 
 const now = moment();

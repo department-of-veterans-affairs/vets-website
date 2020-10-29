@@ -4,7 +4,6 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
-import * as address from '../../utils/address';
 import { LANGUAGES } from './../../utils/constants';
 
 import {
@@ -15,6 +14,7 @@ import {
 } from '../redux/actions';
 import { getFormPageInfo } from '../../utils/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { addressSchema, getAddressUISchema } from '../fields/addressFields';
 
 const initialSchema = {
   type: 'object',
@@ -44,7 +44,7 @@ const initialSchema = {
         lastName: {
           type: 'string',
         },
-        address: address.schema,
+        address: addressSchema,
         phone: {
           type: 'string',
           minLength: 10,
@@ -59,7 +59,7 @@ const initialSchema = {
   },
 };
 
-const addressUISchema = address.uiSchema();
+const addressUISchema = getAddressUISchema();
 const uiSchema = {
   communityCareSystemId: {
     'ui:title': 'What’s the closest city and state to you?',

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import CalendarRadioOption from './CalendarRadioOption';
 import CalendarCheckboxOption from './CalendarCheckboxOption';
-import { isDateOptionPairInSelectedArray } from './../../../utils/calendar';
+import { isDateOptionPairInSelectedArray } from './dateHelpers';
 
 export default function CalendarOptions({
   currentlySelectedDate,
