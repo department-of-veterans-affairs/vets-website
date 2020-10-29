@@ -1,4 +1,4 @@
-import '#profile/sass/profile.scss';
+import '@@profile/sass/profile.scss';
 import 'platform/polyfills';
 import React from 'react';
 import Profile from '@@profile/components/Profile';
