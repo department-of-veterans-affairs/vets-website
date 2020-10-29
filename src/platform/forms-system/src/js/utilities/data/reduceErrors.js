@@ -34,7 +34,8 @@ const ignoreKeys = [
  * @param {string} name - target end path where the error occurred
  * @param {string} instance - path inside the page object within the uiSchema,
  *   but we can't specify that since this is a recursive search function
- * @return {object}
+ * @return {object} - single page from the matching pageList object, or an empty
+ *   object if not found
  */
 const getPropertyInfo = (pageList = [], name, instance = '') => {
   const findPageIndex = (obj, insideInstance = instance === '') => {
@@ -130,13 +131,15 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
 /**
  * @typedef Form~formErrors
  * @type {object}
- * @property {Form~rawErrors}
- * @property {Form~errors}
+ * @property {Form~rawErrors} - raw form errors produced by jsonschema validator
+ * @property {Form~errors} - cleaned up form errors produced by the reduceErrors
+ *   function
  */
 /**
  * Process rawErrors from jsonschema validator into a more friendly list
- * @param {Form~formErrors} errors
+ * @param {Form~rawErrors} errors
  * @param {Form~pageList} pageList - list of all form pages from `route.pageList`
+ * @return {Form~formErrors}
  */
 export const reduceErrors = (errors, pageList) =>
   errors.reduce((result, error) => {
