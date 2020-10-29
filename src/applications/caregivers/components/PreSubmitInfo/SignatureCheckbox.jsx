@@ -149,7 +149,7 @@ const SignatureCheckbox = props => {
       if (!isSignatureComplete) {
         setCertifications(prevState => {
           const newState = prevState;
-          delete newState[label];
+          newState[label] = [];
           return { ...newState };
         });
       }

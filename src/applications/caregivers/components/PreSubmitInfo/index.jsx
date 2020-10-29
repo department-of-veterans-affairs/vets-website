@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { cloneDeep } from 'lodash';
 
-// import { updateSchemaAndData } from 'platform/forms-system/src/js/state/helpers';
+import { updateSchemaAndData } from 'platform/forms-system/src/js/state/helpers';
 import SignatureCheckbox from './SignatureCheckbox';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import SecondaryCaregiverCopy from './components/SecondaryCaregiverCopy';
+import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { reviewPageLabels } from 'applications/caregivers/definitions/constants';
 
 const PreSubmitCheckboxGroup = props => {
+  console.log('props: ', props);
   const { onSectionComplete, formData, showError } = props;
   const {
     veteranLabel,
@@ -25,14 +27,12 @@ const PreSubmitCheckboxGroup = props => {
   // secondaryTwoCertifications
   const [certifications, setCertifications] = useState({
     [veteranLabel]: [],
+    [primaryLabel]: [],
   });
 
-  useEffect(
-    () => {
-      // console.log('certifications: ', certifications);
-    },
-    [certifications],
-  );
+  const uncertifiedLength = Object.values(certifications).filter(
+    certArray => certArray.length === 0,
+  ).length;
 
   const [signatures, setSignatures] = useState({
     [veteranLabel]: false,
@@ -42,6 +42,10 @@ const PreSubmitCheckboxGroup = props => {
   const unSignedLength = Object.values(signatures).filter(
     obj => Boolean(obj) === false,
   ).length;
+
+  const allPartiesSignedAndCertified = !unSignedLength && !uncertifiedLength;
+
+  console.log('allPartiesSignedAndCertified: ', allPartiesSignedAndCertified);
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
@@ -60,6 +64,12 @@ const PreSubmitCheckboxGroup = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [unSignedLength],
   );
+
+  useEffect(() => {
+    if (allPartiesSignedAndCertified) {
+      updateSchemaAndData(fullSchema, null, formData);
+    }
+  }, []);
 
   // prune party if they no longer exist
   useEffect(
