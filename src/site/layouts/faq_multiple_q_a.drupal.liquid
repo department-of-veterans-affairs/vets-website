@@ -82,6 +82,7 @@
                 </div>
               {% else %}
                   {% for fieldQA in fieldQAGroup.entity.fieldQAs %}
+                    <h3>{{ fieldQA.entity.title }}</h3>
                     {% if fieldQA.entity %}
                       {% assign fieldAnswer = fieldQA.entity.fieldAnswer %}
                       {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
