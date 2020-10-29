@@ -19,9 +19,6 @@ const Chapter31CTA = props => {
   } else {
     content = (
       <>
-        <p className="vads-u-font-size--xl vads-u-font-family--serif vads-u-margin-bottom--0 vads-u-font-weight--bold">
-          Ready to apply?
-        </p>
         <a
           href="/careers-employment/vocational-rehabilitation/apply"
           className="usa-button-primary va-button-primary"
