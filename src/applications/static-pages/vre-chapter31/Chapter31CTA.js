@@ -15,7 +15,7 @@ const Chapter31CTA = props => {
   if (props.includedInFlipper === undefined) {
     content = <LoadingIndicator message="Loading..." />;
   } else if (props.includedInFlipper === false) {
-    content = buildChapter31Content(currentURL[5], currentURL[5]);
+    content = buildChapter31Content(currentURL[5], currentURL[6]);
   } else {
     content = (
       <>

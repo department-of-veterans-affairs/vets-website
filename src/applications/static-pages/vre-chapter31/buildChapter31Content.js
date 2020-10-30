@@ -7,7 +7,7 @@ export const buildChapter31Content = (page, track) => {
   let optionalSubwayMapItem = null;
   // If this is on the /eligibility page, render just the button
   // If this is NOT on the /eligibility page, render the subway map and the button and possibly the optional header and subway map item
-  if (page === '?eligibility') {
+  if (page === 'eligibility') {
     content = (
       <>
         <EbenefitsLink
