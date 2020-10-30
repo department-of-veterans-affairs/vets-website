@@ -74,6 +74,7 @@ async function downloadFile(
 
 function downloadDrupalAssets(options) {
   const client = getDrupalClient(options);
+  return () => {};
   return async (files, metalsmith, done) => {
     const assetsToDownload = Object.entries(files)
       .filter(entry => entry[1].isDrupalAsset && !entry[1].contents)
