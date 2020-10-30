@@ -7,7 +7,7 @@ import {
   VAPProfileField,
   mapStateToProps,
 } from '@@profile/components/personal-information/VAPProfileField';
-import { FIELD_NAMES, TRANSACTION_STATUS } from 'vet360/constants';
+import { FIELD_NAMES, TRANSACTION_STATUS } from '@@vet360/constants';
 
 function ContentView() {
   return <h1>Content</h1>;
