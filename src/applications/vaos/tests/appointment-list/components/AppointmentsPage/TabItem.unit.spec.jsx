@@ -10,7 +10,9 @@ describe('<TabItem>', () => {
     const tree = shallow(
       <TabItem id="title" title="Title Here" tabpath="upcoming" />,
     );
-
+    expect(tree.find('NavLink').props()['aria-label']).to.equal(
+      'title appointments',
+    );
     expect(tree.find('NavLink').props().id).to.equal('tabtitle');
     expect(tree.find('NavLink').props().to).to.equal('upcoming');
     tree.unmount();
@@ -23,6 +25,9 @@ describe('<TabItem>', () => {
 
     expect(tree.find('NavLink').props()['aria-controls']).to.equal(
       'tabpaneltitle',
+    );
+    expect(tree.find('NavLink').props()['aria-label']).to.equal(
+      'title appointments',
     );
     expect(tree.find('NavLink').props()['aria-selected']).to.equal('true');
     expect(tree.find('NavLink').props().id).to.equal('tabtitle');
@@ -37,6 +42,9 @@ describe('<TabItem>', () => {
 
     expect(tree.find('NavLink').props()['aria-controls']).to.equal(
       'tabpaneltitle',
+    );
+    expect(tree.find('NavLink').props()['aria-label']).to.equal(
+      'title appointments',
     );
     expect(tree.find('NavLink').props()['aria-selected']).to.equal('true');
     expect(tree.find('NavLink').props().id).to.equal('tabtitle');
