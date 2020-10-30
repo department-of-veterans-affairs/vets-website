@@ -12,6 +12,7 @@ const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
 
 const testSecondaryTwo = createTestConfig(
   {
+    skip: true,
     dataPrefix: 'data',
     dataSets: [
       'requiredOnly',
