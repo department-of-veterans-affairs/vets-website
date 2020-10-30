@@ -81,7 +81,9 @@ const submitTransform = (formConfig, form) => {
             ...sortedDataByChapter[chapterName],
             plannedClinic: data[key].plannedClinic,
           };
+          console.log('HIT 1: ', dataPrefix);
         } else {
+          console.log('HIT 2: ', dataPrefix);
           // otherwise just remove the prefix, and populate chapter object
           const keyWithoutPrefix = lowerCaseFirstLetter(
             key.split(dataPrefix)[1],
@@ -111,6 +113,8 @@ const submitTransform = (formConfig, form) => {
   };
 
   const formData = transformForSubmit(formConfig, remappedData);
+
+  console.log('formData: ', JSON.stringify(formData, null, 2));
 
   return JSON.stringify({
     caregiversAssistanceClaim: {

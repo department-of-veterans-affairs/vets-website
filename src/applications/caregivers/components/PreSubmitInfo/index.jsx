@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 import { connect } from 'react-redux';
 
 import SignatureCheckbox from './SignatureCheckbox';
@@ -15,7 +15,7 @@ import {
 } from 'applications/caregivers/definitions/constants.js';
 
 const PreSubmitCheckboxGroup = props => {
-  const { onSectionComplete, formData, showError, setGlobalFormData } = props;
+  const { onSectionComplete, formData, showError } = props;
 
   const {
     veteranLabel,
@@ -95,42 +95,41 @@ const PreSubmitCheckboxGroup = props => {
   // take certifications and map it to redux state
 
   const mapCertsToRedux = () => {
-    const veteranCert = certifications[veteranLabel]
-      ? { [vetFields.certifications]: certifications[veteranLabel] }
-      : {};
-    const primaryCert = certifications[primaryLabel]
-      ? {
-          [primaryCaregiverFields.certifications]: certifications[primaryLabel],
-        }
-      : {};
-    const secondaryOneCert = certifications[secondaryOneLabel]
-      ? {
-          [secondaryCaregiverFields.secondaryOne.certifications]:
-            certifications[secondaryOneLabel],
-        }
-      : {};
-    const secondaryTwoCert = certifications[secondaryTwoLabel]
-      ? {
-          [secondaryCaregiverFields.secondaryTwo.certifications]:
-            certifications[secondaryTwoLabel],
-        }
-      : {};
+    const assignCertToObject = (cert, label) => {
+      return cert ? { [label]: cert } : {};
+    };
+
+    const veteranCert = assignCertToObject(certifications[veteranLabel], [
+      vetFields.certifications,
+    ]);
+    const primaryCert = assignCertToObject(certifications[primaryLabel], [
+      primaryCaregiverFields.certifications,
+    ]);
+    const secondaryOneCert = assignCertToObject(
+      certifications[secondaryOneLabel],
+      [secondaryCaregiverFields.secondaryOne.certifications],
+    );
+    const secondaryTwoCert = assignCertToObject(
+      certifications[secondaryTwoLabel],
+      [secondaryCaregiverFields.secondaryTwo.certifications],
+    );
 
     const consolidatedCerts = {
       ...veteranCert,
       ...primaryCert,
       ...secondaryOneCert,
       ...secondaryTwoCert,
+      AGREED: true,
     };
 
-    return { ...formData, ...consolidatedCerts };
+    return merge(formData, consolidatedCerts);
   };
 
   useEffect(
     () => {
       if (allPartiesSignedAndCertified) {
-        setGlobalFormData({ ...mapCertsToRedux() });
-        console.log('formData: ', formData);
+        console.log('mapCertsToRedux(): ', mapCertsToRedux());
+        // setGlobalFormData(mapCertsToRedux());
       }
     },
     [allPartiesSignedAndCertified],
@@ -139,7 +138,7 @@ const PreSubmitCheckboxGroup = props => {
   /*
     - Vet first && last name must match, and be checked
     - PrimaryCaregiver first && last name must match, and be checked
-    - if hasSeco`ndary one || two, first & last name must match, and be checked to submit
+    - if hasSecondary one || two, first & last name must match, and be checked to submit
    */
 
   return (
@@ -251,14 +250,20 @@ const PreSubmitCheckboxGroup = props => {
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    form: state.form,
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
-  setGlobalFormData: () => dispatch(setData()),
+  setGlobalFormData: data => dispatch(setData(data)),
 });
 
 export default {
   required: true,
   CustomComponent: connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   )(PreSubmitCheckboxGroup),
 };
