@@ -190,14 +190,20 @@ The `entityUrl.path` property is used to determine the page's path on the websit
 
 #### Debugging
 
-##### Console output
+<details>
+
+<summary>Console output</summary>
+
 While running your website locally, open the console panel of your browser's developer tools. Visit `/health-care` and observe the following output.
 
 ![console output of Drupal data](.github/images/cms-data-console.png)
 
 This data structure represents the data structure that was processed throughout the layout file during the website compilation.
+</details>
 
-#### DOM attributes
+<details>
+
+<summary>DOM attributes</summary>
 To further demystify the dynamic nature of the templating process, a pattern of the project is to use `data-` attributes to describe various templates. For example, observe the various `data-template` properties in the following DOM.
 
 ![data attributes describing the templating process](.github/images/cms-data-attributes.png)
@@ -205,6 +211,8 @@ To further demystify the dynamic nature of the templating process, a pattern of 
 There is also an HTML comment at the top of the file to help describe the current page.
 
 ![HTML comment describing the page](.github/images/cms-html-comment.png)
+
+</details>
 
 #### Resources
 
