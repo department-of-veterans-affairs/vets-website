@@ -422,13 +422,10 @@ module.exports = function registerFilters() {
     currentPath,
     pageTitle,
   ) => {
-    const filteredCrumbs = [];
-    breadcrumbs.forEach(crumb => {
-      // Remove any resources crumb - we don't want the drupal page title.
-      if (crumb.url.path !== '/resources') {
-        filteredCrumbs.push(crumb);
-      }
-    });
+    // Remove any resources crumb - we don't want the drupal page title.
+    const filteredCrumbs = breadcrumbs.filter(
+      crumb => crumb.url.path !== '/resources',
+    );
     // Add the resources crumb with the correct crumb title.
     filteredCrumbs.push({
       url: { path: '/resources', routed: false },
