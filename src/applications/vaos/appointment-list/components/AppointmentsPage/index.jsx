@@ -75,6 +75,18 @@ function AppointmentsPage({
     [isWelcomeModalDismissed],
   );
 
+  useEffect(
+    () => {
+      if (
+        !cancelInfo.showCancelModal &&
+        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+  );
+
   const isLoading =
     pendingStatus === FETCH_STATUS.loading ||
     expressCare.windowsStatus === FETCH_STATUS.loading ||
