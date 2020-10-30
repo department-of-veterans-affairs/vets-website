@@ -102,20 +102,13 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 
   renderScholarships = () => (
     <div id="scholarships-field">
-      <label
-        htmlFor="vetTecScholarships"
-        className="vads-u-display--inline-block"
-        id="scholarships-label"
-      >
-        {this.renderLearnMoreLabel({
-          text: 'Scholarships (excluding Pell Grants)',
-          modal: 'scholarships',
-          ariaLabel: ariaLabels.learnMore.scholarships,
-          labelFor: 'vetTecScholarships',
-        })}
-      </label>
+      {this.renderLearnMoreLabel({
+        text: 'Scholarships (excluding Pell Grants)',
+        modal: 'scholarships',
+        ariaLabel: ariaLabels.learnMore.scholarships,
+        labelFor: 'vetTecScholarships',
+      })}
       <input
-        aria-labelledby="scholarships-label"
         inputMode="decimal"
         type="text"
         pattern="(\d*\d+)(?=\,)"
@@ -140,18 +133,12 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 
   renderTuitionFees = () => (
     <div id="tuition-field">
-      <label
-        htmlFor="vetTecTuitionFees"
-        className="vads-u-display--inline-block"
-        id="tuition-fees-label"
-      >
-        {this.renderLearnMoreLabel({
-          text: 'Tuition and fees for program',
-          modal: 'tuitionAndFees',
-          ariaLabel: ariaLabels.learnMore.tuitionAndFees,
-          labelFor: 'vetTecTuitionFees',
-        })}
-      </label>
+      {this.renderLearnMoreLabel({
+        text: 'Tuition and fees for program',
+        modal: 'tuitionAndFees',
+        ariaLabel: ariaLabels.learnMore.tuitionAndFees,
+        labelFor: 'vetTecTuitionFees',
+      })}
       <input
         aria-labelledby="tuition-fees-label"
         name="vetTecTuitionFees"
