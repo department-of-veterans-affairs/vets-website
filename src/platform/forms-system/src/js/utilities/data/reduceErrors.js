@@ -29,7 +29,10 @@ const ignoreKeys = [
  */
 /**
  * Find the chapter and page name that contains the property (name) which is
- * used to build a link that will expand the associated accordion when clicked
+ * then used to find the associated accordion on the review & submit page; the
+ * associated chapter (accordion) will then be highlighted to indicate a problem
+ * Eventually, the page name will be used to target the specific page, then form
+ * element to take the user directly to the problem
  * @param {Form~pageList} pageList - list of all form pages from `route.pageList`
  * @param {string} name - target end path where the error occurred
  * @param {string} instance - path inside the page object within the uiSchema,
