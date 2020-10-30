@@ -31,6 +31,7 @@ import {
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
+  FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
 } from '../../../new-appointment/redux/actions';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -48,6 +49,7 @@ import {
   PURPOSE_TEXT,
   VHA_FHIR_ID,
   FACILITY_TYPES,
+  FACILITY_SORT_METHODS,
 } from '../../../utils/constants';
 
 import { transformParentFacilities } from '../../../services/organization/transformers';
@@ -362,7 +364,7 @@ describe('VAOS reducer: newAppointment', () => {
       longitude: -84.6804804,
     };
 
-    it('should set facilities when page is done loading', () => {
+    it('should set facilities when page is done loading and page has multiple facilities', () => {
       const currentState = {
         ...defaultState,
       };
@@ -376,9 +378,6 @@ describe('VAOS reducer: newAppointment', () => {
       const newState = newAppointmentReducer(currentState, action);
       const vaFacilitySchema =
         newState.pages.vaFacilityV2.properties.vaFacility;
-      // console.log(vaFacilitySchema.enum);
-      // console.log(vaFacilitySchema.enumNames[1].name);
-      // console.log(vaFacilitySchema.enumNames[2].name);
 
       expect(vaFacilitySchema.enum).to.deep.equal([
         'var984',
@@ -394,36 +393,113 @@ describe('VAOS reducer: newAppointment', () => {
       expect(vaFacilitySchema.enumNames[2].name).to.equal(
         'Fort Collins VA Clinic',
       );
-      // expect(newState.pages.vaFacilityV2).to.deep.equal({
-      //   type: 'object',
-      //   properties: {
-      //     vaFacility: {
-      //       type: 'string',
-      //       enum: [
-      //         'var984GA',
-      //         'var984',
-      //         'var984GC',
-      //         'var984GF',
-      //         'var984GD',
-      //         'var984GB',
-      //         'var983GB',
-      //         'var983QE',
-      //         'var983',
-      //         'var983HK',
-      //         'var983GD',
-      //         'var983GC',
-      //         'var983QA',
-      //       ],
-      //       enumNames: [
-      //         'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
-      //         'CHYSHR-Sidney VA Clinic (Sidney, NE)',
-      //         'CHYSHR-Fort Collins VA Clinic (Fort Collins, CO)',
-      //         'CHYSHR-Loveland VA Clinic (Loveland, CO)',
-      //         'CHYSHR-Wheatland VA Mobile Clinic (Cheyenne, WY)',
-      //       ],
-      //     },
-      //   },
-      // });
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.distanceFromResidential,
+      );
+      expect(newState.data.vaParent).to.equal(undefined);
+    });
+
+    it('should set facilities when page is done loading and page has single facilities', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(2, 3),
+        address: residentialAddress,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const vaFacilitySchema =
+        newState.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal(['var983GC']);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.distanceFromResidential,
+      );
+      expect(newState.data.vaParent).to.equal('var983');
+    });
+
+    it('should set sort method to alphabetical if there is no residental address', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(0, 3),
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const vaFacilitySchema =
+        newState.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal([
+        'var983',
+        'var984',
+        'var983GC',
+      ]);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[1].name).to.equal(
+        'Dayton VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[2].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.alphabetical,
+      );
+      expect(newState.data.vaParent).to.equal(undefined);
+    });
+
+    it('should update sort method', () => {
+      const currentState = {
+        ...defaultState,
+        data: {
+          typeOfCareId: '323',
+        },
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(0, 3),
+        address: residentialAddress,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.distanceFromResidential,
+      );
+      const newState2 = newAppointmentReducer(newState, {
+        type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+        sortMethod: FACILITY_SORT_METHODS.alphabetical,
+      });
+      const vaFacilitySchema =
+        newState2.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal([
+        'var984',
+        'var983',
+        'var983GC',
+      ]);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Dayton VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[1].name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[2].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState2.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.alphabetical,
+      );
     });
   });
 

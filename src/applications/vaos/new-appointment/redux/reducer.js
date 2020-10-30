@@ -321,7 +321,6 @@ export default function formReducer(state = initialState, action) {
       let newData = state.data;
       let typeOfCareFacilities = action.facilities;
       const typeOfCareId = action.typeOfCareId;
-      const facilities = state.facilities;
       const address = action.address;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
@@ -332,7 +331,7 @@ export default function formReducer(state = initialState, action) {
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      if (parentFacilities.length === 1 || !facilities.length) {
+      if (parentFacilities.length === 1 || !typeOfCareFacilities.length) {
         newData = {
           ...newData,
           vaParent: parentFacilities[0]?.id,
@@ -396,7 +395,7 @@ export default function formReducer(state = initialState, action) {
           vaFacilityV2: schema,
         },
         facilities: {
-          ...facilities,
+          ...state.facilities,
           [typeOfCareId]: typeOfCareFacilities,
         },
         parentFacilities,
