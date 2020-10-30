@@ -8,10 +8,10 @@
       {% for row in mobileTableData.rows %}
         <tr class="vads-u-border-top--1px vads-u-display--flex vads-u-flex-direction--column">
           {% for dataPoint in row.dataPoints %}
-              <td class="vads-u-border--0 vads-u-padding--0">
+              <td class="vads-u-border--0 vads-u-padding-bottom--8px">
                 <p class="data-point-p vads-u-margin-bottom--1px">
-                  <strong>{{ dataPoint.label }}:</strong> 
-                  <span class="vads-u-display--flex">
+                  <strong>{{ dataPoint.label }}</strong> 
+                  <span class="vads-u-display--flex ">
                     {{ dataPoint.value }}
                   </span>
                 </p>
