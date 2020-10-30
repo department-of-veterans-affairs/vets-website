@@ -133,7 +133,7 @@ This templating language is called [Liquid](https://shopify.github.io/liquid/). 
 
 ##### How templating works with CMS data
 
-After set up, your project should have issued a network request to fetch data from the VA CMS, Drupal. To verify, the response JSON should be visible in your local `vets-website/.cache/localhost/drupal` directory. To refresh the content, run `yarn build:content --pull-drupal`. The `vets-website/.cache` directory will be emptied and a new network request will be issued.
+After setup, your project should have issued a network request to fetch data from the VA CMS, Drupal. To verify, the response JSON should be located at `vets-website/.cache/localhost/drupal/pages.json`. To refresh the content, run `yarn build:content --pull-drupal`. The `vets-website/.cache` directory will be emptied and a new network request will be issued.
 
 The JSON file returned by the CMS will be parsed into separate pages during the `vets-website` compilation process. Consider opening the `vets-website/.cache/localhost/drupal/pages.json` file to explore the data structures.
 
