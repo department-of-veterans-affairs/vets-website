@@ -401,6 +401,35 @@ describe('user selectors', () => {
     });
   });
 
+  describe('isVAPatient', () => {
+    it('returns `true` if the profile.vaPatient is `true`', () => {
+      const state = {
+        user: {
+          profile: {
+            vaPatient: true,
+          },
+        },
+      };
+      expect(selectors.isVAPatient(state)).to.be.true;
+    });
+    it('returns `false` if the profile.vaPatient is anything other than `true`', () => {
+      const state = {
+        user: {
+          profile: {
+            vaPatient: 'blah',
+          },
+        },
+      };
+      expect(selectors.isVAPatient(state)).to.be.false;
+      delete state.user.profile.vaPatient;
+      expect(selectors.isVAPatient(state)).to.be.false;
+      delete state.user.profile;
+      expect(selectors.isVAPatient(state)).to.be.false;
+      delete state.user;
+      expect(selectors.isVAPatient(state)).to.be.false;
+    });
+  });
+
   describe('isInMPI', () => {
     it('returns `true` if the profile.status is `OK`', () => {
       const state = {

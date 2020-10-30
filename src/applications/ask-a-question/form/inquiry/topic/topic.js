@@ -1,8 +1,15 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
+import { states } from 'vets-json-schema/dist/constants.json';
 
 import fullSchema from '../../0873-schema.json';
-import { topicTitle } from '../../../constants/labels';
+import {
+  topicLevelOneTitle,
+  topicLevelTwoTitle,
+  topicLevelThreeTitle,
+  vaMedicalCenterTitle,
+  routeToStateTitle,
+} from '../../../constants/labels';
 import {
   vaMedicalCentersLabels,
   vaMedicalCentersValues,
@@ -16,6 +23,7 @@ const formFields = {
   levelTwo: 'levelTwo',
   levelThree: 'levelThree',
   vaMedicalCenter: 'vaMedicalCenter',
+  routeToState: 'routeToState',
 };
 
 const getChildSchemaFromParentTopic = (
@@ -58,14 +66,20 @@ const levelOneTopicLabels = topicSchemaCopy.anyOf.map(topicSchema => {
   return topicSchema.properties.levelOne.enum[0];
 });
 
-// These are levelTwo topics that have level three subtopics and their respective levelOne parents
-const levelTwoWithLevelThreeTopics = {
-  'Burial & Memorial Benefits (NCA)': ['Burial Benefits'],
-  'Health & Medical Issues & Services': [
-    'Health/Medical Eligibility & Programs',
-    'Prosthetics, Med Devices & Sensory Aids',
-    'Women Veterans Health Care',
-  ],
+// Maps levelOne categories to list of levelTwo topics that have levelThree subtopics
+export const getTopicsWithSubtopicsByCategory = topicSchema => {
+  const topicsWithSubtopicsByCategory = {};
+  topicSchema.anyOf.forEach(categorySchema => {
+    if (categorySchema.properties.levelTwo.type === 'object') {
+      const topicsWithSubtopics = categorySchema.properties.levelTwo.anyOf
+        .filter(levelTwoSchema => levelTwoSchema.properties.levelThree)
+        .map(levelTwoSchema => levelTwoSchema.properties.subLevelTwo.enum[0]);
+      topicsWithSubtopicsByCategory[
+        categorySchema.properties.levelOne.enum[0]
+      ] = topicsWithSubtopics;
+    }
+  });
+  return topicsWithSubtopicsByCategory;
 };
 
 const valuesByLabelLookup = {};
@@ -75,7 +89,7 @@ levelOneTopicLabels.forEach(label => {
 
 const getLevelThreeTopics = () => {
   for (const [parentTopic, complexLevelTwo] of Object.entries(
-    levelTwoWithLevelThreeTopics,
+    getTopicsWithSubtopicsByCategory(topicSchemaCopy),
   )) {
     complexLevelTwo.forEach(label => {
       valuesByLabelLookup[label] = filterTopicArrayByLabel(
@@ -97,12 +111,16 @@ export const updateFormData = (oldData, newData) => {
 };
 
 export const levelThreeRequiredTopics = new Set(
-  _.flatten(Object.values(levelTwoWithLevelThreeTopics)),
+  _.flatten(Object.values(getTopicsWithSubtopicsByCategory(topicSchemaCopy))),
 );
 
 export const medicalCenterRequiredTopics = new Set([
   'Medical Care Issues at Specific Facility',
   'Prosthetics, Med Devices & Sensory Aids',
+]);
+
+export const routeToStateRequiredTopics = new Set([
+  'Home Loan/Mortgage Guaranty Issues',
 ]);
 
 export function schema(currentSchema, topicProperty = 'topic') {
@@ -113,26 +131,23 @@ export function schema(currentSchema, topicProperty = 'topic') {
     properties: _.assign(topicSchema.properties, {
       levelOne: {
         type: 'string',
-        enum: [
-          'Burial & Memorial Benefits (NCA)',
-          'Caregiver Support Program',
-          'Health & Medical Issues & Services',
-          'VA Ctr for Women Vets, Policies & Progs',
-        ],
+        enum: _.orderBy([], 'asc', levelOneTopicLabels),
       },
       levelTwo: {
-        title: topicTitle,
         type: 'string',
       },
       levelThree: {
-        title: topicTitle,
         type: 'string',
       },
       vaMedicalCenter: {
-        title: 'Medical Center List',
         type: 'string',
         enum: vaMedicalCentersValues,
         enumNames: vaMedicalCentersLabels,
+      },
+      routeToState: {
+        type: 'string',
+        enum: states.USA.map(state => state.value),
+        enumNames: states.USA.map(state => state.label),
       },
     }),
   };
@@ -201,7 +216,6 @@ export function uiSchema() {
   );
 
   return {
-    'ui:title': topicTitle,
     'ui:options': {
       updateSchema: (formData, topicSchema, index, path) => {
         return topicChangeSelector({
@@ -211,15 +225,21 @@ export function uiSchema() {
         });
       },
     },
-    'ui:order': ['levelOne', 'levelTwo', 'levelThree', 'vaMedicalCenter'],
+    'ui:order': [
+      'levelOne',
+      'levelTwo',
+      'levelThree',
+      'vaMedicalCenter',
+      'routeToState',
+    ],
     [formFields.levelOne]: {
-      'ui:title': topicTitle,
+      'ui:title': topicLevelOneTitle,
     },
     [formFields.levelTwo]: {
-      'ui:title': topicTitle,
+      'ui:title': topicLevelTwoTitle,
     },
     [formFields.levelThree]: {
-      'ui:title': topicTitle,
+      'ui:title': topicLevelThreeTitle,
       'ui:required': formData => {
         return !!levelThreeRequiredTopics.has(formData.topic.levelTwo);
       },
@@ -231,7 +251,7 @@ export function uiSchema() {
       },
     },
     [formFields.vaMedicalCenter]: {
-      'ui:title': 'Medical Center List',
+      'ui:title': vaMedicalCenterTitle,
       'ui:required': formData => {
         return !!medicalCenterRequiredTopics.has(formData.topic.levelTwo);
       },
@@ -239,6 +259,18 @@ export function uiSchema() {
         expandUnder: 'levelTwo',
         expandUnderCondition: levelTwo => {
           return !!medicalCenterRequiredTopics.has(levelTwo);
+        },
+      },
+    },
+    [formFields.routeToState]: {
+      'ui:title': routeToStateTitle,
+      'ui:required': formData => {
+        return !!routeToStateRequiredTopics.has(formData.topic.levelTwo);
+      },
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!routeToStateRequiredTopics.has(levelTwo);
         },
       },
     },

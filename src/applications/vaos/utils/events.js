@@ -7,7 +7,6 @@ export function recordVaosError(errorKey) {
     'error-key': errorKey,
   });
 }
-
 export function recordEligibilityFailure(
   errorKey,
   typeOfCare = null,

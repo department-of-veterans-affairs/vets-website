@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { renderWithProfileReducers } from '../unit-test-helpers';
 
-import MilitaryInformation from '../../components/MilitaryInformation';
+import MilitaryInformation from '../../components/military-information/MilitaryInformation';
 
 function createBasicInitialState() {
   return {

@@ -270,6 +270,7 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
+    expect(document.activeElement).to.have.tagName('h1');
   });
 
   it('should display error when cancel fails', async () => {
@@ -514,6 +515,7 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
+    expect(document.activeElement).to.have.tagName('h1');
   });
 
   it('va appointments at Cerner site should direct users to portal', async () => {
@@ -538,7 +540,11 @@ describe('VAOS integration appointment cancellation:', () => {
           profile: {
             facilities: [
               { facilityId: '983', isCerner: false },
-              { facilityId: '668', isCerner: true },
+              {
+                facilityId: '668',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
             ],
             isCernerPatient: true,
           },
