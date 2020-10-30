@@ -1,27 +1,27 @@
 <!-- Mobile -->
-<div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--none"
+{% assign mobileTableData = entity | formatMobileTableData %}
+<table
+  class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--none usa-table-borderless"
   data-template="paragraphs/table-mobile">
-  {% assign mobileTableData = entity | formatMobileTableData %}
-  <table class="usa-table-borderless">
-    <caption class="vads-u-padding-bottom--20px"><strong>{{ mobileTableData.caption }}</strong></caption>
-    <tbody>
-      {% for row in mobileTableData.rows %}
-        <tr class="vads-u-border-top--1px vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2p5">
-          {% for dataPoint in row.dataPoints %}
-              <td class="vads-u-border--0 vads-u-padding-bottom--8px">
-                <p class="data-point-p vads-u-margin-bottom--1px">
-                  <strong>{{ dataPoint.label }}</strong> 
-                  <span class="vads-u-display--flex ">
-                    {{ dataPoint.value }}
-                  </span>
-                </p>
-              </td>
-          {% endfor %}
-        </tr>
+  <caption class="vads-u-padding-bottom--20px"><strong>{{ mobileTableData.caption }}</strong></caption>
+  <tbody>
+    {% for row in mobileTableData.rows %}
+    <tr class="vads-u-border-top--1px vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2p5">
+      {% for dataPoint in row.dataPoints %}
+      <td class="vads-u-border--0 vads-u-padding-bottom--8px">
+        <p class="data-point-p vads-u-margin-bottom--1px">
+          <strong>{{ dataPoint.label }}</strong>
+          <span class="vads-u-display--flex ">
+            {{ dataPoint.value }}
+          </span>
+        </p>
+      </td>
       {% endfor %}
-    </tbody>
-  </table>
-</div>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 
 <!-- Desktop -->
 <table data-template="paragraphs/table-desktop" data-entity-id="{{ entity.entityId }}"
