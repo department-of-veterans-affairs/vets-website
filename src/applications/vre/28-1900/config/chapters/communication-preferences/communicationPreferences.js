@@ -1,10 +1,10 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import {
   AppointmentPreferencesInformation,
   TeleCounselingInformation,
   VreCommunicationInformation,
-  validateAtLeastOneSelected,
 } from './helpers';
 
 const titleClasses = 'vads-u-display--inline-block vads-u-margin--0';
@@ -82,18 +82,18 @@ export const uiSchema = {
   },
   appointmentTimePreferences: {
     'ui:title': (
-      <p className="vads-u-margin--0 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
+      <p className="schemaform-block-title vads-u-margin--0 vads-u-margin-top--2 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
         When are the best times to meet with your VR&E counselor?{' '}
         <span className="schemaform-required-span vads-u-display--block">
           (*At lease one required)
         </span>
       </p>
     ),
-    'ui:validations': [validateAtLeastOneSelected],
+    'ui:validations': [validateBooleanGroup],
     'ui:options': {
       // negative margin is needed because ObjectField adds the schemaform-block class to this, which creates a huge top margin.
-      classNames: 'vads-u-margin-top--neg3',
-      showFieldLabel: false,
+      classNames: 'vads-u-margin-top--neg2',
+      showFieldLabel: true,
     },
     morning: {
       'ui:title': 'Mornings 6:00 to 10:00 a.m.',
