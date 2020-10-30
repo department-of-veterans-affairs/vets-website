@@ -8,7 +8,7 @@ export default function CallMyVA311({ startSentence }) {
   return (
     <span>
       {startSentence ? 'Call' : 'call'} us at{' '}
-      <a href="tel:18006982411">800-698-2411</a>.<br />
+      <Telephone contact={CONTACTS.VA_311} />.<br />
       If you have hearing loss, call TTY:{' '}
       <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
     </span>
