@@ -197,7 +197,7 @@
     },
     {
       "column": 4,
-      "label": "Call VA311:",
+      "label": "Call us:",
       "href": "tel:18006982411",
       "order": 3,
       "target": null,
@@ -347,7 +347,7 @@
                 "text": "Coronavirus FAQs",
                 "href": "https://www.va.gov/coronavirus-veteran-frequently-asked-questions/"
               },
-              "description": "Get answers to frequently asked questions about COVID-19 and VA health care. You can also call VA311 at 800-698-2411."
+              "description": "Get answers to frequently asked questions about COVID-19 and VA health care. You can also call our MyVA411 main information line at at 800-698-2411."
             }
           }
         },
