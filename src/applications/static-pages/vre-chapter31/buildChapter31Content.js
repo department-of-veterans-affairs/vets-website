@@ -63,7 +63,7 @@ export const buildChapter31Content = (page, track) => {
             {optionalSubwayMapItem}
           </ol>
         </div>
-        <p className="vads-u-font-size--xl vads-u-font-family--serif vads-u-margin-bottom--0 vads-u-font-weight--bold">
+        <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-margin-bottom--0 vads-u-font-weight--bold">
           Ready to apply?
         </p>
         <EbenefitsLink
