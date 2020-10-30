@@ -20,18 +20,18 @@ module.exports = function registerFilters() {
 
   liquid.filters.humanizeTimestamp = dt =>
     moment.unix(dt).format('MMMM D, YYYY');
-
+  // return value for mobile table:   [{ caption: String, rows: [{ label: String, value: String }] }]
   liquid.filters.formatMobileTableData = entity => {
     const labels = entity.fieldTable.value[0];
     const rows = Object.values(entity.fieldTable.value).reduce(
-      (rows, row, rowIndex) => {
+      (rowsAcc, row, rowIndex) => {
         // If it's the header row, continue.
-        if (rowIndex === 0 || !row) return rows;
+        if (rowIndex === 0 || !row) return rowsAcc;
 
         // Row can either be a string or an array of strings depending on cardinality.
         if (typeof row === 'string') {
-          rows.push({ dataPoints: [{ label: labels[0], value: row }] });
-          return rows;
+          rowsAcc.push({ dataPoints: [{ label: labels[0], value: row }] });
+          return rowsAcc;
         }
 
         // Derive the key-value pairs (label + value).
@@ -41,17 +41,18 @@ module.exports = function registerFilters() {
         }));
 
         // Add the item to our items.
-        rows.push({ dataPoints });
+        rowsAcc.push({ dataPoints });
 
         // Continue.
-        return rows;
+        return rowsAcc;
       },
       [],
     );
 
     return {
+      tableHeader: rows[0],
       caption: entity.fieldTable.caption,
-      rows,
+      rows: rows.slice(1),
     };
   };
 

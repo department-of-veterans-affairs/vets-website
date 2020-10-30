@@ -1,84 +1,61 @@
-{% comment %}
-Example data:
-entity: {
-"entityId": "3944",
-"fieldTable": {
-"tableValue": "Row 1 Column 1 Row 1 Column 2 Row 1 Column 3 Row 2 Column 1 Row 2 Column 2 Row 2 Column 3 Row 3 Column 1
-Row 3 Column 2 Row 3 Column 3",
-"value": {
-"0": [
-"Row 1 Column 1",
-"Row 1 Column 2",
-"Row 1 Column 3"
-],
-"1": [
-"Row 2 Column 1",
-"Row 2 Column 2",
-"Row 2 Column 3"
-],
-"2": [
-"Row 3 Column 1",
-"Row 3 Column 2",
-"Row 3 Column 3"
-],
-}
-"format": "rich_text",
-"caption": "Test Table"
-}
-}
-{% endcomment %}
-
 <!-- Mobile -->
-<div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--none" data-template="paragraphs/table-mobile">
-  <!-- Assign mobile table data -->
+<div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--none"
+  data-template="paragraphs/table-mobile">
   {% assign mobileTableData = entity | formatMobileTableData %}
-
-  <!-- Caption -->
-  <p><strong>{{ mobileTableData.caption }}</strong></p>
-
-  <!-- Show all -->
-
-
-  <!-- Iterate over rows -->
-  {% for row in mobileTableData.rows %}
-    <!-- First key-value pair -->
-    <p class="vads-u-margin-bottom--0"><strong>{{ row.dataPoints.0.label }}</strong> </p>
-	<div class="mobile-value vads-u-display--flex .vads-u-margin-x--1px"  >{{ row.dataPoints.0.value }}</div>
-    <!-- Additional info toggle -->
-    {% for dataPoint in row.dataPoints %}
-      {% unless forloop.first %}
-        <p><strong>{{ dataPoint.label }}:</strong> {{ dataPoint.value }}</p>
-      {% endunless %}
-    {% endfor %}
-
-    <!-- Line break -->
-    <hr/>
-  {% endfor %}
+  <table class="usa-table-borderless">
+    <caption><strong>{{ mobileTableData.caption }}</strong></caption>
+    <tbody>
+      {% for row in mobileTableData.rows %}
+        <tr class="vads-u-border-top--1px vads-u-display--flex vads-u-flex-direction--column">
+          {% for dataPoint in row.dataPoints %}
+              <td class="vads-u-border--0">
+                <p class="data-point-p vads-u-margin-bottom--1px">
+                  <strong>{{ dataPoint.label }}:</strong> 
+                  {{ dataPoint.value }}
+                </p>
+                  <!--second p being added as a sibling element, with margin bottom... needs to be fixed -->
+              </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
+<!-- <div data-template="paragraphs/spanish_translation" data-entity-id="{{ entity.entityId }}" class="form-expanding-group additional-info-container">
+  <span class="additional-info-title">{{ entity.fieldTextExpander }}</span>
+    <span id="spanishhelptext-{{ entity.entityId }}">
+      <div class="additional-info-content">
+        {{ entity.fieldWysiwyg.processed }}
+      </div>
+    </span>
+</div> -->
 <!-- Desktop -->
-<table data-template="paragraphs/table-desktop" data-entity-id="{{ entity.entityId }}" class="va-table vads-u-display--none medium-screen:vads-u-display--block">
+<table data-template="paragraphs/table-desktop" data-entity-id="{{ entity.entityId }}"
+  class="va-table vads-u-display--none medium-screen:vads-u-display--block">
   {% if entity.fieldTable.caption %}
-    <caption>{{ entity.fieldTable.caption }}</caption>
+  <caption>{{ entity.fieldTable.caption }}</caption>
   {% endif %}
 
   {% for value in entity.fieldTable.value %}
-    {% if forloop.first == true %}
-      <thead>
-        <tr>
-          {% for column in value %}
-            <th>{{ column }}</th>
-          {% endfor %}
-        </tr>
-      </thead>
+  {% if forloop.first == true %}
+  <thead>
+    <tr>
+      {% for column in value %}
+      <th>{{ column }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
     {% elsif forloop.last == false %}
-      <tbody>
-        <tr class="class">
-          {% for column in value %}
-            <td>{{ column }}</td>
-          {% endfor %}
-        </tr>
-      </tbody>
-    {% endif %}
+
+    <tr class="class">
+      {% for column in value %}
+      <td>{{ column }}</td>
+      {% endfor %}
+    </tr>
+  </tbody>
+  {% endif %}
   {% endfor %}
+
 </table>
