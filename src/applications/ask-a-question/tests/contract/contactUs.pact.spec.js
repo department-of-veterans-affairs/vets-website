@@ -30,7 +30,7 @@ contractTest('Contact Us', 'VA.gov API', mockApi => {
           },
         },
         willRespondWith: {
-          status: 200,
+          status: 201,
           headers: {
             'Content-Type': term({
               matcher: '^application/json',
