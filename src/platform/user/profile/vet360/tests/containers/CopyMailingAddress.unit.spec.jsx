@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
-import { FIELD_NAMES } from 'vet360/constants';
+import { FIELD_NAMES } from '@@vet360/constants';
 
-import { mapStateToProps } from 'vet360/containers/CopyMailingAddress';
+import { mapStateToProps } from '@@vet360/containers/CopyMailingAddress';
 
-import { convertNextValueToCleanData } from 'vet360/components/AddressField/AddressField';
+import { convertNextValueToCleanData } from '@@vet360/components/AddressField/AddressField';
 
 describe('<CopyMailingAddress/>', () => {
   describe('mapStateToProps', () => {
