@@ -32,7 +32,7 @@ const articleTypesByEntityBundle = {
   [ENTITY_BUNDLES.MEDIA_LIST_VIDEOS]: 'Media list',
   [ENTITY_BUNDLES.SUPPORT_RESOURCES_DETAIL_PAGE]: 'About',
   [ENTITY_BUNDLES.FAQ_MULTIPLE_Q_A]: 'FAQs',
-  [ENTITY_BUNDLES.STEP_BY_STEP]: 'Step by step',
+  [ENTITY_BUNDLES.STEP_BY_STEP]: 'Step-by-step',
 };
 
 const entityBundlesForResourcesAndSupport = new Set(
