@@ -23,7 +23,7 @@ const NeedsVAPatient = () => {
           </strong>
         </p>
         <p>
-          Call VA311 (<a href="tel:844-698-2311">844-698-2311</a>
+          Call VA311 (<a href="tel:800-698-2411">800-698-2411</a>
           ), and select 3 to reach your nearest VA medical center. If you have
           hearing loss, call TTY:{' '}
           <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
@@ -40,7 +40,7 @@ const NeedsVAPatient = () => {
           </strong>
         </p>
         <p>
-          Call <a href="tel:844-698-2311">844-698-2311</a>, and select 3 to
+          Call <a href="tel:800-698-2411">800-698-2411</a>, and select 3 to
           reach your nearest VA medical center. If you have hearing loss, call
           TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
           .

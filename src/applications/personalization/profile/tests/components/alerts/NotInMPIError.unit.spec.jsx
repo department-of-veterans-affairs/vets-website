@@ -27,7 +27,7 @@ describe('NotInMPI', () => {
       wrapper
         .text()
         .includes(
-          'If you’d like to access these tools, please contact the VA.gov help desk at 844-698-2311 (TTY: 711) to verify and update your records.',
+          'If you’d like to access these tools, please contact the VA.gov help desk at 800-698-2411 (TTY: 711) to verify and update your records.',
         ),
     ).to.be.true;
     wrapper.unmount();
