@@ -1,28 +1,25 @@
-// Node modules.
-import appendQuery from 'append-query';
 // Relative imports.
-import { apiRequest } from 'platform/utilities/api';
+// import environment from 'platform/utilities/environment';
 import { createMockResults, normalizeResponse } from '../helpers';
 
-export const fetchResultsApi = async options => {
-  const { mockRequest, page = 1, perPage = 10 } = options;
+// const baseUrl = '/services/apps/v0/directory';
 
-  // Construct the URL and stub the response.
-  const RESULTS_URL = appendQuery(
-    '/third-party-applications',
-    {
-      page,
-      perPage,
-    },
-    { removeNull: true },
-  );
+export const fetchResults = async () => {
+  // const response = await fetch(`${environment.API_URL}${baseUrl}`).then(
+  //   data => {
+  //     return data.json();
+  //   },
+  // );
 
   // Make the request for the results and update `response` with its repsonse.
-  let response = createMockResults();
-  if (!mockRequest) {
-    response = await apiRequest(RESULTS_URL);
-  }
+  const response = createMockResults();
 
   // Normalize the response from the API.
   return normalizeResponse(response);
 };
+
+// export const fetchScopes = async category => {
+//   return await fetch(
+//     `${environment.API_URL}${baseUrl}/scopes/${category}`,
+//   ).then(data => data.json());
+// };

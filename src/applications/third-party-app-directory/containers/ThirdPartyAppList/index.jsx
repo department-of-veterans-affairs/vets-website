@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import map from 'lodash/map';
@@ -67,30 +66,8 @@ export class ThirdPartyAppList extends Component {
     return endNumber;
   };
 
-  deriveResultsStartNumber = () => {
-    const { page, perPage } = this.props;
-
-    // Derive the end number.
-    const endNumber = page * perPage;
-
-    // Derive the start number.
-    return endNumber - (perPage - 1);
-  };
-
   render() {
-    const {
-      deriveResultsEndNumber,
-      deriveResultsStartNumber,
-      onPageSelect,
-    } = this;
-    const {
-      error,
-      fetching,
-      page,
-      perPage,
-      results,
-      totalResults,
-    } = this.props;
+    const { error, fetching, results } = this.props;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
@@ -125,24 +102,16 @@ export class ThirdPartyAppList extends Component {
       );
     }
 
-    // Derive values for "Displayed x-x out of x results."
-    const resultsStartNumber = deriveResultsStartNumber();
-    const resultsEndNumber = deriveResultsEndNumber();
-
     return (
       <>
-        <h2
-          className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
-          data-display-results-header
+        <a
+          className="usa-button usa-button-primary vads-u-width--auto"
+          href="https://www.va.gov/sign-in-faq/#connecting-third-party-non-va"
+          rel="noopener noreferrer"
+          target="_blank"
         >
-          Showing {resultsStartNumber}{' '}
-          <span className="vads-u-visibility--screen-reader">through</span>
-          <span aria-hidden="true" role="presentation">
-            &ndash;
-          </span>{' '}
-          {resultsEndNumber} of {totalResults} results
-        </h2>
-
+          Learn more about connected apps
+        </a>
         {/* Table of Results */}
         <ul
           className="search-results vads-u-margin-top--2 vads-u-padding--0"
@@ -152,16 +121,14 @@ export class ThirdPartyAppList extends Component {
             <SearchResult key={result?.id} item={result} />
           ))}
         </ul>
-
-        {/* Pagination */}
-        <Pagination
-          className="vads-u-border-top--0"
-          onPageSelect={onPageSelect}
-          page={page}
-          pages={Math.ceil(totalResults / perPage)}
-          maxPageListLength={perPage}
-          showLastPage
-        />
+        <a
+          className="usa-button usa-button-primary vads-u-width--auto"
+          href="https://www.va.gov/sign-in-faq/#connecting-third-party-non-va"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Learn more about connected apps
+        </a>
       </>
     );
   }

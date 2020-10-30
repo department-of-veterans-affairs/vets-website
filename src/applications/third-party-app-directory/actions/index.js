@@ -1,7 +1,7 @@
 // Node modules.
 // import recordEvent from 'platform/monitoring/record-event';
 // Relative imports.
-import { fetchResultsApi } from '../api';
+import { fetchResults } from '../api';
 import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
@@ -42,7 +42,7 @@ export const fetchResultsThunk = options => async dispatch => {
 
   try {
     // Attempt to make the API request to retreive results.
-    const response = await fetchResultsApi({
+    const response = await fetchResults({
       page,
       perPage,
       mockRequest: true,
