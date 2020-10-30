@@ -13,7 +13,7 @@ export function captureError(
   if (err instanceof Error) {
     Sentry.captureException(err);
     eventErrorKey = err.message;
-  } else {
+  } else if (err?.issue || err?.errors) {
     Sentry.withScope(scope => {
       scope.setExtra('error', err);
       if (extraData) {
@@ -27,6 +27,19 @@ export function captureError(
         err?.issue?.[0]?.code ||
         err;
       const message = `vaos_server_error${errorTitle ? `: ${errorTitle}` : ''}`;
+      eventErrorKey = message;
+      // the apiRequest helper returns the errors array, instead of an exception
+      Sentry.captureMessage(message);
+    });
+  } else {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', err);
+      if (extraData) {
+        scope.setExtra('extraData', extraData);
+      }
+      const message = `vaos_client_error${
+        customTitle ? `: ${customTitle}` : ''
+      }`;
       eventErrorKey = message;
       // the apiRequest helper returns the errors array, instead of an exception
       Sentry.captureMessage(message);
