@@ -172,7 +172,7 @@ The JSON file returned by the CMS will be parsed into separate pages during the 
 }
 ```
 
-Whereas Markdown files contain a clear `layout` declaration in frontmatter, the `entityBundle` is used to form the relationship between a CMS data structure to a layout. The `entityBundle` can be considered a the type of CMS "node" represented by this data structure. Layouts used solely by CMS data structures have a unique file extension - `.drupal.liquid`. In this example, the layout file would be `vets-website/src/site/layouts/landing_page.drupal.liquid`.
+Whereas Markdown files contain a clear `layout` declaration in frontmatter, the `entityBundle` is used to form the relationship between a CMS data structure to a layout. The `entityBundle` can be considered a type of CMS "node" represented by this data structure. Layouts used solely by CMS data structures have a unique file extension - `.drupal.liquid`. In this example, the layout file would be `vets-website/src/site/layouts/landing_page.drupal.liquid`.
 
 ```
 <h1>{{ title }}</h1>
