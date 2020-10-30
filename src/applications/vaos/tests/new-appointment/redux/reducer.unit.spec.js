@@ -7,6 +7,8 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+  // FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -37,6 +39,7 @@ import {
 
 import parentFacilities from '../../../services/mocks/var/facilities.json';
 import facilities983 from '../../../services/mocks/var/facilities_983.json';
+import facilityData from '../../../services/mocks/var/facility_data.json';
 import {
   FETCH_STATUS,
   REASON_ADDITIONAL_INFO_TITLES,
@@ -48,7 +51,10 @@ import {
 } from '../../../utils/constants';
 
 import { transformParentFacilities } from '../../../services/organization/transformers';
-import { transformDSFacilities } from '../../../services/location/transformers';
+import {
+  transformDSFacilities,
+  transformFacilities,
+} from '../../../services/location/transformers';
 import { getSiteIdFromOrganization } from '../../../services/organization';
 
 const parentFacilitiesParsed = transformParentFacilities(
@@ -69,6 +75,13 @@ const defaultState = {
 
 const facilities983Parsed = transformDSFacilities(
   facilities983.data.map(item => ({
+    ...item.attributes,
+    id: item.id,
+  })),
+);
+
+const facilityDataParsed = transformFacilities(
+  facilityData.data.map(item => ({
     ...item.attributes,
     id: item.id,
   })),
@@ -321,6 +334,96 @@ describe('VAOS reducer: newAppointment', () => {
       const newState = newAppointmentReducer(currentState, action);
 
       expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.failed);
+    });
+  });
+
+  describe('open flat facility page reducer', () => {
+    const defaultOpenPageAction = {
+      type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+      uiSchema: {},
+      schema: {
+        type: 'object',
+        properties: {
+          vaFacility: {
+            type: 'string',
+            enum: [],
+          },
+        },
+      },
+      typeOfCareId: '323',
+    };
+
+    const residentialAddress = {
+      addressLine1: '290 Ludlow Ave',
+      city: 'Cincinatti',
+      stateCode: 'OH',
+      zipCode: '45220',
+      latitude: 39.1362562, // Cincinatti, OH
+      longitude: -84.6804804,
+    };
+
+    it('should set facilities when page is done loading', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(0, 3),
+        address: residentialAddress,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const vaFacilitySchema =
+        newState.pages.vaFacilityV2.properties.vaFacility;
+      // console.log(vaFacilitySchema.enum);
+      // console.log(vaFacilitySchema.enumNames[1].name);
+      // console.log(vaFacilitySchema.enumNames[2].name);
+
+      expect(vaFacilitySchema.enum).to.deep.equal([
+        'var984',
+        'var983',
+        'var983GC',
+      ]);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Dayton VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[1].name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[2].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      // expect(newState.pages.vaFacilityV2).to.deep.equal({
+      //   type: 'object',
+      //   properties: {
+      //     vaFacility: {
+      //       type: 'string',
+      //       enum: [
+      //         'var984GA',
+      //         'var984',
+      //         'var984GC',
+      //         'var984GF',
+      //         'var984GD',
+      //         'var984GB',
+      //         'var983GB',
+      //         'var983QE',
+      //         'var983',
+      //         'var983HK',
+      //         'var983GD',
+      //         'var983GC',
+      //         'var983QA',
+      //       ],
+      //       enumNames: [
+      //         'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
+      //         'CHYSHR-Sidney VA Clinic (Sidney, NE)',
+      //         'CHYSHR-Fort Collins VA Clinic (Fort Collins, CO)',
+      //         'CHYSHR-Loveland VA Clinic (Loveland, CO)',
+      //         'CHYSHR-Wheatland VA Mobile Clinic (Cheyenne, WY)',
+      //       ],
+      //     },
+      //   },
+      // });
     });
   });
 
