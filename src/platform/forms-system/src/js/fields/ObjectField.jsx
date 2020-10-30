@@ -164,6 +164,7 @@ class ObjectField extends React.Component {
       readonly,
       onBlur,
       formContext,
+      useFieldsetLegend,
     } = this.props;
     const { definitions, fields } = this.props.registry;
     const { TitleField } = fields;
@@ -290,7 +291,7 @@ class ObjectField extends React.Component {
       </div>
     );
 
-    if (title) {
+    if (title && !useFieldsetLegend) {
       return <fieldset className={fieldsetClassNames}>{fieldContent}</fieldset>;
     }
 
@@ -315,6 +316,7 @@ ObjectField.propTypes = {
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
+    useFieldSetLegend: PropTypes.bool,
   }),
 };
 
