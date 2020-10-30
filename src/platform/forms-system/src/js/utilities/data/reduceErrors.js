@@ -135,18 +135,21 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
  * @return {Form~errors} - Finely curated list of form errors
  */
 export const reduceErrors = (errors, pageList) =>
-  errors.reduce((result, error) => {
+  errors.reduce((processedErrors, error) => {
     const findErrors = (name, err) => {
       if (typeof err === 'object') {
         // process the last type of error message which provides an `__errors`
         // message array. If there are multiple errors, we'll join them into
         // one message.
-        if (err?.__errors?.length && !errorExists(result, name, null)) {
+        if (
+          err?.__errors?.length &&
+          !errorExists(processedErrors, name, null)
+        ) {
           const { chapterKey = '', pageKey = '' } = getPropertyInfo(
             pageList,
             name,
           );
-          result.push({
+          processedErrors.push({
             name,
             index: null,
             message: err.__errors.join('. '),
@@ -182,7 +185,7 @@ export const reduceErrors = (errors, pageList) =>
            * "Does not meet minimum length of 1"; there's no need to confuse
            * anyone and show both
           */
-          if (!errorExists(result, propertyName, index)) {
+          if (!errorExists(processedErrors, propertyName, index)) {
             const { chapterKey = '', pageKey = '' } = getPropertyInfo(
               // List of all form pages; includes chapterKey, pageKey and
               // uiSchema
@@ -191,7 +194,7 @@ export const reduceErrors = (errors, pageList) =>
               // full path to the error
               property,
             );
-            result.push({
+            processedErrors.push({
               // property name
               name: propertyName,
               index,
@@ -215,5 +218,5 @@ export const reduceErrors = (errors, pageList) =>
     };
     // Initialize search for errors
     Object.keys(error).forEach(key => findErrors(key, error));
-    return result;
+    return processedErrors;
   }, []);
