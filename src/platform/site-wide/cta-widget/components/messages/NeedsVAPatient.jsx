@@ -39,10 +39,9 @@ const NeedsVAPatient = () => {
           </strong>
         </p>
         <p>
-          Call <Telephone contact={CONTACTS.VA_311} />, and select 3 to
-          reach your nearest VA medical center. If you have hearing loss, call
-          TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-          .
+          Call <Telephone contact={CONTACTS.VA_311} />, and select 3 to reach
+          your nearest VA medical center. If you have hearing loss, call TTY:{' '}
+          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
         </p>
         <p>
           Tell the representative that you’re enrolled in VA health care and
