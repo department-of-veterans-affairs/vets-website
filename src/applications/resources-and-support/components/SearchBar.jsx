@@ -60,7 +60,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
               />
               <label htmlFor="search-all-of-va-dot-gov">
                 <span className="vads-u-visibility--screen-reader">Search</span>{' '}
-                All of VA.gov
+                All VA.gov
               </label>
             </div>
           </div>
