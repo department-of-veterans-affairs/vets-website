@@ -7,7 +7,7 @@ import fullSchema from '../schema/5655-schema.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import { schemaFields } from '../constants';
-import uiDefinitions from '../schema/5655-ui';
+import uiDefinitions from '../schema/5655-ui-schema';
 
 const { viewVeteranInfoField } = schemaFields;
 const { veteranInfoUI } = uiDefinitions;
@@ -72,7 +72,17 @@ const formConfig = {
             properties: {
               [viewVeteranInfoField]: {
                 type: 'object',
-                properties: {},
+                properties: {
+                  fullName: {
+                    type: 'string',
+                  },
+                  ssnLastFour: {
+                    type: 'number',
+                  },
+                  vaFileNumber: {
+                    type: 'number',
+                  },
+                },
               },
             },
           },
