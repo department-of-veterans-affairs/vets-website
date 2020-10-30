@@ -7,10 +7,11 @@ import { connect } from 'react-redux';
 import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { fetchResultsThunk } from '../../actions';
+import { fetchResultsThunk, fetchScopesThunk } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
 import { SearchResultPropTypes } from '../../prop-types';
+
+// TODO: pass fetchScopes method to SearchResult component with category of the result as a param
 
 export class ThirdPartyAppList extends Component {
   static propTypes = {
@@ -31,40 +32,8 @@ export class ThirdPartyAppList extends Component {
     }
   }
   componentDidMount() {
-    this.props.fetchResults({
-      page: 1,
-      trackSearch: true,
-    });
+    this.props.fetchResults({});
   }
-
-  onPageSelect = page => {
-    const { fetchResults, perPage } = this.props;
-
-    // Refetch results.
-    fetchResults({
-      hideFetchingState: true,
-      page,
-      perPage,
-    });
-
-    // Scroll to top.
-    scrollToTop();
-  };
-
-  deriveResultsEndNumber = () => {
-    const { page, perPage, totalResults } = this.props;
-
-    // Derive the end number.
-    const endNumber = page * perPage;
-
-    // If the end number is more than the total results, just show the total results.
-    if (endNumber > totalResults) {
-      return totalResults;
-    }
-
-    // Show the end number.
-    return endNumber;
-  };
 
   render() {
     const { error, fetching, results } = this.props;
@@ -145,6 +114,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchResults: options => fetchResultsThunk(options)(dispatch),
+  fetchScopes: category => fetchScopesThunk(category)(dispatch),
 });
 
 export default connect(
