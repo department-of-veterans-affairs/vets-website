@@ -108,8 +108,8 @@ export const AdditionalInfoSections = ({ activeApps }) => {
                 or contact your VA health care team.
               </li>
               <li className="vads-u-padding-left--1">
-                <strong>If your information isn’t accurate:</strong> Call us
-                at <Telephone contact={CONTACTS.VA_311} />. If you have hearing
+                <strong>If your information isn’t accurate:</strong> Call us at{' '}
+                <Telephone contact={CONTACTS.VA_311} />. If you have hearing
                 loss, call{' '}
                 <Telephone
                   contact={CONTACTS['711']}
