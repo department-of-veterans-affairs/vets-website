@@ -8,12 +8,13 @@
       {% for row in mobileTableData.rows %}
         <tr class="vads-u-border-top--1px vads-u-display--flex vads-u-flex-direction--column">
           {% for dataPoint in row.dataPoints %}
-              <td class="vads-u-border--0">
+              <td class="vads-u-border--0 vads-u-padding--0">
                 <p class="data-point-p vads-u-margin-bottom--1px">
                   <strong>{{ dataPoint.label }}:</strong> 
-                  {{ dataPoint.value }}
+                  <span class="vads-u-display--flex">
+                    {{ dataPoint.value }}
+                  </span>
                 </p>
-                  <!--second p being added as a sibling element, with margin bottom... needs to be fixed -->
               </td>
           {% endfor %}
         </tr>
@@ -22,14 +23,6 @@
   </table>
 </div>
 
-<!-- <div data-template="paragraphs/spanish_translation" data-entity-id="{{ entity.entityId }}" class="form-expanding-group additional-info-container">
-  <span class="additional-info-title">{{ entity.fieldTextExpander }}</span>
-    <span id="spanishhelptext-{{ entity.entityId }}">
-      <div class="additional-info-content">
-        {{ entity.fieldWysiwyg.processed }}
-      </div>
-    </span>
-</div> -->
 <!-- Desktop -->
 <table data-template="paragraphs/table-desktop" data-entity-id="{{ entity.entityId }}"
   class="va-table vads-u-display--none medium-screen:vads-u-display--block">
