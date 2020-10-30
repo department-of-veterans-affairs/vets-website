@@ -4,7 +4,7 @@ const transform = entity => ({
   fieldDocument: {
     entity: {
       filename: entity.fieldDocument[0].filename,
-      url: entity.fieldDocument[0].url,
+      url: entity.fieldDocument[0].url.replace('public:/', '/files'),
     },
   },
 });

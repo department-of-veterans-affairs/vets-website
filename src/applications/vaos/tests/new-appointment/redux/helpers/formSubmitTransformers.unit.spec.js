@@ -4,8 +4,8 @@ import {
   transformFormToCCRequest,
   transformFormToVARequest,
   transformFormToAppointment,
-} from '../../utils/data';
-import { FETCH_STATUS, VHA_FHIR_ID } from '../../utils/constants';
+} from '../../../../new-appointment/redux/helpers/formSubmitTransformers';
+import { FETCH_STATUS, VHA_FHIR_ID } from '../../../../utils/constants';
 
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
