@@ -7,22 +7,20 @@ import {
   selectCernerAppointmentsFacilities,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
-
 import {
   getTimezoneBySystemId,
   getTimezoneDescBySystemId,
   getTimezoneAbbrBySystemId,
 } from './timezone';
-
-import { isEligible } from './eligibility';
+import { isEligible } from '../new-appointment/redux/helpers/eligibility';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
-  AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
   APPOINTMENT_STATUS,
+  AUDIOLOGY_TYPES_OF_CARE,
 } from './constants';
 import {
   getRootOrganization,
@@ -508,7 +506,7 @@ export function getChosenVACityState(state) {
   return null;
 }
 
-export const isWelcomeModalDismissed = state =>
+export const selectIsWelcomeModalDismissed = state =>
   state.announcements.dismissed.some(
     announcement => announcement === 'welcome-to-new-vaos',
   );

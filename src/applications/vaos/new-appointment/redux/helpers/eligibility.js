@@ -1,16 +1,59 @@
-import environment from 'platform/utilities/environment';
-import { DISABLED_LIMIT_VALUE, PRIMARY_CARE } from '../utils/constants';
-import { captureError } from '../utils/error';
-
+import { captureError } from '../../../utils/error';
 import {
   checkPastVisits,
   getRequestLimits,
   getLongTermAppointmentHistory,
-} from '../services/var';
-import { getFacilityIdFromLocation } from '../services/location';
-import { getAvailableHealthcareServices } from '../services/healthcare-service';
+} from '../../../services/var';
+import {
+  recordVaosError,
+  recordEligibilityFailure,
+} from '../../../utils/events';
+import { getFacilityIdFromLocation } from '../../../services/location';
+import { getAvailableHealthcareServices } from '../../../services/healthcare-service';
+import environment from 'platform/utilities/environment';
 
-import { recordVaosError, recordEligibilityFailure } from './events';
+const DISABLED_LIMIT_VALUE = 0;
+
+const PRIMARY_CARE = '323';
+
+function hasVisitedInPastMonthsDirect(eligibilityData) {
+  if (!eligibilityData.directPastVisit) {
+    return true;
+  }
+
+  return (
+    eligibilityData.directPastVisit.durationInMonths === DISABLED_LIMIT_VALUE ||
+    eligibilityData.directPastVisit.hasVisitedInPastMonths
+  );
+}
+
+function hasVisitedInPastMonthsRequest(eligibilityData) {
+  if (!eligibilityData.requestPastVisit) {
+    return true;
+  }
+
+  return (
+    eligibilityData.requestPastVisit.durationInMonths ===
+      DISABLED_LIMIT_VALUE ||
+    eligibilityData.requestPastVisit.hasVisitedInPastMonths
+  );
+}
+
+function isUnderRequestLimit(eligibilityData) {
+  return (
+    eligibilityData.requestLimits?.requestLimit === DISABLED_LIMIT_VALUE ||
+    eligibilityData.requestLimits?.numberOfRequests <
+      eligibilityData.requestLimits?.requestLimit
+  );
+}
+
+function hasRequestFailed(eligibilityData) {
+  return Object.values(eligibilityData).some(result => result?.requestFailed);
+}
+
+function hasDirectFailed(eligibilityData) {
+  return Object.values(eligibilityData).some(result => result?.directFailed);
+}
 
 function createErrorHandler(directOrRequest, errorKey) {
   return data => {
@@ -128,45 +171,6 @@ export async function getEligibilityData(
   return eligibility;
 }
 
-function hasVisitedInPastMonthsDirect(eligibilityData) {
-  if (!eligibilityData.directPastVisit) {
-    return true;
-  }
-
-  return (
-    eligibilityData.directPastVisit.durationInMonths === DISABLED_LIMIT_VALUE ||
-    eligibilityData.directPastVisit.hasVisitedInPastMonths
-  );
-}
-
-function hasVisitedInPastMonthsRequest(eligibilityData) {
-  if (!eligibilityData.requestPastVisit) {
-    return true;
-  }
-
-  return (
-    eligibilityData.requestPastVisit.durationInMonths ===
-      DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestPastVisit.hasVisitedInPastMonths
-  );
-}
-
-function isUnderRequestLimit(eligibilityData) {
-  return (
-    eligibilityData.requestLimits?.requestLimit === DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestLimits?.numberOfRequests <
-      eligibilityData.requestLimits?.requestLimit
-  );
-}
-
-function hasRequestFailed(eligibilityData) {
-  return Object.values(eligibilityData).some(result => result?.requestFailed);
-}
-
-function hasDirectFailed(eligibilityData) {
-  return Object.values(eligibilityData).some(result => result?.directFailed);
-}
-
 /*
  * This function takes the data from the eligibility related services and 
  * decides if each check we need to make passes or fails. It also checks for
@@ -216,33 +220,6 @@ export function getEligibilityChecks(eligibilityData) {
   }
 
   return eligibilityChecks;
-}
-
-export function isEligible(eligibilityChecks) {
-  if (!eligibilityChecks) {
-    return {
-      direct: null,
-      request: null,
-    };
-  }
-
-  const {
-    directFailed,
-    directSupported,
-    directPastVisit,
-    directClinics,
-    requestFailed,
-    requestSupported,
-    requestLimit,
-    requestPastVisit,
-  } = eligibilityChecks;
-
-  return {
-    direct:
-      !directFailed && directSupported && directPastVisit && directClinics,
-    request:
-      !requestFailed && requestSupported && requestLimit && requestPastVisit,
-  };
 }
 
 /**
@@ -400,4 +377,31 @@ export function logEligibilityExplanation(
     captureError(e);
   }
   /* eslint-enable no-console */
+}
+
+export function isEligible(eligibilityChecks) {
+  if (!eligibilityChecks) {
+    return {
+      direct: null,
+      request: null,
+    };
+  }
+
+  const {
+    directFailed,
+    directSupported,
+    directPastVisit,
+    directClinics,
+    requestFailed,
+    requestSupported,
+    requestLimit,
+    requestPastVisit,
+  } = eligibilityChecks;
+
+  return {
+    direct:
+      !directFailed && directSupported && directPastVisit && directClinics,
+    request:
+      !requestFailed && requestSupported && requestLimit && requestPastVisit,
+  };
 }

@@ -530,7 +530,7 @@
                     "subLevelTwo": {
                       "type": "string",
                       "enum": [
-                        "Home Loan/Mortgage Webaccess & Tech prob"
+                        "Home Loan/Mortgage Web access & Tech problem"
                       ]
                     },
                     "levelThree": {
@@ -547,7 +547,7 @@
                     "subLevelTwo": {
                       "type": "string",
                       "enum": [
-                        "Home Loan/Mortgage Certificates of Elig",
+                        "Home Loan/Mortgage Certificates of Eligibility",
                         "Home Loan/Mortgage Guaranty Issues"
                       ]
                     }

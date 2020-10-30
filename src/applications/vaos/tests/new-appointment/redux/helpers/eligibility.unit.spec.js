@@ -7,16 +7,16 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
-import clinics from '../../services/mocks/var/clinicList983.json';
-import confirmed from '../../services/mocks/var/confirmed_va.json';
+import clinics from '../../../../services/mocks/var/clinicList983.json';
+import confirmed from '../../../../services/mocks/var/confirmed_va.json';
 
 import {
   isEligible,
   getEligibilityChecks,
   getEligibilityData,
   recordEligibilityGAEvents,
-} from '../../utils/eligibility';
-import { VHA_FHIR_ID } from '../../utils/constants';
+} from '../../../../new-appointment/redux/helpers/eligibility';
+import { VHA_FHIR_ID } from '../../../../utils/constants';
 
 describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityData', () => {
