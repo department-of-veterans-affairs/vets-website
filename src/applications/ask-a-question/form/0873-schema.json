@@ -519,7 +519,7 @@
             "levelOne": {
               "type": "string",
               "enum": [
-                "Homeloan Guaranty/All VA Mortgage Issues"
+                "Home Loan Guaranty/All VA Mortgage Issues"
               ]
             },
             "levelTwo": {
@@ -536,7 +536,7 @@
                     "levelThree": {
                       "type": "string",
                       "enum": [
-                        "Homeloan VIP Portal Access",
+                        "Home Loan VIP Portal Access",
                         "Web Page Issues"
                       ]
                     }
