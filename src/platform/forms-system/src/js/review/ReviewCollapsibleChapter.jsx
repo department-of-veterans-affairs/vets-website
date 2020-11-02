@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import ProgressButton from '../components/ProgressButton';
 import { focusOnChange, getScrollOptions } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
-import { getArrayFields, getNonArraySchema } from '../helpers';
+import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
 
 const Element = Scroll.Element;
@@ -145,6 +145,22 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 !pageSchema && arrayFields.length === 0,
             });
             const title = page.reviewTitle || page.title || '';
+
+            const noVisibleFields =
+              pageSchema &&
+              !Object.entries(pageSchema.properties).filter(([propName]) =>
+                showReviewField(
+                  propName,
+                  pageSchema,
+                  pageUiSchema,
+                  form.data,
+                  formContext,
+                ),
+              ).length > 0;
+
+            if (noVisibleFields) {
+              return null;
+            }
 
             return (
               <div key={`${fullPageKey}`} className={classes}>

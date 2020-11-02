@@ -11,6 +11,7 @@ module.exports = {
       properties: {
         entityType: { enum: ['taxonomy_term'] },
         entityBundle: { enum: ['administration'] },
+        entityLabel: { type: 'string' },
         name: { type: 'string' },
         fieldAcronym: nullableString,
         fieldDescription: nullableString,

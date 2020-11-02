@@ -6,6 +6,7 @@ fragment nodeQa on NodeQA {
   entityBundle
 
   changed
+  fieldStandalonePage
   fieldAnswer {
     entity {
       entityType
@@ -24,9 +25,20 @@ fragment nodeQa on NodeQA {
       ... button
     }
   }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
   fieldRelatedBenefitHubs {
     entity {
       ... on NodeLandingPage {
+        fieldHomePageHubLabel
+        fieldTeaserText
+        path {
+          alias
+        }
         fieldSupportServices {
           entity {
             ... supportService

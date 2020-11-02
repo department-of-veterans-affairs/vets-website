@@ -5,9 +5,63 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getExpressCareFormPageInfo } from '../../utils/selectors';
-import { EXPRESS_CARE_REASONS } from '../../utils/constants';
 import FormButtons from '../../components/FormButtons';
 import * as actions from '../redux/actions';
+
+const EXPRESS_CARE_REASONS = [
+  {
+    reason: 'Back pain',
+  },
+  {
+    reason: 'Cough',
+  },
+  {
+    reason: 'Pain or other issues in your ear, sinus, throat, or mouth',
+  },
+  {
+    reason: 'Fever',
+  },
+  {
+    reason: 'Loss of appetite or fatigue (feeling tired all the time)',
+  },
+  {
+    reason: 'Headache that isn’t severe or sudden',
+  },
+  {
+    reason: 'High or low blood pressure',
+  },
+  {
+    reason: 'High or low blood sugar',
+  },
+  {
+    reason: 'Joint or muscle pain or minor injury',
+    secondaryLabel:
+      'Such as pain in your knees, shoulders, hips, ankle, or feet, or a twisted ankle or sprained wrist',
+  },
+  {
+    reason: 'Medication or prescription question',
+  },
+  {
+    reason: 'Minor cut, scrape, or bruise',
+  },
+  {
+    reason: 'Neck pain',
+  },
+  {
+    reason: 'Red or weeping eye without vision loss',
+  },
+  {
+    reason: 'Skin lesion or rash',
+  },
+  {
+    reason: 'Stomach or digestive problem',
+  },
+  {
+    reason: 'Pain when you urinate (pee) or other urology issues',
+    secondaryLabel:
+      'Such as having the urge to urinate often or blood in your urine',
+  },
+];
 
 const pageKey = 'reason';
 const pageTitle = 'Select a reason for your Express Care request';

@@ -487,6 +487,14 @@ describe('VAOS integration: upcoming video appointments', () => {
       bookingNotes: 'Some random note',
       appointmentKind: 'CLINIC_BASED',
       status: { description: 'F', code: 'FUTURE' },
+      providers: [
+        {
+          clinic: {
+            ien: '455',
+            name: 'Testing',
+          },
+        },
+      ],
     };
     mockAppointmentInfo({ va: [appointment] });
     const facility = {
