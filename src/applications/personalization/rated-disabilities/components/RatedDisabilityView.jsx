@@ -63,7 +63,7 @@ class RatedDisabilityView extends React.Component {
 
     // Total Disability Calculation and Pending Disabilities should go here.
     if (user.profile.verified) {
-      if (user.profile?.veteranStatus?.status === 'OK') {
+      if (user.profile.status === 'OK') {
         content = (
           <>
             <div className="vads-l-col--12 medium-screen:vads-l-col--8">

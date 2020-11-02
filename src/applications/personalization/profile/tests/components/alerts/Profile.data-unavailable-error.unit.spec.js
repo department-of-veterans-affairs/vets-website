@@ -33,6 +33,7 @@ function createBasicInitialState() {
         hasCheckedKeepAlive: true,
       },
       profile: {
+        status: 'OK',
         loa: {
           current: 3,
           highest: 3,
