@@ -78,25 +78,6 @@ const FacilitiesMap = props => {
     }
   };
 
-  useEffect(() => {
-    const listener = browserHistory.listen(location => {
-      syncStateWithLocation(location);
-    });
-
-    const setMobile = () => {
-      setIsMobile(window.innerWidth <= 481);
-    };
-
-    searchWithUrl();
-
-    const debouncedResize = vaDebounce(250, setMobile);
-    window.addEventListener('resize', debouncedResize);
-    return () => {
-      listener();
-      window.removeEventListener('resize', debouncedResize);
-    };
-  }, []);
-
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
 
@@ -116,38 +97,6 @@ const FacilitiesMap = props => {
 
     browserHistory.push(queryStringObj);
   };
-
-  useEffect(
-    () => {
-      if (isSearching) {
-        updateUrlParams({
-          location: `${props.currentQuery.position.latitude},${
-            props.currentQuery.position.longitude
-          }`,
-          context: props.currentQuery.context,
-          address: props.currentQuery.searchString,
-        });
-        const resultsPage = props.currentQuery.currentPage;
-
-        if (!props.searchBoundsInProgress) {
-          props.searchWithBounds({
-            bounds: props.currentQuery.bounds,
-            facilityType: props.currentQuery.facilityType,
-            serviceType: props.currentQuery.serviceType,
-            page: resultsPage,
-          });
-          setIsSearching(false);
-        }
-        if (searchResultTitleRef.current) {
-          setFocus(searchResultTitleRef.current);
-        }
-      }
-      return () => {
-        // remove the listeners
-      };
-    },
-    [props.currentQuery.id], // Handle search when query changes
-  );
 
   const renderMarkers = locations => {
     if (locations.length === 0) return;
@@ -209,15 +158,6 @@ const FacilitiesMap = props => {
     }
   };
 
-  useEffect(
-    () => {
-      if (!map) return;
-      clearLocationMarkers();
-      renderMarkers(props.results);
-    },
-    [props.results], // Handle build markers when we get results
-  );
-
   const handleSearch = async () => {
     const { currentQuery } = props;
     currentZoom = null;
@@ -268,20 +208,6 @@ const FacilitiesMap = props => {
     });
     return mapInit;
   };
-
-  useEffect(
-    () => {
-      // Container exists
-      if (!window.document.getElementById('mapbox-gl-container')) {
-        return;
-      }
-
-      if (!map) {
-        setupMap(setMap, 'mapbox-gl-container');
-      }
-    },
-    [map],
-  );
 
   /**
    * Map is ready and there is results in the store
@@ -436,6 +362,79 @@ const FacilitiesMap = props => {
       </div>
     );
   };
+
+  useEffect(() => {
+    const listener = browserHistory.listen(location => {
+      syncStateWithLocation(location);
+    });
+
+    const setMobile = () => {
+      setIsMobile(window.innerWidth <= 481);
+    };
+
+    searchWithUrl();
+
+    const debouncedResize = vaDebounce(250, setMobile);
+    window.addEventListener('resize', debouncedResize);
+    return () => {
+      listener();
+      window.removeEventListener('resize', debouncedResize);
+    };
+  }, []);
+
+  useEffect(
+    () => {
+      // Container exists
+      if (!window.document.getElementById('mapbox-gl-container')) {
+        return;
+      }
+
+      if (!map) {
+        setupMap(setMap, 'mapbox-gl-container');
+      }
+    },
+    [map],
+  );
+
+  // Handle search when query changes
+  useEffect(
+    () => {
+      if (isSearching) {
+        updateUrlParams({
+          location: `${props.currentQuery.position.latitude},${
+            props.currentQuery.position.longitude
+          }`,
+          context: props.currentQuery.context,
+          address: props.currentQuery.searchString,
+        });
+        const resultsPage = props.currentQuery.currentPage;
+
+        if (!props.searchBoundsInProgress) {
+          props.searchWithBounds({
+            bounds: props.currentQuery.bounds,
+            facilityType: props.currentQuery.facilityType,
+            serviceType: props.currentQuery.serviceType,
+            page: resultsPage,
+          });
+          setIsSearching(false);
+        }
+        if (searchResultTitleRef.current) {
+          setFocus(searchResultTitleRef.current);
+        }
+      }
+    },
+    [props.currentQuery.id],
+  );
+
+  // Handle build markers when we get results
+  useEffect(
+    () => {
+      if (!map) return;
+      clearLocationMarkers();
+      renderMarkers(props.results);
+    },
+    [props.results],
+  );
 
   return (
     <>
