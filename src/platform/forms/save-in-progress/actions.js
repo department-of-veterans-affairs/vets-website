@@ -158,6 +158,9 @@ export function migrateFormData(savedData, migrations) {
  *  'clientError', 'throttledError', 'serverError', etc.
  * @property {Boolean|String} errorMessage - initialized as `false`; Returns
  *   actual server errorMessage
+ * @property {Object} errors - The errors object provided by the jsonschema
+ *   validation library; only available when there are form validation errors
+ *   prior to actual form submission to the server
  * @property {Boolean} id - initialized as `false`; never altered. A submit ID
  *   would not be available as the SiPs data is cleared after submission
  * @property {Boolean|Number} timestamp - initialized as `false`; or contains
