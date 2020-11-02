@@ -8,7 +8,7 @@ import {
   DECEASED_ERROR_CODES,
   INVALID_EMAIL_ADDRESS_ERROR_CODES,
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
-} from 'vet360/util/transactions';
+} from '@@vet360/util/transactions';
 
 function hasError(codes, errors) {
   return errors.some(error => codes.has(error.code));

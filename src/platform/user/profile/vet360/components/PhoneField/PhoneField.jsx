@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from 'vet360/constants';
+import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '@@vet360/constants';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
-import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
+import Vet360ProfileField from '@@vet360/containers/Vet360ProfileField';
 
 import PhoneEditModal from './PhoneEditModal';
 import PhoneView from './PhoneView';
