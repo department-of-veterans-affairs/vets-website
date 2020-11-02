@@ -5,11 +5,13 @@ import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
 } from '../constants';
+import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
 
 const initialState = {
   isError: false,
   errorCode: '',
   pending: true,
+  debts: [],
 };
 
 const fsrApi = (state = initialState, action) => {
@@ -31,6 +33,12 @@ const fsrApi = (state = initialState, action) => {
         ...state,
         pending: true,
       };
+    case DEBTS_FETCH_SUCCESS: {
+      return {
+        ...state,
+        debts: action.debts,
+      };
+    }
     default:
       return state;
   }
