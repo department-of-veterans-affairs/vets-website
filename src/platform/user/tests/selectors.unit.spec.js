@@ -482,9 +482,7 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            veteranStatus: {
-              status: 'SERVER_ERROR',
-            },
+            status: 'SERVER_ERROR',
           },
         },
       };
