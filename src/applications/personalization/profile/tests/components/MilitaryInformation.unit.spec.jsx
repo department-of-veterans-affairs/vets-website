@@ -209,7 +209,7 @@ describe('MilitaryInformation', () => {
   describe('when the veteranStatus is null and militaryInformation is empty', () => {
     it('should show the correct error', () => {
       initialState = createBasicInitialState();
-      initialState.user.profile.veteranStatus = null;
+      initialState.user.profile.veteranStatus.status = null;
       initialState.vaProfile.militaryInformation = null;
       view = renderWithProfileReducers(<MilitaryInformation />, {
         initialState,
