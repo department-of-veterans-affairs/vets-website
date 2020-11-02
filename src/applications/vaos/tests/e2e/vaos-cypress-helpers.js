@@ -10,6 +10,10 @@ import facilities from '../../services/mocks/var/facilities.json';
 import facilities983 from '../../services/mocks/var/facilities_983.json';
 import clinicList983 from '../../services/mocks/var/clinicList983.json';
 import slots from '../../services/mocks/var/slots.json';
+import requestEligibilityCriteria from '../../services/mocks/var/request_eligibility_criteria.json';
+import directEligibilityCriteria from '../../services/mocks/var/direct_booking_eligibility_criteria.json';
+import facilityDetails from '../../services/mocks/var/facility_data.json';
+
 import {
   getVAAppointmentMock,
   getExpressCareRequestCriteriaMock,
@@ -87,7 +91,7 @@ export function createPastVAAppointments() {
   };
 }
 
-function mockFeatureToggles() {
+function mockFeatureToggles({ facilityPageV2Enabled = false } = {}) {
   cy.route({
     method: 'GET',
     url: '/v0/feature_toggles*',
@@ -126,6 +130,10 @@ function mockFeatureToggles() {
           {
             name: 'vaOnlineSchedulingExpressCareNew',
             value: true,
+          },
+          {
+            name: 'vaOnlineSchedulingFlatFacilityPage',
+            value: !!facilityPageV2Enabled,
           },
         ],
       },
@@ -171,6 +179,30 @@ function mockCCPrimaryCareEligibility() {
   });
 }
 
+function mockRequestEligibilityCriteria() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/request_eligibility_criteria*',
+    response: requestEligibilityCriteria,
+  });
+}
+
+function mockDirectBookingEligibilityCriteria() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/direct_booking_eligibility_criteria*',
+    response: directEligibilityCriteria,
+  });
+}
+
+function mockFacilityDetails() {
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va?ids=*',
+    response: facilityDetails,
+  });
+}
+
 function mockFacilities() {
   cy.route({
     method: 'GET',
@@ -203,12 +235,15 @@ function mockSubmitVAAppointment() {
   });
 }
 
-function setupSchedulingMocks() {
+function setupSchedulingMocks({ facilityPageV2Enabled = false } = {}) {
   cy.server();
   cy.login();
-  mockFeatureToggles();
+  mockFeatureToggles({ facilityPageV2Enabled });
   mockSupportedSites();
   mockCCPrimaryCareEligibility();
+  mockRequestEligibilityCriteria();
+  mockDirectBookingEligibilityCriteria();
+  mockFacilityDetails();
   mockFacilities();
   mockDirectSchedulingFacilities();
   mockPrimaryCareClinics();
@@ -397,8 +432,8 @@ export function initExpressCareMocks() {
   });
 }
 
-export function initVAAppointmentMock() {
-  setupSchedulingMocks();
+export function initVAAppointmentMock(facilityPageV2Enabled) {
+  setupSchedulingMocks({ facilityPageV2Enabled });
   mockRequestLimits();
   mockVisits();
   mockDirectScheduleSlots();
