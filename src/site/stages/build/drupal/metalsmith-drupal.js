@@ -153,14 +153,12 @@ async function getSideNavsViaGraphQL(buildOptions = global.buildOptions) {
   if (shouldPullDrupal(buildOptions)) {
     const contentApi = getApiClient(buildOptions);
     log('Pulling side nav menus from Drupal...');
-    await contentApi.getSideNavigations().then(res => {
-      sideNavs = res.data.sideNavMenus;
-
-      // Write them to .cache/{buildtype}/drupal/side-nav-menus.json
-      fs.ensureDirSync(buildOptions.cacheDirectory);
-      fs.emptyDirSync(path.dirname(sideNavFile));
-      fs.writeJsonSync(sideNavFile, sideNavs, { spaces: 2 });
-    });
+    const response = await contentApi.getSideNavigations();
+    sideNavs = response.data.sideNavMenus;
+    // Write them to .cache/{buildtype}/drupal/side-nav-menus.json
+    fs.ensureDirSync(buildOptions.cacheDirectory);
+    fs.emptyDirSync(path.dirname(sideNavFile));
+    fs.writeJsonSync(sideNavFile, sideNavs, { spaces: 2 });
   } else {
     log('Using cached side navs');
     sideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};

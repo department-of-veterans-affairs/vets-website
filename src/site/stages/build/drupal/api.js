@@ -226,9 +226,9 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       return transformedEntities;
     },
 
-    getLatestPageById(nodeId) {
+    async getLatestPageById(nodeId) {
       return this.query({
-        query: getQuery(queries.GET_LATEST_PAGE_BY_ID),
+        query: await getQuery(queries.GET_LATEST_PAGE_BY_ID),
         variables: {
           id: nodeId,
           today: moment().format('YYYY-MM-DD'),
@@ -238,9 +238,9 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
     },
 
     // Sets up the CMS SideNav Menus list.
-    getSideNavigations() {
+    async getSideNavigations() {
       return this.query({
-        query: getQuery(queries.GET_HEALTH_SYSTEM_NAVS),
+        query: await getQuery(queries.GET_HEALTH_SYSTEM_NAVS),
         variables: {
           onlyPublishedContent: false,
         },
