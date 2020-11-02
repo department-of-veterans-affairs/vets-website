@@ -19,9 +19,7 @@ export const clearLocationMarkers = () => {
   const locationMarkers = window.document.getElementsByClassName(
     'mapboxgl-marker',
   );
-  for (let i = locationMarkers.length - 1; i >= 0; i--) {
-    locationMarkers[i].remove();
-  }
+  Array.from(locationMarkers).forEach(marker => marker.remove());
 };
 
 export const buildMarker = (type, values) => {
