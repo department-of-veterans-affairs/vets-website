@@ -5,7 +5,7 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from 'vet360/util/transactions';
+} from '@@vet360/util/transactions';
 import VAPEditModalActionButtons from './VAPEditModalActionButtons';
 import Vet360EditModalErrorMessage from 'platform/user/profile/vet360/components/base/Vet360EditModalErrorMessage';
 
