@@ -101,20 +101,16 @@ export function mapRawUserDataToState(json) {
     ).status;
     userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {
-    userState.veteranStatus = {
-      isVeteran: veteranStatus.isVeteran,
-      status: veteranStatus.status,
-      servedInMilitary: veteranStatus.servedInMilitary,
-    };
+    userState.veteranStatus = { ...veteranStatus };
   }
 
   if (meta && vaProfile === null) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.MVI,
     ).status;
-    userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
+    userState.status = getErrorStatusDesc(errorStatus);
   } else {
-    userState.veteranStatus.status = vaProfile.status;
+    userState.status = vaProfile.status;
     if (vaProfile.facilities) {
       userState.facilities = vaProfile.facilities;
     }
