@@ -1,4 +1,4 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
 const eventSchema = require('./node-event');
 
 const reverseFieldSchema = {
@@ -7,8 +7,7 @@ const reverseFieldSchema = {
     entities: {
       type: 'array',
       items: {
-        /* eslint-disable react-hooks/rules-of-hooks */
-        entity: usePartialSchema(eventSchema, [
+        entity: partialSchema(eventSchema, [
           'title',
           'entityUrl',
           'fieldDate',

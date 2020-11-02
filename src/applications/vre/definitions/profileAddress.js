@@ -144,7 +144,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
         updateSchema: (formData, schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
           const countryUI = uiSchema;
-          const addressFormData = get(formDataPath, formData);
+          const addressFormData = get(formDataPath, formData) ?? {};
           const { isMilitary } = addressFormData;
           // if isMilitary === true, auto select United States and disable the field
           if (isMilitary) {
@@ -195,7 +195,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
          */
         replaceSchema: (formData, schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
-          const { isMilitary } = get(formDataPath, formData);
+          const { isMilitary } = get(formDataPath, formData) ?? {};
           if (isMilitary) {
             return {
               type: 'string',
@@ -218,7 +218,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
       'ui:required': (formData, index) => {
         // Only required if the country is the United States;
         const formDataPath = getPath(path, index);
-        const { country } = get(formDataPath, formData);
+        const { country } = get(formDataPath, formData) ?? {};
         return country && country === USA.value;
       },
       'ui:errorMessages': {
@@ -238,7 +238,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
          */
         replaceSchema: (formData, schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
-          const { country, isMilitary } = get(formDataPath, formData);
+          const { country, isMilitary } = get(formDataPath, formData) ?? {};
           if (isMilitary) {
             return {
               type: 'string',
@@ -273,7 +273,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
         widgetClassNames: 'usa-input-medium',
         replaceSchema: (formData, schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
-          const { country, isMilitary } = get(formDataPath, formData);
+          const { country, isMilitary } = get(formDataPath, formData) ?? {};
           if (isMilitary || country === 'USA') {
             return {
               type: 'string',

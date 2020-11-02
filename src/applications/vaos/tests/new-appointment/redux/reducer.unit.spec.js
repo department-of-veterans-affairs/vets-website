@@ -1,5 +1,8 @@
 import { expect } from 'chai';
-import newAppointmentReducer from '../../../new-appointment/redux/reducer';
+import newAppointmentReducer, {
+  REASON_ADDITIONAL_INFO_TITLES,
+  REASON_MAX_CHARS,
+} from '../../../new-appointment/redux/reducer';
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
@@ -25,8 +28,8 @@ import {
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
-  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
 } from '../../../new-appointment/redux/actions';
@@ -39,9 +42,7 @@ import parentFacilities from '../../../services/mocks/var/facilities.json';
 import facilities983 from '../../../services/mocks/var/facilities_983.json';
 import {
   FETCH_STATUS,
-  REASON_ADDITIONAL_INFO_TITLES,
   FLOW_TYPES,
-  REASON_MAX_CHARS,
   PURPOSE_TEXT,
   VHA_FHIR_ID,
   FACILITY_TYPES,
@@ -470,6 +471,7 @@ describe('VAOS reducer: newAppointment', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId: '323',
+        facilityId: 'var983',
         eligibilityData: {
           clinics: [],
           directPastVisit: {},
@@ -500,6 +502,7 @@ describe('VAOS reducer: newAppointment', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId: '323',
+        facilityId: 'var983',
         eligibilityData: {
           clinics: { directFailed: true },
           directPastVisit: {},
@@ -1096,32 +1099,32 @@ describe('VAOS reducer: newAppointment', () => {
     ).to.be.false;
   });
 
-  it('should set ToC modal to show', () => {
+  it('should set podiatry appointment unavailable modal to show', () => {
     const currentState = {
       data: {},
       pageChangeInProgress: true,
     };
     const action = {
-      type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     };
 
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.pageChangeInProgress).to.be.false;
-    expect(newState.showTypeOfCareUnavailableModal).to.be.true;
+    expect(newState.showPodiatryAppointmentUnavailableModal).to.be.true;
   });
 
-  it('should set ToC modal to hidden', () => {
+  it('should set podiatry appointment unavailable modal to hidden', () => {
     const currentState = {
       data: {},
     };
     const action = {
-      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     };
 
     const newState = newAppointmentReducer(currentState, action);
 
-    expect(newState.showTypeOfCareUnavailableModal).to.be.false;
+    expect(newState.showPodiatryAppointmentUnavailableModal).to.be.false;
   });
 
   it('should reset form when new appointment button is clicked', () => {

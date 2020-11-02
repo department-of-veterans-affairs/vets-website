@@ -139,11 +139,13 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
 }
 
 export function submitForm(formConfig, form) {
+  const inProgressFormId = form.loadedData?.metadata?.inProgressFormId;
   const captureError = (error, errorType) => {
     Sentry.withScope(scope => {
       scope.setFingerprint([formConfig.trackingPrefix]);
       scope.setExtra('errorType', errorType);
       scope.setExtra('statusText', error.statusText);
+      scope.setExtra('inProgressFormId', inProgressFormId);
       Sentry.captureException(error);
     });
     recordEvent({

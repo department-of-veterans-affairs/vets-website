@@ -10,6 +10,7 @@ import {
 export const selectUser = state => state.user;
 export const isLoggedIn = state => selectUser(state).login.currentlyLoggedIn;
 export const selectProfile = state => selectUser(state)?.profile || {};
+export const isVAPatient = state => selectProfile(state).vaPatient === true;
 export const isInMPI = state => selectProfile(state).status === 'OK';
 export const hasMPIConnectionError = state =>
   selectProfile(state).status === 'SERVER_ERROR';

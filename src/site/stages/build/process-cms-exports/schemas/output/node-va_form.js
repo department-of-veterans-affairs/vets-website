@@ -1,4 +1,4 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
 
 const dateSchema = {
   oneOf: [
@@ -71,8 +71,7 @@ module.exports = {
     fieldVaFormRelatedForms: {
       type: 'array',
       items: {
-        /* eslint-disable react-hooks/rules-of-hooks */
-        entity: usePartialSchema(vaFormSchema, [
+        entity: partialSchema(vaFormSchema, [
           'fieldVaFormName',
           'fieldVaFormNumber',
           'fieldVaFormUsage',
