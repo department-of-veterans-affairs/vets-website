@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
-export const buildChapter31Content = (page, track) => {
+const Chapter31Content = props => {
   let content = '';
   let optionalHeader = '';
   let optionalSubwayMapItem = null;
   // If this is on the /eligibility page, render just the button
   // If this is NOT on the /eligibility page, render the subway map and the button and possibly the optional header and subway map item
-  if (page === 'eligibility') {
+  if (props.page === 'eligibility') {
     content = (
       <>
         <EbenefitsLink
@@ -20,7 +21,7 @@ export const buildChapter31Content = (page, track) => {
     );
   } else {
     // If we are NOT the how-to-apply page, there is a header to be added in
-    if (page !== 'how-to-apply') {
+    if (props.page !== 'how-to-apply') {
       optionalHeader = (
         <h3>
           If you have your VA disability rating, follow these steps to apply:
@@ -28,7 +29,7 @@ export const buildChapter31Content = (page, track) => {
       );
     }
     // If we are on the independent-living track, we need to add a 6th subway map item
-    if (track === 'independent-living') {
+    if (props.track === 'independent-living') {
       optionalSubwayMapItem = (
         <li className="process-step list-six">
           If you’re eligible, a VRC will work with you to determine the severity
@@ -77,3 +78,10 @@ export const buildChapter31Content = (page, track) => {
   }
   return content;
 };
+
+Chapter31Content.propTypes = {
+  page: PropTypes.string,
+  track: PropTypes.string,
+};
+
+export default Chapter31Content;
