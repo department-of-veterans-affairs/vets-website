@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchDebts } from '../actions';
+import DebtCard from './DebtCard';
 
 class AvailableDebts extends Component {
   componentDidMount() {
@@ -10,33 +11,32 @@ class AvailableDebts extends Component {
   render() {
     return (
       <>
-        <h2>Available debt resolution options</h2>
-        <ul>
-          <li>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A
-            architecto aut eos fuga harum id magni? Commodi eius minima sint. Ad
-            aliquam, aspernatur earum eum ex minima quisquam sunt voluptatum.
-          </li>
-          <li>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A
-            architecto aut eos fuga harum id magni? Commodi eius minima sint. Ad
-            aliquam, aspernatur earum eum ex minima quisquam sunt voluptatum.
-          </li>
-          <li>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A
-            architecto aut eos fuga harum id magni? Commodi eius minima sint. Ad
-            aliquam, aspernatur earum eum ex minima quisquam sunt voluptatum.
-          </li>
-        </ul>
-        <h3>What if I want to dispute a debt?</h3>
+        <h2 className="vads-u-font-size--h4">Your available debts</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor dolore
-          possimus provident qui, quia sunt vel vitae! Ad, corporis dolore enim
-          expedita harum minima natus nulla sed similique totam ut? Lorem ipsum
-          dolor sit amet, consectetur adipisicing elit. Ab dignissimos eligendi
-          et in laboriosam molestiae neque nihil non officia placeat porro
-          possimus quod reiciendis repellendus repudiandae velit, voluptates.
-          Dolores, mollitia!
+          Please select atleast one debt you want to request a waiver,
+          compromise offer, or extended payment plan for.
+        </p>
+        <p>
+          <strong>Note:</strong>
+          If you have multiple debts and want different resolutions, you'll need
+          to submit separate applications.
+        </p>
+        {this.props.debts.map((debt, index) => (
+          <DebtCard debt={debt} key={`${index}-${debt.currentAr}`} />
+        ))}
+        <h3 className="vads-u-font-size--h4">
+          What if I don't see the debt I'm looking for?
+        </h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
+          architecto ducimus fuga laudantium perferendis quaerat sapiente. Aut
+          blanditiis debitis, ea error fugit itaque mollitia, quidem repellat
+          rerum suscipit veniam, voluptatibus.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
+          architecto ducimus fuga laudantium perferendis quaerat sapiente. Aut
+          blanditiis debitis.
         </p>
       </>
     );
