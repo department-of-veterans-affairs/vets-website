@@ -291,6 +291,7 @@ class ObjectField extends React.Component {
       </div>
     );
 
+    // fieldset wasn't injected in FieldTemplate so add it here if there is a title specified.
     if (title && !useFieldsetLegend) {
       return <fieldset className={fieldsetClassNames}>{fieldContent}</fieldset>;
     }
