@@ -88,11 +88,7 @@ export function mapRawUserDataToState(json) {
       ? vet360ContactInformation
       : mockContactInformation,
     session,
-    veteranStatus: {
-      status: veteranStatus?.status,
-      isVeteran: veteranStatus?.isVeteran,
-      servedInMilitary: veteranStatus?.servedInMilitary,
-    },
+    veteranStatus: {},
   };
 
   if (meta && veteranStatus === null) {
