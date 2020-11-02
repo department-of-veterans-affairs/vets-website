@@ -18,6 +18,7 @@ export default function FieldTemplate(props) {
     formContext,
     uiSchema,
   } = props;
+
   const isTouched =
     formContext.touched[id] ||
     Object.keys(formContext.touched).some(touched => id.startsWith(touched));
