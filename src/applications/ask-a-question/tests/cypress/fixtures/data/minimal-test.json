@@ -1,0 +1,28 @@
+{
+  "data": {
+    "fullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "veteranStatus": {
+      "veteranStatus": "A general question"
+    },
+    "address": {
+      "country": "USA",
+      "state": "IL",
+      "city": "Chicago",
+      "street": "200 E Randolph Fl 25",
+      "postalCode": "60601"
+    },
+    "preferredContactMethod": "email",
+    "email": "jane.doe@va.gov",
+    "view:email": "jane.doe@va.gov",
+    "privacyAgreementAccepted": true,
+    "inquiryType": "Question",
+    "topic": {
+      "levelOne": "Caregiver Support Program",
+      "levelTwo": "VA Supportive Services"
+    },
+    "query": "Some question?"
+  }
+}

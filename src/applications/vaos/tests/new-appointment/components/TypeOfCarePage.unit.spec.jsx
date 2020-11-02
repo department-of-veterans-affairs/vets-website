@@ -109,7 +109,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(await screen.findByLabelText(/podiatry/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /podiatry appointments can only be scheduled online for community care/i,
+      /not eligible to request a community care Podiatry appointment online at this time/i,
     );
     fireEvent.click(screen.getByText('Ok'));
 

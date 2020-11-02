@@ -223,9 +223,39 @@ const createFakeConfirmationStore = ({ hasData }) => {
   };
 };
 
+const createFakeIntroductionPageStore = (formId, savedForms) => {
+  return {
+    getState: () => ({
+      form: {
+        pages: [],
+        formId,
+      },
+      user: {
+        profile: {
+          savedForms: [...savedForms],
+        },
+      },
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [
+              { clinic: { facility: { displayName: 'Magic Kingdom' } } },
+            ],
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => ({
+      toggleLoginModal: () => {},
+    }),
+  };
+};
+
 export {
   createFakeUserStore,
   createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
   createFakeConfirmationStore,
+  createFakeIntroductionPageStore,
 };

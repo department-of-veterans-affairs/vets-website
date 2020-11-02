@@ -1,6 +1,6 @@
 import { initExpressCareMocks } from './vaos-cypress-helpers';
 
-describe('Express Care request flow', () => {
+describe('VAOS Express Care flow', () => {
   it('should submit a request successfully', () => {
     initExpressCareMocks();
 

@@ -154,7 +154,7 @@ class AddFilesForm extends React.Component {
           <p className="file-requirement-header">Accepted file types:</p>
           <p className="file-requirement-text">{displayTypes}</p>
           <p className="file-requirement-header">Maximum file size:</p>
-          <p className="file-requirement-text">25MB</p>
+          <p className="file-requirement-text">50MB</p>
         </div>
         {this.props.files.map(({ file, docType }, index) => (
           <div key={index} className="document-item-container">

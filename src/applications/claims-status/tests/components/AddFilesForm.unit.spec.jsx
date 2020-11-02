@@ -176,7 +176,41 @@ describe('<AddFilesForm>', () => {
       },
     ]);
     expect(onAddFile.called).to.be.false;
-    expect(tree.getMountedInstance().state.errorMessage).not.to.be.empty;
+    expect(tree.getMountedInstance().state.errorMessage).to.contain(
+      'accepted types',
+    );
+  });
+
+  it('should not add file of zero size', () => {
+    const files = [];
+    const field = { value: '', dirty: false };
+    const onSubmit = sinon.spy();
+    const onAddFile = sinon.spy();
+    const onRemoveFile = sinon.spy();
+    const onFieldChange = sinon.spy();
+    const onCancel = sinon.spy();
+    const onDirtyFields = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <AddFilesForm
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}
+      />,
+    );
+    tree.getMountedInstance().add([
+      {
+        name: 'something.txt',
+        size: 0,
+      },
+    ]);
+    expect(onAddFile.called).to.be.false;
+    expect(tree.getMountedInstance().state.errorMessage).to.contain('is empty');
   });
 
   it('should not add an invalid file size', () => {
@@ -203,12 +237,14 @@ describe('<AddFilesForm>', () => {
     );
     tree.getMountedInstance().add([
       {
-        name: 'something.exe',
+        name: 'something.txt',
         size: 999999999999,
       },
     ]);
     expect(onAddFile.called).to.be.false;
-    expect(tree.getMountedInstance().state.errorMessage).not.to.be.empty;
+    expect(tree.getMountedInstance().state.errorMessage).to.contain(
+      'maximum file size',
+    );
   });
 
   it('should add a valid file', () => {

@@ -44,7 +44,7 @@ export function choosePreferredDateTest() {
   cy.url().should('include', '/preferred-date');
   cy.axeCheck();
 
-  const preferredDate = today.add(4, 'days');
+  const preferredDate = today.clone().add(4, 'days');
 
   cy.findByLabelText('Month').select(preferredDate.format('MMM'));
   cy.findByLabelText('Day').select(preferredDate.format('D'));
@@ -60,15 +60,38 @@ export function selectTimeSlotTest() {
   cy.get(
     '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
   ).click();
+
   cy.axeCheck();
   cy.findByText(/Continue/).click();
 }
 
-export function reasonForAppointmentTest(l) {
+export function selectRequestSlotTest() {
+  cy.url().should('include', '/request-date');
+  cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
+    .first()
+    .click();
+  cy.get(
+    '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
+  ).click();
+  cy.axeCheck();
+  cy.findByText(/Continue/).click();
+}
+
+export function howToBeSeenTest() {
+  cy.url().should('include', '/choose-visit-type');
+  cy.findByLabelText(/Office/i).click();
+  cy.axeCheck();
+  cy.findByText(/Continue/).click();
+}
+
+export function reasonForAppointmentTest(
+  content,
+  label = /Please provide any additional details/,
+) {
   cy.url().should('include', '/reason-appointment');
   cy.axeCheck();
   cy.findByLabelText('Routine or follow-up visit').click();
-  cy.findByLabelText(/Please provide any additional details/).type(l);
+  cy.findByLabelText(label).type(content);
   cy.findByText(/Continue/).click();
 }
 

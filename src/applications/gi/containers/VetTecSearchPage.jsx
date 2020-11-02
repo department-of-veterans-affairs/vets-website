@@ -20,8 +20,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import ServiceError from '../components/ServiceError';
@@ -38,7 +36,6 @@ function VetTecSearchPage({
   filters,
   search,
   eligibility,
-  gibctSearchEnhancements,
   dispatchClearAutocompleteSuggestions,
   dispatchFetchProgramAutocompleteSuggestions,
   dispatchFetchProgramSearchResults,
@@ -154,10 +151,7 @@ function VetTecSearchPage({
         !_.isEqual(search.query, queryFilterFields.query)
       ) {
         dispatchInstitutionFilterChange(queryFilterFields.institutionFilter);
-        dispatchFetchProgramSearchResults(
-          queryFilterFields.query,
-          gibctSearchEnhancements,
-        );
+        dispatchFetchProgramSearchResults(queryFilterFields.query);
       }
     },
     [location.search, queryFilterFields.query],
@@ -282,7 +276,6 @@ function VetTecSearchPage({
             eligibility={eligibility}
             showModal={dispatchShowModal}
             eligibilityChange={dispatchEligibilityChange}
-            gibctSearchEnhancements={gibctSearchEnhancements}
           />
         </div>
       )}
@@ -298,9 +291,6 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
-  gibctSearchEnhancements: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctSearchEnhancements
-  ],
 });
 
 const mapDispatchToProps = {

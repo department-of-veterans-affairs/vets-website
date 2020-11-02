@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import moment from '../../utils/moment-tz';
+import moment from '../../lib/moment-tz';
 
 import confirmedVA from '../../services/mocks/var/confirmed_va.json';
 import confirmedCC from '../../services/mocks/var/confirmed_cc.json';
@@ -141,13 +141,13 @@ function mockFeatureToggles({ facilityPageV2Enabled = false } = {}) {
   });
 }
 
-function mockRequestLimits() {
+function mockRequestLimits(id = '983') {
   cy.route({
     method: 'GET',
-    url: '/vaos/v0/facilities/983/limits*',
+    url: `/vaos/v0/facilities/${id}/limits*`,
     response: {
       data: {
-        id: '983',
+        id,
         attributes: {
           requestLimit: 1,
           numberOfRequests: 0,
@@ -232,7 +232,7 @@ function mockSubmitVAAppointment() {
     method: 'POST',
     url: '/vaos/v0/appointments',
     response: { data: {} },
-  });
+  }).as('appointmentSubmission');
 }
 
 function setupSchedulingMocks({ facilityPageV2Enabled = false } = {}) {
@@ -246,7 +246,6 @@ function setupSchedulingMocks({ facilityPageV2Enabled = false } = {}) {
   mockFacilityDetails();
   mockFacilities();
   mockDirectSchedulingFacilities();
-  mockPrimaryCareClinics();
 }
 
 function updateTimeslots(data) {
@@ -273,10 +272,10 @@ function updateTimeslots(data) {
   return data;
 }
 
-function mockVisits() {
+function mockVisits(id = '983') {
   cy.route({
     method: 'GET',
-    url: '/vaos/v0/facilities/983/visits/*',
+    url: `/vaos/v0/facilities/${id}/visits/*`,
     response: {
       data: {
         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
@@ -434,10 +433,37 @@ export function initExpressCareMocks() {
 
 export function initVAAppointmentMock({ facilityPageV2Enabled = false } = {}) {
   setupSchedulingMocks({ facilityPageV2Enabled });
+  mockPrimaryCareClinics();
   mockRequestLimits();
   mockVisits();
   mockDirectScheduleSlots();
   mockSubmitVAAppointment();
+}
+
+export function initVARequestMock() {
+  setupSchedulingMocks();
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/clinics*',
+    response: { data: [] },
+  });
+  mockRequestLimits('983GB');
+  mockVisits('983GB');
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests?type=*',
+    response: {
+      data: {
+        id: 'testing',
+        attributes: {},
+      },
+    },
+  }).as('appointmentRequests');
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests/testing/messages',
+    response: [],
+  }).as('requestMessages');
 }
 
 export function initCommunityCareMock() {
@@ -464,5 +490,5 @@ export function initCommunityCareMock() {
     method: 'POST',
     url: '/vaos/v0/appointment_requests/testing/messages',
     response: [],
-  });
+  }).as('requestMessages');
 }

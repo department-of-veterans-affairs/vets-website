@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from '../../utils/moment-tz';
+import moment from '../../lib/moment-tz';
 
 import {
   getChosenClinicInfo,
@@ -17,12 +17,12 @@ import {
   getTypeOfCare,
   getCancelInfo,
   getCCEType,
-  isWelcomeModalDismissed,
+  selectIsWelcomeModalDismissed,
   selectLocalExpressCareWindowString,
   selectNextAvailableExpressCareWindowString,
+  selectIsCernerOnlyPatient,
 } from '../../utils/selectors';
 
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { VHA_FHIR_ID, APPOINTMENT_TYPES } from '../../utils/constants';
 
 describe('VAOS selectors', () => {
@@ -121,7 +121,11 @@ describe('VAOS selectors', () => {
         user: {
           profile: {
             facilities: [
-              { facilityId: '668', isCerner: true },
+              {
+                facilityId: '668',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
               { facilityId: '124', isCerner: false },
             ],
             isCernerPatient: true,
@@ -430,7 +434,13 @@ describe('VAOS selectors', () => {
         },
         user: {
           profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
+            facilities: [
+              {
+                facilityId: '123',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
+            ],
             isCernerPatient: true,
           },
         },
@@ -460,7 +470,13 @@ describe('VAOS selectors', () => {
         },
         user: {
           profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
+            facilities: [
+              {
+                facilityId: '123',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
+            ],
             isCernerPatient: true,
           },
         },
@@ -505,7 +521,13 @@ describe('VAOS selectors', () => {
         },
         user: {
           profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
+            facilities: [
+              {
+                facilityId: '123',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
+            ],
             isCernerPatient: true,
           },
         },
@@ -572,14 +594,14 @@ describe('VAOS selectors', () => {
     });
   });
 
-  describe('isWelcomeModalDismissed', () => {
+  describe('selectIsWelcomeModalDismissed', () => {
     it('should return dismissed if key is in list', () => {
       const state = {
         announcements: {
           dismissed: ['welcome-to-new-vaos'],
         },
       };
-      expect(isWelcomeModalDismissed(state)).to.be.true;
+      expect(selectIsWelcomeModalDismissed(state)).to.be.true;
     });
     it('should not return dismissed if key is not in list', () => {
       const state = {
@@ -587,7 +609,7 @@ describe('VAOS selectors', () => {
           dismissed: ['welcome-to-new-va'],
         },
       };
-      expect(isWelcomeModalDismissed(state)).to.be.false;
+      expect(selectIsWelcomeModalDismissed(state)).to.be.false;
     });
   });
 
@@ -600,7 +622,13 @@ describe('VAOS selectors', () => {
         },
         user: {
           profile: {
-            facilities: [{ facilityId: '668', isCerner: true }],
+            facilities: [
+              {
+                facilityId: '668',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
+            ],
           },
           isCernerPatient: true,
         },
@@ -616,7 +644,11 @@ describe('VAOS selectors', () => {
         user: {
           profile: {
             facilities: [
-              { facilityId: '668', isCerner: true },
+              {
+                facilityId: '668',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
               { facilityId: '124', isCerner: false },
             ],
             isCernerPatient: true,
