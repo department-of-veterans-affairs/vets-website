@@ -108,17 +108,7 @@ export default function FieldTemplate(props) {
       )}
       {!textDescription && !DescriptionField && description}
       {errorSpan}
-      {
-        <div className={inputWrapperClassNames}>
-          {React.Children.map(children, child => {
-            // ObjectField potentially adds a fieldset as well, so we pass useFieldsetLegend as a prop
-            // and check its value to avoid injecting an extra, orphaned fieldset with no corresponding legend.
-            return child.type.name === 'ObjectField'
-              ? React.cloneElement(child, { useFieldsetLegend })
-              : child;
-          })}
-        </div>
-      }
+      {<div className={inputWrapperClassNames}>{children}</div>}
       {help}
     </>
   );

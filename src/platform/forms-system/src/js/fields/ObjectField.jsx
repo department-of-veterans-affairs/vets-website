@@ -164,7 +164,6 @@ class ObjectField extends React.Component {
       readonly,
       onBlur,
       formContext,
-      useFieldsetLegend,
     } = this.props;
     const { definitions, fields } = this.props.registry;
     const { TitleField } = fields;
@@ -291,8 +290,8 @@ class ObjectField extends React.Component {
       </div>
     );
 
-    // fieldset wasn't injected in FieldTemplate so add it here if there is a title specified.
-    if (title && !useFieldsetLegend) {
+    const renderFieldset = !!showFieldLabel;
+    if (title && !renderFieldset) {
       return <fieldset className={fieldsetClassNames}>{fieldContent}</fieldset>;
     }
 
@@ -317,7 +316,6 @@ ObjectField.propTypes = {
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
-    useFieldSetLegend: PropTypes.bool,
   }),
 };
 
