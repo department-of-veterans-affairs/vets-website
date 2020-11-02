@@ -32,7 +32,6 @@ import {
   servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
-  hasNewDisabilities,
   increaseOnly,
   isDisabilityPtsd,
   directToCorrectForm,
@@ -40,6 +39,7 @@ import {
   isBDD,
   showSeparationLocation,
   getPageTitle,
+  isClaimingNew,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -73,7 +73,6 @@ import {
   individualUnemployability,
   mentalHealthChanges,
   militaryHistory,
-  newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   paymentInformation,
@@ -285,13 +284,6 @@ const formConfig = {
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
-        newDisabilities: {
-          title: 'New disabilities',
-          path: 'new-disabilities',
-          depends: formData => !increaseOnly(formData),
-          uiSchema: newDisabilities.uiSchema,
-          schema: newDisabilities.schema,
-        },
         addDisabilities: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
@@ -302,7 +294,7 @@ const formConfig = {
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: formData => hasNewDisabilities(formData) && !isBDD(formData),
+          depends: formData => isClaimingNew(formData) && !isBDD(formData),
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -315,7 +307,7 @@ const formConfig = {
             typeof formData.condition === 'string'
               ? capitalizeEachWord(formData.condition)
               : NULL_CONDITION_STRING,
-          depends: hasNewDisabilities,
+          depends: isClaimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item => !isDisabilityPtsd(item.condition),
