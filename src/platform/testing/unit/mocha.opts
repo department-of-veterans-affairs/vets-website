@@ -7,5 +7,5 @@
 --require mocha-snapshots
 --compilers js:@babel/register,jsx:@babel/register
 --prof
---reporter progress
+--reporter list
 --timeout 10000

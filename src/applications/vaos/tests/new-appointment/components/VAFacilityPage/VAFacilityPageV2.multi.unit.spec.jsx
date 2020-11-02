@@ -394,7 +394,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(screen.baseElement).not.to.contain.text('more location');
   });
 
-  it('should display previous user choices when returning to page', async () => {
+  it.only('should display previous user choices when returning to page', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);

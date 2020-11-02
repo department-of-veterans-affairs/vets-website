@@ -342,7 +342,7 @@ export default function formReducer(state = initialState, action) {
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      if (parentFacilities.length === 1 || !facilities.length) {
+      if (parentFacilities.length === 1 || !typeOfCareFacilities.length) {
         newData = {
           ...newData,
           vaParent: parentFacilities[0]?.id,

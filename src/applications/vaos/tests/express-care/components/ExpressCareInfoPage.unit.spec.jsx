@@ -81,7 +81,7 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
       store,
     });
 
@@ -106,7 +106,7 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
       store,
     });
 
