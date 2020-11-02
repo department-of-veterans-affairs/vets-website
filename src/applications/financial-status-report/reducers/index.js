@@ -4,7 +4,7 @@ import {
   FSR_API_CALL_INITIATED,
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
-} from '../constants';
+} from '../constants/actionTypes';
 
 const initialState = {
   isError: false,
