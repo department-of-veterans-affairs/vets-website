@@ -92,7 +92,7 @@ describe('Add new disabilities', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          claimType: {
+          'view:claimType': {
             'view:claimingNew': true,
             'view:claimingIncrease': false,
           },

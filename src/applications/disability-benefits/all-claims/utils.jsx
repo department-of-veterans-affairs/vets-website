@@ -812,7 +812,6 @@ export const directToCorrectForm = ({
 };
 
 export const claimingRated = formData =>
-  isClaimingIncrease(formData) &&
   formData?.ratedDisabilities?.some(d => d['view:selected']);
 
 // TODO: Rename this to avoid collision with `isClaimingNew` above
