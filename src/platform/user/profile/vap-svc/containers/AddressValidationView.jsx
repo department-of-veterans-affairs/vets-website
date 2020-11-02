@@ -10,10 +10,10 @@ import { focusElement } from 'platform/utilities/ui';
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from '@@vet360/util/transactions';
-import { selectAddressValidation } from '@@vet360/selectors';
+} from '@@vap-svc/util/transactions';
+import { selectAddressValidation } from '@@vap-svc/selectors';
 
-import Vet360EditModalErrorMessage from '@@vet360/components/base/Vet360EditModalErrorMessage';
+import Vet360EditModalErrorMessage from '@@vap-svc/components/base/Vet360EditModalErrorMessage';
 
 import * as VET360 from '../constants';
 import {

@@ -24,9 +24,9 @@ import * as VET360 from '../constants';
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from '@@vet360/util/transactions';
+} from '@@vap-svc/util/transactions';
 
-import Vet360EditModalErrorMessage from '@@vet360/components/base/Vet360EditModalErrorMessage';
+import Vet360EditModalErrorMessage from '@@vap-svc/components/base/Vet360EditModalErrorMessage';
 
 class AddressValidationModal extends React.Component {
   componentWillUnmount() {
