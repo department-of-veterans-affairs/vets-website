@@ -39,7 +39,7 @@ import {
   isBDD,
   showSeparationLocation,
   getPageTitle,
-  isClaimingNew,
+  claimingNew,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -294,7 +294,7 @@ const formConfig = {
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: formData => isClaimingNew(formData) && !isBDD(formData),
+          depends: formData => claimingNew(formData) && !isBDD(formData),
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -307,7 +307,7 @@ const formConfig = {
             typeof formData.condition === 'string'
               ? capitalizeEachWord(formData.condition)
               : NULL_CONDITION_STRING,
-          depends: isClaimingNew,
+          depends: claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item => !isDisabilityPtsd(item.condition),
