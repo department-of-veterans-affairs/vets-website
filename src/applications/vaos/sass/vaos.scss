@@ -33,13 +33,14 @@ h1:focus {
 
 .vaos__loading-overlay-inner {
   position: relative;
-  top: 40%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%);
   width: 80%;
+  max-width: 500px;
   cursor: auto;
 
-  @media (min-width: $medium-screen) {
-    width: 50%;
+  @include media($medium-screen) {
+    top: 40%;
   }
 }
