@@ -25,15 +25,19 @@ const BREADCRUMB_BASE_PATH = [
   },
 ];
 
-const entityBundlesForResourcesAndSupport = new Set([
-  ENTITY_BUNDLES.STEP_BY_STEP,
-  ENTITY_BUNDLES.FAQ_MULTIPLE_Q_A,
-  ENTITY_BUNDLES.Q_A,
-  ENTITY_BUNDLES.CHECKLIST,
-  ENTITY_BUNDLES.MEDIA_LIST_IMAGES,
-  ENTITY_BUNDLES.MEDIA_LIST_VIDEOS,
-  ENTITY_BUNDLES.SUPPORT_RESOURCES_DETAIL_PAGE,
-]);
+const articleTypesByEntityBundle = {
+  [ENTITY_BUNDLES.Q_A]: 'Question and answer',
+  [ENTITY_BUNDLES.CHECKLIST]: 'Checklist',
+  [ENTITY_BUNDLES.MEDIA_LIST_IMAGES]: 'Media list',
+  [ENTITY_BUNDLES.MEDIA_LIST_VIDEOS]: 'Media list',
+  [ENTITY_BUNDLES.SUPPORT_RESOURCES_DETAIL_PAGE]: 'About',
+  [ENTITY_BUNDLES.FAQ_MULTIPLE_Q_A]: 'FAQs',
+  [ENTITY_BUNDLES.STEP_BY_STEP]: 'Step-by-step',
+};
+
+const entityBundlesForResourcesAndSupport = new Set(
+  Object.keys(articleTypesByEntityBundle),
+);
 
 function getArticlesBelongingToResourcesAndSupportSection(files) {
   return Object.entries(files)
@@ -194,6 +198,7 @@ function createPaginatedArticleListings({
           });
 
           const page = {
+            articleTypesByEntityBundle,
             contents: Buffer.from(''),
             path: pageOfArticles.uri,
             entityUrl: {
