@@ -9,9 +9,9 @@ import {
   ADDRESS_TYPES,
   ADDRESS_POU,
   USA,
-} from 'vet360/constants';
+} from '@@vet360/constants';
 
-import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
+import Vet360ProfileField from '@@vet360/containers/Vet360ProfileField';
 
 import AddressEditModal from './AddressEditModal';
 import AddressValidationModal from '../../containers/AddressValidationModal';

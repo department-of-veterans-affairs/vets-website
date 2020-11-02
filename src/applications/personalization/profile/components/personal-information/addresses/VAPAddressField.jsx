@@ -9,7 +9,7 @@ import {
   ADDRESS_TYPES,
   ADDRESS_POU,
   USA,
-} from 'vet360/constants';
+} from '@@vet360/constants';
 
 import VAPProfileField from '../VAPProfileField';
 

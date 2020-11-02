@@ -3,7 +3,7 @@ import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 
-import { ADDRESS_FORM_VALUES, USA } from 'vet360/constants';
+import { ADDRESS_FORM_VALUES, USA } from '@@vet360/constants';
 
 // Regex that uses a negative lookahead to check that a string does NOT contain
 // things like `http`, `www.`, or a few common TLDs. Let's cross our fingers and

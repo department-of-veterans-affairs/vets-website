@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { API_ROUTES, FIELD_NAMES } from 'vet360/constants';
+import { API_ROUTES, FIELD_NAMES } from '@@vet360/constants';
 
 import VAPProfileField from '../VAPProfileField';
 

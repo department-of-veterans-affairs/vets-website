@@ -4,7 +4,7 @@ import {
   isFailedTransaction,
   isPendingTransaction,
   isSuccessfulTransaction,
-} from 'vet360/util/transactions';
+} from '@@vet360/util/transactions';
 
 describe('isPendingTransaction', () => {
   it('returns `false` if passed nothing', () => {
