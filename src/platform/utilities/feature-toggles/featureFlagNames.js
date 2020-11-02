@@ -58,5 +58,4 @@ export default Object.freeze({
   cernerOverride757: 'cerner_override_757',
   show526Wizard: 'show526Wizard',
   showChapter36: 'show_chapter_36',
-  form1995EduUpdates: 'form_1995_edu_updates',
 });
