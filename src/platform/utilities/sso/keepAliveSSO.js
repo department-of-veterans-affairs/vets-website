@@ -17,9 +17,17 @@ export default async function keepAlive() {
       credentials: 'include',
       cache: 'no-store',
     });
-    const alive = resp.headers.get('session-alive') === 'true';
+    const alive = resp.headers.get('session-alive');
+    if (alive === null) {
+      // session-alive response header is missing, possibly because the
+      // browser failed to send the "Origin" request header.  with missing
+      // response headers, we can't determine if the user is logged in or
+      // logged out, so just return back an empty response (the same that
+      // would be returned in the event of an error)
+      return {};
+    }
     return {
-      ttl: alive ? Number(resp.headers.get('session-timeout')) : 0,
+      ttl: alive === 'true' ? Number(resp.headers.get('session-timeout')) : 0,
       transactionid: resp.headers.get('va_eauth_transactionid'),
       // for DSLogon or mhv, use a mapped authn context value, however for
       // idme, we need to use the provided authncontextclassref as it could be
