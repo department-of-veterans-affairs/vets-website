@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const debounce = require('lodash/debounce');
 
 const printBuildHelp = require('./content-build-help');
-const getOptions = require('../src/site/stages/build/options');
+const { getOptions } = require('../src/site/stages/build/options');
 const build = require('../src/site/stages/build');
 
 // If help, echo the options

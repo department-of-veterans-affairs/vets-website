@@ -115,4 +115,4 @@ queryParamToBeChanged.forEach(param => {
 });
 
 const regex = new RegExp(`${regString}`, 'g');
-module.exports = query.replace(regex, updateQueryString);
+module.exports = query.then(q => q.replace(regex, updateQueryString));

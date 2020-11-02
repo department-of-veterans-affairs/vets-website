@@ -141,6 +141,12 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
  * @return {Object} - The result of the GraphQL query
  */
 async function getSideNavsViaGraphQL(buildOptions = global.buildOptions) {
+  const { getOptions } = require('../options');
+
+  if (!buildOptions) {
+    buildOptions = await getOptions();
+  }
+
   global.buildtype = buildOptions.buildtype;
   let sideNavs;
 
@@ -150,7 +156,7 @@ async function getSideNavsViaGraphQL(buildOptions = global.buildOptions) {
     'side-nav-menus.json',
   );
 
-  if (shouldPullDrupal(buildOptions)) {
+  if (shouldPullDrupal(buildOptions) || !fs.existsSync(sideNavFile)) {
     const contentApi = getApiClient(buildOptions);
     log('Pulling side nav menus from Drupal...');
     const response = await contentApi.getSideNavigations();
@@ -160,7 +166,7 @@ async function getSideNavsViaGraphQL(buildOptions = global.buildOptions) {
     fs.emptyDirSync(path.dirname(sideNavFile));
     fs.writeJsonSync(sideNavFile, sideNavs, { spaces: 2 });
   } else {
-    log('Using cached side navs');
+    log(`Using cached side navs in ${sideNavFile}`);
     sideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
   }
 

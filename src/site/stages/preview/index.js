@@ -8,7 +8,7 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const registerLiquidFilters = require('../../filters/liquid');
 
-const getOptions = require('../build/options');
+const { getOptions } = require('../build/options');
 const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
 const addNonceToScripts = require('../build/plugins/add-nonce-to-scripts');
