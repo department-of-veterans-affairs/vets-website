@@ -39,7 +39,7 @@ export const ServerErrorAlertContent = (
     </p>
     <p>
       If you get this error again, please call the VA.gov help desk at{' '}
-      <Telephone contact={8446982311} />
+      <Telephone contact={CONTACTS.VA_311} />
       (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET
     </p>

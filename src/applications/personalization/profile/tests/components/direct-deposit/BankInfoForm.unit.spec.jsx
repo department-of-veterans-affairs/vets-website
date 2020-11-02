@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import BankInfoForm, {
   schema,
   uiSchema,
-} from 'applications/personalization/profile/components/direct-deposit/BankInfoForm';
+} from '@@profile/components/direct-deposit/BankInfoForm';
 
 describe('<BankInfoForm/>', () => {
   let wrapper;
