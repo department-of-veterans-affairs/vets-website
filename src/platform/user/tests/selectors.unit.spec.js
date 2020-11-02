@@ -245,6 +245,28 @@ describe('user selectors', () => {
     });
   });
 
+  describe('selectVeteranStatus', () => {
+    it('pulls out the veteranStatus object', () => {
+      const state = {
+        user: {
+          profile: {
+            veteranStatus: {
+              status: 'OK',
+              isVeteran: true,
+              servedInMilitary: true,
+            },
+          },
+        },
+      };
+      const expected = {
+        status: 'OK',
+        isVeteran: true,
+        servedInMilitary: true,
+      };
+      expect(selectors.selectVeteranStatus(state)).to.deep.equal(expected);
+    });
+  });
+
   describe('selectPatientFacilities', () => {
     it('pulls out the state.profile.facilities array', () => {
       const state = {
@@ -460,7 +482,9 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            status: 'SERVER_ERROR',
+            veteranStatus: {
+              status: 'SERVER_ERROR',
+            },
           },
         },
       };
@@ -470,7 +494,9 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            status: 'ERROR',
+            veteranStatus: {
+              status: 'ERROR',
+            },
           },
         },
       };

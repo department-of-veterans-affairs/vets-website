@@ -88,20 +88,16 @@ export function mapRawUserDataToState(json) {
       ? vet360ContactInformation
       : mockContactInformation,
     session,
+    veteranStatus: {},
   };
 
   if (meta && veteranStatus === null) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.EMIS,
     ).status;
-    userState.veteranStatus = getErrorStatusDesc(errorStatus);
+    userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {
-    userState.isVeteran = veteranStatus.isVeteran;
-    userState.veteranStatus = {
-      isVeteran: veteranStatus.isVeteran,
-      veteranStatus,
-      servedInMilitary: veteranStatus.servedInMilitary,
-    };
+    userState.veteranStatus = { ...veteranStatus };
   }
 
   if (meta && vaProfile === null) {
