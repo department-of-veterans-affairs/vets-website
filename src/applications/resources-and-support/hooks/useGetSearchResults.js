@@ -24,15 +24,11 @@ export default function useGetSearchResults(articles, query, page) {
         });
 
       const filteredArticles = articles.filter(article => {
-        const tags = article.fieldTags?.entity?.fieldTopics
-          ?.map(topic => topic.entity.name)
-          .join();
+        const articleTitleKeywords = article.title.toLowerCase().split(' ');
 
-        return keywords.some(k => {
-          return (
-            article.title.toLowerCase().includes(k) ||
-            article.fieldPrimaryCategory?.entity?.name?.includes(k) ||
-            tags?.includes(k)
+        return keywords.some(keyword => {
+          return articleTitleKeywords.some(titleWord =>
+            titleWord.startsWith(keyword),
           );
         });
       });
