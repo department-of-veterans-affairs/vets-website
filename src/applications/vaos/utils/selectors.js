@@ -3,27 +3,24 @@ import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   selectPatientFacilities,
-  selectIsCernerOnlyPatient,
-  selectIsCernerPatient,
   selectVet360ResidentialAddress,
+  selectCernerAppointmentsFacilities,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
-
 import {
   getTimezoneBySystemId,
   getTimezoneDescBySystemId,
   getTimezoneAbbrBySystemId,
 } from './timezone';
-
-import { isEligible } from './eligibility';
+import { isEligible } from '../new-appointment/redux/helpers/eligibility';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
-  AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
   APPOINTMENT_STATUS,
+  AUDIOLOGY_TYPES_OF_CARE,
 } from './constants';
 import {
   getRootOrganization,
@@ -41,6 +38,16 @@ import {
   sortUpcoming,
   getVARFacilityId,
 } from '../services/appointment';
+
+export const selectIsCernerOnlyPatient = state =>
+  !!selectPatientFacilities(state)?.every(
+    f => f.isCerner && f.usesCernerAppointments,
+  );
+
+export const selectIsCernerPatient = state =>
+  selectPatientFacilities(state)?.some(
+    f => f.isCerner && f.usesCernerAppointments,
+  );
 
 export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
@@ -306,7 +313,7 @@ export function hasSingleValidVALocation(state) {
 }
 
 export function selectCernerOrgIds(state) {
-  const cernerSites = selectPatientFacilities(state)?.filter(f => f.isCerner);
+  const cernerSites = selectCernerAppointmentsFacilities(state);
   return getNewAppointment(state)
     .parentFacilities?.filter(parent => {
       const facilityId = getSiteIdFromOrganization(parent);
@@ -469,9 +476,9 @@ export function getCancelInfo(state) {
   let isCerner = null;
   if (appointmentToCancel) {
     const facilityId = getVARFacilityId(appointmentToCancel);
-    isCerner = selectPatientFacilities(state)
-      ?.filter(f => f.isCerner)
-      .some(cernerSite => facilityId?.startsWith(cernerSite.facilityId));
+    isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
+      facilityId?.startsWith(cernerSite.facilityId),
+    );
   }
 
   return {
@@ -499,7 +506,7 @@ export function getChosenVACityState(state) {
   return null;
 }
 
-export const isWelcomeModalDismissed = state =>
+export const selectIsWelcomeModalDismissed = state =>
   state.announcements.dismissed.some(
     announcement => announcement === 'welcome-to-new-vaos',
   );

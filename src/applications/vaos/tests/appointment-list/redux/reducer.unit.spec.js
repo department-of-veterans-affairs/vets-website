@@ -340,9 +340,6 @@ describe('VAOS reducer: appointments', () => {
       const newState = appointmentsReducer(initialState, action);
 
       expect(newState.showCancelModal).to.be.false;
-      expect(newState.cancelAppointmentStatus).to.equal(
-        FETCH_STATUS.notStarted,
-      );
     });
   });
   it('should reset confirmed and pending appt status after form submission', () => {

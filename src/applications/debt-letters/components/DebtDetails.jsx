@@ -34,7 +34,7 @@ class DebtDetails extends Component {
       return window.location.replace('/manage-va-debt/your-debt');
     }
 
-    const nextStep = renderAdditionalInfo(
+    const additionalInfo = renderAdditionalInfo(
       selectedDebt.diaryCode,
       mostRecentHistory.date,
     );
@@ -85,26 +85,22 @@ class DebtDetails extends Component {
               </div>
             </div>
 
-            {nextStep ? (
-              <div className="debt-details-nextstep">{nextStep}</div>
-            ) : (
-              <AlertBox
-                className="vads-u-margin-y--4 debt-details-alert"
-                headline="Lorem ipsum dolor sit"
-                content={
-                  <>
-                    <p>
-                      <strong>Lorem ipsum dolor sit.</strong> Ducimus, maxime.
-                      Maxime neque alias unde totam beatae repellat aliquam
-                      ipsam, quas tempore nostrum et facere? Nulla nisi dolorum
-                      maiores molestiae fugiat.
-                    </p>
-                  </>
-                }
-                status="info"
-                level={2}
-              />
-            )}
+            {additionalInfo &&
+              (additionalInfo.nextStep ? (
+                <div className="debt-details-nextstep">
+                  {additionalInfo.nextStep}
+                </div>
+              ) : (
+                additionalInfo.headline && (
+                  <AlertBox
+                    className="vads-u-margin-y--4 debt-details-alert"
+                    headline={additionalInfo.headline}
+                    content={additionalInfo.content}
+                    status="info"
+                    level={2}
+                  />
+                )
+              ))}
 
             <AdditionalInfo triggerText="Why might I have this debt?">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi

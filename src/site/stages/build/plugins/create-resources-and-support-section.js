@@ -4,6 +4,8 @@ const _ = require('lodash');
 const liquid = require('tinyliquid');
 
 const ENVIRONMENTS = require('../../../constants/environments');
+const { ENTITY_BUNDLES } = require('../../../constants/content-modeling');
+
 const { logDrupal } = require('../drupal/utilities-drupal');
 
 const PAGE_SIZE = 10;
@@ -23,20 +25,31 @@ const BREADCRUMB_BASE_PATH = [
   },
 ];
 
-const BUNDLE_TYPES = new Set([
-  'step_by_step',
-  'faq_multiple_q_a',
-  'q_a',
-  'checklist',
-  'media_list_images',
-  'media_list_videos',
-  'support_resources_detail_page',
+const entityBundlesForResourcesAndSupport = new Set([
+  ENTITY_BUNDLES.STEP_BY_STEP,
+  ENTITY_BUNDLES.FAQ_MULTIPLE_Q_A,
+  ENTITY_BUNDLES.Q_A,
+  ENTITY_BUNDLES.CHECKLIST,
+  ENTITY_BUNDLES.MEDIA_LIST_IMAGES,
+  ENTITY_BUNDLES.MEDIA_LIST_VIDEOS,
+  ENTITY_BUNDLES.SUPPORT_RESOURCES_DETAIL_PAGE,
 ]);
 
 function getArticlesBelongingToResourcesAndSupportSection(files) {
   return Object.entries(files)
-    .filter(([_fileName, file]) => BUNDLE_TYPES.has(file.entityBundle))
+    .filter(([_fileName, file]) =>
+      entityBundlesForResourcesAndSupport.has(file.entityBundle),
+    )
     .map(([_fileName, file]) => file);
+}
+
+function excludeQaNodesThatAreNotStandalonePages(files) {
+  for (const [fileName, file] of Object.entries(files)) {
+    if (file.entityBundle === ENTITY_BUNDLES.Q_A && !file.fieldStandalonePage) {
+      logDrupal(`excluding QA node ${file.entityId} from build`);
+      delete files[fileName];
+    }
+  }
 }
 
 function groupByTags(allArticles) {
@@ -46,11 +59,17 @@ function groupByTags(allArticles) {
   for (const article of allTaggedArticles) {
     const {
       fieldTags: {
-        entity: { fieldTopics },
+        entity: { fieldTopics, fieldAudienceBeneficiares },
       },
     } = article;
 
-    fieldTopics.map(fieldTopic => fieldTopic.entity).forEach(fieldTopic => {
+    const terms = [...fieldTopics];
+
+    if (fieldAudienceBeneficiares) {
+      terms.push(fieldAudienceBeneficiares);
+    }
+
+    terms.map(fieldTopic => fieldTopic.entity).forEach(fieldTopic => {
       const articleListing = articleListingsByTag[fieldTopic.name];
 
       if (!articleListing) {
@@ -317,6 +336,7 @@ function createResourcesAndSupportWebsiteSection(buildOptions) {
   }
 
   return files => {
+    excludeQaNodesThatAreNotStandalonePages(files);
     createArticleListingsPages(files);
     createSearchResults(files);
   };

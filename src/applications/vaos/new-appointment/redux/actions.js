@@ -7,7 +7,6 @@ import {
   selectVet360EmailAddress,
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
-  selectIsCernerOnlyPatient,
   selectVet360ResidentialAddress,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
@@ -24,6 +23,7 @@ import {
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
+  selectIsCernerOnlyPatient,
 } from '../../utils/selectors';
 import {
   getPreferences,
@@ -52,33 +52,28 @@ import {
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
-  GA_FLOWS,
 } from '../../utils/constants';
+import { createPreferenceBody } from '../../utils/data';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
   transformFormToAppointment,
-  createPreferenceBody,
-} from '../../utils/data';
-
+} from './helpers/formSubmitTransformers';
 import {
   getEligibilityData,
   recordEligibilityGAEvents,
   logEligibilityExplanation,
-} from '../../utils/eligibility';
-
+} from './helpers/eligibility';
 import {
-  recordEligibilityFailure,
   resetDataLayer,
   recordItemsRetrieved,
+  recordEligibilityFailure,
 } from '../../utils/events';
-
 import {
   captureError,
   getErrorCodes,
   has400LevelError,
 } from '../../utils/error';
-
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
@@ -89,6 +84,12 @@ import {
 function parseFakeFHIRId(id) {
   return id.replace('var', '');
 }
+
+export const GA_FLOWS = {
+  DIRECT: 'direct',
+  VA_REQUEST: 'va-request',
+  CC_REQUEST: 'cc-request',
+};
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -153,10 +154,10 @@ export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
   'newAppointment/FORM_CALENDAR_FETCH_SLOTS_FAILED';
 export const FORM_CALENDAR_DATA_CHANGED =
   'newAppointment/FORM_CALENDAR_DATA_CHANGED';
-export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
-  'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
-export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
-  'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
+export const FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
+export const FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
 export const FORM_HIDE_ELIGIBILITY_MODAL =
   'newAppointment/FORM_HIDE_ELIGIBILITY_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
@@ -206,15 +207,15 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function showTypeOfCareUnavailableModal() {
+export function showPodiatryAppointmentUnavailableModal() {
   return {
-    type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    type: FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   };
 }
 
-export function hideTypeOfCareUnavailableModal() {
+export function hidePodiatryAppointmentUnavailableModal() {
   return {
-    type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    type: FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   };
 }
 

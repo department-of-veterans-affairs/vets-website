@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { ENTITY_BUNDLES } from './constants';
+import { ENTITY_BUNDLES } from 'site/constants/content-modeling';
 
 export const TaxonomyTerm = PropTypes.shape({
   entityUrl: PropTypes.shape({
@@ -26,6 +26,9 @@ export const Article = PropTypes.shape({
   ),
   fieldTags: PropTypes.shape({
     entity: PropTypes.shape({
+      fieldAudienceBeneficiares: PropTypes.shape({
+        entity: TaxonomyTerm,
+      }),
       fieldTopics: PropTypes.arrayOf(
         PropTypes.shape({
           entity: TaxonomyTerm,

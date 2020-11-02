@@ -5,8 +5,8 @@ import { setupServer } from 'msw/node';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
 
-import * as mocks from '../../../msw-mocks';
-import PersonalInformation from '../../../components/personal-information/PersonalInformation';
+import * as mocks from '@@profile/msw-mocks';
+import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
 import {
   createBasicInitialState,
@@ -65,21 +65,7 @@ describe('When enrolled in health care', () => {
   beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
     const initialState = createBasicInitialState();
-    initialState.hcaEnrollmentStatus = {
-      applicationDate: '2006-01-30T00:00:00.000-06:00',
-      enrollmentDate: '2006-03-20T00:00:00.000-06:00',
-      preferredFacility: '626A4 - ALVIN C. YORK VAMC',
-      enrollmentStatus: 'enrolled',
-      enrollmentStatusEffectiveDate: '2018-04-28T18:21:56.000-05:00',
-      dismissedNotificationDate: null,
-      hasServerError: false,
-      isLoadingApplicationStatus: false,
-      isLoadingDismissedNotification: false,
-      isUserInMVI: true,
-      loginRequired: true,
-      noESRRecordFound: false,
-      showHCAReapplyContent: false,
-    };
+    initialState.user.profile.vaPatient = true;
     view = renderWithProfileReducers(ui, {
       initialState,
     });
