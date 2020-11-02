@@ -62,7 +62,6 @@ function VAFacilityPageV2({
   routeToNextAppointmentPage,
   schema,
   selectedFacility,
-  showEligibilityLoadingOverlay,
   showEligibilityModal,
   singleValidVALocation,
   sortMethod,
@@ -302,7 +301,7 @@ function VAFacilityPageV2({
         )}
 
       <LoadingOverlay
-        show={showEligibilityLoadingOverlay}
+        show={loadingEligibility}
         message="We’re checking if we can create an appointment for you at this
                 facility. This may take up to a minute. Thank you for your
                 patience."

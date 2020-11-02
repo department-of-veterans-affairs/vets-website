@@ -159,8 +159,6 @@ export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_ELIGIBILITY_MODAL =
   'newAppointment/FORM_HIDE_ELIGIBILITY_MODAL';
-export const FORM_SHOW_ELIGIBILITY_LOADING_OVERLAY =
-  'newAppointment/FORM_SHOW_ELIGIBILITY_LOADING_OVERLAY';
 export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED';
 export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
@@ -301,11 +299,6 @@ export function checkEligibility(location, siteId) {
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
     });
-
-    setTimeout(
-      () => dispatch({ type: FORM_SHOW_ELIGIBILITY_LOADING_OVERLAY }),
-      3000,
-    );
 
     try {
       const eligibilityData = await getEligibilityData(

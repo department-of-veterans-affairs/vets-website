@@ -369,7 +369,6 @@ export function getFacilityPageV2Info(state) {
     requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: facilities?.length === 1,
-    showEligibilityLoadingOverlay: newAppointment.showEligibilityLoadingOverlay,
     showEligibilityModal: facilities?.length > 1 && showEligibilityModal,
     sortMethod: facilityPageSortMethod,
     typeOfCare: typeOfCare?.name,
