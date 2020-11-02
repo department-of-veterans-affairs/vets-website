@@ -1,4 +1,4 @@
-const { getDrupalValue, getImageCrop  } = require('./helpers');
+const { getDrupalValue, getImageCrop } = require('./helpers');
 
 const transform = entity => ({
   entity: {
