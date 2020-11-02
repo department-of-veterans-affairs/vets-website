@@ -432,7 +432,7 @@ export function initExpressCareMocks() {
   });
 }
 
-export function initVAAppointmentMock(facilityPageV2Enabled) {
+export function initVAAppointmentMock({ facilityPageV2Enabled = false } = {}) {
   setupSchedulingMocks({ facilityPageV2Enabled });
   mockRequestLimits();
   mockVisits();
