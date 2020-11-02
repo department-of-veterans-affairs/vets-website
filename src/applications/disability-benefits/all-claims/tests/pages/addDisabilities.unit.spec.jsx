@@ -96,7 +96,6 @@ describe('Add new disabilities', () => {
             'view:claimingNew': true,
             'view:claimingIncrease': false,
           },
-          'view:newDisabilities': true,
           newDisabilities: [],
           // previously selected rated disability
           ratedDisabilities: [{}, { 'view:selected': true }],
@@ -124,7 +123,6 @@ describe('Add new disabilities', () => {
             'view:claimingNew': true,
             'view:claimingIncrease': true,
           },
-          'view:newDisabilities': true,
           newDisabilities: [],
           // no rated disability selected
           ratedDisabilities: [{}, {}],
