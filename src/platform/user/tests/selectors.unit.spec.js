@@ -457,9 +457,7 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            veteranStatus: {
-              status: 'OK',
-            },
+            status: 'OK',
           },
         },
       };
@@ -469,9 +467,7 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            veteranStatus: {
-              status: 'blah',
-            },
+            status: 'blah',
           },
         },
       };

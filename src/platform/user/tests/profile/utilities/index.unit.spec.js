@@ -159,7 +159,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.veteranStatus.status).to.equal('SERVER_ERROR');
+      expect(mappedData.status).to.equal('SERVER_ERROR');
     });
 
     it('should handle veteran status error', () => {
@@ -177,7 +177,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.status).to.equal('NOT_FOUND');
+      expect(mappedData.veteranStatus.status).to.equal('NOT_FOUND');
     });
 
     it('should handle vet 360 error', () => {
