@@ -236,4 +236,6 @@ async function getOptions(commandLineOptions) {
   return options;
 }
 
-module.exports = getOptions;
+module.exports = {
+  getOptions,
+};
