@@ -29,6 +29,10 @@ import FutureAppointmentsList from '../FutureAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import ExpressCareList from '../ExpressCareList';
 import PageLayout from './PageLayout';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
+import WarningNotification from '../../../components/WarningNotification';
 
 const pageTitle = 'VA appointments';
 
@@ -104,6 +108,15 @@ function AppointmentsPage({
   return (
     <PageLayout>
       <h1 className="vads-u-flex--1">{pageTitle}</h1>
+      <DowntimeNotification
+        appTitle="VA online scheduling tool"
+        isReady
+        dependencies={[externalServices.vaosWarning]}
+        render={(props, childContent) => (
+          <WarningNotification {...props}>{childContent}</WarningNotification>
+        )}
+      />
+
       {showScheduleButton && (
         <ScheduleNewAppointment
           isCernerOnlyPatient={isCernerOnlyPatient}
