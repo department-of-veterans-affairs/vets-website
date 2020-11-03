@@ -76,10 +76,10 @@ export function transform(formConfig, form) {
   const correctedForm = {
     ...form,
     data: {
-      ...form.data,
+      ...form?.data,
       claimantAddress: {
-        ...form.data.claimantAddress,
-        country: transformCountryCode(form.data.claimantAddress.country),
+        ...form?.data?.claimantAddress,
+        country: transformCountryCode(form?.data?.claimantAddress?.country),
       },
     },
   };
