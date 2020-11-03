@@ -91,11 +91,11 @@ export class IntroductionPage extends React.Component {
                     </ul>
                     <p>
                       <strong>
-                        What if I need help filling out my application?
+                        What if I need help filling out my application?{' '}
                       </strong>
                       An accredited individual, like a Veterans Service Officer
                       (VSO), or a Veteran representative at your school, can
-                      help you fill out your claim.
+                      help you fill out your claim.{' '}
                       <a href="/disability/get-help-filing-claim/">
                         Get help filing your claim
                       </a>
