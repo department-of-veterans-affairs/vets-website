@@ -10,7 +10,7 @@ import {
   hasMVIError,
   hasMVINotFoundError,
   hasVAProfileInitError,
-} from '@@vet360/util/transactions';
+} from '@@vap-svc/util/transactions';
 
 export function GenericUpdateError(props) {
   return (
