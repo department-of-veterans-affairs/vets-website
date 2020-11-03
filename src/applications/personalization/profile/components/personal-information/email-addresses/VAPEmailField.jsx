@@ -6,7 +6,7 @@ import { API_ROUTES, FIELD_NAMES } from '@@vet360/constants';
 import VAPProfileField from '../VAPProfileField';
 
 import EmailEditView from './EmailEditView';
-import EmailView from 'platform/user/profile/vet360/components/EmailField/EmailView';
+import EmailView from '@@vet360/components/EmailField/EmailView';
 
 const formSchema = {
   type: 'object',
