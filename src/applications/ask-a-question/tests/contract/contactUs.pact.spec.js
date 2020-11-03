@@ -5,13 +5,13 @@ import contractTest from 'platform/testing/contract';
 import { submitForm } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../../form/form';
-import minimalData from '../cypress/fixtures/data/minimal-test.json';
+import generalQuestionData from '../cypress/fixtures/data/general-question.json';
 
 contractTest('Contact Us', 'VA.gov API', mockApi => {
   describe('POST /ask/asks', () => {
     it('responds with 201 when submitting form', async () => {
-      minimalData.data.veteranStatus.veteranStatus = 'general';
-      delete minimalData.data['view:email'];
+      generalQuestionData.data.veteranStatus.veteranStatus = 'general';
+      delete generalQuestionData.data['view:email'];
 
       await mockApi().addInteraction({
         state: 'minimum required data',
@@ -25,7 +25,7 @@ contractTest('Contact Us', 'VA.gov API', mockApi => {
           },
           body: {
             inquiry: {
-              form: JSON.stringify(minimalData.data),
+              form: JSON.stringify(generalQuestionData.data),
             },
           },
         },
@@ -43,7 +43,7 @@ contractTest('Contact Us', 'VA.gov API', mockApi => {
           }),
         },
       });
-      const form = minimalData;
+      const form = generalQuestionData;
 
       const dispatch = sinon.stub();
 
