@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -7,14 +7,10 @@ import EligibilityCheckMessage from './VAFacilityPage/EligibilityCheckMessage';
 import FacilityAddress from '../../components/FacilityAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { FETCH_STATUS } from '../../utils/constants';
+import * as actions from '../redux/actions';
 
-import {
-  openClinicPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-} from '../redux/actions';
 import { getClinicPageInfo } from '../../utils/selectors';
+import { useHistory } from 'react-router-dom';
 
 export function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -34,7 +30,6 @@ function getPageTitle(schema, typeOfCare) {
   }
   return pageTitle;
 }
-
 const initialSchema = {
   type: 'object',
   required: ['clinicId'],
@@ -45,131 +40,100 @@ const initialSchema = {
     },
   },
 };
-
 const uiSchema = {
   clinicId: {
     'ui:widget': 'radio',
   },
 };
-
 const pageKey = 'clinicChoice';
-
-export class ClinicChoicePage extends React.Component {
-  componentDidMount() {
-    this.props.openClinicPage(pageKey, uiSchema, initialSchema);
+export function ClinicChoicePage({
+  schema,
+  data,
+  facilityDetails,
+  typeOfCare,
+  clinics,
+  eligibility,
+  canMakeRequests,
+  openClinicPage,
+  updateFormData,
+  facilityDetailsStatus,
+  pageChangeInProgress,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+}) {
+  const history = useHistory();
+  const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
+  const usingUnsupportedRequestFlow =
+    data.clinicId === 'NONE' && !canMakeRequests;
+  useEffect(() => {
+    document.title = `${getPageTitle(schema, typeOfCare)} | Veterans Affairs`;
+    openClinicPage(pageKey, uiSchema, initialSchema);
     scrollAndFocus();
+  }, []);
+
+  if (!schema || facilityDetailsStatus === FETCH_STATUS.loading) {
+    return <LoadingIndicator message="Loading your facility and clinic info" />;
   }
 
-  componentDidUpdate(oldProps) {
-    const previouslyLoading =
-      !oldProps.schema ||
-      oldProps.facilityDetailsStatus === FETCH_STATUS.loading;
-    const currentlyLoading =
-      !this.props.schema ||
-      this.props.facilityDetailsStatus === FETCH_STATUS.loading;
-
-    if (previouslyLoading && !currentlyLoading) {
-      scrollAndFocus();
-      document.title = `${getPageTitle(
-        this.props.schema,
-        this.props.typeOfCare,
-      )} | Veterans Affairs`;
-    }
-  }
-
-  goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
-  };
-
-  goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
-  };
-
-  render() {
-    const {
-      schema,
-      data,
-      pageChangeInProgress,
-      facilityDetails,
-      typeOfCare,
-      clinics,
-      facilityDetailsStatus,
-      eligibility,
-      canMakeRequests,
-    } = this.props;
-
-    if (!schema || facilityDetailsStatus === FETCH_STATUS.loading) {
-      return (
-        <LoadingIndicator message="Loading your facility and clinic info" />
-      );
-    }
-
-    const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
-    const usingUnsupportedRequestFlow =
-      data.clinicId === 'NONE' && !canMakeRequests;
-
-    return (
-      <div>
-        {schema.properties.clinicId.enum.length === 2 && (
-          <>
-            <h1 className="vads-u-font-size--h2">
-              {getPageTitle(schema, typeOfCare)}
-            </h1>
-            Your last {typeOfCareLabel} appointment was at{' '}
-            {clinics[0].clinicFriendlyLocationName || clinics[0].clinicName}:
-            {facilityDetails && (
-              <p>
-                <FacilityAddress
-                  name={facilityDetails.name}
-                  facility={facilityDetails}
-                />
-              </p>
-            )}
-          </>
-        )}
-        {schema.properties.clinicId.enum.length > 2 && (
-          <>
-            <h1 className="vads-u-font-size--h2">
-              {getPageTitle(schema, typeOfCare)}
-            </h1>
-            In the last 24 months you have had a {typeOfCareLabel} appointment
-            in the following clinics, located at:
-            {facilityDetails && (
-              <div className="vads-u-margin-y--2p5">
-                <FacilityAddress
-                  name={facilityDetails.name}
-                  facility={facilityDetails}
-                />
-              </div>
-            )}
-          </>
-        )}
-        <SchemaForm
-          name="Clinic choice"
-          title="Clinic choice"
-          schema={schema}
-          uiSchema={uiSchema}
-          onSubmit={this.goForward}
-          onChange={newData =>
-            this.props.updateFormData(pageKey, uiSchema, newData)
-          }
-          data={data}
-        >
-          {usingUnsupportedRequestFlow && (
-            <div className="vads-u-margin-top--2">
-              <EligibilityCheckMessage eligibility={eligibility} />
+  return (
+    <div>
+      {schema.properties.clinicId.enum.length === 2 && (
+        <>
+          <h1 className="vads-u-font-size--h2">
+            {getPageTitle(schema, typeOfCare)}
+          </h1>
+          Your last {typeOfCareLabel} appointment was at{' '}
+          {clinics[0].clinicFriendlyLocationName || clinics[0].clinicName}:
+          {facilityDetails && (
+            <p>
+              <FacilityAddress
+                name={facilityDetails.name}
+                facility={facilityDetails}
+              />
+            </p>
+          )}
+        </>
+      )}
+      {schema.properties.clinicId.enum.length > 2 && (
+        <>
+          <h1 className="vads-u-font-size--h2">
+            {getPageTitle(schema, typeOfCare)}
+          </h1>
+          In the last 24 months you have had a {typeOfCareLabel} appointment in
+          the following clinics, located at:
+          {facilityDetails && (
+            <div className="vads-u-margin-y--2p5">
+              <FacilityAddress
+                name={facilityDetails.name}
+                facility={facilityDetails}
+              />
             </div>
           )}
-          <FormButtons
-            onBack={this.goBack}
-            disabled={usingUnsupportedRequestFlow}
-            pageChangeInProgress={pageChangeInProgress}
-            loadingText="Page change in progress"
-          />
-        </SchemaForm>
-      </div>
-    );
-  }
+        </>
+      )}
+      <SchemaForm
+        name="Clinic choice"
+        title="Clinic choice"
+        schema={schema}
+        uiSchema={uiSchema}
+        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+        onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+        data={data}
+      >
+        {usingUnsupportedRequestFlow && (
+          <div className="vads-u-margin-top--2">
+            <EligibilityCheckMessage eligibility={eligibility} />
+          </div>
+        )}
+        <FormButtons
+          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+          disabled={usingUnsupportedRequestFlow}
+          pageChangeInProgress={pageChangeInProgress}
+          loadingText="Page change in progress"
+        />
+      </SchemaForm>
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
@@ -177,10 +141,10 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  openClinicPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
+  openClinicPage: actions.openClinicPage,
+  updateFormData: actions.updateFormData,
+  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
 };
 
 export default connect(
