@@ -9,6 +9,7 @@ import { getFormPageInfo } from '../../utils/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
+import { useHistory } from 'react-router-dom';
 
 const initialSchema = {
   default: {
@@ -68,15 +69,15 @@ const pageKey = 'reasonForAppointment';
 
 function ReasonForAppointmentPage({
   data,
-  history,
   openReasonForAppointment,
   pageChangeInProgress,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   schema,
   updateFormData,
-  isCommunityCare,
 }) {
+  const history = useHistory();
+  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
@@ -141,11 +142,7 @@ function ReasonForAppointmentPage({
 }
 
 function mapStateToProps(state) {
-  return {
-    ...getFormPageInfo(state),
-    isCommunityCare:
-      state.newAppointment.facilityType === FACILITY_TYPES.COMMUNITY_CARE,
-  };
+  return getFormPageInfo(state);
 }
 
 const mapDispatchToProps = {
