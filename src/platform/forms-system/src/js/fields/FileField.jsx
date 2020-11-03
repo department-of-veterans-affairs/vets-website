@@ -120,7 +120,7 @@ class FileField extends React.Component {
         file => {
           // formData is undefined initially
           const { formData = [], onChange } = this.props;
-          formData[idx] = file;
+          formData[idx] = { ...file, isEncrypted: !!password };
           onChange(formData);
           this.uploadRequest = null;
         },
@@ -251,13 +251,15 @@ class FileField extends React.Component {
                 errorSchema,
               );
               const attachmentNameErrors = _.get([index, 'name'], errorSchema);
+              // feature flag
+              const showPasswordContent =
+                requestLockedPdfPassword && file.isEncrypted;
               const showPasswordInput =
-                requestLockedPdfPassword && // feature flag
-                (files[index].isEncrypted || // needs password
-                  // incorrect password, returning error message
-                  (files[index].file && files[index].errorMessage));
+                showPasswordContent && !file.confirmationCode;
               const showPasswordSuccess =
-                requestLockedPdfPassword && !hasErrors;
+                showPasswordContent &&
+                !showPasswordInput &&
+                file.confirmationCode;
 
               if (showPasswordInput) {
                 setTimeout(() => {

@@ -265,7 +265,7 @@ export function uploadFile(
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
 
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange(fileData);
+        onChange({ ...fileData, isEncrypted: !!password });
       } else {
         let errorMessage = req.statusText;
         try {
@@ -287,6 +287,7 @@ export function uploadFile(
             file, // return file object to allow resubmit
             name: file.name,
             errorMessage,
+            isEncrypted: true,
           });
         } else {
           onChange({ name: file.name, errorMessage });
