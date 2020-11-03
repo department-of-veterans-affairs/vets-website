@@ -75,7 +75,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: false,
   downtime: {
-    dependencies: [externalServices.mvi],
+    dependencies: [externalServices.mvi, externalServices.carma],
   },
   title:
     'Apply for the Program of Comprehensive Assistance for Family Caregivers',

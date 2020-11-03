@@ -84,6 +84,7 @@ class DowntimeNotification extends React.Component {
 
   render() {
     const { customText } = this.props;
+    console.log('this.props: ', this.props);
 
     const appType = customText?.appType || APP_TYPE_DEFAULT;
 
