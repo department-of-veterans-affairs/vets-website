@@ -98,7 +98,7 @@ function ReasonForAppointmentPage({
         name="Reason for appointment"
         title="Reason for appointment"
         schema={schema || pageInitialSchema}
-        uiSchema={uiSchema}
+        uiSchema={pageUISchema}
         onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
         onChange={newData => updateFormData(pageKey, pageUISchema, newData)}
         data={data}
@@ -142,7 +142,7 @@ function ReasonForAppointmentPage({
 }
 
 function mapStateToProps(state) {
-  return getFormPageInfo(state);
+  return getFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {
