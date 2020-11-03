@@ -84,3 +84,40 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
   }
 }
+
+//=============================
+// Up To Top Button Styles 
+//=============================
+.vsa-top-button-container {
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  width: 100%;
+
+  .usa-content {
+    position: relative;
+  }
+
+  .vsa-top-button {
+    bottom: 0;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity 200ms ease-in;
+    right: 0;
+  }
+
+  .vsa-top-button.vsa-top-button-transition-in {
+    pointer-events: all;
+    opacity: 1;
+    transform: translateY(-12px);
+  }
+
+  .vsa-top-button.vsa-top-button-transition-out {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+}

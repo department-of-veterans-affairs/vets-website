@@ -7,13 +7,53 @@
 Used as quick navigate back to top for long article pages.
 
 1. To import button, use {% include "src/site/components/up_to_top_button.html" %}.
+2. The button needs to be absolutely positioned to w/e container 
 
 {% endcomment %}
 
-<button class="usa-button vads-u-background-color--gray-dark vads-u-display--flex vads-u-align-items--center">
-    <i class="fas fa-arrow-up vads-u-font-size--lg vads-u-margin-right--0 small-desktop-screen:vads-u-margin-right--1p5 small-desktop-screen:vads-u-font-size--sm"></i>
-    <p class="vads-u-display--none vads-u-color--white vads-u-margin--0 small-desktop-screen:vads-u-display--block">Back to top</p>
-</button>
-<script nonce="**CSP_NONCE**" type="text/javascript">
+<div class="vsa-top-button-container">
+    <div class="usa-grid usa-grid-full">
+        <div class="usa-width-three-fourths">
+            <div class="usa-content">
+                <button class="usa-button vads-u-background-color--gray-dark vsa-top-button vads-u-display--flex vads-u-align-items--center">
+                    <i class="fas fa-arrow-up vads-u-font-size--lg vads-u-margin-right--0 small-desktop-screen:vads-u-margin-right--1p5 small-desktop-screen:vads-u-font-size--sm"></i>
+                    <p class="vads-u-display--none vads-u-color--white vads-u-margin--0 small-desktop-screen:vads-u-display--block">Back to top</p>
+                </button>
+                <script nonce="**CSP_NONCE**" type="text/javascript">
+                    var container = document.querySelector('.vsa-top-button-container')
+                    var upToTopButton = "",
+                    threeFourthsContainer = "";
 
-</script>
+                    window.addEventListener('load', runScripts)
+
+
+                    function runScripts() {
+                        if(!container) return 
+                        
+                        initVars()
+                        window.addEventListener('scroll', scrollListener)
+                    }
+
+                    function initVars() {
+                        threeFourthsContainer = container.querySelector(".usa-width-three-fourths")
+                        upToTopButton = container.querySelector(".vsa-top-button")
+                    }
+
+                    function scrollListener() {
+                        var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+                        
+                        if(scrollTop > 600 && upToTopButton.classList.value.indexOf('vsa-top-button-transition-in') === -1) {
+                            upToTopButton.classList.add('vsa-top-button-transition-in')
+                            upToTopButton.classList.remove('vsa-top-button-transition-out')
+                        } else if (scrollTop < 600 && upToTopButton.classList.value.indexOf('vsa-top-button-transition-in') > -1) {
+                            upToTopButton.classList.add('vsa-top-button-transition-out')
+                            upToTopButton.classList.remove('vsa-top-button-transition-in')
+                        }
+
+                    }
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
