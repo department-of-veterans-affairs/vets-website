@@ -60,4 +60,6 @@ export default Object.freeze({
   showChapter36: 'show_chapter_36',
   showChapter31: 'show_chapter_31',
   form1995EduUpdates: 'form_1995_edu_updates',
+  form526ConfirmationEmail: 'form526_confirmation_email',
+  form526ConfirmationEmailShowCopy: 'form526_confirmation_email_show_copy',
 });
