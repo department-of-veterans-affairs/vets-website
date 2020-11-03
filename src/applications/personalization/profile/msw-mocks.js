@@ -1629,6 +1629,11 @@ export const toggleSMSNotificationsSuccess = (enrolled = true) => {
                 loa: { current: 3, highest: 3 },
                 multifactor: true,
                 verified: true,
+                veteranStatus: {
+                  status: 'OK',
+                  isVeteran: true,
+                  servedInMilitary: true,
+                },
                 signIn: {
                   serviceName: 'idme',
                   accountType: 'N/A',
@@ -1647,11 +1652,6 @@ export const toggleSMSNotificationsSuccess = (enrolled = true) => {
                 facilities: [{ facilityId: '983', isCerner: false }],
                 vaPatient: true,
                 mhvAccountState: 'NONE',
-              },
-              veteranStatus: {
-                status: 'OK',
-                isVeteran: true,
-                servedInMilitary: true,
               },
               inProgressForms: [],
               prefillsAvailable: [],
