@@ -8,7 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   expiredMessage,
-  inProgressMessage,
+  inProgressMessage as getInProgressMessage,
 } from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 import recordEvent from 'platform/monitoring/record-event';
 import _ from 'platform/utilities/data';
@@ -56,6 +56,7 @@ class SaveInProgressIntro extends React.Component {
         const expiresAt = moment.unix(savedForm.metadata.expiresAt);
         const expirationDate = expiresAt.format('MMM D, YYYY');
         const isExpired = expiresAt.isBefore();
+        const inProgressMessage = getInProgressMessage(formConfig);
 
         if (!isExpired) {
           const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
@@ -67,10 +68,14 @@ class SaveInProgressIntro extends React.Component {
                   <strong>Your {appType} is in progress</strong>
                 </div>
                 <div className="saved-form-metadata-container">
-                  <span className="saved-form-item-metadata">
-                    {inProgressMessage(formConfig)}
-                  </span>
-                  <br />
+                  {inProgressMessage && (
+                    <>
+                      <span className="saved-form-item-metadata">
+                        {inProgressMessage}
+                      </span>
+                      <br />
+                    </>
+                  )}
                   <span className="saved-form-item-metadata">
                     Your {appType} was last saved on {lastSavedDateTime}
                   </span>
