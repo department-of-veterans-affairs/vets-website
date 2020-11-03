@@ -141,12 +141,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
  * @return {Object} - The result of the GraphQL query
  */
 async function getSideNavsViaGraphQL(buildOptions = global.buildOptions) {
-  const { getOptions } = require('../options');
-
-  if (!buildOptions) {
-    buildOptions = await getOptions();
-  }
-
   global.buildtype = buildOptions.buildtype;
   let sideNavs;
 
