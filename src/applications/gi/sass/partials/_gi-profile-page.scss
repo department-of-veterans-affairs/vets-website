@@ -456,6 +456,13 @@
       .location-cell,
       .estimated-housing-cell {
         margin-left: -1px;
+        display: flex;
+      }
+
+      .location-cell dfn,
+      .estimated-housing-cell dfn {
+        padding-right: 0.2em;
+        white-space: nowrap;
       }
 
       .extension-row {

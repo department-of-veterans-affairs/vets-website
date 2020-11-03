@@ -1,7 +1,7 @@
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
-import profile from 'applications/personalization/profile/reducers';
-import connectedApps from 'applications/personalization/profile/components/connected-apps/reducers/connectedApps';
+import profile from '@@profile/reducers';
+import connectedApps from '@@profile/components/connected-apps/reducers/connectedApps';
 
 export function wait(timeout) {
   return new Promise(resolve => {

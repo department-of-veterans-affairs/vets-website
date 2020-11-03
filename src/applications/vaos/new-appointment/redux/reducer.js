@@ -45,8 +45,8 @@ import {
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
@@ -295,17 +295,17 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+    case FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
       return {
         ...state,
-        showTypeOfCareUnavailableModal: true,
+        showPodiatryAppointmentUnavailableModal: true,
         pageChangeInProgress: false,
       };
     }
-    case FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+    case FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
       return {
         ...state,
-        showTypeOfCareUnavailableModal: false,
+        showPodiatryAppointmentUnavailableModal: false,
       };
     }
     case CLICKED_UPDATE_ADDRESS_BUTTON: {
@@ -331,7 +331,6 @@ export default function formReducer(state = initialState, action) {
       let newData = state.data;
       let typeOfCareFacilities = action.facilities;
       const typeOfCareId = action.typeOfCareId;
-      const facilities = state.facilities;
       const address = action.address;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
@@ -342,7 +341,7 @@ export default function formReducer(state = initialState, action) {
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      if (parentFacilities.length === 1 || !facilities.length) {
+      if (parentFacilities.length === 1 || !typeOfCareFacilities.length) {
         newData = {
           ...newData,
           vaParent: parentFacilities[0]?.id,
@@ -406,7 +405,7 @@ export default function formReducer(state = initialState, action) {
           vaFacilityV2: schema,
         },
         facilities: {
-          ...facilities,
+          ...state.facilities,
           [typeOfCareId]: typeOfCareFacilities,
         },
         parentFacilities,

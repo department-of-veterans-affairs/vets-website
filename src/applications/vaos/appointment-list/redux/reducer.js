@@ -286,7 +286,6 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         showCancelModal: false,
         appointmentToCancel: null,
-        cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
     case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
       return {
