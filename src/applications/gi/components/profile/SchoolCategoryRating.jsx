@@ -42,7 +42,7 @@ export default function SchoolCategoryRating({
       <div className="rating vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
         <button
           aria-expanded={open}
-          className="usa-accordion-button"
+          className="usa-accordion-button-ratings"
           onClick={() => openHandler(categoryRating.categoryName)}
         >
           <div className="vads-l-row medium-screen:vads-u-padding-left--1">

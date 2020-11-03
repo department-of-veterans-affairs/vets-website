@@ -10,6 +10,8 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+  // FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -28,10 +30,11 @@ import {
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
-  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
+  FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
 } from '../../../new-appointment/redux/actions';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -40,16 +43,21 @@ import {
 
 import parentFacilities from '../../../services/mocks/var/facilities.json';
 import facilities983 from '../../../services/mocks/var/facilities_983.json';
+import facilityData from '../../../services/mocks/var/facility_data.json';
 import {
   FETCH_STATUS,
   FLOW_TYPES,
   PURPOSE_TEXT,
   VHA_FHIR_ID,
   FACILITY_TYPES,
+  FACILITY_SORT_METHODS,
 } from '../../../utils/constants';
 
 import { transformParentFacilities } from '../../../services/organization/transformers';
-import { transformDSFacilities } from '../../../services/location/transformers';
+import {
+  transformDSFacilities,
+  transformFacilities,
+} from '../../../services/location/transformers';
 import { getSiteIdFromOrganization } from '../../../services/organization';
 
 const parentFacilitiesParsed = transformParentFacilities(
@@ -70,6 +78,13 @@ const defaultState = {
 
 const facilities983Parsed = transformDSFacilities(
   facilities983.data.map(item => ({
+    ...item.attributes,
+    id: item.id,
+  })),
+);
+
+const facilityDataParsed = transformFacilities(
+  facilityData.data.map(item => ({
     ...item.attributes,
     id: item.id,
   })),
@@ -322,6 +337,170 @@ describe('VAOS reducer: newAppointment', () => {
       const newState = newAppointmentReducer(currentState, action);
 
       expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.failed);
+    });
+  });
+
+  describe('open flat facility page reducer', () => {
+    const defaultOpenPageAction = {
+      type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+      uiSchema: {},
+      schema: {
+        type: 'object',
+        properties: {
+          vaFacility: {
+            type: 'string',
+            enum: [],
+          },
+        },
+      },
+      typeOfCareId: '323',
+    };
+
+    const residentialAddress = {
+      addressLine1: '290 Ludlow Ave',
+      city: 'Cincinatti',
+      stateCode: 'OH',
+      zipCode: '45220',
+      latitude: 39.1362562, // Cincinatti, OH
+      longitude: -84.6804804,
+    };
+
+    it('should set facilities when page is done loading and page has multiple facilities', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(0, 3),
+        address: residentialAddress,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const vaFacilitySchema =
+        newState.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal([
+        'var984',
+        'var983',
+        'var983GC',
+      ]);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Dayton VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[1].name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[2].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.distanceFromResidential,
+      );
+      expect(newState.data.vaParent).to.equal(undefined);
+    });
+
+    it('should set facilities when page is done loading and page has single facilities', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(2, 3),
+        address: residentialAddress,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const vaFacilitySchema =
+        newState.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal(['var983GC']);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.distanceFromResidential,
+      );
+      expect(newState.data.vaParent).to.equal('var983');
+    });
+
+    it('should set sort method to alphabetical if there is no residental address', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(0, 3),
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const vaFacilitySchema =
+        newState.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal([
+        'var983',
+        'var984',
+        'var983GC',
+      ]);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[1].name).to.equal(
+        'Dayton VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[2].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.alphabetical,
+      );
+      expect(newState.data.vaParent).to.equal(undefined);
+    });
+
+    it('should update sort method', () => {
+      const currentState = {
+        ...defaultState,
+        data: {
+          typeOfCareId: '323',
+        },
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(0, 3),
+        address: residentialAddress,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.distanceFromResidential,
+      );
+      const newState2 = newAppointmentReducer(newState, {
+        type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+        sortMethod: FACILITY_SORT_METHODS.alphabetical,
+      });
+      const vaFacilitySchema =
+        newState2.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal([
+        'var984',
+        'var983',
+        'var983GC',
+      ]);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Dayton VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[1].name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[2].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState2.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.alphabetical,
+      );
     });
   });
 
@@ -1099,32 +1278,32 @@ describe('VAOS reducer: newAppointment', () => {
     ).to.be.false;
   });
 
-  it('should set ToC modal to show', () => {
+  it('should set podiatry appointment unavailable modal to show', () => {
     const currentState = {
       data: {},
       pageChangeInProgress: true,
     };
     const action = {
-      type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     };
 
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.pageChangeInProgress).to.be.false;
-    expect(newState.showTypeOfCareUnavailableModal).to.be.true;
+    expect(newState.showPodiatryAppointmentUnavailableModal).to.be.true;
   });
 
-  it('should set ToC modal to hidden', () => {
+  it('should set podiatry appointment unavailable modal to hidden', () => {
     const currentState = {
       data: {},
     };
     const action = {
-      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     };
 
     const newState = newAppointmentReducer(currentState, action);
 
-    expect(newState.showTypeOfCareUnavailableModal).to.be.false;
+    expect(newState.showPodiatryAppointmentUnavailableModal).to.be.false;
   });
 
   it('should reset form when new appointment button is clicked', () => {

@@ -9,9 +9,9 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
-import PaymentInformationBlocked from 'applications/personalization/profile/components/direct-deposit/PaymentInformationBlocked';
+import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import { directDepositIsBlocked } from 'applications/personalization/profile/selectors';
+import { directDepositIsBlocked } from '@@profile/selectors';
 
 import PersonalInformationContent from './PersonalInformationContent';
 

@@ -7,13 +7,13 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import {
   AccountSecurityContent,
   mapStateToProps,
-} from 'applications/personalization/profile/components/account-security/AccountSecurityContent';
-import ProfileInfoTable from 'applications/personalization/profile/components/ProfileInfoTable';
-import IdentityNotVerified from 'applications/personalization/profile/components/account-security/IdentityNotVerified';
-import TwoFactorAuthorizationStatus from 'applications/personalization/profile/components/account-security/TwoFactorAuthorizationStatus';
-import MHVTermsAndConditionsStatus from 'applications/personalization/profile/components/account-security/MHVTermsAndConditionsStatus';
-import EmailAddressNotification from 'applications/personalization/profile/components/personal-information/email-addresses/EmailAddressNotification';
-import Verified from 'applications/personalization/profile/components/account-security/Verified';
+} from '@@profile/components/account-security/AccountSecurityContent';
+import ProfileInfoTable from '@@profile/components/ProfileInfoTable';
+import IdentityNotVerified from '@@profile/components/account-security/IdentityNotVerified';
+import TwoFactorAuthorizationStatus from '@@profile/components/account-security/TwoFactorAuthorizationStatus';
+import MHVTermsAndConditionsStatus from '@@profile/components/account-security/MHVTermsAndConditionsStatus';
+import EmailAddressNotification from '@@profile/components/personal-information/email-addresses/EmailAddressNotification';
+import Verified from '@@profile/components/account-security/Verified';
 
 describe('AccountSecurityContent', () => {
   let wrapper;

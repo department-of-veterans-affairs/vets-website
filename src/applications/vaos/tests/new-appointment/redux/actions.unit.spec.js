@@ -21,7 +21,7 @@ import {
   openCommunityCarePreferencesPage,
   getAppointmentSlots,
   onCalendarChange,
-  hideTypeOfCareUnavailableModal,
+  hidePodiatryAppointmentUnavailableModal,
   startNewAppointmentFlow,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
@@ -50,7 +50,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   START_REQUEST_APPOINTMENT_FLOW,
   START_DIRECT_SCHEDULE_FLOW,
 } from '../../../new-appointment/redux/actions';
@@ -130,11 +130,11 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  it('should hide ToC modal', () => {
-    const action = hideTypeOfCareUnavailableModal();
+  it('should hide podiatry appointment unavailable modal', () => {
+    const action = hidePodiatryAppointmentUnavailableModal();
 
     expect(action).to.deep.equal({
-      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     });
   });
 

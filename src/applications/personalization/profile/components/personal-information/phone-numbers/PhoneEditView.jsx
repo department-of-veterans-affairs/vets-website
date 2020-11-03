@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import VAPEditView from 'applications/personalization/profile/components/personal-information/VAPEditView';
+import VAPEditView from '@@profile/components/personal-information/VAPEditView';
 
 import { isVAPatient } from 'platform/user/selectors';
 
-import { FIELD_NAMES } from 'vet360/constants';
+import { FIELD_NAMES } from '@@vet360/constants';
 
 import ContactInfoForm from 'platform/user/profile/vet360/components/ContactInfoForm';
 

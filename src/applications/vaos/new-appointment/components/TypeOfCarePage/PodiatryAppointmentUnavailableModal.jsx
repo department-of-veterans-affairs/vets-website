@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-const TypeOfCareUnavailableModal = ({ onClose, showModal, typeOfCare }) => {
+const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
   if (!showModal) {
     return null;
   }
+  const title = 'You need to call your VA facility for a Podiatry appointment';
 
   return (
     <Modal
@@ -13,16 +14,15 @@ const TypeOfCareUnavailableModal = ({ onClose, showModal, typeOfCare }) => {
       status="warning"
       visible
       onClose={onClose}
-      title={`You canʼt schedule a ${typeOfCare} appointment right now`}
+      title={title}
     >
-      At this time, {`${typeOfCare.toLowerCase()}`} appointments can only be
-      scheduled online for Community Care appointments. To schedule a podiatry
-      appointment at a VA facility, please call your local VA medical center, or
-      use the{' '}
+      You’re not eligible to request a community care Podiatry appointment
+      online at this time. Please call your local VA medical center to schedule
+      this appointment.
+      <br />
       <a target="_blank" rel="noopener noreferrer" href="/find-locations">
-        locator tool to find your nearest VA medical facility
+        Find your VA health facility’s phone number
       </a>
-      .
       <button
         onClick={onClose}
         className="vads-u-display--block vads-u-margin-top--2p5"
@@ -33,10 +33,10 @@ const TypeOfCareUnavailableModal = ({ onClose, showModal, typeOfCare }) => {
   );
 };
 
-TypeOfCareUnavailableModal.propTypes = {
+PodiatryAppointmentUnavailableModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   showModal: PropTypes.bool,
   typeOfCare: PropTypes.string.isRequired,
 };
 
-export default TypeOfCareUnavailableModal;
+export default PodiatryAppointmentUnavailableModal;
