@@ -2,10 +2,7 @@ import React from 'react';
 
 import AddressField from './VAPAddressField';
 
-import {
-  FIELD_NAMES,
-  FIELD_TITLES,
-} from 'platform/user/profile/vet360/constants';
+import { FIELD_NAMES, FIELD_TITLES } from '@@vet360/constants';
 
 export default function ResidentialAddress() {
   return (

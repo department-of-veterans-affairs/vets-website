@@ -29,6 +29,18 @@
         }
       },
       "required": ["first", "last"]
+    },
+    "ssn": {
+      "type": "string",
+      "pattern": "^[0-9]{9}$"
+    },
+    "fileNumber": {
+      "type": "string",
+      "pattern": "^[cC]{0,1}\\d{7,9}$"
+    },
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
     }
   },
   "properties": {
@@ -36,14 +48,13 @@
       "$ref": "#/definitions/fullName"
     },
     "veteranSocialSecurityNumber": {
-      "type": "string"
+      "$ref": "#/definitions/ssn"
     },
     "veteranDateOfBirth": {
-      "type": "string"
+      "$ref": "#/definitions/date"
     },
     "vaFileNumber": {
-      "type": "string",
-      "pattern": "^[cC]{0,1}\\d{7,9}$"
+      "$ref": "#/definitions/fileNumber"
     }
   }
 }

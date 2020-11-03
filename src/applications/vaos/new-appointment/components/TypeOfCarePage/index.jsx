@@ -5,15 +5,15 @@ import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../../../services/var';
 import FormButtons from '../../../components/FormButtons';
-import TypeOfCareUnavailableModal from './TypeOfCareUnavailableModal';
+import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
 import UpdateAddressAlert from './UpdateAddressAlert';
 import {
   openTypeOfCarePage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  showTypeOfCareUnavailableModal,
-  hideTypeOfCareUnavailableModal,
+  showPodiatryAppointmentUnavailableModal,
+  hidePodiatryAppointmentUnavailableModal,
   clickUpdateAddressButton,
 } from '../../redux/actions';
 import {
@@ -98,10 +98,10 @@ export class TypeOfCarePage extends React.Component {
 
   render() {
     const {
-      schema,
       data,
       pageChangeInProgress,
-      showToCUnavailableModal,
+      schema,
+      showPodiatryApptUnavailableModal,
     } = this.props;
 
     if (!schema) {
@@ -132,10 +132,9 @@ export class TypeOfCarePage extends React.Component {
             loadingText="Page change in progress"
           />
         </SchemaForm>
-        <TypeOfCareUnavailableModal
-          typeOfCare="Podiatry"
-          showModal={showToCUnavailableModal}
-          onClose={this.props.hideTypeOfCareUnavailableModal}
+        <PodiatryAppointmentUnavailableModal
+          showModal={showPodiatryApptUnavailableModal}
+          onClose={this.props.hidePodiatryAppointmentUnavailableModal}
         />
       </div>
     );
@@ -149,7 +148,8 @@ function mapStateToProps(state) {
   return {
     ...formInfo,
     ...address,
-    showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
+    showPodiatryApptUnavailableModal:
+      newAppointment.showPodiatryAppointmentUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showDirectScheduling: vaosDirectScheduling(state),
     hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
@@ -161,8 +161,8 @@ const mapDispatchToProps = {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  showTypeOfCareUnavailableModal,
-  hideTypeOfCareUnavailableModal,
+  showPodiatryAppointmentUnavailableModal,
+  hidePodiatryAppointmentUnavailableModal,
   clickUpdateAddressButton,
 };
 

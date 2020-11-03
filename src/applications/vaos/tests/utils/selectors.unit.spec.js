@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from '../../utils/moment-tz';
+import moment from '../../lib/moment-tz';
 
 import {
   getChosenClinicInfo,
@@ -17,7 +17,7 @@ import {
   getTypeOfCare,
   getCancelInfo,
   getCCEType,
-  isWelcomeModalDismissed,
+  selectIsWelcomeModalDismissed,
   selectLocalExpressCareWindowString,
   selectNextAvailableExpressCareWindowString,
   selectIsCernerOnlyPatient,
@@ -594,14 +594,14 @@ describe('VAOS selectors', () => {
     });
   });
 
-  describe('isWelcomeModalDismissed', () => {
+  describe('selectIsWelcomeModalDismissed', () => {
     it('should return dismissed if key is in list', () => {
       const state = {
         announcements: {
           dismissed: ['welcome-to-new-vaos'],
         },
       };
-      expect(isWelcomeModalDismissed(state)).to.be.true;
+      expect(selectIsWelcomeModalDismissed(state)).to.be.true;
     });
     it('should not return dismissed if key is not in list', () => {
       const state = {
@@ -609,7 +609,7 @@ describe('VAOS selectors', () => {
           dismissed: ['welcome-to-new-va'],
         },
       };
-      expect(isWelcomeModalDismissed(state)).to.be.false;
+      expect(selectIsWelcomeModalDismissed(state)).to.be.false;
     });
   });
 

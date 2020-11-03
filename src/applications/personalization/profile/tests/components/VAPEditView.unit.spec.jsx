@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
-import VAPEditView from 'applications/personalization/profile/components/personal-information/VAPEditView';
+import VAPEditView from '@@profile/components/personal-information/VAPEditView';
 
 describe('<VAPEditView/>', () => {
   let props = null;

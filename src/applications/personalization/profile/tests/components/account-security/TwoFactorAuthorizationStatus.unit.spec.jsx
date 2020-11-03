@@ -2,8 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import TwoFactorAuthorizationStatus from 'applications/personalization/profile/components/account-security/TwoFactorAuthorizationStatus';
-import Verified from 'applications/personalization/profile/components/account-security/Verified';
+import TwoFactorAuthorizationStatus from '@@profile/components/account-security/TwoFactorAuthorizationStatus';
+import Verified from '@@profile/components/account-security/Verified';
 
 describe('TwoFactorAuthorizationStatus', () => {
   describe('when `isMultifactorEnabled` is `true`', () => {
