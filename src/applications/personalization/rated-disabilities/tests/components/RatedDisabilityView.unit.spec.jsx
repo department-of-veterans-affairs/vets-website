@@ -7,10 +7,8 @@ import RatedDisabilityView from '../../components/RatedDisabilityView';
 describe('<RatedDisabilityView/>', () => {
   const user = {
     profile: {
+      status: 'OK',
       verified: true,
-      veteranStatus: {
-        status: 'OK',
-      },
     },
   };
   const ratedDisabilities = { ratedDisabilities: [] };
