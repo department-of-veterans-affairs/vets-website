@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { sentenceCase } from '../../../../utils/formatters';
+import { sentenceCase, lowerCase } from '../../../../utils/formatters';
 import { getPatientTelecom } from '../../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import ExpressCareStatus from './ExpressCareStatus';
@@ -70,7 +70,9 @@ export default function ExpressCareCard({
             <button
               className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
               onClick={() => cancelAppointment(appointment)}
-              aria-label="Cancel appointment"
+              aria-label={`Cancel appointment for Express Care for ${lowerCase(
+                appointment.reason,
+              )}`}
             >
               Cancel appointment
             </button>
