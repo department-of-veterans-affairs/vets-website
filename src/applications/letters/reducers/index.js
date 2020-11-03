@@ -1,4 +1,4 @@
-import vet360 from 'vet360/reducers';
+import vet360 from '@@vet360/reducers';
 
 import _ from 'lodash/fp';
 import {

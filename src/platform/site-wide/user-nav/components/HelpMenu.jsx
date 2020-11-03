@@ -29,7 +29,7 @@ function HelpMenu({ clickHandler, cssClass, isOpen }) {
         <a href="https://iris.custhelp.va.gov/app/ask">Ask a Question</a>
       </p>
       <p>
-        <a href="tel:18446982311">Call VA311: 844-698-2311</a>
+        Call us: <Telephone contact={CONTACTS.VA_311} />
       </p>
       <p>
         TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />

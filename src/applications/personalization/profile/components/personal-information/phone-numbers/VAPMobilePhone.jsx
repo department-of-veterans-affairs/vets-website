@@ -1,9 +1,6 @@
 import React from 'react';
 import PhoneField from './VAPPhoneField';
-import {
-  FIELD_NAMES,
-  FIELD_TITLES,
-} from 'platform/user/profile/vet360/constants';
+import { FIELD_NAMES, FIELD_TITLES } from '@@vet360/constants';
 
 export default function MobilePhone() {
   return (
