@@ -581,3 +581,26 @@ img[data-srcset] {
 .va-u-outline--none:focus {
   outline: none;
 }
+
+.medium-screen-vads-u-border-left-radius--0 {
+  @media (min-width: $medium-screen) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
+
+.medium-screen-vads-u-background-color--white {
+  @media (min-width: $medium-screen) {
+    background-color: #ffffff !important;
+  }
+}
+
+.vads-u-border-bottom-radius--0 {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.vads-u-border-bottom-radius--5px {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
