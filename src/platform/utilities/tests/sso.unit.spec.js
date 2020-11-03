@@ -343,31 +343,29 @@ describe('keepAlive', () => {
   let sandbox;
   let stubFetch;
 
-  beforeEach(() => {
+  before(() => {
     sandbox = sinon.createSandbox();
     stubFetch = sandbox.stub(global, 'fetch');
   });
 
-  afterEach(() => {
+  after(() => {
     sandbox.restore();
   });
 
-  it('should return an empty object on a type error', async () => {
+  it('should return an empty object on a type error', () => {
     stubFetch.rejects('TypeError');
-    const res = await keepAlive();
-    expect(res).to.eql({});
+    return keepAlive().then(res => expect(res).to.eql({}));
   });
 
-  it('should return an empty object when missing session-alive', async () => {
+  it('should return an empty object when missing session-alive', () => {
     const resp = new Response('{}', {
       headers: {},
     });
     stubFetch.resolves(resp);
-    const res = await keepAlive();
-    expect(res).to.eql({});
+    return keepAlive().then(res => expect(res).to.eql({}));
   });
 
-  it('should return ttl 0 when not alive', async () => {
+  it('should return ttl 0 when not alive', () => {
     const resp = new Response('{}', {
       headers: {
         'session-alive': 'false',
@@ -375,15 +373,16 @@ describe('keepAlive', () => {
       },
     });
     stubFetch.resolves(resp);
-    const res = await keepAlive();
-    expect(res).to.eql({
-      ttl: 0,
-      transactionid: null,
-      authn: undefined,
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 0,
+        transactionid: null,
+        authn: undefined,
+      });
     });
   });
 
-  it('should return active dslogon session', async () => {
+  it('should return active dslogon session', () => {
     /* eslint-disable prettier/prettier */
     const resp = new Response('{}', {
       headers: {
@@ -395,15 +394,16 @@ describe('keepAlive', () => {
     });
     /* eslint-enable prettier/prettier */
     stubFetch.resolves(resp);
-    const res = await keepAlive();
-    expect(res).to.eql({
-      ttl: 900,
-      transactionid: 'X',
-      authn: 'dslogon',
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: 'dslogon',
+      });
     });
   });
 
-  it('should return active mhv session', async () => {
+  it('should return active mhv session', () => {
     /* eslint-disable prettier/prettier */
     const resp = new Response('{}', {
       headers: {
@@ -415,15 +415,16 @@ describe('keepAlive', () => {
     });
     /* eslint-enable prettier/prettier */
     stubFetch.resolves(resp);
-    const res = await keepAlive();
-    expect(res).to.eql({
-      ttl: 900,
-      transactionid: 'X',
-      authn: 'myhealthevet',
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: 'myhealthevet',
+      });
     });
   });
 
-  it('should return active idme session', async () => {
+  it('should return active idme session', () => {
     /* eslint-disable prettier/prettier */
     const resp = new Response('{}', {
       headers: {
@@ -436,11 +437,12 @@ describe('keepAlive', () => {
     });
     /* eslint-enable prettier/prettier */
     stubFetch.resolves(resp);
-    const res = await keepAlive();
-    expect(res).to.eql({
-      ttl: 900,
-      transactionid: 'X',
-      authn: '/loa1',
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: '/loa1',
+      });
     });
   });
 });
