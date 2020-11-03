@@ -186,7 +186,7 @@ describe('VAOS Location service', () => {
       expect('directSchedulingSupported' in data[0].legacyVAR).to.equal(true);
     });
 
-    it('should make skip direct booking fetch if direct scheduling disabled', async () => {
+    it('should skip direct booking fetch if direct scheduling disabled', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, requestEligbilityCriteria);
       setFetchJSONResponse(global.fetch.onCall(1), facilityDetails);
