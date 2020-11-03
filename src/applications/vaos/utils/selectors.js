@@ -344,6 +344,7 @@ export function getFacilityPageV2Info(state) {
 
   return {
     ...formInfo,
+    address: selectVet360ResidentialAddress(state),
     canScheduleAtChosenFacility:
       eligibilityStatus.direct || eligibilityStatus.request,
     childFacilitiesStatus,
@@ -367,9 +368,8 @@ export function getFacilityPageV2Info(state) {
     selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: facilities?.length === 1,
     showEligibilityModal: facilities?.length > 1 && showEligibilityModal,
-    typeOfCare: typeOfCare?.name,
     sortMethod: facilityPageSortMethod,
-    address: selectVet360ResidentialAddress(state),
+    typeOfCare: typeOfCare?.name,
   };
 }
 
