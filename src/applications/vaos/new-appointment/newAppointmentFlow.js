@@ -10,7 +10,7 @@ import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import { getSiteIdFromFakeFHIRId } from '../services/location';
 import {
   checkEligibility,
-  showTypeOfCareUnavailableModal,
+  showPodiatryAppointmentUnavailableModal,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
   updateFacilityType,
@@ -117,7 +117,7 @@ export default {
           return 'typeOfFacility';
         } else if (isPodiatry(state)) {
           // If no CC enabled systems and toc is podiatry, show modal
-          dispatch(showTypeOfCareUnavailableModal());
+          dispatch(showPodiatryAppointmentUnavailableModal());
           return 'typeOfCare';
         }
       }

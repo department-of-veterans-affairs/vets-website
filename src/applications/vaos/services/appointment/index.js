@@ -8,11 +8,51 @@ import { mapToFHIRErrors } from '../utils';
 import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
-  PAST_APPOINTMENTS_HIDDEN_SET,
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
   VIDEO_TYPES,
-  CONFIRMED_APPOINTMENT_TYPES,
 } from '../../utils/constants';
+
+export const CANCELLED_APPOINTMENT_SET = new Set([
+  'CANCELLED BY CLINIC & AUTO RE-BOOK',
+  'CANCELLED BY CLINIC',
+  'CANCELLED BY PATIENT & AUTO-REBOOK',
+  'CANCELLED BY PATIENT',
+]);
+
+// Appointments in these "HIDE_STATUS_SET"s should show in list, but their status should be hidden
+export const FUTURE_APPOINTMENTS_HIDE_STATUS_SET = new Set([
+  'ACT REQ/CHECKED IN',
+  'ACT REQ/CHECKED OUT',
+]);
+
+export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
+  'ACTION REQUIRED',
+  'INPATIENT APPOINTMENT',
+  'INPATIENT/ACT REQ',
+  'INPATIENT/CHECKED IN',
+  'INPATIENT/CHECKED OUT',
+  'INPATIENT/FUTURE',
+  'INPATIENT/NO ACT TAKN',
+  'NO ACTION TAKEN',
+  'NO-SHOW & AUTO RE-BOOK',
+  'NO-SHOW',
+  'NON-COUNT',
+]);
+
+const CONFIRMED_APPOINTMENT_TYPES = new Set([
+  APPOINTMENT_TYPES.ccAppointment,
+  APPOINTMENT_TYPES.vaAppointment,
+]);
+
+// Appointments in these "HIDDEN_SET"s should not be shown in appointment lists at all
+export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
+
+const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
+  'FUTURE',
+  'DELETED',
+  null,
+  '<null>',
+  'Deleted',
+]);
 
 /**
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
@@ -199,9 +239,12 @@ export function getVARClinicId(appointment) {
  * @returns {String} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
+  const serviceResource = appointment.contained.find(
+    res => res.resourceType === 'HealthcareService',
+  );
   const locationReference =
-    appointment.contained?.[0]?.location?.reference ||
-    appointment.contained?.[0]?.providedBy?.reference;
+    serviceResource?.location?.reference ||
+    serviceResource?.providedBy?.reference;
 
   if (locationReference) {
     return locationReference.split('/')[1];

@@ -15,6 +15,7 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
     entity {
       ... on ParagraphQAGroup {
         fieldSectionHeader
+        fieldAccordionDisplay
         fieldQAs {
           entity {
             ... on NodeQA {
@@ -46,9 +47,20 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
       ... button
     }
   }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
   fieldRelatedBenefitHubs {
     entity {
       ... on NodeLandingPage {
+        fieldHomePageHubLabel
+        fieldTeaserText
+        path {
+          alias
+        }
         fieldSupportServices {
           entity {
             ... supportService

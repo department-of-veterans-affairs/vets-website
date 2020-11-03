@@ -1,7 +1,7 @@
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
-import profile from 'applications/personalization/profile360/reducers';
-import connectedApps from 'applications/personalization/profile/components/connected-apps/reducers/connectedApps';
+import profile from '@@profile/reducers';
+import connectedApps from '@@profile/components/connected-apps/reducers/connectedApps';
 
 export function wait(timeout) {
   return new Promise(resolve => {
@@ -13,7 +13,7 @@ export function wait(timeout) {
  * A custom React Testing Library render function that allows for easy rendering
  * of Profile-related components. This helper sets up the reducers used by the
  * Profile application, as shown in the profile entry file
- * src/applications/personalization/profile360/profile-360-entry.jsx
+ * src/applications/personalization/profile/profile-entry.jsx
  */
 export function renderWithProfileReducers(
   ui,

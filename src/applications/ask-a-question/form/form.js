@@ -93,7 +93,7 @@ const formConfig = {
   customText: {
     submitButtonText,
     reviewPageTitle,
-    appType: 'inquiry',
+    appType: 'message',
   },
   defaultDefinitions: {
     address,

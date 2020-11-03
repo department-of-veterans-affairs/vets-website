@@ -6,11 +6,11 @@ import { focusElement } from 'platform/utilities/ui';
 import { isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
 
-import { TRANSACTION_CATEGORY_TYPES } from 'vet360/constants';
+import { TRANSACTION_CATEGORY_TYPES } from '@@vet360/constants';
 
-import Vet360InitializeID from 'vet360/containers/InitializeVet360ID';
-import Vet360PendingTransactionCategory from 'vet360/containers/Vet360PendingTransactionCategory';
-import MailingAddress from 'vet360/components/MailingAddress';
+import Vet360InitializeID from '@@vet360/containers/InitializeVet360ID';
+import Vet360PendingTransactionCategory from '@@vet360/containers/Vet360PendingTransactionCategory';
+import MailingAddress from '@@vet360/components/MailingAddress';
 
 export class AddressSection extends React.Component {
   componentDidMount() {

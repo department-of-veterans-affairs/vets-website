@@ -18,7 +18,7 @@ import {
 import {
   isVet360Configured,
   mockContactInformation,
-} from 'vet360/util/local-vet360';
+} from '@@vet360/util/local-vet360';
 
 const commonServices = {
   EMIS: 'EMIS',

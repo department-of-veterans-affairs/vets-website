@@ -12,6 +12,7 @@ import {
   formatReviewDate,
   expandArrayPages,
   omitRequired,
+  showReviewField,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1001,6 +1002,135 @@ describe('Schemaform helpers:', () => {
         },
       };
       expect(omitRequired(schema)).to.eql(expected);
+    });
+  });
+
+  describe('showReviewField', () => {
+    it('should show visible field', () => {
+      expect(
+        showReviewField(
+          'field1',
+          {
+            properties: {
+              field1: {
+                type: 'boolean',
+              },
+            },
+          },
+          {},
+          {},
+          {},
+        ),
+      ).to.eql(true);
+    });
+    it('should not show field using hiddenOnSchema', () => {
+      expect(
+        showReviewField(
+          'field1',
+          {
+            properties: {
+              field1: {
+                type: 'boolean',
+                'ui:hidden': true,
+              },
+            },
+          },
+          {},
+          {},
+          {},
+        ),
+      ).to.eql(false);
+    });
+
+    it('should not show field using collapsedOnSchema', () => {
+      expect(
+        showReviewField(
+          'field1',
+          {
+            properties: {
+              field1: {
+                type: 'boolean',
+                'ui:collapsed': true,
+              },
+            },
+          },
+          {},
+          {},
+          {},
+        ),
+      ).to.eql(false);
+    });
+
+    it('should not show field using ui schema hideOnReview', () => {
+      expect(
+        showReviewField(
+          'field1',
+          {
+            properties: {
+              field1: {
+                type: 'boolean',
+              },
+            },
+          },
+          {
+            field1: {
+              'ui:options': {
+                hideOnReview: true,
+              },
+            },
+          },
+          {},
+          {},
+        ),
+      ).to.eql(false);
+    });
+
+    it('should not show field using ui schema hideOnReview function', () => {
+      expect(
+        showReviewField(
+          'field1',
+          {
+            properties: {
+              field1: {
+                type: 'boolean',
+              },
+            },
+          },
+          {
+            field1: {
+              'ui:options': {
+                hideOnReview: () => true,
+              },
+            },
+          },
+          {},
+          {},
+        ),
+      ).to.eql(false);
+    });
+
+    it('should not show field using ui schema hideOnReviewIfFalse', () => {
+      expect(
+        showReviewField(
+          'field1',
+          {
+            properties: {
+              field1: {
+                type: 'boolean',
+              },
+            },
+          },
+          {
+            field1: {
+              'ui:options': {
+                hideOnReviewIfFalse: true,
+              },
+            },
+          },
+          { field1: false },
+          {},
+        ),
+      ).to.eql(false);
     });
   });
 });
