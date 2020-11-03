@@ -215,15 +215,6 @@ function createPaginatedArticleListings({
             },
           };
 
-          if (index > 0) {
-            page.entityUrl.breadcrumb.push({
-              url: {
-                path: `/${pageOfArticles.uri}/`,
-              },
-              text: index + 1,
-            });
-          }
-
           page.debug = JSON.stringify(page);
 
           return page;
