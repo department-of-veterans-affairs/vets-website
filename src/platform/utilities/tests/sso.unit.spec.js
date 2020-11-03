@@ -384,14 +384,16 @@ describe('keepAlive', () => {
   });
 
   it('should return active dslogon session', async () => {
+    /* eslint-disable prettier/prettier */
     const resp = new Response('{}', {
       headers: {
         'session-alive': 'true',
         'session-timeout': '900',
-        va_eauth_transactionid: 'X',
-        va_eauth_csid: 'DSLogon',
+        'va_eauth_transactionid': 'X',
+        'va_eauth_csid': 'DSLogon',
       },
     });
+    /* eslint-enable prettier/prettier */
     stubFetch.resolves(resp);
     const res = await keepAlive();
     expect(res).to.eql({
@@ -402,14 +404,16 @@ describe('keepAlive', () => {
   });
 
   it('should return active mhv session', async () => {
+    /* eslint-disable prettier/prettier */
     const resp = new Response('{}', {
       headers: {
         'session-alive': 'true',
         'session-timeout': '900',
-        va_eauth_transactionid: 'X',
-        va_eauth_csid: 'mhv',
+        'va_eauth_transactionid': 'X',
+        'va_eauth_csid': 'mhv',
       },
     });
+    /* eslint-enable prettier/prettier */
     stubFetch.resolves(resp);
     const res = await keepAlive();
     expect(res).to.eql({
@@ -420,15 +424,17 @@ describe('keepAlive', () => {
   });
 
   it('should return active idme session', async () => {
+    /* eslint-disable prettier/prettier */
     const resp = new Response('{}', {
       headers: {
         'session-alive': 'true',
         'session-timeout': '900',
-        va_eauth_transactionid: 'X',
-        va_eauth_csid: 'idme',
-        va_eauth_authncontextclassref: '/loa1',
+        'va_eauth_transactionid': 'X',
+        'va_eauth_csid': 'idme',
+        'va_eauth_authncontextclassref': '/loa1',
       },
     });
+    /* eslint-enable prettier/prettier */
     stubFetch.resolves(resp);
     const res = await keepAlive();
     expect(res).to.eql({
