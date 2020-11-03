@@ -26,4 +26,16 @@ describe('inProgressMessage()', () => {
 
     expect(inProgressMessage(formConfig)).to.eql('Bippity boppity boo!');
   });
+
+  it('should allow the message to be null if an empty string is used', () => {
+    const formConfig = {
+      saveInProgress: {
+        messages: {
+          inProgress: '',
+        },
+      },
+    };
+
+    expect(inProgressMessage(formConfig)).to.eql('');
+  });
 });
