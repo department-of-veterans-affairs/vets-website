@@ -19,7 +19,7 @@ import {
   selectSystemIds,
   getEligibilityStatus,
   getRootIdForChosenFacility,
-  getSelectedTypeOfCareFacilities,
+  getTypeOfCareFacilities,
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
@@ -352,7 +352,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       if (typeOfCareId) {
         const siteIds = selectSystemIds(initialState);
         const useVSP = vaosVSPAppointmentNew(initialState);
-        let typeOfCareFacilities = newAppointment.facilities[typeOfCareId];
+        let typeOfCareFacilities = getTypeOfCareFacilities(initialState);
         let siteId = null;
         let facilityId = newAppointment.data.vaFacility;
         let parentFacilities = newAppointment.parentFacilities;
@@ -434,7 +434,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
     let location = null;
-    const facilities = getSelectedTypeOfCareFacilities(getState());
+    const facilities = getTypeOfCareFacilities(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distancefromCurrentLocation,
     );
