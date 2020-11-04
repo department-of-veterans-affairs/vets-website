@@ -368,7 +368,7 @@ module.exports = function registerFilters() {
     return deepObj;
   }
 
-  liquid.filters.lookupArrayItem = (arr, idx) => {
+  liquid.filters.getArrayItemByIndex = (arr, idx) => {
     return arr && arr[idx] ? arr[idx] : '';
   };
 

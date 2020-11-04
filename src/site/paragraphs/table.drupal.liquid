@@ -47,7 +47,7 @@
                     {% for column in value %}
                         <dfn>
                             <td class="vads-u-padding-bottom--0 column-label vads-u-font-weight--bold medium-screen:vads-u-display--none" role="cell">
-                                {{colLabels | lookupArrayItem: forloop.index0}}
+                                {{colLabels | getArrayItemByIndex: forloop.index0}}
                             </td>
                         </dfn>
                         <dfn>
