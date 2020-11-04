@@ -15,7 +15,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectVet360(state)).to.deep.equal(
+      expect(selectors.selectVAPContactInfo(state)).to.deep.equal(
         state.user.profile.vapContactInfo,
       );
     });
@@ -25,7 +25,7 @@ describe('user selectors', () => {
           profile: {},
         },
       };
-      expect(selectors.selectVet360(state)).to.be.undefined;
+      expect(selectors.selectVAPContactInfo(state)).to.be.undefined;
     });
   });
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import { selectVet360 } from 'platform/user/selectors';
+import { selectVAPContactInfo } from 'platform/user/selectors';
 
 import { isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
@@ -77,7 +77,7 @@ export class AddressSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    savedAddress: selectVet360(state)?.mailingAddress,
+    savedAddress: selectVAPContactInfo(state)?.mailingAddress,
   };
 }
 

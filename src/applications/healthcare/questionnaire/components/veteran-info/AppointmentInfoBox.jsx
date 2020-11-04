@@ -6,7 +6,7 @@ import AddressView from './AddressView';
 import PhoneNumberView from './PhoneNumberView';
 import AppointmentDisplay from './AppointmentDisplay';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { selectProfile, selectVet360 } from 'platform/user/selectors';
+import { selectProfile, selectVAPContactInfo } from 'platform/user/selectors';
 
 const AppointmentInfoBox = ({
   userFullName,
@@ -126,20 +126,20 @@ const AppointmentInfoBox = ({
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const vet360 = selectVet360(state);
+  const vapContactInfo = selectVAPContactInfo(state);
   return {
     userFullName: profile.userFullName,
     dateOfBirth: profile.dob,
     gender: profile.gender,
     addresses: {
-      residential: vet360?.residentialAddress,
-      mailing: vet360?.mailingAddress,
+      residential: vapContactInfo?.residentialAddress,
+      mailing: vapContactInfo?.mailingAddress,
     },
     phoneNumbers: [
-      { label: 'Home', data: vet360?.homePhone },
-      { label: 'Mobile', data: vet360?.mobilePhone },
-      { label: 'Work', data: vet360?.workPhone },
-      { label: 'Temporary', data: vet360?.temporaryPhone },
+      { label: 'Home', data: vapContactInfo?.homePhone },
+      { label: 'Mobile', data: vapContactInfo?.mobilePhone },
+      { label: 'Work', data: vapContactInfo?.workPhone },
+      { label: 'Temporary', data: vapContactInfo?.temporaryPhone },
     ],
     appointment: state.questionnaireData?.context?.appointment,
   };

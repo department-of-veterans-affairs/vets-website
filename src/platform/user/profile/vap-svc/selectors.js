@@ -1,7 +1,7 @@
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   selectAvailableServices,
-  selectVet360,
+  selectVAPContactInfo,
 } from '~/platform/user/selectors';
 
 import { VET360_INITIALIZATION_STATUS, INIT_VET360_ID } from './constants';
@@ -16,7 +16,7 @@ export function selectIsVet360AvailableForUser(state) {
 }
 
 export function selectVet360Field(state, fieldName) {
-  return selectVet360(state)[fieldName];
+  return selectVAPContactInfo(state)[fieldName];
 }
 
 export function selectVet360Transaction(state, fieldName) {
