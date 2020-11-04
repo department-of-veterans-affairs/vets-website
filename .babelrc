@@ -51,6 +51,7 @@
       {
         "root": "./src",
         "alias": {
+          "~": "./src",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
           "@@profile": "./src/applications/personalization/profile"
         }
