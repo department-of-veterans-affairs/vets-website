@@ -13,7 +13,7 @@ const options = [
   },
   {
     value: pageNames.other,
-    label: 'A benefit claim other than disability compensation',
+    label: 'A claim other than disability compensation',
   },
 ];
 
