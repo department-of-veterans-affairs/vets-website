@@ -17,7 +17,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
     <div className="vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-y--3 vads-u-padding-x--1">
       {/* Mobile expand/collapse */}
       <button
-        className="vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-padding-x--2 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-darker vads-u-background-color--gray-lightest medium-screen:vads-u-display--none"
+        className={`${expanded ? 'va-border-bottom-radius--0 ' : ''}vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-padding-x--2 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-darker vads-u-background-color--gray-lightest medium-screen:vads-u-display--none`}
         onClick={() => setExpanded(!expanded)}
         type="button"
       >
@@ -37,7 +37,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
       {/* Search form */}
       <form
         action={isGlobalSearch ? '/search' : '/resources/search'}
-        className={`${expanded ? '' : 'vads-u-display--none'} vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
+        className={`${expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '}vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
         id="resources-support-search"
         method="get"
         onSubmit={isGlobalSearch ? null : onSubmit}
