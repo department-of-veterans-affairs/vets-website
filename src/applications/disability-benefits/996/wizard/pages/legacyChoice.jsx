@@ -4,9 +4,8 @@ import pageNames from './pageNames';
 
 const label = (
   <p>
-    Are any of the decisions you would like to request a Higher-Level Review for
-    currently in the <a href="/disability/file-an-appeal/">legacy appeals</a>{' '}
-    process?
+    Is this claim going through the{' '}
+    <a href="/disability/file-an-appeal/">legacy appeals</a> process?
   </p>
 );
 
