@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { API_ROUTES, FIELD_NAMES } from '@@vet360/constants';
+import { API_ROUTES, FIELD_NAMES } from '@@vap-svc/constants';
 
-import Vet360ProfileField from '@@vet360/containers/Vet360ProfileField';
+import Vet360ProfileField from '@@vap-svc/containers/Vet360ProfileField';
 
 import EmailEditModal from './EmailEditModal';
 import EmailView from './EmailView';

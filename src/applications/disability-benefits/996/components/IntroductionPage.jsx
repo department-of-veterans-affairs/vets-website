@@ -95,11 +95,8 @@ export class IntroductionPage extends React.Component {
   };
 
   getCallToActionContent = () => {
-    const { route, contestableIssues, allowHlr, testHlr } = this.props;
-    // check feature flag
-    if (!(allowHlr || testHlr)) {
-      return showWorkInProgress;
-    }
+    const { route, contestableIssues } = this.props;
+
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues.error);
     }
@@ -134,6 +131,17 @@ export class IntroductionPage extends React.Component {
   render() {
     const callToActionContent = this.getCallToActionContent();
     const showWizard = this.state.status !== WIZARD_STATUS_COMPLETE;
+
+    // check feature flag
+    if (!this.props.allowHlr) {
+      return (
+        <article className="schemaform-intro">
+          <FormTitle title="Request a Higher-Level Review" />
+          <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
+          <p>{showWorkInProgress}</p>
+        </article>
+      );
+    }
 
     return (
       <article className="schemaform-intro">
