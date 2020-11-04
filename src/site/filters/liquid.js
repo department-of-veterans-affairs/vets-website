@@ -27,10 +27,11 @@ module.exports = function registerFilters() {
   }
 
   liquid.filters.formatMobileTableData = entity => {
-    return { colHeader: entity.fieldTable.value['0'][0], colLabels: entity.fieldTable.value['0'].slice(1) };
+    return {
+      colHeader: entity.fieldTable.value['0'][0],
+      colLabels: entity.fieldTable.value['0'].slice(1),
+    };
   };
-
-
 
   liquid.filters.timeZone = (dt, tz, format) => {
     if (dt && tz) {
