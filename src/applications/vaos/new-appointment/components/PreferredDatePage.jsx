@@ -7,7 +7,7 @@ import FormButtons from '../../components/FormButtons';
 import { getPreferredDate } from '../../utils/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { useHistory } from 'react-router-dom';
-import * as actions from '../../express-care/redux/actions';
+import * as actions from '../redux/actions';
 
 const initialSchema = {
   type: 'object',
