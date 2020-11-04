@@ -305,6 +305,7 @@
     "leaflet-control-geocoder": "^1.13.0",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.19",
+    "mapbox-gl": "^1.12.0",
     "markdown-it": "^11.0.0",
     "markdown-it-link-attributes": "^3.0.0",
     "metalsmith": "^2.1.0",

@@ -10,7 +10,7 @@ import { urgentCareServices } from '../config';
 import { CLINIC_URGENTCARE_SERVICE } from '../constants';
 
 // Immitate network delay
-const delay = 0;
+const delay = 500;
 
 // Map facility type to attribute type
 const testVAFacilityTypes = {
