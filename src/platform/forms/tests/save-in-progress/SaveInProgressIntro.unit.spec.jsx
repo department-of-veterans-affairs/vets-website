@@ -602,4 +602,58 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
     tree.unmount();
   });
+
+  it('should not render an inProgress message', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: VA_FORM_IDS.FORM_10_10EZ,
+            metadata: {
+              lastUpdated: 946684800,
+              expiresAt: moment().unix() + 2000,
+            },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const emptyMessageConfig = {
+      saveInProgress: {
+        messages: {
+          inProgress: '',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        prefillEnabled
+        hideUnauthedStartLink
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        startMessageOnly
+        unauthStartText="Custom message displayed to non-signed-in users"
+        formConfig={emptyMessageConfig}
+      />,
+    );
+    expect(tree.find('.saved-form-item-metadata')).to.have.lengthOf(1);
+    expect(tree.find('.saved-form-metadata-container').text()).to.not.contain(
+      'Your application is in progress',
+    );
+
+    tree.unmount();
+  });
 });

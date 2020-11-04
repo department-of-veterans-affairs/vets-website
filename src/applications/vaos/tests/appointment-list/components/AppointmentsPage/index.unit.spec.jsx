@@ -8,6 +8,7 @@ import {
   setFetchJSONFailure,
   mockFetch,
   resetFetch,
+  setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
@@ -22,7 +23,10 @@ import {
   mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
 } from '../../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../../mocks/setup';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../../mocks/setup';
 
 import reducers from '../../../../redux/reducer';
 import FutureAppointmentsList from '../../../../appointment-list/components/FutureAppointmentsList';
@@ -588,5 +592,36 @@ describe('VAOS integration: appointment list', () => {
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
+  });
+
+  it('should render warning message', async () => {
+    setFetchJSONResponse(
+      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
+      {
+        data: [
+          {
+            id: '139',
+            type: 'maintenance_windows',
+            attributes: {
+              externalService: 'vaosWarning',
+              description: 'My description',
+              startTime: moment.utc().subtract('1', 'days'),
+              endTime: moment.utc().add('1', 'days'),
+            },
+          },
+        ],
+      },
+    );
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      store,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: '3',
+        name: /You may have trouble using the VA appointments tool right now/,
+      }),
+    ).to.exist;
   });
 });

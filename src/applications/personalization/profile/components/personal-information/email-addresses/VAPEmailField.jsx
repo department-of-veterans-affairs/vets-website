@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { API_ROUTES, FIELD_NAMES } from 'vet360/constants';
+import { API_ROUTES, FIELD_NAMES } from '@@vap-svc/constants';
 
 import VAPProfileField from '../VAPProfileField';
 
 import EmailEditView from './EmailEditView';
-import EmailView from 'platform/user/profile/vet360/components/EmailField/EmailView';
+import EmailView from '@@vap-svc/components/EmailField/EmailView';
 
 const formSchema = {
   type: 'object',

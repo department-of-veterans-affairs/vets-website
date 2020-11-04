@@ -346,6 +346,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
     try {
       const initialState = getState();
       const newAppointment = initialState.newAppointment;
+      const directSchedulingEnabled = vaosDirectScheduling(initialState);
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
       if (typeOfCareId) {
@@ -374,6 +375,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             typeOfCareId,
             siteIds,
+            directSchedulingEnabled,
           });
         }
 
