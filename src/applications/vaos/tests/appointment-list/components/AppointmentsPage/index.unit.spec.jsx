@@ -559,7 +559,7 @@ describe('VAOS integration: appointment list', () => {
     ).to.have.attribute('tabindex', '-1');
     expect(
       screen.getByRole('tab', {
-        name: 'express-care appointments',
+        name: 'express care appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
@@ -584,7 +584,7 @@ describe('VAOS integration: appointment list', () => {
     ).to.have.attribute('tabindex', '-1');
     expect(
       screen.getByRole('tab', {
-        name: 'express-care appointments',
+        name: 'express care appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');

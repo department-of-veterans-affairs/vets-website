@@ -34,7 +34,7 @@ export default function TabItem({
       <NavLink
         id={`tab${id}`}
         aria-controls={isActive ? `tabpanel${id}` : null}
-        aria-label={`${id} appointments`}
+        aria-label={`${id.replace(/-/g, ' ')} appointments`}
         aria-selected={isActive ? 'true' : 'false'}
         role="tab"
         className={tabClasses}
