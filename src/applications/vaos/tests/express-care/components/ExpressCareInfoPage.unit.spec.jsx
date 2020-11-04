@@ -7,6 +7,7 @@ import {
   mockFetch,
   resetFetch,
   setFetchJSONFailure,
+  setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import { setupExpressCareMocks } from '../../mocks/helpers';
 import ExpressCareInfoPage from '../../../express-care/components/ExpressCareInfoPage';
@@ -144,5 +145,36 @@ describe('VAOS integration: Express Care info page', () => {
 
     await waitFor(() => expect(screen.history.push.called).to.be.true);
     expect(screen.history.push.firstCall.args[0]).to.equal('/');
+  });
+
+  it('should render warning message', async () => {
+    setFetchJSONResponse(
+      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
+      {
+        data: [
+          {
+            id: '139',
+            type: 'maintenance_windows',
+            attributes: {
+              externalService: 'vaosWarning',
+              description: 'My description',
+              startTime: moment.utc().subtract('1', 'days'),
+              endTime: moment.utc().add('1', 'days'),
+            },
+          },
+        ],
+      },
+    );
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
+      store,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: '3',
+        name: /You may have trouble using the VA appointments tool right now/,
+      }),
+    ).to.exist;
   });
 });
