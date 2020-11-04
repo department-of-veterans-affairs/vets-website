@@ -301,7 +301,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    // 2. Simulate user selecting a date
+    // 4. Simulate user selecting a date
     button = screen.getByLabelText(
       new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
     );
