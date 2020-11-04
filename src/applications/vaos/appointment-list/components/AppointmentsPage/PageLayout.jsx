@@ -4,16 +4,14 @@ import NeedHelp from '../../../components/NeedHelp';
 
 export default function PageLayout({ children }) {
   return (
-    <>
+    <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
       <Breadcrumbs />
-      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
-        <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
-            {children}
-            <NeedHelp />
-          </div>
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
+          {children}
+          <NeedHelp />
         </div>
       </div>
-    </>
+    </div>
   );
 }
