@@ -48,7 +48,21 @@ export const showWorkInProgress = (
   <AlertBox
     status="info"
     headline="We’re still working on this feature"
-    content={`We’re rolling out the Higher-Level Review form in stages. It’s
-      not quite ready yet, so please check back again soon.`}
+    content={
+      <>
+        <p>
+          We’re rolling out the Higher-Level Review form in stages. It’s not
+          quite ready yet. Please check back again soon.
+        </p>
+        <p>
+          <a
+            href="/decision-reviews/higher-level-review/"
+            className="u-vads-display--block u-vads-margin-top--2"
+          >
+            Return to Higher-Level Review information page
+          </a>
+        </p>
+      </>
+    }
   />
 );

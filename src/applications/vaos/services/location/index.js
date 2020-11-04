@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 /*
  * Functions in here should map a var-resources API request to a similar response from
  * a FHIR resource request
@@ -110,26 +112,18 @@ export async function getLocation({ facilityId }) {
 export async function getLocationsByTypeOfCareAndSiteIds({
   typeOfCareId,
   siteIds,
+  directSchedulingEnabled,
 }) {
   try {
     let locations = [];
 
-    const criteria = await Promise.all([
-      getDirectBookingEligibilityCriteria(siteIds),
-      getRequestEligibilityCriteria(siteIds),
-    ]);
+    const promises = [getRequestEligibilityCriteria(siteIds)];
 
-    // Fetch facilities that support direct scheduling and filter
-    // only those that support the selected type of care
-    const directFacilityIds =
-      criteria[0]
-        ?.filter(facility =>
-          facility?.coreSettings?.some(
-            setting =>
-              setting.id === typeOfCareId && !!setting.patientHistoryRequired,
-          ),
-        )
-        ?.map(facility => facility.id) || [];
+    if (directSchedulingEnabled) {
+      promises.push(getDirectBookingEligibilityCriteria(siteIds));
+    }
+
+    const criteria = await Promise.all(promises);
 
     // If patientHistoryRequired is blank or null, the scheduling method is
     // disabled for that type of care.  If "No", it is enabled, but doesn't require
@@ -138,7 +132,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
     // Fetch facilities that support requests and filter
     // only those that support the selected type of care
     const requestFacilityIds =
-      criteria[1]
+      criteria[0]
         ?.filter(facility =>
           facility?.requestSettings?.some(
             setting =>
@@ -146,6 +140,19 @@ export async function getLocationsByTypeOfCareAndSiteIds({
           ),
         )
         ?.map(facility => facility.id) || [];
+
+    // Fetch facilities that support direct scheduling and filter
+    // only those that support the selected type of care
+    const directFacilityIds = directSchedulingEnabled
+      ? criteria[1]
+          ?.filter(facility =>
+            facility?.coreSettings?.some(
+              setting =>
+                setting.id === typeOfCareId && !!setting.patientHistoryRequired,
+            ),
+          )
+          ?.map(facility => facility.id) || []
+      : [];
 
     const uniqueIds = Array.from(
       new Set([...directFacilityIds, ...requestFacilityIds]),
@@ -211,4 +218,31 @@ export function getFacilityIdFromLocation(location) {
  */
 export function getSiteIdFromFakeFHIRId(id) {
   return parseId(id).substr(0, 3);
+}
+
+/**
+ * Converts back from a real facility id to our test facility ids
+ * in lower environments
+ *
+ * @export
+ * @param {String} facilityId - facility id to convert
+ * @returns A facility id with either 442 or 552 replaced with 983 or 984
+ */
+export function getTestFacilityId(facilityId) {
+  if (!environment.isProduction() && facilityId) {
+    return facilityId.replace('442', '983').replace('552', '984');
+  }
+
+  return facilityId;
+}
+
+/**
+ * Returns formatted address from facility details object
+ *
+ * @param {*} facility - facility details object
+ */
+export function formatFacilityAddress(facility) {
+  return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
+    facility.address?.state
+  } ${facility.address?.postalCode}`;
 }

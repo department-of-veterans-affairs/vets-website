@@ -32,10 +32,19 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   EXPRESS_CARE,
-  WEEKDAY_INDEXES,
 } from '../../utils/constants';
 import { distanceBetween } from '../../utils/address';
 import { getFacilityIdFromLocation } from '../../services/location';
+
+const WEEKDAY_INDEXES = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
+};
 
 const initialState = {
   pending: null,
@@ -277,7 +286,6 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         showCancelModal: false,
         appointmentToCancel: null,
-        cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
     case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
       return {

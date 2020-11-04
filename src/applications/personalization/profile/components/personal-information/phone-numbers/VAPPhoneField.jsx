@@ -4,12 +4,12 @@ import pickBy from 'lodash/pickBy';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from 'vet360/constants';
+import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '@@vap-svc/constants';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
 import VAPProfileField from '../VAPProfileField';
-import ReceiveTextMessages from 'vet360/containers/ReceiveTextMessages';
+import ReceiveTextMessages from '@@vap-svc/containers/ReceiveTextMessages';
 
 import PhoneEditView from './PhoneEditView';
 

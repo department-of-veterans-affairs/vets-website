@@ -1,6 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { isVet360Configured } from 'platform/user/profile/vet360/util/local-vet360.js';
+import { isVet360Configured } from '@@vap-svc/util/local-vet360';
+import recordEvent from 'platform/monitoring/record-event';
+
 import {
   debtLettersSuccess,
   debtLettersSuccessVBMS,
@@ -70,6 +72,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
 
     return dispatch(fetchDebtLettersVBMSSuccess(filteredResponse));
   } catch (error) {
+    recordEvent({ event: 'bam-get-veteran-vbms-info-failed' });
     return dispatch(fetchDebtLettersVBMSFailure());
   }
 };
@@ -91,6 +94,7 @@ export const fetchDebtLetters = () => async dispatch => {
       : await debtLettersSuccess();
 
     if (Object.keys(response).includes('error')) {
+      recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });
       return dispatch(fetchDebtLettersFailure());
     }
 
@@ -101,12 +105,21 @@ export const fetchDebtLetters = () => async dispatch => {
       .filter(res => approvedDeductionCodes.includes(res.deductionCode))
       .filter(debt => debt.currentAr > 0);
 
+    recordEvent({
+      event: 'bam-get-veteran-dmc-info-successful',
+      'veteran-has-dependent-debt': response.hasDependentDebt,
+    });
+
+    if (filteredResponse.length > 0) {
+      recordEvent({ 'number-of-current-debt-cards': filteredResponse.length });
+    }
     // suppress VBMS call if they have dependent debt
     if (!response.hasDependentDebt) {
       dispatch(fetchDebtLettersVBMS());
     }
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
   } catch (error) {
+    recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });
     return dispatch(fetchDebtLettersFailure());
   }
 };

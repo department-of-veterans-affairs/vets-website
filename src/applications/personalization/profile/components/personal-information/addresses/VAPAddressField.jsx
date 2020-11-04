@@ -9,18 +9,18 @@ import {
   ADDRESS_TYPES,
   ADDRESS_POU,
   USA,
-} from 'vet360/constants';
+} from '@@vap-svc/constants';
 
 import VAPProfileField from '../VAPProfileField';
 
 import AddressEditView from './AddressEditView';
-import AddressValidationView from 'platform/user/profile/vet360/containers/AddressValidationView';
-import AddressView from 'platform/user/profile/vet360/components/AddressField/AddressView';
+import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
+import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import {
   getFormSchema,
   getUiSchema,
-} from 'platform/user/profile/vet360/components/AddressField/address-schemas';
+} from '@@vap-svc/components/AddressField/address-schemas';
 
 const inferAddressType = (countryCodeIso3, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;

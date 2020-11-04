@@ -4,10 +4,10 @@ import pickBy from 'lodash/pickBy';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import { focusElement } from 'platform/utilities/ui';
 
-import { ADDRESS_POU, FIELD_NAMES, USA } from 'vet360/constants';
+import { ADDRESS_POU, FIELD_NAMES, USA } from '@@vap-svc/constants';
 import VAPEditView from '../VAPEditView';
-import CopyMailingAddress from 'vet360/containers/CopyMailingAddress';
-import ContactInfoForm from 'platform/user/profile/vet360/components/ContactInfoForm';
+import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
+import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
 
 class AddressEditView extends React.Component {
   componentWillUnmount() {

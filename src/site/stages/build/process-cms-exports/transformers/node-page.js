@@ -16,6 +16,7 @@ function pageTransform(entity) {
     fieldPageLastBuilt,
     fieldAlert,
     fieldDescription,
+    fieldTableOfContentsBoolean,
     status,
     metatag: { value: metaTags },
   } = entity;
@@ -27,6 +28,7 @@ function pageTransform(entity) {
     fieldRelatedLinks: entity.fieldRelatedLinks[0],
     fieldIntroText: getDrupalValue(fieldIntroText),
     fieldDescription: getDrupalValue(fieldDescription),
+    fieldTableOfContentsBoolean: getDrupalValue(fieldTableOfContentsBoolean),
     changed: utcToEpochTime(getDrupalValue(changed)),
     fieldPageLastBuilt: {
       // Assume the raw data is in UTC
@@ -55,6 +57,7 @@ module.exports = {
   filter: [
     'field_intro_text',
     'field_description',
+    'field_table_of_contents_boolean',
     'field_featured_content',
     'field_content_block',
     'field_alert',

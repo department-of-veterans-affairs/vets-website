@@ -32,4 +32,6 @@ export default {
   search: 'search',
   // Online appointment scheduling
   vaos: 'vaos',
+  // CARMA (Caregiver Record Management Application)
+  carma: 'carma',
 };

@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import moment from '../../utils/moment-tz';
+import moment from '../../lib/moment-tz';
 
 import confirmedVA from '../../services/mocks/var/confirmed_va.json';
 import confirmedCC from '../../services/mocks/var/confirmed_cc.json';

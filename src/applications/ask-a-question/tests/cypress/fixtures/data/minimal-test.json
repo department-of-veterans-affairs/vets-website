@@ -9,7 +9,10 @@
     },
     "address": {
       "country": "USA",
-      "state": "IL"
+      "state": "IL",
+      "city": "Chicago",
+      "street": "200 E Randolph Fl 25",
+      "postalCode": "60601"
     },
     "preferredContactMethod": "email",
     "email": "jane.doe@va.gov",
