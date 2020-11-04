@@ -52,7 +52,8 @@ export function transform(formConfig, form) {
       description,
     ]
       .filter(part => part)
-      .join(' - ');
+      .join(' - ')
+      .substring(0, 140);
   };
 
   /* submitted contested issue format
