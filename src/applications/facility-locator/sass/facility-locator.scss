@@ -525,3 +525,23 @@ $facility-locator-color-gray: #ccc;
     white-space: pre-line;
   }
 }
+
+
+#search-area-control {
+  background: #0071BB;
+  border-radius: 5px;
+  width: 215px;
+  height: 37px;
+  cursor: pointer;
+  padding: 8px;
+  margin: 8px;
+  clear: both;
+  pointer-events: auto;
+  color: #ffffff;
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+
+  @media(max-width: $small-screen) {
+    width: 235px;
+    height: 43px;
+  }
+}

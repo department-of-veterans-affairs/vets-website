@@ -9,6 +9,7 @@ import {
   fetchVAFacility,
   searchWithBounds,
   genBBoxFromAddress,
+  genSearchAreaFromCenter,
   updateSearchQuery,
 } from '../actions';
 import {
@@ -30,11 +31,15 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
+import SearchAreaControl from '../utils/SearchAreaControl';
 
 let currentZoom = 3;
+let searchAreaSet = false;
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
+  // const [searchAreaSet, setSearchArea] = useState(false);
+  // const [showSearchArea, setShowSearchArea] = useState(false);
   const searchResultTitleRef = useRef(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
@@ -173,6 +178,19 @@ const FacilitiesMap = props => {
     setIsSearching(true);
   };
 
+  const handleSearchArea = () => {
+    const searchAreaControlId = document.getElementById('search-area-control');
+    searchAreaControlId.style.display = 'none';
+    const center = map.getCenter().wrap();
+    // const bounds = map.getBounds();
+    // console.log({ bounds });
+    // console.log({ center });
+    props.genSearchAreaFromCenter({
+      lat: center.lat,
+      lng: center.lng,
+    });
+  };
+
   const handlePageSelect = page => {
     const { currentQuery } = props;
     props.searchWithBounds({
@@ -191,6 +209,13 @@ const FacilitiesMap = props => {
       center: [MapboxInit.centerInit.lng, MapboxInit.centerInit.lat],
       zoom: MapboxInit.zoomInit,
     });
+
+    // const searchAreaCtrl = document.createElement('button');
+    // searchAreaCtrl.id = 'search-area-control';
+    // /mapInit.addControl(searchAreaCtrl);
+    const searchAreaControl = new SearchAreaControl();
+
+    mapInit.addControl(searchAreaControl);
     mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
     mapInit.on('load', () => {
@@ -216,7 +241,23 @@ const FacilitiesMap = props => {
   if (props.results.length > 0 && map) {
     // Set dragend to track map-moved ga event
     map.on('dragend', () => {
+      // const searchAreaControl = new SearchAreaControl();
+      // map.addControl(searchAreaControl);
+      const searchAreaControlId = document.getElementById(
+        'search-area-control',
+      );
+
+      if (searchAreaControlId.style.display === 'none') {
+        searchAreaControlId.style.display = 'block';
+      } // else {
+      // searchAreaControlId.style.display = 'none';
+      // }
       recordPanEvent(map.getCenter(), props.currentQuery.searchCoords);
+
+      if (searchAreaControlId && !searchAreaSet) {
+        searchAreaControlId.addEventListener('click', handleSearchArea, false);
+        searchAreaSet = true;
+      }
     });
     renderMarkers(props.results);
   }
@@ -473,6 +514,7 @@ const mapDispatchToProps = {
   fetchVAFacility,
   updateSearchQuery,
   genBBoxFromAddress,
+  genSearchAreaFromCenter,
   searchWithBounds,
   clearSearchResults,
 };
