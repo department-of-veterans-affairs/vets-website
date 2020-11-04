@@ -383,16 +383,16 @@ describe('keepAlive', () => {
   });
 
   it('should return active dslogon session', () => {
-    /* eslint-disable prettier/prettier */
+    /* eslint-disable camelcase */
     const resp = new Response('{}', {
       headers: {
         'session-alive': 'true',
         'session-timeout': '900',
-        'va_eauth_transactionid': 'X',
-        'va_eauth_csid': 'DSLogon',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'DSLogon',
       },
     });
-    /* eslint-enable prettier/prettier */
+    /* eslint-enable camelcase */
     stubFetch.resolves(resp);
     return keepAlive().then(res => {
       expect(res).to.eql({
@@ -404,16 +404,16 @@ describe('keepAlive', () => {
   });
 
   it('should return active mhv session', () => {
-    /* eslint-disable prettier/prettier */
+    /* eslint-disable camelcase */
     const resp = new Response('{}', {
       headers: {
         'session-alive': 'true',
         'session-timeout': '900',
-        'va_eauth_transactionid': 'X',
-        'va_eauth_csid': 'mhv',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'mhv',
       },
     });
-    /* eslint-enable prettier/prettier */
+    /* eslint-enable camelcase */
     stubFetch.resolves(resp);
     return keepAlive().then(res => {
       expect(res).to.eql({
@@ -425,17 +425,17 @@ describe('keepAlive', () => {
   });
 
   it('should return active idme session', () => {
-    /* eslint-disable prettier/prettier */
+    /* eslint-disable camelcase */
     const resp = new Response('{}', {
       headers: {
         'session-alive': 'true',
         'session-timeout': '900',
-        'va_eauth_transactionid': 'X',
-        'va_eauth_csid': 'idme',
-        'va_eauth_authncontextclassref': '/loa1',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'idme',
+        va_eauth_authncontextclassref: '/loa1',
       },
     });
-    /* eslint-enable prettier/prettier */
+    /* eslint-enable camelcase */
     stubFetch.resolves(resp);
     return keepAlive().then(res => {
       expect(res).to.eql({
