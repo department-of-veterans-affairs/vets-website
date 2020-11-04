@@ -6,15 +6,15 @@ import DownloadLink from '../../content/DownloadLink';
 // Yes, has a legacy appeal
 const LegacyYes = () => (
   <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
-    Since your claim has a decision date before Februrary 19, 2019, you’ll need
-    to opt in to the new decision review process. To opt in, fill out and submit
-    VA Form 20-0996 by mail, fax, or in person. On the form you’ll need to check
-    Box 15 to "opt in from{' '}
-    <dfn>
-      <abbr title="Statement of the Case">SOC</abbr>/
-      <abbr title="Supplemental Statement of the Case">SSOC</abbr>
-    </dfn>
-    ".
+    <p className="vads-u-margin-top--0">
+      Since your claim is in the legacy appeals process, you’ll need to opt in
+      to the new decision review process within 60 days of receiving your
+      Statement of the Case (SOC) or Supplemental Statement of the Case (SSOC).
+    </p>
+    <p>
+      To opt in, fill out and submit VA Form 20-0996 by mail or in person. On
+      the form, you’ll need to check Box 15 to "opt-in from SOC/SSOC".
+    </p>
     <p>
       <DownloadLink content={'Download VA Form 20-0996'} />
     </p>
