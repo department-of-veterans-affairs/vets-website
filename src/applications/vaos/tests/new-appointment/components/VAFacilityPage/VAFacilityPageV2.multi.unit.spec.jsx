@@ -404,11 +404,6 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       facilityId: '983',
       typeOfCareId: '323',
     });
-    mockEligibilityFetches({
-      siteId: '983',
-      facilityId: '983GB',
-      typeOfCareId: '323',
-    });
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
@@ -431,6 +426,12 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(
       await screen.findByLabelText(/Fake facility name 1/i),
     ).to.have.attribute('checked');
+
+    expect(
+      await screen.queryByText(
+        /You’ve reached the limit for appointment request/i,
+      ),
+    ).to.be.null;
   });
 
   it('should show unsupported facilities alert with facility locator tool link', async () => {
@@ -592,6 +593,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     await screen.findByText(
       /We couldn’t find a recent appointment at this location/i,
     );
+    screen.getByRole('alertdialog');
   });
 
   // TODO: should use correct eligibility info after a split type of care is changed

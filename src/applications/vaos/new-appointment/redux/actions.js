@@ -290,7 +290,7 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
-export function checkEligibility(location, siteId) {
+export function checkEligibility({ location, siteId, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = vaosVSPAppointmentNew(state);
@@ -318,6 +318,7 @@ export function checkEligibility(location, siteId) {
         typeOfCareId,
         eligibilityData,
         facilityId: location.id,
+        showModal,
       });
 
       try {
@@ -393,7 +394,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         });
 
         // If we have only have a single location fetch eligbility data immediately
-        const eligibilityDataNeeded = typeOfCareFacilities?.length === 1;
+        const eligibilityDataNeeded =
+          !!facilityId || typeOfCareFacilities?.length === 1;
 
         if (!typeOfCareFacilities.length) {
           recordEligibilityFailure(
@@ -411,13 +413,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
         if (eligibilityDataNeeded && !eligibilityChecks) {
-          const selectedFacility = typeOfCareFacilities[0];
+          const location = typeOfCareFacilities.find(f => f.id === facilityId);
 
           if (!siteId) {
-            siteId = getSiteIdFromFakeFHIRId(selectedFacility.id);
+            siteId = getSiteIdFromFakeFHIRId(location.id);
           }
 
-          dispatch(checkEligibility(selectedFacility, siteId));
+          dispatch(checkEligibility({ location, siteId, showModal: false }));
         }
       }
     } catch (e) {

@@ -1,9 +1,10 @@
 import {
+  getChosenFacilityInfo,
+  getEligibilityStatus,
   getFormData,
   getNewAppointment,
-  getEligibilityStatus,
   getTypeOfCare,
-  getChosenFacilityInfo,
+  getTypeOfCareFacilities,
   selectUseFlatFacilityPage,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
@@ -64,9 +65,16 @@ async function vaFacilityNext(state, dispatch) {
   let eligibility;
 
   if (selectUseFlatFacilityPage(state)) {
-    const facility = getChosenFacilityInfo(state);
-    const siteId = getSiteIdFromFakeFHIRId(facility.id);
-    eligibility = await dispatch(checkEligibility(facility, siteId));
+    const location = getChosenFacilityInfo(state);
+    const siteId = getSiteIdFromFakeFHIRId(location.id);
+
+    eligibility = await dispatch(
+      checkEligibility({
+        location,
+        siteId,
+        showModal: getTypeOfCareFacilities(state)?.length > 1,
+      }),
+    );
     if (!eligibility.direct && !eligibility.request) {
       return VA_FACILITY_V2_KEY;
     }
