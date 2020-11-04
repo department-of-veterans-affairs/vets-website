@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import ResponsiveTable from '../../responsive-table/ResponsiveTable';
+import Table from '@department-of-veterans-affairs/formation-react/Table';
 import { clientServerErrorContent } from '../helpers';
 import { chunk } from 'lodash';
 
@@ -75,7 +75,7 @@ class Payments extends Component {
             Displaying {this.state.fromNumber} - {this.state.toNumber} of{' '}
             {this.props.data.length}
           </p>
-          <ResponsiveTable
+          <Table
             ariaLabelledBy={tableAriaLabelldBy}
             className="va-table"
             currentSort={{
