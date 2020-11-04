@@ -61,9 +61,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         .add(1, 'month')
         .format('MMMM');
       const buttons = screen
-        .getAllByRole('button', {
-          name: new RegExp(`(${currentMonth}|${nextMonth})`),
-        })
+        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
         .filter(button => button.disabled === false);
 
       // it should allow the user to select morning for currently selected date
@@ -175,7 +173,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       ).to.be.ok;
     });
 
-    xit('should display an alert when user selects more than 3 dates', async () => {
+    it('should display an alert when user selects more than 3 dates', async () => {
       const store = createTestStore({
         newAppointment: {
           data: {
@@ -201,9 +199,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         .add(1, 'month')
         .format('MMMM');
       const buttons = screen
-        .getAllByRole('button', {
-          name: new RegExp(`(${currentMonth}|${nextMonth})`),
-        })
+        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
         .filter(button => button.disabled === false);
 
       // it should display an alert when the users selects more than the allowed dates
