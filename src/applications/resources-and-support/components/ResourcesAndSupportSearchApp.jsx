@@ -5,6 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { focusElement } from 'platform/utilities/ui';
 
+import '../style.scss';
 import useArticleData from '../hooks/useArticleData';
 import useGetSearchResults from '../hooks/useGetSearchResults';
 
