@@ -27,39 +27,37 @@
     }
 {% endcomment %}
 
-{% assign mobileTableData = entity | formatMobileTableData %}
-<pre> {{mobileTableData | json}}</pre>
 <table data-template="paragraphs/table" data-entity-id="{{ entity.entityId }}" class="va-table rwd" role="table">
-
-    {% if entity.fieldTable.caption %}
-        <caption>{{ entity.fieldTable.caption }}</caption>
-    {% endif %}
-
-    {% for value in entity.fieldTable.value %}
-        {% if forloop.first == true %}
-            <thead>
-                <tr role="row">
-                    {% for column in value %}
-                        <th role="columnheader" scope="col">{{ column }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-        {% elsif forloop.last == false %}
-            <tbody>
-                <tr class="class" role="row">
-                    <td class="medium-screen:vads-u-display--none">
-                        {{mobileTableData.colHeader}}
-                    </td>
-                    {% for column in value %}
-                        {% assign idx = forloop.index %}
-                        <td role="cell">
-                            {{idx}}
-                            {{ column }}
-                        </td>
-                    {% endfor %}
-                </tr>
-            </tbody>
+    <tbody>
+        {% if entity.fieldTable.caption %}
+            <caption>{{ entity.fieldTable.caption }}</caption>
         {% endif %}
-    {% endfor %}
-
+        {% assign colLabels = entity.fieldTable.value.0  %}
+        {% for value in entity.fieldTable.value %}
+            {% if forloop.first == true %}
+                <thead>
+                    <tr role="row">
+                        {% for column in value %}
+                            <th role="columnheader" scope="col">{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+            {% elsif forloop.last == false %}
+                <tr class="vads-u-padding-top--5" role="row">
+                    {% for column in value %}
+                        <dfn>
+                            <td class="vads-u-padding-bottom--0 column-label vads-u-font-weight--bold medium-screen:vads-u-display--none" role="cell">
+                                {{colLabels | lookupArrayItem: forloop.index0}}
+                            </td>
+                        </dfn>
+                        <dfn>
+                            <td class="vads-u-padding-top--0 vads-u-padding-bottom--8px column-value"  role="cell">
+                                {{ column }}
+                            </td>
+                        </dfn>
+                    {% endfor %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
 </table>

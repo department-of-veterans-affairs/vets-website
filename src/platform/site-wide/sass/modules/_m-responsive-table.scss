@@ -19,7 +19,7 @@
   }
   .rwd thead {
     display: none;
-}
+  }
   .rwd td,
   .rwd th {
     border: none;
@@ -27,8 +27,9 @@
   }
   .rwd td {
     display: flex;
-    grid-gap: 1px;
-    padding: 0.5rem;
+    grid-gap: 2px;
+    padding: 1rem;
+    padding-left: 0px;
   }
   .rwd dfn {
     display: block;
@@ -45,5 +46,18 @@
   }
   .rwd tr td:nth-child(3) dfn {
     display: block;
+  }
+
+  td p {
+    margin-bottom: 0;
+  }
+  .column-value strong:nth-child(1) {
+    font-weight: normal;
+  }
+  .column-label:nth-child(1) {
+    padding-top: 20px;
+  }
+  .column-value:nth-last-child(1) {
+    padding-bottom: 20px;
   }
 }

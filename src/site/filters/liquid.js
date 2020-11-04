@@ -26,13 +26,6 @@ module.exports = function registerFilters() {
     return date.replace(/AM/g, 'a.m.').replace(/PM/g, 'p.m.');
   }
 
-  liquid.filters.formatMobileTableData = entity => {
-    return {
-      colHeader: entity.fieldTable.value['0'][0],
-      colLabels: entity.fieldTable.value['0'].slice(1),
-    };
-  };
-
   liquid.filters.timeZone = (dt, tz, format) => {
     if (dt && tz) {
       const timeZoneDate = new Date(dt).toLocaleString('en-US', {
@@ -374,6 +367,10 @@ module.exports = function registerFilters() {
     // we should have a list of the parents that lead to this path
     return deepObj;
   }
+
+  liquid.filters.lookupArrayItem = (arr, idx) => {
+    return arr && arr[idx] ? arr[idx] : '';
+  };
 
   liquid.filters.findCurrentPathDepthRecursive = (linksArray, currentPath) =>
     JSON.stringify(getDepth(linksArray, currentPath));
