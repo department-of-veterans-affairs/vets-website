@@ -3,12 +3,12 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectAvailableServices, selectVet360 } from 'platform/user/selectors';
 import { VET360_INITIALIZATION_STATUS, INIT_VET360_ID } from './constants';
 
-import { isVet360Configured } from './util/local-vet360';
+import { isVAProfileServiceConfigured } from './util/local-vapsvc';
 
 import { isFailedTransaction, isPendingTransaction } from './util/transactions';
 
 export function selectIsVet360AvailableForUser(state) {
-  if (!isVet360Configured()) return true; // returns true if on localhost
+  if (!isVAProfileServiceConfigured()) return true; // returns true if on localhost
   return selectAvailableServices(state).includes(backendServices.VET360);
 }
 

@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { isVet360Configured } from '@@vap-svc/util/local-vet360';
+import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
@@ -54,7 +54,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = isVet360Configured()
+    const response = isVAProfileServiceConfigured()
       ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
       : await debtLettersSuccessVBMS();
 
@@ -89,7 +89,7 @@ export const fetchDebtLetters = () => async dispatch => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = isVet360Configured()
+    const response = isVAProfileServiceConfigured()
       ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
       : await debtLettersSuccess();
 

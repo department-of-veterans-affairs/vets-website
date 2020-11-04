@@ -16,9 +16,9 @@ import {
 } from '../constants/addressValidationMessages';
 
 import {
-  isVet360Configured,
+  isVAProfileServiceConfigured,
   mockContactInformation,
-} from '@@vap-svc/util/local-vet360';
+} from '@@vap-svc/util/local-vapsvc';
 
 const commonServices = {
   EMIS: 'EMIS',
@@ -84,7 +84,7 @@ export function mapRawUserDataToState(json) {
       last,
     },
     verified,
-    vet360: isVet360Configured()
+    vet360: isVAProfileServiceConfigured()
       ? vet360ContactInformation
       : mockContactInformation,
     session,
