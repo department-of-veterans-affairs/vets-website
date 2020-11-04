@@ -419,7 +419,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
             siteId = getSiteIdFromFakeFHIRId(location.id);
           }
 
-          dispatch(checkEligibility({ location, siteId, showModal: false }));
+          dispatch(checkEligibility({ location, siteId }));
         }
       }
     } catch (e) {
