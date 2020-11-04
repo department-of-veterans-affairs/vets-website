@@ -14,4 +14,33 @@
       display: block;
     }
   }
+  .rwd tr {
+    border-top: 2px solid #999;
+  }
+  .rwd td,
+  .rwd th {
+    border: none;
+    display: block;
+  }
+  .rwd td {
+    display: flex;
+    grid-gap: 1px;
+    padding: 0.5rem;
+  }
+  .rwd dfn {
+    display: block;
+    font-style: normal;
+    font-weight: 800;
+    margin: 0;
+    padding: 0;
+  }
+  .rwd span {
+    text-align: right;
+  }
+  .rwd tr td:nth-child(3) {
+    display: block;
+  }
+  .rwd tr td:nth-child(3) dfn {
+    display: block;
+  }
 }

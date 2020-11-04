@@ -28,7 +28,7 @@
 {% endcomment %}
 
 
-<table data-template="paragraphs/table" data-entity-id="{{ entity.entityId }}" class="va-table">
+<table data-template="paragraphs/table" data-entity-id="{{ entity.entityId }}" class="va-table rwd" role="table">
 
     {% if entity.fieldTable.caption %}
         <caption>{{ entity.fieldTable.caption }}</caption>
@@ -37,17 +37,17 @@
     {% for value in entity.fieldTable.value %}
         {% if forloop.first == true %}
             <thead>
-                <tr>
+                <tr role="row">
                     {% for column in value %}
-                        <th>{{ column }}</th>
+                        <th scope="col" role="columnheader">{{ column }}</th>
                     {% endfor %}
                 </tr>
             </thead>
         {% elsif forloop.last == false %}
             <tbody>
-                <tr class="class">
+                <tr class="class" role="row">
                     {% for column in value %}
-                        <td>{{ column }}</td>
+                        <td role="cell">{{ column }}</td>
                     {% endfor %}
                 </tr>
             </tbody>
