@@ -551,44 +551,44 @@ describe('VAOS integration: appointment list', () => {
 
     expect(
       await screen.findByRole('tab', {
-        name: 'Upcoming',
+        name: 'upcoming appointments',
         selected: true,
       }),
     ).to.not.have.attribute('tabindex');
     expect(
       screen.getByRole('tab', {
-        name: 'Past',
+        name: 'past appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
     expect(
       screen.getByRole('tab', {
-        name: 'Express Care',
+        name: 'express care appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
 
     userEvent.click(
       screen.getByRole('tab', {
-        name: 'Past',
+        name: 'past appointments',
       }),
     );
 
     expect(
       await screen.findByRole('tab', {
-        name: 'Past',
+        name: 'past appointments',
         selected: true,
       }),
     ).to.not.have.attribute('tabindex');
     expect(
       screen.getByRole('tab', {
-        name: 'Upcoming',
+        name: 'upcoming appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
     expect(
       screen.getByRole('tab', {
-        name: 'Express Care',
+        name: 'express care appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
