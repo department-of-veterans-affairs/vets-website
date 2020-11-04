@@ -366,7 +366,7 @@ export function getFacilityPageV2Info(state) {
     parentFacilitiesStatus,
     requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),
-    singleValidVALocation: facilities?.length === 1,
+    singleValidVALocation: facilities?.length === 1 && !!data.vaFacility,
     showEligibilityModal: facilities?.length > 1 && showEligibilityModal,
     sortMethod: facilityPageSortMethod,
     typeOfCare: typeOfCare?.name,

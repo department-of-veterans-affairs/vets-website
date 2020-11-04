@@ -404,6 +404,11 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       facilityId: '983',
       typeOfCareId: '323',
     });
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983GB',
+      typeOfCareId: '323',
+    });
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 

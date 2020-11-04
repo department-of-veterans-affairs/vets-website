@@ -392,10 +392,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           address: selectVet360ResidentialAddress(initialState),
         });
 
-        // If we have an already selected location or only have a single location
-        // fetch eligbility data immediately
-        const eligibilityDataNeeded =
-          !!facilityId || typeOfCareFacilities?.length === 1;
+        // If we have only have a single location fetch eligbility data immediately
+        const eligibilityDataNeeded = typeOfCareFacilities?.length === 1;
 
         if (!typeOfCareFacilities.length) {
           recordEligibilityFailure(
