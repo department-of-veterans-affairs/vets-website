@@ -198,7 +198,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
   });
 
-  it('should display alert message when residental address is missing', async () => {
+  it('should display alert message when residential address is missing', async () => {
     const stateWithoutAddress = set(
       'user.profile.vet360.residentialAddress',
       null,
