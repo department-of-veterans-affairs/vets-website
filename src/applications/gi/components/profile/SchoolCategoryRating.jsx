@@ -61,7 +61,7 @@ export default function SchoolCategoryRating({
           </div>
         </button>
         {open && (
-          <div className="vads-u-padding-top--1  medium-screen:vads-u-padding-left--1">
+          <div className="vads-u-padding-top--1  vads-u-margin-top--2p5 medium-screen:vads-u-padding-left--1 ">
             Distribution of ratings
             <div className="vads-u-margin-top--1">
               {renderBar('5 star', categoryRating.rated5Count)}

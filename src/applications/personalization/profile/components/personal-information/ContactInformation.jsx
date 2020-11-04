@@ -5,18 +5,18 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { TRANSACTION_CATEGORY_TYPES } from '@@vet360/constants';
+import { TRANSACTION_CATEGORY_TYPES } from '@@vap-svc/constants';
 
-import Vet360InitializeID from '@@vet360/containers/InitializeVet360ID';
-import Vet360PendingTransactionCategory from '@@vet360/containers/Vet360PendingTransactionCategory';
+import Vet360InitializeID from '@@vap-svc/containers/InitializeVet360ID';
+import Vet360PendingTransactionCategory from '@@vap-svc/containers/Vet360PendingTransactionCategory';
 
-import MailingAddress from '@@vet360/components/MailingAddress';
-import ResidentialAddress from '@@vet360/components/ResidentialAddress';
-import HomePhone from '@@vet360/components/HomePhone';
-import MobilePhone from '@@vet360/components/MobilePhone';
-import WorkPhone from '@@vet360/components/WorkPhone';
-import FaxNumber from '@@vet360/components/FaxNumber';
-import Email from '@@vet360/components/Email';
+import MailingAddress from '@@vap-svc/components/MailingAddress';
+import ResidentialAddress from '@@vap-svc/components/ResidentialAddress';
+import HomePhone from '@@vap-svc/components/HomePhone';
+import MobilePhone from '@@vap-svc/components/MobilePhone';
+import WorkPhone from '@@vap-svc/components/WorkPhone';
+import FaxNumber from '@@vap-svc/components/FaxNumber';
+import Email from '@@vap-svc/components/Email';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import ContactInformationExplanation from './ContactInformationExplanation';

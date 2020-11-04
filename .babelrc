@@ -51,7 +51,7 @@
       {
         "root": "./src",
         "alias": {
-          "@@vet360": "./src/platform/user/profile/vap-svc",
+          "@@vap-svc": "./src/platform/user/profile/vap-svc",
           "@@profile": "./src/applications/personalization/profile"
         }
       }

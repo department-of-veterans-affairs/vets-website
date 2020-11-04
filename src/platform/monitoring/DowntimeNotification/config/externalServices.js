@@ -34,4 +34,6 @@ export default {
   vaos: 'vaos',
   // Online appointment scheduling warning message
   vaosWarning: 'vaosWarning',
+  // CARMA (Caregiver Record Management Application)
+  carma: 'carma',
 };
