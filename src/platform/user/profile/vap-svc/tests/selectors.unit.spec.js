@@ -41,7 +41,7 @@ const hooks = {
 describe('selectors', () => {
   describe('selectIsVet360AvailableForUser', () => {
     beforeEach(hooks.beforeEach);
-    it('returns true if vet660 is found in the profile.services list or when the environment is localhost', () => {
+    it('returns true if vet360 is found in the profile.services list or when the environment is localhost', () => {
       const old = { document: global.document };
       global.document = {
         location: {
@@ -55,7 +55,7 @@ describe('selectors', () => {
         'returns true when on localhost so the local mock Vet360 will run',
       ).to.be.true;
 
-      global.document.location.hostname = 'staging.vets.gov';
+      global.document.location.hostname = 'staging.va.gov';
       result = selectors.selectIsVet360AvailableForUser(state);
       expect(
         result,
@@ -308,7 +308,7 @@ describe('selectVet360InitializationStatus', () => {
     hooks.beforeEach();
     global.document = {
       location: {
-        hostname: 'staging.vets.gov',
+        hostname: 'staging.va.gov',
       },
     };
   });
