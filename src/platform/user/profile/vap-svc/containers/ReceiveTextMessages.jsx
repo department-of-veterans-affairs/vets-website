@@ -11,7 +11,7 @@ import {
 
 import * as VET360 from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
-import { selectVet360Transaction } from '@@vet360/selectors';
+import { selectVet360Transaction } from '@@vap-svc/selectors';
 
 import {
   isPendingTransaction,

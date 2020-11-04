@@ -5,7 +5,7 @@ import Vet360EditModal from '../base/Vet360EditModal';
 
 import { isVAPatient } from 'platform/user/selectors';
 
-import { FIELD_NAMES } from '@@vet360/constants';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 import ContactInfoForm from '../ContactInfoForm';
 
