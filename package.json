@@ -47,7 +47,7 @@
     "install-repos": "./script/install-repos.sh",
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
-    "postinstall": "npm rebuild node-sass",
+    "postinstall": "npm rebuild node-sass && node ./script/check-node-version.js",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
@@ -271,8 +271,8 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "14.15.0",
-    "yarn": "1.21.1"
+    "node": ">=14.15.0",
+    "yarn": ">=1.21.1"
   },
   "private": true,
   "dependencies": {
