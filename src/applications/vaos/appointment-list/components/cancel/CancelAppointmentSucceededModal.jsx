@@ -14,7 +14,7 @@ export default function CancelAppointmentSucceededModal({
       onClose={onClose}
       title={`Your ${typeText} has been canceled`}
     >
-      We’ve let your provider know you canceled this ${typeText}.
+      We’ve let your provider know you canceled this {typeText}.
       <p className="vads-u-margin-top--2">
         <button onClick={onClose}>Continue</button>
       </p>
