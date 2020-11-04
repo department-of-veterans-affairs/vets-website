@@ -123,7 +123,7 @@ describe('VAOS integration: reason for appointment page with a single-site user'
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
-      .to.equal('148');
+      .to.equal('131');
 
     expect(
       screen.getByRole('heading', {

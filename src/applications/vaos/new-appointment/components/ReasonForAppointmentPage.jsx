@@ -74,7 +74,7 @@ function ReasonForAppointmentPage({
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   schema,
-  updateFormData,
+  updateReasonForAppointmentData,
 }) {
   const history = useHistory();
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
@@ -100,7 +100,9 @@ function ReasonForAppointmentPage({
         schema={schema || pageInitialSchema}
         uiSchema={pageUISchema}
         onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-        onChange={newData => updateFormData(pageKey, pageUISchema, newData)}
+        onChange={newData =>
+          updateReasonForAppointmentData(pageKey, pageUISchema, newData)
+        }
         data={data}
       >
         <AlertBox
@@ -149,7 +151,7 @@ const mapDispatchToProps = {
   openReasonForAppointment: actions.openReasonForAppointment,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  updateFormData: actions.updateFormData,
+  updateReasonForAppointmentData: actions.updateReasonForAppointmentData,
 };
 
 export default connect(
