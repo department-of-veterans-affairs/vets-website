@@ -1,21 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
-
-import {
-  isFailedTransaction,
-  isPendingTransaction,
-} from '@@vet360/util/transactions';
-import { selectAddressValidation } from '@@vet360/selectors';
-
-import Vet360EditModalErrorMessage from '@@vet360/components/base/Vet360EditModalErrorMessage';
-
-import * as VET360 from '../constants';
 import {
   openModal,
   createTransaction,
@@ -24,32 +14,26 @@ import {
   closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
+import recordEvent from 'platform/monitoring/record-event';
 
-class AddressValidationView extends React.Component {
-  componentDidUpdate(prevProps) {
-    // if the transaction just became pending, start calling the
-    // refreshTransaction() on an interval
-    if (
-      isPendingTransaction(this.props.transaction) &&
-      !isPendingTransaction(prevProps.transaction)
-    ) {
-      this.interval = window.setInterval(
-        this.props.refreshTransaction,
-        window.VetsGov.pollTimeout || 1000,
-      );
-    }
-  }
+import * as VET360 from '../constants';
 
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from '@@vap-svc/util/transactions';
+
+import Vet360EditModalErrorMessage from '@@vap-svc/components/base/Vet360EditModalErrorMessage';
+
+class AddressValidationModal extends React.Component {
   componentWillUnmount() {
-    if (this.interval) {
-      window.clearInterval(this.interval);
-    }
     focusElement(`#${this.props.addressValidationType}-edit-link`);
   }
 
-  onChangeSelectedAddress = (address, selectedAddressId) => {
+  onChangeHandler = (address, selectedAddressId) => _event => {
     this.props.updateSelectedAddress(address, selectedAddressId);
   };
 
@@ -149,10 +133,10 @@ class AddressValidationView extends React.Component {
 
   renderAddressOption = (address, id = 'userEntered') => {
     const {
-      addressValidationError,
-      confirmedSuggestions,
-      selectedAddressId,
       validationKey,
+      addressValidationError,
+      selectedAddressId,
+      confirmedSuggestions,
     } = this.props;
 
     const isAddressFromUser = id === 'userEntered';
@@ -177,9 +161,9 @@ class AddressValidationView extends React.Component {
             <input
               type="radio"
               id={id}
-              onChange={() => {
-                this.onChangeSelectedAddress(address, id);
-              }}
+              onChange={
+                isFirstOptionOrEnabled && this.onChangeHandler(address, id)
+              }
               checked={selectedAddressId === id}
             />
           )}
@@ -206,17 +190,17 @@ class AddressValidationView extends React.Component {
 
   render() {
     const {
-      addressFromUser,
-      addressValidationError,
-      clearErrors,
-      confirmedSuggestions,
-      resetAddressValidation,
+      addressValidationType,
       suggestedAddresses,
-      title,
+      addressFromUser,
+      validationKey,
+      addressValidationError,
+      resetAddressValidation,
+      confirmedSuggestions,
       transaction,
       transactionRequest,
-      validationKey,
-      isLoading,
+      title,
+      clearErrors,
     } = this.props;
 
     const resetDataAndCloseModal = () => {
@@ -241,7 +225,16 @@ class AddressValidationView extends React.Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     return (
-      <>
+      <Modal
+        title={
+          addressValidationType.includes('mailing')
+            ? 'Edit mailing address'
+            : 'Edit home address'
+        }
+        id="address-validation-warning"
+        onClose={resetDataAndCloseModal}
+        visible
+      >
         {error && (
           <div className="vads-u-margin-bottom--1">
             <Vet360EditModalErrorMessage
@@ -252,10 +245,9 @@ class AddressValidationView extends React.Component {
           </div>
         )}
         <AlertBox
-          className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+          className="vads-u-margin-bottom--1"
           status="warning"
           headline={addressValidationMessage.headline}
-          scrollOnShow
         >
           <addressValidationMessage.ModalText editFunction={this.onEditClick} />
         </AlertBox>
@@ -272,61 +264,56 @@ class AddressValidationView extends React.Component {
               this.renderAddressOption(address, String(index)),
             )}
           {this.renderPrimaryButton()}
-
-          {!isLoading && (
-            <button
-              type="button"
-              className="usa-button-secondary"
-              onClick={resetDataAndCloseModal}
-            >
-              Cancel
-            </button>
-          )}
+          <button
+            type="button"
+            className="usa-button-secondary"
+            onClick={resetDataAndCloseModal}
+          >
+            Cancel
+          </button>
         </form>
-      </>
+      </Modal>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;
-  const {
-    addressFromUser,
-    addressValidationError,
-    addressValidationType,
-    confirmedSuggestions,
-    selectedAddress,
-    selectedAddressId,
-    suggestedAddresses,
-    validationKey,
-  } = selectAddressValidation(state);
+  const addressValidationType =
+    state.vet360.addressValidation.addressValidationType;
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
       state.vet360.fieldTransactionMap[addressValidationType]?.isPending ||
       isPendingTransaction(transaction),
-    addressFromUser,
-    addressValidationError,
+    addressValidationError:
+      state.vet360.addressValidation.addressValidationError,
+    suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,
+    confirmedSuggestions: state.vet360.addressValidation.confirmedSuggestions,
     addressValidationType,
-    confirmedSuggestions,
-    selectedAddress,
-    selectedAddressId,
-    suggestedAddresses,
-    validationKey,
+    validationKey: state.vet360.addressValidation.validationKey,
+    addressFromUser: state.vet360.addressValidation.addressFromUser,
+    selectedAddress: state.vet360.addressValidation.selectedAddress,
+    selectedAddressId: state.vet360.addressValidation.selectedAddressId,
   };
 };
 
-const mapDispatchToProps = {
-  closeModal,
-  openModal,
-  updateSelectedAddress,
-  updateValidationKeyAndSave,
-  createTransaction,
-  resetAddressValidation: resetAddressValidationAction,
-};
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators(
+    {
+      closeModal,
+      openModal,
+      updateSelectedAddress,
+      updateValidationKeyAndSave,
+      createTransaction,
+      resetAddressValidation: resetAddressValidationAction,
+    },
+    dispatch,
+  ),
+});
 
-AddressValidationView.propTypes = {
+AddressValidationModal.propTypes = {
   analyticsSectionName: PropTypes.string,
   addressValidationError: PropTypes.bool.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
@@ -360,4 +347,4 @@ AddressValidationView.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(AddressValidationView);
+)(AddressValidationModal);

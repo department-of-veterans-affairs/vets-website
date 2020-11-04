@@ -14,13 +14,14 @@ describe('fetchDebtLetters', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);
       expect(dispatch.secondCall.args[0].debts).to.deep.equal([
         {
-          fileNumber: 796121200,
+          fileNumber: '796121200',
           payeeNumber: '00',
           personEntitled: 'STUB_M',
           deductionCode: '44',
           benefitType: 'CH35 EDU',
-          diaryCode: '680',
-          diaryCodeDescription: 'Your payment is due.',
+          diaryCode: '081',
+          diaryCodeDescription:
+            "We're referring this debt to the U.S. Department of the Treasury today.",
           amountOverpaid: 26000,
           amountWithheld: 0,
           originalAr: 100,
@@ -62,7 +63,7 @@ describe('fetchDebtLetters', () => {
           ],
         },
         {
-          fileNumber: 796121200,
+          fileNumber: '796121200',
           payeeNumber: '00',
           personEntitled: 'AJOHNS',
           deductionCode: '71',

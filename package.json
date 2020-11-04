@@ -276,7 +276,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "6.10.0",
+    "@department-of-veterans-affairs/formation": "6.10.1",
     "@department-of-veterans-affairs/formation-react": "5.8.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
@@ -305,6 +305,7 @@
     "leaflet-control-geocoder": "^1.13.0",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.19",
+    "mapbox-gl": "^1.12.0",
     "markdown-it": "^11.0.0",
     "markdown-it-link-attributes": "^3.0.0",
     "metalsmith": "^2.1.0",

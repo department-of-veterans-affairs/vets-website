@@ -10,7 +10,7 @@ import {
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
-import { FIELD_NAMES, ADDRESS_POU } from '@@vet360/constants';
+import { FIELD_NAMES, ADDRESS_POU } from '@@vap-svc/constants';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS =
   'VET360_TRANSACTIONS_FETCH_SUCCESS';

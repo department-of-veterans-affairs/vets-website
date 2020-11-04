@@ -258,6 +258,7 @@ export const genBBoxFromAddress = query => {
           payload: {
             ...query,
             context: zipCode,
+            id: Date.now(),
             inProgress: true,
             position: {
               latitude: coordinates[1],

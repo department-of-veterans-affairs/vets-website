@@ -5,9 +5,9 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from '@@vet360/util/transactions';
+} from '@@vap-svc/util/transactions';
 import VAPEditModalActionButtons from './VAPEditModalActionButtons';
-import Vet360EditModalErrorMessage from 'platform/user/profile/vet360/components/base/Vet360EditModalErrorMessage';
+import Vet360EditModalErrorMessage from '@@vap-svc/components/base/Vet360EditModalErrorMessage';
 
 class VAPEditView extends Component {
   static propTypes = {
