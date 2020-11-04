@@ -3,7 +3,6 @@
 const _ = require('lodash');
 const liquid = require('tinyliquid');
 
-const ENVIRONMENTS = require('../../../constants/environments');
 const { ENTITY_BUNDLES } = require('../../../constants/content-modeling');
 
 const { logDrupal } = require('../drupal/utilities-drupal');
@@ -198,6 +197,7 @@ function createPaginatedArticleListings({
           });
 
           const page = {
+            private: true, // @todo remove this to enable indexing
             articleTypesByEntityBundle,
             contents: Buffer.from(''),
             path: pageOfArticles.uri,
@@ -214,15 +214,6 @@ function createPaginatedArticleListings({
               next: paginatorNext,
             },
           };
-
-          if (index > 0) {
-            page.entityUrl.breadcrumb.push({
-              url: {
-                path: `/${pageOfArticles.uri}/`,
-              },
-              text: index + 1,
-            });
-          }
 
           page.debug = JSON.stringify(page);
 
@@ -335,15 +326,21 @@ function createSearchResults(files) {
   };
 }
 
-function createResourcesAndSupportWebsiteSection(buildOptions) {
-  if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
-    return () => {};
-  }
+// @todo remove this to enable indexing
+function excludeFromSiteMap(files) {
+  const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
 
+  allArticles.forEach(article => {
+    article.private = true;
+  });
+}
+
+function createResourcesAndSupportWebsiteSection() {
   return files => {
     excludeQaNodesThatAreNotStandalonePages(files);
     createArticleListingsPages(files);
     createSearchResults(files);
+    excludeFromSiteMap(files);
   };
 }
 
