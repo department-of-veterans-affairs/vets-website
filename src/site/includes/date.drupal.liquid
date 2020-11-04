@@ -1,24 +1,34 @@
-% assign timezone = "America/New_York" %}
-{% comment %}
-Ultimately, we will allow check to use user timezone.
-{% if uid.entity.timezone != empty %}
-{% assign timezone = uid.entity.timezone %}
+{% assign timezone = "America/New_York" %}
+
+{% if fieldDatetimeRangeTimezone.timezone != empty and buildtype != 'vagovprod' %}
+    {% assign timezone = fieldDatetimeRangeTimezone.timezone |  timezoneAbbrev: fieldDatetimeRangeTimezone.value %}
 {% endif %}
-{% endcomment %}
 
-{% assign start_date_no_time = fieldDate.startDate | timeZone: timezone, "dddd, MMM D" %}
-{% assign end_date_no_time = fieldDate.endValue | timeZone: timezone, "dddd, MMM D" %}
+{% if fieldDatetimeRangeTimezone.value != empty and buildtype != 'vagovprod' %}
+    {% assign start_date_no_time = fieldDatetimeRangeTimezone.value | dateFromUnix: 'dddd, MMM D' %}
+    {% assign start_time = fieldDatetimeRangeTimezone.value | dateFromUnix: "h:mm A" %}
+    {% assign start_date_full = fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, h:mm A" %}
+    {% assign start_timestamp = fieldDatetimeRangeTimezone.value %}
+{% else %}
+    {% assign start_date_no_time = fieldDate.startDate | timeZone: timezone, "dddd, MMM D" %}
+    {% assign start_time = fieldDate.startDate | timeZone: timezone, "h:mm A" %}
+    {% assign start_date_full = fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+    {% assign start_timestamp = fieldDate.value | unixFromDate %}
+{% endif %}
 
-{% assign start_time = fieldDate.startDate | timeZone: timezone, "h:mm A" %}
-{% assign end_time = fieldDate.endDate | timeZone: timezone, "h:mm A" %}
+{% if fieldDatetimeRangeTimezone.endValue != empty and buildtype != 'vagovprod' %}
+    {% assign end_date_no_time = fieldDatetimeRangeTimezone.endValue | dateFromUnix: 'dddd, MMM D' %}
+    {% assign end_time = fieldDatetimeRangeTimezone.endValue | dateFromUnix: "h:mm A" %}
+    {% assign end_date_full = fieldDatetimeRangeTimezone.endValue | dateFromUnix: "dddd, MMM D, h:mm A" %}
+{% else %}
+    {% assign end_date_no_time = fieldDate.endValue | timeZone: timezone, "dddd, MMM D" %}
+    {% assign end_time = fieldDate.endDate | timeZone: timezone, "h:mm A" %}
+    {% assign end_date_full = fieldDate.endDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+{% endif %}
 
-{% assign start_date_full = fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
-{% assign end_date_full = fieldDate.endDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+{% assign current_timestamp = ''| currentUnixFromDate %}
 
-{% assign start_timestamp = fieldDate.value | unixFromDate %}
-{% assign current_timestamp = fieldDate.value | currentUnixFromDate %}
-
-{% if fieldDate.value != empty and fieldDate.endValue == empty %}
+{% if start_date_no_time != empty and end_date_no_time == empty %}
     {% assign date_type = "start_date_only" %}
 {% else %}
     {% if start_date_no_time == end_date_no_time %}
