@@ -557,7 +557,7 @@ export const isClaimingNew = formData =>
     !hasRatedDisabilities(formData),
   );
 
-const isClaimingIncrease = formData =>
+export const isClaimingIncrease = formData =>
   _.get('view:claimType.view:claimingIncrease', formData, false);
 
 export const hasNewPtsdDisability = formData =>
