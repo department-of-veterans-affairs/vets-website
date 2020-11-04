@@ -3,7 +3,6 @@
 const _ = require('lodash');
 const liquid = require('tinyliquid');
 
-const ENVIRONMENTS = require('../../../constants/environments');
 const { ENTITY_BUNDLES } = require('../../../constants/content-modeling');
 
 const { logDrupal } = require('../drupal/utilities-drupal');
@@ -335,11 +334,7 @@ function createSearchResults(files) {
   };
 }
 
-function createResourcesAndSupportWebsiteSection(buildOptions) {
-  if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
-    return () => {};
-  }
-
+function createResourcesAndSupportWebsiteSection() {
   return files => {
     excludeQaNodesThatAreNotStandalonePages(files);
     createArticleListingsPages(files);
