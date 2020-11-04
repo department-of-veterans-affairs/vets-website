@@ -44,7 +44,7 @@ class DebtCard extends Component {
       currency: 'USD',
       minimumFractionDigits: 2,
     });
-
+    const isChecked = this.props.fsrDebts.includes(debtCardHeading);
     return (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
         <h3 className="vads-u-font-size--h4 vads-u-margin--0">
@@ -69,14 +69,14 @@ class DebtCard extends Component {
             id={debt.diaryCodeDescription}
             type="checkbox"
             className=" vads-u-width--auto"
-            checked={this.props.fsrDebts.includes(debtCardHeading)}
+            checked={isChecked}
             onChange={() => this.onChange(debtCardHeading)}
           />
           <label
             className={classnames({
               'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto vads-u-text-align--left vads-u-padding-x--2': true,
-              'vads-u-color--white': false,
-              'vads-u-background-color--white vads-u-color--primary': true,
+              'vads-u-color--white': !isChecked,
+              'vads-u-background-color--white vads-u-color--primary': !isChecked,
             })}
             htmlFor={debt.diaryCodeDescription}
           >
