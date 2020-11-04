@@ -40,18 +40,26 @@ export function transform(formConfig, form) {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const getIssueName = ({ attributes }) => {
-    const hasPercentage = attributes?.ratingIssuePercentNumber
-      ? ` - ${attributes.ratingIssuePercentNumber}%`
-      : '';
-    return `${attributes.ratingIssueSubjectText}${hasPercentage}`;
+  const getIssueName = ({ attributes } = {}) => {
+    const {
+      ratingIssueSubjectText,
+      ratingIssuePercentNumber,
+      description,
+    } = attributes;
+    return [
+      ratingIssueSubjectText,
+      `${ratingIssuePercentNumber || '0'}%`,
+      description,
+    ]
+      .filter(part => part)
+      .join(' - ');
   };
 
   /* submitted contested issue format
   [{
     "type": "contestableIssue",
     "attributes": {
-      "issue": "tinnitus - 10",
+      "issue": "tinnitus - 10% - some longer description",
       "decisionDate": "1900-01-01",
       "decisionIssueId": 1,
       "ratingIssueReferenceId": "2",
