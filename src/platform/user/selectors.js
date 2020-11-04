@@ -56,7 +56,7 @@ export const selectPatientFacilities = state =>
 
     return facility;
   }) || null;
-export const selectVet360 = state => selectProfile(state).vet360;
+export const selectVet360 = state => selectProfile(state).vapContactInfo;
 export const selectVet360EmailAddress = state =>
   selectVet360(state)?.email?.emailAddress;
 const createPhoneNumberStringFromData = phoneNumberData => {

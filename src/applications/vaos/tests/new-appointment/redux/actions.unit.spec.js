@@ -1058,7 +1058,7 @@ describe('VAOS newAppointment actions', () => {
       const state = {
         user: {
           profile: {
-            vet360: {
+            vapContactInfo: {
               email: {
                 emailAddress: 'test@va.gov',
               },
