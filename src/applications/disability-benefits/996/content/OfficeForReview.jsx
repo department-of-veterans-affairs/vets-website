@@ -10,7 +10,7 @@ export const OfficeForReviewAlert = (
       <>
         <p>
           Some issues can only be processed at the office that issued your prior
-          decision. And some decisions are only processed at on VA office or
+          decision. And some decisions are only processed at one VA office or
           facility.
         </p>
         <p>
@@ -24,13 +24,13 @@ export const OfficeForReviewAlert = (
 
 export const OfficeForReviewTitle = (
   <strong className="normal-weight-in-review">
-    If possible, I would like to have a different office conduct this review.
+    If possible, I would like the same office conduct this review.
   </strong>
 );
 
 export const OfficeForReviewDescription = (
   <p className="vads-u-margin-left--3">
-    You have the right to request another office (different from the office that
-    issued your prior decision) to conduct the review.
+    You have the right to request the same office conduct the review. VA may be
+    unable to grant this request.
   </p>
 );
