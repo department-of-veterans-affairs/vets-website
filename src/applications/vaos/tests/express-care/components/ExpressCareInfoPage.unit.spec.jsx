@@ -10,7 +10,6 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import { setupExpressCareMocks } from '../../mocks/helpers';
-import ExpressCareInfoPage from '../../../express-care/components/ExpressCareInfoPage';
 import { NewExpressCareRequest } from '../../../express-care';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
