@@ -95,6 +95,12 @@ const runTest = E2eHelpers.createE2eTest(client => {
   TestHelpers.fillChildStoppedAttendingDetails(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
+  // report household net worth
+  E2eHelpers.expectLocation(client, '/net-worth');
+  client.axeCheck('.main');
+  TestHelpers.fillNetWorth(client);
+  client.click('button[id="4-continueButton"]');
+
   // review and submit
   E2eHelpers.expectLocation(client, '/review-and-submit');
   client.waitForElementVisible(

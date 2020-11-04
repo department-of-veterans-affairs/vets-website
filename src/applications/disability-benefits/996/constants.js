@@ -10,8 +10,10 @@ export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf';
 export const COVID_FAQ_URL =
   'https://www.va.gov/coronavirus-veteran-frequently-asked-questions/#more-benefit-and-claim-questio';
 export const SUPPLEMENTAL_CLAIM_URL = '/decision-reviews/supplemental-claim/';
+// 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
+// types" accordion
 export const BENEFIT_OFFICES_URL =
-  '/decision-reviews/higher-level-review/#apply';
+  '/decision-reviews/higher-level-review/#8622';
 
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link

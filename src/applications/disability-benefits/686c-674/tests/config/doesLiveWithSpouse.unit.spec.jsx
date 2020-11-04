@@ -32,7 +32,7 @@ describe('686 current marriage co-habitation status', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).to.equal(4);
     form.unmount();
   });
 
