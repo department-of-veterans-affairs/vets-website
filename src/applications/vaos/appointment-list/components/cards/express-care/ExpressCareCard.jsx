@@ -70,11 +70,11 @@ export default function ExpressCareCard({
             <button
               className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
               onClick={() => cancelAppointment(appointment)}
-              aria-label={`Cancel appointment for Express Care for ${lowerCase(
+              aria-label={`Cancel Express Care request for ${lowerCase(
                 appointment.reason,
               )}`}
             >
-              Cancel appointment
+              Cancel Express Care request
             </button>
           </div>
         )}

@@ -63,6 +63,7 @@ export default function AppointmentRequestListItem({
       'vads-u-border-color--secondary-dark': cancelled,
     },
   );
+  const typeOfCareText = sentenceCase(appointment.type?.coding?.[0]?.display);
 
   return (
     <li
@@ -80,7 +81,7 @@ export default function AppointmentRequestListItem({
         id={`card-${index}`}
         className="vads-u-font-size--h3 vads-u-margin-y--0"
       >
-        {sentenceCase(appointment.type?.coding?.[0]?.display)} appointment
+        {typeOfCareText} appointment
       </h3>
       <AppointmentStatus status={appointment.status} index={index} />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
@@ -173,9 +174,9 @@ export default function AppointmentRequestListItem({
             <button
               className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
               onClick={() => cancelAppointment(appointment)}
-              aria-label="Cancel appointment"
+              aria-label={`Cancel request for ${typeOfCareText}`}
             >
-              Cancel appointment
+              Cancel request
             </button>
           )}
         <div className="vaos-flex-break" />
