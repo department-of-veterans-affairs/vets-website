@@ -32,4 +32,6 @@ export default {
   search: 'search',
   // Online appointment scheduling
   vaos: 'vaos',
+  // Online appointment scheduling warning message
+  vaosWarning: 'vaosWarning',
 };
