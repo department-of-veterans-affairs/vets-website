@@ -17,6 +17,9 @@
   .rwd tr {
     border-top: 2px solid #999;
   }
+  .rwd thead {
+    display: none;
+}
   .rwd td,
   .rwd th {
     border: none;

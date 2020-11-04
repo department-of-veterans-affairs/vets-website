@@ -27,7 +27,8 @@
     }
 {% endcomment %}
 
-
+{% assign mobileTableData = entity | formatMobileTableData %}
+<pre> {{mobileTableData | json}}</pre>
 <table data-template="paragraphs/table" data-entity-id="{{ entity.entityId }}" class="va-table rwd" role="table">
 
     {% if entity.fieldTable.caption %}
@@ -39,15 +40,22 @@
             <thead>
                 <tr role="row">
                     {% for column in value %}
-                        <th scope="col" role="columnheader">{{ column }}</th>
+                        <th role="columnheader" scope="col">{{ column }}</th>
                     {% endfor %}
                 </tr>
             </thead>
         {% elsif forloop.last == false %}
             <tbody>
                 <tr class="class" role="row">
+                    <td class="medium-screen:vads-u-display--none">
+                        {{mobileTableData.colHeader}}
+                    </td>
                     {% for column in value %}
-                        <td role="cell">{{ column }}</td>
+                        {% assign idx = forloop.index %}
+                        <td role="cell">
+                            {{idx}}
+                            {{ column }}
+                        </td>
                     {% endfor %}
                 </tr>
             </tbody>
