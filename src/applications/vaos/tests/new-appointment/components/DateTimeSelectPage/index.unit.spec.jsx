@@ -23,7 +23,7 @@ import {
 import { getClinicMock, getAppointmentSlotMock } from '../../../mocks/v0';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
-describe('VAOS <DateTimeSelectPage>', () => {
+xdescribe('VAOS <DateTimeSelectPage>', () => {
   it('should not submit form with validation error', async () => {
     const store = createTestStore({
       newAppointment: {
