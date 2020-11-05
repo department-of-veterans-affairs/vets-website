@@ -134,7 +134,10 @@ createDisabilityRatingCalculator(
   widgetTypes.DISABILITY_RATING_CALCULATOR,
 );
 
-createResourcesAndSupportSearchWidget(store, widgetTypes.RESOURCES_AND_SUPPORT_SEARCH);
+createResourcesAndSupportSearchWidget(
+  store,
+  widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
+);
 
 createFacilityListWidget();
 createOtherFacilityListWidget();

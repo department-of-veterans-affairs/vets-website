@@ -6,9 +6,11 @@ export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
     import(/* webpackChunkName: "resources-and-support-search" */
-    'applications/resources-and-support/components/ResourcesAndSupportSearchApp').then(module => {
-      const App = module.default;
-      ReactDOM.render(<App />, root);
-    });
+    'applications/resources-and-support/components/ResourcesAndSupportSearchApp').then(
+      module => {
+        const App = module.default;
+        ReactDOM.render(<App />, root);
+      },
+    );
   }
 };
