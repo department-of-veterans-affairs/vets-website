@@ -115,44 +115,44 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Skip the modal and evaluate the type of class radio group with ARROW_DOWN and ARROW_RIGHT.
   // This one is a bit unique because the second radio is pre-checked.
-  client
-    .repeatKeypress(TAB, 2)
-    .allyEvaluateRadioButtons(
-      [
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]',
-      ],
-      ARROW_DOWN,
-    )
-    .allyEvaluateRadioButtons(
-      [
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]',
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]',
-      ],
-      ARROW_RIGHT,
-    );
+  // client
+  //   .repeatKeypress(TAB, 2)
+  //   .allyEvaluateRadioButtons(
+  //     [
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]',
+  //     ],
+  //     ARROW_DOWN,
+  //   )
+  //   .allyEvaluateRadioButtons(
+  //     [
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]',
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]',
+  //     ],
+  //     ARROW_RIGHT,
+  //   );
 
-  // Evaluate the type of class radio group with ARROW_UP and ARROW_LEFT in reverse order
-  client
-    .allyEvaluateRadioButtons(
-      [
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]',
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]',
-      ],
-      ARROW_UP,
-      true,
-    )
-    .allyEvaluateRadioButtons(
-      [
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]',
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
-        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]',
-      ],
-      ARROW_LEFT,
-      true,
-    );
+  // // Evaluate the type of class radio group with ARROW_UP and ARROW_LEFT in reverse order
+  // client
+  //   .allyEvaluateRadioButtons(
+  //     [
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]',
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]',
+  //     ],
+  //     ARROW_UP,
+  //     true,
+  //   )
+  //   .allyEvaluateRadioButtons(
+  //     [
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]',
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]',
+  //       '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]',
+  //     ],
+  //     ARROW_LEFT,
+  //     true,
+  //   );
 
   // Let's try to submit an incomplete form by skipping over the city typeahead
   client
