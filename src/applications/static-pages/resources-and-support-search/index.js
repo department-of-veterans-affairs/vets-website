@@ -9,7 +9,7 @@ export default (store, widgetType) => {
     'applications/resources-and-support/components/StandaloneSearchFormWidget').then(
       module => {
         const App = module.default;
-        ReactDOM.render(<App  />, root);
+        ReactDOM.render(<App />, root);
       },
     );
   }

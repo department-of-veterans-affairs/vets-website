@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import '../style.scss';
-import resourcesSettings from '../manifest.json';
 
 export default function SearchBar({
   onInputChange,
@@ -18,7 +17,7 @@ export default function SearchBar({
 
   const onSubmit = event => {
     // Escape early if we are not on the search page to let the form submit manually.
-    if (!isSearchPage) {
+    if (useDefaultFormSearch) {
       return;
     }
 

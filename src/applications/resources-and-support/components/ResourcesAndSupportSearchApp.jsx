@@ -8,7 +8,6 @@ import { focusElement } from 'platform/utilities/ui';
 // Relative imports.
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
-import resourcesSettings from '../manifest.json';
 import useArticleData from '../hooks/useArticleData';
 import useGetSearchResults from '../hooks/useGetSearchResults';
 import { RESULTS_PER_PAGE } from '../constants';
