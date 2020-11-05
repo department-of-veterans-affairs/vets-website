@@ -54,12 +54,6 @@ export const buildMarker = (type, values) => {
   return null;
 };
 
-export const buildSearchAreaControl = () => {
-  const searchAreaCtrl = document.createElement('button');
-  searchAreaCtrl.id = '';
-  return searchAreaCtrl;
-};
-
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *

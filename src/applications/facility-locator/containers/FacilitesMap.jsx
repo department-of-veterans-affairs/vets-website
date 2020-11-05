@@ -38,8 +38,6 @@ let searchAreaSet = false;
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
-  // const [searchAreaSet, setSearchArea] = useState(false);
-  // const [showSearchArea, setShowSearchArea] = useState(false);
   const searchResultTitleRef = useRef(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
