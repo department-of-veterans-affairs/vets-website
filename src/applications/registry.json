@@ -900,7 +900,6 @@
     "template": {
       "title:": "Search results",
       "layout": "page-react.html",
-      "vagovprod": false,
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {

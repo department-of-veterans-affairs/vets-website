@@ -8,38 +8,58 @@ import TabItem from '../../../../appointment-list/components/AppointmentsPage/Ta
 describe('<TabItem>', () => {
   it('should render tab', () => {
     const tree = shallow(
-      <TabItem id="title" title="Title Here" tabpath="upcoming" />,
+      <TabItem id="id" title="Title Here" tabpath="upcoming" />,
     );
+    expect(tree.find('NavLink').props()['aria-label']).to.equal(
+      'id appointments',
+    );
+    expect(tree.find('NavLink').props().id).to.equal('tabid');
+    expect(tree.find('NavLink').props().to).to.equal('upcoming');
+    tree.unmount();
+  });
 
-    expect(tree.find('NavLink').props().id).to.equal('tabtitle');
+  it('should remove hyphens from aria-label', () => {
+    const tree = shallow(
+      <TabItem id="id-with-hyphens" title="Title Here" tabpath="upcoming" />,
+    );
+    expect(tree.find('NavLink').props()['aria-label']).to.equal(
+      'id with hyphens appointments',
+    );
+    expect(tree.find('NavLink').props().id).to.equal('tabid-with-hyphens');
     expect(tree.find('NavLink').props().to).to.equal('upcoming');
     tree.unmount();
   });
 
   it('should render active tab', () => {
     const tree = shallow(
-      <TabItem id="title" isActive title="Title Here" tabpath="upcoming" />,
+      <TabItem id="id" isActive title="Title Here" tabpath="upcoming" />,
     );
 
     expect(tree.find('NavLink').props()['aria-controls']).to.equal(
-      'tabpaneltitle',
+      'tabpanelid',
+    );
+    expect(tree.find('NavLink').props()['aria-label']).to.equal(
+      'id appointments',
     );
     expect(tree.find('NavLink').props()['aria-selected']).to.equal('true');
-    expect(tree.find('NavLink').props().id).to.equal('tabtitle');
+    expect(tree.find('NavLink').props().id).to.equal('tabid');
     expect(tree.find('NavLink').props().to).to.equal('upcoming');
     tree.unmount();
   });
 
   it('should call previous tab on arrow left', () => {
     const tree = shallow(
-      <TabItem id="title" isActive title="Title Here" tabpath="upcoming" />,
+      <TabItem id="id" isActive title="Title Here" tabpath="upcoming" />,
     );
 
     expect(tree.find('NavLink').props()['aria-controls']).to.equal(
-      'tabpaneltitle',
+      'tabpanelid',
+    );
+    expect(tree.find('NavLink').props()['aria-label']).to.equal(
+      'id appointments',
     );
     expect(tree.find('NavLink').props()['aria-selected']).to.equal('true');
-    expect(tree.find('NavLink').props().id).to.equal('tabtitle');
+    expect(tree.find('NavLink').props().id).to.equal('tabid');
     expect(tree.find('NavLink').props().to).to.equal('upcoming');
     tree.unmount();
   });
@@ -48,7 +68,7 @@ describe('<TabItem>', () => {
     const onNextTab = sinon.spy();
     const tree = shallow(
       <TabItem
-        id="title"
+        id="id"
         isActive
         title="Title Here"
         tabpath="upcoming"
@@ -65,7 +85,7 @@ describe('<TabItem>', () => {
     const onPreviousTab = sinon.spy();
     const tree = shallow(
       <TabItem
-        id="title"
+        id="id"
         isActive
         title="Title Here"
         tabpath="upcoming"
@@ -80,20 +100,20 @@ describe('<TabItem>', () => {
 
   it('should focus on tab panel on arrow down', () => {
     const tree = shallow(
-      <TabItem id="title" isActive title="Title Here" tabpath="upcoming" />,
+      <TabItem id="id" isActive title="Title Here" tabpath="upcoming" />,
     );
     const panel = document.createElement('div');
-    panel.id = 'tabpaneltitle';
+    panel.id = 'tabpanelid';
     document.body.appendChild(panel);
 
     tree.find('NavLink').simulate('keydown', { key: 'ArrowDown' });
-    expect(document.activeElement.id).to.equal('tabpaneltitle');
+    expect(document.activeElement.id).to.equal('tabpanelid');
     tree.unmount();
   });
 
   it('should render flex css for tab', () => {
     const tree = shallow(
-      <TabItem id="title" title="Title Here" tabpath="upcoming" />,
+      <TabItem id="id" title="Title Here" tabpath="upcoming" />,
     );
     expect(tree.find('NavLink').props().className).to.contain(
       'vaos-appts__tab',

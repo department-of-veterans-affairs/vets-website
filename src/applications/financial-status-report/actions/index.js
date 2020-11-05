@@ -1,13 +1,20 @@
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import {
+  fetchAndUpdateSessionExpiration as fetch,
+  apiRequest,
+} from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
 } from '../constants';
+import { isVet360Configured } from '@@vap-svc/util/local-vet360';
 import moment from 'moment';
 import head from 'lodash/head';
 import localStorage from 'platform/utilities/storage/localStorage';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
+import { debtLettersSuccess } from '../../debt-letters/utils/mockResponses';
 
 const handleError = error => ({
   type: FSR_API_ERROR,
@@ -54,4 +61,36 @@ export const fetchFormStatus = () => async dispatch => {
       return dispatch(resetError());
     });
   return null;
+};
+
+const fetchDebtLettersSuccess = debts => ({
+  type: DEBTS_FETCH_SUCCESS,
+  debts,
+});
+
+export const fetchDebts = () => async dispatch => {
+  try {
+    const options = {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+    };
+    const response = isVet360Configured()
+      ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
+      : await debtLettersSuccess();
+
+    const approvedDeductionCodes = Object.keys(deductionCodes);
+    // remove any debts that do not have approved deductionCodes or
+    // that have a current amount owed of 0
+    const filteredResponse = response.debts
+      .filter(res => approvedDeductionCodes.includes(res.deductionCode))
+      .filter(debt => debt.currentAr > 0);
+    return dispatch(fetchDebtLettersSuccess(filteredResponse));
+  } catch (error) {
+    return null;
+  }
 };
