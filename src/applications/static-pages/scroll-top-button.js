@@ -1,3 +1,10 @@
+/**
+ * This button is used for navigating the user back to the top of the page.
+ * It's to be used on long article pages.
+ * There is some complexity in the animation toggling function "scrollListener"
+ * html is located in src/site/components/up_to_top_button.html
+ */
+
 export default function initScrollToTopButton() {
   const container = document.querySelector('.vsa-top-button-container');
   let upToTopButton = '';
