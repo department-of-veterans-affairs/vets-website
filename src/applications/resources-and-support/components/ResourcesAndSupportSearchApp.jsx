@@ -6,7 +6,6 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
 // Relative imports.
-import '../style.scss';
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
 import useArticleData from '../hooks/useArticleData';
