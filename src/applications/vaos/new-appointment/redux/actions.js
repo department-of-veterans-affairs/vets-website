@@ -292,7 +292,7 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
-export function checkEligibility({ location, siteId, showModal }) {
+export function checkEligibility({ location, siteId }) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = vaosVSPAppointmentNew(state);
@@ -320,7 +320,6 @@ export function checkEligibility({ location, siteId, showModal }) {
         typeOfCareId,
         eligibilityData,
         facilityId: location.id,
-        showModal,
       });
 
       try {

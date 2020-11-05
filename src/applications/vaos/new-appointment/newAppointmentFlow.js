@@ -74,7 +74,6 @@ async function vaFacilityNext(state, dispatch) {
         checkEligibility({
           location,
           siteId,
-          showModal: true,
         }),
       );
     }
