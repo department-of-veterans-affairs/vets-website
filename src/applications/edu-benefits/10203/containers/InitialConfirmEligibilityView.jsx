@@ -11,9 +11,9 @@ function InitialConfirmEligibilityView(props) {
   captureEvents.ineligibilityAlert(props);
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-    <div tabIndex="0">
-      <div>
+    <div>
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+      <div tabIndex="0">
         <div className="usa-alert usa-alert-warning" role="alert">
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">
