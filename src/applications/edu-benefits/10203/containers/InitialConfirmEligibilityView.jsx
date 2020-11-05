@@ -14,7 +14,7 @@ function InitialConfirmEligibilityView(props) {
     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
     <div tabIndex="0">
       <div>
-        <div className="usa-alert usa-alert-warning">
+        <div className="usa-alert usa-alert-warning" role="alert">
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">
               Based on your response, you may not be eligible

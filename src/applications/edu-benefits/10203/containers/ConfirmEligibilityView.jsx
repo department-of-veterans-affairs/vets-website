@@ -146,7 +146,7 @@ export class ConfirmEligibilityView extends React.Component {
   render() {
     captureEvents.ineligibilityAlert(this.props);
     return (
-      <div role="alert">
+      <div>
         {this.renderHeader()}
         <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2">
           {this.renderChecks()}
