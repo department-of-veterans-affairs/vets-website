@@ -43,9 +43,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // it should not allow user to submit the form without selecting a date
-    const button = screen.getByRole('button', {
-      name: /^Continue/,
-    });
+    const button = screen.getByText(/^Continue/);
     userEvent.click(button);
 
     // NOTE: alert does not have an accessible name to query by
@@ -278,11 +276,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       await screen.findByRole('radio', { name: '9:00 AM option selected' }),
     );
 
-    userEvent.click(
-      screen.getByRole('button', {
-        name: /^Continue/,
-      }),
-    );
+    userEvent.click(screen.getByText(/^Continue/));
     await waitFor(() => {
       expect(screen.history.push.called).to.be.true;
     });
