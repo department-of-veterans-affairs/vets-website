@@ -114,7 +114,7 @@ export const fetchDebtLetters = () => async dispatch => {
       recordEvent({ 'number-of-current-debt-cards': filteredResponse.length });
     }
     // suppress VBMS call if they have dependent debt
-    if (!response.hasDependentDebt) {
+    if (!response.hasDependentDebts) {
       dispatch(fetchDebtLettersVBMS());
     }
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
