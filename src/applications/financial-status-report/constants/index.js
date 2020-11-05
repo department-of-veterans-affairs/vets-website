@@ -11,4 +11,5 @@ export const schemaFields = {
   suppliesField: 'supplies',
   viewCurrentAddressField: 'view:currentAddress',
   viewVeteranInfoField: 'view:veteranInfo',
+  availableDebts: 'view:availableDebts',
 };

@@ -400,7 +400,7 @@ class EstimateYourBenefitsForm extends React.Component {
       <div id={tuitionFeesFieldId}>
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
           Tuition and fees per year
-        </label>
+        </label>{' '}
         {this.renderLearnMoreLabel({
           modal: 'calcTuition',
           ariaLabel: ariaLabels.learnMore.tuitionFeesPerYear,
