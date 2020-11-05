@@ -1,11 +1,11 @@
 <div class="vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-y--3">
-  <form id="resources-support-search" method="get" action="/resources/search">
+  <form id="resources-support-search" method="get" action="/resources/search/">
     <fieldset class="fieldset-input vads-u-margin--0">
       <legend class="vads-u-font-size--md vads-u-font-family--serif">Search resources and support articles or all of VA.gov</legend>
       <label class="vads-u-visibility--screen-reader" for="website-section">Website section to search</label>
       <div class="form-radio-buttons">
         <div class="radio-button vads-u-display--inline-block vads-u-margin-right--3">
-          <input type="radio" name="path" checked id="search-within-resources-and-support" value="/resources/search"/>
+          <input type="radio" name="path" checked id="search-within-resources-and-support" value="/resources/search/"/>
           <label for="search-within-resources-and-support">
             <span class="vads-u-visibility--screen-reader">Search within</span> Resources and support
           </label>
@@ -38,7 +38,7 @@
       var searchGlobally = document.getElementById('search-all-of-va-dot-gov');
 
       if (searchGlobally.checked) {
-        form.action = '/search';
+        form.action = '/search/';
       }
 
       // Prevent the "path" form field from being included in the form data to keep the URL cleaner.

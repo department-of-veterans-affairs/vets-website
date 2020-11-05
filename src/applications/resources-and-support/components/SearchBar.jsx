@@ -18,7 +18,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
         onSubmit={isGlobalSearch ? null : onSubmit}
         id="resources-support-search"
         method="get"
-        action={isGlobalSearch ? '/search' : '/resources/search'}
+        action={isGlobalSearch ? '/search/' : '/resources/search/'}
       >
         <fieldset className="fieldset-input vads-u-margin--0">
           <legend className="vads-u-font-size--md vads-u-font-family--serif">
