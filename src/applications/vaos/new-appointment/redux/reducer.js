@@ -9,7 +9,6 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { getParentOfLocation } from '../../services/location';
 import { getEligibilityChecks, isEligible } from './helpers/eligibility';
 
 import {
@@ -341,24 +340,10 @@ export default function formReducer(state = initialState, action) {
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      if (parentFacilities.length === 1 || !typeOfCareFacilities.length) {
-        newData = {
-          ...newData,
-          vaParent: parentFacilities[0]?.id,
-        };
-      }
-
       if (typeOfCareFacilities.length === 1) {
-        const vaFacility = typeOfCareFacilities[0]?.id;
-        const vaParent = getParentOfLocation(
-          parentFacilities,
-          typeOfCareFacilities[0],
-        )?.id;
-
         newData = {
           ...newData,
-          vaFacility,
-          vaParent,
+          vaFacility: typeOfCareFacilities[0]?.id,
         };
       } else if (hasResidentialCoordinates) {
         typeOfCareFacilities = typeOfCareFacilities
