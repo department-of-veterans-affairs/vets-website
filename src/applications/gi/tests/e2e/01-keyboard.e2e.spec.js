@@ -24,7 +24,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.timeoutsAsyncScript(2000);
 
   // Assert the correct number of focusable elements in the form
-  client.assert.hasFocusableCount('div.usa-width-two-thirds form', 15);
+  client.assert.hasFocusableCount('div.usa-width-two-thirds form', 14);
 
   // Assert the correct number of tabbable elements in the form
   client.assert.hasTabbableCount('div.usa-width-two-thirds form', 11);
