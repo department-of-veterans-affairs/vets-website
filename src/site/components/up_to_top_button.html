@@ -1,7 +1,7 @@
 {% comment %}
 
 =====================
- Up To Top Button
+Up To Top Button
 =====================
 
 Used as quick navigate back to top for long article pages.
@@ -15,81 +15,14 @@ Used as quick navigate back to top for long article pages.
     <div class="usa-grid usa-grid-full">
         <div class="usa-width-three-fourths">
             <div class="usa-content">
-                <button class="usa-button vads-u-background-color--gray-dark vsa-top-button vads-u-display--flex vads-u-align-items--center" onclick="navigateToTop()">
-                    <i class="fas fa-arrow-up vads-u-font-size--lg vads-u-margin-right--0 small-desktop-screen:vads-u-margin-right--1p5 small-desktop-screen:vads-u-font-size--sm"></i>
-                    <p class="vads-u-display--none vads-u-color--white vads-u-margin--0 small-desktop-screen:vads-u-display--block">Back to top</p>
+                <button
+                    class="usa-button vads-u-background-color--gray-dark vsa-top-button vads-u-display--flex vads-u-align-items--center">
+                    <i
+                        class="fas fa-arrow-up vads-u-font-size--lg vads-u-margin-right--0 small-desktop-screen:vads-u-margin-right--1p5 small-desktop-screen:vads-u-font-size--sm"></i>
+                    <p
+                        class="vads-u-display--none vads-u-color--white vads-u-margin--0 small-desktop-screen:vads-u-display--block">
+                        Back to top</p>
                 </button>
-                <script nonce="**CSP_NONCE**" type="text/javascript">
-                    var container = document.querySelector('.vsa-top-button-container')
-                    var upToTopButton = '',
-                    footer = '',
-                    threeFourthsContainer = '';
-
-                    window.addEventListener('load', runScripts)
-
-
-                    function runScripts() {
-                        if(!container) return 
-                        
-                        if(initVars() === 'NODE_MISSING_CLASS') return 
-                        else window.addEventListener('scroll', scrollListener)
-                    }
-
-                    function initVars() {
-                        threeFourthsContainer = container.querySelector('.usa-width-three-fourths')
-                        upToTopButton = container.querySelector('.vsa-top-button')
-                        footer = document.querySelector('.footer-inner')
-                        // NOTE: Guarded Return so button does not show at all with errors 
-                        if(!threeFourthsContainer || !upToTopButton || !footer) return 'NODE_MISSING_CLASS' 
-                    }
-
-                    function scrollListener() {
-                        // Responsible for toggling animation classes 
-                        var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-                        var buttonTransitionIn = 'vsa-top-button-transition-in'
-                        var buttonTransitionOut = 'vsa-top-button-transition-out'
-                        var buttonContainerRelative = 'vsa-top-button-container-relative'
-                        var buttonTransitionReset = 'vsa-top-button-transition-reset'
-                        
-                        
-                        if(scrollTop > 600 && !doesElHaveClass(upToTopButton, buttonTransitionIn)) {
-                            upToTopButton.classList.add(buttonTransitionIn)
-                            upToTopButton.classList.remove(buttonTransitionOut)
-                        } else if (scrollTop < 600 && doesElHaveClass(upToTopButton, buttonTransitionIn)) {
-                            upToTopButton.classList.add(buttonTransitionOut)
-                            upToTopButton.classList.remove(buttonTransitionIn)
-                        }
-
-                        if(isScrolledIntoView(footer)) {
-                            container.classList.add(buttonContainerRelative)
-                            threeFourthsContainer.classList.add(buttonContainerRelative)
-                            upToTopButton.classList.add(buttonTransitionReset)
-                        }
-                        else if(doesElHaveClass(container, buttonContainerRelative)) {
-                            container.classList.remove(buttonContainerRelative)
-                            threeFourthsContainer.classList.remove(buttonContainerRelative)
-                            upToTopButton.classList.remove(buttonTransitionReset)
-                        }
-
-                        function doesElHaveClass(el, className) {
-                            var hasClass = el.classList.value.indexOf(className) > -1
-                            return hasClass
-                        }
-
-                        function isScrolledIntoView(el) {
-                            var rect = el.getBoundingClientRect();
-                            var elemTop = rect.top;
-
-                            // Only partially || completely visible elements return true
-                            var isVisible = (elemTop >= 0) && (elemTop <= window.innerHeight);
-                            return isVisible;
-                        }
-                    }
-                    
-                    function navigateToTop() {
-                        return window.scrollTo(0,0)
-                    }
-                </script>
             </div>
         </div>
     </div>

@@ -29,6 +29,7 @@ import createHigherLevelReviewApplicationStatus from 'applications/disability-be
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
+import initScrollToTopButton from './scroll-top-button';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
@@ -180,6 +181,9 @@ createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
+
+// Up to top button for Article Pages
+initScrollToTopButton();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({
