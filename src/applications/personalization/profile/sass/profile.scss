@@ -1,0 +1,64 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "./shared";
+@import "./profile-info-table";
+@import "./profile-subnav";
+@import "./profile-mobile-subnav";
+@import "./connected-apps";
+@import "./personal-contact-information";
+
+.profile-service-badge {
+  max-height: 75px;
+}
+
+[tabindex="-1"]:focus {
+  outline: 0;
+}
+
+.va-profile-btn {
+  text-decoration: none;
+}
+
+.vet360-profile-field-content {
+  &.usa-input-error {
+    margin-top: 0;
+  }
+}
+
+.button-link {
+  background: $color-white;
+  box-shadow: none !important;
+}
+
+.vet360-profile-field-transaction-pending {
+  color: $color-primary;
+  border-left: 4px solid $color-primary;
+  padding-left: 1.5rem;
+  position: relative;
+  right: 1.9rem;
+  font-weight: bold;
+}
+
+.copy-mailing-address-to-residential-address {
+  background-color: $color-primary-alt-lightest;
+  padding: 1em;
+  label {
+    margin: 0;
+  }
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.address-validation-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 0 5px;
+
+
+  [type=radio] + label::before {
+    min-width: 1.4rem;
+  }
+}

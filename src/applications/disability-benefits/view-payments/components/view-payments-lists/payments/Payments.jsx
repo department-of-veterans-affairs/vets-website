@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import ResponsiveTable from '../../responsive-table/ResponsiveTable';
+import Table from '@department-of-veterans-affairs/formation-react/Table';
 import { clientServerErrorContent } from '../helpers';
 import { chunk } from 'lodash';
-
-const alertClasses =
-  'vads-u-padding-y--2p5 vads-u-padding-right--4 vads-u-padding-left--2';
 
 class Payments extends Component {
   state = {
@@ -78,7 +75,7 @@ class Payments extends Component {
             Displaying {this.state.fromNumber} - {this.state.toNumber} of{' '}
             {this.props.data.length}
           </p>
-          <ResponsiveTable
+          <Table
             ariaLabelledBy={tableAriaLabelldBy}
             className="va-table"
             currentSort={{
@@ -102,10 +99,10 @@ class Payments extends Component {
     } else {
       tableContent = (
         <AlertBox
-          className={alertClasses}
-          content={clientServerErrorContent('Received')}
+          content={clientServerErrorContent(this.props.tableVersion)}
           status="info"
-          isVisible
+          backgroundOnly="true"
+          className="vads-u-background-color--gray-lightest"
         />
       );
     }

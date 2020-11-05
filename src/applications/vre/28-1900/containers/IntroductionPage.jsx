@@ -25,7 +25,7 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="28-1900 Veteran Readiness and Employment" />
+      <FormTitle title="Apply for Veteran Readiness and Employment" />
       <p>
         Equal to VA Form 21-1900 (28-1900 Veteran Readiness and Employment).
       </p>

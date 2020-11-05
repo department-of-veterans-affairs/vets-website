@@ -12,11 +12,6 @@ export const APPOINTMENT_TYPES = {
   ccRequest: 'ccRequest',
 };
 
-export const CONFIRMED_APPOINTMENT_TYPES = new Set([
-  APPOINTMENT_TYPES.ccAppointment,
-  APPOINTMENT_TYPES.vaAppointment,
-]);
-
 export const APPOINTMENT_STATUS = {
   arrived: 'arrived',
   booked: 'booked',
@@ -30,12 +25,9 @@ export const APPOINTMENT_STATUS = {
 export const VIDEO_TYPES = {
   gfe: 'MOBILE_GFE',
   clinic: 'CLINIC_BASED',
-};
-
-export const TIME_TEXT = {
-  AM: 'in the morning',
-  PM: 'in the afternoon',
-  'No Time Selected': '',
+  adhoc: 'ADHOC',
+  mobile: 'MOBILE_ANY',
+  storeForward: 'STORE_FORWARD',
 };
 
 export const PURPOSE_TEXT = [
@@ -64,15 +56,6 @@ export const PURPOSE_TEXT = [
     serviceName: 'Other',
   },
 ];
-
-export const CC_PURPOSE = 'other';
-
-export const REASON_ADDITIONAL_INFO_TITLES = {
-  request:
-    'Please give us more detail about why you’re making this appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can’t have an appointment on a certain day or time.',
-  direct:
-    'Please provide any additional details you’d like to share with your provider about this appointment.',
-};
 
 export const PODIATRY_ID = 'tbd-podiatry';
 export const TYPES_OF_CARE = [
@@ -167,9 +150,26 @@ export const TYPES_OF_EYE_CARE = [
   },
 ];
 
+export const AUDIOLOGY_TYPES_OF_CARE = [
+  {
+    ccId: 'CCAUDRTNE',
+    name: 'Routine hearing exam',
+  },
+  {
+    ccId: 'CCAUDHEAR',
+    name: 'Hearing aid support',
+  },
+];
+
 export const FACILITY_TYPES = {
   VAMC: 'vamc',
   COMMUNITY_CARE: 'communityCare',
+};
+
+export const FACILITY_SORT_METHODS = {
+  distanceFromResidential: 'distanceFromResidentialAddress',
+  distanceFromCurrentLocation: 'distanceFromCurrentLocation',
+  alphabetical: 'alphabetical',
 };
 
 export const LANGUAGES = [
@@ -235,54 +235,6 @@ export const LANGUAGES = [
   },
 ];
 
-export const AUDIOLOGY_TYPES_OF_CARE = [
-  {
-    ccId: 'CCAUDRTNE',
-    name: 'Routine hearing exam',
-  },
-  {
-    ccId: 'CCAUDHEAR',
-    name: 'Hearing aid support',
-  },
-];
-
-export const CANCELLED_APPOINTMENT_SET = new Set([
-  'CANCELLED BY CLINIC & AUTO RE-BOOK',
-  'CANCELLED BY CLINIC',
-  'CANCELLED BY PATIENT & AUTO-REBOOK',
-  'CANCELLED BY PATIENT',
-]);
-
-// Appointments in these "HIDE_STATUS_SET"s should show in list, but their status should be hidden
-export const FUTURE_APPOINTMENTS_HIDE_STATUS_SET = new Set([
-  'ACT REQ/CHECKED IN',
-  'ACT REQ/CHECKED OUT',
-]);
-
-export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
-  'ACTION REQUIRED',
-  'INPATIENT APPOINTMENT',
-  'INPATIENT/ACT REQ',
-  'INPATIENT/CHECKED IN',
-  'INPATIENT/CHECKED OUT',
-  'INPATIENT/FUTURE',
-  'INPATIENT/NO ACT TAKN',
-  'NO ACTION TAKEN',
-  'NO-SHOW & AUTO RE-BOOK',
-  'NO-SHOW',
-  'NON-COUNT',
-]);
-
-// Appointments in these "HIDDEN_SET"s should not be shown in appointment lists at all
-export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
-export const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
-  'FUTURE',
-  'DELETED',
-  null,
-  '<null>',
-  'Deleted',
-]);
-
 export const FLOW_TYPES = {
   DIRECT: 'direct',
   REQUEST: 'request',
@@ -306,6 +258,7 @@ export const TYPE_OF_VISIT = [
   },
 ];
 
+// todo: not used, delete?
 export const DISTANCES = [
   {
     id: '25',
@@ -321,27 +274,15 @@ export const DISTANCES = [
   },
 ];
 
-export const REASON_MAX_CHARS = {
-  request: 100,
-  direct: 150,
-};
-
 export const CALENDAR_INDICATOR_TYPES = {
   CHECK: 'check',
   BUBBLES: 'bubbles',
 };
 
-export const DISABLED_LIMIT_VALUE = 0;
-export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
 export const EXPRESS_CARE = 'CR1';
 
 export const GA_PREFIX = 'vaos';
-export const GA_FLOWS = {
-  DIRECT: 'direct',
-  VA_REQUEST: 'va-request',
-  CC_REQUEST: 'cc-request',
-};
 
 export const VHA_FHIR_ID = 'urn:oid:2.16.840.1.113883.6.233';
 
@@ -354,72 +295,7 @@ export const FREE_BUSY_TYPES = {
 
 export const UNABLE_TO_REACH_VETERAN_DETCODE = 'DETCODE23';
 
-export const EXPRESS_CARE_REASONS = [
-  {
-    reason: 'Back pain',
-  },
-  {
-    reason: 'Cough',
-  },
-  {
-    reason: 'Pain or other issues in your ear, sinus, throat, or mouth',
-  },
-  {
-    reason: 'Fever',
-  },
-  {
-    reason: 'Loss of appetite or fatigue (feeling tired all the time)',
-  },
-  {
-    reason: 'Headache that isn’t severe or sudden',
-  },
-  {
-    reason: 'High or low blood pressure',
-  },
-  {
-    reason: 'High or low blood sugar',
-  },
-  {
-    reason: 'Joint or muscle pain or minor injury',
-    secondaryLabel:
-      'Such as pain in your knees, shoulders, hips, ankle, or feet, or a twisted ankle or sprained wrist',
-  },
-  {
-    reason: 'Medication or prescription question',
-  },
-  {
-    reason: 'Minor cut, scrape, or bruise',
-  },
-  {
-    reason: 'Neck pain',
-  },
-  {
-    reason: 'Red or weeping eye without vision loss',
-  },
-  {
-    reason: 'Skin lesion or rash',
-  },
-  {
-    reason: 'Stomach or digestive problem',
-  },
-  {
-    reason: 'Pain when you urinate (pee) or other urology issues',
-    secondaryLabel:
-      'Such as having the urge to urinate often or blood in your urine',
-  },
-];
-
 export const EXPRESS_CARE_ERROR_REASON = {
   error: 'error',
   noActiveFacility: 'noActiveFacility',
-};
-
-export const WEEKDAY_INDEXES = {
-  SUNDAY: 0,
-  MONDAY: 1,
-  TUESDAY: 2,
-  WEDNESDAY: 3,
-  THURSDAY: 4,
-  FRIDAY: 5,
-  SATURDAY: 6,
 };

@@ -18,7 +18,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
 
-import { higherLevelReviewFeature } from '../helpers';
+import { higherLevelReviewFeature, scrollToTop } from '../helpers';
 import {
   noContestableIssuesFound,
   showContestableIssueError,
@@ -38,10 +38,17 @@ export class IntroductionPage extends React.Component {
   };
 
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    // focus on h1 if wizard has completed
+    // focus on breadcrumb nav when wizard is visible
+    const focusTarget =
+      this.state.status === WIZARD_STATUS_COMPLETE
+        ? 'h1'
+        : '.va-nav-breadcrumbs-list';
+    focusElement(focusTarget);
+    scrollToTop();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const {
       contestableIssues = {},
       getContestableIssues,
@@ -64,6 +71,14 @@ export class IntroductionPage extends React.Component {
           contestedIssues: contestableIssues.issues,
         });
       }
+
+      // set focus on h1 only after wizard completes
+      if (prevState.status !== WIZARD_STATUS_COMPLETE) {
+        setTimeout(() => {
+          scrollToTop();
+          focusElement('h1');
+        }, 100);
+      }
     }
   }
 
@@ -80,11 +95,8 @@ export class IntroductionPage extends React.Component {
   };
 
   getCallToActionContent = () => {
-    const { route, contestableIssues, allowHlr, testHlr } = this.props;
-    // check feature flag
-    if (!(allowHlr || testHlr)) {
-      return showWorkInProgress;
-    }
+    const { route, contestableIssues } = this.props;
+
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues.error);
     }
@@ -118,18 +130,29 @@ export class IntroductionPage extends React.Component {
 
   render() {
     const callToActionContent = this.getCallToActionContent();
-    const show = this.state.status !== WIZARD_STATUS_COMPLETE;
+    const showWizard = this.state.status !== WIZARD_STATUS_COMPLETE;
+
+    // check feature flag
+    if (!this.props.allowHlr) {
+      return (
+        <article className="schemaform-intro">
+          <FormTitle title="Request a Higher-Level Review" />
+          <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
+          <p>{showWorkInProgress}</p>
+        </article>
+      );
+    }
 
     return (
       <article className="schemaform-intro">
         <FormTitle title="Request a Higher-Level Review" />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
 
-        {show ? (
+        {showWizard ? (
           <WizardContainer setWizardStatus={this.setWizardStatus} />
         ) : (
           <>
-            <CallToActionWidget appId="higher-level-review">
+            <CallToActionWidget appId="higher-level-review" headerLevel={2}>
               {callToActionContent}
             </CallToActionWidget>
             <h2 className="vads-u-font-size--h3">
@@ -139,7 +162,7 @@ export class IntroductionPage extends React.Component {
               If a Veteran or their representative wants to dispute a decision
               they received on a claim, they can file a Higher-Level Review.
               When you request a Higher-Level Review, you’re asking to have a
-              more senior, experience reviewer take a look at your case and the
+              more senior, experienced reviewer take a look at your case and the
               evidence you already provided. This more senior person will
               determine whether the decision can be changed based on a
               difference of opinion or a VA error.
@@ -200,7 +223,7 @@ export class IntroductionPage extends React.Component {
                   </p>
                   <p>
                     A Veterans Service Organization or VA-accredited attorney or
-                    agen can also help you request a decision review.
+                    agent can also help you request a decision review.
                   </p>
                   <a href="/decision-reviews/get-help-with-review-request">
                     Get help requesting a decision review
@@ -232,11 +255,9 @@ export class IntroductionPage extends React.Component {
                 </li>
               </ol>
             </div>
-            <CallToActionWidget appId="higher-level-review">
+            <CallToActionWidget appId="higher-level-review" headerLevel={2}>
               {callToActionContent}
             </CallToActionWidget>
-            {/* TODO: Remove inline style after I figure out why
-              .omb-info--container has a left padding */}
             <div className="omb-info--container vads-u-padding-left--0">
               <OMBInfo
                 resBurden={15}

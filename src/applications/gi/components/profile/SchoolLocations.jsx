@@ -56,7 +56,11 @@ export class SchoolLocations extends React.Component {
     const { version } = this.props;
     const query = version ? `?version=${version}` : '';
 
-    return <Link to={`${facilityCode}${query}`}>{name}</Link>;
+    return (
+      <div>
+        <Link to={`${facilityCode}${query}`}>{name}</Link>
+      </div>
+    );
   };
 
   handleViewAllClicked = async () => {
@@ -138,10 +142,18 @@ export class SchoolLocations extends React.Component {
       name
     );
 
+    const schoolName =
+      type === 'main'
+        ? nameLabel
+        : {
+            value: nameLabel,
+            mobileHeader: type.charAt(0).toUpperCase() + type.slice(1),
+          };
+
     return {
       key: `${facilityCode}-${type}`,
       rowClassName: `${type}-row`,
-      'School Name': nameLabel,
+      'School name': schoolName,
       Location: this.schoolLocationTableInfo(
         physicalCity,
         physicalState,
@@ -150,9 +162,6 @@ export class SchoolLocations extends React.Component {
       ),
       'Estimated housing': (
         <>
-          <span className="estimated-housing-cell-title vads-u-margin--0 vads-u-margin-right--0p5">
-            Estimated housing:
-          </span>
           {this.estimatedHousingValue(institution)}
           {month}
         </>
@@ -177,7 +186,7 @@ export class SchoolLocations extends React.Component {
         break;
       }
       const nameLabel = (
-        <div className="vads-u-padding-left--1">{extension.institution}</div>
+        <div className="extension-cell-label">{extension.institution}</div>
       );
       rows.push(this.createRow(extension, 'extension', nameLabel));
     }
@@ -215,7 +224,7 @@ export class SchoolLocations extends React.Component {
   renderFacilityTable = main => {
     const maxRows = this.state.viewableRowCount;
 
-    const fields = ['School Name', 'Location', 'Estimated housing'];
+    const fields = ['School name', 'Location', 'Estimated housing'];
 
     const data = Array.of(this.createMainRow(main.institution)).concat(
       this.createBranchesAndExtensionsRows(main, maxRows),

@@ -1,4 +1,4 @@
-const MAX_FILE_SIZE = 25 * 1024 * 1024;
+const MAX_FILE_SIZE = 50 * 1024 * 1024;
 export const FILE_TYPES = ['pdf', 'gif', 'jpeg', 'jpg', 'bmp', 'txt'];
 
 export function isNotBlank(value) {
@@ -26,7 +26,12 @@ export function isValidFileType(file) {
 }
 
 export function isValidFile(file) {
-  return !!file && isValidFileSize(file) && isValidFileType(file);
+  return (
+    !!file &&
+    isValidFileSize(file) &&
+    !isEmptyFileSize(file) &&
+    isValidFileType(file)
+  );
 }
 
 export function isValidDocument({ file, docType }) {

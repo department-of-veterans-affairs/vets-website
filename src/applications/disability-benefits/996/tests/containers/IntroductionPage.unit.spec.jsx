@@ -15,7 +15,7 @@ import {
 
 const defaultProps = {
   getContestableIssues: () => {},
-  testHlr: true,
+  allowHlr: true,
   user: {
     profile: {
       // need to have a saved form or else form will redirect to v2
@@ -54,11 +54,23 @@ describe('IntroductionPage', () => {
   let oldWindow;
   beforeEach(() => {
     oldWindow = global.window;
-    global.window = globalWin;
+    global.window = Object.create(global.window);
+    Object.assign(global.window, globalWin);
   });
   afterEach(() => {
     global.window = oldWindow;
     sessionStorage.removeItem(WIZARD_STATUS);
+  });
+
+  it('should render a work in progress message', () => {
+    const tree = shallow(
+      <IntroductionPage {...defaultProps} allowHlr={false} />,
+    );
+
+    const AlertBox = tree.find('AlertBox');
+    expect(AlertBox.length).to.equal(1);
+    expect(AlertBox.props().headline).to.contain('working on this feature');
+    tree.unmount();
   });
 
   it('should render CallToActionWidget', () => {

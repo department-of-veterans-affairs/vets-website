@@ -87,7 +87,7 @@ class AddFilesForm extends React.Component {
     } else if (!isValidFileSize(file)) {
       this.setState({
         errorMessage:
-          'The file you selected is larger than the 25MB maximum file size and could not be added.',
+          'The file you selected is larger than the 50MB maximum file size and could not be added.',
       });
     } else if (isEmptyFileSize(file)) {
       this.setState({
@@ -154,7 +154,7 @@ class AddFilesForm extends React.Component {
           <p className="file-requirement-header">Accepted file types:</p>
           <p className="file-requirement-text">{displayTypes}</p>
           <p className="file-requirement-header">Maximum file size:</p>
-          <p className="file-requirement-text">25MB</p>
+          <p className="file-requirement-text">50MB</p>
         </div>
         {this.props.files.map(({ file, docType }, index) => (
           <div key={index} className="document-item-container">

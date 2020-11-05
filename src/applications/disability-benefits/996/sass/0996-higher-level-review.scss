@@ -206,6 +206,26 @@ article[data-location="review-and-submit"] {
   }
 }
 
+@media (max-width: $small-screen) {
+  dl.review,
+  div.review {
+    .review-row {
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      padding-left: 0;
+    }
+    .review-row > dd {
+      padding-left: 0;
+      text-align: left;
+    }
+    .review-row > dt > p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
 /* Confirmation page */
 article[data-location="confirmation"] {
   h1[tabindex="-1"] {

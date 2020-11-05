@@ -32,6 +32,7 @@ const createEnvironmentFilter = require('./plugins/create-environment-filter');
 const createHeaderFooter = require('./plugins/create-header-footer');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
 const createReactPages = require('./plugins/create-react-pages');
+const createResourcesAndSupportWebsiteSection = require('./plugins/create-resources-and-support-section');
 const createSitemaps = require('./plugins/create-sitemaps');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
@@ -93,6 +94,7 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
 }
 
 function build(BUILD_OPTIONS) {
+  global.buildOptions = BUILD_OPTIONS;
   const smith = silverSmith();
 
   registerLiquidFilters();
@@ -118,9 +120,15 @@ function build(BUILD_OPTIONS) {
   smith.use(createReactPages(BUILD_OPTIONS), 'Create React pages');
   smith.use(getDrupalContent(BUILD_OPTIONS), 'Get Drupal content');
   smith.use(addDrupalPrefix(BUILD_OPTIONS), 'Add Drupal Prefix');
+
   smith.use(
     createOutreachAssetsData(BUILD_OPTIONS),
     'Create Outreach Assets Data',
+  );
+
+  smith.use(
+    createResourcesAndSupportWebsiteSection(BUILD_OPTIONS),
+    'Create "Resources and support" section of the website',
   );
 
   smith.use(

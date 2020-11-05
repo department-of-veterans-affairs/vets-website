@@ -2,39 +2,36 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import {
-  getVideoKind,
   isVideoGFE,
   isAtlasLocation,
+  isVideoVAFacility,
+  isVideoHome,
 } from '../../../../services/appointment';
-import { VIDEO_TYPES } from '../../../../utils/constants';
 
 export default function VideoLink({ appointment }) {
-  const videoKind = getVideoKind(appointment);
-  const isAtlas = isAtlasLocation(appointment);
   if (isVideoGFE(appointment)) {
     return (
       <span>
         You can join this video meeting using a device provided by VA.
       </span>
     );
-  } else if (videoKind === VIDEO_TYPES.clinic) {
+  } else if (isVideoVAFacility(appointment)) {
     return (
       <span>
         You must join this video meeting from the VA location listed below.
       </span>
     );
-  } else if (isAtlas) {
+  } else if (isAtlasLocation(appointment)) {
     return (
       <span>
         You must join this video meeting from the ATLAS (non-VA) location listed
         below.
       </span>
     );
-  } else if (
-    appointment.contained?.[0]?.telecom?.find(tele => tele.system === 'url')
-      ?.value
-  ) {
-    const url = appointment.contained?.[0]?.telecom?.[0]?.value;
+  } else if (isVideoHome(appointment)) {
+    const url = appointment.contained?.find(
+      res => res.resourceType === 'HealthcareService',
+    )?.telecom?.[0]?.value;
     const diff = moment().diff(moment(appointment.start), 'minutes');
 
     // Button is enabled 30 minutes prior to start time, until 4 hours after start time

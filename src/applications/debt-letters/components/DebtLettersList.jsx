@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CoronaVirusAlert } from '../const';
+import { CoronaVirusAlert } from '../const/deduction-codes';
 import { DebtLettersTable } from './DebtLettersTable';
 import { connect } from 'react-redux';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const DebtLettersList = ({ debtLinks, isVBMSError }) => {
   const renderAlert = () => (
@@ -23,10 +24,8 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
         </p>
         <p className="vads-u-font-family--sans vads-u-margin-y--0">
           You can check back later or call the Debt Management Center at{' '}
-          <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-            800-827-0648
-          </a>{' '}
-          to find out more information about how to resolve your debt.
+          <Telephone contact="8008270648" /> to find out more information about
+          how to resolve your debt.
         </p>
       </div>
     </div>
@@ -61,9 +60,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
           If you’ve received a letter about a VA debt, but don’t see the letter
           listed here call the VA Debt Management Center at{' '}
-          <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-            800-827-0648
-          </a>
+          <Telephone contact="8008270648" />
           {'. '}
           You can also call the DMC to get information about your resolved debts
           For VA health care copay debt, please go to our{' '}

@@ -1,8 +1,13 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { GA_PREFIX, APPOINTMENT_TYPES } from '../../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
-import { resetDataLayer } from '../../utils/events';
+import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import {
+  GA_PREFIX,
+  APPOINTMENT_TYPES,
+  EXPRESS_CARE,
+} from '../../utils/constants';
+import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
 import { selectSystemIds, vaosExpressCare } from '../../utils/selectors';
 
 import {
@@ -23,6 +28,11 @@ import {
   getVAAppointmentLocationId,
   getVideoAppointmentLocation,
   isVideoAppointment,
+  isVideoHome,
+  isAtlasLocation,
+  isVideoGFE,
+  isVideoVAFacility,
+  isVideoStoreForward,
 } from '../../services/appointment';
 
 import { captureError, has400LevelError } from '../../utils/error';
@@ -167,21 +177,17 @@ export function fetchFutureAppointments() {
               data: requests,
             });
 
-            const requestSuccessEvent = {
+            recordEvent({
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
-            };
+            });
 
-            const expressCareRequests = requests.filter(
-              appt => appt.vaos.isExpressCare,
-            );
-
-            if (vaosExpressCare(getState()) && expressCareRequests.length) {
-              requestSuccessEvent[`${GA_PREFIX}-express-care-number-of-cards`] =
-                expressCareRequests.length;
+            if (vaosExpressCare(getState())) {
+              recordItemsRetrieved(
+                'express_care',
+                requests.filter(appt => appt.vaos.isExpressCare).length,
+              );
             }
 
-            recordEvent(requestSuccessEvent);
-            resetDataLayer();
             return requests;
           })
           .catch(resp => {
@@ -198,9 +204,32 @@ export function fetchFutureAppointments() {
 
       recordEvent({
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
-        [`${GA_PREFIX}-upcoming-number-of-cards`]: data[0]?.length,
       });
-      resetDataLayer();
+      recordItemsRetrieved('upcoming', data[0]?.length);
+      recordItemsRetrieved(
+        'video_home',
+        data[0]?.filter(appt => isVideoHome(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_atlas',
+        data[0]?.filter(appt => isAtlasLocation(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_va_facility',
+        data[0]?.filter(appt => isVideoVAFacility(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_gfe',
+        data[0]?.filter(appt => isVideoGFE(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_store_forward',
+        data[0]?.filter(appt => isVideoStoreForward(appt)).length,
+      );
 
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
@@ -432,12 +461,36 @@ export function fetchExpressCareWindows() {
 
     const initialState = getState();
     const userSiteIds = selectSystemIds(initialState);
+    const address = selectVet360ResidentialAddress(initialState);
 
     try {
       const settings = await getRequestEligibilityCriteria(userSiteIds);
+      let facilityData;
+
+      if (address?.latitude && address?.longitude) {
+        const facilityIds = settings
+          .filter(
+            facility =>
+              facility.customRequestSettings?.find(
+                setting => setting.id === EXPRESS_CARE,
+              )?.supported,
+          )
+          .map(f => f.id);
+        if (facilityIds.length) {
+          try {
+            facilityData = await getLocations({ facilityIds });
+          } catch (error) {
+            // Still allow people into EC if the facility data call fails
+            captureError(error);
+          }
+        }
+      }
+
       dispatch({
         type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
         settings,
+        facilityData,
+        address,
         nowUtc: moment.utc(),
       });
     } catch (error) {

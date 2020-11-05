@@ -18,15 +18,15 @@ export default function PreferredProviderSection(props) {
                     <br />
                   </>
                 )}
-                {props.data.communityCareProvider.firstName} &nbsp;
+                {props.data.communityCareProvider.firstName}{' '}
                 {props.data.communityCareProvider.lastName}
                 <br />
                 {props.data.communityCareProvider.address.street}
                 <br />
                 {props.data.communityCareProvider.address.street2}
                 <br />
-                {props.data.communityCareProvider.address.city}, &nbsp;
-                {props.data.communityCareProvider.address.state} &nbsp;
+                {props.data.communityCareProvider.address.city},{' '}
+                {props.data.communityCareProvider.address.state}{' '}
                 {props.data.communityCareProvider.address.postalCode}
                 <br />
                 <br />

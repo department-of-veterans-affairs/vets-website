@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { DebtLettersTable } from './DebtLettersTable';
 import { MobileTableView } from './MobileTableView';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   const renderAlert = () => (
@@ -25,9 +26,7 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
         </p>
         <p className="vads-u-font-family--sans vads-u-margin-y--0">
           You can check back later or call the Debt Management Center at{' '}
-          <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-            800-827-0648
-          </a>{' '}
+          <Telephone contact="8008270648" />
           to find out more information about how to resolve your debt.
         </p>
       </div>
@@ -91,9 +90,7 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
           <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
             If you’ve received a letter about a VA debt, but don’t see the
             letter listed here call the Debt Management Center at{' '}
-            <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-              800-827-0648
-            </a>
+            <Telephone contact="8008270648" />
             {'. '}
             You can also call the Debt Management Center to get information
             about your resolved debts.

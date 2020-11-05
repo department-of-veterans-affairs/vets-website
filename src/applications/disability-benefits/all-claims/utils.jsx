@@ -34,7 +34,7 @@ import {
   RESERVE_GUARD_TYPES,
   STATE_LABELS,
   STATE_VALUES,
-  TWENTY_FIVE_MB,
+  FIFTY_MB,
   USA,
   TYPO_THRESHOLD,
   itfStatuses,
@@ -75,6 +75,8 @@ export const srSubstitute = (srIgnored, substitutionText) => (
     <span className="sr-only">{substitutionText}</span>
   </span>
 );
+
+export const isUndefined = value => (value || '') === '';
 
 export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
@@ -227,6 +229,23 @@ export function queryForFacilities(input = '') {
         scope.setExtra('input', input);
         scope.setExtra('error', error);
         Sentry.captureMessage('Error querying for facilities');
+      });
+      return [];
+    });
+}
+
+export function getSeparationLocations() {
+  return apiRequest('/disability_compensation_form/separation_locations')
+    .then(({ separationLocations }) =>
+      separationLocations.map(separationLocation => ({
+        id: separationLocation.code,
+        label: separationLocation.description,
+      })),
+    )
+    .catch(error => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        Sentry.captureMessage('Error getting separation locations');
       });
       return [];
     });
@@ -527,8 +546,22 @@ export const isDisabilityPtsd = disability => {
   });
 };
 
+export const hasRatedDisabilities = formData =>
+  formData?.ratedDisabilities?.length > 0;
+
+export const isClaimingNew = formData =>
+  _.get(
+    'view:claimType.view:claimingNew',
+    formData,
+    // force default to true if user has no rated disabilities
+    !hasRatedDisabilities(formData),
+  );
+
+export const isClaimingIncrease = formData =>
+  _.get('view:claimType.view:claimingIncrease', formData, false);
+
 export const hasNewPtsdDisability = formData =>
-  _.get('view:newDisabilities', formData, false) &&
+  isClaimingNew(formData) &&
   _.get('newDisabilities', formData, []).some(disability =>
     isDisabilityPtsd(disability.condition),
   );
@@ -615,7 +648,7 @@ export const ancillaryFormUploadUi = (
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
-    maxSize: TWENTY_FIVE_MB,
+    maxSize: FIFTY_MB,
     minSize: 1,
     createPayload: file => {
       const payload = new FormData();
@@ -718,34 +751,16 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
   </span>
 );
 
-export const hasRatedDisabilities = formData =>
-  formData.ratedDisabilities && formData.ratedDisabilities.length;
-
-const isClaimingNew = formData =>
-  _.get(
-    'view:claimType.view:claimingNew',
-    formData,
-    // force default to true if user has no rated disabilities
-    !hasRatedDisabilities(formData),
-  ) || _.get('view:newDisabilities', formData, false);
-
-const isClaimingIncrease = formData =>
-  hasRatedDisabilities(formData) &&
-  _.get('view:claimType.view:claimingIncrease', formData, false);
-
 export const increaseOnly = formData =>
-  (isClaimingIncrease(formData) && !isClaimingNew(formData)) || false;
+  isClaimingIncrease(formData) && !isClaimingNew(formData);
 export const newConditionsOnly = formData =>
-  (!isClaimingIncrease(formData) && isClaimingNew(formData)) || false;
+  !isClaimingIncrease(formData) && isClaimingNew(formData);
 export const newAndIncrease = formData =>
-  (isClaimingNew(formData) && isClaimingIncrease(formData)) || false;
+  isClaimingNew(formData) && isClaimingIncrease(formData);
 
 // Shouldn't be possible, but just in case this requirement is lifted later...
 export const noClaimTypeSelected = formData =>
-  (!isClaimingNew(formData) && !isClaimingIncrease(formData)) || false;
-
-export const hasNewDisabilities = formData =>
-  formData['view:newDisabilities'] === true;
+  !isClaimingNew(formData) && !isClaimingIncrease(formData);
 
 /**
  * The base urls for each form
@@ -797,16 +812,11 @@ export const directToCorrectForm = ({
 };
 
 export const claimingRated = formData =>
-  (isClaimingIncrease(formData) &&
-    formData.ratedDisabilities &&
-    formData.ratedDisabilities.some(d => d['view:selected'])) ||
-  false;
+  formData?.ratedDisabilities?.some(d => d['view:selected']);
 
 // TODO: Rename this to avoid collision with `isClaimingNew` above
 export const claimingNew = formData =>
-  (formData.newDisabilities &&
-    formData.newDisabilities.some(d => d.condition)) ||
-  false;
+  formData?.newDisabilities?.some(d => d.condition);
 
 export const hasClaimedConditions = formData =>
   (isClaimingIncrease(formData) && claimingRated(formData)) ||
@@ -821,34 +831,27 @@ export const activeServicePeriods = formData =>
     sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
   );
 
-export const DISABILITY_SHARED_CONFIG = {
-  orientation: {
-    path: 'disabilities/orientation',
-    // Only show the page if both (or potentially neither) options are chosen on the claim-type page
-    depends: formData =>
-      newAndIncrease(formData) || noClaimTypeSelected(formData),
-  },
-  ratedDisabilities: {
-    path: 'disabilities/rated-disabilities',
-    depends: formData =>
-      hasRatedDisabilities(formData) && !newConditionsOnly(formData),
-  },
-  addDisabilities: {
-    path: 'new-disabilities/add',
-    depends: hasNewDisabilities,
-  },
-};
-
 export const isBDD = formData => {
   const servicePeriods = formData?.serviceInformation?.servicePeriods;
+
   // separation date entered in the wizard
   const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
+
   // this flag helps maintain the correct form title within a session
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
+  // User hasn't started the form or the wizard
   if ((!servicePeriods || !Array.isArray(servicePeriods)) && !separationDate) {
     return false;
   }
+
+  // isActiveDuty is true when the user selects that option in the wizard & then
+  // enters a separation date - based on the session storage value; we then
+  // set this flag in the formData.
+  // If the user doesn't choose the active duty wizard option, but enters a
+  // future date in their service history, this may be associated with reserves
+  // and therefor should not open the BDD flow
+  const isActiveDuty = Boolean(formData?.['view:isBddData'] || separationDate);
 
   const mostRecentDate = separationDate
     ? moment(separationDate)
@@ -862,6 +865,7 @@ export const isBDD = formData => {
   }
 
   const result =
+    isActiveDuty &&
     mostRecentDate.isAfter(moment().add(89, 'days')) &&
     !mostRecentDate.isAfter(moment().add(180, 'days'));
   if (result) {
@@ -869,6 +873,24 @@ export const isBDD = formData => {
     window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
   }
   return result;
+};
+
+export const DISABILITY_SHARED_CONFIG = {
+  orientation: {
+    path: 'disabilities/orientation',
+    // Only show the page if both (or potentially neither) options are chosen on the claim-type page
+    depends: formData =>
+      newAndIncrease(formData) ||
+      (noClaimTypeSelected(formData) && !isBDD(formData)),
+  },
+  ratedDisabilities: {
+    path: 'disabilities/rated-disabilities',
+    depends: formData => isClaimingIncrease(formData) && !isBDD(formData),
+  },
+  addDisabilities: {
+    path: 'new-disabilities/add',
+    depends: isClaimingNew,
+  },
 };
 
 export const getPageTitle = formData => {

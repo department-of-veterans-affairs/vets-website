@@ -9,7 +9,7 @@ import DowntimeMessage from '../save-in-progress/DowntimeMessage';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
-import { getFormAuthorizationState } from 'applications/personalization/dashboard/helpers';
+import { getFormAuthorizationState } from '../../forms-system/src/js/utilities/authorization-state';
 
 class AuthorizationComponent extends React.Component {
   componentDidMount() {
@@ -31,6 +31,7 @@ class AuthorizationComponent extends React.Component {
   };
 
   renderDowntime = (downtime, children) => {
+    // duplicate logic in SaveInProgressIntro should be updated with any changes to this section
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.downtime?.message || (
         <DowntimeMessage formConfig={this.props.formConfig} />

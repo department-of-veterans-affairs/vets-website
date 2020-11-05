@@ -1,43 +1,23 @@
 import React from 'react';
-import {
-  buildAddressSchema,
-  addressUISchema,
-} from '../../../../../disability-benefits/686c-674/config/address-schema';
-import { EDUCATION_LEVELS } from '../../constants';
+import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
+import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
-const newAddress = buildAddressSchema(true);
-// reset boolean type
-newAddress.properties['view:livesOnMilitaryBase'] = {
-  type: 'boolean',
-};
+const { newAddress, isMoving, yearsOfEducation } = fullSchema.properties;
 
-const newAddressUI = addressUISchema(
-  true,
-  'newAddress',
-  formData => formData.isMoving,
-);
-// reset title for checkbox
-newAddressUI['view:livesOnMilitaryBase']['ui:title'] =
+const checkboxTitle =
   'I will live on a United States military base outside of the U.S.';
 
-const educationLabels = Object.entries(EDUCATION_LEVELS).map(
-  ([label]) => label,
-);
-const educationTitles = Object.entries(EDUCATION_LEVELS).map(
-  ([, title]) => title,
+const newAddressUi = addressUiSchema(
+  'newAddress',
+  checkboxTitle,
+  formData => formData?.isMoving,
 );
 
 export const schema = {
   type: 'object',
   properties: {
-    educationLevel: {
-      type: 'string',
-      enum: educationLabels,
-      enumNames: educationTitles,
-    },
-    isMoving: {
-      type: 'boolean',
-    },
+    yearsOfEducation,
+    isMoving,
     newAddress,
   },
 };
@@ -51,8 +31,11 @@ export const uiSchema = {
     </p>
   ),
   'ui:title': 'Additional Information',
-  educationLevel: {
-    'ui:title': 'Highest education level',
+  yearsOfEducation: {
+    'ui:title': 'How many years of education do you have?',
+    'ui:errorMessages': {
+      pattern: 'Please enter a number',
+    },
   },
   isMoving: {
     'ui:widget': 'yesNo',
@@ -68,7 +51,7 @@ export const uiSchema = {
         Your new address
       </p>
     ),
-    ...newAddressUI,
+    ...newAddressUi,
     'ui:options': {
       expandUnder: 'isMoving',
       expandUnderCondition: true,

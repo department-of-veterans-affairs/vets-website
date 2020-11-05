@@ -3,26 +3,24 @@ import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   selectPatientFacilities,
-  selectIsCernerOnlyPatient,
+  selectVet360ResidentialAddress,
+  selectCernerAppointmentsFacilities,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
-
 import {
   getTimezoneBySystemId,
   getTimezoneDescBySystemId,
   getTimezoneAbbrBySystemId,
 } from './timezone';
-
-import { getRealFacilityId } from './appointment';
-import { isEligible } from './eligibility';
+import { isEligible } from '../new-appointment/redux/helpers/eligibility';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
-  AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
   APPOINTMENT_STATUS,
+  AUDIOLOGY_TYPES_OF_CARE,
 } from './constants';
 import {
   getRootOrganization,
@@ -41,6 +39,16 @@ import {
   getVARFacilityId,
 } from '../services/appointment';
 
+export const selectIsCernerOnlyPatient = state =>
+  !!selectPatientFacilities(state)?.every(
+    f => f.isCerner && f.usesCernerAppointments,
+  );
+
+export const selectIsCernerPatient = state =>
+  selectPatientFacilities(state)?.some(
+    f => f.isCerner && f.usesCernerAppointments,
+  );
+
 export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
 export const vaosRequests = state =>
@@ -57,9 +65,11 @@ export const vaosExpressCare = state =>
   toggleValues(state).vaOnlineSchedulingExpressCare;
 export const vaosExpressCareNew = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
-export const vaosFlatFacilityPage = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
+const vaosFlatFacilityPage = state =>
+  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
+export const selectUseFlatFacilityPage = state =>
+  vaosFlatFacilityPage(state) && !selectIsCernerPatient(state);
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -122,6 +132,13 @@ export function getCCEType(state) {
   return typeOfCare?.cceType;
 }
 
+export function getSelectedTypeOfCareFacilities(state) {
+  const data = getFormData(state);
+  const newAppointment = getNewAppointment(state);
+  const typeOfCare = getTypeOfCare(data);
+  return newAppointment.facilities[(typeOfCare?.id)];
+}
+
 export function getParentFacilities(state) {
   return getNewAppointment(state).parentFacilities;
 }
@@ -130,7 +147,7 @@ export function getChosenFacilityInfo(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
-  const selectedTypeOfCareFacilities = vaosFlatFacilityPage(state)
+  const selectedTypeOfCareFacilities = selectUseFlatFacilityPage(state)
     ? facilities[`${typeOfCareId}`]
     : facilities[`${typeOfCareId}_${data.vaParent}`];
 
@@ -210,6 +227,10 @@ export function getParentOfChosenFacility(state) {
 }
 
 export function getChosenFacilityDetails(state) {
+  if (selectUseFlatFacilityPage(state)) {
+    return getChosenFacilityInfo(state);
+  }
+
   const data = getFormData(state);
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const facilityDetails = getNewAppointment(state).facilityDetails;
@@ -292,7 +313,7 @@ export function hasSingleValidVALocation(state) {
 }
 
 export function selectCernerOrgIds(state) {
-  const cernerSites = selectPatientFacilities(state)?.filter(f => f.isCerner);
+  const cernerSites = selectCernerAppointmentsFacilities(state);
   return getNewAppointment(state)
     .parentFacilities?.filter(parent => {
       const facilityId = getSiteIdFromOrganization(parent);
@@ -308,23 +329,27 @@ export function getFacilityPageV2Info(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCare = getTypeOfCare(data);
-  const parentFacilitiesStatus = newAppointment.parentFacilitiesStatus;
-  const childFacilitiesStatus = newAppointment.childFacilitiesStatus;
+
+  const {
+    childFacilitiesStatus,
+    facilityPageSortMethod,
+    parentFacilities,
+    parentFacilitiesStatus,
+    requestLocationStatus,
+    showEligibilityModal,
+  } = newAppointment;
+
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibilityStatus = getEligibilityStatus(state);
-  const parentFacilities = newAppointment.parentFacilities;
 
   return {
     ...formInfo,
-    typeOfCare: typeOfCare?.name,
+    address: selectVet360ResidentialAddress(state),
     canScheduleAtChosenFacility:
       eligibilityStatus.direct || eligibilityStatus.request,
     childFacilitiesStatus,
     eligibility: getEligibilityChecks(state),
     facilities,
-    facility: getChosenFacilityInfo(state),
-    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
-    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     hasDataFetchingError:
       parentFacilitiesStatus === FETCH_STATUS.failed ||
       childFacilitiesStatus === FETCH_STATUS.failed ||
@@ -339,10 +364,12 @@ export function getFacilityPageV2Info(state) {
     parentFacilities,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentFacilitiesStatus,
+    requestLocationStatus,
+    selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: facilities?.length === 1,
-    siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
-    showEligibilityModal:
-      facilities?.length > 1 && newAppointment.showEligibilityModal,
+    showEligibilityModal: facilities?.length > 1 && showEligibilityModal,
+    sortMethod: facilityPageSortMethod,
+    typeOfCare: typeOfCare?.name,
   };
 }
 
@@ -437,24 +464,21 @@ export function getCancelInfo(state) {
   if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
     // Confirmed in person VA appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
-    facility = facilityData[getRealFacilityId(locationId)];
+    facility = facilityData[locationId];
   } else if (appointmentToCancel?.facility) {
     // Requests
-    facility =
-      facilityData[
-        `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
-      ];
+    facility = facilityData[`var${appointmentToCancel.facility.facilityCode}`];
   } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
-    facility = facilityData[getRealFacilityId(locationId)];
+    facility = facilityData[locationId];
   }
   let isCerner = null;
   if (appointmentToCancel) {
     const facilityId = getVARFacilityId(appointmentToCancel);
-    isCerner = selectPatientFacilities(state)
-      ?.filter(f => f.isCerner)
-      .some(cernerSite => facilityId?.startsWith(cernerSite.facilityId));
+    isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
+      facilityId?.startsWith(cernerSite.facilityId),
+    );
   }
 
   return {
@@ -482,7 +506,7 @@ export function getChosenVACityState(state) {
   return null;
 }
 
-export const isWelcomeModalDismissed = state =>
+export const selectIsWelcomeModalDismissed = state =>
   state.announcements.dismissed.some(
     announcement => announcement === 'welcome-to-new-vaos',
   );

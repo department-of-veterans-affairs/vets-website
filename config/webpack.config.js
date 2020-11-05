@@ -21,6 +21,9 @@ const {
   getWebpackEntryPoints,
 } = require('./manifest-helpers');
 
+// TODO: refactor the other approach for creating files without the hash so that we're only doing that in the webpack config: https://github.com/department-of-veterans-affairs/vets-website/blob/a012bad17e5bf024b0ea7326a72ae6a737e349ec/src/site/stages/build/plugins/process-entry-names.js#L35
+const vaMedalliaStylesFilename = 'va-medallia-styles';
+
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
 const timestamp = new Date().getTime();
@@ -41,6 +44,9 @@ const sharedModules = [
 const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
   style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
+  [vaMedalliaStylesFilename]: getAbsolutePath(
+    'src/platform/site-wide/sass/va-medallia-style.scss',
+  ),
   styleConsolidated: getAbsolutePath(
     'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
@@ -128,7 +134,7 @@ module.exports = env => {
           },
         },
         {
-          test: /\.scss$/,
+          test: /\.(sa|sc|c)ss$/,
           use: [
             {
               loader: MiniCssExtractPlugin.loader,
@@ -136,14 +142,16 @@ module.exports = env => {
             {
               loader: 'css-loader',
               options: {
-                minimize: isOptimizedBuild,
                 sourceMap: enableCSSSourcemaps,
               },
             },
             {
               loader: 'postcss-loader',
               options: {
-                plugins: () => [require('autoprefixer')],
+                // use cssnano to minimize css only on optimized builds
+                plugins: isOptimizedBuild
+                  ? () => [require('autoprefixer'), require('cssnano')]
+                  : () => [require('autoprefixer')],
               },
             },
             {
@@ -236,9 +244,19 @@ module.exports = env => {
       }),
 
       new MiniCssExtractPlugin({
-        filename: !isOptimizedBuild
-          ? '[name].css'
-          : `[name].[contenthash]-${timestamp}.css`,
+        moduleFilename: chunk => {
+          const { name } = chunk;
+          const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
+
+          const isStaging =
+            buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING;
+
+          if (isMedalliaStyleFile && isStaging) return `[name].css`;
+
+          return isOptimizedBuild
+            ? `[name].[contenthash]-${timestamp}.css`
+            : `[name].css`;
+        },
       }),
 
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

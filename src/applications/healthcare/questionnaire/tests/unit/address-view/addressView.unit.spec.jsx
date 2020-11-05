@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import AddressView from '../../../components/AddressView';
+import AddressView from '../../../components/veteran-info/AddressView';
 
 describe('healthcare-questionnaire - display an address', () => {
   it('full address -- address1, address2 and address3', () => {

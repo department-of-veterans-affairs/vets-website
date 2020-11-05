@@ -145,7 +145,7 @@ export default class ArrayField extends React.Component {
   }
 
   /*
-   * Clicking Add Another
+   * Clicking Add another
    */
   handleAdd() {
     const lastIndex = this.props.formData.length - 1;
@@ -372,7 +372,7 @@ export default class ArrayField extends React.Component {
             disabled={!this.props.formData || addAnotherDisabled}
             onClick={this.handleAdd}
           >
-            Add Another {uiOptions.itemName}
+            Add another {uiOptions.itemName}
           </button>
           <p>
             {addAnotherDisabled &&

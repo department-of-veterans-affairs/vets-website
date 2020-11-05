@@ -6,6 +6,7 @@ export const GET_LETTERS_FAILURE = 'GET_LETTERS_FAILURE';
 export const GET_LETTERS_SUCCESS = 'GET_LETTERS_SUCCESS';
 export const INVALID_ADDRESS_PROPERTY = 'INVALID_ADDRESS_PROPERTY'; // 422
 export const LETTER_ELIGIBILITY_ERROR = 'LETTER_ELIGIBILITY_ERROR'; // 502
+export const LETTER_HAS_EMPTY_ADDRESS = 'LETTER_HAS_EMPTY_ADDRESS';
 
 // getBenefitSummaryOptions() actions
 export const GET_BENEFIT_SUMMARY_OPTIONS_FAILURE =
@@ -30,6 +31,7 @@ export const AVAILABILITY_STATUSES = Object.freeze({
   invalidAddressProperty: 'invalidAddressProperty',
   unavailable: 'unavailable',
   letterEligibilityError: 'letterEligibilityError',
+  hasEmptyAddress: 'hasEmptyAddress',
 });
 
 export const DOWNLOAD_STATUSES = Object.freeze({
@@ -39,15 +41,18 @@ export const DOWNLOAD_STATUSES = Object.freeze({
   failure: 'failure',
 });
 
+// if you update LETTER_TYPES, update LETTER_TYPES in vets-api lib/evss/letters/letter.rb
 export const LETTER_TYPES = Object.freeze({
   benefitSummary: 'benefit_summary',
+  benefitSummaryDependent: 'benefit_summary_dependent',
+  benefitVerification: 'benefit_verification',
+  certificateOfEligibility: 'certificate_of_eligibility',
+  civilService: 'civil_service',
   commissary: 'commissary',
-  proofOfService: 'proof_of_service',
   medicarePartD: 'medicare_partd',
   minimumEssentialCoverage: 'minimum_essential_coverage',
+  proofOfService: 'proof_of_service',
   serviceVerification: 'service_verification',
-  civilService: 'civil_service',
-  benefitVerification: 'benefit_verification',
 });
 
 // Benefit options returned from vets-api, used in UI

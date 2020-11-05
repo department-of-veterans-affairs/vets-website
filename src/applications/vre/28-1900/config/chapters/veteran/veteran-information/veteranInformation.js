@@ -1,45 +1,16 @@
+import React from 'react';
+import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 import { isFieldRequired } from '../../../helpers';
 
+const { veteranInformation } = fullSchema.properties;
+
 export const schema = {
   type: 'object',
   properties: {
-    veteranInformation: {
-      type: 'object',
-      properties: {
-        fullName: {
-          type: 'object',
-          properties: {
-            first: {
-              type: 'string',
-            },
-            middle: {
-              type: 'string',
-            },
-            last: {
-              type: 'string',
-            },
-            suffix: {
-              type: 'string',
-              enum: ['Jr.', 'Sr.', 'II', 'III', 'IV'],
-            },
-          },
-        },
-        ssn: {
-          type: 'string',
-        },
-        VAFileNumber: {
-          type: 'string',
-        },
-        dob: {
-          type: 'string',
-          pattern:
-            '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-        },
-      },
-    },
+    veteranInformation,
   },
 };
 
@@ -70,8 +41,19 @@ export const uiSchema = {
       'ui:required': formData => !isFieldRequired(formData, 'isLoggedIn'),
       ...ssnUI,
     },
-    VAFileNumber: {
-      'ui:title': 'Your VA file number (*If different from SSN)',
+    vaFileNumber: {
+      'ui:title': (
+        <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
+          Your VA file number{' '}
+          <span className="schemaform-required-span">
+            (*If different from{' '}
+            <dfn>
+              <abbr title="social security number">SSN</abbr>
+            </dfn>
+            )
+          </span>
+        </p>
+      ),
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },

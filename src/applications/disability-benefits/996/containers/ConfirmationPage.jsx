@@ -41,7 +41,7 @@ export class ConfirmationPage extends React.Component {
       <div>
         <div className="print-only">
           <img
-            src="https://va.gov/img/design/logo/logo-black-and-white.png"
+            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
             alt="VA logo"
             width="300"
           />

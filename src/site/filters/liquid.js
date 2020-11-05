@@ -1,3 +1,5 @@
+const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
+
 const moment = require('moment');
 const converter = require('number-to-words');
 const liquid = require('tinyliquid');
@@ -390,6 +392,16 @@ module.exports = function registerFilters() {
     return fieldLink;
   };
 
+  liquid.filters.accessibleNumber = data => {
+    if (data) {
+      return data
+        .split('')
+        .join(' ')
+        .replace(/ -/g, '.');
+    }
+    return null;
+  };
+
   liquid.filters.deriveLastBreadcrumbFromPath = (
     breadcrumbs,
     string,
@@ -402,6 +414,32 @@ module.exports = function registerFilters() {
     breadcrumbs.push(last);
 
     return breadcrumbs;
+  };
+
+  liquid.filters.deriveLcBreadcrumbs = (
+    breadcrumbs,
+    string,
+    currentPath,
+    pageTitle,
+  ) => {
+    // Remove any resources crumb - we don't want the drupal page title.
+    const filteredCrumbs = breadcrumbs.filter(
+      crumb => crumb.url.path !== '/resources',
+    );
+    // Add the resources crumb with the correct crumb title.
+    filteredCrumbs.push({
+      url: { path: '/resources', routed: false },
+      text: 'Resources and support',
+    });
+
+    if (pageTitle) {
+      filteredCrumbs.push({
+        url: { path: currentPath, routed: true },
+        text: string,
+      });
+    }
+
+    return filteredCrumbs;
   };
 
   // used to get a base url path of a health care region from entityUrl.path
@@ -466,4 +504,6 @@ module.exports = function registerFilters() {
 
   liquid.filters.isLaterThan = (timestamp1, timestamp2) =>
     moment(timestamp1, 'YYYY-MM-DD').isAfter(moment(timestamp2, 'YYYY-MM-DD'));
+
+  liquid.filters.phoneNumberArrayToObject = phoneNumberArrayToObject;
 };

@@ -23,7 +23,6 @@
         "view:hasServiceTreatmentRecordsToUpload": false
       },
       "view:powStatus": false,
-      "view:newDisabilities": true,
       "view:disabilitiesClarification": {},
       "serviceInformation": {
         "reservesNationalGuardService": {
@@ -50,13 +49,15 @@
           }
         ],
         "view:militaryHistoryNote": {},
-        "separationLocation": "Fort Hood"
+        "separationLocation": {
+          "id": "98283",
+          "label": "AF Academy"
+        }
       },
       "servedInCombatZonePost911": false,
       "newDisabilities": [
         {
           "cause": "NEW",
-          "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
           "condition": "asthma",
           "view:descriptionInfo": {}
         }

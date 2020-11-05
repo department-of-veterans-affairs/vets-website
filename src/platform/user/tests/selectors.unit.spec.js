@@ -245,6 +245,28 @@ describe('user selectors', () => {
     });
   });
 
+  describe('selectVeteranStatus', () => {
+    it('pulls out the veteranStatus object', () => {
+      const state = {
+        user: {
+          profile: {
+            veteranStatus: {
+              status: 'OK',
+              isVeteran: true,
+              servedInMilitary: true,
+            },
+          },
+        },
+      };
+      const expected = {
+        status: 'OK',
+        isVeteran: true,
+        servedInMilitary: true,
+      };
+      expect(selectors.selectVeteranStatus(state)).to.deep.equal(expected);
+    });
+  });
+
   describe('selectPatientFacilities', () => {
     it('pulls out the state.profile.facilities array', () => {
       const state = {
@@ -265,6 +287,46 @@ describe('user selectors', () => {
       expect(selectors.selectPatientFacilities(state)).to.deep.equal(
         state.user.profile.facilities,
       );
+    });
+    it('pulls out the state.profile.facilities array and adds Cerner capability flags to Cerner facilities', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '984', isCerner: false },
+              { facilityId: '668', isCerner: true },
+              { facilityId: '757', isCerner: false },
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        { facilityId: '984', isCerner: false },
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: false,
+          usesCernerMessaging: false,
+          usesCernerRx: false,
+          usesCernerTestResults: false,
+        },
+      ];
+      expect(selectors.selectPatientFacilities(state)).to.deep.equal(expected);
     });
     it('returns undefined if there is no facilities on the profile', () => {
       const state = {
@@ -358,6 +420,269 @@ describe('user selectors', () => {
         },
       };
       expect(selectors.selectIsCernerPatient(state)).to.be.false;
+    });
+  });
+
+  describe('isVAPatient', () => {
+    it('returns `true` if the profile.vaPatient is `true`', () => {
+      const state = {
+        user: {
+          profile: {
+            vaPatient: true,
+          },
+        },
+      };
+      expect(selectors.isVAPatient(state)).to.be.true;
+    });
+    it('returns `false` if the profile.vaPatient is anything other than `true`', () => {
+      const state = {
+        user: {
+          profile: {
+            vaPatient: 'blah',
+          },
+        },
+      };
+      expect(selectors.isVAPatient(state)).to.be.false;
+      delete state.user.profile.vaPatient;
+      expect(selectors.isVAPatient(state)).to.be.false;
+      delete state.user.profile;
+      expect(selectors.isVAPatient(state)).to.be.false;
+      delete state.user;
+      expect(selectors.isVAPatient(state)).to.be.false;
+    });
+  });
+
+  describe('isInMPI', () => {
+    it('returns `true` if the profile.status is `OK`', () => {
+      const state = {
+        user: {
+          profile: {
+            status: 'OK',
+          },
+        },
+      };
+      expect(selectors.isInMPI(state)).to.be.true;
+    });
+    it('returns `false` if the profile.status is anything other than `OK`', () => {
+      const state = {
+        user: {
+          profile: {
+            status: 'blah',
+          },
+        },
+      };
+      expect(selectors.isInMPI(state)).to.be.false;
+      delete state.user.profile;
+      expect(selectors.isInMPI(state)).to.be.false;
+    });
+  });
+
+  describe('hasMPIConnectionError', () => {
+    it('returns `true` if the profile.status is `SERVER_ERROR`', () => {
+      const state = {
+        user: {
+          profile: {
+            status: 'SERVER_ERROR',
+          },
+        },
+      };
+      expect(selectors.hasMPIConnectionError(state)).to.be.true;
+    });
+    it('returns `false` if the profile.status is anything other than `SERVER_ERROR`', () => {
+      const state = {
+        user: {
+          profile: {
+            veteranStatus: {
+              status: 'ERROR',
+            },
+          },
+        },
+      };
+      expect(selectors.isInMPI(state)).to.be.false;
+      delete state.user.profile;
+      expect(selectors.isInMPI(state)).to.be.false;
+    });
+  });
+
+  describe('selectCernerRxFacilities', () => {
+    it('returns the Cerner facilities that are not in the RX blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, but blocked from RX
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from RX
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(selectors.selectCernerRxFacilities(state)).to.deep.equal(expected);
+    });
+  });
+
+  describe('selectCernerMessagingFacilities', () => {
+    it('returns the Cerner facilities that are not in the messaging blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, but blocked from messaging
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from messaging
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(selectors.selectCernerMessagingFacilities(state)).to.deep.equal(
+        expected,
+      );
+    });
+  });
+
+  describe('selectCernerAppointmentsFacilities', () => {
+    it('returns the Cerner facilities that are not in the appointments blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, not blocked from appointments
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from appointments
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: false,
+          usesCernerMessaging: false,
+          usesCernerRx: false,
+          usesCernerTestResults: false,
+        },
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(selectors.selectCernerAppointmentsFacilities(state)).to.deep.equal(
+        expected,
+      );
+    });
+  });
+
+  describe('selectCernerMedicalRecordsFacilities', () => {
+    it('returns the Cerner facilities that are not in the medical records blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, blocked from medical records
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from medical records
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(
+        selectors.selectCernerMedicalRecordsFacilities(state),
+      ).to.deep.equal(expected);
+    });
+  });
+
+  describe('selectCernerTestResultsFacilities', () => {
+    it('returns the Cerner facilities that are not in the test results blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, blocked from test results
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from test results
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(selectors.selectCernerTestResultsFacilities(state)).to.deep.equal(
+        expected,
+      );
     });
   });
 });

@@ -1,5 +1,13 @@
 import moment from 'moment';
+import environment from 'platform/utilities/environment';
 import { VHA_FHIR_ID } from '../../utils/constants';
+
+/*
+ * This is used to parse the fake FHIR ids we create for organizations
+ */
+function parseId(id) {
+  return id.replace('var', '');
+}
 
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
@@ -141,6 +149,21 @@ function transformOperatingHours(facilityHours) {
 }
 
 /**
+ * Converts back from a real facility id to our test facility ids
+ * in lower environments
+ *
+ * @export
+ * @param {String} facilityId - facility id to convert
+ * @returns A facility id with either 442 or 552 replaced with 983 or 984
+ */
+function getTestFacilityId(facilityId) {
+  if (!environment.isProduction() && facilityId) {
+    return facilityId.replace('442', '983').replace('552', '984');
+  }
+
+  return facilityId;
+}
+/**
  * Transforms /facilities/va/vha_983 to
  * /Location/var983
  *
@@ -149,15 +172,18 @@ function transformOperatingHours(facilityHours) {
  * @returns {Object} A FHIR Location resource
  */
 export function transformFacility(facility) {
+  const id = getTestFacilityId(facility.uniqueId);
   return {
     resourceType: 'Location',
-    id: `var${facility.uniqueId}`,
+    id: `var${id}`,
     identifier: [
       {
         system: 'http://med.va.gov/fhir/urn',
-        value: `urn:va:division:${facility.uniqueId.substr(0, 3)}:${
-          facility.uniqueId
-        }`,
+        value: `urn:va:division:${id.substr(0, 3)}:${id}`,
+      },
+      {
+        system: VHA_FHIR_ID,
+        value: id,
       },
     ],
     name: facility.name,
@@ -185,7 +211,91 @@ export function transformFacility(facility) {
     },
     hoursOfOperation: transformOperatingHours(facility.hours),
     managingOrganization: {
-      reference: `Organization/var${facility.uniqueId.substr(0, 3)}`,
+      reference: `Organization/var${id.substr(0, 3)}`,
+    },
+  };
+}
+
+/**
+ * Transform an ATLAS facility from LegacyVAR to a FHIR location resource
+ * @export
+ * @param {Object} tasInfo The tasInfo object from legacyVAR
+ * @returns {Object} A FHIR Location resource
+ */
+export function transformATLASLocation(tasInfo) {
+  const { address, siteCode } = tasInfo;
+  const {
+    city,
+    longitude,
+    latitude,
+    state,
+    streetAddress,
+    zipCode: postalCode,
+  } = address;
+  return {
+    resourceType: 'Location',
+    id: `var${siteCode}`,
+    address: {
+      line: [streetAddress],
+      city,
+      state,
+      postalCode,
+    },
+    position: {
+      longitude,
+      latitude,
+    },
+  };
+}
+
+/**
+ * Sets requestSupported and directSchedulingSupported in legacyVAR
+ * for locations that are retrieved from the v1 facilities API.  This
+ * also replaces the ids when running locally or on staging since there
+ * is a mismatch between VAMF facility ids and the facilities API
+ *
+ * @export
+ * @param {Object} params Parameters needed for fetching locations
+ * @param {Object} params.location A location resource
+ * @param {Array} params.requestFacilityIds An array of location ids that support requests for a particular type of care
+ * @param {Array} params.directFacilityIds An array of location ids that support direct scheduling for a particular type of care
+ * @returns {Array} A location resource
+ */
+export function setSupportedSchedulingMethods({
+  location,
+  requestFacilityIds,
+  directFacilityIds,
+} = {}) {
+  const id = location.id;
+
+  const requestSupported = requestFacilityIds.some(
+    facilityId => `var${facilityId}` === id,
+  );
+  const directSchedulingSupported = directFacilityIds.some(
+    facilityId => `var${facilityId}` === id,
+  );
+
+  const identifier = location.identifier;
+  const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
+
+  if (!vhaIdentifier) {
+    identifier.push({
+      system: VHA_FHIR_ID,
+      value: parseId(id),
+    });
+  }
+
+  return {
+    ...location,
+    id,
+    identifier,
+    legacyVAR: {
+      ...location.legacyVAR,
+      requestSupported,
+      directSchedulingSupported,
+    },
+    managingOrganization: {
+      reference: location.managingOrganization?.reference,
     },
   };
 }

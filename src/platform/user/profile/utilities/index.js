@@ -4,9 +4,9 @@ import {
   setSentryLoginType,
   clearSentryLoginType,
 } from '../../authentication/utilities';
-import localStorage from 'platform/utilities/storage/localStorage';
+import localStorage from '~/platform/utilities/storage/localStorage';
 
-import { ssoKeepAliveSession } from 'platform/utilities/sso';
+import { ssoKeepAliveSession } from '~/platform/utilities/sso';
 
 import {
   ADDRESS_VALIDATION_TYPES,
@@ -16,9 +16,9 @@ import {
 } from '../constants/addressValidationMessages';
 
 import {
-  isVet360Configured,
+  isVAProfileServiceConfigured,
   mockContactInformation,
-} from 'vet360/util/local-vet360';
+} from '@@vap-svc/util/local-vapsvc';
 
 const commonServices = {
   EMIS: 'EMIS',
@@ -60,6 +60,7 @@ export function mapRawUserDataToState(json) {
         vaProfile,
         vet360ContactInformation,
         veteranStatus,
+        session,
       },
     },
     meta,
@@ -83,23 +84,20 @@ export function mapRawUserDataToState(json) {
       last,
     },
     verified,
-    vet360: isVet360Configured()
+    vet360: isVAProfileServiceConfigured()
       ? vet360ContactInformation
       : mockContactInformation,
+    session,
+    veteranStatus: {},
   };
 
   if (meta && veteranStatus === null) {
     const errorStatus = meta.errors.find(
       error => error.externalService === commonServices.EMIS,
     ).status;
-    userState.veteranStatus = getErrorStatusDesc(errorStatus);
+    userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {
-    userState.isVeteran = veteranStatus.isVeteran;
-    userState.veteranStatus = {
-      isVeteran: veteranStatus.isVeteran,
-      veteranStatus,
-      servedInMilitary: veteranStatus.servedInMilitary,
-    };
+    userState.veteranStatus = { ...veteranStatus };
   }
 
   if (meta && vaProfile === null) {

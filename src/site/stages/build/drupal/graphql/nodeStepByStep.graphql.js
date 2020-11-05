@@ -24,11 +24,17 @@ fragment nodeStepByStep on NodeStepByStep {
   fieldSteps {
     entity {
       ... on ParagraphStepByStep {
+        fieldSectionHeader
         fieldStep {
           entity {
             ... on ParagraphStep {
               fieldWysiwyg {
                 processed
+              }
+              fieldAlert {
+                entity {
+                  ... alertSingle
+                }
               }
               fieldMedia {
                 entity {
@@ -46,9 +52,46 @@ fragment nodeStepByStep on NodeStepByStep {
       }
     }
   }
-  fieldRelatedLinks {
+  fieldContactInformation {
     entity {
-      ... listOfLinkTeasers
+      entityBundle
+      ... contactInformation
+    }
+  }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldHomePageHubLabel
+        fieldTeaserText
+        path {
+          alias
+        }
+        fieldSupportServices {
+          entity {
+            ... supportService
+          }
+        }
+      }
+    }
+  }
+  fieldRelatedInformation {
+    entity {
+      ... linkTeaser
+    }
+  }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
     }
   }
 }

@@ -5,6 +5,7 @@ const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const alertsQuery = require('./alerts.graphql');
 const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
 const bannerAlertsQuery = require('./bannerAlerts.graphql');
+const basicLandingPage = require('./nodeBasicLandingPage.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const bioPage = require('./bioPage.graphql');
 const checklistPage = require('./nodeChecklist.graphql');
@@ -32,6 +33,7 @@ const qaPage = require('./nodeQa.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const stepByStepPage = require('./nodeStepByStep.graphql');
 const storyListingPage = require('./storyListingPage.graphql');
+const supportResourcesDetailPage = require('./nodeSupportResourcesDetailPage.graphql');
 const vaFormPage = require('./vaFormPage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 
@@ -53,7 +55,7 @@ queryParamToBeChanged.forEach(param => {
 
 const regex = new RegExp(`${regString}`, 'g');
 
-const buildQuery = ({ useTomeSync }) => {
+const buildQuery = async ({ useTomeSync }) => {
   const nodeContentFragments = useTomeSync
     ? ''
     : `
@@ -83,6 +85,8 @@ const buildQuery = ({ useTomeSync }) => {
   ${mediaListImages}
   ${checklistPage}
   ${mediaListVideos}
+  ${supportResourcesDetailPage}
+  ${basicLandingPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -121,6 +125,8 @@ const buildQuery = ({ useTomeSync }) => {
         ... nodeMediaListImages
         ... nodeChecklist
         ... nodeMediaListVideos
+        ... nodeSupportResourcesDetailPage
+        ... nodeBasicLandingPage
       }
     }`;
 
@@ -128,6 +134,8 @@ const buildQuery = ({ useTomeSync }) => {
    * Queries for all of the pages out of Drupal
    * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
    */
+  const sideNavQuery = await facilitySidebarQuery.compiledQuery();
+
   const query = `
 
   ${nodeContentFragments}
@@ -136,7 +144,7 @@ const buildQuery = ({ useTomeSync }) => {
     ${nodeQuery}
     ${icsFileQuery}
     ${sidebarQuery}
-    ${facilitySidebarQuery}
+    ${sideNavQuery}
     ${outreachSidebarQuery}
     ${alertsQuery}
     ${bannerAlertsQuery}

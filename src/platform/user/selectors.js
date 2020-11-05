@@ -1,12 +1,20 @@
-// TODO: perhaps make these selectors fail gracefully if state.user, or any of
-// the properties on the user object are not defined
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { CERNER_FACILITY_IDS } from '../utilities/cerner';
+import {
+  CERNER_APPOINTMENTS_BLOCKLIST,
+  CERNER_FACILITY_IDS,
+  CERNER_MEDICAL_RECORDS_BLOCKLIST,
+  CERNER_MESSAGING_BLOCKLIST,
+  CERNER_RX_BLOCKLIST,
+  CERNER_TEST_RESULTS_BLOCKLIST,
+} from '../utilities/cerner';
 
 export const selectUser = state => state.user;
 export const isLoggedIn = state => selectUser(state).login.currentlyLoggedIn;
-export const selectProfile = state => selectUser(state)?.profile;
-export const isInMVI = state => selectProfile(state).status === 'OK';
+export const selectProfile = state => selectUser(state)?.profile || {};
+export const isVAPatient = state => selectProfile(state).vaPatient === true;
+export const selectVeteranStatus = state => selectProfile(state).veteranStatus;
+export const isInMPI = state => selectProfile(state)?.status === 'OK';
+export const hasMPIConnectionError = state =>
+  selectProfile(state)?.status === 'SERVER_ERROR';
 export const isProfileLoading = state => selectProfile(state).loading;
 export const isLOA3 = state => selectProfile(state).loa.current === 3;
 export const isLOA1 = state => selectProfile(state).loa.current === 1;
@@ -17,25 +25,36 @@ export const selectPatientFacilities = state =>
     // Derive if the user belongs to a Cerner facility in the FE maintained list.
     const hasCernerFacilityID = CERNER_FACILITY_IDS.includes(facilityId);
 
-    // Derive if the feature toggle is on.
-    const showNewScheduleViewAppointmentsPage =
-      state?.featureToggles?.[
-        featureFlagNames.showNewScheduleViewAppointmentsPage
-      ];
-
-    // Derive if they are a 200CRNR Cerner patient.
-    const isCernerPatient = selectProfile(state)?.isCernerPatient;
-
     // Derive if we should consider it a Cerner facility.
+    const isFlipperDisabled =
+      state?.featureToggles?.[`cerner_override_${facilityId}`] === false;
+    const isFlipperEnabled = !isFlipperDisabled;
     const passesCernerChecks =
-      showNewScheduleViewAppointmentsPage &&
-      (isCerner || (isCernerPatient && hasCernerFacilityID));
+      isFlipperEnabled && (isCerner || hasCernerFacilityID);
 
-    return {
+    const facility = {
       facilityId,
       // This overrides the MPI isCerner flag in favor of the feature toggle.
       isCerner: passesCernerChecks,
     };
+
+    if (passesCernerChecks) {
+      facility.usesCernerAppointments = !CERNER_APPOINTMENTS_BLOCKLIST.includes(
+        facilityId,
+      );
+      facility.usesCernerMedicalRecords = !CERNER_MEDICAL_RECORDS_BLOCKLIST.includes(
+        facilityId,
+      );
+      facility.usesCernerMessaging = !CERNER_MESSAGING_BLOCKLIST.includes(
+        facilityId,
+      );
+      facility.usesCernerRx = !CERNER_RX_BLOCKLIST.includes(facilityId);
+      facility.usesCernerTestResults = !CERNER_TEST_RESULTS_BLOCKLIST.includes(
+        facilityId,
+      );
+    }
+
+    return facility;
   }) || null;
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>
@@ -68,3 +87,35 @@ export const selectIsCernerOnlyPatient = state =>
 
 export const selectIsCernerPatient = state =>
   selectPatientFacilities(state)?.some(f => f.isCerner);
+
+// return the Cerner facilities that are _not_ blocked from Cerner's RX features
+export const selectCernerRxFacilities = state =>
+  selectPatientFacilities(state)?.filter(f => f.isCerner && f.usesCernerRx);
+
+// return the Cerner facilities that are _not_ blocked from Cerner's secure
+// messaging features
+export const selectCernerMessagingFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => f.isCerner && f.usesCernerMessaging,
+  );
+
+// return the Cerner facilities that are _not_ blocked from Cerner's
+// appointments features
+export const selectCernerAppointmentsFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => f.isCerner && f.usesCernerAppointments,
+  );
+
+// return the Cerner facilities that are _not_ blocked from Cerner's medical
+// records features
+export const selectCernerMedicalRecordsFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => f.isCerner && f.usesCernerMedicalRecords,
+  );
+
+// return the Cerner facilities that are _not_ blocked from Cerner's test and
+// lab results features
+export const selectCernerTestResultsFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => f.isCerner && f.usesCernerTestResults,
+  );

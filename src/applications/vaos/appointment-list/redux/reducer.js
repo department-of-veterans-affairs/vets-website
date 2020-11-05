@@ -32,8 +32,19 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   EXPRESS_CARE,
-  WEEKDAY_INDEXES,
 } from '../../utils/constants';
+import { distanceBetween } from '../../utils/address';
+import { getFacilityIdFromLocation } from '../../services/location';
+
+const WEEKDAY_INDEXES = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
+};
 
 const initialState = {
   pending: null,
@@ -147,7 +158,7 @@ export default function appointmentsReducer(state = initialState, action) {
         expressCareWindowsStatus: FETCH_STATUS.loading,
       };
     case FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED: {
-      const { settings } = action;
+      const { settings, address, facilityData } = action;
       // We're only parsing out facilities in here, since the rest
       // of the logic is very dependent on the current time and we may want
       // to re-check if EC is available without re-fecthing
@@ -171,6 +182,36 @@ export default function appointmentsReducer(state = initialState, action) {
             }))
             .sort((a, b) => (a.dayOfWeekIndex < b.dayOfWeekIndex ? -1 : 1)),
         }));
+
+      if (address && facilityData) {
+        const facilityMap = new Map();
+        facilityData.forEach(facility => {
+          facilityMap.set(getFacilityIdFromLocation(facility), facility);
+        });
+
+        expressCareFacilities.sort((facility1, facility2) => {
+          const facilityData1 = facilityMap.get(facility1.facilityId);
+          const facilityData2 = facilityMap.get(facility2.facilityId);
+          const distanceToFacility1 = parseFloat(
+            distanceBetween(
+              address.latitude,
+              address.longitude,
+              facilityData1.position.latitude,
+              facilityData1.position.longitude,
+            ),
+          );
+          const distanceToFacility2 = parseFloat(
+            distanceBetween(
+              address.latitude,
+              address.longitude,
+              facilityData2.position.latitude,
+              facilityData2.position.longitude,
+            ),
+          );
+
+          return distanceToFacility1 - distanceToFacility2;
+        });
+      }
 
       return {
         ...state,
@@ -245,7 +286,6 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         showCancelModal: false,
         appointmentToCancel: null,
-        cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
     case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
       return {

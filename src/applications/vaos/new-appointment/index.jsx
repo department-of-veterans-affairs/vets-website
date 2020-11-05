@@ -7,8 +7,10 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { vaosFlatFacilityPage } from '../utils/selectors';
+import {
+  selectUseFlatFacilityPage,
+  selectIsCernerOnlyPatient,
+} from '../utils/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import TypeOfCarePage from './components/TypeOfCarePage';
@@ -161,7 +163,7 @@ function NewAppointmentSection({
 function mapStateToProps(state) {
   return {
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    flatFacilityPageEnabled: vaosFlatFacilityPage(state),
+    flatFacilityPageEnabled: selectUseFlatFacilityPage(state),
   };
 }
 

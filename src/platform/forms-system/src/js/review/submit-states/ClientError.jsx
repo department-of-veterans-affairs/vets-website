@@ -7,7 +7,7 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function ClientError(props) {
-  const { appType, formConfig, onBack, onSubmit, testId } = props;
+  const { buttonText, formConfig, onBack, onSubmit, testId } = props;
 
   return (
     <>
@@ -28,7 +28,7 @@ export default function ClientError(props) {
         <Column classNames="small-6 medium-5">
           <ProgressButton
             onButtonClick={onSubmit}
-            buttonText={`Submit ${appType}`}
+            buttonText={buttonText}
             buttonClass="usa-button-primary"
           />
         </Column>
@@ -41,7 +41,7 @@ export default function ClientError(props) {
 }
 
 ClientError.propTypes = {
-  appType: PropTypes.string,
+  buttonText: PropTypes.string,
   formConfig: PropTypes.object,
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,

@@ -59,6 +59,11 @@ export class ConfirmationPage extends React.Component {
             We won’t contact you. But we’ll keep your information on file for
             future studies you may be eligible to join.
           </p>
+          <p>
+            <a href="/coronavirus-research/">
+              Learn more about volunteering for coronavirus research at VA
+            </a>
+          </p>
         </div>
         <div>
           <h2>
@@ -67,7 +72,7 @@ export class ConfirmationPage extends React.Component {
           </h2>
           <p>
             Send us an email at{' '}
-            <a href="mailto:feedback@va.gov">feedback@va.gov</a>.
+            <a href="mailto:research@va.gov">research@va.gov</a>.
           </p>
           <p>
             You can ask us to remove you from the list at any time. In your
