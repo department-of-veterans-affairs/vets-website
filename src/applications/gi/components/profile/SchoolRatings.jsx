@@ -61,7 +61,7 @@ export default function SchoolRatings({
 
       <div className="vads-l-row">
         <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12">
-          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif vads-u-padding-top--3">
+          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif vads-u-padding-top--3 school-ratings-accordion-headings">
             Education ratings
           </div>
 
@@ -94,7 +94,7 @@ export default function SchoolRatings({
         </div>
 
         <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12 ">
-          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif vads-u-padding-top--3">
+          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif vads-u-padding-top--3 school-ratings-accordion-headings">
             Veteran friendliness
           </div>
           <div className="vads-u-padding-left--0">

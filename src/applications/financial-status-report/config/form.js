@@ -9,8 +9,12 @@ import schemaFields from '../schema';
 import uiSchema from '../schema/5655-ui-schema';
 import schema from '../schema/5655-schema';
 
-const { viewVeteranInfoField, viewTypeOfEmploymentField } = schemaFields;
-const { veteranInfoUI, householdIncomeUI } = uiSchema;
+const {
+  viewVeteranInfoField,
+  viewTypeOfEmploymentField,
+  availableDebts,
+} = schemaFields;
+const { veteranInfoUI, availableDebtsUI, householdIncomeUI } = uiSchema;
 const { veteranInfo, householdIncome } = schema;
 const { fullName } = veteranInfo.definitions;
 
@@ -22,6 +26,10 @@ const formChapterTitles = {
 const formPageTitles = {
   veteranInfoTitle: 'Veteran information',
   employmentHistoryTitle: 'Your employment history',
+  veteranInfo: 'Veteran information',
+  address: 'Shipping address',
+  addSuppliesPage: 'Add supplies to your order',
+  availableDebts: 'Available Debts',
 };
 
 const formConfig = {
@@ -87,6 +95,22 @@ const formConfig = {
                     type: 'number',
                   },
                 },
+              },
+            },
+          },
+        },
+        availableDebts: {
+          path: 'available-debts',
+          title: formPageTitles.availableDebts,
+          uiSchema: {
+            [availableDebts]: availableDebtsUI,
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              [availableDebts]: {
+                type: 'object',
+                properties: {},
               },
             },
           },

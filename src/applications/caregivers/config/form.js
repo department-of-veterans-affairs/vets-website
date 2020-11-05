@@ -7,6 +7,7 @@ import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import SubmitError from 'applications/caregivers/components/SubmitError';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import {
   submitTransform,
@@ -73,6 +74,9 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: false,
+  downtime: {
+    dependencies: [externalServices.mvi, externalServices.carma],
+  },
   title:
     'Apply for the Program of Comprehensive Assistance for Family Caregivers',
   subTitle: 'Form 10-10CG',

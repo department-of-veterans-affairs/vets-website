@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { isVet360Configured } from 'platform/user/profile/vet360/util/local-vet360';
+import { isVet360Configured } from '@@vap-svc/util/local-vet360';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {

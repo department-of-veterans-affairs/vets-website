@@ -3,7 +3,6 @@
 const _ = require('lodash');
 const liquid = require('tinyliquid');
 
-const ENVIRONMENTS = require('../../../constants/environments');
 const { ENTITY_BUNDLES } = require('../../../constants/content-modeling');
 
 const { logDrupal } = require('../drupal/utilities-drupal');
@@ -25,15 +24,19 @@ const BREADCRUMB_BASE_PATH = [
   },
 ];
 
-const entityBundlesForResourcesAndSupport = new Set([
-  ENTITY_BUNDLES.STEP_BY_STEP,
-  ENTITY_BUNDLES.FAQ_MULTIPLE_Q_A,
-  ENTITY_BUNDLES.Q_A,
-  ENTITY_BUNDLES.CHECKLIST,
-  ENTITY_BUNDLES.MEDIA_LIST_IMAGES,
-  ENTITY_BUNDLES.MEDIA_LIST_VIDEOS,
-  ENTITY_BUNDLES.SUPPORT_RESOURCES_DETAIL_PAGE,
-]);
+const articleTypesByEntityBundle = {
+  [ENTITY_BUNDLES.Q_A]: 'Question and answer',
+  [ENTITY_BUNDLES.CHECKLIST]: 'Checklist',
+  [ENTITY_BUNDLES.MEDIA_LIST_IMAGES]: 'Media list',
+  [ENTITY_BUNDLES.MEDIA_LIST_VIDEOS]: 'Media list',
+  [ENTITY_BUNDLES.SUPPORT_RESOURCES_DETAIL_PAGE]: 'About',
+  [ENTITY_BUNDLES.FAQ_MULTIPLE_Q_A]: 'FAQs',
+  [ENTITY_BUNDLES.STEP_BY_STEP]: 'Step-by-step',
+};
+
+const entityBundlesForResourcesAndSupport = new Set(
+  Object.keys(articleTypesByEntityBundle),
+);
 
 function getArticlesBelongingToResourcesAndSupportSection(files) {
   return Object.entries(files)
@@ -194,6 +197,8 @@ function createPaginatedArticleListings({
           });
 
           const page = {
+            private: true, // @todo remove this to enable indexing
+            articleTypesByEntityBundle,
             contents: Buffer.from(''),
             path: pageOfArticles.uri,
             entityUrl: {
@@ -209,15 +214,6 @@ function createPaginatedArticleListings({
               next: paginatorNext,
             },
           };
-
-          if (index > 0) {
-            page.entityUrl.breadcrumb.push({
-              url: {
-                path: `/${pageOfArticles.uri}/`,
-              },
-              text: index + 1,
-            });
-          }
 
           page.debug = JSON.stringify(page);
 
@@ -330,15 +326,21 @@ function createSearchResults(files) {
   };
 }
 
-function createResourcesAndSupportWebsiteSection(buildOptions) {
-  if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
-    return () => {};
-  }
+// @todo remove this to enable indexing
+function excludeFromSiteMap(files) {
+  const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
 
+  allArticles.forEach(article => {
+    article.private = true;
+  });
+}
+
+function createResourcesAndSupportWebsiteSection() {
   return files => {
     excludeQaNodesThatAreNotStandalonePages(files);
     createArticleListingsPages(files);
     createSearchResults(files);
+    excludeFromSiteMap(files);
   };
 }
 
