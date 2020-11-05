@@ -72,7 +72,8 @@ export class ConfirmEligibilityView extends React.Component {
   };
 
   renderChecks = () => (
-    <div>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+    <div tabIndex="0">
       <div className="vads-u-margin-top--neg2p5">
         <h4>Based on your responses, you may not be eligible</h4>
       </div>
