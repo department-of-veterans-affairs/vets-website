@@ -1,8 +1,6 @@
 // Node modules.
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// Relative imports.
-import '../style.scss';
 
 export default function SearchBar({
   onInputChange,

@@ -1,6 +1,7 @@
 // Node modules.
 import React, { useState } from 'react';
 // Relative imports.
+import '../style.scss';
 import SearchBar from './SearchBar';
 
 const StandaloneSearchFormWidget = () => {
