@@ -8,7 +8,7 @@ import {
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
 } from '../constants/actionTypes';
-import { isVet360Configured } from '@@vap-svc/util/local-vet360';
+import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import moment from 'moment';
 import head from 'lodash/head';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -79,7 +79,7 @@ export const fetchDebts = () => async dispatch => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = isVet360Configured()
+    const response = isVAProfileServiceConfigured()
       ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
       : await debtLettersSuccess();
 
