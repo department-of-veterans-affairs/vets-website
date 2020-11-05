@@ -517,7 +517,6 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     );
     const closeButton = screen.container.querySelector('.va-modal-close');
     fireEvent.click(closeButton);
-    screen.debug();
     expect(screen.baseElement).not.to.contain.text(
       /This facility does not allow scheduling requests/,
     );
