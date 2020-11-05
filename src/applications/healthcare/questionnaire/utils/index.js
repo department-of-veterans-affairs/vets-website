@@ -17,7 +17,8 @@ const PURPOSE_TEXT = Object.freeze([
   },
 ]);
 
-const getBookingNoteFromAppointment = appointment => {
+const getBookingNoteFromAppointment = data => {
+  const appointment = data.attributes;
   if (!appointment) {
     return null;
   }
