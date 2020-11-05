@@ -30,11 +30,11 @@ export const paymentsReceivedFields = [
 
 export const paymentsReturnedFields = [
   {
-    label: 'Issue Date',
+    label: 'Issue date',
     value: 'returnedCheckIssueDt',
   },
   {
-    label: 'Cancel Date',
+    label: 'Cancel date',
     value: 'returnedCheckCancelDt',
   },
   {
