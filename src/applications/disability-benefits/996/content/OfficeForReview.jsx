@@ -7,17 +7,10 @@ export const OfficeForReviewAlert = (
     headline="We will try to fulfill your request"
     className="vads-u-margin-left--3 vads-u-margin-top--0 vads-u-font-weight--normal"
     content={
-      <>
-        <p>
-          Some issues can only be processed at the office that issued your prior
-          decision. And some decisions are only processed at one VA office or
-          facility.
-        </p>
-        <p>
-          If we cannot fulfill your request, we will notify you at the time the
-          Higher-Level Review decision is made.
-        </p>
-      </>
+      <p>
+        If we cannot fulfill your request, we will notify you at the time the
+        Higher-Level Review decision is made.
+      </p>
     }
   />
 );
@@ -31,6 +24,8 @@ export const OfficeForReviewTitle = (
 export const OfficeForReviewDescription = (
   <p className="vads-u-margin-left--3">
     You have the right to request the same office conduct the review. VA may be
-    unable to grant this request.
+    unable to grant this request. In either scenario, your case will be looked
+    at by a different individual and considered separately from your original
+    decision.
   </p>
 );
