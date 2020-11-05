@@ -485,7 +485,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     );
   });
 
-  it('should show eligibility modal again if user closed out eligibility modal and clicked continue', async () => {
+  it('should show eligibility modal again if user closes it out and hits continue again with the same facility selected', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
     mockDirectBookingEligibilityCriteria(
       parentSiteIds,
