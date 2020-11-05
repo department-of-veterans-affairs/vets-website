@@ -308,6 +308,8 @@ export const genSearchAreaFromCenter = query => {
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
+            searchString: location,
+            context: location,
             searchArea: {
               locationString: location,
               locationCoords: {

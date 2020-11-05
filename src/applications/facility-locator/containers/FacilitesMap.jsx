@@ -159,27 +159,6 @@ const FacilitiesMap = props => {
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
     }
-
-    // if (sortedLocations.length > 0) {
-    // const boundsOption = {};
-    // if (sortedLocations.length === 1) {
-    // For results with one location, set use a maximum zoom level
-    // so that the location shows in a street view
-    // https://docs.mapbox.com/help/glossary/zoom-level
-    // boundsOption.maxZoom = 15;
-    // locationBounds.extend(
-    // new mapboxgl.LngLat(
-    // props.currentQuery.searchCoords.lng,
-    // props.currentQuery.searchCoords.lat,
-    // ),
-    // );
-    // boundsOption.padding = 20;
-    // } // else {
-    // Otherwise add some padding show the locations close to the border bbox
-    // boundsOption.padding = 20;
-    // }
-    // map.fitBounds(locationBounds, { padding: 20, duration: 0 }); // {duration: 0} to disable animation
-    // };
   };
 
   const handleSearch = async () => {
@@ -201,28 +180,17 @@ const FacilitiesMap = props => {
   const handleSearchArea = () => {
     resetMapElements();
     const center = map.getCenter().wrap();
-    // const { currentQuery } = props;
-    const bounds = map.getBounds();
-    // console.log(bounds);
-    // console.log(center);
-    // console.log(currentQuery.bounds);
-
+    const currentBounds = map.getBounds();
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
       currentBounds: [
-        parseFloat(bounds._sw.lng.toFixed(2)),
-        parseFloat(bounds._sw.lat.toFixed(2)),
-        parseFloat(bounds._ne.lng.toFixed(2)),
-        parseFloat(bounds._ne.lat.toFixed(2)),
+        parseFloat(currentBounds._sw.lng.toFixed(2)),
+        parseFloat(currentBounds._sw.lat.toFixed(2)),
+        parseFloat(currentBounds._ne.lng.toFixed(2)),
+        parseFloat(currentBounds._ne.lat.toFixed(2)),
       ],
     });
-
-    // props.searchWithBounds({
-    // bounds: [bounds._ne.lng, bounds._ne.lat, bounds._sw.lng, bounds._sw.lat],
-    // facilityType: currentQuery.facilityType,
-    // serviceType: currentQuery.serviceType,
-    // });
   };
 
   const handlePageSelect = page => {
@@ -436,8 +404,9 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
+      const { searchArea } = props.currentQuery;
       // Search current area
-      if (props.currentQuery.searchArea) {
+      if (searchArea) {
         props.searchWithBounds({
           bounds: props.currentQuery.bounds,
           facilityType: props.currentQuery.facilityType,
@@ -445,7 +414,8 @@ const FacilitiesMap = props => {
           page: props.currentQuery.currentPage,
         });
         // Build set current url query params
-        browserHistory.push({});
+        // TODO - fix current search area url
+        // browserHistory.push({});
       }
     },
     [props.currentQuery.searchArea],
