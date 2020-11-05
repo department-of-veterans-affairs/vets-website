@@ -54,6 +54,19 @@ export const buildMarker = (type, values) => {
   return null;
 };
 
+export const clearSearchAreaCtrl = () => {
+  const searchAreaControlId = document.getElementById('search-area-control');
+
+  if (searchAreaControlId) {
+    searchAreaControlId.style.display = 'none';
+  }
+};
+
+export const resetMapElements = () => {
+  clearLocationMarkers();
+  clearSearchAreaCtrl();
+};
+
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *

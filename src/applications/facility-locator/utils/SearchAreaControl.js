@@ -4,7 +4,7 @@ export default class SearchAreaControl {
     this.container = document.createElement('button');
     this.container.id = 'search-area-control';
     this.container.style.display = 'none';
-    this.container.textContent = 'Search';
+    this.container.textContent = 'Search this area of map';
     return this.container;
   }
   onRemove() {

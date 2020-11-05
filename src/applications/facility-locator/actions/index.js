@@ -275,6 +275,7 @@ export const genBBoxFromAddress = query => {
               placeName: features[0].place_name,
               placeType: features[0].place_type[0],
             },
+            searchArea: null,
           },
         });
       })
@@ -290,7 +291,7 @@ export const genBBoxFromAddress = query => {
  * from the coordinates center of the map
  */
 export const genSearchAreaFromCenter = query => {
-  const { lat, lng } = query;
+  const { lat, lng, currentBounds } = query;
   return dispatch => {
     const types = ['place', 'region', 'postcode', 'locality'];
     mbxClient
@@ -303,50 +304,27 @@ export const genSearchAreaFromCenter = query => {
       .then(({ body: { features } }) => {
         const zip =
           features[0].context.find(v => v.id.includes('postcode')) || {};
-        const coordinates = features[0].center;
         const location = zip.text || features[0].place_name;
-        const featureBox = features[0].box;
-
-        let minBounds = [
-          coordinates[0] - BOUNDING_RADIUS,
-          coordinates[1] - BOUNDING_RADIUS,
-          coordinates[0] + BOUNDING_RADIUS,
-          coordinates[1] + BOUNDING_RADIUS,
-        ];
-
-        if (featureBox) {
-          minBounds = [
-            Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
-            Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
-            Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
-            Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
-          ];
-        }
-        // /console.log({
-        //           type: SEARCH_QUERY_UPDATED,
-        //           payload: {
-        //             searchArea: location,
-        //             mapBoxQuery: {
-        //               placeName: features[0].place_name,
-        //               placeType: features[0].place_type[0],
-        //             },
-        //             bounds: minBounds,
-        //           },
-        //         });
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
-            searchArea: location,
+            searchArea: {
+              locationString: location,
+              locationCoords: {
+                lng,
+                lat,
+              },
+            },
             mapBoxQuery: {
               placeName: features[0].place_name,
               placeType: features[0].place_type[0],
             },
-            bounds: minBounds,
+            searchCoords: null,
+            bounds: currentBounds,
             position: {
               latitude: lat,
               longitude: lng,
             },
-            searchCoords: { lat, lng },
           },
         });
       })

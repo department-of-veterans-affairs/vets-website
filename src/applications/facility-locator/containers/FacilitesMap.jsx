@@ -23,7 +23,7 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
-import { setFocus, clearLocationMarkers, buildMarker } from '../utils/helpers';
+import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import { MapboxInit, MARKER_LETTERS } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
@@ -137,14 +137,28 @@ const FacilitiesMap = props => {
         .addTo(map);
     });
 
-    locationBounds.extend(
-      new mapboxgl.LngLat(
-        props.currentQuery.searchCoords.lng,
-        props.currentQuery.searchCoords.lat,
-      ),
-    );
+    if (props.currentQuery.searchCoords) {
+      const { searchCoords } = props.currentQuery;
+      const markerElement = buildMarker('currentPos');
+      new mapboxgl.Marker(markerElement)
+        .setLngLat([searchCoords.lng, searchCoords.lat])
+        .addTo(map);
+      locationBounds.extend(
+        new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
+      );
+      map.fitBounds(locationBounds, { padding: 20, duration: 0 });
+    }
 
-    map.fitBounds(locationBounds, { padding: 20, duration: 0 });
+    if (props.currentQuery.searchArea) {
+      const { locationCoords } = props.currentQuery.searchArea;
+      const markerElement = buildMarker('currentPos');
+      new mapboxgl.Marker(markerElement)
+        .setLngLat([locationCoords.lng, locationCoords.lat])
+        .addTo(map);
+      locationBounds.extend(
+        new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
+      );
+    }
 
     // if (sortedLocations.length > 0) {
     // const boundsOption = {};
@@ -166,19 +180,10 @@ const FacilitiesMap = props => {
     // }
     // map.fitBounds(locationBounds, { padding: 20, duration: 0 }); // {duration: 0} to disable animation
     // };
-
-    if (props.currentQuery.searchCoords) {
-      const markerElement = buildMarker('currentPos');
-      new mapboxgl.Marker(markerElement)
-        .setLngLat([
-          props.currentQuery.searchCoords.lng,
-          props.currentQuery.searchCoords.lat,
-        ])
-        .addTo(map);
-    }
   };
 
   const handleSearch = async () => {
+    resetMapElements();
     const { currentQuery } = props;
     currentZoom = null;
 
@@ -194,18 +199,30 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchArea = () => {
-    clearLocationMarkers();
-    const searchAreaControlId = document.getElementById('search-area-control');
-    searchAreaControlId.style.display = 'none';
+    resetMapElements();
     const center = map.getCenter().wrap();
     // const { currentQuery } = props;
-    // const bounds = map.getBounds();
-    // console.log({ bounds });
-    // console.log({ center });
+    const bounds = map.getBounds();
+    // console.log(bounds);
+    // console.log(center);
+    // console.log(currentQuery.bounds);
+
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
+      currentBounds: [
+        parseFloat(bounds._sw.lng.toFixed(2)),
+        parseFloat(bounds._sw.lat.toFixed(2)),
+        parseFloat(bounds._ne.lng.toFixed(2)),
+        parseFloat(bounds._ne.lat.toFixed(2)),
+      ],
     });
+
+    // props.searchWithBounds({
+    // bounds: [bounds._ne.lng, bounds._ne.lat, bounds._sw.lng, bounds._sw.lat],
+    // facilityType: currentQuery.facilityType,
+    // serviceType: currentQuery.serviceType,
+    // });
   };
 
   const handlePageSelect = page => {
@@ -503,7 +520,6 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       if (!map) return;
-      clearLocationMarkers();
       renderMarkers(props.results);
     },
     [props.results],
