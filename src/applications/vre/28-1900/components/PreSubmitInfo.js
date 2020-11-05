@@ -17,6 +17,7 @@ export default {
       </div>
     </>
   ),
+  field: 'privacyAgreementAccepted',
   label: (
     <span>
       I have read and accept the{' '}
