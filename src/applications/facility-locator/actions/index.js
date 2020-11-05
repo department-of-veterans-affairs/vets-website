@@ -286,13 +286,12 @@ export const genBBoxFromAddress = query => {
 };
 
 /**
- * Calculates an human readable location updated
+ * Calculates a human readable location (address, zip, city, state) updated
  * from the coordinates center of the map
  */
 export const genSearchAreaFromCenter = query => {
   const { lat, lng } = query;
   return dispatch => {
-    // dispatch({ type: GEOCODE_STARTED });
     const types = ['place', 'region', 'postcode', 'locality'];
     mbxClient
       .reverseGeocode({
@@ -304,46 +303,52 @@ export const genSearchAreaFromCenter = query => {
       .then(({ body: { features } }) => {
         const zip =
           features[0].context.find(v => v.id.includes('postcode')) || {};
-        const zipCode = zip.text || features[0].place_name;
-        if (zipCode) zipCode.toString(); // TODO remove this
-        //        console.log({
+        const coordinates = features[0].center;
+        const location = zip.text || features[0].place_name;
+        const featureBox = features[0].box;
+
+        let minBounds = [
+          coordinates[0] - BOUNDING_RADIUS,
+          coordinates[1] - BOUNDING_RADIUS,
+          coordinates[0] + BOUNDING_RADIUS,
+          coordinates[1] + BOUNDING_RADIUS,
+        ];
+
+        if (featureBox) {
+          minBounds = [
+            Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
+            Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
+            Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
+            Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
+          ];
+        }
+        // /console.log({
         //           type: SEARCH_QUERY_UPDATED,
         //           payload: {
-        //             ...query,
-        //             context: zipCode,
-        //             id: Date.now(),
-        //             inProgress: true,
-        //             searchCoords: {
-        //               lat: features[0].geometry.coordinates[1],
-        //               lng: features[0].geometry.coordinates[0],
-        //             },
-        //             // bounds: minBounds,
-        //             currentPage: 1,
+        //             searchArea: location,
         //             mapBoxQuery: {
         //               placeName: features[0].place_name,
         //               placeType: features[0].place_type[0],
         //             },
+        //             bounds: minBounds,
         //           },
         //         });
-        //        dispatch({
-        //           type: SEARCH_QUERY_UPDATED,
-        //           payload: {
-        //             ...query,
-        //             context: zipCode,
-        //             id: Date.now(),
-        //             inProgress: true,
-        //             searchCoords: {
-        //               lat: features[0].geometry.coordinates[1],
-        //               lng: features[0].geometry.coordinates[0],
-        //             },
-        //             // bounds: minBounds,
-        //             currentPage: 1,
-        //             mapBoxQuery: {
-        //               placeName: features[0].place_name,
-        //               placeType: features[0].place_type[0],
-        //             },
-        //           },
-        //         });
+        dispatch({
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            searchArea: location,
+            mapBoxQuery: {
+              placeName: features[0].place_name,
+              placeType: features[0].place_type[0],
+            },
+            bounds: minBounds,
+            position: {
+              latitude: lat,
+              longitude: lng,
+            },
+            searchCoords: { lat, lng },
+          },
+        });
       })
       .catch(_ => {
         dispatch({ type: GEOCODE_FAILED });

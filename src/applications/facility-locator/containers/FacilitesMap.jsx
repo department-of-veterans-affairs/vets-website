@@ -29,7 +29,7 @@ import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SearchResult from '../components/SearchResult';
-import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
+import { recordZoomEvent /* , recordPanEvent */ } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../utils/SearchAreaControl';
 
@@ -139,19 +139,36 @@ const FacilitiesMap = props => {
         .addTo(map);
     });
 
-    if (sortedLocations.length > 0) {
-      const boundsOption = {};
-      if (sortedLocations.length === 1) {
-        // For results with one location, set use a maximum zoom level
-        // so that the location shows in a street view
-        // https://docs.mapbox.com/help/glossary/zoom-level
-        boundsOption.maxZoom = 15;
-      } else {
-        // Otherwise add some padding show the locations close to the border bbox
-        boundsOption.padding = 20;
-      }
-      map.fitBounds(locationBounds, boundsOption); // {duration: 0} to disable animation
-    }
+    locationBounds.extend(
+      new mapboxgl.LngLat(
+        props.currentQuery.searchCoords.lng,
+        props.currentQuery.searchCoords.lat,
+      ),
+    );
+
+    map.fitBounds(locationBounds, { padding: 20, duration: 0 });
+
+    // if (sortedLocations.length > 0) {
+    // const boundsOption = {};
+    // if (sortedLocations.length === 1) {
+    // For results with one location, set use a maximum zoom level
+    // so that the location shows in a street view
+    // https://docs.mapbox.com/help/glossary/zoom-level
+    // boundsOption.maxZoom = 15;
+    // locationBounds.extend(
+    // new mapboxgl.LngLat(
+    // props.currentQuery.searchCoords.lng,
+    // props.currentQuery.searchCoords.lat,
+    // ),
+    // );
+    // boundsOption.padding = 20;
+    // } // else {
+    // Otherwise add some padding show the locations close to the border bbox
+    // boundsOption.padding = 20;
+    // }
+    // map.fitBounds(locationBounds, { padding: 20, duration: 0 }); // {duration: 0} to disable animation
+    // };
+
     if (props.currentQuery.searchCoords) {
       const markerElement = buildMarker('currentPos');
       new mapboxgl.Marker(markerElement)
@@ -179,9 +196,11 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchArea = () => {
+    clearLocationMarkers();
     const searchAreaControlId = document.getElementById('search-area-control');
     searchAreaControlId.style.display = 'none';
     const center = map.getCenter().wrap();
+    // const { currentQuery } = props;
     // const bounds = map.getBounds();
     // console.log({ bounds });
     // console.log({ center });
@@ -210,11 +229,7 @@ const FacilitiesMap = props => {
       zoom: MapboxInit.zoomInit,
     });
 
-    // const searchAreaCtrl = document.createElement('button');
-    // searchAreaCtrl.id = 'search-area-control';
-    // /mapInit.addControl(searchAreaCtrl);
     const searchAreaControl = new SearchAreaControl();
-
     mapInit.addControl(searchAreaControl);
     mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
@@ -241,25 +256,25 @@ const FacilitiesMap = props => {
   if (props.results.length > 0 && map) {
     // Set dragend to track map-moved ga event
     map.on('dragend', () => {
-      // const searchAreaControl = new SearchAreaControl();
-      // map.addControl(searchAreaControl);
       const searchAreaControlId = document.getElementById(
         'search-area-control',
       );
 
       if (searchAreaControlId.style.display === 'none') {
         searchAreaControlId.style.display = 'block';
-      } // else {
-      // searchAreaControlId.style.display = 'none';
-      // }
-      recordPanEvent(map.getCenter(), props.currentQuery.searchCoords);
+      }
 
       if (searchAreaControlId && !searchAreaSet) {
         searchAreaControlId.addEventListener('click', handleSearchArea, false);
         searchAreaSet = true;
       }
+
+      // TODO: fix it, might be causing performace issues
+      // recordPanEvent(map.getCenter(), props.currentQuery.searchCoords);
     });
-    renderMarkers(props.results);
+
+    // TODO: Render markers when already locations in the store
+    // renderMarkers(props.results);
   }
 
   /**
@@ -404,6 +419,23 @@ const FacilitiesMap = props => {
     );
   };
 
+  useEffect(
+    () => {
+      // Search current area
+      if (props.currentQuery.searchArea) {
+        props.searchWithBounds({
+          bounds: props.currentQuery.bounds,
+          facilityType: props.currentQuery.facilityType,
+          serviceType: props.currentQuery.serviceType,
+          page: props.currentQuery.currentPage,
+        });
+        // Build set current url query params
+        browserHistory.push({});
+      }
+    },
+    [props.currentQuery.searchArea],
+  );
+
   useEffect(() => {
     const listener = browserHistory.listen(location => {
       syncStateWithLocation(location);
@@ -420,6 +452,8 @@ const FacilitiesMap = props => {
     return () => {
       listener();
       window.removeEventListener('resize', debouncedResize);
+      window.removeEventListener('click', handleSearchArea);
+      searchAreaSet = false;
     };
   }, []);
 
