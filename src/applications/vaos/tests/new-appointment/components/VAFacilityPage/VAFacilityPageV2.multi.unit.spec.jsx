@@ -485,6 +485,48 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     );
   });
 
+  it('should show eligibility modal again if user closed out eligibility modal and clicked continue', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(
+      parentSiteIds,
+      directFacilities.slice(0, 5),
+    );
+    mockRequestEligibilityCriteria(
+      parentSiteIds,
+      requestFacilities.slice(0, 4),
+    );
+    mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983QA',
+      typeOfCareId: '323',
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    await screen.findByText(/below is a list of VA locations/i);
+
+    fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await screen.findByText(
+      /This facility does not allow scheduling requests/i,
+    );
+    const closeButton = screen.container.querySelector('.va-modal-close');
+    fireEvent.click(closeButton);
+    screen.debug();
+    expect(screen.baseElement).not.to.contain.text(
+      /This facility does not allow scheduling requests/,
+    );
+    fireEvent.click(screen.getByText(/Continue/));
+    await screen.findByText(
+      /This facility does not allow scheduling requests/i,
+    );
+  });
+
   it('should display an error message when eligibility calls fail', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);

@@ -10,7 +10,7 @@ import {
 } from 'platform/forms-system/src/js/state/helpers';
 
 import { getParentOfLocation } from '../../services/location';
-import { getEligibilityChecks, isEligible } from './helpers/eligibility';
+import { getEligibilityChecks } from './helpers/eligibility';
 
 import {
   FORM_DATA_UPDATED,
@@ -41,6 +41,7 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
+  FORM_SHOW_ELIGIBILITY_MODAL,
   FORM_HIDE_ELIGIBILITY_MODAL,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
@@ -411,6 +412,7 @@ export default function formReducer(state = initialState, action) {
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
+        showEligibilityModal: false,
       };
     }
     case FORM_REQUEST_CURRENT_LOCATION: {
@@ -700,7 +702,6 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(action.eligibilityData);
-      const canSchedule = isEligible(eligibility);
       const facilityId = action.facilityId || state.data.vaFacility;
 
       let clinics = state.clinics;
@@ -722,14 +723,18 @@ export default function formReducer(state = initialState, action) {
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,
-        showEligibilityModal:
-          action.showModal && !canSchedule.direct && !canSchedule.request,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
       return {
         ...state,
         eligibilityStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_SHOW_ELIGIBILITY_MODAL: {
+      return {
+        ...state,
+        showEligibilityModal: true,
       };
     }
     case FORM_HIDE_ELIGIBILITY_MODAL: {
