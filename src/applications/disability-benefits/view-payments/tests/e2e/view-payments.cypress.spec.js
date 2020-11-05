@@ -99,7 +99,7 @@ const testApiError = (errCode = '500') => {
 };
 
 // Disabling until view-payments is ready for production
-describe('View payment history', () => {
+describe.skip('View payment history', () => {
   beforeEach(() => {
     window.localStorage.setItem(
       'DISMISSED_ANNOUNCEMENTS',
