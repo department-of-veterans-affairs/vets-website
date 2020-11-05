@@ -1,4 +1,8 @@
+// Node modules.
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+// Relative imports.
+import { SEARCH_PAGE_PATHNAME } from '../constants';
 
 export default function SearchBar({ onSearch, userInput, onInputChange }) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
@@ -6,7 +10,14 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
 
   const disabled = userInput.length < 3;
 
+  const isSearchPage = window.location.pathname === SEARCH_PAGE_PATHNAME;
+
   const onSubmit = event => {
+    // Escape early if we are not on the search page to let the form submit manually.
+    if (!isSearchPage) {
+      return
+    }
+
     event.preventDefault();
     if (!disabled) {
       onSearch();
@@ -23,12 +34,12 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
       >
         Search resources and support
         <i
-          className="fa fa-sliders-h vads-u-font-size--base vads-u-color--primary-darker"
+          className={`${expanded ? 'vads-u-display--none ' : ''}fa fa-sliders-h vads-u-font-size--base vads-u-color--primary-darker`}
           id="sliders-icon"
           aria-hidden="true"
         />
         <i
-          className="vads-u-display--none fa fa-times vads-u-font-size--base vads-u-color--primary-darker"
+          className={`${expanded ? '' : 'vads-u-display--none '}fa fa-times vads-u-font-size--base vads-u-color--primary-darker`}
           id="times-icon"
           aria-hidden="true"
         />
@@ -37,7 +48,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
       {/* Search form */}
       <form
         action={isGlobalSearch ? '/search' : '/resources/search'}
-        className={`${expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '}vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
+        className={`${expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '}vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-padding-x--0 medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
         id="resources-support-search"
         method="get"
         onSubmit={isGlobalSearch ? null : onSubmit}
@@ -89,7 +100,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
           Enter a keyword, phrase, or question
         </label>
         <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-          <div className="vads-l-col--12 vads-u-flex--1 vads-u-width--auto">
+          <div className="vads-u-flex--1 vads-u-width--auto">
             <input
               className="usa-input vads-u-max-width--100 vads-u-width--full vads-u-height--full vads-u-margin--0"
               id="resources-and-support-query"
@@ -100,7 +111,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
               value={userInput}
             />
           </div>
-          <div className="vads-l-col--12 vads-u-flex--auto vads-u-width--full vads-u-margin-top--2 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-width--auto">
+          <div className="vads-u-flex--auto vads-u-width--full vads-u-margin-top--2 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-width--auto">
             <button
               className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full medium-screen-va-border-left-radius--0"
               disabled={disabled}
@@ -114,3 +125,9 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
     </div>
   );
 }
+
+SearchBar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+  userInput: PropTypes.string.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+};
