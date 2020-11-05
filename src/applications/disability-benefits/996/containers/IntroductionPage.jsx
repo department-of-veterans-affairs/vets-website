@@ -144,28 +144,26 @@ export class IntroductionPage extends React.Component {
               {callToActionContent}
             </CallToActionWidget>
             <h2 className="vads-u-font-size--h3">
-              What is a Higher-Level Review
+              What’s a Higher-Level Review?
             </h2>
             <p>
-              If a Veteran or their representative wants to dispute a decision
-              they received on a claim, they can file a Higher-Level Review.
-              When you request a Higher-Level Review, you’re asking to have a
-              more senior, experienced reviewer take a look at your case and the
-              evidence you already provided. This more senior person will
-              determine whether the decision can be changed based on a
-              difference of opinion or a VA error.
+              If you or your representative disagree with VA’s decision on your
+              claim, you can request a Higher-Level Review. With a Higher-Level
+              Review, a senior reviewer will take a new look at your case and
+              the evidence you already provided. The reviewer will decide
+              whether the decision can be changed based on a difference of
+              opinion or an error.
             </p>
             <h2 className="vads-u-font-size--h3">
-              You cannot submit new evidence
+              You can’t provide new evidence with a Higher-Level Review
             </h2>
             <p>
-              The reviewer will only consider the evidence you have already
-              provided when reviewing your case. If you have new and relevant
-              evidence, you have the{' '}
-              <a href="/decision-reviews">
-                option to use a different Decision Review lane
-              </a>{' '}
-              in order to have that new evidence considered.
+              The senior reviewer will only review the evidence you already
+              provided. If you have new and relevant evidence, you can file{' '}
+              <a href="/decision-reviews/supplemental-claim/">
+                a Supplemental Claim
+              </a>
+              .
             </p>
             <div className="process schemaform-process">
               <h3 className="vads-u-font-size--h4">
@@ -184,11 +182,6 @@ export class IntroductionPage extends React.Component {
                     </li>
                     <li>Representative’s contact information (optional)</li>
                   </ul>
-                  <p>
-                    When you request a Higher-Level Review, you won’t be able to
-                    submit new evidence. If you have new evidence to submit,
-                    you’ll need to select another review option.
-                  </p>
                   <p>
                     <a href="/decision-reviews">
                       Learn more about review options
