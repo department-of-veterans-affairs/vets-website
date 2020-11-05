@@ -17,7 +17,7 @@ import {
   newConditionsOnly,
   newAndIncrease,
   hasClaimedConditions,
-  claimingRated,
+  claimingNew,
   sippableId,
 } from '../utils';
 
@@ -95,20 +95,16 @@ export const uiSchema = {
       'ui:description': newOnlyAlert,
       'ui:options': {
         hideIf: formData =>
-          !newConditionsOnly(formData) || hasClaimedConditions(formData),
+          !(newConditionsOnly(formData) && !claimingNew(formData)),
       },
     },
+    // Only show this alert if the veteran is claiming both rated and new
+    // conditions but no rated conditions were selected
     'view:increaseAndNewAlert': {
       'ui:description': increaseAndNewAlert,
       'ui:options': {
-        hideIf: formData => {
-          // Only show this alert if the veteran is claiming both rated and new
-          // conditions but no rated conditions were selected
-          return (
-            !claimingRated(formData) &&
-            (!newAndIncrease(formData) || hasClaimedConditions(formData))
-          );
-        },
+        hideIf: formData =>
+          !(newAndIncrease(formData) && !hasClaimedConditions(formData)),
       },
     },
   },
