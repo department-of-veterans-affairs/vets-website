@@ -1,7 +1,10 @@
-import { apiRequest } from 'platform/utilities/api';
-import { refreshProfile } from 'platform/user/profile/actions';
-import recordEvent from 'platform/monitoring/record-event';
-import { inferAddressType } from 'applications/letters/utils/helpers';
+import { apiRequest } from '~/platform/utilities/api';
+import { refreshProfile } from '~/platform/user/profile/actions';
+import recordEvent from '~/platform/monitoring/record-event';
+import { inferAddressType } from '~/applications/letters/utils/helpers';
+
+import { FIELD_NAMES, ADDRESS_POU } from '@@vap-svc/constants';
+
 import { showAddressValidationModal } from '../../utilities';
 
 import localVet360, {
@@ -12,7 +15,6 @@ import {
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
-import { FIELD_NAMES, ADDRESS_POU } from '@@vap-svc/constants';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS =
   'VET360_TRANSACTIONS_FETCH_SUCCESS';

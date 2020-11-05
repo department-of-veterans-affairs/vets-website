@@ -1,6 +1,9 @@
-import backendServices from 'platform/user/profile/constants/backendServices';
+import backendServices from '~/platform/user/profile/constants/backendServices';
+import {
+  selectAvailableServices,
+  selectVet360,
+} from '~/platform/user/selectors';
 
-import { selectAvailableServices, selectVet360 } from 'platform/user/selectors';
 import { VET360_INITIALIZATION_STATUS, INIT_VET360_ID } from './constants';
 
 import { isVAProfileServiceConfigured } from './util/local-vapsvc';

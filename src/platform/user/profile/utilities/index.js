@@ -4,9 +4,9 @@ import {
   setSentryLoginType,
   clearSentryLoginType,
 } from '../../authentication/utilities';
-import localStorage from 'platform/utilities/storage/localStorage';
+import localStorage from '~/platform/utilities/storage/localStorage';
 
-import { ssoKeepAliveSession } from 'platform/utilities/sso';
+import { ssoKeepAliveSession } from '~/platform/utilities/sso';
 
 import {
   ADDRESS_VALIDATION_TYPES,
