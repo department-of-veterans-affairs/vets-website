@@ -74,14 +74,25 @@ export const contactInfoDescription = ({
   </p>
 );
 
-export const contactInfoUpdateHelp = () => (
-  <div>
-    <p>
-      If you want to update your contact information for all your VA accounts,
-      please go to your profile page.
-    </p>
-    <p>
-      <a href="/profile">Go to my profile page</a>
-    </p>
-  </div>
-);
+export const contactInfoUpdateHelp = ({ formData }) => {
+  const { confirmationEmailFeature } = formData;
+  return confirmationEmailFeature ? (
+    <div>
+      <p>
+        Any updates you make here to your contact information will only apply to
+        this application. If you want to update your contact information for all
+        of your VA accounts, please go to your profile page.
+      </p>
+    </div>
+  ) : (
+    <div>
+      <p>
+        If you want to update your contact information for all your VA accounts,
+        please go to your profile page.
+      </p>
+      <p>
+        <a href="/profile">Go to my profile page</a>
+      </p>
+    </div>
+  );
+};
