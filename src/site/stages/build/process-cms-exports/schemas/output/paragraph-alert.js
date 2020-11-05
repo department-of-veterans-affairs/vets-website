@@ -13,12 +13,7 @@ module.exports = {
           type: ['array', 'null'],
           items: { $ref: 'Paragraph' },
         },
-        fieldAlertBlockReference: {
-          type: ['array', 'null'],
-          items: {
-            $ref: 'BlockContent',
-          },
-        },
+        fieldAlertBlockReference: { $ref: 'BlockContent' },
       },
       required: [
         'entityType',

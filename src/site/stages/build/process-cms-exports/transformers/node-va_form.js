@@ -14,6 +14,7 @@ const transform = (entity, { ancestors }) => ({
   entityMetatags: createMetaTagArray(entity.metatag.value),
   entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAdministration: entity.fieldAdministration[0],
+  fieldAlert: entity.fieldAlert.length ? entity.fieldAlert[0] : null,
   fieldBenefitCategories: entity.fieldBenefitCategories.map(
     ({ fieldHomePageHubLabel }) => ({
       entity: { fieldHomePageHubLabel },
@@ -57,6 +58,7 @@ module.exports = {
     'metatag',
     'status',
     'field_administration',
+    'field_alert',
     'field_benefit_categories',
     'field_va_form_administration',
     'field_va_form_issue_date',
