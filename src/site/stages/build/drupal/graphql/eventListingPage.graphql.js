@@ -71,6 +71,13 @@ module.exports = `
               }
             }
             fieldFeatured
+            fieldDatetimeRangeTimezone {
+              value
+              startTime
+              endValue
+              endTime
+              timezone
+            }            
             fieldDate {
               startDate
               value

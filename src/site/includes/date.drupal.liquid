@@ -1,4 +1,5 @@
-{% assign timezone = "America/New_York" %}
+{% assign timezone = "ET" %}
+{% assign defaultTZ = "America/New_York" %}
 
 {% if fieldDatetimeRangeTimezone.timezone != empty and buildtype != 'vagovprod' %}
     {% assign timezone = fieldDatetimeRangeTimezone.timezone |  timezoneAbbrev: fieldDatetimeRangeTimezone.value %}
@@ -10,9 +11,9 @@
     {% assign start_date_full = fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, h:mm A" %}
     {% assign start_timestamp = fieldDatetimeRangeTimezone.value %}
 {% else %}
-    {% assign start_date_no_time = fieldDate.startDate | timeZone: timezone, "dddd, MMM D" %}
-    {% assign start_time = fieldDate.startDate | timeZone: timezone, "h:mm A" %}
-    {% assign start_date_full = fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+    {% assign start_date_no_time = fieldDate.startDate | timeZone: defaultTZ, "dddd, MMM D" %}
+    {% assign start_time = fieldDate.startDate | timeZone: defaultTZ, "h:mm A" %}
+    {% assign start_date_full = fieldDate.startDate | timeZone: defaultTZ, "dddd, MMM D, h:mm A" %}
     {% assign start_timestamp = fieldDate.value | unixFromDate %}
 {% endif %}
 
@@ -21,9 +22,9 @@
     {% assign end_time = fieldDatetimeRangeTimezone.endValue | dateFromUnix: "h:mm A" %}
     {% assign end_date_full = fieldDatetimeRangeTimezone.endValue | dateFromUnix: "dddd, MMM D, h:mm A" %}
 {% else %}
-    {% assign end_date_no_time = fieldDate.endValue | timeZone: timezone, "dddd, MMM D" %}
-    {% assign end_time = fieldDate.endDate | timeZone: timezone, "h:mm A" %}
-    {% assign end_date_full = fieldDate.endDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+    {% assign end_date_no_time = fieldDate.endValue | timeZone: defaultTZ, "dddd, MMM D" %}
+    {% assign end_time = fieldDate.endDate | timeZone: defaultTZ, "h:mm A" %}
+    {% assign end_date_full = fieldDate.endDate | timeZone: defaultTZ, "dddd, MMM D, h:mm A" %}
 {% endif %}
 
 {% assign current_timestamp = ''| currentUnixFromDate %}
