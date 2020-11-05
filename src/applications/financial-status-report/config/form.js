@@ -9,8 +9,8 @@ import GetFormHelp from '../components/GetFormHelp';
 import { schemaFields } from '../constants';
 import uiDefinitions from '../schema/5655-ui-schema';
 
-const { viewVeteranInfoField } = schemaFields;
-const { veteranInfoUI } = uiDefinitions;
+const { viewVeteranInfoField, availableDebts } = schemaFields;
+const { veteranInfoUI, availableDebtsUI } = uiDefinitions;
 
 const formChapterTitles = {
   veteranInformation: 'Veteran information',
@@ -21,6 +21,7 @@ const formPageTitles = {
   veteranInfo: 'Veteran information',
   address: 'Shipping address',
   addSuppliesPage: 'Add supplies to your order',
+  availableDebts: 'Available Debts',
 };
 
 const { fullName } = fullSchema.definitions;
@@ -83,6 +84,22 @@ const formConfig = {
                     type: 'number',
                   },
                 },
+              },
+            },
+          },
+        },
+        availableDebts: {
+          path: 'available-debts',
+          title: formPageTitles.availableDebts,
+          uiSchema: {
+            [availableDebts]: availableDebtsUI,
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              [availableDebts]: {
+                type: 'object',
+                properties: {},
               },
             },
           },
