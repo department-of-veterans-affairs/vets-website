@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import resourcesSettings from '../manifest.json';
+import searchSettings from 'applications/search/manifest.json';
+
 export default function SearchBar({ onSearch, userInput, onInputChange }) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
 
@@ -18,7 +21,11 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
         onSubmit={isGlobalSearch ? null : onSubmit}
         id="resources-support-search"
         method="get"
-        action={isGlobalSearch ? '/search/' : '/resources/search/'}
+        action={
+          isGlobalSearch
+            ? `${searchSettings.rootUrl}/`
+            : `${resourcesSettings.rootUrl}/`
+        }
       >
         <fieldset className="fieldset-input vads-u-margin--0">
           <legend className="vads-u-font-size--md vads-u-font-family--serif">
