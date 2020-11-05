@@ -8,7 +8,7 @@ import {
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
 } from '../constants';
-import { isVet360Configured } from 'platform/user/profile/vet360/util/local-vet360';
+import { isVet360Configured } from '@@vap-svc/util/local-vet360';
 import moment from 'moment';
 import head from 'lodash/head';
 import localStorage from 'platform/utilities/storage/localStorage';
