@@ -15,7 +15,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
   const onSubmit = event => {
     // Escape early if we are not on the search page to let the form submit manually.
     if (!isSearchPage) {
-      return
+      return;
     }
 
     event.preventDefault();
@@ -28,18 +28,24 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
     <div className="vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-y--3 vads-u-padding-x--1">
       {/* Mobile expand/collapse */}
       <button
-        className={`${expanded ? 'va-border-bottom-radius--0 ' : ''}vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-padding-x--2 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-darker vads-u-background-color--gray-lightest medium-screen:vads-u-display--none`}
+        className={`${
+          expanded ? 'va-border-bottom-radius--0 ' : ''
+        }vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-padding-x--2 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-darker vads-u-background-color--gray-lightest medium-screen:vads-u-display--none`}
         onClick={() => setExpanded(!expanded)}
         type="button"
       >
         Search resources and support
         <i
-          className={`${expanded ? 'vads-u-display--none ' : ''}fa fa-sliders-h vads-u-font-size--base vads-u-color--primary-darker`}
+          className={`${
+            expanded ? 'vads-u-display--none ' : ''
+          }fa fa-sliders-h vads-u-font-size--base vads-u-color--primary-darker`}
           id="sliders-icon"
           aria-hidden="true"
         />
         <i
-          className={`${expanded ? '' : 'vads-u-display--none '}fa fa-times vads-u-font-size--base vads-u-color--primary-darker`}
+          className={`${
+            expanded ? '' : 'vads-u-display--none '
+          }fa fa-times vads-u-font-size--base vads-u-color--primary-darker`}
           id="times-icon"
           aria-hidden="true"
         />
@@ -48,7 +54,9 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
       {/* Search form */}
       <form
         action={isGlobalSearch ? '/search' : '/resources/search'}
-        className={`${expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '}vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-padding-x--0 medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
+        className={`${
+          expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '
+        }vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-padding-x--0 medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
         id="resources-support-search"
         method="get"
         onSubmit={isGlobalSearch ? null : onSubmit}
@@ -68,7 +76,9 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
               <input
                 checked={!isGlobalSearch}
                 id="search-within-resources-and-support"
-                onChange={event => { setGlobalSearch(!event.target.checked); }}
+                onChange={event => {
+                  setGlobalSearch(!event.target.checked);
+                }}
                 type="radio"
                 value="/resources/search"
               />
@@ -105,7 +115,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
               className="usa-input vads-u-max-width--100 vads-u-width--full vads-u-height--full vads-u-margin--0"
               id="resources-and-support-query"
               name="query"
-              onChange={(event => onInputChange(event.target.value))}
+              onChange={event => onInputChange(event.target.value)}
               required
               type="text"
               value={userInput}

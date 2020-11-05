@@ -104,33 +104,37 @@ export default function ResourcesAndSupportSearchApp() {
           />
         )}
 
-        {!isSearchPage && articles && (
-          <SearchBar
-            onSearch={onSearch}
-            userInput={userInput}
-            onInputChange={setUserInput}
-          />
-        )}
-
-        {isSearchPage && articles && (
-          <>
-            <h1>Search results</h1>
+        {!isSearchPage &&
+          articles && (
             <SearchBar
               onSearch={onSearch}
               userInput={userInput}
               onInputChange={setUserInput}
             />
-            <p className="vads-u-padding-x--1p5" id="pagination-summary">{paginationSummary}</p>
-            <SearchResultList results={currentPageOfResults} />
-            <Pagination
-              maxPageListLength={RESULTS_PER_PAGE}
-              onPageSelect={onPageSelect}
-              page={page}
-              pages={totalPages}
-              showLastPage
-            />
-          </>
-        )}
+          )}
+
+        {isSearchPage &&
+          articles && (
+            <>
+              <h1>Search results</h1>
+              <SearchBar
+                onSearch={onSearch}
+                userInput={userInput}
+                onInputChange={setUserInput}
+              />
+              <p className="vads-u-padding-x--1p5" id="pagination-summary">
+                {paginationSummary}
+              </p>
+              <SearchResultList results={currentPageOfResults} />
+              <Pagination
+                maxPageListLength={RESULTS_PER_PAGE}
+                onPageSelect={onPageSelect}
+                page={page}
+                pages={totalPages}
+                showLastPage
+              />
+            </>
+          )}
 
         {!errorMessage &&
           !articles && (
