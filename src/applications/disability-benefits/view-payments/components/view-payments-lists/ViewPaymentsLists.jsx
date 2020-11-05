@@ -158,7 +158,7 @@ class ViewPaymentsLists extends Component {
             <Telephone contact={CONTACTS.VA_BENEFITS} />
             {paymentsReturnedTable}
             <h3>What if I find a check that I reported missing?</h3>
-            <p>
+            <p className="vads-u-margin-bottom--3">
               If you reported a check missing and found it later, you must
               return the original check to the U.S. Department of the Treasury
               and wait to receive your replacement check. If you endorse both
