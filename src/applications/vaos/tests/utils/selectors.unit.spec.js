@@ -929,4 +929,26 @@ describe('VAOS selectors', () => {
       expect(selectUseFlatFacilityPage(state)).to.be.false;
     });
   });
+
+  it('should return false if feature toggle is on and user is registered to Sacramento VA and has cerner facilities', () => {
+    const state = {
+      featureToggles: {
+        vaOnlineSchedulingFlatFacilityPage: true,
+      },
+      user: {
+        profile: {
+          facilities: [
+            {
+              facilityId: '668',
+              isCerner: true,
+              usesCernerAppointments: true,
+            },
+            { facilityId: '612', isCerner: false },
+          ],
+        },
+      },
+    };
+
+    expect(selectUseFlatFacilityPage(state)).to.be.false;
+  });
 });
