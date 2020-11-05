@@ -6,7 +6,6 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
 // Relative imports.
-import '../style.scss';
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
 import resourcesSettings from '../manifest.json';
@@ -14,14 +13,13 @@ import useArticleData from '../hooks/useArticleData';
 import useGetSearchResults from '../hooks/useGetSearchResults';
 import { RESULTS_PER_PAGE } from '../constants';
 
-export default function ResourcesAndSupportSearchApp() {
+const ResourcesAndSupportSearchApp = () => {
   const [articles, errorMessage] = useArticleData();
   const [userInput, setUserInput] = useState('');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [results] = useGetSearchResults(articles, query, page);
 
-  const isSearchPage = window.location.pathname === `${resourcesSettings.rootUrl}/`;
   const totalPages = Math.ceil(results.length / RESULTS_PER_PAGE);
 
   // Initialize the query via the URL params
@@ -105,37 +103,27 @@ export default function ResourcesAndSupportSearchApp() {
           />
         )}
 
-        {!isSearchPage &&
-          articles && (
+        {articles && (
+          <>
+            <h1>Search results</h1>
             <SearchBar
               onSearch={onSearch}
               userInput={userInput}
               onInputChange={setUserInput}
             />
-          )}
-
-        {isSearchPage &&
-          articles && (
-            <>
-              <h1>Search results</h1>
-              <SearchBar
-                onSearch={onSearch}
-                userInput={userInput}
-                onInputChange={setUserInput}
-              />
-              <p className="vads-u-padding-x--1p5" id="pagination-summary">
-                {paginationSummary}
-              </p>
-              <SearchResultList results={currentPageOfResults} />
-              <Pagination
-                maxPageListLength={RESULTS_PER_PAGE}
-                onPageSelect={onPageSelect}
-                page={page}
-                pages={totalPages}
-                showLastPage
-              />
-            </>
-          )}
+            <p className="vads-u-padding-x--1p5" id="pagination-summary">
+              {paginationSummary}
+            </p>
+            <SearchResultList results={currentPageOfResults} />
+            <Pagination
+              maxPageListLength={RESULTS_PER_PAGE}
+              onPageSelect={onPageSelect}
+              page={page}
+              pages={totalPages}
+              showLastPage
+            />
+          </>
+        )}
 
         {!errorMessage &&
           !articles && (
@@ -144,4 +132,6 @@ export default function ResourcesAndSupportSearchApp() {
       </div>
     </div>
   );
-}
+};
+
+export default ResourcesAndSupportSearchApp;
