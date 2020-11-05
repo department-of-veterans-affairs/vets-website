@@ -8,14 +8,6 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import classnames from 'classnames';
 
 class DebtCard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      fsrDebts: [],
-    };
-  }
-
   onChange(debtTitle) {
     const alreadyIncluded = this.props?.fsrDebts?.includes(debtTitle);
     if (alreadyIncluded) {
