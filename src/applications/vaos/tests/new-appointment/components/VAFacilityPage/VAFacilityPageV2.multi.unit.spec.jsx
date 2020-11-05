@@ -593,7 +593,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     await screen.findByText(
       /We couldn’t find a recent appointment at this location/i,
     );
-    screen.getByRole('alertdialog');
+    expect(screen.getByRole('alertdialog')).to.be.ok;
   });
 
   // TODO: should use correct eligibility info after a split type of care is changed
