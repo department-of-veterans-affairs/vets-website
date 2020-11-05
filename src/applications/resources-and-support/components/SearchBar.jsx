@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
-import { SEARCH_PAGE_PATHNAME } from '../constants';
+import resourcesSettings from '../manifest.json';
 
 export default function SearchBar({ onSearch, userInput, onInputChange }) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
@@ -10,7 +10,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
 
   const disabled = userInput.length < 3;
 
-  const isSearchPage = window.location.pathname === SEARCH_PAGE_PATHNAME;
+  const isSearchPage = window.location.pathname === `${resourcesSettings.rootUrl}/`;
 
   const onSubmit = event => {
     // Escape early if we are not on the search page to let the form submit manually.
@@ -137,7 +137,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
 }
 
 SearchBar.propTypes = {
+  onInputChange: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   userInput: PropTypes.string.isRequired,
-  onInputChange: PropTypes.func.isRequired,
 };

@@ -9,9 +9,10 @@ import { focusElement } from 'platform/utilities/ui';
 import '../style.scss';
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
+import resourcesSettings from '../manifest.json';
 import useArticleData from '../hooks/useArticleData';
 import useGetSearchResults from '../hooks/useGetSearchResults';
-import { RESULTS_PER_PAGE, SEARCH_PAGE_PATHNAME } from '../constants';
+import { RESULTS_PER_PAGE } from '../constants';
 
 export default function ResourcesAndSupportSearchApp() {
   const [articles, errorMessage] = useArticleData();
@@ -20,7 +21,7 @@ export default function ResourcesAndSupportSearchApp() {
   const [page, setPage] = useState(1);
   const [results] = useGetSearchResults(articles, query, page);
 
-  const isSearchPage = window.location.pathname === SEARCH_PAGE_PATHNAME;
+  const isSearchPage = window.location.pathname === `${resourcesSettings.rootUrl}/`;
   const totalPages = Math.ceil(results.length / RESULTS_PER_PAGE);
 
   // Initialize the query via the URL params
