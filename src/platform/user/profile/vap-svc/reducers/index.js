@@ -1,16 +1,16 @@
 import {
   UPDATE_PROFILE_FORM_FIELD,
   OPEN_MODAL,
-  VET360_TRANSACTIONS_FETCH_SUCCESS,
-  VET360_TRANSACTION_REQUESTED,
-  VET360_TRANSACTION_REQUEST_SUCCEEDED,
-  VET360_TRANSACTION_REQUEST_FAILED,
-  VET360_TRANSACTION_UPDATED,
-  VET360_TRANSACTION_CLEARED,
-  VET360_TRANSACTION_REQUEST_CLEARED,
-  VET360_TRANSACTION_UPDATE_REQUESTED,
-  VET360_TRANSACTION_UPDATE_FAILED,
-  VET360_CLEAR_TRANSACTION_STATUS,
+  VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS,
+  VAP_SERVICE_TRANSACTION_REQUESTED,
+  VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
+  VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
+  VAP_SERVICE_TRANSACTION_UPDATED,
+  VAP_SERVICE_TRANSACTION_CLEARED,
+  VAP_SERVICE_TRANSACTION_REQUEST_CLEARED,
+  VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
+  VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
+  VAP_SERVICE_CLEAR_TRANSACTION_STATUS,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
   ADDRESS_VALIDATION_RESET,
@@ -62,14 +62,14 @@ const initialState = {
 
 export default function vet360(state = initialState, action) {
   switch (action.type) {
-    case VET360_CLEAR_TRANSACTION_STATUS: {
+    case VAP_SERVICE_CLEAR_TRANSACTION_STATUS: {
       return {
         ...state,
         transactionStatus: '',
       };
     }
 
-    case VET360_TRANSACTIONS_FETCH_SUCCESS: {
+    case VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS: {
       const transactions = action.data.map(transactionData =>
         // Wrap in a "data" property to imitate the API response for a single transaction
         ({ data: transactionData }),
@@ -80,7 +80,7 @@ export default function vet360(state = initialState, action) {
       };
     }
 
-    case VET360_TRANSACTION_REQUESTED:
+    case VAP_SERVICE_TRANSACTION_REQUESTED:
       return {
         ...state,
         fieldTransactionMap: {
@@ -89,7 +89,7 @@ export default function vet360(state = initialState, action) {
         },
       };
 
-    case VET360_TRANSACTION_REQUEST_FAILED:
+    case VAP_SERVICE_TRANSACTION_REQUEST_FAILED:
       return {
         ...state,
         fieldTransactionMap: {
@@ -103,7 +103,7 @@ export default function vet360(state = initialState, action) {
         },
       };
 
-    case VET360_TRANSACTION_REQUEST_SUCCEEDED: {
+    case VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED: {
       return {
         ...state,
         transactions: state.transactions.concat(action.transaction),
@@ -120,7 +120,7 @@ export default function vet360(state = initialState, action) {
       };
     }
 
-    case VET360_TRANSACTION_UPDATE_REQUESTED: {
+    case VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED: {
       const { transactionId } = action.transaction.data.attributes;
       return {
         ...state,
@@ -130,7 +130,7 @@ export default function vet360(state = initialState, action) {
       };
     }
 
-    case VET360_TRANSACTION_UPDATED: {
+    case VAP_SERVICE_TRANSACTION_UPDATED: {
       const { transaction } = action;
       const {
         transactionId: updatedTransactionId,
@@ -156,7 +156,7 @@ export default function vet360(state = initialState, action) {
       };
     }
 
-    case VET360_TRANSACTION_UPDATE_FAILED: {
+    case VAP_SERVICE_TRANSACTION_UPDATE_FAILED: {
       const { transactionId } = action.transaction.data.attributes;
       return {
         ...state,
@@ -166,7 +166,7 @@ export default function vet360(state = initialState, action) {
       };
     }
 
-    case VET360_TRANSACTION_CLEARED: {
+    case VAP_SERVICE_TRANSACTION_CLEARED: {
       const finishedTransactionId =
         action.transaction.data.attributes.transactionId;
       const fieldTransactionMap = { ...state.fieldTransactionMap };
@@ -198,7 +198,7 @@ export default function vet360(state = initialState, action) {
       };
     }
 
-    case VET360_TRANSACTION_REQUEST_CLEARED: {
+    case VAP_SERVICE_TRANSACTION_REQUEST_CLEARED: {
       const fieldTransactionMap = { ...state.fieldTransactionMap };
       delete fieldTransactionMap[action.fieldName];
 
