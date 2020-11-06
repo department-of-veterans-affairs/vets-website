@@ -170,12 +170,10 @@ class ConfirmationPage extends React.Component {
             ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
           </p>
         </div>
-        <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 usa-width-one-half medium-6 columns">
-            <a href="/">
-              <button className="usa-button-primary">Go back to VA.gov</button>
-            </a>
-          </div>
+        <div className="form-progress-buttons schemaform-back-buttons">
+          <a href="/">
+            <button className="usa-button-primary">Go back to VA.gov</button>
+          </a>
         </div>
       </div>
     );
