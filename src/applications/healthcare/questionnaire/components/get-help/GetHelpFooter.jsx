@@ -3,7 +3,12 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-export default function GetHelpFooter() {
+export default function GetHelpFooter(props) {
+  const { currentLocation } = props;
+
+  if (currentLocation?.pathname.replace(/\/$/, '').endsWith('confirmation')) {
+    return null;
+  }
   return (
     <div className="row questionnaire-help-footer">
       <div className="usa-width-two-thirds medium-8 columns">

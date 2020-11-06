@@ -1,42 +1,41 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
-import { focusElement } from 'platform/utilities/ui';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const ConfirmationPage = props => {
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
-    scrollToTop();
-  }, []);
+  // useEffect(() => {
+  //   focusElement('.schemaform-title > h1');
+  //   scrollToTop();
+  // }, []);
   const { appointment, form } = props;
   const { submission } = form || undefined;
   const { response } = submission || {};
+
+  const facility = appointment?.vdsAppointments
+    ? appointment.vdsAppointments[0]?.clinic.facility
+    : null;
+
   return (
     <div className="healthcare-questionnaire-confirm">
       <div className="usa-alert usa-alert-success schemaform-sip-alert">
         <div className="usa-alert-body">
           <h2 className="usa-alert-heading">
-            Your questionnaire has been sent to your provider.
+            Your information has been sent to your provider.
           </h2>
           <div className="usa-alert-text">
-            <p>We look forward to seeing you at your upcoming appointment.</p>
+            <p>
+              Your provider will discuss the information on your questionnaire
+              during your appointment. We look forward to seeing you at your
+              upcoming appointment.
+            </p>
           </div>
         </div>
       </div>
 
       <div className="inset">
-        <h3>Upcoming appointment questionnaire</h3>
+        <h2>Primary care questionnaire</h2>
         {response?.veteranInfo?.fullName && (
           <p>
             For{' '}
@@ -57,15 +56,42 @@ const ConfirmationPage = props => {
               <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
             </li>
             <li>
-              <strong>Your information was sent to</strong>
+              <strong>We sent your information to:</strong>
               <br />
               <span data-testid="facility-name" aria-label="Facility Name">
-                {appointment?.vdsAppointments[0]?.clinic?.facility?.displayName}
+                {facility && facility.displayName}
               </span>
             </li>
           </ul>
         )}
+        <button className="usa-button-primary">Print this page</button>
       </div>
+      {appointment && (
+        <div className="next-steps">
+          <h2>
+            Who can I contact if I have questions about my upcoming appointment?
+          </h2>
+          <p>
+            You can contact the {facility && facility.displayName} at
+            XXX-XXX-XXXX and the {appointment.clinicFriendlyName} at{' '}
+            <Telephone contact={appointment.clinicPhone} />.
+          </p>
+          <div className="nav-buttons">
+            <a
+              className="usa-button-primary"
+              href="/healthcare/questionnaire/manager"
+            >
+              Go to your health care questionnaires
+            </a>
+            <a
+              className="appointment-details-link usa-button-primary usa-button-secondary"
+              href="/health-care/schedule-view-va-appointments/appointments/"
+            >
+              Go to appointment details
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
