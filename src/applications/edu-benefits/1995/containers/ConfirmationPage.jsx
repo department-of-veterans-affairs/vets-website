@@ -161,7 +161,7 @@ class ConfirmationPage extends React.Component {
               Learn more about what happens after you apply:
             </a>
           </p>
-          <h4 className="confirmation-guidance-heading pagebreak">
+          <h4 className="confirmation-guidance-heading pagebreak vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
             Need help?
           </h4>
           <p className="confirmation-guidance-message">
