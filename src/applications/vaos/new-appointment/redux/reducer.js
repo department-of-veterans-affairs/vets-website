@@ -10,7 +10,7 @@ import {
 } from 'platform/forms-system/src/js/state/helpers';
 
 import { getParentOfLocation } from '../../services/location';
-import { getEligibilityChecks } from './helpers/eligibility';
+import { getEligibilityChecks, isEligible } from './helpers/eligibility';
 
 import {
   FORM_DATA_UPDATED,
@@ -702,6 +702,7 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(action.eligibilityData);
+      const canSchedule = isEligible(eligibility);
       const facilityId = action.facilityId || state.data.vaFacility;
 
       let clinics = state.clinics;
@@ -723,7 +724,8 @@ export default function formReducer(state = initialState, action) {
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,
-        showEligibilityModal: action.showModal,
+        showEligibilityModal:
+          action.showModal && !canSchedule.direct && !canSchedule.request,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
