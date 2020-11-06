@@ -1,7 +1,7 @@
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 
-describe('Diary Codes', () => {
+describe('Diary Codes - Next Steps', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
