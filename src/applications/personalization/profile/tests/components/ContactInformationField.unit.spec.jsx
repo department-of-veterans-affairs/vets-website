@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  VAPProfileField,
+  ContactInformationField,
   mapStateToProps,
-} from '@@profile/components/personal-information/VAPProfileField';
+} from '@@profile/components/personal-information/ContactInformationField';
 import { FIELD_NAMES, TRANSACTION_STATUS } from '@@vap-svc/constants';
 
 function ContentView() {
@@ -21,7 +21,7 @@ function ValidationView() {
   return <span>ValidationView</span>;
 }
 
-describe('<VAPProfileField/>', () => {
+describe('<ContactInformationField/>', () => {
   let props = null;
   let component = null;
 
@@ -55,7 +55,7 @@ describe('<VAPProfileField/>', () => {
   });
 
   it('renders the ContentView prop', () => {
-    component = enzyme.shallow(<VAPProfileField {...props} />);
+    component = enzyme.shallow(<ContactInformationField {...props} />);
     expect(
       component.find('ContentView'),
       'the ContentView was rendered',
@@ -69,7 +69,7 @@ describe('<VAPProfileField/>', () => {
       isEmpty: true,
     };
 
-    component = enzyme.shallow(<VAPProfileField {...isEmptyProps} />);
+    component = enzyme.shallow(<ContactInformationField {...isEmptyProps} />);
     expect(
       component.find('ContentView'),
       'the ContentView was NOT rendered',
@@ -85,7 +85,7 @@ describe('<VAPProfileField/>', () => {
     props.showEditView = true;
     sinon.spy(props, 'EditView');
 
-    component = enzyme.shallow(<VAPProfileField {...props} />);
+    component = enzyme.shallow(<ContactInformationField {...props} />);
 
     expect(
       component.find('EditView'),
@@ -115,7 +115,7 @@ describe('<VAPProfileField/>', () => {
     };
     sinon.spy(props, 'ValidationView');
 
-    component = enzyme.shallow(<VAPProfileField {...props} />);
+    component = enzyme.shallow(<ContactInformationField {...props} />);
 
     expect(
       component.find('ValidationView'),
@@ -134,9 +134,9 @@ describe('<VAPProfileField/>', () => {
   });
 
   it('renders the edit link', () => {
-    component = enzyme.shallow(<VAPProfileField {...props} />);
+    component = enzyme.shallow(<ContactInformationField {...props} />);
 
-    let editButton = component.find('VAPEditButton');
+    let editButton = component.find('ContactInformationEditButton');
 
     const onEditClick = editButton.props().onEditClick;
     onEditClick();
@@ -151,7 +151,7 @@ describe('<VAPProfileField/>', () => {
       },
     });
 
-    editButton = component.find('VAPEditButton');
+    editButton = component.find('ContactInformationEditButton');
 
     expect(
       editButton,
@@ -264,7 +264,7 @@ describe('mapStateToProps', () => {
         expect(mappedProps.showValidationView).to.be.false;
       });
     });
-    describe('when no ValidationView was passed to the VAPProfileField component', () => {
+    describe('when no ValidationView was passed to the ContactInformationField component', () => {
       it('sets `showValidationView` to `false`', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {
@@ -273,7 +273,7 @@ describe('mapStateToProps', () => {
         expect(mappedProps.showValidationView).to.be.false;
       });
     });
-    describe("when this VAPProfileField's `fieldName` does not match address validation type", () => {
+    describe("when this ContactInformationField's `fieldName` does not match address validation type", () => {
       it('sets `showValidationView` to `false`', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {

@@ -10,6 +10,7 @@ import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
 import StaticInformationReviewField from '../containers/StaticInformationReviewField';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
+import { transform } from './helpers';
 
 import manifest from '../manifest.json';
 
@@ -21,6 +22,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitInfo,
+  transformForSubmit: transform,
   formId: '28-1900',
   saveInProgress: {
     messages: {
