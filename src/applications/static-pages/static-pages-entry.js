@@ -46,6 +46,9 @@ import './sass/static-pages.scss';
 // Social share links behavior
 import './social-share-links';
 
+// Resources and support widgets
+import createResourcesAndSupportSearchWidget from './resources-and-support-search';
+
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
@@ -129,6 +132,11 @@ createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 createDisabilityRatingCalculator(
   store,
   widgetTypes.DISABILITY_RATING_CALCULATOR,
+);
+
+createResourcesAndSupportSearchWidget(
+  store,
+  widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
 );
 
 createFacilityListWidget();
