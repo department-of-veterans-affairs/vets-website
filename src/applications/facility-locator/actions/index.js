@@ -291,7 +291,7 @@ export const genBBoxFromAddress = query => {
  * from the coordinates center of the map
  */
 export const genSearchAreaFromCenter = query => {
-  const { lat, lng, currentBounds } = query;
+  const { lat, lng } = query;
   return dispatch => {
     const types = ['place', 'region', 'postcode', 'locality'];
     mbxClient
@@ -302,9 +302,28 @@ export const genSearchAreaFromCenter = query => {
       })
       .send()
       .then(({ body: { features } }) => {
+        const coordinates = features[0].center;
         const zip =
           features[0].context.find(v => v.id.includes('postcode')) || {};
         const location = zip.text || features[0].place_name;
+        const featureBox = features[0].box;
+
+        let minBounds = [
+          coordinates[0] - BOUNDING_RADIUS,
+          coordinates[1] - BOUNDING_RADIUS,
+          coordinates[0] + BOUNDING_RADIUS,
+          coordinates[1] + BOUNDING_RADIUS,
+        ];
+
+        if (featureBox) {
+          minBounds = [
+            Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
+            Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
+            Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
+            Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
+          ];
+        }
+
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
@@ -322,7 +341,7 @@ export const genSearchAreaFromCenter = query => {
               placeType: features[0].place_type[0],
             },
             searchCoords: null,
-            bounds: currentBounds,
+            bounds: minBounds,
             position: {
               latitude: lat,
               longitude: lng,

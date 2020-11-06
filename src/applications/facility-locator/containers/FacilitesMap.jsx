@@ -146,7 +146,6 @@ const FacilitiesMap = props => {
       locationBounds.extend(
         new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
       );
-      map.fitBounds(locationBounds, { padding: 20, duration: 0 });
     }
 
     if (props.currentQuery.searchArea) {
@@ -159,6 +158,8 @@ const FacilitiesMap = props => {
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
     }
+
+    map.fitBounds(locationBounds, { padding: 20 });
   };
 
   const handleSearch = async () => {
@@ -180,20 +181,21 @@ const FacilitiesMap = props => {
   const handleSearchArea = () => {
     resetMapElements();
     const center = map.getCenter().wrap();
-    const currentBounds = map.getBounds();
+    // const currentBounds = map.getBounds();
+    //      currentBounds: [
+    //         parseFloat(currentBounds._sw.lng.toFixed(2)),
+    //         parseFloat(currentBounds._sw.lat.toFixed(2)),
+    //         parseFloat(currentBounds._ne.lng.toFixed(2)),
+    //         parseFloat(currentBounds._ne.lat.toFixed(2)),
+    //       ],
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
-      currentBounds: [
-        parseFloat(currentBounds._sw.lng.toFixed(2)),
-        parseFloat(currentBounds._sw.lat.toFixed(2)),
-        parseFloat(currentBounds._ne.lng.toFixed(2)),
-        parseFloat(currentBounds._ne.lat.toFixed(2)),
-      ],
     });
   };
 
   const handlePageSelect = page => {
+    resetMapElements();
     const { currentQuery } = props;
     props.searchWithBounds({
       bounds: currentQuery.bounds,
@@ -301,7 +303,14 @@ const FacilitiesMap = props => {
         <div className="columns small-12">
           <Tabs>
             <TabList>
-              <Tab className="small-6 tab">View List</Tab>
+              <Tab
+                onClick={() => {
+                  searchAreaSet = false;
+                }}
+                className="small-6 tab"
+              >
+                View List
+              </Tab>
               <Tab
                 onClick={() => {
                   setMapResize();
