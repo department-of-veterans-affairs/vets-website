@@ -454,7 +454,7 @@ const mapDispatchToProps = {
 
 /**
  * Container used to easily create components for VA Profile-backed contact information.
- * @property {string} fieldName The name of the property as it appears in the user.profile.vet360 object.
+ * @property {string} fieldName The name of the property as it appears in the user.profile.vapContactInfo object.
  * @property {func} ContentView The component used to render the read-display of the field.
  * @property {func} EditView The component used to render the edit mode of the field.
  * @property {func} ValidationView The component used to render validation mode the field.

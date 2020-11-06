@@ -722,7 +722,8 @@ export default function formReducer(state = initialState, action) {
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,
-        showEligibilityModal: !canSchedule.direct && !canSchedule.request,
+        showEligibilityModal:
+          action.showModal && !canSchedule.direct && !canSchedule.request,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {

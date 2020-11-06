@@ -20,7 +20,7 @@ const createFakeUserStore = (
           },
           dob: '1924-12-19',
           gender,
-          vet360: {
+          vapContactInfo: {
             mobilePhone: phones.hasMobile
               ? {
                   areaCode: '503',

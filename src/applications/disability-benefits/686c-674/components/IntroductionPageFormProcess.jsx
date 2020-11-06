@@ -59,6 +59,22 @@ export const IntroductionPageFormProcess = () => (
               information about any property or assets the student may have
             </li>
           </ul>
+          <h6>
+            If you’re adding a dependent to your pension benefits (equal to VA
+            Form 21P-527EZ), you’ll need:
+          </h6>
+          <ul>
+            <li>Social Security numbers for you and your dependent</li>
+            <li>
+              Details about your dependent, including their full names, Social
+              Security numbers, birthdate, and marriage details
+            </li>
+            <li>
+              Information about whether or not the dependent earned an income in
+              the last 365 days
+            </li>
+            <li>You and your spouse’s total net worth</li>
+          </ul>
           <p>
             <strong>What if I need help filling out my application?</strong> An
             accredited representative, with a Veterans Service Organization

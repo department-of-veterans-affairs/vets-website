@@ -18,7 +18,7 @@ function toUtc(timeString, withExplicitUtc = true) {
     `Expected timeString to be a moment-parsable string. Found ${timeString}`,
   );
   const formatString = withExplicitUtc
-    ? 'YYYY-MM-DD kk:mm:ss [UTC]'
+    ? 'YYYY-MM-DD HH:mm:ss [UTC]'
     : 'YYYY-MM-DD[T]kk:mm:ss';
   return time.format(formatString);
 }

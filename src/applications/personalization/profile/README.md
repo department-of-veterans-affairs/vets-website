@@ -8,7 +8,7 @@ Staging test users for all sections are laid out in [this spreadsheet](https://d
 
 ## Contact info and the VA Profile service
 
-Contact info is powered by the VA Profile service (Slack Channel #va-profile) formerly known as Vet 360. You'll still see references to Vet 360 or just 360 in the code. It is not possible to connect to VA Profile through `vets-api` when running locally. All calls to update contact info are mocked entirely in the front end by short-circuiting API requests at the Redux action-creator level by making a call to the `isVet360Configured()` helper. `local-vet360.js` provides a lot of helper functions you can call from action creators to simulate different scenarios such as a failure.
+Contact info is powered by the VA Profile service (Slack Channel #va-profile) formerly known as Vet 360. You'll still see references to Vet 360 or just 360 in the code. It is not possible to connect to VA Profile through `vets-api` when running locally. All calls to update contact info are mocked entirely in the front end by short-circuiting API requests at the Redux action-creator level by making a call to the `isVAProfileServiceConfigured()` helper. `local-vapsvc.js` provides a lot of helper functions you can call from action creators to simulate different scenarios such as a failure.
 
 VA Profile is an asynchronous, transaction-based service. Making updates is a two step process. First, you create a transaction ("Please update the phone number to 555-123-1234") and get back a transaction ID. Then you check on the status of that transaction ("Have you finished with transaction ID ABC-123?") until it has resolved or failed.
 

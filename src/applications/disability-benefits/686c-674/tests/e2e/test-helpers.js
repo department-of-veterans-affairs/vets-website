@@ -845,6 +845,10 @@ export const fill674StudentTermDates = (client, data) => {
   client.selectRadio('root_programInformation_studentIsEnrolledFullTime', 'Y');
 };
 
+export const fillNetWorth = client => {
+  client.selectRadio('root_householdIncome', 'N');
+};
+
 export const initApplicationSubmitMock = token => {
   mock(token, {
     path: '/v0/21-686c',
