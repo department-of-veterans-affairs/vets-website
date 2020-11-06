@@ -49,9 +49,11 @@ const AppointmentInfoBox = ({
   return (
     <div>
       <AppointmentDisplay appointment={appointment} />
-      <p>This is the personal information we have on file for you.</p>
+      <p>
+        Below is the personal and contact information we have on file for you.
+      </p>
       <div className="vads-u-border-left--7px vads-u-border-color--primary">
-        <div className="vads-u-padding-left--1">
+        <div className="vads-u-padding-left--2">
           <p
             className="vads-u-margin--1px vads-u-font-weight--bold"
             aria-label="Veterans Full Name"
@@ -64,7 +66,6 @@ const AppointmentInfoBox = ({
             <time
               dateTime={dateOfBirth}
               aria-label="Veteran's date of birth"
-              className="vads-u-font-weight--bold"
               data-testid="dateOfBirth"
             >
               {moment(dateOfBirth).format('MMMM DD, YYYY')}
@@ -74,10 +75,7 @@ const AppointmentInfoBox = ({
             <>
               <p className="vads-u-margin--1px">
                 Gender:{' '}
-                <span
-                  className=" vads-u-font-weight--bold"
-                  data-testid="gender"
-                >
+                <span data-testid="gender">
                   {genderLabels[gender] ? genderLabels[gender] : 'UNKNOWN'}
                 </span>
               </p>
@@ -86,11 +84,8 @@ const AppointmentInfoBox = ({
           {mailing && (
             <>
               <p>
-                <span>Mailing Address: </span>
-                <span
-                  data-testid="mailingAddress"
-                  className="vads-u-font-weight--bold"
-                >
+                <span>Mailing address: </span>
+                <span data-testid="mailingAddress">
                   <AddressView address={mailing} />
                 </span>
               </p>
@@ -99,11 +94,8 @@ const AppointmentInfoBox = ({
           {residential && (
             <>
               <p>
-                <span>Home Address: </span>
-                <span
-                  data-testid="residentialAddress"
-                  className="vads-u-font-weight--bold"
-                >
+                <span>Home address: </span>
+                <span data-testid="residentialAddress">
                   <AddressView address={residential} />
                 </span>
               </p>
@@ -115,10 +107,10 @@ const AppointmentInfoBox = ({
         </div>
       </div>
       <p>
-        <span className="vads-u-font-weight--bold">Note:</span> If you need to
-        update your personal information, please call Veterans Benefits
-        Assistance at <a href="tel:800-827-1000">800-827-1000</a>, Monday
-        through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        Note: If you need to update your personal information, please call
+        Veterans Benefits Assistance at{' '}
+        <a href="tel:800-827-1000">800-827-1000</a>, Monday through Friday, 8:00
+        a.m. to 9:00 p.m. ET.
       </p>
     </div>
   );
