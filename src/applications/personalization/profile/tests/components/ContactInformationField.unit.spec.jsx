@@ -136,7 +136,7 @@ describe('<ContactInformationField/>', () => {
   it('renders the edit link', () => {
     component = enzyme.shallow(<ContactInformationField {...props} />);
 
-    let editButton = component.find('VAPEditButton');
+    let editButton = component.find('ContactInformationEditButton');
 
     const onEditClick = editButton.props().onEditClick;
     onEditClick();
@@ -151,7 +151,7 @@ describe('<ContactInformationField/>', () => {
       },
     });
 
-    editButton = component.find('VAPEditButton');
+    editButton = component.find('ContactInformationEditButton');
 
     expect(
       editButton,

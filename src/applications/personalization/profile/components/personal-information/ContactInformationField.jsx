@@ -32,7 +32,7 @@ import {
   selectVet360Transaction,
 } from '@@vap-svc/selectors';
 
-import VAPEditButton from './VAPEditButton';
+import ContactInformationEditButton from './ContactInformationEditButton';
 import Vet360Transaction from '@@vap-svc/components/base/Vet360Transaction';
 
 const wrapperClasses = prefixUtilityClasses([
@@ -300,7 +300,7 @@ class ContactInformationField extends React.Component {
       <div className={classes.wrapper}>
         <ContentView data={this.props.data} />
         {this.isEditLinkVisible() && (
-          <VAPEditButton
+          <ContactInformationEditButton
             onEditClick={this.onEdit}
             fieldName={fieldName}
             title={title}
