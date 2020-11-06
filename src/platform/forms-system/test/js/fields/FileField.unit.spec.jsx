@@ -125,13 +125,13 @@ describe('Schemaform <FileField>', () => {
         name: 'Test2',
       },
       {
-        file: new File([1, 2, 3], 'Test3'),
-        name: 'Test3',
-      },
-      {
         file: {
           name: 'fake', // should never happen
         },
+        name: 'Test3',
+      },
+      {
+        file: new File([1, 2, 3], 'Test3'),
         name: 'Test4',
       },
     ];
@@ -156,6 +156,9 @@ describe('Schemaform <FileField>', () => {
 
     expect(onChange.calledOnce).to.be.true;
     expect(onChange.firstCall.args[0].length).to.equal(3);
+    // empty file object was removed;
+    expect(onChange.firstCall.args[0][1].name).to.equal('Test3');
+
     tree.unmount();
   });
 
