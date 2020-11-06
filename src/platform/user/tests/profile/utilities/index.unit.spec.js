@@ -112,7 +112,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360).to.deep.equal(
+      expect(mappedData.vapContactInfo).to.deep.equal(
         data.attributes.vet360_contact_information,
       );
     });
@@ -195,7 +195,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360.status).to.equal('SERVER_ERROR');
+      expect(mappedData.vapContactInfo.status).to.equal('SERVER_ERROR');
     });
   });
 });

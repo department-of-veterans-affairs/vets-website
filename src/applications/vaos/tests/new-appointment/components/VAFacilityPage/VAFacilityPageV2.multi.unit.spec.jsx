@@ -215,7 +215,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               addressLine1: '290 Ludlow Ave',
               city: 'Cincinatti',
@@ -275,7 +275,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               addressLine1: '290 Ludlow Ave',
               city: 'Cincinatti',
@@ -326,7 +326,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               addressLine1: '290 Ludlow Ave',
               city: 'Cincinatti',

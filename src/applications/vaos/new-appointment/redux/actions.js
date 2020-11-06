@@ -808,7 +808,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           endDate: endDateString,
           useVSP,
         });
-
         const now = moment();
 
         mappedSlots = fetchedSlots.filter(slot =>
