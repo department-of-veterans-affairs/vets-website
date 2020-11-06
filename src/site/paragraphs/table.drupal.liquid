@@ -28,7 +28,6 @@
 {% endcomment %}
 
 <table data-template="paragraphs/table" data-entity-id="{{ entity.entityId }}" class="va-table va-table--responsive" role="table">
-    <tbody>
         {% if entity.fieldTable.caption %}
             <caption>{{ entity.fieldTable.caption }}</caption>
         {% endif %}
@@ -42,20 +41,20 @@
                         {% endfor %}
                     </tr>
                 </thead>
+                <tbody>
             <!-- this elsif is here to prevent the caption from showing up as a row -->
             {% elsif forloop.last == false %}
-                <tr class="vads-u-padding-top--5" role="row">
-                    {% for column in value %}
-                            <td class="vads-u-padding-bottom--0 column-label vads-u-font-weight--bold medium-screen:vads-u-display--none" role="cell">
-                                <dfn> {{colLabels | getValueFromObjPath: forloop.index0}}      </dfn>
-                            </td>
-                            <td class="vads-u-padding-top--0 vads-u-padding-bottom--8px column-value"  role="cell">
-                                <dfn> {{ column }}  </dfn>
-                            </td>
-                      
-                    {% endfor %}
-                </tr>
+                    <tr class="vads-u-padding-top--5" role="row">
+                        {% for column in value %}
+                                <td class="vads-u-padding-bottom--0 column-label vads-u-font-weight--bold medium-screen:vads-u-display--none" role="cell">
+                                    <dfn> {{colLabels | getValueFromObjPath: forloop.index0}}      </dfn>
+                                </td>
+                                <td class="column-value"  role="cell">
+                                    <dfn> {{ column }}  </dfn>
+                                </td>
+                        {% endfor %}
+                    </tr>
             {% endif %}
+                </tbody>
         {% endfor %}
-    </tbody>
 </table>
