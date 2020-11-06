@@ -41,9 +41,11 @@ const DebtLetterCard = props => {
         <strong>Status: </strong>
         {debt.diaryCodeDescription}
       </p>
-      <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-        {additionalInfo.nextStep}
-      </div>
+      {additionalInfo && (
+        <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+          {additionalInfo.nextStep}
+        </div>
+      )}
       <Link
         className="usa-button"
         onClick={() => props.setActiveDebt(debt)}

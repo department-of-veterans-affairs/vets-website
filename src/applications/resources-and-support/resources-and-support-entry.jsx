@@ -1,11 +1,11 @@
-import './style.scss';
+// Node modules.
 import 'platform/polyfills';
-
 import React from 'react';
 import startApp from 'platform/startup';
-
-import manifest from './manifest.json';
+// Relative imports.
+import './style.scss';
 import ResourcesAndSupportSearchApp from './components/ResourcesAndSupportSearchApp';
+import manifest from './manifest.json';
 
 startApp({
   component: <ResourcesAndSupportSearchApp />,

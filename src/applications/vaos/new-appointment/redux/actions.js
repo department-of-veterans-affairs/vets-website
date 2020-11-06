@@ -158,6 +158,8 @@ export const FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
 export const FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
   'newAppointment/FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
+export const FORM_SHOW_ELIGIBILITY_MODAL =
+  'newAppointment/FORM_SHOW_ELIGIBILITY_MODAL';
 export const FORM_HIDE_ELIGIBILITY_MODAL =
   'newAppointment/FORM_HIDE_ELIGIBILITY_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
@@ -479,6 +481,12 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
     } else {
       dispatch(action);
     }
+  };
+}
+
+export function showEligibilityModal() {
+  return {
+    type: FORM_SHOW_ELIGIBILITY_MODAL,
   };
 }
 
@@ -808,7 +816,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           endDate: endDateString,
           useVSP,
         });
-
         const now = moment();
 
         mappedSlots = fetchedSlots.filter(slot =>

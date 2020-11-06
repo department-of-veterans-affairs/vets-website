@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 
 import FacilityAddress from '../../components/FacilityAddress';
@@ -24,7 +24,7 @@ const facility = {
 describe('VAOS <FacilityAddress>', () => {
   it('should render address for va facility', () => {
     const address = facility.address;
-    const tree = shallow(<FacilityAddress facility={facility} />);
+    const tree = mount(<FacilityAddress facility={facility} />);
     expect(tree.text()).to.contain(address.line[0]);
     expect(tree.text()).to.contain(address.city);
     expect(tree.text()).to.contain(address.state);

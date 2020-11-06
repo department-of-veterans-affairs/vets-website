@@ -5,6 +5,7 @@ import { sentenceCase } from '../../../../utils/formatters';
 import { getPatientTelecom } from '../../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import ExpressCareStatus from './ExpressCareStatus';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export default function ExpressCareCard({
   appointment,
@@ -47,7 +48,7 @@ export default function ExpressCareCard({
               Your contact details
             </dt>
             <dd>
-              {getPatientTelecom(appointment, 'phone')}
+              <Telephone contact={getPatientTelecom(appointment, 'phone')} />
               <br />
               {getPatientTelecom(appointment, 'email')}
             </dd>

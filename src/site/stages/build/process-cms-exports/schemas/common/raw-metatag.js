@@ -16,6 +16,7 @@ module.exports = {
         twitter_cards_site: { type: 'string' },
         image_src: { type: 'string' },
         og_title: { type: 'string' },
+        keywords: { type: 'string' },
         og_description: { type: 'string' },
         og_image_height: {
           type: 'string',
