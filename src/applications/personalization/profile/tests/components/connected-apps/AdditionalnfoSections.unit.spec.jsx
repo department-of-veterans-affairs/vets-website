@@ -33,10 +33,6 @@ describe('<AdditionalInfoSections>', () => {
     expect(text).to.include(
       'What other third-party apps can I connect to my profile?',
     );
-    expect(text).to.include(
-      'How do I connect a third-party app to my profile?',
-    );
-
     wrapper.unmount();
   });
 
@@ -47,9 +43,6 @@ describe('<AdditionalInfoSections>', () => {
 
     expect(text).not.to.include(
       'What other third-party apps can I connect to my profile?',
-    );
-    expect(text).to.include(
-      'How do I connect a third-party app to my profile?',
     );
     wrapper.unmount();
   });

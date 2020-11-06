@@ -49,34 +49,6 @@ export const AdditionalInfoSections = ({ activeApps }) => {
           </AdditionalInfo>
         </div>
       )}
-
-      <div className="vads-u-margin-bottom--3">
-        <AdditionalInfo
-          triggerText={`How do I connect a third-party app to my profile?`}
-        >
-          <p>
-            <strong>Take these steps to connect the app:</strong>
-          </p>
-          <ol>
-            <li className="vads-u-padding-left--1">
-              When the app (or website) prompts you to connect your VA account,
-              it will ask you to sign in.
-            </li>
-            <li className="vads-u-padding-left--1">
-              Sign in with your preferred VA.gov account:{' '}
-              <strong>DS Logon</strong>, <strong>My HealtheVet</strong>, or{' '}
-              <strong>ID.me</strong>.
-            </li>
-            <li className="vads-u-padding-left--1">
-              Review the information the app is asking to access.
-            </li>
-          </ol>
-          <p>
-            If you’re comfortable sharing that information, allow access. If you
-            have trouble connecting the app, contact the app’s support for help.
-          </p>
-        </AdditionalInfo>
-      </div>
     </>
   );
 };
