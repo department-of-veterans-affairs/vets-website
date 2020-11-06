@@ -198,7 +198,7 @@ describe('Editing email address', () => {
   describe('when an address does not exist yet', () => {
     beforeEach(() => {
       const initialState = createBasicInitialState();
-      initialState.user.profile.vet360.email = null;
+      initialState.user.profile.vapContactInfo.email = null;
 
       view = renderWithProfileReducers(ui, {
         initialState,

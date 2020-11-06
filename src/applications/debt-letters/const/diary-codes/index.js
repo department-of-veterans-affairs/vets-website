@@ -87,6 +87,7 @@ export const diaryCodes = Object.freeze({
 
 const ContactDMC = () => (
   <span>
+    {' '}
     {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or{' '}
     {
       <Telephone
@@ -166,7 +167,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <>
             <p>
               <strong>Next step: </strong>
-              Please pay now or contact us about payment options by
+              Please pay now or contact us about payment options by{' '}
               <strong> {dateOfLetter && endDate(dateOfLetter, 60)} </strong>
               to avoid collection actions. If you don't pay or make other
               arrangements with us by this date, we're required by law to refer
@@ -319,18 +320,16 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
           <>
             <p>
               <strong>Next step: </strong>
-              Please pay the full amount online or by phone now. If we don't
-              receive your payment by{' '}
-              <strong>{dateOfLetter && endDate(dateOfLetter, 30)}</strong>,
-              we're required by law to refer your debt to the U.S. Department of
-              the Treasury. After we do that, we can't help you manage your
-              debt.
+              Please pay the full amount online or by phone now to prevent
+              referral. If we don't receive your payment today we're required by
+              law to refer your debt to the U.S. Department of the Treasury.
             </p>
             <p>
-              <a href="https://www.pay.va.gov/">Pay online now</a> Or{' '}
-              <strong>make</strong> a payment <strong>over the</strong> phone at
-              <ContactDMC />. We’re here Monday through Friday, 7:30 a.m. to
-              7:00 p.m. ET.
+              <a href="https://www.pay.va.gov/">Pay online now</a>
+            </p>
+            <p>
+              Or make a payment over the phone at <ContactDMC />. We’re here
+              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </>
         ),
@@ -463,11 +462,10 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            Please pay now or contact us about payment options by
+            Please pay now or contact us about payment options by{' '}
             <strong> {dateOfLetter && endDate(dateOfLetter, 30)} </strong>
             to avoid late charges, interest, or collection actions. We're here
-            at
-            <ContactDMC />, Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            at <ContactDMC />, Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
             <a href="#howDoIPay" className="vads-u-margin-y--2">
               Review payment options
             </a>

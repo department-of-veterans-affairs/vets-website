@@ -13,9 +13,6 @@
     },
     "newSchoolName": "Test",
     "educationType": "correspondence",
-    "newSchoolAddress": {
-      "country": "USA"
-    },
     "veteranFullName": {
       "first": "asdf",
       "last": "asdf"

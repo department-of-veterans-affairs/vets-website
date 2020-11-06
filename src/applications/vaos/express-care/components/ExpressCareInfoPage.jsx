@@ -11,6 +11,9 @@ import {
   selectExpressCareNewRequest,
 } from '../../utils/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const pageKey = 'info';
 const pageTitle = 'How Express Care works';
@@ -67,13 +70,16 @@ function ExpressCareInfoPage({
         className="vads-u-margin-top--0p5 vads-u-margin-bottom--4"
         isVisible
       >
-        <p>
+        <p id="vaos-ecip-call-911" data-testid="p_vaos-ecip-call-911">
           <strong>
-            Call <a href="tel:911">911</a> or go to the nearest emergency room
-            now if you have any of these symptoms:
+            Call <Telephone contact={CONTACTS['911']} /> or go to the nearest
+            emergency room now if you have any of these symptoms:
           </strong>
         </p>
-        <ul>
+        <ul
+          aria-labelledby="vaos-ecip-call-911"
+          data-testid="ul_vaos-ecip-call-911"
+        >
           <li>Major bleeding or trauma</li>
           <li>Chest pain with shortness of breath</li>
           <li>Sudden inability to speak or walk</li>
@@ -86,13 +92,13 @@ function ExpressCareInfoPage({
           For emergencies, you don’t need a VA referral or approval to go a
           non-VA ER in your community.
         </p>
-        <p>
+        <p id="vaos-ecip-talk" data-testid="p_vaos-ecip-talk">
           <strong>If you need to talk to someone right now:</strong>
         </p>
-        <ul>
+        <ul aria-labelledby="vaos-ecip-talk" data-testid="ul_vaos-ecip-talk">
           <li>
             Call our Veterans Crisis Line at{' '}
-            <a href="tel:800-273-8255">800-273-8255</a> and select 1.
+            <Telephone contact="800-273-8255" extension="1" />.
           </li>
         </ul>
       </AlertBox>

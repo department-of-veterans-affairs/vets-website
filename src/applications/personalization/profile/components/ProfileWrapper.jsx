@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import { isWideScreen } from 'platform/utilities/accessibility/index';
-import { selectProfile } from 'platform/user/selectors';
+
+import { isWideScreen } from '~/platform/utilities/accessibility/index';
+import { selectProfile } from '~/platform/user/selectors';
 
 import {
   directDepositLoadError,

@@ -33,25 +33,20 @@ function createBasicInitialState() {
         hasCheckedKeepAlive: true,
       },
       profile: {
+        status: 'OK',
         loa: {
           current: 3,
           highest: 3,
         },
-        vet360: {},
+        vapContactInfo: {},
         multifactor: true,
         services: ['evss-claims', 'user-profile', 'vet360'],
-        isVeteran: true,
         veteranStatus: {
+          status: 'OK',
           isVeteran: true,
-          veteranStatus: {
-            status: 'OK',
-            isVeteran: true,
-            servedInMilitary: true,
-          },
           servedInMilitary: true,
         },
         verified: true,
-        status: 'OK',
       },
     },
   };

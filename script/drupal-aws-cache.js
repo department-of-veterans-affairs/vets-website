@@ -102,13 +102,16 @@ async function createCacheFile() {
     options.buildtype === ENVIRONMENTS.LOCALHOST
       ? ENVIRONMENTS.VAGOVDEV
       : options.buildtype;
-  const cachePath = `${cacheOutput}/${getDrupalCacheKey(cacheEnv)}.tar.bz2`;
+  const cacheKey = await getDrupalCacheKey(cacheEnv);
+  const cachePath = `${cacheOutput}/${cacheKey}.tar.bz2`;
 
   fs.ensureDirSync(cacheOutput);
 
-  const { stdout, stderr } = await exec(
-    `tar -C ${cacheDirectory} -cf ${cachePath} .`,
-  );
+  const tarCmd = `tar -C ${cacheDirectory} -cf ${cachePath} .`;
+
+  console.log('running tar cmd', tarCmd);
+
+  const { stdout, stderr } = exec(tarCmd);
 
   if (stderr) {
     console.error(`Error compressing cache: ${stderr}`);

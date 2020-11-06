@@ -8,6 +8,7 @@ import {
   setFetchJSONFailure,
   mockFetch,
   resetFetch,
+  setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
@@ -22,7 +23,10 @@ import {
   mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
 } from '../../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../../mocks/setup';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../../mocks/setup';
 
 import reducers from '../../../../redux/reducer';
 import FutureAppointmentsList from '../../../../appointment-list/components/FutureAppointmentsList';
@@ -499,7 +503,7 @@ describe('VAOS integration: appointment list', () => {
       user: {
         profile: {
           ...userState.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               // Northampton, MA
               latitude: 42.3495,
@@ -547,46 +551,77 @@ describe('VAOS integration: appointment list', () => {
 
     expect(
       await screen.findByRole('tab', {
-        name: 'Upcoming',
+        name: 'upcoming appointments',
         selected: true,
       }),
     ).to.not.have.attribute('tabindex');
     expect(
       screen.getByRole('tab', {
-        name: 'Past',
+        name: 'past appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
     expect(
       screen.getByRole('tab', {
-        name: 'Express Care',
+        name: 'express care appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
 
     userEvent.click(
       screen.getByRole('tab', {
-        name: 'Past',
+        name: 'past appointments',
       }),
     );
 
     expect(
       await screen.findByRole('tab', {
-        name: 'Past',
+        name: 'past appointments',
         selected: true,
       }),
     ).to.not.have.attribute('tabindex');
     expect(
       screen.getByRole('tab', {
-        name: 'Upcoming',
+        name: 'upcoming appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
     expect(
       screen.getByRole('tab', {
-        name: 'Express Care',
+        name: 'express care appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
+  });
+
+  it('should render warning message', async () => {
+    setFetchJSONResponse(
+      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
+      {
+        data: [
+          {
+            id: '139',
+            type: 'maintenance_windows',
+            attributes: {
+              externalService: 'vaosWarning',
+              description: 'My description',
+              startTime: moment.utc().subtract('1', 'days'),
+              endTime: moment.utc().add('1', 'days'),
+            },
+          },
+        ],
+      },
+    );
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      store,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: '3',
+        name: /You may have trouble using the VA appointments tool right now/,
+      }),
+    ).to.exist;
   });
 });
