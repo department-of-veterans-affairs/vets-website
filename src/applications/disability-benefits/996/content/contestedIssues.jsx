@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { COVID_FAQ_URL, NULL_CONDITION_STRING } from '../constants';
@@ -25,6 +26,7 @@ export const disabilityOption = ({ attributes }) => {
     ratingIssueSubjectText,
     description,
     ratingIssuePercentNumber,
+    approxDecisionDate,
   } = attributes;
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
@@ -32,15 +34,23 @@ export const disabilityOption = ({ attributes }) => {
 
   return (
     <div className="widget-content">
-      <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+      <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">
         {typeof ratingIssueSubjectText === 'string'
           ? ratingIssueSubjectText
           : NULL_CONDITION_STRING}
       </h3>
-      <span>{description || ''}</span>
+      {description && (
+        <p className="vads-u-margin-bottom--0">{description || ''}</p>
+      )}
       {showPercentNumber && (
-        <p>
+        <p className="vads-u-margin-bottom--0">
           Current rating: <strong>{ratingIssuePercentNumber}%</strong>
+        </p>
+      )}
+      {approxDecisionDate && (
+        <p>
+          Decision date:{' '}
+          <strong>{moment(approxDecisionDate).format('MMM D, YYYY')}</strong>
         </p>
       )}
     </div>
