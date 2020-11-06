@@ -368,10 +368,6 @@ module.exports = function registerFilters() {
     return deepObj;
   }
 
-  liquid.filters.getArrayItemByIndex = (arr, idx) => {
-    return arr && arr[idx] ? arr[idx] : '';
-  };
-
   liquid.filters.findCurrentPathDepthRecursive = (linksArray, currentPath) =>
     JSON.stringify(getDepth(linksArray, currentPath));
 
@@ -481,6 +477,7 @@ module.exports = function registerFilters() {
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
 
   // get a value from a path of an object
+  // works for arrays as well
   liquid.filters.getValueFromObjPath = (obj, path) => _.get(obj, path);
 
   // get a value from a path of an object in an array

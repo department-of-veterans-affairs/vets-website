@@ -42,12 +42,12 @@
                         {% endfor %}
                     </tr>
                 </thead>
-            {% elsif forloop.last == false %}
+            {% else forloop.last == false %}
                 <tr class="vads-u-padding-top--5" role="row">
                     {% for column in value %}
                         <dfn>
                             <td class="vads-u-padding-bottom--0 column-label vads-u-font-weight--bold medium-screen:vads-u-display--none" role="cell">
-                                {{colLabels | getArrayItemByIndex: forloop.index0}}
+                                {{colLabels | getValueFromObjPath: forloop.index0}}
                             </td>
                         </dfn>
                         <dfn>
