@@ -77,9 +77,6 @@ function disconnectApps(mobile = false) {
 
   // 1 FAQ 'How do I connect a third-party app to my profile
   cy.get('.form-expanding-group').should('have.length', 1);
-  cy.findByText(/How do I connect a third-party app to my profile/i).should(
-    'exist',
-  );
 
   cy.findByText(/Third-party apps you can connect to your profile/i).should(
     'exist',
