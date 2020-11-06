@@ -40,4 +40,4 @@ WORKDIR /application
 
 USER vets-website
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--", "aws"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
