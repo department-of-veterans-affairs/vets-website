@@ -356,6 +356,7 @@
     "**/http-proxy": "^1.18.1",
     "**/node-forge": "^0.10.0",
     "cypress": "^4.8.0",
+    "s3-cli/s3": "^4.4.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
