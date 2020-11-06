@@ -89,9 +89,12 @@ export const AccountSecurityContent = ({
             security on VA.gov.
           </p>
 
-          <h4>Go to FAQs about these topics:</h4>
+          <h4 className="vads-u-margin-top--1">
+            Go to FAQs about these topics:
+          </h4>
           <a
             href="/resources/signing-in-to-va-gov/"
+            className="vads-u-margin-y--1"
             onClick={() =>
               recordEvent({
                 event: 'profile-navigation',
@@ -104,6 +107,7 @@ export const AccountSecurityContent = ({
           </a>
           <a
             href="/resources/verifying-your-identity-on-va-gov/"
+            className="vads-u-margin-y--1"
             onClick={() =>
               recordEvent({
                 event: 'profile-navigation',
@@ -116,6 +120,7 @@ export const AccountSecurityContent = ({
           </a>
           <a
             href="/resources/privacy-and-security-on-va-gov/"
+            className="vads-u-margin-y--1"
             onClick={() =>
               recordEvent({
                 event: 'profile-navigation',

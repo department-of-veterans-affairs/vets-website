@@ -36,7 +36,7 @@ function disconnectApps(mobile = false) {
   cy.get('.connected-app').should('have.length', 2);
 
   // 4 FAQs and 1 in each connected app
-  cy.get('.form-expanding-group').should('have.length', 6);
+  cy.get('.form-expanding-group').should('have.length', 3);
 
   // Make sure text for non-connected accounts does not show
   cy.findByText(/Third-party apps you can connect to your profile/i).should(
