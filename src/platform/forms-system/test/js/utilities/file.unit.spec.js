@@ -36,27 +36,23 @@ describe('checkForEncryptedPdf', () => {
     global.FileReader = oldFileReader;
   });
 
-  const uiSchema = (state = true) => ({
-    'ui:options': { getEncryptedPassword: state },
-  });
-
   it('should ignore all files with feature flag off', done => {
     const file = setup(false, 'pdf');
-    checkForEncryptedPdf(file, false, uiSchema()).then(result => {
+    checkForEncryptedPdf(file).then(result => {
       expect(result).to.be.false;
       done();
     });
   });
   it('should ignore all files with uiSchema option disabled', done => {
     const file = setup(false, 'pdf');
-    checkForEncryptedPdf(file, true, uiSchema(false)).then(result => {
+    checkForEncryptedPdf(file).then(result => {
       expect(result).to.be.false;
       done();
     });
   });
   it('should ignore non-PDf files', done => {
     const file = setup(false, 'png');
-    checkForEncryptedPdf(file, true, uiSchema()).then(result => {
+    checkForEncryptedPdf(file).then(result => {
       expect(result).to.be.false;
       done();
     });
@@ -64,14 +60,14 @@ describe('checkForEncryptedPdf', () => {
 
   it('should resolve with false for unencrypted files', done => {
     const file = setup(false);
-    checkForEncryptedPdf(file, true, uiSchema()).then(result => {
+    checkForEncryptedPdf(file).then(result => {
       expect(result).to.be.false;
       done();
     });
   });
   it('should resolve with true for encrypted files', done => {
     const file = setup(true);
-    checkForEncryptedPdf(file, true, uiSchema()).then(result => {
+    checkForEncryptedPdf(file).then(result => {
       expect(result).to.be.true;
       done();
     });
