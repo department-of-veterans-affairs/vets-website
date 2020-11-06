@@ -1,16 +1,20 @@
-import { apiRequest } from 'platform/utilities/api';
-import { refreshProfile } from 'platform/user/profile/actions';
-import recordEvent from 'platform/monitoring/record-event';
-import { inferAddressType } from 'applications/letters/utils/helpers';
+import { apiRequest } from '~/platform/utilities/api';
+import { refreshProfile } from '~/platform/user/profile/actions';
+import recordEvent from '~/platform/monitoring/record-event';
+import { inferAddressType } from '~/applications/letters/utils/helpers';
+
+import { FIELD_NAMES, ADDRESS_POU } from '@@vap-svc/constants';
+
 import { showAddressValidationModal } from '../../utilities';
 
-import localVet360, { isVet360Configured } from '../util/local-vet360';
+import localVet360, {
+  isVAProfileServiceConfigured,
+} from '../util/local-vapsvc';
 import { CONFIRMED } from '../../constants/addressValidationMessages';
 import {
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
-import { FIELD_NAMES, ADDRESS_POU } from '@@vet360/constants';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS =
   'VET360_TRANSACTIONS_FETCH_SUCCESS';
@@ -45,7 +49,7 @@ export function fetchTransactions() {
   return async dispatch => {
     try {
       let response;
-      if (isVet360Configured()) {
+      if (isVAProfileServiceConfigured()) {
         response = await apiRequest('/profile/status/');
       } else {
         response = { data: [] };
@@ -99,7 +103,7 @@ export function refreshTransaction(
       });
 
       const route = _route || `/profile/status/${transactionId}`;
-      const transactionRefreshed = isVet360Configured()
+      const transactionRefreshed = isVAProfileServiceConfigured()
         ? await apiRequest(route)
         : await localVet360.updateTransaction(transactionId);
 
@@ -158,7 +162,7 @@ export function createTransaction(
         method,
       });
 
-      const transaction = isVet360Configured()
+      const transaction = isVAProfileServiceConfigured()
         ? await apiRequest(route, options)
         : await localVet360.createTransaction();
 
@@ -213,7 +217,7 @@ export const validateAddress = (
   };
 
   try {
-    const response = isVet360Configured()
+    const response = isVAProfileServiceConfigured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVet360.addressValidationSuccess();
     const { addresses, validationKey } = response;
@@ -337,7 +341,7 @@ export const updateValidationKeyAndSave = (
         'Content-Type': 'application/json',
       },
     };
-    const response = isVet360Configured()
+    const response = isVAProfileServiceConfigured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVet360.addressValidationSuccess();
     const { validationKey } = response;

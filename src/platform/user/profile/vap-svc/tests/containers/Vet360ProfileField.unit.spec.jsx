@@ -161,7 +161,7 @@ describe('mapStateToProps', () => {
     featureToggles: { vaProfileAddressValidation: true },
     user: {
       profile: {
-        vet360: {
+        vapContactInfo: {
           mailingAddress: '',
         },
       },

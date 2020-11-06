@@ -4,9 +4,9 @@ import pickBy from 'lodash/pickBy';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import { focusElement } from 'platform/utilities/ui';
 
-import { ADDRESS_POU, FIELD_NAMES, USA } from '@@vet360/constants';
+import { ADDRESS_POU, FIELD_NAMES, USA } from '@@vap-svc/constants';
 import Vet360EditModal from '../base/Vet360EditModal';
-import CopyMailingAddress from '@@vet360/containers/CopyMailingAddress';
+import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
 import ContactInfoForm from '../ContactInfoForm';
 
 class AddressEditModal extends React.Component {

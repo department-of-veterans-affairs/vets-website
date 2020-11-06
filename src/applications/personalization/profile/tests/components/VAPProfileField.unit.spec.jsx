@@ -7,7 +7,7 @@ import {
   VAPProfileField,
   mapStateToProps,
 } from '@@profile/components/personal-information/VAPProfileField';
-import { FIELD_NAMES, TRANSACTION_STATUS } from '@@vet360/constants';
+import { FIELD_NAMES, TRANSACTION_STATUS } from '@@vap-svc/constants';
 
 function ContentView() {
   return <h1>Content</h1>;
@@ -166,7 +166,7 @@ describe('mapStateToProps', () => {
   const getBasicState = () => ({
     user: {
       profile: {
-        vet360: {
+        vapContactInfo: {
           mobilePhone: '',
         },
       },
@@ -226,7 +226,7 @@ describe('mapStateToProps', () => {
     const showValidationModalState = () => ({
       user: {
         profile: {
-          vet360: {
+          vapContactInfo: {
             mailingAddress: '',
           },
         },

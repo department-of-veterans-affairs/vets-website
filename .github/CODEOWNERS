@@ -27,6 +27,7 @@ src/applications/claims-status @department-of-veterans-affairs/vsa-bam-1-fronten
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
 src/applications/debt-letters @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-bam-2-frontend
+src/applications/burials @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
 # eBenefits
 src/applications/disability-benefits/686 @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend

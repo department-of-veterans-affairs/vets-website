@@ -8,12 +8,12 @@ import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
-import * as VET360 from '@@vet360/constants';
+import * as VET360 from '@@vap-svc/constants';
 
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from '@@vet360/util/transactions';
+} from '@@vap-svc/util/transactions';
 
 import {
   createTransaction,
@@ -22,7 +22,7 @@ import {
   updateFormFieldWithSchema,
   openModal,
   validateAddress,
-} from '@@vet360/actions';
+} from '@@vap-svc/actions';
 
 import {
   selectAddressValidationType,
@@ -30,10 +30,10 @@ import {
   selectEditedFormField,
   selectVet360Field,
   selectVet360Transaction,
-} from '@@vet360/selectors';
+} from '@@vap-svc/selectors';
 
 import VAPEditButton from './VAPEditButton';
-import Vet360Transaction from '@@vet360/components/base/Vet360Transaction';
+import Vet360Transaction from '@@vap-svc/components/base/Vet360Transaction';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -454,7 +454,7 @@ const mapDispatchToProps = {
 
 /**
  * Container used to easily create components for VA Profile-backed contact information.
- * @property {string} fieldName The name of the property as it appears in the user.profile.vet360 object.
+ * @property {string} fieldName The name of the property as it appears in the user.profile.vapContactInfo object.
  * @property {func} ContentView The component used to render the read-display of the field.
  * @property {func} EditView The component used to render the edit mode of the field.
  * @property {func} ValidationView The component used to render validation mode the field.
