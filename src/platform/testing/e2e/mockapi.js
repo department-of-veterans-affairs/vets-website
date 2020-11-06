@@ -24,7 +24,7 @@ const optionDefinitions = [
   { name: 'responses', type: String },
 
   // Catch-all for bad arguments.
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
+  { name: 'unexpected', type: String, multiple: true, defaultOption: true },
 ];
 const options = commandLineArgs(optionDefinitions);
 

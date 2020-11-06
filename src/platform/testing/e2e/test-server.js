@@ -20,7 +20,7 @@ const optionDefinitions = [
   { name: 'host', type: String, defaultValue: 'localhost' },
 
   // Catch-all for bad arguments.
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
+  { name: 'unexpected', type: String, multiple: true, defaultOption: true },
 ];
 const options = commandLineArgs(optionDefinitions);
 

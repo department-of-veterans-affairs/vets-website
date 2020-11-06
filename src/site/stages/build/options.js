@@ -58,7 +58,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'accessibility', type: Boolean, defaultValue: false },
   { name: 'lint-plain-language', type: Boolean, defaultValue: false },
   { name: 'verbose', alias: 'v', type: Boolean, defaultValue: false },
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
+  { name: 'unexpected', type: String, multiple: true, defaultOption: true },
 ];
 
 function gatherFromCommandLine() {

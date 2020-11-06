@@ -51,7 +51,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.DRUPAL_PASSWORD,
   },
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
+  { name: 'unexpected', type: String, multiple: true, defaultOption: true },
 ];
 
 if (process.env.SENTRY_DSN) {
