@@ -14,24 +14,24 @@
       display: block;
     }
   }
-  .rwd tr {
+  .va-table--responsive tr {
     border-top: 2px solid #999;
   }
-  .rwd thead {
+  .va-table--responsive thead {
     display: none;
   }
-  .rwd td,
-  .rwd th {
+  .va-table--responsive td,
+  .va-table--responsive th {
     border: none;
     display: block;
   }
-  .rwd td {
+  .va-table--responsive td {
     display: flex;
     grid-gap: 2px;
     padding: 1rem;
     padding-left: 0px;
   }
-  .rwd dfn {
+  .va-table--responsive dfn {
     display: block;
     font-style: normal;
     font-weight: 800;
