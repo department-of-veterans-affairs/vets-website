@@ -6,6 +6,7 @@ import AddressView from './AddressView';
 import PhoneNumberView from './PhoneNumberView';
 import AppointmentDisplay from './AppointmentDisplay';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { selectProfile, selectVAPContactInfo } from 'platform/user/selectors';
 
 const AppointmentInfoBox = ({
   userFullName,
@@ -123,22 +124,26 @@ const AppointmentInfoBox = ({
   );
 };
 
-const mapStateToProps = state => ({
-  userFullName: state.user?.profile?.userFullName,
-  dateOfBirth: state.user?.profile?.dob,
-  gender: state.user?.profile?.gender,
-  addresses: {
-    residential: state.user?.profile?.vet360?.residentialAddress,
-    mailing: state.user?.profile?.vet360?.mailingAddress,
-  },
-  phoneNumbers: [
-    { label: 'Home', data: state.user?.profile?.vet360?.homePhone },
-    { label: 'Mobile', data: state.user?.profile?.vet360?.mobilePhone },
-    { label: 'Work', data: state.user?.profile?.vet360?.workPhone },
-    { label: 'Temporary', data: state.user?.profile?.vet360?.temporaryPhone },
-  ],
-  appointment: state.questionnaireData?.context?.appointment,
-});
+const mapStateToProps = state => {
+  const profile = selectProfile(state);
+  const vapContactInfo = selectVAPContactInfo(state);
+  return {
+    userFullName: profile.userFullName,
+    dateOfBirth: profile.dob,
+    gender: profile.gender,
+    addresses: {
+      residential: vapContactInfo?.residentialAddress,
+      mailing: vapContactInfo?.mailingAddress,
+    },
+    phoneNumbers: [
+      { label: 'Home', data: vapContactInfo?.homePhone },
+      { label: 'Mobile', data: vapContactInfo?.mobilePhone },
+      { label: 'Work', data: vapContactInfo?.workPhone },
+      { label: 'Temporary', data: vapContactInfo?.temporaryPhone },
+    ],
+    appointment: state.questionnaireData?.context?.appointment,
+  };
+};
 
 const mapDispatchToProps = {
   setFormData: setData,
