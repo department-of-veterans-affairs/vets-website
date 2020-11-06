@@ -31,7 +31,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the Application"
+          startText="Apply for career planning and guidance"
         >
           Please complete the 28-8832 form to apply for Planning and career
           guidance.
@@ -85,7 +85,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
+          startText="Apply for career planning and guidance"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={30} ombNumber="2900-0265" expDate="12/31/2021" />
