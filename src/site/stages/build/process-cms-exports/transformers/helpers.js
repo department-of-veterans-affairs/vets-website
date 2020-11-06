@@ -103,9 +103,10 @@ function getImageCrop(obj, imageStyle = null) {
           .join(', ')}.`,
       );
     }
-    const url = `/img/styles/${image.machine}/${
-      imageObj.image.derivative.url
-    }`.replace('public:/', 'public');
+    const url = `/img/styles/${image.machine}/${imageObj.image.derivative.url}`.replace(
+      'public:/',
+      'public',
+    );
     imageObj.image.url = url;
     imageObj.image.derivative.url = url;
     imageObj.image.derivative.width = image.width;
@@ -219,11 +220,12 @@ module.exports = {
         'twitter:description',
         metaTags.twitter_cards_description,
       ),
-      createMetaTag('MetaValue', 'description', metaTags.description),
       createMetaTag('MetaValue', 'twitter:title', metaTags.twitter_cards_title),
       createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
+      createMetaTag('MetaValue', 'description', metaTags.description),
       createMetaTag('MetaLink', 'image_src', metaTags.image_src),
       createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
+      createMetaTag('MetaValue', 'keywords', metaTags.keywords),
       createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
       createMetaTag(
         'MetaProperty',
