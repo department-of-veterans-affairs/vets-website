@@ -10,6 +10,7 @@ import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import { getSiteIdFromFakeFHIRId } from '../services/location';
 import {
   checkEligibility,
+  showEligibilityModal,
   showPodiatryAppointmentUnavailableModal,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
@@ -79,6 +80,7 @@ async function vaFacilityNext(state, dispatch) {
     }
 
     if (!eligibility.direct && !eligibility.request) {
+      dispatch(showEligibilityModal());
       return VA_FACILITY_V2_KEY;
     }
   }
