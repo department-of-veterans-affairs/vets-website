@@ -1,7 +1,7 @@
 import React, { Component, memo } from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import {
   isFailedTransaction,
   isPendingTransaction,
@@ -9,7 +9,7 @@ import {
 import VAPEditModalActionButtons from './VAPEditModalActionButtons';
 import Vet360EditModalErrorMessage from '@@vap-svc/components/base/Vet360EditModalErrorMessage';
 
-class VAPEditView extends Component {
+class ContactInformationEditView extends Component {
   static propTypes = {
     analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
@@ -154,4 +154,4 @@ class VAPEditView extends Component {
   }
 }
 
-export default memo(VAPEditView);
+export default memo(ContactInformationEditView);
