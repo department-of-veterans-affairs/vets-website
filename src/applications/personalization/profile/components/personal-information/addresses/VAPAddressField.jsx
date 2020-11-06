@@ -11,7 +11,7 @@ import {
   USA,
 } from '@@vap-svc/constants';
 
-import VAPProfileField from '../VAPProfileField';
+import ContactInformationField from '../ContactInformationField';
 
 import AddressEditView from './AddressEditView';
 import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
@@ -99,7 +99,7 @@ export const convertCleanDataToPayload = (data, fieldName) => {
 
 function AddressField({ title, fieldName, deleteDisabled }) {
   return (
-    <VAPProfileField
+    <ContactInformationField
       title={title}
       fieldName={fieldName}
       apiRoute={API_ROUTES.ADDRESSES}

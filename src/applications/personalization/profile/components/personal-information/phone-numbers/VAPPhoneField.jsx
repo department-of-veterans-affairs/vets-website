@@ -8,7 +8,7 @@ import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '@@vap-svc/constants';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
-import VAPProfileField from '../VAPProfileField';
+import ContactInformationField from '../ContactInformationField';
 import ReceiveTextMessages from '@@vap-svc/containers/ReceiveTextMessages';
 
 import PhoneEditView from './PhoneEditView';
@@ -153,7 +153,7 @@ export default class PhoneField extends React.Component {
     };
 
     return (
-      <VAPProfileField
+      <ContactInformationField
         apiRoute={API_ROUTES.TELEPHONES}
         ContentView={ContentView}
         convertCleanDataToPayload={this.convertCleanDataToPayload}

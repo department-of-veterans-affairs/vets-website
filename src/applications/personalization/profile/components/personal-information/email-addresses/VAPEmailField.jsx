@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { API_ROUTES, FIELD_NAMES } from '@@vap-svc/constants';
 
-import VAPProfileField from '../VAPProfileField';
+import ContactInformationField from '../ContactInformationField';
 
 import EmailEditView from './EmailEditView';
 import EmailView from '@@vap-svc/components/EmailField/EmailView';
@@ -45,7 +45,7 @@ export default class EmailField extends React.Component {
 
   render() {
     return (
-      <VAPProfileField
+      <ContactInformationField
         title={this.props.title}
         fieldName={this.props.fieldName}
         apiRoute={API_ROUTES.EMAILS}
