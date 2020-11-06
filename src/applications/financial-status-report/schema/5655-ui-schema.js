@@ -8,4 +8,9 @@ export default {
   availableDebtsUI: {
     'ui:field': AvailableDebts,
   },
+  householdIncomeUI: {
+    employmentType: {
+      'ui:title': 'Type of employment',
+    },
+  },
 };
