@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 
-import { SAVED_SEPARATION_DATE } from '../../all-claims/constants';
+import {
+  SAVED_SEPARATION_DATE,
+  PTSD_MATCHES,
+} from '../../all-claims/constants';
 import {
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
@@ -36,6 +39,7 @@ import {
   isBDD,
   show526Wizard,
   isUndefined,
+  isDisabilityPtsd,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -1077,6 +1081,18 @@ describe('526 v2 depends functions', () => {
     it('should get wizard feature flag value of false', () => {
       expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
         .false;
+    });
+  });
+
+  describe('isDisabilityPTSD', () => {
+    it('should return true for all variations in PTSD_MATCHES', () => {
+      PTSD_MATCHES.forEach(ptsdString => {
+        expect(isDisabilityPtsd(ptsdString)).to.be.true;
+      });
+    });
+    it('should return false for disabilities unrealted to PTSD', () => {
+      expect(isDisabilityPtsd('uncontrollable transforming into the Hulk')).to
+        .be.false;
     });
   });
 });
