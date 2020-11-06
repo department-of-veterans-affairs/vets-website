@@ -656,8 +656,6 @@ export const ancillaryFormUploadUi = (
     },
     classNames: customClasses,
     attachmentName: false,
-    // Ask for a password when an encrypted PDF is detected
-    getEncryptedPassword: true,
   });
 
 export const isUploadingSupporting8940Documents = formData =>

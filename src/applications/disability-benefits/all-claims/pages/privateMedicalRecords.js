@@ -49,7 +49,6 @@ export const uiSchema = {
     ...fileUploadUi,
     'ui:options': {
       ...fileUploadUi['ui:options'],
-      getEncryptedPassword: true,
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: data =>
         _.get('view:hasPrivateRecordsToUpload', data, false),

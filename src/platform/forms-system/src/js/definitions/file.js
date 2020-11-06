@@ -29,9 +29,6 @@ export default function fileUiSchema(label, userOptions = {}) {
       showFieldLabel: true,
       keepInPageOnReview: true,
       classNames: 'schemaform-file-upload',
-
-      // Ask for a password when an encrypted PDF is detected
-      getEncryptedPassword: false,
       ...userOptions,
     },
     'ui:errorMessages': {

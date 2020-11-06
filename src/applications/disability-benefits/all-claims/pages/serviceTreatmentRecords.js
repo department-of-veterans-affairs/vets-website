@@ -37,7 +37,6 @@ export const uiSchema = {
     ...fileUploadUi,
     'ui:options': {
       ...fileUploadUi['ui:options'],
-      getEncryptedPassword: true,
       expandUnder: 'view:uploadServiceTreatmentRecordsQualifier',
       expandUnderCondition: data =>
         _.get('view:hasServiceTreatmentRecordsToUpload', data, false),
