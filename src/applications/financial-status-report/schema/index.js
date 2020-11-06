@@ -1,7 +1,7 @@
 export default {
   schemaFields: {
     viewVeteranInfoField: 'view:veteranInfo',
-    viewTypeOfEmploymentField: 'view:householdIncome',
+    viewHouseholdIncome: 'view:householdIncome',
     fullNameField: 'fullName',
     permanentAddressField: 'permanentAddress',
     temporaryAddressField: 'temporaryAddress',
@@ -10,5 +10,6 @@ export default {
     suppliesField: 'supplies',
     viewCurrentAddressField: 'view:currentAddress',
     availableDebts: 'view:availableDebts',
+    employmentHistory: 'view:employmentHistory',
   },
 };

@@ -9,11 +9,7 @@ import schemaFields from '../schema';
 import uiSchema from '../schema/5655-ui-schema';
 import schema from '../schema/5655-schema';
 
-const {
-  viewVeteranInfoField,
-  viewTypeOfEmploymentField,
-  availableDebts,
-} = schemaFields;
+const { viewVeteranInfoField, availableDebts } = schemaFields;
 const { veteranInfoUI, availableDebtsUI, householdIncomeUI } = uiSchema;
 const { veteranInfo, householdIncome } = schema;
 const { fullName } = veteranInfo.definitions;
@@ -123,15 +119,8 @@ const formConfig = {
         [formPageTitles.employmentHistoryTitle]: {
           path: 'household-income',
           title: formPageTitles.employmentHistoryTitle,
-          uiSchema: {
-            [viewTypeOfEmploymentField]: householdIncomeUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [viewTypeOfEmploymentField]: householdIncome,
-            },
-          },
+          uiSchema: householdIncomeUI,
+          schema: householdIncome,
         },
       },
     },

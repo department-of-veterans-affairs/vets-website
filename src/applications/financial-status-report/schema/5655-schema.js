@@ -62,9 +62,36 @@ export default {
   householdIncome: {
     type: 'object',
     properties: {
-      employmentType: {
-        type: 'string',
-        enum: ['Full-time', 'Part-time', 'Seasonal'],
+      employmentHistory: {
+        type: 'object',
+        properties: {
+          'view:hasBeenEmployed': {
+            type: 'boolean',
+          },
+          'view:isEmployed': {
+            type: 'object',
+            properties: {
+              'view:currentlyEmployed': {
+                type: 'boolean',
+              },
+              'view:isCurrentlyEmployed': {
+                type: 'object',
+                properties: {
+                  employmentType: {
+                    type: 'string',
+                    enum: ['Full-time', 'Part-time', 'Seasonal'],
+                  },
+                  employmentStart: {
+                    type: 'string',
+                  },
+                  employerName: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
   },
