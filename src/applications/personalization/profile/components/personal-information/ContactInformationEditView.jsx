@@ -6,7 +6,7 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from '@@vap-svc/util/transactions';
-import VAPEditModalActionButtons from './VAPEditModalActionButtons';
+import ContactInformationActionButtons from './ContactInformationActionButtons';
 import Vet360EditModalErrorMessage from '@@vap-svc/components/base/Vet360EditModalErrorMessage';
 
 class ContactInformationEditView extends Component {
@@ -103,7 +103,7 @@ class ContactInformationEditView extends Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     const actionButtons = (
-      <VAPEditModalActionButtons
+      <ContactInformationActionButtons
         onCancel={onCancel}
         onDelete={onDelete}
         title={title}
@@ -131,7 +131,7 @@ class ContactInformationEditView extends Component {
             </button>
           )}
         </div>
-      </VAPEditModalActionButtons>
+      </ContactInformationActionButtons>
     );
 
     return (

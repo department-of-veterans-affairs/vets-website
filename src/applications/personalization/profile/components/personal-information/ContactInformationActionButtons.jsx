@@ -5,10 +5,10 @@ import AlertBox, {
 } from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { toLower } from 'lodash';
 
-import recordEvent from 'platform/monitoring/record-event';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import recordEvent from '~/platform/monitoring/record-event';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-class VAPEditModalActionButtons extends React.Component {
+class ContactInformationActionButtons extends React.Component {
   constructor(props) {
     super(props);
 
@@ -134,7 +134,7 @@ class VAPEditModalActionButtons extends React.Component {
   }
 }
 
-VAPEditModalActionButtons.propTypes = {
+ContactInformationActionButtons.propTypes = {
   deleteEnabled: PropTypes.bool,
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
@@ -142,8 +142,8 @@ VAPEditModalActionButtons.propTypes = {
   isLoading: PropTypes.bool,
 };
 
-VAPEditModalActionButtons.defaultProps = {
+ContactInformationActionButtons.defaultProps = {
   deleteEnabled: true,
 };
 
-export default VAPEditModalActionButtons;
+export default ContactInformationActionButtons;
