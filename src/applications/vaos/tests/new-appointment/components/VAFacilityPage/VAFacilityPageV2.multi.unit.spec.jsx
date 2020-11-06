@@ -215,7 +215,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               addressLine1: '290 Ludlow Ave',
               city: 'Cincinatti',
@@ -275,7 +275,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               addressLine1: '290 Ludlow Ave',
               city: 'Cincinatti',
@@ -326,7 +326,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               addressLine1: '290 Ludlow Ave',
               city: 'Cincinatti',
@@ -426,6 +426,12 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(
       await screen.findByLabelText(/Fake facility name 1/i),
     ).to.have.attribute('checked');
+
+    expect(
+      await screen.queryByText(
+        /You’ve reached the limit for appointment request/i,
+      ),
+    ).to.be.null;
   });
 
   it('should show unsupported facilities alert with facility locator tool link', async () => {
@@ -587,6 +593,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     await screen.findByText(
       /We couldn’t find a recent appointment at this location/i,
     );
+    expect(screen.getByRole('alertdialog')).to.be.ok;
   });
 
   // TODO: should use correct eligibility info after a split type of care is changed

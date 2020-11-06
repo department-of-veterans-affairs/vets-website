@@ -17,7 +17,7 @@ describe('<CopyMailingAddress/>', () => {
       state = {
         user: {
           profile: {
-            vet360: {
+            vapContactInfo: {
               [FIELD_NAMES.MAILING_ADDRESS]: null,
             },
           },
@@ -33,7 +33,9 @@ describe('<CopyMailingAddress/>', () => {
     it('returns the required props', () => {
       const mailingAddress = { city: 'some city' };
 
-      state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = mailingAddress;
+      state.user.profile.vapContactInfo[
+        FIELD_NAMES.MAILING_ADDRESS
+      ] = mailingAddress;
       state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
         city: 'some other city',
       };
@@ -48,7 +50,7 @@ describe('<CopyMailingAddress/>', () => {
     describe('checked prop', () => {
       beforeEach(() => {
         // this is real data from staging
-        state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = {
+        state.user.profile.vapContactInfo[FIELD_NAMES.MAILING_ADDRESS] = {
           addressLine1: '36320 Coronado Dr',
           addressLine2: null,
           addressLine3: null,

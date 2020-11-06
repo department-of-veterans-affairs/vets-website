@@ -61,9 +61,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         .add(1, 'month')
         .format('MMMM');
       const buttons = screen
-        .getAllByRole('button', {
-          name: new RegExp(`(${currentMonth}|${nextMonth})`),
-        })
+        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
         .filter(button => button.disabled === false);
 
       // it should allow the user to select morning for currently selected date
@@ -82,9 +80,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(checkbox);
 
       // 4. it should allow the user to submit the form
-      let button = screen.getByRole('button', {
-        name: /^Continue/,
-      });
+      let button = screen.getByText(/^Continue/);
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.true;
@@ -94,9 +90,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       screen.history.push.reset();
 
       // 5. it should allow the user to go to the previous page
-      button = screen.getByRole('button', {
-        name: /Back$/,
-      });
+      button = screen.getByText(/^Back/);
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.true;
@@ -124,18 +118,14 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // it should not allow the user to view the previous month if viewing the current month
-      let button = screen.getByRole('button', {
-        name: 'Previous',
-      });
+      let button = screen.getByText('Previous');
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.false;
       });
 
       // it should allow the user to view the next 2 month if viewing the current month
-      button = screen.getByRole('button', {
-        name: 'Next',
-      });
+      button = screen.getByText('Next');
       userEvent.click(button);
       expect(
         screen.getByRole('heading', {
@@ -155,9 +145,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       ).to.be.ok;
 
       // it should allow the user to view the previous 2 calendar months when not viewing the current month
-      button = screen.getByRole('button', {
-        name: 'Previous',
-      });
+      button = screen.getByText('Previous');
       userEvent.click(button);
       expect(
         screen.getByRole('heading', {
@@ -175,7 +163,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       ).to.be.ok;
     });
 
-    xit('should display an alert when user selects more than 3 dates', async () => {
+    it('should display an alert when user selects more than 3 dates', async () => {
       const store = createTestStore({
         newAppointment: {
           data: {
@@ -201,9 +189,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         .add(1, 'month')
         .format('MMMM');
       const buttons = screen
-        .getAllByRole('button', {
-          name: new RegExp(`(${currentMonth}|${nextMonth})`),
-        })
+        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
         .filter(button => button.disabled === false);
 
       // it should display an alert when the users selects more than the allowed dates
@@ -277,9 +263,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         .add(1, 'month')
         .format('MMMM');
       const buttons = screen
-        .getAllByRole('button', {
-          name: new RegExp(`(${currentMonth}|${nextMonth})`),
-        })
+        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
         .filter(button => button.disabled === false);
 
       // it should display an alert when the users selects more than the allowed dates
@@ -322,9 +306,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       ).to.be.ok;
 
       // 7. it should not allow the user to submit the form
-      const button = screen.getByRole('button', {
-        name: /^Continue/,
-      });
+      const button = screen.getByText(/^Continue/);
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.false;
@@ -352,9 +334,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // it should display an alert when users tries to submit the form
-      let button = screen.getByRole('button', {
-        name: /^Continue/,
-      });
+      let button = screen.getByText(/^Continue/);
       userEvent.click(button);
 
       // NOTE: alert doesn't have a name so search for text too
@@ -366,9 +346,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       ).to.be.ok;
 
       // it should not allow user to submit the form
-      button = screen.getByRole('button', {
-        name: /^Continue/,
-      });
+      button = screen.getByText(/^Continue/);
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.false;

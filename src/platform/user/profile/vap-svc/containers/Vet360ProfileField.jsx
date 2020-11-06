@@ -303,7 +303,7 @@ const mapDispatchToProps = {
 
 /**
  * Container used to easily create components for Vet360 contact information.
- * @property {string} fieldName The name of the property as it appears in the user.profile.vet360 object.
+ * @property {string} fieldName The name of the property as it appears in the user.profile.vapContactInfo object.
  * @property {func} Content The component used to render the read-display of the field.
  * @property {func} EditModal The component used to render the contents of the field's edit-modal.
  * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
