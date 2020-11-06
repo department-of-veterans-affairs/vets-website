@@ -278,7 +278,7 @@ def archive(dockerContainer, String ref, String envName) {
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                      usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
       sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
-      sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2"
+      sh "aws s3 cp --acl-public --region us-gov-west-1 /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2"
     }
   }
 }
@@ -330,7 +330,7 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
       dockerContainer.inside(DOCKER_ARGS) {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                          usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          sh "s3-cli sync --acl-public --region us-gov-west-1 /application/.cache/content s3://vetsgov-website-builds-s3-upload/content/"
+          sh "aws s3 sync --acl-public --region us-gov-west-1 /application/.cache/content s3://vetsgov-website-builds-s3-upload/content/"
         }
       }
     } catch (error) {
