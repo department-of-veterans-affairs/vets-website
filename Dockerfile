@@ -24,8 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gconf-service l
   && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
   && apt-get update \
   && apt-get install -y google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst ttf-freefont \
-    --no-install-recommends \
-  && npm install -g s3-cli
+    --no-install-recommends
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
