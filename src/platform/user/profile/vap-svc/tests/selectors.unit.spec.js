@@ -17,7 +17,7 @@ const hooks = {
     const user = {
       profile: {
         services: [backendServices.VET360],
-        vet360: {},
+        vapContactInfo: {},
       },
     };
 
@@ -76,7 +76,7 @@ describe('selectors', () => {
   describe('selectVet360Field', () => {
     beforeEach(hooks.beforeEach);
     it('looks up a field from the user vet360 data', () => {
-      state.user.profile.vet360 = { someField: 'data' };
+      state.user.profile.vapContactInfo = { someField: 'data' };
       expect(selectors.selectVet360Field(state, 'someField')).to.equal('data');
     });
   });

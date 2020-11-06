@@ -166,7 +166,7 @@ describe('mapStateToProps', () => {
   const getBasicState = () => ({
     user: {
       profile: {
-        vet360: {
+        vapContactInfo: {
           mobilePhone: '',
         },
       },
@@ -226,7 +226,7 @@ describe('mapStateToProps', () => {
     const showValidationModalState = () => ({
       user: {
         profile: {
-          vet360: {
+          vapContactInfo: {
             mailingAddress: '',
           },
         },

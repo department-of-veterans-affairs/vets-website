@@ -39,9 +39,12 @@ export function RatedSearchResult({
 }) {
   const queryParams = useQueryParams();
   const estimate = ({ ratedQualifier, value }) => {
+    const formattedValue = ratedQualifier.includes('%')
+      ? value
+      : formatCurrency(value);
     return (
       <span>
-        {formatCurrency(value)}
+        {formattedValue}
         {ratedQualifier}
       </span>
     );
@@ -100,7 +103,12 @@ export function RatedSearchResult({
                 <div className="vads-u-font-weight--bold columns small-4 medium-3">
                   Tuition:
                 </div>
-                <div className="columns small-8 medium-9">{tuition}</div>
+                <div
+                  className="columns small-8 medium-9"
+                  id={`tuition-value-${facilityCode}`}
+                >
+                  {tuition}
+                </div>
               </div>
               <div className="row">
                 <div className="vads-u-font-weight--bold columns small-4 medium-3">
@@ -117,7 +125,12 @@ export function RatedSearchResult({
                 <div className="vads-u-font-weight--bold columns small-4 medium-3">
                   Books:
                 </div>
-                <div className="columns small-8 medium-9">{books}</div>
+                <div
+                  className="columns small-8 medium-9"
+                  id={`books-value-${facilityCode}`}
+                >
+                  {books}
+                </div>
               </div>
             </div>
 

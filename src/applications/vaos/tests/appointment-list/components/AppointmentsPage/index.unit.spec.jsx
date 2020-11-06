@@ -503,7 +503,7 @@ describe('VAOS integration: appointment list', () => {
       user: {
         profile: {
           ...userState.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               // Northampton, MA
               latitude: 42.3495,
