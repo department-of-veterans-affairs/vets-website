@@ -60,7 +60,9 @@ module.exports = {
       },
     },
     fieldVaFormAdministration: { $ref: 'output/taxonomy_term-administration' },
-    fieldAlert: { $ref: 'BlockContent' },
+    fieldAlert: {
+      oneOf: [{ $ref: 'BlockContent' }, { type: 'null' }],
+    },
     fieldVaFormIssueDate: dateSchema,
     fieldVaFormLinkTeasers: {
       type: 'array',
