@@ -46,16 +46,13 @@
             {% elsif forloop.last == false %}
                 <tr class="vads-u-padding-top--5" role="row">
                     {% for column in value %}
-                        <dfn>
                             <td class="vads-u-padding-bottom--0 column-label vads-u-font-weight--bold medium-screen:vads-u-display--none" role="cell">
-                                {{colLabels | getValueFromObjPath: forloop.index0}}
+                                <dfn> {{colLabels | getValueFromObjPath: forloop.index0}}      </dfn>
                             </td>
-                        </dfn>
-                        <dfn>
                             <td class="vads-u-padding-top--0 vads-u-padding-bottom--8px column-value"  role="cell">
-                                {{ column }}
+                                <dfn> {{ column }}  </dfn>
                             </td>
-                        </dfn>
+                      
                     {% endfor %}
                 </tr>
             {% endif %}
