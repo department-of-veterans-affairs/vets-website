@@ -66,10 +66,17 @@ export function ClinicChoicePage({
   const usingUnsupportedRequestFlow =
     data.clinicId === 'NONE' && !canMakeRequests;
   useEffect(() => {
-    document.title = `${getPageTitle(schema, typeOfCare)} | Veterans Affairs`;
     openClinicPage(pageKey, uiSchema, initialSchema);
     scrollAndFocus();
   }, []);
+
+  useEffect(
+    () => {
+      scrollAndFocus();
+      document.title = `${getPageTitle(schema, typeOfCare)} | Veterans Affairs`;
+    },
+    [schema && facilityDetailsStatus !== FETCH_STATUS.loading],
+  );
 
   if (!schema || facilityDetailsStatus === FETCH_STATUS.loading) {
     return <LoadingIndicator message="Loading your facility and clinic info" />;

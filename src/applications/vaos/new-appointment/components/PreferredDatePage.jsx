@@ -97,7 +97,6 @@ const mapDispatchToProps = {
   openFormPage: actions.openFormPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  submitExpressCareRequest: actions.submitExpressCareRequest,
   updateFormData: actions.updateFormData,
 };
 

@@ -38,22 +38,22 @@ export function ConfirmationPage({
     ? 'Your appointment has been scheduled'
     : 'Your appointment request has been submitted';
   useEffect(() => {
+    if (history && !data?.typeOfCareId) {
+      history.replace('/new-appointment');
+    }
+
+    if (
+      !facilityDetails &&
+      data?.vaFacility &&
+      data?.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
+    ) {
+      // Remove parse function when converting this call to FHIR service
+      fetchFacilityDetails(data.vaFacility);
+    }
+
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
-
-  if (history && !data?.typeOfCareId) {
-    history.replace('/new-appointment');
-  }
-
-  if (
-    !facilityDetails &&
-    data.vaFacility &&
-    data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
-  ) {
-    // Remove parse function when converting this call to FHIR service
-    fetchFacilityDetails(data.vaFacility);
-  }
 
   return (
     <div>
