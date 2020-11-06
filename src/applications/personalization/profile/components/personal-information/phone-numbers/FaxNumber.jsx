@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PhoneField from './VAPPhoneField';
+import PhoneField from './PhoneField';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 
