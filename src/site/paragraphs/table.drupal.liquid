@@ -42,6 +42,7 @@
                         {% endfor %}
                     </tr>
                 </thead>
+            <!-- this elsif is here to prevent the caption from showing up as a row -->
             {% elsif forloop.last == false %}
                 <tr class="vads-u-padding-top--5" role="row">
                     {% for column in value %}
