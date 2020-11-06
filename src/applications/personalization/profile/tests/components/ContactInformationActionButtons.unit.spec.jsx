@@ -2,9 +2,9 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import VAPEditModalActionButtons from '@@profile/components/personal-information/VAPEditModalActionButtons';
+import ContactInformationActionButtons from '@@profile/components/personal-information/ContactInformationActionButtons';
 
-describe('<VAPEditModalActionButtons/>', () => {
+describe('<ContactInformationActionButtons/>', () => {
   let props = null;
 
   beforeEach(() => {
@@ -19,9 +19,9 @@ describe('<VAPEditModalActionButtons/>', () => {
 
   it('renders correctly when delete enabled', () => {
     const component = enzyme.shallow(
-      <VAPEditModalActionButtons {...props}>
+      <ContactInformationActionButtons {...props}>
         <p>Children</p>
-      </VAPEditModalActionButtons>,
+      </ContactInformationActionButtons>,
     );
 
     expect(component.html(), 'renders children components').to.contain(
@@ -37,9 +37,9 @@ describe('<VAPEditModalActionButtons/>', () => {
 
   it('renders correctly when delete triggered', () => {
     const component = enzyme.shallow(
-      <VAPEditModalActionButtons {...props}>
+      <ContactInformationActionButtons {...props}>
         <p>Children</p>
-      </VAPEditModalActionButtons>,
+      </ContactInformationActionButtons>,
     );
 
     component.setState({
@@ -63,9 +63,9 @@ describe('<VAPEditModalActionButtons/>', () => {
 
   it('renders correctly when delete disabled', () => {
     const component = enzyme.shallow(
-      <VAPEditModalActionButtons {...props}>
+      <ContactInformationActionButtons {...props}>
         <p>Children</p>
-      </VAPEditModalActionButtons>,
+      </ContactInformationActionButtons>,
     );
 
     expect(component.html(), 'renders children components').to.contain(

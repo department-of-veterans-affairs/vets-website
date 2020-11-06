@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EmailField from './VAPEmailField';
+import EmailField from './EmailField';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 

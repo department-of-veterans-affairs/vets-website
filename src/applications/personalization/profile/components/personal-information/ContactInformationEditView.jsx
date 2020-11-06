@@ -1,15 +1,15 @@
 import React, { Component, memo } from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import {
   isFailedTransaction,
   isPendingTransaction,
 } from '@@vap-svc/util/transactions';
-import VAPEditModalActionButtons from './VAPEditModalActionButtons';
+import ContactInformationActionButtons from './ContactInformationActionButtons';
 import Vet360EditModalErrorMessage from '@@vap-svc/components/base/Vet360EditModalErrorMessage';
 
-class VAPEditView extends Component {
+class ContactInformationEditView extends Component {
   static propTypes = {
     analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
@@ -103,7 +103,7 @@ class VAPEditView extends Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     const actionButtons = (
-      <VAPEditModalActionButtons
+      <ContactInformationActionButtons
         onCancel={onCancel}
         onDelete={onDelete}
         title={title}
@@ -131,7 +131,7 @@ class VAPEditView extends Component {
             </button>
           )}
         </div>
-      </VAPEditModalActionButtons>
+      </ContactInformationActionButtons>
     );
 
     return (
@@ -154,4 +154,4 @@ class VAPEditView extends Component {
   }
 }
 
-export default memo(VAPEditView);
+export default memo(ContactInformationEditView);

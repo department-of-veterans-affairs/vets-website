@@ -3,11 +3,11 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-import VAPEditView from '@@profile/components/personal-information/VAPEditView';
+import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 
-describe('<VAPEditView/>', () => {
+describe('<ContactInformationEditView/>', () => {
   let props = null;
   let component = null;
 
@@ -38,7 +38,7 @@ describe('<VAPEditView/>', () => {
 
     props.render = () => <div>Rendered output</div>;
 
-    component = enzyme.shallow(<VAPEditView {...props} />);
+    component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
     expect(
       props.onChangeFormDataAndSchemas.calledWith(initialFormValues),
@@ -61,7 +61,7 @@ describe('<VAPEditView/>', () => {
     it('is `true` if the transactionRequest is pending', () => {
       props.transactionRequest = { isPending: true };
       props.render = actionButtons => actionButtons;
-      component = enzyme.shallow(<VAPEditView {...props} />);
+      component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const loadingButton = component.find(LoadingButton);
       expect(loadingButton.prop('isLoading')).to.be.true;
@@ -78,7 +78,7 @@ describe('<VAPEditView/>', () => {
         },
       };
       props.render = actionButtons => actionButtons;
-      component = enzyme.shallow(<VAPEditView {...props} />);
+      component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const loadingButton = component.find(LoadingButton);
       expect(loadingButton.prop('isLoading')).to.be.true;
@@ -96,7 +96,7 @@ describe('<VAPEditView/>', () => {
         },
       };
       props.render = actionButtons => actionButtons;
-      component = enzyme.shallow(<VAPEditView {...props} />);
+      component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const loadingButton = component.find(LoadingButton);
       expect(loadingButton.prop('isLoading')).to.be.false;
@@ -111,7 +111,7 @@ describe('<VAPEditView/>', () => {
     it('is hidden when the transactionRequest is pending', () => {
       props.transactionRequest = { isPending: true };
       props.render = actionButtons => actionButtons;
-      component = enzyme.mount(<VAPEditView {...props} />);
+      component = enzyme.mount(<ContactInformationEditView {...props} />);
       expect(component.text()).to.not.include('Cancel');
       component.unmount();
     });
@@ -119,7 +119,7 @@ describe('<VAPEditView/>', () => {
     it('is visible when the transactionRequest is not pending', () => {
       props.transactionRequest = { isPending: false };
       props.render = actionButtons => actionButtons;
-      component = enzyme.mount(<VAPEditView {...props} />);
+      component = enzyme.mount(<ContactInformationEditView {...props} />);
       expect(component.text()).to.include('Cancel');
       component.unmount();
     });
@@ -127,7 +127,7 @@ describe('<VAPEditView/>', () => {
 
   describe('Vet360EditModalErrorMessage', () => {
     it("is not shown if there isn't an error", () => {
-      component = enzyme.shallow(<VAPEditView {...props} />);
+      component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const errorMessage = component.find('Vet360EditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(0);
@@ -136,7 +136,7 @@ describe('<VAPEditView/>', () => {
     });
     it('is shown if there is a transactionRequest error', () => {
       props.transactionRequest = { error: true };
-      component = enzyme.shallow(<VAPEditView {...props} />);
+      component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const errorMessage = component.find('Vet360EditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(1);
@@ -145,7 +145,7 @@ describe('<VAPEditView/>', () => {
     });
     it('is shown if there is a transactionRequest error', () => {
       props.transactionRequest = { error: {} };
-      component = enzyme.shallow(<VAPEditView {...props} />);
+      component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const errorMessage = component.find('Vet360EditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(1);
@@ -160,7 +160,7 @@ describe('<VAPEditView/>', () => {
           },
         },
       };
-      component = enzyme.shallow(<VAPEditView {...props} />);
+      component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const errorMessage = component.find('Vet360EditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(1);

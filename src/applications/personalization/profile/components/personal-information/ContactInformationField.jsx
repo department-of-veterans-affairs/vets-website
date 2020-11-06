@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
-import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import { focusElement } from '~/platform/utilities/ui';
+import recordEvent from '~/platform/monitoring/record-event';
+import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
-import * as VET360 from '@@vap-svc/constants';
+import * as VAP_SERVICE from '@@vap-svc/constants';
 
 import {
   isFailedTransaction,
@@ -32,7 +32,7 @@ import {
   selectVet360Transaction,
 } from '@@vap-svc/selectors';
 
-import VAPEditButton from './VAPEditButton';
+import ContactInformationEditButton from './ContactInformationEditButton';
 import Vet360Transaction from '@@vap-svc/components/base/Vet360Transaction';
 
 const wrapperClasses = prefixUtilityClasses([
@@ -61,7 +61,7 @@ const classes = {
   editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
 };
 
-class VAPProfileField extends React.Component {
+class ContactInformationField extends React.Component {
   static propTypes = {
     ContentView: PropTypes.func.isRequired,
     data: PropTypes.object,
@@ -264,7 +264,9 @@ class VAPProfileField extends React.Component {
       ValidationView,
     } = this.props;
 
-    const activeSection = VET360.FIELD_TITLES[activeEditView]?.toLowerCase();
+    const activeSection = VAP_SERVICE.FIELD_TITLES[
+      activeEditView
+    ]?.toLowerCase();
 
     const childProps = {
       ...this.props,
@@ -298,7 +300,7 @@ class VAPProfileField extends React.Component {
       <div className={classes.wrapper}>
         <ContentView data={this.props.data} />
         {this.isEditLinkVisible() && (
-          <VAPEditButton
+          <ContactInformationEditButton
             onEditClick={this.onEdit}
             fieldName={fieldName}
             title={title}
@@ -419,7 +421,7 @@ export const mapStateToProps = (state, ownProps) => {
 
   return {
     hasUnsavedEdits: state.vet360.hasUnsavedEdits,
-    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
+    analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
     blockEditMode: !!activeEditView,
     /*
     This ternary is to deal with an edge case: if the user is currently viewing
@@ -462,21 +464,21 @@ const mapDispatchToProps = {
  * @property {string} apiRoute The API route used to create/update/delete the VA Profile contact info field.
  * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in the VA Profile service.
  */
-const Vet360ProfileFieldContainer = connect(
+const ContactInformationFieldContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(VAPProfileField);
+)(ContactInformationField);
 
-Vet360ProfileFieldContainer.propTypes = {
-  fieldName: PropTypes.oneOf(Object.values(VET360.FIELD_NAMES)).isRequired,
+ContactInformationFieldContainer.propTypes = {
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   ContentView: PropTypes.func.isRequired,
   EditView: PropTypes.func.isRequired,
   ValidationView: PropTypes.func,
   title: PropTypes.string.isRequired,
-  apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
   hasUnsavedEdits: PropTypes.bool,
 };
 
-export default Vet360ProfileFieldContainer;
-export { VAPProfileField };
+export default ContactInformationFieldContainer;
+export { ContactInformationField };

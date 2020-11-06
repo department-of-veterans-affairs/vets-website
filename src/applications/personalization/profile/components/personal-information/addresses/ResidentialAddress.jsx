@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AddressField from './VAPAddressField';
+import AddressField from './AddressField';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 
