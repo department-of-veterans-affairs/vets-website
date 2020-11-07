@@ -539,6 +539,11 @@ $facility-locator-color-gray: #ccc;
   pointer-events: auto;
   color: #ffffff;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+
+  @media(max-width: $small-screen) {
+    width: 235px;
+    height: 43px;
+  }
 }
 
 .mapboxgl-ctrl-top-center {
