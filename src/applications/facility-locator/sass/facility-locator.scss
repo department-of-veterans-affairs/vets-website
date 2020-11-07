@@ -539,9 +539,27 @@ $facility-locator-color-gray: #ccc;
   pointer-events: auto;
   color: #ffffff;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+}
 
-  @media(max-width: $small-screen) {
-    width: 235px;
-    height: 43px;
-  }
+.mapboxgl-ctrl-top-center {
+  //top: 0;
+  left: 35%;
+  position:absolute;
+  pointer-events:none;
+  //z-index:0;
+}
+
+.mapboxgl-ctrl-top-center .mapboxgl-ctrl {
+  margin:15px 0 0 15px;
+}
+
+.mapboxgl-ctrl-bottom-center {
+  bottom: 40px;
+  left: 22%;
+  position:absolute;
+  pointer-events:none;
+}
+
+.mapboxgl-ctrl-bottom-center .mapboxgl-ctrl {
+  margin:15px 0 0 15px;
 }

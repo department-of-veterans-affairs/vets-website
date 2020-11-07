@@ -23,7 +23,12 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
-import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
+import {
+  setFocus,
+  buildMarker,
+  resetMapElements,
+  setSearchAreaPosition,
+} from '../utils/helpers';
 import { MapboxInit, MARKER_LETTERS } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
@@ -214,10 +219,10 @@ const FacilitiesMap = props => {
       zoom: MapboxInit.zoomInit,
     });
 
-    const searchAreaControl = new SearchAreaControl();
+    const searchAreaControl = new SearchAreaControl(isMobile);
     mapInit.addControl(searchAreaControl);
     mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
-
+    setSearchAreaPosition();
     mapInit.on('load', () => {
       setMapInit(mapInit);
       mapInit.resize();
@@ -242,7 +247,7 @@ const FacilitiesMap = props => {
     // Set dragend to track map-moved ga event
     map.on('dragend', () => {
       const searchAreaControlId = document.getElementById(
-        'search-area-control',
+        'search-area-control-container',
       );
 
       if (searchAreaControlId.style.display === 'none') {

@@ -55,7 +55,9 @@ export const buildMarker = (type, values) => {
 };
 
 export const clearSearchAreaCtrl = () => {
-  const searchAreaControlId = document.getElementById('search-area-control');
+  const searchAreaControlId = document.getElementById(
+    'search-area-control-container',
+  );
 
   if (searchAreaControlId) {
     searchAreaControlId.style.display = 'none';
@@ -65,6 +67,18 @@ export const clearSearchAreaCtrl = () => {
 export const resetMapElements = () => {
   clearLocationMarkers();
   clearSearchAreaCtrl();
+};
+
+export const setSearchAreaPosition = () => {
+  const searchAreaContainer = document.getElementById(
+    'search-area-control-container',
+  );
+  document
+    .querySelector('.mapboxgl-control-container')
+    .appendChild(searchAreaContainer);
+  document
+    .querySelectorAll('.mapboxgl-ctrl-top-right')
+    .forEach(el => el.remove());
 };
 
 /**
