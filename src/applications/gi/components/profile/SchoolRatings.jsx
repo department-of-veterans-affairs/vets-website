@@ -44,24 +44,26 @@ export default function SchoolRatings({
 
   return (
     <div className="school-ratings vads-l-grid-container vads-u-padding--0">
-      <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif">
-        {ratingCount} Veterans rated this institution:
-      </div>
-      <div className="vads-l-row">
-        <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
-          <div className="vads-u-font-weight--bold vads-u-font-size--2xl">
-            {stars.display}
-          </div>
-          <div>out of a possible 5 stars</div>
-          <div className="vads-u-font-size--lg">
-            {renderStars(ratingAverage)}
+      <div className="ratings-heading">
+        <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif">
+          {ratingCount} Veterans rated this institution:
+        </div>
+        <div className="vads-l-row">
+          <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
+            <div className="vads-u-font-weight--bold vads-u-font-size--2xl">
+              {stars.display}
+            </div>
+            <div>out of a possible 5 stars</div>
+            <div className="vads-u-font-size--lg">
+              {renderStars(ratingAverage)}
+            </div>
           </div>
         </div>
       </div>
 
       <div className="vads-l-row">
         <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12">
-          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif vads-u-padding-top--3 school-ratings-accordion-headings">
+          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings">
             Education ratings
           </div>
 
@@ -94,7 +96,7 @@ export default function SchoolRatings({
         </div>
 
         <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12 ">
-          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif vads-u-padding-top--3 school-ratings-accordion-headings">
+          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings">
             Veteran friendliness
           </div>
           <div className="vads-u-padding-left--0">
