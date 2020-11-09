@@ -33,6 +33,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
+  defaultDefinitions: {},
   savedFormMessages: {
     notFound:
       'Please start over to submit an application for financial hardship assistance.',
