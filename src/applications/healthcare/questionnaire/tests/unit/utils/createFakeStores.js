@@ -20,7 +20,7 @@ const createFakeUserStore = (
           },
           dob: '1924-12-19',
           gender,
-          vet360: {
+          vapContactInfo: {
             mobilePhone: phones.hasMobile
               ? {
                   areaCode: '503',
@@ -161,9 +161,17 @@ const createFakeUserStore = (
   };
 };
 
-const createFakeChiefComplaintStore = () => {
+const createFakeReasonForVisitDescriptionStore = reason => {
   return {
-    getState: () => ({}),
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [{ bookingNotes: reason }],
+          },
+        },
+      },
+    }),
     subscribe: () => {},
     dispatch: () => {},
   };
@@ -172,8 +180,12 @@ const createFakeChiefComplaintStore = () => {
 const createFakeReasonForVisitStore = ({ reason = '' }) => {
   return {
     getState: () => ({
-      clipboardAppointmentDetails: {
-        reasonForVisit: reason,
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [{ bookingNotes: reason }],
+          },
+        },
       },
     }),
     subscribe: () => {},
@@ -211,9 +223,39 @@ const createFakeConfirmationStore = ({ hasData }) => {
   };
 };
 
+const createFakeIntroductionPageStore = (formId, savedForms) => {
+  return {
+    getState: () => ({
+      form: {
+        pages: [],
+        formId,
+      },
+      user: {
+        profile: {
+          savedForms: [...savedForms],
+        },
+      },
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [
+              { clinic: { facility: { displayName: 'Magic Kingdom' } } },
+            ],
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => ({
+      toggleLoginModal: () => {},
+    }),
+  };
+};
+
 export {
   createFakeUserStore,
-  createFakeChiefComplaintStore,
+  createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
   createFakeConfirmationStore,
+  createFakeIntroductionPageStore,
 };

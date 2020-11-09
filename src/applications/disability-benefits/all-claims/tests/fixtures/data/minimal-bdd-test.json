@@ -23,7 +23,6 @@
         "view:hasServiceTreatmentRecordsToUpload": false
       },
       "view:powStatus": false,
-      "view:newDisabilities": true,
       "view:disabilitiesClarification": {},
       "serviceInformation": {
         "reservesNationalGuardService": {
@@ -59,7 +58,6 @@
       "newDisabilities": [
         {
           "cause": "NEW",
-          "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
           "condition": "asthma",
           "view:descriptionInfo": {}
         }

@@ -6,13 +6,16 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
-import ChiefComplaint from '../components/chief-complaint';
+import ReasonForVisitDescription from '../components/reason-for-visit-description';
 import GetHelp from '../components/get-help';
 
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import manifest from '../manifest.json';
+
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
   trackingPrefix: 'healthcare-questionnaire',
@@ -25,6 +28,13 @@ const formConfig = {
     });
   },
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
+  saveInProgress: {
+    messages: {
+      expired:
+        'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
+      saved: 'Your appointment questionnaire application has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   footerContent: GetHelp.footer,
@@ -38,6 +48,14 @@ const formConfig = {
   },
   title: 'Upcoming appointment questionnaire',
   defaultDefinitions: {},
+  customText: {
+    reviewPageTitle: 'Review',
+    appType: 'questionnaire',
+    appAction: 'answering questions',
+    continueAppButtonText: 'Continue questions',
+    finishAppLaterMessage: 'Finish this questionnaire later',
+    appSavedSuccessfullyMessage: 'Questionnaire has been saved',
+  },
   chapters: {
     chapter1: {
       title: "Veteran's Information",
@@ -65,19 +83,19 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Prepare for Your Appointment',
+      title: 'Prepare for your visit',
       pages: {
         reasonForVisit: {
           path: 'reason-for-visit',
-          title: 'Prepare for Your Appointment',
+          title: 'Prepare for your visit',
           uiSchema: {
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
               'ui:title': ' ',
               'ui:reviewField': ReasonForVisit.review,
             },
-            chiefComplaint: {
-              'ui:widget': ChiefComplaint.field,
+            reasonForVisitDescription: {
+              'ui:widget': ReasonForVisitDescription.field,
               'ui:title': (
                 <span>
                   Are there any additional details you’d like to share with your
@@ -89,9 +107,10 @@ const formConfig = {
               'ui:widget': 'textarea',
               'ui:title': (
                 <span>
-                  Are there any life events that are positively or negatively
-                  affecting your health (e.g. marriage, divorce, new job,
-                  retirement, parenthood, or finances)?
+                  Are there any other concerns or changes in your life that are
+                  affecting you or your health? (For example, a marriage,
+                  divorce, new baby, change in your job, or other medical
+                  conditions)
                 </span>
               ),
             },
@@ -99,27 +118,27 @@ const formConfig = {
               items: {
                 additionalQuestions: {
                   'ui:title':
-                    'Do you have other questions you want to ask your provider? Please enter them below with your most important question listed first.',
+                    'Do you have a question you want to ask your provider? Please enter your most important question first.',
                 },
               },
               'ui:options': {
                 keepInPageOnReview: true,
-                itemName: 'Question',
+                itemName: 'question',
                 viewField: formData => {
                   return <>{formData.formData.additionalQuestions}</>;
                 },
               },
-              'ui:title': 'Ranked questions for your provider',
+              'ui:title': 'Additional questions for your provider',
             },
           },
           schema: {
             type: 'object',
-            required: ['chiefComplaint'],
+            required: ['reasonForVisitDescription'],
             properties: {
               reasonForVisit: {
                 type: 'string',
               },
-              chiefComplaint: {
+              reasonForVisitDescription: {
                 type: 'string',
               },
               lifeEvents: {

@@ -23,7 +23,7 @@ const ConfirmationPage = props => {
   const { submission } = form || undefined;
   const { response } = submission || {};
   return (
-    <div>
+    <div className="healthcare-questionnaire-confirm">
       <div className="usa-alert usa-alert-success schemaform-sip-alert">
         <div className="usa-alert-body">
           <h2 className="usa-alert-heading">

@@ -133,7 +133,7 @@ describe('Schemaform review <ArrayField>', () => {
       items: {},
       'ui:options': {
         viewField: f => f,
-        itemName: 'Item name',
+        itemName: 'item name',
       },
     };
     const arrayData = [{}, {}];
@@ -153,9 +153,11 @@ describe('Schemaform review <ArrayField>', () => {
     );
 
     tree.getMountedInstance().handleAdd();
-    expect(tree.everySubTree('h5')[0].text()).to.equal('New Item name');
+    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
+      'New item name',
+    );
     expect(tree.everySubTree('button')[2].text()).to.equal(
-      'Add Another Item name',
+      'Add another item name',
     );
   });
   it('should render array warning', () => {
@@ -295,11 +297,11 @@ describe('Schemaform review <ArrayField>', () => {
       expect(tree.everySubTree('SchemaForm').length).to.equal(2);
     });
     it('enforces max items', () => {
-      expect(tree.subTree('.edit-btn').props.disabled).to.be.false;
+      expect(tree.subTree('.add-btn').props.disabled).to.be.false;
 
       tree.getMountedInstance().handleAdd();
 
-      expect(tree.subTree('.edit-btn').props.disabled).to.be.true;
+      expect(tree.subTree('.add-btn').props.disabled).to.be.true;
     });
     it('remove', () => {
       expect(tree.everySubTree('SchemaForm').length).to.equal(1);

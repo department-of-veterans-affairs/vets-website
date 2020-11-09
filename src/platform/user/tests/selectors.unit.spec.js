@@ -3,11 +3,11 @@ import * as selectors from '../selectors';
 
 describe('user selectors', () => {
   describe('selectVet360', () => {
-    it('pulls out the state.profile.vet360 data', () => {
+    it('pulls out the state.profile.vapContactInfo data', () => {
       const state = {
         user: {
           profile: {
-            vet360: {
+            vapContactInfo: {
               email: {
                 emailAddress: '123@va.com',
               },
@@ -15,8 +15,8 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectVet360(state)).to.deep.equal(
-        state.user.profile.vet360,
+      expect(selectors.selectVAPContactInfo(state)).to.deep.equal(
+        state.user.profile.vapContactInfo,
       );
     });
     it('returns undefined if there is no vet360 on the profile', () => {
@@ -25,16 +25,16 @@ describe('user selectors', () => {
           profile: {},
         },
       };
-      expect(selectors.selectVet360(state)).to.be.undefined;
+      expect(selectors.selectVAPContactInfo(state)).to.be.undefined;
     });
   });
 
   describe('selectVet360EmailAddress', () => {
-    it('pulls out the state.profile.vet360.emailAddress', () => {
+    it('pulls out the state.profile.vapContactInfo.emailAddress', () => {
       const state = {
         user: {
           profile: {
-            vet360: {
+            vapContactInfo: {
               email: {
                 createdAt: '2019-10-11T12:42:14.000Z',
                 emailAddress: 'testertester2@mail.com',
@@ -52,7 +52,7 @@ describe('user selectors', () => {
         },
       };
       expect(selectors.selectVet360EmailAddress(state)).to.equal(
-        state.user.profile.vet360.email.emailAddress,
+        state.user.profile.vapContactInfo.email.emailAddress,
       );
     });
     it('returns undefined if there is no vet360 on the profile', () => {
@@ -67,7 +67,7 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            vet360: {},
+            vapContactInfo: {},
           },
         },
       };
@@ -99,18 +99,18 @@ describe('user selectors', () => {
     };
 
     describe('selectVet360MobilePhone', () => {
-      it('pulls out the state.profile.vet360.mobilePhone data object', () => {
+      it('pulls out the state.profile.vapContactInfo.mobilePhone data object', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 mobilePhone: phoneNumberData,
               },
             },
           },
         };
         expect(selectors.selectVet360MobilePhone(state)).to.deep.equal(
-          state.user.profile.vet360.mobilePhone,
+          state.user.profile.vapContactInfo.mobilePhone,
         );
       });
       it('returns undefined if there is no vet360 on the profile', () => {
@@ -125,7 +125,7 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {},
+              vapContactInfo: {},
             },
           },
         };
@@ -138,7 +138,7 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 mobilePhone: phoneNumberData,
               },
             },
@@ -152,7 +152,7 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 mobilePhone: { ...phoneNumberData, extension: '1234' },
               },
             },
@@ -166,7 +166,7 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 mobilePhone: { ...phoneNumberData, extension: '0000' },
               },
             },
@@ -179,18 +179,18 @@ describe('user selectors', () => {
     });
 
     describe('selectVet360HomePhone', () => {
-      it('pulls out the state.profile.vet360.homePhone data object', () => {
+      it('pulls out the state.profile.vapContactInfo.homePhone data object', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 homePhone: phoneNumberData,
               },
             },
           },
         };
         expect(selectors.selectVet360HomePhone(state)).to.deep.equal(
-          state.user.profile.vet360.homePhone,
+          state.user.profile.vapContactInfo.homePhone,
         );
       });
       it('returns undefined if there is no vet360 on the profile', () => {
@@ -205,7 +205,7 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {},
+              vapContactInfo: {},
             },
           },
         };
@@ -218,7 +218,7 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 homePhone: phoneNumberData,
               },
             },
@@ -232,7 +232,7 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 homePhone: { ...phoneNumberData, extension: '1234' },
               },
             },
@@ -242,6 +242,28 @@ describe('user selectors', () => {
           '4158453210x1234',
         );
       });
+    });
+  });
+
+  describe('selectVeteranStatus', () => {
+    it('pulls out the veteranStatus object', () => {
+      const state = {
+        user: {
+          profile: {
+            veteranStatus: {
+              status: 'OK',
+              isVeteran: true,
+              servedInMilitary: true,
+            },
+          },
+        },
+      };
+      const expected = {
+        status: 'OK',
+        isVeteran: true,
+        servedInMilitary: true,
+      };
+      expect(selectors.selectVeteranStatus(state)).to.deep.equal(expected);
     });
   });
 
@@ -265,6 +287,46 @@ describe('user selectors', () => {
       expect(selectors.selectPatientFacilities(state)).to.deep.equal(
         state.user.profile.facilities,
       );
+    });
+    it('pulls out the state.profile.facilities array and adds Cerner capability flags to Cerner facilities', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '984', isCerner: false },
+              { facilityId: '668', isCerner: true },
+              { facilityId: '757', isCerner: false },
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        { facilityId: '984', isCerner: false },
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: false,
+          usesCernerMessaging: false,
+          usesCernerRx: false,
+          usesCernerTestResults: false,
+        },
+      ];
+      expect(selectors.selectPatientFacilities(state)).to.deep.equal(expected);
     });
     it('returns undefined if there is no facilities on the profile', () => {
       const state = {
@@ -361,6 +423,35 @@ describe('user selectors', () => {
     });
   });
 
+  describe('isVAPatient', () => {
+    it('returns `true` if the profile.vaPatient is `true`', () => {
+      const state = {
+        user: {
+          profile: {
+            vaPatient: true,
+          },
+        },
+      };
+      expect(selectors.isVAPatient(state)).to.be.true;
+    });
+    it('returns `false` if the profile.vaPatient is anything other than `true`', () => {
+      const state = {
+        user: {
+          profile: {
+            vaPatient: 'blah',
+          },
+        },
+      };
+      expect(selectors.isVAPatient(state)).to.be.false;
+      delete state.user.profile.vaPatient;
+      expect(selectors.isVAPatient(state)).to.be.false;
+      delete state.user.profile;
+      expect(selectors.isVAPatient(state)).to.be.false;
+      delete state.user;
+      expect(selectors.isVAPatient(state)).to.be.false;
+    });
+  });
+
   describe('isInMPI', () => {
     it('returns `true` if the profile.status is `OK`', () => {
       const state = {
@@ -401,13 +492,197 @@ describe('user selectors', () => {
       const state = {
         user: {
           profile: {
-            status: 'ERROR',
+            veteranStatus: {
+              status: 'ERROR',
+            },
           },
         },
       };
       expect(selectors.isInMPI(state)).to.be.false;
       delete state.user.profile;
       expect(selectors.isInMPI(state)).to.be.false;
+    });
+  });
+
+  describe('selectCernerRxFacilities', () => {
+    it('returns the Cerner facilities that are not in the RX blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, but blocked from RX
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from RX
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(selectors.selectCernerRxFacilities(state)).to.deep.equal(expected);
+    });
+  });
+
+  describe('selectCernerMessagingFacilities', () => {
+    it('returns the Cerner facilities that are not in the messaging blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, but blocked from messaging
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from messaging
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(selectors.selectCernerMessagingFacilities(state)).to.deep.equal(
+        expected,
+      );
+    });
+  });
+
+  describe('selectCernerAppointmentsFacilities', () => {
+    it('returns the Cerner facilities that are not in the appointments blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, not blocked from appointments
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from appointments
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: false,
+          usesCernerMessaging: false,
+          usesCernerRx: false,
+          usesCernerTestResults: false,
+        },
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(selectors.selectCernerAppointmentsFacilities(state)).to.deep.equal(
+        expected,
+      );
+    });
+  });
+
+  describe('selectCernerMedicalRecordsFacilities', () => {
+    it('returns the Cerner facilities that are not in the medical records blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, blocked from medical records
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from medical records
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(
+        selectors.selectCernerMedicalRecordsFacilities(state),
+      ).to.deep.equal(expected);
+    });
+  });
+
+  describe('selectCernerTestResultsFacilities', () => {
+    it('returns the Cerner facilities that are not in the test results blocklist', () => {
+      const state = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          show_new_schedule_view_appointments_page: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false }, // not cerner
+              { facilityId: '757', isCerner: false }, // cerner, blocked from test results
+              { facilityId: '668', isCerner: true }, // cerner, not blocked from test results
+            ],
+            isCernerPatient: true,
+          },
+        },
+      };
+      const expected = [
+        {
+          facilityId: '668',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
+      ];
+      expect(selectors.selectCernerTestResultsFacilities(state)).to.deep.equal(
+        expected,
+      );
     });
   });
 });

@@ -7,9 +7,9 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import { formTitles } from 'applications/personalization/dashboard/helpers';
 import FormStartControls from './FormStartControls';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
+import { savedMessage } from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 
 class FormSaved extends React.Component {
   constructor(props) {
@@ -57,9 +57,7 @@ class FormSaved extends React.Component {
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>
-              Your {formTitles[formId]} {appType} has been saved.
-            </strong>
+            <strong>{savedMessage(this.props.route.formConfig)}</strong>
             <br />
             {!!lastSavedDate &&
               !!expirationDate && (

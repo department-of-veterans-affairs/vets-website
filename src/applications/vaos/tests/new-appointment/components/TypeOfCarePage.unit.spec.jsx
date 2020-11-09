@@ -5,7 +5,11 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 
 import set from 'platform/utilities/data/set';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
 
 import { getParentSiteMock } from '../../mocks/v0';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
@@ -15,6 +19,9 @@ import {
 } from '../../mocks/helpers';
 
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
+import { NewAppointment } from '../../../new-appointment';
+import moment from 'moment';
+import environment from 'platform/utilities/environment';
 
 const initialState = {
   featureToggles: {
@@ -23,7 +30,7 @@ const initialState = {
   user: {
     profile: {
       facilities: [{ facilityId: '983', isCerner: false }],
-      vet360: {
+      vapContactInfo: {
         residentialAddress: {
           addressLine1: '123 big sky st',
         },
@@ -109,7 +116,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(await screen.findByLabelText(/podiatry/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /podiatry appointments can only be scheduled online for community care/i,
+      /not eligible to request a community care Podiatry appointment online at this time/i,
     );
     fireEvent.click(screen.getByText('Ok'));
 
@@ -191,9 +198,9 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
   });
 
-  it('should display alert message when residental address is missing', async () => {
+  it('should display alert message when residential address is missing', async () => {
     const stateWithoutAddress = set(
-      'user.profile.vet360.residentialAddress',
+      'user.profile.vapContactInfo.residentialAddress',
       null,
       initialState,
     );
@@ -225,7 +232,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should display alert message when residental address is a PO Box', async () => {
     const stateWithPOBox = set(
-      'user.profile.vet360.residentialAddress',
+      'user.profile.vapContactInfo.residentialAddress',
       {
         addressLine1: 'PO Box 123',
       },
@@ -243,7 +250,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should save adress modal dismissal after page change', async () => {
     const stateWithoutAddress = set(
-      'user.profile.vet360.residentialAddress',
+      'user.profile.vapContactInfo.residentialAddress',
       null,
       initialState,
     );
@@ -268,5 +275,36 @@ describe('VAOS <TypeOfCarePage>', () => {
     });
 
     expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
+  });
+
+  it('should render warning message', async () => {
+    setFetchJSONResponse(
+      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
+      {
+        data: [
+          {
+            id: '139',
+            type: 'maintenance_windows',
+            attributes: {
+              externalService: 'vaosWarning',
+              description: 'My description',
+              startTime: moment.utc().subtract('1', 'days'),
+              endTime: moment.utc().add('1', 'days'),
+            },
+          },
+        ],
+      },
+    );
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<NewAppointment />, {
+      store,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: '3',
+        name: /You may have trouble using the VA appointments tool right now/,
+      }),
+    ).to.exist;
   });
 });

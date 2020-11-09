@@ -40,10 +40,10 @@ export default function FacilitiesRadioWidget({
         const checked = option.value === value;
         let distance;
 
-        if (sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL) {
+        if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
           distance = legacyVAR?.distanceFromResidentialAddress;
         } else if (
-          sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_CURRENT_LOCATION
+          sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
         ) {
           distance = legacyVAR?.distancefromCurrentLocation;
         }

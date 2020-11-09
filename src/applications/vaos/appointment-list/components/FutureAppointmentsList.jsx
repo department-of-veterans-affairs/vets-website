@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import environment from 'platform/utilities/environment';
-import { getRealFacilityId } from '../../utils/appointment';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import {
@@ -14,8 +13,8 @@ import {
   selectFutureAppointments,
   selectExpressCare,
   selectFutureStatus,
+  selectIsCernerOnlyPatient,
 } from '../../utils/selectors';
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
@@ -85,9 +84,7 @@ function FutureAppointmentsList({
         )}
         <ul className="usa-unstyled-list" id="appointments-list">
           {future.map((appt, index) => {
-            const facilityId = getRealFacilityId(
-              getVAAppointmentLocationId(appt),
-            );
+            const facilityId = getVAAppointmentLocationId(appt);
 
             switch (appt.vaos?.appointmentType) {
               case APPOINTMENT_TYPES.vaAppointment:

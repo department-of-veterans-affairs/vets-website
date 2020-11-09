@@ -1,4 +1,4 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
 
 const dateSchema = {
   oneOf: [
@@ -60,6 +60,9 @@ module.exports = {
       },
     },
     fieldVaFormAdministration: { $ref: 'output/taxonomy_term-administration' },
+    fieldAlert: {
+      oneOf: [{ $ref: 'BlockContent' }, { type: 'null' }],
+    },
     fieldVaFormIssueDate: dateSchema,
     fieldVaFormLinkTeasers: {
       type: 'array',
@@ -71,8 +74,7 @@ module.exports = {
     fieldVaFormRelatedForms: {
       type: 'array',
       items: {
-        /* eslint-disable react-hooks/rules-of-hooks */
-        entity: usePartialSchema(vaFormSchema, [
+        entity: partialSchema(vaFormSchema, [
           'fieldVaFormName',
           'fieldVaFormNumber',
           'fieldVaFormUsage',
@@ -97,6 +99,7 @@ module.exports = {
     'entityMetatags',
     'entityPublished',
     'fieldAdministration',
+    'fieldAlert',
     'fieldBenefitCategories',
     'fieldVaFormAdministration',
     'fieldVaFormIssueDate',

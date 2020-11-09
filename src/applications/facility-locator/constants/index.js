@@ -90,3 +90,14 @@ export const Error = {
   LOCATION:
     'Something’s not quite right. Please enter a valid or different location and try your search again.',
 };
+
+/**
+ * Mapbox init values
+ */
+export const MapboxInit = {
+  zoomInit: 3,
+  centerInit: {
+    lng: -99.27246093750001,
+    lat: 40.17887331434698,
+  },
+};

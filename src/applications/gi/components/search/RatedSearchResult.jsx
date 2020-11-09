@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
+import { MINIMUM_RATING_COUNT } from '../../constants';
 import { estimatedBenefits } from '../../selectors/estimator';
 import {
   convertRatingToStars,
@@ -38,9 +39,12 @@ export function RatedSearchResult({
 }) {
   const queryParams = useQueryParams();
   const estimate = ({ ratedQualifier, value }) => {
+    const formattedValue = ratedQualifier.includes('%')
+      ? value
+      : formatCurrency(value);
     return (
       <span>
-        {formatCurrency(value)}
+        {formattedValue}
         {ratedQualifier}
       </span>
     );
@@ -54,7 +58,7 @@ export function RatedSearchResult({
     ? appendQuery(`/profile/${facilityCode}`, { version })
     : `/profile/${facilityCode}`;
   const stars = convertRatingToStars(ratingAverage);
-  const displayStars = stars && ratingCount > 0;
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   return (
     <div
@@ -99,7 +103,12 @@ export function RatedSearchResult({
                 <div className="vads-u-font-weight--bold columns small-4 medium-3">
                   Tuition:
                 </div>
-                <div className="columns small-8 medium-9">{tuition}</div>
+                <div
+                  className="columns small-8 medium-9"
+                  id={`tuition-value-${facilityCode}`}
+                >
+                  {tuition}
+                </div>
               </div>
               <div className="row">
                 <div className="vads-u-font-weight--bold columns small-4 medium-3">
@@ -116,7 +125,12 @@ export function RatedSearchResult({
                 <div className="vads-u-font-weight--bold columns small-4 medium-3">
                   Books:
                 </div>
-                <div className="columns small-8 medium-9">{books}</div>
+                <div
+                  className="columns small-8 medium-9"
+                  id={`books-value-${facilityCode}`}
+                >
+                  {books}
+                </div>
               </div>
             </div>
 

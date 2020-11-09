@@ -76,7 +76,7 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <div>
-        <p>Programs</p>
+        <p className="vads-u-margin-y--3">Programs</p>
         <Checkbox
           checked={filters.studentVeteranGroup}
           name="studentVeteranGroup"
@@ -141,7 +141,7 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-        label="Institution categories"
+        label="Type of school or employer"
         name="type"
         options={options}
         value={this.props.filters.type}

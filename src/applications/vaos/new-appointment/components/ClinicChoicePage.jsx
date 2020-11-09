@@ -15,7 +15,14 @@ import {
   routeToPreviousAppointmentPage,
 } from '../redux/actions';
 import { getClinicPageInfo } from '../../utils/selectors';
-import { formatTypeOfCare } from '../../utils/formatters';
+
+export function formatTypeOfCare(careLabel) {
+  if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
+    return careLabel;
+  }
+
+  return careLabel.slice(0, 1).toLowerCase() + careLabel.slice(1);
+}
 
 function getPageTitle(schema, typeOfCare) {
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);

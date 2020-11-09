@@ -47,7 +47,7 @@ class ConfirmationPage extends React.Component {
           <li>Your reserve kicker</li>
           <li>
             Documentation of additional contributions that would increase your
-            monthly benefits.
+            monthly benefits
           </li>
         </ul>
         <p>
@@ -62,14 +62,26 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <div className="print-only">
+          <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+          <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
+            Update your education benefits
+          </h1>
+          <span>Form 22-1995</span>
+        </div>
+        <h3 className="confirmation-page-title screen-only">
+          We've received your application.
+        </h3>
+        <h4 className="print-only">We've received your application.</h4>
+        <p>We usually process applications within 30 days.</p>
+        <p>We may contact you if we need more information or documents.</p>
         <p>
-          We usually process claims within <strong>30 days</strong>.
-        </p>
-        <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
+          <button
+            className="usa-button-primary screen-only"
+            onClick={() => window.print()}
+          >
+            Print this page
+          </button>
         </p>
         <div className="inset">
           <h4>
@@ -107,7 +119,10 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        <div id="collapsiblePanel" className="usa-accordion-bordered">
+        <div
+          id="collapsiblePanel"
+          className="usa-accordion-bordered screen-only"
+        >
           <ul className="usa-unstyled-list">
             <li>
               <div className="accordion-header clearfix">
@@ -129,23 +144,36 @@ class ConfirmationPage extends React.Component {
             What happens after I apply?
           </h4>
           <p className="confirmation-guidance-message">
+            We usually decide on applications within 30 days.
+          </p>
+          <p className="confirmation-guidance-message">
+            You'll get a Certificate of Eligibility (COE) or decision letter in
+            the mail. If we've approved your application, you can bring the COE
+            to the VA certifying official at your school.
+          </p>
+          <p className="confirmation-guidance-message screen-only">
             <a href="/education/after-you-apply/">
-              Find out what happens after you apply
+              Learn more about what happens after you apply
             </a>
           </p>
-          <h4 className="confirmation-guidance-heading">Need help?</h4>
+          <p className="confirmation-guidance-message print-only">
+            <a href="/education/after-you-apply/">
+              Learn more about what happens after you apply:
+            </a>
+          </p>
+          <h4 className="confirmation-guidance-heading pagebreak vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
+            Need help?
+          </h4>
           <p className="confirmation-guidance-message">
             If you have questions, call 888-GI-BILL-1 (
             <a href="tel:+18884424551">888-442-4551</a>
             ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
           </p>
         </div>
-        <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 usa-width-one-half medium-6 columns">
-            <a href="/">
-              <button className="usa-button-primary">Go back to VA.gov</button>
-            </a>
-          </div>
+        <div className="form-progress-buttons schemaform-back-buttons">
+          <a href="/">
+            <button className="usa-button-primary">Go back to VA.gov</button>
+          </a>
         </div>
       </div>
     );

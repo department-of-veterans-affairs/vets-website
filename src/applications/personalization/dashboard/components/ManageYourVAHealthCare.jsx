@@ -1,33 +1,44 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import environment from 'platform/utilities/environment';
 
 import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
+import {
+  isVAPatient as isVAPatientSelector,
+  selectCernerAppointmentsFacilities,
+  selectCernerMessagingFacilities,
+  selectCernerRxFacilities,
+} from 'platform/user/selectors';
+
+import {
+  hasServerError as hasESRServerError,
+  isEnrolledInESR,
+  selectEnrollmentStatus,
+} from 'applications/hca/selectors';
+import { getEnrollmentDetails } from 'applications/hca/enrollment-status-helpers';
 
 import {
   recordDashboardClick,
   renderWidgetDowntimeNotification,
 } from '../helpers';
 
-import { selectIsCernerPatient } from 'platform/user/selectors';
-
 import MessagingWidget from '../containers/MessagingWidget';
 import PrescriptionsWidget from '../containers/PrescriptionsWidget';
 import ESRError, { ESR_ERROR_TYPES } from './ESRError';
-
 import {
-  hasServerError as hasESRServerError,
-  isEnrolledInVAHealthCare,
-  selectEnrollmentStatus,
-} from 'applications/hca/selectors';
-import { getEnrollmentDetails } from 'applications/hca/enrollment-status-helpers';
+  CernerPrescriptionsWidget,
+  CernerScheduleAnAppointmentWidget,
+  CernerSecureMessagingWidget,
+} from './cerner-widgets';
 
 const ScheduleAnAppointmentWidget = () => (
-  <div id="rx-widget">
+  <div id="rx-widget" data-testid="non-cerner-appointment-widget">
     <h3>Schedule an appointment</h3>
     <p>
       Find out how to make a doctor’s appointment with a member of your VA
@@ -44,60 +55,20 @@ const ScheduleAnAppointmentWidget = () => (
   </div>
 );
 
-const ScheduleAnAppointmentCernerWidget = () => (
-  <>
-    <h3>Schedule an appointment</h3>
-    <AlertBox
-      status="warning"
-      headline="Your VA health care team may be using our new My VA Health portal"
-    >
-      <h3>Our records show you’re registered at:</h3>
-      <h4>
-        Chalmers P. Wylie Veteran Outpatient Clinic{' '}
-        <span className="vads-u-font-weight--normal vads-u-font-size--base">
-          (Now using My VA Health)
-        </span>
-      </h4>
-      <p>
-        Please choose a health management portal below, depending on the
-        facility for your appointment. You may need to disable your browser’s
-        pop-up blocker to open the portal. If you’re prompted to sign in again,
-        use the same account you used to sign in on VA.gov.
-      </p>
-      <h3>Manage appointments at:</h3>
-      <h4>Chalmers P. Wylie Veteran Outpatient Clinic</h4>
-      <a
-        href={
-          environment.isProduction()
-            ? 'https://patientportal.myhealth.va.gov/'
-            : 'https://ehrm-va-test.patientportal.us.healtheintent.com/'
-        }
-        type="button"
-        className="usa-button-primary"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Go to My VA Health
-      </a>
-      <h4>Another VA health facility</h4>
-      <a
-        href="/health-care/schedule-view-va-appointments/"
-        type="button"
-        className="usa-button-secondary"
-      >
-        Go to the VA appointments tool
-      </a>
-    </AlertBox>
-  </>
-);
-
 const ManageYourVAHealthCare = ({
   applicationDate,
+  appointmentFacilityNames,
+  messagingFacilityNames,
+  prescriptionFacilityNames,
+  authenticatedWithSSOe,
   enrollmentDate,
-  isEnrolledInHealthCare,
+  isInESR,
   preferredFacility,
   showServerError,
-  showCernerWidget,
+  showNonCernerAppointmentWidget,
+  showCernerAppointmentWidget,
+  showCernerMessagingWidget,
+  showCernerPrescriptionWidget,
 }) => (
   <>
     <h2>Manage your VA health care</h2>
@@ -132,42 +103,87 @@ const ManageYourVAHealthCare = ({
         </div>
       }
       status="info"
-      isVisible={isEnrolledInHealthCare}
+      isVisible={isInESR}
       className="background-color-only"
     />
-    <DowntimeNotification
-      appTitle="messaging"
-      dependencies={[externalServices.mvi, externalServices.mhv]}
-      render={renderWidgetDowntimeNotification(
-        'Secure messaging',
-        'Track Secure Messages',
-      )}
-    >
-      <MessagingWidget />
-    </DowntimeNotification>
 
-    <DowntimeNotification
-      appTitle="rx"
-      dependencies={[externalServices.mvi, externalServices.mhv]}
-      render={renderWidgetDowntimeNotification(
-        'prescription refill',
-        'Refill Prescriptions',
-      )}
-    >
-      <PrescriptionsWidget />
-    </DowntimeNotification>
-    {isEnrolledInHealthCare &&
-      !showCernerWidget && <ScheduleAnAppointmentWidget />}
-    {isEnrolledInHealthCare &&
-      showCernerWidget && <ScheduleAnAppointmentCernerWidget />}
+    {!showCernerMessagingWidget && (
+      <DowntimeNotification
+        appTitle="messaging"
+        dependencies={[externalServices.mvi, externalServices.mhv]}
+        render={renderWidgetDowntimeNotification(
+          'Secure messaging',
+          'Track Secure Messages',
+        )}
+      >
+        <MessagingWidget />
+      </DowntimeNotification>
+    )}
+    {showCernerMessagingWidget && (
+      <CernerSecureMessagingWidget
+        facilityNames={messagingFacilityNames}
+        authenticatedWithSSOe={authenticatedWithSSOe}
+      />
+    )}
+
+    {!showCernerPrescriptionWidget && (
+      <DowntimeNotification
+        appTitle="rx"
+        dependencies={[externalServices.mvi, externalServices.mhv]}
+        render={renderWidgetDowntimeNotification(
+          'prescription refill',
+          'Refill Prescriptions',
+        )}
+      >
+        <PrescriptionsWidget />
+      </DowntimeNotification>
+    )}
+    {showCernerPrescriptionWidget && (
+      <CernerPrescriptionsWidget
+        facilityNames={prescriptionFacilityNames}
+        authenticatedWithSSOe={authenticatedWithSSOe}
+      />
+    )}
+
+    {showNonCernerAppointmentWidget && <ScheduleAnAppointmentWidget />}
+    {showCernerAppointmentWidget && (
+      <CernerScheduleAnAppointmentWidget
+        facilityNames={appointmentFacilityNames}
+      />
+    )}
   </>
 );
 
 const mapStateToProps = state => {
-  const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
+  // used to decided if an appointment widget is shown
+  const isVAPatient = isVAPatientSelector(state);
+  // used to decided if the "You Are Enrolled In VA Health Care" alert is shown
+  const isInESR = isEnrolledInESR(state);
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
+
   const showServerError = hasESRServerError(state);
-  const showCernerWidget = selectIsCernerPatient(state);
+  const profileState = state.user.profile;
+  const canAccessMessaging = profileState.services.includes(
+    backendServices.MESSAGING,
+  );
+  const canAccessPrescriptions = profileState.services.includes(
+    backendServices.RX,
+  );
+
+  const cernerAppointmentFacilities = selectCernerAppointmentsFacilities(state);
+  const cernerMessagingFacilities = selectCernerMessagingFacilities(state);
+  const cernerPrescriptionFacilities = selectCernerRxFacilities(state);
+
+  const appointmentFacilityNames = cernerAppointmentFacilities?.map(facility =>
+    getMedicalCenterNameByID(facility.facilityId),
+  );
+  const messagingFacilityNames = cernerMessagingFacilities?.map(facility =>
+    getMedicalCenterNameByID(facility.facilityId),
+  );
+  const prescriptionFacilityNames = cernerPrescriptionFacilities?.map(
+    facility => getMedicalCenterNameByID(facility.facilityId),
+  );
+
   const {
     applicationDate,
     enrollmentDate,
@@ -177,10 +193,21 @@ const mapStateToProps = state => {
   return {
     applicationDate,
     enrollmentDate,
-    isEnrolledInHealthCare,
+    isInESR,
     preferredFacility,
     showServerError,
-    showCernerWidget,
+    showNonCernerAppointmentWidget:
+      isVAPatient && !cernerAppointmentFacilities?.length,
+    showCernerAppointmentWidget:
+      isVAPatient && !!cernerAppointmentFacilities?.length,
+    showCernerMessagingWidget:
+      canAccessMessaging && !!cernerMessagingFacilities?.length,
+    showCernerPrescriptionWidget:
+      canAccessPrescriptions && !!cernerPrescriptionFacilities?.length,
+    appointmentFacilityNames,
+    messagingFacilityNames,
+    prescriptionFacilityNames,
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 

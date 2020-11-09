@@ -13,9 +13,15 @@ import {
   PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
   disabilityActionTypes,
+  defaultDisabilityDescriptions,
 } from './constants';
 
-import { disabilityIsSelected, hasGuardOrReservePeriod } from './utils';
+import {
+  disabilityIsSelected,
+  hasGuardOrReservePeriod,
+  isBDD,
+  isDisabilityPtsd,
+} from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
 
@@ -236,6 +242,8 @@ export function filterServicePeriods(formData) {
 }
 
 export function transform(formConfig, form) {
+  // Grab isBDD before things are changed/deleted
+  const isBDDForm = isBDD(form.data);
   // Grab ratedDisabilities before they're deleted in case the page is inactive
   // We need to send all of these to vets-api even if the veteran doesn't apply
   // for an increase on any of them
@@ -311,7 +319,7 @@ export function transform(formConfig, form) {
           'newDisabilities',
           formData.newDisabilities.map(
             disability =>
-              disability.condition?.toLowerCase().includes('ptsd')
+              isDisabilityPtsd(disability.condition)
                 ? _.set('cause', causeTypes.NEW, disability)
                 : disability,
           ),
@@ -352,6 +360,48 @@ export function transform(formConfig, form) {
     return _.set(
       'newDisabilities',
       newDisabilitiesWithClassificationCodes,
+      formData,
+    );
+  };
+
+  const addRequiredDescriptionsToDisabilitiesBDD = formData => {
+    if (!isBDDForm || !formData.newDisabilities) {
+      return formData;
+    }
+
+    const newDisabilitiesWithRequiredDescriptions = formData.newDisabilities.map(
+      disability => {
+        const disabilityDescription = {};
+
+        switch (disability.cause) {
+          case causeTypes.NEW:
+            disabilityDescription.primaryDescription =
+              defaultDisabilityDescriptions.primaryDescription;
+            break;
+          case causeTypes.SECONDARY:
+            disabilityDescription.causedByDisabilityDescription =
+              defaultDisabilityDescriptions.causedByDisabilityDescription;
+            break;
+          case causeTypes.WORSENED:
+            disabilityDescription.worsenedDescription =
+              defaultDisabilityDescriptions.worsenedDescription;
+            disabilityDescription.worsenedEffects =
+              defaultDisabilityDescriptions.worsenedEffects;
+            break;
+          case causeTypes.VA:
+            disabilityDescription.vaMistreatmentDescription =
+              defaultDisabilityDescriptions.vaMistreatmentDescription;
+            break;
+          default:
+        }
+
+        return Object.assign({}, disability, disabilityDescription);
+      },
+    );
+
+    return _.set(
+      'newDisabilities',
+      newDisabilitiesWithRequiredDescriptions,
       formData,
     );
   };
@@ -596,6 +646,7 @@ export function transform(formConfig, form) {
     addPOWSpecialIssues,
     addPTSDCause,
     addClassificationCodeToNewDisabilities,
+    addRequiredDescriptionsToDisabilitiesBDD,
     splitNewDisabilities,
     transformSecondaryDisabilities,
     stringifyRelatedDisabilities,

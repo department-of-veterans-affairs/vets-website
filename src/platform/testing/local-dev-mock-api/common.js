@@ -67,7 +67,6 @@ const responses = {
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
-        { name: 'eduBenefitsStemScholarship', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'form526OriginalClaims', value: false },
         { name: 'vaViewDependentsAccess', value: false },
