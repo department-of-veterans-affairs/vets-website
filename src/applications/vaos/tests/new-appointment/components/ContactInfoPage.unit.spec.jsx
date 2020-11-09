@@ -1,76 +1,83 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/dom';
 
-import { fillData } from 'platform/testing/unit/schemaform-utils.jsx';
 import { ContactInfoPage } from '../../../new-appointment/components/ContactInfoPage';
+import { renderWithStoreAndRouter } from '../../mocks/setup';
 
 describe('VAOS <ContactInfoPage>', () => {
-  it('should render', () => {
+  it('should render', async () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
 
-    const form = mount(
+    const screen = renderWithStoreAndRouter(
       <ContactInfoPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
         data={{}}
       />,
+      {},
     );
-
-    expect(form.find('input').length).to.equal(5);
-    form.unmount();
+    expect(await screen.findByText('Your contact information')).to.be.ok;
   });
 
-  it('should not submit empty form', () => {
+  it('should not submit empty form', async () => {
     const openFormPage = sinon.spy();
     const history = {
       push: sinon.spy(),
     };
 
-    const form = mount(
+    const screen = renderWithStoreAndRouter(
       <ContactInfoPage
         openFormPage={openFormPage}
         history={history}
         data={{}}
       />,
+      {},
     );
 
-    form.find('form').simulate('submit');
+    const button = await screen.findByText(/^Continue/);
+    userEvent.click(button);
 
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(screen.findByText(/^Please enter a phone number/)).to.be.ok;
+    expect(screen.findByText(/^Please choose at least one option/)).to.be.ok;
+    expect(screen.findByText(/^Please provide a response/)).to.be.ok;
+
     expect(history.push.called).to.be.false;
-    form.unmount();
   });
 
-  it('should call updateFormData after change', () => {
+  it('should call updateFormData after change', async () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
     const history = {
       push: sinon.spy(),
     };
 
-    const form = mount(
+    renderWithStoreAndRouter(
       <ContactInfoPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
         history={history}
         data={{}}
       />,
+      {},
     );
 
-    fillData(form, 'input#root_phoneNumber', '5555555555');
+    const input = document.getElementById('root_phoneNumber');
+    userEvent.type(input, '5555555555');
 
-    expect(updateFormData.firstCall.args[2].phoneNumber).to.equal('5555555555');
-    form.unmount();
+    await waitFor(() => {
+      expect(updateFormData.callCount).to.equal(10);
+    });
   });
 
-  it('should submit with valid data', () => {
+  it('should submit with valid data', async () => {
     const openFormPage = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
-    const form = mount(
+    const screen = renderWithStoreAndRouter(
       <ContactInfoPage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
@@ -82,25 +89,26 @@ describe('VAOS <ContactInfoPage>', () => {
           },
         }}
       />,
+      {},
     );
 
-    form.find('form').simulate('submit');
+    const button = await screen.findByText(/^Continue/);
+    userEvent.click(button);
 
-    expect(form.find('.usa-input-error').length).to.equal(0);
     expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
   });
 
-  it('document title should match h1 text', () => {
+  it('document title should match h1 text', async () => {
     const openFormPage = sinon.spy();
     const pageTitle = 'Your contact information';
 
-    const form = mount(
+    const screen = renderWithStoreAndRouter(
       <ContactInfoPage openFormPage={openFormPage} data={{}} />,
+      {},
     );
 
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-    form.unmount();
+    expect(await screen.findByRole('heading', { level: 1, name: pageTitle })).to
+      .be.ok;
+    expect(document.title).to.equal(`${pageTitle} | Veterans Affairs`);
   });
 });
