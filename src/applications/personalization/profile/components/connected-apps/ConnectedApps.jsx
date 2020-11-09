@@ -165,7 +165,7 @@ export class ConnectedApps extends Component {
                   'profile-section': 'vets-faqs',
                 })
               }
-              href="/resources/connecting-third-party-apps-to-your-va-gov-profile/"
+              href="/resources/connected-apps-faqs/"
             >
               Go to FAQs about connecting third-party apps to your VA.gov
               profile
