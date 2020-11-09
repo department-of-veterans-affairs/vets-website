@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SearchResultList from '../components/SearchResultList';
+import SearchResultList from '../../components/SearchResultList';
 
 const results = [
   {

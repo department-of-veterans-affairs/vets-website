@@ -57,6 +57,7 @@ export default function SearchBar({
 
       {/* Search form */}
       <form
+        data-testid="resources-support-search"
         className={`${
           expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '
         }vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-padding-x--0 medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
