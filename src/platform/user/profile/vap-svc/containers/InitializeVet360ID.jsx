@@ -30,11 +30,11 @@ class InitializeVet360ID extends React.Component {
   }
 
   initializeVet360ID() {
-    const route = API_ROUTES.INIT_VET360_ID;
+    const route = API_ROUTES.INIT_VAP_SERVICE_ID;
     const fieldName = INIT_VAP_SERVICE_ID;
     const method = 'POST';
     const body = null;
-    const analytics = ANALYTICS_FIELD_MAP.INIT_VET360_ID;
+    const analytics = ANALYTICS_FIELD_MAP.INIT_VAP_SERVICE_ID;
     return this.props.createTransaction(
       route,
       method,
@@ -54,7 +54,7 @@ class InitializeVet360ID extends React.Component {
     const initializationTransactionRefreshRoute = `/profile/person/status/${transactionId}`;
     this.props.refreshTransaction(
       this.props.transaction,
-      ANALYTICS_FIELD_MAP.INIT_VET360_ID,
+      ANALYTICS_FIELD_MAP.INIT_VAP_SERVICE_ID,
       initializationTransactionRefreshRoute,
     );
   };

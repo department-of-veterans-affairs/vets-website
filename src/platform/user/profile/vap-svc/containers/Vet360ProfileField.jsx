@@ -5,7 +5,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import * as VET360 from '../constants';
+import * as VAP_SERVICE from '../constants';
 
 import { isPendingTransaction } from '../util/transactions';
 
@@ -280,7 +280,7 @@ export const mapStateToProps = (state, ownProps) => {
     selectCurrentlyOpenEditModal(state) === 'addressValidation';
 
   return {
-    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
+    analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
     data,
     fieldName,
     field: selectEditedFormField(state, fieldName),
@@ -317,12 +317,12 @@ const Vet360ProfileFieldContainer = connect(
 )(Vet360ProfileField);
 
 Vet360ProfileFieldContainer.propTypes = {
-  fieldName: PropTypes.oneOf(Object.values(VET360.FIELD_NAMES)).isRequired,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   Content: PropTypes.func.isRequired,
   EditModal: PropTypes.func.isRequired,
   ValidationModal: PropTypes.func,
   title: PropTypes.string.isRequired,
-  apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
 };
 
