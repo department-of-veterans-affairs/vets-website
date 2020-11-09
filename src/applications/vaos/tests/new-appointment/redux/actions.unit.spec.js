@@ -231,7 +231,9 @@ describe('VAOS newAppointment actions', () => {
   describe('fetchFacilityDetails', () => {
     it('should fetch facility details', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, {});
+      setFetchJSONResponse(global.fetch, {
+        data: { id: '', attributes: { uniqueId: '' } },
+      });
       const dispatch = sinon.spy();
       const thunk = fetchFacilityDetails('123');
 
@@ -376,7 +378,6 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch parent details if no supported facilities', async () => {
-      setFetchJSONResponse(global.fetch, clinics);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -482,6 +483,9 @@ describe('VAOS newAppointment actions', () => {
 
     it('should skip eligibility request and succeed if facility list is empty', async () => {
       setFetchJSONResponse(global.fetch, { data: [] });
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: { id: '123', attributes: { uniqueId: '123' } },
+      });
       const dispatch = sinon.spy();
       const state = set('newAppointment.data.vaParent', 'var983', defaultState);
       const getState = () => state;
@@ -756,7 +760,6 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should send fail action for error in eligibility code', async () => {
-      setFetchJSONResponse(global.fetch, {});
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -1058,7 +1061,7 @@ describe('VAOS newAppointment actions', () => {
       const state = {
         user: {
           profile: {
-            vet360: {
+            vapContactInfo: {
               email: {
                 emailAddress: 'test@va.gov',
               },

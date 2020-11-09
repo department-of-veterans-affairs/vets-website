@@ -206,7 +206,7 @@ describe('VAOS integration: express care requests', () => {
       );
 
       expect(baseElement).to.contain.text('Your contact details');
-      expect(baseElement).to.contain.text('5555555566');
+      expect(baseElement).to.contain.text('866-651-3180');
       expect(baseElement).to.contain.text('patient.test@va.gov');
 
       expect(baseElement).to.contain.text(

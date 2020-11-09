@@ -224,6 +224,7 @@ module.exports = {
       createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
       createMetaTag('MetaLink', 'image_src', metaTags.image_src),
       createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
+      createMetaTag('MetaValue', 'keywords', metaTags.keywords),
       createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
       createMetaTag(
         'MetaProperty',
