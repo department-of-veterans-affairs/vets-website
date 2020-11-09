@@ -5,14 +5,8 @@ import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-import schemaFields from '../schema';
-import uiSchema from '../schema/5655-ui-schema';
-import schema from '../schema/5655-schema';
 
-const { viewVeteranInfoField, availableDebts } = schemaFields;
-const { veteranInfoUI, availableDebtsUI, householdIncomeUI } = uiSchema;
-const { veteranInfo, householdIncome } = schema;
-const { fullName } = veteranInfo.definitions;
+import { availableDebts, householdIncome, veteranInfo } from '../pages';
 
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
@@ -55,9 +49,6 @@ const formConfig = {
         'Your application for financial hardship assistance has been saved.',
     },
   },
-  defaultDefinitions: {
-    fullName,
-  },
   title: 'Apply for financial hardship assistance',
   subTitle: 'Form 5655',
   footerContent: FormFooter,
@@ -69,47 +60,14 @@ const formConfig = {
         [formPageTitles.veteranInfoTitle]: {
           path: 'veteran-information',
           title: formPageTitles.veteranInfoTitle,
-          uiSchema: {
-            [viewVeteranInfoField]: veteranInfoUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [viewVeteranInfoField]: {
-                type: 'object',
-                properties: {
-                  fullName: {
-                    type: 'string',
-                  },
-                  ssnLastFour: {
-                    type: 'number',
-                  },
-                  dob: {
-                    type: 'string',
-                  },
-                  vaFileNumber: {
-                    type: 'number',
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: veteranInfo.uiSchema,
+          schema: veteranInfo.schema,
         },
         availableDebts: {
           path: 'available-debts',
           title: formPageTitles.availableDebts,
-          uiSchema: {
-            [availableDebts]: availableDebtsUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [availableDebts]: {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          uiSchema: availableDebts.uiSchema,
+          schema: availableDebts.schema,
         },
       },
     },
@@ -119,8 +77,8 @@ const formConfig = {
         [formPageTitles.employmentHistoryTitle]: {
           path: 'household-income',
           title: formPageTitles.employmentHistoryTitle,
-          uiSchema: householdIncomeUI,
-          schema: householdIncome,
+          uiSchema: householdIncome.uiSchema,
+          schema: householdIncome.schema,
         },
       },
     },
