@@ -10,7 +10,7 @@ const VRECounselorNotification = () => {
     });
   });
   return (
-    <div className="vads-u-margin-top--2 vads-u-background-color--primary-alt-lightest vads-u-padding--3">
+    <div className="vads-u-margin-top--2 vads-u-background-color--gray-lightest vads-u-padding--3">
       <p className="vads-u-margin-top--0">
         Please contact your Vocational Rehabilitation Counselor to learn more
         about how to get career planning and guidance benefits.
