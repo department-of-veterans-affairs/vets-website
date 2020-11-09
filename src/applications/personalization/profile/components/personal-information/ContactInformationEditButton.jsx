@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function VAPEditButton({ title, onEditClick, fieldName, className }) {
+function ContactInformationEditButton({
+  title,
+  onEditClick,
+  fieldName,
+  className,
+}) {
   return (
     <button
       aria-label={`Edit ${title}`}
@@ -16,9 +21,9 @@ function VAPEditButton({ title, onEditClick, fieldName, className }) {
   );
 }
 
-VAPEditButton.propTypes = {
+ContactInformationEditButton.propTypes = {
   onEditClick: PropTypes.func,
   title: PropTypes.string.isRequired,
 };
 
-export default VAPEditButton;
+export default ContactInformationEditButton;

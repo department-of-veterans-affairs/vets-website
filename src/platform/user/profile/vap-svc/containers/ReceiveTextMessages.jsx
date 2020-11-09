@@ -11,7 +11,7 @@ import {
 
 import * as VET360 from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
-import { selectVet360Transaction } from '@@vap-svc/selectors';
+import { selectVAPServiceTransaction } from '@@vap-svc/selectors';
 
 import {
   isPendingTransaction,
@@ -115,7 +115,7 @@ class ReceiveTextMessages extends React.Component {
 
 export function mapStateToProps(state, ownProps) {
   const { fieldName } = ownProps;
-  const { transaction } = selectVet360Transaction(state, fieldName);
+  const { transaction } = selectVAPServiceTransaction(state, fieldName);
   const hasError = !!isFailedTransaction(transaction);
   const isPending = !!isPendingTransaction(transaction);
   const profileState = selectProfile(state);
