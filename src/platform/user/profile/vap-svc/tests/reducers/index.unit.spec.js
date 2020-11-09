@@ -14,7 +14,7 @@ describe('vet360 reducer', () => {
     const state = vet360(
       {},
       {
-        type: 'VET360_TRANSACTIONS_FETCH_SUCCESS',
+        type: 'VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS',
         data: [1, 2, 3],
       },
     );
@@ -27,7 +27,7 @@ describe('vet360 reducer', () => {
     const state = vet360(
       {},
       {
-        type: 'VET360_TRANSACTION_REQUESTED',
+        type: 'VAP_SERVICE_TRANSACTION_REQUESTED',
         fieldName: 'fieldName',
         method: 'POST',
       },
@@ -51,7 +51,7 @@ describe('vet360 reducer', () => {
         },
       },
       {
-        type: 'VET360_TRANSACTION_REQUEST_FAILED',
+        type: 'VAP_SERVICE_TRANSACTION_REQUEST_FAILED',
         fieldName: 'fieldName',
         error: 'errorMessage',
       },
@@ -78,7 +78,7 @@ describe('vet360 reducer', () => {
         transactions: [],
       },
       {
-        type: 'VET360_TRANSACTION_REQUEST_SUCCEEDED',
+        type: 'VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED',
         fieldName: 'fieldName',
         transaction: {
           data: {
@@ -106,7 +106,7 @@ describe('vet360 reducer', () => {
     const state = vet360(
       { transactionsAwaitingUpdate: [] },
       {
-        type: 'VET360_TRANSACTION_UPDATE_REQUESTED',
+        type: 'VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED',
         transaction: {
           data: {
             attributes: {
@@ -138,7 +138,7 @@ describe('vet360 reducer', () => {
         metadata: {},
       },
       {
-        type: 'VET360_TRANSACTION_UPDATED',
+        type: 'VAP_SERVICE_TRANSACTION_UPDATED',
         transaction: {
           data: {
             attributes: {
@@ -171,7 +171,7 @@ describe('vet360 reducer', () => {
         metadata: {},
       },
       {
-        type: 'VET360_TRANSACTION_UPDATED',
+        type: 'VAP_SERVICE_TRANSACTION_UPDATED',
         transaction: {
           data: {
             attributes: {
@@ -192,7 +192,7 @@ describe('vet360 reducer', () => {
     const state = vet360(
       { transactionsAwaitingUpdate: [111] },
       {
-        type: 'VET360_TRANSACTION_UPDATE_FAILED',
+        type: 'VAP_SERVICE_TRANSACTION_UPDATE_FAILED',
         transaction: {
           data: {
             attributes: {
@@ -207,7 +207,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should set transaction status cleared', () => {
-    const state = vet360({}, { type: 'VET360_CLEAR_TRANSACTION_STATUS' });
+    const state = vet360({}, { type: 'VAP_SERVICE_CLEAR_TRANSACTION_STATUS' });
     expect(state.transactionStatus.length).to.eql(0);
   });
 
@@ -228,7 +228,7 @@ describe('vet360 reducer', () => {
         },
       },
       {
-        type: 'VET360_TRANSACTION_CLEARED',
+        type: 'VAP_SERVICE_TRANSACTION_CLEARED',
         transaction: {
           data: {
             attributes: {
@@ -252,7 +252,7 @@ describe('vet360 reducer', () => {
         },
       },
       {
-        type: 'VET360_TRANSACTION_REQUEST_CLEARED',
+        type: 'VAP_SERVICE_TRANSACTION_REQUEST_CLEARED',
         fieldName: 'name',
       },
     );

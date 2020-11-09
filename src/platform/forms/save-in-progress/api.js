@@ -44,12 +44,14 @@ export function saveFormApi(
   returnUrl,
   savedAt,
   trackingPrefix,
+  submission,
 ) {
   const body = JSON.stringify({
     metadata: {
       version,
       returnUrl,
       savedAt,
+      submission,
     },
     formData,
   });

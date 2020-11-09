@@ -8,7 +8,7 @@ import { isEmptyAddress } from 'platform/forms/address/helpers';
 
 import { FIELD_NAMES } from '../constants';
 
-import { selectVet360Field, selectEditedFormField } from '../selectors';
+import { selectVAPContactInfoField, selectEditedFormField } from '../selectors';
 
 const ADDRESS_PROPS = [
   'addressLine1',
@@ -54,7 +54,10 @@ class CopyMailingAddress extends React.Component {
 }
 
 export function mapStateToProps(state) {
-  const mailingAddress = selectVet360Field(state, FIELD_NAMES.MAILING_ADDRESS);
+  const mailingAddress = selectVAPContactInfoField(
+    state,
+    FIELD_NAMES.MAILING_ADDRESS,
+  );
   const hasEmptyMailingAddress = isEmptyAddress(mailingAddress);
 
   const residentialAddress = selectEditedFormField(
