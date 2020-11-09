@@ -5,12 +5,14 @@ import { shallow } from 'enzyme';
 import { PersonalizationDropdown } from '../../components/PersonalizationDropdown';
 
 describe('<PersonalizationDropdown>', () => {
-  const oldWindow = global.window;
+  let oldWindow = null;
 
   beforeEach(() => {
-    global.window = {
+    oldWindow = global.window;
+    global.window = Object.create(global.window);
+    Object.assign(global.window, {
       dataLayer: [],
-    };
+    });
   });
 
   afterEach(() => {

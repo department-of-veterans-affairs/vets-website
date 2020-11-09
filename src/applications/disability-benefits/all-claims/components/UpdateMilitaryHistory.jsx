@@ -2,12 +2,16 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { isBDD } from '../utils';
 import { SAVED_SEPARATION_DATE } from '../constants';
 
 export const addServicePeriod = (formData, separationDate, setFormData) => {
   const updateData = newData => {
     window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-    setFormData(newData);
+    setFormData({
+      ...newData,
+      'view:isBddData': true,
+    });
   };
 
   const data = formData;
@@ -47,7 +51,7 @@ export const UpdateMilitaryHistory = ({ form = {}, setFormData }) => {
   // Get date from Wizard if user entered a valid BDD separation date
   const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
   useEffect(() => {
-    if (form.data && separationDate) {
+    if (form.data && isBDD(form.data) && separationDate) {
       addServicePeriod(form.data, separationDate, setFormData);
     }
   });

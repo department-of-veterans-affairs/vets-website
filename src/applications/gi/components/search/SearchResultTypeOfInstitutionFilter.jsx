@@ -7,6 +7,7 @@ function SearchResultTypeOfInstitutionFilter({
   onChange,
   handleInputFocus,
 }) {
+  const optionText = 'Employers (On-the-job training [OJT], apprenticeships)';
   const options = [
     {
       value: 'ALL',
@@ -18,13 +19,13 @@ function SearchResultTypeOfInstitutionFilter({
     },
     {
       value: 'employer',
-      label: 'Employers only (OJT, apprenticeships)',
+      label: optionText,
     },
   ];
 
   return (
     <RadioButtons
-      label="Select an institution type"
+      label="Select an institution"
       name="category"
       options={options}
       value={category}

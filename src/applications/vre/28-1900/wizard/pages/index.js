@@ -7,6 +7,7 @@ import yesHonorableDischarge from './veteran/01-yesHonorableDischarge';
 import disabilityRating from './veteran/02-disabilityRating';
 import noDisabilityRating from './veteran/02-noDisabilityRating';
 import yesActiveDutySeparation from './veteran/03-yesActiveDutySeparation';
+import noActiveDutySeparation from './veteran/03-noActiveDutySeparation';
 import notInterestedInEmploymentHelp from './veteran/04-notInterestedInEmploymentHelp';
 import interestedInEmploymentHelp from './veteran/04-yesInterestedInEmploymentHelp';
 
@@ -34,6 +35,7 @@ export default [
   disabilityRating,
   noDisabilityRating,
   yesActiveDutySeparation,
+  noActiveDutySeparation,
   interestedInEmploymentHelp,
   notInterestedInEmploymentHelp,
   noHonorableDischargeSM,

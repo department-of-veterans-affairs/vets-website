@@ -1,5 +1,6 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
@@ -7,7 +8,7 @@ import Telephone, {
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 
-const AuthContent = () => (
+const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
     <h2>On this page:</h2>
     <a href="#va-blue-button">
@@ -16,6 +17,8 @@ const AuthContent = () => (
     <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
     <h2 id="va-blue-button">My HealtheVet (VA Blue Button) and My VA Health</h2>
     <CernerCallToAction
+      cernerFacilities={cernerFacilities}
+      otherFacilities={otherFacilities}
       linksHeaderText="Get your medical records from:"
       myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data"
       myVAHealthLink={getCernerURL(
@@ -306,5 +309,30 @@ const AuthContent = () => (
     </p>
   </>
 );
+
+AuthContent.propTypes = {
+  cernerfacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
+    }).isRequired,
+  ),
+  otherfacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
+    }).isRequired,
+  ),
+};
 
 export default AuthContent;

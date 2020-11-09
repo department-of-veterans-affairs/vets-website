@@ -22,15 +22,10 @@ const transform = ({
   fieldGovdeliveryIdEmerg,
   fieldGovdeliveryIdNews,
   fieldOperatingStatus,
-  fieldFacebook,
-  fieldFlickr,
-  fieldInstagram,
-  fieldTwitter,
   fieldNicknameForThisFacility,
   fieldRelatedLinks,
   fieldPressReleaseBlurb,
   fieldLinkFacilityEmergList,
-  fieldLeadership,
   reverseFieldRegionPage,
   reverseFieldOffice,
 }) => ({
@@ -44,14 +39,6 @@ const transform = ({
   fieldOperatingStatus: fieldOperatingStatus[0]
     ? getSocialMediaObject(fieldOperatingStatus[0])
     : null,
-  fieldFacebook: fieldFacebook[0]
-    ? getSocialMediaObject(fieldFacebook[0])
-    : null,
-  fieldFlickr: fieldFlickr[0] ? getSocialMediaObject(fieldFlickr[0]) : null,
-  fieldInstagram: fieldInstagram[0]
-    ? getSocialMediaObject(fieldInstagram[0])
-    : null,
-  fieldTwitter: fieldTwitter[0] ? getSocialMediaObject(fieldTwitter[0]) : null,
   fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
   fieldLinkFacilityEmergList:
     fieldLinkFacilityEmergList && fieldLinkFacilityEmergList[0]
@@ -67,44 +54,8 @@ const transform = ({
     processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
   },
   entityMetatags: createMetaTagArray(metaTags),
-  fieldLeadership: fieldLeadership.length
-    ? fieldLeadership.map(n => ({
-        entity: {
-          entityPublished: n.entityPublished,
-          title: n.title,
-          fieldNameFirst: n.fieldNameFirst,
-          fieldLastName: n.fieldLastName,
-          fieldSuffix: n.fieldSuffix,
-          fieldEmailAddress: n.fieldEmailAddress,
-          fieldPhoneNumber: n.fieldPhoneNumber,
-          fieldDescription: n.fieldDescription,
-          fieldOffice: {
-            entity: {
-              entityLabel: 'VA Pittsburgh health care',
-              entityType: 'node',
-            },
-          },
-          fieldIntroText: n.fieldIntroText,
-          fieldPhotoAllowHiresDownload: n.fieldPhotoAllowHiresDownload,
-          fieldMedia: n.fieldMedia,
-          fieldBody: n.fieldBody,
-          changed: n.changed,
-          entityUrl: n.entityUrl,
-        },
-      }))
-    : [],
   reverseFieldRegionPageNode: {
-    entities: reverseFieldRegionPage
-      ? reverseFieldRegionPage
-          .filter(
-            reverseField =>
-              reverseField.entityBundle === 'health_care_local_facility',
-          )
-          .map(r => ({
-            title: r.title,
-            fieldOperatingStatusFacility: r.fieldOperatingStatusFacility,
-          }))
-      : [],
+    entities: reverseFieldRegionPage || [],
   },
   newsStoryTeasers: {
     entities: reverseFieldOffice
@@ -369,11 +320,6 @@ module.exports = {
     'path',
     'field_govdelivery_id_emerg',
     'field_govdelivery_id_news',
-    'field_facebook',
-    'field_flickr',
-    'field_instagram',
-    'field_twitter',
-    'field_leadership',
     'field_link_facility_emerg_list',
     'field_nickname_for_this_facility',
     'field_operating_status',

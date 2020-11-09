@@ -21,7 +21,7 @@
     <ul class="usa-unstyled-list">
         {% for accordionItem in questions %}
           {% assign item = accordionItem.entity %}
-          <li>
+          <li id="{{ item.entityId }}">
           <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <button class="usa-accordion-button usa-button-unstyled" aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
               <span itemprop="name">{{ item.fieldQuestion }}</span>

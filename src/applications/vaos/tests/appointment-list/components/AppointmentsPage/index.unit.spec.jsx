@@ -2,11 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import environment from 'platform/utilities/environment';
 import {
   setFetchJSONFailure,
   mockFetch,
   resetFetch,
+  setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
@@ -21,7 +23,10 @@ import {
   mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
 } from '../../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../../mocks/setup';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../../mocks/setup';
 
 import reducers from '../../../../redux/reducer';
 import FutureAppointmentsList from '../../../../appointment-list/components/FutureAppointmentsList';
@@ -255,8 +260,8 @@ describe('VAOS integration: appointment list', () => {
       reducers,
     });
 
-    const header = await findByText('Create a new Express Care request');
-    const button = await findByText('Create an Express Care request');
+    const header = await findByText('Request a new Express Care appointment');
+    const button = await findByText('Request Express Care');
 
     expect(baseElement).to.contain.text(
       'Talk to VA health care staff today about a condition',
@@ -333,9 +338,7 @@ describe('VAOS integration: appointment list', () => {
     );
 
     await findByText(/Express Care isn’t available right now/i);
-    expect(getByText(/create an express care request/i)).to.have.attribute(
-      'disabled',
-    );
+    expect(getByText(/request express care/i)).to.have.attribute('disabled');
   });
 
   it('should not show express care action or tab when flag is off', async () => {
@@ -347,7 +350,7 @@ describe('VAOS integration: appointment list', () => {
       },
     };
     const {
-      findByText,
+      findAllByText,
       queryByText,
       getAllByRole,
       getByText,
@@ -357,7 +360,7 @@ describe('VAOS integration: appointment list', () => {
       reducers,
     });
 
-    await findByText('Create a new appointment');
+    await findAllByText('Request an appointment');
     expect(queryByText(/request an express care screening/i)).to.not.be.ok;
     expect(getAllByRole('tab').length).to.equal(2);
     expect(getAllByText('Upcoming appointments')[0]).to.have.attribute(
@@ -412,8 +415,9 @@ describe('VAOS integration: appointment list', () => {
       reducers,
     });
 
-    await findByText('Create a new appointment');
-    expect(await findAllByText('Create a new Express Care request')).to.be.ok;
+    await findByText('Request Express Care');
+    expect(await findAllByText('Request a new Express Care appointment')).to.be
+      .ok;
     expect(getAllByRole('tab').length).to.equal(2);
     expect(getAllByText('Upcoming appointments')[0]).to.have.attribute(
       'role',
@@ -499,7 +503,7 @@ describe('VAOS integration: appointment list', () => {
       user: {
         profile: {
           ...userState.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               // Northampton, MA
               latitude: 42.3495,
@@ -514,11 +518,110 @@ describe('VAOS integration: appointment list', () => {
       reducers,
     });
 
-    const button = await screen.findByText('Create an Express Care request');
+    const button = await screen.findByText('Request Express Care');
 
     expect(button).to.not.have.attribute('disabled');
     expect(screen.baseElement).to.contain.text(
       `${closestStart.format('h:mm a')} to ${closestEnd.format('h:mm a')}`,
     );
+  });
+
+  it('should allow tabbing to tab group, but not individual tabs', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+    });
+    mockRequestEligibilityCriteria(['983'], []);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+    });
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+    expect(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+
+    userEvent.click(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+      }),
+    );
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'upcoming appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+    expect(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+  });
+
+  it('should render warning message', async () => {
+    setFetchJSONResponse(
+      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
+      {
+        data: [
+          {
+            id: '139',
+            type: 'maintenance_windows',
+            attributes: {
+              externalService: 'vaosWarning',
+              description: 'My description',
+              startTime: moment.utc().subtract('1', 'days'),
+              endTime: moment.utc().add('1', 'days'),
+            },
+          },
+        ],
+      },
+    );
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      store,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: '3',
+        name: /You may have trouble using the VA appointments tool right now/,
+      }),
+    ).to.exist;
   });
 });

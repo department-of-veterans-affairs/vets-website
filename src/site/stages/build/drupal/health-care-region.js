@@ -115,7 +115,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     mainFacilities: page.mainFacilities,
     otherFacilities: page.otherFacilities,
     fieldOtherVaLocations: page.fieldOtherVaLocations,
-    fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
     facilitySidebar: sidebar,
     entityUrl: locEntityUrl,
     alert: page.alert,
@@ -140,7 +139,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
     const hsEntityUrl = createEntityUrlObj(drupalPagePath);
     const hsObj = {
-      fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
       featuredContentHealthServices: page.fieldFeaturedContentHealthser,
       facilitySidebar: sidebar,
       entityUrl: hsEntityUrl,
@@ -194,7 +192,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const nsObj = {
     allNewsStoryTeasers: page.allNewsStoryTeasers,
     newsStoryTeasers: page.newsStoryTeasers,
-    fieldIntroTextNewsStories: page.fieldIntroTextNewsStories,
     facilitySidebar: sidebar,
     entityUrl: nsEntityUrl,
     title: page.title,
@@ -217,35 +214,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'news_stories_page.drupal.liquid',
     'news stories',
   );
-
-  // Staff bio listing page
-  const bioEntityUrl = createEntityUrlObj(drupalPagePath);
-  page.allStaffProfiles = {
-    entities: [...page.fieldLeadership],
-  };
-  const bioObj = {
-    allStaffProfiles: page.allStaffProfiles,
-    facilitySidebar: sidebar,
-    entityUrl: bioEntityUrl,
-    title: page.title,
-    alert: page.alert,
-  };
-  const bioListingPage = updateEntityUrlObj(
-    bioObj,
-    drupalPagePath,
-    'Leadership',
-  );
-  const bioPagePath = bioListingPage.entityUrl.path;
-  bioListingPage.regionOrOffice = page.title;
-  bioListingPage.entityUrl = generateBreadCrumbs(bioPagePath);
-
-  paginatePages(
-    bioListingPage,
-    files,
-    'allStaffProfiles',
-    'leadership_listing.drupal.liquid',
-    'bio',
-  );
 }
 
 /**
@@ -264,10 +232,6 @@ function addGetUpdatesFields(page, pages) {
   );
 
   if (regionPage) {
-    page.fieldFacebook = regionPage.fieldFacebook;
-    page.fieldTwitter = regionPage.fieldTwitter;
-    page.fieldFlickr = regionPage.fieldFlickr;
-    page.fieldInstagram = regionPage.fieldInstagram;
     page.fieldLinks = regionPage.fieldLinks;
   }
 }
