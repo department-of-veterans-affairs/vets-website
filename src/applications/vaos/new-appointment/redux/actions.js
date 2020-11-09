@@ -19,7 +19,7 @@ import {
   selectSystemIds,
   getEligibilityStatus,
   getRootIdForChosenFacility,
-  getSelectedTypeOfCareFacilities,
+  getTypeOfCareFacilities,
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
@@ -159,6 +159,8 @@ export const FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
 export const FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
   'newAppointment/FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
+export const FORM_SHOW_ELIGIBILITY_MODAL =
+  'newAppointment/FORM_SHOW_ELIGIBILITY_MODAL';
 export const FORM_HIDE_ELIGIBILITY_MODAL =
   'newAppointment/FORM_HIDE_ELIGIBILITY_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
@@ -291,7 +293,7 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
-export function checkEligibility(location, siteId) {
+export function checkEligibility({ location, siteId, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = vaosVSPAppointmentNew(state);
@@ -319,6 +321,7 @@ export function checkEligibility(location, siteId) {
         typeOfCareId,
         eligibilityData,
         facilityId: location.id,
+        showModal,
       });
 
       try {
@@ -353,7 +356,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       if (typeOfCareId) {
         const siteIds = selectSystemIds(initialState);
         const useVSP = vaosVSPAppointmentNew(initialState);
-        let typeOfCareFacilities = newAppointment.facilities[typeOfCareId];
+        let typeOfCareFacilities = getTypeOfCareFacilities(initialState);
         let siteId = null;
         let facilityId = newAppointment.data.vaFacility;
         let parentFacilities = newAppointment.parentFacilities;
@@ -416,13 +419,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
         if (eligibilityDataNeeded && !eligibilityChecks) {
-          const selectedFacility = typeOfCareFacilities[0];
+          const location = typeOfCareFacilities.find(f => f.id === facilityId);
 
           if (!siteId) {
-            siteId = getSiteIdFromFakeFHIRId(selectedFacility.id);
+            siteId = getSiteIdFromFakeFHIRId(location.id);
           }
 
-          dispatch(checkEligibility(selectedFacility, siteId));
+          dispatch(checkEligibility({ location, siteId }));
         }
       }
     } catch (e) {
@@ -437,7 +440,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
     let location = null;
-    const facilities = getSelectedTypeOfCareFacilities(getState());
+    const facilities = getTypeOfCareFacilities(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distancefromCurrentLocation,
     );
@@ -479,6 +482,12 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
     } else {
       dispatch(action);
     }
+  };
+}
+
+export function showEligibilityModal() {
+  return {
+    type: FORM_SHOW_ELIGIBILITY_MODAL,
   };
 }
 
@@ -808,7 +817,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           endDate: endDateString,
           useVSP,
         });
-
         const now = moment();
 
         mappedSlots = fetchedSlots.filter(slot =>

@@ -137,28 +137,24 @@ export function getCCEType(state) {
   return typeOfCare?.cceType;
 }
 
-export function getSelectedTypeOfCareFacilities(state) {
-  const data = getFormData(state);
-  const newAppointment = getNewAppointment(state);
-  const typeOfCare = getTypeOfCare(data);
-  return newAppointment.facilities[(typeOfCare?.id)];
-}
-
 export function getParentFacilities(state) {
   return getNewAppointment(state).parentFacilities;
 }
 
-export function getChosenFacilityInfo(state) {
+export function getTypeOfCareFacilities(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
-  const selectedTypeOfCareFacilities = selectUseFlatFacilityPage(state)
+
+  return selectUseFlatFacilityPage(state)
     ? facilities[`${typeOfCareId}`]
     : facilities[`${typeOfCareId}_${data.vaParent}`];
+}
 
+export function getChosenFacilityInfo(state) {
   return (
-    selectedTypeOfCareFacilities?.find(
-      facility => facility.id === data.vaFacility,
+    getTypeOfCareFacilities(state)?.find(
+      facility => facility.id === getFormData(state).vaFacility,
     ) || null
   );
 }
@@ -249,6 +245,7 @@ export function getEligibilityChecks(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
+
   return (
     newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
   );
@@ -371,8 +368,8 @@ export function getFacilityPageV2Info(state) {
     parentFacilitiesStatus,
     requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),
-    singleValidVALocation: facilities?.length === 1,
-    showEligibilityModal: facilities?.length > 1 && showEligibilityModal,
+    singleValidVALocation: facilities?.length === 1 && !!data.vaFacility,
+    showEligibilityModal,
     sortMethod: facilityPageSortMethod,
     typeOfCare: typeOfCare?.name,
   };

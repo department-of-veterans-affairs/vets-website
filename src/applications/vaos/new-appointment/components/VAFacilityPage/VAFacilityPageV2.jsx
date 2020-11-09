@@ -70,7 +70,9 @@ function VAFacilityPageV2({
   const history = useHistory();
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
   const loadingParents = parentFacilitiesStatus === FETCH_STATUS.loading;
-  const loadingFacilities = childFacilitiesStatus === FETCH_STATUS.loading;
+  const loadingFacilities =
+    childFacilitiesStatus === FETCH_STATUS.loading ||
+    childFacilitiesStatus === FETCH_STATUS.notStarted;
 
   useEffect(
     () => {

@@ -6,25 +6,7 @@
 // String Helpers
 const { camelize } = require('./../../../../../utilities/stringHelpers');
 
-const FACILITY_MENU_NAMES = [
-  'pittsburgh-health-care',
-  'va-altoona-health-care',
-  'va-butler-health-care',
-  'va-cheyenne-health-care',
-  'va-coatesville-health-care',
-  'va-eastern-colorado-health-care',
-  'va-eastern-oklahoma-health-care',
-  'va-erie-health-care',
-  'va-lebanon',
-  'va-montana-health-care',
-  'va-oklahoma-health-care',
-  'va-philadelphia-health-care',
-  'va-salt-lake-city-health-care',
-  'va-sheridan-health-care',
-  'va-western-colorado-health-care',
-  'va-wilkes-barre-health-care',
-  'va-wilmington-health-care',
-];
+const { getSideNavsViaGraphQL } = require('../../metalsmith-drupal');
 
 const FACILITY_SIDEBAR_QUERY = `
     name
@@ -79,16 +61,19 @@ const FACILITY_SIDEBAR_QUERY = `
     }
 `;
 
-let compiledQuery = '';
-
-FACILITY_MENU_NAMES.forEach(facilityMenuName => {
-  compiledQuery += `
-         ${camelize(
-           facilityMenuName,
-         )}FacilitySidebarQuery: menuByName(name: "${facilityMenuName}") {
+async function compiledQuery() {
+  const sideNavs = await getSideNavsViaGraphQL();
+  const queries = [];
+  sideNavs.forEach(facilityMenuName => {
+    queries.push(`
+      ${camelize(
+        facilityMenuName,
+      )}FacilitySidebarQuery: menuByName(name: "${facilityMenuName}") {
             ${FACILITY_SIDEBAR_QUERY}
          }
-        `;
-});
+        `);
+  });
+  return queries.join('');
+}
 
-module.exports = compiledQuery;
+module.exports = { compiledQuery };

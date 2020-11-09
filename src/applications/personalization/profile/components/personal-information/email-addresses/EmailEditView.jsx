@@ -1,6 +1,6 @@
 import React from 'react';
 
-import VAPEditView from '../VAPEditView';
+import ContactInformationEditView from '../ContactInformationEditView';
 
 import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
 
@@ -24,7 +24,7 @@ class EmailEditView extends React.Component {
 
   render() {
     return (
-      <VAPEditView
+      <ContactInformationEditView
         {...this.props}
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}

@@ -36,7 +36,6 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
 PodiatryAppointmentUnavailableModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   showModal: PropTypes.bool,
-  typeOfCare: PropTypes.string.isRequired,
 };
 
 export default PodiatryAppointmentUnavailableModal;

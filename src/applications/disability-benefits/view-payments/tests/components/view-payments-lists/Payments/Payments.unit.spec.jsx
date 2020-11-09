@@ -48,8 +48,8 @@ describe('<Payments />', () => {
       />,
     );
     fireEvent.click(screen.getByText('Next'));
-    await waitFor(() => expect(screen.getByText(/Displaying 6 - 9 of 9/)));
+    await waitFor(() => expect(screen.getByText(/Displaying 7 - 9 of 9/)));
     fireEvent.click(screen.getByText('Prev'));
-    await waitFor(() => expect(screen.getByText(/Displaying 1 - 5 of 9/)));
+    await waitFor(() => expect(screen.getByText(/Displaying 1 - 6 of 9/)));
   });
 });

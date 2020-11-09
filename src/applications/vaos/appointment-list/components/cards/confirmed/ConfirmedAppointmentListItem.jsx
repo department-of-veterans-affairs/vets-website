@@ -223,7 +223,9 @@ export default function ConfirmedAppointmentListItem({
             {showCancelButton && (
               <button
                 onClick={() => cancelAppointment(appointment)}
-                aria-label="Cancel appointment"
+                aria-label={`Cancel appointment on ${formatAppointmentDate(
+                  moment.parseZone(appointment.start),
+                )}`}
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
               >
                 Cancel appointment

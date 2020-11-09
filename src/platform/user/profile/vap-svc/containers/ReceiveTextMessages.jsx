@@ -11,7 +11,7 @@ import {
 
 import * as VET360 from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
-import { selectVet360Transaction } from '@@vap-svc/selectors';
+import { selectVAPServiceTransaction } from '@@vap-svc/selectors';
 
 import {
   isPendingTransaction,
@@ -47,7 +47,7 @@ class ReceiveTextMessages extends React.Component {
       completedTransaction: false,
       lastTransaction: null,
     });
-    const payload = this.props.profile.vet360.mobilePhone;
+    const payload = this.props.profile.vapContactInfo.mobilePhone;
     payload.isTextPermitted = event;
     const method = payload.id ? 'PUT' : 'POST';
     const smsAction = payload.isTextPermitted ? 'smsOptin' : 'smsOptout';
@@ -90,7 +90,9 @@ class ReceiveTextMessages extends React.Component {
       <div className="receive-text-messages">
         <div className="form-checkbox-buttons">
           <ErrorableCheckbox
-            checked={!!this.props.profile.vet360.mobilePhone.isTextPermitted}
+            checked={
+              !!this.props.profile.vapContactInfo.mobilePhone.isTextPermitted
+            }
             label={
               <span>
                 We’ll send VA health care appointment text reminders to this
@@ -113,7 +115,7 @@ class ReceiveTextMessages extends React.Component {
 
 export function mapStateToProps(state, ownProps) {
   const { fieldName } = ownProps;
-  const { transaction } = selectVet360Transaction(state, fieldName);
+  const { transaction } = selectVAPServiceTransaction(state, fieldName);
   const hasError = !!isFailedTransaction(transaction);
   const isPending = !!isPendingTransaction(transaction);
   const profileState = selectProfile(state);
