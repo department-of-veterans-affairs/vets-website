@@ -59,6 +59,7 @@ describe('ResourcesAndSupportSearchApp', () => {
 
     expect(results.length).to.be.equal(10);
 
+    // Test against de-pluralizing queries
     fireEvent.change(queryInput, { target: { value: 'disabilities' } });
 
     fireEvent.submit(form, {
@@ -70,5 +71,19 @@ describe('ResourcesAndSupportSearchApp', () => {
     await screen.findByText('Showing 1 - 2 of 2 results', { exact: false });
     screen.getByText('Sample title - Disabilities');
     screen.getByText('Sample title - Disability');
+
+    // Test the "no results found"
+    fireEvent.change(queryInput, { target: { value: 'nothing' } });
+
+    fireEvent.submit(form, {
+      event: {
+        preventDefault() {},
+      },
+    });
+
+    await screen.findByText(
+      'We didn’t find any resources and support articles for',
+      { exact: false },
+    );
   });
 });

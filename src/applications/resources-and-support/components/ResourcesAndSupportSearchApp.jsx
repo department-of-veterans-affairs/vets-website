@@ -81,7 +81,7 @@ export default function ResourcesAndSupportSearchApp() {
   } else {
     paginationSummary = (
       <>
-        We didn't find any resources and support articles for "
+        We didn’t find any resources and support articles for "
         <strong>{query}</strong>
         ." Try using different words or{' '}
         <a href={`/search?query=${encodeURIComponent(query)}`}>
