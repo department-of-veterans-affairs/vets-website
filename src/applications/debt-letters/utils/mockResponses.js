@@ -210,6 +210,26 @@ const data = {
         },
       ],
     },
+    {
+      fileNumber: '796121200',
+      payeeNumber: '00',
+      personEntitled: 'AJOHNS',
+      deductionCode: '71',
+      benefitType: 'CH33 Books, Supplies/MISC EDU',
+      diaryCode: '811',
+      diaryCodeDescription: `We’re reviewing your compromise offer`,
+      amountOverpaid: 0,
+      amountWithheld: 0,
+      originalAr: 166.67,
+      currentAr: 120.4,
+      debtHistory: [
+        {
+          date: '09/18/2012',
+          letterCode: '100',
+          description: 'First Demand Letter - Inactive Benefits - Due Process',
+        },
+      ],
+    },
   ],
 };
 
