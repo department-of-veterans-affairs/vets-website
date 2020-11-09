@@ -274,7 +274,7 @@ export const requireDisability = (err, fieldData, formData) => {
 export const limitNewDisabilities = (err, fieldData, formData) => {
   if (formData.newDisabilities?.length > 100) {
     err.addError(
-      'You are unable to add this disability because you have reached the 100 disability limit.',
+      'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.',
     );
   }
 };
