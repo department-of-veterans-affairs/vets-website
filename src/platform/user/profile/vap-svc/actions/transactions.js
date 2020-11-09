@@ -7,7 +7,7 @@ import { FIELD_NAMES, ADDRESS_POU } from '@@vap-svc/constants';
 
 import { showAddressValidationModal } from '../../utilities';
 
-import localVet360, {
+import localVAProfileService, {
   isVAProfileServiceConfigured,
 } from '../util/local-vapsvc';
 import { CONFIRMED } from '../../constants/addressValidationMessages';
@@ -16,23 +16,26 @@ import {
   isFailedTransaction,
 } from '../util/transactions';
 
-export const VET360_TRANSACTIONS_FETCH_SUCCESS =
-  'VET360_TRANSACTIONS_FETCH_SUCCESS';
-export const VET360_TRANSACTION_REQUESTED = 'VET360_TRANSACTION_REQUESTED';
-export const VET360_TRANSACTION_REQUEST_FAILED =
-  'VET360_TRANSACTION_REQUEST_FAILED';
-export const VET360_TRANSACTION_REQUEST_SUCCEEDED =
-  'VET360_TRANSACTION_REQUEST_SUCCEEDED';
-export const VET360_TRANSACTION_REQUEST_CLEARED =
-  'VET360_TRANSACTION_REQUEST_CLEARED';
-export const VET360_TRANSACTION_UPDATE_REQUESTED =
-  'VET360_TRANSACTION_UPDATE_REQUESTED';
-export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
-export const VET360_TRANSACTION_UPDATE_FAILED =
-  'VET360_TRANSACTION_UPDATE_FAILED';
-export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
-export const VET360_CLEAR_TRANSACTION_STATUS =
-  'VET360_CLEAR_TRANSACTION_STATUS';
+export const VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS =
+  'VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS';
+export const VAP_SERVICE_TRANSACTION_REQUESTED =
+  'VAP_SERVICE_TRANSACTION_REQUESTED';
+export const VAP_SERVICE_TRANSACTION_REQUEST_FAILED =
+  'VAP_SERVICE_TRANSACTION_REQUEST_FAILED';
+export const VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED =
+  'VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED';
+export const VAP_SERVICE_TRANSACTION_REQUEST_CLEARED =
+  'VAP_SERVICE_TRANSACTION_REQUEST_CLEARED';
+export const VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED =
+  'VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED';
+export const VAP_SERVICE_TRANSACTION_UPDATED =
+  'VAP_SERVICE_TRANSACTION_UPDATED';
+export const VAP_SERVICE_TRANSACTION_UPDATE_FAILED =
+  'VAP_SERVICE_TRANSACTION_UPDATE_FAILED';
+export const VAP_SERVICE_TRANSACTION_CLEARED =
+  'VAP_SERVICE_TRANSACTION_CLEARED';
+export const VAP_SERVICE_CLEAR_TRANSACTION_STATUS =
+  'VAP_SERVICE_CLEAR_TRANSACTION_STATUS';
 export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
@@ -41,7 +44,7 @@ export const ADDRESS_VALIDATION_UPDATE = 'ADDRESS_VALIDATION_UPDATE';
 
 export function clearTransactionStatus() {
   return {
-    type: VET360_CLEAR_TRANSACTION_STATUS,
+    type: VAP_SERVICE_CLEAR_TRANSACTION_STATUS,
   };
 }
 
@@ -57,7 +60,7 @@ export function fetchTransactions() {
         // response = localVet360.getUserTransactions();
       }
       dispatch({
-        type: VET360_TRANSACTIONS_FETCH_SUCCESS,
+        type: VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS,
         data: response.data,
       });
     } catch (err) {
@@ -68,14 +71,14 @@ export function fetchTransactions() {
 
 export function clearTransaction(transaction) {
   return {
-    type: VET360_TRANSACTION_CLEARED,
+    type: VAP_SERVICE_TRANSACTION_CLEARED,
     transaction,
   };
 }
 
 export function clearTransactionRequest(fieldName) {
   return {
-    type: VET360_TRANSACTION_REQUEST_CLEARED,
+    type: VAP_SERVICE_TRANSACTION_REQUEST_CLEARED,
     fieldName,
   };
 }
@@ -98,14 +101,14 @@ export function refreshTransaction(
       }
 
       dispatch({
-        type: VET360_TRANSACTION_UPDATE_REQUESTED,
+        type: VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
         transaction,
       });
 
       const route = _route || `/profile/status/${transactionId}`;
       const transactionRefreshed = isVAProfileServiceConfigured()
         ? await apiRequest(route)
-        : await localVet360.updateTransaction(transactionId);
+        : await localVAProfileService.updateTransaction(transactionId);
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
@@ -118,7 +121,7 @@ export function refreshTransaction(
         });
       } else {
         dispatch({
-          type: VET360_TRANSACTION_UPDATED,
+          type: VAP_SERVICE_TRANSACTION_UPDATED,
           transaction: transactionRefreshed,
         });
 
@@ -132,7 +135,7 @@ export function refreshTransaction(
       }
     } catch (err) {
       dispatch({
-        type: VET360_TRANSACTION_UPDATE_FAILED,
+        type: VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
         transaction,
         err,
       });
@@ -157,14 +160,14 @@ export function createTransaction(
     };
     try {
       dispatch({
-        type: VET360_TRANSACTION_REQUESTED,
+        type: VAP_SERVICE_TRANSACTION_REQUESTED,
         fieldName,
         method,
       });
 
       const transaction = isVAProfileServiceConfigured()
         ? await apiRequest(route, options)
-        : await localVet360.createTransaction();
+        : await localVAProfileService.createTransaction();
 
       if (transaction?.errors) {
         const error = new Error();
@@ -182,13 +185,13 @@ export function createTransaction(
       }
 
       dispatch({
-        type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
+        type: VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
         fieldName,
         transaction,
       });
     } catch (error) {
       dispatch({
-        type: VET360_TRANSACTION_REQUEST_FAILED,
+        type: VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
         error,
         fieldName,
       });
@@ -219,7 +222,7 @@ export const validateAddress = (
   try {
     const response = isVAProfileServiceConfigured()
       ? await apiRequest('/profile/address_validation', options)
-      : await localVet360.addressValidationSuccess();
+      : await localVAProfileService.addressValidationSuccess();
     const { addresses, validationKey } = response;
     const suggestedAddresses = addresses
       // sort highest confidence score to lowest confidence score
@@ -343,7 +346,7 @@ export const updateValidationKeyAndSave = (
     };
     const response = isVAProfileServiceConfigured()
       ? await apiRequest('/profile/address_validation', options)
-      : await localVet360.addressValidationSuccess();
+      : await localVAProfileService.addressValidationSuccess();
     const { validationKey } = response;
 
     return dispatch(

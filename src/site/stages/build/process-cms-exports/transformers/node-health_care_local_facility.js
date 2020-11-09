@@ -24,10 +24,6 @@ const getFieldRegionObject = ({
   field_govdelivery_id_emerg,
   field_govdelivery_id_news,
   field_operating_status,
-  field_facebook,
-  field_flickr,
-  field_instagram,
-  field_twitter,
 }) =>
   title
     ? {
@@ -37,18 +33,6 @@ const getFieldRegionObject = ({
         fieldGovdeliveryIdNews: getDrupalValue(field_govdelivery_id_news),
         fieldOperatingStatus: field_operating_status[0]
           ? getSocialMediaObject(field_operating_status[0])
-          : null,
-        fieldFacebook: field_facebook[0]
-          ? getSocialMediaObject(field_facebook[0])
-          : null,
-        fieldFlickr: field_flickr[0]
-          ? getSocialMediaObject(field_flickr[0])
-          : null,
-        fieldInstagram: field_instagram[0]
-          ? getSocialMediaObject(field_instagram[0])
-          : null,
-        fieldTwitter: field_twitter[0]
-          ? getSocialMediaObject(field_twitter[0])
           : null,
       }
     : null;
@@ -62,16 +46,12 @@ const transform = (entity, { ancestors }) => ({
   entityMetatags: createMetaTagArray(entity.metatag.value),
   // The keys of fieldAddress[0] are snake_case, but we want camelCase
   fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
-  fieldEmailSubscription: getDrupalValue(entity.fieldEmailSubscription),
-  fieldFacebook: getSocialMediaObject(entity.fieldFacebook),
   fieldFacilityHours: {
     value: combineItemsInIndexedObject(
       getDrupalValue(entity.fieldFacilityHours),
     ),
   },
   fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
-  fieldFlickr: getSocialMediaObject(entity.fieldFlickr),
-  fieldInstagram: getSocialMediaObject(entity.fieldInstagram),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
     ? entity.fieldLocalHealthCareService.filter(n => Object.keys(n).length)
@@ -104,7 +84,6 @@ const transform = (entity, { ancestors }) => ({
           : getFieldRegionObject(entity.fieldRegionPage[0]),
       }
     : null,
-  fieldTwitter: getSocialMediaObject(entity.fieldTwitter),
 });
 
 module.exports = {
@@ -115,12 +94,8 @@ module.exports = {
     'metatag',
     'path',
     'field_address',
-    'field_email_subscription',
-    'field_facebook',
     'field_facility_hours',
     'field_facility_locator_api_id',
-    'field_flickr',
-    'field_instagram',
     'field_intro_text',
     'field_local_health_care_service_',
     'field_location_services',
@@ -132,7 +107,6 @@ module.exports = {
     'field_operating_status_more_info',
     'field_phone_number',
     'field_region_page',
-    'field_twitter',
   ],
   transform,
 };
