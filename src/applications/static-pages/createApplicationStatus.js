@@ -14,6 +14,7 @@ export default function createApplicationStatus(store, form) {
         <Provider store={store}>
           <ApplicationStatus
             formId={form.formId}
+            formConfig={form.formConfig}
             showApplyButton={
               root.getAttribute('data-hide-apply-button') === null
             }
