@@ -37,7 +37,10 @@ const DebtLetterCard = props => {
         <strong>Amount owed: </strong>
         {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
       </p>
-      <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+      <p
+        className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"
+        data-testid="diary-codes-status"
+      >
         <strong>Status: </strong>
         {debt.diaryCodeDescription}
       </p>
