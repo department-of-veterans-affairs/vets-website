@@ -75,7 +75,7 @@ export default function EligibilityModal({
 
   return (
     <Modal
-      id="cancelAppt"
+      id="eligibilityModal"
       status="warning"
       visible
       onClose={onClose}

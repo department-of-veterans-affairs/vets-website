@@ -15,6 +15,13 @@ const EVENTS_RESULTS = `
             }
           }
         }
+        fieldDatetimeRangeTimezone {
+          value
+          startTime
+          endValue
+          endTime
+          timezone
+        }        
         fieldDate {
             startDate
             value

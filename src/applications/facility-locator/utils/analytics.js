@@ -112,3 +112,42 @@ export const recordSearchResultsEvents = (props, results) => {
 
   recordEvent(dataPush);
 };
+
+/**
+ * Helper fn to record map zoom
+ */
+export const recordZoomEvent = (lastZoom, currentZoom) => {
+  if (lastZoom === currentZoom) return;
+  if (lastZoom < currentZoom) {
+    recordEvent({ event: 'fl-map-zoom-in' });
+  } else if (lastZoom > currentZoom) {
+    recordEvent({ event: 'fl-map-zoom-out' });
+  }
+};
+
+/**
+ * Helper fn to record map panning
+ */
+export const recordPanEvent = (mapCenter, searchCoords) => {
+  return new Promise((resolve, _) => {
+    if (searchCoords && searchCoords.lat && searchCoords.lng) {
+      const distanceMoved = distBetween(
+        searchCoords.lat,
+        searchCoords.lng,
+        mapCenter.lat,
+        mapCenter.lng,
+      );
+      if (distanceMoved > 0) {
+        resolve(
+          recordEvent({
+            event: 'fl-search',
+            'fl-map-miles-moved': distanceMoved,
+          }),
+          recordEvent({
+            'fl-map-miles-moved': undefined,
+          }),
+        );
+      }
+    }
+  });
+};

@@ -36,6 +36,18 @@ module.exports = function registerFilters() {
     return dt;
   };
 
+  // Convert a timezone string (e.g. 'America/Los_Angeles') to an abbreviation
+  // e.g. "PST"
+  liquid.filters.timezoneAbbrev = (timezone, timestamp) => {
+    if (moment.tz.zone(timezone)) {
+      return moment.tz.zone(timezone).abbr(timestamp);
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('Invalid time zone: ', timezone);
+      return 'ET';
+    }
+  };
+
   liquid.filters.toTitleCase = phrase =>
     phrase
       .toLowerCase()
@@ -477,6 +489,7 @@ module.exports = function registerFilters() {
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
 
   // get a value from a path of an object
+  // works for arrays as well
   liquid.filters.getValueFromObjPath = (obj, path) => _.get(obj, path);
 
   // get a value from a path of an object in an array

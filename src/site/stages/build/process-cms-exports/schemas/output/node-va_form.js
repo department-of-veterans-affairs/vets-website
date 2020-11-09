@@ -60,6 +60,9 @@ module.exports = {
       },
     },
     fieldVaFormAdministration: { $ref: 'output/taxonomy_term-administration' },
+    fieldAlert: {
+      oneOf: [{ $ref: 'BlockContent' }, { type: 'null' }],
+    },
     fieldVaFormIssueDate: dateSchema,
     fieldVaFormLinkTeasers: {
       type: 'array',
@@ -96,6 +99,7 @@ module.exports = {
     'entityMetatags',
     'entityPublished',
     'fieldAdministration',
+    'fieldAlert',
     'fieldBenefitCategories',
     'fieldVaFormAdministration',
     'fieldVaFormIssueDate',

@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
@@ -84,9 +85,15 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     $$('.widget-outline label', formDOM).forEach((label, index) => {
       const data = issues[index].attributes;
       expect($('h3', label).textContent).to.equal(data.ratingIssueSubjectText);
-      expect($('span', label).textContent).to.equal(data.description || '');
-      expect($('.widget-content p', label).textContent).to.equal(
+      const content = $('.widget-content', label).textContent;
+      expect(content).to.contain(data.description || '');
+      expect(content).to.contain(
         `Current rating: ${data.ratingIssuePercentNumber}%`,
+      );
+      expect(content).to.contain(
+        `Decision date: ${moment(data.approxDecisionDate).format(
+          'MMM D, YYYY',
+        )}`,
       );
     });
   });

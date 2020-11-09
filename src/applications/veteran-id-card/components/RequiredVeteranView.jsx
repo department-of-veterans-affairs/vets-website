@@ -8,7 +8,7 @@ import EmailVICHelp from 'platform/static-data/EmailVICHelp';
 function RequiredVeteranView({ userProfile, children }) {
   let view;
 
-  if (userProfile.veteranStatus === 'SERVER_ERROR') {
+  if (userProfile.veteranStatus?.status === 'SERVER_ERROR') {
     // If eMIS status is null, show a system down message.
     view = (
       <SystemDownView

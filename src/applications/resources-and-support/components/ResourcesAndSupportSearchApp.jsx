@@ -1,19 +1,18 @@
+// Node modules.
 import React, { useEffect, useState, useCallback } from 'react';
-import URLSearchParams from 'url-search-params';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
-
-import useArticleData from '../hooks/useArticleData';
-import useGetSearchResults from '../hooks/useGetSearchResults';
-
+// Relative imports.
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
+import useArticleData from '../hooks/useArticleData';
+import useGetSearchResults from '../hooks/useGetSearchResults';
+import { RESULTS_PER_PAGE } from '../constants';
 
-const RESULTS_PER_PAGE = 10;
-
-export default function ResourcesAndSupportSearchApp() {
+const ResourcesAndSupportSearchApp = () => {
   const [articles, errorMessage] = useArticleData();
   const [userInput, setUserInput] = useState('');
   const [query, setQuery] = useState('');
@@ -94,42 +93,44 @@ export default function ResourcesAndSupportSearchApp() {
 
   return (
     <div className="usa-grid usa-grid-full">
-      <div className="usa-width-three-fourths">
-        <div className="usa-content vads-u-margin-bottom--3">
-          {errorMessage && (
-            <AlertBox
-              headline="Something went wrong"
-              status="error"
-              content={errorMessage}
+      <div className="usa-content vads-u-margin-bottom--3">
+        {errorMessage && (
+          <AlertBox
+            headline="Something went wrong"
+            status="error"
+            content={errorMessage}
+          />
+        )}
+
+        {articles && (
+          <>
+            <h1>Search results</h1>
+            <SearchBar
+              onSearch={onSearch}
+              userInput={userInput}
+              onInputChange={setUserInput}
             />
-          )}
+            <p className="vads-u-padding-x--1p5" id="pagination-summary">
+              {paginationSummary}
+            </p>
+            <SearchResultList results={currentPageOfResults} />
+            <Pagination
+              maxPageListLength={RESULTS_PER_PAGE}
+              onPageSelect={onPageSelect}
+              page={page}
+              pages={totalPages}
+              showLastPage
+            />
+          </>
+        )}
 
-          {articles && (
-            <>
-              <h1>Search results</h1>
-              <SearchBar
-                onSearch={onSearch}
-                userInput={userInput}
-                onInputChange={setUserInput}
-              />
-              <p id="pagination-summary">{paginationSummary}</p>
-              <SearchResultList results={currentPageOfResults} />
-              <Pagination
-                maxPageListLength={RESULTS_PER_PAGE}
-                onPageSelect={onPageSelect}
-                page={page}
-                pages={totalPages}
-                showLastPage
-              />
-            </>
+        {!errorMessage &&
+          !articles && (
+            <LoadingIndicator message="Please wait while we load the application for you." />
           )}
-
-          {!errorMessage &&
-            !articles && (
-              <LoadingIndicator message="Please wait while we load the application for you." />
-            )}
-        </div>
       </div>
     </div>
   );
-}
+};
+
+export default ResourcesAndSupportSearchApp;
