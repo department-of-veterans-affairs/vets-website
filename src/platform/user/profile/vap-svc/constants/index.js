@@ -76,7 +76,7 @@ export const PHONE_TYPE = {
 };
 
 export const ANALYTICS_FIELD_MAP = {
-  INIT_VET360_ID: 'initialize-vet360-id',
+  INIT_VAP_SERVICE_ID: 'initialize-vet360-id',
   primaryTelephone: 'primary-telephone',
   alternateTelephone: 'alternative-telephone',
   homePhone: 'home-telephone',
@@ -91,7 +91,7 @@ export const ANALYTICS_FIELD_MAP = {
 };
 
 export const API_ROUTES = {
-  INIT_VET360_ID: '/profile/initialize_vet360_id',
+  INIT_VAP_SERVICE_ID: '/profile/initialize_vet360_id',
   TELEPHONES: '/profile/telephones',
   EMAILS: '/profile/email_addresses',
   ADDRESSES: '/profile/addresses',

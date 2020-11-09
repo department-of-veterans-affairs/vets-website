@@ -9,7 +9,7 @@ import {
   selectVet360MobilePhone,
 } from 'platform/user/selectors';
 
-import * as VET360 from '../constants';
+import * as VAP_SERVICE from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
 import { selectVAPServiceTransaction } from '@@vap-svc/selectors';
 
@@ -56,7 +56,7 @@ class ReceiveTextMessages extends React.Component {
       method,
       this.props.fieldName,
       payload,
-      VET360.ANALYTICS_FIELD_MAP[smsAction],
+      VAP_SERVICE.ANALYTICS_FIELD_MAP[smsAction],
     );
   };
 
@@ -120,18 +120,19 @@ export function mapStateToProps(state, ownProps) {
   const isPending = !!isPendingTransaction(transaction);
   const profileState = selectProfile(state);
   const mobilePhone = selectVet360MobilePhone(state);
-  const isTextable = mobilePhone?.phoneType === VET360.PHONE_TYPE.mobilePhone;
+  const isTextable =
+    mobilePhone?.phoneType === VAP_SERVICE.PHONE_TYPE.mobilePhone;
   const hideCheckbox =
     !isTextable || !isVAPatient(state) || hasError || isPending;
   const transactionSuccess =
     state.vet360.transactionStatus ===
-    VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS;
+    VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_SUCCESS;
   return {
     profile: profileState,
     hideCheckbox,
     transaction,
     transactionSuccess,
-    apiRoute: VET360.API_ROUTES.TELEPHONES,
+    apiRoute: VAP_SERVICE.API_ROUTES.TELEPHONES,
   };
 }
 

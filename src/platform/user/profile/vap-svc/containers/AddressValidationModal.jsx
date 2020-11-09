@@ -19,7 +19,7 @@ import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 import recordEvent from 'platform/monitoring/record-event';
 
-import * as VET360 from '../constants';
+import * as VAP_SERVICE from '../constants';
 
 import {
   isFailedTransaction,
@@ -64,7 +64,7 @@ class AddressValidationModal extends React.Component {
 
     if (suggestedAddressSelected) {
       this.props.updateValidationKeyAndSave(
-        VET360.API_ROUTES.ADDRESSES,
+        VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
         payload,
@@ -72,7 +72,7 @@ class AddressValidationModal extends React.Component {
       );
     } else {
       this.props.createTransaction(
-        VET360.API_ROUTES.ADDRESSES,
+        VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
         payload,
@@ -283,7 +283,8 @@ const mapStateToProps = (state, ownProps) => {
     state.vet360.addressValidation.addressValidationType;
 
   return {
-    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
+    analyticsSectionName:
+      VAP_SERVICE.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
       state.vet360.fieldTransactionMap[addressValidationType]?.isPending ||
       isPendingTransaction(transaction),
