@@ -12,7 +12,7 @@ const fs = require('fs-extra');
  * @return {Proxy} - A Proxy containing all the feature flags; throws
  *                   an error if a flag is called without existing
  */
-function useFlags(rawFlags, shouldLog = true) {
+function useFlags(rawFlags, shouldLog = false) {
   // eslint-disable-next-line fp/no-proxy
   const p = new Proxy(rawFlags, {
     get(obj, prop) {
