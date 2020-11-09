@@ -72,7 +72,7 @@ async function fetchCache() {
     options.buildtype === ENVIRONMENTS.LOCALHOST
       ? ENVIRONMENTS.VAGOVDEV
       : options.buildtype;
-  const cacheKey = getDrupalCacheKey(cacheEnv);
+  const cacheKey = await getDrupalCacheKey(cacheEnv);
   const fullCacheUrl = `${cacheUrl}/${cacheKey}.tar.bz2`;
   const downloadPath = path.join(cacheDirectory, `${cacheKey}.tar.bz2`);
 
