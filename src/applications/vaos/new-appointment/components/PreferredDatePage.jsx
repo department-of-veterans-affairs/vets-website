@@ -44,7 +44,7 @@ const uiSchema = {
 const pageKey = 'preferredDate';
 const pageTitle = 'Tell us when you want to schedule your appointment';
 
-export function PreferredDatePage({
+function PreferredDatePage({
   data,
   openFormPage,
   pageChangeInProgress,
