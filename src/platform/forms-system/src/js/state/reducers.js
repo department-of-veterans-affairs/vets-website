@@ -55,18 +55,27 @@ export default {
   }),
   [SET_SUBMISSION]: (state, action) => {
     const newState = _.set(['submission', action.field], action.value, state);
-    if (action.extra) {
-      newState.submission.extra = action.extra;
+    const { extra, errorMessage } = action;
+    const submission = {
+      ...newState.submission,
+      timestamp: new Date().getTime(),
+      hasAttemptedSubmit: true,
+    };
+    if (errorMessage) {
+      submission.errorMessage = errorMessage;
     }
-
+    if (extra) {
+      submission.extra = extra;
+    }
+    newState.submission = submission;
     return newState;
   },
   [SET_SUBMITTED]: (state, action) => {
     const submission = _.assign(state.submission, {
       response: action.response,
       status: 'applicationSubmitted',
+      timestamp: new Date(),
     });
-
     return _.set('submission', submission, state);
   },
   [SET_VIEWED_PAGES]: (state, action) => {

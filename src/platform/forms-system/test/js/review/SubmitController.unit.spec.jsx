@@ -329,6 +329,7 @@ describe('Schemaform review: SubmitController', () => {
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -344,6 +345,7 @@ describe('Schemaform review: SubmitController', () => {
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
           submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
       </Provider>,
@@ -366,6 +368,7 @@ describe('Schemaform review: SubmitController', () => {
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -381,6 +384,7 @@ describe('Schemaform review: SubmitController', () => {
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
           submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
       </Provider>,
@@ -405,6 +409,7 @@ describe('Schemaform review: SubmitController', () => {
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -420,6 +425,7 @@ describe('Schemaform review: SubmitController', () => {
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
           submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
       </Provider>,

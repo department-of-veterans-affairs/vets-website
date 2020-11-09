@@ -42,6 +42,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         updateFormData={updateFormData}
         facilityDetailsStatus={FETCH_STATUS.loading}
         data={{}}
+        {...defaultProps}
       />,
     );
 
@@ -83,7 +84,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       />,
     );
 
-    form.setProps({ facilityDetailsStatus: FETCH_STATUS.successful });
+    form.setProps({ facilityDetailsStatus: FETCH_STATUS.succeeded });
 
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);

@@ -47,11 +47,12 @@ export function setEditMode(page, edit, index = null) {
 
 // extra is used to pass other information (from a submission error or anything else)
 // into the submission state object
-export function setSubmission(field, value, extra = null) {
+export function setSubmission(field, value, errorMessage = null, extra = null) {
   return {
     type: SET_SUBMISSION,
     field,
     value,
+    errorMessage, // include errorMessage in form.submission
     extra,
   };
 }
@@ -192,7 +193,7 @@ export function submitForm(formConfig, form) {
           errorType = 'serverError';
         }
         captureError(error, errorType);
-        dispatch(setSubmission('status', errorType, error.extra));
+        dispatch(setSubmission('status', errorType, errorMessage, error.extra));
       });
   };
 }
