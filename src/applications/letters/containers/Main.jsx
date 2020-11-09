@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { systemDownMessage } from 'platform/static-data/error-messages';
+import { selectVAPContactInfo } from 'platform/user/selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound, isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
@@ -78,7 +79,7 @@ function mapStateToProps(state) {
       serviceInfo: letterState.serviceInfo,
     },
     optionsAvailable: letterState.optionsAvailable,
-    emptyAddress: isAddressEmpty(state.user.profile.vet360.mailingAddress),
+    emptyAddress: isAddressEmpty(selectVAPContactInfo(state)?.mailingAddress),
   };
 }
 

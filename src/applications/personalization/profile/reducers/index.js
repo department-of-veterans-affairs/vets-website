@@ -1,5 +1,5 @@
 import set from 'platform/utilities/data/set';
-import vet360 from 'vet360/reducers';
+import vet360 from '@@vap-svc/reducers';
 import { hcaEnrollmentStatus } from 'applications/hca/reducer';
 
 import {

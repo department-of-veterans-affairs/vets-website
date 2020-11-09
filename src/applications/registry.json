@@ -299,7 +299,7 @@
       "layout": "page-react.html",
       "description": "Apply online to request a Higher-Level Review.",
       "includeBreadcrumbs": true,
-      "vagovprod": false,
+      "vagovprod": true,
       "breadcrumbs_override": [
         {
           "name": "VA decision review and appeals",
@@ -900,7 +900,6 @@
     "template": {
       "title:": "Search results",
       "layout": "page-react.html",
-      "vagovprod": false,
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {

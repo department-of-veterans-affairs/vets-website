@@ -1,7 +1,7 @@
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
-import { isVet360Configured } from 'platform/user/profile/vet360/util/local-vet360';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
+import { apiRequest } from '~/platform/utilities/api';
+import environment from '~/platform/utilities/environment';
+import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 
 import {
   debtLettersSuccess,
@@ -54,7 +54,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = isVet360Configured()
+    const response = isVAProfileServiceConfigured()
       ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
       : await debtLettersSuccessVBMS();
 
@@ -89,7 +89,7 @@ export const fetchDebtLetters = () => async dispatch => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = isVet360Configured()
+    const response = isVAProfileServiceConfigured()
       ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
       : await debtLettersSuccess();
 
@@ -114,7 +114,7 @@ export const fetchDebtLetters = () => async dispatch => {
       recordEvent({ 'number-of-current-debt-cards': filteredResponse.length });
     }
     // suppress VBMS call if they have dependent debt
-    if (!response.hasDependentDebt) {
+    if (!response.hasDependentDebts) {
       dispatch(fetchDebtLettersVBMS());
     }
     return dispatch(fetchDebtLettersSuccess(filteredResponse));

@@ -52,7 +52,7 @@ export const ServerErrorAlert = (
     </p>
     <p>
       If you get this error again, please call the VA.gov help desk at{' '}
-      <Telephone contact="8006982411">800-698-2411</Telephone> (TTY:{' '}
+      <Telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
       <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>

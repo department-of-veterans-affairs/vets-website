@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
+import { selectVAPContactInfo } from 'platform/user/selectors';
 
 import { isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
 
-import { TRANSACTION_CATEGORY_TYPES } from 'vet360/constants';
+import { TRANSACTION_CATEGORY_TYPES } from '@@vap-svc/constants';
 
-import Vet360InitializeID from 'vet360/containers/InitializeVet360ID';
-import Vet360PendingTransactionCategory from 'vet360/containers/Vet360PendingTransactionCategory';
-import MailingAddress from 'vet360/components/MailingAddress';
+import Vet360InitializeID from '@@vap-svc/containers/InitializeVet360ID';
+import Vet360PendingTransactionCategory from '@@vap-svc/containers/Vet360PendingTransactionCategory';
+import MailingAddress from '@@vap-svc/components/MailingAddress';
 
 export class AddressSection extends React.Component {
   componentDidMount() {
@@ -76,7 +77,7 @@ export class AddressSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    savedAddress: state.user.profile.vet360.mailingAddress,
+    savedAddress: selectVAPContactInfo(state)?.mailingAddress,
   };
 }
 

@@ -156,13 +156,13 @@ function handleNext(onClickNext, months, setMonths) {
   setMonths(updatedMonths);
 }
 
-function handleMultiSelect(
+function handleMultiSelect({
   date,
   onChange,
   selectedDates,
   additionalOptions,
   currentlySelectedDate,
-) {
+}) {
   const updatedSelectedDates = selectedDates ? [...selectedDates] : [];
 
   const isInSelectedArray = isDateInSelectedArray(date, updatedSelectedDates);
@@ -178,19 +178,25 @@ function handleMultiSelect(
   });
 }
 
-function handleSelectDate(
+function handleSelectDate({
   date,
   selectedDates,
   currentlySelectedDate,
   additionalOptions,
   maxSelections,
   onChange,
-) {
+}) {
   let updatedSelectedDates = selectedDates ? [...selectedDates] : [];
   let updatedCurrentlySelectedDate = currentlySelectedDate;
 
   if (maxSelections > 1) {
-    handleMultiSelect(date);
+    handleMultiSelect({
+      date,
+      onChange,
+      selectedDates,
+      additionalOptions,
+      currentlySelectedDate,
+    });
   } else {
     if (date !== currentlySelectedDate) {
       if (!additionalOptions?.required) {
@@ -208,13 +214,13 @@ function handleSelectDate(
   }
 }
 
-function handleSelectOption(
+function handleSelectOption({
   dateObj,
   selectedDates,
   additionalOptions,
   onChange,
   currentlySelectedDate,
-) {
+}) {
   let updatedSelectedDates = [...selectedDates];
 
   const maxOptionSelections = additionalOptions.maxSelections;
@@ -262,7 +268,16 @@ function renderWeeks({
       availableDates={availableDates}
       cells={week}
       currentlySelectedDate={currentlySelectedDate}
-      handleSelectDate={() => handleSelectDate(onChange)}
+      handleSelectDate={date =>
+        handleSelectDate({
+          date,
+          selectedDates,
+          currentlySelectedDate,
+          additionalOptions,
+          maxSelections,
+          onChange,
+        })
+      }
       handleSelectOption={handleSelectOption}
       hasError={validationError?.length > 0}
       key={`row-${index}`}
@@ -336,21 +351,19 @@ function renderMonth({
       <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <CalendarWeekdayHeader />
       <div role="rowgroup">
-        {() =>
-          renderWeeks({
-            month,
-            additionalOptions,
-            availableDates,
-            currentlySelectedDate,
-            maxDate,
-            maxSelections,
-            minDate,
-            onChange,
-            selectedDates,
-            selectedIndicatorType,
-            validationError,
-          })
-        }
+        {renderWeeks({
+          month,
+          additionalOptions,
+          availableDates,
+          currentlySelectedDate,
+          maxDate,
+          maxSelections,
+          minDate,
+          onChange,
+          selectedDates,
+          selectedIndicatorType,
+          validationError,
+        })}
       </div>
     </>
   );
@@ -386,7 +399,7 @@ export default function CalendarWidget({
         const startDate = startMonth ? moment(startMonth) : moment();
 
         for (let index = 0; index < monthsToShowAtOnce; index++) {
-          months.push(startDate.clone().add(index, 'months'));
+          updatedMonths.push(startDate.clone().add(index, 'months'));
         }
         setMonths(updatedMonths);
       }
@@ -407,7 +420,8 @@ export default function CalendarWidget({
 
   return (
     <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
-      {loadingStatus === FETCH_STATUS.loading && (
+      {(loadingStatus === FETCH_STATUS.loading ||
+        loadingStatus === FETCH_STATUS.notStarted) && (
         <div className="vaos-calendar__loading-overlay">
           <LoadingIndicator message="Finding appointment availability..." />
         </div>
