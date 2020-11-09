@@ -58,7 +58,7 @@ export const selectPatientFacilities = state =>
   }) || null;
 export const selectVAPContactInfo = state =>
   selectProfile(state).vapContactInfo;
-export const selectVet360EmailAddress = state =>
+export const selectVAPEmailAddress = state =>
   selectVAPContactInfo(state)?.email?.emailAddress;
 const createPhoneNumberStringFromData = phoneNumberData => {
   const data = phoneNumberData || {};
@@ -69,15 +69,15 @@ const createPhoneNumberStringFromData = phoneNumberData => {
   const extension = data.extension === '0000' ? undefined : data.extension;
   return `${areaCode}${phoneNumber}${extension ? `x${extension}` : ''}`;
 };
-export const selectVet360MobilePhone = state =>
+export const selectVAPMobilePhone = state =>
   selectVAPContactInfo(state)?.mobilePhone;
-export const selectVet360MobilePhoneString = state =>
-  createPhoneNumberStringFromData(selectVet360MobilePhone(state));
-export const selectVet360HomePhone = state =>
+export const selectVAPMobilePhoneString = state =>
+  createPhoneNumberStringFromData(selectVAPMobilePhone(state));
+export const selectVAPHomePhone = state =>
   selectVAPContactInfo(state)?.homePhone;
-export const selectVet360HomePhoneString = state =>
-  createPhoneNumberStringFromData(selectVet360HomePhone(state));
-export const selectVet360ResidentialAddress = state =>
+export const selectVAPHomePhoneString = state =>
+  createPhoneNumberStringFromData(selectVAPHomePhone(state));
+export const selectVAPResidentialAddress = state =>
   selectVAPContactInfo(state)?.residentialAddress;
 
 export function createIsServiceAvailableSelector(service) {
