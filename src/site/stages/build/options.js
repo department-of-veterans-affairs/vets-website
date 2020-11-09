@@ -64,8 +64,6 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   // isn't actually a part of this list of options, but an error would be thrown
   // without it. Remove this when getOptions is decoupled from the cache script.
   { name: 'fetch', type: Boolean, defaultValue: false },
-
-  { name: 'unexpected', type: String, multiple: true, defaultOption: true },
 ];
 
 function gatherFromCommandLine() {
@@ -74,10 +72,6 @@ function gatherFromCommandLine() {
   // Set defaults which require the value of other options
   options['cms-export-dir'] =
     options['cms-export-dir'] || defaultCMSExportContentDir(options.buildtype);
-
-  if (options.unexpected && options.unexpected.length !== 0) {
-    throw new Error(`Unexpected arguments: '${options.unexpected}'`);
-  }
 
   return options;
 }

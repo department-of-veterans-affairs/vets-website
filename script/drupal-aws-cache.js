@@ -24,7 +24,6 @@ const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'fetch', type: Boolean, defaultValue: false },
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
-  { name: 'unexpected', type: String, multiple: true, defaultOption: true },
 ];
 const cacheUrl = `https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/content`;
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
