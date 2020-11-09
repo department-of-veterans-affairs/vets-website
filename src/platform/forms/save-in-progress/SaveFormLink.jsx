@@ -29,9 +29,15 @@ class SaveFormLink extends React.Component {
   }
 
   handleSave = () => {
-    const { formId, version, data } = this.props.form;
+    const { formId, version, data, submission } = this.props.form;
     const returnUrl = this.props.locationPathname;
-    this.props.saveAndRedirectToReturnUrl(formId, data, version, returnUrl);
+    this.props.saveAndRedirectToReturnUrl(
+      formId,
+      data,
+      version,
+      returnUrl,
+      submission,
+    );
   };
 
   openLoginModal = () => {

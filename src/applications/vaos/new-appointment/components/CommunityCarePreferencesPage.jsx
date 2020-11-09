@@ -1,20 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
-import { LANGUAGES } from './../../utils/constants';
-
-import {
-  openCommunityCarePreferencesPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-} from '../redux/actions';
+import { LANGUAGES } from '../../utils/constants';
+import * as actions from '../redux/actions';
 import { getFormPageInfo } from '../../utils/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { addressSchema, getAddressUISchema } from '../fields/addressFields';
+import { useHistory } from 'react-router-dom';
 
 const initialSchema = {
   type: 'object',
@@ -153,67 +148,58 @@ const uiSchema = {
 const pageKey = 'ccPreferences';
 const pageTitle = 'Tell us your community care preferences';
 
-export class CommunityCarePreferencesPage extends React.Component {
-  componentDidMount() {
-    this.props.openCommunityCarePreferencesPage(
-      pageKey,
-      uiSchema,
-      initialSchema,
-    );
-    document.title = `${pageTitle}  | Veterans Affairs`;
+// Remove the export when the CommunityCarePreferencesPage.unit.spec.jsx is converted
+export function CommunityCarePreferencesPage({
+  schema,
+  data,
+  pageChangeInProgress,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateFormData,
+  openCommunityCarePreferencesPage,
+}) {
+  const history = useHistory();
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-  }
+    openCommunityCarePreferencesPage(pageKey, uiSchema, initialSchema);
+  }, []);
 
-  goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
-  };
-
-  goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
-  };
-
-  render() {
-    const { schema, data, pageChangeInProgress } = this.props;
-
-    return (
-      <div>
-        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        {!!schema && (
-          <SchemaForm
-            name="ccPreferences"
-            title="Community Care preferences"
-            schema={schema}
-            uiSchema={uiSchema}
-            onSubmit={this.goForward}
-            onChange={newData =>
-              this.props.updateFormData(pageKey, uiSchema, newData)
-            }
-            data={data}
-          >
-            <FormButtons
-              onBack={this.goBack}
-              pageChangeInProgress={pageChangeInProgress}
-              loadingText="Page change in progress"
-            />
-          </SchemaForm>
-        )}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      {!!schema && (
+        <SchemaForm
+          name="ccPreferences"
+          title="Community Care preferences"
+          schema={schema}
+          uiSchema={uiSchema}
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          data={data}
+        >
+          <FormButtons
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </SchemaForm>
+      )}
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
   return {
     ...getFormPageInfo(state, pageKey),
-    parentFacilitiesStatus: state.newAppointment.parentFacilitiesStatus,
   };
 }
 
 const mapDispatchToProps = {
-  openCommunityCarePreferencesPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
+  openCommunityCarePreferencesPage: actions.openCommunityCarePreferencesPage,
+  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
+  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  updateFormData: actions.updateFormData,
 };
 
 export default connect(

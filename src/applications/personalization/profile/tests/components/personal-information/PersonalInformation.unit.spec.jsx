@@ -53,7 +53,7 @@ describe('PersonalInformation', () => {
     const {
       residentialAddress,
       mailingAddress,
-    } = initialState.user.profile.vet360;
+    } = initialState.user.profile.vapContactInfo;
 
     const view = renderWithProfileReducers(ui, { initialState });
 

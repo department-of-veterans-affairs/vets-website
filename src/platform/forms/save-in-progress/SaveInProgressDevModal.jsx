@@ -44,7 +44,7 @@ const SipsDevModal = props => {
 
   const saveData = (event, type) => {
     event.preventDefault();
-    const { formId, version, data } = props.form;
+    const { formId, version, data, submission } = props.form;
     const parsedData = JSON.parse(sipsData);
 
     // maximal-data.json is wrapped in `{ "data": {...} }
@@ -56,7 +56,13 @@ const SipsDevModal = props => {
     const newData =
       type === 'merge' ? Object.assign({}, data, resultingData) : resultingData;
     setError('');
-    props.saveAndRedirectToReturnUrl(formId, newData, version, sipsUrl);
+    props.saveAndRedirectToReturnUrl(
+      formId,
+      newData,
+      version,
+      sipsUrl,
+      submission,
+    );
     toggleModal(false);
   };
 

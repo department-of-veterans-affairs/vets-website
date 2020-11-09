@@ -37,11 +37,13 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, {
-          data: [{ attributes: { assigningAuthority: 'dfn-000' } }],
-        });
 
         const state = {
+          user: {
+            profile: {
+              facilities: [],
+            },
+          },
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,

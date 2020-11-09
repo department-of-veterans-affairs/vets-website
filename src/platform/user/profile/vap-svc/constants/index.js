@@ -43,7 +43,7 @@ export const TRANSACTION_STATUS = {
   COMPLETED_FAILURE: 'COMPLETED_FAILURE',
 };
 
-export const INIT_VET360_ID = 'initializeVet360ID';
+export const INIT_VAP_SERVICE_ID = 'initializeVAProfileServiceID';
 
 export const FIELD_NAMES = {
   HOME_PHONE: 'homePhone',
@@ -97,7 +97,7 @@ export const API_ROUTES = {
   ADDRESSES: '/profile/addresses',
 };
 
-export const VET360_INITIALIZATION_STATUS = {
+export const VAP_SERVICE_INITIALIZATION_STATUS = {
   INITIALIZED: 'INITIALIZED',
   INITIALIZING: 'INITIALIZING',
   INITIALIZATION_FAILURE: 'INITIALIZATION_FAILURE',

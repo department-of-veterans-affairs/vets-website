@@ -367,7 +367,8 @@ export default class CalendarWidget extends Component {
 
     return (
       <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
-        {loadingStatus === FETCH_STATUS.loading && (
+        {(loadingStatus === FETCH_STATUS.loading ||
+          loadingStatus === FETCH_STATUS.notStarted) && (
           <div className="vaos-calendar__loading-overlay">
             <LoadingIndicator message="Finding appointment availability..." />
           </div>

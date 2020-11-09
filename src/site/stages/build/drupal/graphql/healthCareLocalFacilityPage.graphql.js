@@ -64,30 +64,6 @@ module.exports = `
               ... listOfLinkTeasers
             }
           }
-          fieldFacebook {
-            title
-            url {
-              path
-            }
-          }
-          fieldTwitter {
-            title
-            url {
-              path
-            }
-          }
-          fieldFlickr {
-            title
-            url {
-              path
-            }
-          }
-          fieldInstagram {
-            title
-            url {
-              path
-            }
-          }
           fieldGovdeliveryIdEmerg
           fieldGovdeliveryIdNews
           fieldOperatingStatus {
