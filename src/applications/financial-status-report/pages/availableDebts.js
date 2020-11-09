@@ -3,7 +3,12 @@ import AvailableDebts from '../components/AvailableDebts';
 export const uiSchema = {
   'ui:title': 'Available Debts',
   'ui:description': '',
-  'ui:widget': AvailableDebts,
+  fsrDebts: {
+    'ui:title': ' ',
+    'ui:options': {
+      viewField: AvailableDebts,
+    },
+  },
 };
 
 export const schema = {
@@ -11,6 +16,9 @@ export const schema = {
   properties: {
     fsrDebts: {
       type: 'array',
+      items: {
+        type: 'string',
+      },
     },
   },
 };
