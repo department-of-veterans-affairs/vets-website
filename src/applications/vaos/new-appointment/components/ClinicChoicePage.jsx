@@ -67,7 +67,6 @@ export function ClinicChoicePage({
     data.clinicId === 'NONE' && !canMakeRequests;
   useEffect(() => {
     openClinicPage(pageKey, uiSchema, initialSchema);
-    scrollAndFocus();
   }, []);
 
   useEffect(
