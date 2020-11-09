@@ -174,7 +174,7 @@ function handleMultiSelect({
 
   onChange({
     currentlySelectedDate: currentlySelectedDate === date ? null : date,
-    updatedSelectedDates,
+    selectedDates: updatedSelectedDates,
   });
 }
 
@@ -198,7 +198,7 @@ function handleSelectDate({
       currentlySelectedDate,
     });
   } else {
-    if (date !== currentlySelectedDate) {
+    if (date !== updatedCurrentlySelectedDate) {
       if (!additionalOptions?.required) {
         updatedSelectedDates = [{ date }];
       }
@@ -208,15 +208,15 @@ function handleSelectDate({
       updatedCurrentlySelectedDate = null;
     }
     onChange({
-      updatedCurrentlySelectedDate,
-      updatedSelectedDates,
+      currentlySelectedDate: updatedCurrentlySelectedDate,
+      selectedDates: updatedSelectedDates,
     });
   }
 }
 
 function handleSelectOption({
   dateObj,
-  selectedDates,
+  selectedDates = [],
   additionalOptions,
   onChange,
   currentlySelectedDate,
@@ -245,128 +245,8 @@ function handleSelectOption({
   }
   onChange({
     currentlySelectedDate,
-    updatedSelectedDates,
+    selectedDates: updatedSelectedDates,
   });
-}
-
-function renderWeeks({
-  month,
-  additionalOptions,
-  availableDates,
-  currentlySelectedDate,
-  maxDate,
-  maxSelections,
-  minDate,
-  onChange,
-  selectedDates,
-  selectedIndicatorType,
-  validationError,
-}) {
-  return getCalendarWeeks(month).map((week, index) => (
-    <CalendarRow
-      additionalOptions={additionalOptions}
-      availableDates={availableDates}
-      cells={week}
-      currentlySelectedDate={currentlySelectedDate}
-      handleSelectDate={date =>
-        handleSelectDate({
-          date,
-          selectedDates,
-          currentlySelectedDate,
-          additionalOptions,
-          maxSelections,
-          onChange,
-        })
-      }
-      handleSelectOption={handleSelectOption}
-      hasError={validationError?.length > 0}
-      key={`row-${index}`}
-      maxDate={maxDate}
-      maxSelections={maxSelections}
-      minDate={minDate}
-      rowNumber={index}
-      selectedDates={selectedDates || []}
-      selectedIndicatorType={selectedIndicatorType}
-    />
-  ));
-}
-
-function renderMonth({
-  additionalOptions,
-  availableDates,
-  currentDate,
-  currentlySelectedDate,
-  index,
-  maxDate,
-  maxMonth,
-  maxSelections,
-  minDate,
-  month,
-  months,
-  monthsToShowAtOnce,
-  onChange,
-  onClickNext,
-  onClickPrev,
-  selectedDates,
-  selectedIndicatorType,
-  setMonths,
-  validationError,
-}) {
-  const nextMonthToDisplay = months[months.length - 1]
-    ?.clone()
-    .add(1, 'months')
-    .format('YYYY-MM');
-
-  const prevDisabled =
-    months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
-  const nextDisabled = nextMonthToDisplay > maxMonth;
-
-  return (
-    <>
-      <h2
-        id={`h2-${month.format('YYYY-MM')}`}
-        className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif"
-      >
-        {month.format('MMMM YYYY')}
-      </h2>
-      <div
-        className="sr-only"
-        id={`vaos-calendar-instructions-${month.month()}`}
-      >
-        Press the Enter key to expand the day you want to schedule an
-        appointment. Then press the Tab key or form shortcut key to select an
-        appointment time.
-      </div>
-
-      {index === 0 && (
-        <CalendarNavigation
-          prevOnClick={() =>
-            handlePrev(onClickPrev, monthsToShowAtOnce, months, setMonths)
-          }
-          nextOnClick={() => handleNext(onClickNext, months, setMonths)}
-          prevDisabled={prevDisabled}
-          nextDisabled={nextDisabled}
-        />
-      )}
-      <hr aria-hidden="true" className="vads-u-margin-y--1" />
-      <CalendarWeekdayHeader />
-      <div role="rowgroup">
-        {renderWeeks({
-          month,
-          additionalOptions,
-          availableDates,
-          currentlySelectedDate,
-          maxDate,
-          maxSelections,
-          minDate,
-          onChange,
-          selectedDates,
-          selectedIndicatorType,
-          validationError,
-        })}
-      </div>
-    </>
-  );
 }
 
 export default function CalendarWidget({
@@ -418,6 +298,15 @@ export default function CalendarWidget({
     return loadingErrorMessage;
   }
 
+  const nextMonthToDisplay = months[months.length - 1]
+    ?.clone()
+    .add(1, 'months')
+    .format('YYYY-MM');
+
+  const prevDisabled =
+    months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
+  const nextDisabled = nextMonthToDisplay > maxMonth;
+
   return (
     <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
       {(loadingStatus === FETCH_STATUS.loading ||
@@ -444,27 +333,79 @@ export default function CalendarWidget({
                 aria-labelledby={`h2-${month.format('YYYY-MM')}`}
                 role="table"
               >
-                {renderMonth({
-                  additionalOptions,
-                  availableDates,
-                  currentDate,
-                  currentlySelectedDate,
-                  index,
-                  maxDate,
-                  maxMonth,
-                  maxSelections,
-                  minDate,
-                  month,
-                  months,
-                  monthsToShowAtOnce,
-                  onChange,
-                  onClickNext,
-                  onClickPrev,
-                  selectedDates,
-                  selectedIndicatorType,
-                  setMonths,
-                  validationError,
-                })}
+                <>
+                  <h2
+                    id={`h2-${month.format('YYYY-MM')}`}
+                    className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif"
+                  >
+                    {month.format('MMMM YYYY')}
+                  </h2>
+                  <div
+                    className="sr-only"
+                    id={`vaos-calendar-instructions-${month.month()}`}
+                  >
+                    Press the Enter key to expand the day you want to schedule
+                    an appointment. Then press the Tab key or form shortcut key
+                    to select an appointment time.
+                  </div>
+
+                  {index === 0 && (
+                    <CalendarNavigation
+                      prevOnClick={() =>
+                        handlePrev(
+                          onClickPrev,
+                          monthsToShowAtOnce,
+                          months,
+                          setMonths,
+                        )
+                      }
+                      nextOnClick={() =>
+                        handleNext(onClickNext, months, setMonths)
+                      }
+                      prevDisabled={prevDisabled}
+                      nextDisabled={nextDisabled}
+                    />
+                  )}
+                  <hr aria-hidden="true" className="vads-u-margin-y--1" />
+                  <CalendarWeekdayHeader />
+                  <div role="rowgroup">
+                    {getCalendarWeeks(month).map((week, weekIndex) => (
+                      <CalendarRow
+                        additionalOptions={additionalOptions}
+                        availableDates={availableDates}
+                        cells={week}
+                        currentlySelectedDate={currentlySelectedDate}
+                        handleSelectDate={date =>
+                          handleSelectDate({
+                            date,
+                            selectedDates,
+                            currentlySelectedDate,
+                            additionalOptions,
+                            maxSelections,
+                            onChange,
+                          })
+                        }
+                        handleSelectOption={dateObj =>
+                          handleSelectOption({
+                            dateObj,
+                            selectedDates,
+                            additionalOptions,
+                            onChange,
+                            currentlySelectedDate,
+                          })
+                        }
+                        hasError={validationError?.length > 0}
+                        key={`row-${weekIndex}`}
+                        maxDate={maxDate}
+                        maxSelections={maxSelections}
+                        minDate={minDate}
+                        rowNumber={weekIndex}
+                        selectedDates={selectedDates || []}
+                        selectedIndicatorType={selectedIndicatorType}
+                      />
+                    ))}
+                  </div>
+                </>
               </div>
             ) : null,
         )}
