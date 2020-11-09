@@ -7,7 +7,7 @@ import {
   getPOWValidationMessage,
   pathWithIndex,
   hasClaimedConditions,
-  increaseOnly,
+  isClaimingIncrease,
   hasRatedDisabilities,
   claimingRated,
   showSeparationLocation,
@@ -275,7 +275,7 @@ export const requireDisability = (err, fieldData, formData) => {
  * Requires a rated disability to be entered if the increase only path has been selected.
  */
 export const requireRatedDisability = (err, fieldData, formData) => {
-  if (increaseOnly(formData) && !claimingRated(formData)) {
+  if (isClaimingIncrease(formData) && !claimingRated(formData)) {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
     err.addError('Please selected a rated disability');

@@ -65,7 +65,7 @@ describe('Deleting email address', () => {
   beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
     const initialState = createBasicInitialState();
-    emailAddress = initialState.user.profile.vet360.email.emailAddress;
+    emailAddress = initialState.user.profile.vapContactInfo.email.emailAddress;
 
     view = renderWithProfileReducers(ui, {
       initialState,

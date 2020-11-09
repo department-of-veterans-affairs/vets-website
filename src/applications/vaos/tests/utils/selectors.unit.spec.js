@@ -21,6 +21,7 @@ import {
   selectLocalExpressCareWindowString,
   selectNextAvailableExpressCareWindowString,
   selectIsCernerOnlyPatient,
+  selectUseFlatFacilityPage,
 } from '../../utils/selectors';
 
 import { VHA_FHIR_ID, APPOINTMENT_TYPES } from '../../utils/constants';
@@ -860,5 +861,94 @@ describe('VAOS selectors', () => {
         )} to ${endTime.format('h:mm a')} MT`,
       );
     });
+  });
+
+  describe('selectUseFlatFacilityPage', () => {
+    it('should return true if feature toggle is on and user is not cerner patient', () => {
+      const state = {
+        featureToggles: {
+          vaOnlineSchedulingFlatFacilityPage: true,
+        },
+      };
+
+      expect(selectUseFlatFacilityPage(state)).to.be.true;
+    });
+
+    it('should return false if feature toggle is off', () => {
+      const state = {
+        featureToggles: {
+          vaOnlineSchedulingFlatFacilityPage: false,
+        },
+        user: {
+          profile: {
+            facilities: [{ facilityId: '124', isCerner: false }],
+          },
+        },
+      };
+
+      expect(selectUseFlatFacilityPage(state)).to.be.false;
+    });
+
+    it('should return false if feature toggle is on and user has cerner facilities', () => {
+      const state = {
+        featureToggles: {
+          vaOnlineSchedulingFlatFacilityPage: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              {
+                facilityId: '668',
+                isCerner: true,
+                usesCernerAppointments: true,
+              },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      expect(selectUseFlatFacilityPage(state)).to.be.false;
+    });
+
+    it('should return false if feature toggle is on and user is registered to Sacramento VA', () => {
+      const state = {
+        featureToggles: {
+          vaOnlineSchedulingFlatFacilityPage: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false },
+              { facilityId: '612', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      expect(selectUseFlatFacilityPage(state)).to.be.false;
+    });
+  });
+
+  it('should return false if feature toggle is on and user is registered to Sacramento VA and has cerner facilities', () => {
+    const state = {
+      featureToggles: {
+        vaOnlineSchedulingFlatFacilityPage: true,
+      },
+      user: {
+        profile: {
+          facilities: [
+            {
+              facilityId: '668',
+              isCerner: true,
+              usesCernerAppointments: true,
+            },
+            { facilityId: '612', isCerner: false },
+          ],
+        },
+      },
+    };
+
+    expect(selectUseFlatFacilityPage(state)).to.be.false;
   });
 });
