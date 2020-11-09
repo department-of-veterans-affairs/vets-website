@@ -60,6 +60,13 @@
     width: 160px;
   }
 
+  @include media-maxwidth($medium-screen - 1) {
+    .about-ratings {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
   .category-rating {
     .rating {
       max-width: 320px;
