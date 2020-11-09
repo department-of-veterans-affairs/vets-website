@@ -15,6 +15,7 @@ export default function SearchBar({ onSearch, userInput, onInputChange }) {
   return (
     <div className="vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-y--3">
       <form
+        data-testid="resources-support-search"
         onSubmit={isGlobalSearch ? null : onSubmit}
         id="resources-support-search"
         method="get"
