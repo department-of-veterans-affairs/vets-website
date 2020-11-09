@@ -15,7 +15,11 @@ export default function useGetSearchResults(articles, query, page) {
         .split(' ')
         .map(keyword => keyword.toLowerCase())
         .map(keyword => {
-          if (keyword.length > 3 && keyword.endsWith('s')) {
+          if (keyword.length > 6 && keyword.endsWith('ies')) {
+            // Unpluralize the word, so that a search for "disabilities"
+            // will still yield articles titled "disability"
+            return keyword.slice(0, keyword.length - 3);
+          } else if (keyword.length > 3 && keyword.endsWith('s')) {
             // Unpluralize the word, so that a search for "claims"
             // will still yield articles titled "claim or appeal status"
             return keyword.slice(0, keyword.length - 1);
