@@ -28,8 +28,8 @@ import {
   selectAddressValidationType,
   selectCurrentlyOpenEditModal,
   selectEditedFormField,
-  selectVet360Field,
-  selectVet360Transaction,
+  selectVAPContactInfoField,
+  selectVAPServiceTransaction,
 } from '@@vap-svc/selectors';
 
 import ContactInformationEditButton from './ContactInformationEditButton';
@@ -405,11 +405,11 @@ class ContactInformationField extends React.Component {
 
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
-  const { transaction, transactionRequest } = selectVet360Transaction(
+  const { transaction, transactionRequest } = selectVAPServiceTransaction(
     state,
     fieldName,
   );
-  const data = selectVet360Field(state, fieldName);
+  const data = selectVAPContactInfoField(state, fieldName);
   const isEmpty = !data;
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);

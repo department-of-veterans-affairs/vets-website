@@ -19,8 +19,8 @@ import {
 } from '../actions';
 
 import {
-  selectVet360Field,
-  selectVet360Transaction,
+  selectVAPContactInfoField,
+  selectVAPServiceTransaction,
   selectCurrentlyOpenEditModal,
   selectEditedFormField,
 } from '../selectors';
@@ -266,11 +266,11 @@ class Vet360ProfileField extends React.Component {
 
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
-  const { transaction, transactionRequest } = selectVet360Transaction(
+  const { transaction, transactionRequest } = selectVAPServiceTransaction(
     state,
     fieldName,
   );
-  const data = selectVet360Field(state, fieldName);
+  const data = selectVAPContactInfoField(state, fieldName);
   const isEmpty = !data;
   const addressValidationType =
     state.vet360.addressValidation.addressValidationType;

@@ -41,6 +41,7 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
+  FORM_SHOW_ELIGIBILITY_MODAL,
   FORM_HIDE_ELIGIBILITY_MODAL,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
@@ -411,6 +412,7 @@ export default function formReducer(state = initialState, action) {
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
+        showEligibilityModal: false,
       };
     }
     case FORM_REQUEST_CURRENT_LOCATION: {
@@ -730,6 +732,12 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         eligibilityStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_SHOW_ELIGIBILITY_MODAL: {
+      return {
+        ...state,
+        showEligibilityModal: true,
       };
     }
     case FORM_HIDE_ELIGIBILITY_MODAL: {
