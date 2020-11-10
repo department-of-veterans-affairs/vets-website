@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const ConfirmationPage = props => {
-  // useEffect(() => {
-  //   focusElement('.schemaform-title > h1');
-  //   scrollToTop();
-  // }, []);
   const { appointment, form } = props;
   const { submission } = form || undefined;
   const { response } = submission || {};
