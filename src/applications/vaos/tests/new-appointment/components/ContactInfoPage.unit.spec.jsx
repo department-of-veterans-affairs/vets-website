@@ -20,6 +20,7 @@ describe('VAOS <ContactInfoPage>', () => {
       store,
     });
 
+    // it should display page heading
     expect(await screen.findByText('Your contact information')).to.be.ok;
   });
 
@@ -44,12 +45,7 @@ describe('VAOS <ContactInfoPage>', () => {
     );
 
     // it should display page heading
-    expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: /Your contact information/i,
-      }),
-    ).to.be.ok;
+    expect(await screen.findByText('Your contact information')).to.be.ok;
 
     const button = await screen.findByText(/^Continue/);
     userEvent.click(button);
@@ -75,12 +71,7 @@ describe('VAOS <ContactInfoPage>', () => {
     });
 
     // it should display page heading
-    expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: /Your contact information/i,
-      }),
-    ).to.be.ok;
+    expect(await screen.findByText('Your contact information')).to.be.ok;
 
     const input = document.getElementById('root_phoneNumber');
     expect(input.value).to.equal('');
@@ -106,12 +97,7 @@ describe('VAOS <ContactInfoPage>', () => {
     );
 
     // it should display page heading
-    expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: /Your contact information/i,
-      }),
-    ).to.be.ok;
+    expect(await screen.findByText('Your contact information')).to.be.ok;
 
     let input = document.getElementById('root_phoneNumber');
     userEvent.type(input, '5555555555');
