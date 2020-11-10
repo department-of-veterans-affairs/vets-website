@@ -36,7 +36,7 @@ function disconnectApps(mobile = false) {
   cy.get('.connected-app').should('have.length', 2);
 
   // 4 FAQs and 1 in each connected app
-  cy.get('.form-expanding-group').should('have.length', 6);
+  cy.get('.form-expanding-group').should('have.length', 3);
 
   // Make sure text for non-connected accounts does not show
   cy.findByText(/Third-party apps you can connect to your profile/i).should(
@@ -74,12 +74,6 @@ function disconnectApps(mobile = false) {
 
   // Check for the presence of 2 disconnect success alerts
   cy.get('.usa-alert-success').should('have.length', 2);
-
-  // 1 FAQ 'How do I connect a third-party app to my profile
-  cy.get('.form-expanding-group').should('have.length', 1);
-  cy.findByText(/How do I connect a third-party app to my profile/i).should(
-    'exist',
-  );
 
   cy.findByText(/Third-party apps you can connect to your profile/i).should(
     'exist',
