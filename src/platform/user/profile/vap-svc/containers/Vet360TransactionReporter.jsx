@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
-  selectVet360FailedTransactions,
+  selectVAPServiceFailedTransactions,
   selectMostRecentErroredTransaction,
 } from '../selectors';
 
@@ -52,7 +52,7 @@ class Vet360TransactionReporter extends React.Component {
 
 const mapStateToProps = state => ({
   mostRecentErroredTransaction: selectMostRecentErroredTransaction(state),
-  erroredTransactions: selectVet360FailedTransactions(state),
+  erroredTransactions: selectVAPServiceFailedTransactions(state),
 });
 
 const mapDispatchToProps = {

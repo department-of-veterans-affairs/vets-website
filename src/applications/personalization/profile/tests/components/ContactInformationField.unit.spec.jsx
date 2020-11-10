@@ -171,7 +171,7 @@ describe('mapStateToProps', () => {
         },
       },
     },
-    vet360: {
+    vapService: {
       addressValidation: {},
       formFields: {
         mobilePhone: {},
@@ -191,7 +191,7 @@ describe('mapStateToProps', () => {
     });
     it('should be true if currently editing another field', () => {
       const state = getBasicState();
-      state.vet360.modal = 'homePhone';
+      state.vapService.modal = 'homePhone';
       const mappedProps = mapStateToProps(state, {
         fieldName: FIELD_NAMES.MOBILE_PHONE,
       });
@@ -201,7 +201,7 @@ describe('mapStateToProps', () => {
   describe('#activeEditView', () => {
     it('should be the field name of the field that is being edited', () => {
       const state = getBasicState();
-      state.vet360.modal = FIELD_NAMES.RESIDENTIAL_ADDRESS;
+      state.vapService.modal = FIELD_NAMES.RESIDENTIAL_ADDRESS;
       const mappedProps = mapStateToProps(state, {
         fieldName: FIELD_NAMES.MOBILE_PHONE,
       });
@@ -211,8 +211,8 @@ describe('mapStateToProps', () => {
     });
     it('should be the field name of the address field that is being validated', () => {
       const state = getBasicState();
-      state.vet360.modal = 'addressValidation';
-      state.vet360.addressValidation.addressValidationType =
+      state.vapService.modal = 'addressValidation';
+      state.vapService.addressValidation.addressValidationType =
         FIELD_NAMES.RESIDENTIAL_ADDRESS;
       const mappedProps = mapStateToProps(state, {
         fieldName: FIELD_NAMES.MOBILE_PHONE,
@@ -231,7 +231,7 @@ describe('mapStateToProps', () => {
           },
         },
       },
-      vet360: {
+      vapService: {
         addressValidation: {
           addressValidationType: FIELD_NAMES.MAILING_ADDRESS,
         },
@@ -256,7 +256,7 @@ describe('mapStateToProps', () => {
     describe('when the address validation modal is not open', () => {
       it('sets `showValidationView` to `false`', () => {
         const state = showValidationModalState();
-        state.vet360.modal = 'notTheValidationModal';
+        state.vapService.modal = 'notTheValidationModal';
         const mappedProps = mapStateToProps(state, {
           fieldName: FIELD_NAMES.MAILING_ADDRESS,
           ValidationView: () => {},

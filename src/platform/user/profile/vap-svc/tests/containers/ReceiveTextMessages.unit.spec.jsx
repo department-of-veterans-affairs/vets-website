@@ -87,7 +87,7 @@ describe('<ReceiveTextMessages/>', () => {
             vapContactInfo: { mobilePhone: { mobilePhone } },
           },
         },
-        vet360: {
+        vapService: {
           transactions: null,
           fieldTransactionMap: { mobilePhone: transactionRequest },
           transactionStatus: '',
@@ -123,7 +123,7 @@ describe('<ReceiveTextMessages/>', () => {
       expect(result.hideCheckbox).to.be.true;
     });
     it('returns transactionSuccess as true when transactionStatus equals COMPLETED_SUCCESS', () => {
-      state.vet360.transactionStatus = 'COMPLETED_SUCCESS';
+      state.vapService.transactionStatus = 'COMPLETED_SUCCESS';
       const result = mapStateToProps(state, ownProps);
       expect(result.transactionSuccess).to.be.true;
     });

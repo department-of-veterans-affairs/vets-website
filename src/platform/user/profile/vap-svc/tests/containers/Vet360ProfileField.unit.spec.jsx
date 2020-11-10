@@ -166,7 +166,7 @@ describe('mapStateToProps', () => {
         },
       },
     },
-    vet360: {
+    vapService: {
       addressValidation: {
         addressValidationType: 'mailingAddress',
       },
@@ -192,7 +192,7 @@ describe('mapStateToProps', () => {
     describe('when the address validation modal is not open', () => {
       it('sets `showValidationModal` to `false`', () => {
         const state = showValidationModalState();
-        state.vet360.modal = 'notTheValidationModal';
+        state.vapService.modal = 'notTheValidationModal';
         const mappedProps = mapStateToProps(state, {
           fieldName: 'mailingAddress',
           ValidationModal: () => {},
