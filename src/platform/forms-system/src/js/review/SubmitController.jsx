@@ -47,7 +47,7 @@ class SubmitController extends Component {
   handleSubmit = () => {
     const { form, formConfig, pageList, trackingPrefix, user } = this.props;
     const { formId, data, submission } = form;
-    const isLoggedIn = user.login?.currentlyLoggedIn;
+    const isLoggedIn = user?.login?.currentlyLoggedIn;
     const now = new Date().getTime();
 
     // If a pre-submit agreement is required, make sure it was accepted
