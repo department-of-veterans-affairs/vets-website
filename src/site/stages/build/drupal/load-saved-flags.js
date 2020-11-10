@@ -12,7 +12,7 @@ const fs = require('fs-extra');
  * @return {Proxy} - A Proxy containing all the feature flags; throws
  *                   an error if a flag is called without existing
  */
-function useFlags(rawFlags, shouldLog = false) {
+function useFlags(rawFlags, shouldLog = true) {
   // eslint-disable-next-line fp/no-proxy
   const p = new Proxy(rawFlags, {
     get(obj, prop) {
@@ -30,6 +30,9 @@ function useFlags(rawFlags, shouldLog = false) {
         'Symbol(Symbol.iterator)',
       ];
       if (!ignoreList.includes(prop.toString()) && shouldLog) {
+        // TODO: make this error message more helpful and less noisy, i.e.
+        // - only log once rather than 100's of times
+        // - indicate the solution may be to pass the --pull-drupal flag to the build.
         // eslint-disable-next-line no-console
         console.error(
           `Could not find query flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
