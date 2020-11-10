@@ -57,6 +57,12 @@ export class ConfirmationPage extends React.Component {
               </li>
             </ul>
           )}
+          <button
+            className="usa-button button screen-only"
+            onClick={() => window.print()}
+          >
+            Print this page
+          </button>
         </div>
         <h3>What happens after I apply?</h3>
         <p>
