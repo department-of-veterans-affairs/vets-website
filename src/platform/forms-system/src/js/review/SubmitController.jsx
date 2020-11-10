@@ -45,8 +45,9 @@ class SubmitController extends Component {
   };
 
   handleSubmit = () => {
-    const { form, formConfig, pageList, trackingPrefix } = this.props;
+    const { form, formConfig, pageList, trackingPrefix, user } = this.props;
     const { formId, data, submission } = form;
+    const isLoggedIn = user.login?.currentlyLoggedIn;
     const now = new Date().getTime();
 
     // If a pre-submit agreement is required, make sure it was accepted
@@ -81,15 +82,25 @@ class SubmitController extends Component {
       this.props.setSubmission('status', 'validationError');
       this.props.setSubmission('hasAttemptedSubmit', true);
 
-      // Update save-in-progress with failed submit
-      submissionData.errors = errors;
-      this.props.autoSaveForm(formId, data, version, returnUrl, submissionData);
+      if (isLoggedIn) {
+        // Update save-in-progress with failed submit
+        submissionData.errors = errors;
+        this.props.autoSaveForm(
+          formId,
+          data,
+          version,
+          returnUrl,
+          submissionData,
+        );
+      }
       return;
     }
 
-    // Update save-in-progress after attempted submit; if successful, SiP data
-    // will be erased
-    this.props.autoSaveForm(formId, data, version, returnUrl, submissionData);
+    if (isLoggedIn) {
+      // Update save-in-progress after attempted submit; if successful, SiP data
+      // will be erased
+      this.props.autoSaveForm(formId, data, version, returnUrl, submissionData);
+    }
 
     // User accepted if required, and no errors, so submit
     this.props.submitForm(formConfig, form);
@@ -116,7 +127,7 @@ function mapStateToProps(state, ownProps) {
   const form = state.form;
   const pagesByChapter = createPageListByChapter(formConfig);
   const trackingPrefix = formConfig.trackingPrefix;
-  const submission = form.submission;
+  const { submission, user } = form;
   const showPreSubmitError = submission.hasAttemptedSubmit;
 
   return {
@@ -128,6 +139,7 @@ function mapStateToProps(state, ownProps) {
     submission,
     showPreSubmitError,
     trackingPrefix,
+    user,
   };
 }
 
@@ -139,6 +151,7 @@ const mapDispatchToProps = {
 };
 
 SubmitController.propTypes = {
+  autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
   pagesByChapter: PropTypes.object.isRequired,
@@ -149,7 +162,7 @@ SubmitController.propTypes = {
   submitForm: PropTypes.func.isRequired,
   submission: PropTypes.object.isRequired,
   trackingPrefix: PropTypes.string.isRequired,
-  autoSaveForm: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default withRouter(
