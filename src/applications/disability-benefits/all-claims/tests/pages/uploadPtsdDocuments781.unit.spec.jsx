@@ -4,10 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
 } from 'platform/testing/unit/schemaform-utils.jsx';
@@ -27,7 +24,6 @@ describe('781 record upload', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:selectablePtsdTypes': {
               'view:combatPtsdType': true,
             },
@@ -52,7 +48,6 @@ describe('781 record upload', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:selectablePtsdTypes': {
               'view:combatPtsdType': true,
             },
@@ -79,7 +74,6 @@ describe('781 record upload', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             form781Upload: [
               {
                 confirmationCode: 'testing',

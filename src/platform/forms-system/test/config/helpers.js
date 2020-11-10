@@ -1,8 +1,6 @@
 import axe from 'axe-core';
 import { mount } from 'enzyme';
 
-import createCommonStore from 'platform/startup/store';
-
 export function axeCheck(component) {
   let div = document.getElementById('axeContainer');
   if (!div) {
@@ -45,16 +43,13 @@ export function axeCheck(component) {
   });
 }
 
-const createStore = (data = {}) =>
-  createCommonStore({
-    form: () => ({ data }),
-  });
-export const uploadStore = createStore();
-
-export const uploadFeatureData = {
-  ...uploadStore.getState(),
-  featureToggle: {
-    // eslint-disable-next-line camelcase
-    request_locked_pdf_password: true,
-  },
+export const uploadStore = {
+  getState: () => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      request_locked_pdf_password: true,
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
 };

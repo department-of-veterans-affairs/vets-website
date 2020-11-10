@@ -4,10 +4,7 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
@@ -27,7 +24,7 @@ describe('Pensions document upload', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
-          data={uploadFeatureData}
+          data={{}}
         />
       </Provider>,
     );
@@ -45,7 +42,7 @@ describe('Pensions document upload', () => {
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
           uiSchema={uiSchema}
-          data={uploadFeatureData}
+          data={{}}
         />
       </Provider>,
     );
@@ -65,7 +62,6 @@ describe('Pensions document upload', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             files: [
               {
                 confirmationCode: 'testing',

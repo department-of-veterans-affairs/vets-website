@@ -5,10 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
@@ -434,7 +431,6 @@ describe('Schemaform <FileField>', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             fileField: [
               {
                 confirmationCode: 'asdfasfd',
@@ -470,7 +466,6 @@ describe('Schemaform <FileField>', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             fileField: [],
           }}
           uploadFile={uploadFile}

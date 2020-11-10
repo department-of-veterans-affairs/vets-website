@@ -4,10 +4,7 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
@@ -27,7 +24,7 @@ describe('Burials document upload', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
-          data={uploadFeatureData}
+          data={{}}
         />
       </Provider>,
     );
@@ -42,7 +39,6 @@ describe('Burials document upload', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             burialAllowanceRequested: 'service',
           }}
           definitions={formConfig.defaultDefinitions}
@@ -61,7 +57,6 @@ describe('Burials document upload', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:claimedBenefits': {
               transportation: true,
             },
@@ -82,7 +77,6 @@ describe('Burials document upload', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             burialAllowanceRequested: 'service',
           }}
           definitions={formConfig.defaultDefinitions}
@@ -101,7 +95,6 @@ describe('Burials document upload', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             toursOfDuty: [{ from: '1995-05-06', to: '2005-04-05' }],
             burialAllowanceRequested: 'service',
           }}
@@ -122,7 +115,6 @@ describe('Burials document upload', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             burialAllowanceRequested: 'service',
             'view:claimedBenefits': {
               transportation: true,
@@ -150,7 +142,6 @@ describe('Burials document upload', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             burialAllowanceRequested: 'service',
             'view:claimedBenefits': {
               transportation: true,

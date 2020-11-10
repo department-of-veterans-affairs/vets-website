@@ -4,17 +4,13 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 const invalidDocumentData = {
-  ...uploadFeatureData,
   additionalDocuments: [
     {
       confirmationCode: 'testing',
@@ -24,7 +20,6 @@ const invalidDocumentData = {
 };
 
 const validDocumentData = {
-  ...uploadFeatureData,
   additionalDocuments: [
     {
       name: 'Form526.pdf',
@@ -46,7 +41,7 @@ describe('526EZ document upload', () => {
           pagePerItemIndex={0}
           definitions={formConfig.defaultDefinitions}
           schema={schema}
-          data={uploadFeatureData}
+          data={{}}
           uiSchema={uiSchema}
         />
       </Provider>,
@@ -66,7 +61,7 @@ describe('526EZ document upload', () => {
           onSubmit={onSubmit}
           definitions={formConfig.defaultDefinitions}
           schema={schema}
-          data={uploadFeatureData}
+          data={{}}
           uiSchema={uiSchema}
         />
       </Provider>,

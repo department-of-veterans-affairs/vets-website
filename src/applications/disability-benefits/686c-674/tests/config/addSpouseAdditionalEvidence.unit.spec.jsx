@@ -4,10 +4,7 @@ import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
@@ -31,7 +28,7 @@ describe('686 upload additional evidence for spouse', () => {
           schema={schema}
           uiSchema={uiSchema}
           definitions={formConfig.defaultDefinitions}
-          data={{ ...uploadFeatureData, formData }}
+          data={{ formData }}
         />
       </Provider>,
     );
@@ -47,7 +44,7 @@ describe('686 upload additional evidence for spouse', () => {
           schema={schema}
           uiSchema={uiSchema}
           definitions={formConfig.defaultDefinitions}
-          data={{ ...uploadFeatureData, formData }}
+          data={{ formData }}
           onSubmit={onSubmit}
         />
       </Provider>,
@@ -75,7 +72,7 @@ describe('686 upload additional evidence for spouse', () => {
           schema={schema}
           uiSchema={uiSchema}
           definitions={formConfig.defaultDefinitions}
-          data={{ ...uploadFeatureData, fileData }}
+          data={{ fileData }}
           onSubmit={onSubmit}
         />
       </Provider>,

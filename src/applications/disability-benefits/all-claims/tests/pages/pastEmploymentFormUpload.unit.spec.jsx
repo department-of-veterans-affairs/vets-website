@@ -4,10 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
 } from 'platform/testing/unit/schemaform-utils.jsx';
@@ -27,7 +24,6 @@ describe('4192 form upload', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:unemployabilityUploadChoice': 'answerQuestions',
             'view:uploadUnemployabilitySupportingDocumentsChoice': true,
           }}
@@ -51,7 +47,6 @@ describe('4192 form upload', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:uploadUnemployabilitySupportingDocumentsChoice': true,
           }}
           uiSchema={uiSchema}
@@ -76,7 +71,6 @@ describe('4192 form upload', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             form4192Upload: [
               {
                 confirmationCode: 'testing',

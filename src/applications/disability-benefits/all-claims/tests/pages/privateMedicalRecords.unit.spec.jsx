@@ -4,10 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
@@ -24,7 +21,7 @@ describe('526 All Claims Private medical records', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
-          data={uploadFeatureData}
+          data={{}}
           formData={{}}
         />
       </Provider>,
@@ -42,7 +39,7 @@ describe('526 All Claims Private medical records', () => {
           schema={schema}
           uiSchema={uiSchema}
           data={{}}
-          formData={uploadFeatureData}
+          formData={{}}
         />
       </Provider>,
     );
@@ -61,7 +58,6 @@ describe('526 All Claims Private medical records', () => {
           schema={schema}
           uiSchema={uiSchema}
           data={{
-            ...uploadFeatureData,
             'view:uploadPrivateRecordsQualifier': {
               'view:hasPrivateRecordsToUpload': true,
             },
@@ -87,7 +83,6 @@ describe('526 All Claims Private medical records', () => {
           schema={schema}
           uiSchema={uiSchema}
           data={{
-            ...uploadFeatureData,
             'view:uploadPrivateRecordsQualifier': {
               'view:hasPrivateRecordsToUpload': false,
             },
@@ -113,7 +108,6 @@ describe('526 All Claims Private medical records', () => {
           schema={schema}
           uiSchema={uiSchema}
           data={{
-            ...uploadFeatureData,
             'view:uploadPrivateRecordsQualifier': {
               'view:hasPrivateRecordsToUpload': true,
             },
@@ -139,7 +133,6 @@ describe('526 All Claims Private medical records', () => {
           schema={schema}
           uiSchema={uiSchema}
           data={{
-            ...uploadFeatureData,
             'view:uploadPrivateRecordsQualifier': {
               'view:hasPrivateRecordsToUpload': true,
             },
@@ -168,7 +161,6 @@ describe('526 All Claims Private medical records', () => {
           schema={schema}
           uiSchema={uiSchema}
           data={{
-            ...uploadFeatureData,
             'view:uploadPrivateRecordsQualifier': {
               'view:hasPrivateRecordsToUpload': true,
             },

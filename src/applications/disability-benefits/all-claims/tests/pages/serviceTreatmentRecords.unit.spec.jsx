@@ -4,10 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
@@ -25,7 +22,7 @@ describe('serviceTreatmentRecords', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
-          data={uploadFeatureData}
+          data={{}}
           formData={{}}
         />
       </Provider>,
@@ -42,7 +39,7 @@ describe('serviceTreatmentRecords', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
-          data={uploadFeatureData}
+          data={{}}
           formData={{}}
         />
       </Provider>,
@@ -62,7 +59,6 @@ describe('serviceTreatmentRecords', () => {
           uiSchema={uiSchema}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:uploadServiceTreatmentRecordsQualifier': {
               'view:hasServiceTreatmentRecordsToUpload': true,
             },
@@ -87,7 +83,6 @@ describe('serviceTreatmentRecords', () => {
           uiSchema={uiSchema}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:uploadServiceTreatmentRecordsQualifier': {
               'view:hasServiceTreatmentRecordsToUpload': false,
             },
@@ -113,7 +108,6 @@ describe('serviceTreatmentRecords', () => {
           uiSchema={uiSchema}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:uploadServiceTreatmentRecordsQualifier': {
               'view:hasServiceTreatmentRecordsToUpload': true,
             },
@@ -139,7 +133,6 @@ describe('serviceTreatmentRecords', () => {
           uiSchema={uiSchema}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:uploadServiceTreatmentRecordsQualifier': {
               'view:hasServiceTreatmentRecordsToUpload': true,
             },
@@ -166,7 +159,6 @@ describe('serviceTreatmentRecords', () => {
           uiSchema={uiSchema}
           schema={schema}
           data={{
-            ...uploadFeatureData,
             'view:uploadServiceTreatmentRecordsQualifier': {
               'view:hasServiceTreatmentRecordsToUpload': true,
             },

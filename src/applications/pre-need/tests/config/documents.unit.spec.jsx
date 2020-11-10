@@ -4,10 +4,7 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 
-import {
-  uploadStore,
-  uploadFeatureData,
-} from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
@@ -27,7 +24,7 @@ describe('Pre-need attachments', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
-          data={uploadFeatureData}
+          data={{}}
         />
       </Provider>,
     );
@@ -45,7 +42,7 @@ describe('Pre-need attachments', () => {
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
           uiSchema={uiSchema}
-          data={uploadFeatureData}
+          data={{}}
         />
       </Provider>,
     );
@@ -65,7 +62,6 @@ describe('Pre-need attachments', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             application: {
               preneedAttachments: [
                 {
@@ -95,7 +91,6 @@ describe('Pre-need attachments', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            ...uploadFeatureData,
             application: {
               preneedAttachments: [
                 {
@@ -124,7 +119,6 @@ describe('Pre-need attachments', () => {
         <DefinitionTester
           schema={schema}
           data={{
-            uploadFeatureData,
             application: {
               preneedAttachments: [
                 {
