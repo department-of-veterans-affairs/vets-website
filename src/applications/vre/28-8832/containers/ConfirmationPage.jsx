@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-
 import { focusElement } from 'platform/utilities/ui';
 
 const scroller = Scroll.scroller;
@@ -22,36 +21,33 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const { submission, data } = this.props.form;
+    const { isLoggedIn, fullName } = this.props;
     const { response } = submission;
-
-    const name = data.veteranInformation.fullName
-      ? data.veteranInformation.fullName
-      : data.fullName;
+    const name = isLoggedIn ? fullName : data.fullName;
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
         <p>
-          We usually process claims within <strong>a week</strong>.
-        </p>
-        <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
+          Equal to VA Form 28-8832 (Education/Vocational Counseling Application)
         </p>
         <div className="inset">
-          <h4>
-            28-8832-planning-and-guidance Claim{' '}
+          <h2 className="vads-u-font-size--h3 vads-u-margin-top--1">
+            Thank you for submitting your application
+          </h2>
+          <h3 className="vads-u-font-size--h4">
+            Education/Vocational Counseling Application{' '}
             <span className="additional">(Form 28-8832)</span>
-          </h4>
-          <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
-          </span>
+          </h3>
+          {name && (
+            <p>
+              FOR: {name.first} {name.last}
+            </p>
+          )}
 
           {response && (
             <ul className="claim-list">
               <li>
-                <strong>Date received</strong>
+                <strong>Date submitted</strong>
                 <br />
                 <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
               </li>
@@ -66,6 +62,8 @@ export class ConfirmationPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
+    fullName: state?.user?.profile?.userFullName,
+    isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   };
 }
 
