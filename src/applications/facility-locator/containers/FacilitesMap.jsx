@@ -47,19 +47,6 @@ const FacilitiesMap = props => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
 
-  const syncStateWithLocation = location => {
-    if (
-      location.query.address &&
-      props.currentQuery.searchString !== location.query.address &&
-      !props.currentQuery.inProgress
-    ) {
-      props.genBBoxFromAddress({
-        searchString: location.query.address,
-        context: location.query.context,
-      });
-    }
-  };
-
   /**
    * Search when the component renders with a sharable url
    */
@@ -417,7 +404,9 @@ const FacilitiesMap = props => {
       // Search current area
       if (searchArea) {
         updateUrlParams({
-          location: `${position.latitude},${position.longitude}`,
+          location: `${position.latitude.toFixed(
+            2,
+          )},${position.longitude.toFixed(2)}`,
           context,
           searchString,
         });
@@ -433,10 +422,6 @@ const FacilitiesMap = props => {
   );
 
   useEffect(() => {
-    const listener = browserHistory.listen(location => {
-      syncStateWithLocation(location);
-    });
-
     const setMobile = () => {
       setIsMobile(window.innerWidth <= 481);
     };
@@ -446,7 +431,6 @@ const FacilitiesMap = props => {
     const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);
     return () => {
-      listener();
       window.removeEventListener('resize', debouncedResize);
       window.removeEventListener('click', handleSearchArea);
       searchAreaSet = false;
