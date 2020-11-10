@@ -188,6 +188,7 @@ export function createBasicInitialState() {
     user: {
       profile: {
         vapContactInfo: getBasicContactInfoState(),
+        services: ['vet360'],
       },
     },
   };
