@@ -32,6 +32,7 @@ const App = props => {
           setForm(f => {
             return {
               ...f,
+              title: 'Primary care questionnaire',
               subTitle: data?.vdsAppointments[0]?.clinic?.facility?.displayName,
             };
           });
@@ -67,6 +68,7 @@ const mapStateToProps = state => ({
     state?.questionnaireData.context?.status.isLoading,
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
 });
+
 const mapDispatchToProps = dispatch => {
   return {
     setLoading: () => dispatch(questionnaireAppointmentLoading()),

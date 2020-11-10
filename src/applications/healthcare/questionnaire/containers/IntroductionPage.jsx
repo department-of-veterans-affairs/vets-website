@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -22,165 +20,105 @@ const IntroductionPage = props => {
     ? appointment?.vdsAppointments[0]?.clinic?.facility?.displayName
     : '';
 
-  const { isLoggedIn, route, savedForms, formId } = props;
+  // const { isLoggedIn, route, savedForms, formId } = props;
 
-  const goToFirstPage = () => {
-    const firstPage = route.pageList[1];
-    props.router.push(firstPage.path);
-  };
-  const savedForm = savedForms.find(f => f.form === formId);
+  // const goToFirstPage = () => {
+  //   const firstPage = route.pageList[1];
+  //   props.router.push(firstPage.path);
+  // };
+  // const savedForm = savedForms.find(f => f.form === formId);
   const showLoginModel = () => props.toggleLoginModal(true, 'cta-form');
   const UnAuthedWelcomeMessage = () => (
     <IntroductionPageHelpers.WelcomeAlert toggleLoginModal={showLoginModel} />
   );
+
+  const title = 'Primary care questionnaire';
+  const subTitle = facilityName;
   return (
     <div className="schemaform-intro healthcare-experience">
-      <FormTitle
-        title="Upcoming appointment questionnaire"
-        subTitle={facilityName}
-      />
+      <FormTitle title={title} subTitle={subTitle} />
       <h2 className="better-prepare-yours">
-        Better prepare yourself and your provider for your upcoming appointment
-        with this questionnaire.
+        To help us better prepare for your appointment, fill out this short
+        questionnaire about your upcoming visit. This is where you can give us
+        more detail about your appointment or let us know if there are any
+        specific health issues you want to discuss with your provider.
       </h2>
-      {savedForm ? (
-        <SaveInProgressIntro
-          hideUnauthedStartLink
-          prefillEnabled={props.route?.formConfig.prefillEnabled}
-          messages={props.route?.formConfig.savedFormMessages}
-          pageList={props.route?.pageList}
-          startText="Start the questionnaire"
-          formConfig={props.route?.formConfig}
-          resumeOnly
-          renderSignInMessage={UnAuthedWelcomeMessage}
-        />
-      ) : (
-        <UnAuthedWelcomeMessage />
-      )}
-
-      <section>
-        <h3 className="urgent-needs-header">
-          Can I use this questionnaire for medical emergencies or urgent needs?
-        </h3>
+      <section className="after-details">
+        <h3>What happens after I answer the questions?</h3>
         <p>
-          <span className="vads-u-font-weight--bold">
-            If you think you have a medical emergency,
-          </span>{' '}
-          call 911 or go to the nearest emergency room.
+          After you answer the questions, your questionnaire will be securely
+          sent to your provider for review. The questionnaire will also be added
+          to your medical record. Please try to submit the questionnaire [X]
+          days before your appointment.
         </p>
         <p>
-          <span className="vads-u-font-weight--bold">
-            If you don’t have an emergency, but you’re not sure what type of
-            care care you need,
-          </span>{' '}
-          call your nearest VA health facility.
+          <strong>
+            Your provider will discuss the information on your questionnaire
+            during your appointment.
+          </strong>
         </p>
-        <p>
-          <a href="/find-locations/">Find your nearest VA health facility</a>
-        </p>
-        <p>
-          <span className="vads-u-font-weight--bold">
-            If you need to talk to someone right away,
-          </span>{' '}
-          contact the Veterans Crisis Line. Whatever you’re struggling
-          with—chronic pain, anxiety, depression, trouble sleeping, anger, or
-          even homelessness—we can support you. Out Veterans Crisis Line is
-          confidential (private), free, and available 24/7.
-        </p>
-        <section>
+        <section className="emergency-call-out">
           <header>
-            To connect with a Veterans Crisis Line responder anytime, day or
-            night:
+            Note: If you need to talk to someone right away or need emergency
+            care,
           </header>
           <ul>
             <li>
-              Call the Veterans Crisis Line at{' '}
-              <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1, or
+              Call <Telephone contact="911" />, or
             </li>
             <li>
-              Start a{' '}
-              <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">
-                confidential Veteran chat
-              </a>{' '}
-              , or
-            </li>
-            <li>
-              Text <a href="sms:838255">838255</a>.
+              Call the Veterans Crisis hotline at{' '}
+              <Telephone contact="800-273-8255" /> and select 1
             </li>
           </ul>
         </section>
       </section>
-      <section>
-        <h3 className="personal-info-header">
-          How will my personal health information be protected and shared if I
-          use this questionnaire?
+      <section className="personal-information">
+        <h3>
+          How will VA protect my personal and health information if I answer
+          these questions?
         </h3>
         <p>
-          The information that you enter will be shared with your provider and
-          added to your medical record. After it becomes part of your medical
-          record, all VA providers will be able to view this information. You’ll
-          have until [time period] before your upcoming appointment to submit
-          this questionnaire.
+          Like your medical record, we’ll keep the information you enter in the
+          questionnaire private.
         </p>
-        <p>
-          This is a secure website. We follow strict security policies and
-          practices to protect your personal health information.
-        </p>
+        <section>
+          <header>
+            <strong>
+              To protect your privacy and your personal and health information,
+              we:
+            </strong>
+          </header>
+          <ul>
+            <li>Share your information only with your provider</li>
+            <li>
+              Store all information in our secure electronic systems, and
+              encrypt all sensitive data
+            </li>
+            <li>
+              Require all VA employees who handle sensitive data to take
+              required training and ongoing education courses on privacy and
+              data security
+            </li>
+          </ul>
+        </section>
       </section>
-      <h3>
-        Follow the steps below to complete the upcoming appointment
-        questionnaire.
-      </h3>
-      <div className="process schemaform-process">
-        <ol>
-          <li className="process-step list-one">
-            <h4>Prepare</h4>
-            <ul>
-              <li>
-                Think through any health concerns or life events that are
-                positively or negatively affecting your health (e.g. marriage,
-                divorce, new job, retirement, parenthood, or finances).
-              </li>
-              <li>
-                Create a list of questions that you want to ask your provider at
-                your upcoming appointment.
-              </li>
-            </ul>
-          </li>
-          <li className="process-step list-two">
-            <h4>Fill out upcoming appointment information</h4>
-            <p>
-              Complete the questionnaire [some time period] before your
-              appointment. After submitting, your information will be securely
-              sent to your provider to review prior to your appointment. It will
-              also be added to your medical record. Printing a copy isn’t
-              required, but you can print a copy for your records if you want.
-            </p>
-          </li>
-          <li className="process-step list-three">
-            <h4>Attend your upcoming appointment</h4>
-            <p>
-              Your appointment is where your provider will discuss the
-              information you entered with you in more detail.
-            </p>
-          </li>
-        </ol>
-      </div>
-      {isLoggedIn ? (
-        <button
-          className="va-button sign-in-button-bottom"
-          onClick={() => goToFirstPage()}
-        >
-          Start the questionnaire
-        </button>
+      <SaveInProgressIntro
+        hideUnauthedStartLink
+        prefillEnabled={props.route?.formConfig.prefillEnabled}
+        messages={props.route?.formConfig.savedFormMessages}
+        pageList={props.route?.pageList}
+        startText="Start the questionnaire"
+        formConfig={props.route?.formConfig}
+        resumeOnly
+        renderSignInMessage={UnAuthedWelcomeMessage}
+      />
+
+      {/* {savedForm ? (
+        
       ) : (
-        <button
-          className="va-button sign-in-button-bottom"
-          onClick={() => showLoginModel()}
-        >
-          Sign in to start the questionnaire
-        </button>
-      )}
+        <UnAuthedWelcomeMessage />
+      )} */}
       <div className="omb-info--container">
         <OMBInfo ombNumber="0000-0000" expDate="mm/dd/yyyy" />
       </div>
@@ -195,6 +133,7 @@ const mapStateToProps = state => {
     questionnaire: state?.questionnaireData,
     savedForms: state?.user?.profile?.savedForms,
     formId: state.form.formId,
+    form: state.form,
   };
 };
 
