@@ -15,7 +15,12 @@ import {
   GEOCODE_FAILED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
-import { LocationType, BOUNDING_RADIUS } from '../constants';
+import {
+  LocationType,
+  BOUNDING_RADIUS,
+  TypeList,
+  CountriesList,
+} from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
@@ -203,7 +208,7 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: GEOCODE_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = ['place', 'region', 'postcode', 'locality'];
+    let types = TypeList;
     // check for postcode search
     const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
 
@@ -213,7 +218,7 @@ export const genBBoxFromAddress = query => {
 
     mbxClient
       .forwardGeocode({
-        countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
+        countries: CountriesList,
         types,
         autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
         query: query.searchString,
@@ -293,10 +298,10 @@ export const genBBoxFromAddress = query => {
 export const genSearchAreaFromCenter = query => {
   const { lat, lng } = query;
   return dispatch => {
-    const types = ['place', 'region', 'postcode', 'locality'];
+    const types = TypeList;
     mbxClient
       .reverseGeocode({
-        countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
+        countries: CountriesList,
         types,
         query: [lng, lat],
       })
@@ -308,19 +313,17 @@ export const genSearchAreaFromCenter = query => {
         const location = zip.text || features[0].place_name;
         const featureBox = features[0].box;
 
-        let minBounds = [
-          coordinates[0] - BOUNDING_RADIUS,
-          coordinates[1] - BOUNDING_RADIUS,
-          coordinates[0] + BOUNDING_RADIUS,
-          coordinates[1] + BOUNDING_RADIUS,
-        ];
-
+        const sw = coordinates[0] - BOUNDING_RADIUS;
+        const se = coordinates[1] - BOUNDING_RADIUS;
+        const nw = coordinates[0] + BOUNDING_RADIUS;
+        const ne = coordinates[1] + BOUNDING_RADIUS;
+        let minBounds = [sw, se, nw, ne];
         if (featureBox) {
           minBounds = [
-            Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
-            Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
-            Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
-            Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
+            Math.min(featureBox[0], sw),
+            Math.min(featureBox[1], se),
+            Math.max(featureBox[2], nw),
+            Math.max(featureBox[3], ne),
           ];
         }
 
