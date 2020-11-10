@@ -75,9 +75,6 @@ function disconnectApps(mobile = false) {
   // Check for the presence of 2 disconnect success alerts
   cy.get('.usa-alert-success').should('have.length', 2);
 
-  // 1 FAQ 'How do I connect a third-party app to my profile
-  cy.get('.form-expanding-group').should('have.length', 1);
-
   cy.findByText(/Third-party apps you can connect to your profile/i).should(
     'exist',
   );
