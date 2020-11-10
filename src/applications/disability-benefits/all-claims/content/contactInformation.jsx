@@ -74,8 +74,7 @@ export const contactInfoDescription = ({
   </p>
 );
 
-export const contactInfoUpdateHelp = ({ formData }) => {
-  const { confirmationEmailFeature } = formData;
+export const contactInfoUpdateHelp = ({ confirmationEmailFeature }) => {
   return confirmationEmailFeature ? (
     <div>
       <p>

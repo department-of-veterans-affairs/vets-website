@@ -279,7 +279,7 @@ export const uiSchema = {
   // ),
   'view:contactInfoDescription': {
     'ui:description': contactInfoUpdateHelp({
-      formData: { confirmationEmailFeature: true },
+      confirmationEmailFeature: true,
     }),
   },
 };
