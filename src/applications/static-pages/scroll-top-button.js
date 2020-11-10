@@ -5,87 +5,95 @@
  * html is located in src/site/components/up_to_top_button.html
  */
 
-let threeFourthsContainer = '';
-let footer = '';
-const container = document.querySelector('.vsa-top-button-container');
-const distanceOfScrollingBeforeAppearing = 600;
-const BUTTON_CLASSES = {
-  TRANSITION_IN: 'vsa-top-button-transition-in',
-  TRANSITION_OUT: 'vsa-top-button-transition-out',
-  CONTAINER_RELATIVE: 'vsa-top-button-container-relative',
-  TRANSITION_RESET: 'vsa-top-button-transition-reset',
-};
-
 function navigateToTop() {
   return window.scrollTo(0, 0);
 }
 
-function scrollListener(button) {
-  // Responsible for toggling animation classes
-  const scrollFromTop =
-    window.pageYOffset !== undefined
-      ? window.pageYOffset
-      : (document.documentElement || document.body.parentNode || document.body)
-          .scrollTop;
+function doesElHaveClass(el, className) {
+  return el.classList.contains(className);
+}
 
-  function doesElHaveClass(el, className) {
-    return el.classList.contains(className);
-  }
+function isScrolledIntoView(el) {
+  const rect = el.getBoundingClientRect();
+  const elemTop = rect.top;
+  // Only partially || completely visible elements return true
+  return elemTop >= 0 && elemTop <= window.innerHeight;
+}
 
-  function isScrolledIntoView(el) {
-    const rect = el.getBoundingClientRect();
-    const elemTop = rect.top;
-    // Only partially || completely visible elements return true
-    return elemTop >= 0 && elemTop <= window.innerHeight;
-  }
+function getScrolledDistanceFromTopOfScreen() {
+  return window.pageYOffset !== undefined
+    ? window.pageYOffset
+    : (document.documentElement || document.body.parentNode || document.body)
+        .scrollTop;
+}
 
-  const {
-    TRANSITION_IN,
-    TRANSITION_OUT,
-    TRANSITION_RESET,
-    CONTAINER_RELATIVE,
-  } = BUTTON_CLASSES;
+// Responsible for toggling animation classes
+function scrollListener(
+  button,
+  container,
+  footer,
+  threeFourthsContainer,
+  buttonClasses,
+) {
+  const distanceOfScrollingBeforeAppearing = 600;
+  const scrollFromTop = getScrolledDistanceFromTopOfScreen();
 
   if (
     scrollFromTop > distanceOfScrollingBeforeAppearing &&
-    !doesElHaveClass(button, TRANSITION_IN)
+    !doesElHaveClass(button, buttonClasses.transitionIn)
   ) {
-    button.classList.add(TRANSITION_IN);
-    button.classList.remove(TRANSITION_OUT);
+    button.classList.add(buttonClasses.transitionIn);
+    button.classList.remove(buttonClasses.transitionOut);
   } else if (
     scrollFromTop < distanceOfScrollingBeforeAppearing &&
-    doesElHaveClass(button, TRANSITION_IN)
+    doesElHaveClass(button, buttonClasses.transitionIn)
   ) {
-    button.classList.add(TRANSITION_OUT);
-    button.classList.remove(TRANSITION_IN);
+    button.classList.add(buttonClasses.transitionOut);
+    button.classList.remove(buttonClasses.transitionIn);
   }
+
   if (isScrolledIntoView(footer)) {
-    container.classList.add(CONTAINER_RELATIVE);
-    threeFourthsContainer.classList.add(CONTAINER_RELATIVE);
-    button.classList.add(TRANSITION_RESET);
-  } else if (doesElHaveClass(container, CONTAINER_RELATIVE)) {
-    container.classList.remove(CONTAINER_RELATIVE);
-    threeFourthsContainer.classList.remove(CONTAINER_RELATIVE);
-    button.classList.remove(TRANSITION_RESET);
+    container.classList.add(buttonClasses.containerRelative);
+    threeFourthsContainer.classList.add(buttonClasses.containerRelative);
+    button.classList.add(buttonClasses.transitionReset);
+  } else if (doesElHaveClass(container, buttonClasses.containerRelative)) {
+    container.classList.remove(buttonClasses.containerRelative);
+    threeFourthsContainer.classList.remove(buttonClasses.containerRelative);
+    button.classList.remove(buttonClasses.transitionReset);
   }
 }
 
 function setup() {
+  const container = document.querySelector('.vsa-top-button-container');
+  if (!container) return;
+
   const upToTopButton = container.querySelector('.vsa-top-button');
+  if (!upToTopButton) return;
+  // The current page likely does not contain a "Back to top" button in its layout.
 
-  if (!upToTopButton) {
-    // The current page likely does not contain a "Back to top" button in its layout.
-    return;
-  }
+  const threeFourthsContainer = container.querySelector(
+    '.usa-width-three-fourths',
+  );
+  const footer = document.querySelector('.footer-inner');
+  const buttonClasses = {
+    transitionIn: 'vsa-top-button-transition-in',
+    transitionOut: 'vsa-top-button-transition-out',
+    containerRelative: 'vsa-top-button-container-relative',
+    transitionReset: 'vsa-top-button-transition-reset',
+  };
 
-  // ... Grab other DOM refs
-  threeFourthsContainer = container.querySelector('.usa-width-three-fourths');
-  footer = document.querySelector('.footer-inner');
   if (!threeFourthsContainer || !footer) return;
-
   // Attach listeners
   upToTopButton.addEventListener('click', navigateToTop);
-  window.addEventListener('scroll', () => scrollListener(upToTopButton));
+  window.addEventListener('scroll', () =>
+    scrollListener(
+      upToTopButton,
+      container,
+      footer,
+      threeFourthsContainer,
+      buttonClasses,
+    ),
+  );
 }
 
 export default () => document.addEventListener('DOMContentLoaded', setup);
