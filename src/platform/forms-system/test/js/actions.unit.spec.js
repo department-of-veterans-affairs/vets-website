@@ -443,6 +443,7 @@ describe('Schemaform actions:', () => {
         name: 'Test name',
         size: 1234,
         confirmationCode: 'Test code',
+        isEncrypted: false,
       });
     });
 

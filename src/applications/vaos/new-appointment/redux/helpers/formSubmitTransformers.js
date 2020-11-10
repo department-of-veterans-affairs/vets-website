@@ -4,7 +4,7 @@ import titleCase from 'platform/utilities/data/titleCase';
 import { getTimezoneBySystemId } from '../../../utils/timezone';
 import { getFacilityIdFromLocation } from '../../../services/location';
 import { getSiteIdFromOrganization } from '../../../services/organization';
-import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
@@ -152,7 +152,7 @@ export function transformFormToCCRequest(state) {
     ];
   }
 
-  const residentialAddress = selectVet360ResidentialAddress(state);
+  const residentialAddress = selectVAPResidentialAddress(state);
   const organization = getChosenCCSystemId(state);
   const parentFacilityId = getSiteIdFromOrganization(organization);
   let cityState;

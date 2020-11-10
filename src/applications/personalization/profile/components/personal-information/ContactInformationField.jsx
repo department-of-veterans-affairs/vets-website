@@ -420,7 +420,7 @@ export const mapStateToProps = (state, ownProps) => {
     activeEditView === 'addressValidation';
 
   return {
-    hasUnsavedEdits: state.vet360.hasUnsavedEdits,
+    hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
     blockEditMode: !!activeEditView,
     /*
