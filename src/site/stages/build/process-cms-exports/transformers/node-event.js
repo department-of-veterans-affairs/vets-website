@@ -33,7 +33,7 @@ const transform = entity => ({
   entityMetatags: createMetaTagArray(entity.metatag.value),
   // TODO: Verify this is how to derive the entityPublished state
   entityPublished: isPublished(getDrupalValue(entity.status)),
-  fieldAdditionalInformationAbo: entity.fieldAdditionalInformationAbo.value
+  fieldAdditionalInformationAbo: entity.fieldAdditionalInformationAbo[0]
     ? {
         processed: getWysiwygString(
           getDrupalValue(entity.fieldAdditionalInformationAbo),
