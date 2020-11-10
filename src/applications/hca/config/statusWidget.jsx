@@ -10,13 +10,18 @@ export default function createHcaApplicationStatus(store) {
     `[data-widget-type="${widgetTypes.HEALTH_CARE_APP_STATUS}"]`,
   );
   if (root) {
-    import(/* webpackChunkName: "hca-application-status" */
-    'platform/forms/save-in-progress/ApplicationStatus').then(module => {
-      const ApplicationStatus = module.default;
+    Promise.all([
+      import(/* webpackChunkName: "hca-application-status" */
+      'platform/forms/save-in-progress/ApplicationStatus'),
+      import('./form'),
+    ]).then(([appStatusModule, formConfigModule]) => {
+      const ApplicationStatus = appStatusModule.default;
+      const formConfig = formConfigModule.default;
       ReactDOM.render(
         <Provider store={store}>
           <ApplicationStatus
             formId={VA_FORM_IDS.FORM_10_10EZ}
+            formConfig={formConfig}
             showApplyButton={
               root.getAttribute('data-hide-apply-button') === null
             }
