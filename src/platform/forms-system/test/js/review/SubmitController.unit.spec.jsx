@@ -26,6 +26,7 @@ const createformReducer = (options = {}) =>
 const createFormConfig = options => ({
   urlPrefix: '/',
   trackingPrefix: 'test-',
+  prefillEnabled: true,
   preSubmitInfo: {
     required: true,
     field: 'privacyAgreementAccepted',

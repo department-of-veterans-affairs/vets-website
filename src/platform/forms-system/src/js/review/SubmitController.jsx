@@ -82,7 +82,7 @@ class SubmitController extends Component {
       this.props.setSubmission('status', 'validationError');
       this.props.setSubmission('hasAttemptedSubmit', true);
 
-      if (isLoggedIn) {
+      if (isLoggedIn && formConfig.prefillEnabled) {
         // Update save-in-progress with failed submit
         submissionData.errors = errors;
         this.props.autoSaveForm(
@@ -96,7 +96,7 @@ class SubmitController extends Component {
       return;
     }
 
-    if (isLoggedIn) {
+    if (isLoggedIn && formConfig.prefillEnabled) {
       // Update save-in-progress after attempted submit; if successful, SiP data
       // will be erased
       this.props.autoSaveForm(formId, data, version, returnUrl, submissionData);
