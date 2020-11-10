@@ -69,8 +69,8 @@ const ConfirmationPage = props => {
           </h2>
           <p>
             You can contact the {facility && facility.displayName} at
-            XXX-XXX-XXXX and the {appointment.clinicFriendlyName} at{' '}
-            <Telephone contact={appointment.clinicPhone} />.
+            XXX-XXX-XXXX and the {appointment.attributes.clinicFriendlyName} at{' '}
+            <Telephone contact={appointment.attributes.clinicPhone} />.
           </p>
           <div className="nav-buttons">
             <a
