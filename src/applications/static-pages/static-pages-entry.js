@@ -16,6 +16,7 @@ import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createHcaApplicationStatus from '../hca/config/statusWidget';
+import createPensionApplicationStatus from '../pensions/config/statusWidget';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
@@ -89,14 +90,7 @@ subscribeAdditionalInfoEvents();
 
 subscribeAccordionEvents();
 
-createApplicationStatus(store, {
-  formId: VA_FORM_IDS.FORM_21P_527EZ,
-  applyHeading: 'How do I apply?',
-  additionalText: 'You can apply online right now.',
-  applyLink: '/pension/how-to-apply/',
-  applyText: 'Apply for Veterans Pension benefits',
-  widgetType: widgetTypes.PENSION_APP_STATUS,
-});
+createPensionApplicationStatus(store);
 
 createHcaApplicationStatus(store);
 
