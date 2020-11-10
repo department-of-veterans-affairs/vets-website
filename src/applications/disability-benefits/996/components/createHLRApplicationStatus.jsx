@@ -13,15 +13,20 @@ export default function createHigherLevelReviewApplicationStatus(
 ) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "higher-level-review-application-status" */
-    '../utils').then(module => {
-      const { ApplicationStatus, WizardLink } = module.default;
+    Promise.all([
+      import(/* webpackChunkName: "higher-level-review-application-status" */
+      '../utils'),
+      import('../config/form'),
+    ]).then(([appStatusModule, formConfigModule]) => {
+      const { ApplicationStatus, WizardLink } = appStatusModule.default;
+      const formConfig = formConfigModule.default;
       connectFeatureToggle(store.dispatch);
 
       ReactDOM.render(
         <Provider store={store}>
           <ApplicationStatus
             formIds={formIds}
+            formConfig={formConfig}
             formType="higher-level-review"
             showApplyButton={
               root.getAttribute('data-hide-apply-button') === null
