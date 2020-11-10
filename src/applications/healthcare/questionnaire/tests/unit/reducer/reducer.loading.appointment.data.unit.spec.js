@@ -23,10 +23,12 @@ describe('healthcare-questionnaire -- questionnaire reducer --', () => {
     expect(state.context.status.isLoading).to.be.false;
   });
   it('should set populate appointment data', () => {
-    const action = questionnaireAppointmentLoaded(testData);
+    const action = questionnaireAppointmentLoaded(testData.data);
     const state = reducer.questionnaireData(undefined, action);
-    expect(state.context.appointment.id).to.be.equal(testData.id);
-    expect(state.context.appointment.vdsAppointments.length).to.be.equal(1);
-    expect(state.context.appointment.vdsAppointments[0]).to.be.exist;
+    expect(state.context.appointment.id).to.be.equal(testData.data.id);
+    expect(
+      state.context.appointment.attributes.vdsAppointments.length,
+    ).to.be.equal(1);
+    expect(state.context.appointment.attributes.vdsAppointments[0]).to.be.exist;
   });
 });
