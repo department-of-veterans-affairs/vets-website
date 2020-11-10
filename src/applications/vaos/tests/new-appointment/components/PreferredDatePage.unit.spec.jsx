@@ -44,6 +44,10 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     expect(screen.baseElement).to.contain.text(
       'Please pick a date within the next 13 months.',
     );
+
+    // Verify date widget is rendered.
+    expect(screen.getAllByRole('combobox').length).to.equal(2);
+    expect(screen.getAllByRole('spinbutton').length).to.equal(1);
   });
 
   it('should not submit empty form', async () => {
