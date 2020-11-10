@@ -280,23 +280,24 @@ class AddressValidationModal extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;
   const addressValidationType =
-    state.vet360.addressValidation.addressValidationType;
+    state.vapService.addressValidation.addressValidationType;
 
   return {
     analyticsSectionName:
       VAP_SERVICE.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
-      state.vet360.fieldTransactionMap[addressValidationType]?.isPending ||
+      state.vapService.fieldTransactionMap[addressValidationType]?.isPending ||
       isPendingTransaction(transaction),
     addressValidationError:
-      state.vet360.addressValidation.addressValidationError,
-    suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,
-    confirmedSuggestions: state.vet360.addressValidation.confirmedSuggestions,
+      state.vapService.addressValidation.addressValidationError,
+    suggestedAddresses: state.vapService.addressValidation.suggestedAddresses,
+    confirmedSuggestions:
+      state.vapService.addressValidation.confirmedSuggestions,
     addressValidationType,
-    validationKey: state.vet360.addressValidation.validationKey,
-    addressFromUser: state.vet360.addressValidation.addressFromUser,
-    selectedAddress: state.vet360.addressValidation.selectedAddress,
-    selectedAddressId: state.vet360.addressValidation.selectedAddressId,
+    validationKey: state.vapService.addressValidation.validationKey,
+    addressFromUser: state.vapService.addressValidation.addressFromUser,
+    selectedAddress: state.vapService.addressValidation.selectedAddress,
+    selectedAddressId: state.vapService.addressValidation.selectedAddressId,
   };
 };
 

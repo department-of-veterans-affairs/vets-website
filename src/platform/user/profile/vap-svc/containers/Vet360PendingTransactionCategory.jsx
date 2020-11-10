@@ -7,7 +7,7 @@ import { refreshTransaction } from '../actions';
 import Vet360TransactionPending from '../components/base/Vet360TransactionPending';
 
 import { TRANSACTION_CATEGORY_TYPES } from '../constants';
-import { selectVet360PendingCategoryTransactions } from '../selectors';
+import { selectVAPServicePendingCategoryTransactions } from '../selectors';
 
 function Vet360PendingTransactionCategory({
   refreshTransaction: dispatchRefreshTransaction,
@@ -46,7 +46,7 @@ function Vet360PendingTransactionCategory({
 
 const mapStateToProps = (state, ownProps) => {
   const { categoryType } = ownProps;
-  const pendingTransactions = selectVet360PendingCategoryTransactions(
+  const pendingTransactions = selectVAPServicePendingCategoryTransactions(
     state,
     categoryType,
   );

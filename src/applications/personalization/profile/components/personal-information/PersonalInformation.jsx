@@ -85,7 +85,7 @@ PersonalInformation.propTypes = {
 
 const mapStateToProps = state => ({
   showDirectDepositBlockedError: !!directDepositIsBlocked(state),
-  hasUnsavedEdits: state.vet360.hasUnsavedEdits,
+  hasUnsavedEdits: state.vapService.hasUnsavedEdits,
 });
 
 export default connect(
