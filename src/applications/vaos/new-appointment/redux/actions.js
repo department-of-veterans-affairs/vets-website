@@ -4,10 +4,10 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
-  selectVet360EmailAddress,
-  selectVet360HomePhoneString,
-  selectVet360MobilePhoneString,
-  selectVet360ResidentialAddress,
+  selectVAPEmailAddress,
+  selectVAPHomePhoneString,
+  selectVAPMobilePhoneString,
+  selectVAPResidentialAddress,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -158,6 +158,8 @@ export const FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
 export const FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
   'newAppointment/FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
+export const FORM_SHOW_ELIGIBILITY_MODAL =
+  'newAppointment/FORM_SHOW_ELIGIBILITY_MODAL';
 export const FORM_HIDE_ELIGIBILITY_MODAL =
   'newAppointment/FORM_HIDE_ELIGIBILITY_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
@@ -249,9 +251,9 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 export function openTypeOfCarePage(page, uiSchema, schema) {
   return (dispatch, getState) => {
     const state = getState();
-    const email = selectVet360EmailAddress(state);
-    const homePhone = selectVet360HomePhoneString(state);
-    const mobilePhone = selectVet360MobilePhoneString(state);
+    const email = selectVAPEmailAddress(state);
+    const homePhone = selectVAPHomePhoneString(state);
+    const mobilePhone = selectVAPMobilePhoneString(state);
     const showCommunityCare = vaosCommunityCare(state);
 
     const phoneNumber = mobilePhone || homePhone;
@@ -392,7 +394,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           typeOfCareId,
           schema,
           uiSchema,
-          address: selectVet360ResidentialAddress(initialState),
+          address: selectVAPResidentialAddress(initialState),
         });
 
         // If we have an already selected location or only have a single location
@@ -482,6 +484,12 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
   };
 }
 
+export function showEligibilityModal() {
+  return {
+    type: FORM_SHOW_ELIGIBILITY_MODAL,
+  };
+}
+
 export function hideEligibilityModal() {
   return {
     type: FORM_HIDE_ELIGIBILITY_MODAL,
@@ -496,7 +504,7 @@ export function hideEligibilityModal() {
  * 2. A user has only one parent, so we also need to fetch facilities
  * 3. A user might only have one parent and facility available, so we need to also
  *    do eligibility checks
- * 4. A user might already have been on this page, in which case we may have some 
+ * 4. A user might already have been on this page, in which case we may have some
  *    of the above data already and don't want to make another api call
 */
 export function openFacilityPage(page, uiSchema, schema) {

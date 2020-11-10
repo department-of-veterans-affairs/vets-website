@@ -5,7 +5,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import * as VET360 from '../constants';
+import * as VAP_SERVICE from '../constants';
 
 import { isPendingTransaction } from '../util/transactions';
 
@@ -19,8 +19,8 @@ import {
 } from '../actions';
 
 import {
-  selectVet360Field,
-  selectVet360Transaction,
+  selectVAPContactInfoField,
+  selectVAPServiceTransaction,
   selectCurrentlyOpenEditModal,
   selectEditedFormField,
 } from '../selectors';
@@ -266,21 +266,21 @@ class Vet360ProfileField extends React.Component {
 
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
-  const { transaction, transactionRequest } = selectVet360Transaction(
+  const { transaction, transactionRequest } = selectVAPServiceTransaction(
     state,
     fieldName,
   );
-  const data = selectVet360Field(state, fieldName);
+  const data = selectVAPContactInfoField(state, fieldName);
   const isEmpty = !data;
   const addressValidationType =
-    state.vet360.addressValidation.addressValidationType;
+    state.vapService.addressValidation.addressValidationType;
   const showValidationModal =
     ownProps.ValidationModal &&
     addressValidationType === fieldName &&
     selectCurrentlyOpenEditModal(state) === 'addressValidation';
 
   return {
-    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
+    analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
     data,
     fieldName,
     field: selectEditedFormField(state, fieldName),
@@ -317,12 +317,12 @@ const Vet360ProfileFieldContainer = connect(
 )(Vet360ProfileField);
 
 Vet360ProfileFieldContainer.propTypes = {
-  fieldName: PropTypes.oneOf(Object.values(VET360.FIELD_NAMES)).isRequired,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   Content: PropTypes.func.isRequired,
   EditModal: PropTypes.func.isRequired,
   ValidationModal: PropTypes.func,
   title: PropTypes.string.isRequired,
-  apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
 };
 

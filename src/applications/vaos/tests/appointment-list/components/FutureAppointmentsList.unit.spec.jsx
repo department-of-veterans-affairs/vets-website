@@ -87,7 +87,7 @@ describe('VAOS integration: pending appointments', () => {
       );
 
       expect(baseElement).not.to.contain.text('Add to calendar');
-      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      expect(getByText(/cancel request/i)).to.have.tagName('button');
     });
 
     it('should show information with full facility info', async () => {
@@ -345,7 +345,7 @@ describe('VAOS integration: pending appointments', () => {
       );
 
       expect(baseElement).not.to.contain.text('Add to calendar');
-      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      expect(getByText(/cancel request/i)).to.have.tagName('button');
     });
   });
 
@@ -417,7 +417,7 @@ describe('VAOS integration: pending appointments', () => {
           .add(3, 'days')
           .format('ddd, MMMM D, YYYY')} in the morning`,
       );
-      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      expect(getByText(/cancel request/i)).to.have.tagName('button');
       fireEvent.click(await findByText(/show more/i));
       await findByText(/a message from the patient/i);
       expect(baseElement).to.contain.text('Call morning');

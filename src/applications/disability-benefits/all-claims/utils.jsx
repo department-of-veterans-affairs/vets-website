@@ -650,10 +650,12 @@ export const ancillaryFormUploadUi = (
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     maxSize: FIFTY_MB,
     minSize: 1,
-    createPayload: file => {
+    createPayload: (file, _formId, password) => {
       const payload = new FormData();
       payload.append('supporting_evidence_attachment[file_data]', file);
-
+      if (password) {
+        payload.append('supporting_evidence_attachment[password]', password);
+      }
       return payload;
     },
     parseResponse: (response, file) => ({
@@ -832,18 +834,15 @@ export const activeServicePeriods = formData =>
   );
 
 export const isBDD = formData => {
-  const servicePeriods = formData?.serviceInformation?.servicePeriods;
+  const isBddDataFlag = Boolean(formData?.['view:isBddData']);
+  const servicePeriods = formData?.serviceInformation?.servicePeriods || [];
 
   // separation date entered in the wizard
   const separationDate = window.sessionStorage.getItem(SAVED_SEPARATION_DATE);
 
   // this flag helps maintain the correct form title within a session
-  window.sessionStorage.removeItem(FORM_STATUS_BDD);
-
-  // User hasn't started the form or the wizard
-  if ((!servicePeriods || !Array.isArray(servicePeriods)) && !separationDate) {
-    return false;
-  }
+  // Removed because of Cypress e2e tests don't have access to 'view:isBddData'
+  // window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
   // isActiveDuty is true when the user selects that option in the wizard & then
   // enters a separation date - based on the session storage value; we then
@@ -851,13 +850,21 @@ export const isBDD = formData => {
   // If the user doesn't choose the active duty wizard option, but enters a
   // future date in their service history, this may be associated with reserves
   // and therefor should not open the BDD flow
-  const isActiveDuty = Boolean(formData?.['view:isBddData'] || separationDate);
+  const isActiveDuty = isBddDataFlag || separationDate;
+
+  if (
+    !isActiveDuty ||
+    // User hasn't started the form or the wizard
+    (servicePeriods.length === 0 && !separationDate)
+  ) {
+    return false;
+  }
 
   const mostRecentDate = separationDate
     ? moment(separationDate)
     : servicePeriods
         .filter(({ dateRange }) => dateRange?.to)
-        .map(({ dateRange }) => moment(dateRange.to))
+        .map(({ dateRange }) => moment(dateRange?.to))
         .sort((dateA, dateB) => dateB - dateA)[0];
 
   if (!mostRecentDate) {
@@ -872,7 +879,7 @@ export const isBDD = formData => {
     // this flag helps maintain the correct form title within a session
     window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
   }
-  return result;
+  return Boolean(result);
 };
 
 export const DISABILITY_SHARED_CONFIG = {

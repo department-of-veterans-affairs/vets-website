@@ -24,7 +24,6 @@ const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'fetch', type: Boolean, defaultValue: false },
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 const cacheUrl = `https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/content`;
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
@@ -72,7 +71,7 @@ async function fetchCache() {
     options.buildtype === ENVIRONMENTS.LOCALHOST
       ? ENVIRONMENTS.VAGOVDEV
       : options.buildtype;
-  const cacheKey = getDrupalCacheKey(cacheEnv);
+  const cacheKey = await getDrupalCacheKey(cacheEnv);
   const fullCacheUrl = `${cacheUrl}/${cacheKey}.tar.bz2`;
   const downloadPath = path.join(cacheDirectory, `${cacheKey}.tar.bz2`);
 

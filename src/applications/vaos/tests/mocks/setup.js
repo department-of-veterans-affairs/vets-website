@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -201,46 +201,44 @@ export async function setVAFacility(store, facilityId) {
 }
 
 export async function setClinic(store, clinicLabel) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByText, findByLabelText } = renderWithStoreAndRouter(
-    <ClinicChoicePage history={history} />,
-    { store },
+  const screen = renderWithStoreAndRouter(
+    <Route component={ClinicChoicePage} />,
+    {
+      store,
+    },
   );
 
-  fireEvent.click(await findByLabelText(clinicLabel));
-  fireEvent.click(await findByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  fireEvent.click(await screen.findByLabelText(clinicLabel));
+  fireEvent.click(await screen.findByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 export async function setPreferredDate(store, preferredDate) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByText, getByLabelText, getByText } = renderWithStoreAndRouter(
-    <PreferredDatePage history={history} />,
-    { store },
+  const screen = renderWithStoreAndRouter(
+    <Route component={PreferredDatePage} />,
+    {
+      store,
+    },
   );
 
-  await findByText(/earliest date/);
-  fireEvent.change(getByLabelText('Month'), {
+  await screen.findByText(/earliest date/);
+  fireEvent.change(screen.getByLabelText('Month'), {
     target: { value: preferredDate.month() + 1 },
   });
-  fireEvent.change(getByLabelText('Day'), {
+  fireEvent.change(screen.getByLabelText('Day'), {
     target: { value: preferredDate.date() },
   });
-  fireEvent.change(getByLabelText('Year'), {
+  fireEvent.change(screen.getByLabelText('Year'), {
     target: { value: preferredDate.year() },
   });
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 export async function setExpressCareFacility({ store }) {

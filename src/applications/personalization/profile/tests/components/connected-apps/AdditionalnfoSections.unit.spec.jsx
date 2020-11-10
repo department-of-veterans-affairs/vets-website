@@ -33,16 +33,6 @@ describe('<AdditionalInfoSections>', () => {
     expect(text).to.include(
       'What other third-party apps can I connect to my profile?',
     );
-    expect(text).to.include(
-      'How do I connect a third-party app to my profile?',
-    );
-    expect(text).to.include(
-      'What should I do if my records are wrong or out of date in a connected app?',
-    );
-    expect(text).to.include(
-      'What should I do if I no longer trust a connected app?',
-    );
-
     wrapper.unmount();
   });
 
@@ -54,16 +44,6 @@ describe('<AdditionalInfoSections>', () => {
     expect(text).not.to.include(
       'What other third-party apps can I connect to my profile?',
     );
-    expect(text).to.include(
-      'How do I connect a third-party app to my profile?',
-    );
-    expect(text).not.to.include(
-      'What should I do if my records are wrong or out of date in a connected app?',
-    );
-    expect(text).not.to.include(
-      'What should I do if I no longer trust a connected app?',
-    );
-
     wrapper.unmount();
   });
 });

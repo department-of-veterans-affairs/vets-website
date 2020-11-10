@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import {
-  INIT_VET360_ID,
+  INIT_VAP_SERVICE_ID,
   ANALYTICS_FIELD_MAP,
   API_ROUTES,
-  VET360_INITIALIZATION_STATUS,
+  VAP_SERVICE_INITIALIZATION_STATUS,
 } from '../constants';
 
 import {
@@ -16,13 +16,13 @@ import {
   refreshTransaction,
 } from '../actions';
 
-import { selectVet360InitializationStatus } from '../selectors';
+import { selectVAPServiceInitializationStatus } from '../selectors';
 
 import TransactionPending from '../components/base/Vet360TransactionPending';
 
 class InitializeVet360ID extends React.Component {
   componentDidMount() {
-    if (this.props.status === VET360_INITIALIZATION_STATUS.INITIALIZED) {
+    if (this.props.status === VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZED) {
       this.props.fetchTransactions();
     } else {
       this.initializeVet360ID();
@@ -30,11 +30,11 @@ class InitializeVet360ID extends React.Component {
   }
 
   initializeVet360ID() {
-    const route = API_ROUTES.INIT_VET360_ID;
-    const fieldName = INIT_VET360_ID;
+    const route = API_ROUTES.INIT_VAP_SERVICE_ID;
+    const fieldName = INIT_VAP_SERVICE_ID;
     const method = 'POST';
     const body = null;
-    const analytics = ANALYTICS_FIELD_MAP.INIT_VET360_ID;
+    const analytics = ANALYTICS_FIELD_MAP.INIT_VAP_SERVICE_ID;
     return this.props.createTransaction(
       route,
       method,
@@ -54,17 +54,17 @@ class InitializeVet360ID extends React.Component {
     const initializationTransactionRefreshRoute = `/profile/person/status/${transactionId}`;
     this.props.refreshTransaction(
       this.props.transaction,
-      ANALYTICS_FIELD_MAP.INIT_VET360_ID,
+      ANALYTICS_FIELD_MAP.INIT_VAP_SERVICE_ID,
       initializationTransactionRefreshRoute,
     );
   };
 
   render() {
     switch (this.props.status) {
-      case VET360_INITIALIZATION_STATUS.INITIALIZED:
+      case VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZED:
         return <>{this.props.children}</>;
 
-      case VET360_INITIALIZATION_STATUS.INITIALIZATION_FAILURE:
+      case VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZATION_FAILURE:
         return (
           <AlertBox
             isVisible
@@ -78,14 +78,14 @@ class InitializeVet360ID extends React.Component {
           />
         );
 
-      case VET360_INITIALIZATION_STATUS.INITIALIZING:
+      case VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZING:
         return (
           <TransactionPending refreshTransaction={this.refreshTransaction}>
             Initialization in progress...
           </TransactionPending>
         );
 
-      case VET360_INITIALIZATION_STATUS.UNINITIALIZED:
+      case VAP_SERVICE_INITIALIZATION_STATUS.UNINITIALIZED:
       default:
         return <div />;
     }
@@ -97,7 +97,7 @@ const mapStateToProps = state => {
     status,
     transaction,
     transactionRequest,
-  } = selectVet360InitializationStatus(state);
+  } = selectVAPServiceInitializationStatus(state);
   return {
     status,
     transaction,

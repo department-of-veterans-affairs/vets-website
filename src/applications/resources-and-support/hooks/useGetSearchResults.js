@@ -15,7 +15,11 @@ export default function useGetSearchResults(articles, query, page) {
         .split(' ')
         .map(keyword => keyword.toLowerCase())
         .map(keyword => {
-          if (keyword.length > 3 && keyword.endsWith('s')) {
+          if (keyword.length > 6 && keyword.endsWith('ies')) {
+            // Unpluralize the word, so that a search for "disabilities"
+            // will still yield articles titled "disability"
+            return keyword.slice(0, keyword.length - 3);
+          } else if (keyword.length > 3 && keyword.endsWith('s')) {
             // Unpluralize the word, so that a search for "claims"
             // will still yield articles titled "claim or appeal status"
             return keyword.slice(0, keyword.length - 1);
@@ -24,15 +28,11 @@ export default function useGetSearchResults(articles, query, page) {
         });
 
       const filteredArticles = articles.filter(article => {
-        const tags = article.fieldTags?.entity?.fieldTopics
-          ?.map(topic => topic.entity.name)
-          .join();
+        const articleTitleKeywords = article.title.toLowerCase().split(' ');
 
-        return keywords.some(k => {
-          return (
-            article.title.toLowerCase().includes(k) ||
-            article.fieldPrimaryCategory?.entity?.name?.includes(k) ||
-            tags?.includes(k)
+        return keywords.some(keyword => {
+          return articleTitleKeywords.some(titleWord =>
+            titleWord.startsWith(keyword),
           );
         });
       });

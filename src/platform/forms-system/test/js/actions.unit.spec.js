@@ -121,6 +121,7 @@ describe('Schemaform actions:', () => {
           field: 'status',
           value: 'submitPending',
           extra: null,
+          errorMessage: null,
         });
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMITTED,
@@ -154,12 +155,14 @@ describe('Schemaform actions:', () => {
           field: 'status',
           value: 'submitPending',
           extra: null,
+          errorMessage: null,
         });
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'serverError',
           extra: null,
+          errorMessage: 'vets_server_error: Bad Request',
         });
       });
 
@@ -223,12 +226,14 @@ describe('Schemaform actions:', () => {
           field: 'status',
           value: 'submitPending',
           extra: null,
+          errorMessage: null,
         });
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'throttledError',
           extra: 2000,
+          errorMessage: 'vets_throttled_error: undefined',
         });
       });
 
@@ -265,6 +270,7 @@ describe('Schemaform actions:', () => {
           field: 'status',
           value: 'submitPending',
           extra: null,
+          errorMessage: null,
         });
         expect(formConfig.submit.called).to.be.true;
         expect(requests).to.be.empty;
@@ -437,6 +443,7 @@ describe('Schemaform actions:', () => {
         name: 'Test name',
         size: 1234,
         confirmationCode: 'Test code',
+        isEncrypted: false,
       });
     });
 
