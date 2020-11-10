@@ -72,11 +72,6 @@ window.appName = 'static-pages';
 // Set further errors to have the appropriate source tag
 Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 
-// Form configs
-import burialsFormConfig from '../burials/config/form';
-import pensionFormConfig from '../pensions/config/form';
-import healthcareFormConfig from '../hca/config/form';
-
 const store = createCommonStore({
   ...facilityReducer,
   ...findVaFormsWidgetReducer,
@@ -95,7 +90,6 @@ subscribeAccordionEvents();
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_527EZ,
-  formConfig: pensionFormConfig,
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/pension/how-to-apply/',
@@ -105,7 +99,6 @@ createApplicationStatus(store, {
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_10_10EZ,
-  formConfig: healthcareFormConfig,
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/health-care/how-to-apply/',
@@ -126,7 +119,6 @@ createHigherLevelReviewApplicationStatus(
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_530,
-  formConfig: burialsFormConfig,
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyText: 'Apply for burial benefits',
