@@ -50,6 +50,20 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
 
     expect(screen.getAllByRole('radio').length).to.equal(11);
+
+    // Verify alert is shown
+    expect(
+      screen.getByRole('heading', {
+        name: /not seeing the type of care you need\?/i,
+      }),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        /you'll need to call your va health facility to schedule an appointment./i,
+      ),
+    ).to.exist;
+    expect(screen.getByRole('link', { name: /find a va location/i })).to.exist;
+
     expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
 
     fireEvent.click(screen.getByText(/Continue/));

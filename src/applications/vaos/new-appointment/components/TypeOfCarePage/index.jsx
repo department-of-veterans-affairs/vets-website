@@ -7,6 +7,7 @@ import { getLongTermAppointmentHistory } from '../../../services/var';
 import FormButtons from '../../../components/FormButtons';
 import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
 import UpdateAddressAlert from './UpdateAddressAlert';
+import TypeOfCareAlert from './TypeOfCareAlert';
 import {
   openTypeOfCarePage,
   updateFormData,
@@ -126,6 +127,7 @@ export class TypeOfCarePage extends React.Component {
           onChange={this.onChange}
           data={data}
         >
+          <TypeOfCareAlert />
           <FormButtons
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
