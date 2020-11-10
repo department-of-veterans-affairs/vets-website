@@ -35,6 +35,10 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     });
 
     expect(screen.baseElement).to.contain.text(
+      'Tell us when you want to schedule your appointment',
+    );
+
+    expect(screen.baseElement).to.contain.text(
       'What is the earliest date you’d like to be seen?',
     );
     expect(screen.baseElement).to.contain.text(
@@ -130,16 +134,5 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     );
     fireEvent.click(screen.getByText(/Continue/));
     expect(screen.history.push.called).to.be.true;
-  });
-
-  it('document title should match h1 text', () => {
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
-      store,
-    });
-
-    expect(screen.baseElement).to.contain.text(
-      'Tell us when you want to schedule your appointment',
-    );
   });
 });
