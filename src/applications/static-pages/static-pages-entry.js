@@ -15,6 +15,7 @@ import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
+import createHcaApplicationStatus from '../hca/config/statusWidget';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
@@ -97,14 +98,7 @@ createApplicationStatus(store, {
   widgetType: widgetTypes.PENSION_APP_STATUS,
 });
 
-createApplicationStatus(store, {
-  formId: VA_FORM_IDS.FORM_10_10EZ,
-  applyHeading: 'How do I apply?',
-  additionalText: 'You can apply online right now.',
-  applyLink: '/health-care/how-to-apply/',
-  applyText: 'Apply for health care benefits',
-  widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
-});
+createHcaApplicationStatus(store);
 
 createCallToActionWidget(store, widgetTypes.CTA);
 
