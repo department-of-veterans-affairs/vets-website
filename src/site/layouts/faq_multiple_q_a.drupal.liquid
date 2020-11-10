@@ -81,12 +81,13 @@
                   </ul>
                 </div>
               {% else %}
+                  {% assign fieldSectionHeaderTag = 'h2' %}
+                  {% if fieldQAGroup.entity.fieldSectionHeader %}
+                    {% assign fieldSectionHeaderTag = 'h3' %}
+                  {% endif %}
+
                   {% for fieldQA in fieldQAGroup.entity.fieldQAs %}
-                    {% if fieldQAGroup.entity.fieldSectionHeader %}
-                      <h3>{{ fieldQA.entity.title }}</h3>
-                    {% else %}
-                      <h2>{{ fieldQA.entity.title }}</h2>
-                    {% endif %}
+                    <{{ fieldSectionHeaderTag }}>{{ fieldQA.entity.title }}</{{ fieldSectionHeaderTag }}>
                     {% if fieldQA.entity %}
                       {% assign fieldAnswer = fieldQA.entity.fieldAnswer %}
                       {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
