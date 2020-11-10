@@ -1,5 +1,5 @@
 import { uniqueId } from 'lodash';
-import * as VET360_CONSTANTS from '../constants';
+import * as VAP_SERVICE from '../constants';
 
 export function isVAProfileServiceConfigured() {
   return (
@@ -138,15 +138,15 @@ function asyncReturn(returnValue, delay = 300) {
 export default {
   getUserTransactions() {
     const data = [
-      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.ADDRESS,
-      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.EMAIL,
-      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.PHONE,
+      VAP_SERVICE.TRANSACTION_CATEGORY_TYPES.ADDRESS,
+      VAP_SERVICE.TRANSACTION_CATEGORY_TYPES.EMAIL,
+      VAP_SERVICE.TRANSACTION_CATEGORY_TYPES.PHONE,
     ]
       .filter(() => Math.random() > 0.5)
       .map(transactionType => ({
         attributes: {
           transactionId: uniqueId('transaction_'),
-          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED,
+          transactionStatus: VAP_SERVICE.TRANSACTION_STATUS.RECEIVED,
           type: transactionType,
         },
       }));
@@ -160,7 +160,7 @@ export default {
       data: {
         attributes: {
           transactionId: uniqueId('transaction_'),
-          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED,
+          transactionStatus: VAP_SERVICE.TRANSACTION_STATUS.RECEIVED,
         },
       },
     });
@@ -193,8 +193,7 @@ export default {
       data: {
         attributes: {
           transactionId,
-          transactionStatus:
-            VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_SUCCESS,
+          transactionStatus: VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_SUCCESS,
         },
       },
     });
@@ -203,7 +202,7 @@ export default {
     return {
       data: {
         attributes: {
-          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.REJECTED,
+          transactionStatus: VAP_SERVICE.TRANSACTION_STATUS.REJECTED,
           transactionId,
           type: 'AsyncTransaction::Vet360::MockedTransaction',
           metadata: [

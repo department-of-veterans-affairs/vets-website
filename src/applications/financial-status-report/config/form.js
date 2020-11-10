@@ -65,6 +65,7 @@ const formConfig = {
           schema: veteranInfo.schema,
         },
         availableDebts: {
+          initialData: { fsrDebts: [] },
           path: 'available-debts',
           title: formPageTitles.availableDebts,
           uiSchema: availableDebts.uiSchema,

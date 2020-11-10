@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import vet360 from '../../reducers';
-import * as VET360 from '../../constants';
+import * as VAP_SERVICE from '../../constants';
 import {
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
@@ -143,7 +143,8 @@ describe('vet360 reducer', () => {
           data: {
             attributes: {
               transactionId: 111,
-              transactionStatus: VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS,
+              transactionStatus:
+                VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_SUCCESS,
             },
           },
         },
@@ -176,7 +177,8 @@ describe('vet360 reducer', () => {
           data: {
             attributes: {
               transactionId: 111,
-              transactionStatus: VET360.TRANSACTION_STATUS.COMPLETED_FAILURE,
+              transactionStatus:
+                VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_FAILURE,
             },
           },
         },
