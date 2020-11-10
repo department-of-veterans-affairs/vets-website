@@ -82,23 +82,54 @@ export const AccountSecurityContent = ({
         className="medium-screen:vads-u-margin-top--4"
         backgroundOnly
       >
-        <p>
-          Get answers to frequently asked questions about how to sign in, common
-          issues with verifying your identity, and your privacy and security on
-          VA.gov.
-        </p>
-        <a
-          href="/sign-in-faq/"
-          onClick={() =>
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'vets-faqs',
-            })
-          }
-        >
-          Go to FAQs about signing in to VA.gov
-        </a>
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <p>
+            Get answers to frequently asked questions about how to sign in,
+            common issues with verifying your identity, and your privacy and
+            security on VA.gov.
+          </p>
+
+          <h4>Go to FAQs about these topics:</h4>
+          <a
+            href="/resources/signing-in-to-vagov/"
+            className="vads-u-margin-y--1"
+            onClick={() =>
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'vets-faqs',
+              })
+            }
+          >
+            Signing in to VA.gov
+          </a>
+          <a
+            href="/resources/verifying-your-identity-on-vagov/"
+            className="vads-u-margin-y--1"
+            onClick={() =>
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'vets-faqs',
+              })
+            }
+          >
+            Verifying your identity on VA.gov
+          </a>
+          <a
+            href="/resources/privacy-and-security-on-vagov/"
+            className="vads-u-margin-y--1"
+            onClick={() =>
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'vets-faqs',
+              })
+            }
+          >
+            Privacy and security on VA.gov
+          </a>
+        </div>
       </AlertBox>
     </>
   );

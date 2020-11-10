@@ -165,9 +165,10 @@ export class ConnectedApps extends Component {
                   'profile-section': 'vets-faqs',
                 })
               }
-              href="/sign-in-faq/#connecting-third-party-non-va-"
+              href="/resources/connected-apps-faqs/"
             >
-              Go to FAQs about signing in to VA.gov
+              Go to FAQs about connecting third-party apps to your VA.gov
+              profile
             </a>
           </p>
         </div>
