@@ -4,7 +4,6 @@ import * as Sentry from '@sentry/browser';
 
 import createCommonStore from 'platform/startup/store';
 import startSitewideComponents from 'platform/site-wide';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import './analytics';
 import './alerts-dismiss-view';
@@ -14,9 +13,9 @@ import createFacilityPage from './facilities/createFacilityPage';
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import subscribeAccordionEvents from './subscribeAccordionEvents';
-import createApplicationStatus from './createApplicationStatus';
 import createHcaApplicationStatus from '../hca/config/statusWidget';
 import createPensionApplicationStatus from '../pensions/config/statusWidget';
+import createBurialsApplicationStatus from '../burials/config/statusWidget';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
@@ -105,13 +104,7 @@ createHigherLevelReviewApplicationStatus(
   widgetTypes.HIGHER_LEVEL_REVIEW_APP_STATUS,
 );
 
-createApplicationStatus(store, {
-  formId: VA_FORM_IDS.FORM_21P_530,
-  applyHeading: 'How do I apply?',
-  additionalText: 'You can apply online right now.',
-  applyText: 'Apply for burial benefits',
-  widgetType: widgetTypes.BURIALS_APP_STATUS,
-});
+createBurialsApplicationStatus(store);
 
 createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 createDisabilityRatingCalculator(
