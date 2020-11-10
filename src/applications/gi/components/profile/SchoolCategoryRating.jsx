@@ -45,7 +45,7 @@ export default function SchoolCategoryRating({
           className="usa-accordion-button-ratings"
           onClick={() => openHandler(categoryRating.categoryName)}
         >
-          <div className="vads-l-row medium-screen:vads-u-padding-left--1">
+          <div className="category-main vads-l-row medium-screen:vads-u-padding-left--1">
             <div className="vads-l-col--6 vads-u-font-size--sm">{title}</div>
             {categoryRating.averageRating && (
               <div className="vads-l-col--6 vads-u-font-size--sm">
