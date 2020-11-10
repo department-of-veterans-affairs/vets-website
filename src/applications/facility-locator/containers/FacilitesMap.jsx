@@ -186,13 +186,6 @@ const FacilitiesMap = props => {
   const handleSearchArea = () => {
     resetMapElements();
     const center = map.getCenter().wrap();
-    // const currentBounds = map.getBounds();
-    //      currentBounds: [
-    //         parseFloat(currentBounds._sw.lng.toFixed(2)),
-    //         parseFloat(currentBounds._sw.lat.toFixed(2)),
-    //         parseFloat(currentBounds._ne.lng.toFixed(2)),
-    //         parseFloat(currentBounds._ne.lat.toFixed(2)),
-    //       ],
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
@@ -259,12 +252,9 @@ const FacilitiesMap = props => {
         searchAreaSet = true;
       }
 
-      // TODO: fix it, might be causing performace issues
+      // TODO: fix it, might be causing performance issues
       // recordPanEvent(map.getCenter(), props.currentQuery.searchCoords);
     });
-
-    // TODO: Render markers when already locations in the store
-    // renderMarkers(props.results);
   }
 
   /**
@@ -418,18 +408,25 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
-      const { searchArea } = props.currentQuery;
+      const {
+        searchArea,
+        position,
+        context,
+        searchString,
+      } = props.currentQuery;
       // Search current area
       if (searchArea) {
+        updateUrlParams({
+          location: `${position.latitude},${position.longitude}`,
+          context,
+          searchString,
+        });
         props.searchWithBounds({
           bounds: props.currentQuery.bounds,
           facilityType: props.currentQuery.facilityType,
           serviceType: props.currentQuery.serviceType,
           page: props.currentQuery.currentPage,
         });
-        // Build set current url query params
-        // TODO - fix current search area url
-        // browserHistory.push({});
       }
     },
     [props.currentQuery.searchArea],
@@ -506,7 +503,7 @@ const FacilitiesMap = props => {
       if (!map) return;
       renderMarkers(props.results);
     },
-    [props.results],
+    [props.results, map],
   );
 
   return (
