@@ -20,17 +20,42 @@ const IntroductionPage = props => {
     ? appointment?.vdsAppointments[0]?.clinic?.facility?.displayName
     : '';
 
-  // const { isLoggedIn, route, savedForms, formId } = props;
+  const { isLoggedIn, route, savedForms, formId } = props;
 
-  // const goToFirstPage = () => {
-  //   const firstPage = route.pageList[1];
-  //   props.router.push(firstPage.path);
-  // };
-  // const savedForm = savedForms.find(f => f.form === formId);
+  const savedForm = savedForms.find(f => f.form === formId);
   const showLoginModel = () => props.toggleLoginModal(true, 'cta-form');
-  const UnAuthedWelcomeMessage = () => (
-    <IntroductionPageHelpers.WelcomeAlert toggleLoginModal={showLoginModel} />
-  );
+
+  const getWelcomeMessage = () => {
+    const UnAuthedWelcomeMessage = () => (
+      <IntroductionPageHelpers.WelcomeAlert toggleLoginModal={showLoginModel} />
+    );
+
+    const goToFirstPage = () => {
+      const firstPage = route.pageList[1];
+      props.router.push(firstPage.path);
+    };
+
+    if (savedForm) {
+      return (
+        <SaveInProgressIntro
+          hideUnauthedStartLink
+          prefillEnabled={props.route?.formConfig.prefillEnabled}
+          messages={props.route?.formConfig.savedFormMessages}
+          pageList={props.route?.pageList}
+          startText="Start the questionnaire"
+          formConfig={props.route?.formConfig}
+          resumeOnly
+          renderSignInMessage={UnAuthedWelcomeMessage}
+        />
+      );
+    } else if (isLoggedIn) {
+      return (
+        <IntroductionPageHelpers.AuthedMessage goToFirstPage={goToFirstPage} />
+      );
+    } else {
+      return <UnAuthedWelcomeMessage />;
+    }
+  };
 
   const title = 'Primary care questionnaire';
   const subTitle = facilityName;
@@ -103,22 +128,8 @@ const IntroductionPage = props => {
           </ul>
         </section>
       </section>
-      <SaveInProgressIntro
-        hideUnauthedStartLink
-        prefillEnabled={props.route?.formConfig.prefillEnabled}
-        messages={props.route?.formConfig.savedFormMessages}
-        pageList={props.route?.pageList}
-        startText="Start the questionnaire"
-        formConfig={props.route?.formConfig}
-        resumeOnly
-        renderSignInMessage={UnAuthedWelcomeMessage}
-      />
 
-      {/* {savedForm ? (
-        
-      ) : (
-        <UnAuthedWelcomeMessage />
-      )} */}
+      {getWelcomeMessage()}
       <div className="omb-info--container">
         <OMBInfo ombNumber="0000-0000" expDate="mm/dd/yyyy" />
       </div>
