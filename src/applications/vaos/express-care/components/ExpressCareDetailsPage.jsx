@@ -29,7 +29,7 @@ const initialSchema = {
         </span>
       ),
       type: 'string',
-      maxLength: 256,
+      maxLength: 255,
     },
     contactInfo: {
       type: 'object',
