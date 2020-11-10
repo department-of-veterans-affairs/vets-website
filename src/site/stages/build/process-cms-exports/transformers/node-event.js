@@ -53,6 +53,15 @@ const transform = entity => ({
     endDate: toUtc(entity.fieldDate[0].end_value),
     endValue: toUtc(entity.fieldDate[0].end_value, false),
   },
+  fieldDatetimeRangeTimezone:
+    entity.fieldDatetimeRangeTimezone &&
+    entity.fieldDatetimeRangeTimezone.length
+      ? {
+          startDate: entity.fieldDatetimeRangeTimezone[0].startDate,
+          endValue: entity.fieldDatetimeRangeTimezone[0].endValue,
+          timezone: entity.fieldDatetimeRangeTimezone[0].timezone,
+        }
+      : {},
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldEventCost: getDrupalValue(entity.fieldEventCost),
   fieldEventCta: getDrupalValue(entity.fieldEventCta),
@@ -79,6 +88,7 @@ module.exports = {
     'field_address',
     'field_body',
     'field_date',
+    'field_datetime_range_timezone',
     'field_description',
     'field_event_cost',
     'field_event_cta',

@@ -14,3 +14,16 @@ describe('isLaterThan', () => {
     expect(liquid.filters.isLaterThan('2016-12-11', '2017-01-12')).to.be.false;
   });
 });
+
+// TODO: figure out how to get this working!
+describe.skip('timezoneAbbrev', () => {
+  it('returns PST for Los Angeles', () => {
+    expect(
+      liquid.filters.timezoneAbbrev('America/Los_Angeles', '2020-11-11'),
+    ).to.eq('PST');
+  });
+
+  it('returns ET for null', () => {
+    expect(liquid.filters.timezoneAbbrev()).to.eq('ET');
+  });
+});
