@@ -5,48 +5,31 @@
  * html is located in src/site/components/up_to_top_button.html
  */
 
-let upToTopButton = '';
-let footer = '';
 let threeFourthsContainer = '';
+let footer = '';
 const container = document.querySelector('.vsa-top-button-container');
-
-function initVars() {
-  threeFourthsContainer = container.querySelector('.usa-width-three-fourths');
-  upToTopButton = container.querySelector('.vsa-top-button');
-  footer = document.querySelector('.footer-inner');
-  // NOTE: Guarded Return so button does not show at all with errors
-  if (!threeFourthsContainer || !upToTopButton || !footer)
-    return 'NODE_MISSING_CLASS';
-
-  return 'SUCCESS';
-}
+const distanceOfScrollingBeforeAppearing = 600;
+const BUTTON_CLASSES = {
+  TRANSITION_IN: 'vsa-top-button-transition-in',
+  TRANSITION_OUT: 'vsa-top-button-transition-out',
+  CONTAINER_RELATIVE: 'vsa-top-button-container-relative',
+  TRANSITION_RESET: 'vsa-top-button-transition-reset',
+};
 
 function navigateToTop() {
   return window.scrollTo(0, 0);
 }
 
-function assignClickHandlerButtonToDom() {
-  const button = container.querySelector('.usa-button.vsa-top-button');
-  if (button) button.onclick = navigateToTop();
-  // eslint-disable-next-line no-console
-  if (!button) console.warn('MISSING_UP_TO_TOP_BUTTON');
-}
-
-function scrollListener() {
+function scrollListener(button) {
   // Responsible for toggling animation classes
   const scrollFromTop =
     window.pageYOffset !== undefined
       ? window.pageYOffset
       : (document.documentElement || document.body.parentNode || document.body)
           .scrollTop;
-  const distanceOfScrollingBeforeAppearing = 600;
-  const buttonTransitionIn = 'vsa-top-button-transition-in';
-  const buttonTransitionOut = 'vsa-top-button-transition-out';
-  const buttonContainerRelative = 'vsa-top-button-container-relative';
-  const buttonTransitionReset = 'vsa-top-button-transition-reset';
 
   function doesElHaveClass(el, className) {
-    return el.classList.value.indexOf(className) > -1;
+    return el.classList.contains(className);
   }
 
   function isScrolledIntoView(el) {
@@ -56,39 +39,53 @@ function scrollListener() {
     return elemTop >= 0 && elemTop <= window.innerHeight;
   }
 
+  const {
+    TRANSITION_IN,
+    TRANSITION_OUT,
+    TRANSITION_RESET,
+    CONTAINER_RELATIVE,
+  } = BUTTON_CLASSES;
+
   if (
     scrollFromTop > distanceOfScrollingBeforeAppearing &&
-    !doesElHaveClass(upToTopButton, buttonTransitionIn)
+    !doesElHaveClass(button, TRANSITION_IN)
   ) {
-    upToTopButton.classList.add(buttonTransitionIn);
-    upToTopButton.classList.remove(buttonTransitionOut);
+    button.classList.add(TRANSITION_IN);
+    button.classList.remove(TRANSITION_OUT);
   } else if (
     scrollFromTop < distanceOfScrollingBeforeAppearing &&
-    doesElHaveClass(upToTopButton, buttonTransitionIn)
+    doesElHaveClass(button, TRANSITION_IN)
   ) {
-    upToTopButton.classList.add(buttonTransitionOut);
-    upToTopButton.classList.remove(buttonTransitionIn);
+    button.classList.add(TRANSITION_OUT);
+    button.classList.remove(TRANSITION_IN);
   }
   if (isScrolledIntoView(footer)) {
-    container.classList.add(buttonContainerRelative);
-    threeFourthsContainer.classList.add(buttonContainerRelative);
-    upToTopButton.classList.add(buttonTransitionReset);
-  } else if (doesElHaveClass(container, buttonContainerRelative)) {
-    container.classList.remove(buttonContainerRelative);
-    threeFourthsContainer.classList.remove(buttonContainerRelative);
-    upToTopButton.classList.remove(buttonTransitionReset);
+    container.classList.add(CONTAINER_RELATIVE);
+    threeFourthsContainer.classList.add(CONTAINER_RELATIVE);
+    button.classList.add(TRANSITION_RESET);
+  } else if (doesElHaveClass(container, CONTAINER_RELATIVE)) {
+    container.classList.remove(CONTAINER_RELATIVE);
+    threeFourthsContainer.classList.remove(CONTAINER_RELATIVE);
+    button.classList.remove(TRANSITION_RESET);
   }
 }
 
-function runScripts() {
-  if (!container) return;
-  if (initVars() === 'NODE_MISSING_CLASS') return;
+function setup() {
+  const upToTopButton = container.querySelector('.vsa-top-button');
 
-  window.addEventListener('scroll', scrollListener);
-  assignClickHandlerButtonToDom();
+  if (!upToTopButton) {
+    // The current page likely does not contain a "Back to top" button in its layout.
+    return;
+  }
+
+  // ... Grab other DOM refs
+  threeFourthsContainer = container.querySelector('.usa-width-three-fourths');
+  footer = document.querySelector('.footer-inner');
+  if (!threeFourthsContainer || !footer) return;
+
+  // Attach listeners
+  upToTopButton.addEventListener('click', navigateToTop);
+  window.addEventListener('scroll', () => scrollListener(upToTopButton));
 }
 
-const initScrollToTopButton = () =>
-  window.addEventListener('DOMContentLoaded', runScripts);
-
-export default initScrollToTopButton;
+export default () => document.addEventListener('DOMContentLoaded', setup);
