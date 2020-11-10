@@ -22,7 +22,7 @@ describe('<CopyMailingAddress/>', () => {
             },
           },
         },
-        vet360: {
+        vapService: {
           formFields: {
             [FIELD_NAMES.MAILING_ADDRESS]: null,
           },
@@ -36,7 +36,7 @@ describe('<CopyMailingAddress/>', () => {
       state.user.profile.vapContactInfo[
         FIELD_NAMES.MAILING_ADDRESS
       ] = mailingAddress;
-      state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+      state.vapService.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
         city: 'some other city',
       };
 
@@ -83,7 +83,7 @@ describe('<CopyMailingAddress/>', () => {
 
       it('is `true` when addresses are equal', () => {
         // This is real data from staging
-        state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+        state.vapService.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
           value: {
             id: 145184,
             addressLine1: '36320 Coronado Dr',
@@ -101,7 +101,7 @@ describe('<CopyMailingAddress/>', () => {
       });
 
       it('is `false` when addresses are not equal', () => {
-        state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+        state.vapService.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
           value: {
             id: 145184,
             addressLine1: '123 Main St.',

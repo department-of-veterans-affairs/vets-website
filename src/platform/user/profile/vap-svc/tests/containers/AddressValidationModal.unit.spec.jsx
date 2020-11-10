@@ -6,7 +6,7 @@ import AddressValidationModal from '../../containers/AddressValidationModal';
 describe('<AddressValidationModal/>', () => {
   const fakeStore = {
     getState: () => ({
-      vet360: {
+      vapService: {
         fieldTransactionMap: {
           mailingAddress: {
             isPending: false,
@@ -98,7 +98,7 @@ describe('<AddressValidationModal/>', () => {
   it('renders correct buttons', () => {
     const newFakeStore = {
       getState: () => ({
-        vet360: {
+        vapService: {
           fieldTransactionMap: {
             mailingAddress: {
               isPending: false,
@@ -142,7 +142,7 @@ describe('<AddressValidationModal/>', () => {
   it('renders multiple suggestion button text', () => {
     const newFakeStore = {
       getState: () => ({
-        vet360: {
+        vapService: {
           fieldTransactionMap: {
             mailingAddress: {
               isPending: false,
@@ -242,7 +242,7 @@ describe('<AddressValidationModal/>', () => {
   it('renders use suggested button text', () => {
     const newFakeStore = {
       getState: () => ({
-        vet360: {
+        vapService: {
           fieldTransactionMap: {
             mailingAddress: {
               isPending: false,
@@ -330,7 +330,7 @@ describe('<AddressValidationModal/>', () => {
   it('validates inputs', () => {
     const newFakeStore = {
       getState: () => ({
-        vet360: {
+        vapService: {
           fieldTransactionMap: {
             mailingAddress: {
               isPending: false,

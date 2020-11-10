@@ -5,6 +5,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
+import searchSettings from 'applications/search/manifest.json';
+
 // Relative imports.
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
@@ -80,10 +82,12 @@ const ResourcesAndSupportSearchApp = () => {
   } else {
     paginationSummary = (
       <>
-        We didn't find any resources and support articles for "
+        We didn’t find any resources and support articles for "
         <strong>{query}</strong>
         ." Try using different words or{' '}
-        <a href={`/search?query=${encodeURIComponent(query)}`}>
+        <a
+          href={`${searchSettings.rootUrl}/?query=${encodeURIComponent(query)}`}
+        >
           search all of VA.gov
         </a>
         .
