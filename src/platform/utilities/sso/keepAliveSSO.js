@@ -13,11 +13,15 @@ export default async function keepAlive() {
   // session or not
   try {
     const resp = await fetch(ssoKeepAliveEndpoint(), {
-      method: 'GET',
+      method: 'HEAD',
       credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
       cache: 'no-store',
     });
-    const alive = resp.headers.get('session-alive') === 'true';
+    const alive = Boolean(resp.headers.get('session-alive')) === true;
     return {
       ttl: alive ? Number(resp.headers.get('session-timeout')) : 0,
       transactionid: resp.headers.get('va_eauth_transactionid'),
