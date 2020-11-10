@@ -8,17 +8,17 @@ import testData from '../../../api/appointment-data.json';
 describe('healthcare-questionnaire - display an appointment -- ', () => {
   it('has appointment data', () => {
     const mountedComponent = mount(
-      <AppointmentDisplay appointment={testData} />,
+      <AppointmentDisplay appointment={testData.data} />,
     );
     expect(
       mountedComponent.find('[data-testid="facility-name"]').text(),
-    ).to.equal('Douglas VA Medical Center');
+    ).to.equal('VDS Facility Display Name');
     expect(
       mountedComponent.find('[data-testid="appointment-time"]').text(),
     ).to.match(/([\d]|[\d][\d]):[\d][\d]\s[a|p].m./);
     expect(
       mountedComponent.find('[data-testid="appointment-date"]').text(),
-    ).to.equal('December 2nd, 2020');
+    ).to.equal('August 26th, 2020');
 
     mountedComponent.unmount();
   });

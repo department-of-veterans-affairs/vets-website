@@ -24,6 +24,7 @@ import { isEmpty } from 'lodash';
 const NotAllDataAvailableError = () => (
   <div data-testid="not-all-data-available-error">
     <AlertBox
+      level={2}
       status="warning"
       headline="We can’t load all of your information"
       className="vads-u-margin-bottom--4"

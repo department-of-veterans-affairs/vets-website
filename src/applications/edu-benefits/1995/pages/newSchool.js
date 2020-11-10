@@ -4,6 +4,7 @@ import { showSchoolAddress } from '../../utils/helpers';
 import * as address from 'platform/forms/definitions/address';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
+import environment from 'platform/utilities/environment';
 
 const {
   civilianBenefitsAssistance,
@@ -33,8 +34,10 @@ export const uiSchema = {
     },
   }),
   educationObjective: {
-    'ui:title':
-      'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
+    // Prod flag for #15720
+    'ui:title': environment.isProduction()
+      ? 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)'
+      : 'Education or career goal (For example, “I want to get a bachelor’s degree in criminal justice” or “I want to get an HVAC technician certificate” or “I want to become a police officer.”)',
     'ui:widget': 'textarea',
   },
   nonVaAssistance: {
@@ -43,8 +46,10 @@ export const uiSchema = {
     'ui:widget': 'yesNo',
   },
   civilianBenefitsAssistance: {
-    'ui:title':
-      'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you’re seeking benefits from VA?',
+    // Prod flag for #15720
+    'ui:title': environment.isProduction()
+      ? 'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you’re seeking benefits from VA?'
+      : 'Are you getting benefits from the U.S. government as a civilian employee during the same time as you’re requesting benefits from VA?',
     'ui:widget': 'yesNo',
   },
 };

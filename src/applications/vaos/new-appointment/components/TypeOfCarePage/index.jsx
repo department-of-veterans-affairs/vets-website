@@ -24,7 +24,7 @@ import {
 } from '../../../utils/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
-import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -144,7 +144,7 @@ export class TypeOfCarePage extends React.Component {
 function mapStateToProps(state) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
-  const address = selectVet360ResidentialAddress(state);
+  const address = selectVAPResidentialAddress(state);
   return {
     ...formInfo,
     ...address,

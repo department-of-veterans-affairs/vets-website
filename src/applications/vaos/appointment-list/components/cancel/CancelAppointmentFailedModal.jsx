@@ -5,26 +5,28 @@ import FacilityAddress from '../../../components/FacilityAddress';
 
 export default function CancelAppointmentFailedModal({
   facility,
+  isConfirmed,
   isBadRequest,
   onClose,
 }) {
+  const typeText = isConfirmed ? 'appointment' : 'request';
   return (
     <Modal
       id="cancelAppt"
       status="error"
       visible
       onClose={onClose}
-      title="We couldn’t cancel your appointment"
+      title={`We couldn’t cancel your ${typeText}`}
     >
       {isBadRequest ? (
         <p>
-          We’re sorry. You can’t cancel your appointment on the VA appointments
+          We’re sorry. You can’t cancel your {typeText} on the VA appointments
           tool. Please contact your local VA medical center to cancel this
           appointment:
         </p>
       ) : (
         <p>
-          Something went wrong when we tried to cancel this appointment. Please
+          Something went wrong when we tried to cancel this {typeText}. Please
           contact your medical center to cancel:
         </p>
       )}

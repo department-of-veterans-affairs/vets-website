@@ -9,8 +9,8 @@ const ConfirmationPage = props => {
   const { submission } = form || undefined;
   const { response } = submission || {};
 
-  const facility = appointment?.vdsAppointments
-    ? appointment.vdsAppointments[0]?.clinic.facility
+  const facility = appointment?.attributes?.vdsAppointments
+    ? appointment.attributes.vdsAppointments[0]?.clinic.facility
     : null;
 
   return (
