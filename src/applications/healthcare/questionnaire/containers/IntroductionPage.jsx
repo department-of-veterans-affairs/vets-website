@@ -16,8 +16,8 @@ const IntroductionPage = props => {
   }, []);
 
   const { appointment } = props?.questionnaire?.context;
-  const facilityName = appointment?.vdsAppointments
-    ? appointment?.vdsAppointments[0]?.clinic?.facility?.displayName
+  const facilityName = appointment?.attributes?.vdsAppointments
+    ? appointment?.attributes?.vdsAppointments[0]?.clinic?.facility?.displayName
     : '';
 
   const { isLoggedIn, route, savedForms, formId } = props;
