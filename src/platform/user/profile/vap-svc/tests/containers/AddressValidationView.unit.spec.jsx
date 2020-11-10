@@ -6,7 +6,7 @@ import AddressValidationView from '../../containers/AddressValidationView';
 describe('<AddressValidationView/>', () => {
   const fakeStore = {
     getState: () => ({
-      vet360: {
+      vapService: {
         fieldTransactionMap: {
           mailingAddress: {
             isPending: false,
@@ -91,7 +91,7 @@ describe('<AddressValidationView/>', () => {
   it('renders correct buttons', () => {
     const newFakeStore = {
       getState: () => ({
-        vet360: {
+        vapService: {
           fieldTransactionMap: {
             mailingAddress: {
               isPending: false,
@@ -135,7 +135,7 @@ describe('<AddressValidationView/>', () => {
   it('does not render cancel button while pending transaction', () => {
     const newFakeStore = {
       getState: () => ({
-        vet360: {
+        vapService: {
           fieldTransactionMap: {
             mailingAddress: {
               isPending: true,
@@ -175,7 +175,7 @@ describe('<AddressValidationView/>', () => {
   it('renders multiple suggestion button text', () => {
     const newFakeStore = {
       getState: () => ({
-        vet360: {
+        vapService: {
           fieldTransactionMap: {
             mailingAddress: {
               isPending: false,
@@ -275,7 +275,7 @@ describe('<AddressValidationView/>', () => {
   it('renders use suggested button text', () => {
     const newFakeStore = {
       getState: () => ({
-        vet360: {
+        vapService: {
           fieldTransactionMap: {
             mailingAddress: {
               isPending: false,
@@ -363,7 +363,7 @@ describe('<AddressValidationView/>', () => {
   it('validates inputs', () => {
     const newFakeStore = {
       getState: () => ({
-        vet360: {
+        vapService: {
           fieldTransactionMap: {
             mailingAddress: {
               isPending: false,

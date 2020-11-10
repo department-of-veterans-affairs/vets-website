@@ -273,7 +273,7 @@ export const mapStateToProps = (state, ownProps) => {
   const data = selectVAPContactInfoField(state, fieldName);
   const isEmpty = !data;
   const addressValidationType =
-    state.vet360.addressValidation.addressValidationType;
+    state.vapService.addressValidation.addressValidationType;
   const showValidationModal =
     ownProps.ValidationModal &&
     addressValidationType === fieldName &&

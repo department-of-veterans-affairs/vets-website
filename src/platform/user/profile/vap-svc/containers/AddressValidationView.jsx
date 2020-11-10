@@ -305,7 +305,7 @@ const mapStateToProps = (state, ownProps) => {
     analyticsSectionName:
       VAP_SERVICE.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
-      state.vet360.fieldTransactionMap[addressValidationType]?.isPending ||
+      state.vapService.fieldTransactionMap[addressValidationType]?.isPending ||
       isPendingTransaction(transaction),
     addressFromUser,
     addressValidationError,
