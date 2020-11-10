@@ -452,7 +452,7 @@ describe('Schemaform <FileField>', () => {
     expect(formDOM.querySelectorAll('li')).to.be.empty;
   });
 
-  it('should upload file', () => {
+  it('should upload png file', () => {
     const uiSchema = fileUploadUI('Files');
     const schema = {
       type: 'object',
@@ -485,6 +485,87 @@ describe('Schemaform <FileField>', () => {
     expect(uploadFile.firstCall.args[3]).to.be.a('function');
     expect(uploadFile.firstCall.args[4]).to.be.a('function');
   });
+
+  it('should upload unencrypted pdf file', done => {
+    const uiSchema = fileUploadUI('Files');
+    const schema = {
+      type: 'object',
+      properties: {
+        fileField: fileSchema,
+      },
+    };
+    const uploadFile = sinon.spy();
+    const isFileEncrypted = () => Promise.resolve(false);
+    const uiOptions = {
+      ...uiSchema['ui:options'],
+      isFileEncrypted,
+    };
+    const fileField = {
+      ...uiSchema,
+      'ui:options': uiOptions,
+    };
+
+    const form = ReactTestUtils.renderIntoDocument(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{ fileField: [] }}
+          uploadFile={uploadFile}
+          uiSchema={{ fileField }}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.files('input[type=file]', [{ name: 'test.pdf' }]);
+
+    setTimeout(() => {
+      expect(uploadFile.firstCall.args[0]).to.eql({ name: 'test.pdf' });
+      expect(uploadFile.firstCall.args[1]).to.eql(uiOptions);
+      expect(uploadFile.firstCall.args[2]).to.be.a('function');
+      expect(uploadFile.firstCall.args[3]).to.be.a('function');
+      expect(uploadFile.firstCall.args[4]).to.be.a('function');
+      done();
+    });
+  });
+  it('should not call uploadFile when initially adding an encrypted PDF', done => {
+    const uiSchema = fileUploadUI('Files');
+    const schema = {
+      type: 'object',
+      properties: {
+        fileField: fileSchema,
+      },
+    };
+    const uploadFile = sinon.spy();
+    const isFileEncrypted = () => Promise.resolve(true);
+    const fileField = {
+      ...uiSchema,
+      'ui:options': {
+        ...uiSchema['ui:options'],
+        isFileEncrypted,
+      },
+    };
+
+    const form = ReactTestUtils.renderIntoDocument(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{ fileField: [] }}
+          uploadFile={uploadFile}
+          uiSchema={{ fileField }}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.files('input[type=file]', [{ name: 'test-pw.pdf' }]);
+
+    setTimeout(() => {
+      expect(uploadFile.notCalled).to.be.true;
+      done();
+    });
+  });
+
   it('should render file with attachment type', () => {
     const idSchema = {
       $id: 'field',

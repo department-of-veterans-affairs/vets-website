@@ -21,6 +21,7 @@ class FileField extends React.Component {
     this.state = {
       progress: 0,
     };
+    this.uploadRequest = null;
   }
   fileInputRef = React.createRef();
 
@@ -85,7 +86,13 @@ class FileField extends React.Component {
     if (event.target.files && event.target.files.length) {
       const currentFile = event.target.files[0];
       const files = this.props.formData || [];
-      const { requestLockedPdfPassword } = this.props;
+      const {
+        requestLockedPdfPassword,
+        onChange,
+        formContext,
+        uiSchema,
+      } = this.props;
+      const uiOptions = uiSchema['ui:options'];
 
       let idx = index;
       if (idx === null) {
@@ -98,26 +105,28 @@ class FileField extends React.Component {
         currentFile.name?.endsWith('pdf') &&
         !password
       ) {
-        const needsPassword = await this.isFileEncrypted(currentFile);
+        const isFileEncrypted =
+          uiOptions.isFileEncrypted || this.isFileEncrypted;
+        const needsPassword = await isFileEncrypted(currentFile);
         if (needsPassword) {
           files[idx] = {
             file: currentFile,
             name: currentFile.name,
             isEncrypted: true,
           };
-          this.props.onChange(files);
+          onChange(files);
           // wait for user to enter a password before uploading
           return;
         }
       }
 
-      this.uploadRequest = this.props.formContext.uploadFile(
+      this.uploadRequest = formContext.uploadFile(
         currentFile,
-        this.props.uiSchema['ui:options'],
+        uiOptions,
         this.updateProgress,
         file => {
           // formData is undefined initially
-          const { formData = [], onChange } = this.props;
+          const { formData = [] } = this.props;
           formData[idx] = { ...file, isEncrypted: !!password };
           onChange(formData);
           this.uploadRequest = null;
@@ -125,7 +134,7 @@ class FileField extends React.Component {
         () => {
           this.uploadRequest = null;
         },
-        this.props.formContext.trackingPrefix,
+        formContext.trackingPrefix,
         password,
       );
     }
