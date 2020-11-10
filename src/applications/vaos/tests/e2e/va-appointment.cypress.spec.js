@@ -70,6 +70,10 @@ describe('VAOS direct schedule flow', () => {
       );
       expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
+    cy.wait('@appointmentPreferences').should(xhr => {
+      const request = xhr.requestBody;
+      expect(request.emailAddress).to.eq('veteran@gmail.com');
+    });
 
     // Confirmation page
     newApptTests.confirmationPageTest(additionalInfo);
