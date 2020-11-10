@@ -140,10 +140,8 @@ function handlePrev(onClickPrev, monthsToShowAtOnce, months, setMonths) {
   setMonths(updatedMonths);
 }
 
-function handleNext(onClickNext, months, setMonths) {
-  const updatedMonths = months.map(m =>
-    m.add(this.props.monthsToShowAtOnce, 'months'),
-  );
+function handleNext(onClickNext, months, setMonths, monthsToShowAtOnce) {
+  const updatedMonths = months.map(m => m.add(monthsToShowAtOnce, 'months'));
 
   if (onClickNext) {
     onClickNext(
