@@ -149,6 +149,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
       facilitySidebar: sidebar,
       entityUrl: hsEntityUrl,
       alert: page.alert,
+      bannerAlert: page.bannerAlert,
       title: page.title,
       regionNickname: page.fieldNicknameForThisFacility,
       clinicalHealthServices,
