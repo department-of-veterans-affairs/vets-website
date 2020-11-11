@@ -1,7 +1,6 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import mockUser from './fixtures/test-user.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
 
 import formConfig from 'applications/disability-benefits/686c-674/config/form';
@@ -15,17 +14,16 @@ const testConfig = createTestConfig(
     dataSets: ['spouse-child-all-fields'],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
-      cy.login(mockUser);
+      cy.login();
       cy.route('GET', '/v0/profile/valid_va_file_number', mockVaFileNumber).as(
         'mockVaFileNumber',
       );
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
-        cy.wait('@mockVaFileNumber');
-        cy.injectAxe();
-
         afterHook(() => {
+          cy.wait('@mockVaFileNumber');
+          cy.injectAxe();
           cy.findAllByText(/Add or remove a dependent/i, { selector: 'button' })
             .first()
             .click();
