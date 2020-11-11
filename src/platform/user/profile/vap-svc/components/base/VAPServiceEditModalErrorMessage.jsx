@@ -2,7 +2,7 @@ import React from 'react';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/formation-react/AlertBox';
-import facilityLocator from 'applications/facility-locator/manifest.json';
+import facilityLocator from '~/applications/facility-locator/manifest.json';
 
 import {
   DECEASED_ERROR_CODES,
@@ -14,7 +14,7 @@ function hasError(codes, errors) {
   return errors.some(error => codes.has(error.code));
 }
 
-export default function Vet360EditModalErrorMessage({
+export default function VAPServiceEditModalErrorMessage({
   error: { errors = [] },
   clearErrors,
   title,

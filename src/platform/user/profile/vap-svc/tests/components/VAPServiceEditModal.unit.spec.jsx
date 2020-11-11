@@ -3,11 +3,11 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-import Vet360EditModal from '../../components/base/Vet360EditModal';
+import VAPServiceEditModal from '../../components/base/VAPServiceEditModal';
 
-describe('<Vet360EditModal/>', () => {
+describe('<VAPServiceEditModal/>', () => {
   let props = null;
   let component = null;
 
@@ -38,7 +38,7 @@ describe('<Vet360EditModal/>', () => {
 
     props.render = () => <div>Rendered output</div>;
 
-    component = enzyme.shallow(<Vet360EditModal {...props} />);
+    component = enzyme.shallow(<VAPServiceEditModal {...props} />);
 
     expect(
       props.onChangeFormDataAndSchemas.calledWith(initialFormValues),
@@ -61,7 +61,7 @@ describe('<Vet360EditModal/>', () => {
     it('is `true` if the transactionRequest is pending', () => {
       props.transactionRequest = { isPending: true };
       props.render = actionButtons => actionButtons;
-      component = enzyme.shallow(<Vet360EditModal {...props} />);
+      component = enzyme.shallow(<VAPServiceEditModal {...props} />);
 
       const loadingButton = component.find(LoadingButton);
       expect(loadingButton.prop('isLoading')).to.be.true;
@@ -78,7 +78,7 @@ describe('<Vet360EditModal/>', () => {
         },
       };
       props.render = actionButtons => actionButtons;
-      component = enzyme.shallow(<Vet360EditModal {...props} />);
+      component = enzyme.shallow(<VAPServiceEditModal {...props} />);
 
       const loadingButton = component.find(LoadingButton);
       expect(loadingButton.prop('isLoading')).to.be.true;
@@ -96,7 +96,7 @@ describe('<Vet360EditModal/>', () => {
         },
       };
       props.render = actionButtons => actionButtons;
-      component = enzyme.shallow(<Vet360EditModal {...props} />);
+      component = enzyme.shallow(<VAPServiceEditModal {...props} />);
 
       const loadingButton = component.find(LoadingButton);
       expect(loadingButton.prop('isLoading')).to.be.false;
@@ -107,29 +107,29 @@ describe('<Vet360EditModal/>', () => {
     it('sets the LoadingButton to isLoading if the transaction is pending', () => {});
   });
 
-  describe('Vet360EditModalErrorMessage', () => {
+  describe('VAPServiceEditModalErrorMessage', () => {
     it("is not shown if there isn't an error", () => {
-      component = enzyme.shallow(<Vet360EditModal {...props} />);
+      component = enzyme.shallow(<VAPServiceEditModal {...props} />);
 
-      const errorMessage = component.find('Vet360EditModalErrorMessage');
+      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(0);
 
       component.unmount();
     });
     it('is shown if there is a transactionRequest error', () => {
       props.transactionRequest = { error: true };
-      component = enzyme.shallow(<Vet360EditModal {...props} />);
+      component = enzyme.shallow(<VAPServiceEditModal {...props} />);
 
-      const errorMessage = component.find('Vet360EditModalErrorMessage');
+      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(1);
 
       component.unmount();
     });
     it('is shown if there is a transactionRequest error', () => {
       props.transactionRequest = { error: {} };
-      component = enzyme.shallow(<Vet360EditModal {...props} />);
+      component = enzyme.shallow(<VAPServiceEditModal {...props} />);
 
-      const errorMessage = component.find('Vet360EditModalErrorMessage');
+      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(1);
 
       component.unmount();
@@ -142,9 +142,9 @@ describe('<Vet360EditModal/>', () => {
           },
         },
       };
-      component = enzyme.shallow(<Vet360EditModal {...props} />);
+      component = enzyme.shallow(<VAPServiceEditModal {...props} />);
 
-      const errorMessage = component.find('Vet360EditModalErrorMessage');
+      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(1);
 
       component.unmount();

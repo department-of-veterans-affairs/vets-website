@@ -67,7 +67,7 @@ let oldLocation;
 
 describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
-    // This url change is to work around the Vet 360 data mocking
+    // This url change is to work around the VA Profile Service data mocking
     beforeEach(() => {
       oldLocation = document.location.href;
       global.dom.reconfigure({ url: 'https://www.va.gov' });

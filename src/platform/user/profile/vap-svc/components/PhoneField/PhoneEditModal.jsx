@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Vet360EditModal from '../base/Vet360EditModal';
+import VAPServiceEditModal from '../base/VAPServiceEditModal';
 
 import { isVAPatient } from 'platform/user/selectors';
 
@@ -53,7 +53,7 @@ class PhoneEditModal extends React.Component {
 
   render() {
     return (
-      <Vet360EditModal
+      <VAPServiceEditModal
         {...this.props}
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}

@@ -2,9 +2,9 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import Vet360EditModalActionButtons from '../../components/base/Vet360EditModalActionButtons';
+import VAPServiceEditModalActionButtons from '../../components/base/VAPServiceEditModalActionButtons';
 
-describe('<Vet360EditModalActionButtons/>', () => {
+describe('<VAPServiceEditModalActionButtons/>', () => {
   let props = null;
 
   beforeEach(() => {
@@ -19,9 +19,9 @@ describe('<Vet360EditModalActionButtons/>', () => {
 
   it('renders correctly when delete enabled', () => {
     const component = enzyme.shallow(
-      <Vet360EditModalActionButtons {...props}>
+      <VAPServiceEditModalActionButtons {...props}>
         <p>Children</p>
-      </Vet360EditModalActionButtons>,
+      </VAPServiceEditModalActionButtons>,
     );
 
     expect(component.html(), 'renders children components').to.contain(
@@ -41,9 +41,9 @@ describe('<Vet360EditModalActionButtons/>', () => {
 
   it('renders correctly when delete triggered', () => {
     const component = enzyme.shallow(
-      <Vet360EditModalActionButtons {...props}>
+      <VAPServiceEditModalActionButtons {...props}>
         <p>Children</p>
-      </Vet360EditModalActionButtons>,
+      </VAPServiceEditModalActionButtons>,
     );
 
     component.setState({
@@ -73,9 +73,9 @@ describe('<Vet360EditModalActionButtons/>', () => {
 
   it('renders correctly when delete disabled', () => {
     const component = enzyme.shallow(
-      <Vet360EditModalActionButtons {...props}>
+      <VAPServiceEditModalActionButtons {...props}>
         <p>Children</p>
-      </Vet360EditModalActionButtons>,
+      </VAPServiceEditModalActionButtons>,
     );
 
     expect(component.html(), 'renders children components').to.contain(
