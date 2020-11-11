@@ -11,7 +11,7 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: ['unauthenticated'], // Will remove when back end is set up
+    // skip: ['unauthenticated'], // Will remove when back end is set up
     dataPrefix: 'data',
     dataSets: ['unauthenticated'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
