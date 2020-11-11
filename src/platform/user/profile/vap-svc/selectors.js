@@ -24,7 +24,7 @@ export function selectVAPContactInfoField(state, fieldName) {
 
 export function selectVAPServiceTransaction(state, fieldName) {
   const {
-    vet360: {
+    vapService: {
       transactions,
       fieldTransactionMap: { [fieldName]: transactionRequest = null },
     },
@@ -44,13 +44,13 @@ export function selectVAPServiceTransaction(state, fieldName) {
   };
 }
 
-export function selectVet360FailedTransactions(state) {
-  return state.vet360.transactions.filter(isFailedTransaction);
+export function selectVAPServiceFailedTransactions(state) {
+  return state.vapService.transactions.filter(isFailedTransaction);
 }
 
 export function selectMostRecentErroredTransaction(state) {
   const {
-    vet360: {
+    vapService: {
       transactions,
       metadata: { mostRecentErroredTransactionId },
     },
@@ -65,9 +65,9 @@ export function selectMostRecentErroredTransaction(state) {
   return transaction;
 }
 
-export function selectVet360PendingCategoryTransactions(state, type) {
+export function selectVAPServicePendingCategoryTransactions(state, type) {
   const {
-    vet360: { transactions, fieldTransactionMap },
+    vapService: { transactions, fieldTransactionMap },
   } = state;
 
   const existsWithinFieldTransactionMap = transaction => {
@@ -99,15 +99,15 @@ export function selectVet360PendingCategoryTransactions(state, type) {
 }
 
 export function selectEditedFormField(state, fieldName) {
-  return state.vet360.formFields[fieldName];
+  return state.vapService.formFields[fieldName];
 }
 
 export function selectCurrentlyOpenEditModal(state) {
-  return state.vet360.modal;
+  return state.vapService.modal;
 }
 
 export function selectAddressValidation(state) {
-  return state.vet360?.addressValidation || {};
+  return state.vapService?.addressValidation || {};
 }
 
 export function selectAddressValidationType(state) {

@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import * as Sentry from '@sentry/browser';
 
+// We use CMS demo environments to publish articles in bulk.
+// This means that at this time, we can't use the environment.BASE_URL,
+// because the CMS demo env uses domains not defined there, and we need
+// this search app to align with the demo.
+const baseUrl = document.location.origin;
+
 export default function useArticleData() {
   const [articles, setArticles] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -9,7 +15,9 @@ export default function useArticleData() {
     () => {
       const getJson = async () => {
         try {
-          const response = await fetch('/resources/search/articles.json');
+          const response = await fetch(
+            `${baseUrl}/resources/search/articles.json`,
+          );
           const json = await response.json();
 
           setArticles(json);

@@ -92,7 +92,7 @@ export function refreshTransaction(
     try {
       const { transactionId } = transaction.data.attributes;
       const state = getState();
-      const isAlreadyAwaitingUpdate = state.vet360.transactionsAwaitingUpdate.includes(
+      const isAlreadyAwaitingUpdate = state.vapService.transactionsAwaitingUpdate.includes(
         transactionId,
       );
 
