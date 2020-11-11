@@ -34,7 +34,7 @@ import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SearchResult from '../components/SearchResult';
-import { recordZoomEvent /* , recordPanEvent */ } from '../utils/analytics';
+import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../utils/SearchAreaControl';
 
@@ -239,8 +239,7 @@ const FacilitiesMap = props => {
         searchAreaSet = true;
       }
 
-      // TODO: fix it, might be causing performance issues
-      // recordPanEvent(map.getCenter(), props.currentQuery.searchCoords);
+      recordPanEvent(map.getCenter(), props.currentQuery);
     });
   }
 
