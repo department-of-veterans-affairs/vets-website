@@ -19,12 +19,13 @@ export default class SelectArrayItemsWidget extends React.Component {
   render() {
     const { value: items, id, options, required, formContext } = this.props;
     // Need customTitle to set error message above title.
-    const { label: Label, selectedPropName, disabled, customTitle } = options;
+    const { label: Label, selectedPropName, disabled } = options;
 
     // inReviewMode = true (review page view, not in edit mode)
     // inReviewMode = false (in edit mode)
     const onReviewPage = formContext.onReviewPage;
     const inReviewMode = onReviewPage && formContext.reviewMode;
+    const customTitle = (options.customTitle || '').trim();
 
     const hasSelections = items?.reduce(
       (result, item) =>
@@ -36,9 +37,9 @@ export default class SelectArrayItemsWidget extends React.Component {
 
     return (
       <>
-        {customTitle?.trim() &&
+        {customTitle &&
           items && <Tag className="vads-u-font-size--h5">{customTitle}</Tag>}
-        {items && (!inReviewMode || (inReviewMode && hasSelections)) ? (
+        {items.length && (!inReviewMode || (inReviewMode && hasSelections)) ? (
           items.map((item, index) => {
             const itemIsSelected = !!get(
               selectedPropName || this.defaultSelectedPropName,

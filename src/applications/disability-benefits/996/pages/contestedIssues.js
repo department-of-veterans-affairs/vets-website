@@ -1,7 +1,7 @@
 import SelectArrayItemsWidget from '../containers/SelectArrayItemsWidget';
 
 import {
-  contestedIssuesTitle,
+  ContestedIssuesTitle,
   disabilityOption,
   disabilitiesExplanation,
   contestedIssuesAlert,
@@ -15,9 +15,11 @@ import {
 import { requireRatedDisability } from '../validations';
 import SameOfficeReviewField from '../containers/SameOfficeReviewField';
 
+const hasNoContestedIssues = formData => !formData.contestedIssues?.length;
+
 const contestedIssuesPage = {
   uiSchema: {
-    'ui:title': contestedIssuesTitle,
+    'ui:title': ContestedIssuesTitle,
     contestedIssues: {
       'ui:title': ' ',
       'ui:field': 'StringField',
@@ -36,7 +38,8 @@ const contestedIssuesPage = {
       'ui:description': contestedIssuesAlert,
       'ui:options': {
         hideIf: formData =>
-          formData.contestedIssues?.some(entry => entry['view:selected']),
+          formData.contestedIssues?.some(entry => entry['view:selected']) ||
+          hasNoContestedIssues(formData),
       },
     },
     'view:disabilitiesExplanation': {
@@ -49,16 +52,21 @@ const contestedIssuesPage = {
       'ui:reviewField': SameOfficeReviewField,
       'ui:options': {
         hideLabelText: true,
+        hideIf: hasNoContestedIssues,
       },
     },
     'view:sameOfficeDescription': {
       'ui:title': '',
       'ui:description': OfficeForReviewDescription,
+      'ui:options': {
+        hideIf: hasNoContestedIssues,
+      },
     },
     sameOfficeAlert: {
       'ui:title': OfficeForReviewAlert,
       'ui:options': {
-        hideIf: formData => formData?.sameOffice !== true,
+        hideIf: formData =>
+          formData?.sameOffice !== true || hasNoContestedIssues(formData),
       },
     },
   },
