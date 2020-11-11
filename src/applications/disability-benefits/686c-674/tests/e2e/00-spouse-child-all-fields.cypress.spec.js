@@ -18,6 +18,10 @@ const testConfig = createTestConfig(
       cy.route('GET', '/v0/profile/valid_va_file_number', mockVaFileNumber).as(
         'mockVaFileNumber',
       );
+      cy.get('@testData').then(testData => {
+        cy.route('GET', '/v0/in_progress_forms/686C-674', testData);
+        cy.route('PUT', 'v0/in_progress_forms/686C-674', testData);
+      });
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
