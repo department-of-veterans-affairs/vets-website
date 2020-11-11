@@ -5,7 +5,7 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 import { focusElement } from 'platform/utilities/ui';
 
 import { ADDRESS_POU, FIELD_NAMES, USA } from '@@vap-svc/constants';
-import Vet360EditModal from '../base/Vet360EditModal';
+import VAPServiceEditModal from '../base/VAPServiceEditModal';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
 import ContactInfoForm from '../ContactInfoForm';
 
@@ -116,7 +116,7 @@ class AddressEditModal extends React.Component {
 
   render() {
     return (
-      <Vet360EditModal
+      <VAPServiceEditModal
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
         {...this.props}

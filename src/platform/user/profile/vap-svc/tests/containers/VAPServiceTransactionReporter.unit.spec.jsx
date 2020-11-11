@@ -3,9 +3,9 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { Vet360TransactionReporter } from '../../containers/Vet360TransactionReporter';
+import { VAPServiceTransactionReporter } from '../../containers/VAPServiceTransactionReporter';
 
-describe('<Vet360ProfileField/>', () => {
+describe('<VAPServiceTransactionReporter/>', () => {
   let props = null;
 
   beforeEach(() => {
@@ -17,7 +17,9 @@ describe('<Vet360ProfileField/>', () => {
   });
 
   it('renders nothing when there are no successful or errored transactions', () => {
-    const component = enzyme.shallow(<Vet360TransactionReporter {...props} />);
+    const component = enzyme.shallow(
+      <VAPServiceTransactionReporter {...props} />,
+    );
     expect(component.text()).to.be.equal('');
     component.unmount();
   });
@@ -29,13 +31,15 @@ describe('<Vet360ProfileField/>', () => {
 
     props.mostRecentErroredTransaction = props.erroredTransactions[0];
 
-    const component = enzyme.shallow(<Vet360TransactionReporter {...props} />);
+    const component = enzyme.shallow(
+      <VAPServiceTransactionReporter {...props} />,
+    );
 
-    const vet360TransactionErrorBanner = component.find(
-      'Vet360TransactionErrorBanner',
+    const vapServiceTransactionErrorBanner = component.find(
+      'VAPServiceTransactionErrorBanner',
     );
     expect(
-      vet360TransactionErrorBanner,
+      vapServiceTransactionErrorBanner,
       'the errored transaction rendered',
     ).to.have.lengthOf(1);
     component.unmount();
@@ -50,9 +54,11 @@ describe('<Vet360ProfileField/>', () => {
     ];
     props.mostRecentErroredTransaction = props.erroredTransactions[0];
 
-    const component = enzyme.shallow(<Vet360TransactionReporter {...props} />);
+    const component = enzyme.shallow(
+      <VAPServiceTransactionReporter {...props} />,
+    );
 
-    const errorBanner = component.find('Vet360TransactionErrorBanner');
+    const errorBanner = component.find('VAPServiceTransactionErrorBanner');
     errorBanner.props().clearTransaction();
 
     expect(

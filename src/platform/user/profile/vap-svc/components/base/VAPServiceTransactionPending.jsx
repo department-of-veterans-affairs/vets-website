@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Vet360TransactionPending extends React.Component {
+class VAPServiceTransactionPending extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     refreshTransaction: PropTypes.func.isRequired,
@@ -60,4 +60,4 @@ class Vet360TransactionPending extends React.Component {
   }
 }
 
-export default Vet360TransactionPending;
+export default VAPServiceTransactionPending;

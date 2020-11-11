@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import Vet360EditModalErrorMessage from '../../components/base/Vet360EditModalErrorMessage';
+import VAPServiceEditModalErrorMessage from '../../components/base/VAPServiceEditModalErrorMessage';
 
-describe('<Vet360EditModalErrorMessage />', () => {
+describe('<VAPServiceEditModalErrorMessage />', () => {
   it('shows the correct error message when there is an invalid email', () => {
     const invalidEmailError = {
       errors: [
@@ -18,7 +18,7 @@ describe('<Vet360EditModalErrorMessage />', () => {
       ],
     };
     const wrapper = shallow(
-      <Vet360EditModalErrorMessage
+      <VAPServiceEditModalErrorMessage
         clearErrors={() => {}}
         error={invalidEmailError}
         title=""

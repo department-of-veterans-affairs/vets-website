@@ -57,7 +57,7 @@ export function fetchTransactions() {
       } else {
         response = { data: [] };
         // Uncomment the line below to simulate transactions being processed during initialization
-        // response = localVet360.getUserTransactions();
+        // response = localVAProfileService.getUserTransactions();
       }
       dispatch({
         type: VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS,

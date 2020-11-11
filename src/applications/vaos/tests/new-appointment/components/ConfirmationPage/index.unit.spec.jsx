@@ -1,4 +1,5 @@
 import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import moment from 'moment';
 import React from 'react';
@@ -452,27 +453,17 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.history.push.getCall(0).args[0]).to.equal('/');
   });
 
-  it('should redirect to new appointment page if no form data', () => {
-    const flowType = FLOW_TYPES.REQUEST;
-    const data = {};
-    const history = {
-      replace: sinon.spy(),
-    };
-
-    renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        fetchFacilityDetails={fetchFacilityDetails}
-        flowType={flowType}
-        data={data}
-        history={history}
-      />,
-      {
-        initialState,
-      },
-    );
+  it('should redirect to new appointment page if no form data', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
     // Expect router to route to new appointment page
-    expect(history.replace.called).to.be.true;
-    expect(history.replace.getCall(0).args[0]).to.equal('/new-appointment');
+    await waitFor(() => {
+      expect(screen.history.replace.firstCall.args[0]).to.equal(
+        '/new-appointment',
+      );
+    });
   });
 });
