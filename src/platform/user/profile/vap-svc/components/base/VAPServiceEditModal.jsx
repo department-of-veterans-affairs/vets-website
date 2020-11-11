@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import {
   isFailedTransaction,
   isPendingTransaction,
 } from '@@vap-svc/util/transactions';
-import Vet360EditModalActionButtons from './Vet360EditModalActionButtons';
-import Vet360EditModalErrorMessage from './Vet360EditModalErrorMessage';
+import VAPServiceEditModalActionButtons from './VAPServiceEditModalActionButtons';
+import VAPServiceEditModalErrorMessage from './VAPServiceEditModalErrorMessage';
 
-export default class Vet360EditModal extends React.Component {
+export default class VAPServiceEditModal extends React.Component {
   static propTypes = {
     analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
@@ -82,7 +82,7 @@ export default class Vet360EditModal extends React.Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     const actionButtons = (
-      <Vet360EditModalActionButtons
+      <VAPServiceEditModalActionButtons
         onCancel={onCancel}
         onDelete={onDelete}
         title={title}
@@ -100,7 +100,7 @@ export default class Vet360EditModal extends React.Component {
         >
           Cancel
         </button>
-      </Vet360EditModalActionButtons>
+      </VAPServiceEditModalActionButtons>
     );
 
     return (
@@ -108,7 +108,7 @@ export default class Vet360EditModal extends React.Component {
         <h3>Edit {title.toLowerCase()}</h3>
         {error && (
           <div className="vads-u-margin-bottom--1">
-            <Vet360EditModalErrorMessage
+            <VAPServiceEditModalErrorMessage
               title={title}
               error={error}
               clearErrors={clearErrors}

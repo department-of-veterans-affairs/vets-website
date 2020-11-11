@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  Vet360ProfileField,
+  VAPServiceProfileField,
   mapStateToProps,
-} from '../../containers/Vet360ProfileField';
+} from '../../containers/VAPServiceProfileField';
 import { TRANSACTION_STATUS } from '../../constants';
 
 function Content() {
@@ -21,7 +21,7 @@ function ValidationModal() {
   return <span>ValidationModal</span>;
 }
 
-describe('<Vet360ProfileField/>', () => {
+describe('<VAPServiceProfileField/>', () => {
   let props = null;
   let component = null;
 
@@ -52,7 +52,7 @@ describe('<Vet360ProfileField/>', () => {
   });
 
   it('renders the Content prop', () => {
-    component = enzyme.shallow(<Vet360ProfileField {...props} />);
+    component = enzyme.shallow(<VAPServiceProfileField {...props} />);
     expect(
       component.find('Content'),
       'the Content was rendered',
@@ -66,7 +66,7 @@ describe('<Vet360ProfileField/>', () => {
       isEmpty: true,
     };
 
-    component = enzyme.shallow(<Vet360ProfileField {...isEmptyProps} />);
+    component = enzyme.shallow(<VAPServiceProfileField {...isEmptyProps} />);
     expect(
       component.find('Content'),
       'the Content was NOT rendered',
@@ -82,7 +82,7 @@ describe('<Vet360ProfileField/>', () => {
     props.isEditing = true;
     sinon.spy(props, 'EditModal');
 
-    component = enzyme.shallow(<Vet360ProfileField {...props} />);
+    component = enzyme.shallow(<VAPServiceProfileField {...props} />);
 
     expect(
       component.find('EditModal'),
@@ -111,7 +111,7 @@ describe('<Vet360ProfileField/>', () => {
     };
     sinon.spy(props, 'ValidationModal');
 
-    component = enzyme.shallow(<Vet360ProfileField {...props} />);
+    component = enzyme.shallow(<VAPServiceProfileField {...props} />);
 
     expect(
       component.find('ValidationModal'),
@@ -130,9 +130,9 @@ describe('<Vet360ProfileField/>', () => {
   });
 
   it('renders the edit link', () => {
-    component = enzyme.shallow(<Vet360ProfileField {...props} />);
+    component = enzyme.shallow(<VAPServiceProfileField {...props} />);
 
-    let onEditClick = component.find('Vet360ProfileFieldHeading').props()
+    let onEditClick = component.find('VAPServiceProfileFieldHeading').props()
       .onEditClick;
     onEditClick();
     props.openModal();
@@ -146,7 +146,7 @@ describe('<Vet360ProfileField/>', () => {
       },
     });
 
-    onEditClick = component.find('Vet360ProfileFieldHeading').props()
+    onEditClick = component.find('VAPServiceProfileFieldHeading').props()
       .onEditClick;
     expect(
       onEditClick,
@@ -200,7 +200,7 @@ describe('mapStateToProps', () => {
         expect(mappedProps.showValidationModal).to.be.false;
       });
     });
-    describe('when no ValidationModal was passed to the Vet360ProfileField component', () => {
+    describe('when no ValidationModal was passed to the VAPServiceProfileField component', () => {
       it('sets `showValidationModal` to `false`', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {
@@ -209,7 +209,7 @@ describe('mapStateToProps', () => {
         expect(mappedProps.showValidationModal).to.be.false;
       });
     });
-    describe("when this Vet360ProfileField's `fieldName` does not match address validation type", () => {
+    describe("when this VAPServiceProfileField's `fieldName` does not match address validation type", () => {
       it('sets `showValidationModal` to `false`', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {

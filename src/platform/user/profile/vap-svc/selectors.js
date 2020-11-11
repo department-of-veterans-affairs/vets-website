@@ -15,7 +15,7 @@ import { isFailedTransaction, isPendingTransaction } from './util/transactions';
 
 export function selectIsVAProfileServiceAvailableForUser(state) {
   if (!isVAProfileServiceConfigured()) return true; // returns true if on localhost
-  return selectAvailableServices(state).includes(backendServices.VET360);
+  return selectAvailableServices(state).includes(backendServices.VA_PROFILE);
 }
 
 export function selectVAPContactInfoField(state, fieldName) {

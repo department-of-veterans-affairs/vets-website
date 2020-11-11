@@ -194,7 +194,7 @@ class Profile extends Component {
             externalServices.emis,
             externalServices.evss,
             externalServices.mvi,
-            externalServices.vet360,
+            externalServices.vaProfile,
           ]}
         >
           {this.renderContent()}

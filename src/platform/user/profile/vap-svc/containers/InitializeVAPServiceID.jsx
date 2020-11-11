@@ -18,18 +18,18 @@ import {
 
 import { selectVAPServiceInitializationStatus } from '../selectors';
 
-import TransactionPending from '../components/base/Vet360TransactionPending';
+import TransactionPending from '../components/base/VAPServiceTransactionPending';
 
-class InitializeVet360ID extends React.Component {
+class InitializeVAPServiceID extends React.Component {
   componentDidMount() {
     if (this.props.status === VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZED) {
       this.props.fetchTransactions();
     } else {
-      this.initializeVet360ID();
+      this.initializeVAPServiceID();
     }
   }
 
-  initializeVet360ID() {
+  initializeVAPServiceID() {
     const route = API_ROUTES.INIT_VAP_SERVICE_ID;
     const fieldName = INIT_VAP_SERVICE_ID;
     const method = 'POST';
@@ -112,12 +112,14 @@ const mapDispatchToProps = {
 };
 
 /**
- * A Container for initializing the user into Vet360 if they are not already. Otherwise, this container will initialize the Vet360 app state by fetching all transactions.
+ * A Container for initializing the user into VA Profile if they are not
+ * already. Otherwise, this container will initialize the Profile app state by
+ * fetching all transactions.
  */
-const InitializeVet360IDContainer = connect(
+const InitializeVAPServiceIDContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(InitializeVet360ID);
+)(InitializeVAPServiceID);
 
-export default InitializeVet360IDContainer;
-export { InitializeVet360ID };
+export default InitializeVAPServiceIDContainer;
+export { InitializeVAPServiceID };

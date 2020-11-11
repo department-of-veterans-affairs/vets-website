@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Vet360ProfileFieldHeading({ children, onEditClick, fieldName }) {
+function VAPServiceProfileFieldHeading({ children, onEditClick, fieldName }) {
   return (
     <div>
       <h3 style={{ display: 'inline-block' }}>{children}</h3>{' '}
@@ -21,9 +21,9 @@ function Vet360ProfileFieldHeading({ children, onEditClick, fieldName }) {
   );
 }
 
-Vet360ProfileFieldHeading.propTypes = {
+VAPServiceProfileFieldHeading.propTypes = {
   children: PropTypes.string.isRequired,
   onEditClick: PropTypes.func,
 };
 
-export default Vet360ProfileFieldHeading;
+export default VAPServiceProfileFieldHeading;
