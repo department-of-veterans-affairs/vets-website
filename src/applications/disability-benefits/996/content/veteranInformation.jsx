@@ -10,11 +10,12 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 import { srSubstitute } from '../../all-claims/utils';
+import { SELECTED } from '../constants';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
 export const VeteranInfoView = ({
-  formData,
+  formData = {},
   profile = {},
   veteran = {},
   setFormData,
@@ -28,7 +29,23 @@ export const VeteranInfoView = ({
   const { issues, benefitType } = contestableIssues;
 
   useEffect(() => {
-    if (formData) {
+    if (issues?.length > 0 && benefitType) {
+      // Everytime the user starts the form, we need to get an updated list of
+      // contestable issues. This bit of code ensures that exactly matching
+      // previously selected entries are still selected
+      const contestedIssues = issues.map(issue => {
+        const newAttrs = issue.attributes;
+        const existingIssue = (formData.contestedIssues || []).find(
+          ({ attributes: oldAttrs }) =>
+            ['ratingIssueReferenceId', 'ratingIssuePercentNumber'].every(
+              key => oldAttrs[key] === newAttrs[key],
+            ),
+        );
+        return existingIssue?.[SELECTED]
+          ? { ...issue, [SELECTED]: true }
+          : issue;
+      });
+
       // add benefitType (from wizard) and contestedIssues (from API) values to
       // the form; it's added here instead of the intro page because at this
       // point the prefill or save-in-progress data would overwrite it
@@ -36,7 +53,7 @@ export const VeteranInfoView = ({
         ...formData,
         // add benefitType from wizard
         benefitType: benefitType || formData.benefitType,
-        contestedIssues: issues,
+        contestedIssues,
       });
     }
   });
