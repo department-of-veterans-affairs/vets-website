@@ -45,6 +45,7 @@ import {
   START_TEXT,
   FORM_STATUS_BDD,
 } from './constants';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -933,3 +934,5 @@ export const showSeparationLocation = formData => {
 };
 
 export const show526Wizard = state => toggleValues(state).show526Wizard;
+export const confirmationEmailFeature = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.form526_confirmation_email];

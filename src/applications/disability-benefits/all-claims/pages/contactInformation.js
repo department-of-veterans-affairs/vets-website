@@ -25,6 +25,7 @@ import {
   // hasForwardingAddress,
   // forwardingCountryIsUSA,
   addressUISchema,
+  confirmationEmailFeature,
 } from '../utils';
 
 import {
@@ -279,7 +280,7 @@ export const uiSchema = {
   // ),
   'view:contactInfoDescription': {
     'ui:description': contactInfoUpdateHelp({
-      confirmationEmailFeature: true,
+      confirmationEmailFeature,
     }),
   },
 };
