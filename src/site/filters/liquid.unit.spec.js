@@ -15,15 +15,26 @@ describe('isLaterThan', () => {
   });
 });
 
-// TODO: figure out how to get this working!
-describe.skip('timezoneAbbrev', () => {
-  it('returns PST for Los Angeles', () => {
+describe('timezoneAbbrev', () => {
+  it('returns PDT for Los Angeles', () => {
     expect(
-      liquid.filters.timezoneAbbrev('America/Los_Angeles', '2020-11-11'),
-    ).to.eq('PST');
+      liquid.filters.timezoneAbbrev('America/Los_Angeles', 1604091600000),
+    ).to.eq('PDT');
   });
 
   it('returns ET for null', () => {
     expect(liquid.filters.timezoneAbbrev()).to.eq('ET');
+  });
+});
+
+describe('dateFromUnix', () => {
+  it('returns null for null', () => {
+    expect(liquid.filters.dateFromUnix()).to.be.null;
+  });
+
+  it('returns date with specified format', () => {
+    expect(liquid.filters.dateFromUnix(1604091600, 'dddd, MMM D YYYY')).to.eq(
+      'Friday, Oct. 30 2020',
+    );
   });
 });

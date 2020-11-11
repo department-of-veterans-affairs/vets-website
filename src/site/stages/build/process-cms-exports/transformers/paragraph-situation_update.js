@@ -23,8 +23,13 @@ const transform = entity => {
         entity.fieldDatetimeRangeTimezone &&
         entity.fieldDatetimeRangeTimezone.length
           ? {
-              startDate: entity.fieldDatetimeRangeTimezone[0].startDate,
-              endValue: entity.fieldDatetimeRangeTimezone[0].endValue,
+              value: entity.fieldDatetimeRangeTimezone[0].value
+                ? Date.parse(entity.fieldDatetimeRangeTimezone[0].value) / 1000
+                : null,
+              endValue: entity.fieldDatetimeRangeTimezone[0].endValue
+                ? Date.parse(entity.fieldDatetimeRangeTimezone[0].endValue) /
+                  1000
+                : null,
               timezone: entity.fieldDatetimeRangeTimezone[0].timezone,
             }
           : {},
