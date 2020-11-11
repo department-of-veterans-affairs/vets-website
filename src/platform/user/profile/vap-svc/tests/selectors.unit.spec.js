@@ -117,7 +117,7 @@ describe('selectors', () => {
     });
   });
 
-  describe('selectVet360FailedTransactions', () => {
+  describe('selectVAPServiceFailedTransactions', () => {
     beforeEach(hooks.beforeEach);
     it('returns only failed transactions from a list of transactions', () => {
       const failed = [
@@ -179,7 +179,7 @@ describe('selectors', () => {
     });
   });
 
-  describe('selectVet360PendingCategoryTransactions', () => {
+  describe('selectVAPServicePendingCategoryTransactions', () => {
     beforeEach(hooks.beforeEach);
     it('selects transactions of the passed transaction category type that is still pending and without field-level data', () => {
       const type = TRANSACTION_CATEGORY_TYPES.ADDRESS;

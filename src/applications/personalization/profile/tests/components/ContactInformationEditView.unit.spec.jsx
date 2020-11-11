@@ -125,11 +125,11 @@ describe('<ContactInformationEditView/>', () => {
     });
   });
 
-  describe('Vet360EditModalErrorMessage', () => {
+  describe('VAPServiceEditModalErrorMessage', () => {
     it("is not shown if there isn't an error", () => {
       component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
-      const errorMessage = component.find('Vet360EditModalErrorMessage');
+      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(0);
 
       component.unmount();
@@ -138,7 +138,7 @@ describe('<ContactInformationEditView/>', () => {
       props.transactionRequest = { error: true };
       component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
-      const errorMessage = component.find('Vet360EditModalErrorMessage');
+      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(1);
 
       component.unmount();
@@ -147,7 +147,7 @@ describe('<ContactInformationEditView/>', () => {
       props.transactionRequest = { error: {} };
       component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
-      const errorMessage = component.find('Vet360EditModalErrorMessage');
+      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(1);
 
       component.unmount();
@@ -162,7 +162,7 @@ describe('<ContactInformationEditView/>', () => {
       };
       component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
-      const errorMessage = component.find('Vet360EditModalErrorMessage');
+      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
       expect(errorMessage).to.have.lengthOf(1);
 
       component.unmount();

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { toLower } from 'lodash';
 
-import recordEvent from 'platform/monitoring/record-event';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import recordEvent from '~/platform/monitoring/record-event';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-class Vet360EditModalActionButtons extends React.Component {
+class VAPServiceEditModalActionButtons extends React.Component {
   constructor(props) {
     super(props);
 
@@ -129,7 +129,7 @@ class Vet360EditModalActionButtons extends React.Component {
   }
 }
 
-Vet360EditModalActionButtons.propTypes = {
+VAPServiceEditModalActionButtons.propTypes = {
   deleteEnabled: PropTypes.bool,
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
@@ -137,8 +137,8 @@ Vet360EditModalActionButtons.propTypes = {
   isLoading: PropTypes.bool,
 };
 
-Vet360EditModalActionButtons.defaultProps = {
+VAPServiceEditModalActionButtons.defaultProps = {
   deleteEnabled: true,
 };
 
-export default Vet360EditModalActionButtons;
+export default VAPServiceEditModalActionButtons;
