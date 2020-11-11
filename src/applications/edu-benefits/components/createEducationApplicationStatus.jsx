@@ -3,49 +3,34 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-const eduForms = new Set([
-  VA_FORM_IDS.FORM_22_0994,
-  VA_FORM_IDS.FORM_22_1990,
-  VA_FORM_IDS.FORM_22_1995,
-  VA_FORM_IDS.FORM_22_5490,
-  VA_FORM_IDS.FORM_22_5495,
-  VA_FORM_IDS.FORM_22_1990E,
-  VA_FORM_IDS.FORM_22_1990N,
+const formConfigMap = new Map([
+  [VA_FORM_IDS.FORM_22_0994, import('../0994/config/form')],
+  [VA_FORM_IDS.FORM_22_1990, import('../1990/config/form')],
+  [VA_FORM_IDS.FORM_22_1995, import('../1995/config/form')],
+  [VA_FORM_IDS.FORM_22_5490, import('../5490/config/form')],
+  [VA_FORM_IDS.FORM_22_5495, import('../5495/config/form')],
+  [VA_FORM_IDS.FORM_22_1990E, import('../1990e/config/form')],
+  [VA_FORM_IDS.FORM_22_1990N, import('../1990n/config/form')],
 ]);
 
-const formConfigMap = new Map([
-  [eduForms[0], '../0994/config/form'],
-  [eduForms[1], '../1990/config/form'],
-  [eduForms[2], '../1995/config/form'],
-  [eduForms[3], '../5490/config/form'],
-  [eduForms[4], '../5495/config/form'],
-  [eduForms[5], '../1990e/config/form'],
-  [eduForms[6], '../1990n/config/form'],
-]);
+const eduForms = new Set(formConfigMap.keys());
 
 export default function createEducationApplicationStatus(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    const state = store.getState();
-    const savedForms = state.user.profile.savedForms;
-    const matchingForms = savedForms.filter(({ form }) => eduForms.has(form));
-    const inProgressFormId = matchingForms.length
-      ? matchingForms.sort(({ metadata }) => -1 * metadata.lastUpdated)[0].form
-      : null;
+    const selectFormConfig = async formId => {
+      const config = await formConfigMap.get(formId);
+      return config.default;
+    };
+    import(/* webpackChunkName: "education-application-status" */
+    '../utils/educationStatus').then(module => {
+      const { ApplicationStatus, EducationWizard } = module.default;
 
-    const configPath = formConfigMap[inProgressFormId];
-    Promise.all([
-      import(/* webpackChunkName: "education-application-status" */
-      '../utils/educationStatus'),
-      (!!configPath && import(configPath)) || null,
-    ]).then(([appStatusModule, formConfigModule]) => {
-      const { ApplicationStatus, EducationWizard } = appStatusModule.default;
-      const formConfig = formConfigModule?.default || {};
       ReactDOM.render(
         <Provider store={store}>
           <ApplicationStatus
             formIds={eduForms}
-            formConfig={formConfig}
+            selectFormConfig={selectFormConfig}
             formType="education"
             showApplyButton={
               root.getAttribute('data-hide-apply-button') === null

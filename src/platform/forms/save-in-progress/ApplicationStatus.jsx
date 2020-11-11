@@ -64,8 +64,8 @@ export class ApplicationStatus extends React.Component {
       applyRender,
       formType,
       applyLink,
-      formConfig,
     } = this.props;
+    let { formConfig } = this.props;
     const {
       appAction = APP_ACTION_DEFAULT,
       appType = APP_TYPE_DEFAULT,
@@ -97,6 +97,11 @@ export class ApplicationStatus extends React.Component {
           ({ metadata }) => -1 * metadata.lastUpdated,
         )[0];
         formId = savedForm.form;
+
+        if (formConfig === undefined) {
+          formConfig = this.props.selectFormConfig(formId);
+        }
+
         multipleForms = matchingForms.length > 1;
       }
     } else {
