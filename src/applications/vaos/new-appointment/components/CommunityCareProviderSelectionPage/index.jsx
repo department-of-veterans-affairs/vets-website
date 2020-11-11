@@ -11,7 +11,7 @@ import ProviderSelectionField from './ProviderSelectionField';
 
 const initialSchema = {
   type: 'object',
-  required: ['preferredLanguage', 'communityCareProvider'],
+  required: ['preferredLanguage'],
   properties: {
     communityCareSystemId: {
       type: 'string',
@@ -25,43 +25,35 @@ const initialSchema = {
     communityCareProvider: {
       type: 'object',
       properties: {
-        noProvider: {
-          type: 'boolean',
+        uniqueId: {
+          type: 'string',
         },
-        providerData: {
+        name: {
+          type: 'string',
+        },
+        phone: {
+          type: 'string',
+        },
+        lat: {
+          type: 'number',
+        },
+        long: {
+          type: 'number',
+        },
+        address: {
           type: 'object',
           properties: {
-            uniqueId: {
+            street: {
               type: 'string',
             },
-            name: {
+            city: {
               type: 'string',
             },
-            phone: {
+            state: {
               type: 'string',
             },
-            lat: {
-              type: 'number',
-            },
-            long: {
-              type: 'number',
-            },
-            address: {
-              type: 'object',
-              properties: {
-                street: {
-                  type: 'string',
-                },
-                city: {
-                  type: 'string',
-                },
-                state: {
-                  type: 'string',
-                },
-                zip: {
-                  type: 'string',
-                },
-              },
+            zip: {
+              type: 'string',
             },
           },
         },
