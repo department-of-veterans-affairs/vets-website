@@ -14,6 +14,7 @@ import {
 
 import { requireRatedDisability } from '../validations';
 import SameOfficeReviewField from '../containers/SameOfficeReviewField';
+import { SELECTED } from '../constants';
 
 const hasNoContestedIssues = formData => !formData.contestedIssues?.length;
 
@@ -38,7 +39,7 @@ const contestedIssuesPage = {
       'ui:description': contestedIssuesAlert,
       'ui:options': {
         hideIf: formData =>
-          formData.contestedIssues?.some(entry => entry['view:selected']) ||
+          formData.contestedIssues?.some(entry => entry[SELECTED]) ||
           hasNoContestedIssues(formData),
       },
     },
@@ -81,7 +82,7 @@ const contestedIssuesPage = {
         items: {
           type: 'object',
           properties: {},
-          'view:selected': 'boolean',
+          [SELECTED]: 'boolean',
         },
       },
       'view:contestedIssuesAlert': {

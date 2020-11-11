@@ -7,6 +7,7 @@ import formConfig from '../../config/form';
 import initialData from '../schema/initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
+import { SELECTED } from '../../constants';
 
 const data = {
   user: {
@@ -27,13 +28,13 @@ const data = {
       ...initialData,
       contestedIssues: [
         {
-          'view:selected': true,
+          [SELECTED]: true,
           attributes: {
             ratingIssueSubjectText: 'test 543',
           },
         },
         {
-          'view:selected': false,
+          [SELECTED]: false,
           attributes: {
             ratingIssueSubjectText: 'test 987',
           },
