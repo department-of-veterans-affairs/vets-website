@@ -69,7 +69,7 @@ const PersonalInformation = ({
       </h2>
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
-        dependencies={[externalServices.mvi, externalServices.vet360]}
+        dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
         {showDirectDepositBlockedError && <PaymentInformationBlocked />}
         <PersonalInformationContent />

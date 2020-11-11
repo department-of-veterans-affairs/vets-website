@@ -16,7 +16,7 @@ const hooks = {
   beforeEach() {
     const user = {
       profile: {
-        services: [backendServices.VET360],
+        services: [backendServices.VA_PROFILE],
         vapContactInfo: {},
       },
     };

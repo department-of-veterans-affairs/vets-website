@@ -136,7 +136,12 @@ const formConfig = {
   trackingPrefix: 'disability-526EZ-',
   downtime: {
     requiredForPrefill: true,
-    dependencies: [services.evss, services.emis, services.mvi, services.vet360],
+    dependencies: [
+      services.evss,
+      services.emis,
+      services.mvi,
+      services.vaProfile,
+    ],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
   saveInProgress: {
