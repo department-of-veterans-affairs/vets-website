@@ -10,7 +10,6 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import { setupExpressCareMocks } from '../../mocks/helpers';
-import ExpressCareInfoPage from '../../../express-care/components/ExpressCareInfoPage';
 import { NewExpressCareRequest } from '../../../express-care';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
@@ -97,7 +96,7 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
       store,
     });
 
@@ -122,7 +121,7 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
       store,
     });
 

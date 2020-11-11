@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { Route } from 'react-router-dom';
-import { waitFor } from '@testing-library/dom';
+import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import {
   createTestStore,
@@ -43,9 +43,7 @@ xdescribe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // it should not allow user to submit the form without selecting a date
-    const button = screen.getByRole('button', {
-      name: /^Continue/,
-    });
+    const button = screen.getByText(/^Continue/);
     userEvent.click(button);
 
     // NOTE: alert does not have an accessible name to query by
@@ -262,29 +260,23 @@ xdescribe('VAOS <DateTimeSelectPage>', () => {
     );
 
     // 1. Wait for progressbar to disappear
-    await waitFor(
-      () =>
-        expect(
-          screen.queryByRole('progressbar', {
-            name: 'Finding appointment availability...',
-          }),
-        ).to.not.exist,
-    );
+    let overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
 
     // 2. Simulate user selecting a date
-    let button = screen.getByRole('button', {
-      name: slot308Date.format('dddd, MMMM Do'),
-    });
+    let button = screen.getByLabelText(
+      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+    );
+
     userEvent.click(button);
+
     userEvent.click(
       await screen.findByRole('radio', { name: '9:00 AM option selected' }),
     );
 
-    userEvent.click(
-      screen.getByRole('button', {
-        name: /^Continue/,
-      }),
-    );
+    userEvent.click(screen.getByText(/^Continue/));
     await waitFor(() => {
       expect(screen.history.push.called).to.be.true;
     });
@@ -298,19 +290,15 @@ xdescribe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // 3. Wait for progressbar to disappear
-    await waitFor(
-      () =>
-        expect(
-          screen.queryByRole('progressbar', {
-            name: 'Finding appointment availability...',
-          }),
-        ).to.not.exist,
-    );
+    overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
 
     // 4. Simulate user selecting a date
-    button = screen.getByRole('button', {
-      name: slot309Date.format('dddd, MMMM Do'),
-    });
+    button = screen.getByLabelText(
+      new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
+    );
     userEvent.click(button);
     expect(
       await screen.findByRole('radio', { name: '1:00 PM option selected' }),

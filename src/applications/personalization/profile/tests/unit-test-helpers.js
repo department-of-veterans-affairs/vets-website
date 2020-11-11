@@ -26,7 +26,7 @@ export function renderWithProfileReducers(
   });
 }
 
-// Creates a good baseline value for the user.profile.vet360 part of Redux
+// Creates a good baseline value for the user.profile.vapContactInfo part of Redux
 export function getBasicContactInfoState() {
   return {
     email: {
@@ -187,7 +187,8 @@ export function createBasicInitialState() {
     },
     user: {
       profile: {
-        vet360: getBasicContactInfoState(),
+        vapContactInfo: getBasicContactInfoState(),
+        services: ['vet360'],
       },
     },
   };

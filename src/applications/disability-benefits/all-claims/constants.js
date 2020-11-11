@@ -4,7 +4,7 @@ import disabilityLabels from './content/disabilityLabels';
 
 export const PAGE_TITLES = {
   ALL: 'File for disability compensation',
-  BDD: 'File for Benefits Disability at Discharge',
+  BDD: 'File a Benefits Delivery at Discharge claim',
 };
 
 export const START_TEXT = {

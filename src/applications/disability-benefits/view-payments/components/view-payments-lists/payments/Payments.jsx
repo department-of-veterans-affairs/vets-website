@@ -5,10 +5,11 @@ import Table from '@department-of-veterans-affairs/formation-react/Table';
 import { clientServerErrorContent } from '../helpers';
 import { chunk } from 'lodash';
 
+const MAX_PAGE_LIST_LENGTH = 10;
 class Payments extends Component {
   state = {
     page: 1,
-    maxRows: 5,
+    maxRows: 6,
     numberOfPages: null,
     currentlyShowingData: [],
     paginatedData: null,
@@ -91,7 +92,7 @@ class Payments extends Component {
             onPageSelect={page => this.handleDataPagination(page)}
             page={this.state.page}
             pages={this.state.numberOfPages}
-            maxPageListLength={this.state.numberOfPages}
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
             showLastPage
           />
         </>

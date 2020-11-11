@@ -68,6 +68,9 @@ export const uiSchema = {
     },
     'view:acknowledgement': {
       'ui:title': 'Patient Acknowledgment',
+      'ui:options': {
+        useDlWrap: true,
+      },
     },
     'ui:validations': [
       (errors, item) => {

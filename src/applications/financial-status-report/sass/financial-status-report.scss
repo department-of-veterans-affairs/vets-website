@@ -6,3 +6,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+[type=checkbox]:checked + label::before {
+  background-color: $color-white;
+  color: $color-primary;
+  content: "\f00c";
+  font-family: "Font Awesome 5 Free";
+  padding-right: 2px;
+}

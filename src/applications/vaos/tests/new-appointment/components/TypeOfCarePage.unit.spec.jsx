@@ -30,7 +30,7 @@ const initialState = {
   user: {
     profile: {
       facilities: [{ facilityId: '983', isCerner: false }],
-      vet360: {
+      vapContactInfo: {
         residentialAddress: {
           addressLine1: '123 big sky st',
         },
@@ -198,9 +198,9 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
   });
 
-  it('should display alert message when residental address is missing', async () => {
+  it('should display alert message when residential address is missing', async () => {
     const stateWithoutAddress = set(
-      'user.profile.vet360.residentialAddress',
+      'user.profile.vapContactInfo.residentialAddress',
       null,
       initialState,
     );
@@ -232,7 +232,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should display alert message when residental address is a PO Box', async () => {
     const stateWithPOBox = set(
-      'user.profile.vet360.residentialAddress',
+      'user.profile.vapContactInfo.residentialAddress',
       {
         addressLine1: 'PO Box 123',
       },
@@ -250,7 +250,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should save adress modal dismissal after page change', async () => {
     const stateWithoutAddress = set(
-      'user.profile.vet360.residentialAddress',
+      'user.profile.vapContactInfo.residentialAddress',
       null,
       initialState,
     );

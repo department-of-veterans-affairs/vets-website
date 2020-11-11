@@ -67,7 +67,7 @@ let oldLocation;
 
 describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
-    // This url change is to work around the Vet 360 data mocking
+    // This url change is to work around the VA Profile Service data mocking
     beforeEach(() => {
       oldLocation = document.location.href;
       global.dom.reconfigure({ url: 'https://www.va.gov' });
@@ -112,7 +112,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360).to.deep.equal(
+      expect(mappedData.vapContactInfo).to.deep.equal(
         data.attributes.vet360_contact_information,
       );
     });
@@ -195,7 +195,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360.status).to.equal('SERVER_ERROR');
+      expect(mappedData.vapContactInfo.status).to.equal('SERVER_ERROR');
     });
   });
 });

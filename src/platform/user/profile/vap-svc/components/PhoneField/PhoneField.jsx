@@ -5,9 +5,9 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '@@vap-svc/constants';
 
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import PhoneNumberWidget from '~/platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
-import Vet360ProfileField from '@@vap-svc/containers/Vet360ProfileField';
+import VAPServiceProfileField from '@@vap-svc/containers/VAPServiceProfileField';
 
 import PhoneEditModal from './PhoneEditModal';
 import PhoneView from './PhoneView';
@@ -130,7 +130,7 @@ export default class PhoneField extends React.Component {
 
   render() {
     return (
-      <Vet360ProfileField
+      <VAPServiceProfileField
         title={this.props.title}
         fieldName={this.props.fieldName}
         apiRoute={API_ROUTES.TELEPHONES}

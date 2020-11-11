@@ -17,12 +17,12 @@ describe('<CopyMailingAddress/>', () => {
       state = {
         user: {
           profile: {
-            vet360: {
+            vapContactInfo: {
               [FIELD_NAMES.MAILING_ADDRESS]: null,
             },
           },
         },
-        vet360: {
+        vapService: {
           formFields: {
             [FIELD_NAMES.MAILING_ADDRESS]: null,
           },
@@ -33,8 +33,10 @@ describe('<CopyMailingAddress/>', () => {
     it('returns the required props', () => {
       const mailingAddress = { city: 'some city' };
 
-      state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = mailingAddress;
-      state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+      state.user.profile.vapContactInfo[
+        FIELD_NAMES.MAILING_ADDRESS
+      ] = mailingAddress;
+      state.vapService.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
         city: 'some other city',
       };
 
@@ -48,7 +50,7 @@ describe('<CopyMailingAddress/>', () => {
     describe('checked prop', () => {
       beforeEach(() => {
         // this is real data from staging
-        state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = {
+        state.user.profile.vapContactInfo[FIELD_NAMES.MAILING_ADDRESS] = {
           addressLine1: '36320 Coronado Dr',
           addressLine2: null,
           addressLine3: null,
@@ -81,7 +83,7 @@ describe('<CopyMailingAddress/>', () => {
 
       it('is `true` when addresses are equal', () => {
         // This is real data from staging
-        state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+        state.vapService.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
           value: {
             id: 145184,
             addressLine1: '36320 Coronado Dr',
@@ -99,7 +101,7 @@ describe('<CopyMailingAddress/>', () => {
       });
 
       it('is `false` when addresses are not equal', () => {
-        state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+        state.vapService.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
           value: {
             id: 145184,
             addressLine1: '123 Main St.',

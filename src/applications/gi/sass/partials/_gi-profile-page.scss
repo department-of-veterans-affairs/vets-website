@@ -42,16 +42,29 @@
     position: relative;
     top: 2em;
   }
-
-  #school-ratings-accordion-content {
-    @include media-maxwidth($medium-screen - 1) {
+  @include media-maxwidth($medium-screen - 1) {
+    .ratings-heading {
       padding-left: 1rem;
       padding-right: 1rem;
     }
   }
 
+  #school-ratings-accordion-content {
+    @include media-maxwidth($medium-screen - 1) {
+      padding-left: 0rem;
+      padding-right: 0rem;
+    }
+  }
+
   .main-rating {
     width: 160px;
+  }
+
+  @include media-maxwidth($medium-screen - 1) {
+    .about-ratings {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 
   .category-rating {
@@ -60,6 +73,14 @@
       @include media-maxwidth($medium-screen - 1) {
         max-width: none;
       }
+    }
+
+    .category-main {
+      padding-left: 10px;
+      padding-right: 10px;
+      //@include media-maxwidth($small-screen - 1) {
+      //  width: 100px;
+      //}
     }
 
     .bar-outer {
@@ -83,7 +104,7 @@
       background-position: right 1rem center;
 
       @include media-maxwidth($medium-screen - 1) {
-        background-position: right 0rem center;
+        background-position: right 1rem center;
       }
     }
   }
@@ -168,18 +189,24 @@
 
   button.usa-accordion-button {
     text-align: left;
-    margin-top: 0.208em;
-    margin-bottom: 0.208em;
   }
+
   button.usa-accordion-button-ratings {
     text-align: left;
-    margin-top: 0.208em;
-    margin-bottom: 0.208em;
     margin-bottom: 1px;
     margin-top: 1px;
   }
-  .school-ratings-accordion-headings{
+
+  .category-ratings-accordion-headings{
     margin-bottom: 9px;
+    padding-top: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @include media-maxwidth($medium-screen - 1) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 
   button.usa-accordion-button-ratings:hover {
