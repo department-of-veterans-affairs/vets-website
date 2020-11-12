@@ -25,8 +25,8 @@ node('vetsgov-general-purpose') {
     dockerContainer.inside(DOCKER_ARGS) {
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                        usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-        sh "AWS_CA_BUNDLE=/etc/ssl/certs/Amazon_Root_CA_1.pem aws s3 ls"
-        sh "aws s3 ls"
+        sh "AWS_CA_BUNDLE=/etc/ssl/certs/Amazon_Root_CA_1.pem aws s3 ls s3://vetsgov-website-builds-s3-upload"
+        sh "aws s3 ls s3://vetsgov-website-builds-s3-upload"
       }
     }
   }
