@@ -26,6 +26,7 @@
     display: flex;
     justify-content: left;
     align-items: flex-end;
+    margin-bottom: 20px;
     .list-loop-item-label {
       margin: 15px 0;
     }
@@ -40,7 +41,6 @@
     }
   }
   .title-section {
-    /* border: 1px solid blue; */
     .title {
       width: 200px;
       height: 15px;
@@ -57,21 +57,13 @@
     }
   }
   .list-input-section {
-    /* border: 1px solid red; */
     display: flex;
     align-items: center;
     height: 100%;
     .input-section-container {
-      /* border: 1px solid red; */
-      /* width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end; */
       padding: 0;
       margin: 0;
       .input-row {
-        /* border: 1px solid red; */
-        margin: 20px 0;
         list-style: none;
         .input-container {
           display: flex;
@@ -105,18 +97,18 @@
       }
     }
   }
-  // .add-income-link-section {
-  //   border: 1px solid green;
-  // }
+  .add-income-link-section {
+    margin-top: 25px;
+    .plus-icon {
+      color: #0071bb;
+      margin-right: 5px;
+    }
+  }
   .add-income-link,
   .remove-link {
     font-size: 16px;
     color: #004795;
     line-height: 24px;
     text-decoration: underline;
-  }
-  .plus-icon {
-    color: #0071bb;
-    margin-right: 5px;
   }
 }

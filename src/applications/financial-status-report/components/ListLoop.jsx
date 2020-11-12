@@ -56,11 +56,11 @@ const DependentsAge = ({ rest }) => {
   );
 };
 
-const InputRow = ({ item, rest }) => {
+const InputRow = ({ item, rest, save }) => {
   return (
     <li className="input-row">
       <div className="input-container">
-        {item.income ? (
+        {item.amount ? (
           <AdditionalIncome rest={rest} />
         ) : (
           <DependentsAge rest={rest} />
@@ -68,40 +68,66 @@ const InputRow = ({ item, rest }) => {
         <a className="remove-link">Remove</a>
       </div>
       <div>
-        <button className="btn-save">Save</button>
+        <button className="btn-save" onClick={save}>
+          Save
+        </button>
       </div>
     </li>
   );
 };
 
-const ItemList = ({ item }) => {
+const ListItem = ({ item, edit }) => {
   return (
     <div className="list-loop-item-list">
-      <div className="list-loop-item-1">
-        <div className="list-loop-item-label">Type of income</div>
-        <strong>{item.type}</strong>
-      </div>
-      <div className="list-loop-item-2">
-        <div className="list-loop-item-label">Monthly amount</div>
-        <strong>${item.amount}</strong>
-      </div>
+      {item.type && (
+        <div className="list-loop-item-1">
+          <div className="list-loop-item-label">Type of income</div>
+          <strong>{item.type}</strong>
+        </div>
+      )}
+      {item.amount && (
+        <div className="list-loop-item-2">
+          <div className="list-loop-item-label">Monthly amount</div>
+          <strong>${item.amount}</strong>
+        </div>
+      )}
       <div className="list-loop-edit">
-        <a>Edit</a>
+        <a onClick={edit}>Edit</a>
       </div>
     </div>
   );
 };
 
-const ListLoop = ({ title, subTitle, items, ...rest }) => {
-  // console.log('ListLoop rest: ', rest);
+const EditItem = () => {
+  return <div>Edit Item</div>;
+};
 
-  const savedItems = [
+const ListLoop = ({ title, subTitle, items, ...rest }) => {
+  const [showItem, setShowItem] = useState(true);
+  const showAdd = true;
+
+  const [saved, setSaved] = useState([
     {
-      id: 1,
+      id: Math.random(),
       type: 'Alimony',
       amount: 100,
     },
-  ];
+  ]);
+
+  const handleSave = () => {
+    setSaved(prevState => [
+      ...prevState,
+      {
+        id: Math.random(),
+        type: 'Alimony',
+        amount: 100,
+      },
+    ]);
+  };
+
+  const handleEdit = () => {
+    setShowItem(false);
+  };
 
   return (
     <div className="list-loop-container">
@@ -109,14 +135,31 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
         <h3 className="title">{title}</h3>
         <p className="sub-title">{subTitle}</p>
       </div>
-      {savedItems?.map(item => <ItemList key={item.id} item={item} />)}
-      <div className="list-input-section">
-        <ul className="input-section-container">
-          {items?.map(item => (
-            <InputRow key={item.id} item={item} rest={rest} />
-          ))}
-        </ul>
-      </div>
+
+      {saved?.map(
+        item =>
+          showItem ? (
+            <ListItem key={item.id} item={item} edit={handleEdit} />
+          ) : (
+            <EditItem key={item.id} />
+          ),
+      )}
+
+      {showAdd && (
+        <div className="list-input-section">
+          <ul className="input-section-container">
+            {items?.map(item => (
+              <InputRow
+                key={item.id}
+                item={item}
+                rest={rest}
+                save={handleSave}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="add-income-link-section">
         <i className="fas fa-plus plus-icon" />
         <a className="add-income-link">Add additional</a>
@@ -126,18 +169,17 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
 };
 
 const mapStateToProps = () => ({
-  //   data: state.form?.data
   title: 'Your additional income',
   subTitle: 'Enter each type of additional income separately below.',
   items: [
     {
       id: 1,
-      income: 'income type 1',
+      type: 'Alimony',
       amount: 100,
     },
     // {
     //   id: 2,
-    //   income: 'income type 1',
+    //   type: 'income type 1',
     //   amount: 120,
     // },
   ],
