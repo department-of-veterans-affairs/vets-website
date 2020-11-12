@@ -29,6 +29,9 @@ RUN unzip awscliv2.zip
 RUN ./aws/install
 RUN aws --version # Verify AWS CLI installation.
 
+# Explicitly set CA cert to resolve SSL issues with AWS.
+ENV AWS_CA_BUNDLE /aws/dist/botocore/cacert.pem
+
 RUN mkdir -p /application
 
 WORKDIR /application
