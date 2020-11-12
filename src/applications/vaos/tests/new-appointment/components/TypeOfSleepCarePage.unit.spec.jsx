@@ -63,6 +63,9 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
     );
 
     fireEvent.click(await screen.findByLabelText(/sleep medicine/i));
+    await waitFor(() => {
+      expect(screen.getByLabelText(/sleep medicine/i).checked).to.be.true;
+    });
     await cleanup();
 
     screen = renderWithStoreAndRouter(
