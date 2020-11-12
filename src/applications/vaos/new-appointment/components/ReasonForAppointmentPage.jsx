@@ -94,51 +94,53 @@ function ReasonForAppointmentPage({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      <SchemaForm
-        name="Reason for appointment"
-        title="Reason for appointment"
-        schema={schema || pageInitialSchema}
-        uiSchema={pageUISchema}
-        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-        onChange={newData =>
-          updateReasonForAppointmentData(pageKey, pageUISchema, newData)
-        }
-        data={data}
-      >
-        <AlertBox
-          status="warning"
-          headline="If you have an urgent medical need, please:"
-          className="vads-u-margin-y--3"
-          content={
-            <ul>
-              <li>
-                Call <a href="tel:911">911</a>,{' '}
-                <span className="vads-u-font-weight--bold">or</span>
-              </li>
-              <li>
-                Call the Veterans Crisis hotline at{' '}
-                <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
-                <span className="vads-u-font-weight--bold">or</span>
-              </li>
-              <li>
-                Go to your nearest emergency room or VA medical center.{' '}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="/find-locations"
-                >
-                  Find your nearest VA medical center
-                </a>
-              </li>
-            </ul>
+      {!!schema && (
+        <SchemaForm
+          name="Reason for appointment"
+          title="Reason for appointment"
+          schema={schema}
+          uiSchema={pageUISchema}
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onChange={newData =>
+            updateReasonForAppointmentData(pageKey, pageUISchema, newData)
           }
-        />
-        <FormButtons
-          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-          pageChangeInProgress={pageChangeInProgress}
-          loadingText="Page change in progress"
-        />
-      </SchemaForm>
+          data={data}
+        >
+          <AlertBox
+            status="warning"
+            headline="If you have an urgent medical need, please:"
+            className="vads-u-margin-y--3"
+            content={
+              <ul>
+                <li>
+                  Call <a href="tel:911">911</a>,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Call the Veterans Crisis hotline at{' '}
+                  <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Go to your nearest emergency room or VA medical center.{' '}
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="/find-locations"
+                  >
+                    Find your nearest VA medical center
+                  </a>
+                </li>
+              </ul>
+            }
+          />
+          <FormButtons
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </SchemaForm>
+      )}
     </div>
   );
 }
