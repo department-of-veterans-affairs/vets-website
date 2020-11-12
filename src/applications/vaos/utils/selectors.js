@@ -22,7 +22,10 @@ import {
   APPOINTMENT_STATUS,
   AUDIOLOGY_TYPES_OF_CARE,
 } from './constants';
-import { getSiteIdFromOrganization } from '../services/organization';
+import {
+  getSiteIdFromOrganization,
+  getRootOrganization,
+} from '../services/organization';
 import {
   getParentOfLocation,
   getSiteIdFromFakeFHIRId,
@@ -187,8 +190,23 @@ export function getRootIdForChosenFacility(state) {
   return facility?.id?.slice(0, 3);
 }
 
-export function getSiteIdForChosenFacility(state) {
-  return getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
+export function getSiteIdForChosenFacility(state, currentParentId) {
+  if (vaosFlatFacilityPage(state)) {
+    return getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
+  }
+
+  const parentId = currentParentId || getFormData(state).vaParent;
+  const parentFacilities = getParentFacilities(state);
+  const parentOrg = getChosenParentInfo(state, parentId);
+
+  const rootOrg = getRootOrganization(parentFacilities, parentId);
+
+  if (rootOrg) {
+    return getSiteIdFromOrganization(rootOrg);
+  }
+
+  // This is a hack to get around some site ids not showing up in the parent sites list
+  return parentOrg?.partOf.reference.replace('Organization/var', '');
 }
 
 export function getParentOfChosenFacility(state) {
