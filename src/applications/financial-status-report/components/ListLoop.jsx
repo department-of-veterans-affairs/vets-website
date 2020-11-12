@@ -34,7 +34,9 @@ const InputRow = ({ item }) => {
   );
 };
 
-const ListLoop = ({ title, subTitle, items }) => {
+const ListLoop = ({ title, subTitle, items, registry, ...rest }) => {
+  const { SchemaField } = registry.fields;
+
   return (
     <div className="list-loop-container">
       <div className="title-section">
@@ -50,6 +52,15 @@ const ListLoop = ({ title, subTitle, items }) => {
         <i className="fas fa-plus plus-icon" />
         <a className="add-income-link">Add additional income</a>
       </div>
+      <SchemaField
+        required={false}
+        schema={rest.schema.properties.employerName}
+        uiSchema={rest.uiSchema.employerName}
+        formData={''}
+        onChange={() => {}}
+        onBlur={() => {}}
+        registry={registry}
+      />
     </div>
   );
 };
