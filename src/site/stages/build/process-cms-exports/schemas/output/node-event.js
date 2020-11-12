@@ -34,7 +34,18 @@ module.exports = {
     fieldEventCost: { type: ['string', 'null'] },
     fieldEventCta: { type: ['string', 'null'] },
     fieldEventRegistrationrequired: { type: 'boolean' },
-    fieldFacilityLocation: { type: ['object', 'null'] }, // When it's an object, it's an entity of some sort
+    fieldFacilityLocation: {
+      type: ['object', 'null'],
+      properties: {
+        entityUrl: {
+          type: 'object',
+          properties: {
+            path: { type: 'string' },
+          },
+        },
+        title: { type: 'string' },
+      },
+    },
     fieldLink: {
       type: ['object', 'null'],
       properties: {
