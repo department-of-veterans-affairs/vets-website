@@ -62,6 +62,9 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     );
 
     fireEvent.click(await screen.findByLabelText(/Community care/i));
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Community care/i).checked).to.be.true;
+    });
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
