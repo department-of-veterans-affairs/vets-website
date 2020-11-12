@@ -21,15 +21,6 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
-  stage('Testing AWS') {
-    dockerContainer.inside(DOCKER_ARGS) {
-      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
-                       usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-        sh "aws s3 ls s3://vetsgov-website-builds-s3-upload"
-      }
-    }
-  }
-
   stage('Lint|Security|Unit') {
     if (params.cmsEnvBuildOverride != 'none') { return }
 
