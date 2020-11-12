@@ -24,6 +24,9 @@ export const uiSchema = {
         employmentType: {
           'ui:title': 'Type of employment',
         },
+        monthlyAmount: {
+          'ui:title': 'Monthly amout',
+        },
         employmentStart: {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
@@ -59,6 +62,9 @@ export const schema = {
                 employmentType: {
                   type: 'string',
                   enum: ['Full-time', 'Part-time', 'Seasonal'],
+                },
+                monthlyAmount: {
+                  type: 'string',
                 },
                 employmentStart: {
                   type: 'string',

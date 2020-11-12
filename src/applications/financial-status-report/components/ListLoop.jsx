@@ -1,41 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-const AdditionalIncome = () => {
+const AdditionalIncome = ({ rest }) => {
+  const { SchemaField } = rest.registry.fields;
+  const [type, setType] = useState('');
+  const [amount, setAmount] = useState('');
+
   return (
     <>
-      <div>
-        <div className="input-placeholder">Type of income</div>
-        <input className="input-custom input-1" type="text" />
+      <div className="input-custom input-1">
+        <SchemaField
+          required={false}
+          schema={rest.schema.properties.employmentType}
+          uiSchema={rest.uiSchema.employmentType}
+          formData={type}
+          onChange={setType}
+          onBlur={() => {}}
+          registry={rest.registry}
+          idSchema={rest.idSchema}
+        />
       </div>
-      <div>
-        <div className="input-placeholder">Monthly Amount</div>
-        <input className="input-custom input-2" type="text" />
+      <div className="input-custom input-2">
+        <SchemaField
+          required={false}
+          schema={rest.schema.properties.monthlyAmount}
+          uiSchema={rest.uiSchema.monthlyAmount}
+          formData={amount}
+          onChange={setAmount}
+          onBlur={() => {}}
+          registry={rest.registry}
+          idSchema={rest.idSchema}
+        />
       </div>
     </>
   );
 };
 
-const DependentsAge = () => {
+const DependentsAge = ({ rest }) => {
+  const { SchemaField } = rest.registry.fields;
+  const [age, setAge] = useState('');
+
   return (
-    <div>
-      <div className="input-placeholder">Dependents age</div>
-      <input className="input-custom input-3" type="text" />
+    <div className="input-custom input-3">
+      <SchemaField
+        required={false}
+        schema={rest.schema.properties.employerName}
+        uiSchema={rest.uiSchema.employerName}
+        formData={age}
+        onChange={setAge}
+        onBlur={() => {}}
+        registry={rest.registry}
+        idSchema={rest.idSchema}
+      />
     </div>
   );
 };
 
-const InputRow = ({ item }) => {
+const InputRow = ({ item, rest }) => {
   return (
-    <li className="input-container">
-      {item.income ? <AdditionalIncome /> : <DependentsAge />}
-      <a className="remove-link">Remove</a>
+    <li className="input-row">
+      <div className="input-container">
+        {item.income ? (
+          <AdditionalIncome rest={rest} />
+        ) : (
+          <DependentsAge rest={rest} />
+        )}
+        <a className="remove-link">Remove</a>
+      </div>
+      <div>
+        <button className="btn-save">SAVE</button>
+      </div>
     </li>
   );
 };
 
-const ListLoop = ({ title, subTitle, items, registry, ...rest }) => {
-  const { SchemaField } = registry.fields;
+const ListLoop = ({ title, subTitle, items, ...rest }) => {
+  // console.log('ListLoop rest: ', rest);
 
   return (
     <div className="list-loop-container">
@@ -45,22 +85,15 @@ const ListLoop = ({ title, subTitle, items, registry, ...rest }) => {
       </div>
       <div className="list-input-section">
         <ul className="input-section-container">
-          {items?.map(item => <InputRow key={item.id} item={item} />)}
+          {items?.map(item => (
+            <InputRow key={item.id} item={item} rest={rest} />
+          ))}
         </ul>
       </div>
       <div className="add-income-link-section">
         <i className="fas fa-plus plus-icon" />
-        <a className="add-income-link">Add additional income</a>
+        <a className="add-income-link">Add additional</a>
       </div>
-      <SchemaField
-        required={false}
-        schema={rest.schema.properties.employerName}
-        uiSchema={rest.uiSchema.employerName}
-        formData={''}
-        onChange={() => {}}
-        onBlur={() => {}}
-        registry={registry}
-      />
     </div>
   );
 };
@@ -75,7 +108,21 @@ const mapStateToProps = () => ({
       income: 'income type 1',
       amount: 100,
     },
+    // {
+    //   id: 2,
+    //   income: 'income type 1',
+    //   amount: 120,
+    // },
   ],
+
+  // title: 'Your dependents',
+  // subTitle: 'Enter the age of your dependent(s) separately below.',
+  // items: [
+  //   {
+  //     id: 1,
+  //     age: 21,
+  //   },
+  // ],
 });
 
 export default connect(
