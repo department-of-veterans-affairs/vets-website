@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-const AdditionalIncome = ({ rest }) => {
+const AdditionalIncome = ({ rest, initType, initAmount }) => {
   const { SchemaField } = rest.registry.fields;
-  const [type, setType] = useState('');
-  const [amount, setAmount] = useState('');
+  const [type, setType] = useState(initType);
+  const [amount, setAmount] = useState(initAmount);
 
   return (
     <>
@@ -36,43 +36,36 @@ const AdditionalIncome = ({ rest }) => {
   );
 };
 
-const DependentsAge = ({ rest }) => {
-  const { SchemaField } = rest.registry.fields;
-  const [age, setAge] = useState('');
+const EditItem = ({ item, update, remove, rest }) => {
+  const updateItem = {
+    amount: 200,
+  };
 
   return (
-    <div className="input-custom input-3">
-      <SchemaField
-        required={false}
-        schema={rest.schema.properties.employerName}
-        uiSchema={rest.uiSchema.employerName}
-        formData={age}
-        onChange={setAge}
-        onBlur={() => {}}
-        registry={rest.registry}
-        idSchema={rest.idSchema}
-      />
+    <div className="list-input-section">
+      <div className="input-section-container">
+        <div className="input-row">
+          <div className="input-container">
+            <AdditionalIncome
+              rest={rest}
+              initType={'Income type 4'}
+              initAmount={300}
+            />
+            <a className="remove-link" onClick={() => remove(item.id)}>
+              Remove
+            </a>
+          </div>
+          <div>
+            <button
+              className="btn-save"
+              onClick={() => update(item.id, updateItem)}
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  );
-};
-
-const InputRow = ({ item, rest, save }) => {
-  return (
-    <li className="input-row">
-      <div className="input-container">
-        {item.amount ? (
-          <AdditionalIncome rest={rest} />
-        ) : (
-          <DependentsAge rest={rest} />
-        )}
-        <a className="remove-link">Remove</a>
-      </div>
-      <div>
-        <button className="btn-save" onClick={save}>
-          Save
-        </button>
-      </div>
-    </li>
   );
 };
 
@@ -92,41 +85,50 @@ const ListItem = ({ item, edit }) => {
         </div>
       )}
       <div className="list-loop-edit">
-        <a onClick={edit}>Edit</a>
+        <a onClick={() => edit(item.id)}>Edit</a>
       </div>
     </div>
   );
 };
 
-const EditItem = () => {
-  return <div>Edit Item</div>;
-};
-
 const ListLoop = ({ title, subTitle, items, ...rest }) => {
-  const [showItem, setShowItem] = useState(true);
-  const showAdd = true;
+  const [saved, setSaved] = useState([...items]);
+  const [editId, setEditId] = useState(null);
+  const [showAdd, setShowAdd] = useState(true);
 
-  const [saved, setSaved] = useState([
-    {
-      id: Math.random(),
-      type: 'Alimony',
-      amount: 100,
-    },
-  ]);
+  const handleRemove = id => {
+    setSaved(prevState => {
+      return prevState.filter(item => item.id !== id);
+    });
+  };
+
+  const handleUpdate = (id, value) => {
+    const itemIndex = saved.findIndex(item => item.id === id);
+    if (!value || itemIndex === -1) return;
+
+    setSaved(prevState => [
+      ...prevState.map((item, index) => {
+        return index === itemIndex ? { ...item, ...value } : item;
+      }),
+    ]);
+    setEditId(null);
+  };
 
   const handleSave = () => {
     setSaved(prevState => [
       ...prevState,
       {
         id: Math.random(),
-        type: 'Alimony',
+        type: 'Income type 1',
         amount: 100,
       },
     ]);
+    setShowAdd(false);
   };
 
-  const handleEdit = () => {
-    setShowItem(false);
+  const handleEdit = id => {
+    setShowAdd(false);
+    setEditId(id);
   };
 
   return (
@@ -135,34 +137,41 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
         <h3 className="title">{title}</h3>
         <p className="sub-title">{subTitle}</p>
       </div>
-
       {saved?.map(
         item =>
-          showItem ? (
+          item.id !== editId ? (
             <ListItem key={item.id} item={item} edit={handleEdit} />
           ) : (
-            <EditItem key={item.id} />
+            <EditItem
+              key={item.id}
+              item={item}
+              rest={rest}
+              update={handleUpdate}
+              remove={handleRemove}
+            />
           ),
       )}
-
       {showAdd && (
         <div className="list-input-section">
-          <ul className="input-section-container">
-            {items?.map(item => (
-              <InputRow
-                key={item.id}
-                item={item}
-                rest={rest}
-                save={handleSave}
-              />
-            ))}
-          </ul>
+          <div className="input-section-container">
+            <div className="input-row">
+              <div className="input-container">
+                <AdditionalIncome rest={rest} />
+              </div>
+              <div>
+                <button className="btn-save" onClick={handleSave}>
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
-
       <div className="add-income-link-section">
         <i className="fas fa-plus plus-icon" />
-        <a className="add-income-link">Add additional</a>
+        <a className="add-income-link" onClick={() => setShowAdd(true)}>
+          Add additional income
+        </a>
       </div>
     </div>
   );
@@ -171,27 +180,7 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
 const mapStateToProps = () => ({
   title: 'Your additional income',
   subTitle: 'Enter each type of additional income separately below.',
-  items: [
-    {
-      id: 1,
-      type: 'Alimony',
-      amount: 100,
-    },
-    // {
-    //   id: 2,
-    //   type: 'income type 1',
-    //   amount: 120,
-    // },
-  ],
-
-  // title: 'Your dependents',
-  // subTitle: 'Enter the age of your dependent(s) separately below.',
-  // items: [
-  //   {
-  //     id: 1,
-  //     age: 21,
-  //   },
-  // ],
+  items: [],
 });
 
 export default connect(

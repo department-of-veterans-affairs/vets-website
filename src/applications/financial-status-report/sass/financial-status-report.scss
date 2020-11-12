@@ -26,9 +26,9 @@
     display: flex;
     justify-content: left;
     align-items: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     .list-loop-item-label {
-      margin: 15px 0;
+      margin-bottom: 15px;
     }
     .list-loop-item-1 {
       width: 275px;
@@ -41,6 +41,7 @@
     }
   }
   .title-section {
+    margin-bottom: 20px;
     .title {
       width: 200px;
       height: 15px;
@@ -65,6 +66,7 @@
       margin: 0;
       .input-row {
         list-style: none;
+        margin-bottom: 20px;
         .input-container {
           display: flex;
           align-items: flex-end;
@@ -90,7 +92,7 @@
         }
       }
       .btn-save {
-        max-width: 75px;
+        max-width: fit-content;
       }
       .remove-link {
         margin-bottom: 7px;
@@ -98,7 +100,6 @@
     }
   }
   .add-income-link-section {
-    margin-top: 25px;
     .plus-icon {
       color: #0071bb;
       margin-right: 5px;
