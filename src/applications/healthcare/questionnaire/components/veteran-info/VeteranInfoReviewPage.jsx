@@ -10,7 +10,7 @@ const phonesToDisplay = phones => {
   }
   return phones.filter(f => f.data).map(phone => {
     return {
-      label: phone.label,
+      label: `${phone.label} phone`,
       value: formatPhoneNumber(phone.data.areaCode + phone.data.phoneNumber),
     };
   });
@@ -33,8 +33,8 @@ export default function VeteranInfoReviewPage({ formData }) {
         ? genderLabels[veteran.gender]
         : 'UNKNOWN',
     },
-    addressToDisplay('Mailing Address', veteran.addresses?.mailing),
-    addressToDisplay('Home Address', veteran.addresses?.residential),
+    addressToDisplay('Mailing address', veteran.addresses?.mailing),
+    addressToDisplay('Home address', veteran.addresses?.residential),
     ...phonesToDisplay(veteran.phones),
   ];
   return (
