@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Vet360EditModal from '../base/Vet360EditModal';
+import VAPServiceEditModal from '../base/VAPServiceEditModal';
 
 import ContactInfoForm from '../ContactInfoForm';
 
@@ -30,7 +30,7 @@ class EmailEditModal extends React.Component {
 
   render() {
     return (
-      <Vet360EditModal
+      <VAPServiceEditModal
         {...this.props}
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}

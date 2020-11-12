@@ -271,6 +271,14 @@ export const requireDisability = (err, fieldData, formData) => {
   }
 };
 
+export const limitNewDisabilities = (err, fieldData, formData) => {
+  if (formData.newDisabilities?.length > 100) {
+    err.addError(
+      'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.',
+    );
+  }
+};
+
 /**
  * Requires a rated disability to be entered if the increase only path has been selected.
  */

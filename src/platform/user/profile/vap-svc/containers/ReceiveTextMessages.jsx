@@ -6,8 +6,8 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import {
   isVAPatient,
   selectProfile,
-  selectVet360MobilePhone,
-} from 'platform/user/selectors';
+  selectVAPMobilePhone,
+} from '~/platform/user/selectors';
 
 import * as VAP_SERVICE from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
@@ -119,13 +119,13 @@ export function mapStateToProps(state, ownProps) {
   const hasError = !!isFailedTransaction(transaction);
   const isPending = !!isPendingTransaction(transaction);
   const profileState = selectProfile(state);
-  const mobilePhone = selectVet360MobilePhone(state);
+  const mobilePhone = selectVAPMobilePhone(state);
   const isTextable =
     mobilePhone?.phoneType === VAP_SERVICE.PHONE_TYPE.mobilePhone;
   const hideCheckbox =
     !isTextable || !isVAPatient(state) || hasError || isPending;
   const transactionSuccess =
-    state.vet360.transactionStatus ===
+    state.vapService.transactionStatus ===
     VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_SUCCESS;
   return {
     profile: profileState,

@@ -4,12 +4,12 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { refreshTransaction } from '../actions';
 
-import Vet360TransactionPending from '../components/base/Vet360TransactionPending';
+import VAPServiceTransactionPending from '../components/base/VAPServiceTransactionPending';
 
 import { TRANSACTION_CATEGORY_TYPES } from '../constants';
-import { selectVet360PendingCategoryTransactions } from '../selectors';
+import { selectVAPServicePendingCategoryTransactions } from '../selectors';
 
-function Vet360PendingTransactionCategory({
+function VAPServicePendingTransactionCategory({
   refreshTransaction: dispatchRefreshTransaction,
   transactions,
   hasPendingCategoryTransaction,
@@ -32,7 +32,7 @@ function Vet360PendingTransactionCategory({
   };
 
   return (
-    <Vet360TransactionPending refreshTransaction={refreshAllTransactions}>
+    <VAPServiceTransactionPending refreshTransaction={refreshAllTransactions}>
       <AlertBox isVisible status="warning">
         <h4>We’re updating your {plural}</h4>
         <p>
@@ -40,13 +40,13 @@ function Vet360PendingTransactionCategory({
           information below as soon as it’s finished saving.
         </p>
       </AlertBox>
-    </Vet360TransactionPending>
+    </VAPServiceTransactionPending>
   );
 }
 
 const mapStateToProps = (state, ownProps) => {
   const { categoryType } = ownProps;
-  const pendingTransactions = selectVet360PendingCategoryTransactions(
+  const pendingTransactions = selectVAPServicePendingCategoryTransactions(
     state,
     categoryType,
   );
@@ -64,5 +64,7 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Vet360PendingTransactionCategory);
-export { Vet360PendingTransactionCategory };
+)(VAPServicePendingTransactionCategory);
+export {
+  VAPServicePendingTransactionCategory as Vet360PendingTransactionCategory,
+};

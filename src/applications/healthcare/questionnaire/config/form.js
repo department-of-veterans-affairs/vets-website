@@ -32,7 +32,7 @@ const formConfig = {
     messages: {
       expired:
         'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
-      saved: 'Your appointment questionnaire application has been saved.',
+      saved: 'Your questionnaire has been saved.',
     },
   },
   version: 0,
@@ -53,12 +53,12 @@ const formConfig = {
     appType: 'questionnaire',
     appAction: 'answering questions',
     continueAppButtonText: 'Continue questions',
-    finishAppLaterMessage: 'Finish this questionnaire later',
-    appSavedSuccessfullyMessage: 'Questionnaire has been saved',
+    finishAppLaterMessage: 'Finish this questionnaire later.',
+    appSavedSuccessfullyMessage: 'Questionnaire has been saved.',
   },
   chapters: {
     chapter1: {
-      title: "Veteran's Information",
+      title: 'Veteran Information',
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {

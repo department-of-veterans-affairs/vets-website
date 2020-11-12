@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
@@ -27,12 +27,12 @@ export function ConfirmationPage({
   facilityDetails,
   clinic,
   flowType,
-  history,
   slot,
   systemId,
   startNewAppointmentFlow,
   fetchFacilityDetails,
 }) {
+  const history = useHistory();
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const pageTitle = isDirectSchedule
     ? 'Your appointment has been scheduled'

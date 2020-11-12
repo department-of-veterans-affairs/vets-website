@@ -9,10 +9,30 @@
 
 
 
-.healthcare-questionnaire-confirm{
+div.healthcare-questionnaire-confirm{
   margin-top: 3.5rem;
 
- .inset>h3 {
+.usa-alert-success{
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+ .inset>h2 {
    margin: 0;
+   font-size: 2rem;
+ }
+
+ .nav-buttons{
+   display: flex;
+ }
+
+ .next-steps{
+  margin-bottom: 3.5rem;
+  h2{
+    margin: 0;
+  }
+ }
+ a.appointment-details-link{
+   color:#0071BB !important;
  }
 }

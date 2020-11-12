@@ -88,6 +88,9 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
+    await waitFor(() => {
+      expect(screen.getByLabelText(/primary care/i).checked).to.be.true;
+    });
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
