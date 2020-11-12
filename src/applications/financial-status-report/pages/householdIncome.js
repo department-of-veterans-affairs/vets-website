@@ -1,3 +1,5 @@
+import ListLoop from '../components/ListLoop';
+
 export const uiSchema = {
   employmentHistory: {
     'ui:title': 'Your employment history',
@@ -30,6 +32,7 @@ export const uiSchema = {
         employerName: {
           'ui:title': 'Employer name',
         },
+        'ui:field': ListLoop,
       },
     },
   },
