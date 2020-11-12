@@ -25,7 +25,7 @@ export default function VeteranInfoReviewPage({ formData }) {
     },
     {
       label: 'Date of birth',
-      value: moment(veteran.dateOfBirth).format('MMMM DD, YYYY'),
+      value: moment(veteran.dateOfBirth).format('MM/DD/YYYY'),
     },
     {
       label: 'Gender',
@@ -33,8 +33,8 @@ export default function VeteranInfoReviewPage({ formData }) {
         ? genderLabels[veteran.gender]
         : 'UNKNOWN',
     },
-    ...addressToDisplay(veteran.addresses?.mailing),
-    ...addressToDisplay(veteran.addresses?.residential),
+    addressToDisplay('Mailing Address', veteran.addresses?.mailing),
+    addressToDisplay('Home Address', veteran.addresses?.residential),
     ...phonesToDisplay(veteran.phones),
   ];
   return (

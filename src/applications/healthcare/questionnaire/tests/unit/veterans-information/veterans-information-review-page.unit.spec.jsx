@@ -191,21 +191,11 @@ describe('healthcare-questionnaire - display vets information on review page', (
     };
     const component = mount(<VeteranInfoReviewPage formData={formData} />);
     expect(
-      component.find('dt[data-testid="Street Address 1-label"]').length,
+      component.find('dt[data-testid="Mailing Address-label"]').length,
     ).to.equal(1);
     expect(
-      component.find('dd[data-testid="Street Address 1-value"]').text(),
-    ).to.equal('123 Fake Street');
-    expect(component.find('dd[data-testid="City-value"]').text()).to.equal(
-      'DoesNotExistVille',
-    );
-    expect(component.find('dd[data-testid="State-value"]').text()).to.equal(
-      'Pennsylvania',
-    );
-    expect(component.find('dd[data-testid="Zip-value"]').text()).to.equal(
-      '12345',
-    );
-
+      component.find('dd[data-testid="Mailing Address-value"]').length,
+    ).to.equal(1);
     component.unmount();
   });
   it('shows residential address - full information', () => {
@@ -223,21 +213,11 @@ describe('healthcare-questionnaire - display vets information on review page', (
     };
     const component = mount(<VeteranInfoReviewPage formData={formData} />);
     expect(
-      component.find('dt[data-testid="Street Address 1-label"]').length,
+      component.find('dt[data-testid="Home Address-label"]').length,
     ).to.equal(1);
     expect(
-      component.find('dd[data-testid="Street Address 1-value"]').text(),
-    ).to.equal('123 Fake Street');
-    expect(component.find('dd[data-testid="City-value"]').text()).to.equal(
-      'DoesNotExistVille',
-    );
-    expect(component.find('dd[data-testid="State-value"]').text()).to.equal(
-      'Pennsylvania',
-    );
-    expect(component.find('dd[data-testid="Zip-value"]').text()).to.equal(
-      '12345',
-    );
-
+      component.find('dd[data-testid="Home Address-value"]').length,
+    ).to.equal(1);
     component.unmount();
   });
   it('shows addresses - all information', () => {
@@ -261,11 +241,17 @@ describe('healthcare-questionnaire - display vets information on review page', (
     };
     const component = mount(<VeteranInfoReviewPage formData={formData} />);
     expect(
-      component.find('dt[data-testid="Street Address 1-label"]').length,
-    ).to.equal(2);
-    expect(component.find('dt[data-testid="City-label"]').length).to.equal(2);
-    expect(component.find('dt[data-testid="State-label"]').length).to.equal(2);
-    expect(component.find('dt[data-testid="Zip-label"]').length).to.equal(2);
+      component.find('dt[data-testid="Home Address-label"]').length,
+    ).to.equal(1);
+    expect(
+      component.find('dd[data-testid="Home Address-value"]').length,
+    ).to.equal(1);
+    expect(
+      component.find('dt[data-testid="Mailing Address-label"]').length,
+    ).to.equal(1);
+    expect(
+      component.find('dd[data-testid="Mailing Address-value"]').length,
+    ).to.equal(1);
 
     component.unmount();
   });
@@ -280,7 +266,10 @@ describe('healthcare-questionnaire - display vets information on review page', (
     };
     const component = mount(<VeteranInfoReviewPage formData={formData} />);
     expect(
-      component.find('dt[data-testid="Address 1-label"]').exists(),
+      component.find('dt[data-testid="Home Address-label"]').exists(),
+    ).to.equal(false);
+    expect(
+      component.find('dt[data-testid="Mailing Address-label"]').exists(),
     ).to.equal(false);
 
     component.unmount();
