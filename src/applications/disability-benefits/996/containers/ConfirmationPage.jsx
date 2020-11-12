@@ -9,7 +9,8 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import { SELECTED } from '../constants';
+import { WIZARD_STATUS } from 'applications/static-pages/wizard';
+import { SELECTED, SAVED_CLAIM_TYPE } from '../constants';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -24,6 +25,10 @@ export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();
+
+    // reset the wizard
+    window.sessionStorage.removeItem(WIZARD_STATUS);
+    window.sessionStorage.removeItem(SAVED_CLAIM_TYPE);
   }
 
   render() {
