@@ -46,6 +46,7 @@ const StartPage = ({ setPageState, state = {} }) => {
 
   return (
     <ErrorableRadioButtons
+      additionalFieldsetClass="vads-u-margin-top--1"
       name="claimant-relationship"
       label="Which of these best describes you?"
       id="claimant-relationship"
