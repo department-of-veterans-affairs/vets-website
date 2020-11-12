@@ -28,6 +28,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
           calendarData: {
             currentlySelectedDate: null,
             selectedDates: [],
@@ -56,6 +57,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
           calendarData: {},
         },
         pages: [],
@@ -76,6 +78,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
           calendarData: {},
         },
         pages: [],
@@ -100,6 +103,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
           calendarData: {},
         },
         pages: [],

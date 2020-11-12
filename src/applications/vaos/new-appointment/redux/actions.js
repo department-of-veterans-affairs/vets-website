@@ -19,7 +19,6 @@ import {
   selectSystemIds,
   getEligibilityStatus,
   getTypeOfCareFacilities,
-  getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
   selectIsCernerOnlyPatient,
@@ -626,7 +625,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
-    const siteId = getSiteIdForChosenFacility(state, data.vaParent);
+    const siteId = getSiteIdFromFakeFHIRId(data.vaParent);
+
     let locations =
       previousNewAppointmentState.facilities[
         `${typeOfCareId}_${data.vaParent}`
