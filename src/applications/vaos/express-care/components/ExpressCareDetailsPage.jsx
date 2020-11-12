@@ -118,7 +118,7 @@ function ExpressCareDetailsPage({
   return (
     <div>
       <h1>{pageTitle}</h1>
-      {schema && (
+      {!!schema && (
         <SchemaForm
           name="Type of appointment"
           title="Type of appointment"
