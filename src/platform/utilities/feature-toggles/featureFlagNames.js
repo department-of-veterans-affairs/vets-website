@@ -60,4 +60,5 @@ export default Object.freeze({
   showChapter36: 'show_chapter_36',
   showChapter31: 'show_chapter_31',
   form1995EduUpdates: 'form_1995_edu_updates',
+  requestLockedPdfPassword: 'request_locked_pdf_password',
 });

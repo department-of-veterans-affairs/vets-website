@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Vet360TransactionInlineErrorMessage({
+export default function VAPServiceTransactionInlineErrorMessage({
   title: fieldTitle,
 }) {
   return (

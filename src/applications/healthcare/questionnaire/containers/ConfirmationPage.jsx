@@ -60,7 +60,10 @@ const ConfirmationPage = props => {
               <strong>Your information was sent to</strong>
               <br />
               <span data-testid="facility-name" aria-label="Facility Name">
-                {appointment?.vdsAppointments[0]?.clinic?.facility?.displayName}
+                {
+                  appointment?.attributes.vdsAppointments[0]?.clinic?.facility
+                    ?.displayName
+                }
               </span>
             </li>
           </ul>

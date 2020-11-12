@@ -1,4 +1,4 @@
-import vet360 from '@@vap-svc/reducers';
+import vapService from '@@vap-svc/reducers';
 
 import _ from 'lodash/fp';
 import {
@@ -157,5 +157,5 @@ function letters(state = initialState, action) {
 
 export default {
   letters,
-  vet360,
+  vapService,
 };

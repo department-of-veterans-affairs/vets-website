@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   selectPatientFacilities,
-  selectVet360ResidentialAddress,
+  selectVAPResidentialAddress,
   selectCernerAppointmentsFacilities,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
@@ -341,7 +341,7 @@ export function getFacilityPageV2Info(state) {
 
   return {
     ...formInfo,
-    address: selectVet360ResidentialAddress(state),
+    address: selectVAPResidentialAddress(state),
     canScheduleAtChosenFacility:
       eligibilityStatus.direct || eligibilityStatus.request,
     childFacilitiesStatus,
@@ -624,7 +624,7 @@ export function selectActiveExpressCareWindows(state, nowMoment) {
 /*
  * Gets the formatted hours string of the current window, chosen based on the
  * provided time.
- * 
+ *
  * Note: we're picking the first active window, there could be more than one
  */
 export function selectLocalExpressCareWindowString(state, nowMoment) {
@@ -642,7 +642,7 @@ export function selectLocalExpressCareWindowString(state, nowMoment) {
 /*
  * Gets the facility info for the current window, chosen based on the
  * provided time.
- * 
+ *
  * Note: we're picking the first active window, there could be more than one
  */
 export function selectActiveExpressCareFacility(state, nowMoment) {

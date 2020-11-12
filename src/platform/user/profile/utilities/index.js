@@ -23,7 +23,7 @@ import {
 const commonServices = {
   EMIS: 'EMIS',
   MVI: 'MVI',
-  Vet360: 'Vet360',
+  VA_PROFILE: 'Vet360',
 };
 
 function getErrorStatusDesc(code) {
@@ -118,7 +118,7 @@ export function mapRawUserDataToState(json) {
   // easier to leave the mocking code the way it is
   if (meta && userState.vapContactInfo === null) {
     const errorStatus = meta.errors.find(
-      error => error.externalService === commonServices.Vet360,
+      error => error.externalService === commonServices.VA_PROFILE,
     ).status;
     userState.vapContactInfo = { status: getErrorStatusDesc(errorStatus) };
   }
