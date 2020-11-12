@@ -538,7 +538,7 @@ $facility-locator-color-gray: #ccc;
   clear: both;
   pointer-events: auto;
   color: $color-white;
-  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  font-family: $font-sans;
 
   @media(max-width: $small-screen) {
     width: 235px;
