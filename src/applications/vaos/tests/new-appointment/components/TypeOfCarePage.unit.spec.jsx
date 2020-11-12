@@ -129,7 +129,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     expect(screen.getByText(/please choose a type of care/i)).to.exist;
   });
 
-  xit('should open facility type page when CC eligible and has a support parent site', async () => {
+  it('should open facility type page when CC eligible and has a support parent site', async () => {
     const parentSite983 = {
       id: '983',
       attributes: {
