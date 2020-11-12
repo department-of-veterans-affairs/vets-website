@@ -106,6 +106,10 @@ export const uiSchema = {
               ?.reasonMarriageEnded === 'Other',
         },
       },
+      childIncome: {
+        'ui:title': 'Did this child have income in the last 365 days?',
+        'ui:widget': 'yesNo',
+      },
     },
   },
 };

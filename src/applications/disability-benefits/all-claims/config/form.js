@@ -32,7 +32,6 @@ import {
   servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
-  hasNewDisabilities,
   increaseOnly,
   isDisabilityPtsd,
   directToCorrectForm,
@@ -40,6 +39,7 @@ import {
   isBDD,
   showSeparationLocation,
   getPageTitle,
+  claimingNew,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -73,7 +73,6 @@ import {
   individualUnemployability,
   mentalHealthChanges,
   militaryHistory,
-  newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   paymentInformation,
@@ -218,8 +217,7 @@ const formConfig = {
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
-          depends: formData =>
-            hasRatedDisabilities(formData) && !isBDD(formData),
+          depends: formData => hasRatedDisabilities(formData),
           uiSchema: claimType.uiSchema,
           schema: claimType.schema,
           onContinue: captureEvents.claimType,
@@ -274,8 +272,7 @@ const formConfig = {
           title: '',
           path: DISABILITY_SHARED_CONFIG.orientation.path,
           depends: formData =>
-            DISABILITY_SHARED_CONFIG.orientation.depends(formData) &&
-            !isBDD(formData),
+            DISABILITY_SHARED_CONFIG.orientation.depends(formData),
           uiSchema: { 'ui:description': disabilitiesOrientation },
           schema: { type: 'object', properties: {} },
         },
@@ -283,17 +280,9 @@ const formConfig = {
           title: 'Existing conditions (rated disabilities)',
           path: DISABILITY_SHARED_CONFIG.ratedDisabilities.path,
           depends: formData =>
-            DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData) &&
-            !isBDD(formData),
+            DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
-        },
-        newDisabilities: {
-          title: 'New disabilities',
-          path: 'new-disabilities',
-          depends: formData => !increaseOnly(formData),
-          uiSchema: newDisabilities.uiSchema,
-          schema: newDisabilities.schema,
         },
         addDisabilities: {
           title: 'Add a new disability',
@@ -305,7 +294,7 @@ const formConfig = {
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: formData => hasNewDisabilities(formData) && !isBDD(formData),
+          depends: formData => claimingNew(formData) && !isBDD(formData),
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -318,7 +307,7 @@ const formConfig = {
             typeof formData.condition === 'string'
               ? capitalizeEachWord(formData.condition)
               : NULL_CONDITION_STRING,
-          depends: hasNewDisabilities,
+          depends: claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item => !isDisabilityPtsd(item.condition),
@@ -596,7 +585,7 @@ const formConfig = {
         vaMedicalRecords: {
           title: 'VA medical records',
           path: 'supporting-evidence/va-medical-records',
-          depends: formData => hasVAEvidence(formData) && !isBDD(formData),
+          depends: formData => hasVAEvidence(formData),
           uiSchema: vaMedicalRecords.uiSchema,
           schema: vaMedicalRecords.schema,
         },

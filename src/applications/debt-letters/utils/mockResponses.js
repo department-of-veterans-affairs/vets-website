@@ -1,8 +1,8 @@
 const data = {
-  hasDependentDebt: true,
+  hasDependentDebts: true,
   debts: [
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJHONS',
       deductionCode: '30',
@@ -33,13 +33,14 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'STUB_M',
       deductionCode: '44',
       benefitType: 'CH35 EDU',
-      diaryCode: '680',
-      diaryCodeDescription: 'Your payment is due.',
+      diaryCode: '081',
+      diaryCodeDescription:
+        "We're referring this debt to the U.S. Department of the Treasury today.",
       amountOverpaid: 26000,
       amountWithheld: 0,
       originalAr: 100,
@@ -80,7 +81,7 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJOHNS',
       deductionCode: '71',
@@ -100,7 +101,7 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJOHNS',
       deductionCode: '74',
@@ -135,7 +136,7 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJHONS',
       deductionCode: '72',
