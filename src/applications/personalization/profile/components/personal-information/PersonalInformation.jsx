@@ -69,7 +69,7 @@ const PersonalInformation = ({
       </h2>
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
-        dependencies={[externalServices.mvi, externalServices.vet360]}
+        dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
         {showDirectDepositBlockedError && <PaymentInformationBlocked />}
         <PersonalInformationContent />
@@ -85,7 +85,7 @@ PersonalInformation.propTypes = {
 
 const mapStateToProps = state => ({
   showDirectDepositBlockedError: !!directDepositIsBlocked(state),
-  hasUnsavedEdits: state.vet360.hasUnsavedEdits,
+  hasUnsavedEdits: state.vapService.hasUnsavedEdits,
 });
 
 export default connect(

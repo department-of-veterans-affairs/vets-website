@@ -57,7 +57,7 @@ export function fetchTransactions() {
       } else {
         response = { data: [] };
         // Uncomment the line below to simulate transactions being processed during initialization
-        // response = localVet360.getUserTransactions();
+        // response = localVAProfileService.getUserTransactions();
       }
       dispatch({
         type: VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS,
@@ -92,7 +92,7 @@ export function refreshTransaction(
     try {
       const { transactionId } = transaction.data.attributes;
       const state = getState();
-      const isAlreadyAwaitingUpdate = state.vet360.transactionsAwaitingUpdate.includes(
+      const isAlreadyAwaitingUpdate = state.vapService.transactionsAwaitingUpdate.includes(
         transactionId,
       );
 

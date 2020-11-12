@@ -125,7 +125,7 @@ export function mapStateToProps(state, ownProps) {
   const hideCheckbox =
     !isTextable || !isVAPatient(state) || hasError || isPending;
   const transactionSuccess =
-    state.vet360.transactionStatus ===
+    state.vapService.transactionStatus ===
     VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_SUCCESS;
   return {
     profile: profileState,

@@ -32,8 +32,8 @@ import {
   selectVAPServiceTransaction,
 } from '@@vap-svc/selectors';
 
+import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
 import ContactInformationEditButton from './ContactInformationEditButton';
-import Vet360Transaction from '@@vap-svc/components/base/Vet360Transaction';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -282,7 +282,7 @@ class ContactInformationField extends React.Component {
 
     const wrapInTransaction = children => {
       return (
-        <Vet360Transaction
+        <VAPServiceTransaction
           isModalOpen={showEditView || showValidationView}
           id={`${fieldName}-transaction-status`}
           title={title}
@@ -291,7 +291,7 @@ class ContactInformationField extends React.Component {
           refreshTransaction={this.refreshTransaction}
         >
           {children}
-        </Vet360Transaction>
+        </VAPServiceTransaction>
       );
     };
 
@@ -420,7 +420,7 @@ export const mapStateToProps = (state, ownProps) => {
     activeEditView === 'addressValidation';
 
   return {
-    hasUnsavedEdits: state.vet360.hasUnsavedEdits,
+    hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
     blockEditMode: !!activeEditView,
     /*

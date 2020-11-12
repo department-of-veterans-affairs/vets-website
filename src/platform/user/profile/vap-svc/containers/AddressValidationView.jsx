@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { formatAddress } from 'platform/forms/address/helpers';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
+import { formatAddress } from '~/platform/forms/address/helpers';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import recordEvent from '~/platform/monitoring/record-event';
+import { focusElement } from '~/platform/utilities/ui';
 
 import {
   isFailedTransaction,
@@ -13,7 +13,7 @@ import {
 } from '@@vap-svc/util/transactions';
 import { selectAddressValidation } from '@@vap-svc/selectors';
 
-import Vet360EditModalErrorMessage from '@@vap-svc/components/base/Vet360EditModalErrorMessage';
+import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 
 import * as VAP_SERVICE from '../constants';
 import {
@@ -244,7 +244,7 @@ class AddressValidationView extends React.Component {
       <>
         {error && (
           <div className="vads-u-margin-bottom--1">
-            <Vet360EditModalErrorMessage
+            <VAPServiceEditModalErrorMessage
               title={title}
               error={error}
               clearErrors={clearErrors}
@@ -305,7 +305,7 @@ const mapStateToProps = (state, ownProps) => {
     analyticsSectionName:
       VAP_SERVICE.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
-      state.vet360.fieldTransactionMap[addressValidationType]?.isPending ||
+      state.vapService.fieldTransactionMap[addressValidationType]?.isPending ||
       isPendingTransaction(transaction),
     addressFromUser,
     addressValidationError,

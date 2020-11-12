@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 
 import * as VAP_SERVICE from '../constants';
 
@@ -25,10 +25,10 @@ import {
   selectEditedFormField,
 } from '../selectors';
 
-import Vet360ProfileFieldHeading from '../components/base/Vet360ProfileFieldHeading';
-import Vet360Transaction from '../components/base/Vet360Transaction';
+import VAPServiceProfileFieldHeading from '../components/base/VAPServiceProfileFieldHeading';
+import VAPServiceTransaction from '../components/base/VAPServiceTransaction';
 
-class Vet360ProfileField extends React.Component {
+class VAPServiceProfileField extends React.Component {
   static propTypes = {
     Content: PropTypes.func.isRequired,
     data: PropTypes.object,
@@ -222,12 +222,12 @@ class Vet360ProfileField extends React.Component {
 
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
-        <Vet360ProfileFieldHeading
+        <VAPServiceProfileFieldHeading
           onEditClick={this.isEditLinkVisible() ? this.onEdit : null}
           fieldName={fieldName}
         >
           {title}
-        </Vet360ProfileFieldHeading>
+        </VAPServiceProfileFieldHeading>
         {isEditing && <EditModal {...childProps} />}
         {showValidationModal && (
           <ValidationModal
@@ -237,7 +237,7 @@ class Vet360ProfileField extends React.Component {
             clearErrors={this.clearErrors}
           />
         )}
-        <Vet360Transaction
+        <VAPServiceTransaction
           isModalOpen={isEditing || showValidationModal}
           id={`${fieldName}-transaction-status`}
           title={title}
@@ -258,7 +258,7 @@ class Vet360ProfileField extends React.Component {
           ) : (
             <Content {...childProps} />
           )}
-        </Vet360Transaction>
+        </VAPServiceTransaction>
       </div>
     );
   }
@@ -273,7 +273,7 @@ export const mapStateToProps = (state, ownProps) => {
   const data = selectVAPContactInfoField(state, fieldName);
   const isEmpty = !data;
   const addressValidationType =
-    state.vet360.addressValidation.addressValidationType;
+    state.vapService.addressValidation.addressValidationType;
   const showValidationModal =
     ownProps.ValidationModal &&
     addressValidationType === fieldName &&
@@ -302,7 +302,7 @@ const mapDispatchToProps = {
 };
 
 /**
- * Container used to easily create components for Vet360 contact information.
+ * Container used to easily create components for VA Profile Service-backed contact information.
  * @property {string} fieldName The name of the property as it appears in the user.profile.vapContactInfo object.
  * @property {func} Content The component used to render the read-display of the field.
  * @property {func} EditModal The component used to render the contents of the field's edit-modal.
@@ -311,12 +311,12 @@ const mapDispatchToProps = {
  * @property {func} convertNextValueToCleanData A function called to derive or make changes to form values after form values are changed in the edit-modal. Called prior to validation.
  * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in Vet360.
  */
-const Vet360ProfileFieldContainer = connect(
+const VAPServiceProfileFieldContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Vet360ProfileField);
+)(VAPServiceProfileField);
 
-Vet360ProfileFieldContainer.propTypes = {
+VAPServiceProfileFieldContainer.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   Content: PropTypes.func.isRequired,
   EditModal: PropTypes.func.isRequired,
@@ -326,5 +326,5 @@ Vet360ProfileFieldContainer.propTypes = {
   convertCleanDataToPayload: PropTypes.func,
 };
 
-export default Vet360ProfileFieldContainer;
-export { Vet360ProfileField };
+export default VAPServiceProfileFieldContainer;
+export { VAPServiceProfileField };

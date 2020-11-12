@@ -106,7 +106,7 @@ class AddressEditView extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  modalData: state.vet360?.modalData,
+  modalData: state.vapService?.modalData,
 });
 
 export default connect(mapStateToProps)(AddressEditView);
