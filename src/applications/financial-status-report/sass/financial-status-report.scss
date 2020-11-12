@@ -22,6 +22,23 @@
   width: 575px;
   background-color: #f1f1f1;
   padding: 10px 30px 20px;
+  .list-loop-item-list {
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    .list-loop-item-label {
+      margin: 15px 0;
+    }
+    .list-loop-item-1 {
+      width: 275px;
+    }
+    .list-loop-item-2 {
+      width: 150px;
+    }
+    .list-loop-edit {
+      width: 40px;
+    }
+  }
   .title-section {
     /* border: 1px solid blue; */
     .title {

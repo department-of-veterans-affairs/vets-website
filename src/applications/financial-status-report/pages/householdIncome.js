@@ -21,11 +21,11 @@ export const uiSchema = {
         'ui:options': {
           expandUnder: 'view:currentlyEmployed',
         },
-        employmentType: {
-          'ui:title': 'Type of employment',
+        incomeType: {
+          'ui:title': 'Type of income',
         },
         monthlyAmount: {
-          'ui:title': 'Monthly amout',
+          'ui:title': 'Monthly amount',
         },
         employmentStart: {
           'ui:title': 'Employment start date',
@@ -59,9 +59,9 @@ export const schema = {
             'view:isCurrentlyEmployed': {
               type: 'object',
               properties: {
-                employmentType: {
+                incomeType: {
                   type: 'string',
-                  enum: ['Full-time', 'Part-time', 'Seasonal'],
+                  enum: ['Alimony', 'Part-time', 'Seasonal'],
                 },
                 monthlyAmount: {
                   type: 'string',

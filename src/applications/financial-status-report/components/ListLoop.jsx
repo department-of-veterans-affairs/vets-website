@@ -11,8 +11,8 @@ const AdditionalIncome = ({ rest }) => {
       <div className="input-custom input-1">
         <SchemaField
           required={false}
-          schema={rest.schema.properties.employmentType}
-          uiSchema={rest.uiSchema.employmentType}
+          schema={rest.schema.properties.incomeType}
+          uiSchema={rest.uiSchema.incomeType}
           formData={type}
           onChange={setType}
           onBlur={() => {}}
@@ -68,14 +68,40 @@ const InputRow = ({ item, rest }) => {
         <a className="remove-link">Remove</a>
       </div>
       <div>
-        <button className="btn-save">SAVE</button>
+        <button className="btn-save">Save</button>
       </div>
     </li>
   );
 };
 
+const ItemList = ({ item }) => {
+  return (
+    <div className="list-loop-item-list">
+      <div className="list-loop-item-1">
+        <div className="list-loop-item-label">Type of income</div>
+        <strong>{item.type}</strong>
+      </div>
+      <div className="list-loop-item-2">
+        <div className="list-loop-item-label">Monthly amount</div>
+        <strong>${item.amount}</strong>
+      </div>
+      <div className="list-loop-edit">
+        <a>Edit</a>
+      </div>
+    </div>
+  );
+};
+
 const ListLoop = ({ title, subTitle, items, ...rest }) => {
   // console.log('ListLoop rest: ', rest);
+
+  const savedItems = [
+    {
+      id: 1,
+      type: 'Alimony',
+      amount: 100,
+    },
+  ];
 
   return (
     <div className="list-loop-container">
@@ -83,6 +109,7 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
         <h3 className="title">{title}</h3>
         <p className="sub-title">{subTitle}</p>
       </div>
+      {savedItems?.map(item => <ItemList key={item.id} item={item} />)}
       <div className="list-input-section">
         <ul className="input-section-container">
           {items?.map(item => (
