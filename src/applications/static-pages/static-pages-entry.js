@@ -29,6 +29,7 @@ import createHigherLevelReviewApplicationStatus from 'applications/disability-be
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
+import initScrollToTopButton from './scroll-top-button';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
@@ -46,14 +47,16 @@ import './sass/static-pages.scss';
 // Social share links behavior
 import './social-share-links';
 
+// Resources and support widgets
+import createResourcesAndSupportSearchWidget from './resources-and-support-search';
+
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
-
-import createChapter31Wizard from '../vre/28-1900/wizard/app';
 import createChapter36CTA from './vre-chapter36/createChapter36CTA';
+import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 
 // School resources widgets
@@ -62,6 +65,10 @@ import {
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
 import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
+
+import createThirdPartyApps, {
+  thirdPartyAppsReducer,
+} from '../third-party-app-directory/createThirdPartyApps';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -73,6 +80,7 @@ const store = createCommonStore({
   ...facilityReducer,
   ...findVaFormsWidgetReducer,
   ...post911GIBillStatusReducer,
+  ...thirdPartyAppsReducer,
 });
 
 Sentry.withScope(scope => {
@@ -127,6 +135,11 @@ createDisabilityRatingCalculator(
   widgetTypes.DISABILITY_RATING_CALCULATOR,
 );
 
+createResourcesAndSupportSearchWidget(
+  store,
+  widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
+);
+
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -134,6 +147,9 @@ createBasicFacilityListWidget();
 
 createScoEventsWidget();
 createScoAnnouncementsWidget();
+
+// App Directory third party applications widget
+createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
 
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsInvalidPdfAlert(
@@ -168,13 +184,16 @@ createViewTestAndLabResultsPage(
   widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
 );
 
-createChapter31Wizard(store, widgetTypes.CHAPTER_31_WIZARD);
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
+createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 
 // homepage widgets
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
+
+// Up to top button for Article Pages
+initScrollToTopButton();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

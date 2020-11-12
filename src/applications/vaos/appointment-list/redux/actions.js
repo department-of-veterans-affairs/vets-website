@@ -1,13 +1,13 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
-import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
   EXPRESS_CARE,
 } from '../../utils/constants';
-import { resetDataLayer } from '../../utils/events';
+import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
 import { selectSystemIds, vaosExpressCare } from '../../utils/selectors';
 
 import {
@@ -177,49 +177,17 @@ export function fetchFutureAppointments() {
               data: requests,
             });
 
-            const requestSuccessEvent = {
+            recordEvent({
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
-            };
+            });
 
-            const expressCareRequests = requests.filter(
-              appt => appt.vaos.isExpressCare,
-            );
-
-            if (vaosExpressCare(getState()) && expressCareRequests.length) {
-              requestSuccessEvent[`${GA_PREFIX}-express-care-number-of-cards`] =
-                expressCareRequests.length;
+            if (vaosExpressCare(getState())) {
+              recordItemsRetrieved(
+                'express_care',
+                requests.filter(appt => appt.vaos.isExpressCare).length,
+              );
             }
 
-            const videoHome = requests.filter(appt => isVideoHome(appt));
-            requestSuccessEvent[`${GA_PREFIX}-video-home-number-of-cards`] =
-              videoHome.length;
-
-            const atlasLocation = requests.filter(appt =>
-              isAtlasLocation(appt),
-            );
-            requestSuccessEvent[`${GA_PREFIX}-video-atlas-number-of-cards`] =
-              atlasLocation.length;
-
-            const videoVAFacility = requests.filter(appt =>
-              isVideoVAFacility(appt),
-            );
-            requestSuccessEvent[
-              `${GA_PREFIX}-video-va-facility-number-of-cards`
-            ] = videoVAFacility.length;
-
-            const videoGFE = requests.filter(appt => isVideoGFE(appt));
-            requestSuccessEvent[`${GA_PREFIX}-video-gfe-number-of-cards`] =
-              videoGFE.length;
-
-            const videoStoreForward = requests.filter(appt =>
-              isVideoStoreForward(appt),
-            );
-            requestSuccessEvent[
-              `${GA_PREFIX}-video-store-forward-number-of-cards`
-            ] = videoStoreForward.length;
-
-            recordEvent(requestSuccessEvent);
-            resetDataLayer();
             return requests;
           })
           .catch(resp => {
@@ -236,9 +204,32 @@ export function fetchFutureAppointments() {
 
       recordEvent({
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
-        [`${GA_PREFIX}-upcoming-number-of-cards`]: data[0]?.length,
       });
-      resetDataLayer();
+      recordItemsRetrieved('upcoming', data[0]?.length);
+      recordItemsRetrieved(
+        'video_home',
+        data[0]?.filter(appt => isVideoHome(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_atlas',
+        data[0]?.filter(appt => isAtlasLocation(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_va_facility',
+        data[0]?.filter(appt => isVideoVAFacility(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_gfe',
+        data[0]?.filter(appt => isVideoGFE(appt)).length,
+      );
+
+      recordItemsRetrieved(
+        'video_store_forward',
+        data[0]?.filter(appt => isVideoStoreForward(appt)).length,
+      );
 
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
@@ -470,7 +461,7 @@ export function fetchExpressCareWindows() {
 
     const initialState = getState();
     const userSiteIds = selectSystemIds(initialState);
-    const address = selectVet360ResidentialAddress(initialState);
+    const address = selectVAPResidentialAddress(initialState);
 
     try {
       const settings = await getRequestEligibilityCriteria(userSiteIds);

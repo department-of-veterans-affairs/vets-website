@@ -53,10 +53,8 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
-    if (
-      this.props.searchOnAutcompleteSelection &&
-      this.props.gibctSearchEnhancements
-    ) {
+
+    if (this.props.searchOnAutcompleteSelection) {
       this.props.onUpdateAutocompleteSearchTerm(searchQuery);
     } else {
       this.props.onFilterChange('name', searchQuery);
@@ -116,6 +114,7 @@ export class KeywordSearch extends React.Component {
           }) => (
             <div>
               <input
+                className="input-box-margin"
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleChange,

@@ -12,6 +12,7 @@ import {
   getDirectBookingEligibilityCriteriaMock,
   getVAFacilityMock,
 } from '../mocks/v0';
+import sinon from 'sinon';
 
 export function mockAppointmentInfo({
   va = [],
@@ -382,6 +383,22 @@ export function mockRequestSubmit(type, data) {
   );
 }
 
+export function mockMessagesFetch(id, data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
+    ),
+    { data },
+  );
+}
+
+export function mockAppointmentSubmit(data) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
+    { data },
+  );
+}
+
 export function mockRequestEligibilityCriteria(parentSites, data) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -593,4 +610,26 @@ export function mockCommunityCareEligibility({
       },
     },
   );
+}
+
+export function mockGetCurrentPosition({
+  latitude = 53.2734, // San Diego, CA
+  longitude = -7.77832031,
+  fail = false,
+} = {}) {
+  global.navigator.geolocation = {
+    getCurrentPosition: sinon.stub().callsFake(
+      (successCallback, failureCallback) =>
+        fail
+          ? Promise.resolve(
+              failureCallback({
+                code: 1,
+                message: 'User denied Geolocation',
+              }),
+            )
+          : Promise.resolve(
+              successCallback({ coords: { latitude, longitude } }),
+            ),
+    ),
+  };
 }

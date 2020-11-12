@@ -478,6 +478,8 @@ export function getFileError(file) {
     return file.errorMessage;
   } else if (file.uploading) {
     return 'Uploading file...';
+  } else if (file.isEncrypted && !file.password) {
+    return null; // still awaiting password entry
   } else if (!file.confirmationCode) {
     return 'Something went wrong...';
   }

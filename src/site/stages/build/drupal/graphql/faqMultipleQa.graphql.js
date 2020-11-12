@@ -1,10 +1,5 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const WYSIWYG = '... wysiwyg';
-const BUTTON = '... button';
-const ALERT_SINGLE = '... alertSingle';
-const REACT_WIDGET = '... reactWidget';
-
 // faq_multiple_q_a, 6898
 module.exports = `
 fragment faqMultipleQA on NodeFaqMultipleQA {
@@ -20,6 +15,7 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
     entity {
       ... on ParagraphQAGroup {
         fieldSectionHeader
+        fieldAccordionDisplay
         fieldQAs {
           entity {
             ... on NodeQA {
@@ -30,8 +26,8 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
                 entity {
                   entityType
                   entityBundle
-                  ${WYSIWYG}
-                  ${REACT_WIDGET}
+                  ... richTextCharLimit1000
+                  ... reactWidget
                 }
               }
             }
@@ -42,18 +38,55 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
   }
   fieldAlertSingle {
     entity {
-      ${ALERT_SINGLE}
+      ... alertSingle
     }
   }
   fieldButtonsRepeat
   fieldButtons {
     entity {
-      ${BUTTON}
+      ... button
+    }
+  }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldHomePageHubLabel
+        fieldTeaserText
+        path {
+          alias
+        }
+        fieldSupportServices {
+          entity {
+            ... supportService
+          }
+        }
+      }
     }
   }
   fieldRelatedInformation {
     entity {
       ... linkTeaser
+    }
+  }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
     }
   }
 }

@@ -11,6 +11,14 @@ import chaiDOM from 'chai-dom';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
+import * as Sentry from '@sentry/browser';
+
+import { sentryTransport } from './sentry';
+
+Sentry.init({
+  dsn: 'http://one@fake/dsn',
+  transport: sentryTransport,
+});
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;

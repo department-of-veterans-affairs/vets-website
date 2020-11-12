@@ -6,6 +6,7 @@ import {
   transformDSFacilities,
   transformFacility,
   transformFacilities,
+  transformATLASLocation,
 } from '../../../services/location/transformers';
 
 const facilitiesParsed = facilities983.data.map(f => ({
@@ -41,7 +42,7 @@ describe('VAOS Location transformer', () => {
   describe('transformFacility', () => {
     it('should map id', () => {
       const data = transformFacility(facilityDetailsParsed[0]);
-      expect(data.identifier[0].value).to.equal('urn:va:division:442:442');
+      expect(data.identifier[0].value).to.equal('urn:va:division:983:983');
     });
 
     it('should map name', () => {
@@ -148,7 +149,54 @@ describe('VAOS Location transformer', () => {
     it('should map to list', () => {
       const data = transformFacilities(facilityDetailsParsed);
       expect(data.length).to.equal(facilityDetailsParsed.length);
-      expect(data[0].identifier[0].value).to.equal('urn:va:division:442:442');
+      expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
+    });
+  });
+
+  describe('transformATLASLocation', () => {
+    it('should transform ATLAS Location', () => {
+      const tasInfo = {
+        confirmationCode: '7VBBCA',
+        address: {
+          streetAddress: '114 Dewey Ave',
+          city: 'Eureka',
+          state: 'MT',
+          zipCode: '59917',
+          country: 'USA',
+          longitude: -115.1,
+          latitude: 48.8,
+          additionalDetails: '',
+        },
+        siteCode: 9931,
+      };
+
+      const {
+        streetAddress,
+        city,
+        state,
+        zipCode: postalCode,
+        latitude,
+        longitude,
+      } = tasInfo.address;
+
+      const location = {
+        resourceType: 'Location',
+        id: `var${tasInfo.siteCode}`,
+        address: {
+          line: [streetAddress],
+          city,
+          state,
+          postalCode,
+        },
+        position: {
+          longitude,
+          latitude,
+        },
+      };
+
+      const result = transformATLASLocation(tasInfo);
+
+      expect(result).to.eql(location);
     });
   });
 });

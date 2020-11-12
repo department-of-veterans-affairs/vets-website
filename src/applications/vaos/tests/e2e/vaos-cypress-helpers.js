@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import moment from '../../utils/moment-tz';
+import moment from '../../lib/moment-tz';
 
 import confirmedVA from '../../services/mocks/var/confirmed_va.json';
 import confirmedCC from '../../services/mocks/var/confirmed_cc.json';
@@ -7,6 +7,7 @@ import requests from '../../services/mocks/var/requests.json';
 import cancelReasons from '../../services/mocks/var/cancel_reasons.json';
 import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
 import facilities from '../../services/mocks/var/facilities.json';
+import facilityData from '../../services/mocks/var/facility_data.json';
 import facilities983 from '../../services/mocks/var/facilities_983.json';
 import clinicList983 from '../../services/mocks/var/clinicList983.json';
 import slots from '../../services/mocks/var/slots.json';
@@ -133,13 +134,13 @@ function mockFeatureToggles() {
   });
 }
 
-function mockRequestLimits() {
+function mockRequestLimits(id = '983') {
   cy.route({
     method: 'GET',
-    url: '/vaos/v0/facilities/983/limits*',
+    url: `/vaos/v0/facilities/${id}/limits*`,
     response: {
       data: {
-        id: '983',
+        id,
         attributes: {
           requestLimit: 1,
           numberOfRequests: 0,
@@ -200,7 +201,17 @@ function mockSubmitVAAppointment() {
     method: 'POST',
     url: '/vaos/v0/appointments',
     response: { data: {} },
+  }).as('appointmentSubmission');
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/preferences',
+    response: { data: {} },
   });
+  cy.route({
+    method: 'PUT',
+    url: '/vaos/v0/preferences',
+    response: { data: {} },
+  }).as('appointmentPreferences');
 }
 
 function setupSchedulingMocks() {
@@ -211,7 +222,6 @@ function setupSchedulingMocks() {
   mockCCPrimaryCareEligibility();
   mockFacilities();
   mockDirectSchedulingFacilities();
-  mockPrimaryCareClinics();
 }
 
 function updateTimeslots(data) {
@@ -238,10 +248,10 @@ function updateTimeslots(data) {
   return data;
 }
 
-function mockVisits() {
+function mockVisits(id = '983') {
   cy.route({
     method: 'GET',
-    url: '/vaos/v0/facilities/983/visits/*',
+    url: `/vaos/v0/facilities/${id}/visits/*`,
     response: {
       data: {
         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
@@ -264,11 +274,37 @@ function mockDirectScheduleSlots() {
 }
 
 export function initAppointmentListMock() {
-  cy.server();
-  cy.login();
-  mockFeatureToggles();
-  mockSupportedSites();
+  setupSchedulingMocks();
 
+  const today = moment();
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/request_eligibility_criteria*',
+    response: {
+      data: [
+        getExpressCareRequestCriteriaMock('983', [
+          {
+            day: today
+              .clone()
+              .tz('America/Denver')
+              .format('dddd')
+              .toUpperCase(),
+            canSchedule: true,
+            startTime: today
+              .clone()
+              .subtract('2', 'minutes')
+              .tz('America/Denver')
+              .format('HH:mm'),
+            endTime: today
+              .clone()
+              .add('2', 'minutes')
+              .tz('America/Denver')
+              .format('HH:mm'),
+          },
+        ]),
+      ],
+    },
+  }).as('getRequestEligibilityCriteria');
   cy.route({
     method: 'GET',
     url: '/vaos/v0/appointment_requests*',
@@ -325,38 +361,7 @@ export function initAppointmentListMock() {
 }
 
 export function initExpressCareMocks() {
-  const today = moment();
   initAppointmentListMock();
-
-  cy.route({
-    method: 'GET',
-    url: '/vaos/v0/request_eligibility_criteria*',
-    response: {
-      data: [
-        getExpressCareRequestCriteriaMock('983', [
-          {
-            day: today
-              .clone()
-              .tz('America/Denver')
-              .format('dddd')
-              .toUpperCase(),
-            canSchedule: true,
-            startTime: today
-              .clone()
-              .subtract('2', 'minutes')
-              .tz('America/Denver')
-              .format('HH:mm'),
-            endTime: today
-              .clone()
-              .add('2', 'minutes')
-              .tz('America/Denver')
-              .format('HH:mm'),
-          },
-        ]),
-      ],
-    },
-  }).as('getRequestEligibilityCriteria');
-
   mockRequestLimits();
 
   cy.route({
@@ -399,10 +404,52 @@ export function initExpressCareMocks() {
 
 export function initVAAppointmentMock() {
   setupSchedulingMocks();
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va/vha_442',
+    response: { data: facilityData.data[0] },
+  });
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va?ids=*',
+    response: facilityData,
+  });
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/community_care/eligibility/Optometry',
+    response: { data: { eligible: false } },
+  });
+  mockPrimaryCareClinics();
   mockRequestLimits();
   mockVisits();
   mockDirectScheduleSlots();
   mockSubmitVAAppointment();
+}
+
+export function initVARequestMock() {
+  setupSchedulingMocks();
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/clinics*',
+    response: { data: [] },
+  });
+  mockRequestLimits('983GB');
+  mockVisits('983GB');
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests?type=*',
+    response: {
+      data: {
+        id: 'testing',
+        attributes: {},
+      },
+    },
+  }).as('appointmentRequests');
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests/testing/messages',
+    response: [],
+  }).as('requestMessages');
 }
 
 export function initCommunityCareMock() {
@@ -423,11 +470,11 @@ export function initCommunityCareMock() {
         attributes: {},
       },
     },
-  });
+  }).as('appointmentRequests');
 
   cy.route({
     method: 'POST',
     url: '/vaos/v0/appointment_requests/testing/messages',
     response: [],
-  });
+  }).as('requestMessages');
 }

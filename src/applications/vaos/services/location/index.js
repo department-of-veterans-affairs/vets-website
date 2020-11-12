@@ -112,34 +112,47 @@ export async function getLocation({ facilityId }) {
 export async function getLocationsByTypeOfCareAndSiteIds({
   typeOfCareId,
   siteIds,
+  directSchedulingEnabled,
 }) {
   try {
     let locations = [];
 
-    const criteria = await Promise.all([
-      getDirectBookingEligibilityCriteria(siteIds),
-      getRequestEligibilityCriteria(siteIds),
-    ]);
+    const promises = [getRequestEligibilityCriteria(siteIds)];
 
-    // Fetch facilities that support direct scheduling and filter
-    // only those that support the selected type of care
-    const directFacilityIds =
-      criteria[0]
-        ?.filter(facility =>
-          facility?.coreSettings?.some(setting => setting.id === typeOfCareId),
-        )
-        ?.map(facility => facility.id) || [];
+    if (directSchedulingEnabled) {
+      promises.push(getDirectBookingEligibilityCriteria(siteIds));
+    }
+
+    const criteria = await Promise.all(promises);
+
+    // If patientHistoryRequired is blank or null, the scheduling method is
+    // disabled for that type of care.  If "No", it is enabled, but doesn't require
+    // a previous appointment.  If "Yes", it is enabled and requires a previous appt
 
     // Fetch facilities that support requests and filter
     // only those that support the selected type of care
     const requestFacilityIds =
-      criteria[1]
+      criteria[0]
         ?.filter(facility =>
           facility?.requestSettings?.some(
-            setting => setting.id === typeOfCareId,
+            setting =>
+              setting.id === typeOfCareId && !!setting.patientHistoryRequired,
           ),
         )
         ?.map(facility => facility.id) || [];
+
+    // Fetch facilities that support direct scheduling and filter
+    // only those that support the selected type of care
+    const directFacilityIds = directSchedulingEnabled
+      ? criteria[1]
+          ?.filter(facility =>
+            facility?.coreSettings?.some(
+              setting =>
+                setting.id === typeOfCareId && !!setting.patientHistoryRequired,
+            ),
+          )
+          ?.map(facility => facility.id) || []
+      : [];
 
     const uniqueIds = Array.from(
       new Set([...directFacilityIds, ...requestFacilityIds]),
@@ -221,4 +234,15 @@ export function getTestFacilityId(facilityId) {
   }
 
   return facilityId;
+}
+
+/**
+ * Returns formatted address from facility details object
+ *
+ * @param {*} facility - facility details object
+ */
+export function formatFacilityAddress(facility) {
+  return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
+    facility.address?.state
+  } ${facility.address?.postalCode}`;
 }

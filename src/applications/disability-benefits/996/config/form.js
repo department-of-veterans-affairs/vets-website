@@ -24,7 +24,10 @@ import informalConference from '../pages/informalConference';
 import { errorMessages } from '../constants';
 // import initialData from '../tests/schema/initialData';
 
+import manifest from '../manifest.json';
+
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/higher_level_reviews`,
   submit: submitForm,
@@ -32,7 +35,7 @@ const formConfig = {
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      services.vet360,
+      services.vaProfile,
       services.bgs,
       services.mvi,
       services.appeals,
@@ -40,6 +43,15 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_20_0996,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your Higher-Level Review application (20-0996) is in progress.',
+      expired:
+        'Your saved Higher-Level Review application (20-0996) has expired. If you want to apply for Higher-Level Review, please start a new application.',
+      saved: 'Your Higher-Level Review application has been saved.',
+    },
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
 

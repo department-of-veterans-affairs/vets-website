@@ -2,6 +2,9 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
+
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
@@ -14,13 +17,15 @@ describe('serviceTreatmentRecords', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        schema={schema}
-        data={{}}
-        formData={{}}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          schema={schema}
+          data={{}}
+          formData={{}}
+        />
+      </Provider>,
     );
 
     expect(form.find('input').length).to.equal(2);
@@ -29,13 +34,15 @@ describe('serviceTreatmentRecords', () => {
 
   it('should not expand the upload button by default', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        schema={schema}
-        data={{}}
-        formData={{}}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          schema={schema}
+          data={{}}
+          formData={{}}
+        />
+      </Provider>,
     );
 
     expect(
@@ -46,17 +53,19 @@ describe('serviceTreatmentRecords', () => {
 
   it('should expand upload when "yes" option selected', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        schema={schema}
-        data={{
-          'view:uploadServiceTreatmentRecordsQualifier': {
-            'view:hasServiceTreatmentRecordsToUpload': true,
-          },
-        }}
-        formData={{}}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          schema={schema}
+          data={{
+            'view:uploadServiceTreatmentRecordsQualifier': {
+              'view:hasServiceTreatmentRecordsToUpload': true,
+            },
+          }}
+          formData={{}}
+        />
+      </Provider>,
     );
 
     expect(
@@ -68,18 +77,20 @@ describe('serviceTreatmentRecords', () => {
   it('should submit when user selects "no" to upload', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        schema={schema}
-        data={{
-          'view:uploadServiceTreatmentRecordsQualifier': {
-            'view:hasServiceTreatmentRecordsToUpload': false,
-          },
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          schema={schema}
+          data={{
+            'view:uploadServiceTreatmentRecordsQualifier': {
+              'view:hasServiceTreatmentRecordsToUpload': false,
+            },
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -91,18 +102,20 @@ describe('serviceTreatmentRecords', () => {
   it('should not submit without an upload if one indicated', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        schema={schema}
-        data={{
-          'view:uploadServiceTreatmentRecordsQualifier': {
-            'view:hasServiceTreatmentRecordsToUpload': true,
-          },
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          schema={schema}
+          data={{
+            'view:uploadServiceTreatmentRecordsQualifier': {
+              'view:hasServiceTreatmentRecordsToUpload': true,
+            },
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -114,19 +127,21 @@ describe('serviceTreatmentRecords', () => {
   it('should not submit without additional upload info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        schema={schema}
-        data={{
-          'view:uploadServiceTreatmentRecordsQualifier': {
-            'view:hasServiceTreatmentRecordsToUpload': true,
-          },
-          serviceTreatmentRecordsAttachments: [{ confirmationCode: '1234' }],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          schema={schema}
+          data={{
+            'view:uploadServiceTreatmentRecordsQualifier': {
+              'view:hasServiceTreatmentRecordsToUpload': true,
+            },
+            serviceTreatmentRecordsAttachments: [{ confirmationCode: '1234' }],
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -138,25 +153,27 @@ describe('serviceTreatmentRecords', () => {
   it('should submit with all required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        schema={schema}
-        data={{
-          'view:uploadServiceTreatmentRecordsQualifier': {
-            'view:hasServiceTreatmentRecordsToUpload': true,
-          },
-          serviceTreatmentRecordsAttachments: [
-            {
-              name: 'Test.pdf',
-              attachmentId: 'L450',
-              confirmationCode: '1234',
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          schema={schema}
+          data={{
+            'view:uploadServiceTreatmentRecordsQualifier': {
+              'view:hasServiceTreatmentRecordsToUpload': true,
             },
-          ],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+            serviceTreatmentRecordsAttachments: [
+              {
+                name: 'Test.pdf',
+                attachmentId: 'L450',
+                confirmationCode: '1234',
+              },
+            ],
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');

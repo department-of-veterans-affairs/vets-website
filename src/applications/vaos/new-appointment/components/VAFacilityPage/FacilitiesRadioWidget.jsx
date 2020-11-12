@@ -38,10 +38,15 @@ export default function FacilitiesRadioWidget({
       {displayedOptions.map((option, i) => {
         const { id, name, address, legacyVAR } = option?.label;
         const checked = option.value === value;
-        const distance = legacyVAR?.distanceFromResidentialAddress;
-        const showDistance =
-          !!distance &&
-          sortMethod === FACILITY_SORT_METHODS.DISTANCE_FROM_RESIDENTIAL;
+        let distance;
+
+        if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
+          distance = legacyVAR?.distanceFromResidentialAddress;
+        } else if (
+          sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+        ) {
+          distance = legacyVAR?.distancefromCurrentLocation;
+        }
 
         return (
           <div className="form-radio-buttons" key={option.value}>
@@ -61,7 +66,7 @@ export default function FacilitiesRadioWidget({
               <span className="vads-u-display--block vads-u-font-size--sm">
                 {address?.city}, {address?.state}
               </span>
-              {showDistance && (
+              {!!distance && (
                 <span className="vads-u-display--block vads-u-font-size--sm">
                   {distance} miles
                 </span>

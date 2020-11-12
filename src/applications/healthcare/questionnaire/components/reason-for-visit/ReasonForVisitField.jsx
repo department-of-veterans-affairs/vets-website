@@ -1,12 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getBookingNoteFromAppointment } from '../../utils';
 
-const ReasonForVisitField = ({ reasonForVisit }) => {
-  if (reasonForVisit) {
+const ReasonForVisitField = ({ appointment }) => {
+  const bookingNote = getBookingNoteFromAppointment(appointment);
+  if (bookingNote?.reasonForVisit) {
     return (
-      <span data-testid="reason-for-visit">
-        Main reason for your visit: <strong>routine or follow-up visit</strong>
-      </span>
+      <section data-testid="reason-for-visit">
+        <h2>
+          <div>What's the reason for your visit?</div>
+          <div className="reason-for-visit">{bookingNote?.reasonForVisit}</div>
+        </h2>
+      </section>
     );
   } else {
     return <></>;
@@ -14,7 +19,7 @@ const ReasonForVisitField = ({ reasonForVisit }) => {
 };
 
 const mapStateToProps = state => ({
-  reasonForVisit: state?.clipboardAppointmentDetails?.reasonForVisit,
+  appointment: state?.questionnaireData?.context?.appointment,
 });
 
 export default connect(

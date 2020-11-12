@@ -45,26 +45,27 @@
           }
         ],
         "separationLocation": {
-          "separationLocationCode": "Andersen AFB - Air Force / Guam"
+          "separationLocationCode": "98283",
+          "separationLocationName": "AF Academy"
         }
       },
       "newPrimaryDisabilities": [
         {
           "cause": "NEW",
-          "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+          "primaryDescription": "This disability is related to my military service.",
           "condition": "asthma",
           "classificationCode": "540"
         },
         {
           "cause": "WORSENED",
-          "worsenedDescription": "My knee was strained in the service",
-          "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?",
+          "worsenedDescription": "This disability was worsened by military service.",
+          "worsenedEffects": "This pre-existing disability was worsened by military service.",
           "condition": "knee replacement",
           "classificationCode": "8919"
         },
         {
           "cause": "VA",
-          "vaMistreatmentDescription": "A thing happened.",
+          "vaMistreatmentDescription": "This disability was caused by an injury or event that happened while I was receiving VA care.",
           "vaMistreatmentLocation": "Somewhereville",
           "vaMistreatmentDate": "A while ago",
           "condition": "myocardial infarction (MI)",
@@ -72,7 +73,7 @@
         },
         {
           "cause": "NEW",
-          "primaryDescription": "Secondary to Asthma\nAgain, this doesn't really make sense.",
+          "primaryDescription": "Secondary to Asthma\nThis disability was caused by another condition.",
           "condition": "phlebitis",
           "classificationCode": "5300"
         }

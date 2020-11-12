@@ -69,7 +69,7 @@ function unescapeUnicode(string) {
  * @return {string} The value of `processed` if it exists or `value` otherwise.
  */
 function getDrupalValue(arr) {
-  if (arr.length === 0) return null;
+  if (!arr || arr.length === 0) return null;
   if (arr.length === 1)
     if (arr[0].processed)
       return typeof arr[0].processed === 'string'
@@ -222,8 +222,10 @@ module.exports = {
       createMetaTag('MetaValue', 'description', metaTags.description),
       createMetaTag('MetaValue', 'twitter:title', metaTags.twitter_cards_title),
       createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
+      createMetaTag('MetaValue', 'abstract', metaTags.abstract),
       createMetaTag('MetaLink', 'image_src', metaTags.image_src),
       createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
+      createMetaTag('MetaValue', 'keywords', metaTags.keywords),
       createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
       createMetaTag(
         'MetaProperty',
@@ -259,7 +261,7 @@ module.exports = {
    *                                     that we want to use
    * @return {Object} The new schema
    */
-  usePartialSchema(schema, properties) {
+  partialSchema(schema, properties) {
     // Some sanity checking before we start
     assert(
       schema.type === 'object' ||

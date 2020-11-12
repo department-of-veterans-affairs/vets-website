@@ -58,7 +58,12 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'accessibility', type: Boolean, defaultValue: false },
   { name: 'lint-plain-language', type: Boolean, defaultValue: false },
   { name: 'verbose', alias: 'v', type: Boolean, defaultValue: false },
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
+
+  // HACK: The drupal-aws-cache script ends up here while trying to cache
+  // the query for getting all pages. The 'fetch' option from that cache script
+  // isn't actually a part of this list of options, but an error would be thrown
+  // without it. Remove this when getOptions is decoupled from the cache script.
+  { name: 'fetch', type: Boolean, defaultValue: false },
 ];
 
 function gatherFromCommandLine() {
@@ -67,10 +72,6 @@ function gatherFromCommandLine() {
   // Set defaults which require the value of other options
   options['cms-export-dir'] =
     options['cms-export-dir'] || defaultCMSExportContentDir(options.buildtype);
-
-  if (options.unexpected && options.unexpected.length !== 0) {
-    throw new Error(`Unexpected arguments: '${options.unexpected}'`);
-  }
 
   return options;
 }

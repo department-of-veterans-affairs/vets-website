@@ -8,8 +8,8 @@ import {
   vaosCancel,
   vaosRequests,
   selectExpressCareRequests,
+  selectIsCernerOnlyPatient,
 } from '../../utils/selectors';
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../utils/constants';
 import ExpressCareCard from './cards/express-care/ExpressCareCard';
 import NoAppointments from './NoAppointments';

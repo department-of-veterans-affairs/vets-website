@@ -22,15 +22,8 @@ const optionDefinitions = [
   { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'responses', type: String },
-
-  // Catch-all for bad arguments.
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 const options = commandLineArgs(optionDefinitions);
-
-if (options.unexpected && options.unexpected.length !== 0) {
-  throw new Error(`Unexpected arguments: '${options.unexpected}'`);
-}
 
 function stripTrailingSlash(path) {
   return path.substr(-1) === '/' ? path.slice(0, -1) : path;

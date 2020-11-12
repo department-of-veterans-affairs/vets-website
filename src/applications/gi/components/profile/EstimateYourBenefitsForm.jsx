@@ -400,7 +400,7 @@ class EstimateYourBenefitsForm extends React.Component {
       <div id={tuitionFeesFieldId}>
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
           Tuition and fees per year
-        </label>
+        </label>{' '}
         {this.renderLearnMoreLabel({
           modal: 'calcTuition',
           ariaLabel: ariaLabels.learnMore.tuitionFeesPerYear,
@@ -1040,9 +1040,9 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderEYBSkipLink = () => {
     return (
-      <div className="vads-u-padding-bottom--2p5">
+      <div className="vads-u-padding-top--1 ">
         <a
-          className="va-button-link learn-more-button eyb-skip-link"
+          className="va-button-link learn-more-button eyb-skip-link vads-u-display--block"
           aria-label="Skip to your estimated benefits"
           href="#estimated-benefits"
         >

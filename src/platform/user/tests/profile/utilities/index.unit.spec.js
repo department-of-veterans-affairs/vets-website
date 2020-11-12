@@ -67,7 +67,7 @@ let oldLocation;
 
 describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
-    // This url change is to work around the Vet 360 data mocking
+    // This url change is to work around the VA Profile Service data mocking
     beforeEach(() => {
       oldLocation = document.location.href;
       global.dom.reconfigure({ url: 'https://www.va.gov' });
@@ -96,16 +96,9 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.isVeteran).to.equal(
-        data.attributes.veteran_status.is_veteran,
-      );
       expect(mappedData.veteranStatus).to.deep.equal({
+        status: data.attributes.veteran_status.status,
         isVeteran: data.attributes.veteran_status.is_veteran,
-        veteranStatus: {
-          status: data.attributes.veteran_status.status,
-          isVeteran: data.attributes.veteran_status.is_veteran,
-          servedInMilitary: data.attributes.veteran_status.served_in_military,
-        },
         servedInMilitary: data.attributes.veteran_status.served_in_military,
       });
     });
@@ -119,7 +112,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360).to.deep.equal(
+      expect(mappedData.vapContactInfo).to.deep.equal(
         data.attributes.vet360_contact_information,
       );
     });
@@ -184,7 +177,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.veteranStatus).to.equal('NOT_FOUND');
+      expect(mappedData.veteranStatus.status).to.equal('NOT_FOUND');
     });
 
     it('should handle vet 360 error', () => {
@@ -202,7 +195,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360.status).to.equal('SERVER_ERROR');
+      expect(mappedData.vapContactInfo.status).to.equal('SERVER_ERROR');
     });
   });
 });

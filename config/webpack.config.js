@@ -134,7 +134,7 @@ module.exports = env => {
           },
         },
         {
-          test: /\.scss$/,
+          test: /\.(sa|sc|c)ss$/,
           use: [
             {
               loader: MiniCssExtractPlugin.loader,
@@ -142,14 +142,16 @@ module.exports = env => {
             {
               loader: 'css-loader',
               options: {
-                minimize: isOptimizedBuild,
                 sourceMap: enableCSSSourcemaps,
               },
             },
             {
               loader: 'postcss-loader',
               options: {
-                plugins: () => [require('autoprefixer')],
+                // use cssnano to minimize css only on optimized builds
+                plugins: isOptimizedBuild
+                  ? () => [require('autoprefixer'), require('cssnano')]
+                  : () => [require('autoprefixer')],
               },
             },
             {

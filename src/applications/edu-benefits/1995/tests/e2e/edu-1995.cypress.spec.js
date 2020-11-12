@@ -27,7 +27,7 @@ const form = createTestConfig(
         },
       });
       cy.get('@testData').then(testData => {
-        cy.route('GET', '/v0/in_progress_forms/1995', testData);
+        cy.route('GET', '/v0/in_progress_forms/22-1995', testData);
       });
     },
     pageHooks: {

@@ -4,7 +4,10 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { ClinicChoicePage } from '../../../new-appointment/components/ClinicChoicePage';
+import {
+  ClinicChoicePage,
+  formatTypeOfCare,
+} from '../../../new-appointment/components/ClinicChoicePage';
 import { FETCH_STATUS } from '../../../utils/constants';
 
 describe('VAOS <ClinicChoicePage>', () => {
@@ -39,6 +42,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         updateFormData={updateFormData}
         facilityDetailsStatus={FETCH_STATUS.loading}
         data={{}}
+        {...defaultProps}
       />,
     );
 
@@ -80,7 +84,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       />,
     );
 
-    form.setProps({ facilityDetailsStatus: FETCH_STATUS.successful });
+    form.setProps({ facilityDetailsStatus: FETCH_STATUS.succeeded });
 
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
@@ -188,5 +192,18 @@ describe('VAOS <ClinicChoicePage>', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(routeToNextAppointmentPage.called).to.be.true;
     form.unmount();
+  });
+
+  describe('formatTypeOfCare', () => {
+    it('should not lower case MOVE', () => {
+      const result = formatTypeOfCare('MOVE! weight management');
+
+      expect(result).to.equal('MOVE! weight management');
+    });
+    it('should lower case regular types of care', () => {
+      const result = formatTypeOfCare('Primary care');
+
+      expect(result).to.equal('primary care');
+    });
   });
 });
