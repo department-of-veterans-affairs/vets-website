@@ -18,7 +18,6 @@ import {
   vaosCommunityCare,
   selectSystemIds,
   getEligibilityStatus,
-  getRootIdForChosenFacility,
   getTypeOfCareFacilities,
   getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
@@ -627,7 +626,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
-    const siteId = getSiteIdForChosenFacility(state, data.vaParent);
+    const siteId = getSiteIdForChosenFacility(state);
     let locations =
       previousNewAppointmentState.facilities[
         `${typeOfCareId}_${data.vaParent}`
@@ -771,7 +770,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = vaosVSPAppointmentNew(state);
-    const rootOrgId = getRootIdForChosenFacility(state);
+    const siteId = getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
 
@@ -810,7 +809,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
               .format('YYYY-MM-DD');
 
         const fetchedSlots = await getSlots({
-          siteId: rootOrgId,
+          siteId,
           typeOfCareId: data.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,

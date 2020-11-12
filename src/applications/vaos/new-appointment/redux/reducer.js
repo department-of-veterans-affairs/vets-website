@@ -74,7 +74,7 @@ import {
 
 import { getTypeOfCare } from '../../utils/selectors';
 import { distanceBetween } from '../../utils/address';
-import { getSiteIdFromOrganization } from '../../services/organization';
+import { getSiteIdFromFakeFHIRId } from '../../services/location';
 import { getClinicId } from '../../services/healthcare-service/transformers';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
@@ -878,10 +878,7 @@ export default function formReducer(state = initialState, action) {
 
       if (state.pastAppointments) {
         const pastAppointmentDateMap = new Map();
-        const org = state.parentFacilities.find(
-          parent => parent.id === state.data.vaParent,
-        );
-        const siteId = getSiteIdFromOrganization(org).substring(0, 3);
+        const siteId = getSiteIdFromFakeFHIRId(state.data.vaFacility);
 
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;

@@ -22,14 +22,15 @@ import facilities983 from './var/facilities_983.json';
 import facilities984 from './var/facilities_984.json';
 import facilities983A6 from './var/facilities_983A6.json';
 import clinicList983 from './var/clinicList983.json';
+import clinicList612 from './var/clinicList612.json';
 import facilityDetails983 from './var/facility_details_983.json';
 import facilityDetails984 from './var/facility_details_984.json';
-import facilityData from './var/facility_data.json';
+import facilityData from './var/facility_data_612.json';
 import sitesSupportingVAR from './var/sites-supporting-var.json';
 import varSlots from './var/slots.json';
 import cancelReasons from './var/cancel_reasons.json';
-import requestEligibilityCriteria from './var/request_eligibility_criteria.json';
-import directBookingEligibilityCriteria from './var/direct_booking_eligibility_criteria.json';
+import requestEligibilityCriteria from './var/request_eligibility_criteria_612.json';
+import directBookingEligibilityCriteria from './var/direct_booking_eligibility_criteria_612.json';
 import { EXPRESS_CARE, FREE_BUSY_TYPES } from '../../utils/constants';
 
 function randomInt(min, max) {
@@ -221,6 +222,8 @@ export default [
     response: url => {
       if (url.includes('facilities/983/')) {
         return clinicList983;
+      } else if (url.includes('facilities/612')) {
+        return clinicList612;
       }
 
       return {
