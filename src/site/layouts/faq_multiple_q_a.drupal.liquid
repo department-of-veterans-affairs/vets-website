@@ -129,6 +129,9 @@
             Last updated: <time
               datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
           </div>
+
+          <!-- Up To Top Button -->
+          {% include "src/site/components/up_to_top_button.html" %}
         </div>
       </div>
     </div>
