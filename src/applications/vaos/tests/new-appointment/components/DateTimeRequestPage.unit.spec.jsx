@@ -162,7 +162,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         }),
       ).to.be.ok;
     });
-
+    // start of error
     it('should display an alert when user selects more than 3 dates', async () => {
       const store = createTestStore({
         newAppointment: {
@@ -197,7 +197,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[0]);
 
       // 2. Simulate user selecting AM
-      let checkbox = await screen.findByRole('checkbox', {
+      let checkbox = await screen.getByRole('checkbox', {
         name: 'AM appointment',
       });
       userEvent.click(checkbox);
@@ -206,7 +206,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[1]);
 
       // 3. Simulate user selecting PM
-      checkbox = await screen.findByRole('checkbox', {
+      checkbox = await screen.getByRole('checkbox', {
         name: 'PM appointment',
       });
       userEvent.click(checkbox);
@@ -215,7 +215,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[2]);
 
       // 5. Simulate user selecting AM
-      checkbox = await screen.findByRole('checkbox', {
+      checkbox = await screen.getByRole('checkbox', {
         name: 'AM appointment',
       });
       userEvent.click(checkbox);
@@ -224,20 +224,22 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[3]);
 
       // 7. Simulate user selecting PM which should result in error
-      checkbox = await screen.findByRole('checkbox', {
+      checkbox = await screen.getByRole('checkbox', {
         name: 'PM appointment',
       });
       userEvent.click(checkbox);
 
-      // NOTE: alert doesn't have a name so search for text too
-      expect(await screen.findByRole('alert')).to.be.ok;
-      expect(
-        screen.getByText(
-          'You can only choose up to 3 dates for your appointment.',
-        ),
-      ).to.be.ok;
-    });
+      // 8 Simulate user submit the form
+      const button = screen.getByText(/^Continue/);
+      userEvent.click(button);
 
+      // NOTE: alert doesn't have a name so search for text too
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).to.be.ok;
+      });
+      expect(screen.getByText(/You can select up to three dates./i)).to.be.ok;
+    });
+    // start of new error
     it('should display an alert when user selects 2 dates and multiple times', async () => {
       const store = createTestStore({
         newAppointment: {
@@ -297,20 +299,16 @@ describe('VAOS <DateTimeRequestPage>', () => {
       });
       userEvent.click(checkbox);
 
-      // NOTE: alert doesn't have a name so search for text too
-      expect(screen.getByRole('alert')).to.be.ok;
-      expect(
-        screen.getByText(
-          'You can only choose up to 3 dates for your appointment.',
-        ),
-      ).to.be.ok;
-
       // 7. it should not allow the user to submit the form
       const button = screen.getByText(/^Continue/);
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.false;
       });
+
+      // NOTE: alert doesn't have a name so search for text too
+      expect(screen.getByRole('alert')).to.be.ok;
+      expect(screen.getByText(/You can select up to three dates./i)).to.be.ok;
     });
 
     it('should display an alert when user submits the form with no dates selected', async () => {
@@ -345,7 +343,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         ),
       ).to.be.ok;
 
-      // it should not allow user to submit the form
+      // 1 it should not allow user to submit the form
       button = screen.getByText(/^Continue/);
       userEvent.click(button);
       await waitFor(() => {
