@@ -11,7 +11,13 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['add-child-add-674'],
+    dataSets: [
+      'spouse-child-all-fields',
+      'ancilliary-flows',
+      'add-child-add-674',
+      'add-child-report-divorce',
+      'spouse-report-divorce',
+    ],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       cy.login();
@@ -22,6 +28,13 @@ const testConfig = createTestConfig(
         cy.route('GET', '/v0/in_progress_forms/686C-674', testData);
         cy.route('PUT', 'v0/in_progress_forms/686C-674', testData);
       });
+      cy.route('POST', '/v0/dependents_applications', {
+        formSubmissionId: '123fake-submission-id-567',
+        timestamp: '2020-11-12',
+        attributes: {
+          guid: '123fake-submission-id-567',
+        },
+      }).as('submitApplication');
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -33,9 +46,30 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      'current-marriage-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('#root_currentMarriageInformation_location_country').select(
+            'Argentina',
+          );
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_doesChildLiveWithYouYes').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      '686-report-dependent-death/0/additional-information': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('#root_dateMonth').select('Jan');
+          cy.get('#root_dateDay').select('1');
+          cy.get('#root_dateYear').type('1991');
+          cy.get('#root_location_state').select('Alabama');
+          cy.get('#root_location_city').type('city');
           cy.get('.usa-button-primary').click();
         });
       },
