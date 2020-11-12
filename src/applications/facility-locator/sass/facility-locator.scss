@@ -528,7 +528,7 @@ $facility-locator-color-gray: #ccc;
 
 
 #search-area-control {
-  background: #0071BB;
+  background: $color-blue;
   border-radius: 5px;
   width: 215px;
   height: 37px;
@@ -537,7 +537,7 @@ $facility-locator-color-gray: #ccc;
   margin-top: 15px;
   clear: both;
   pointer-events: auto;
-  color: #ffffff;
+  color: $color-white;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
 
   @media(max-width: $small-screen) {
@@ -547,24 +547,16 @@ $facility-locator-color-gray: #ccc;
 }
 
 .mapboxgl-ctrl-top-center {
-  //top: 0;
   left: 35%;
-  position:absolute;
-  pointer-events:none;
-  //z-index:0;
-}
-
-.mapboxgl-ctrl-top-center .mapboxgl-ctrl {
-  margin:15px 0 0 15px;
+  position: absolute;
+  pointer-events: none;
+  margin: 15px 0 0 15px;
 }
 
 .mapboxgl-ctrl-bottom-center {
   bottom: 40px;
   left: 22%;
-  position:absolute;
-  pointer-events:none;
-}
-
-.mapboxgl-ctrl-bottom-center .mapboxgl-ctrl {
-  margin:15px 0 0 15px;
+  position: absolute;
+  pointer-events: none;
+  margin: 15px 0 0 15px;
 }
