@@ -18,7 +18,7 @@ function toUtc(timeString, withExplicitUtc = true) {
     `Expected timeString to be a moment-parsable string. Found ${timeString}`,
   );
   const formatString = withExplicitUtc
-    ? 'YYYY-MM-DD kk:mm:ss [UTC]'
+    ? 'YYYY-MM-DD HH:mm:ss [UTC]'
     : 'YYYY-MM-DD[T]kk:mm:ss';
   return time.format(formatString);
 }
@@ -33,7 +33,7 @@ const transform = entity => ({
   entityMetatags: createMetaTagArray(entity.metatag.value),
   // TODO: Verify this is how to derive the entityPublished state
   entityPublished: isPublished(getDrupalValue(entity.status)),
-  fieldAdditionalInformationAbo: entity.fieldAdditionalInformationAbo.value
+  fieldAdditionalInformationAbo: entity.fieldAdditionalInformationAbo[0]
     ? {
         processed: getWysiwygString(
           getDrupalValue(entity.fieldAdditionalInformationAbo),

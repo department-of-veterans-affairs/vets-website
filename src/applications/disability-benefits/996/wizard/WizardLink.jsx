@@ -4,7 +4,7 @@ import { BASE_URL } from '../constants';
 
 const WizardLink = (
   <>
-    <h4>Online</h4>
+    <h3 className="vads-u-font-size--h4">Online</h3>
     <p>
       To request a Higher-Level Review for compensation claims, you can use our
       online request tool. This online option is only available for disability

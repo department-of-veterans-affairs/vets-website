@@ -16,7 +16,12 @@ import {
   defaultDisabilityDescriptions,
 } from './constants';
 
-import { disabilityIsSelected, hasGuardOrReservePeriod, isBDD } from './utils';
+import {
+  disabilityIsSelected,
+  hasGuardOrReservePeriod,
+  isBDD,
+  isDisabilityPtsd,
+} from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
 
@@ -314,7 +319,7 @@ export function transform(formConfig, form) {
           'newDisabilities',
           formData.newDisabilities.map(
             disability =>
-              disability.condition?.toLowerCase().includes('ptsd')
+              isDisabilityPtsd(disability.condition)
                 ? _.set('cause', causeTypes.NEW, disability)
                 : disability,
           ),

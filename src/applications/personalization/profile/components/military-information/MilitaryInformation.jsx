@@ -15,7 +15,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
-import { selectProfile } from 'platform/user/selectors';
+import { selectVeteranStatus } from 'platform/user/selectors';
 import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import facilityLocator from 'applications/facility-locator/manifest.json';
@@ -122,7 +122,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
   }, []);
 
   const invalidVeteranStatus =
-    !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+    !veteranStatus?.status || veteranStatus?.status === 'NOT_AUTHORIZED';
 
   // When the user is not authorized, militaryInformation.serviceHistory is populated with .error
   if (
@@ -232,12 +232,16 @@ MilitaryInformation.propTypes = {
       ),
     }).isRequired,
   }).isRequired,
-  veteranStatus: PropTypes.string,
+  veteranStatus: PropTypes.shape({
+    isVeteran: PropTypes.bool,
+    status: PropTypes.string,
+    servedInMilitary: PropTypes.bool,
+  }).isRequired,
 };
 
 const mapStateToProps = state => ({
   militaryInformation: state.vaProfile?.militaryInformation,
-  veteranStatus: selectProfile(state)?.veteranStatus,
+  veteranStatus: selectVeteranStatus(state),
 });
 
 export default connect(mapStateToProps)(MilitaryInformation);

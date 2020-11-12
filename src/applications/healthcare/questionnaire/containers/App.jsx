@@ -26,13 +26,16 @@ const App = props => {
     () => {
       if (isLoggedIn) {
         setLoading();
-        loadAppointment().then(data => {
+        loadAppointment().then(response => {
+          const { data } = response;
           setLoadedAppointment(data);
           setIsLoading(false);
           setForm(f => {
             return {
               ...f,
-              subTitle: data?.vdsAppointments[0]?.clinic?.facility?.displayName,
+              subTitle:
+                data?.attributes?.vdsAppointments[0]?.clinic?.facility
+                  ?.displayName,
             };
           });
         });

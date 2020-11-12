@@ -19,7 +19,7 @@ export function chooseFacilityTypeTest(label) {
 export function chooseVAFacilityTest() {
   cy.url().should('include', '/va-facility');
   cy.axeCheck();
-  cy.findByLabelText(/CHYSHR/).click();
+  cy.findByLabelText(/CHYSHR/).check();
   cy.findByLabelText(
     'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
   ).click();
@@ -36,7 +36,10 @@ export function chooseVAFacilityV2Test() {
 export function chooseClinicTest() {
   cy.url().should('include', '/clinics');
   cy.axeCheck();
-  cy.findByLabelText('CHY PC CASSIDY').click();
+  cy.findByText(/You can choose a clinic where you’ve been seen/i);
+  cy.get('#root_clinicId_0')
+    .focus()
+    .click();
   cy.findByText(/Continue/).click();
 }
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import VAPEditView from '@@profile/components/personal-information/VAPEditView';
+import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 
-import { isVAPatient } from 'platform/user/selectors';
+import { isVAPatient } from '~/platform/user/selectors';
 
-import { FIELD_NAMES } from 'vet360/constants';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
-import ContactInfoForm from 'platform/user/profile/vet360/components/ContactInfoForm';
+import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
 
 class PhoneEditView extends React.Component {
   getInitialFormValues = () => {
@@ -52,7 +52,7 @@ class PhoneEditView extends React.Component {
 
   render() {
     return (
-      <VAPEditView
+      <ContactInformationEditView
         {...this.props}
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
