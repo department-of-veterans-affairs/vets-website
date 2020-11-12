@@ -143,7 +143,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     });
   });
 
-  it('should display closest city question when user has multiple supported sites', async () => {
+  it.skip('should display closest city question when user has multiple supported sites', async () => {
     mockParentSites(
       ['983'],
       [
