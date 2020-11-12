@@ -20,11 +20,7 @@ import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/h
 import { hasServerError as hasESRServerError } from 'applications/hca/selectors';
 
 import { recordDashboardClick } from '../helpers';
-import {
-  COVID19Alert,
-  eligibleHealthSystems,
-  showCOVID19AlertSelector,
-} from '../covid-19';
+import { COVID19Alert, eligibleHealthSystems } from '../covid-19';
 
 import YourApplications from './YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
@@ -368,8 +364,7 @@ export const mapStateToProps = state => {
     ? eligibleFacilities[0].facilityId
     : null;
 
-  const showCOVID19Alert =
-    !!showCOVID19AlertSelector(state) && !!vaHealthChatEligibleSystemId;
+  const showCOVID19Alert = !!vaHealthChatEligibleSystemId;
 
   return {
     canAccessRx,
