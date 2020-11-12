@@ -58,7 +58,7 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: "Veteran's Information",
+      title: 'Veteran Information',
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
