@@ -118,55 +118,58 @@ function ExpressCareDetailsPage({
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <SchemaForm
-        name="Type of appointment"
-        title="Type of appointment"
-        schema={schema || initialSchema}
-        uiSchema={uiSchema}
-        onSubmit={() => submitExpressCareRequest(history)}
-        onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-        data={data}
-      >
-        <FormButtons
-          backButtonText="Back"
-          nextButtonText="Submit Express Care request"
-          pageChangeInProgress={submitStatus === FETCH_STATUS.loading}
-          disabled={submitStatus === FETCH_STATUS.failed}
-          loadingText="Submitting your Express Care request"
-          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-        />
-        {submitStatus === FETCH_STATUS.failed && (
-          <>
-            {submitErrorReason === EXPRESS_CARE_ERROR_REASON.error && (
-              <AlertBox
-                status="error"
-                headline="Your request didn’t go through"
-                content={
-                  <p>
-                    Something went wrong when we tried to submit your request
-                    and you’ll need to start over. We suggest you wait a day to
-                    try again or you can call your medical center to help with
-                    your request.
-                  </p>
-                }
-              />
-            )}
-            {submitErrorReason ===
-              EXPRESS_CARE_ERROR_REASON.noActiveFacility && (
-              <AlertBox
-                status="error"
-                headline="Express Care isn’t available right now"
-                content={
-                  <p>
-                    Express Care is only available {localWindowString} today. To
-                    use Express Care, check back during the time shown above.
-                  </p>
-                }
-              />
-            )}
-          </>
-        )}
-      </SchemaForm>
+      {schema && (
+        <SchemaForm
+          name="Type of appointment"
+          title="Type of appointment"
+          schema={schema}
+          uiSchema={uiSchema}
+          onSubmit={() => submitExpressCareRequest(history)}
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          data={data}
+        >
+          <FormButtons
+            backButtonText="Back"
+            nextButtonText="Submit Express Care request"
+            pageChangeInProgress={submitStatus === FETCH_STATUS.loading}
+            disabled={submitStatus === FETCH_STATUS.failed}
+            loadingText="Submitting your Express Care request"
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+          />
+          {submitStatus === FETCH_STATUS.failed && (
+            <>
+              {submitErrorReason === EXPRESS_CARE_ERROR_REASON.error && (
+                <AlertBox
+                  status="error"
+                  headline="Your request didn’t go through"
+                  content={
+                    <p>
+                      Something went wrong when we tried to submit your request
+                      and you’ll need to start over. We suggest you wait a day
+                      to try again or you can call your medical center to help
+                      with your request.
+                    </p>
+                  }
+                />
+              )}
+              {submitErrorReason ===
+                EXPRESS_CARE_ERROR_REASON.noActiveFacility && (
+                <AlertBox
+                  status="error"
+                  headline="Express Care isn’t available right now"
+                  content={
+                    <p>
+                      Express Care is only available {localWindowString} today.
+                      To use Express Care, check back during the time shown
+                      above.
+                    </p>
+                  }
+                />
+              )}
+            </>
+          )}
+        </SchemaForm>
+      )}
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { fillData } from 'platform/testing/unit/schemaform-utils.jsx';
 import { ContactInfoPage } from '../../../new-appointment/components/ContactInfoPage';
 
-describe('VAOS <ContactInfoPage>', () => {
+xdescribe('VAOS <ContactInfoPage>', () => {
   it('should render', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
