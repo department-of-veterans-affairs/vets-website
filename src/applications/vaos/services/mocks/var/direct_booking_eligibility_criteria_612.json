@@ -436,7 +436,8 @@
             ],
             "canCancel": true,
             "submittedRequestLimit": 1,
-            "enterpriseSubmittedRequestLimit": 1
+            "enterpriseSubmittedRequestLimit": 1,
+            "patientHistoryRequired": "No"
           },
           {
             "id": "143",
