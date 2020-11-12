@@ -5,6 +5,7 @@ export const paymentsReceivedFields = [
   {
     label: 'Date',
     value: 'payCheckDt',
+    alignRight: true,
   },
   {
     label: 'Amount',
@@ -25,6 +26,7 @@ export const paymentsReceivedFields = [
   {
     label: 'Account',
     value: 'accountNumber',
+    alignRight: true,
   },
 ];
 
@@ -44,6 +46,7 @@ export const paymentsReturnedFields = [
   {
     label: 'Check #',
     value: 'returnedCheckNumber',
+    alignRight: true,
   },
   {
     label: 'Type',
