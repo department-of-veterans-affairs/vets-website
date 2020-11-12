@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -7,15 +8,7 @@ import { getLongTermAppointmentHistory } from '../../../services/var';
 import FormButtons from '../../../components/FormButtons';
 import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
 import UpdateAddressAlert from './UpdateAddressAlert';
-import {
-  openTypeOfCarePage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  showPodiatryAppointmentUnavailableModal,
-  hidePodiatryAppointmentUnavailableModal,
-  clickUpdateAddressButton,
-} from '../../redux/actions';
+import * as actions from '../../redux/actions';
 import {
   getFormPageInfo,
   getNewAppointment,
@@ -46,99 +39,88 @@ const uiSchema = {
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
-export class TypeOfCarePage extends React.Component {
-  componentDidMount() {
-    this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
+function TypeOfCarePage({
+  hideUpdateAddressAlert,
+  addressLine1,
+  data,
+  pageChangeInProgress,
+  schema,
+  showPodiatryApptUnavailableModal,
+  openTypeOfCarePage,
+  clickUpdateAddressButton,
+  showDirectScheduling,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateFormData,
+  hidePodiatryAppointmentUnavailableModal,
+}) {
+  const history = useHistory();
+  const showUpdateAddressAlert =
+    !hideUpdateAddressAlert && (!addressLine1 || addressLine1.match(/^PO Box/));
+
+  useEffect(() => {
+    openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
 
-    if (this.showUpdateAddressAlert()) {
+    if (showUpdateAddressAlert) {
       recordEvent({
         event: 'vaos-update-address-alert-displayed',
       });
     }
+  }, []);
+
+  if (!schema) {
+    return null;
   }
 
-  onClickUpdateAddress = heading => {
-    this.props.clickUpdateAddressButton();
-    recordEvent({
-      event: 'nav-warning-alert-box-content-link-click',
-      alertBoxHeading: heading,
-    });
-    resetDataLayer();
-  };
-
-  onChange = newData => {
-    // When someone chooses a type of care that can be direct scheduled,
-    // kick off the past appointments fetch, which takes a while
-    // This could get called multiple times, but the function is memoized
-    // and returns the previous promise if it eixsts
-    if (this.props.showDirectScheduling) {
-      getLongTermAppointmentHistory();
-    }
-
-    this.props.updateFormData(pageKey, uiSchema, newData);
-  };
-
-  goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
-  };
-
-  goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
-  };
-
-  showUpdateAddressAlert = () => {
-    const { hideUpdateAddressAlert, addressLine1 } = this.props;
-    return (
-      !hideUpdateAddressAlert &&
-      (!addressLine1 || addressLine1.match(/^PO Box/))
-    );
-  };
-
-  render() {
-    const {
-      data,
-      pageChangeInProgress,
-      schema,
-      showPodiatryApptUnavailableModal,
-    } = this.props;
-
-    if (!schema) {
-      return null;
-    }
-
-    return (
-      <div>
-        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        {this.showUpdateAddressAlert() && (
-          <UpdateAddressAlert
-            onClickUpdateAddress={this.onClickUpdateAddress}
-          />
-        )}
-
-        <SchemaForm
-          name="Type of care"
-          title="Type of care"
-          schema={schema}
-          uiSchema={uiSchema}
-          onSubmit={this.goForward}
-          onChange={this.onChange}
-          data={data}
-        >
-          <FormButtons
-            onBack={this.goBack}
-            pageChangeInProgress={pageChangeInProgress}
-            loadingText="Page change in progress"
-          />
-        </SchemaForm>
-        <PodiatryAppointmentUnavailableModal
-          showModal={showPodiatryApptUnavailableModal}
-          onClose={this.props.hidePodiatryAppointmentUnavailableModal}
+  return (
+    <div>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      {showUpdateAddressAlert && (
+        <UpdateAddressAlert
+          onClickUpdateAddress={heading => {
+            clickUpdateAddressButton();
+            recordEvent({
+              event: 'nav-warning-alert-box-content-link-click',
+              alertBoxHeading: heading,
+            });
+            resetDataLayer();
+          }}
         />
-      </div>
-    );
-  }
+      )}
+
+      <SchemaForm
+        name="Type of care"
+        title="Type of care"
+        schema={schema}
+        uiSchema={uiSchema}
+        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+        onChange={newData => {
+          // When someone chooses a type of care that can be direct scheduled,
+          // kick off the past appointments fetch, which takes a while
+          // This could get called multiple times, but the function is memoized
+          // and returns the previous promise if it eixsts
+          if (showDirectScheduling) {
+            getLongTermAppointmentHistory();
+          }
+
+          updateFormData(pageKey, uiSchema, newData);
+        }}
+        data={data}
+      >
+        <FormButtons
+          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+          pageChangeInProgress={pageChangeInProgress}
+          loadingText="Page change in progress"
+        />
+      </SchemaForm>
+      <PodiatryAppointmentUnavailableModal
+        showModal={showPodiatryApptUnavailableModal}
+        onClose={hidePodiatryAppointmentUnavailableModal}
+      />
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
@@ -157,13 +139,15 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  openTypeOfCarePage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  showPodiatryAppointmentUnavailableModal,
-  hidePodiatryAppointmentUnavailableModal,
-  clickUpdateAddressButton,
+  openTypeOfCarePage: actions.openTypeOfCarePage,
+  updateFormData: actions.updateFormData,
+  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
+  showPodiatryAppointmentUnavailableModal:
+    actions.showPodiatryAppointmentUnavailableModal,
+  hidePodiatryAppointmentUnavailableModal:
+    actions.hidePodiatryAppointmentUnavailableModal,
+  clickUpdateAddressButton: actions.clickUpdateAddressButton,
 };
 
 export default connect(

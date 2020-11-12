@@ -190,7 +190,7 @@ describe('<PaymentInformationEditModalError />', () => {
     ],
   };
 
-  // When vet360 was not working in the staging env, we saw this error when
+  // When VA Profile was not working in the staging env, we saw this error when
   // saving direct deposit info (hitting PUT ppiu/payment_information)
   const upstreamError = {
     errors: [

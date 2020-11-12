@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import vet360 from '../../reducers';
+import vapService from '../../reducers';
 import * as VAP_SERVICE from '../../constants';
 import {
   ADDRESS_VALIDATION_RESET,
@@ -9,9 +9,9 @@ import {
   ADDRESS_VALIDATION_UPDATE,
 } from '../../actions';
 
-describe('vet360 reducer', () => {
+describe('vapService reducer', () => {
   it('should return array of transaction data', () => {
-    const state = vet360(
+    const state = vapService(
       {},
       {
         type: 'VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS',
@@ -24,7 +24,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should set pending transaction', () => {
-    const state = vet360(
+    const state = vapService(
       {},
       {
         type: 'VAP_SERVICE_TRANSACTION_REQUESTED',
@@ -42,7 +42,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should set pending transaction failure', () => {
-    const state = vet360(
+    const state = vapService(
       {
         fieldTransactionMap: {
           fieldName: {
@@ -68,7 +68,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should set pending transaction success', () => {
-    const state = vet360(
+    const state = vapService(
       {
         fieldTransactionMap: {
           fieldName: {
@@ -103,7 +103,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should set transaction update request', () => {
-    const state = vet360(
+    const state = vapService(
       { transactionsAwaitingUpdate: [] },
       {
         type: 'VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED',
@@ -122,7 +122,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should set updated transaction request success', () => {
-    const state = vet360(
+    const state = vapService(
       {
         transactions: [
           {
@@ -156,7 +156,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should set updated transaction request failure', () => {
-    const state = vet360(
+    const state = vapService(
       {
         transactions: [
           {
@@ -191,7 +191,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should set transaction update failed', () => {
-    const state = vet360(
+    const state = vapService(
       { transactionsAwaitingUpdate: [111] },
       {
         type: 'VAP_SERVICE_TRANSACTION_UPDATE_FAILED',
@@ -209,12 +209,15 @@ describe('vet360 reducer', () => {
   });
 
   it('should set transaction status cleared', () => {
-    const state = vet360({}, { type: 'VAP_SERVICE_CLEAR_TRANSACTION_STATUS' });
+    const state = vapService(
+      {},
+      { type: 'VAP_SERVICE_CLEAR_TRANSACTION_STATUS' },
+    );
     expect(state.transactionStatus.length).to.eql(0);
   });
 
   it('should set transaction cleared', () => {
-    const state = vet360(
+    const state = vapService(
       {
         transactions: [
           {
@@ -247,7 +250,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should set transaction request cleared', () => {
-    const state = vet360(
+    const state = vapService(
       {
         fieldTransactionMap: {
           fieldName: 'name',
@@ -263,7 +266,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should update profile form fields', () => {
-    const state = vet360(
+    const state = vapService(
       {
         initialFormFields: {
           mailingAddress: {
@@ -292,7 +295,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should open modal', () => {
-    const state = vet360(
+    const state = vapService(
       {},
       {
         type: 'OPEN_MODAL',
@@ -304,7 +307,7 @@ describe('vet360 reducer', () => {
   });
 
   it('should update addressValidation on confirm', () => {
-    const state = vet360(
+    const state = vapService(
       {},
       {
         type: 'ADDRESS_VALIDATION_CONFIRM',
@@ -365,7 +368,7 @@ describe('vet360 reducer', () => {
         },
         modal: 'mailingAddress',
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vapService(state, action)).to.eql(expectedState);
     });
   });
 
@@ -416,7 +419,7 @@ describe('vet360 reducer', () => {
           selectedAddressId: null,
         },
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vapService(state, action)).to.eql(expectedState);
     });
   });
 
@@ -444,7 +447,7 @@ describe('vet360 reducer', () => {
           selectedAddressId: '0',
         },
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vapService(state, action)).to.eql(expectedState);
     });
   });
 
@@ -482,7 +485,7 @@ describe('vet360 reducer', () => {
           mailingAddress: { isPending: true },
         },
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vapService(state, action)).to.eql(expectedState);
     });
   });
 
@@ -502,7 +505,7 @@ describe('vet360 reducer', () => {
         type: ADDRESS_VALIDATION_UPDATE,
         fieldName: 'mailingAddress',
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vapService(state, action)).to.eql(expectedState);
     });
   });
 });

@@ -1,7 +1,12 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
-export default function GetHelpFooter() {
+export default function GetHelpFooter(props) {
+  const { currentLocation } = props;
+
+  if (currentLocation?.pathname.replace(/\/$/, '').endsWith('confirmation')) {
+    return null;
+  }
   const HELP_NUMBER = '844-698-2311';
   const TTY_NUMBER = '711';
   return (

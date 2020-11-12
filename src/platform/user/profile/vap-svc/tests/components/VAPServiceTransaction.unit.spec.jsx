@@ -3,11 +3,11 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import Vet360Transaction from '../../components/base/Vet360Transaction';
-import Vet360TransactionPending from '../../components/base/Vet360TransactionPending';
+import VAPServiceTransaction from '../../components/base/VAPServiceTransaction';
+import VAPServiceTransactionPending from '../../components/base/VAPServiceTransactionPending';
 import { TRANSACTION_STATUS } from '../../constants';
 
-describe('<Vet360Transaction/>', () => {
+describe('<VAPServiceTransaction/>', () => {
   let props = null;
   beforeEach(() => {
     props = {
@@ -19,9 +19,9 @@ describe('<Vet360Transaction/>', () => {
 
   it('renders', () => {
     const component = enzyme.shallow(
-      <Vet360Transaction {...props}>
+      <VAPServiceTransaction {...props}>
         <div className="content">Children</div>
-      </Vet360Transaction>,
+      </VAPServiceTransaction>,
     );
 
     expect(component.html(), 'renders children components').to.contain(
@@ -32,7 +32,7 @@ describe('<Vet360Transaction/>', () => {
       'renders children components',
     ).to.have.lengthOf(1);
     expect(
-      component.find(Vet360TransactionPending),
+      component.find(VAPServiceTransactionPending),
       'does not render a transaction-pending message',
     ).to.have.lengthOf(0);
 
@@ -45,7 +45,7 @@ describe('<Vet360Transaction/>', () => {
     });
 
     expect(
-      component.find('Vet360TransactionInlineErrorMessage'),
+      component.find('VAPServiceTransactionInlineErrorMessage'),
       'renders error messages',
     ).to.have.lengthOf(1);
 
@@ -57,7 +57,7 @@ describe('<Vet360Transaction/>', () => {
       },
     });
     expect(
-      component.find(Vet360TransactionPending),
+      component.find(VAPServiceTransactionPending),
       'renders a transaction-pending message',
     ).to.have.lengthOf(1);
     expect(

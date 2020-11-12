@@ -98,11 +98,8 @@ export function renderFromRoutes({ initialState, store = null, path = '/' }) {
 }
 
 export async function setTypeOfFacility(store, label) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByLabelText, getByText } = renderWithStoreAndRouter(
-    <TypeOfFacilityPage history={history} />,
+  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
+    <TypeOfFacilityPage />,
     { store },
   );
 
@@ -116,11 +113,8 @@ export async function setTypeOfFacility(store, label) {
 }
 
 export async function setTypeOfCare(store, label) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByLabelText, getByText } = renderWithStoreAndRouter(
-    <TypeOfCarePage history={history} />,
+  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
+    <TypeOfCarePage />,
     { store },
   );
 
@@ -134,11 +128,8 @@ export async function setTypeOfCare(store, label) {
 }
 
 export async function setTypeOfEyeCare(store, label) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByLabelText, getByText } = renderWithStoreAndRouter(
-    <TypeOfEyeCarePage history={history} />,
+  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
+    <TypeOfEyeCarePage />,
     { store },
   );
 
