@@ -44,7 +44,6 @@ export default Object.freeze({
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
   stemSCOEmail: 'stem_sco_email',
-  stemTextMessageQuestion: 'stem_text_message_question',
   showHealthcareExperienceQuestionnaire:
     'showHealthcareExperienceQuestionnaire',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
