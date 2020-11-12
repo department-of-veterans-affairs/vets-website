@@ -29,8 +29,8 @@ import facilityData from './var/facility_data_612.json';
 import sitesSupportingVAR from './var/sites-supporting-var.json';
 import varSlots from './var/slots.json';
 import cancelReasons from './var/cancel_reasons.json';
-import requestEligibilityCriteria from './var/request_eligibility_criteria_612.json';
-import directBookingEligibilityCriteria from './var/direct_booking_eligibility_criteria_612.json';
+import requestEligibilityCriteria from './var/request_eligibility_criteria.json';
+import directBookingEligibilityCriteria from './var/direct_booking_eligibility_criteria.json';
 import { EXPRESS_CARE, FREE_BUSY_TYPES } from '../../utils/constants';
 
 function randomInt(min, max) {
