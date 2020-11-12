@@ -5,11 +5,11 @@ export const paymentsReceivedFields = [
   {
     label: 'Date',
     value: 'payCheckDt',
-    alignRight: true,
   },
   {
     label: 'Amount',
     value: 'payCheckAmount',
+    alignRight: true,
   },
   {
     label: 'Type',
