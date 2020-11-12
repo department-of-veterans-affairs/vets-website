@@ -11,6 +11,7 @@ function fillOutForm(facilitySelection) {
   cy.visit('health-care/schedule-view-va-appointments/appointments/');
   cy.injectAxe();
   cy.get('.va-modal-body button').click();
+  cy.findAllByRole('tab').should('exist');
 
   // Start flow
   cy.findByText('Schedule an appointment').click();

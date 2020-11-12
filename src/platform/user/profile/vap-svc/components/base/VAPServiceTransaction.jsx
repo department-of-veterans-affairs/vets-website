@@ -7,10 +7,10 @@ import {
   isFailedTransaction,
 } from '@@vap-svc/util/transactions';
 
-import Vet360TransactionInlineErrorMessage from './Vet360TransactionInlineErrorMessage';
-import Vet360TransactionPending from './Vet360TransactionPending';
+import VAPServiceTransactionInlineErrorMessage from './VAPServiceTransactionInlineErrorMessage';
+import VAPServiceTransactionPending from './VAPServiceTransactionPending';
 
-function Vet360Transaction(props) {
+function VAPServiceTransaction(props) {
   const {
     id,
     isModalOpen,
@@ -33,10 +33,10 @@ function Vet360Transaction(props) {
 
   return (
     <div className={classes}>
-      {hasError && <Vet360TransactionInlineErrorMessage {...props} />}
+      {hasError && <VAPServiceTransactionInlineErrorMessage {...props} />}
       {transactionRequestPending && (
         <div id={id}>
-          <Vet360TransactionPending
+          <VAPServiceTransactionPending
             title={title}
             refreshTransaction={() => {}}
             method={method}
@@ -45,12 +45,12 @@ function Vet360Transaction(props) {
                the `Vet360TransactionPending` component from rendering the
                "we're saving your info..." message */}
             {isModalOpen && children}
-          </Vet360TransactionPending>
+          </VAPServiceTransactionPending>
         </div>
       )}
       {transactionPending && (
         <div id={id}>
-          <Vet360TransactionPending
+          <VAPServiceTransactionPending
             title={title}
             refreshTransaction={refreshTransaction}
             method={method}
@@ -59,7 +59,7 @@ function Vet360Transaction(props) {
                the `Vet360TransactionPending` component from rendering the
                "we're saving your info..." message */}
             {isModalOpen && children}
-          </Vet360TransactionPending>
+          </VAPServiceTransactionPending>
         </div>
       )}
       {transactionResolved && children}
@@ -67,11 +67,11 @@ function Vet360Transaction(props) {
   );
 }
 
-Vet360Transaction.propTypes = {
+VAPServiceTransaction.propTypes = {
   children: PropTypes.node.isRequired,
   refreshTransaction: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   transaction: PropTypes.object,
 };
 
-export default Vet360Transaction;
+export default VAPServiceTransaction;

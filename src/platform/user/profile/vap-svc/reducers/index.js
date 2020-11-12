@@ -60,7 +60,7 @@ const initialState = {
   transactionStatus: '',
 };
 
-export default function vet360(state = initialState, action) {
+export default function vapService(state = initialState, action) {
   switch (action.type) {
     case VAP_SERVICE_CLEAR_TRANSACTION_STATUS: {
       return {

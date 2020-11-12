@@ -12,7 +12,11 @@ import {
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
 // import ConditionReviewField from '../components/ConditionReviewField';
-import { validateDisabilityName, requireDisability } from '../validations';
+import {
+  validateDisabilityName,
+  requireDisability,
+  limitNewDisabilities,
+} from '../validations';
 import {
   newConditionsOnly,
   newAndIncrease,
@@ -70,7 +74,7 @@ export const uiSchema = {
             ],
           },
           // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
-          'ui:validations': [validateDisabilityName],
+          'ui:validations': [validateDisabilityName, limitNewDisabilities],
           'ui:required': () => true,
           'ui:errorMessages': {
             required:

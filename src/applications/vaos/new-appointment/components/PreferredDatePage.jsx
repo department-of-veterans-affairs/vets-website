@@ -44,7 +44,7 @@ const uiSchema = {
 const pageKey = 'preferredDate';
 const pageTitle = 'Tell us when you want to schedule your appointment';
 
-export function PreferredDatePage({
+function PreferredDatePage({
   data,
   openFormPage,
   pageChangeInProgress,
@@ -63,28 +63,30 @@ export function PreferredDatePage({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      <SchemaForm
-        name="Type of appointment"
-        title="Type of appointment"
-        schema={schema || initialSchema}
-        uiSchema={uiSchema}
-        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-        onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-        data={data}
-      >
-        <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--neg2">
-          <AdditionalInfo triggerText="Why are you asking me this?">
-            Tell us the earliest day you’re available and we'll try find the
-            date closest to your request. Please note that we might not be able
-            to find an appointment for that particular day.
-          </AdditionalInfo>
-        </div>
-        <FormButtons
-          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-          pageChangeInProgress={pageChangeInProgress}
-          loadingText="Page change in progress"
-        />
-      </SchemaForm>
+      {!!schema && (
+        <SchemaForm
+          name="Type of appointment"
+          title="Type of appointment"
+          schema={schema}
+          uiSchema={uiSchema}
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          data={data}
+        >
+          <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--neg2">
+            <AdditionalInfo triggerText="Why are you asking me this?">
+              Tell us the earliest day you’re available and we'll try find the
+              date closest to your request. Please note that we might not be
+              able to find an appointment for that particular day.
+            </AdditionalInfo>
+          </div>
+          <FormButtons
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </SchemaForm>
+      )}
     </div>
   );
 }

@@ -16,12 +16,12 @@ const hooks = {
   beforeEach() {
     const user = {
       profile: {
-        services: [backendServices.VET360],
+        services: [backendServices.VA_PROFILE],
         vapContactInfo: {},
       },
     };
 
-    const vet360 = {
+    const vapService = {
       modal: null,
       formFields: {},
       transactions: [],
@@ -33,7 +33,7 @@ const hooks = {
 
     state = {
       user,
-      vet360,
+      vapService,
     };
   },
 };
@@ -101,7 +101,7 @@ describe('selectors', () => {
         [fieldName]: transactionRequest,
       };
 
-      state.vet360 = { transactions, fieldTransactionMap };
+      state.vapService = { transactions, fieldTransactionMap };
 
       let result = selectors.selectVAPServiceTransaction(state, fieldName);
       expect(result).to.deep.equal({ transaction, transactionRequest });
@@ -117,7 +117,7 @@ describe('selectors', () => {
     });
   });
 
-  describe('selectVet360FailedTransactions', () => {
+  describe('selectVAPServiceFailedTransactions', () => {
     beforeEach(hooks.beforeEach);
     it('returns only failed transactions from a list of transactions', () => {
       const failed = [
@@ -135,7 +135,7 @@ describe('selectors', () => {
         },
       ];
 
-      state.vet360.transactions = [
+      state.vapService.transactions = [
         ...failed,
         {
           data: {
@@ -159,7 +159,7 @@ describe('selectors', () => {
         },
       ];
 
-      const result = selectors.selectVet360FailedTransactions(state);
+      const result = selectors.selectVAPServiceFailedTransactions(state);
 
       expect(result).to.include(failed[0]);
       expect(result).to.include(failed[1]);
@@ -171,15 +171,15 @@ describe('selectors', () => {
     it('selects the transaction of the ID stored in the metadata mostRecentErroredTransactionId', () => {
       const transactionId = 'transaction_id';
       const transaction = { data: { attributes: { transactionId } } };
-      state.vet360.transactions = [transaction];
-      state.vet360.metadata.mostRecentErroredTransactionId = transactionId;
+      state.vapService.transactions = [transaction];
+      state.vapService.metadata.mostRecentErroredTransactionId = transactionId;
       expect(selectors.selectMostRecentErroredTransaction(state)).to.be.equal(
         transaction,
       );
     });
   });
 
-  describe('selectVet360PendingCategoryTransactions', () => {
+  describe('selectVAPServicePendingCategoryTransactions', () => {
     beforeEach(hooks.beforeEach);
     it('selects transactions of the passed transaction category type that is still pending and without field-level data', () => {
       const type = TRANSACTION_CATEGORY_TYPES.ADDRESS;
@@ -235,9 +235,9 @@ describe('selectors', () => {
         },
       ];
 
-      state.vet360.transactions = transactions;
+      state.vapService.transactions = transactions;
 
-      const result = selectors.selectVet360PendingCategoryTransactions(
+      const result = selectors.selectVAPServicePendingCategoryTransactions(
         state,
         type,
       );
@@ -252,7 +252,7 @@ describe('selectors', () => {
     it('looks up the form value in state for a given field name', () => {
       const fieldName = 'someField';
       const fieldValue = 'someFieldValue';
-      state.vet360.formFields[fieldName] = fieldValue;
+      state.vapService.formFields[fieldName] = fieldValue;
 
       expect(selectors.selectEditedFormField(state, fieldName)).to.be.equal(
         fieldValue,
@@ -264,7 +264,7 @@ describe('selectors', () => {
     beforeEach(hooks.beforeEach);
     it('looks up the form value in state for a given field name', () => {
       const currentlyOpenModal = 'someField';
-      state.vet360.modal = currentlyOpenModal;
+      state.vapService.modal = currentlyOpenModal;
 
       expect(selectors.selectCurrentlyOpenEditModal(state)).to.be.equal(
         currentlyOpenModal,
@@ -280,7 +280,7 @@ describe('selectors', () => {
         validationKey: '123',
         addressValidationError: null,
       };
-      state.vet360.addressValidation = addressValidation;
+      state.vapService.addressValidation = addressValidation;
 
       expect(selectors.selectAddressValidation(state)).to.deep.equal(
         addressValidation,
@@ -292,7 +292,7 @@ describe('selectors', () => {
     beforeEach(hooks.beforeEach);
     it('should return the current address validation type', () => {
       const addressValidationType = 'home';
-      state.vet360.addressValidation = {
+      state.vapService.addressValidation = {
         addressValidationType,
       };
 
@@ -337,7 +337,7 @@ describe('selectVAPServiceInitializationStatus', () => {
   it('returns INITIALIZING if there is an ongoing transaction', () => {
     const transactionId = 'transaction_1';
     state.user.profile.services = [];
-    state.vet360.transactions = [
+    state.vapService.transactions = [
       {
         data: {
           attributes: {
@@ -347,7 +347,9 @@ describe('selectVAPServiceInitializationStatus', () => {
         },
       },
     ];
-    state.vet360.fieldTransactionMap[INIT_VAP_SERVICE_ID] = { transactionId };
+    state.vapService.fieldTransactionMap[INIT_VAP_SERVICE_ID] = {
+      transactionId,
+    };
     const result = selectors.selectVAPServiceInitializationStatus(state);
     expect(result.status).to.be.equal(
       VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZING,
@@ -357,7 +359,7 @@ describe('selectVAPServiceInitializationStatus', () => {
   it('returns INITIALIZATION_FAILURE if there is a failed transaction', () => {
     const transactionId = 'transaction_1';
     state.user.profile.services = [];
-    state.vet360.transactions = [
+    state.vapService.transactions = [
       {
         data: {
           attributes: {
@@ -367,7 +369,9 @@ describe('selectVAPServiceInitializationStatus', () => {
         },
       },
     ];
-    state.vet360.fieldTransactionMap[INIT_VAP_SERVICE_ID] = { transactionId };
+    state.vapService.fieldTransactionMap[INIT_VAP_SERVICE_ID] = {
+      transactionId,
+    };
     const result = selectors.selectVAPServiceInitializationStatus(state);
     expect(result.status).to.be.equal(
       VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZATION_FAILURE,

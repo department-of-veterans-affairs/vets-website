@@ -22,8 +22,8 @@ describe('healthcare-questionnaire -- reason for visit', () => {
         options={{}}
       />,
     );
-    expect(wrapper.find('input').exists()).to.be.true;
-    expect(wrapper.find('input').props().value).to.be.equal('');
+    expect(wrapper.find('textarea').exists()).to.be.true;
+    expect(wrapper.find('textarea').props().value).to.be.equal('');
     wrapper.unmount();
   });
   it('parsing reason from state -- has reason in value', () => {
@@ -40,8 +40,8 @@ describe('healthcare-questionnaire -- reason for visit', () => {
         options={{}}
       />,
     );
-    expect(wrapper.find('input').exists()).to.be.true;
-    expect(wrapper.find('input').props().value).to.be.equal('a good value');
+    expect(wrapper.find('textarea').exists()).to.be.true;
+    expect(wrapper.find('textarea').props().value).to.be.equal('a good value');
     wrapper.unmount();
   });
   it('parsing reason from state -- no reason in value and no description in appointment', () => {
@@ -58,8 +58,8 @@ describe('healthcare-questionnaire -- reason for visit', () => {
         options={{}}
       />,
     );
-    expect(wrapper.find('input').exists()).to.be.true;
-    expect(wrapper.find('input').props().value).to.be.equal('');
+    expect(wrapper.find('textarea').exists()).to.be.true;
+    expect(wrapper.find('textarea').props().value).to.be.equal('');
     wrapper.unmount();
   });
   it('parsing reason from state -- no reason in value and has description in appointment', () => {
@@ -78,7 +78,7 @@ describe('healthcare-questionnaire -- reason for visit', () => {
         options={{}}
       />,
     );
-    expect(wrapper.find('input').exists()).to.be.true;
+    expect(wrapper.find('textarea').exists()).to.be.true;
     expect(onChange.called).to.be.true;
     expect(onChange.calledWith('a really good value')).to.be.true;
     wrapper.unmount();
@@ -99,7 +99,7 @@ describe('healthcare-questionnaire -- reason for visit', () => {
         options={{}}
       />,
     );
-    expect(wrapper.find('input').exists()).to.be.true;
+    expect(wrapper.find('textarea').exists()).to.be.true;
     expect(onChange.called).to.be.true;
     expect(onChange.calledWith('this is a reason')).to.be.true;
     wrapper.unmount();
@@ -120,8 +120,10 @@ describe('healthcare-questionnaire -- reason for visit', () => {
         options={{}}
       />,
     );
-    expect(wrapper.find('input').exists()).to.be.true;
-    expect(wrapper.find('input').props().value).to.be.equal('should be this');
+    expect(wrapper.find('textarea').exists()).to.be.true;
+    expect(wrapper.find('textarea').props().value).to.be.equal(
+      'should be this',
+    );
     expect(onChange.called).to.be.false;
     wrapper.unmount();
   });

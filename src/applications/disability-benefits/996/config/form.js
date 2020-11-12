@@ -35,7 +35,7 @@ const formConfig = {
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      services.vet360,
+      services.vaProfile,
       services.bgs,
       services.mvi,
       services.appeals,
