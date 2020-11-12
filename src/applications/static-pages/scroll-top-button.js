@@ -30,9 +30,9 @@ function getScrolledDistanceFromTopOfScreen() {
 // Responsible for toggling animation classes
 function scrollListener(
   button,
-  container,
+  buttonContainer,
   footer,
-  threeFourthsContainer,
+  layoutContainer,
   buttonClasses,
 ) {
   const distanceOfScrollingBeforeAppearing = 600;
@@ -53,44 +53,45 @@ function scrollListener(
   }
 
   if (isScrolledIntoView(footer)) {
-    container.classList.add(buttonClasses.containerRelative);
-    threeFourthsContainer.classList.add(buttonClasses.containerRelative);
+    buttonContainer.classList.add(buttonClasses.containerRelative);
+    layoutContainer.classList.add(buttonClasses.containerRelative);
     button.classList.add(buttonClasses.transitionReset);
-  } else if (doesElHaveClass(container, buttonClasses.containerRelative)) {
-    container.classList.remove(buttonClasses.containerRelative);
-    threeFourthsContainer.classList.remove(buttonClasses.containerRelative);
+  } else if (
+    doesElHaveClass(buttonContainer, buttonClasses.containerRelative)
+  ) {
+    buttonContainer.classList.remove(buttonClasses.containerRelative);
+    layoutContainer.classList.remove(buttonClasses.containerRelative);
     button.classList.remove(buttonClasses.transitionReset);
   }
 }
 
 function setup() {
-  const container = document.querySelector('.vsa-top-button-container');
-  if (!container) return;
+  const buttonContainer = document.getElementById('top-button-container');
+  if (!buttonContainer) return;
 
-  const upToTopButton = container.querySelector('.vsa-top-button');
+  const upToTopButton = document.querySelector('.vsa-top-button');
   if (!upToTopButton) return;
   // The current page likely does not contain a "Back to top" button in its layout.
 
-  const threeFourthsContainer = container.querySelector(
-    '.usa-width-three-fourths',
-  );
-  const footer = document.querySelector('.footer-inner');
+  const layoutContainer = document.getElementById('usa-width-container');
+  const footer = document.getElementById('footerNav');
+
   const buttonClasses = {
-    transitionIn: 'vsa-top-button-transition-in',
-    transitionOut: 'vsa-top-button-transition-out',
-    containerRelative: 'vsa-top-button-container-relative',
-    transitionReset: 'vsa-top-button-transition-reset',
+    transitionIn: 'va-top-button-transition-in',
+    transitionOut: 'va-top-button-transition-out',
+    containerRelative: 'va-top-button-container-relative',
+    transitionReset: 'va-top-button-transition-reset',
   };
 
-  if (!threeFourthsContainer || !footer) return;
+  if (!layoutContainer || !footer) return;
   // Attach listeners
   upToTopButton.addEventListener('click', navigateToTop);
   window.addEventListener('scroll', () =>
     scrollListener(
       upToTopButton,
-      container,
+      buttonContainer,
       footer,
-      threeFourthsContainer,
+      layoutContainer,
       buttonClasses,
     ),
   );

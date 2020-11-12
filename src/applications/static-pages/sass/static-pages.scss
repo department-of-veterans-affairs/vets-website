@@ -86,7 +86,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 }
 
 //=============================
-// Up To Top Button Styles 
+// Up To Top Button Styles
 //=============================
 .vsa-top-button-container {
   bottom: 0;
@@ -94,11 +94,11 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   pointer-events: none;
   position: fixed;
   width: 100%;
-  &.vsa-top-button-container-relative {
+  &.va-top-button-container-relative {
     position: relative;
   }
 
-  .usa-width-three-fourths.vsa-top-button-container-relative { 
+  .usa-width-three-fourths.va-top-button-container-relative {
     width: 100%;
   }
 
@@ -115,16 +115,16 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     transition: all 250ms ease-in;
     right: 0;
     width: auto;
-    &.vsa-top-button-transition-in {
+    &.va-top-button-transition-in {
       pointer-events: all;
       opacity: 1;
       transform: translateY(-12px);
     }
-    &.vsa-top-button-transition-out {
+    &.va-top-button-transition-out {
       opacity: 0;
       transform: translateY(2px);
     }
-    &.vsa-top-button-transition-reset {
+    &.va-top-button-transition-reset {
       transform: translateY(0px);
     }
   }
