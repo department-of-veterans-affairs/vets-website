@@ -41,7 +41,7 @@ describe('VAOS <ContactInfoPage>', () => {
     userEvent.click(button);
     expect(screen.history.push.called).to.be.true;
 
-    // Expect the previously entered form data is still there if you unmount and remount the page with the same store, 
+    // Expect the previously entered form data is still there if you unmount and remount the page with the same store,
     await cleanup();
     screen = renderWithStoreAndRouter(<Route component={ContactInfoPage} />, {
       store,
