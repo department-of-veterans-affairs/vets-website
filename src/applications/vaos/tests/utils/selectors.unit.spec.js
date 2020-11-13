@@ -915,6 +915,7 @@ describe('VAOS selectors', () => {
       const state = {
         featureToggles: {
           vaOnlineSchedulingFlatFacilityPage: true,
+          vaOnlineSchedulingFlatFacilityPageForSacramento: false,
         },
         user: {
           profile: {
@@ -934,6 +935,7 @@ describe('VAOS selectors', () => {
     const state = {
       featureToggles: {
         vaOnlineSchedulingFlatFacilityPage: true,
+        vaOnlineSchedulingFlatFacilityPageForSacramento: false,
       },
       user: {
         profile: {
@@ -950,5 +952,21 @@ describe('VAOS selectors', () => {
     };
 
     expect(selectUseFlatFacilityPage(state)).to.be.false;
+  });
+
+  it('should return true if feature toggle is on and user is registered to Sacramento VA and flat page is enabled for Sacramento', () => {
+    const state = {
+      featureToggles: {
+        vaOnlineSchedulingFlatFacilityPage: true,
+        vaOnlineSchedulingFlatFacilityPageForSacramento: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '612', isCerner: false }],
+        },
+      },
+    };
+
+    expect(selectUseFlatFacilityPage(state)).to.be.true;
   });
 });

@@ -70,10 +70,14 @@ export const vaosExpressCareNew = state =>
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 const vaosFlatFacilityPage = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
+const vaosFlatFacilityPageForSacramento = state =>
+  toggleValues(state).vaOnlineSchedulingFlatFacilityPageForSacramento;
 export const selectUseFlatFacilityPage = state =>
   vaosFlatFacilityPage(state) &&
   !selectIsCernerPatient(state) &&
-  !selectIsRegisteredToSacramentoVA(state);
+  (!selectIsRegisteredToSacramentoVA(state) ||
+    (vaosFlatFacilityPageForSacramento(state) &&
+      selectIsRegisteredToSacramentoVA(state)));
 
 export function getNewAppointment(state) {
   return state.newAppointment;
