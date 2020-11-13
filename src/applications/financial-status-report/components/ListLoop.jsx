@@ -3,25 +3,21 @@ import { connect } from 'react-redux';
 
 import { setIncomeData } from '../actions';
 
-const AdditionalIncome = ({ rest, initType, initAmount }) => {
+const AdditionalIncome = ({ rest, initType, initAmount, setSavedItems }) => {
   const { SchemaField } = rest.registry.fields;
   const [type, setType] = useState(initType);
   const [amount, setAmount] = useState(initAmount);
 
-  // console.log('AdditionalIncome type: ', type);
-  // console.log('AdditionalIncome amount: ', amount);
-
-  // console.log('AdditionalIncome rest: ', rest.income);
-  // console.log('AdditionalIncome amount: ', typeof amount);
-
   useEffect(
     () => {
-      rest.setIncomeData({
+      if (!setSavedItems) return;
+      setSavedItems({
+        id: Math.random(),
         type,
         amount,
       });
     },
-    [type, amount],
+    [type, amount, setSavedItems],
   );
 
   return (
@@ -54,9 +50,7 @@ const AdditionalIncome = ({ rest, initType, initAmount }) => {
   );
 };
 
-const EditItem = ({ item, update, remove, rest }) => {
-  // console.log('EditItem rest: ', rest.income);
-
+const EditItem = ({ item, update, remove, rest, setSavedItems }) => {
   return (
     <div className="list-input-section">
       <div className="input-section-container">
@@ -64,18 +58,16 @@ const EditItem = ({ item, update, remove, rest }) => {
           <div className="input-container">
             <AdditionalIncome
               rest={rest}
-              initType={rest.income.type}
-              initAmount={rest.income.amount}
+              initType={item.type}
+              initAmount={item.amount}
+              setSavedItems={setSavedItems}
             />
             <a className="remove-link" onClick={() => remove(item.id)}>
               Remove
             </a>
           </div>
           <div>
-            <button
-              className="btn-save"
-              onClick={() => update(item.id, rest.income)}
-            >
+            <button className="btn-save" onClick={() => update(item.id)}>
               Update
             </button>
           </div>
@@ -86,8 +78,6 @@ const EditItem = ({ item, update, remove, rest }) => {
 };
 
 const ListItem = ({ item, edit }) => {
-  // console.log('ListItem item: ', item);
-
   return (
     <div className="list-loop-item-list">
       {item.type && (
@@ -110,43 +100,34 @@ const ListItem = ({ item, edit }) => {
 };
 
 const ListLoop = ({ title, subTitle, items, ...rest }) => {
-  const [saved, setSaved] = useState([...items]);
+  const [savedItems, setSavedItems] = useState([...items]);
   const [editId, setEditId] = useState(null);
   const [showAdd, setShowAdd] = useState(true);
 
-  const handleRemove = id => {
-    setSaved(prevState => {
-      return prevState.filter(item => item.id !== id);
+  const handleUpdate = id => {
+    const itemIndex = rest.income.findIndex(item => item.id === id);
+    if (itemIndex === -1) return;
+    const updated = rest.income.map((item, index) => {
+      return index === itemIndex ? { ...item, ...savedItems } : item;
     });
-  };
 
-  const handleUpdate = (id, value) => {
-    const itemIndex = saved.findIndex(item => item.id === id);
-    if (!value || itemIndex === -1) return;
-
-    setSaved(prevState => [
-      ...prevState.map((item, index) => {
-        return index === itemIndex ? { ...item, ...value } : item;
-      }),
-    ]);
+    rest.setIncomeData(updated);
     setEditId(null);
   };
 
-  const handleSave = () => {
-    setSaved(prevState => [
-      ...prevState,
-      {
-        id: Math.random(),
-        type: rest.income.type,
-        amount: rest.income.amount,
-      },
-    ]);
-    setShowAdd(false);
+  const handleRemove = id => {
+    const updated = rest.income.filter(item => item.id !== id);
+    rest.setIncomeData(updated);
   };
 
   const handleEdit = id => {
     setShowAdd(false);
     setEditId(id);
+  };
+
+  const handleSave = () => {
+    rest.setIncomeData([...rest.income, savedItems]);
+    setShowAdd(false);
   };
 
   return (
@@ -155,7 +136,7 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
         <h3 className="title">{title}</h3>
         <p className="sub-title">{subTitle}</p>
       </div>
-      {saved?.map(
+      {rest.income?.map(
         item =>
           item.id !== editId ? (
             <ListItem key={item.id} item={item} edit={handleEdit} />
@@ -166,6 +147,7 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
               rest={rest}
               update={handleUpdate}
               remove={handleRemove}
+              setSavedItems={setSavedItems}
             />
           ),
       )}
@@ -174,7 +156,7 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
           <div className="input-section-container">
             <div className="input-row">
               <div className="input-container">
-                <AdditionalIncome rest={rest} />
+                <AdditionalIncome rest={rest} setSavedItems={setSavedItems} />
               </div>
               <div>
                 <button className="btn-save" onClick={() => handleSave()}>
