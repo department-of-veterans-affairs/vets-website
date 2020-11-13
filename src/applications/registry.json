@@ -864,7 +864,7 @@
   },
   {
     "appName": "Healthcare Questionnaire",
-    "entryName": "questionnaire",
+    "entryName": "questionnaire-form",
     "rootUrl": "/healthcare/questionnaire",
     "template": {
       "vagovprod": true,
@@ -911,6 +911,15 @@
           "name": "Search results"
         }
       ]
+    }
+  },
+  {
+    "appName": "Questionnaire",
+    "entryName": "questionnaire",
+    "rootUrl": "/questionnaire",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
     }
   }
 ]
