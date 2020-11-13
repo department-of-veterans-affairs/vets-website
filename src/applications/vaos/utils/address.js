@@ -2,6 +2,10 @@ function toRadians(value) {
   return (value * Math.PI) / 180;
 }
 
+function toDegrees(value) {
+  return (value * 180) / Math.PI;
+}
+
 export function distanceBetween(lat1, lng1, lat2, lng2) {
   const R = 3959; // Earth's radius in miles
   const dLat = toRadians(lat2 - lat1);
@@ -18,6 +22,25 @@ export function distanceBetween(lat1, lng1, lat2, lng2) {
   return parseFloat((R * c).toFixed(1));
 }
 
+export function calculateBoundingBox(lat, long, radius) {
+  const earthRadius = 3959;
+  const radDist = radius / earthRadius;
+  const radLat = toRadians(lat);
+  const radLong = toRadians(long);
+  const deltaLongitude = Math.asin(Math.sin(radDist) / Math.cos(radLat));
+  const minLongitude = radLong - deltaLongitude;
+  const maxLongitude = radLong + deltaLongitude;
+  const minLatitude = radLat - radDist;
+  const maxLatitude = radLat + radDist;
+
+  return [
+    toDegrees(minLatitude).toFixed(3),
+    toDegrees(minLongitude).toFixed(3),
+    toDegrees(maxLatitude).toFixed(3),
+    toDegrees(maxLongitude).toFixed(3),
+  ];
+}
+
 export function getPreciseLocation() {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
@@ -26,4 +49,26 @@ export function getPreciseLocation() {
         reject(new Error(`Geolocation error ${error.code}: ${error.message}`)),
     );
   });
+}
+
+export function vapAddressToString({
+  addressLine1,
+  addressLine2,
+  addressLine3,
+  city,
+  stateCode,
+  zipCode,
+  country,
+}) {
+  return [
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    stateCode,
+    zipCode,
+    country,
+  ]
+    .filter(item => !!item)
+    .join(',');
 }
