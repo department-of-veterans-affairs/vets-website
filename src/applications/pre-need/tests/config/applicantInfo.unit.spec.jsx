@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount, render } from 'enzyme';
+import { render } from 'enzyme';
 
 import {
   DefinitionTester,
@@ -17,7 +17,6 @@ describe('Pre-need applicant information', () => {
   } = formConfig.chapters.applicantInformation.pages.applicantInformation;
 
   it('should render', () => {
-    uiSchema.maiden = '';
     const form = render(
       <DefinitionTester
         schema={schema}
@@ -30,9 +29,9 @@ describe('Pre-need applicant information', () => {
     expect(form.find('select').length).to.equal(3);
   });
 
-  xit('should not submit empty form', () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -45,12 +44,12 @@ describe('Pre-need applicant information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
-    form.unmount();
+    // form.unmount();
   });
 
-  xit('should submit with required information', () => {
+  it('should submit with required information', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -70,12 +69,12 @@ describe('Pre-need applicant information', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
-    form.unmount();
+    // form.unmount();
   });
 
-  xit('should reveal info message', () => {
+  it('should reveal info message', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -89,6 +88,6 @@ describe('Pre-need applicant information', () => {
     selectRadio(form, 'root_application_claimant_relationshipToVet', '1');
 
     expect(form.find('.usa-alert-info').exists()).to.be.true;
-    form.unmount();
+    // form.unmount();
   });
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount, render } from 'enzyme';
+import { render } from 'enzyme';
 
 import {
   DefinitionTester,
@@ -18,7 +18,6 @@ describe('Pre-need sponsor information', () => {
   } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
 
   it('should render', () => {
-    uiSchema.maiden = '';
     const form = render(
       <DefinitionTester
         schema={schema}
@@ -31,9 +30,9 @@ describe('Pre-need sponsor information', () => {
     expect(form.find('select').length).to.equal(4);
   });
 
-  xit('should not submit empty form', () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -46,12 +45,12 @@ describe('Pre-need sponsor information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(8);
     expect(onSubmit.called).to.be.false;
-    form.unmount();
+    // form.unmount();
   });
 
-  xit('should submit with required information', () => {
+  it('should submit with required information', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -79,12 +78,12 @@ describe('Pre-need sponsor information', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
-    form.unmount();
+    // form.unmount();
   });
 
-  xit('should reveal date of death question', () => {
+  it('should reveal date of death question', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -99,6 +98,6 @@ describe('Pre-need sponsor information', () => {
     selectRadio(form, 'root_application_veteran_isDeceased', 'yes');
     expect(form.find('input').length).to.equal(27);
     expect(form.find('select').length).to.equal(6);
-    form.unmount();
+    // form.unmount();
   });
 });
