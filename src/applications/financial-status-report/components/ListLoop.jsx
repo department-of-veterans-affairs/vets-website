@@ -1,10 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+
+import { setIncomeData } from '../actions';
 
 const AdditionalIncome = ({ rest, initType, initAmount }) => {
   const { SchemaField } = rest.registry.fields;
   const [type, setType] = useState(initType);
   const [amount, setAmount] = useState(initAmount);
+
+  // console.log('AdditionalIncome type: ', type);
+  // console.log('AdditionalIncome amount: ', amount);
+
+  // console.log('AdditionalIncome rest: ', rest.income);
+  // console.log('AdditionalIncome amount: ', typeof amount);
+
+  useEffect(
+    () => {
+      rest.setIncomeData({
+        type,
+        amount,
+      });
+    },
+    [type, amount],
+  );
 
   return (
     <>
@@ -37,9 +55,7 @@ const AdditionalIncome = ({ rest, initType, initAmount }) => {
 };
 
 const EditItem = ({ item, update, remove, rest }) => {
-  const updateItem = {
-    amount: 200,
-  };
+  // console.log('EditItem rest: ', rest.income);
 
   return (
     <div className="list-input-section">
@@ -48,8 +64,8 @@ const EditItem = ({ item, update, remove, rest }) => {
           <div className="input-container">
             <AdditionalIncome
               rest={rest}
-              initType={'Income type 4'}
-              initAmount={300}
+              initType={rest.income.type}
+              initAmount={rest.income.amount}
             />
             <a className="remove-link" onClick={() => remove(item.id)}>
               Remove
@@ -58,7 +74,7 @@ const EditItem = ({ item, update, remove, rest }) => {
           <div>
             <button
               className="btn-save"
-              onClick={() => update(item.id, updateItem)}
+              onClick={() => update(item.id, rest.income)}
             >
               Update
             </button>
@@ -70,6 +86,8 @@ const EditItem = ({ item, update, remove, rest }) => {
 };
 
 const ListItem = ({ item, edit }) => {
+  // console.log('ListItem item: ', item);
+
   return (
     <div className="list-loop-item-list">
       {item.type && (
@@ -119,8 +137,8 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
       ...prevState,
       {
         id: Math.random(),
-        type: 'Income type 1',
-        amount: 100,
+        type: rest.income.type,
+        amount: rest.income.amount,
       },
     ]);
     setShowAdd(false);
@@ -159,7 +177,7 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
                 <AdditionalIncome rest={rest} />
               </div>
               <div>
-                <button className="btn-save" onClick={handleSave}>
+                <button className="btn-save" onClick={() => handleSave()}>
                   Save
                 </button>
               </div>
@@ -177,13 +195,18 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
   );
 };
 
-const mapStateToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+  setIncomeData: data => dispatch(setIncomeData(data)),
+});
+
+const mapStateToProps = state => ({
   title: 'Your additional income',
   subTitle: 'Enter each type of additional income separately below.',
   items: [],
+  income: state.fsr.income,
 });
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(ListLoop);

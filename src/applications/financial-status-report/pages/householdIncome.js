@@ -61,7 +61,7 @@ export const schema = {
               properties: {
                 incomeType: {
                   type: 'string',
-                  enum: ['Alimony', 'Income Type 2', 'Income Type 3'],
+                  enum: ['Income Type 1', 'Income Type 2', 'Income Type 3'],
                 },
                 monthlyAmount: {
                   type: 'string',
