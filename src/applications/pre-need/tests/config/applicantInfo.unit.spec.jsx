@@ -17,6 +17,7 @@ describe('Pre-need applicant information', () => {
   } = formConfig.chapters.applicantInformation.pages.applicantInformation;
 
   it('should render', () => {
+    uiSchema.maiden = '';
     const form = render(
       <DefinitionTester
         schema={schema}
