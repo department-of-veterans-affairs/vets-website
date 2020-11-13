@@ -1,23 +1,34 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { formatPhone, getCountryName } from '../content/contactInformation';
+import { selectProfile } from 'platform/user/selectors';
 
-const ReviewDescription = ({ formData }) => {
-  const veteran = formData?.veteran;
-  if (!veteran) {
+import { formatPhone } from '../content/contactInformation';
+import { ADDRESS_TYPES, formatAddress } from 'platform/forms/address/helpers';
+
+const ReviewDescription = ({ profile }) => {
+  if (!profile) {
     return null;
   }
-  // Label: formatted value
+
+  const { email, homePhone, mailingAddress } = profile.vapContactInfo;
+  const address = formatAddress(mailingAddress);
+  const isUS = mailingAddress.addressType !== ADDRESS_TYPES.international;
+  const stateOrProvince = isUS ? 'State' : 'Province';
+
+  // Label: formatted value in (design) display order
   const display = {
-    'Phone number': () => formatPhone(veteran?.phoneNumber),
-    'Email address': () => veteran?.emailAddress,
-    Country: () => getCountryName(veteran?.country),
-    'Street address': () => veteran?.street || '',
-    'Line 2': () => veteran?.street2 || '',
-    'Line 3': () => veteran?.street3 || '',
-    City: () => veteran?.city || '',
-    State: () => veteran?.state,
-    'Postal code': () => veteran?.zipCode5,
+    'Phone number': () =>
+      formatPhone(`${homePhone?.areaCode}${homePhone?.phoneNumber}`),
+    'Email address': () => email.emailAddress,
+    Country: () => address.country,
+    'Street address': () => address.addressLine1,
+    'Line 2': () => address.addressLine2,
+    'Line 3': () => address.addressLine3,
+    City: () => address.city,
+    [stateOrProvince]: () => address.stateOrProvince,
+    'Postal code': () => address.zipOrPostalCode,
   };
 
   return (
@@ -50,4 +61,15 @@ const ReviewDescription = ({ formData }) => {
   );
 };
 
-export default ReviewDescription;
+ReviewDescription.propTypes = {
+  profile: PropTypes.shape({}),
+};
+
+const mapStateToProps = state => {
+  const profile = selectProfile(state);
+  return { profile };
+};
+
+export { ReviewDescription };
+
+export default connect(mapStateToProps)(ReviewDescription);
