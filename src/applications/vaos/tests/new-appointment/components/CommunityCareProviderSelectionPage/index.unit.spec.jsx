@@ -69,7 +69,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ],
     );
     mockCommunityCareEligibility({
-      parentSites: ['983GC', '983GJ', '983'],
+      parentSites: ['983', '983GJ', '983GC'],
       supportedSites: ['983', '983GJ'],
       careType: 'PrimaryCare',
     });
