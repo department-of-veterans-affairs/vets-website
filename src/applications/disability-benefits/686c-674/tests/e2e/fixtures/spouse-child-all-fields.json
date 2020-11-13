@@ -119,7 +119,7 @@
       },
       "ssn": "123211234",
       "birthDate": "1991-02-03",
-      "isVeteran": true,
+      "isVeteran": false,
       "vaFileNumber": "12321345"
     },
     "veteranContactInformation": {

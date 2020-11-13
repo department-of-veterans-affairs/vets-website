@@ -1,6 +1,6 @@
 {
-    "data": {
-        "veteranWasMarriedBefore": true,
+  "data": {
+    "veteranWasMarriedBefore": true,
     "veteranMarriageHistory": [
       {
         "startDate": "2006-09-03",
@@ -74,7 +74,7 @@
       },
       "ssn": "123211234",
       "birthDate": "1991-02-03",
-      "isVeteran": true,
+      "isVeteran": false,
       "vaFileNumber": "12321345"
     },
     "veteranContactInformation": {
@@ -97,20 +97,20 @@
       "reportDivorce": true
     },
     "reportDivorce": {
-        "fullName": {
-          "first": "john",
-          "last": "does"
-        },
-        "ssn": "123211234",
-        "birthDate": "1989-04-08",
-        "date": "1991-07-07",
-        "location": {
-          "isOutsideUs": false,
-          "state": "MD",
-          "city": "Army Post Office"
-        },
-        "reasonMarriageEnded": "Divorce"
+      "fullName": {
+        "first": "john",
+        "last": "does"
       },
+      "ssn": "123211234",
+      "birthDate": "1989-04-08",
+      "date": "1991-07-07",
+      "location": {
+        "isOutsideUs": false,
+        "state": "MD",
+        "city": "Army Post Office"
+      },
+      "reasonMarriageEnded": "Divorce"
+    },
     "veteranInformation": {
       "fullName": {
         "first": "Greg",
@@ -120,5 +120,5 @@
       "ssn": "796121200",
       "birthDate": "1933-05-04"
     }
-    }
+  }
 }
