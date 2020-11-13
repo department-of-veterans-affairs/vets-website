@@ -8,6 +8,7 @@ import { getLongTermAppointmentHistory } from '../../../services/var';
 import FormButtons from '../../../components/FormButtons';
 import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
 import UpdateAddressAlert from './UpdateAddressAlert';
+import TypeOfCareAlert from './TypeOfCareAlert';
 import * as actions from '../../redux/actions';
 import {
   getFormPageInfo,
@@ -109,6 +110,7 @@ function TypeOfCarePage({
         }}
         data={data}
       >
+        <TypeOfCareAlert />
         <FormButtons
           onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
           pageChangeInProgress={pageChangeInProgress}

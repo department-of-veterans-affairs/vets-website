@@ -9,29 +9,52 @@ import { selectProfile } from 'platform/user/selectors';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
-import { SAVED_CLAIM_TYPE } from '../constants';
 import { srSubstitute } from '../../all-claims/utils';
+import { SELECTED } from '../constants';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
 export const VeteranInfoView = ({
-  formData,
+  formData = {},
   profile = {},
   veteran = {},
   setFormData,
+  contestableIssues = {},
 }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
   const { dob, gender, userFullName } = profile;
 
   const { first, middle, last, suffix } = userFullName;
+  // ContestableIssues API needs a benefit type, so they are grouped together
+  const { issues, benefitType } = contestableIssues;
 
-  // benefit type is added by the wizard, but the session value will be empty
-  // if the user decides to restart the form; set in the submitTransformer
-  const benefitType = window.sessionStorage.getItem(SAVED_CLAIM_TYPE);
   useEffect(() => {
-    if (formData && benefitType) {
-      window.sessionStorage.removeItem(SAVED_CLAIM_TYPE);
-      setFormData({ ...formData, benefitType });
+    if (issues?.length > 0 && benefitType) {
+      // Everytime the user starts the form, we need to get an updated list of
+      // contestable issues. This bit of code ensures that exactly matching
+      // previously selected entries are still selected
+      const contestedIssues = issues.map(issue => {
+        const newAttrs = issue.attributes;
+        const existingIssue = (formData.contestedIssues || []).find(
+          ({ attributes: oldAttrs }) =>
+            ['ratingIssueReferenceId', 'ratingIssuePercentNumber'].every(
+              key => oldAttrs[key] === newAttrs[key],
+            ),
+        );
+        return existingIssue?.[SELECTED]
+          ? { ...issue, [SELECTED]: true }
+          : issue;
+      });
+
+      // add benefitType (from wizard) and contestedIssues (from API) values to
+      // the form; it's added here instead of the intro page because at this
+      // point the prefill or save-in-progress data would overwrite it
+      setFormData({
+        ...formData,
+        // add benefitType from wizard
+        benefitType: benefitType || formData.benefitType,
+        contestedIssues,
+      });
     }
   });
 
@@ -83,9 +106,11 @@ VeteranInfoView.propTypes = {
 const mapStateToProps = state => {
   const profile = selectProfile(state);
   const veteran = state.form?.data.veteran;
+  const { contestableIssues } = state;
   return {
     profile,
     veteran,
+    contestableIssues,
   };
 };
 

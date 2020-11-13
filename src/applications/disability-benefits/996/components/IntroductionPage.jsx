@@ -12,7 +12,6 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { setData } from 'platform/forms-system/src/js/actions';
 import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
@@ -52,8 +51,6 @@ export class IntroductionPage extends React.Component {
     const {
       contestableIssues = {},
       getContestableIssues,
-      form,
-      setFormData,
       allowHlr,
     } = this.props;
     const wizardComplete = this.state.status === WIZARD_STATUS_COMPLETE;
@@ -61,15 +58,6 @@ export class IntroductionPage extends React.Component {
       const benefitType = sessionStorage.getItem(SAVED_CLAIM_TYPE);
       if (!contestableIssues?.status) {
         getContestableIssues({ benefitType });
-      } else if (
-        contestableIssues.status !== prevProps.contestableIssues.status &&
-        contestableIssues.issues?.length > 0
-      ) {
-        setFormData({
-          ...form.data,
-          benefitType,
-          contestedIssues: contestableIssues.issues,
-        });
       }
 
       // set focus on h1 only after wizard completes
@@ -284,7 +272,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   toggleLoginModal,
-  setFormData: setData,
   getContestableIssues: getContestableIssuesAction,
 };
 
