@@ -186,11 +186,6 @@ export function getChosenCCSystemId(state) {
   );
 }
 
-export function getRootIdForChosenFacility(state) {
-  const facility = getChosenFacilityInfo(state);
-  return facility?.id?.slice(0, 3);
-}
-
 export function getSiteIdForChosenFacility(state) {
   return getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
 }
