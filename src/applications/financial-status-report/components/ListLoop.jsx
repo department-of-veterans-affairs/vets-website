@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-
 import { setIncomeData } from '../actions';
 
-const AdditionalIncome = ({ rest, initType, initAmount, setSavedItems }) => {
-  const { SchemaField } = rest.registry.fields;
+const AdditionalIncome = ({
+  initType,
+  initAmount,
+  setSavedItem,
+  registry,
+  schema,
+  uiSchema,
+  idSchema,
+}) => {
+  const { SchemaField } = registry.fields;
   const [type, setType] = useState(initType);
   const [amount, setAmount] = useState(initAmount);
 
   useEffect(
     () => {
-      if (!setSavedItems) return;
-      setSavedItems({
+      if (!setSavedItem || !type || !amount) return;
+      setSavedItem({
         id: Math.random(),
         type,
         amount,
       });
     },
-    [type, amount, setSavedItems],
+    [type, amount, setSavedItem],
   );
 
   return (
@@ -25,42 +32,54 @@ const AdditionalIncome = ({ rest, initType, initAmount, setSavedItems }) => {
       <div className="input-custom input-1">
         <SchemaField
           required={false}
-          schema={rest.schema.properties.incomeType}
-          uiSchema={rest.uiSchema.incomeType}
+          schema={schema.properties.incomeType}
+          uiSchema={uiSchema.incomeType}
+          onBlur={() => {}}
+          registry={registry}
+          idSchema={idSchema}
           formData={type}
           onChange={setType}
-          onBlur={() => {}}
-          registry={rest.registry}
-          idSchema={rest.idSchema}
         />
       </div>
       <div className="input-custom input-2">
         <SchemaField
           required={false}
-          schema={rest.schema.properties.monthlyAmount}
-          uiSchema={rest.uiSchema.monthlyAmount}
+          schema={schema.properties.monthlyAmount}
+          uiSchema={uiSchema.monthlyAmount}
+          onBlur={() => {}}
+          registry={registry}
+          idSchema={idSchema}
           formData={amount}
           onChange={setAmount}
-          onBlur={() => {}}
-          registry={rest.registry}
-          idSchema={rest.idSchema}
         />
       </div>
     </>
   );
 };
 
-const EditItem = ({ item, update, remove, rest, setSavedItems }) => {
+const EditItem = ({
+  item,
+  update,
+  remove,
+  setSavedItem,
+  registry,
+  schema,
+  uiSchema,
+  idSchema,
+}) => {
   return (
     <div className="list-input-section">
       <div className="input-section-container">
         <div className="input-row">
           <div className="input-container">
             <AdditionalIncome
-              rest={rest}
               initType={item.type}
               initAmount={item.amount}
-              setSavedItems={setSavedItems}
+              registry={registry}
+              schema={schema}
+              uiSchema={uiSchema}
+              idSchema={idSchema}
+              setSavedItem={setSavedItem}
             />
             <a className="remove-link" onClick={() => remove(item.id)}>
               Remove
@@ -99,25 +118,38 @@ const ListItem = ({ item, edit }) => {
   );
 };
 
-const ListLoop = ({ title, subTitle, items, ...rest }) => {
-  const [savedItems, setSavedItems] = useState([...items]);
+const ListLoop = ({
+  title,
+  subTitle,
+  income,
+  setData,
+  registry,
+  schema,
+  uiSchema,
+  idSchema,
+}) => {
   const [editId, setEditId] = useState(null);
   const [showAdd, setShowAdd] = useState(true);
+  const [savedItem, setSavedItem] = useState({
+    id: null,
+    type: '',
+    amount: '',
+  });
 
   const handleUpdate = id => {
-    const itemIndex = rest.income.findIndex(item => item.id === id);
+    const itemIndex = income.findIndex(item => item.id === id);
     if (itemIndex === -1) return;
-    const updated = rest.income.map((item, index) => {
-      return index === itemIndex ? { ...item, ...savedItems } : item;
+    const updated = income.map((item, index) => {
+      return index === itemIndex ? { ...item, ...savedItem } : item;
     });
 
-    rest.setIncomeData(updated);
+    setData(updated);
     setEditId(null);
   };
 
   const handleRemove = id => {
-    const updated = rest.income.filter(item => item.id !== id);
-    rest.setIncomeData(updated);
+    const updated = income.filter(item => item.id !== id);
+    setData(updated);
   };
 
   const handleEdit = id => {
@@ -126,7 +158,8 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
   };
 
   const handleSave = () => {
-    rest.setIncomeData([...rest.income, savedItems]);
+    if (!savedItem.id) return;
+    setData([...income, savedItem]);
     setShowAdd(false);
   };
 
@@ -136,7 +169,7 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
         <h3 className="title">{title}</h3>
         <p className="sub-title">{subTitle}</p>
       </div>
-      {rest.income?.map(
+      {income?.map(
         item =>
           item.id !== editId ? (
             <ListItem key={item.id} item={item} edit={handleEdit} />
@@ -144,10 +177,13 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
             <EditItem
               key={item.id}
               item={item}
-              rest={rest}
+              registry={registry}
+              schema={schema}
+              uiSchema={uiSchema}
+              idSchema={idSchema}
               update={handleUpdate}
               remove={handleRemove}
-              setSavedItems={setSavedItems}
+              setSavedItem={setSavedItem}
             />
           ),
       )}
@@ -156,7 +192,15 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
           <div className="input-section-container">
             <div className="input-row">
               <div className="input-container">
-                <AdditionalIncome rest={rest} setSavedItems={setSavedItems} />
+                <AdditionalIncome
+                  initType={income.type}
+                  initAmount={income.amount}
+                  registry={registry}
+                  schema={schema}
+                  uiSchema={uiSchema}
+                  idSchema={idSchema}
+                  setSavedItem={setSavedItem}
+                />
               </div>
               <div>
                 <button className="btn-save" onClick={() => handleSave()}>
@@ -178,13 +222,12 @@ const ListLoop = ({ title, subTitle, items, ...rest }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  setIncomeData: data => dispatch(setIncomeData(data)),
+  setData: data => dispatch(setIncomeData(data)),
 });
 
 const mapStateToProps = state => ({
   title: 'Your additional income',
   subTitle: 'Enter each type of additional income separately below.',
-  items: [],
   income: state.fsr.income,
 });
 
