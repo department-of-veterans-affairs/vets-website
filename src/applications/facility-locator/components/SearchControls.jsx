@@ -9,6 +9,7 @@ import {
   facilityTypesOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 
 class SearchControls extends Component {
   handleQueryChange = e => {
@@ -54,22 +55,36 @@ class SearchControls extends Component {
     this.props.onSubmit();
   };
 
+  handleGeolocationButtonClick = e => {
+    e.preventDefault();
+    this.props.geolocateUser();
+  };
+
   renderLocationInputField = currentQuery => (
     <>
       <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
         City, state or postal code{' '}
         <span className="vads-u-color--secondary-dark">(*Required)</span>
       </label>
-      <input
-        id="street-city-state-zip"
-        name="street-city-state-zip"
-        style={{ fontWeight: 'bold' }}
-        type="text"
-        onChange={this.handleQueryChange}
-        value={currentQuery.searchString}
-        title="Your location: Street, City, State or Postal code"
-        required
-      />
+      <div id="location-input-field">
+        <input
+          id="street-city-state-zip"
+          name="street-city-state-zip"
+          style={{ fontWeight: 'bold' }}
+          type="text"
+          onChange={this.handleQueryChange}
+          value={currentQuery.searchString}
+          title="Your location: Street, City, State or Postal code"
+          required
+        />
+        {!environment.isProduction() && (
+          <button
+            id="facility-locate-user"
+            title="Use my current location"
+            onClick={this.handleGeolocationButtonClick}
+          />
+        )}
+      </div>
     </>
   );
 

@@ -10,6 +10,7 @@ import {
   searchWithBounds,
   genBBoxFromAddress,
   updateSearchQuery,
+  geolocateUser,
 } from '../actions';
 import {
   facilitiesPpmsSuppressCommunityCare,
@@ -244,6 +245,7 @@ const FacilitiesMap = props => {
     return (
       <>
         <SearchControls
+          geolocateUser={props.geolocateUser}
           currentQuery={currentQuery}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
@@ -325,6 +327,7 @@ const FacilitiesMap = props => {
     return (
       <div className="desktop-container">
         <SearchControls
+          geolocateUser={props.geolocateUser}
           currentQuery={currentQuery}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
@@ -470,6 +473,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  geolocateUser,
   fetchVAFacility,
   updateSearchQuery,
   genBBoxFromAddress,

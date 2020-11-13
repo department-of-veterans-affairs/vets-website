@@ -278,6 +278,20 @@ $facility-locator-color-gray: #ccc;
         }
       }
 
+      #location-input-field {
+        display: flex;
+        flex-direction: row;
+      }
+
+      #facility-locate-user {
+        width: 33px;
+        height: 33px;
+        background-image: url("/img/location-arrow-solid.svg");
+        background-repeat: no-repeat;
+        background-color: transparent;
+        margin-left: -60px;
+      }
+
       #search-controls-bottom-row {
         @media(min-width: $small-desktop-screen) {
           display: flex;
