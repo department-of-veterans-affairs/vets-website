@@ -26,8 +26,8 @@ describe('Pre-need sponsor information', () => {
       />,
     );
 
-    // expect(form.find('input').length).to.equal(26);
-    // expect(form.find('select').length).to.equal(4);
+    expect(form.find('input').length).to.equal(26);
+    expect(form.find('select').length).to.equal(4);
     form.unmount();
   });
 
