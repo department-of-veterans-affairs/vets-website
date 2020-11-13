@@ -23,7 +23,7 @@ import {
 const commonServices = {
   EMIS: 'EMIS',
   MVI: 'MVI',
-  Vet360: 'Vet360',
+  VA_PROFILE: 'Vet360',
 };
 
 function getErrorStatusDesc(code) {
@@ -84,7 +84,7 @@ export function mapRawUserDataToState(json) {
       last,
     },
     verified,
-    vet360: isVAProfileServiceConfigured()
+    vapContactInfo: isVAProfileServiceConfigured()
       ? vet360ContactInformation
       : mockContactInformation,
     session,
@@ -116,11 +116,11 @@ export function mapRawUserDataToState(json) {
 
   // This one is checking userState because there's no extra mapping and it's
   // easier to leave the mocking code the way it is
-  if (meta && userState.vet360 === null) {
+  if (meta && userState.vapContactInfo === null) {
     const errorStatus = meta.errors.find(
-      error => error.externalService === commonServices.Vet360,
+      error => error.externalService === commonServices.VA_PROFILE,
     ).status;
-    userState.vet360 = { status: getErrorStatusDesc(errorStatus) };
+    userState.vapContactInfo = { status: getErrorStatusDesc(errorStatus) };
   }
 
   return userState;

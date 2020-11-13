@@ -3,6 +3,7 @@ import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
+import environment from 'platform/utilities/environment';
 
 import {
   benefitSelection,
@@ -14,7 +15,10 @@ import {
 
 export const chapters = {
   applicantInformation: {
-    title: 'Applicant Information',
+    // Prod flag for #15720
+    title: environment.isProduction()
+      ? 'Applicant Information'
+      : 'Applicant information',
     pages: {
       applicantInformation: createApplicantInformationPage(fullSchema1995, {
         isVeteran: true,
@@ -29,7 +33,10 @@ export const chapters = {
     },
   },
   benefitSelection: {
-    title: 'Education Benefit',
+    // Prod flag for #15720
+    title: environment.isProduction()
+      ? 'Education Benefit'
+      : 'Education benefit',
     pages: {
       benefitSelection: {
         title: 'Education benefit selection',
@@ -40,7 +47,8 @@ export const chapters = {
     },
   },
   militaryService: {
-    title: 'Military History',
+    // Prod flag for #15720
+    title: environment.isProduction() ? 'Military History' : 'Military history',
     pages: {
       servicePeriods: {
         path: 'military/service',
@@ -57,7 +65,8 @@ export const chapters = {
     },
   },
   schoolSelection: {
-    title: 'School Selection',
+    // Prod flag for #15720
+    title: environment.isProduction() ? 'School Selection' : 'School selection',
     pages: {
       newSchool: {
         path: 'school-selection/new-school',
@@ -73,7 +82,10 @@ export const chapters = {
     },
   },
   personalInformation: {
-    title: 'Personal Information',
+    // Prod flag for #15720
+    title: environment.isProduction()
+      ? 'Personal Information'
+      : 'Personal information',
     pages: {
       contactInformation: createContactInformationPage(fullSchema1995),
       dependents: {

@@ -7,7 +7,7 @@ import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
-} from '../constants';
+} from '../constants/actionTypes';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import moment from 'moment';
 import head from 'lodash/head';

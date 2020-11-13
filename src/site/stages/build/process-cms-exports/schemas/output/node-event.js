@@ -22,6 +22,14 @@ module.exports = {
         endValue: { type: 'string' }, //  2019-06-12T23:00:00
       },
     },
+    fieldDatetimeRangeTimezone: {
+      type: 'object',
+      properties: {
+        value: { type: 'string' },
+        endValue: { type: 'string' },
+        timezone: { type: 'string' },
+      },
+    },
     fieldDescription: { type: ['string', 'null'] },
     fieldEventCost: { type: ['string', 'null'] },
     fieldEventCta: { type: ['string', 'null'] },
@@ -53,6 +61,7 @@ module.exports = {
     'fieldAddress',
     'fieldBody',
     'fieldDate',
+    'fieldDatetimeRangeTimezone',
     'fieldDescription',
     'fieldEventCost',
     'fieldEventCta',

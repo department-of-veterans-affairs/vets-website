@@ -25,7 +25,7 @@ describe('<ReceiveTextMessages/>', () => {
       isSuccessVisible() {},
       profile: {
         verified: true,
-        vet360: { mobilePhone: { isTextPermitted: false } },
+        vapContactInfo: { mobilePhone: { isTextPermitted: false } },
       },
       hideCheckbox: false,
       transaction: {},
@@ -84,10 +84,10 @@ describe('<ReceiveTextMessages/>', () => {
         },
         user: {
           profile: {
-            vet360: { mobilePhone: { mobilePhone } },
+            vapContactInfo: { mobilePhone: { mobilePhone } },
           },
         },
-        vet360: {
+        vapService: {
           transactions: null,
           fieldTransactionMap: { mobilePhone: transactionRequest },
           transactionStatus: '',
@@ -96,9 +96,11 @@ describe('<ReceiveTextMessages/>', () => {
     });
 
     it('returns the required props', () => {
-      state.user.profile.vet360[FIELD_NAMES.MOBILE_PHONE] = mobilePhone;
+      state.user.profile.vapContactInfo[FIELD_NAMES.MOBILE_PHONE] = mobilePhone;
       const result = mapStateToProps(state, ownProps);
-      expect(result.profile.vet360.mobilePhone).to.be.equal(mobilePhone);
+      expect(result.profile.vapContactInfo.mobilePhone).to.be.equal(
+        mobilePhone,
+      );
       expect(result.profile).to.be.equal(state.user.profile);
       expect(result.hideCheckbox).not.to.be.null;
       expect(result.transaction).to.be.null;
@@ -111,17 +113,17 @@ describe('<ReceiveTextMessages/>', () => {
       expect(result.hideCheckbox).to.be.true;
     });
     it('returns hideCheckbox as true when user does not have a mobile phone', () => {
-      state.user.profile.vet360.mobilePhone = null;
+      state.user.profile.vapContactInfo.mobilePhone = null;
       const result = mapStateToProps(state, ownProps);
       expect(result.hideCheckbox).to.be.true;
     });
     it('returns hideCheckbox as true when users mobile phone is not textable', () => {
-      state.user.profile.vet360.mobilePhone.isTextPermitted = false;
+      state.user.profile.vapContactInfo.mobilePhone.isTextPermitted = false;
       const result = mapStateToProps(state, ownProps);
       expect(result.hideCheckbox).to.be.true;
     });
     it('returns transactionSuccess as true when transactionStatus equals COMPLETED_SUCCESS', () => {
-      state.vet360.transactionStatus = 'COMPLETED_SUCCESS';
+      state.vapService.transactionStatus = 'COMPLETED_SUCCESS';
       const result = mapStateToProps(state, ownProps);
       expect(result.transactionSuccess).to.be.true;
     });

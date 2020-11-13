@@ -1,5 +1,7 @@
-import { ancillaryFormUploadUi } from '../utils';
 import _ from 'platform/utilities/data';
+import { validateFileField } from 'platform/forms-system/src/js/validation';
+
+import { ancillaryFormUploadUi } from '../utils';
 import { UploadDescription } from '../content/fileUploadDescriptions';
 import { serviceTreatmentRecordsSubmitLater } from '../content/serviceTreatmentRecords';
 // import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
@@ -46,6 +48,7 @@ export const uiSchema = {
         data,
         false,
       ),
+    'ui:validations': [validateFileField],
   },
   'view:serviceTreatmentRecordsSubmitLater': {
     'ui:title': '',

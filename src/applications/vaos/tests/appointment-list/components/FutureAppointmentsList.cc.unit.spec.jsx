@@ -64,7 +64,7 @@ describe('VAOS integration: upcoming CC appointments', () => {
     expect(baseElement).to.contain.text('Big sky medical');
     expect(baseElement).to.contain.text('123 Big Sky st');
     expect(baseElement).to.contain.text('Bozeman, MT 59715');
-    expect(baseElement).to.contain.text('4065555555');
+    expect(baseElement).to.contain.text('406-555-5555');
     expect(baseElement).to.contain.text('Special instructions');
     expect(baseElement).to.contain.text('Bring your glasses');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');

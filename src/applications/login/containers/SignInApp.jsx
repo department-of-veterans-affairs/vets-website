@@ -130,7 +130,7 @@ class SignInPage extends React.Component {
                 Having trouble signing in?
               </h2>
               <p>
-                <a href="/sign-in-faq/" target="_blank">
+                <a href="/resources/signing-in-to-vagov/" target="_blank">
                   Get answers to Frequently Asked Questions
                 </a>
               </p>

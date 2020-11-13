@@ -24,6 +24,7 @@ export default function contestableIssues(state = initialState, action) {
         issues: action.response?.data || [],
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         error: '',
+        benefitType: action.benefitType,
       };
     }
     case FETCH_CONTESTABLE_ISSUES_FAILED: {
@@ -32,6 +33,7 @@ export default function contestableIssues(state = initialState, action) {
         issues: [],
         status: FETCH_CONTESTABLE_ISSUES_FAILED,
         error: action.errors,
+        benefitType: action.benefitType,
       };
     }
     default:

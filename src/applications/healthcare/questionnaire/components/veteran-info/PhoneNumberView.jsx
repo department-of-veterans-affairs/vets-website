@@ -12,12 +12,7 @@ export default function PhoneNumberView({ number }) {
       <span data-testid={`${number.label.toLowerCase()}Phone-label`}>
         {number.label} phone:{' '}
       </span>
-      <span
-        data-testid={`${number.label.toLowerCase()}Phone`}
-        className=" vads-u-font-weight--bold"
-      >
-        {phone}
-      </span>
+      <span data-testid={`${number.label.toLowerCase()}Phone`}>{phone}</span>
     </p>
   );
 }

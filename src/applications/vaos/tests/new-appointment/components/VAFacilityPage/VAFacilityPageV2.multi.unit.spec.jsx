@@ -215,7 +215,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               addressLine1: '290 Ludlow Ave',
               city: 'Cincinatti',
@@ -275,7 +275,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               addressLine1: '290 Ludlow Ave',
               city: 'Cincinatti',
@@ -326,7 +326,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
         ...initialState.user,
         profile: {
           ...initialState.user.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               addressLine1: '290 Ludlow Ave',
               city: 'Cincinatti',
@@ -479,6 +479,47 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     await screen.findByText(/below is a list of VA locations/i);
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await screen.findByText(
+      /This facility does not allow scheduling requests/i,
+    );
+  });
+
+  it('should show eligibility modal again if user closes it out and hits continue again with the same facility selected', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(
+      parentSiteIds,
+      directFacilities.slice(0, 5),
+    );
+    mockRequestEligibilityCriteria(
+      parentSiteIds,
+      requestFacilities.slice(0, 4),
+    );
+    mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983QA',
+      typeOfCareId: '323',
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    await screen.findByText(/below is a list of VA locations/i);
+
+    fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await screen.findByText(
+      /This facility does not allow scheduling requests/i,
+    );
+    const closeButton = screen.container.querySelector('.va-modal-close');
+    fireEvent.click(closeButton);
+    expect(screen.baseElement).not.to.contain.text(
+      /This facility does not allow scheduling requests/,
+    );
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
       /This facility does not allow scheduling requests/i,

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import VAPEditView from '@@profile/components/personal-information/VAPEditView';
+import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 
-import { isVAPatient } from 'platform/user/selectors';
+import { isVAPatient } from '~/platform/user/selectors';
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
@@ -52,7 +52,7 @@ class PhoneEditView extends React.Component {
 
   render() {
     return (
-      <VAPEditView
+      <ContactInformationEditView
         {...this.props}
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
