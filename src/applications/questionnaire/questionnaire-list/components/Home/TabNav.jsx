@@ -2,11 +2,16 @@ import React from 'react';
 import TabItem from './TabItem';
 
 export default function TabNav() {
+  const rootPath = 'questionnaire';
   return (
     <>
       <ul role="tablist">
-        <TabItem href="#section1" id="toDo" text="To Do" />
-        <TabItem href="#section2" id="completed" text="Completed" />
+        <TabItem tabPath={`/${rootPath}/todo`} id="toDo" text="To Do" />
+        <TabItem
+          tabPath={`/${rootPath}/completed`}
+          id="completed"
+          text="Completed"
+        />
       </ul>
     </>
   );

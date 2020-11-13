@@ -8,6 +8,7 @@ const createRoutesWithStore = () => {
     <QuestionnaireApp>
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/*" component={Home} />
       </Switch>
     </QuestionnaireApp>
   );
