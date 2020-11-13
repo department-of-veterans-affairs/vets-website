@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 
@@ -78,43 +77,34 @@ export const contactInfoDescription = ({
   </p>
 );
 
-// eslint-disable-next-line react/prefer-stateless-function
-class ContactInfoUpdateHelp extends React.Component {
-  render() {
-    return this.props.isConfirmationEmailToggleOn ? (
-      <div>
-        <p>
-          Any updates you make here to your contact information will only apply
-          to this application. If you want to update your contact information
-          for all of your VA accounts, please go to your profile page.
-        </p>
-      </div>
-    ) : (
-      <div>
-        <p>
-          If you want to update your contact information for all your VA
-          accounts, please go to your profile page.
-        </p>
-        <p>
-          <a href="/profile">Go to my profile page</a>
-        </p>
-      </div>
-    );
-  }
-}
+export const contactInfoUpdateHelpDescription = ({
+  isConfirmationEmailToggleOn,
+}) => {
+  return isConfirmationEmailToggleOn ? (
+    <div>
+      <p>
+        Any updates you make here to your contact information will only apply to
+        this application. If you want to update your contact information for all
+        of your VA accounts, please go to your profile page.
+      </p>
+    </div>
+  ) : (
+    <div>
+      <p>
+        If you want to update your contact information for all your VA accounts,
+        please go to your profile page.
+      </p>
+      <p>
+        <a href="/profile">Go to my profile page</a>
+      </p>
+    </div>
+  );
+};
 
 const mapStateToProps = state => ({
   isConfirmationEmailToggleOn: confirmationEmailFeature(state),
 });
 
-export default connect(mapStateToProps)(ContactInfoUpdateHelp);
-
-ContactInfoUpdateHelp.propTypes = {
-  isConfirmationEmailToggleOn: PropTypes.bool.isRequired,
-};
-
-ContactInfoUpdateHelp.defaultProps = {
-  isConfirmationEmailToggleOn: true,
-};
-
-export { ContactInfoUpdateHelp };
+export const contactInfoUpdateHelp = connect(mapStateToProps)(
+  contactInfoUpdateHelpDescription,
+);

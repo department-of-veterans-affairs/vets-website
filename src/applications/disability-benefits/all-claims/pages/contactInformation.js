@@ -13,7 +13,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 
 import {
   contactInfoDescription,
-  ContactInfoUpdateHelp,
+  contactInfoUpdateHelp,
   // forwardingAddressDescription,
   // ForwardingAddressViewField,
   phoneEmailViewField,
@@ -278,7 +278,7 @@ export const uiSchema = {
   //   },
   // ),
   'view:contactInfoDescription': {
-    'ui:description': <ContactInfoUpdateHelp />,
+    'ui:description': contactInfoUpdateHelp,
   },
 };
 
