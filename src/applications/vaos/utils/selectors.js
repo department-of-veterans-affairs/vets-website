@@ -71,7 +71,7 @@ export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 const vaosFlatFacilityPage = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
 const vaosFlatFacilityPageSacramento = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPageForSacramento;
+  toggleValues(state).vaOnlineSchedulingFlatFacilityPageSacramento;
 export const selectUseFlatFacilityPage = state =>
   vaosFlatFacilityPage(state) &&
   !selectIsCernerPatient(state) &&
