@@ -16,7 +16,7 @@ describe('Pre-need sponsor information', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
-
+  /* comment to trigger tests */
   it('should render', () => {
     const form = mount(
       <DefinitionTester
