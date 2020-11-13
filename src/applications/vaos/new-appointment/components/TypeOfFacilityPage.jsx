@@ -73,21 +73,23 @@ function TypeOfFacilityPage({
   return (
     <div className="vaos-form__facility-type vaos-form__detailed-radio">
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      <SchemaForm
-        name="Type of appointment"
-        title="Type of appointment"
-        schema={schema || initialSchema}
-        uiSchema={uiSchema}
-        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-        onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-        data={data}
-      >
-        <FormButtons
-          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-          pageChangeInProgress={pageChangeInProgress}
-          loadingText="Page change in progress"
-        />
-      </SchemaForm>
+      {!!schema && (
+        <SchemaForm
+          name="Type of appointment"
+          title="Type of appointment"
+          schema={schema}
+          uiSchema={uiSchema}
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          data={data}
+        >
+          <FormButtons
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </SchemaForm>
+      )}
     </div>
   );
 }
