@@ -1,4 +1,5 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 export const isDependent = formData => {
   return formData.status === 'isSpouse' || formData.status === 'isChild';
@@ -46,7 +47,7 @@ const reformatData = form => {
 };
 
 export const transform = (formConfig, form) => {
-  const formCopy = Object.assign(form);
+  const formCopy = cloneDeep(form);
   const newArrangement = reformatData(formCopy);
   formCopy.data = newArrangement;
   const formData = transformForSubmit(formConfig, formCopy);
