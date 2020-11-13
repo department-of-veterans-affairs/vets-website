@@ -915,7 +915,7 @@ describe('VAOS selectors', () => {
       const state = {
         featureToggles: {
           vaOnlineSchedulingFlatFacilityPage: true,
-          vaOnlineSchedulingFlatFacilityPageForSacramento: false,
+          vaOnlineSchedulingFlatFacilityPageSacramento: false,
         },
         user: {
           profile: {
@@ -935,7 +935,7 @@ describe('VAOS selectors', () => {
     const state = {
       featureToggles: {
         vaOnlineSchedulingFlatFacilityPage: true,
-        vaOnlineSchedulingFlatFacilityPageForSacramento: false,
+        vaOnlineSchedulingFlatFacilityPageSacramento: false,
       },
       user: {
         profile: {
@@ -958,7 +958,7 @@ describe('VAOS selectors', () => {
     const state = {
       featureToggles: {
         vaOnlineSchedulingFlatFacilityPage: true,
-        vaOnlineSchedulingFlatFacilityPageForSacramento: true,
+        vaOnlineSchedulingFlatFacilityPageSacramento: true,
       },
       user: {
         profile: {
