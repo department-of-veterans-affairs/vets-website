@@ -11,12 +11,12 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe.skip('Pre-need sponsor information', () => {
+describe('Pre-need sponsor information', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
-  /* comment to trigger tests */
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -31,7 +31,7 @@ describe.skip('Pre-need sponsor information', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  xit('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -49,7 +49,7 @@ describe.skip('Pre-need sponsor information', () => {
     form.unmount();
   });
 
-  it('should submit with required information', () => {
+  xit('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -82,7 +82,7 @@ describe.skip('Pre-need sponsor information', () => {
     form.unmount();
   });
 
-  it('should reveal date of death question', () => {
+  xit('should reveal date of death question', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

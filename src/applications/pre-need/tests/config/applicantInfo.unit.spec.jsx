@@ -10,7 +10,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe.skip('Pre-need applicant information', () => {
+describe('Pre-need applicant information', () => {
   const {
     schema,
     uiSchema,
@@ -30,7 +30,7 @@ describe.skip('Pre-need applicant information', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  xit('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -48,7 +48,7 @@ describe.skip('Pre-need applicant information', () => {
     form.unmount();
   });
 
-  it('should submit with required information', () => {
+  xit('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -73,7 +73,7 @@ describe.skip('Pre-need applicant information', () => {
     form.unmount();
   });
 
-  it('should reveal info message', () => {
+  xit('should reveal info message', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
