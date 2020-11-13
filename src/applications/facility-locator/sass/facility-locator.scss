@@ -292,6 +292,10 @@ $facility-locator-color-gray: #ccc;
         margin-left: -60px;
       }
 
+      .geocode-in-progress {
+        background-image: url("/img/location-arrow-spinning.gif") !important;
+      }
+
       #search-controls-bottom-row {
         @media(min-width: $small-desktop-screen) {
           display: flex;

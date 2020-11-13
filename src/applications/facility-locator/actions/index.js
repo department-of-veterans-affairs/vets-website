@@ -312,11 +312,13 @@ export const getProviderSpecialties = () => async dispatch => {
 
 export const geolocateUser = () => async dispatch => {
   if (navigator.geolocation) {
+    dispatch({ type: GEOCODE_STARTED });
     navigator.geolocation.getCurrentPosition(async currentPosition => {
       const query = await searchCriteraFromCoords(
         currentPosition.coords.longitude,
         currentPosition.coords.latitude,
       );
+      dispatch({ type: GEOCODE_COMPLETE });
       dispatch(updateSearchQuery(query));
     });
   } else {

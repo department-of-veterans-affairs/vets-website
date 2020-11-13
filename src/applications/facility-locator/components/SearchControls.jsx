@@ -81,6 +81,9 @@ class SearchControls extends Component {
           <button
             id="facility-locate-user"
             title="Use my current location"
+            className={
+              currentQuery.geocodeInProgress ? 'geocode-in-progress' : ''
+            }
             onClick={this.handleGeolocationButtonClick}
           />
         )}
