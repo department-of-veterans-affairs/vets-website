@@ -55,6 +55,9 @@ it('should save type of visit choice on page change', async () => {
   expect(await screen.getByLabelText(/Office visit/i)).to.exist;
 
   fireEvent.click(await screen.findByLabelText(/Office visit/i));
+  await waitFor(() => {
+    expect(screen.getByLabelText(/Office visit/i).checked).to.be.true;
+  });
   await cleanup();
 
   screen = renderWithStoreAndRouter(<Route component={TypeOfVisitPage} />, {
