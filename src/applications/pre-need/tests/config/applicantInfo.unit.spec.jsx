@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mount, render } from 'enzyme';
 
 import {
   DefinitionTester,
@@ -17,7 +17,7 @@ describe('Pre-need applicant information', () => {
   } = formConfig.chapters.applicantInformation.pages.applicantInformation;
 
   it('should render', () => {
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -27,7 +27,6 @@ describe('Pre-need applicant information', () => {
 
     expect(form.find('input').length).to.equal(10);
     expect(form.find('select').length).to.equal(3);
-    form.unmount();
   });
 
   xit('should not submit empty form', () => {

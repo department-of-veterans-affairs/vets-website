@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mount, render } from 'enzyme';
 
 import {
   DefinitionTester,
@@ -18,7 +18,7 @@ describe('Pre-need sponsor information', () => {
   } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
 
   it('should render', () => {
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -28,7 +28,6 @@ describe('Pre-need sponsor information', () => {
 
     expect(form.find('input').length).to.equal(26);
     expect(form.find('select').length).to.equal(4);
-    form.unmount();
   });
 
   xit('should not submit empty form', () => {
