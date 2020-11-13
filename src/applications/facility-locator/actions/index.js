@@ -1,5 +1,8 @@
 import mapboxClient from '../components/MapboxClient';
-import { reverseGeocodeBox } from '../utils/mapHelpers';
+import {
+  reverseGeocodeBox,
+  searchCriteraFromCoords,
+} from '../utils/mapHelpers';
 import {
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
@@ -402,5 +405,22 @@ export const getProviderSpecialties = () => async dispatch => {
   } catch (error) {
     dispatch({ type: FETCH_SPECIALTIES_FAILED, error });
     return ['Services Temporarily Unavailable'];
+  }
+};
+
+export const geolocateUser = () => async dispatch => {
+  if (navigator.geolocation) {
+    dispatch({ type: GEOCODE_STARTED });
+    navigator.geolocation.getCurrentPosition(async currentPosition => {
+      const query = await searchCriteraFromCoords(
+        currentPosition.coords.longitude,
+        currentPosition.coords.latitude,
+      );
+      dispatch({ type: GEOCODE_COMPLETE });
+      dispatch(updateSearchQuery(query));
+    });
+  } else {
+    // eslint-disable-next-line no-console
+    console.warn('navigator.geolocation undefined; unable to geolocate user');
   }
 };
