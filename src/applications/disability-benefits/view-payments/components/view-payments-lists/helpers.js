@@ -42,6 +42,7 @@ export const paymentsReturnedFields = [
   {
     label: 'Amount',
     value: 'returnedCheckAmount',
+    alignRight: true,
   },
   {
     label: 'Check #',
