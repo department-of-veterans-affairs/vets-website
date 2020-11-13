@@ -10,6 +10,5 @@
     "src/platform/testing/unit/enzyme-setup.js"
   ],
   "reporter": "progress",
-  "timeout": 10000,
-  "parallel": true
+  "timeout": 10000
 }
