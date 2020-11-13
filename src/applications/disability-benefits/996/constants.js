@@ -15,6 +15,8 @@ export const SUPPLEMENTAL_CLAIM_URL = '/decision-reviews/supplemental-claim/';
 export const BENEFIT_OFFICES_URL =
   '/decision-reviews/higher-level-review/#8622';
 
+export const SELECTED = 'view:selected';
+
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
