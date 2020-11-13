@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
@@ -17,7 +17,7 @@ describe('Pre-need applicant information', () => {
   } = formConfig.chapters.applicantInformation.pages.applicantInformation;
 
   it('should render', () => {
-    const form = shallow(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -32,7 +32,7 @@ describe('Pre-need applicant information', () => {
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = shallow(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -50,7 +50,7 @@ describe('Pre-need applicant information', () => {
 
   it('should submit with required information', () => {
     const onSubmit = sinon.spy();
-    const form = shallow(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -75,7 +75,7 @@ describe('Pre-need applicant information', () => {
 
   it('should reveal info message', () => {
     const onSubmit = sinon.spy();
-    const form = shallow(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
