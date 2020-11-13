@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { deductionCodes } from '../const/deduction-codes';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
@@ -102,12 +101,6 @@ class DebtDetails extends Component {
                 )
               ))}
 
-            <AdditionalInfo triggerText="Why might I have this debt?">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
-              excepturi fugit non sunt. Asperiores autem error ipsam magnam
-              minus modi nam obcaecati quasi, ratione rem repellendus
-              reprehenderit ut veritatis vitae.
-            </AdditionalInfo>
             <OnThisPageLinks isDetailsPage />
 
             <h2

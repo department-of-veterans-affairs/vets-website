@@ -770,7 +770,7 @@ describe('VAOS selectors', () => {
       );
     });
 
-    it('should return next day’s schedule if current time is after window start', () => {
+    it.skip('should return next day’s schedule if current time is after window start', () => {
       const today = moment();
       const tomorrow = moment()
         .add(1, 'days')

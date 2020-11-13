@@ -1,14 +1,13 @@
 {
-  "prof": true,
   "require": [
-    "src/platform/testing/unit/mocha-setup.js",
-    "src/platform/testing/unit/enzyme-setup.js",
-    "choma",
+    "@babel/register",
     "@babel/polyfill",
     "blob-polyfill",
+    "choma",
     "isomorphic-fetch",
     "mocha-snapshots",
-    "@babel/register"
+    "src/platform/testing/unit/mocha-setup.js",
+    "src/platform/testing/unit/enzyme-setup.js"
   ],
   "reporter": "progress",
   "timeout": 10000
