@@ -1,10 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
-Enzyme.configure({ adapter: new Adapter() });
+import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
@@ -21,7 +18,7 @@ describe('Pre-need sponsor information', () => {
   } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
 
   it('should render', () => {
-    const form = Enzyme.mount(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -36,7 +33,7 @@ describe('Pre-need sponsor information', () => {
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = Enzyme.mount(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -54,7 +51,7 @@ describe('Pre-need sponsor information', () => {
 
   it('should submit with required information', () => {
     const onSubmit = sinon.spy();
-    const form = Enzyme.mount(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -87,7 +84,7 @@ describe('Pre-need sponsor information', () => {
 
   it('should reveal date of death question', () => {
     const onSubmit = sinon.spy();
-    const form = Enzyme.mount(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
