@@ -3,8 +3,18 @@ const path = require('path');
 const _ = require('lodash');
 const set = require('lodash/fp/set');
 
+const layoutFilesByEntityBundle = require('../../../layouts/config');
+
 // Creates the file object to add to the file list using the page and layout
-function createFileObj(page, layout) {
+function createFileObj(page, _layout) {
+  const layout = _layout || layoutFilesByEntityBundle.get(page.entityBundle);
+
+  if (!layout) {
+    throw new Error(
+      `No layout file configured for entityBundle "${page.entityBundle}"`,
+    );
+  }
+
   // Exclude some types from sitemap.
   // @todo remove basic_landing_page when /resources/ is ready to be indexed
   const privateTypes = [

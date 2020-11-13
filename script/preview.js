@@ -174,10 +174,7 @@ app.get('/preview', async (req, res, next) => {
     }
 
     const compiledPage = compilePage(drupalPage, drupalData);
-    const fullPage = createFileObj(
-      compiledPage,
-      `${compiledPage.entityBundle}.drupal.liquid`,
-    );
+    const fullPage = createFileObj(compiledPage);
 
     const files = {
       'generated/file-manifest.json': {

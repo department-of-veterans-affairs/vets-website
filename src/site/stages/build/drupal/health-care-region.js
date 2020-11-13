@@ -82,7 +82,7 @@ function createPastEventListPages(page, drupalPagePath, files) {
     pastEventsPage,
     files,
     'allEventTeasers',
-    'event_listing.drupal.liquid',
+    'va-medical-centers/event_listing.drupal.liquid',
     'past-events',
   );
 }
@@ -112,7 +112,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   files[`${drupalPagePath}/status/index.html`] = createFileObj(
     statusPage,
-    'health_care_facility_status.drupal.liquid',
+    'va-medical-centers/health_care_facility_status.drupal.liquid',
   );
 
   // Create the top-level locations page for Health Care Regions
@@ -133,7 +133,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   files[`${drupalPagePath}/locations/index.html`] = createFileObj(
     locPage,
-    'health_care_region_locations_page.drupal.liquid',
+    'va-medical-centers/health_care_region_locations_page.drupal.liquid',
   );
 
   // Create "A-Z Services" || "Our health services" Page
@@ -167,7 +167,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
     files[`${drupalPagePath}/health-services/index.html`] = createFileObj(
       hsPage,
-      'health_services_listing.drupal.liquid',
+      'va-medical-centers/health_services_listing.drupal.liquid',
     );
   }
 
@@ -190,7 +190,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     prPage,
     files,
     'allPressReleaseTeasers',
-    'press_releases_page.drupal.liquid',
+    'va-medical-centers/press_releases_page.drupal.liquid',
     'news releases',
   );
 
@@ -218,7 +218,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     nsPage,
     files,
     'allNewsStoryTeasers',
-    'news_stories_page.drupal.liquid',
+    'va-medical-centers/news_stories_page.drupal.liquid',
     'news stories',
   );
 }

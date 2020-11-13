@@ -53,7 +53,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   for (const page of pages) {
     const {
       entityUrl: { path: drupalUrl },
-      entityBundle,
     } = page;
 
     const pageCompiled = compilePage(page, contentData);
@@ -74,7 +73,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageCompiled,
           files,
           pageCompiled.allEventTeasers,
-          'event_listing.drupal.liquid',
+          'va-medical-centers/event_listing.drupal.liquid',
           'event',
         );
         break;
@@ -84,7 +83,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageCompiled,
           files,
           pageCompiled.allNewsStoryTeasers,
-          'story_listing.drupal.liquid',
+          'va-medical-centers/story_listing.drupal.liquid',
           'story',
         );
         break;
@@ -94,7 +93,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageCompiled,
           files,
           pageCompiled.allPressReleaseTeasers,
-          'press_releases_listing.drupal.liquid',
+          'va-medical-centers/press_releases_listing.drupal.liquid',
           'press_release',
         );
         break;
@@ -109,7 +108,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageCompiled,
           files,
           pageCompiled.allStaffProfiles,
-          'leadership_listing.drupal.liquid',
+          'va-medical-centers/leadership_listing.drupal.liquid',
           'bio',
         );
         break;
@@ -119,10 +118,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       default:
     }
 
-    files[drupalFileName] = createFileObj(
-      pageCompiled,
-      `${entityBundle}.drupal.liquid`,
-    );
+    files[drupalFileName] = createFileObj(pageCompiled);
 
     if (page.entityBundle === 'health_care_region_page') {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);

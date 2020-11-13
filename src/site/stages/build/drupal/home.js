@@ -53,7 +53,10 @@ function addHomeContent(contentData, files, metalsmith, buildOptions) {
     };
 
     // Let Metalsmith know we're here.
-    files[`./index.html`] = createFileObj(homeEntityObj, 'home.drupal.liquid');
+    files[`./index.html`] = createFileObj(
+      homeEntityObj,
+      'benefit-hubs/home.drupal.liquid',
+    );
   }
 }
 

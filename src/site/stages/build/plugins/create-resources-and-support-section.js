@@ -204,7 +204,8 @@ function createPaginatedArticleListings({
             entityUrl: {
               breadcrumb: [...categoryBreadcrumb],
             },
-            layout: 'support_resources_article_listing.drupal.liquid',
+            layout:
+              'resources-and-support/support_resources_article_listing.drupal.liquid',
             title: sectionTitle,
             articles: pageOfArticles,
             paginationTitle,
