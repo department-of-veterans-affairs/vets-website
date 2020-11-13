@@ -48,48 +48,49 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Planning and career guidance.',
   },
-  title: '28-8832-planning-and-guidance',
+  title:
+    'Apply for Personalized Career Planning and Guidance with VA Form 28-8832',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     claimantInformation: {
-      title: 'Claimant Information',
+      title: 'Applicant Information',
       reviewDescription: ReadOnlyUserDescription,
       pages: {
         claimantInformation: {
           depends: () => !hasSession(),
           path: 'basic-information',
-          title: 'Claimant Information',
+          title: 'Applicant Information',
           uiSchema: claimantInformation.uiSchema,
           schema: claimantInformation.schema,
         },
         claimantStaticInformation: {
           depends: () => hasSession(),
           path: 'claimant-information',
-          title: 'Claimant Information',
+          title: 'Applicant Information',
           uiSchema: staticClaimantInformation.uiSchema,
           schema: staticClaimantInformation.schema,
         },
         claimantAddress: {
           path: 'claimant-address',
-          title: 'Claimant Address',
+          title: 'Applicant Address',
           uiSchema: claimantAddress.uiSchema,
           schema: claimantAddress.schema,
         },
         statusSelection: {
           path: 'status-selection',
-          title: 'Claimant Status',
+          title: 'Applicant Status',
           uiSchema: statusSelection.uiSchema,
           schema: statusSelection.schema,
         },
       },
     },
     veteranInformation: {
-      title: 'Veteran or service member information',
+      title: 'Your sponsoring Veteran or service member',
       pages: {
         veteranInformation: {
           depends: formData => isDependent(formData),
           path: 'veteran-information',
-          title: 'Veteran or service member information',
+          title: 'Your sponsoring Veteran or service member',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
