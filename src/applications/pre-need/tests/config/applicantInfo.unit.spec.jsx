@@ -10,7 +10,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe.skip('Pre-need applicant information', () => {
+describe('Pre-need applicant information', () => {
   const {
     schema,
     uiSchema,

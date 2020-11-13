@@ -11,7 +11,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe.skip('Pre-need sponsor information', () => {
+describe('Pre-need sponsor information', () => {
   const {
     schema,
     uiSchema,
