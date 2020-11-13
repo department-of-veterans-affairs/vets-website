@@ -11,7 +11,7 @@ export default function TypeOfCareAlert() {
       className="vads-u-margin-top--3 vads-u-margin-bottom--7"
       content={
         <p>
-          You'll need to call your VA health facility to schedule an
+          You’ll need to call your VA health facility to schedule an
           appointment. <br />
           <a
             href="/find-locations"
