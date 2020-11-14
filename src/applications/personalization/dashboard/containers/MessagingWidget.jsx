@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 import Table from '@department-of-veterans-affairs/formation-react/Table';
 import { formattedDate } from '../utils/helpers';
@@ -38,14 +37,6 @@ class MessagingWidget extends React.Component {
       { label: 'Date', value: 'sentDate', nonSortable: true },
     ];
 
-    // eslint-disable-next-line no-unused-vars
-    const makeMessageLink = (content, id) => (
-      // Messaging temporarily disabled.
-      // See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/14499
-      // <Link href={`/health-care/messaging/inbox/${id}`}>{content}</Link>
-      <Link>{content}</Link>
-    );
-
     let content;
     let { messages } = this.props;
     messages = messages || [];
@@ -53,7 +44,6 @@ class MessagingWidget extends React.Component {
     messages = messages.filter(message => message.readReceipt !== 'READ');
 
     const data = messages.map(message => {
-
       const attachmentIcon = message.attachment ? (
         <i
           className="fa fa-paperclip vads-u-flex--auto"
