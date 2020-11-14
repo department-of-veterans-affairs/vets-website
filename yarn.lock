@@ -1254,10 +1254,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@5.8.0":
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.8.0.tgz#5b37873bf8b46a7d8bec7530b798ba17db1eb39a"
-  integrity sha512-0GAqGtNHFIXHu6CstADr0CmSjxqP8cP+b/dJLLk56+0/O8eL3YJ32dJiwLjz1gKV3BGv+irByuMfUu4ce3kT8Q==
+"@department-of-veterans-affairs/formation-react@5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.8.1.tgz#bd7860b92b630b9c02b4afbca176945f3016221e"
+  integrity sha512-/pX9nVQ8PLcQCKVBWQgv82ndPubTWlkoxu8HQA0Tmk9BQttKQgWPlMgJbKN7lRRxf662qP0IzgHYVsIU2JNN9Q==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
@@ -1266,10 +1266,10 @@
     react-focus-lock "^2.4.0"
     react-transition-group "1"
 
-"@department-of-veterans-affairs/formation@6.10.1":
-  version "6.10.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.10.1.tgz#299bf553fbf3c722ca43af0c13ab838611601cd7"
-  integrity sha512-2JVyiIDtk5Mm6iSFRMMOBeyJb8P53NNdcrteM6WeiLdjGtDWPC5mkJl3hdrq9p5MX6DSsVlfzZiN+aZmZ25QrA==
+"@department-of-veterans-affairs/formation@6.10.3":
+  version "6.10.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.10.3.tgz#40fcb6ca083b71e346bf549bf654bb3448ac748b"
+  integrity sha512-7EoM31RJ+mZseo9Eac15zwI1H2ippFCinYAR7nGWtJsg15XHgD+Lo89f/2CzhIsw8+KLgYxmd5Fslp7VXLVr8A==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
