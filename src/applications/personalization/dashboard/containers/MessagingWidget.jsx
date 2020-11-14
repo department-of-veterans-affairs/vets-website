@@ -62,7 +62,6 @@ class MessagingWidget extends React.Component {
       ) : null;
 
       return {
-        recipientName: message.recipientName,
         senderName: message.senderName,
         subject: (
           <div className="vads-u-display--flex">
