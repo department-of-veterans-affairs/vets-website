@@ -7,10 +7,109 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-[type=checkbox]:checked + label::before {
+[type="checkbox"]:checked + label::before {
   background-color: $color-white;
   color: $color-primary;
   content: "\f00c";
   font-family: "Font Awesome 5 Free";
   padding-right: 2px;
+}
+
+// list-loop component
+.list-loop-container {
+  display: flex;
+  flex-direction: column;
+  width: 575px;
+  background-color: #f1f1f1;
+  padding: 10px 30px 20px;
+  .list-loop-item-list {
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    .list-loop-item-label {
+      margin-bottom: 15px;
+    }
+    .list-loop-item-1 {
+      width: 275px;
+    }
+    .list-loop-item-2 {
+      width: 150px;
+    }
+    .list-loop-edit {
+      width: 40px;
+    }
+  }
+  .title-section {
+    margin-bottom: 20px;
+    .title {
+      width: 200px;
+      height: 15px;
+      font-family: Bitter;
+      font-size: 17px;
+      color: #323a45;
+      line-height: 22px;
+    }
+    .sub-title {
+      height: 16px;
+      font-size: 16px;
+      color: #323a45;
+      line-height: 24px;
+    }
+  }
+  .list-input-section {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    .input-section-container {
+      padding: 0;
+      margin: 0;
+      .input-row {
+        list-style: none;
+        margin-bottom: 20px;
+        .input-container {
+          display: flex;
+          align-items: flex-end;
+          margin-bottom: 20px;
+        }
+        .input-placeholder {
+          margin-bottom: 10px;
+        }
+        .input-custom {
+          margin-right: 25px;
+          .schemaform-label {
+            margin: 0;
+          }
+        }
+        .input-1 {
+          width: 250px;
+        }
+        .input-2 {
+          width: 125px;
+        }
+        .input-3 {
+          width: 125px;
+        }
+      }
+      .btn-save {
+        max-width: fit-content;
+      }
+      .remove-link {
+        margin-bottom: 7px;
+      }
+    }
+  }
+  .add-income-link-section {
+    .plus-icon {
+      color: #0071bb;
+      margin-right: 5px;
+    }
+  }
+  .add-income-link,
+  .remove-link {
+    font-size: 16px;
+    color: #004795;
+    line-height: 24px;
+    text-decoration: underline;
+  }
 }
