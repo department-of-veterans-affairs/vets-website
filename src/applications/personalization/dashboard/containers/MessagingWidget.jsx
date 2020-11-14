@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import Table from '@department-of-veterans-affairs/formation-react/Table';
 import { formattedDate } from '../utils/helpers';
 
