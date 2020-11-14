@@ -11,6 +11,7 @@ import {
   genBBoxFromAddress,
   genSearchAreaFromCenter,
   updateSearchQuery,
+  getDirections,
 } from '../actions';
 import {
   facilitiesPpmsSuppressCommunityCare,
@@ -93,26 +94,50 @@ const FacilitiesMap = props => {
     browserHistory.push(queryStringObj);
   };
 
-  const renderMarkers = locations => {
+  const buildDriveInstructions = steps => {
+    const instructionList = document.createElement('ol');
+    steps.forEach(step => {
+      const stepNo = document.createElement('li');
+      stepNo.textContent = step.maneuver.instruction;
+      instructionList.appendChild(stepNo);
+    });
+    return instructionList;
+  };
+
+  const renderMarkers = async locations => {
     if (locations.length === 0) return;
     const currentLocation = props.currentQuery.position;
     const markersLetters = MARKER_LETTERS.values();
-    const sortedLocations = locations
-      .map(r => {
-        const distance = currentLocation
-          ? distBetween(
-              currentLocation.latitude,
-              currentLocation.longitude,
-              r.attributes.lat,
-              r.attributes.long,
-            )
-          : null;
-        return {
-          ...r,
-          distance,
-        };
-      })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance);
+
+    const sortedLocations = await Promise.all(
+      locations
+        .map(async r => {
+          const distance = currentLocation
+            ? distBetween(
+                currentLocation.latitude,
+                currentLocation.longitude,
+                r.attributes.lat,
+                r.attributes.long,
+              )
+            : null;
+          const locationCoords = {
+            long: r.attributes.long,
+            lat: r.attributes.lat,
+          };
+          const directions = await getDirections(
+            locationCoords,
+            currentLocation,
+          );
+          const stepsDirections = directions.routes[0].legs[0].steps;
+          const driveDirections = buildDriveInstructions(stepsDirections);
+          return {
+            ...r,
+            distance,
+            driveDirections,
+          };
+        })
+        .sort((resultA, resultB) => resultA.distance - resultB.distance),
+    );
 
     const locationBounds = new mapboxgl.LngLatBounds();
 
@@ -124,7 +149,12 @@ const FacilitiesMap = props => {
         new mapboxgl.LngLat(loc.attributes.long, loc.attributes.lat),
       );
       const markerElement = buildMarker('location', { loc, attrs });
+      const directionPopup = new mapboxgl.Popup({ offset: 5 }).setHTML(
+        loc.driveDirections.outerHTML,
+      );
+
       new mapboxgl.Marker(markerElement)
+        .setPopup(directionPopup)
         .setLngLat([loc.attributes.long, loc.attributes.lat])
         .addTo(map);
     });
@@ -194,7 +224,7 @@ const FacilitiesMap = props => {
     mapboxgl.accessToken = mapboxToken;
     const mapInit = new mapboxgl.Map({
       container: mapContainerInit,
-      style: 'mapbox://styles/mapbox/outdoors-v11',
+      style: 'mapbox://styles/mapbox/streets-v11',
       center: [MapboxInit.centerInit.lng, MapboxInit.centerInit.lat],
       zoom: MapboxInit.zoomInit,
     });
@@ -529,6 +559,7 @@ const mapDispatchToProps = {
   genSearchAreaFromCenter,
   searchWithBounds,
   clearSearchResults,
+  getDirections,
 };
 export default connect(
   mapStateToProps,

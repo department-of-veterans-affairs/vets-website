@@ -23,8 +23,11 @@ import {
 } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import mbxDir from '@mapbox/mapbox-sdk/services/directions';
 
 const mbxClient = mbxGeo(mapboxClient);
+const mbxDirClient = mbxDir(mapboxClient);
+
 /**
  * Sync form state with Redux state.
  * (And implicitly cause updates back in VAMap)
@@ -357,6 +360,27 @@ export const genSearchAreaFromCenter = query => {
         dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
       });
   };
+};
+
+export const getDirections = async (location, currentLocation) => {
+  const directionsResponse = await mbxDirClient
+    .getDirections({
+      steps: true,
+      bannerInstructions: true,
+      profile: 'driving',
+      voiceInstructions: true,
+      waypoints: [
+        {
+          coordinates: [currentLocation.longitude, currentLocation.latitude],
+        },
+        {
+          coordinates: [location.long, location.lat],
+        },
+      ],
+    })
+    .send();
+  const { body } = directionsResponse;
+  return body;
 };
 
 /**
