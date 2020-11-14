@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router';
 
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
+import Table from '@department-of-veterans-affairs/formation-react/Table';
 import { formattedDate } from '../utils/helpers';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
@@ -36,7 +37,6 @@ class MessagingWidget extends React.Component {
     const fields = [
       { label: 'From', value: 'senderName', nonSortable: true },
       { label: 'Subject line', value: 'subject', nonSortable: true },
-      { label: '', value: 'hasAttachment', nonSortable: true },
       { label: 'Date', value: 'sentDate', nonSortable: true },
     ];
 
@@ -61,29 +61,30 @@ class MessagingWidget extends React.Component {
       });
 
       const attachmentIcon = message.attachment ? (
-        <i className="fa fa-paperclip" aria-label="Message has an attachment" />
+        <i
+          className="fa fa-paperclip vads-u-flex--auto"
+          aria-label="Message has an attachment"
+        />
       ) : null;
 
       return {
         id,
         rowClass,
         hasAttachment: attachmentIcon,
-        recipientName: makeMessageLink(message.recipientName, id),
-        senderName: makeMessageLink(message.senderName, id),
-        subject: makeMessageLink(message.subject, id),
-        sentDate: makeMessageLink(formattedDate(message.sentDate), id),
+        recipientName: message.recipientName,
+        senderName: message.senderName,
+        subject: (
+          <div className="vads-u-display--flex">
+            <span className="vads-u-flex--fill">{message.subject}</span>
+            {attachmentIcon}
+          </div>
+        ),
+        sentDate: formattedDate(message.sentDate),
       };
     });
 
     if (messages && messages.length > 0) {
-      content = (
-        <SortableTable
-          className="usa-table-borderless va-table-list msg-table-list"
-          data={data}
-          currentSort={this.props.sort}
-          fields={fields}
-        />
-      );
+      content = <Table data={data} fields={fields} />;
     } else {
       content = (
         <p>You don’t have any unread messages from your health care team.</p>
