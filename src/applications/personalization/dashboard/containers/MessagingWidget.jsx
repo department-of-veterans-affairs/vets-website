@@ -98,14 +98,13 @@ const mapStateToProps = state => {
     backendServices.MESSAGING,
   );
 
-  const { attributes, messages, pagination, sort } = folder;
+  const { attributes, messages, pagination } = folder;
 
   return {
     attributes,
     loading: msgState.loading,
     messages,
     recipients: msgState.recipients.data,
-    sort,
     pagination,
     canAccessMessaging,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
