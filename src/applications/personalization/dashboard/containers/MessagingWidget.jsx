@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import { Link } from 'react-router';
 
 import Table from '@department-of-veterans-affairs/formation-react/Table';
@@ -54,10 +53,6 @@ class MessagingWidget extends React.Component {
     messages = messages.filter(message => message.readReceipt !== 'READ');
 
     const data = messages.map(message => {
-      const id = message.messageId;
-      const rowClass = classNames({
-        'messaging-message-row': true,
-      });
 
       const attachmentIcon = message.attachment ? (
         <i
@@ -67,9 +62,6 @@ class MessagingWidget extends React.Component {
       ) : null;
 
       return {
-        id,
-        rowClass,
-        hasAttachment: attachmentIcon,
         recipientName: message.recipientName,
         senderName: message.senderName,
         subject: (
