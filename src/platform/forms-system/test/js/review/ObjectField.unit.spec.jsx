@@ -9,6 +9,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should render', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       properties: {
         test: {
@@ -33,6 +34,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should not render hidden field', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       properties: {
         test: {
@@ -59,6 +61,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should render header', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       properties: {
         test: {
@@ -113,6 +116,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should hide title', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       properties: {
         test: {
@@ -141,6 +145,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should hide expand under items when collapsed', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       type: 'object',
       properties: {
@@ -153,6 +158,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       test2: {
         'ui:options': {
@@ -160,9 +166,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const formData = {
-      test: true,
-    };
+
+    const formData = { test: true };
 
     const tree = render(
       <ObjectField
@@ -182,6 +187,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should hide fields that are hide on review', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       type: 'object',
       properties: {
@@ -190,6 +196,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       test: {
         'ui:options': {
@@ -197,9 +204,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const formData = {
-      test: true,
-    };
+
+    const formData = { test: true };
 
     const tree = render(
       <ObjectField
@@ -218,6 +224,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should hide fields that are hide on review using callback', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       type: 'object',
       properties: {
@@ -226,9 +233,9 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const formData = {
-      test: true,
-    };
+
+    const formData = { test: true };
+
     const uiSchema = {
       test: {
         'ui:options': {
@@ -254,6 +261,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should hide false fields that are hide on review false', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       type: 'object',
       properties: {
@@ -262,6 +270,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       test: {
         'ui:options': {
@@ -269,6 +278,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const formData = {
       test: false,
     };
@@ -290,6 +300,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should show expandable fields', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       properties: {
         test: {
@@ -300,6 +311,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       test2: {
         'ui:options': {
@@ -326,6 +338,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should render aria-label on edit button using page title', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       properties: {
         test: {
@@ -356,6 +369,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should render aria-label on edit button using value from config', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       properties: {
         test: {
@@ -387,6 +401,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should render a div when rendering a ReviewCardField content with volatileData', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       type: 'object',
       properties: {
@@ -395,6 +410,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       test: {
         'ui:options': {
@@ -402,9 +418,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const formData = {
-      test: { foo: 'test' },
-    };
+
+    const formData = { test: 'foo' };
 
     const tree = render(
       <ObjectField
@@ -427,6 +442,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should render a dl when rendering a ReviewCardField content with volatileData in reviewMode', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       type: 'object',
       properties: {
@@ -435,6 +451,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       test: {
         'ui:options': {
@@ -442,9 +459,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const formData = {
-      test: { foo: 'test' },
-    };
+
+    const formData = { test: 'foo' };
 
     const tree = render(
       <ObjectField
@@ -467,6 +483,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should render a div when rendering a custom title, like in the SelectArrayItemsWidget', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       type: 'object',
       properties: {
@@ -475,6 +492,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       test: {
         'ui:options': {
@@ -482,9 +500,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const formData = {
-      test: { foo: 'test' },
-    };
+
+    const formData = { test: 'foo' };
 
     const tree = render(
       <ObjectField
@@ -507,6 +524,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should render a div when the file UI is in review mode', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       type: 'object',
       properties: {
@@ -515,6 +533,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       test: {
         'ui:options': {
@@ -522,9 +541,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const formData = {
-      test: { foo: 'test' },
-    };
+
+    const formData = { test: 'foo' };
 
     const tree = render(
       <ObjectField
@@ -547,6 +565,7 @@ describe('Schemaform review: ObjectField', () => {
   it('should render a dl when the file UI is in edit mode', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
+
     const schema = {
       type: 'object',
       properties: {
@@ -555,6 +574,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       test: {
         'ui:options': {
@@ -562,9 +582,9 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const formData = {
-      test: { foo: 'test' },
-    };
+
+    const formData = { test: 'foo' };
+
     const tree = render(
       <ObjectField
         schema={schema}
@@ -617,9 +637,7 @@ describe('Schemaform review: ObjectField', () => {
       testz: {},
     };
 
-    const formData = {
-      testz: 'foo',
-    };
+    const formData = { testz: 'foo' };
 
     const tree = render(
       <ObjectField
@@ -639,7 +657,9 @@ describe('Schemaform review: ObjectField', () => {
     expect(title.className).to.contain('test-title');
 
     const testProps = document.querySelector('.test-props');
-    expect(within(testProps).getByRole('textbox')).to.exist;
+    const testField = within(testProps).getByRole('textbox');
+    expect(testField).to.exist;
+    expect(testField.value).to.equal('foo');
 
     const testEdit = within(document.querySelector('.test-edit'));
     const editButton = testEdit.getByRole('button', { name: 'fooz' });
