@@ -1,6 +1,6 @@
+import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
 import ObjectField from '../../../src/js/review/ObjectField';
@@ -16,7 +16,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         idSchema={{}}
@@ -26,8 +27,9 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('SchemaField')).not.to.be.empty;
+    expect(tree.getByRole('textbox')).to.exist;
   });
+
   it('should not render hidden field', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -39,7 +41,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         idSchema={{}}
@@ -50,8 +53,9 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('SchemaField')).to.be.empty;
+    expect(tree.queryAllByRole('textbox')).to.be.empty;
   });
+
   it('should render header', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -62,7 +66,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         uiSchema={{}}
         schema={schema}
@@ -75,12 +80,10 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be
-      .empty;
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
-      'Blah',
-    );
+    expect(tree.getByRole('textbox')).to.exist;
+    expect(tree.getByRole('heading')).to.contain.text('Blah');
   });
+
   it('should render function title', () => {
     const schema = {
       properties: {
@@ -89,7 +92,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         uiSchema={{}}
         schema={schema}
@@ -102,12 +106,10 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be
-      .empty;
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
-      'A function title',
-    );
+    expect(tree.getByRole('textbox')).to.exist;
+    expect(tree.getByRole('heading')).to.contain.text('A function title');
   });
+
   it('should hide title', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -118,7 +120,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         uiSchema={{}}
         schema={schema}
@@ -131,11 +134,10 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be
-      .empty;
-    // Empty headers are no longer rendered
-    expect(tree.subTree('.form-review-panel-page-header')).to.be.false;
+    expect(tree.getByRole('textbox')).to.exist;
+    expect(tree.queryAllByRole('heading')).to.be.empty;
   });
+
   it('should hide expand under items when collapsed', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -161,7 +163,8 @@ describe('Schemaform review: ObjectField', () => {
     const formData = {
       test: true,
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -172,8 +175,10 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('SchemaField').length).to.equal(1);
+    expect(tree.queryAllByRole('textbox')).to.be.empty;
+    expect(tree.getByRole('checkbox', { name: 'test' })).to.exist;
   });
+
   it('should hide fields that are hide on review', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -195,7 +200,8 @@ describe('Schemaform review: ObjectField', () => {
     const formData = {
       test: true,
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -206,8 +212,9 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('SchemaField')).to.be.empty;
+    expect(tree.queryAllByRole('checkbox')).to.be.empty;
   });
+
   it('should hide fields that are hide on review using callback', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -229,7 +236,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -240,8 +248,9 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('SchemaField')).to.be.empty;
+    expect(tree.queryAllByRole('checkbox')).to.be.empty;
   });
+
   it('should hide false fields that are hide on review false', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -263,7 +272,8 @@ describe('Schemaform review: ObjectField', () => {
     const formData = {
       test: false,
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -274,8 +284,9 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('SchemaField')).to.be.empty;
+    expect(tree.queryAllByRole('checkbox')).to.be.empty;
   });
+
   it('should show expandable fields', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -296,7 +307,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         idSchema={{}}
@@ -308,8 +320,9 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('SchemaField').length).to.equal(2);
+    expect(tree.getAllByRole('textbox')).to.have.length(2);
   });
+
   it('should render aria-label on edit button using page title', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -320,7 +333,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         uiSchema={{}}
         schema={schema}
@@ -333,14 +347,12 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(
-      tree.subTree('.form-review-panel-page-header-row').subTree('.edit-btn')
-        .props['aria-label'],
-    ).to.equal('Edit Page Title');
-    const review = tree.props.children[1];
-    expect(review.type).to.equal('dl');
-    expect(review.props.className).to.equal('review');
+    expect(tree.getByLabelText('Edit Page Title')).to.exist;
+
+    const review = document.getElementsByClassName('review')[0];
+    expect(within(review).getByRole('textbox')).to.exist;
   });
+
   it('should render aria-label on edit button using value from config', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -351,7 +363,8 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         uiSchema={{
           'ui:options': {
@@ -368,10 +381,7 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(
-      tree.subTree('.form-review-panel-page-header-row').subTree('.edit-btn')
-        .props['aria-label'],
-    ).to.equal('Custom label');
+    expect(tree.getByLabelText('Custom label')).to.exist;
   });
 
   it('should render a div when rendering a ReviewCardField content with volatileData', () => {
@@ -395,7 +405,8 @@ describe('Schemaform review: ObjectField', () => {
     const formData = {
       test: { foo: 'test' },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -406,11 +417,13 @@ describe('Schemaform review: ObjectField', () => {
         onBlur={onBlur}
       />,
     );
-    // expecting a "div.review" instead of a "dl.review"
-    const review = tree.props.children[1];
-    expect(review.type).to.equal('div');
-    expect(review.props.className).to.equal('review');
+
+    expect(tree.getByLabelText('Edit Blah')).to.exist;
+
+    const review = document.querySelector('div.review');
+    expect(within(review).getByRole('textbox')).to.exist;
   });
+
   it('should render a dl when rendering a ReviewCardField content with volatileData in reviewMode', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -432,7 +445,8 @@ describe('Schemaform review: ObjectField', () => {
     const formData = {
       test: { foo: 'test' },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -443,11 +457,13 @@ describe('Schemaform review: ObjectField', () => {
         onBlur={onBlur}
       />,
     );
-    // expecting a "div.review" instead of a "dl.review"
-    const review = tree.props.children[1];
-    expect(review.type).to.equal('dl');
-    expect(review.props.className).to.equal('review');
+
+    expect(tree.getByLabelText('Edit Blah')).to.exist;
+
+    const review = document.querySelector('dl.review');
+    expect(within(review).getByRole('textbox')).to.exist;
   });
+
   it('should render a div when rendering a custom title, like in the SelectArrayItemsWidget', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -469,7 +485,8 @@ describe('Schemaform review: ObjectField', () => {
     const formData = {
       test: { foo: 'test' },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -480,11 +497,13 @@ describe('Schemaform review: ObjectField', () => {
         onBlur={onBlur}
       />,
     );
-    // expecting a "div.review" instead of a "dl.review"
-    const review = tree.props.children[1];
-    expect(review.type).to.equal('div');
-    expect(review.props.className).to.equal('review');
+
+    expect(tree.getByLabelText('Edit Blah')).to.exist;
+
+    const review = document.querySelector('div.review');
+    expect(within(review).getByRole('textbox')).to.exist;
   });
+
   it('should render a div when the file UI is in review mode', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -506,7 +525,8 @@ describe('Schemaform review: ObjectField', () => {
     const formData = {
       test: { foo: 'test' },
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -517,11 +537,13 @@ describe('Schemaform review: ObjectField', () => {
         onBlur={onBlur}
       />,
     );
-    // expecting a "div.review" instead of a "dl.review"
-    const review = tree.props.children[1];
-    expect(review.type).to.equal('div');
-    expect(review.props.className).to.equal('review');
+
+    expect(tree.getByLabelText('Edit Blah')).to.exist;
+
+    const review = document.querySelector('div.review');
+    expect(within(review).getByRole('textbox')).to.exist;
   });
+
   it('should render a dl when the file UI is in edit mode', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -543,7 +565,7 @@ describe('Schemaform review: ObjectField', () => {
     const formData = {
       test: { foo: 'test' },
     };
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -554,15 +576,18 @@ describe('Schemaform review: ObjectField', () => {
         onBlur={onBlur}
       />,
     );
-    // expecting a "dl.review" instead of a "div.review"
-    const review = tree.props.children[1];
-    expect(review.type).to.equal('dl');
-    expect(review.props.className).to.equal('review');
+
+    expect(tree.getByLabelText('Edit Blah')).to.exist;
+
+    const review = document.querySelector('dl.review');
+    expect(within(review).getByRole('textbox')).to.exist;
   });
+
   it('should render custom ObjectViewField', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const onClick = sinon.spy();
+
     const schema = {
       properties: {
         testz: {
@@ -570,6 +595,7 @@ describe('Schemaform review: ObjectField', () => {
         },
       },
     };
+
     const uiSchema = {
       'ui:objectViewField': ({
         title,
@@ -590,10 +616,12 @@ describe('Schemaform review: ObjectField', () => {
       ),
       testz: {},
     };
+
     const formData = {
-      testz: { foo: 'testzz' },
+      testz: 'foo',
     };
-    const tree = SkinDeep.shallowRender(
+
+    const tree = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -605,15 +633,20 @@ describe('Schemaform review: ObjectField', () => {
         onBlur={onBlur}
       />,
     );
-    expect(tree.subTree('.test-props').subTree('SchemaField')).not.to.be.empty;
-    expect(tree.subTree('SchemaField')).not.to.be.empty;
-    expect(tree.subTree('.test-title').text()).to.equal('Blah');
-    expect(tree.subTree('.test-edit')).to.not.be.empty;
 
-    const edit = tree.subTree('.test-edit').props.children.props;
-    expect(edit['aria-label']).to.equal('fooz');
-    expect(edit.children).to.equal('barz');
-    edit.onClick();
+    const title = tree.getByRole('heading');
+    expect(title).to.contain.text('Blah');
+    expect(title.className).to.contain('test-title');
+
+    const testProps = document.querySelector('.test-props');
+    expect(within(testProps).getByRole('textbox')).to.exist;
+
+    const testEdit = within(document.querySelector('.test-edit'));
+    const editButton = testEdit.getByRole('button', { name: 'fooz' });
+    expect(editButton).to.exist;
+    expect(editButton.textContent).to.equal('barz');
+
+    fireEvent.click(editButton);
     expect(onClick.called).to.be.true;
   });
 });
