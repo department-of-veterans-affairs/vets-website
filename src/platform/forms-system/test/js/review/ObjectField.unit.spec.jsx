@@ -184,6 +184,132 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByRole('checkbox', { name: 'test' })).to.exist;
   });
 
+  it('should hide expand under fields that are hidden', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const schema = {
+      properties: {
+        test1: {
+          type: 'boolean',
+        },
+        test2: {
+          type: 'string',
+          'ui:hidden': true,
+        },
+      },
+    };
+
+    const uiSchema = {
+      test2: {
+        'ui:options': {
+          expandUnder: 'test1',
+        },
+      },
+    };
+
+    const formData = { test: true };
+
+    const tree = render(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        formData={formData}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.queryByRole('checkbox')).to.exist;
+    expect(tree.queryByRole('textbox')).to.not.exist;
+  });
+
+  it('should hide expand under fields that are hidden on review', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const schema = {
+      properties: {
+        test1: {
+          type: 'boolean',
+        },
+        test2: {
+          type: 'string',
+        },
+      },
+    };
+
+    const uiSchema = {
+      test2: {
+        'ui:options': {
+          expandUnder: 'test1',
+          hideOnReview: true,
+        },
+      },
+    };
+
+    const formData = { test: true };
+
+    const tree = render(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        formData={formData}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.queryByRole('checkbox')).to.exist;
+    expect(tree.queryByRole('textbox')).to.not.exist;
+  });
+
+  it('should hide expand under fields that are hidden on review if false', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const schema = {
+      properties: {
+        test1: {
+          type: 'boolean',
+        },
+        test2: {
+          type: 'string',
+        },
+      },
+    };
+
+    const uiSchema = {
+      test2: {
+        'ui:options': {
+          expandUnder: 'test1',
+          hideOnReviewIfFalse: true,
+        },
+      },
+    };
+
+    const formData = { test: false };
+
+    const tree = render(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        formData={formData}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.queryByRole('checkbox')).to.exist;
+    expect(tree.queryByRole('textbox')).to.not.exist;
+  });
+
   it('should hide fields that are hide on review', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
