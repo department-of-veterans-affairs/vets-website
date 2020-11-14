@@ -148,7 +148,7 @@ const FacilitiesMap = props => {
       locationBounds.extend(
         new mapboxgl.LngLat(loc.attributes.long, loc.attributes.lat),
       );
-      const markerElement = buildMarker('location', { loc, attrs });
+      const markerElement = buildMarker('location', { loc, attrs }, map);
       const directionPopup = new mapboxgl.Popup({ offset: 5 }).setHTML(
         loc.driveDirections.outerHTML,
       );

@@ -22,7 +22,7 @@ export const clearLocationMarkers = () => {
   Array.from(locationMarkers).forEach(marker => marker.remove());
 };
 
-export const buildMarker = (type, values) => {
+export const buildMarker = (type, values, map) => {
   if (type === 'location') {
     const { loc, attrs } = values;
     const markerElement = document.createElement('span');
@@ -41,6 +41,11 @@ export const buildMarker = (type, values) => {
         recordMarkerEvents(loc);
         document.getElementById('searchResultsContainer').scrollTop =
           locationElement.offsetTop;
+        map.flyTo({
+          center: [loc.attributes.long, loc.attributes.lat],
+          zoom: 15,
+          essential: true,
+        });
       }
     });
     return markerElement;
