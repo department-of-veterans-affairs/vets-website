@@ -22,6 +22,7 @@ export default Object.freeze({
   vaOnlineSchedulingExpressCare: 'vaOnlineSchedulingExpressCare',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingFlatFacilityPage: 'vaOnlineSchedulingFlatFacilityPage',
+  vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',

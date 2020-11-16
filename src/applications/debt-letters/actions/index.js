@@ -107,7 +107,7 @@ export const fetchDebtLetters = () => async dispatch => {
 
     recordEvent({
       event: 'bam-get-veteran-dmc-info-successful',
-      'veteran-has-dependent-debt': response.hasDependentDebt,
+      'veteran-has-dependent-debt': response.hasDependentDebts,
     });
 
     if (filteredResponse.length > 0) {
