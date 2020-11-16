@@ -169,7 +169,7 @@ function handleMultiSelect({
   if (!isInSelectedArray && !additionalOptions?.required) {
     updatedSelectedDates.push({ date });
   }
-  // WHY? selectedDates: updatedSelectedDates, it's to be expliciit
+  // selectedDates: updatedSelectedDates, it's to be expliciit
   onChange({
     currentlySelectedDate: currentlySelectedDate === date ? null : date,
     selectedDates: updatedSelectedDates,
@@ -294,7 +294,7 @@ export default function CalendarWidget({
   if (loadingStatus === FETCH_STATUS.failed) {
     return loadingErrorMessage;
   }
-  // WHY declare const from renderMonth  here
+  // declare const from renderMonth  here
   const nextMonthToDisplay = months[months.length - 1]
     ?.clone()
     .add(1, 'months')
