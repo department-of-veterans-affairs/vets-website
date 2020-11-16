@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { selectProfile } from 'platform/user/selectors';
 
-import { formatPhone } from '../content/contactInformation';
+import { formatPhone } from './ContactInformation';
 import { ADDRESS_TYPES, formatAddress } from 'platform/forms/address/helpers';
 
 const ReviewDescription = ({ profile }) => {

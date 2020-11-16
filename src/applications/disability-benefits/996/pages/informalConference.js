@@ -1,6 +1,6 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
-import ScheduleTimesReviewField from '../containers/ScheduleTimesReviewField';
+import ScheduleTimesReviewField from '../content/ScheduleTimesReviewField';
 
 import { checkConferenceTimes } from '../validations';
 import { errorMessages, patternMessages } from '../constants';
