@@ -9,11 +9,8 @@ module.exports = {
     fieldBody: {
       type: ['object', 'null'],
       properties: {
-        entity: {
-          type: 'object',
-          properties: {
-            processed: { type: 'string' },
-          },
+        properties: {
+          processed: { type: 'string' },
         },
       },
     },
