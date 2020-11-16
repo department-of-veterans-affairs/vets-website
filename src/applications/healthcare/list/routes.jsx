@@ -8,7 +8,7 @@ const createRoutesWithStore = () => {
     <QuestionnaireApp>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/*" component={Home} />
+        <Route path="/*" exact component={Home} />
       </Switch>
     </QuestionnaireApp>
   );

@@ -18,12 +18,15 @@ export default function index() {
       <Router>
         <TabNav />
         <Switch>
-          <Route path={`/questionnaire/todo`} component={ToDoQuestionnaires} />
           <Route
-            path={`/questionnaire/completed`}
+            path={`/healthcare/list/todo`}
+            component={ToDoQuestionnaires}
+          />
+          <Route
+            path={`/healthcare/list/completed`}
             component={CompletedQuestionnaires}
           />
-          <Route path={`/questionnaire`} component={ToDoQuestionnaires} />
+          <Route path={`/healthcare/list`} component={ToDoQuestionnaires} />
         </Switch>
       </Router>
     </div>
