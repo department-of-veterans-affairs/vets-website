@@ -43,6 +43,12 @@ const military = {
 describe('formatAddress', () => {
   it('formats domestic addresses with three street lines', () => {
     const expectedResult = {
+      addressLine1: '140 Rock Creek Church Rd NW',
+      addressLine2: 'Apt 57',
+      addressLine3: 'Area Name',
+      city: 'Springfield',
+      stateOrProvince: 'OR',
+      zipOrPostalCode: '97477',
       street: '140 Rock Creek Church Rd NW, Apt 57, Area Name',
       cityStateZip: 'Springfield, OR 97477',
       country: '',
@@ -53,6 +59,12 @@ describe('formatAddress', () => {
 
   it('formats domestic addresses with two street lines', () => {
     const expectedResult = {
+      addressLine1: '140 Rock Creek Church Rd NW',
+      addressLine2: 'Apt 57',
+      addressLine3: '',
+      city: 'Springfield',
+      stateOrProvince: 'OR',
+      zipOrPostalCode: '97477',
       street: '140 Rock Creek Church Rd NW, Apt 57',
       cityStateZip: 'Springfield, OR 97477',
       country: '',
@@ -64,8 +76,14 @@ describe('formatAddress', () => {
 
   it('formats domestic addresses with one street line', () => {
     const expectedResult = {
+      addressLine1: '140 Rock Creek Church Rd NW',
+      addressLine2: '',
+      addressLine3: '',
       street: '140 Rock Creek Church Rd NW',
       cityStateZip: 'Springfield, OR 97477',
+      city: 'Springfield',
+      stateOrProvince: 'OR',
+      zipOrPostalCode: '97477',
       country: '',
     };
     const address = { ...domestic };
@@ -76,6 +94,12 @@ describe('formatAddress', () => {
 
   it('formats military addresses', () => {
     const expectedResult = {
+      addressLine1: '57 Columbus Strassa',
+      addressLine2: 'line2',
+      addressLine3: 'Ben Franklin Village',
+      city: 'APO',
+      stateOrProvince: 'Armed Forces Europe (AE)',
+      zipOrPostalCode: '09028',
       street: '57 Columbus Strassa, Line2, Ben Franklin Village',
       cityStateZip: 'APO, Armed Forces Europe (AE) 09028',
       country: '',
@@ -86,6 +110,12 @@ describe('formatAddress', () => {
 
   it('formats international addresses', () => {
     const expectedResult = {
+      addressLine1: '2 Avenue Gabriel',
+      addressLine2: 'Line2',
+      addressLine3: 'Line3',
+      city: 'Paris',
+      stateOrProvince: 'Ile-de-France',
+      zipOrPostalCode: '75000',
       street: '2 Avenue Gabriel, Line2, Line3',
       cityStateZip: 'Paris, Ile-de-France, 75000',
       country: 'France',
