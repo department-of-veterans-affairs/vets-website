@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
+import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import debounce from 'platform/utilities/data/debounce';
-
-export const isTypeaheadEnabled =
-  !environment.isProduction() && document.location.pathname === '/';
 
 export const typeaheadListId = 'onsite-search-typeahead';
 
-export default class Typeahead extends React.Component {
+class Typeahead extends React.Component {
   constructor(props) {
     super(props);
     this.getSuggestions = debounce(
@@ -49,6 +48,11 @@ export default class Typeahead extends React.Component {
   }
 
   render() {
+    // if the feature toggle is off, don't render any suggestions
+    if (!this.props.searchTypeaheadEnabled) {
+      return null;
+    }
+
     return (
       <datalist id={typeaheadListId}>
         {this.state.suggestions.map(suggestion => (
@@ -62,8 +66,20 @@ export default class Typeahead extends React.Component {
 Typeahead.propTypes = {
   userInput: PropTypes.string,
   debounceRate: PropTypes.number,
+  searchTypeaheadEnabled: PropTypes.bool,
 };
 
 Typeahead.defaultProps = {
   debounceRate: 200,
 };
+
+const mapStateToProps = store => ({
+  searchTypeaheadEnabled: toggleValues(store)[
+    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  ],
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Typeahead);

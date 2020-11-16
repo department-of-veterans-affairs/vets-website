@@ -7,7 +7,7 @@ import { replaceWithStagingDomain } from '../../../utilities/environment/staging
 import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 
-import Typeahead, { isTypeaheadEnabled, typeaheadListId } from './Typeahead';
+import Typeahead, { typeaheadListId } from './Typeahead';
 
 class SearchMenu extends React.Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class SearchMenu extends React.Component {
             list={typeaheadListId}
             onChange={this.handleInputChange}
           />
-          {isTypeaheadEnabled && <Typeahead userInput={this.state.userInput} />}
+          <Typeahead userInput={this.state.userInput} />
           <button type="submit" disabled={!validUserInput}>
             <IconSearch color="#fff" />
             <span className="usa-sr-only">Search</span>
