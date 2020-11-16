@@ -294,7 +294,7 @@ export default function CalendarWidget({
   if (loadingStatus === FETCH_STATUS.failed) {
     return loadingErrorMessage;
   }
-  // declare const from renderMonth  here
+  // declare const from renderMonth here
   const nextMonthToDisplay = months[months.length - 1]
     ?.clone()
     .add(1, 'months')
