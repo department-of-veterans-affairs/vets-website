@@ -60,6 +60,9 @@ const informalConference = {
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactName,
         },
+        'ui:options': {
+          hideIf: formData => formData?.informalConference !== 'rep',
+        },
       },
       phone: {
         'ui:title': RepresentativePhoneTitle,
@@ -69,6 +72,9 @@ const informalConference = {
         'ui:errorMessages': {
           pattern: patternMessages.representativePhone,
           required: errorMessages.informalConferenceContactPhone,
+        },
+        'ui:options': {
+          hideIf: formData => formData?.informalConference !== 'rep',
         },
       },
       'view:TimesForRep': {
