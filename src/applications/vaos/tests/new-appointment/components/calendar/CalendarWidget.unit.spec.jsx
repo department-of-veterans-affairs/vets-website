@@ -31,14 +31,14 @@ const getDateFromButtonId = button => {
 };
 
 describe('VAOS <CalendarWidget>', () => {
-  it('should render 1 calendars', () => {
-    const tree = mount(<CalendarWidget monthsToShowAtOnce={1} />);
+  it('should render 2 calendars', () => {
+    const tree = mount(<CalendarWidget monthsToShowAtOnce={2} />);
     const cell = tree.find('.vaos-calendar__container');
-    expect(cell.length).to.equal(1);
+    expect(cell.length).to.equal(2);
     const navigation = tree.find('.vaos-calendar__nav-links');
     expect(navigation.length).to.equal(1);
     const weekdayHeaders = tree.find('.vaos-calendar__weekday-container');
-    expect(weekdayHeaders.length).to.equal(1);
+    expect(weekdayHeaders.length).to.equal(2);
     tree.unmount();
   });
 
@@ -187,18 +187,6 @@ describe('VAOS <CalendarWidget>', () => {
       expect(tree.prop('selectedDates').length).to.be.equal(1);
     });
 
-    it('PROBLEM - should remove currently selected date when selected again', () => {
-      const button = buttons.at(0);
-
-      // Simulate the date being selected by setting the 'currentlySelectedDate' property.
-      tree.setProps({ currentlySelectedDate: getDateFromButtonId(button) });
-
-      // Select date..
-      button.simulate('click');
-
-      expect(tree.prop('currentlySelectedDate')).to.be.null;
-    });
-
     it('should save new date when date has been selected before', () => {
       let button = buttons.at(0);
 
@@ -340,111 +328,6 @@ describe('VAOS <CalendarWidget>', () => {
       // a date...
       tree.setState({ selectedDates: [{ date: getDateFromButtonId(button) }] });
       expect(tree.instance().isValid(getDateFromButtonId(button))).to.be.true;
-    });
-  });
-
-  describe('handleSelectDate', () => {
-    let tree;
-    let buttons;
-
-    beforeEach(() => {
-      tree = mount(
-        // No weekend dates and date must be equal or after current date!
-        <CalendarWidget
-          monthsToShowAtOnce={2}
-          minDate={moment().format('YYYY-MM-DD')}
-          onChange={state => {
-            tree.setProps(state);
-          }}
-          maxSelections={2}
-          additionalOptions={{ maxSelections: 2, getOptionsByDate }}
-        />,
-      );
-
-      // Find all calendar day buttons that are enabled.
-      buttons = tree.find(
-        'button.vaos-calendar__calendar-day-button[disabled=false]',
-      );
-      expect(buttons.length).to.be.gt(0);
-    });
-
-    afterEach(() => {
-      tree.unmount();
-    });
-
-    it('PROBLEM - should remove the selected date when date has already been selected', () => {
-      const button = buttons.first();
-
-      tree.setProps({
-        additionalOptions: {
-          required: false,
-          getOptionsByDate,
-          maxSelections: 2,
-        },
-      });
-
-      // This array is populated when the user selects a dates so, add
-      // a date...
-      tree.setProps({ selectedDates: [{ date: getDateFromButtonId(button) }] });
-
-      // Simulate the user selecting the same date...
-      tree.instance().handleSelectOption({ date: getDateFromButtonId(button) });
-
-      // Date should be removed.
-      expect(tree.prop('selectedDates').length).to.equal(0);
-    });
-
-    it('PROBLEM should save the new selected date if the date has not been selected before', () => {
-      const button = buttons.first();
-
-      tree.setProps({
-        additionalOptions: {
-          required: false,
-          getOptionsByDate,
-          maxSelections: 2,
-        },
-        maxSelections: 2,
-      });
-
-      // This array is populated when the user selects a dates so, add
-      // a date...
-      tree.setProps({ selectedDates: [{ date: getDateFromButtonId(button) }] });
-
-      // Simulate the user selecting a different date...
-      tree
-        .instance()
-        .handleSelectOption({ date: getDateFromButtonId(buttons.at(1)) });
-
-      // Date should be saved.
-      expect(tree.prop('selectedDates').length).to.equal(2);
-      expect(tree.prop('selectedDates')[1].date).to.equal(
-        getDateFromButtonId(buttons.at(1)),
-      );
-    });
-
-    it('PROBLEM - should save the selected date when max selection is <= 1', () => {
-      const button = buttons.first();
-
-      tree.setProps({
-        additionalOptions: {
-          required: false,
-          getOptionsByDate,
-          maxSelections: 1,
-        },
-      });
-
-      // This array is populated when the user selects a dates so, add
-      // a date or two.
-      tree.setProps({ selectedDates: [{ date: getDateFromButtonId(button) }] });
-
-      // Simulate the user selecting the same date...
-      tree.instance().handleSelectOption({ date: getDateFromButtonId(button) });
-
-      // Date should be saved.
-      expect(tree.prop('selectedDates').length).to.equal(1);
-      expect(tree.prop('selectedDates')[0].date).to.equal(
-        getDateFromButtonId(button),
-      );
     });
   });
 });
