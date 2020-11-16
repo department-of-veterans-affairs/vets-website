@@ -1,8 +1,8 @@
-import VeteranInfoDescription from '../components/VeteranInformation';
+import VeteranInformation from '../components/VeteranInformation';
 
 const veteranInformation = {
   uiSchema: {
-    'ui:description': VeteranInfoDescription,
+    'ui:description': VeteranInformation,
     'ui:options': {
       hideOnReview: true,
     },

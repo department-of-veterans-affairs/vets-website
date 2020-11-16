@@ -2,24 +2,35 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import ReviewDescription from '../../containers/ReviewDescription';
+import { ReviewDescription } from '../../components/ReviewDescription';
+import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 
-const formData = {
-  veteran: {
-    phoneNumber: '1234567890',
-    emailAddress: 'foo@bar.com',
-    country: 'USA',
-    street: '123 MAIN Street',
-    city: 'Townsville',
-    state: 'AB',
-    zipCode5: '98765',
+const profile = (addressOptions = {}) => ({
+  vapContactInfo: {
+    email: {
+      emailAddress: 'foo@bar.com',
+    },
+    homePhone: {
+      areaCode: '123',
+      phoneNumber: '4567890',
+    },
+    mailingAddress: {
+      addressType: ADDRESS_TYPES.domestic,
+      countryName: 'United States',
+      countryCodeIso3: 'USA',
+      addressLine1: '123 MAIN Street',
+      city: 'Townsville',
+      stateCode: 'AB',
+      zipCode: '98765',
+      ...addressOptions,
+    },
   },
-};
+});
 
 // Displayed on the review & submit page
 describe('Review description', () => {
   it('should render contact info', () => {
-    const tree = shallow(<ReviewDescription formData={formData} />);
+    const tree = shallow(<ReviewDescription profile={profile()} />);
 
     const rows = tree.find('.review-row');
     // country is not shown if it's the U.S.
@@ -34,15 +45,16 @@ describe('Review description', () => {
   });
 
   it('should render country & other street address lines', () => {
-    const extendedData = {
-      veteran: {
-        ...formData.veteran,
-        country: 'AUS',
-        street2: 'SECTION 5',
-        street3: 'UNIT A33',
-      },
-    };
-    const tree = shallow(<ReviewDescription formData={extendedData} />);
+    const extendedData = profile({
+      addressType: ADDRESS_TYPES.international,
+      countryName: 'Australia',
+      countryCodeIso3: 'AU',
+      addressLine2: 'SECTION 5',
+      addressLine3: 'UNIT A33',
+      province: 'Queensland',
+      internationalPostalCode: '23456',
+    });
+    const tree = shallow(<ReviewDescription profile={extendedData} />);
 
     const rows = tree.find('.review-row');
     expect(rows.length).to.equal(9);
@@ -53,8 +65,8 @@ describe('Review description', () => {
     expect(rows.at(4).text()).to.contain('Line 2SECTION 5');
     expect(rows.at(5).text()).to.contain('Line 3UNIT A33');
     expect(rows.at(6).text()).to.contain('CityTownsville');
-    expect(rows.at(7).text()).to.contain('StateAB');
-    expect(rows.at(8).text()).to.contain('Postal code98765');
+    expect(rows.at(7).text()).to.contain('ProvinceQueensland');
+    expect(rows.at(8).text()).to.contain('Postal code23456');
     tree.unmount();
   });
 });

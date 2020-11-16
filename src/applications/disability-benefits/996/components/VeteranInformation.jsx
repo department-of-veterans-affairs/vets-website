@@ -15,7 +15,7 @@ import { SELECTED } from '../constants';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
-export const VeteranInfoView = ({
+export const VeteranInformation = ({
   formData = {},
   profile = {},
   veteran = {},
@@ -28,7 +28,7 @@ export const VeteranInfoView = ({
   const { first, middle, last, suffix } = userFullName;
   // ContestableIssues API needs a benefit type, so they are grouped together
   const { issues, benefitType } = contestableIssues;
-  const zipCode5 = vapContactInfo?.mailingAddress?.zipCode;
+  const zipCode5 = vapContactInfo?.mailingAddress?.zipCode || '';
 
   useEffect(
     () => {
@@ -41,7 +41,7 @@ export const VeteranInfoView = ({
           const existingIssue = (formData.contestedIssues || []).find(
             ({ attributes: oldAttrs }) =>
               ['ratingIssueReferenceId', 'ratingIssuePercentNumber'].every(
-                key => oldAttrs[key] === newAttrs[key],
+                key => oldAttrs?.[key] === newAttrs?.[key],
               ),
           );
           return existingIssue?.[SELECTED]
@@ -120,7 +120,7 @@ export const VeteranInfoView = ({
   );
 };
 
-VeteranInfoView.propTypes = {
+VeteranInformation.propTypes = {
   setFormData: PropTypes.func.isRequired,
 };
 
@@ -142,4 +142,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(VeteranInfoView);
+)(VeteranInformation);
