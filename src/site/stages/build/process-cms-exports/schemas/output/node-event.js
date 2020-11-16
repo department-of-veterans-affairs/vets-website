@@ -37,14 +37,16 @@ module.exports = {
     fieldFacilityLocation: {
       type: ['object', 'null'],
       properties: {
-        entityUrl: {
+        entity: {
           type: 'object',
           properties: {
-            path: { type: 'string' },
+            entityUrl: { $ref: 'EntityUrl' },
+            title: { type: 'string' },
           },
+          required: ['entityUrl', 'title'],
         },
-        title: { type: 'string' },
       },
+      required: ['entity'],
     },
     fieldLink: {
       type: ['object', 'null'],
