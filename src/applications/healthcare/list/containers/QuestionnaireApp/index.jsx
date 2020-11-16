@@ -1,19 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
+import Home from '../../questionnaire-list/components/Home';
+import {
+  selectShowQuestionnaire,
+  selectLoadingFeatureFlags,
+} from '../../selectors';
+
 const QuestionnaireApp = props => {
-  const { children } = props;
-  return <div className="questionnaire-app">{children}</div>;
+  const { isLoadingFeatureFlags, isQuestionnaireEnabled } = props;
+
+  if (isLoadingFeatureFlags) {
+    return (
+      <>
+        <LoadingIndicator />
+      </>
+    );
+  } else if (!isQuestionnaireEnabled) {
+    window.location.replace('/');
+    return <></>;
+  } else {
+    return (
+      <div className="questionnaire-app">
+        <Home />
+      </div>
+    );
+  }
 };
 
-function mapStateToProps(_state) {
-  return {
-    // user: selectUser(state),
-    // showApplication: vaosApplication(state),
-    // loadingFeatureToggles: selectFeatureToggleLoading(state),
-    // sites: selectPatientFacilities(state),
-    // useFlatFacilityPage: selectUseFlatFacilityPage(state),
-  };
-}
+const mapStateToProps = state => ({
+  isQuestionnaireEnabled: selectShowQuestionnaire(state),
+  isLoadingFeatureFlags: selectLoadingFeatureFlags(state),
+});
 
 export default connect(mapStateToProps)(QuestionnaireApp);

@@ -7,6 +7,7 @@ import ToDoQuestionnaires from '../ToDoQuestionnaires';
 import CompletedQuestionnaires from '../CompletedQuestionnaires';
 
 export default function index() {
+  // TODO: Auth
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
