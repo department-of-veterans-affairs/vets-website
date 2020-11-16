@@ -1,5 +1,5 @@
 {
-"data": {
+  "data": {
     "householdIncome": true,
     "childrenToAdd": [
       {
@@ -45,7 +45,7 @@
         "birthDate": "2015-06-08"
       }
     ],
-    "veteranWasMarriedBefore": true,
+    "veteranWasMarriedBefore": false,
     "veteranMarriageHistory": [
       {
         "startDate": "2006-09-03",
@@ -67,7 +67,7 @@
         }
       }
     ],
-    "spouseWasMarriedBefore": true,
+    "spouseWasMarriedBefore": false,
     "spouseMarriageHistory": [
       {
         "startDate": "2005-08-09",

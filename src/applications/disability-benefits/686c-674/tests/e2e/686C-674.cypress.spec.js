@@ -11,7 +11,7 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['spouse-child-all-fields', 'add-child-add-674'],
+    dataSets: ['add-child-add-674', 'spouse-child-all-fields'],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       cy.login();
