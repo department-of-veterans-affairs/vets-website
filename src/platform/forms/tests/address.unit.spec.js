@@ -95,7 +95,7 @@ describe('formatAddress', () => {
   it('formats military addresses', () => {
     const expectedResult = {
       addressLine1: '57 Columbus Strassa',
-      addressLine2: 'line2',
+      addressLine2: 'Line2',
       addressLine3: 'Ben Franklin Village',
       city: 'APO',
       stateOrProvince: 'Armed Forces Europe (AE)',
