@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 // Relative imports.
 import {
   FETCH_RESULTS,
@@ -35,7 +37,7 @@ export const thirdPartyAppsReducer = (state = initialState, action) => {
       return {
         ...state,
         fetching: false,
-        results: action?.response?.results,
+        results: get(action, ['response', 'data'], {}),
         totalResults: action?.response?.totalResults,
       };
     }

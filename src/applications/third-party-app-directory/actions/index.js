@@ -26,7 +26,6 @@ export const fetchResultsFailure = error => ({
 
 export const fetchResultsSuccess = response => ({
   response,
-  scopeCategory,
   type: FETCH_RESULTS_SUCCESS,
 });
 
@@ -43,32 +42,28 @@ export const fetchScopesFailure = error => ({
   type: FETCH_SCOPES_FAILURE,
 });
 
-export const fetchScopesSuccess = response => ({
+export const fetchScopesSuccess = (response, scopeCategory) => ({
   response,
-  type: FETCH_RESULTS_SUCCESS,
+  scopeCategory,
+  type: FETCH_SCOPES_SUCCESS,
 });
 
 // ============
 // Redux Thunks
 // ============
 export const fetchResultsThunk = options => async dispatch => {
-  const { hideFetchingState, page = 1, perPage = 10 } = options;
+  const { hideFetchingState } = options;
 
   // Change the `fetching` state in our store.
   dispatch(
     fetchResultsAction({
       hideFetchingState,
-      page,
     }),
   );
 
   try {
     // Attempt to make the API request to retreive results.
-    const response = await fetchResults({
-      page,
-      perPage,
-      mockRequest: true,
-    });
+    const response = await fetchResults({});
 
     // Track the API request.
     // if (trackSearch) {

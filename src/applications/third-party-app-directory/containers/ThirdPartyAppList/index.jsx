@@ -75,7 +75,7 @@ export class ThirdPartyAppList extends Component {
       <>
         <a
           className="usa-button usa-button-primary vads-u-width--auto"
-          href="https://www.va.gov/sign-in-faq/#connecting-third-party-non-va"
+          href="https://www.va.gov/resources/connected-apps-faqs"
           rel="noopener noreferrer"
           target="_blank"
         >
@@ -92,7 +92,7 @@ export class ThirdPartyAppList extends Component {
         </ul>
         <a
           className="usa-button usa-button-primary vads-u-width--auto"
-          href="https://www.va.gov/sign-in-faq/#connecting-third-party-non-va"
+          href="https://www.va.gov/resources/connected-apps-faqs"
           rel="noopener noreferrer"
           target="_blank"
         >

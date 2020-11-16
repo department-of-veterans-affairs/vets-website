@@ -1,8 +1,8 @@
 // Relative imports.
-// import environment from 'platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 import { createMockResults } from '../helpers';
 
-// const baseUrl = '/services/apps/v0/directory';
+const baseUrl = '/services/apps/v0/directory';
 
 export const fetchResults = async () => {
   // const response = await fetch(`${environment.API_URL}${baseUrl}`).then(
@@ -16,7 +16,7 @@ export const fetchResults = async () => {
 };
 
 export const fetchScopes = async category => {
-  return await fetch(
-    `${environment.API_URL}${baseUrl}/scopes/${category}`,
-  ).then(data => data.json());
+  return fetch(`${environment.API_URL}${baseUrl}/scopes/${category}`).then(
+    data => data.json(),
+  );
 };

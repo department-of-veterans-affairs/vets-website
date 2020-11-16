@@ -26,8 +26,8 @@ export default {
       name: 'ClinicalTrialSelector',
       iconURL:
         'https://www.apple.com/v/ios/health/c/images/overview/icon_health__c9yeoina5qaa_large_2x.png',
-      categories: [],
-      platforms: [],
+      categories: ['Health'],
+      platforms: ['Web'],
       appURL: 'http://www.clinicaltrials.com/industry/clinical-trials-mobile/',
       description: '',
       permissions: [
