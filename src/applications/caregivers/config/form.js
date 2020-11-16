@@ -8,30 +8,36 @@ import SubmitError from 'applications/caregivers/components/SubmitError';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+// import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 
 import {
   submitTransform,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
 } from 'applications/caregivers/helpers';
+
 import definitions, {
   addressWithoutCountryUI,
 } from 'applications/caregivers/definitions/caregiverUI';
-import {
-  vetInfoPage,
-  vetContactInfoPage,
-  vetMedicalCenterPage,
-  primaryInfoPage,
-  primaryContactInfoPage,
-  primaryMedicalPage,
-  hasSecondaryCaregiverPage,
-  secondaryCaregiverInfoPage,
-  secondaryCaregiverContactPage,
-  secondaryTwoInfoPage,
-  secondaryTwoContactPage,
-} from './pages';
 
 import manifest from '../manifest.json';
+
+// veteran pages
+import vetInfoPage from './chapters/veteran/vetInfo';
+import vetContactInfoPage from './chapters/veteran/vetContactInfo';
+import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
+
+// primary pages
+import primaryInfoPage from './chapters/primary/primaryInfo';
+import primaryContactInfoPage from './chapters/primary/primaryContact';
+import primaryMedicalPage from './chapters/primary/primaryHealthCoverage';
+
+// secondary pages
+import hasSecondaryCaregiverPage from './chapters/secondaryOne/hasSecondaryCaregiver';
+import secondaryCaregiverInfoPage from './chapters/secondaryOne/secondaryInfo';
+import secondaryCaregiverContactPage from './chapters/secondaryOne/secondaryCaregiverContact';
+import secondaryTwoInfoPage from './chapters/secondaryTwo/secondaryTwoInfo';
+import secondaryTwoContactPage from './chapters/secondaryTwo/secondaryTwoContactInfo';
 
 const {
   address,
@@ -49,8 +55,9 @@ const { secondaryCaregiversUI } = definitions;
 
 /* Chapters
  * 1 - Vet/Service Member (required)
- * 2 - Primary Family Caregiver (required)
- * 3 - Secondary & secondaryTwo Family Caregiver (optional -- up to 2 conditionally)
+ * 2 - Primary Family Caregiver
+ * 3 - Secondary & secondaryTwo Family Caregiver
+ * (One caregiver is always required, at least one primary, or one secondary - minimal)
  */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -126,12 +133,18 @@ const formConfig = {
         },
         primaryCaregiverInfoTwo: {
           path: 'primary-2',
+          title: 'Primary Family Caregiver information',
+          uiSchema: primaryInfoPage.uiSchema,
+          schema: primaryInfoPage.schema,
+        },
+        primaryCaregiverInfoThree: {
+          path: 'primary-3',
           title: contactInfoTitle,
           uiSchema: primaryContactInfoPage.uiSchema,
           schema: primaryContactInfoPage.schema,
         },
-        primaryCaregiverInfoThree: {
-          path: 'primary-3',
+        primaryCaregiverInfoFour: {
+          path: 'primary-4',
           title: 'Health care coverage',
           uiSchema: primaryMedicalPage.uiSchema,
           schema: primaryMedicalPage.schema,
