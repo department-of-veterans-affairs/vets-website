@@ -143,7 +143,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     });
   });
 
-  it.skip('should display closest city question when user has multiple supported sites', async () => {
+  it('should display closest city question when user has multiple supported sites', async () => {
     mockParentSites(
       ['983'],
       [
@@ -181,7 +181,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
       ],
     );
     mockCommunityCareEligibility({
-      parentSites: ['983GC', '983GJ', '983'],
+      parentSites: ['983', '983GJ', '983GC'],
       supportedSites: ['983', '983GJ'],
       careType: 'PrimaryCare',
     });

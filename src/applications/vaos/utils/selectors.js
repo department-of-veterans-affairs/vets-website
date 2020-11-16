@@ -75,6 +75,8 @@ export const selectUseFlatFacilityPage = state =>
   vaosFlatFacilityPage(state) &&
   !selectIsCernerPatient(state) &&
   !selectIsRegisteredToSacramentoVA(state);
+export const vaosProviderSelection = state =>
+  toggleValues(state).vaOnlineSchedulingProviderSelection;
 
 export function getNewAppointment(state) {
   return state.newAppointment;
