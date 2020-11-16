@@ -1,6 +1,6 @@
 {
   "data": {
-    "veteranWasMarriedBefore": true,
+    "veteranWasMarriedBefore": false,
     "veteranMarriageHistory": [
       {
         "startDate": "2006-09-03",
@@ -22,7 +22,7 @@
         }
       }
     ],
-    "spouseWasMarriedBefore": true,
+    "spouseWasMarriedBefore": false,
     "spouseMarriageHistory": [
       {
         "startDate": "2005-08-09",
