@@ -6,7 +6,6 @@ import moment from 'moment';
 
 import CalendarWidget from '../../../../new-appointment/components/calendar/CalendarWidget';
 import { FETCH_STATUS } from '../../../../utils/constants';
-import CalendarRow from '../../../../new-appointment/components/calendar/CalendarRow';
 
 const getOptionsByDate = () => [
   {
@@ -32,14 +31,14 @@ const getDateFromButtonId = button => {
 };
 
 describe('VAOS <CalendarWidget>', () => {
-  it('should render 2 calendars', () => {
-    const tree = mount(<CalendarWidget monthsToShowAtOnce={2} />);
+  it('should render 1 calendars', () => {
+    const tree = mount(<CalendarWidget monthsToShowAtOnce={1} />);
     const cell = tree.find('.vaos-calendar__container');
-    expect(cell.length).to.equal(2);
-    // const navigation = tree.find('.vaos-calendar__nav-links-button');
-    // expect(navigation.length).to.equal(2);
+    expect(cell.length).to.equal(1);
+    const navigation = tree.find('.vaos-calendar__nav-links');
+    expect(navigation.length).to.equal(1);
     const weekdayHeaders = tree.find('.vaos-calendar__weekday-container');
-    expect(weekdayHeaders.length).to.equal(2);
+    expect(weekdayHeaders.length).to.equal(1);
     tree.unmount();
   });
 
@@ -84,19 +83,17 @@ describe('VAOS <CalendarWidget>', () => {
   });
 
   it('should still render a calendar if startMonth is beyond 90 day default', () => {
-    const tree = shallow(
-      <CalendarWidget
-        monthsToShowAtOnce={2}
-        startMonth={moment()
-          .add(6, 'months')
-          .format('YYYY-MM-DD')}
-      />,
+    const futureDate = moment()
+      .add(6, 'months')
+      .format('YYYY-MM');
+    const tree = mount(
+      <CalendarWidget monthsToShowAtOnce={1} startMonth={futureDate} />,
     );
     const cell = tree.find('.vaos-calendar__container');
     expect(cell.length).to.equal(1);
-    const navigation = tree.find('CalendarNavigation');
+    const navigation = tree.find('.vaos-calendar__nav-links');
     expect(navigation.length).to.equal(1);
-    const weekdayHeaders = tree.find('CalendarWeekdayHeader');
+    const weekdayHeaders = tree.find('.vaos-calendar__weekday-container');
     expect(weekdayHeaders.length).to.equal(1);
     tree.unmount();
   });
@@ -190,17 +187,17 @@ describe('VAOS <CalendarWidget>', () => {
       expect(tree.prop('selectedDates').length).to.be.equal(1);
     });
 
-    // it('should remove currently selected date when selected again', () => {
-    //   const button = buttons.at(0);
+    it('PROBLEM - should remove currently selected date when selected again', () => {
+      const button = buttons.at(0);
 
-    //   // Simulate the date being selected by setting the 'currentlySelectedDate' property.
-    //   tree.setProps({ currentlySelectedDate: getDateFromButtonId(button) });
+      // Simulate the date being selected by setting the 'currentlySelectedDate' property.
+      tree.setProps({ currentlySelectedDate: getDateFromButtonId(button) });
 
-    //   // Select date..
-    //   button.simulate('click');
+      // Select date..
+      button.simulate('click');
 
-    //   expect(tree.prop('currentlySelectedDate')).to.be.null;
-    // });
+      expect(tree.prop('currentlySelectedDate')).to.be.null;
+    });
 
     it('should save new date when date has been selected before', () => {
       let button = buttons.at(0);
@@ -362,9 +359,6 @@ describe('VAOS <CalendarWidget>', () => {
           maxSelections={2}
           additionalOptions={{ maxSelections: 2, getOptionsByDate }}
         />,
-        <CalendarRow
-          handleSelectOption={{ dateObj: '10-11-17', optionTime: 'PM' }}
-        />,
       );
 
       // Find all calendar day buttons that are enabled.
@@ -378,7 +372,7 @@ describe('VAOS <CalendarWidget>', () => {
       tree.unmount();
     });
 
-    it('should remove the selected date when date has already been selected', () => {
+    it('PROBLEM - should remove the selected date when date has already been selected', () => {
       const button = buttons.first();
 
       tree.setProps({
@@ -386,12 +380,6 @@ describe('VAOS <CalendarWidget>', () => {
           required: false,
           getOptionsByDate,
           maxSelections: 2,
-        },
-        handleSelectOption: {
-          handleSelectOption: {
-            currentlySelectedDate: '10-11-17',
-            selectedDates: '10-11-17',
-          },
         },
       });
 
@@ -406,7 +394,7 @@ describe('VAOS <CalendarWidget>', () => {
       expect(tree.prop('selectedDates').length).to.equal(0);
     });
 
-    it('should save the new selected date if the date has not been selected before', () => {
+    it('PROBLEM should save the new selected date if the date has not been selected before', () => {
       const button = buttons.first();
 
       tree.setProps({
@@ -434,7 +422,7 @@ describe('VAOS <CalendarWidget>', () => {
       );
     });
 
-    it('should save the selected date when max selection is <= 1', () => {
+    it('PROBLEM - should save the selected date when max selection is <= 1', () => {
       const button = buttons.first();
 
       tree.setProps({
