@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -9,7 +12,7 @@ import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropD
 
 import Typeahead, { typeaheadListId } from './Typeahead';
 
-class SearchMenu extends React.Component {
+export class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +56,10 @@ class SearchMenu extends React.Component {
             list={typeaheadListId}
             onChange={this.handleInputChange}
           />
-          <Typeahead userInput={this.state.userInput} />
+          <Typeahead
+            userInput={this.state.userInput}
+            searchTypeaheadEnabled={this.props.searchTypeaheadEnabled}
+          />
           <button type="submit" disabled={!validUserInput}>
             <IconSearch color="#fff" />
             <span className="usa-sr-only">Search</span>
@@ -92,6 +98,13 @@ SearchMenu.propTypes = {
   cssClass: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func,
+  searchTypeaheadEnabled: PropTypes.bool,
 };
 
-export default SearchMenu;
+const mapStateToProps = store => ({
+  searchTypeaheadEnabled: toggleValues(store)[
+    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  ],
+});
+
+export default connect(mapStateToProps)(SearchMenu);
