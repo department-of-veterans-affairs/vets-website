@@ -782,10 +782,12 @@ describe('Schemaform review: ObjectField', () => {
     expect(title).to.contain.text('Blah');
     expect(title.className).to.contain('test-title');
 
-    const testProps = document.querySelector('.test-props');
-    const testField = within(testProps).getByRole('textbox');
+    const testProps = within(document.querySelector('.test-props'));
+    const testField = testProps.getByRole('textbox');
+    const testLabel = testProps.getByText('testz', { selector: 'label' });
     expect(testField).to.exist;
     expect(testField.value).to.equal('foo');
+    expect(testLabel).to.exist;
 
     const testEdit = within(document.querySelector('.test-edit'));
     const editButton = testEdit.getByRole('button', { name: 'fooz' });
