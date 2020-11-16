@@ -35,9 +35,10 @@ export const uiSchema = {
         monthlyIncome: {
           'ui:title': 'Gross monthly income',
         },
-        // payrollDeduction: {
-        //   'ui:title': 'Gross monthly income',
-        // }
+        // payrollDeductions: {
+        //   'ui:field': 'ArrayField',
+        //   'ui:options': {},
+        // },
       },
     },
   },
@@ -71,11 +72,19 @@ export const schema = {
                   type: 'string',
                 },
                 monthlyIncome: {
-                  type: 'string',
+                  type: 'number',
                 },
-                payrollDeduction: {
-                  type: 'string',
+                payrollDeductions: {
+                  type: 'number',
                 },
+                // payrollDeductions: {
+                //   type: 'array',
+                //   items: {
+                //     type: 'number',
+                //     title: 'Input Amount',
+                //     default: 0,
+                //   },
+                // },
               },
             },
           },

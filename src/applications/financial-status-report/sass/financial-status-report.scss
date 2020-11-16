@@ -15,10 +15,10 @@
   padding-right: 2px;
 }
 
+// employment history
 .employment-history-title {
   margin: 20px 0;
 }
-// employment history
 .employment-history-container {
   display: flex;
   flex-direction: column;
@@ -26,6 +26,9 @@
   background-color: #f1f1f1;
   padding: 10px 30px 20px;
 
+  .deduction-label {
+    margin-top: 10px;
+  }
   .input-employment-type {
     width: 200px;
   }
@@ -45,6 +48,10 @@
     width: 152px;
   }
 
+  .monthly-net-income {
+    margin-top: 20px;
+  }
+
   .add-item-link,
   .remove-link {
     font-size: 16px;
@@ -52,6 +59,8 @@
     line-height: 24px;
     text-decoration: underline;
     margin-bottom: 7px;
+    cursor: pointer;
+    user-select: none;
   }
   .btn-save {
     margin-top: 20px;
@@ -64,13 +73,9 @@
       color: #0071bb;
       margin-right: 5px;
     }
-    .add-item-link {
-      // border: 1px solid red;
-    }
   }
 }
 
-// add-item
 .add-item-container {
   display: flex;
   flex-direction: column;

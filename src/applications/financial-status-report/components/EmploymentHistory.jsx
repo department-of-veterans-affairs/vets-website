@@ -13,6 +13,11 @@ const EmploymentRecord = ({
 }) => {
   const { SchemaField } = registry.fields;
 
+  const handleSave = e => {
+    e.preventDefault();
+    // console.log('save');
+  };
+
   return (
     <>
       <div className="input-employment-type">
@@ -60,60 +65,89 @@ const EmploymentRecord = ({
           onChange={value => onChange({ ...formData, monthlyIncome: value })}
         />
       </div>
-      <h4>Payroll deductions</h4>
-      <p>You can find your payroll deductions in a recent paycheck.</p>
-      <div>
-        <div className="input-payroll-deduction">
-          <SchemaField
-            schema={schema.properties.payrollDeduction}
-            uiSchema={uiSchema.payrollDeduction}
-            onBlur={onBlur}
-            registry={registry}
-            idSchema={idSchema}
-            formData={formData.payrollDeduction}
-            onChange={value =>
-              onChange({ ...formData, payrollDeduction: value })
-            }
-          />
-        </div>
-        <div className="add-item-link-section">
-          <i className="fas fa-plus plus-icon" />
-          <a className="add-item-link" onClick={() => {}}>
-            Add payroll deduction
-          </a>
-        </div>
-        <button className="btn-save" onClick={() => {}}>
-          Save
-        </button>
-      </div>
+
+      {/* <SchemaField
+        schema={schema.properties.payrollDeductions}
+        uiSchema={uiSchema.payrollDeductions}
+        onBlur={onBlur}
+        registry={registry}
+        idSchema={idSchema}
+        formData={formData.payrollDeductions}
+        onChange={() => {}}
+      /> */}
+
+      <PayrollDeductions
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        onBlur={onBlur}
+        formData={formData}
+        onChange={onChange}
+      />
+      <button className="btn-save" onClick={e => handleSave(e)}>
+        Save
+      </button>
     </>
   );
 };
 
-// const PayrollDeductions = ({
-//   item,
-//   update,
-//   remove,
-//   setSavedItem,
-//   registry,
-//   schema,
-//   uiSchema,
-//   idSchema,
-// }) => {
-//   return (
-//     <div className="input-payroll-deduction">
-//       <SchemaField
-//         schema={schema.properties.payrollDeduction}
-//         uiSchema={uiSchema.payrollDeduction}
-//         onBlur={onBlur}
-//         registry={registry}
-//         idSchema={idSchema}
-//         formData={formData.payrollDeduction}
-//         onChange={value => onChange({ ...formData, payrollDeduction: value })}
-//       />
-//     </div>
-//   );
-// };
+const PayrollDeductions = ({
+  registry,
+  schema,
+  uiSchema,
+  idSchema,
+  onBlur,
+  formData,
+  onChange,
+}) => {
+  const { SchemaField } = registry.fields;
+
+  const addDeduction = () => {
+    // console.log('add deduction');
+  };
+
+  const deductionTypes = [
+    'Federal taxes',
+    'State taxes',
+    'Retirement (401k)',
+    'Social security',
+  ];
+
+  return (
+    <>
+      <h4>Payroll deductions</h4>
+      <p>You can find your payroll deductions in a recent paycheck.</p>
+      <div className="input-payroll-deduction">
+        {deductionTypes.map((item, i) => (
+          <div key={i}>
+            <label className="deduction-label">{item}</label>
+            <SchemaField
+              schema={schema.properties.payrollDeductions}
+              uiSchema={uiSchema.payrollDeductions}
+              onBlur={onBlur}
+              registry={registry}
+              idSchema={idSchema}
+              formData={formData.payrollDeductions}
+              onChange={value =>
+                onChange({ ...formData, payrollDeductions: value })
+              }
+            />
+          </div>
+        ))}
+      </div>
+      <div className="add-item-link-section">
+        <i className="fas fa-plus plus-icon" />
+        <span className="add-item-link" onClick={() => addDeduction()}>
+          Add payroll deduction
+        </span>
+      </div>
+      <div className="monthly-net-income">
+        <strong>Monthly net income:</strong> $1177.00
+      </div>
+    </>
+  );
+};
 
 const EmploymentHistory = ({
   title,
