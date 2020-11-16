@@ -1,4 +1,4 @@
-import VeteranInfoDescription from '../content/veteranInformation';
+import VeteranInfoDescription from '../components/VeteranInformation';
 
 const veteranInformation = {
   uiSchema: {

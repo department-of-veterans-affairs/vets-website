@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+
 import { srSubstitute } from '../../all-claims/utils';
 import { SELECTED } from '../constants';
 
@@ -22,41 +23,61 @@ export const VeteranInfoView = ({
   contestableIssues = {},
 }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
-  const { dob, gender, userFullName } = profile;
+  const { dob, gender, userFullName, vapContactInfo } = profile;
 
   const { first, middle, last, suffix } = userFullName;
   // ContestableIssues API needs a benefit type, so they are grouped together
   const { issues, benefitType } = contestableIssues;
+  const zipCode5 = vapContactInfo?.mailingAddress?.zipCode;
 
-  useEffect(() => {
-    if (issues?.length > 0 && benefitType) {
-      // Everytime the user starts the form, we need to get an updated list of
-      // contestable issues. This bit of code ensures that exactly matching
-      // previously selected entries are still selected
-      const contestedIssues = issues.map(issue => {
-        const newAttrs = issue.attributes;
-        const existingIssue = (formData.contestedIssues || []).find(
-          ({ attributes: oldAttrs }) =>
-            ['ratingIssueReferenceId', 'ratingIssuePercentNumber'].every(
-              key => oldAttrs[key] === newAttrs[key],
-            ),
+  useEffect(
+    () => {
+      if (issues?.length > 0 && benefitType) {
+        // Everytime the user starts the form, we need to get an updated list of
+        // contestable issues. This bit of code ensures that exactly matching
+        // previously selected entries are still selected
+        const contestedIssues = issues.map(issue => {
+          const newAttrs = issue.attributes;
+          const existingIssue = (formData.contestedIssues || []).find(
+            ({ attributes: oldAttrs }) =>
+              ['ratingIssueReferenceId', 'ratingIssuePercentNumber'].every(
+                key => oldAttrs[key] === newAttrs[key],
+              ),
+          );
+          return existingIssue?.[SELECTED]
+            ? { ...issue, [SELECTED]: true }
+            : issue;
+        });
+
+        const hasUnchangedContestedIssues = (
+          formData.contestedIssues || []
+        ).every(
+          (issue, index) =>
+            contestedIssues[index].ratingIssueReferenceId ===
+            issue.ratingIssueReferenceId,
         );
-        return existingIssue?.[SELECTED]
-          ? { ...issue, [SELECTED]: true }
-          : issue;
-      });
 
-      // add benefitType (from wizard) and contestedIssues (from API) values to
-      // the form; it's added here instead of the intro page because at this
-      // point the prefill or save-in-progress data would overwrite it
-      setFormData({
-        ...formData,
-        // add benefitType from wizard
-        benefitType: benefitType || formData.benefitType,
-        contestedIssues,
-      });
-    }
-  });
+        if (
+          benefitType !== formData?.benefitType ||
+          !hasUnchangedContestedIssues ||
+          zipCode5 !== formData?.zipCode5
+        ) {
+          setFormData({
+            ...formData,
+            // Add benefitType from wizard
+            benefitType: benefitType || formData.benefitType,
+            // Add contestedIssues (from API) values to the form; it's added
+            // here instead of the intro page because at that point the prefill
+            // or save-in-progress data would overwrite it
+            contestedIssues,
+            // used in submit transformer; needed by Lighthouse
+            zipCode5,
+          });
+        }
+      }
+    },
+    [issues, benefitType, setFormData, formData, zipCode5],
+  );
 
   return (
     <>
