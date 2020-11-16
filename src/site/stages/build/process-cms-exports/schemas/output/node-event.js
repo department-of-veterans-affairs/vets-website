@@ -25,8 +25,8 @@ module.exports = {
     fieldDatetimeRangeTimezone: {
       type: 'object',
       properties: {
-        value: { type: 'string' },
-        endValue: { type: 'string' },
+        value: { type: 'number' },
+        endValue: { type: ['number', 'null'] },
         timezone: { type: 'string' },
       },
     },
@@ -34,7 +34,20 @@ module.exports = {
     fieldEventCost: { type: ['string', 'null'] },
     fieldEventCta: { type: ['string', 'null'] },
     fieldEventRegistrationrequired: { type: 'boolean' },
-    fieldFacilityLocation: { type: ['object', 'null'] }, // When it's an object, it's an entity of some sort
+    fieldFacilityLocation: {
+      type: ['object', 'null'],
+      properties: {
+        entity: {
+          type: 'object',
+          properties: {
+            entityUrl: { $ref: 'EntityUrl' },
+            title: { type: 'string' },
+          },
+          required: ['entityUrl', 'title'],
+        },
+      },
+      required: ['entity'],
+    },
     fieldLink: {
       type: ['object', 'null'],
       properties: {
