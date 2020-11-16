@@ -25,8 +25,8 @@ module.exports = {
     fieldDatetimeRangeTimezone: {
       type: 'object',
       properties: {
-        value: { type: 'string' },
-        endValue: { type: 'string' },
+        value: { type: 'number' },
+        endValue: { type: ['number', 'null'] },
         timezone: { type: 'string' },
       },
     },
