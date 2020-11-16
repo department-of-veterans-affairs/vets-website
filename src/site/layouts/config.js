@@ -1,3 +1,39 @@
+/**
+ * Use this file to map a new type of Drupal node into a directory in "src/site/layouts".
+ * This process leverages the "entityBundle" property on each Drupal node, which is a
+ * a unique identifer of the page's content model.
+ *
+ * For example, observe the following query for Drupal's GraphQL schema.
+ *
+ *  ```graphql
+ *  # https://prod.cms.va.gov/graphql/explorer
+ * {
+ *   nodeQuery(limit: 10) {
+ *     entities {
+ *       entityId
+ *       entityBundle
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * This query will result in an array of Drupal nodes represented as objects with the shape:
+ * {
+ *   entityId - The ID of this node, which can be used to preview the page. Examples - "192", "816", "37"
+ *   entityBundle - The name of this node's content model. Examples - "landing_page", "news_story", "va_form"
+ * }
+ *
+ * The entityBundle of each item should align with the name of a layout file as configured in this file.
+ * For example, { entityId: "8296", entityBundle: "basic_landing_page" } would indicate that there is a Drupal
+ * node (page) of ID "8296" that uses the "resources-and-support/basic_landing_page.drupal.liquid" layout file
+ * during the website templating process. The page's live preview could be visited at "http://preview-prod.vfs.va.gov/preview?nodeId=8296".
+ *
+ * If you are writing a template for a new type of Drupal node, follow these steps.
+ * 1. Write the data layer of the new Drupal node via the content export or GraphQL (for the preview server)
+ * 2. Find the name of the "entityBundle" of the Drupal node, which should be provided to you by an engineer on the CMS team.
+ * 3. Create the file
+ */
+
 const { ENTITY_BUNDLES } = require('../constants/content-modeling');
 
 const directoryStructure = {
