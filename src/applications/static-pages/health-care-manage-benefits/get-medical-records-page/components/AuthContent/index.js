@@ -10,7 +10,9 @@ import { getCernerURL } from 'platform/utilities/cerner';
 
 const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
-    <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page:</h2>
+    <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
+      On this page:
+    </h2>
     <ul>
       <li>
         <a href="#va-blue-button">
