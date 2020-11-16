@@ -41,11 +41,7 @@ function completeRelationshipInformation(client, data) {
 function completeApplicantInformation(client, data) {
   client
     .fillName('root_fullName', data.fullName)
-    .selectDropdown('root_serviceAffiliation', data.serviceAffiliation)
-    .fill(
-      'input[name=root_socialSecurityNumberLastFour]',
-      data.socialSecurityNumberLastFour,
-    );
+    .selectDropdown('root_serviceAffiliation', data.serviceAffiliation);
 }
 
 function completeServiceInformation(client, data) {
