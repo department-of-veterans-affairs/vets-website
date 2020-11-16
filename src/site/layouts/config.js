@@ -44,7 +44,7 @@ const directoryStructure = {
     ENTITY_BUNDLES.PAGE,
     ENTITY_BUNDLES.VA_FORM,
   ],
-  other: [
+  placeholders: [
     ENTITY_BUNDLES.FULL_WIDTH_BANNER_ALERT,
     ENTITY_BUNDLES.OUTREACH_ASSET,
   ],
@@ -61,4 +61,16 @@ for (const [directory, entityBundles] of Object.entries(directoryStructure)) {
   }
 }
 
-module.exports = layoutFilesByEntityBundle;
+module.exports = {
+  get(entityBundle) {
+    const layoutFile = layoutFilesByEntityBundle.get(entityBundle);
+
+    if (!layoutFile) {
+      throw new Error(
+        `No layout file configured for entityBundle "${entityBundle}". Are you writing a template for a new type of Drupal node? Open "src/site/layouts/config.js" to learn more and configure it.`,
+      );
+    }
+
+    return layoutFile;
+  },
+};

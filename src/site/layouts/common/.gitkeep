@@ -1,0 +1,1 @@
+Layouts that are shared across various sections of the website should be kept here. For instance, if a layout "example.drupal.liquid" is used initially from Resources and Support but is used later by the Benefit Hubs, then "example.drupal.liquid" should be moved into this directory.
