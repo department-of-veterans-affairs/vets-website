@@ -1,15 +1,8 @@
 {
   "data": {
     "veteran": {
-      "phoneNumber": "5033333333",
-      "emailAddress": "mike.wazowski@gmail.com",
       "ssnLastFour": "7821",
       "vaFileLastFour": "8765",
-      "street": "1200 Park Ave",
-      "city": "Emeryville",
-      "country": "USA",
-      "state": "CA",
-      "zipCode5": "94608"
     },
     "sameOffice": false,
     "privacyAgreementAccepted": true,
