@@ -122,6 +122,7 @@ const formConfig = {
                 },
               },
               'ui:options': {
+                doNotScroll: true,
                 keepInPageOnReview: true,
                 itemName: 'question',
                 viewField: formData => {
