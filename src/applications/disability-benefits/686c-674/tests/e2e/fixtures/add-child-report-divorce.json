@@ -1,15 +1,15 @@
 {
-"data": {
+  "data": {
     "householdIncome": true,
     "childrenToAdd": [
-        {
+      {
         "doesChildLiveWithYou": true,
         "childAddressInfo": {
-            "personChildLivesWith": {
+          "personChildLivesWith": {
             "first": "johnson",
             "last": "doe"
-            },
-            "address": {
+          },
+          "address": {
             "view:livesOnMilitaryBase": true,
             "view:livesOnMilitaryBaseInfo": {},
             "countryName": "USA",
@@ -17,47 +17,45 @@
             "city": "APO",
             "stateCode": "AA",
             "zipCode": "12321"
-            }
+          }
         },
         "placeOfBirth": {
-            "isOutsideUs": true,
-            "country": "GTM",
-            "city": "some city"
+          "isOutsideUs": true,
+          "country": "GTM",
+          "city": "some city"
         },
         "childStatus": {
-            "biological": false,
-            "adopted": false,
-            "stepchild": true,
-            "dateBecameDependent": "2009-06-09"
+          "biological": false,
+          "adopted": false,
+          "stepchild": true,
+          "dateBecameDependent": "2009-06-09"
         },
         "view:childStatusInformation": {},
         "previouslyMarried": "Yes",
         "previousMarriageDetails": {
-            "dateMarriageEnded": "2019-07-10",
-            "reasonMarriageEnded": "Annulment"
+          "dateMarriageEnded": "2019-07-10",
+          "reasonMarriageEnded": "Annulment"
         },
         "childIncome": true,
         "fullName": {
-            "first": "jacob",
-            "last": "doe"
+          "first": "jacob",
+          "last": "doe"
         },
         "ssn": "321121234",
         "birthDate": "2015-06-08"
-        }
+      }
     ],
     "veteranContactInformation": {
       "veteranAddress": {
-        "view:livesOnMilitaryBase": true,
+        "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
         "countryName": "USA",
-        "addressLine1": "123 athome dr",
-        "city": "APO",
-        "stateCode": "AA",
-        "zipCode": "12321"
+        "addressLine1": "1600 Pennsylvania Ave",
+        "city": "Washington",
+        "stateCode": "DC",
+        "zipCode": "20500"
       },
-      "phoneNumber": "1231231234",
-      "emailAddress": "test2@test1.net",
-      "view:confirmEmail": "test2@test1.net"
+      "phoneNumber": "1231231234"
     },
     "view:686Information": {},
     "view:selectable686Options": {
@@ -65,20 +63,20 @@
       "reportDivorce": true
     },
     "reportDivorce": {
-        "fullName": {
-          "first": "john",
-          "last": "does"
-        },
-        "ssn": "123211234",
-        "birthDate": "1989-04-08",
-        "date": "1991-07-07",
-        "location": {
-          "isOutsideUs": false,
-          "state": "MD",
-          "city": "Army Post Office"
-        },
-        "reasonMarriageEnded": "Divorce"
+      "fullName": {
+        "first": "john",
+        "last": "does"
       },
+      "ssn": "123211234",
+      "birthDate": "1989-04-08",
+      "date": "1991-07-07",
+      "location": {
+        "isOutsideUs": false,
+        "state": "MD",
+        "city": "Army Post Office"
+      },
+      "reasonMarriageEnded": "Divorce"
+    },
     "veteranInformation": {
       "fullName": {
         "first": "Greg",
@@ -88,5 +86,5 @@
       "ssn": "796121200",
       "birthDate": "1933-05-04"
     }
-    }
+  }
 }

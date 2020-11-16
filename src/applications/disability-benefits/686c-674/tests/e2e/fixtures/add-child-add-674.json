@@ -85,9 +85,7 @@
         "stateCode": "DC",
         "zipCode": "20500"
       },
-      "phoneNumber": "1231231234",
-      "emailAddress": "test2@test1.net",
-      "view:confirmEmail": "test2@test1.net"
+      "phoneNumber": "1231231234"
     },
     "view:686Information": {},
     "view:selectable686Options": { "addChild": true, "report674": true },
