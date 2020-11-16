@@ -8,10 +8,10 @@ import SubmitError from 'applications/caregivers/components/SubmitError';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-// import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 
 import {
   submitTransform,
+  hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
 } from 'applications/caregivers/helpers';
@@ -28,6 +28,7 @@ import vetContactInfoPage from './chapters/veteran/vetContactInfo';
 import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
 
 // primary pages
+import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
 import primaryInfoPage from './chapters/primary/primaryInfo';
 import primaryContactInfoPage from './chapters/primary/primaryContact';
 import primaryMedicalPage from './chapters/primary/primaryHealthCoverage';
@@ -128,36 +129,39 @@ const formConfig = {
         primaryCaregiverInfoOne: {
           path: 'primary-1',
           title: 'Primary Family Caregiver information',
-          uiSchema: primaryInfoPage.uiSchema,
-          schema: primaryInfoPage.schema,
+          uiSchema: hasPrimaryCaregiverPage.uiSchema,
+          schema: hasPrimaryCaregiverPage.schema,
         },
         primaryCaregiverInfoTwo: {
           path: 'primary-2',
           title: 'Primary Family Caregiver information',
           uiSchema: primaryInfoPage.uiSchema,
           schema: primaryInfoPage.schema,
+          depends: formData => hasPrimaryCaregiver(formData),
         },
         primaryCaregiverInfoThree: {
           path: 'primary-3',
           title: contactInfoTitle,
           uiSchema: primaryContactInfoPage.uiSchema,
           schema: primaryContactInfoPage.schema,
+          depends: formData => hasPrimaryCaregiver(formData),
         },
         primaryCaregiverInfoFour: {
           path: 'primary-4',
           title: 'Health care coverage',
           uiSchema: primaryMedicalPage.uiSchema,
           schema: primaryMedicalPage.schema,
+          depends: formData => hasPrimaryCaregiver(formData),
         },
       },
     },
     secondaryCaregiversChapter: {
       title: 'Secondary Family Caregiver applicant information',
-      depends: formData => hasSecondaryCaregiverOne(formData),
       pages: {
         secondaryCaregiverOneIntro: {
           path: 'secondary-one-1',
           title: 'Secondary Family Caregiver information',
+
           uiSchema: hasSecondaryCaregiverPage.uiSchema,
           schema: hasSecondaryCaregiverPage.schema,
         },

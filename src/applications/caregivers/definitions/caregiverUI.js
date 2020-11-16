@@ -15,7 +15,7 @@ import {
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
-import { vetFields } from './constants';
+import { vetFields, primaryCaregiverFields } from './constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
@@ -86,6 +86,14 @@ export default {
     vetRelationshipUI: label => ({
       'ui:title': `What is the ${label}  relationship to the Veteran?`,
     }),
+    hasPrimaryCaregiverOneUI: {
+      'ui:title': 'Would you like to add a Primary Family Caregiver?',
+      'ui:description': SecondaryCaregiverInfo({
+        additionalInfo: true,
+        headerInfo: false,
+      }),
+      'ui:widget': 'yesNo',
+    },
     hasSecondaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Secondary Family Caregiver?',
       'ui:description': SecondaryCaregiverInfo({
@@ -93,6 +101,8 @@ export default {
         headerInfo: false,
       }),
       'ui:widget': 'yesNo',
+      'ui:required': formData =>
+        !formData[primaryCaregiverFields.hasPrimaryCaregiver],
     },
     hasSecondaryCaregiverTwoUI: {
       'ui:title': ' ',

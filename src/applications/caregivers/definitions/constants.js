@@ -29,7 +29,7 @@ export const primaryCaregiverFields = {
   verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
   hasHealthInsurance: 'primaryHasHealthInsurance',
-  hasPrimaryCaregiverView: 'view:hasPrimaryCaregiverView',
+  hasPrimaryCaregiver: 'view:hasPrimaryCaregiverView',
 };
 
 export const secondaryCaregiverFields = {
