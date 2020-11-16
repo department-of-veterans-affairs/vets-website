@@ -96,8 +96,8 @@ export class InstitutionProfile extends React.Component {
               />
             </AccordionItem>
             {displayStars && (
-              <div id="profile-school-ratings">
-                <AccordionItem button="School ratings">
+              <AccordionItem button="School ratings">
+                <div id="profile-school-ratings">
                   <SchoolRatings
                     ratingAverage={profile.attributes.ratingAverage}
                     ratingCount={profile.attributes.ratingCount}
@@ -105,8 +105,8 @@ export class InstitutionProfile extends React.Component {
                       profile.attributes.institutionCategoryRatings
                     }
                   />
-                </AccordionItem>
-              </div>
+                </div>
+              </AccordionItem>
             )}
             <AccordionItem button="Contact details">
               <ContactInformation institution={profile.attributes} />

@@ -161,7 +161,7 @@ class ConfirmationPage extends React.Component {
               Learn more about what happens after you apply:
             </a>
           </p>
-          <h4 className="confirmation-guidance-heading pagebreak">
+          <h4 className="confirmation-guidance-heading pagebreak vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
             Need help?
           </h4>
           <p className="confirmation-guidance-message">
@@ -170,12 +170,10 @@ class ConfirmationPage extends React.Component {
             ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
           </p>
         </div>
-        <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 usa-width-one-half medium-6 columns">
-            <a href="/">
-              <button className="usa-button-primary">Go back to VA.gov</button>
-            </a>
-          </div>
+        <div className="form-progress-buttons schemaform-back-buttons">
+          <a href="/">
+            <button className="usa-button-primary">Go back to VA.gov</button>
+          </a>
         </div>
       </div>
     );

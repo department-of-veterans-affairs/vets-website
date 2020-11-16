@@ -5,14 +5,22 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { COVID_FAQ_URL, NULL_CONDITION_STRING } from '../constants';
 import DownloadLink from './DownloadLink';
 
-export const contestedIssuesTitle = (
-  <>
-    <strong>Select the issue you would like to have reviewed</strong>
-    <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
-      (*Required)
-    </span>
-  </>
-);
+// We shouldn't ever see the couldn't find contestable issues message since we
+// prevent the user from navigating past the intro page; but it's here just in
+// case we end up filtering out deferred and expired issues
+export const ContestedIssuesTitle = props =>
+  props?.formData?.contestedIssues?.length === 0 ? (
+    <h2 className="vads-u-font-size--h4">
+      Sorry, we couldn’t find any contested issues
+    </h2>
+  ) : (
+    <>
+      <strong>Select the issue you would like to have reviewed</strong>
+      <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
+        (*Required)
+      </span>
+    </>
+  );
 
 /**
  * @typedef {Object} Disability

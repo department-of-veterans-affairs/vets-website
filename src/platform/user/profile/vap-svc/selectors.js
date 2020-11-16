@@ -4,24 +4,27 @@ import {
   selectVAPContactInfo,
 } from '~/platform/user/selectors';
 
-import { VET360_INITIALIZATION_STATUS, INIT_VET360_ID } from './constants';
+import {
+  VAP_SERVICE_INITIALIZATION_STATUS,
+  INIT_VAP_SERVICE_ID,
+} from './constants';
 
 import { isVAProfileServiceConfigured } from './util/local-vapsvc';
 
 import { isFailedTransaction, isPendingTransaction } from './util/transactions';
 
-export function selectIsVet360AvailableForUser(state) {
+export function selectIsVAProfileServiceAvailableForUser(state) {
   if (!isVAProfileServiceConfigured()) return true; // returns true if on localhost
-  return selectAvailableServices(state).includes(backendServices.VET360);
+  return selectAvailableServices(state).includes(backendServices.VA_PROFILE);
 }
 
-export function selectVet360Field(state, fieldName) {
+export function selectVAPContactInfoField(state, fieldName) {
   return selectVAPContactInfo(state)[fieldName];
 }
 
-export function selectVet360Transaction(state, fieldName) {
+export function selectVAPServiceTransaction(state, fieldName) {
   const {
-    vet360: {
+    vapService: {
       transactions,
       fieldTransactionMap: { [fieldName]: transactionRequest = null },
     },
@@ -41,13 +44,13 @@ export function selectVet360Transaction(state, fieldName) {
   };
 }
 
-export function selectVet360FailedTransactions(state) {
-  return state.vet360.transactions.filter(isFailedTransaction);
+export function selectVAPServiceFailedTransactions(state) {
+  return state.vapService.transactions.filter(isFailedTransaction);
 }
 
 export function selectMostRecentErroredTransaction(state) {
   const {
-    vet360: {
+    vapService: {
       transactions,
       metadata: { mostRecentErroredTransactionId },
     },
@@ -62,9 +65,9 @@ export function selectMostRecentErroredTransaction(state) {
   return transaction;
 }
 
-export function selectVet360PendingCategoryTransactions(state, type) {
+export function selectVAPServicePendingCategoryTransactions(state, type) {
   const {
-    vet360: { transactions, fieldTransactionMap },
+    vapService: { transactions, fieldTransactionMap },
   } = state;
 
   const existsWithinFieldTransactionMap = transaction => {
@@ -96,29 +99,29 @@ export function selectVet360PendingCategoryTransactions(state, type) {
 }
 
 export function selectEditedFormField(state, fieldName) {
-  return state.vet360.formFields[fieldName];
+  return state.vapService.formFields[fieldName];
 }
 
 export function selectCurrentlyOpenEditModal(state) {
-  return state.vet360.modal;
+  return state.vapService.modal;
 }
 
 export function selectAddressValidation(state) {
-  return state.vet360?.addressValidation || {};
+  return state.vapService?.addressValidation || {};
 }
 
 export function selectAddressValidationType(state) {
   return selectAddressValidation(state).addressValidationType;
 }
 
-export function selectVet360InitializationStatus(state) {
-  let status = VET360_INITIALIZATION_STATUS.UNINITIALIZED;
+export function selectVAPServiceInitializationStatus(state) {
+  let status = VAP_SERVICE_INITIALIZATION_STATUS.UNINITIALIZED;
 
-  const { transaction, transactionRequest } = selectVet360Transaction(
+  const { transaction, transactionRequest } = selectVAPServiceTransaction(
     state,
-    INIT_VET360_ID,
+    INIT_VAP_SERVICE_ID,
   );
-  const isReady = selectIsVet360AvailableForUser(state);
+  const isReady = selectIsVAProfileServiceAvailableForUser(state);
   let isPending = false;
   let isFailure = false;
 
@@ -129,11 +132,11 @@ export function selectVet360InitializationStatus(state) {
   }
 
   if (isReady) {
-    status = VET360_INITIALIZATION_STATUS.INITIALIZED;
+    status = VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZED;
   } else if (isPending) {
-    status = VET360_INITIALIZATION_STATUS.INITIALIZING;
+    status = VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZING;
   } else if (isFailure) {
-    status = VET360_INITIALIZATION_STATUS.INITIALIZATION_FAILURE;
+    status = VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZATION_FAILURE;
   }
 
   return {

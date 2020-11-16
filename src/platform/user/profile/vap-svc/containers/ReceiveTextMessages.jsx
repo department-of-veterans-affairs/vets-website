@@ -6,12 +6,12 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import {
   isVAPatient,
   selectProfile,
-  selectVet360MobilePhone,
-} from 'platform/user/selectors';
+  selectVAPMobilePhone,
+} from '~/platform/user/selectors';
 
-import * as VET360 from '../constants';
+import * as VAP_SERVICE from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
-import { selectVet360Transaction } from '@@vap-svc/selectors';
+import { selectVAPServiceTransaction } from '@@vap-svc/selectors';
 
 import {
   isPendingTransaction,
@@ -56,7 +56,7 @@ class ReceiveTextMessages extends React.Component {
       method,
       this.props.fieldName,
       payload,
-      VET360.ANALYTICS_FIELD_MAP[smsAction],
+      VAP_SERVICE.ANALYTICS_FIELD_MAP[smsAction],
     );
   };
 
@@ -115,23 +115,24 @@ class ReceiveTextMessages extends React.Component {
 
 export function mapStateToProps(state, ownProps) {
   const { fieldName } = ownProps;
-  const { transaction } = selectVet360Transaction(state, fieldName);
+  const { transaction } = selectVAPServiceTransaction(state, fieldName);
   const hasError = !!isFailedTransaction(transaction);
   const isPending = !!isPendingTransaction(transaction);
   const profileState = selectProfile(state);
-  const mobilePhone = selectVet360MobilePhone(state);
-  const isTextable = mobilePhone?.phoneType === VET360.PHONE_TYPE.mobilePhone;
+  const mobilePhone = selectVAPMobilePhone(state);
+  const isTextable =
+    mobilePhone?.phoneType === VAP_SERVICE.PHONE_TYPE.mobilePhone;
   const hideCheckbox =
     !isTextable || !isVAPatient(state) || hasError || isPending;
   const transactionSuccess =
-    state.vet360.transactionStatus ===
-    VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS;
+    state.vapService.transactionStatus ===
+    VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_SUCCESS;
   return {
     profile: profileState,
     hideCheckbox,
     transaction,
     transactionSuccess,
-    apiRoute: VET360.API_ROUTES.TELEPHONES,
+    apiRoute: VAP_SERVICE.API_ROUTES.TELEPHONES,
   };
 }
 

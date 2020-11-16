@@ -115,7 +115,10 @@ describe('AccountSecurityContent', () => {
     wrapper = shallow(<AccountSecurityContent {...makeDefaultProps()} />);
     const alertBox = wrapper.childAt(1);
     const alertBoxText = alertBox.find('p');
-    const alertBoxLink = alertBox.find('a');
+    const firstAlertBoxLink = alertBox.find('a').first();
+    const secondAlertBoxLink = alertBox.find('a').at(1);
+    const thirdAlertBoxLink = alertBox.find('a').at(2);
+    const alertBoxSubtitle = alertBox.find('h4');
     expect(alertBox.type()).to.equal(AlertBox);
     expect(alertBox.prop('status')).to.equal('info');
     expect(alertBox.prop('headline')).to.equal(
@@ -123,10 +126,12 @@ describe('AccountSecurityContent', () => {
     );
     expect(alertBox.prop('backgroundOnly')).to.be.true;
     expect(alertBoxText.text()).to.contain('Get answers');
-    expect(alertBoxLink.prop('href')).to.equal('/sign-in-faq/');
-    expect(alertBoxLink.text()).to.equal(
-      'Go to FAQs about signing in to VA.gov',
+    expect(alertBoxSubtitle.text()).to.equal('Go to FAQs about these topics:');
+    expect(firstAlertBoxLink.text()).to.equal('Signing in to VA.gov');
+    expect(secondAlertBoxLink.text()).to.equal(
+      'Verifying your identity on VA.gov',
     );
+    expect(thirdAlertBoxLink.text()).to.equal('Privacy and security on VA.gov');
     wrapper.unmount();
   });
 });

@@ -23,6 +23,7 @@
     "cy:run": "cypress run --config-file config/cypress.json",
     "cy:test:circle": "./script/run-cypress-tests-circle.sh",
     "cy:test:docker": "./script/run-cypress-tests-docker.sh",
+    "cy:testrail-run": "cypress run --config-file config/cypress.json --reporter-options domain=dsvavsp.testrail.io,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=Dashboard",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
     "prebuild": "node script/prebuild.js",
@@ -47,7 +48,7 @@
     "install-repos": "./script/install-repos.sh",
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
-    "postinstall": "npm rebuild node-sass",
+    "postinstall": "npm rebuild node-sass && node ./script/check-node-version.js",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
@@ -180,6 +181,7 @@
     "cypress-axe": "^0.8.1",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
+    "cypress-testrail-reporter": "^1.2.1",
     "decompress": "^4.2.1",
     "enhanced-resolve": "^0.7.6",
     "enzyme": "^3.11.0",
@@ -271,8 +273,8 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "10.15.3",
-    "yarn": "1.21.1"
+    "node": ">=14.15.0",
+    "yarn": ">=1.21.1"
   },
   "private": true,
   "dependencies": {
@@ -345,7 +347,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#5fe60907a8b6b228d9c5e8ba3d459cc7e841c4c1",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#bdc66babaef2f7addb84011f5c48f9196a3dbcbe",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

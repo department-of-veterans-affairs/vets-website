@@ -50,6 +50,29 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
 
     expect(screen.getAllByRole('radio').length).to.equal(11);
+
+    // Verify alert is shown
+    expect(
+      screen.getByRole('heading', {
+        name: /not seeing the type of care you need\?/i,
+      }),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        /you’ll need to call your va health facility to schedule an appointment./i,
+      ),
+    ).to.exist;
+    expect(screen.getByRole('link', { name: /find a va location/i })).to.exist;
+    fireEvent.click(screen.getByText(/Find a VA location/i));
+
+    expect(global.window.dataLayer[0]).to.eql({
+      'alert-box-click-label': 'Find a VA location',
+      'alert-box-heading': 'Not seeing the type of care you need',
+      'alert-box-subheading': undefined,
+      'alert-box-type': 'informational',
+      event: 'nav-alert-box-link-click',
+    });
+
     expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
 
     fireEvent.click(screen.getByText(/Continue/));
@@ -74,6 +97,9 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
+    await waitFor(() => {
+      expect(screen.getByLabelText(/primary care/i).checked).to.be.true;
+    });
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
@@ -147,7 +173,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
     mockParentSites(['983'], [parentSite983, parentSite983GC]);
     mockCommunityCareEligibility({
-      parentSites: ['983GC', '983'],
+      parentSites: ['983', '983GC'],
       supportedSites: ['983GC'],
       careType: 'PrimaryCare',
     });
