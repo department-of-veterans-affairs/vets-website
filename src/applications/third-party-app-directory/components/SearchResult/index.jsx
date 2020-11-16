@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 // Node modules.
 import React, { Component } from 'react';
 import isEmpty from 'lodash/isEmpty';
@@ -41,7 +43,7 @@ export class SearchResult extends Component {
             alt={item?.name}
             aria-hidden="true"
             role="presentation"
-            src={item?.iconURL}
+            src={item?.logo_url}
           />
 
           <div className="vads-u-flex--1 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--2">
@@ -56,15 +58,15 @@ export class SearchResult extends Component {
 
             {/* Category and Platform */}
             <p className="vads-u-margin--0">
-              {join(item?.categories, ', ') || 'Unknown category'} app available
-              for {join(item?.platforms, ', ') || 'unknown platforms'}
+              {join(item?.service_categories, ', ') || 'Unknown category'} app
+              available for {join(item?.platforms, ', ') || 'unknown platforms'}
             </p>
           </div>
 
           {/* App URL */}
           <a
             className="usa-button usa-button-secondary vads-u-width--auto"
-            href={item?.appURL}
+            href={item?.app_url}
             rel="noopener noreferrer"
             target="_blank"
           >
