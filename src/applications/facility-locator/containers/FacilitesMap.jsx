@@ -37,6 +37,7 @@ import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../utils/SearchAreaControl';
+import recordEvent from 'platform/monitoring/record-event';
 
 let currentZoom = 3;
 let searchAreaSet = false;
@@ -172,7 +173,16 @@ const FacilitiesMap = props => {
 
   const handleSearchArea = () => {
     resetMapElements();
+    const { currentQuery } = props;
+    currentZoom = null;
     const center = map.getCenter().wrap();
+
+    recordEvent({
+      event: 'fl-search',
+      'fl-search-fac-type': currentQuery.facilityType,
+      'fl-search-svc-type': currentQuery.serviceType,
+    });
+
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
