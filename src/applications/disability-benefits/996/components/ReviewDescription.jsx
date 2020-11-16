@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { selectProfile } from 'platform/user/selectors';
 
 import { formatPhone } from './ContactInformation';
-import { ADDRESS_TYPES, formatAddress } from 'platform/forms/address/helpers';
+import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 
 const ReviewDescription = ({ profile }) => {
   if (!profile) {
@@ -13,7 +13,6 @@ const ReviewDescription = ({ profile }) => {
   }
 
   const { email, homePhone, mailingAddress } = profile.vapContactInfo;
-  const address = formatAddress(mailingAddress);
   const isUS = mailingAddress.addressType !== ADDRESS_TYPES.international;
   const stateOrProvince = isUS ? 'State' : 'Province';
 
@@ -22,13 +21,14 @@ const ReviewDescription = ({ profile }) => {
     'Phone number': () =>
       formatPhone(`${homePhone?.areaCode}${homePhone?.phoneNumber}`),
     'Email address': () => email.emailAddress,
-    Country: () => address.country,
-    'Street address': () => address.addressLine1,
-    'Line 2': () => address.addressLine2,
-    'Line 3': () => address.addressLine3,
-    City: () => address.city,
-    [stateOrProvince]: () => address.stateOrProvince,
-    'Postal code': () => address.zipOrPostalCode,
+    Country: () => (isUS ? '' : mailingAddress.countryName),
+    'Street address': () => mailingAddress.addressLine1,
+    'Line 2': () => mailingAddress.addressLine2,
+    'Line 3': () => mailingAddress.addressLine3,
+    City: () => mailingAddress.city,
+    [stateOrProvince]: () => mailingAddress[isUS ? 'stateCode' : 'province'],
+    'Postal code': () =>
+      mailingAddress[isUS ? 'zipCode' : 'internationalPostalCode'],
   };
 
   return (

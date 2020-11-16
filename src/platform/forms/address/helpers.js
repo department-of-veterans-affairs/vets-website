@@ -61,29 +61,9 @@ export function getStateName(abbreviation) {
 }
 
 /**
- * @typedef FormatedAddress
- * @type {object}
- * @property {string} addressLine1 street address line 1
- * @property {string} addressLine2 street address line 2
- * @property {string} addressLine3 street address line 3
- * @property {string} city city name
- * @property {string} stateOrProvince undifferentiated name of state (domestic)
- *  or province (international)
- * @property {string} zipOrPostalCode undifferentiated zip or postal code
- * @property {string} street addressLine1, addressLine2 and addressLine3
- *  combined into a comma separated string
- * @property {string} cityStateZip city, stateOrProvince and zipOrPostalCode
- *  combined into a comma separated string
- * @property {string} country name of the country, or an empty string if it is
- *  a domestic U.S. address
- */
-/**
  * Accepts any address and returns an object containing the fields formatted for display
  * @param {Address} address
- * @returns {FormatedAddress} Originally it returned an object containing
- *  properties for street, cityStateZip, and country. In an update, the returned
- *  object includes each street address line, undifferentiated stateOrProvice
- *  and undifferentiated zipOrPostalCode to custom formatted output
+ * @returns {object} An object containing properties for street, cityStateZip, and country. The country property is returned as the empty string if USA, because that value is so common it isn't usually displayed.
  */
 export function formatAddress(address) {
   /* eslint-disable prefer-template */
@@ -101,13 +81,6 @@ export function formatAddress(address) {
     stateCode,
     zipCode,
   } = address;
-
-  const returnedAddress = {
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    city,
-  };
 
   let cityStateZip = '';
 
@@ -140,14 +113,8 @@ export function formatAddress(address) {
     case ADDRESS_TYPES.military:
       cityStateZip = city || '';
       if (city && stateCode) cityStateZip += ', ';
-      if (stateCode) {
-        cityStateZip += stateName;
-        returnedAddress.stateOrProvince = stateName;
-      }
-      if (zipCode) {
-        cityStateZip += ' ' + zipCode;
-        returnedAddress.zipOrPostalCode = zipCode;
-      }
+      if (stateCode) cityStateZip += stateName;
+      if (zipCode) cityStateZip += ' ' + zipCode;
       break;
 
     // For international addresses we add a comma after the province
@@ -156,19 +123,11 @@ export function formatAddress(address) {
         [city, province, internationalPostalCode]
           .filter(item => item)
           .join(', ') || '';
-      returnedAddress.stateOrProvince = province;
-      returnedAddress.zipOrPostalCode = internationalPostalCode;
       break;
 
     default:
       cityStateZip = address.city;
   }
 
-  return {
-    ...returnedAddress,
-    // combined address strings
-    street,
-    cityStateZip,
-    country,
-  };
+  return { street, cityStateZip, country };
 }
