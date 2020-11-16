@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function index() {
-  return <div>TO DO!!!</div>;
+  return <div>Not Completed</div>;
 }
