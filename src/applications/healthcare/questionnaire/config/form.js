@@ -83,11 +83,11 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Prepare for your visit',
+      title: 'Prepare for Your Appointment',
       pages: {
         reasonForVisit: {
           path: 'reason-for-visit',
-          title: 'Prepare for your visit',
+          title: 'Prepare for Your Appointment',
           uiSchema: {
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,

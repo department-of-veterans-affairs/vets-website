@@ -1,58 +1,19 @@
+import React from 'react';
 import { states50AndDC } from 'vets-json-schema/dist/constants.json';
+import AddressView from '../AddressView';
 
 const stateCodeToFullState = stateCode => {
   return states50AndDC.filter(f => f.value === stateCode)[0]?.label;
 };
 
-const addressToDisplay = address => {
-  const addressDisplayList = [];
+const addressToDisplay = (label, address) => {
   if (!address) {
-    return addressDisplayList;
+    return { label };
   }
-
-  // sa1
-  if (address.addressLine1) {
-    addressDisplayList.push({
-      label: `Street Address 1`,
-      value: address.addressLine1,
-    });
-  }
-  // sa2
-  if (address.addressLine2) {
-    addressDisplayList.push({
-      label: `Street Address 2`,
-      value: address.addressLine2,
-    });
-  }
-  // sa3
-  if (address.addressLine3) {
-    addressDisplayList.push({
-      label: `Street Address 3`,
-      value: address.addressLine3,
-    });
-  }
-  // city
-  if (address.city) {
-    addressDisplayList.push({
-      label: 'City',
-      value: address.city,
-    });
-  }
-  // stateCode
-  if (address.stateCode) {
-    addressDisplayList.push({
-      label: 'State',
-      value: stateCodeToFullState(address.stateCode),
-    });
-  }
-  // zipCode
-  if (address.zipCode) {
-    addressDisplayList.push({
-      label: 'Zip',
-      value: address.zipCode,
-    });
-  }
-  return addressDisplayList;
+  return {
+    label,
+    value: <AddressView address={address} />,
+  };
 };
 
 const formatPhoneNumber = phoneNumberString => {
