@@ -15,6 +15,77 @@
   padding-right: 2px;
 }
 
+.employment-history-title {
+  margin: 20px 0;
+}
+// employment history
+.employment-history-container {
+  display: flex;
+  flex-direction: column;
+  width: 575px;
+  background-color: #f1f1f1;
+  padding: 10px 30px 20px;
+
+  .input-employment-type {
+    width: 200px;
+  }
+  .input-employment-start {
+    margin-right: 25px;
+    .schemaform-label {
+      margin-bottom: 15px;
+    }
+  }
+  .input-employer-name {
+    width: 278px;
+  }
+  .input-monthly-income {
+    width: 152px;
+  }
+  .input-payroll-deduction {
+    width: 152px;
+  }
+
+  .add-item-link,
+  .remove-link {
+    font-size: 16px;
+    color: #004795;
+    line-height: 24px;
+    text-decoration: underline;
+    margin-bottom: 7px;
+  }
+  .btn-save {
+    margin-top: 20px;
+    max-width: fit-content;
+  }
+
+  .add-item-link-section {
+    margin-top: 25px;
+    .plus-icon {
+      color: #0071bb;
+      margin-right: 5px;
+    }
+    .add-item-link {
+      // border: 1px solid red;
+    }
+  }
+}
+
+// add-item
+.add-item-container {
+  display: flex;
+  flex-direction: column;
+  width: 575px;
+  background-color: #f1f1f1;
+  padding: 20px 30px 20px;
+  margin-top: 25px;
+  .add-income-link-section {
+    .plus-icon {
+      color: #0071bb;
+      margin-right: 5px;
+    }
+  }
+}
+
 // list-loop component
 .list-loop-container {
   display: flex;
@@ -91,12 +162,6 @@
           width: 125px;
         }
       }
-      .btn-save {
-        max-width: fit-content;
-      }
-      .remove-link {
-        margin-bottom: 7px;
-      }
     }
   }
   .add-income-link-section {
@@ -111,5 +176,9 @@
     color: #004795;
     line-height: 24px;
     text-decoration: underline;
+    margin-bottom: 7px;
+  }
+  .btn-save {
+    max-width: fit-content;
   }
 }
