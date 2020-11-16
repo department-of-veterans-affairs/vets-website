@@ -9,12 +9,12 @@ import generalQuestionData from '../cypress/fixtures/data/general-question.json'
 
 contractTest('Contact Us', 'VA.gov API', mockApi => {
   describe('POST /ask/asks', () => {
-    it('responds with 201 when submitting form', async () => {
+    it('Success case: submit valid form will return a 201 Created HTTP response', async () => {
       generalQuestionData.data.veteranStatus.veteranStatus = 'general';
       delete generalQuestionData.data['view:email'];
 
       await mockApi().addInteraction({
-        state: 'minimum required data',
+        state: 'General Question flow with minimal required data',
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
