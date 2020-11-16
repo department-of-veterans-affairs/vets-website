@@ -1,3 +1,5 @@
+import ListLoop from '../components/ListLoop';
+
 export const uiSchema = {
   employmentHistory: {
     'ui:title': 'Your employment history',
@@ -19,8 +21,11 @@ export const uiSchema = {
         'ui:options': {
           expandUnder: 'view:currentlyEmployed',
         },
-        employmentType: {
-          'ui:title': 'Type of employment',
+        incomeType: {
+          'ui:title': 'Type of income',
+        },
+        monthlyAmount: {
+          'ui:title': 'Monthly amount',
         },
         employmentStart: {
           'ui:title': 'Employment start date',
@@ -30,6 +35,7 @@ export const uiSchema = {
         employerName: {
           'ui:title': 'Employer name',
         },
+        'ui:field': ListLoop,
       },
     },
   },
@@ -53,9 +59,12 @@ export const schema = {
             'view:isCurrentlyEmployed': {
               type: 'object',
               properties: {
-                employmentType: {
+                incomeType: {
                   type: 'string',
-                  enum: ['Full-time', 'Part-time', 'Seasonal'],
+                  enum: ['Income Type 1', 'Income Type 2', 'Income Type 3'],
+                },
+                monthlyAmount: {
+                  type: 'string',
                 },
                 employmentStart: {
                   type: 'string',

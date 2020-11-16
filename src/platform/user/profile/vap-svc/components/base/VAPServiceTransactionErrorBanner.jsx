@@ -3,7 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
-import facilityLocator from 'applications/facility-locator/manifest.json';
+import facilityLocator from '~/applications/facility-locator/manifest.json';
 
 import {
   hasGenericUpdateError,
@@ -119,7 +119,7 @@ export function MVIError(props) {
   );
 }
 
-export default function Vet360TransactionErrorBanner({
+export default function VAPServiceTransactionErrorBanner({
   transaction,
   clearTransaction,
 }) {

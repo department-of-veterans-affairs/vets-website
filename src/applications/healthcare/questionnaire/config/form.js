@@ -58,7 +58,7 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: "Veteran's Information",
+      title: 'Veteran Information',
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
@@ -122,6 +122,7 @@ const formConfig = {
                 },
               },
               'ui:options': {
+                doNotScroll: true,
                 keepInPageOnReview: true,
                 itemName: 'question',
                 viewField: formData => {

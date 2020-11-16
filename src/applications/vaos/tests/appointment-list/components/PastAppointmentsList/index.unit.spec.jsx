@@ -62,7 +62,6 @@ describe('VAOS integration: past appointments', () => {
       initialState,
     });
 
-    expect(baseElement).to.contain.text('Loading your appointments');
     await findByText(/You don’t have any appointments/i);
 
     mockPastAppointmentInfoOption1({ va: [olderAppt] });
@@ -72,7 +71,6 @@ describe('VAOS integration: past appointments', () => {
     });
 
     fireEvent.click(queryByText('Update'));
-    expect(baseElement).to.contain.text('Loading your appointments');
     const rangeLabel = `${moment()
       .subtract(5, 'months')
       .startOf('month')

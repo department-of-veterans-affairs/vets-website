@@ -11,9 +11,9 @@ import {
 
 import { clearTransaction } from '../actions';
 
-import Vet360TransactionErrorBanner from '../components/base/Vet360TransactionErrorBanner';
+import VAPServiceTransactionErrorBanner from '../components/base/VAPServiceTransactionErrorBanner';
 
-class Vet360TransactionReporter extends React.Component {
+class VAPServiceTransactionReporter extends React.Component {
   static propTypes = {
     clearTransaction: PropTypes.func.isRequired,
     mostRecentErroredTransaction: PropTypes.object,
@@ -40,7 +40,7 @@ class Vet360TransactionReporter extends React.Component {
     return (
       <div className="vet360-transaction-reporter">
         {mostRecentErroredTransaction && (
-          <Vet360TransactionErrorBanner
+          <VAPServiceTransactionErrorBanner
             transaction={mostRecentErroredTransaction}
             clearTransaction={this.clearAllErroredTransactions}
           />
@@ -62,5 +62,5 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Vet360TransactionReporter);
-export { Vet360TransactionReporter };
+)(VAPServiceTransactionReporter);
+export { VAPServiceTransactionReporter };
