@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { setIncomeData } from '../actions';
+import { setDeductions } from '../actions';
 
 const EmploymentRecord = ({
   registry,
@@ -10,6 +10,8 @@ const EmploymentRecord = ({
   onBlur,
   formData,
   onChange,
+  setData,
+  deductions,
 }) => {
   const { SchemaField } = registry.fields;
 
@@ -84,6 +86,8 @@ const EmploymentRecord = ({
         onBlur={onBlur}
         formData={formData}
         onChange={onChange}
+        setData={setData}
+        deductions={deductions}
       />
       <button className="btn-save" onClick={e => handleSave(e)}>
         Save
@@ -98,21 +102,35 @@ const PayrollDeductions = ({
   uiSchema,
   idSchema,
   onBlur,
-  formData,
-  onChange,
+  // formData,
+  // deductions,
+  // setData,
 }) => {
   const { SchemaField } = registry.fields;
 
+  const [deductionTypes, setDeductionTypes] = useState([
+    { id: 0, type: 'Federal taxes', value: null },
+    { id: 1, type: 'State taxes', value: null },
+    { id: 2, type: 'Retirement (401k)', value: null },
+    { id: 3, type: 'Social security', value: null },
+  ]);
+
   const addDeduction = () => {
-    // console.log('add deduction');
+    setDeductionTypes(prevState => [
+      ...prevState,
+      { id: 4, type: 'New Deduction', value: null },
+    ]);
   };
 
-  const deductionTypes = [
-    'Federal taxes',
-    'State taxes',
-    'Retirement (401k)',
-    'Social security',
-  ];
+  const handleUpdate = (id, value) => {
+    const itemIndex = deductionTypes.findIndex(obj => obj.id === id);
+
+    setDeductionTypes(prevState => [
+      ...prevState.map((item, index) => {
+        return index === itemIndex ? { ...item, value } : item;
+      }),
+    ]);
+  };
 
   return (
     <>
@@ -121,17 +139,17 @@ const PayrollDeductions = ({
       <div className="input-payroll-deduction">
         {deductionTypes.map((item, i) => (
           <div key={i}>
-            <label className="deduction-label">{item}</label>
+            <label className="deduction-label">{item.type}</label>
             <SchemaField
               schema={schema.properties.payrollDeductions}
               uiSchema={uiSchema.payrollDeductions}
               onBlur={onBlur}
               registry={registry}
               idSchema={idSchema}
-              formData={formData.payrollDeductions}
-              onChange={value =>
-                onChange({ ...formData, payrollDeductions: value })
+              formData={
+                deductionTypes[i]?.value ? deductionTypes[i]?.value : ''
               }
+              onChange={value => handleUpdate(i, value)}
             />
           </div>
         ))}
@@ -159,6 +177,8 @@ const EmploymentHistory = ({
   onBlur,
   onChange,
   formData,
+  setData,
+  deductions,
 }) => {
   return (
     <>
@@ -172,6 +192,8 @@ const EmploymentHistory = ({
           onBlur={onBlur}
           onChange={onChange}
           formData={formData}
+          setData={setData}
+          deductions={deductions}
         />
       </div>
 
@@ -187,13 +209,17 @@ const EmploymentHistory = ({
   );
 };
 
+// EmploymentHistory.defaultProps = {
+//   deductions: [{ id: 0, value: null }],
+// };
+
 const mapDispatchToProps = dispatch => ({
-  setData: data => dispatch(setIncomeData(data)),
+  setData: data => dispatch(setDeductions(data)),
 });
 
 const mapStateToProps = state => ({
   title: 'Please provide your employment history for the past two years.',
-  income: state.fsr.income,
+  deductions: state.fsr.deductions,
 });
 
 export default connect(

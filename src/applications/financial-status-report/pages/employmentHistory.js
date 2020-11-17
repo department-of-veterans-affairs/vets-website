@@ -35,10 +35,7 @@ export const uiSchema = {
         monthlyIncome: {
           'ui:title': 'Gross monthly income',
         },
-        // payrollDeductions: {
-        //   'ui:field': 'ArrayField',
-        //   'ui:options': {},
-        // },
+        // payrollDeductions: {},
       },
     },
   },
@@ -77,6 +74,7 @@ export const schema = {
                 payrollDeductions: {
                   type: 'number',
                 },
+
                 // payrollDeductions: {
                 //   type: 'array',
                 //   items: {
