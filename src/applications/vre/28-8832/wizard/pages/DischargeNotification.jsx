@@ -6,7 +6,7 @@ const DischargeNotification = () => {
   useEffect(() => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
     recordEvent({
-      event: `howToWizard-notice-displayed`,
+      event: `howToWizard-alert-displayed`,
       'reason-for-notice':
         'ineligibility - outside time period from active duty discharge',
     });

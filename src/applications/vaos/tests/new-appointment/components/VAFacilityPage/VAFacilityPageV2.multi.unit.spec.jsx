@@ -483,6 +483,13 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     await screen.findByText(
       /This facility does not allow scheduling requests/i,
     );
+    const loadingEvent = global.window.dataLayer.find(
+      ev => ev.event === 'loading-indicator-displayed',
+    );
+
+    // It should record GA event for loading modal
+    expect(loadingEvent).to.exist;
+    expect('loading-indicator-display-time' in loadingEvent).to.be.true;
   });
 
   it('should show eligibility modal again if user closes it out and hits continue again with the same facility selected', async () => {

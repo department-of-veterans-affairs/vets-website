@@ -8,7 +8,9 @@ const transform = entity => ({
     fieldBody: {
       processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
     },
-    fieldRegionalHealthService: entity.fieldRegionalHealthService[0] || null,
+    fieldRegionalHealthService: {
+      entity: entity.fieldRegionalHealthService[0],
+    },
     fieldServiceLocation: entity.fieldServiceLocation.map(locationData => ({
       entity: locationData,
     })),

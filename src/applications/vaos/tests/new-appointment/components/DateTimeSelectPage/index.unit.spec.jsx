@@ -23,7 +23,7 @@ import {
 import { getClinicMock, getAppointmentSlotMock } from '../../../mocks/v0';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
-xdescribe('VAOS <DateTimeSelectPage>', () => {
+describe('VAOS <DateTimeSelectPage>', () => {
   it('should not submit form with validation error', async () => {
     const store = createTestStore({
       newAppointment: {
@@ -90,7 +90,7 @@ xdescribe('VAOS <DateTimeSelectPage>', () => {
 
     expect(
       screen.getByRole('heading', {
-        level: 2,
+        level: 3,
         name: 'Your earliest appointment time',
       }),
     ).to.be.ok;

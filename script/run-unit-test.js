@@ -46,13 +46,12 @@ if (options.help) {
 const mochaPath = `BABEL_ENV=test mocha ${reporterOption}`;
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color --retries 3`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
-const mochaOpts =
-  'src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js';
+const configFile = 'config/mocha.json';
 
 runCommand(
   `LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --opts ${mochaOpts} --recursive ${options.path
+  ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
     .map(p => `'${p}'`)
     .join(' ')}`,
 );

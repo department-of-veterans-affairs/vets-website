@@ -152,7 +152,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     expect(screen.getByText(/please choose a type of care/i)).to.exist;
   });
 
-  xit('should open facility type page when CC eligible and has a support parent site', async () => {
+  it('should open facility type page when CC eligible and has a support parent site', async () => {
     const parentSite983 = {
       id: '983',
       attributes: {
@@ -173,7 +173,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
     mockParentSites(['983'], [parentSite983, parentSite983GC]);
     mockCommunityCareEligibility({
-      parentSites: ['983GC', '983'],
+      parentSites: ['983', '983GC'],
       supportedSites: ['983GC'],
       careType: 'PrimaryCare',
     });
@@ -328,7 +328,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(
       await screen.findByRole('heading', {
-        level: '3',
+        level: 3,
         name: /You may have trouble using the VA appointments tool right now/,
       }),
     ).to.exist;

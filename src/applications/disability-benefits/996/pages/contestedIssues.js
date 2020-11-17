@@ -1,4 +1,4 @@
-import SelectArrayItemsWidget from '../containers/SelectArrayItemsWidget';
+import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 
 import {
   ContestedIssuesTitle,
@@ -13,7 +13,7 @@ import {
 } from '../content/OfficeForReview';
 
 import { requireRatedDisability } from '../validations';
-import SameOfficeReviewField from '../containers/SameOfficeReviewField';
+import SameOfficeReviewField from '../content/SameOfficeReviewField';
 import { SELECTED } from '../constants';
 
 const hasNoContestedIssues = formData => !formData.contestedIssues?.length;

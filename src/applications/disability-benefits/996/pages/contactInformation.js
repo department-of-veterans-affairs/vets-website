@@ -1,9 +1,9 @@
-import { contactInfoDescription } from '../content/contactInformation';
+import ContactInfoDescription from '../components/ContactInformation';
 
 const contactInfo = {
   uiSchema: {
     'ui:title': 'Contact Information',
-    'ui:description': contactInfoDescription,
+    'ui:description': ContactInfoDescription,
     'ui:options': {
       hideOnReview: true,
     },

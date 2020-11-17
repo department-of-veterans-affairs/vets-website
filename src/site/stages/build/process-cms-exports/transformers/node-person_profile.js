@@ -14,7 +14,10 @@ const transform = (entity, { ancestors }) => ({
   )}`,
   entityMetatags: createMetaTagArray(entity.metatag.value),
   entityPublished: isPublished(getDrupalValue(entity.status)),
-  fieldBody: getDrupalValue(entity.fieldBody),
+  fieldBody:
+    entity.fieldBody && entity.fieldBody.length > 0
+      ? { processed: entity.fieldBody[0].processed }
+      : null,
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldEmailAddress: getDrupalValue(entity.fieldEmailAddress),
   fieldLastName: getDrupalValue(entity.fieldLastName),
