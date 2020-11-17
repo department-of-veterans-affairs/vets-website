@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+
 import SignInLink from '../components/SignInLink';
 import { SAVE_STATUSES, saveErrors } from './actions';
 import {
@@ -9,7 +10,7 @@ import {
 } from '../../forms-system/src/js/constants';
 
 function SaveStatus({
-  form: { lastSavedDate, autoSavedStatus },
+  form: { lastSavedDate, autoSavedStatus, loadedData },
   formConfig,
   isLoggedIn,
   showLoginModal,
@@ -24,6 +25,14 @@ function SaveStatus({
   } else {
     savedAtMessage = '';
   }
+
+  const formId = loadedData?.metadata?.inProgressFormId;
+  const formIdMessage =
+    formId && savedAtMessage ? (
+      <div className="vads-u-margin-left--3">
+        Your application ID is: <strong>{formId}</strong>
+      </div>
+    ) : null;
 
   const hasError =
     saveErrors.has(autoSavedStatus) &&
@@ -42,6 +51,7 @@ function SaveStatus({
           <i className="fa fa-check-circle saved-success-icon" />
           {appSavedSuccessfullyMessage}
           {savedAtMessage}
+          {formIdMessage}
         </div>
       )}
       {autoSavedStatus === SAVE_STATUSES.pending && (
