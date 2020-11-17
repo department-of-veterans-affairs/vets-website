@@ -2,12 +2,12 @@ import { expect } from 'chai';
 import * as selectors from '../selectors';
 
 describe('user selectors', () => {
-  describe('selectVet360', () => {
-    it('pulls out the state.profile.vet360 data', () => {
+  describe('selectVAPContactInfo', () => {
+    it('pulls out the state.profile.vapContactInfo data', () => {
       const state = {
         user: {
           profile: {
-            vet360: {
+            vapContactInfo: {
               email: {
                 emailAddress: '123@va.com',
               },
@@ -15,26 +15,26 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectVet360(state)).to.deep.equal(
-        state.user.profile.vet360,
+      expect(selectors.selectVAPContactInfo(state)).to.deep.equal(
+        state.user.profile.vapContactInfo,
       );
     });
-    it('returns undefined if there is no vet360 on the profile', () => {
+    it('returns undefined if there is no vapContactInfo on the profile', () => {
       const state = {
         user: {
           profile: {},
         },
       };
-      expect(selectors.selectVet360(state)).to.be.undefined;
+      expect(selectors.selectVAPContactInfo(state)).to.be.undefined;
     });
   });
 
-  describe('selectVet360EmailAddress', () => {
-    it('pulls out the state.profile.vet360.emailAddress', () => {
+  describe('selectVAPEmailAddress', () => {
+    it('pulls out the state.profile.vapContactInfo.emailAddress', () => {
       const state = {
         user: {
           profile: {
-            vet360: {
+            vapContactInfo: {
               email: {
                 createdAt: '2019-10-11T12:42:14.000Z',
                 emailAddress: 'testertester2@mail.com',
@@ -51,27 +51,27 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectVet360EmailAddress(state)).to.equal(
-        state.user.profile.vet360.email.emailAddress,
+      expect(selectors.selectVAPEmailAddress(state)).to.equal(
+        state.user.profile.vapContactInfo.email.emailAddress,
       );
     });
-    it('returns undefined if there is no vet360 on the profile', () => {
+    it('returns undefined if there is no vapContactInfo on the profile', () => {
       const state = {
         user: {
           profile: {},
         },
       };
-      expect(selectors.selectVet360EmailAddress(state)).to.be.undefined;
+      expect(selectors.selectVAPEmailAddress(state)).to.be.undefined;
     });
     it('returns undefined if there is no email', () => {
       const state = {
         user: {
           profile: {
-            vet360: {},
+            vapContactInfo: {},
           },
         },
       };
-      expect(selectors.selectVet360EmailAddress(state)).to.be.undefined;
+      expect(selectors.selectVAPEmailAddress(state)).to.be.undefined;
     });
   });
 
@@ -98,53 +98,53 @@ describe('user selectors', () => {
       vet360Id: '139281',
     };
 
-    describe('selectVet360MobilePhone', () => {
-      it('pulls out the state.profile.vet360.mobilePhone data object', () => {
+    describe('selectVAPMobilePhone', () => {
+      it('pulls out the state.profile.vapContactInfo.mobilePhone data object', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 mobilePhone: phoneNumberData,
               },
             },
           },
         };
-        expect(selectors.selectVet360MobilePhone(state)).to.deep.equal(
-          state.user.profile.vet360.mobilePhone,
+        expect(selectors.selectVAPMobilePhone(state)).to.deep.equal(
+          state.user.profile.vapContactInfo.mobilePhone,
         );
       });
-      it('returns undefined if there is no vet360 on the profile', () => {
+      it('returns undefined if there is no vapContactInfo on the profile', () => {
         const state = {
           user: {
             profile: {},
           },
         };
-        expect(selectors.selectVet360MobilePhone(state)).to.be.undefined;
+        expect(selectors.selectVAPMobilePhone(state)).to.be.undefined;
       });
       it('returns undefined if there is no mobile phone', () => {
         const state = {
           user: {
             profile: {
-              vet360: {},
+              vapContactInfo: {},
             },
           },
         };
-        expect(selectors.selectVet360MobilePhone(state)).to.be.undefined;
+        expect(selectors.selectVAPMobilePhone(state)).to.be.undefined;
       });
     });
 
-    describe('selectVet360MobilePhoneString', () => {
+    describe('selectVAPMobilePhoneString', () => {
       it('pulls out the mobile phone number as a single string if it exists', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 mobilePhone: phoneNumberData,
               },
             },
           },
         };
-        expect(selectors.selectVet360MobilePhoneString(state)).to.equal(
+        expect(selectors.selectVAPMobilePhoneString(state)).to.equal(
           '4158453210',
         );
       });
@@ -152,13 +152,13 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 mobilePhone: { ...phoneNumberData, extension: '1234' },
               },
             },
           },
         };
-        expect(selectors.selectVet360MobilePhoneString(state)).to.equal(
+        expect(selectors.selectVAPMobilePhoneString(state)).to.equal(
           '4158453210x1234',
         );
       });
@@ -166,65 +166,65 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 mobilePhone: { ...phoneNumberData, extension: '0000' },
               },
             },
           },
         };
-        expect(selectors.selectVet360MobilePhoneString(state)).to.equal(
+        expect(selectors.selectVAPMobilePhoneString(state)).to.equal(
           '4158453210',
         );
       });
     });
 
-    describe('selectVet360HomePhone', () => {
-      it('pulls out the state.profile.vet360.homePhone data object', () => {
+    describe('selectVAPHomePhone', () => {
+      it('pulls out the state.profile.vapContactInfo.homePhone data object', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 homePhone: phoneNumberData,
               },
             },
           },
         };
-        expect(selectors.selectVet360HomePhone(state)).to.deep.equal(
-          state.user.profile.vet360.homePhone,
+        expect(selectors.selectVAPHomePhone(state)).to.deep.equal(
+          state.user.profile.vapContactInfo.homePhone,
         );
       });
-      it('returns undefined if there is no vet360 on the profile', () => {
+      it('returns undefined if there is no vapContactInfo on the profile', () => {
         const state = {
           user: {
             profile: {},
           },
         };
-        expect(selectors.selectVet360HomePhone(state)).to.be.undefined;
+        expect(selectors.selectVAPHomePhone(state)).to.be.undefined;
       });
       it('returns undefined if there is no mobile phone', () => {
         const state = {
           user: {
             profile: {
-              vet360: {},
+              vapContactInfo: {},
             },
           },
         };
-        expect(selectors.selectVet360HomePhone(state)).to.be.undefined;
+        expect(selectors.selectVAPHomePhone(state)).to.be.undefined;
       });
     });
 
-    describe('selectVet360HomePhoneString', () => {
+    describe('selectVAPHomePhoneString', () => {
       it('pulls out the home phone number as a single string if it exists', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 homePhone: phoneNumberData,
               },
             },
           },
         };
-        expect(selectors.selectVet360HomePhoneString(state)).to.equal(
+        expect(selectors.selectVAPHomePhoneString(state)).to.equal(
           '4158453210',
         );
       });
@@ -232,13 +232,13 @@ describe('user selectors', () => {
         const state = {
           user: {
             profile: {
-              vet360: {
+              vapContactInfo: {
                 homePhone: { ...phoneNumberData, extension: '1234' },
               },
             },
           },
         };
-        expect(selectors.selectVet360HomePhoneString(state)).to.equal(
+        expect(selectors.selectVAPHomePhoneString(state)).to.equal(
           '4158453210x1234',
         );
       });

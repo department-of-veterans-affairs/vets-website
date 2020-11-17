@@ -10,10 +10,10 @@ import prefillTransformer from './prefill-transformer';
 import { transform } from './submit-transformer';
 import submitForm from './submitForm';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../components/GetFormHelp';
-import ReviewDescription from '../containers/ReviewDescription';
+import GetFormHelp from '../content/GetFormHelp';
+import ReviewDescription from '../components/ReviewDescription';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -35,7 +35,7 @@ const formConfig = {
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      services.vet360,
+      services.vaProfile,
       services.bgs,
       services.mvi,
       services.appeals,

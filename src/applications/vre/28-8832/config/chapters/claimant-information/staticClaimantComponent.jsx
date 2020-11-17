@@ -48,8 +48,8 @@ const ClaimantInformationComponent = ({
       <p>
         <strong>Note:</strong> If you need to update your personal information,
         please call Veterans Benefits Assistance at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> between 8:00 a.m. and 9:00
-        p.m. ET Monday through Friday.
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> Monday through Friday,{' '}
+        between 8:00 a.m. and 9:00 p.m. ET.
       </p>
     </div>
   );

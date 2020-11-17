@@ -11,6 +11,7 @@ function fillOutForm(facilitySelection) {
   cy.visit('health-care/schedule-view-va-appointments/appointments/');
   cy.injectAxe();
   cy.get('.va-modal-body button').click();
+  cy.findAllByRole('tab').should('exist');
 
   // Start flow
   cy.findByText('Schedule an appointment').click();
@@ -92,7 +93,9 @@ function fillOutForm(facilitySelection) {
   // Confirmation page
   cy.findByText('Your appointment request has been submitted');
   cy.findByText('VA appointment');
-  cy.findByText('Show more').click();
+  cy.get('.additional-info-button')
+    .focus()
+    .click();
   cy.findByText('Follow-up/Routine');
   cy.findByText('cough');
 }

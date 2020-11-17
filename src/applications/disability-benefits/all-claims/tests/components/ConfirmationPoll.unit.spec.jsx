@@ -129,15 +129,15 @@ describe('ConfirmationPoll', () => {
     ]);
 
     const form = mount(
-      <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={20} />,
+      <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />,
     );
     setTimeout(() => {
-      expect(global.fetch.callCount).to.equal(3);
+      expect(global.fetch.callCount).to.equal(4);
       const alert = form.find('LoadingIndicator');
       expect(alert.text()).to.contain('longer than expected');
       form.unmount();
       done();
-    }, 30);
+    }, 50);
   });
 
   it('should ignore immediate api failures', done => {

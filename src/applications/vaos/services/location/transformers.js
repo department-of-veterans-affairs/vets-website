@@ -311,3 +311,29 @@ export function setSupportedSchedulingMethods({
 export function transformFacilities(facilities) {
   return facilities.map(transformFacility);
 }
+
+export function transformCommunityProviders(providers) {
+  return providers.map(provider => {
+    return {
+      id: provider.uniqueId,
+      resourceType: 'Location',
+      address: {
+        line: [provider.address.street],
+        city: [provider.address.city],
+        state: [provider.address.state],
+        postalCode: [provider.address.zip],
+      },
+      name: provider.name,
+      position: {
+        longitude: provider.lat,
+        latitude: provider.long,
+      },
+      telecom: [
+        {
+          system: 'phone',
+          value: provider.caresitePhone,
+        },
+      ],
+    };
+  });
+}

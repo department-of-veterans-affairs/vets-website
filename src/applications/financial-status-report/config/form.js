@@ -3,28 +3,24 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
-import fullSchema from '../schema/5655-schema.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-import { schemaFields } from '../constants';
-import uiDefinitions from '../schema/5655-ui-schema';
 
-const { viewVeteranInfoField } = schemaFields;
-const { veteranInfoUI } = uiDefinitions;
+import { availableDebts, householdIncome, veteranInfo } from '../pages';
 
 const formChapterTitles = {
-  veteranInformation: 'Veteran information',
-  selectSupplies: 'Select your supplies',
+  veteranInformationTitle: 'Veteran information',
+  householdIncomeTitle: 'Household income',
 };
 
 const formPageTitles = {
+  veteranInfoTitle: 'Veteran information',
+  employmentHistoryTitle: 'Your employment history',
   veteranInfo: 'Veteran information',
   address: 'Shipping address',
   addSuppliesPage: 'Add supplies to your order',
+  availableDebts: 'Available Debts',
 };
-
-const { fullName } = fullSchema.definitions;
-// const { vaFileNumber } = fullSchema.properties;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -37,55 +33,54 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
+  defaultDefinitions: {},
   savedFormMessages: {
-    notFound: 'Please start over to submit a Financial Status Report (5655).',
+    notFound:
+      'Please start over to submit an application for financial hardship assistance.',
     noAuth:
-      'Please sign in again to continue your Financial Status Report (5655).',
+      'Please sign in again to continue your application for financial hardship assistance.',
   },
   saveInProgress: {
     messages: {
-      inProgress: 'Your Financial Status Report (5655) is in progress.',
+      inProgress:
+        'Your application for financial hardship assistance is in progress.',
       expired:
-        'Your saved Financial Status Report (5655) has expired. If you want to submit a Financial Status Report (5655), please start a new Financial Status Report (5655).',
-      saved: 'Your Financial Status Report (5655) has been saved.',
+        'Your saved application for financial hardship assistance has expired. If you want to submit a application for financial hardship assistance, please start a new application for financial hardship assistance.',
+      saved:
+        'Your application for financial hardship assistance has been saved.',
     },
   },
-  defaultDefinitions: {
-    fullName,
-  },
-  title: 'Financial Status Report (5655)',
+  title: 'Apply for financial hardship assistance',
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
     veteranInformationChapter: {
-      title: formChapterTitles.veteranInformation,
+      title: formChapterTitles.veteranInformationTitle,
       pages: {
-        [formPageTitles.veteranInfo]: {
+        [formPageTitles.veteranInfoTitle]: {
           path: 'veteran-information',
-          title: formPageTitles.veteranInfo,
-          uiSchema: {
-            [viewVeteranInfoField]: veteranInfoUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [viewVeteranInfoField]: {
-                type: 'object',
-                properties: {
-                  fullName: {
-                    type: 'string',
-                  },
-                  ssnLastFour: {
-                    type: 'number',
-                  },
-                  vaFileNumber: {
-                    type: 'number',
-                  },
-                },
-              },
-            },
-          },
+          title: formPageTitles.veteranInfoTitle,
+          uiSchema: veteranInfo.uiSchema,
+          schema: veteranInfo.schema,
+        },
+        availableDebts: {
+          initialData: { fsrDebts: [] },
+          path: 'available-debts',
+          title: formPageTitles.availableDebts,
+          uiSchema: availableDebts.uiSchema,
+          schema: availableDebts.schema,
+        },
+      },
+    },
+    householdInformationChapter: {
+      title: formChapterTitles.householdIncomeTitle,
+      pages: {
+        [formPageTitles.employmentHistoryTitle]: {
+          path: 'household-income',
+          title: formPageTitles.employmentHistoryTitle,
+          uiSchema: householdIncome.uiSchema,
+          schema: householdIncome.schema,
         },
       },
     },

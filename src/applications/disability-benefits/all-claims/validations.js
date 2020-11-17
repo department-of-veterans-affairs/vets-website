@@ -7,7 +7,7 @@ import {
   getPOWValidationMessage,
   pathWithIndex,
   hasClaimedConditions,
-  increaseOnly,
+  isClaimingIncrease,
   hasRatedDisabilities,
   claimingRated,
   showSeparationLocation,
@@ -271,11 +271,19 @@ export const requireDisability = (err, fieldData, formData) => {
   }
 };
 
+export const limitNewDisabilities = (err, fieldData, formData) => {
+  if (formData.newDisabilities?.length > 100) {
+    err.addError(
+      'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.',
+    );
+  }
+};
+
 /**
  * Requires a rated disability to be entered if the increase only path has been selected.
  */
 export const requireRatedDisability = (err, fieldData, formData) => {
-  if (increaseOnly(formData) && !claimingRated(formData)) {
+  if (isClaimingIncrease(formData) && !claimingRated(formData)) {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
     err.addError('Please selected a rated disability');

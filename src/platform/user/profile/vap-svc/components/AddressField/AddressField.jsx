@@ -11,7 +11,7 @@ import {
   USA,
 } from '@@vap-svc/constants';
 
-import Vet360ProfileField from '@@vap-svc/containers/Vet360ProfileField';
+import VAPServiceProfileField from '@@vap-svc/containers/VAPServiceProfileField';
 
 import AddressEditModal from './AddressEditModal';
 import AddressValidationModal from '../../containers/AddressValidationModal';
@@ -96,7 +96,7 @@ export const convertCleanDataToPayload = (data, fieldName) => {
 
 function AddressField({ title, fieldName, deleteDisabled }) {
   return (
-    <Vet360ProfileField
+    <VAPServiceProfileField
       title={title}
       fieldName={fieldName}
       apiRoute={API_ROUTES.ADDRESSES}

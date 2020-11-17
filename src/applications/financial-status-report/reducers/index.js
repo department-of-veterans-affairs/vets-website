@@ -4,12 +4,16 @@ import {
   FSR_API_CALL_INITIATED,
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
-} from '../constants';
+  FSR_ADDITIONAL_INCOME,
+} from '../constants/actionTypes';
+import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
 
 const initialState = {
   isError: false,
   errorCode: '',
   pending: true,
+  debts: [],
+  income: [],
 };
 
 const fsrApi = (state = initialState, action) => {
@@ -31,6 +35,18 @@ const fsrApi = (state = initialState, action) => {
         ...state,
         pending: true,
       };
+    case DEBTS_FETCH_SUCCESS: {
+      return {
+        ...state,
+        debts: action.debts,
+      };
+    }
+    case FSR_ADDITIONAL_INCOME: {
+      return {
+        ...state,
+        income: action.income,
+      };
+    }
     default:
       return state;
   }

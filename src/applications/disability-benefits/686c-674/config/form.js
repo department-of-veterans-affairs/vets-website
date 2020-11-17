@@ -53,6 +53,7 @@ import {
   studentIncomeInformation,
   studentNetworthInformation,
 } from './chapters/674';
+import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
 
@@ -109,6 +110,7 @@ const formConfig = {
         },
       },
     },
+
     veteranInformation: {
       title: "Veteran's Information",
       pages: {
@@ -408,6 +410,17 @@ const formConfig = {
           path: 'report-child-stopped-attending-school',
           uiSchema: reportChildStoppedAttendingSchool.uiSchema,
           schema: reportChildStoppedAttendingSchool.schema,
+        },
+      },
+    },
+    householdIncome: {
+      title: 'Your net worth',
+      pages: {
+        householdIncome: {
+          path: 'net-worth',
+          title: 'Your net worth',
+          uiSchema: householdIncome.uiSchema,
+          schema: householdIncome.schema,
         },
       },
     },

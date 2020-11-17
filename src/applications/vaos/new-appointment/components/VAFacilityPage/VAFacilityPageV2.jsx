@@ -72,7 +72,9 @@ function VAFacilityPageV2({
   const history = useHistory();
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
   const loadingParents = parentFacilitiesStatus === FETCH_STATUS.loading;
-  const loadingFacilities = childFacilitiesStatus === FETCH_STATUS.loading;
+  const loadingFacilities =
+    childFacilitiesStatus === FETCH_STATUS.loading ||
+    childFacilitiesStatus === FETCH_STATUS.notStarted;
 
   useEffect(
     () => {
@@ -91,12 +93,10 @@ function VAFacilityPageV2({
     const facility = facilities.find(f => f.id === newData.vaFacility);
     const vaParent = getParentOfLocation(parentFacilities, facility)?.id;
 
-    if (!!facility && !!vaParent) {
-      updateFormData(pageKey, uiSchema, {
-        ...newData,
-        vaParent,
-      });
-    }
+    updateFormData(pageKey, uiSchema, {
+      ...newData,
+      vaParent,
+    });
   };
 
   const title = (

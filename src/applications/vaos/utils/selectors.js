@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   selectPatientFacilities,
-  selectVet360ResidentialAddress,
+  selectVAPResidentialAddress,
   selectCernerAppointmentsFacilities,
 } from 'platform/user/selectors';
 import { titleCase } from './formatters';
@@ -49,6 +49,9 @@ export const selectIsCernerPatient = state =>
     f => f.isCerner && f.usesCernerAppointments,
   );
 
+export const selectIsRegisteredToSacramentoVA = state =>
+  selectPatientFacilities(state)?.some(f => f.facilityId === '612');
+
 export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
 export const vaosRequests = state =>
@@ -69,7 +72,11 @@ export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 const vaosFlatFacilityPage = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
 export const selectUseFlatFacilityPage = state =>
-  vaosFlatFacilityPage(state) && !selectIsCernerPatient(state);
+  vaosFlatFacilityPage(state) &&
+  !selectIsCernerPatient(state) &&
+  !selectIsRegisteredToSacramentoVA(state);
+export const vaosProviderSelection = state =>
+  toggleValues(state).vaOnlineSchedulingProviderSelection;
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -132,28 +139,24 @@ export function getCCEType(state) {
   return typeOfCare?.cceType;
 }
 
-export function getSelectedTypeOfCareFacilities(state) {
-  const data = getFormData(state);
-  const newAppointment = getNewAppointment(state);
-  const typeOfCare = getTypeOfCare(data);
-  return newAppointment.facilities[(typeOfCare?.id)];
-}
-
 export function getParentFacilities(state) {
   return getNewAppointment(state).parentFacilities;
 }
 
-export function getChosenFacilityInfo(state) {
+export function getTypeOfCareFacilities(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
-  const selectedTypeOfCareFacilities = selectUseFlatFacilityPage(state)
+
+  return selectUseFlatFacilityPage(state)
     ? facilities[`${typeOfCareId}`]
     : facilities[`${typeOfCareId}_${data.vaParent}`];
+}
 
+export function getChosenFacilityInfo(state) {
   return (
-    selectedTypeOfCareFacilities?.find(
-      facility => facility.id === data.vaFacility,
+    getTypeOfCareFacilities(state)?.find(
+      facility => facility.id === getFormData(state).vaFacility,
     ) || null
   );
 }
@@ -244,6 +247,7 @@ export function getEligibilityChecks(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
+
   return (
     newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
   );
@@ -344,7 +348,7 @@ export function getFacilityPageV2Info(state) {
 
   return {
     ...formInfo,
-    address: selectVet360ResidentialAddress(state),
+    address: selectVAPResidentialAddress(state),
     canScheduleAtChosenFacility:
       eligibilityStatus.direct || eligibilityStatus.request,
     childFacilitiesStatus,
@@ -366,8 +370,8 @@ export function getFacilityPageV2Info(state) {
     parentFacilitiesStatus,
     requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),
-    singleValidVALocation: facilities?.length === 1,
-    showEligibilityModal: facilities?.length > 1 && showEligibilityModal,
+    singleValidVALocation: facilities?.length === 1 && !!data.vaFacility,
+    showEligibilityModal,
     sortMethod: facilityPageSortMethod,
     typeOfCare: typeOfCare?.name,
   };
@@ -628,7 +632,7 @@ export function selectActiveExpressCareWindows(state, nowMoment) {
 /*
  * Gets the formatted hours string of the current window, chosen based on the
  * provided time.
- * 
+ *
  * Note: we're picking the first active window, there could be more than one
  */
 export function selectLocalExpressCareWindowString(state, nowMoment) {
@@ -646,7 +650,7 @@ export function selectLocalExpressCareWindowString(state, nowMoment) {
 /*
  * Gets the facility info for the current window, chosen based on the
  * provided time.
- * 
+ *
  * Note: we're picking the first active window, there could be more than one
  */
 export function selectActiveExpressCareFacility(state, nowMoment) {

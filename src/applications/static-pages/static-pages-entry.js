@@ -29,6 +29,7 @@ import createHigherLevelReviewApplicationStatus from 'applications/disability-be
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
+import initScrollToTopButton from './scroll-top-button';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
@@ -45,6 +46,9 @@ import './sass/static-pages.scss';
 
 // Social share links behavior
 import './social-share-links';
+
+// Resources and support widgets
+import createResourcesAndSupportSearchWidget from './resources-and-support-search';
 
 // Health care facility widgets
 import createFacilityListWidget from './facilities/facilityList';
@@ -131,6 +135,11 @@ createDisabilityRatingCalculator(
   widgetTypes.DISABILITY_RATING_CALCULATOR,
 );
 
+createResourcesAndSupportSearchWidget(
+  store,
+  widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
+);
+
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -182,6 +191,9 @@ createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
+
+// Up to top button for Article Pages
+initScrollToTopButton();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

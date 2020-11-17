@@ -48,6 +48,13 @@ module.exports = `
                   date
                   value
                 }
+                fieldDatetimeRangeTimezone {
+                  value
+                  startTime
+                  endValue
+                  endTime
+                  timezone
+                }                
                 fieldWysiwyg {
                   processed
                 }

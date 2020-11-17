@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { sentenceCase } from '../../../../utils/formatters';
+import { sentenceCase, lowerCase } from '../../../../utils/formatters';
 import { getPatientTelecom } from '../../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import ExpressCareStatus from './ExpressCareStatus';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export default function ExpressCareCard({
   appointment,
@@ -47,7 +48,7 @@ export default function ExpressCareCard({
               Your contact details
             </dt>
             <dd>
-              {getPatientTelecom(appointment, 'phone')}
+              <Telephone contact={getPatientTelecom(appointment, 'phone')} />
               <br />
               {getPatientTelecom(appointment, 'email')}
             </dd>
@@ -70,9 +71,11 @@ export default function ExpressCareCard({
             <button
               className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
               onClick={() => cancelAppointment(appointment)}
-              aria-label="Cancel appointment"
+              aria-label={`Cancel Express Care request for ${lowerCase(
+                appointment.reason,
+              )}`}
             >
-              Cancel appointment
+              Cancel Express Care request
             </button>
           </div>
         )}

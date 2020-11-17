@@ -40,7 +40,7 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
       },
     );
 
-    expect(screen.getAllByRole('radio').length).to.equal(2);
+    expect((await screen.findAllByRole('radio')).length).to.equal(2);
     fireEvent.click(screen.getByText(/Continue/));
 
     expect(await screen.findByText('Please provide a response')).to.exist;
@@ -63,6 +63,9 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
     );
 
     fireEvent.click(await screen.findByLabelText(/sleep medicine/i));
+    await waitFor(() => {
+      expect(screen.getByLabelText(/sleep medicine/i).checked).to.be.true;
+    });
     await cleanup();
 
     screen = renderWithStoreAndRouter(

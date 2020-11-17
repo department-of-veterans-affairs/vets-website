@@ -38,7 +38,7 @@ function createBasicInitialState() {
           current: 3,
           highest: 3,
         },
-        vet360: {},
+        vapContactInfo: {},
         multifactor: true,
         services: ['evss-claims', 'user-profile', 'vet360'],
         veteranStatus: {

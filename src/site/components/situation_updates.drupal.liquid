@@ -10,8 +10,17 @@
           </h3>
           <div class="vads-u-margin-bottom--0 no-p-bottom-margin">
             <h4 class="vads-u-margin-top--1 vads-u-margin-bottom--2">
-              {{update.entity.fieldDateAndTime.date | timeZone: "America/New_York", "dddd, MMM D, h:mm A"}}
-              ET</h4>
+                {% if update.entity.fieldDatetimeRangeTimezone.value != empty %}
+                 {{update.entity.fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, h:mm A"}}
+                {% else %}
+                 {{update.entity.fieldDateAndTime.date | timeZone: "America/New_York", "dddd, MMM D, h:mm A"}}
+                {% endif %}
+                {% if update.entity.fieldDatetimeRangeTimezone.timezone != empty %}
+                  {{update.entity.fieldDatetimeRangeTimezone.timezone | timezoneAbbrev: fieldDatetimeRangeTimezone.value }}
+                {% else %}
+                  {{ timezone }}
+                {% endif %}
+            </h4>
             {{update.entity.fieldWysiwyg.processed}}
           </div>
         </div>
