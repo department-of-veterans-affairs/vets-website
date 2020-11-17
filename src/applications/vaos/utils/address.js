@@ -22,11 +22,22 @@ export function distanceBetween(lat1, lng1, lat2, lng2) {
   return parseFloat((R * c).toFixed(1));
 }
 
+/*
+ * Adapted from node-geopoint: https://github.com/davidwood/node-geopoint
+ * 
+ * This will end up creating a 2 * radius by 2 * radius box around the lat
+ * long passed in. 
+ * 
+ * This is different than the FL bounding box calc, which adds a fixed amount
+ * of lat/long degrees to create a box
+ */
 export function calculateBoundingBox(lat, long, radius) {
   const earthRadius = 3959;
   const radDist = radius / earthRadius;
   const radLat = toRadians(lat);
   const radLong = toRadians(long);
+  // The space between lines of longitude differs depending on where you are
+  // on Earth, this takes that into account
   const deltaLongitude = Math.asin(Math.sin(radDist) / Math.cos(radLat));
   const minLongitude = radLong - deltaLongitude;
   const maxLongitude = radLong + deltaLongitude;
