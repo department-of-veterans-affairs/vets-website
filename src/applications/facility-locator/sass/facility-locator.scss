@@ -8,6 +8,7 @@
 $facility-locator-color-info-bubble-border: #6495a3;
 $facility-locator-color-info-bubble-text: #818a8d;
 $facility-locator-color-gray: #ccc;
+$facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .facility-locator {
 
@@ -425,7 +426,7 @@ $facility-locator-color-gray: #ccc;
   border-radius: 50%;
   width: 23px;
   height: 23px;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 4px 0 $facility-locator-shadow;
   border: solid 4px $color-white;
   background-color: $color-red-dark;
 }

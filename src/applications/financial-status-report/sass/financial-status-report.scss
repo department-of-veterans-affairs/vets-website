@@ -20,7 +20,7 @@
   display: flex;
   flex-direction: column;
   width: 575px;
-  background-color: #f1f1f1;
+  background-color: $color-gray-lightest;
   padding: 10px 30px 20px;
   .list-loop-item-list {
     display: flex;
@@ -47,13 +47,13 @@
       height: 15px;
       font-family: Bitter;
       font-size: 17px;
-      color: #323a45;
+      color: $color-gray-dark;
       line-height: 22px;
     }
     .sub-title {
       height: 16px;
       font-size: 16px;
-      color: #323a45;
+      color: $color-gray-dark;
       line-height: 24px;
     }
   }
@@ -101,14 +101,14 @@
   }
   .add-income-link-section {
     .plus-icon {
-      color: #0071bb;
+      color: $color-blue;
       margin-right: 5px;
     }
   }
   .add-income-link,
   .remove-link {
     font-size: 16px;
-    color: #004795;
+    color: $color-link-default;
     line-height: 24px;
     text-decoration: underline;
   }
