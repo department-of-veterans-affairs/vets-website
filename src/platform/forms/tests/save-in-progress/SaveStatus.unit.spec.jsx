@@ -56,13 +56,18 @@ describe('<SaveStatus>', () => {
     const tree = SkinDeep.shallowRender(<SaveStatus {...props} />);
     expect(tree.text()).to.have.string('having some issues');
   });
-  it('should display the appSavedSuccessfullyMessage', () => {
+  it('should display the appSavedSuccessfullyMessage & SiP ID', () => {
     const appSavedSuccessfullyMessageProps = {
       ...props,
       form: {
         formId: VA_FORM_IDS.FORM_10_10EZ,
         lastSavedDate: 1505770055,
         autoSavedStatus: 'success',
+        loadedData: {
+          metadata: {
+            inProgressFormId: 98765,
+          },
+        },
       },
       formConfig: {
         customText: {
@@ -77,5 +82,6 @@ describe('<SaveStatus>', () => {
     expect(tree.subTree('.panel').text()).to.include(
       'Custom message saying your app has been saved.',
     );
+    expect(tree.subTree('.panel').text()).to.include('ID is: 98765');
   });
 });
