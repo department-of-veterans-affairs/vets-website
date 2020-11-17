@@ -12,7 +12,7 @@ const path = require('path');
 const PactBrokerClient = require('../src/platform/testing/contract/client');
 
 const pactBrokerClient = new PactBrokerClient({
-  url: process.env.PACT_BROKER_URL,
+  url: process.env.PACT_BROKER_URL_NEW,
 });
 
 const pactsFolder = path.resolve(__dirname, '../pacts');

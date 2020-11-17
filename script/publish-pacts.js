@@ -11,7 +11,7 @@ const path = require('path');
 const PactBrokerClient = require('../src/platform/testing/contract/client');
 
 const pactBrokerClient = new PactBrokerClient({
-  url: process.env.PACT_BROKER_URL,
+  url: process.env.PACT_BROKER_URL_NEW,
   username: process.env.PACT_BROKER_BASIC_AUTH_USERNAME,
   password: process.env.PACT_BROKER_BASIC_AUTH_PASSWORD,
 });
