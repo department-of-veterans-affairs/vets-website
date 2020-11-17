@@ -167,6 +167,8 @@ export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED';
+export const FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED =
+  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED';
 export const FORM_REQUEST_CURRENT_LOCATION =
   'newAppointment/FORM_REQUEST_CURRENT_LOCATION';
 export const FORM_REQUEST_CURRENT_LOCATION_FAILED =
@@ -864,6 +866,15 @@ export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
+    page,
+    uiSchema,
+    schema,
+  };
+}
+
+export function openCommunityCareProviderSelectionPage(page, uiSchema, schema) {
+  return {
+    type: FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED,
     page,
     uiSchema,
     schema,

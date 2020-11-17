@@ -20,6 +20,7 @@ const reverseFields = reverseFieldListing => ({
           fieldFeatured: reverseField.fieldFeatured,
           fieldDate: reverseField.fieldDate,
           fieldDescription: reverseField.fieldDescription,
+          fieldFacilityLocation: reverseField.fieldFacilityLocation,
           fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,
         }))
     : [],

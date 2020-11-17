@@ -1,4 +1,4 @@
-import { DEFAULT_BENEFIT_TYPE } from '../constants';
+import { DEFAULT_BENEFIT_TYPE, SELECTED } from '../constants';
 
 export function transform(formConfig, form) {
   // We require the user to input a 10-digit number; assuming we get a 3-digit
@@ -69,7 +69,7 @@ export function transform(formConfig, form) {
   }]
   */
   const getContestedIssues = ({ contestedIssues = [] }) =>
-    contestedIssues.filter(issue => issue['view:selected']).map(issue => {
+    contestedIssues.filter(issue => issue[SELECTED]).map(issue => {
       const attr = issue.attributes;
       const attributes = [
         'decisionIssueId',

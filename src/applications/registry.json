@@ -271,24 +271,6 @@
     }
   },
   {
-    "appName": "686 Dependent-status form",
-    "entryName": "686-dependent-status",
-    "rootUrl": "/disability-benefits/apply/dependents",
-    "template": {
-      "title": "Declaration Of Status Of Dependents",
-      "heading": "Declaration of status of dependents",
-      "display_title": "Add or remove a dependent",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "disability/",
-          "name": "Disability benefits"
-        }
-      ]
-    }
-  },
-  {
     "appName": "Request for Higher-Level Review",
     "entryName": "0996-higher-level-review",
     "rootUrl": "/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996",
@@ -772,7 +754,7 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": true,
+      "vagovprod": false,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }

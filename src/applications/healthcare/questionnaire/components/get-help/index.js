@@ -1,7 +1,7 @@
 import GetHelpFooter from './GetHelpFooter';
-import ReviewFooter from './ReviewFooter';
+import NeedHelpSmall from './NeedHelpSmall';
 
 export default {
   footer: GetHelpFooter,
-  review: ReviewFooter,
+  review: NeedHelpSmall,
 };

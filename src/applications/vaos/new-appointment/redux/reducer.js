@@ -50,6 +50,7 @@ import {
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
+  FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -956,6 +957,53 @@ export default function formReducer(state = initialState, action) {
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.hasCommunityCareProvider.title',
+        `Do you have a preferred VA-approved community care provider for this ${
+          typeOfCare.name
+        } appointment?`,
+        action.schema,
+      );
+
+      if (state.ccEnabledSystems?.length === 1) {
+        formData = {
+          ...formData,
+          communityCareSystemId: state.ccEnabledSystems[0].id,
+        };
+        initialSchema = unset(
+          'properties.communityCareSystemId',
+          initialSchema,
+        );
+      } else {
+        initialSchema = set(
+          'properties.communityCareSystemId.enum',
+          state.ccEnabledSystems.map(system => system.id),
+          initialSchema,
+        );
+        initialSchema.properties.communityCareSystemId.enumNames = state.ccEnabledSystems.map(
+          system =>
+            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
+        );
+        initialSchema.required.push('communityCareSystemId');
+      }
+      const { data, schema } = setupFormData(
+        formData,
+        initialSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
+      };
+    }
+    case FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED: {
+      let formData = state.data;
+      const typeOfCare = getTypeOfCare(formData);
+      let initialSchema = set(
+        'properties.communityCareProvider.title',
         `Do you have a preferred VA-approved community care provider for this ${
           typeOfCare.name
         } appointment?`,
