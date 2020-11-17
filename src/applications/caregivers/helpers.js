@@ -168,3 +168,17 @@ export const facilityNameMaxLength = (errors, formData) => {
     );
   }
 };
+
+export const shouldHideAlert = formData => {
+  const hasPrimary = formData[primaryCaregiverFields.hasPrimaryCaregiver];
+  const hasSecondary =
+    formData[primaryCaregiverFields.hasSecondaryCaregiverOne];
+  const isSecondaryOneUndefined =
+    formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === undefined;
+
+  if (hasPrimary) return true;
+  if (hasSecondary) return true;
+  if (isSecondaryOneUndefined) return true;
+  if (!hasPrimary && !hasSecondary) return false;
+  return false;
+};

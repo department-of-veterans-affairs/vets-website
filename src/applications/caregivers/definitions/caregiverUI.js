@@ -22,6 +22,7 @@ import {
   medicalCentersByState,
   validateSSNIsUnique,
   facilityNameMaxLength,
+  shouldHideAlert,
 } from 'applications/caregivers/helpers';
 
 const emptyFacilityList = [];
@@ -105,18 +106,17 @@ export default {
       'ui:required': formData =>
         !formData[primaryCaregiverFields.hasPrimaryCaregiver],
     },
-    hasSecondaryCaregiverTwoUI: {
-      'ui:title': ' ',
-      'ui:description': AdditionalCaregiverInfo,
-      'ui:widget': 'yesNo',
-    },
     secondaryRequiredAlert: {
       'ui:title': ' ',
       'ui:widget': SecondaryRequiredAlert,
       'ui:options': {
-        expandUnder: 'view:hasSecondaryCaregiverOne',
-        expandUnderCondition: field => field === false,
+        hideIf: formData => shouldHideAlert(formData),
       },
+    },
+    hasSecondaryCaregiverTwoUI: {
+      'ui:title': ' ',
+      'ui:description': AdditionalCaregiverInfo,
+      'ui:widget': 'yesNo',
     },
   },
   vetUI: {
