@@ -13,6 +13,7 @@ const WizardContainer = () => {
     recordEvent({
       event: `howToWizard-skip`,
     });
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
   };
   return (
     <div className="row vads-u-margin-bottom--1">
@@ -38,7 +39,6 @@ const WizardContainer = () => {
             href={`${PCPG_ROOT_URL}/introduction`}
             onClick={() => {
               handleClick();
-              sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
             }}
           >
             Apply online with VA Form 28-8832
