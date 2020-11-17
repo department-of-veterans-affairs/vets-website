@@ -29,6 +29,28 @@ require('isomorphic-fetch');
  */
 
 /**
+ * Validates that required properties are defined in an options object.
+ * @param {string} context - The name of the relevant function or class.
+ * @param {string[]} required - The required options.
+ * @param {Object} options - The options to be validated.
+ */
+const validateRequiredOptions = (context, required, options) => {
+  required.forEach(key => {
+    if (!options[key]) throw new Error(`${context}: ${key} is required`);
+  });
+};
+
+/**
+ * Generates a basic auth header based on username and password.
+ * @param {string} username
+ * @param {string} password
+ * @return {Object} The auth header.
+ */
+const generateBasicAuthHeader = (username, password) => ({
+  Authorization: `Basic ${base64.encode(`${username}:${password}`)}`,
+});
+
+/**
  * Client that interacts with a Pact Broker.
  */
 module.exports = class PactBrokerClient {
@@ -40,15 +62,11 @@ module.exports = class PactBrokerClient {
    */
   constructor({ url, username, password }) {
     try {
-      if (!url) throw new Error('PactBrokerClient: url is required');
+      validateRequiredOptions('PactBrokerClient', ['url'], { url });
       this.url = new URL(url).toString();
-      this.authHeaders =
+      this.authHeader =
         username && password
-          ? {
-              Authorization: `Basic ${base64.encode(
-                `${username}:${password}`,
-              )}`,
-            }
+          ? generateBasicAuthHeader(username, password)
           : null;
     } catch (e) {
       console.error('PactBrokerClient failed to initialize.');
@@ -91,7 +109,7 @@ module.exports = class PactBrokerClient {
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
-        ...this.authHeaders,
+        ...this.authHeader,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
@@ -133,7 +151,7 @@ module.exports = class PactBrokerClient {
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
-        ...this.authHeaders,
+        ...this.authHeader,
         'Content-Type': 'application/json',
       },
     });
@@ -165,13 +183,12 @@ module.exports = class PactBrokerClient {
    * @param {BrokerOperationOptions} options
    */
   publishAndTagPacts = async options => {
-    const requiredOptions = ['pactDir', 'version', 'tag'];
-
     try {
-      requiredOptions.forEach(key => {
-        if (!options[key])
-          throw new Error(`publishAndTagPacts: ${key} is required`);
-      });
+      validateRequiredOptions(
+        'publishAndTagPacts',
+        ['pactDir', 'version', 'tag'],
+        options,
+      );
 
       const { pactDir, version, tag } = options;
 
@@ -196,9 +213,7 @@ module.exports = class PactBrokerClient {
    * @param {BrokerOperationOptions} options
    * @return {ConsumerDeployContext[]}
    */
-  createConsumerContexts = options => {
-    const { pactDir, version, tag = 'master' } = options;
-
+  createConsumerContexts = ({ pactDir, version, tag }) => {
     const baseUrl = new URL(path.join(this.url, 'matrix'));
     // Get latest result for each consumer version and provider (cvp) pairing.
     // In other words, checks if the consumer has passed verification with all
@@ -210,8 +225,9 @@ module.exports = class PactBrokerClient {
 
     return this.parsePacts(pactDir).map(data => {
       const consumer = data.consumer.name;
-      const url = new URL(baseUrl);
-      url.searchParams.append('q[]pacticipant', consumer);
+      const consumerUrl = new URL(baseUrl);
+      consumerUrl.searchParams.append('q[]pacticipant', consumer);
+      const url = consumerUrl.toString();
       return { consumer, version, tag, url };
     });
   };
@@ -222,22 +238,23 @@ module.exports = class PactBrokerClient {
    * @return {boolean}
    */
   isConsumerDeployable = async ({ consumer, version, tag, url }) => {
-    const response = await fetch(url.toString());
-    const { summary, errors } = await response.json();
-    const deployable = response.ok && summary?.deployable;
+    const response = await fetch(url);
 
-    if (!deployable) {
-      console.log(`Can't deploy version ${version} to ${tag}: ${consumer}.`);
-
-      // This error from Pact seems to appear in a specific scenario.
-      // Attempted a better error message based on interpretation of that.
-      if (errors?.includes('Please provide 1 or more version selectors.')) {
-        console.log(`There are no providers currently deployed on ${tag}.`);
-      }
+    if (!response.ok) {
+      throw new Error(
+        `Failed to get deployable status for ${consumer}: ${response.status} ${
+          response.statusText
+        }`,
+      );
     }
 
-    if (summary?.reason) console.log(summary.reason);
-
+    const { deployable, reason } = (await response.json()).summary;
+    console.log(
+      `${
+        deployable ? 'Can' : "Can't"
+      } deploy ${consumer} on version ${version} to ${tag}.`,
+    );
+    console.log(reason);
     return deployable;
   };
 
@@ -247,24 +264,25 @@ module.exports = class PactBrokerClient {
    * @param {BrokerOperationOptions}
    */
   canDeploy = async options => {
-    const requiredOptions = ['pactDir', 'version'];
     let results;
 
     try {
-      requiredOptions.forEach(key => {
-        if (!options[key]) throw new Error(`canDeploy: ${key} is required`);
-      });
-
+      validateRequiredOptions(
+        'canDeploy',
+        ['pactDir', 'version', 'tag'],
+        options,
+      );
       const consumerContexts = this.createConsumerContexts(options);
       results = await Promise.all(
         consumerContexts.map(this.isConsumerDeployable),
       );
     } catch (e) {
-      console.log('Failed to check deployability.');
+      console.error('Failed to check deployability.');
       throw e;
     }
 
     const deployable = results.reduce((arr, cur) => arr && cur);
+
     if (!deployable) {
       throw new Error(
         "Can't deploy. Try again after providers have successfully verified pacts for the consumers that couldn't deploy.",

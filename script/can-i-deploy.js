@@ -25,6 +25,7 @@ pactBrokerClient
   .canDeploy({
     pactDir: pactsFolder,
     version: commitHash,
+    tag: 'master',
   })
   .catch(e => {
     console.error(e);
