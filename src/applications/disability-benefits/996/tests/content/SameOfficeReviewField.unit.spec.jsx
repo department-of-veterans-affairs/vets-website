@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import SameOfficeReviewField from '../../containers/SameOfficeReviewField';
+import SameOfficeReviewField from '../../content/SameOfficeReviewField';
 
 const uiSchema = { 'ui:title': 'Test' };
 const Element = ({ formData }) => <div formData={formData} />;

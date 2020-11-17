@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import ScheduleTimesReviewField from '../../containers/ScheduleTimesReviewField';
+import ScheduleTimesReviewField from '../../content/ScheduleTimesReviewField';
 import {
   InformalConferenceAvailability,
   InformalConferenceTimeLabels,

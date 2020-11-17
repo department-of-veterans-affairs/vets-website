@@ -3,17 +3,8 @@
 
 export default {
   veteran: {
-    phoneNumber: '5033333333',
-    emailAddress: 'mike.wazowski@gmail.com',
     ssnLastFour: '9876',
     vaFileLastFour: '8765',
-    street: '1200 Park Ave',
-    street2: '',
-    street3: '',
-    city: 'Emeryville',
-    country: 'USA',
-    state: 'CA',
-    zipCode5: '94608',
   },
 
   // Leave 'view:selected' set to false for unit testing
