@@ -3,7 +3,7 @@ import React from 'react';
 import {
   informalConferenceTimeAllLabels,
   InformalConferenceAvailability,
-} from '../content/InformalConference';
+} from './InformalConference';
 
 export default function ScheduleTimesReviewField(props) {
   const { children, uiSchema } = props;
