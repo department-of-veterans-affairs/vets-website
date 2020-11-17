@@ -42,12 +42,7 @@ export class SearchResult extends Component {
       <li className="third-party-app vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px">
         <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
           {/* App Icon */}
-          <img
-            alt={item?.name}
-            aria-hidden="true"
-            role="presentation"
-            src={item?.logo_url}
-          />
+          <img alt={item?.name} src={item?.logo_url} />
 
           <div className="vads-u-flex--1 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--2">
             {/* App Name */}
@@ -104,8 +99,8 @@ export class SearchResult extends Component {
             )}
 
             {/* Legal Links */}
-            <br />
             <a
+              className="vads-u-margin-top--2"
               href={item?.privacy_url}
               rel="noopener noreferrer"
               target="_blank"
@@ -132,8 +127,11 @@ export class SearchResult extends Component {
             {/* Permissions */}
             {!isEmpty(scopes) && (
               <>
-                <h4>{item?.name} asks for:</h4>
-                <ol className="vads-u-margin--0 vads-u-padding-left--2p5">
+                <h4>
+                  {item?.name} may request access to your VA information,
+                  including:
+                </h4>
+                <ol className="vads-u-margin--0 vads-u-margin-top--1 vads-u-padding-left--2p5">
                   {reduce(
                     item?.service_categories,
                     (allPermissions, scope) => {
