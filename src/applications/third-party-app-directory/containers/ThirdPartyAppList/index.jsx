@@ -7,11 +7,9 @@ import { connect } from 'react-redux';
 import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
-import { fetchResultsThunk, fetchScopesThunk } from '../../actions';
+import { fetchResultsThunk } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
 import { SearchResultPropTypes } from '../../prop-types';
-
-// TODO: pass fetchScopes method to SearchResult component with category of the result as a param
 
 export class ThirdPartyAppList extends Component {
   static propTypes = {
@@ -21,6 +19,7 @@ export class ThirdPartyAppList extends Component {
     results: PropTypes.arrayOf(SearchResultPropTypes),
     page: PropTypes.number.isRequired,
     perPage: PropTypes.number.isRequired,
+    scopes: PropTypes.object.isRequired,
     totalResults: PropTypes.number,
   };
 
@@ -36,11 +35,11 @@ export class ThirdPartyAppList extends Component {
   }
 
   render() {
-    const { error, fetching, results } = this.props;
+    const { error, fetching, results, scopes } = this.props;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
-      return <LoadingIndicator setFocus message="Loading search results..." />;
+      return <LoadingIndicator message="Loading search results..." />;
     }
 
     // Show the error alert box if there was an error.
@@ -73,31 +72,15 @@ export class ThirdPartyAppList extends Component {
 
     return (
       <>
-        <a
-          className="usa-button usa-button-primary vads-u-width--auto"
-          href="https://www.va.gov/resources/connected-apps-faqs"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Learn more about connected apps
-        </a>
         {/* Table of Results */}
         <ul
           className="search-results vads-u-margin-top--2 vads-u-padding--0"
           data-e2e-id="search-results"
         >
           {map(results, result => (
-            <SearchResult key={result?.id} item={result} />
+            <SearchResult key={result?.id} item={result} scopes={scopes} />
           ))}
         </ul>
-        <a
-          className="usa-button usa-button-primary vads-u-width--auto"
-          href="https://www.va.gov/resources/connected-apps-faqs"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Learn more about connected apps
-        </a>
       </>
     );
   }
@@ -109,12 +92,12 @@ const mapStateToProps = state => ({
   results: state.thirdPartyAppsReducer.results,
   page: state.thirdPartyAppsReducer.page,
   perPage: state.thirdPartyAppsReducer.perPage,
+  scopes: state.thirdPartyAppsReducer.scopes,
   totalResults: state.thirdPartyAppsReducer.totalResults,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchResults: options => fetchResultsThunk(options)(dispatch),
-  fetchScopes: category => fetchScopesThunk(category)(dispatch),
 });
 
 export default connect(

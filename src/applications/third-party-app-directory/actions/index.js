@@ -1,5 +1,8 @@
+/* eslint-disable camelcase */
 // Node modules.
-// import recordEvent from 'platform/monitoring/record-event';
+import each from 'lodash/each';
+import reduce from 'lodash/reduce';
+import uniq from 'lodash/uniq';
 // Relative imports.
 import { fetchResults, fetchScopes } from '../api';
 import {
@@ -65,38 +68,26 @@ export const fetchResultsThunk = options => async dispatch => {
     // Attempt to make the API request to retreive results.
     const response = await fetchResults({});
 
-    // Track the API request.
-    // if (trackSearch) {
-    //   recordEvent({
-    //     event: 'third-party-apps-search',
-    //     'third-party-apps-category': category || undefined,
-    //     'third-party-apps-platform': platform || undefined,
-    //     'third-party-apps-number-of-search-results': response?.totalResults,
-    //   });
-    // }
-
     // If we are here, the API request succeeded.
     dispatch(fetchResultsSuccess(response));
+    const uniqueScopes = uniq(
+      reduce(
+        response.data,
+        (scopes, app) => {
+          return [...scopes, ...app.service_categories];
+        },
+        [],
+      ),
+    );
+    dispatch(fetchScopesAction());
+    each(uniqueScopes, async scope => {
+      const scopesResponse = await fetchScopes(scope);
+      dispatch(fetchScopesSuccess(scopesResponse, scope));
+    });
   } catch (error) {
     // If we are here, the API request failed.
     dispatch(
       fetchResultsFailure(
-        'We’re sorry. Something went wrong on our end. Please try again later.',
-      ),
-    );
-  }
-};
-
-export const fetchScopesThunk = category => async dispatch => {
-  dispatch(fetchScopesAction());
-
-  try {
-    const response = await fetchScopes(category);
-
-    dispatch(fetchScopesSuccess(response, category));
-  } catch (error) {
-    dispatch(
-      fetchScopesFailure(
         'We’re sorry. Something went wrong on our end. Please try again later.',
       ),
     );

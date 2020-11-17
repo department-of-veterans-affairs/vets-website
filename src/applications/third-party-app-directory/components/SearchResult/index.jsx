@@ -5,12 +5,15 @@ import React, { Component } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import join from 'lodash/join';
 import map from 'lodash/map';
+import reduce from 'lodash/reduce';
+import PropTypes from 'prop-types';
 // Relative imports
 import { SearchResultPropTypes } from '../../prop-types';
 
 export class SearchResult extends Component {
   static propTypes = {
     item: SearchResultPropTypes,
+    scopes: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -31,7 +34,7 @@ export class SearchResult extends Component {
   };
 
   render() {
-    const { item } = this.props;
+    const { item, scopes } = this.props;
     const { setShow } = this;
     const { learnIcon, show } = this.state;
 
@@ -78,7 +81,9 @@ export class SearchResult extends Component {
         <div className="learn-more">
           <button
             className="va-button-link vads-u-text-decoration--none vads-u-border-color--link-default vads-u-border-style--dotted vads-u-border-bottom--1px vads-u-margin-top--1p5"
-            onClick={() => setShow(!show)}
+            onClick={() => {
+              setShow(!show, item?.service_categories);
+            }}
             type="button"
           >
             Learn about {item?.name}{' '}
@@ -99,13 +104,25 @@ export class SearchResult extends Component {
             )}
 
             {/* Permissions */}
-            {!isEmpty(item?.permissions) && (
+            {!isEmpty(scopes) && (
               <>
                 <h4>{item?.name} asks for:</h4>
                 <ol className="vads-u-margin--0 vads-u-padding-left--2p5">
-                  {map(item?.permissions, permission => (
-                    <li key={permission}>{permission}</li>
-                  ))}
+                  {reduce(
+                    item?.service_categories,
+                    (allPermissions, scope) => {
+                      const currentPermissions = map(
+                        scopes[scope],
+                        permission => (
+                          <li key={permission.name}>
+                            {permission.displayName}
+                          </li>
+                        ),
+                      );
+                      return [...allPermissions, ...currentPermissions];
+                    },
+                    [],
+                  )}
                 </ol>
               </>
             )}
@@ -113,7 +130,7 @@ export class SearchResult extends Component {
             {/* Legal Links */}
             <h4>More information:</h4>
             <a
-              href={item?.privacyPolicyURL}
+              href={item?.privacy_url}
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -121,7 +138,7 @@ export class SearchResult extends Component {
             </a>
             <a
               className="vads-u-margin-top--1"
-              href={item?.termsOfServiceURL}
+              href={item?.tos_url}
               rel="noopener noreferrer"
               target="_blank"
             >

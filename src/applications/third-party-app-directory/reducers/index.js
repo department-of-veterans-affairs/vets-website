@@ -16,7 +16,7 @@ const initialState = {
   page: 1,
   perPage: 10,
   results: undefined,
-  scopes: undefined,
+  scopes: {},
   totalResults: undefined,
 };
 
