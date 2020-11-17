@@ -142,9 +142,10 @@ const PayrollDeductions = ({
           Add payroll deduction
         </span>
       </div>
-      <div className="monthly-net-income">
-        <strong>Monthly net income:</strong> $1177.00
-      </div>
+      {/* TODO: calculate total data */}
+      {/* <div className="monthly-net-income">
+        <strong>Monthly net income:</strong> $(total)
+      </div> */}
     </>
   );
 };

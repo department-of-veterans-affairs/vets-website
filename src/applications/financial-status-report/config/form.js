@@ -5,8 +5,12 @@ import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-
-import { availableDebts, employmentHistory, veteranInfo } from '../pages';
+import {
+  availableDebts,
+  employmentHistory,
+  otherIncome,
+  veteranInfo,
+} from '../pages';
 
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
@@ -14,12 +18,10 @@ const formChapterTitles = {
 };
 
 const formPageTitles = {
-  veteranInfoTitle: 'Veteran information',
-  employmentHistoryTitle: 'Your employment history',
   veteranInfo: 'Veteran information',
-  address: 'Shipping address',
-  addSuppliesPage: 'Add supplies to your order',
   availableDebts: 'Available Debts',
+  employmentHistory: 'Your employment history',
+  otherIncome: 'Other income',
 };
 
 const formConfig = {
@@ -58,9 +60,9 @@ const formConfig = {
     veteranInformationChapter: {
       title: formChapterTitles.veteranInformationTitle,
       pages: {
-        [formPageTitles.veteranInfoTitle]: {
+        [formPageTitles.veteranInfo]: {
           path: 'veteran-information',
-          title: formPageTitles.veteranInfoTitle,
+          title: formPageTitles.veteranInfo,
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
@@ -76,11 +78,17 @@ const formConfig = {
     householdInformationChapter: {
       title: formChapterTitles.householdIncomeTitle,
       pages: {
-        [formPageTitles.employmentHistoryTitle]: {
+        [formPageTitles.employmentHistory]: {
           path: 'household-income',
-          title: formPageTitles.employmentHistoryTitle,
+          title: formPageTitles.employmentHistory,
           uiSchema: employmentHistory.uiSchema,
           schema: employmentHistory.schema,
+        },
+        [formPageTitles.otherIncome]: {
+          path: 'other-income',
+          title: formPageTitles.otherIncome,
+          uiSchema: otherIncome.uiSchema,
+          schema: otherIncome.schema,
         },
       },
     },
