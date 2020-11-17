@@ -7,8 +7,8 @@ import { setupServer } from 'msw/node';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
 
-import * as mocks from '../../../msw-mocks';
-import PersonalInformation from '../../../components/personal-information/PersonalInformation';
+import * as mocks from '@@profile/msw-mocks';
+import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
 import {
   createBasicInitialState,
@@ -198,7 +198,7 @@ describe('Editing email address', () => {
   describe('when an address does not exist yet', () => {
     beforeEach(() => {
       const initialState = createBasicInitialState();
-      initialState.user.profile.vet360.email = null;
+      initialState.user.profile.vapContactInfo.email = null;
 
       view = renderWithProfileReducers(ui, {
         initialState,

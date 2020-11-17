@@ -9,7 +9,7 @@ import minimalData from '../cypress/fixtures/data/minimal-test.json';
 
 contractTest('Contact Us', 'VA.gov API', mockApi => {
   describe('POST /ask/asks', () => {
-    it('responds with 200 when submitting form', async () => {
+    it('responds with 201 when submitting form', async () => {
       minimalData.data.veteranStatus.veteranStatus = 'general';
       delete minimalData.data['view:email'];
 
@@ -30,7 +30,7 @@ contractTest('Contact Us', 'VA.gov API', mockApi => {
           },
         },
         willRespondWith: {
-          status: 200,
+          status: 201,
           headers: {
             'Content-Type': term({
               matcher: '^application/json',

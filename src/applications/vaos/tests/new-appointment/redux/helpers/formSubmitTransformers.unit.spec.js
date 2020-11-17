@@ -211,7 +211,7 @@ describe('VAOS data transformation', () => {
     const state = {
       user: {
         profile: {
-          vet360: {},
+          vapContactInfo: {},
         },
       },
       newAppointment: {
@@ -352,7 +352,7 @@ describe('VAOS data transformation', () => {
     const state = {
       user: {
         profile: {
-          vet360: {},
+          vapContactInfo: {},
         },
       },
       newAppointment: {
@@ -494,7 +494,7 @@ describe('VAOS data transformation', () => {
     const state = {
       user: {
         profile: {
-          vet360: {},
+          vapContactInfo: {},
         },
       },
       newAppointment: {

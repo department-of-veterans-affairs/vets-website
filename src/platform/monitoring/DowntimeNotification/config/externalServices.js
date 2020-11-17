@@ -26,10 +26,14 @@ export default {
   vic: 'vic',
   // Intake, conversion, and mail handling services (central mail)
   icmhs: 'icmhs',
-  // Vet360 - data source for centralized veteran contact information
-  vet360: 'vet360',
+  // VA Profile (formerly Vet360) - data source for centralized veteran contact information
+  vaProfile: 'vet360',
   // Search.gov API
   search: 'search',
   // Online appointment scheduling
   vaos: 'vaos',
+  // Online appointment scheduling warning message
+  vaosWarning: 'vaosWarning',
+  // CARMA (Caregiver Record Management Application)
+  carma: 'carma',
 };

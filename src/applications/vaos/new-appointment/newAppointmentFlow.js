@@ -1,16 +1,17 @@
 import {
+  getChosenFacilityInfo,
+  getEligibilityStatus,
   getFormData,
   getNewAppointment,
-  getEligibilityStatus,
   getTypeOfCare,
-  getChosenFacilityInfo,
   selectUseFlatFacilityPage,
 } from '../utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import { getSiteIdFromFakeFHIRId } from '../services/location';
 import {
   checkEligibility,
-  showTypeOfCareUnavailableModal,
+  showEligibilityModal,
+  showPodiatryAppointmentUnavailableModal,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
   updateFacilityType,
@@ -61,17 +62,27 @@ function getFacilityPageKey(state) {
 }
 
 async function vaFacilityNext(state, dispatch) {
-  let eligibility;
+  let eligibility = getEligibilityStatus(state);
 
   if (selectUseFlatFacilityPage(state)) {
-    const facility = getChosenFacilityInfo(state);
-    const siteId = getSiteIdFromFakeFHIRId(facility.id);
-    eligibility = await dispatch(checkEligibility(facility, siteId));
+    // Fetch eligibility if we haven't already
+    if (eligibility.direct === null && eligibility.request === null) {
+      const location = getChosenFacilityInfo(state);
+      const siteId = getSiteIdFromFakeFHIRId(location.id);
+
+      eligibility = await dispatch(
+        checkEligibility({
+          location,
+          siteId,
+          showModal: true,
+        }),
+      );
+    }
+
     if (!eligibility.direct && !eligibility.request) {
+      dispatch(showEligibilityModal());
       return VA_FACILITY_V2_KEY;
     }
-  } else {
-    eligibility = getEligibilityStatus(state);
   }
 
   if (eligibility.direct) {
@@ -117,7 +128,7 @@ export default {
           return 'typeOfFacility';
         } else if (isPodiatry(state)) {
           // If no CC enabled systems and toc is podiatry, show modal
-          dispatch(showTypeOfCareUnavailableModal());
+          dispatch(showPodiatryAppointmentUnavailableModal());
           return 'typeOfCare';
         }
       }

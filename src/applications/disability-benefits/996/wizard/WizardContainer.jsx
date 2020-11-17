@@ -6,16 +6,14 @@ import pages from './pages';
 
 const WizardContainer = ({ setWizardStatus }) => (
   <div className="wizard-container">
-    <h2>Find out if this is the right form</h2>
+    <h2>Is this the form I need?</h2>
     <p>
-      If a Veteran or their representative wants to dispute a decision they
-      received on a claim, they can file a Higher-Level Review. When you request
-      a Higher-Level Review, you're asking to have a more senior, experienced
-      reviewer take a look at your case and the evidence you already provided.
-      this more senior person will determine whether the decision can be changed
-      based on a difference of opinion or a VA error. You cannot submit any new
-      evidence.
+      Use this form if you disagree with VA’s decision on your claim and want to
+      request that a senior reviewer take a new look at your case and the
+      evidence you provided. You can’t submit any new evidence with a
+      Higher-Level Review.
     </p>
+    <p>Answer a few questions to get started.</p>
     <Wizard pages={pages} expander={false} setWizardStatus={setWizardStatus} />
   </div>
 );

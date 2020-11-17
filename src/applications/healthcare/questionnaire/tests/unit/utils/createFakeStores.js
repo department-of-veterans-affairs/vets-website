@@ -20,7 +20,7 @@ const createFakeUserStore = (
           },
           dob: '1924-12-19',
           gender,
-          vet360: {
+          vapContactInfo: {
             mobilePhone: phones.hasMobile
               ? {
                   areaCode: '503',
@@ -167,7 +167,9 @@ const createFakeReasonForVisitDescriptionStore = reason => {
       questionnaireData: {
         context: {
           appointment: {
-            vdsAppointments: [{ bookingNotes: reason }],
+            attributes: {
+              vdsAppointments: [{ bookingNotes: reason }],
+            },
           },
         },
       },
@@ -183,7 +185,7 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
       questionnaireData: {
         context: {
           appointment: {
-            vdsAppointments: [{ bookingNotes: reason }],
+            attributes: { vdsAppointments: [{ bookingNotes: reason }] },
           },
         },
       },
@@ -209,9 +211,13 @@ const createFakeConfirmationStore = ({ hasData }) => {
             questionnaireData: {
               context: {
                 appointment: {
-                  vdsAppointments: [
-                    { clinic: { facility: { displayName: 'Magic Kingdom' } } },
-                  ],
+                  attributes: {
+                    vdsAppointments: [
+                      {
+                        clinic: { facility: { displayName: 'Magic Kingdom' } },
+                      },
+                    ],
+                  },
                 },
               },
             },
@@ -238,9 +244,11 @@ const createFakeIntroductionPageStore = (formId, savedForms) => {
       questionnaireData: {
         context: {
           appointment: {
-            vdsAppointments: [
-              { clinic: { facility: { displayName: 'Magic Kingdom' } } },
-            ],
+            attributes: {
+              vdsAppointments: [
+                { clinic: { facility: { displayName: 'Magic Kingdom' } } },
+              ],
+            },
           },
         },
       },

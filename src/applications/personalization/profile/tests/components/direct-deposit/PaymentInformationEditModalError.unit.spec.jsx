@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import PaymentInformationEditModalError from 'applications/personalization/profile/components/direct-deposit/PaymentInformationEditModalError';
+import PaymentInformationEditModalError from '@@profile/components/direct-deposit/PaymentInformationEditModalError';
 
 describe('<PaymentInformationEditModalError />', () => {
   const checksumError = {
@@ -190,7 +190,7 @@ describe('<PaymentInformationEditModalError />', () => {
     ],
   };
 
-  // When vet360 was not working in the staging env, we saw this error when
+  // When VA Profile was not working in the staging env, we saw this error when
   // saving direct deposit info (hitting PUT ppiu/payment_information)
   const upstreamError = {
     errors: [

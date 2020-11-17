@@ -41,15 +41,17 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
+  FORM_SHOW_ELIGIBILITY_MODAL,
   FORM_HIDE_ELIGIBILITY_MODAL,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
+  FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -295,17 +297,17 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+    case FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
       return {
         ...state,
-        showTypeOfCareUnavailableModal: true,
+        showPodiatryAppointmentUnavailableModal: true,
         pageChangeInProgress: false,
       };
     }
-    case FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+    case FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
       return {
         ...state,
-        showTypeOfCareUnavailableModal: false,
+        showPodiatryAppointmentUnavailableModal: false,
       };
     }
     case CLICKED_UPDATE_ADDRESS_BUTTON: {
@@ -331,7 +333,6 @@ export default function formReducer(state = initialState, action) {
       let newData = state.data;
       let typeOfCareFacilities = action.facilities;
       const typeOfCareId = action.typeOfCareId;
-      const facilities = state.facilities;
       const address = action.address;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
@@ -342,7 +343,7 @@ export default function formReducer(state = initialState, action) {
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      if (parentFacilities.length === 1 || !facilities.length) {
+      if (parentFacilities.length === 1 || !typeOfCareFacilities.length) {
         newData = {
           ...newData,
           vaParent: parentFacilities[0]?.id,
@@ -406,12 +407,13 @@ export default function formReducer(state = initialState, action) {
           vaFacilityV2: schema,
         },
         facilities: {
-          ...facilities,
+          ...state.facilities,
           [typeOfCareId]: typeOfCareFacilities,
         },
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
+        showEligibilityModal: false,
       };
     }
     case FORM_REQUEST_CURRENT_LOCATION: {
@@ -723,13 +725,20 @@ export default function formReducer(state = initialState, action) {
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,
-        showEligibilityModal: !canSchedule.direct && !canSchedule.request,
+        showEligibilityModal:
+          action.showModal && !canSchedule.direct && !canSchedule.request,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
       return {
         ...state,
         eligibilityStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_SHOW_ELIGIBILITY_MODAL: {
+      return {
+        ...state,
+        showEligibilityModal: true,
       };
     }
     case FORM_HIDE_ELIGIBILITY_MODAL: {
@@ -966,6 +975,53 @@ export default function formReducer(state = initialState, action) {
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.hasCommunityCareProvider.title',
+        `Do you have a preferred VA-approved community care provider for this ${
+          typeOfCare.name
+        } appointment?`,
+        action.schema,
+      );
+
+      if (state.ccEnabledSystems?.length === 1) {
+        formData = {
+          ...formData,
+          communityCareSystemId: state.ccEnabledSystems[0].id,
+        };
+        initialSchema = unset(
+          'properties.communityCareSystemId',
+          initialSchema,
+        );
+      } else {
+        initialSchema = set(
+          'properties.communityCareSystemId.enum',
+          state.ccEnabledSystems.map(system => system.id),
+          initialSchema,
+        );
+        initialSchema.properties.communityCareSystemId.enumNames = state.ccEnabledSystems.map(
+          system =>
+            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
+        );
+        initialSchema.required.push('communityCareSystemId');
+      }
+      const { data, schema } = setupFormData(
+        formData,
+        initialSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
+      };
+    }
+    case FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED: {
+      let formData = state.data;
+      const typeOfCare = getTypeOfCare(formData);
+      let initialSchema = set(
+        'properties.communityCareProvider.title',
         `Do you have a preferred VA-approved community care provider for this ${
           typeOfCare.name
         } appointment?`,

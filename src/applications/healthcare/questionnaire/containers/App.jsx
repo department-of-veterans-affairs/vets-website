@@ -26,13 +26,17 @@ const App = props => {
     () => {
       if (isLoggedIn) {
         setLoading();
-        loadAppointment().then(data => {
+        loadAppointment().then(response => {
+          const { data } = response;
           setLoadedAppointment(data);
           setIsLoading(false);
           setForm(f => {
             return {
               ...f,
-              subTitle: data?.vdsAppointments[0]?.clinic?.facility?.displayName,
+              title: 'Primary care questionnaire',
+              subTitle:
+                data?.attributes?.vdsAppointments[0]?.clinic?.facility
+                  ?.displayName,
             };
           });
         });
@@ -67,6 +71,7 @@ const mapStateToProps = state => ({
     state?.questionnaireData.context?.status.isLoading,
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
 });
+
 const mapDispatchToProps = dispatch => {
   return {
     setLoading: () => dispatch(questionnaireAppointmentLoading()),

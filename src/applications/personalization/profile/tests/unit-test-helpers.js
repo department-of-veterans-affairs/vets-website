@@ -1,7 +1,7 @@
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
-import profile from 'applications/personalization/profile/reducers';
-import connectedApps from 'applications/personalization/profile/components/connected-apps/reducers/connectedApps';
+import profile from '@@profile/reducers';
+import connectedApps from '@@profile/components/connected-apps/reducers/connectedApps';
 
 export function wait(timeout) {
   return new Promise(resolve => {
@@ -26,7 +26,7 @@ export function renderWithProfileReducers(
   });
 }
 
-// Creates a good baseline value for the user.profile.vet360 part of Redux
+// Creates a good baseline value for the user.profile.vapContactInfo part of Redux
 export function getBasicContactInfoState() {
   return {
     email: {
@@ -187,7 +187,8 @@ export function createBasicInitialState() {
     },
     user: {
       profile: {
-        vet360: getBasicContactInfoState(),
+        vapContactInfo: getBasicContactInfoState(),
+        services: ['vet360'],
       },
     },
   };

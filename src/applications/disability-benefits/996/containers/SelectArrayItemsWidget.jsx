@@ -3,32 +3,27 @@ import React from 'react';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 
+import { SELECTED } from '../constants';
+
 export default class SelectArrayItemsWidget extends React.Component {
   onChange = (index, checked) => {
-    const items = set(
-      `[${index}].${this.props.options.selectedPropName ||
-        this.defaultSelectedPropName}`,
-      checked,
-      this.props.value,
-    );
+    const items = set(`[${index}].${SELECTED}`, checked, this.props.value);
     this.props.onChange(items);
   };
-
-  defaultSelectedPropName = 'view:selected';
 
   render() {
     const { value: items, id, options, required, formContext } = this.props;
     // Need customTitle to set error message above title.
-    const { label: Label, selectedPropName, disabled, customTitle } = options;
+    const { label: Label, disabled } = options;
 
     // inReviewMode = true (review page view, not in edit mode)
     // inReviewMode = false (in edit mode)
     const onReviewPage = formContext.onReviewPage;
     const inReviewMode = onReviewPage && formContext.reviewMode;
+    const customTitle = (options.customTitle || '').trim();
 
     const hasSelections = items?.reduce(
-      (result, item) =>
-        result || !!get(selectedPropName || this.defaultSelectedPropName, item),
+      (result, item) => result || !!get(SELECTED, item),
       false,
     );
 
@@ -36,14 +31,11 @@ export default class SelectArrayItemsWidget extends React.Component {
 
     return (
       <>
-        {customTitle?.trim() &&
+        {customTitle &&
           items && <Tag className="vads-u-font-size--h5">{customTitle}</Tag>}
-        {items && (!inReviewMode || (inReviewMode && hasSelections)) ? (
+        {items?.length && (!inReviewMode || (inReviewMode && hasSelections)) ? (
           items.map((item, index) => {
-            const itemIsSelected = !!get(
-              selectedPropName || this.defaultSelectedPropName,
-              item,
-            );
+            const itemIsSelected = !!get(SELECTED, item);
 
             // Don't show un-selected ratings in review mode
             if (inReviewMode && !itemIsSelected) {

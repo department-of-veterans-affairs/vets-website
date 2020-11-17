@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import EmailAddressNotification from 'applications/personalization/profile/components/personal-information/email-addresses/EmailAddressNotification';
+import EmailAddressNotification from '@@profile/components/personal-information/email-addresses/EmailAddressNotification';
 
 describe('EmailAddressNotification', () => {
   describe('when `signInServiceName` is `dslogon`', () => {

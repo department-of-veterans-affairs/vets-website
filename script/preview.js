@@ -51,7 +51,6 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.DRUPAL_PASSWORD,
   },
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 
 if (process.env.SENTRY_DSN) {
@@ -59,10 +58,6 @@ if (process.env.SENTRY_DSN) {
 }
 
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
-
-if (options.unexpected && options.unexpected.length !== 0) {
-  throw new Error(`Unexpected arguments: '${options.unexpected}'`);
-}
 
 if (options.buildpath === null) {
   options.buildpath = `build/${options.buildtype}`;

@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import NotInMPI from 'applications/personalization/profile/components/account-security/NotInMPIError';
+import NotInMPI from '@@profile/components/account-security/NotInMPIError';
 
 describe('NotInMPI', () => {
   let wrapper;
@@ -27,7 +27,7 @@ describe('NotInMPI', () => {
       wrapper
         .text()
         .includes(
-          'If you’d like to access these tools, please contact the VA.gov help desk at 844-698-2311 (TTY: 711) to verify and update your records.',
+          'If you’d like to access these tools, please contact the VA.gov help desk at 800-698-2411 (TTY: 711) to verify and update your records.',
         ),
     ).to.be.true;
     wrapper.unmount();

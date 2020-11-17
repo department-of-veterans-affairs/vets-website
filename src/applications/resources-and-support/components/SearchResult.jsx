@@ -7,11 +7,11 @@ import { Article } from '../prop-types';
 const articleTypes = {
   [ENTITY_BUNDLES.Q_A]: 'Question and answer',
   [ENTITY_BUNDLES.CHECKLIST]: 'Checklist',
-  [ENTITY_BUNDLES.MEDIA_LIST_IMAGES]: 'Media list',
-  [ENTITY_BUNDLES.MEDIA_LIST_VIDEOS]: 'Media list',
+  [ENTITY_BUNDLES.MEDIA_LIST_IMAGES]: 'Images',
+  [ENTITY_BUNDLES.MEDIA_LIST_VIDEOS]: 'Videos',
   [ENTITY_BUNDLES.SUPPORT_RESOURCES_DETAIL_PAGE]: 'About',
-  [ENTITY_BUNDLES.FAQ_MULTIPLE_Q_A]: 'FAQs',
-  [ENTITY_BUNDLES.STEP_BY_STEP]: 'Step by step',
+  [ENTITY_BUNDLES.FAQ_MULTIPLE_Q_A]: 'Multiple FAQs',
+  [ENTITY_BUNDLES.STEP_BY_STEP]: 'Step-by-step',
 };
 
 export default function SearchResult({ article }) {

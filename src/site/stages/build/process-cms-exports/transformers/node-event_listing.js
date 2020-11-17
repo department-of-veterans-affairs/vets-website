@@ -12,6 +12,7 @@ const reverseFields = reverseFieldListing => ({
           reverseField =>
             reverseField.entityBundle === 'event' && reverseField.status,
         )
+        .sort((a, b) => b.changed - a.changed)
         .map(reverseField => ({
           title: reverseField.title,
           entityUrl: reverseField.entityUrl,
@@ -19,6 +20,7 @@ const reverseFields = reverseFieldListing => ({
           fieldFeatured: reverseField.fieldFeatured,
           fieldDate: reverseField.fieldDate,
           fieldDescription: reverseField.fieldDescription,
+          fieldFacilityLocation: reverseField.fieldFacilityLocation,
           fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,
         }))
     : [],

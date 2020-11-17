@@ -52,6 +52,9 @@ describe('VAOS <TypeOfEyeCarePage>', () => {
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/ophthalmology/i));
+    await waitFor(() => {
+      expect(screen.getByLabelText(/ophthalmology/i).checked).to.be.true;
+    });
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(

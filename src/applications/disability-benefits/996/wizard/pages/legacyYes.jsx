@@ -1,43 +1,28 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import pageNames from './pageNames';
 import { SUPPLEMENTAL_CLAIM_URL } from '../../constants';
 import DownloadLink from '../../content/DownloadLink';
 
-const headline =
-  'You’ll need to submit a paper form to request a Higher-Level Review';
-
-const alertContent = (
-  <>
-    <p>
-      If you have a decision date before Februrary 19, 2019 and received a
-      Statement of the Case (SOC) or Supplemental Statement of the Case (SSOC)
-      because you had filed an appeal under the old (or former) appeals system,
-      you’ll have to opt-in to the new decision review process via a submitted
-      paper form.
-    </p>
-    <p>
-      To opt in, please fill out a Decision Review Request: Higher-Level Review
-      (VA Form 20-0996) and check “opt-in from SOC/SSOC” in box 15 of the paper
-      form.
-    </p>
-    <DownloadLink content={'Download VA Form 20-0996'} />
-    <p>
-      If you had not filed a legacy appeal within a year of the decision dated
-      before Februrary 19, 2019, you will need to{' '}
-      <a href={SUPPLEMENTAL_CLAIM_URL}>file a Supplemental Claim</a>.
-    </p>
-  </>
-);
-
 // Yes, has a legacy appeal
 const LegacyYes = () => (
-  <AlertBox
-    headline={headline}
-    content={alertContent}
-    status="info"
-    isVisible
-  />
+  <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+    <p className="vads-u-margin-top--0">
+      Since your claim is in the legacy appeals process, you’ll need to opt in
+      to the new decision review process within 60 days of receiving your
+      Statement of the Case (SOC) or Supplemental Statement of the Case (SSOC).
+    </p>
+    <p>
+      To opt in, fill out and submit VA Form 20-0996 by mail or in person. On
+      the form, you’ll need to check Box 15 to "opt-in from SOC/SSOC".
+    </p>
+    <p>
+      <DownloadLink content={'Download VA Form 20-0996'} />
+    </p>
+    <p className="vads-u-margin-bottom--0">
+      If you haven’t filed a legacy appeal for this claim, you’ll need to{' '}
+      <a href={SUPPLEMENTAL_CLAIM_URL}>file a Supplemental Claim</a>.
+    </p>
+  </div>
 );
 
 export default {

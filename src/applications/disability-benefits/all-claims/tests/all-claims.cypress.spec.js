@@ -7,6 +7,12 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockItf } from './all-claims.cypress.helpers';
+import { WIZARD_STATUS, SAVED_SEPARATION_DATE } from '../constants';
+
+const todayPlus120 = moment()
+  .add(120, 'days')
+  .format('YYYY-M-D')
+  .split('-');
 
 const testConfig = createTestConfig(
   {
@@ -30,9 +36,28 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: ({ afterHook }) => {
-        afterHook(() => {
-          // Hit the start button
+      introduction: () => {
+        cy.get('@testData').then(data => {
+          if (data['view:isBddData']) {
+            window.sessionStorage.setItem(
+              SAVED_SEPARATION_DATE,
+              todayPlus120.join('-'),
+            );
+            cy.get('[type="radio"][value="bdd"]').click();
+            cy.get('select[name="discharge-dateMonth"]').select(
+              todayPlus120[1],
+            );
+            cy.get('select[name="discharge-dateDay"]').select(todayPlus120[2]);
+            cy.get('input[name="discharge-dateYear"]')
+              .clear()
+              .type(todayPlus120[0]);
+          } else {
+            cy.get('[type="radio"][value="appeals"]').click();
+            cy.get('[type="radio"][value="file-claim"]').click();
+          }
+          // close wizard & render intro page content
+          cy.get('.va-button-primary').click();
+          // Start form
           cy.findAllByText(/start/i, { selector: 'button' })
             .first()
             .click();
@@ -48,19 +73,22 @@ const testConfig = createTestConfig(
         cy.get('@testData').then(data => {
           cy.fillPage();
           if (data['view:isBddData']) {
-            const date = moment()
-              .add(120, 'days')
-              .format('YYYY-M-D')
-              .split('-');
-            cy.get('select[name$="_dateRange_toMonth"]').select(date[1]);
-            cy.get('select[name$="_dateRange_toDay"]').select(date[2]);
+            cy.get('select[name$="_dateRange_toMonth"]').select(
+              todayPlus120[1],
+            );
+            cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
             cy.get('input[name$="_dateRange_toYear"]')
               .clear()
-              .type(date[0]);
-            cy.get('input[name$="_separationLocation"]')
-              .type(data.serviceInformation.separationLocation)
-              .blur();
+              .type(todayPlus120[0]);
           }
+        });
+      },
+
+      'review-veteran-details/separation-location': () => {
+        cy.get('@testData').then(data => {
+          cy.get(
+            'input[name="root_serviceInformation_separationLocation"]',
+          ).type(data.serviceInformation.separationLocation.label);
         });
       },
 
@@ -102,6 +130,12 @@ const testConfig = createTestConfig(
 
       cy.route(
         'GET',
+        '/v0/disability_compensation_form/separation_locations',
+        'fx:mocks/separation-locations',
+      );
+
+      cy.route(
+        'GET',
         '/v0/ppiu/payment_information',
         'fx:mocks/payment-information',
       );
@@ -128,6 +162,7 @@ const testConfig = createTestConfig(
       // Pre-fill with the expected ratedDisabilities,
       // but without view:selected, since that's not pre-filled
       cy.get('@testData').then(data => {
+        window.sessionStorage.removeItem(WIZARD_STATUS);
         const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
           ({ 'view:selected': _, ...obj }) => obj,
         );
@@ -149,7 +184,7 @@ const testConfig = createTestConfig(
       });
     },
 
-    skip: ['maximal-bdd-test', 'minimal-bdd-test'],
+    // skip: [],
   },
   manifest,
   formConfig,

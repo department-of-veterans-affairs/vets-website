@@ -1,6 +1,6 @@
 const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
 
-const moment = require('moment');
+const moment = require('moment-timezone');
 const converter = require('number-to-words');
 const liquid = require('tinyliquid');
 const _ = require('lodash');
@@ -34,6 +34,21 @@ module.exports = function registerFilters() {
       return prettyTimeFormatted(timeZoneDate, format);
     }
     return dt;
+  };
+
+  // Convert a timezone string (e.g. 'America/Los_Angeles') to an abbreviation
+  // e.g. "PST"
+  liquid.filters.timezoneAbbrev = (timezone, timestamp) => {
+    if (!timezone || !timestamp) {
+      return 'ET';
+    }
+    if (moment.tz.zone(timezone)) {
+      return moment.tz.zone(timezone).abbr(timestamp);
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('Invalid time zone: ', timezone);
+      return 'ET';
+    }
   };
 
   liquid.filters.toTitleCase = phrase =>
@@ -74,7 +89,12 @@ module.exports = function registerFilters() {
     return replaced;
   };
 
-  liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
+  liquid.filters.dateFromUnix = (dt, format) => {
+    if (!dt) {
+      return null;
+    }
+    return moment.unix(dt).format(format);
+  };
 
   liquid.filters.unixFromDate = data => new Date(data).getTime();
 
@@ -422,19 +442,24 @@ module.exports = function registerFilters() {
     currentPath,
     pageTitle,
   ) => {
-    breadcrumbs.push({
+    // Remove any resources crumb - we don't want the drupal page title.
+    const filteredCrumbs = breadcrumbs.filter(
+      crumb => crumb.url.path !== '/resources',
+    );
+    // Add the resources crumb with the correct crumb title.
+    filteredCrumbs.push({
       url: { path: '/resources', routed: false },
       text: 'Resources and support',
     });
 
     if (pageTitle) {
-      breadcrumbs.push({
+      filteredCrumbs.push({
         url: { path: currentPath, routed: true },
         text: string,
       });
     }
 
-    return breadcrumbs;
+    return filteredCrumbs;
   };
 
   // used to get a base url path of a health care region from entityUrl.path
@@ -472,6 +497,7 @@ module.exports = function registerFilters() {
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
 
   // get a value from a path of an object
+  // works for arrays as well
   liquid.filters.getValueFromObjPath = (obj, path) => _.get(obj, path);
 
   // get a value from a path of an object in an array

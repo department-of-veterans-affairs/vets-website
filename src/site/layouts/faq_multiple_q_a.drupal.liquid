@@ -81,8 +81,13 @@
                   </ul>
                 </div>
               {% else %}
+                  {% assign fieldSectionHeaderTag = 'h2' %}
+                  {% if fieldQAGroup.entity.fieldSectionHeader %}
+                    {% assign fieldSectionHeaderTag = 'h3' %}
+                  {% endif %}
+
                   {% for fieldQA in fieldQAGroup.entity.fieldQAs %}
-                    <h3>{{ fieldQA.entity.title }}</h3>
+                    <{{ fieldSectionHeaderTag }}>{{ fieldQA.entity.title }}</{{ fieldSectionHeaderTag }}>
                     {% if fieldQA.entity %}
                       {% assign fieldAnswer = fieldQA.entity.fieldAnswer %}
                       {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
@@ -124,6 +129,9 @@
             Last updated: <time
               datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
           </div>
+
+          <!-- Up To Top Button -->
+          {% include "src/site/components/up_to_top_button.html" %}
         </div>
       </div>
     </div>

@@ -25,8 +25,8 @@ export const EXTERNAL_SERVICES = {
   ssoe: 'ssoe',
   // The Image Management System (education forms)
   tims: 'tims',
-  // Vet360 - data source for centralized veteran contact information
-  vet360: 'vet360',
+  // VA Profile (formerly Vet360) - data source for centralized veteran contact information
+  vaProfile: 'vet360',
   // Veteran ID Card v1
   vic: 'vic',
 };

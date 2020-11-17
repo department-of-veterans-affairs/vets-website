@@ -76,35 +76,8 @@ Example data:
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
 
-{% assign timezone = "America/New_York" %}
-{% comment %}
-Ultimately, we will allow check to use user timezone.
-{% if uid.entity.timezone != empty %}
-{% assign timezone = uid.entity.timezone %}
-{% endif %}
-{% endcomment %}
+{% include "src/site/includes/date.drupal.liquid" %}
 
-{% assign start_date_no_time = fieldDate.startDate | timeZone: timezone, "dddd, MMM D" %}
-{% assign end_date_no_time = fieldDate.endValue | timeZone: timezone, "dddd, MMM D" %}
-
-{% assign start_time = fieldDate.startDate | timeZone: timezone, "h:mm A" %}
-{% assign end_time = fieldDate.endDate | timeZone: timezone, "h:mm A" %}
-
-{% assign start_date_full = fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
-{% assign end_date_full = fieldDate.endDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
-
-{% assign start_timestamp = fieldDate.value | unixFromDate %}
-{% assign current_timestamp = fieldDate.value | currentUnixFromDate %}
-
-{% if fieldDate.value != empty and fieldDate.endValue == empty %}
-  {% assign date_type = "start_date_only" %}
-{% else %}
-  {% if start_date_no_time == end_date_no_time %}
-    {% assign date_type = "same_day" %}
-  {% else %}
-    {% assign date_type = "all_dates" %}
-  {% endif %}
-{% endif %}
 <div class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
 
@@ -144,7 +117,8 @@ Ultimately, we will allow check to use user timezone.
                 {% assign facility = fieldFacilityLocation.entity %}
                 <dl class="va-c-event-info">
                   <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">
-                    When</dt>
+                    When
+                  </dt>
                   <dd>
                     {% if date_type == "start_date_only" %}
                       <span>{{ start_date_no_time }}</span><br>
@@ -161,8 +135,7 @@ Ultimately, we will allow check to use user timezone.
                         <span>{{ end_date_full }}</span>
                       {% endif %}
                     {% endif %}
-                    <span>
-                      ET</span>
+                    <span>{{ timezone }}</span>
                   </dd>
                 </dl>
 
@@ -284,7 +257,8 @@ Ultimately, we will allow check to use user timezone.
               {% assign facility = fieldFacilityLocation.entity %}
               <dl class="va-c-event-info">
                 <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">
-                  When</dt>
+                  When
+                </dt>
                 <dd>
                   {% if date_type == "start_date_only" %}
                     <span>{{ start_date_no_time }}</span><br>
@@ -301,8 +275,7 @@ Ultimately, we will allow check to use user timezone.
                       <span>{{ end_date_full }}</span>
                     {% endif %}
                   {% endif %}
-                  <span>
-                    ET</span>
+                  <span>{{ timezone }}</span>
                 </dd>
               </dl>
 
