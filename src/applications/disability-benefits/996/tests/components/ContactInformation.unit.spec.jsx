@@ -2,11 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
+import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
+
 import {
   formatPhone,
-  getCountryName,
-  contactInfoDescription,
-} from '../../content/contactInformation';
+  ContactInfoDescription,
+} from '../../components/ContactInformation';
 
 describe('contact information content', () => {
   describe('formatPhone', () => {
@@ -31,49 +32,33 @@ describe('contact information content', () => {
     });
   });
 
-  describe('get country', () => {
-    it('should return a country name based on the code', () => {
-      [
-        {
-          code: '',
-          result: '',
-        },
-        {
-          code: 'USA',
-          result: '',
-        },
-        {
-          code: 'BEL',
-          result: 'Belgium',
-        },
-        {
-          code: 'ESP',
-          result: 'Spain',
-        },
-      ].forEach(test => {
-        expect(getCountryName(test.code)).to.equal(test.result);
-      });
-    });
-  });
-
   describe('contactInfoDescription', () => {
     it('should render content', () => {
       const data = {
-        formData: {
-          veteran: {
-            phoneNumber: '5558001212',
-            emailAddress: 'someone@famous.com',
-            street: '123 Main Blvd',
-            street2: 'Floor 33',
-            street3: 'Suite 55',
-            city: 'Hollywood',
-            state: 'CA',
-            zipCode5: '90210',
-            country: 'DEU',
+        profile: {
+          vapContactInfo: {
+            email: {
+              emailAddress: 'someone@famous.com',
+            },
+            homePhone: {
+              areaCode: '555',
+              phoneNumber: '8001212',
+            },
+            mailingAddress: {
+              addressType: ADDRESS_TYPES.domestic,
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              addressLine1: '123 Main Blvd',
+              addressLine2: 'Floor 33',
+              addressLine3: 'Suite 55',
+              city: 'Hollywood',
+              stateCode: 'CA',
+              zipCode: '90210',
+            },
           },
         },
       };
-      const ContactInfo = () => <>{contactInfoDescription(data)}</>;
+      const ContactInfo = () => <>{ContactInfoDescription(data)}</>;
       const tree = shallow(<ContactInfo />);
       const address = tree.find('.blue-bar-block');
       const text = address.text();
@@ -85,7 +70,6 @@ describe('contact information content', () => {
       expect(text).to.contain('Floor 33');
       expect(text).to.contain('Suite 55');
       expect(text).to.contain('Hollywood, CA 90210');
-      expect(text).to.contain('Germany');
       tree.unmount();
     });
   });

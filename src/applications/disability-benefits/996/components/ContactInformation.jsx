@@ -1,6 +1,9 @@
 import React from 'react';
-import { countries } from 'vets-json-schema/dist/constants.json';
-import titleCase from 'platform/utilities/data/titleCase';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { selectProfile } from 'platform/user/selectors';
+import { formatAddress } from 'platform/forms/address/helpers';
 
 const addBrAfter = line => line && [line, <br key={line} />];
 const addBrBefore = line => line && [<br key={line} />, line];
@@ -12,29 +15,9 @@ export const formatPhone = (number = '') => {
     : number;
 };
 
-export const getCountryName = (countryCode = 'USA') =>
-  countryCode === 'USA'
-    ? ''
-    : countries.find(country => country.value === countryCode)?.label || '';
-
-export const contactInfoDescription = ({ formData: { veteran = {} } }) => {
-  const {
-    phoneNumber,
-    emailAddress,
-    street,
-    street2,
-    street3,
-    city,
-    state = '',
-    zipCode5,
-    country = 'USA',
-  } = veteran;
-
-  let postalString = zipCode5 || '';
-  if (country === 'USA' && zipCode5) {
-    const lastChunk = zipCode5.length > 5 ? `-${zipCode5.slice(5)}` : '';
-    postalString = `${zipCode5.slice(0, 5)}${lastChunk}`;
-  }
+export const ContactInfoDescription = ({ profile }) => {
+  const { email, homePhone, mailingAddress } = profile.vapContactInfo;
+  const { street, cityStateZip, country } = formatAddress(mailingAddress);
 
   return (
     <>
@@ -52,22 +35,35 @@ export const contactInfoDescription = ({ formData: { veteran = {} } }) => {
       <div className="blue-bar-block">
         <h3 className="vads-u-font-size--h4">Phone &amp; email</h3>
         <p>
-          <strong>Primary phone</strong>: {formatPhone(phoneNumber)}
+          <strong>Primary phone</strong>:{' '}
+          {formatPhone(`${homePhone?.areaCode}${homePhone?.phoneNumber}`)}
         </p>
         <p>
-          <strong>Email address</strong>: {emailAddress || ''}
+          <strong>Email address</strong>: {email.emailAddress || ''}
         </p>
         <h3 className="vads-u-font-size--h4">Mailing address</h3>
         <p>
           {addBrAfter(street)}
-          {addBrAfter(street2)}
-          {addBrAfter(street3)}
-          {city || ''}
-          {city && ','} {titleCase(state)} {postalString}
-          {addBrBefore(getCountryName(country))}
+          {addBrAfter(cityStateZip)}
+          {addBrBefore(country)}
           &nbsp;
         </p>
       </div>
     </>
   );
 };
+
+ContactInfoDescription.propTypes = {
+  profile: PropTypes.shape({}),
+};
+
+const mapStateToProps = state => {
+  const profile = selectProfile(state);
+  const veteran = state.form?.data.veteran;
+  return {
+    profile,
+    veteran,
+  };
+};
+
+export default connect(mapStateToProps)(ContactInfoDescription);
