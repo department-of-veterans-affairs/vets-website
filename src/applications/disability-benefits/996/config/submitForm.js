@@ -20,11 +20,6 @@ const submitForm = (form, formConfig) => {
     // or 'no', or 'yes-with-rep'
     'decision-reviews-informalConf': informalConf,
   };
-  // Submission attempt event
-  recordEvent({
-    event: `${trackingPrefix}-submission`,
-    ...eventData,
-  });
   return submitToUrl(body, submitUrl, trackingPrefix, eventData).catch(() => {
     recordEvent({
       event: `${trackingPrefix}-submission-failure`,
