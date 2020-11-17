@@ -6,7 +6,7 @@ import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 
-import { availableDebts, householdIncome, veteranInfo } from '../pages';
+import { availableDebts, employmentHistory, veteranInfo } from '../pages';
 
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
@@ -79,8 +79,8 @@ const formConfig = {
         [formPageTitles.employmentHistoryTitle]: {
           path: 'household-income',
           title: formPageTitles.employmentHistoryTitle,
-          uiSchema: householdIncome.uiSchema,
-          schema: householdIncome.schema,
+          uiSchema: employmentHistory.uiSchema,
+          schema: employmentHistory.schema,
         },
       },
     },
