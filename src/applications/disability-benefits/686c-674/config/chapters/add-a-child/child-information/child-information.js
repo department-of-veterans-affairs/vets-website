@@ -15,26 +15,40 @@ export const uiSchema = {
       itemName: 'Child',
       viewField: childInfo,
       keepInPageOnReview: true,
+      customTitle: ' ',
     },
     items: {
       fullName: {
+        'ui:options': {
+          useDlWrap: true,
+        },
         first: {
           'ui:title': 'Child’s first name',
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addChild),
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         middle: {
           'ui:title': 'Child’s middle name',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         last: {
           'ui:title': 'Child’s last name',
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addChild),
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         suffix: {
           'ui:title': 'Child’s suffix',
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
+            useDlWrap: true,
           },
         },
       },
@@ -43,10 +57,16 @@ export const uiSchema = {
         'ui:title': 'Child’s Social Security number',
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
+        'ui:options': {
+          useDlWrap: true,
+        },
       },
       birthDate: merge(currentOrPastDateUI("Child's date of birth"), {
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
+        'ui:options': {
+          useDlWrap: true,
+        },
       }),
     },
   },

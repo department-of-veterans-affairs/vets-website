@@ -11,6 +11,7 @@ import {
   getFacilitiesInfo,
   getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
+  getCommunityCareFacilities,
 } from '../var';
 import { mapToFHIRErrors } from '../utils';
 import {
@@ -18,8 +19,10 @@ import {
   transformFacilities,
   transformFacility,
   setSupportedSchedulingMethods,
+  transformCommunityProviders,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
+import { calculateBoundingBox, vapAddressToString } from '../../utils/address';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
@@ -245,4 +248,40 @@ export function formatFacilityAddress(facility) {
   return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
     facility.address?.state
   } ${facility.address?.postalCode}`;
+}
+
+/**
+ * Fetch community care providers by location and type of care
+ *
+ * @export
+ * @param {Object} locationsParams Parameters needed for fetching providers
+ * @param {Object} locationParams.address The address in VA Profile format to search nearby
+ * @param {Object} locationParams.typeOfCare Type of care data to use when searching for providers
+ * @param {Number} locationParams.radius The radius to search for providers within, defaulted to 60
+ * @param {Number} locationParams.maxResults The max number of results to return from the search
+ * @returns {Array} A FHIR searchset of Location resources
+ */
+export async function getCommunityProvidersByTypeOfCare({
+  address,
+  typeOfCare,
+  radius = 60,
+  maxResults = 15,
+}) {
+  try {
+    const communityCareProviders = await getCommunityCareFacilities({
+      address: vapAddressToString(address),
+      bbox: calculateBoundingBox(address.latitude, address.longitude, radius),
+      specialties: typeOfCare.specialties,
+      page: 1,
+      perPage: maxResults,
+    });
+
+    return transformCommunityProviders(communityCareProviders);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
 }
