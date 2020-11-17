@@ -31,7 +31,7 @@ const VREBenefits = ({ setPageState, state = {} }) => {
       label="Are you receiving Chapter 31 Veteran Readiness and Employment (VR&E) benefits?"
       options={options}
       id="vre-benefits"
-      onValueChange={handleValueChange}
+      onValueChange={value => handleValueChange(value)}
       value={{ value: state.selected }}
     />
   );
