@@ -30,7 +30,7 @@ function SaveStatus({
     formId && savedAtMessage ? (
       <>
         {' '}
-        Your application ID number is <strong>{formId}</strong>
+        Your application ID number is <strong>{formId}</strong>.
       </>
     ) : null;
 
