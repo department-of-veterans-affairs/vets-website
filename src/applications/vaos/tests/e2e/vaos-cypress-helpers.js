@@ -433,6 +433,11 @@ export function initVARequestMock() {
     url: '/vaos/v0/facilities/983/clinics*',
     response: { data: [] },
   });
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va/vha_442GB',
+    response: { data: facilityData.data[0] },
+  });
   mockRequestLimits('983GB');
   mockVisits('983GB');
   cy.route({

@@ -416,7 +416,7 @@ describe('VAOS selectors', () => {
       );
       expect(pageInfo.data).to.equal(state.newAppointment.data);
       expect(pageInfo.schema).to.equal(state.newAppointment.pages.clinicChoice);
-      expect(pageInfo.typeOfCare).to.deep.equal({
+      expect(pageInfo.typeOfCare).to.deep.contain({
         id: '323',
         ccId: 'CCPRMYRTNE',
         group: 'primary',

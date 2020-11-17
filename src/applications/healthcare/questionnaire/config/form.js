@@ -30,6 +30,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     messages: {
+      inProgress: '',
       expired:
         'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
       saved: 'Your questionnaire has been saved.',
@@ -83,11 +84,11 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Prepare for your visit',
+      title: 'Prepare for Your Appointment',
       pages: {
         reasonForVisit: {
           path: 'reason-for-visit',
-          title: 'Prepare for your visit',
+          title: 'Prepare for Your Appointment',
           uiSchema: {
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
@@ -122,6 +123,7 @@ const formConfig = {
                 },
               },
               'ui:options': {
+                doNotScroll: true,
                 keepInPageOnReview: true,
                 itemName: 'question',
                 viewField: formData => {
