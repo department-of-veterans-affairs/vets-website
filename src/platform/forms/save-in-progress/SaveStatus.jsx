@@ -18,7 +18,7 @@ function SaveStatus({
   let savedAtMessage;
   if (lastSavedDate) {
     const savedAt = moment(lastSavedDate);
-    savedAtMessage = ` Last saved at ${savedAt.format(
+    savedAtMessage = ` It was last saved on ${savedAt.format(
       'MMM D, YYYY [at] h:mm a',
     )}`;
   } else {
@@ -29,7 +29,7 @@ function SaveStatus({
   const formIdMessage =
     formId && savedAtMessage ? (
       <div className="vads-u-margin-left--3">
-        Your application ID is: <strong>{formId}</strong>
+        Your application ID number is <strong>{formId}</strong>
       </div>
     ) : null;
 
