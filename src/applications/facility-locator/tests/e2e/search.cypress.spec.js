@@ -28,6 +28,17 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('#service-type-dropdown').should('not.have', 'disabled');
 });
 
+Cypress.Commands.add('verifySearchArea', () => {
+  cy.get('.mapboxgl-canvas').swipe(
+    [[310, 300], [310, 320], [310, 340], [310, 360], [310, 380]],
+    [[50, 300], [50, 320], [50, 340], [50, 360], [50, 380]],
+  );
+  cy.get('#mapbox-gl-container').click({ waitForAnimations: true });
+  cy.get('#search-area-control').should('exist');
+  cy.get('#search-area-control').click();
+  cy.get('.current-pos-pin').should('exist');
+});
+
 describe('Facility search', () => {
   before(() => {
     cy.syncFixtures({
@@ -214,6 +225,7 @@ describe('Facility search', () => {
 
     cy.get('.facility-result h3').contains('CVS');
     cy.get('.va-pagination').should('not.exist');
+    cy.verifySearchArea();
   });
 
   it('should recover search from an error response state - invalid input location', () => {
