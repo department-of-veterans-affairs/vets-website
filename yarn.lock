@@ -1282,16 +1282,17 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@5.8.0":
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.8.0.tgz#5b37873bf8b46a7d8bec7530b798ba17db1eb39a"
-  integrity sha512-0GAqGtNHFIXHu6CstADr0CmSjxqP8cP+b/dJLLk56+0/O8eL3YJ32dJiwLjz1gKV3BGv+irByuMfUu4ce3kT8Q==
+"@department-of-veterans-affairs/formation-react@5.9.0":
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.9.0.tgz#aa9e3e6b1e8947df168fc3a1b6eccd00fa9e80a2"
+  integrity sha512-qdanv/4WTJkDkA+FR/XOgHWeOxAqWqqVYQUvnLJI7/LSD559wpPM50gp2VBEoVmAA+odtXNGmyJ94Oedy3Ajmw==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
     moment "^2.23.0"
     prop-types "^15.6.2"
     react-focus-lock "^2.4.0"
+    react-scroll "^1.7.16"
     react-transition-group "1"
 
 "@department-of-veterans-affairs/formation@6.10.1":
@@ -15096,6 +15097,14 @@ react-scroll@1.7.10:
   dependencies:
     lodash.throttle "^4.1.1"
     prop-types "^15.5.8"
+
+react-scroll@^1.7.16:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.8.1.tgz#eb4052265f1606cf60855c981ebcfed1bc3beff3"
+  integrity sha512-UAKmawFHn+c7x/DoXuHqOsQ5xwNk2Dxv7vP8Ft41K2hglPWkshcSos0tMTr8704UkFqImoUGzMTdN4vuZXoqbw==
+  dependencies:
+    lodash.throttle "^4.1.1"
+    prop-types "^15.7.2"
 
 react-tabs@^3.1.1:
   version "3.1.1"
