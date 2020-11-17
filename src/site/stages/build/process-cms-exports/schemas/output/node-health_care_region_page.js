@@ -115,6 +115,7 @@ module.exports = {
       $ref: 'output/paragraph-list_of_link_teasers',
     },
     fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
+    fieldMedia: { $ref: 'Media' },
     reverseFieldRegionPageNode: {
       type: 'object',
       properties: {

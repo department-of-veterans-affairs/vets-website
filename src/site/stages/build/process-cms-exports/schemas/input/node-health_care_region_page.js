@@ -38,6 +38,7 @@ module.exports = {
     field_operating_status: socialMediaLinkSchema,
     reverse_field_region_page: { $ref: 'EntityReferenceArray' },
     reverse_field_office: { $ref: 'EntityReferenceArray' },
+    field_media: { $ref: 'EntityReferenceArray' },
   },
   required: [
     'title',
@@ -52,5 +53,6 @@ module.exports = {
     'field_operating_status',
     'reverse_field_region_page',
     'reverse_field_office',
+    'field_media',
   ],
 };
