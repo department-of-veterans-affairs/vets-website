@@ -15,6 +15,7 @@ describe('reducer', () => {
       page: 1,
       perPage: 10,
       results: undefined,
+      scopes: {},
       totalResults: undefined,
     });
   });
@@ -36,6 +37,7 @@ describe('reducer', () => {
       page: 1,
       perPage: 10,
       results: undefined,
+      scopes: {},
       totalResults: undefined,
     });
   });
@@ -49,6 +51,6 @@ describe('reducer', () => {
     const state = thirdPartyAppsReducer(initialState, action);
 
     expect(state.fetching).to.be.false;
-    expect(state.results).to.be.instanceOf(Array);
+    expect(state.results).to.be.instanceOf(Object);
   });
 });

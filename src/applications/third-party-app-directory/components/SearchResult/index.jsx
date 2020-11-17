@@ -103,6 +103,32 @@ export class SearchResult extends Component {
               </>
             )}
 
+            {/* Legal Links */}
+            <br />
+            <a
+              href={item?.privacy_url}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              View the privacy policy
+            </a>
+            <a
+              className="vads-u-margin-top--1"
+              href={item?.tos_url}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              View terms of service
+            </a>
+            <a
+              className="vads-u-margin-top--1"
+              href={`mailto:api@va.gov?subject=Report ${item?.name} to VA`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Report this app to VA
+            </a>
+
             {/* Permissions */}
             {!isEmpty(scopes) && (
               <>
@@ -126,33 +152,6 @@ export class SearchResult extends Component {
                 </ol>
               </>
             )}
-
-            {/* Legal Links */}
-            <h4>More information:</h4>
-            <a
-              href={item?.privacy_url}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              View privacy policy
-            </a>
-            <a
-              className="vads-u-margin-top--1"
-              href={item?.tos_url}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              View terms of service
-            </a>
-            <a
-              className="vads-u-margin-top--1"
-              href={encodeURIComponent(
-                `mailto:api@va.gov?subject=Report ${item?.name} to VA`,
-              )}
-              rel="noopener noreferrer"
-            >
-              Report this app to VA
-            </a>
           </>
         )}
       </li>
