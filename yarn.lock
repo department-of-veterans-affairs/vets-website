@@ -5353,6 +5353,11 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+cy-mobile-commands@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/cy-mobile-commands/-/cy-mobile-commands-0.2.1.tgz#6fde8eaa0c067e806f0348adce5c1baaa5b947a9"
+  integrity sha512-qIY1Wvmr4G9RjSiLdcuGZkhcDYKk8GU94ghVvxcKDD8c9HEPH8rztDRupgQNfdT5sGttgo9frq/4OKuSl/L5pw==
+
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"

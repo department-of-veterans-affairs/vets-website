@@ -22,7 +22,7 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#react-tabs-2').click();
 
   // Ensure map is visible
-  cy.get('#map-id').should('be.visible');
+  cy.get('#mapbox-gl-container').should('be.visible');
 
   // Pin
   cy.get('.i-pin-card-map')
