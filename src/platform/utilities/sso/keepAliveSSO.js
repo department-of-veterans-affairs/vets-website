@@ -13,13 +13,15 @@ export default async function keepAlive() {
   // session or not
   try {
     const resp = await fetch(ssoKeepAliveEndpoint(), {
-      method: 'GET',
+      method: 'HEAD',
       credentials: 'include',
       cache: 'no-store',
     });
-    const alive = resp.headers.get('session-alive') === 'true';
+
+    const alive = resp.headers.get('session-alive');
+
     return {
-      ttl: alive ? Number(resp.headers.get('session-timeout')) : 0,
+      ttl: alive === 'true' ? Number(resp.headers.get('session-timeout')) : 0,
       transactionid: resp.headers.get('va_eauth_transactionid'),
       // for DSLogon or mhv, use a mapped authn context value, however for
       // idme, we need to use the provided authncontextclassref as it could be

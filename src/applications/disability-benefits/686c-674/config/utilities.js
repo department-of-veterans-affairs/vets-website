@@ -79,6 +79,7 @@ const {
   reportChildStoppedAttendingSchool,
   reportStepchildNotInHousehold,
   report674,
+  householdIncome,
 } = fullSchema.properties;
 
 export {
@@ -93,6 +94,7 @@ export {
   reportChildStoppedAttendingSchool,
   reportStepchildNotInHousehold,
   report674,
+  householdIncome,
   isServerError,
   isClientError,
 };
