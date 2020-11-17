@@ -8,7 +8,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
   const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
   const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
-  const hasPrimary = formData['view:hasPrimaryCaregiverView'];
+  const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
 

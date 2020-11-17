@@ -31,7 +31,8 @@ export const medicalCentersByState = mapValues(
 
 // transforms forData to match fullSchema structure for backend submission
 export const submitTransform = (formConfig, form) => {
-  // checks for optional chapters using ssnOrTin
+  const hasPrimary = form.data['view:hasPrimaryCaregiver'] ? 'primary' : null;
+
   const hasSecondaryOne = form.data['view:hasSecondaryCaregiverOne']
     ? 'secondaryOne'
     : null;
@@ -104,7 +105,7 @@ export const submitTransform = (formConfig, form) => {
     ...form,
     data: {
       ...buildChapterSortedObject(form.data, 'veteran'),
-      ...buildChapterSortedObject(form.data, 'primary'),
+      ...buildChapterSortedObject(form.data, hasPrimary),
       ...buildChapterSortedObject(form.data, hasSecondaryOne),
       ...buildChapterSortedObject(form.data, hasSecondaryTwo),
     },
