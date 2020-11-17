@@ -22,7 +22,7 @@ const submitForm = (form, formConfig) => {
   };
   return submitToUrl(body, submitUrl, trackingPrefix, eventData).catch(() => {
     recordEvent({
-      event: `${trackingPrefix}-submission-failure`,
+      event: `${trackingPrefix}-submission-failed`,
       ...eventData,
     });
   });
