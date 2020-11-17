@@ -17,8 +17,6 @@ export class ThirdPartyAppList extends Component {
     error: PropTypes.string.isRequired,
     fetching: PropTypes.bool.isRequired,
     results: PropTypes.arrayOf(SearchResultPropTypes),
-    page: PropTypes.number.isRequired,
-    perPage: PropTypes.number.isRequired,
     scopes: PropTypes.object.isRequired,
     totalResults: PropTypes.number,
   };
@@ -31,7 +29,7 @@ export class ThirdPartyAppList extends Component {
     }
   }
   componentDidMount() {
-    this.props.fetchResults({});
+    this.props.fetchResults();
   }
 
   render() {
@@ -90,14 +88,12 @@ const mapStateToProps = state => ({
   error: state.thirdPartyAppsReducer.error,
   fetching: state.thirdPartyAppsReducer.fetching,
   results: state.thirdPartyAppsReducer.results,
-  page: state.thirdPartyAppsReducer.page,
-  perPage: state.thirdPartyAppsReducer.perPage,
   scopes: state.thirdPartyAppsReducer.scopes,
   totalResults: state.thirdPartyAppsReducer.totalResults,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchResults: options => fetchResultsThunk(options)(dispatch),
+  fetchResults: () => fetchResultsThunk()(dispatch),
 });
 
 export default connect(

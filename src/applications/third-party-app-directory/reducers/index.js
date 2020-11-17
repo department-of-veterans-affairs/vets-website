@@ -13,8 +13,6 @@ import {
 const initialState = {
   error: '',
   fetching: false,
-  page: 1,
-  perPage: 10,
   results: undefined,
   scopes: {},
   totalResults: undefined,
@@ -27,7 +25,6 @@ export const thirdPartyAppsReducer = (state = initialState, action) => {
         ...state,
         error: '',
         fetching: !action?.options?.hideFetchingState,
-        page: action?.options?.page || state?.page,
       };
     }
     case FETCH_RESULTS_FAILURE: {

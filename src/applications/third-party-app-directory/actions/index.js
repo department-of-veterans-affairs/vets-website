@@ -54,13 +54,11 @@ export const fetchScopesSuccess = (response, scopeCategory) => ({
 // ============
 // Redux Thunks
 // ============
-export const fetchResultsThunk = options => async dispatch => {
-  const { hideFetchingState } = options;
-
+export const fetchResultsThunk = () => async dispatch => {
   // Change the `fetching` state in our store.
   dispatch(
     fetchResultsAction({
-      hideFetchingState,
+      hideFetchingState: true,
     }),
   );
 
