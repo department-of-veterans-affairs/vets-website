@@ -299,12 +299,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Your earliest appointment time',
-      }),
-    ).to.be.ok;
+    expect(screen.findByText('Your earliest appointment time')).to.be.ok;
 
     // 2. Simulate user selecting a date
     let button = screen.getByLabelText(
