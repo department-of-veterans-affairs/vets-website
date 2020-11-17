@@ -161,7 +161,6 @@ const formConfig = {
         secondaryCaregiverOneIntro: {
           path: 'secondary-one-1',
           title: 'Secondary Family Caregiver information',
-
           uiSchema: hasSecondaryCaregiverPage.uiSchema,
           schema: hasSecondaryCaregiverPage.schema,
         },

@@ -124,12 +124,11 @@ export const hasPrimaryCaregiver = formData => {
 };
 
 export const hasSecondaryCaregiverOne = formData =>
-  formData[primaryCaregiverFields.hasSecondaryCaregiverOneView] === true;
+  formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === true;
 
 export const hasSecondaryCaregiverTwo = formData =>
-  formData[
-    secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwoView
-  ] === true;
+  formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwo] ===
+  true;
 
 const isSSNUnique = formData => {
   const {

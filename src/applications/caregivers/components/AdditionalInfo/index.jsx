@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import { links } from 'applications/caregivers/definitions/content';
 
 export const VeteranSSNInfo = () => (
@@ -184,3 +188,14 @@ export const AdditionalCaregiverInfo = () => (
     <p>Would you like to add another Secondary Family Caregiver?</p>
   </>
 );
+
+export const SecondaryRequiredAlert = () => {
+  return (
+    <AlertBox
+      headline="We need you to add a Family Caregiver"
+      content="We can't pass your application unless you add to at least 1 Family Caregiver. Please go back and add a Primary or Secondary Family Caregiver to your application."
+      status={ALERT_TYPE.ERROR}
+      isVisible
+    />
+  );
+};

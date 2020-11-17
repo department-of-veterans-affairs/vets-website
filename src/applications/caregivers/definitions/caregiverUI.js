@@ -11,6 +11,7 @@ import {
   AdditionalCaregiverInfo,
   VeteranSSNInfo,
   SecondaryCaregiverInfo,
+  SecondaryRequiredAlert,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
@@ -106,8 +107,16 @@ export default {
     },
     hasSecondaryCaregiverTwoUI: {
       'ui:title': ' ',
-      'ui:description': AdditionalCaregiverInfo(),
+      'ui:description': AdditionalCaregiverInfo,
       'ui:widget': 'yesNo',
+    },
+    secondaryRequiredAlert: {
+      'ui:title': ' ',
+      'ui:widget': SecondaryRequiredAlert,
+      'ui:options': {
+        expandUnder: 'view:hasSecondaryCaregiverOne',
+        expandUnderCondition: field => field === false,
+      },
     },
   },
   vetUI: {
