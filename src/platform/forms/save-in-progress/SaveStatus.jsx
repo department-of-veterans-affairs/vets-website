@@ -28,9 +28,10 @@ function SaveStatus({
   const formId = loadedData?.metadata?.inProgressFormId;
   const formIdMessage =
     formId && savedAtMessage ? (
-      <div className="vads-u-margin-left--3">
+      <>
+        {' '}
         Your application ID number is <strong>{formId}</strong>
-      </div>
+      </>
     ) : null;
 
   const hasError =
@@ -46,11 +47,13 @@ function SaveStatus({
   return (
     <div>
       {autoSavedStatus === SAVE_STATUSES.success && (
-        <div className="panel saved-success-container">
-          <i className="fa fa-check-circle saved-success-icon" />
-          {appSavedSuccessfullyMessage}
-          {savedAtMessage}
-          {formIdMessage}
+        <div className="panel saved-success-container vads-u-display--flex">
+          <i className="fa fa-check-circle saved-success-icon vads-u-margin-top--0p5" />
+          <div>
+            {appSavedSuccessfullyMessage}
+            {savedAtMessage}
+            {formIdMessage}
+          </div>
         </div>
       )}
       {autoSavedStatus === SAVE_STATUSES.pending && (
