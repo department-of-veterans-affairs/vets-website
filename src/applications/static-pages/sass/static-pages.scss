@@ -96,6 +96,9 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   width: 100%;
   &.va-top-button-container-relative {
     position: relative;
+    .vsa-top-button {
+      bottom: 6px;
+    }
   }
 
   .usa-width-three-fourths.va-top-button-container-relative {
@@ -108,6 +111,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
   .vsa-top-button {
     bottom: 0;
+    background-color: $color-gray-dark;
     margin: 0;
     opacity: 0;
     pointer-events: none;
@@ -115,6 +119,9 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     transition: all 250ms ease-in;
     right: 0;
     width: auto;
+    &:hover {
+      background-color: $color-black;
+    }
     &.va-top-button-transition-in {
       pointer-events: all;
       opacity: 1;
@@ -126,6 +133,21 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
     &.va-top-button-transition-reset {
       transform: translateY(0px);
+    }
+    i {
+      font-size: 24px;
+    }
+    @include media-maxwidth($small-screen) {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+    @include media-maxwidth($small-desktop-screen) {
+      align-items: center;
+      display: flex;
+      height: 44px;
+      justify-content: center;
+      padding: 0;
+      width: 44px;
     }
   }
 }
