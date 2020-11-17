@@ -90,7 +90,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     expect(
       screen.getByRole('heading', {
-        level: 2,
+        level: 3,
         name: 'Your earliest appointment time',
       }),
     ).to.be.ok;
