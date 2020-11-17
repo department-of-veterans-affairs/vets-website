@@ -105,6 +105,21 @@ export default {
       'ui:widget': 'yesNo',
       'ui:required': formData =>
         !formData[primaryCaregiverFields.hasPrimaryCaregiver],
+      'ui:validations': [
+        {
+          validator: (errors, fieldData, formData) => {
+            const hasPrimary =
+              formData[primaryCaregiverFields.hasPrimaryCaregiver];
+            const hasSecondary =
+              formData[primaryCaregiverFields.hasSecondaryCaregiverOne];
+            const hasCaregiver = hasPrimary || hasSecondary;
+
+            if (!hasCaregiver) {
+              errors.addError(' ');
+            }
+          },
+        },
+      ],
     },
     secondaryRequiredAlert: {
       'ui:title': ' ',
@@ -220,10 +235,10 @@ export const confirmationEmailUI = (label, dataConstant) => ({
   'ui:validations': [
     {
       validator: (errors, fieldData, formData) => {
-        const emailMatcher = () =>
+        const doesEmailMatch = () =>
           formData[dataConstant] === formData[`view:${dataConstant}`];
-        const doesEmailMatch = emailMatcher();
-        if (!doesEmailMatch) {
+
+        if (!doesEmailMatch()) {
           errors.addError(
             'This email does not match your previously entered email',
           );
