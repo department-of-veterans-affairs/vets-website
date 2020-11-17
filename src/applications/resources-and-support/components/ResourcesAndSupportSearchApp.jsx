@@ -35,6 +35,8 @@ const ResourcesAndSupportSearchApp = () => {
       if (queryFromUrl) {
         setUserInput(queryFromUrl);
         setQuery(queryFromUrl);
+      } else {
+        window.location.replace('/resources/');
       }
     },
     [articles, setUserInput, setQuery],
