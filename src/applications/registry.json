@@ -918,7 +918,7 @@
     "entryName": "questionnaire-list",
     "rootUrl": "/healthcare/list",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html"
     }
   }
