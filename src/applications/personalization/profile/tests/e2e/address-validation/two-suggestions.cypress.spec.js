@@ -1,5 +1,4 @@
 import { setUp } from 'applications/personalization/profile/tests/e2e/address-validation/setup';
-import twoSuggestions from 'applications/personalization/profile/tests/fixtures/mailing-addresses/two-suggestions-2.js';
 
 describe('Personal and contact information', () => {
   describe('when entering a home address that has two suggestions', () => {
@@ -46,7 +45,8 @@ describe('Personal and contact information', () => {
       cy.wait('@finishedTransaction');
       cy.wait('@getUser');
 
-      cy.findByText('575 20th').should('exist');
+      cy.findByText(/575 20th St/i).should('exist');
+      cy.findByText(/San Francisco, CA 94107/i).should('exist');
     });
   });
 });
