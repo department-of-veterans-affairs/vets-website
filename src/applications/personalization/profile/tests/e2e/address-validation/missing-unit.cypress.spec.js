@@ -10,11 +10,11 @@ describe('Personal and contact information', () => {
         .type('225 irving st');
       cy.get('#root_addressLine2').clear();
 
-      cy.get('#root_city')
+      cy.findByLabelText(/City/i)
         .clear()
         .type('San Francisco');
       cy.get('#root_stateCode').select('CA');
-      cy.get('#root_zipCode')
+      cy.findByLabelText(/Zip code/i)
         .clear()
         .type('94122');
 

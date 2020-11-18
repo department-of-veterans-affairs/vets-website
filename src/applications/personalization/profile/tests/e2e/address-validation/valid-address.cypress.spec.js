@@ -11,11 +11,11 @@ describe('Personal and contact information', () => {
           .type('36320 Coronado Dr');
         cy.get('#root_addressLine2').clear();
 
-        cy.get('#root_city')
+        cy.findByLabelText(/City/i)
           .clear()
           .type('Fremont');
         cy.get('#root_stateCode').select('CA');
-        cy.get('#root_zipCode')
+        cy.findByLabelText(/Zip code/i)
           .clear()
           .type('94536');
 

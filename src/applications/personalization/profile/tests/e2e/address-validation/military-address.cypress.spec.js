@@ -14,10 +14,10 @@ describe('Personal and contact information', () => {
         .type('PSC 808 Box 37');
       cy.get('#root_addressLine2').clear();
 
-      cy.get('#root_city').select('FPO');
+      cy.findByLabelText(/City/i).select('FPO');
 
       cy.get('#root_stateCode').select('AE');
-      cy.get('#root_zipCode')
+      cy.findByLabelText(/Zip code/i)
         .clear()
         .type('09618');
 

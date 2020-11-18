@@ -259,7 +259,6 @@ export const createAddressValidationResponse = type => {
     };
   }
 
-  // NEED A SECOND ONE HERE
   if (type === 'two-suggestions') {
     return {
       addresses: [

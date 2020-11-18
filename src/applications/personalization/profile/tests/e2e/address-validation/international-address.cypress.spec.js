@@ -5,17 +5,17 @@ describe('Personal and contact information', () => {
     it('should successfully update on Desktop', () => {
       setUp('international');
 
-      cy.get('#root_countryCodeIso3').select('NLD');
+      cy.findByLabelText(/Country/i).select('NLD');
 
       cy.get('#root_addressLine1')
         .clear()
         .type('Dam 1');
       cy.get('#root_addressLine2').clear();
 
-      cy.get('#root_city')
+      cy.findByLabelText(/City/i)
         .clear()
         .type('Amsterdam');
-      cy.get('#root_internationalPostalCode')
+      cy.findByLabelText(/International postal code/i)
         .clear()
         .type('1012 JS');
 
