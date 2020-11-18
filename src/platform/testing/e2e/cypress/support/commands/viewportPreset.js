@@ -107,8 +107,7 @@ const isValidOptions = options => {
     typeof options === 'object' &&
     options !== null &&
     options.log &&
-    options.log === true ||
-    options.log === false
+    (options.log === true || options.log === false)
   );
 };
 
@@ -135,7 +134,9 @@ const setViewportHelper = (preset, orientation, options) => {
     !isValidOrientation(orientation) &&
     !isValidOptions(options)
   ) {
-    throw new Error(`${presetError} and ${orientationError} and ${optionsError}.`);
+    throw new Error(
+      `${presetError} and ${orientationError} and ${optionsError}.`,
+    );
   } else if (isValidPreset(preset) && isValidOrientation(orientation)) {
     throw new Error(`${optionsError}.`);
   } else if (isValidOrientation(orientation) && isValidOptions(options)) {
