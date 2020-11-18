@@ -28,13 +28,10 @@ export const directDepositAlert = () => (
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
   <div className="vads-u-padding-top--1p5" tabIndex="0">
     <p>
-      <b>Note:</b> Any bank account information you enter here will apply to
-      your other Veteran benefits, including compensation, pension, and Benefits
-      for Certain Children with Disabilities (Chapter 18) payments.
-    </p>
-    <p>
-      Information entered here won’t change your existing accounts for VA
-      education or health benefits.
+      <b>Note:</b> Any updates you make here will change your bank account
+      information for VA benefits, including disability compensation, pension,
+      and education. These updates won’t change your information for VA health
+      care.
     </p>
   </div>
 );
