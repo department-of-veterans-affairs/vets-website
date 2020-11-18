@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setDeductions } from '../actions';
+import moment from 'moment';
 
 const EmploymentRecord = ({
   registry,
@@ -18,10 +19,16 @@ const EmploymentRecord = ({
   const handleSave = e => {
     e.preventDefault();
     // console.log('save record');
+
+    // onClick
+    // - get EmploymentRecord data
+    // console.log('formData: ', formData);
+    // - hide EmploymentRecord
+    // - display reviewEmploymentRecord
   };
 
   return (
-    <>
+    <div className="employment-history-container">
       <div className="input-employment-type">
         <SchemaField
           schema={schema.properties.employmentType}
@@ -78,10 +85,10 @@ const EmploymentRecord = ({
         setData={setData}
         deductions={deductions}
       />
-      <button className="btn-save" onClick={e => handleSave(e)}>
+      <button className="btn-save usa-button-primary" onClick={handleSave}>
         Save
       </button>
-    </>
+    </div>
   );
 };
 
@@ -167,6 +174,30 @@ const PayrollDeductions = ({
   );
 };
 
+const EmploymentRecordReview = ({ formData }) => {
+  const handleEdit = e => {
+    e.preventDefault();
+    // console.log('formData: ', formData);
+  };
+
+  return (
+    <div className="employment-record-review">
+      <h3 className="review-tile">
+        {formData.employmentType} employment at {formData.employerName}
+      </h3>
+      <div className="review-sub-title">
+        {moment(formData.employmentStart).format('MMMM D, YYYY')} to Present
+      </div>
+      <div className="review-content">
+        <strong>Monthly net income:</strong> ${formData.monthlyIncome}
+      </div>
+      <button className="btn-edit usa-button-secondary" onClick={handleEdit}>
+        Edit
+      </button>
+    </div>
+  );
+};
+
 const EmploymentHistory = ({
   title,
   registry,
@@ -182,20 +213,18 @@ const EmploymentHistory = ({
   return (
     <>
       <div className="employment-history-title">{title}</div>
-      <div className="employment-history-container">
-        <EmploymentRecord
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          onBlur={onBlur}
-          onChange={onChange}
-          formData={formData}
-          setData={setData}
-          deductions={deductions}
-        />
-      </div>
-
+      <EmploymentRecordReview formData={formData} />
+      <EmploymentRecord
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        onBlur={onBlur}
+        onChange={onChange}
+        formData={formData}
+        setData={setData}
+        deductions={deductions}
+      />
       <div className="add-item-container">
         <div className="add-income-link-section">
           <i className="fas fa-plus plus-icon" />

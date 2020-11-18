@@ -19,6 +19,27 @@
 .employment-history-title {
   margin: 20px 0;
 }
+
+.employment-record-review {
+  display: flex;
+  flex-direction: column;
+  width: 575px;
+  background-color: #f1f1f1;
+  padding: 10px 30px 20px;
+  margin-bottom: 25px;
+  .review-title {
+  }
+  .review-sub-title {
+  }
+  .review-content {
+    margin: 10px 0;
+  }
+  .btn-edit {
+    max-width: fit-content;
+    background-color: #fff;
+  }
+}
+
 .employment-history-container {
   display: flex;
   flex-direction: column;
