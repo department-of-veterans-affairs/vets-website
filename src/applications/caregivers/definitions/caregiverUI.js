@@ -10,6 +10,7 @@ import {
   PleaseSelectVAFacility,
   AdditionalCaregiverInfo,
   VeteranSSNInfo,
+  PrimaryCaregiverInfo,
   SecondaryCaregiverInfo,
   SecondaryRequiredAlert,
 } from 'applications/caregivers/components/AdditionalInfo';
@@ -90,7 +91,7 @@ export default {
     }),
     hasPrimaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Primary Family Caregiver?',
-      'ui:description': SecondaryCaregiverInfo({
+      'ui:description': PrimaryCaregiverInfo({
         additionalInfo: true,
         headerInfo: false,
       }),
