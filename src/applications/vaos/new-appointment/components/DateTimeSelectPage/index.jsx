@@ -46,10 +46,6 @@ export function getOptionsByDate(
   }, []);
 }
 
-function startRequestFlow({ requestAppointmentDateChoice, history }) {
-  return requestAppointmentDateChoice(history);
-}
-
 function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
   return (
     <div aria-atomic="true" aria-live="assertive">
@@ -59,9 +55,7 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
       >
         To schedule this appointment, you can{' '}
         <button
-          onClick={() =>
-            startRequestFlow({ requestAppointmentDateChoice, history })
-          }
+          onClick={() => requestAppointmentDateChoice(history)}
           className="va-button-link"
         >
           submit a request for a VA appointment
@@ -138,23 +132,20 @@ export function DateTimeSelectPage({
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
 
-  useEffect(
-    () => {
-      getAppointmentSlots(
-        moment(preferredDate)
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment(preferredDate)
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-        true,
-      );
-      document.title = `${pageTitle} | Veterans Affairs`;
-      scrollAndFocus();
-    },
-    [getAppointmentSlots, preferredDate],
-  );
+  useEffect(() => {
+    getAppointmentSlots(
+      moment(preferredDate)
+        .startOf('month')
+        .format('YYYY-MM-DD'),
+      moment(preferredDate)
+        .add(1, 'months')
+        .endOf('month')
+        .format('YYYY-MM-DD'),
+      true,
+    );
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+  }, []);
 
   useEffect(
     () => {
@@ -209,9 +200,7 @@ export function DateTimeSelectPage({
         loadingErrorMessage={
           <ErrorMessage
             facilityId={facilityId}
-            startRequestFlow={() =>
-              startRequestFlow({ requestAppointmentDateChoice, history })
-            }
+            requestAppointmentDateChoice={requestAppointmentDateChoice}
           />
         }
         onChange={newData => {

@@ -197,7 +197,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[0]);
 
       // 2. Simulate user selecting AM
-      let checkbox = await screen.getByRole('checkbox', {
+      let checkbox = await screen.findByRole('checkbox', {
         name: 'AM appointment',
       });
       userEvent.click(checkbox);
@@ -206,7 +206,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[1]);
 
       // 3. Simulate user selecting PM
-      checkbox = await screen.getByRole('checkbox', {
+      checkbox = await screen.findByRole('checkbox', {
         name: 'PM appointment',
       });
       userEvent.click(checkbox);
@@ -215,7 +215,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[2]);
 
       // 5. Simulate user selecting AM
-      checkbox = await screen.getByRole('checkbox', {
+      checkbox = await screen.findByRole('checkbox', {
         name: 'AM appointment',
       });
       userEvent.click(checkbox);
@@ -224,7 +224,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[3]);
 
       // 7. Simulate user selecting PM which should result in error
-      checkbox = await screen.getByRole('checkbox', {
+      checkbox = await screen.findByRole('checkbox', {
         name: 'PM appointment',
       });
       userEvent.click(checkbox);
@@ -235,11 +235,11 @@ describe('VAOS <DateTimeRequestPage>', () => {
 
       // NOTE: alert doesn't have a name so search for text too
       await waitFor(() => {
-        expect(screen.getByRole('alert')).to.be.ok;
+        expect(screen.findByRole('alert')).to.be.ok;
       });
       expect(screen.getByText(/You can select up to three dates./i)).to.be.ok;
     });
-    // start of new error
+
     it('should display an alert when user selects 2 dates and multiple times', async () => {
       const store = createTestStore({
         newAppointment: {

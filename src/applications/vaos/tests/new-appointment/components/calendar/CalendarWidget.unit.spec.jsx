@@ -174,7 +174,7 @@ describe('VAOS <CalendarWidget>', () => {
       buttons = tree.find(
         'button.vaos-calendar__calendar-day-button[disabled=false]',
       );
-      // expect(buttons.exists()).to.be.true;
+      expect(buttons.exists()).to.be.true;
       expect(buttons.length).to.be.gt(0);
     });
 

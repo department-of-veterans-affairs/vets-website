@@ -41,10 +41,6 @@ function userSelectedSlot(calendarData) {
   return calendarData?.selectedDates?.length > 0;
 }
 
-function goBack({ routeToPreviousAppointmentPage, history }) {
-  return routeToPreviousAppointmentPage(history, pageKey);
-}
-
 function exceededMaxSelections(calendarData) {
   return calendarData?.selectedDates?.length > maxSelections;
 }
@@ -150,7 +146,7 @@ export function DateTimeRequestPage({
         }
       />
       <FormButtons
-        onBack={() => goBack({ routeToPreviousAppointmentPage, history })}
+        onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
         onSubmit={() =>
           goForward({
             data,
