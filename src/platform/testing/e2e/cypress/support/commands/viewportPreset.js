@@ -107,7 +107,8 @@ const isValidOptions = options => {
     typeof options === 'object' &&
     options !== null &&
     options.log &&
-    (options.log === true || options.log === false)
+    options.log === true ||
+    options.log === false
   );
 };
 
@@ -129,18 +130,24 @@ const setViewportHelper = (preset, orientation, options) => {
     orientation === 'portrait'
       ? cy.viewport(width, height, options)
       : cy.viewport(height, width, options);
+  } else if (
+    !isValidPreset(preset) &&
+    !isValidOrientation(orientation) &&
+    !isValidOptions(options)
+  ) {
+    throw new Error(`${presetError} and ${orientationError} and ${optionsError}.`);
   } else if (isValidPreset(preset) && isValidOrientation(orientation)) {
-    throw new Error(`${optionsError}`);
+    throw new Error(`${optionsError}.`);
   } else if (isValidOrientation(orientation) && isValidOptions(options)) {
-    throw new Error(`${presetError}`);
+    throw new Error(`${presetError}.`);
   } else if (isValidPreset(preset) && isValidOptions(options)) {
-    throw new Error(`${orientationError}`);
+    throw new Error(`${orientationError}.`);
   } else if (isValidPreset(preset)) {
-    throw new Error(`${orientationError} and ${optionsError}`);
+    throw new Error(`${orientationError} and ${optionsError}.`);
   } else if (isValidOrientation(orientation)) {
-    throw new Error(`${presetError} and ${optionsError}`);
+    throw new Error(`${presetError} and ${optionsError}.`);
   } else {
-    throw new Error(`${presetError} and ${orientationError}`);
+    throw new Error(`${presetError} and ${orientationError}.`);
   }
 };
 
