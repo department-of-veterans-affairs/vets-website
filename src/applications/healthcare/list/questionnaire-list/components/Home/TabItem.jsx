@@ -19,24 +19,26 @@ export default function TabItem(props) {
   };
 
   const tabClasses = classNames(
+    'questionnaire-list-tab',
     'vads-u-text-align--center',
     'vads-u-color--gray-dark',
   );
 
   return (
-    <li role="presentation" className="questionnaire-list-tab">
+    <li role="presentation" className="">
       <NavLink
         id={`tab_${id}`}
         aria-controls={isActive ? `tabpanel${id}` : null}
-        aria-label={`${id.replace(/-/g, ' ')} appointments`}
+        aria-label={``}
         aria-selected={isActive ? 'true' : 'false'}
         role="tab"
         className={tabClasses}
         tabIndex={isActive ? null : '-1'}
         onKeyDown={onKeyDown}
-        activeClassName=""
+        activeClassName="current"
         to={tabPath}
         exact
+        isActive={() => isActive}
         onClick={() => {
           recordEvent({
             event: 'questionnaire-nav-tab-click',
