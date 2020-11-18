@@ -53,8 +53,8 @@ export const VeteranInformation = ({
           formData.contestedIssues || []
         ).every(
           (issue, index) =>
-            contestedIssues[index].ratingIssueReferenceId ===
-            issue.ratingIssueReferenceId,
+            contestedIssues[index]?.ratingIssueReferenceId ===
+            issue?.ratingIssueReferenceId,
         );
 
         if (

@@ -1,12 +1,10 @@
 // Node modules.
 import { expect } from 'chai';
-import sinon from 'sinon';
 // Relative imports.
 import {
   fetchResultsAction,
   fetchResultsFailure,
   fetchResultsSuccess,
-  fetchResultsThunk,
 } from './index';
 import {
   FETCH_RESULTS,
@@ -54,54 +52,6 @@ describe('Actions', () => {
         response,
         type: FETCH_RESULTS_SUCCESS,
       });
-    });
-  });
-
-  describe('fetchResultsThunk', () => {
-    let mockedLocation;
-    let mockedHistory;
-
-    beforeEach(() => {
-      mockedLocation = {
-        search: '',
-        pathname: '',
-      };
-
-      mockedHistory = {
-        replaceState: sinon.stub(),
-      };
-    });
-
-    it('calls dispatch', async () => {
-      const dispatch = sinon.stub();
-      const thunk = fetchResultsThunk({
-        category: 'Health',
-        platform: 'iOS',
-        hideFetchingState: false,
-        history: mockedHistory,
-        location: mockedLocation,
-        mockRequest: true,
-        page: 1,
-        perPage: 10,
-      });
-
-      await thunk(dispatch);
-
-      expect(
-        dispatch.firstCall.calledWith({
-          options: {
-            hideFetchingState: false,
-            page: 1,
-          },
-          type: FETCH_RESULTS,
-        }),
-      ).to.be.true;
-
-      const secondCallAction = dispatch.secondCall.args[0];
-      expect(secondCallAction.type).to.be.oneOf([
-        FETCH_RESULTS_SUCCESS,
-        FETCH_RESULTS_FAILURE,
-      ]);
     });
   });
 });
