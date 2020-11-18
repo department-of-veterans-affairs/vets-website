@@ -1,4 +1,5 @@
 const moment = require('moment');
+const { getImageCrop } = require('./helpers');
 const {
   getDrupalValue,
   getWysiwygString,
@@ -28,6 +29,7 @@ const transform = ({
   fieldLinkFacilityEmergList,
   reverseFieldRegionPage,
   reverseFieldOffice,
+  fieldMedia,
 }) => ({
   entityType: 'node',
   entityBundle: 'health_care_region_page',
@@ -39,6 +41,10 @@ const transform = ({
   fieldOperatingStatus: fieldOperatingStatus[0]
     ? getSocialMediaObject(fieldOperatingStatus[0])
     : null,
+  fieldMedia:
+    fieldMedia && fieldMedia.length
+      ? { entity: getImageCrop(fieldMedia[0], '_72MEDIUMTHUMBNAIL') }
+      : null,
   fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
   fieldLinkFacilityEmergList:
     fieldLinkFacilityEmergList && fieldLinkFacilityEmergList[0]
@@ -321,6 +327,7 @@ module.exports = {
     'field_govdelivery_id_emerg',
     'field_govdelivery_id_news',
     'field_link_facility_emerg_list',
+    'field_media',
     'field_nickname_for_this_facility',
     'field_operating_status',
     'field_press_release_blurb',
