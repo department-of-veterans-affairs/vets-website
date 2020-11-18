@@ -52,5 +52,29 @@ describe('Direct deposit definition', () => {
       'I don’t want to use direct deposit',
     ]));
 
-  it('should render optional fields with supplied schema and uiSchema', () => {});
+  it('should return optional fields with supplied schema and uiSchema', () => {
+    const bankNameSchema = { schema: 'bankName' };
+    const bankNameUiSchema = { uiSchema: 'bankName' };
+    const declineDirectDepositSchema = { schema: 'declineDirectDeposit' };
+    const declineDirectDepositUiSchema = { uiSchema: 'declineDirectDeposit' };
+
+    const { schema, uiSchema } = getSchemas({
+      bankName: { schema: bankNameSchema, uiSchema: bankNameUiSchema },
+      declineDirectDeposit: {
+        schema: declineDirectDepositSchema,
+        uiSchema: declineDirectDepositUiSchema,
+      },
+    });
+
+    // Compare schemas
+    expect(schema.properties.bankAccount.properties.bankName).to.eql(
+      bankNameSchema,
+    );
+    expect(schema.properties.declineDirectDeposit).to.eql(
+      declineDirectDepositSchema,
+    );
+    // Compare uiSchemas
+    expect(uiSchema.declineDirectDeposit).to.eql(declineDirectDepositUiSchema);
+    expect(uiSchema.bankAccount.bankName).to.eql(bankNameUiSchema);
+  });
 });
