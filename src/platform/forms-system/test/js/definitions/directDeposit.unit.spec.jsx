@@ -26,7 +26,19 @@ describe('Direct deposit definition', () => {
     ]);
   });
 
-  it('should render one optional fields in the correct order', () => {});
+  it('should render bankName', () => {
+    const { schema, uiSchema } = getSchemas({ bankName: true });
+    const form = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+    );
+
+    expect(getFieldNames(form)).to.eql([
+      'Account type',
+      'Bank name',
+      'Bank routing number',
+      'Bank account number',
+    ]);
+  });
 
   it('should render all optional fields in the correct order', () => {});
 
