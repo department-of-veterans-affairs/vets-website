@@ -116,6 +116,7 @@ export default {
             const hasCaregiver = hasPrimary || hasSecondary;
 
             if (!hasCaregiver) {
+              // We are adding a blank error to disable the ability to continue the form but not displaying the error text its self
               errors.addError(' ');
             }
           },

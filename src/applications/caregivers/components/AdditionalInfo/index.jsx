@@ -193,7 +193,7 @@ export const SecondaryRequiredAlert = () => {
   return (
     <AlertBox
       headline="We need you to add a Family Caregiver"
-      content="We can't process your application unless you add a Family Caregiver. Please go back and add a Primary or Secondary Family Caregiver to your application."
+      content="We can’t process your application unless you add a Family Caregiver. Please go back and add either a Primary or Secondary Family Caregiver to your application."
       status={ALERT_TYPE.ERROR}
       isVisible
     />
