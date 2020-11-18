@@ -69,25 +69,16 @@ const uiSchema = optionalFields => {
     },
   };
 
-  // Add optional fields
-  // If set to true, use the default uiSchema
+  // Override optional fields
+  // If set to true, just use the default uiSchema (already set above)
   // If it has a uiSchema property, use that
-  if (optionalFields.declineDirectDeposit) {
-    ui.properties.declineDirectDeposit = optionalFields.declineDirectDeposit
-      .uiSchema
-      ? optionalFields.declineDirectDeposit.uiSchema
-      : {
-          'ui:title': 'I don’t want to use direct deposit',
-          'ui:options': {
-            hideOnReviewIfFalse: true,
-          },
-        };
+  if (optionalFields.declineDirectDeposit?.uiSchema) {
+    ui.properties.declineDirectDeposit =
+      optionalFields.declineDirectDeposit.uiSchema;
   }
   // TODO: Update the ui:order
-  if (optionalFields.bankName) {
-    ui.properties.bankAccount.bankName = optionalFields.bankName.uiSchema
-      ? optionalFields.bankName.uiSchema
-      : { 'ui:title': 'Bank name' };
+  if (optionalFields.bankName?.uiSchema) {
+    ui.properties.bankAccount.bankName = optionalFields.bankName.uiSchema;
   }
 
   return ui;
