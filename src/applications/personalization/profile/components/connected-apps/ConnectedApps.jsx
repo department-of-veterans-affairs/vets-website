@@ -150,7 +150,11 @@ export class ConnectedApps extends Component {
             <AdditionalInfo
               triggerText={`What other third-party apps can I connect to my profile?`}
             >
-              To find out what other third-party apps are available to connect to your profile, {' '}<a href="/resources/find-apps-you-can-use">go to the app directory</a>
+              To find out what other third-party apps are available to connect
+              to your profile,{' '}
+              <a href="/resources/find-apps-you-can-use">
+                go to the app directory
+              </a>
             </AdditionalInfo>
           </div>
         )}
