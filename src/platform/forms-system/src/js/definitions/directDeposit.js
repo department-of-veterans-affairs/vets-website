@@ -22,11 +22,14 @@ const uiSchema = optionalFields => {
   const ui = {
     'ui:title': 'Direct deposit',
     'ui:description': directDepositDescription,
+    'ui:order': [
+      'bankAccount',
+      'declineDirectDeposit',
+      'view:directDespositInfo',
+      'view:bankInfoHelpText',
+    ],
     bankAccount: {
-      // NOTE: The ui:order is missing bankName on purpose; it's only added if
-      // the the optional field is desired because adding additional properties
-      // to the ui:order which don't exist in the schema will throw an error.
-      'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
+      'ui:order': ['accountType', 'bankName', 'routingNumber', 'accountNumber'],
       accountType: {
         ...bankAccountUI.accountType,
         'ui:required': useDirectDeposit,
@@ -69,22 +72,26 @@ const uiSchema = optionalFields => {
     },
   };
 
-  // Override optional fields
-  // If set to true, just use the default uiSchema (already set above)
-  // If it has a uiSchema property, use that
+  if (!optionalFields.declineDirectDeposit) {
+    // We're not using declineDirectDeposit; Remove the entry from ui:order so
+    // it doesn't error out
+    const i = ui['ui:order'].indexOf('declineDirectDeposit');
+    if (i !== -1) ui['ui:order'].splice(i, 1);
+  }
+  // Override the field's uiSchema if available
   if (optionalFields.declineDirectDeposit?.uiSchema) {
     ui.declineDirectDeposit = optionalFields.declineDirectDeposit.uiSchema;
   }
 
-  if (optionalFields.bankName) {
-    // Add to the ui:order after accountType if we're using bankName. Without
-    // adding it to the order, it'll throw an error.
-    ui.bankAccount['ui:order'].splice(1, 0, 'bankName');
-
-    // Override the field's uiSchema if available
-    if (optionalFields.bankName.uiSchema) {
-      ui.bankAccount.bankName = optionalFields.bankName.uiSchema;
-    }
+  if (!optionalFields.bankName) {
+    // We're not using bankName; Remove the entry from ui:order so
+    // it doesn't error out
+    const i = ui.bankAccount['ui:order'].indexOf('bankName');
+    if (i !== -1) ui.bankAccount['ui:order'].splice(i, 1);
+  }
+  // Override the field's uiSchema if available
+  if (optionalFields.bankName?.uiSchema) {
+    ui.bankAccount.bankName = optionalFields.bankName.uiSchema;
   }
 
   return ui;
@@ -110,6 +117,8 @@ const schema = optionalFields => {
           },
         },
       },
+      'view:directDespositInfo': { type: 'object', properties: {} },
+      'view:bankInfoHelpText': { type: 'object', properties: {} },
     },
   };
 
