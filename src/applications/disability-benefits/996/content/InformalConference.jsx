@@ -34,15 +34,15 @@ export const RepresentativeNameTitle = 'Representative’s name';
 
 export const RepresentativePhoneTitle = 'Representative’s phone number';
 
-export const InformalConferenceTimes = ({ isRep }) => (
-  <strong>
-    First, we’ll call
-    {isRep ? ' your representative' : ' you'} to schedule the informal
-    conference. Fill in the details below to indicate up to two time periods
-    during the day when {isRep ? 'your representative is' : 'you’re'} available
-    to receive that initial phone call.
-  </strong>
-);
+export const InformalConferenceTimes = ({ isRep }) => {
+  const contact = isRep ? ' your representative' : ' you';
+  return (
+    <strong>
+      We’ll call {contact} first to schedule the informal conference. Please
+      choose up to two time periods when it’s best to call {contact}.
+    </strong>
+  );
+};
 
 export const informalConferenceTimeAllLabels = {
   time0800to1000: '8:00 a.m. to 10:00 a.m. ET',
@@ -63,16 +63,17 @@ export const InformalConferenceAvailability = contact => (
 );
 
 export const AttemptsInfoAlert = ({ isRep }) => {
-  const contact = isRep ? 'your representative' : 'you';
+  const contact = isRep ? 'them' : 'you';
   return (
     <AlertBox
       status="info"
-      headline={`We’ll make two attempts to contact ${contact}`}
-      content={`VA personnel will try to call ${contact} by phone two
-        times. If no one answers, we’ll leave a voice mail and a callback
-        number. If we are unable to leave a message or get in touch with
-        ${contact} after two attempts, we’ll proceed with our review and
-        issue a decision.`}
+      headline={`We’ll make two attempts to call ${
+        isRep ? 'your representative' : 'you'
+      }`}
+      content={`If no one answers, we’ll leave a voice mail and a number for
+       ${contact} to return the call. If we aren’t able to leave a voice mail or
+       get in touch with ${contact} after two attempts, we’ll proceed with the
+       Higher-Level Review.`}
     />
   );
 };
