@@ -17,7 +17,7 @@ const EmploymentRecord = ({
 
   const handleSave = e => {
     e.preventDefault();
-    // console.log('save');
+    // console.log('save record');
   };
 
   return (
@@ -67,17 +67,6 @@ const EmploymentRecord = ({
           onChange={value => onChange({ ...formData, monthlyIncome: value })}
         />
       </div>
-
-      {/* <SchemaField
-        schema={schema.properties.payrollDeductions}
-        uiSchema={uiSchema.payrollDeductions}
-        onBlur={onBlur}
-        registry={registry}
-        idSchema={idSchema}
-        formData={formData.payrollDeductions}
-        onChange={() => {}}
-      /> */}
-
       <PayrollDeductions
         registry={registry}
         schema={schema}
@@ -115,7 +104,7 @@ const PayrollDeductions = ({
     { id: 3, type: 'Social security', value: null },
   ]);
 
-  const addDeduction = () => {
+  const handleAddDeduction = () => {
     const [last] = deductionTypes.slice(-1);
     let { id } = last;
     const newId = ++id;
@@ -130,11 +119,16 @@ const PayrollDeductions = ({
     const itemIndex = deductionTypes.findIndex(obj => obj.id === id);
 
     setDeductionTypes(prevState => [
-      ...prevState.map(
-        (item, index) => (index === itemIndex ? { ...item, value } : item),
-      ),
+      ...prevState.map((item, index) => {
+        if (!value && index === itemIndex) return { ...item, value: 0 };
+        return index === itemIndex ? { ...item, value } : item;
+      }),
     ]);
   };
+
+  const total = deductionTypes.reduce((sum, item) => {
+    return sum + item.value;
+  }, 0);
 
   return (
     <>
@@ -160,14 +154,15 @@ const PayrollDeductions = ({
       </div>
       <div className="add-item-link-section">
         <i className="fas fa-plus plus-icon" />
-        <span className="add-item-link" onClick={() => addDeduction()}>
+        <span className="add-item-link" onClick={() => handleAddDeduction()}>
           Add payroll deduction
         </span>
       </div>
-      {/* TODO: calculate total data */}
-      {/* <div className="monthly-net-income">
-        <strong>Monthly net income:</strong> $(total)
-      </div> */}
+      {total > 0 && (
+        <div className="monthly-net-income">
+          <strong>Monthly net income:</strong> ${total}
+        </div>
+      )}
     </>
   );
 };
