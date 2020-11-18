@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { isEmpty } from 'lodash';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import {
@@ -11,9 +13,7 @@ import {
 } from '@@profile/components/connected-apps/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import { AdditionalInfoSections } from './AdditionalInfoSections';
 import { AppDeletedAlert } from './AppDeletedAlert';
-import availableConnectedApps from './availableConnectedApps';
 import { ConnectedApp } from './ConnectedApp';
 
 export class ConnectedApps extends Component {
