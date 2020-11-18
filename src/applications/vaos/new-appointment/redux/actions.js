@@ -1053,6 +1053,11 @@ export function submitAppointmentOrRequest(history) {
         });
 
         recordEvent({
+          event: `${GA_PREFIX}-vaos-community-care-submission`,
+          'vaos-number-of-preferred-providers': data?.ccEnabledSystems.length,
+        });
+
+        recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-successful`,
           flow,
           ...additionalEventData,
