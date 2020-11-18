@@ -4,6 +4,9 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 // import moment from 'moment';
 
+import { Provider } from 'react-redux';
+import { combineReducers, createStore } from 'redux';
+
 import {
   DefinitionTester, // selectCheckbox
 } from 'platform/testing/unit/schemaform-utils.jsx';
@@ -12,12 +15,28 @@ import {
   STATE_VALUES,
   MILITARY_STATE_VALUES,
 } from 'applications/disability-benefits/all-claims/constants';
+import { commonReducer } from 'platform/startup/store';
+import reducers from '../../reducers';
 
 // const NEXT_YEAR = moment()
 //   .add(1, 'year')
 //   .format('YYYY-MM-DD');
 
 describe('Disability benefits 526EZ contact information', () => {
+  const initialState = {
+    featureToggles: {
+      form526ConfirmationEmail: true,
+    },
+  };
+
+  const fakeStore = createStore(
+    combineReducers({
+      ...commonReducer,
+      ...reducers,
+    }),
+    initialState,
+  );
+
   const {
     schema,
     uiSchema,
@@ -25,16 +44,18 @@ describe('Disability benefits 526EZ contact information', () => {
 
   it('renders contact information form', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          mailingAddress: {},
-          phoneAndEmail: {},
-        }}
-        formData={{}}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            mailingAddress: {},
+            phoneAndEmail: {},
+          }}
+          formData={{}}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     // country
@@ -46,18 +67,20 @@ describe('Disability benefits 526EZ contact information', () => {
 
   it('shows state and zip when country is USA', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          mailingAddress: {
-            country: 'USA',
-          },
-          phoneAndEmail: {},
-        }}
-        formData={{}}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            mailingAddress: {
+              country: 'USA',
+            },
+            phoneAndEmail: {},
+          }}
+          formData={{}}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     // country, state
@@ -69,18 +92,20 @@ describe('Disability benefits 526EZ contact information', () => {
 
   it('hides state and zip when country is not USA', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          mailingAddress: {
-            country: 'Afghanistan',
-          },
-          phoneAndEmail: {},
-        }}
-        formData={{}}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            mailingAddress: {
+              country: 'Afghanistan',
+            },
+            phoneAndEmail: {},
+          }}
+          formData={{}}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     // country
@@ -92,19 +117,21 @@ describe('Disability benefits 526EZ contact information', () => {
 
   it('restricts state options to military state codes when city is a military city code', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          mailingAddress: {
-            country: 'USA',
-            city: 'APO',
-          },
-          phoneAndEmail: {},
-        }}
-        formData={{}}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            mailingAddress: {
+              country: 'USA',
+              city: 'APO',
+            },
+            phoneAndEmail: {},
+          }}
+          formData={{}}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     const stateDropdownOptions = form.find(
@@ -119,19 +146,21 @@ describe('Disability benefits 526EZ contact information', () => {
 
   it('does not restrict state options  when city is not a military city code', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          mailingAddress: {
-            country: 'USA',
-            city: 'Detroit',
-          },
-          phoneAndEmail: {},
-        }}
-        formData={{}}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            mailingAddress: {
+              country: 'USA',
+              city: 'Detroit',
+            },
+            phoneAndEmail: {},
+          }}
+          formData={{}}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     const stateDropdownOptions = form.find(
@@ -145,26 +174,28 @@ describe('Disability benefits 526EZ contact information', () => {
   it('validates that state is military type if city is military type', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          phoneAndEmail: {
-            primaryPhone: '1231231231',
-            emailAddress: 'a@b.co',
-          },
-          mailingAddress: {
-            country: 'USA',
-            addressLine1: '123 Any Street',
-            city: 'APO',
-            state: 'TX',
-            zipCode: '12345',
-          },
-        }}
-        formData={{}}
-        uiSchema={uiSchema}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            phoneAndEmail: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.co',
+            },
+            mailingAddress: {
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'APO',
+              state: 'TX',
+              zipCode: '12345',
+            },
+          }}
+          formData={{}}
+          uiSchema={uiSchema}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -176,26 +207,28 @@ describe('Disability benefits 526EZ contact information', () => {
   it('validates that city is military type if state is military type', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          phoneAndEmail: {
-            primaryPhone: '1231231231',
-            emailAddress: 'a@b.co',
-          },
-          mailingAddress: {
-            country: 'USA',
-            addressLine1: '123 Any Street',
-            city: 'Anytown',
-            state: 'AA',
-            zipCode: '12345',
-          },
-        }}
-        formData={{}}
-        uiSchema={uiSchema}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            phoneAndEmail: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.co',
+            },
+            mailingAddress: {
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'Anytown',
+              state: 'AA',
+              zipCode: '12345',
+            },
+          }}
+          formData={{}}
+          uiSchema={uiSchema}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -206,19 +239,21 @@ describe('Disability benefits 526EZ contact information', () => {
 
   it('disables the country dropdown when overseas address is checked', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          mailingAddress: {
-            'view:livesOnMilitaryBase': true,
-            country: 'USA',
-          },
-          phoneAndEmail: {},
-        }}
-        formData={{}}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            mailingAddress: {
+              'view:livesOnMilitaryBase': true,
+              country: 'USA',
+            },
+            phoneAndEmail: {},
+          }}
+          formData={{}}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     // country
@@ -432,33 +467,35 @@ describe('Disability benefits 526EZ contact information', () => {
   it('does not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          phoneAndEmail: {
-            primaryPhone: '',
-            emailAddress: '',
-          },
-          mailingAddress: {
-            country: '',
-            addressLine1: '',
-            city: '',
-          },
-          // 'view:hasForwardingAddress': true,
-          // forwardingAddress: {
-          //   effectiveDate: {
-          //     from: '',
-          //   },
-          //   country: '',
-          //   addressLine1: '',
-          //   city: '',
-          // },
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            phoneAndEmail: {
+              primaryPhone: '',
+              emailAddress: '',
+            },
+            mailingAddress: {
+              country: '',
+              addressLine1: '',
+              city: '',
+            },
+            // 'view:hasForwardingAddress': true,
+            // forwardingAddress: {
+            //   effectiveDate: {
+            //     from: '',
+            //   },
+            //   country: '',
+            //   addressLine1: '',
+            //   city: '',
+            // },
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -470,37 +507,39 @@ describe('Disability benefits 526EZ contact information', () => {
   it('does submit with required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          phoneAndEmail: {
-            primaryPhone: '1231231231',
-            emailAddress: 'a@b.co',
-          },
-          mailingAddress: {
-            country: 'USA',
-            addressLine1: '123 Any Street',
-            city: 'Anytown',
-            state: 'MI',
-            zipCode: '12345',
-          },
-          // 'view:hasForwardingAddress': true,
-          // forwardingAddress: {
-          //   effectiveDate: {
-          //     from: NEXT_YEAR,
-          //   },
-          //   country: 'USA',
-          //   addressLine1: '234 Maple St.',
-          //   city: 'Detroit',
-          //   state: 'MI',
-          //   zipCode: '234563453',
-          // },
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            phoneAndEmail: {
+              primaryPhone: '1231231231',
+              emailAddress: 'a@b.co',
+            },
+            mailingAddress: {
+              country: 'USA',
+              addressLine1: '123 Any Street',
+              city: 'Anytown',
+              state: 'MI',
+              zipCode: '12345',
+            },
+            // 'view:hasForwardingAddress': true,
+            // forwardingAddress: {
+            //   effectiveDate: {
+            //     from: NEXT_YEAR,
+            //   },
+            //   country: 'USA',
+            //   addressLine1: '234 Maple St.',
+            //   city: 'Detroit',
+            //   state: 'MI',
+            //   zipCode: '234563453',
+            // },
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');

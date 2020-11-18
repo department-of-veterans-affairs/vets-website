@@ -13,6 +13,10 @@
       {
         "name": "show526Wizard",
         "value": true
+      },
+      {
+        "name": "form526_confirmation_email",
+        "value": true
       }
     ]
   }
