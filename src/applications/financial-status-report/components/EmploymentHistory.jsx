@@ -260,12 +260,7 @@ const PayrollDeductions = ({
   );
 };
 
-const EmploymentRecordReview = ({ record }) => {
-  const handleEdit = e => {
-    e.preventDefault();
-    // console.log('formData: ', formData);
-  };
-
+const EmploymentRecordReview = ({ record, edit }) => {
   return (
     <div className="employment-record-review">
       <h3 className="review-tile">
@@ -274,10 +269,15 @@ const EmploymentRecordReview = ({ record }) => {
       <div className="review-sub-title">
         {moment(record.employmentStart).format('MMMM D, YYYY')} to Present
       </div>
-      <div className="review-content">
-        <strong>Monthly net income:</strong> ${record.monthlyIncome}
-      </div>
-      <button className="btn-edit usa-button-secondary" onClick={handleEdit}>
+      {record.monthlyIncome && (
+        <div className="review-content">
+          <strong>Monthly net income:</strong> ${record.monthlyIncome}
+        </div>
+      )}
+      <button
+        className="btn-edit usa-button-secondary"
+        onClick={() => edit(record)}
+      >
         Edit
       </button>
     </div>
@@ -296,25 +296,44 @@ const EmploymentHistory = ({
   setData,
   deductions,
 }) => {
-  const [saved, setSaved] = useState([]);
+  const [savedRecords, setSavedRecords] = useState([]);
   const [showPrimaryRecord, setShowPrimaryRecord] = useState(true);
   const [showSecondaryRecord, setShowSecondaryRecord] = useState(false);
 
-  const handleSave = data => {
-    setSaved(prevState => [...prevState, data]);
+  const handleAddRecord = () => {
+    setShowSecondaryRecord(true);
   };
 
-  const handleAddRecord = () => {
-    // console.log('add job');
-    setShowSecondaryRecord(true);
+  const handleEditRecord = record => {
+    const filtered = savedRecords.filter(
+      item => item.employerName !== record.employerName,
+    );
+    setSavedRecords(filtered);
+    if (record.monthlyIncome) {
+      setShowPrimaryRecord(true);
+    } else {
+      setShowSecondaryRecord(true);
+    }
+  };
+
+  const handleSaveRecord = data => {
+    setSavedRecords(prevState => [...prevState, data]);
   };
 
   return (
     <>
       <div className="employment-history-title">{title}</div>
-      {saved.map((item, i) => {
-        return <EmploymentRecordReview key={i} record={item} />;
-      })}
+      {savedRecords
+        .sort((a, b) => b.employmentStart.localeCompare(a.employmentStart))
+        .map((item, i) => {
+          return (
+            <EmploymentRecordReview
+              key={i}
+              record={item}
+              edit={handleEditRecord}
+            />
+          );
+        })}
       {showPrimaryRecord && (
         <PrimaryEmploymentRecord
           registry={registry}
@@ -326,11 +345,13 @@ const EmploymentHistory = ({
           formData={formData}
           setData={setData}
           deductions={deductions}
-          save={data => handleSave(data)}
+          save={data => handleSaveRecord(data)}
           showPrimaryRecord={setShowPrimaryRecord}
         />
       )}
       {showSecondaryRecord && (
+        // TODO: on create secondary formData should be null
+        // need to handle formData using redux
         <SecondaryEmploymentRecord
           registry={registry}
           schema={schema}
@@ -341,7 +362,7 @@ const EmploymentHistory = ({
           formData={formData}
           setData={setData}
           deductions={deductions}
-          save={data => handleSave(data)}
+          save={data => handleSaveRecord(data)}
           showSecondaryRecord={setShowSecondaryRecord}
         />
       )}
