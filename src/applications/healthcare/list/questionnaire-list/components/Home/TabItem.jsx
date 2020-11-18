@@ -14,7 +14,7 @@ export default function TabItem(props) {
     } else if (e.key === 'ArrowLeft' && onPreviousTab) {
       onPreviousTab();
     } else if (e.key === 'ArrowDown') {
-      focusElement(`#tabpanel${id}`);
+      focusElement(`#tabpanel_${id}`);
     }
   };
 
