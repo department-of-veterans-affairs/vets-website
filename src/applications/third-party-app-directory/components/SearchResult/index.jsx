@@ -38,11 +38,18 @@ export class SearchResult extends Component {
     const { setShow } = this;
     const { learnIcon, show } = this.state;
 
+    const convertPlatform = platforms => {
+      const updatedWeb = map(platforms, platform => {
+        return platform === 'Web' ? 'web browsers' : platform;
+      });
+      return join(updatedWeb, ', ');
+    };
+
     return (
       <li className="third-party-app vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px">
         <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
           {/* App Icon */}
-          <img alt={item?.name} src={item?.logo_url} />
+          <img alt={`${item?.name} icon`} src={item?.logo_url} />
 
           <div className="vads-u-flex--1 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--2">
             {/* App Name */}
@@ -57,7 +64,8 @@ export class SearchResult extends Component {
             {/* Category and Platform */}
             <p className="vads-u-margin--0">
               {join(item?.service_categories, ', ') || 'Unknown category'} app
-              available for {join(item?.platforms, ', ') || 'unknown platforms'}
+              available for{' '}
+              {convertPlatform(item?.platforms) || 'unknown platforms'}
             </p>
           </div>
 
