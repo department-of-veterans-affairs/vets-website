@@ -13,18 +13,23 @@ const EmploymentRecord = ({
   onChange,
   setData,
   deductions,
+  save,
+  showEmploymentRecord,
 }) => {
   const { SchemaField } = registry.fields;
 
-  const handleSave = e => {
+  const handleSave = (e, data) => {
     e.preventDefault();
-    // console.log('save record');
-
-    // onClick
-    // - get EmploymentRecord data
-    // console.log('formData: ', formData);
-    // - hide EmploymentRecord
-    // - display reviewEmploymentRecord
+    const {
+      employerName,
+      employmentStart,
+      employmentType,
+      monthlyIncome,
+    } = data;
+    if (employerName && employmentStart && employmentType && monthlyIncome) {
+      showEmploymentRecord(false);
+      save(e, data);
+    }
   };
 
   return (
@@ -85,7 +90,10 @@ const EmploymentRecord = ({
         setData={setData}
         deductions={deductions}
       />
-      <button className="btn-save usa-button-primary" onClick={handleSave}>
+      <button
+        className="btn-save usa-button-primary"
+        onClick={e => handleSave(e, formData)}
+      >
         Save
       </button>
     </div>
@@ -174,7 +182,7 @@ const PayrollDeductions = ({
   );
 };
 
-const EmploymentRecordReview = ({ formData }) => {
+const EmploymentRecordReview = ({ record }) => {
   const handleEdit = e => {
     e.preventDefault();
     // console.log('formData: ', formData);
@@ -183,13 +191,13 @@ const EmploymentRecordReview = ({ formData }) => {
   return (
     <div className="employment-record-review">
       <h3 className="review-tile">
-        {formData.employmentType} employment at {formData.employerName}
+        {record.employmentType} employment at {record.employerName}
       </h3>
       <div className="review-sub-title">
-        {moment(formData.employmentStart).format('MMMM D, YYYY')} to Present
+        {moment(record.employmentStart).format('MMMM D, YYYY')} to Present
       </div>
       <div className="review-content">
-        <strong>Monthly net income:</strong> ${formData.monthlyIncome}
+        <strong>Monthly net income:</strong> ${record.monthlyIncome}
       </div>
       <button className="btn-edit usa-button-secondary" onClick={handleEdit}>
         Edit
@@ -210,25 +218,43 @@ const EmploymentHistory = ({
   setData,
   deductions,
 }) => {
+  const [saved, setSaved] = useState([]);
+  const [showEmploymentRecord, setShowEmploymentRecord] = useState(true);
+
+  const handleSave = (e, data) => {
+    setSaved(prevState => [...prevState, data]);
+  };
+
+  const handleAddRecord = () => {
+    // console.log('add job');
+    setShowEmploymentRecord(true);
+  };
+
   return (
     <>
       <div className="employment-history-title">{title}</div>
-      <EmploymentRecordReview formData={formData} />
-      <EmploymentRecord
-        registry={registry}
-        schema={schema}
-        uiSchema={uiSchema}
-        idSchema={idSchema}
-        onBlur={onBlur}
-        onChange={onChange}
-        formData={formData}
-        setData={setData}
-        deductions={deductions}
-      />
+      {saved.map((item, i) => {
+        return <EmploymentRecordReview key={i} record={item} />;
+      })}
+      {showEmploymentRecord && (
+        <EmploymentRecord
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          onBlur={onBlur}
+          onChange={onChange}
+          formData={formData}
+          setData={setData}
+          deductions={deductions}
+          save={(e, data) => handleSave(e, data)}
+          showEmploymentRecord={setShowEmploymentRecord}
+        />
+      )}
       <div className="add-item-container">
         <div className="add-income-link-section">
           <i className="fas fa-plus plus-icon" />
-          <a className="add-income-link" onClick={() => {}}>
+          <a className="add-income-link" onClick={handleAddRecord}>
             Add job
           </a>
         </div>
