@@ -1054,7 +1054,9 @@ export function submitAppointmentOrRequest(history) {
 
         recordEvent({
           event: `${GA_PREFIX}-vaos-community-care-submission`,
-          'vaos-number-of-preferred-providers': data?.ccEnabledSystems.length,
+          'vaos-number-of-preferred-providers': data.ccEnabledSystems
+            ? data.ccEnabledSystems.length
+            : 0,
         });
 
         recordEvent({
