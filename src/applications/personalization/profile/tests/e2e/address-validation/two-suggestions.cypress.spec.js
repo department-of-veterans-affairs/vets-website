@@ -43,17 +43,10 @@ describe('Personal and contact information', () => {
       });
 
       cy.wait('@saveAddress');
-
-      cy.route({
-        method: 'POST',
-        url: '/v0/profile/address_validation*',
-        status: 200,
-        response: twoSuggestions.secondResponse.data,
-      }).as('secondResponse');
-
-      cy.wait('@secondResponse');
       cy.wait('@finishedTransaction');
       cy.wait('@getUser');
+
+      cy.findByText('575 20th').should('exist');
     });
   });
 });
