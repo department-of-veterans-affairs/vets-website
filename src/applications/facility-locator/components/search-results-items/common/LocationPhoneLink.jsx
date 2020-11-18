@@ -15,12 +15,6 @@ const renderPhoneNumber = (title, subTitle = null, phone, from) => {
 
   const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(phone);
 
-  // The Telephone component will throw an error if passed an invalid phone number.
-  // Since we can't use try/catch or componentDidCatch here, we'll just do this:
-  if (contact.length !== 10) {
-    return null;
-  }
-
   return (
     <div>
       {from === 'FacilityDetail' && (
