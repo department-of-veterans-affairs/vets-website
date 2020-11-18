@@ -38,13 +38,16 @@ function createPastEventListPages(page, drupalPagePath, files) {
   // separate current events from past events;
   allEvents.entities.forEach(eventTeaser => {
     const startDate = eventTeaser.fieldDate.startDate;
+    const startDateObject = new Date(startDate);
+    const startDateFormat = moment(startDateObject).format();
     // TODO - this line is throwing a build-time warning:
     // Deprecation warning: value provided is not in a recognized RFC2822 or ISO format.
     // moment construction falls back to js Date(), which is not reliable across all browsers
     // and versions. Non RFC2822/ISO date formats are discouraged and will be removed
     // in an upcoming major release.
     // Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.
-    const isPast = moment().diff(startDate, 'days');
+    const isPast = moment().diff(startDateFormat, 'days');
+
     if (isPast >= 1) {
       pastEventTeasers.entities.push(eventTeaser);
     }
