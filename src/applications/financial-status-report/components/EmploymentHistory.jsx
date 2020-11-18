@@ -116,9 +116,13 @@ const PayrollDeductions = ({
   ]);
 
   const addDeduction = () => {
+    const [last] = deductionTypes.slice(-1);
+    let { id } = last;
+    const newId = ++id;
+
     setDeductionTypes(prevState => [
       ...prevState,
-      { id: 4, type: 'New Deduction', value: null },
+      { id: newId, type: 'New Deduction', value: null },
     ]);
   };
 
@@ -126,9 +130,9 @@ const PayrollDeductions = ({
     const itemIndex = deductionTypes.findIndex(obj => obj.id === id);
 
     setDeductionTypes(prevState => [
-      ...prevState.map((item, index) => {
-        return index === itemIndex ? { ...item, value } : item;
-      }),
+      ...prevState.map(
+        (item, index) => (index === itemIndex ? { ...item, value } : item),
+      ),
     ]);
   };
 
@@ -208,10 +212,6 @@ const EmploymentHistory = ({
     </>
   );
 };
-
-// EmploymentHistory.defaultProps = {
-//   deductions: [{ id: 0, value: null }],
-// };
 
 const mapDispatchToProps = dispatch => ({
   setData: data => dispatch(setDeductions(data)),
