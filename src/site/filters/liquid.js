@@ -511,7 +511,7 @@ module.exports = function registerFilters() {
   // react component `facility-appointment-wait-times-widget`
   // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
   liquid.filters.healthServiceApiId = serviceTaxonomy =>
-    serviceTaxonomy.fieldHealthServiceApiId;
+    serviceTaxonomy?.fieldHealthServiceApiId;
 
   // finds if a page is a child of a certain page using the entityUrl attribute
   // returns true or false

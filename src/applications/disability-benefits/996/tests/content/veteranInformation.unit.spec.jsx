@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { VeteranInfoView } from '../../content/veteranInformation';
+import { VeteranInformation } from '../../components/VeteranInformation';
 import { SELECTED } from '../../constants';
 
 describe('veteranInformation', () => {
@@ -46,6 +46,11 @@ describe('veteranInformation', () => {
         userFullName: {
           first: 'Foo',
           last: 'Bar',
+        },
+        vapContactInfo: {
+          mailingAddress: {
+            zipCode: '94608',
+          },
         },
       },
       veteran: {
@@ -113,7 +118,9 @@ describe('veteranInformation', () => {
       },
     ];
 
-    const tree = mount(<VeteranInfoView {...data} setFormData={setFormData} />);
+    const tree = mount(
+      <VeteranInformation {...data} setFormData={setFormData} />,
+    );
     expect(tree.find('.name').text()).to.equal('Foo  Bar');
     expect(tree.find('.ssn').text()).to.contain('9876');
     expect(tree.find('.vafn').text()).to.contain('5432');
@@ -125,6 +132,7 @@ describe('veteranInformation', () => {
     expect(setFormData.firstCall.args[0].contestedIssues).to.deep.equal(
       resultingIssueList,
     );
+    expect(setFormData.firstCall.args[0].zipCode5).to.equal('94608');
     tree.unmount();
   });
 });
