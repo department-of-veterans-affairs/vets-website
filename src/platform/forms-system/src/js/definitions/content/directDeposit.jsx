@@ -38,7 +38,7 @@ export const directDepositAlert = () => (
 
 export const bankInfoHelpText = (
   <AdditionalInfo
-    triggerText="What if I don't have a bank account or don't want to use direct deposit?"
+    triggerText="What if I don’t have a bank account or don’t want to use direct deposit?"
     onClick={gaBankInfoHelpText}
   >
     <p>
