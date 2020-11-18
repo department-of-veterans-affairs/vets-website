@@ -8,7 +8,7 @@ import getSchemas from '../../../src/js/definitions/directDeposit';
 const getFieldNames = wrapper =>
   Array.from(
     wrapper.baseElement.querySelectorAll(
-      '.schemaform-field-template > legend, .schemaform-field-template > label',
+      '.schemaform-field-template > legend, .schemaform-field-template > label, .form-checkbox > label',
     ),
   ).map(f => getNodeText(f));
 
@@ -37,6 +37,21 @@ describe('Direct deposit definition', () => {
       'Bank name',
       'Bank routing number',
       'Bank account number',
+    ]);
+  });
+
+  it('should render declineDirectDeposit', () => {
+    const { schema, uiSchema } = getSchemas({ declineDirectDeposit: true });
+    const form = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+    );
+    form.debug();
+
+    expect(getFieldNames(form)).to.eql([
+      'Account type',
+      'Bank routing number',
+      'Bank account number',
+      'I don’t want to use direct deposit',
     ]);
   });
 
