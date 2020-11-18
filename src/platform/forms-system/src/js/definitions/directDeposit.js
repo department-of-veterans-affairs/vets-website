@@ -53,7 +53,7 @@ const uiSchema = optionalFields => {
       },
     },
     declineDirectDeposit: {
-      'ui:title': "I don't want to use direct deposit",
+      'ui:title': 'I don’t want to use direct deposit',
       'ui:options': {
         hideOnReviewIfFalse: true,
       },
