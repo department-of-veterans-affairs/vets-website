@@ -1,0 +1,277 @@
+{
+  "data": {
+    "id": "",
+    "type": "users_scaffolds",
+    "attributes": {
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "form-save-in-progress",
+        "form-prefill",
+        "mhv-accounts",
+        "evss-claims",
+        "form526",
+        "user-profile",
+        "appeals-status",
+        "id-card",
+        "identity-proofed",
+        "vet360",
+        "evss_common_client",
+        "claim_increase"
+      ],
+      "account": {
+        "accountUuid": "c049d895-ecdf-40a4-ac0f-7947a06ea0c2"
+      },
+      "profile": {
+        "email": "vets.gov.user+36@gmail.com",
+        "firstName": "WESLEY",
+        "middleName": "WATSON",
+        "lastName": "FORD",
+        "birthDate": "1986-05-06",
+        "gender": "M",
+        "zip": "94122",
+        "lastSignedIn": "2020-11-09T17:22:24.023Z",
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "multifactor": true,
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme",
+          "accountType": "N/A"
+        },
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3"
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19860506",
+        "familyName": "Ford",
+        "gender": "M",
+        "givenNames": [
+          "Wesley",
+          "Watson"
+        ],
+        "isCernerPatient": false,
+        "facilities": [
+          {
+            "facilityId": "983",
+            "isCerner": false
+          }
+        ],
+        "vaPatient": true,
+        "mhvAccountState": "NONE"
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": true,
+        "servedInMilitary": true
+      },
+      "inProgressForms": [
+        {
+          "form": "40-10007",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/preparer",
+            "savedAt": 1602619612576,
+            "expiresAt": 1607803612,
+            "lastUpdated": 1602619612,
+            "inProgressFormId": 4950
+          },
+          "lastUpdated": 1602619612
+        },
+        {
+          "form": "0873",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/veteran-information",
+            "savedAt": 1603227215478,
+            "expiresAt": 1608411215,
+            "lastUpdated": 1603227215,
+            "inProgressFormId": 5022
+          },
+          "lastUpdated": 1603227215
+        },
+        {
+          "form": "21-526EZ",
+          "metadata": {
+            "version": 6,
+            "returnUrl": "/new-disabilities/add",
+            "savedAt": 1602869390503,
+            "expiresAt": 1634405391,
+            "lastUpdated": 1602869391,
+            "inProgressFormId": 4963
+          },
+          "lastUpdated": 1602869391
+        }
+      ],
+      "prefillsAvailable": [
+        "21-686C",
+        "40-10007",
+        "0873",
+        "22-1990",
+        "22-1990N",
+        "22-1990E",
+        "22-1995",
+        "22-5490",
+        "22-5495",
+        "22-0993",
+        "22-0994",
+        "FEEDBACK-TOOL",
+        "22-10203",
+        "21-526EZ",
+        "1010ez",
+        "21P-530",
+        "21P-527EZ",
+        "686C-674",
+        "20-0996",
+        "MDOT",
+        "5655",
+        "28-8832"
+      ],
+      "vet360ContactInformation": {
+        "email": null,
+        "residentialAddress": {
+          "addressLine1": "36320 coronado",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "RESIDENCE/CHOICE",
+          "addressType": "DOMESTIC",
+          "city": "fremont",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": null,
+          "countyName": null,
+          "createdAt": "2020-08-26T16:32:49.000Z",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2020-09-04T15:42:09.000Z",
+          "geocodeDate": "2020-09-04T15:42:10.000Z",
+          "geocodePrecision": 31,
+          "id": 192573,
+          "internationalPostalCode": null,
+          "latitude": 37.5583,
+          "longitude": -122.0223,
+          "province": null,
+          "sourceDate": "2020-09-04T15:42:09.000Z",
+          "sourceSystemUser": null,
+          "stateCode": "CA",
+          "transactionId": "058b155e-f752-48a7-a75b-51317a893e6a",
+          "updatedAt": "2020-09-04T15:42:10.000Z",
+          "validationKey": null,
+          "vet360Id": "1273780",
+          "zipCode": "12312",
+          "zipCodeSuffix": null
+        },
+        "mailingAddress": {
+          "addressLine1": "575 20th St",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "San Francisco",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": "06075",
+          "countyName": "San Francisco County",
+          "createdAt": "2020-09-23T16:50:37.000Z",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2020-11-09T17:46:59.000Z",
+          "geocodeDate": "2020-11-09T17:46:59.000Z",
+          "geocodePrecision": 31,
+          "id": 198543,
+          "internationalPostalCode": null,
+          "latitude": 37.7604,
+          "longitude": -122.3878,
+          "province": null,
+          "sourceDate": "2020-11-09T17:46:59.000Z",
+          "sourceSystemUser": null,
+          "stateCode": "CA",
+          "transactionId": "bfedd909-9dc4-4b27-abc2-a6cccaece35d",
+          "updatedAt": "2020-11-09T17:46:59.000Z",
+          "validationKey": null,
+          "vet360Id": "1273780",
+          "zipCode": "94107",
+          "zipCodeSuffix": "4345"
+        },
+        "mobilePhone": {
+          "areaCode": "804",
+          "countryCode": "1",
+          "createdAt": "2020-08-04T22:32:07.000Z",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2020-08-25T13:34:18.000Z",
+          "id": 157050,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": true,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "2054422",
+          "phoneType": "MOBILE",
+          "sourceDate": "2020-08-25T13:34:18.000Z",
+          "sourceSystemUser": null,
+          "transactionId": "4bc5e99a-823b-4523-ba16-81be4ca673bc",
+          "updatedAt": "2020-08-25T13:34:19.000Z",
+          "vet360Id": "1273780"
+        },
+        "homePhone": {
+          "areaCode": "804",
+          "countryCode": "1",
+          "createdAt": "2020-08-20T15:26:31.000Z",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2020-10-21T18:39:28.000Z",
+          "id": 159759,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "2054421",
+          "phoneType": "HOME",
+          "sourceDate": "2020-10-21T18:39:28.000Z",
+          "sourceSystemUser": null,
+          "transactionId": "fba1e128-1d57-4806-87f4-dee6a583156f",
+          "updatedAt": "2020-10-21T18:39:29.000Z",
+          "vet360Id": "1273780"
+        },
+        "workPhone": {
+          "areaCode": "804",
+          "countryCode": "1",
+          "createdAt": "2020-07-25T00:33:51.000Z",
+          "extension": "789",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2020-08-04T17:13:00.000Z",
+          "id": 155103,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "2054422",
+          "phoneType": "WORK",
+          "sourceDate": "2020-08-04T17:13:00.000Z",
+          "sourceSystemUser": null,
+          "transactionId": "0e68e0aa-08dd-4def-a7ea-4a147b9c269a",
+          "updatedAt": "2020-08-04T17:13:00.000Z",
+          "vet360Id": "1273780"
+        },
+        "temporaryPhone": null,
+        "faxNumber": null,
+        "textPermission": null
+      },
+      "session": {
+        "ssoe": true,
+        "transactionid": "3TRo/YnAebnyesvEmmfesbnzy5O/NB4ILr+zVCdkUYY="
+      }
+    }
+  },
+  "meta": {
+    "errors": null
+  }
+}
