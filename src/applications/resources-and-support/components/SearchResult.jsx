@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import { ENTITY_BUNDLES } from 'site/constants/content-modeling';
 import { Article } from '../prop-types';
 
