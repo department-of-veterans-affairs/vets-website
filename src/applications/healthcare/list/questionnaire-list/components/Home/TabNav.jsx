@@ -3,8 +3,8 @@ import TabItem from './TabItem';
 
 export default function TabNav() {
   return (
-    <>
-      <ul role="tablist">
+    <nav className="questionnaire-list-tabs-container">
+      <ul className="va-tabs questionnaire-list-tabs" role="tablist">
         <TabItem tabPath={`/healthcare/list/todo`} id="toDo" text="To Do" />
         <TabItem
           tabPath={`/healthcare/list/completed`}
@@ -12,6 +12,6 @@ export default function TabNav() {
           text="Completed"
         />
       </ul>
-    </>
+    </nav>
   );
 }

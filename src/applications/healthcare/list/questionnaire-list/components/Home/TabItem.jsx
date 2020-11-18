@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import classNames from 'classnames';
 
 export default function TabItem(props) {
   const { id, text, onNextTab, onPreviousTab, tabPath, isActive } = props;
@@ -17,15 +18,20 @@ export default function TabItem(props) {
     }
   };
 
+  const tabClasses = classNames(
+    'vads-u-text-align--center',
+    'vads-u-color--gray-dark',
+  );
+
   return (
-    <li role="presentation">
+    <li role="presentation" className="questionnaire-list-tab">
       <NavLink
         id={`tab_${id}`}
         aria-controls={isActive ? `tabpanel${id}` : null}
         aria-label={`${id.replace(/-/g, ' ')} appointments`}
         aria-selected={isActive ? 'true' : 'false'}
         role="tab"
-        className={''}
+        className={tabClasses}
         tabIndex={isActive ? null : '-1'}
         onKeyDown={onKeyDown}
         activeClassName=""
