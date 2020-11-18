@@ -39,6 +39,15 @@ export default function useGetSearchResults(articles, query, page) {
 
       const orderedResults = sortBy(filteredArticles, 'title');
 
+      // Track the ordered results.
+      recordEvent(
+        'event': 'view_search_results',
+        'search-text-input': query,
+        'search-selection': "Resources and support",
+        'search-results-total-count': orderedResults.length,
+        'search-results-total-pages': Math.ceil(orderedResults.length / 10),
+      );
+
       setResults(orderedResults);
     },
     [articles, setResults, query, page],
