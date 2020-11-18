@@ -76,19 +76,19 @@ const presets = {
   'ipad-7': viewPort810X1080,
   'ipad-pro-4-12.9': viewPort1024X1366,
   'ipad-pro-4-11': viewPort834X1194,
-  // Mobile top 5 presets by traffic percentage, ascending
+  // Mobile top 5 presets by traffic percentage, descending
   'mobile-top5-1': viewport414X896,
   'mobile-top5-2': viewport375X667,
   'mobile-top5-3': viewport375X812,
   'mobile-top5-4': viewport414X736,
   'mobile-top5-5': viewport320X568,
-  // Tablet top 5 presets by traffic percentage, ascending
+  // Tablet top 5 presets by traffic percentage, descending
   'tablet-top5-1': viewPort768X1024,
   'tablet-top5-2': viewPort810X1080,
   'tablet-top5-3': viewPort1024X1366,
   'tablet-top5-4': viewPort834X1112,
   'tablet-top5-5': viewPort834X1194,
-  // Desktop top 5 presets by traffic percentage, ascending
+  // Desktop top 5 presets by traffic percentage, descending
   'desktop-top5-1': viewPort1920X1080,
   'desktop-top5-2': viewPort1366X768,
   'desktop-top5-3': viewPort1280X960,
