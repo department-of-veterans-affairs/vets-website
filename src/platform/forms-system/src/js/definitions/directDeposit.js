@@ -73,12 +73,18 @@ const uiSchema = optionalFields => {
   // If set to true, just use the default uiSchema (already set above)
   // If it has a uiSchema property, use that
   if (optionalFields.declineDirectDeposit?.uiSchema) {
-    ui.properties.declineDirectDeposit =
-      optionalFields.declineDirectDeposit.uiSchema;
+    ui.declineDirectDeposit = optionalFields.declineDirectDeposit.uiSchema;
   }
-  // TODO: Update the ui:order
-  if (optionalFields.bankName?.uiSchema) {
-    ui.properties.bankAccount.bankName = optionalFields.bankName.uiSchema;
+
+  if (optionalFields.bankName) {
+    // Add to the ui:order after accountType if we're using bankName. Without
+    // adding it to the order, it'll throw an error.
+    ui.bankAccount['ui:order'].splice(1, 0, 'bankName');
+
+    // Override the field's uiSchema if available
+    if (optionalFields.bankName.uiSchema) {
+      ui.bankAccount.bankName = optionalFields.bankName.uiSchema;
+    }
   }
 
   return ui;
@@ -117,7 +123,8 @@ const schema = optionalFields => {
       : { type: 'boolean' };
   }
   if (optionalFields.bankName) {
-    s.properties.bankAccount.bankName = optionalFields.bankName.schema
+    s.properties.bankAccount.properties.bankName = optionalFields.bankName
+      .schema
       ? optionalFields.bankName.schema
       : { type: 'string' };
   }
