@@ -24,10 +24,7 @@ describe('HLR submit form', () => {
     };
     formConfig.submit(getFormData(false, 'no'), config).finally(() => {
       expect(global.window.dataLayer[0]).to.deep.equal(
-        getEvent('', 'no', 'no'),
-      );
-      expect(global.window.dataLayer[1]).to.deep.equal(
-        getEvent('-failure', 'no', 'no'),
+        getEvent('-failed', 'no', 'no'),
       );
       done();
     });
@@ -39,10 +36,7 @@ describe('HLR submit form', () => {
     };
     formConfig.submit(getFormData(true, 'yes'), config).finally(() => {
       expect(global.window.dataLayer[0]).to.deep.equal(
-        getEvent('', 'yes', 'yes'),
-      );
-      expect(global.window.dataLayer[1]).to.deep.equal(
-        getEvent('-failure', 'yes', 'yes'),
+        getEvent('-failed', 'yes', 'yes'),
       );
       done();
     });
@@ -54,10 +48,7 @@ describe('HLR submit form', () => {
     };
     formConfig.submit(getFormData(true, 'rep'), config).finally(() => {
       expect(global.window.dataLayer[0]).to.deep.equal(
-        getEvent('', 'yes', 'yes-with-rep'),
-      );
-      expect(global.window.dataLayer[1]).to.deep.equal(
-        getEvent('-failure', 'yes', 'yes-with-rep'),
+        getEvent('-failed', 'yes', 'yes-with-rep'),
       );
       done();
     });
