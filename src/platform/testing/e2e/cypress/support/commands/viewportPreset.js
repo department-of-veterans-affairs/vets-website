@@ -107,7 +107,7 @@ const isValidOptions = options => {
     typeof options === 'object' &&
     options !== null &&
     options.log &&
-    (options.log === true || options.log === false)
+    options.log === true || options.log === false
   );
 };
 
@@ -118,6 +118,8 @@ const orientationError =
 
 const optionsError =
   "options argument must be an object with a 'log' set to a boolean";
+
+const formatErrors = errors => errors.map((e) => `\n* ${e}`);
 
 const setViewportHelper = (preset, orientation, options) => {
   if (
@@ -134,21 +136,19 @@ const setViewportHelper = (preset, orientation, options) => {
     !isValidOrientation(orientation) &&
     !isValidOptions(options)
   ) {
-    throw new Error(
-      `${presetError} and ${orientationError} and ${optionsError}.`,
-    );
+    throw new Error(formatErrors([presetError, orientationError, optionsError]));
   } else if (isValidPreset(preset) && isValidOrientation(orientation)) {
-    throw new Error(`${optionsError}.`);
+    throw new Error(formatErrors([optionsError]));
   } else if (isValidOrientation(orientation) && isValidOptions(options)) {
-    throw new Error(`${presetError}.`);
+    throw new Error(formatErrors([presetError]));
   } else if (isValidPreset(preset) && isValidOptions(options)) {
-    throw new Error(`${orientationError}.`);
+    throw new Error(formatErrors([orientationError]));
   } else if (isValidPreset(preset)) {
-    throw new Error(`${orientationError} and ${optionsError}.`);
+    throw new Error(formatErrors([orientationError, optionsError]));
   } else if (isValidOrientation(orientation)) {
-    throw new Error(`${presetError} and ${optionsError}.`);
+    throw new Error(formatErrors([presetError, optionsError]));
   } else {
-    throw new Error(`${presetError} and ${orientationError}.`);
+    throw new Error(formatErrors([presetError, orientationError]));
   }
 };
 
