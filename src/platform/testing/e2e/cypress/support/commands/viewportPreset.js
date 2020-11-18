@@ -122,7 +122,7 @@ const optionsError =
 
 const formatErrors = errors => errors.map(e => `\n* ${e}`);
 
-const setViewportHelper = (preset, orientation, options) => {
+const viewportPresetHelper = (preset, orientation, options) => {
   if (
     isValidPreset(preset) &&
     isValidOrientation(orientation) &&
@@ -165,7 +165,7 @@ Cypress.Commands.add(
   'viewportPreset',
   (preset, orientation = 'portrait', options = { log: true }) => {
     try {
-      setViewportHelper(preset, orientation, options);
+      viewportPresetHelper(preset, orientation, options);
     } catch (e) {
       throw new Error(e);
     }
