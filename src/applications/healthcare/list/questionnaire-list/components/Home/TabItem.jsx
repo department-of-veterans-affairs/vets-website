@@ -33,8 +33,8 @@ export default function TabItem(props) {
     <li role="presentation" className="">
       <NavLink
         id={`tab_${id}`}
-        aria-controls={isActive ? `tabpanel${id}` : null}
-        aria-label={``}
+        aria-controls={isActive ? `tabpanel_${id}` : null}
+        aria-label={`${id.replace(/-/g, ' ')} questionnaires`}
         aria-selected={isActive ? 'true' : 'false'}
         role="tab"
         className={tabClasses}
