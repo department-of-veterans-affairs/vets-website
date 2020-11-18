@@ -525,3 +525,38 @@ $facility-locator-color-gray: #ccc;
     white-space: pre-line;
   }
 }
+
+
+#search-area-control {
+  background: $color-blue;
+  border-radius: 5px;
+  width: 215px;
+  height: 37px;
+  cursor: pointer;
+  padding: 8px;
+  margin-top: 15px;
+  clear: both;
+  pointer-events: auto;
+  color: $color-white;
+  font-family: $font-sans;
+
+  @media(max-width: $small-screen) {
+    width: 235px;
+    height: 43px;
+  }
+}
+
+.mapboxgl-ctrl-top-center {
+  left: 35%;
+  position: absolute;
+  pointer-events: none;
+  margin: 15px 0 0 15px;
+}
+
+.mapboxgl-ctrl-bottom-center {
+  bottom: 40px;
+  left: 22%;
+  position: absolute;
+  pointer-events: none;
+  margin: 15px 0 0 15px;
+}

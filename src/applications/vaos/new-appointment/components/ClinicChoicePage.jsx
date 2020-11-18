@@ -20,6 +20,10 @@ export function formatTypeOfCare(careLabel) {
   return careLabel.slice(0, 1).toLowerCase() + careLabel.slice(1);
 }
 
+function vowelCheck(givenString) {
+  return /^[aeiou]$/i.test(givenString.charAt(0));
+}
+
 function getPageTitle(schema, typeOfCare) {
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
   let pageTitle = 'Clinic choice';
@@ -105,8 +109,9 @@ export function ClinicChoicePage({
           <h1 className="vads-u-font-size--h2">
             {getPageTitle(schema, typeOfCare)}
           </h1>
-          In the last 24 months you have had a {typeOfCareLabel} appointment in
-          the following clinics, located at:
+          In the last 24 months you have had{' '}
+          {vowelCheck(typeOfCareLabel) ? 'an' : 'a'} {typeOfCareLabel}{' '}
+          appointment in the following clinics, located at:
           {facilityDetails && (
             <div className="vads-u-margin-y--2p5">
               <FacilityAddress

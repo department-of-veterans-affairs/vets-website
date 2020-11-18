@@ -8,7 +8,6 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
-import { getParentOfLocation } from '../../../services/location';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
@@ -55,7 +54,6 @@ function VAFacilityPageV2({
   noValidVAFacilities,
   openFacilityPageV2,
   pageChangeInProgress,
-  parentFacilities,
   parentFacilitiesStatus,
   requestLocationStatus,
   routeToPreviousAppointmentPage,
@@ -88,16 +86,6 @@ function VAFacilityPageV2({
   const goBack = () => routeToPreviousAppointmentPage(history, pageKey);
 
   const goForward = () => routeToNextAppointmentPage(history, pageKey);
-
-  const onFacilityChange = newData => {
-    const facility = facilities.find(f => f.id === newData.vaFacility);
-    const vaParent = getParentOfLocation(parentFacilities, facility)?.id;
-
-    updateFormData(pageKey, uiSchema, {
-      ...newData,
-      vaParent,
-    });
-  };
 
   const title = (
     <h1 className="vads-u-font-size--h2">
@@ -281,7 +269,7 @@ function VAFacilityPageV2({
             title="VA Facility"
             schema={schema}
             uiSchema={uiSchema}
-            onChange={onFacilityChange}
+            onChange={newData => updateFormData(pageKey, uiSchema, newData)}
             onSubmit={goForward}
             formContext={{ loadingEligibility, sortMethod }}
             data={data}

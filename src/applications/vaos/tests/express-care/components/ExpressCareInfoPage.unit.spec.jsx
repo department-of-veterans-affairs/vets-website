@@ -171,7 +171,7 @@ describe('VAOS integration: Express Care info page', () => {
 
     expect(
       await screen.findByRole('heading', {
-        level: '3',
+        level: 3,
         name: /You may have trouble using the VA appointments tool right now/,
       }),
     ).to.exist;

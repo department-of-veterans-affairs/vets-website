@@ -115,7 +115,7 @@ export function transform(formConfig, form) {
               // EVSS has very restrictive address rules; so Lighthouse API will
               // submit something like "use address on file"
               // TODO: postalCode vs zipCode?
-              zipCode5: formData.veteran?.zipCode5 || '00000',
+              zipCode5: formData.zipCode5 || '00000',
             },
             // ** phone & email are optional **
             // phone: getPhoneNumber(formData?.primaryPhone),

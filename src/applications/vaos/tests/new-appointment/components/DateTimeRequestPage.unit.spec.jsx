@@ -197,36 +197,28 @@ describe('VAOS <DateTimeRequestPage>', () => {
       userEvent.click(buttons[0]);
 
       // 2. Simulate user selecting AM
-      let checkbox = await screen.findByRole('checkbox', {
-        name: 'AM appointment',
-      });
+      let checkbox = await screen.findByLabelText(/^AM/i);
       userEvent.click(checkbox);
 
       // 3. Simulate user selecting another date
       userEvent.click(buttons[1]);
 
       // 3. Simulate user selecting PM
-      checkbox = await screen.findByRole('checkbox', {
-        name: 'PM appointment',
-      });
+      checkbox = await screen.findByLabelText(/^PM/i);
       userEvent.click(checkbox);
 
       // 4. Simulate user selecting another date
       userEvent.click(buttons[2]);
 
       // 5. Simulate user selecting AM
-      checkbox = await screen.findByRole('checkbox', {
-        name: 'AM appointment',
-      });
+      checkbox = await screen.findByLabelText(/^AM/i);
       userEvent.click(checkbox);
 
       // 6. Simulate user selecting another date
       userEvent.click(buttons[3]);
 
       // 7. Simulate user selecting PM which should result in error
-      checkbox = await screen.findByRole('checkbox', {
-        name: 'PM appointment',
-      });
+      checkbox = await screen.findByLabelText(/^PM/i);
       userEvent.click(checkbox);
 
       // 8 Simulate user submit the form
