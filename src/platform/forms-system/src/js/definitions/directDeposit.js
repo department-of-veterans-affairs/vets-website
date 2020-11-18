@@ -1,7 +1,3 @@
-// Copy ~/adhoc/vets-website/src/applications/edu-benefits/10203/pages/directDeposit.js
-//
-// Add field: bankName
-// Optional fields: bankName, declineDirectDeposit
 import merge from 'lodash/merge';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
