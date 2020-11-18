@@ -34,9 +34,30 @@ export default async function keepAlive() {
       }[resp.headers.get('va_eauth_csid')],
     };
   } catch (err) {
+    const caughtExceptions = {
+      'Failed to fetch': {
+        logType: Sentry.Severity.Error,
+      },
+      'NetworkError when attempting to fetch resource.': {
+        logType: Sentry.Severity.Error,
+      },
+      'The Internet connection appears to be offline': {
+        logType: Sentry.Severity.Info,
+      },
+      'The network connection was lost.': {
+        logType: Sentry.Severity.Info,
+      },
+      cancelled: {
+        logType: Sentry.Severity.Info,
+      },
+    }[err.message];
+
     Sentry.withScope(scope => {
       scope.setExtra('error', err);
-      Sentry.captureMessage(`SSOe error: ${err.message}`);
+      Sentry.captureMessage(
+        `SSOe error: ${err.message}`,
+        caughtExceptions ? caughtExceptions.logType : err.message,
+      );
     });
     return {};
   }
