@@ -17,7 +17,8 @@ export const formatPhone = (number = '') => {
 
 export const ContactInfoDescription = ({ profile }) => {
   const { email, homePhone, mailingAddress } = profile.vapContactInfo;
-  const { street, cityStateZip, country } = formatAddress(mailingAddress);
+  const { street, cityStateZip, country } = formatAddress(mailingAddress || {});
+  const phone = `${homePhone?.areaCode || ''}${homePhone?.phoneNumber || ''}`;
 
   return (
     <>
@@ -35,11 +36,10 @@ export const ContactInfoDescription = ({ profile }) => {
       <div className="blue-bar-block">
         <h3 className="vads-u-font-size--h4">Phone &amp; email</h3>
         <p>
-          <strong>Primary phone</strong>:{' '}
-          {formatPhone(`${homePhone?.areaCode}${homePhone?.phoneNumber}`)}
+          <strong>Primary phone</strong>: {formatPhone(phone)}
         </p>
         <p>
-          <strong>Email address</strong>: {email.emailAddress || ''}
+          <strong>Email address</strong>: {email?.emailAddress || ''}
         </p>
         <h3 className="vads-u-font-size--h4">Mailing address</h3>
         <p>
