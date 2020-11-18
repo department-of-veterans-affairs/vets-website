@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setDeductions } from '../actions';
 import moment from 'moment';
 
-const EmploymentRecord = ({
+const PrimaryEmploymentRecord = ({
   registry,
   schema,
   uiSchema,
@@ -14,7 +14,7 @@ const EmploymentRecord = ({
   setData,
   deductions,
   save,
-  showEmploymentRecord,
+  showPrimaryRecord,
 }) => {
   const { SchemaField } = registry.fields;
 
@@ -27,8 +27,8 @@ const EmploymentRecord = ({
       monthlyIncome,
     } = data;
     if (employerName && employmentStart && employmentType && monthlyIncome) {
-      showEmploymentRecord(false);
-      save(e, data);
+      showPrimaryRecord(false);
+      save(data);
     }
   };
 
@@ -90,6 +90,84 @@ const EmploymentRecord = ({
         setData={setData}
         deductions={deductions}
       />
+      <button
+        className="btn-save usa-button-primary"
+        onClick={e => handleSave(e, formData)}
+      >
+        Save
+      </button>
+    </div>
+  );
+};
+
+const SecondaryEmploymentRecord = ({
+  registry,
+  schema,
+  uiSchema,
+  idSchema,
+  onBlur,
+  formData,
+  onChange,
+  save,
+  showSecondaryRecord,
+}) => {
+  const { SchemaField } = registry.fields;
+
+  const handleSave = (e, data) => {
+    e.preventDefault();
+    const { employerName, employmentStart, employmentType } = data;
+    if (employerName && employmentStart && employmentType) {
+      showSecondaryRecord(false);
+      save(data);
+    }
+  };
+
+  return (
+    <div className="employment-history-container">
+      <div className="input-employment-type">
+        <SchemaField
+          schema={schema.properties.employmentType}
+          uiSchema={uiSchema.employmentType}
+          onBlur={onBlur}
+          registry={registry}
+          idSchema={idSchema}
+          formData={formData.employmentType}
+          onChange={value => onChange({ ...formData, employmentType: value })}
+        />
+      </div>
+      <div className="input-employment-start">
+        <SchemaField
+          schema={schema.properties.employmentStart}
+          uiSchema={uiSchema.employmentStart}
+          onBlur={onBlur}
+          registry={registry}
+          idSchema={idSchema}
+          formData={formData.employmentStart}
+          onChange={value => onChange({ ...formData, employmentStart: value })}
+        />
+      </div>
+      <div className="input-employment-start">
+        <SchemaField
+          schema={schema.properties.employmentStart}
+          uiSchema={uiSchema.employmentStart}
+          onBlur={onBlur}
+          registry={registry}
+          idSchema={idSchema}
+          formData={formData.employmentStart}
+          onChange={value => onChange({ ...formData, employmentStart: value })}
+        />
+      </div>
+      <div className="input-employer-name">
+        <SchemaField
+          schema={schema.properties.employerName}
+          uiSchema={uiSchema.employerName}
+          onBlur={onBlur}
+          registry={registry}
+          idSchema={idSchema}
+          formData={formData.employerName}
+          onChange={value => onChange({ ...formData, employerName: value })}
+        />
+      </div>
       <button
         className="btn-save usa-button-primary"
         onClick={e => handleSave(e, formData)}
@@ -219,15 +297,16 @@ const EmploymentHistory = ({
   deductions,
 }) => {
   const [saved, setSaved] = useState([]);
-  const [showEmploymentRecord, setShowEmploymentRecord] = useState(true);
+  const [showPrimaryRecord, setShowPrimaryRecord] = useState(true);
+  const [showSecondaryRecord, setShowSecondaryRecord] = useState(false);
 
-  const handleSave = (e, data) => {
+  const handleSave = data => {
     setSaved(prevState => [...prevState, data]);
   };
 
   const handleAddRecord = () => {
     // console.log('add job');
-    setShowEmploymentRecord(true);
+    setShowSecondaryRecord(true);
   };
 
   return (
@@ -236,8 +315,8 @@ const EmploymentHistory = ({
       {saved.map((item, i) => {
         return <EmploymentRecordReview key={i} record={item} />;
       })}
-      {showEmploymentRecord && (
-        <EmploymentRecord
+      {showPrimaryRecord && (
+        <PrimaryEmploymentRecord
           registry={registry}
           schema={schema}
           uiSchema={uiSchema}
@@ -247,8 +326,23 @@ const EmploymentHistory = ({
           formData={formData}
           setData={setData}
           deductions={deductions}
-          save={(e, data) => handleSave(e, data)}
-          showEmploymentRecord={setShowEmploymentRecord}
+          save={data => handleSave(data)}
+          showPrimaryRecord={setShowPrimaryRecord}
+        />
+      )}
+      {showSecondaryRecord && (
+        <SecondaryEmploymentRecord
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          onBlur={onBlur}
+          onChange={onChange}
+          formData={formData}
+          setData={setData}
+          deductions={deductions}
+          save={data => handleSave(data)}
+          showSecondaryRecord={setShowSecondaryRecord}
         />
       )}
       <div className="add-item-container">
