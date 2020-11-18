@@ -17,6 +17,10 @@
       {
         "name": "form526_confirmation_email",
         "value": true
+      },
+      {
+        "name": "form526_confirmation_email_show_copy",
+        "value": true
       }
     ]
   }

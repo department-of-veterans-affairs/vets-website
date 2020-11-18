@@ -22,10 +22,12 @@ import reducers from '../../reducers';
 //   .add(1, 'year')
 //   .format('YYYY-MM-DD');
 
+/* eslint-disable camelcase */
 describe('Disability benefits 526EZ contact information', () => {
   const initialState = {
     featureToggles: {
-      form526ConfirmationEmail: true,
+      form526_confirmation_email: false,
+      form526_confirmation_email_show_copy: false,
     },
   };
 
@@ -546,5 +548,87 @@ describe('Disability benefits 526EZ contact information', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
+  });
+
+  describe('Form526 Confirmation Email Feature Toggles', () => {
+    it('renders new copy when both form526 confirmation email toggles are on', () => {
+      const togglesOnState = {
+        featureToggles: {
+          form526_confirmation_email: true,
+          form526_confirmation_email_show_copy: true,
+        },
+      };
+
+      const toggleStore = createStore(
+        combineReducers({
+          ...commonReducer,
+          ...reducers,
+        }),
+        togglesOnState,
+      );
+
+      const form = mount(
+        <Provider store={toggleStore}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            data={{
+              mailingAddress: {},
+              phoneAndEmail: {},
+            }}
+            formData={{}}
+            uiSchema={uiSchema}
+          />
+        </Provider>,
+      );
+
+      expect(
+        form.find('div.contact-info-help-description#new-copy').length,
+      ).to.equal(1);
+      expect(
+        form.find('div.contact-info-help-description#default-copy').length,
+      ).to.equal(0);
+      form.unmount();
+    });
+
+    it('renders old copy when either form526 confirmation email toggles is off', () => {
+      const togglesOnState = {
+        featureToggles: {
+          form526_confirmation_email: true,
+          form526_confirmation_email_show_copy: false,
+        },
+      };
+
+      const toggleStore = createStore(
+        combineReducers({
+          ...commonReducer,
+          ...reducers,
+        }),
+        togglesOnState,
+      );
+
+      const form = mount(
+        <Provider store={toggleStore}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            data={{
+              mailingAddress: {},
+              phoneAndEmail: {},
+            }}
+            formData={{}}
+            uiSchema={uiSchema}
+          />
+        </Provider>,
+      );
+
+      expect(
+        form.find('div.contact-info-help-description#default-copy').length,
+      ).to.equal(1);
+      expect(
+        form.find('div.contact-info-help-description#new-copy').length,
+      ).to.equal(0);
+      form.unmount();
+    });
   });
 });

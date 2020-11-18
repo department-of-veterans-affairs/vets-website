@@ -78,18 +78,19 @@ export const contactInfoDescription = ({
 );
 
 export const contactInfoUpdateHelpDescription = ({
-  isConfirmationEmailToggleOn,
+  areConfirmationEmailTogglesOn,
 }) => {
-  return isConfirmationEmailToggleOn ? (
-    <div>
+  /* eslint-disable prettier/prettier */
+  return areConfirmationEmailTogglesOn ? (
+    <div className="contact-info-help-description" id="new-copy">
       <p>
         Any updates you make here to your contact information will only apply to
         this application. If you want to update your contact information for all
-        of your VA accounts, please go to your profile page.
+        of your VA accounts, <a href="/profile">please go to your profile page.</a>
       </p>
     </div>
   ) : (
-    <div>
+    <div className="contact-info-help-description" id="default-copy">
       <p>
         If you want to update your contact information for all your VA accounts,
         please go to your profile page.
@@ -102,7 +103,7 @@ export const contactInfoUpdateHelpDescription = ({
 };
 
 const mapStateToProps = state => ({
-  isConfirmationEmailToggleOn: confirmationEmailFeature(state),
+  areConfirmationEmailTogglesOn: confirmationEmailFeature(state),
 });
 
 export const contactInfoUpdateHelp = connect(mapStateToProps)(
