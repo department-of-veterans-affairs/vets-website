@@ -23,10 +23,19 @@ const uiSchema = optionalFields => {
     'ui:title': 'Direct deposit',
     'ui:description': directDepositDescription,
     bankAccount: {
+      // NOTE: The ui:order is missing bankName on purpose; it's only added if
+      // the the optional field is desired because adding additional properties
+      // to the ui:order which don't exist in the schema will throw an error.
       'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
       accountType: {
         ...bankAccountUI.accountType,
         'ui:required': useDirectDeposit,
+      },
+      // Optional fields such as bankName are added to the uiSchema here because
+      // they'll be ignored if the corresponding property in the schema isn't
+      // found.
+      bankName: {
+        'ui:title': 'Bank name',
       },
       routingNumber: {
         ...bankAccountUI.routingNumber,
@@ -125,6 +134,23 @@ const schema = optionalFields => {
   return s;
 };
 
+/**
+ * @type {Object} OptionalField
+ * @property {Object} schema - The schema for the field
+ * @property {Object} uiSchema - The uiSchema for the field
+ */
+
+/**
+ * Get the schema and uiSchema for direct deposit.
+ *
+ * @param {bool|OptionalField} [optionalFields.declineDirectDeposit] - Set to true
+ *        to add the declineDirectDeposit field the default schema and uiSchema.
+ *        Pass an object with schema and uiSchema properties to override either
+ *        or both.
+ * @param {bool|OptionalField} [optionalFields.bankName] - Set to true to add the
+ *        bankName field with the default schema and uiSchema. Pass an object
+ *        with schema and uiSchema properties to override either or both.
+ */
 export default optionalFields => {
   const opts = merge({}, defaultOptionalFields, optionalFields);
   return {
