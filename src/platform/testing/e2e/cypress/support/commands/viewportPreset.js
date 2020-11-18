@@ -130,17 +130,17 @@ const setViewportHelper = (preset, orientation, options) => {
       ? cy.viewport(width, height, options)
       : cy.viewport(height, width, options);
   } else if (isValidPreset(preset) && isValidOrientation(orientation)) {
-    throw new Error(`Error: ${optionsError}`);
+    throw new Error(`${optionsError}`);
   } else if (isValidOrientation(orientation) && isValidOptions(options)) {
-    throw new Error(`Error: ${presetError}`);
+    throw new Error(`${presetError}`);
   } else if (isValidPreset(preset) && isValidOptions(options)) {
-    throw new Error(`Error: ${orientationError}`);
+    throw new Error(`${orientationError}`);
   } else if (isValidPreset(preset)) {
-    throw new Error(`Error: ${orientationError} and ${optionsError}`);
+    throw new Error(`${orientationError} and ${optionsError}`);
   } else if (isValidOrientation(orientation)) {
-    throw new Error(`Error: ${presetError} and ${optionsError}`);
+    throw new Error(`${presetError} and ${optionsError}`);
   } else {
-    throw new Error(`Error: ${presetError} and ${orientationError}`);
+    throw new Error(`${presetError} and ${orientationError}`);
   }
 };
 
