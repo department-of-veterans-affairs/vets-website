@@ -45,7 +45,6 @@ describe('Direct deposit definition', () => {
     const form = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} />,
     );
-    form.debug();
 
     expect(getFieldNames(form)).to.eql([
       'Account type',
