@@ -54,7 +54,23 @@ describe('Direct deposit definition', () => {
     ]);
   });
 
-  it('should render all optional fields in the correct order', () => {});
+  it('should render all optional fields in the correct order', () => {
+    const { schema, uiSchema } = getSchemas({
+      bankName: true,
+      declineDirectDeposit: true,
+    });
+    const form = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+    );
+
+    expect(getFieldNames(form)).to.eql([
+      'Account type',
+      'Bank name',
+      'Bank routing number',
+      'Bank account number',
+      'I don’t want to use direct deposit',
+    ]);
+  });
 
   it('should render optional fields with supplied schema and uiSchema', () => {});
 });
