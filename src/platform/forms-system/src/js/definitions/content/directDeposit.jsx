@@ -1,5 +1,8 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export const directDepositDescription = () => {
   return (
@@ -63,21 +66,15 @@ export const bankInfoHelpText = (
         </li>
         <li>
           {' '}
-          Call{' '}
-          <a className="help-phone-number-link" href="tel:1-800-333-1795">
-            800-333-1795
-          </a>
+          Call <Telephone contact={CONTACTS.GO_DIRECT} />
         </li>
       </ul>
     </p>
     <p>
       If you choose not to enroll, you’ll need to call the Department of the
-      Treasury at{' '}
-      <a className="help-phone-number-link" href="tel:1-888-224-2950">
-        888-224-2950
-      </a>{' '}
-      and speak to a representative handling waiver requests. They’ll encourage
-      you to participate in EFT and address any questions or concerns you have.
+      Treasury at <Telephone contact={CONTACTS.TESC} /> and speak to a
+      representative handling waiver requests. They’ll encourage you to
+      participate in EFT and address any questions or concerns you have.
     </p>
   </AdditionalInfo>
 );
