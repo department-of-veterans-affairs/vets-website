@@ -75,7 +75,7 @@ export const contactInfoDescription = ({
     <p className="contact-info-description" id="contact-info-new">
       This is the contact information we have on file for you. Please review it
       to make sure the information below is correct. We’ll send any important
-      information about your disability claim to your mailing address. After you
+      information about your {formName} to your mailing address. After you
       submit your claim, we’ll send you a confirmation email to your email
       address.
     </p>
@@ -92,13 +92,13 @@ export const contactInfoDescription = ({
 export const contactInfoUpdateHelpDescription = ({
   areConfirmationEmailTogglesOn,
 }) => {
-  /* eslint-disable prettier/prettier */
   return areConfirmationEmailTogglesOn ? (
     <div className="contact-info-help-description" id="new-copy">
       <p>
         Any updates you make here to your contact information will only apply to
         this application. If you want to update your contact information for all
-        of your VA accounts, <a href="/profile">please go to your profile page.</a>
+        of your VA accounts,{' '}
+        <a href="/profile">please go to your profile page.</a>
       </p>
     </div>
   ) : (
@@ -118,9 +118,7 @@ const mapStateToProps = state => ({
   areConfirmationEmailTogglesOn: confirmationEmailFeature(state),
 });
 
-export const contactInfo = connect(mapStateToProps)(
-  contactInfoDescription,
-);
+export const contactInfo = connect(mapStateToProps)(contactInfoDescription);
 
 export const contactInfoUpdateHelp = connect(mapStateToProps)(
   contactInfoUpdateHelpDescription,
