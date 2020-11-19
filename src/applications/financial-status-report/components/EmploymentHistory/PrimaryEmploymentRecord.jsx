@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PayrollDeductions from './PayrollDeductions';
 
 const PrimaryEmploymentRecord = ({
@@ -9,6 +9,8 @@ const PrimaryEmploymentRecord = ({
   onBlur,
   save,
   showPrimaryRecord,
+  editData,
+  setEditData,
 }) => {
   const { SchemaField } = registry.fields;
 
@@ -38,11 +40,20 @@ const PrimaryEmploymentRecord = ({
     } = data;
     if (employerName && employmentStart && employmentType && monthlyIncome) {
       showPrimaryRecord(false);
+      setEditData(null);
       save({
         ...data,
       });
     }
   };
+
+  useEffect(
+    () => {
+      if (!editData) return;
+      setEmployment(editData);
+    },
+    [editData],
+  );
 
   return (
     <div className="employment-history-container">

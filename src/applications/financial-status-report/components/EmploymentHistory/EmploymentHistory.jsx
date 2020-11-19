@@ -18,6 +18,7 @@ const EmploymentHistory = ({
   const [savedRecords, setSavedRecords] = useState([]);
   const [showPrimaryRecord, setShowPrimaryRecord] = useState(true);
   const [showSecondaryRecord, setShowSecondaryRecord] = useState(false);
+  const [editData, setEditData] = useState(null);
 
   const handleAddRecord = () => {
     setShowSecondaryRecord(true);
@@ -32,16 +33,22 @@ const EmploymentHistory = ({
     ]);
   };
 
-  const handleEditRecord = record => {
+  const handleEditRecord = (e, record) => {
+    e.preventDefault();
+    const [editing] = savedRecords.filter(
+      item => item.employerName === record.employerName,
+    );
+    if (record.monthlyIncome) {
+      setShowPrimaryRecord(true);
+      setEditData(editing);
+    } else {
+      setShowSecondaryRecord(true);
+      setEditData(editing);
+    }
     const filtered = savedRecords.filter(
       item => item.employerName !== record.employerName,
     );
     setSavedRecords(filtered);
-    if (record.monthlyIncome) {
-      setShowPrimaryRecord(true);
-    } else {
-      setShowSecondaryRecord(true);
-    }
   };
 
   const handleSaveRecord = data => {
@@ -78,6 +85,8 @@ const EmploymentHistory = ({
           onBlur={onBlur}
           save={data => handleSaveRecord(data)}
           showPrimaryRecord={setShowPrimaryRecord}
+          editData={editData}
+          setEditData={setEditData}
         />
       )}
       {showSecondaryRecord && (
@@ -89,6 +98,8 @@ const EmploymentHistory = ({
           onBlur={onBlur}
           save={data => handleSaveRecord(data)}
           showSecondaryRecord={setShowSecondaryRecord}
+          editData={editData}
+          setEditData={setEditData}
         />
       )}
       <div className="add-item-container">

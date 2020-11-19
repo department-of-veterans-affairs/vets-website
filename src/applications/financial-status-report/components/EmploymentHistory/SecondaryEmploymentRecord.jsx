@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SecondaryEmploymentRecord = ({
   registry,
@@ -8,6 +8,8 @@ const SecondaryEmploymentRecord = ({
   onBlur,
   save,
   showSecondaryRecord,
+  editData,
+  setEditData,
 }) => {
   const { SchemaField } = registry.fields;
 
@@ -16,6 +18,7 @@ const SecondaryEmploymentRecord = ({
     const { employerName, employmentStart, employmentType } = data;
     if (employerName && employmentStart && employmentType) {
       showSecondaryRecord(false);
+      setEditData(null);
       save(data);
     }
   };
@@ -30,6 +33,14 @@ const SecondaryEmploymentRecord = ({
       [key]: value,
     });
   };
+
+  useEffect(
+    () => {
+      if (!editData) return;
+      setEmployment(editData);
+    },
+    [editData],
+  );
 
   return (
     <div className="employment-history-container">
