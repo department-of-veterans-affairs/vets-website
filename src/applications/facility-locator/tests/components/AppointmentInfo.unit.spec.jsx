@@ -5,7 +5,7 @@ import AppointmentInfo from '../../components/AppointmentInfo';
 import testFacilityV0 from '../../constants/mock-facility-v0.json';
 import testFacilityV1 from '../../constants/mock-facility-v1.json';
 
-describe('<AppointmentInfo>', () => {
+xdescribe('<AppointmentInfo>', () => {
   it('Should render appointment info snapshot v0', () => {
     const wrapper = shallow(<AppointmentInfo location={testFacilityV0} />);
     expect(wrapper).to.matchSnapshot();

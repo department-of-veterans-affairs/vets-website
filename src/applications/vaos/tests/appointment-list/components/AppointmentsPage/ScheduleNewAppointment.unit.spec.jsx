@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import ScheduleNewAppointment from '../../../../appointment-list/components/AppointmentsPage/ScheduleNewAppointment';
 
-describe('VAOS <ScheduleNewAppointment>', () => {
+xdescribe('VAOS <ScheduleNewAppointment>', () => {
   it('should render schedule button with direct schedule text', () => {
     const startNewAppointmentFlow = sinon.spy();
 
