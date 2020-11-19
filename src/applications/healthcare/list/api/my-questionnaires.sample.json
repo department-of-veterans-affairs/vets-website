@@ -1,0 +1,15 @@
+{
+ "data":[
+   {
+     "appointment":{
+      "id": "195bc02c0518870fc6b1e302cfc326b0",
+       "facilityName" : "Some Facility Name",
+       "appointmentTime": "2021-02-26T15:00:00Z",
+       "clinic":{
+         "stopCode":"323"
+       }
+
+     }
+   }
+ ]
+}
