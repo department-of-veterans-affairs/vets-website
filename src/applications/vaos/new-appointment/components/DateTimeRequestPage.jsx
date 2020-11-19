@@ -64,7 +64,7 @@ function goForward({
   setValidationError,
 }) {
   const { calendarData } = data || {};
-  validate({ calendarData, setValidationError });
+  validate({ data: calendarData, setValidationError });
   if (userSelectedSlot(calendarData) && !exceededMaxSelections(calendarData)) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
@@ -126,7 +126,7 @@ export function DateTimeRequestPage({
         multiSelect
         maxSelections={maxSelections}
         onChange={newData => {
-          validate({ calendarData: newData, setValidationError });
+          validate({ data: newData, setValidationError });
           onCalendarChange(newData);
         }}
         minDate={moment()
