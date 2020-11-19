@@ -75,7 +75,7 @@ const getFormConfig = (options = {}) => ({
   ...options,
 });
 
-describe('Schemaform review: <GenericError />', () => {
+xdescribe('Schemaform review: <GenericError />', () => {
   it('has a pre-submit section', () => {
     const onSubmit = sinon.spy();
 
