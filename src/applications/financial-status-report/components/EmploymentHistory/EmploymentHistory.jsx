@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { setDeductionsData, setEmploymentHistoryData } from '../../actions';
+import { setEmploymentHistoryData } from '../../actions';
 import PrimaryEmploymentRecord from './PrimaryEmploymentRecord';
 import SecondaryEmploymentRecord from './SecondaryEmploymentRecord';
 import ReviewEmploymentRecord from './ReviewEmploymentRecord';
@@ -115,7 +115,6 @@ const EmploymentHistory = ({
 };
 
 const mapDispatchToProps = dispatch => ({
-  setDeductions: data => dispatch(setDeductionsData(data)),
   setEmploymentHistory: data => dispatch(setEmploymentHistoryData(data)),
 });
 
