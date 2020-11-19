@@ -107,7 +107,7 @@ export class SignInModal extends React.Component {
               through ID.me.
             </p>
             <p>
-              <a href="/sign-in-faq">
+              <a href="/resources/signing-in-to-vagov/">
                 Learn how to create an account through ID.me.
               </a>
             </p>
@@ -281,7 +281,10 @@ export class SignInModal extends React.Component {
                 information.
               </p>
               <p>
-                <a href="/sign-in-faq/#what-is-idme" target="_blank">
+                <a
+                  href="/resources/privacy-and-security-on-vagov/#whats-idme-and-why-should-i-tr"
+                  target="_blank"
+                >
                   Learn more about ID.me
                 </a>
               </p>
