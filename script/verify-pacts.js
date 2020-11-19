@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 
 /**
- * Invokes the Pact verification job in the vets-api CircleCI pipeline.
+ * Invokes the Pact verification workflow in the vets-api CircleCI pipeline.
+ * When that workflow concludes, it should invoke the can-i-deploy workflow
+ * in the vets-website pipeline.
  */
 
 const fetch = require('node-fetch');
@@ -17,7 +19,6 @@ const options = {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    branch: 'vagovteam-16325',
     parameters: {
       verify_stable_pacts: true,
       consumer_branch: process.env.CIRCLE_BRANCH,
