@@ -229,7 +229,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       await waitFor(() => {
         expect(screen.findByRole('alert')).to.be.ok;
       });
-      expect(screen.getByText(/You can select up to three dates./i)).to.be.ok;
+      expect(screen.getByText(/You can only choose up to 3 dates/i)).to.be.ok;
     });
 
     it('should display an alert when user selects 2 dates and multiple times', async () => {
@@ -300,7 +300,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
 
       // NOTE: alert doesn't have a name so search for text too
       expect(screen.getByRole('alert')).to.be.ok;
-      expect(screen.getByText(/You can select up to three dates./i)).to.be.ok;
+      expect(screen.getByText(/You can only choose up to 3 dates./i)).to.be.ok;
     });
 
     it('should display an alert when user submits the form with no dates selected', async () => {
