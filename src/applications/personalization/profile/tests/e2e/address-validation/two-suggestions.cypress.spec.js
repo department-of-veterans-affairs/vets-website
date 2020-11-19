@@ -25,7 +25,7 @@ describe('Personal and contact information', () => {
 
       cy.findByText('Please confirm your address').should('exist');
 
-      cy.get('div[data-field-name="mailingAddress"]')
+      cy.findByTestId('mailingAddress')
         .should('contain', 'Please confirm your address')
         .and('contain', '575 20th')
         .and('contain', '575 20th Ave')
@@ -38,7 +38,7 @@ describe('Personal and contact information', () => {
 
       cy.wait('@getUser');
 
-      cy.get('div[data-field-name="mailingAddress"]')
+      cy.findByTestId('mailingAddress')
         .should('contain', '575 20th St')
         .and('contain', 'San Francisco, CA 94107');
 

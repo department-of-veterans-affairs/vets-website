@@ -28,7 +28,7 @@ describe('Personal and contact information', () => {
 
       cy.wait('@getUser');
 
-      cy.get('div[data-field-name="mailingAddress"]')
+      cy.findByTestId('mailingAddress')
         .should('contain', 'PSC 808 Box 37')
         .and('contain', 'FPO, Armed Forces Europe');
 

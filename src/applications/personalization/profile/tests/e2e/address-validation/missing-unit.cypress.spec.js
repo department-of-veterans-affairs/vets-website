@@ -23,7 +23,7 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.get('div[data-field-name="mailingAddress"]')
+      cy.findByTestId('mailingAddress')
         .should('contain', 'Please add a unit number')
         .and('contain', '225 irving st');
 
@@ -33,7 +33,7 @@ describe('Personal and contact information', () => {
 
       cy.wait('@getUser');
 
-      cy.get('div[data-field-name="mailingAddress"]')
+      cy.findByTestId('mailingAddress')
         .should('contain', '225 irving st')
         .and('contain', 'San Francisco, CA 94122');
 

@@ -26,7 +26,7 @@ describe('Personal and contact information', () => {
 
       cy.wait('@getUser');
 
-      cy.get('div[data-field-name="mailingAddress"]')
+      cy.findByTestId('mailingAddress')
         .should('contain', 'Dam 1')
         .and('contain', 'Amsterdam, Noord-Holland, 1012 JS')
         .and('contain', 'Netherlands');

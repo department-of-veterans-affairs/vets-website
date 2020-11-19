@@ -26,7 +26,7 @@ describe('Personal and contact information', () => {
 
         cy.wait('@getUser');
 
-        cy.get('div[data-field-name="mailingAddress"]')
+        cy.findByTestId('mailingAddress')
           .should('contain', '36320 Coronado Dr')
           .and('contain', 'Fremont, CA 94536');
 
