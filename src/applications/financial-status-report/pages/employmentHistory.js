@@ -1,4 +1,4 @@
-import EmploymentHistory from '../components/EmploymentHistory';
+import EmploymentHistory from '../components/EmploymentHistory/EmploymentHistory';
 
 export const uiSchema = {
   employmentHistory: {
