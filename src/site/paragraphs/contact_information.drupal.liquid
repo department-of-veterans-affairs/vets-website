@@ -24,7 +24,7 @@
           {% if entity.fieldAdditionalContact.entity.fieldEmailLabel and entity.fieldAdditionalContact.entity.fieldEmailAddress %}
             <strong>{{ entity.fieldAdditionalContact.entity.fieldEmailLabel }}: </strong>
             {% if entity.fieldAdditionalContact.entity.fieldEmailAddress %}
-              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}', 'links-list-section-header': 'Need more help?' })"
+              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldEmailAddress | escape }}', 'links-list-section-header': 'Need more help?' })"
                   href="mailto:{{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}"
                   rel="noreferrer noopener">
                 {{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}
@@ -36,7 +36,7 @@
           {% if entity.fieldAdditionalContact.entity.fieldPhoneLabel and entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
             <strong>{{ entity.fieldAdditionalContact.entity.fieldPhoneLabel }}: </strong>
             {% if entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
-              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}', 'links-list-section-header': 'Need more help?' })"
+              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber | escape }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}', 'links-list-section-header': 'Need more help?' })"
                   href="tel:{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}"
                   rel="noreferrer noopener">
                 {{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}
@@ -52,7 +52,7 @@
           <li class="vads-u-margin-top--1">
             <strong>{{ supportService.entity.title }} </strong>
             {% if supportService.entity.fieldLink %}
-              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ supportService.entity.fieldPhoneNumber }}', 'links-list-section-header': 'Need more help?' })"
+              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ supportService.entity.fieldPhoneNumber | escape }}', 'links-list-section-header': 'Need more help?' })"
                   href="{{ supportService.entity.fieldLink.url.path }}"
                   rel="noreferrer noopener">
                 {{ supportService.entity.fieldPhoneNumber }}
