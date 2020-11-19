@@ -14,7 +14,7 @@ const initialState = {
   errorCode: '',
   pending: true,
   debts: [],
-  income: [],
+  additionalIncome: [],
   deductions: [],
 };
 
@@ -46,7 +46,7 @@ const fsrApi = (state = initialState, action) => {
     case FSR_ADDITIONAL_INCOME: {
       return {
         ...state,
-        income: action.income,
+        additionalIncome: action.additionalIncome,
       };
     }
     case FSR_DEDUCTIONS: {

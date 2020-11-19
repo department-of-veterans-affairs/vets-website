@@ -97,9 +97,9 @@ export const fetchDebts = () => async dispatch => {
   }
 };
 
-export const setIncomeData = income => ({
+export const setAdditionalIncomeData = additionalIncome => ({
   type: FSR_ADDITIONAL_INCOME,
-  income,
+  additionalIncome,
 });
 
 export const setDeductionsData = deductions => ({
