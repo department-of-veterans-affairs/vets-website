@@ -1,4 +1,10 @@
 version: 2
+
+parameters:
+  check_deployability:
+    type: boolean
+    default: false
+
 jobs:
   lint:
     docker:
