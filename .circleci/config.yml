@@ -308,7 +308,7 @@ workflows:
       - e2e-test:
           requires:
             - build-e2e
-  can-i-depoy:
+  can-i-deploy:
     when: << pipeline.parameters.check_deployability >>
     jobs:
       - can-i-deploy
