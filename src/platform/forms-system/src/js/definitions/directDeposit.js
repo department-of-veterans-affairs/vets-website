@@ -1,5 +1,3 @@
-import merge from 'lodash/merge';
-
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import {
   directDepositDescription,
@@ -156,7 +154,7 @@ const schema = optionalFields => {
  *        with schema and uiSchema properties to override either or both.
  */
 export default optionalFields => {
-  const opts = merge({}, defaultOptionalFields, optionalFields);
+  const opts = Object.assign({}, defaultOptionalFields, optionalFields);
   return {
     uiSchema: uiSchema(opts),
     schema: schema(opts),
