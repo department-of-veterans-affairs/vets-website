@@ -280,7 +280,6 @@ class AddressValidationView extends React.Component {
           {!isLoading && (
             <button
               type="button"
-              data-testid="update-button"
               className="usa-button-secondary"
               onClick={resetDataAndCloseModal}
             >

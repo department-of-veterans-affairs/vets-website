@@ -1,31 +1,4 @@
 export const createAddressValidationResponse = type => {
-  if (type === 'valid-address') {
-    return {
-      addresses: [
-        {
-          address: {
-            addressLine1: '36320 Coronado Dr',
-            addressType: 'DOMESTIC',
-            city: 'Fremont',
-            countryName: 'United States',
-            countryCodeIso3: 'USA',
-            countyCode: '06001',
-            countyName: 'Alameda',
-            stateCode: 'CA',
-            zipCode: '94536',
-            zipCodeSuffix: '5537',
-          },
-          addressMetaData: {
-            confidenceScore: 100,
-            addressType: 'Domestic',
-            deliveryPointValidation: 'CONFIRMED',
-            residentialDeliveryIndicator: 'RESIDENTIAL',
-          },
-        },
-      ],
-      validationKey: -938645178,
-    };
-  }
   if (type === 'military') {
     return {
       addresses: [

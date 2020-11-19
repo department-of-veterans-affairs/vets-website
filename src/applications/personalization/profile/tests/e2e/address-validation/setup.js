@@ -14,7 +14,7 @@ export const setUp = type => {
   cy.login(mockUser);
   cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
 
-  cy.get('#mailingAddress-edit-link').click();
+  cy.findByRole('button', { name: /edit mailing address/i }).click();
 
   cy.route({
     method: 'POST',

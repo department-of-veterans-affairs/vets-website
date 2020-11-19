@@ -10,12 +10,13 @@ describe('Personal and contact information', () => {
         .type('36310 Coronado Dr');
 
       cy.get('#root_addressLine2').clear();
+      cy.get('#root_addressLine3').clear();
 
       cy.findByLabelText(/City/i)
         .clear()
         .type('Fremont');
 
-      cy.get('#root_stateCode').select('CA');
+      cy.findByLabelText(/^State/).select('CA');
 
       cy.findByLabelText(/Zip code/i)
         .clear()
@@ -27,8 +28,9 @@ describe('Personal and contact information', () => {
 
       cy.wait('@validateAddress');
 
-      cy.findByText('Please confirm your address').should('exist');
-      cy.findByText('36310 Coronado Dr').should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', '36310 Coronado Dr')
+        .and('contain', 'Please confirm your address');
 
       cy.findByTestId('confirm-address-button').click({
         force: true,
@@ -37,8 +39,9 @@ describe('Personal and contact information', () => {
       cy.wait('@finishedTransaction');
       cy.wait('@getUser');
 
-      cy.findByText(/36310 Coronado Dr/i).should('exist');
-      cy.findByText(/Fremont, CA 94536/i).should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', '36310 Coronado Dr')
+        .and('contain', 'Fremont, CA 94536');
     });
   });
 });

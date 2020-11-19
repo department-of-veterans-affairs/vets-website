@@ -9,11 +9,12 @@ describe('Personal and contact information', () => {
         .clear()
         .type('575 20th');
       cy.get('#root_addressLine2').clear();
+      cy.get('#root_addressLine3').clear();
 
       cy.findByLabelText(/City/i)
         .clear()
         .type('San Francisco');
-      cy.get('#root_stateCode').select('CA');
+      cy.findByLabelText(/^State/).select('CA');
       cy.findByLabelText(/Zip code/i)
         .clear()
         .type('12345');
@@ -26,15 +27,11 @@ describe('Personal and contact information', () => {
 
       cy.findByText('Please confirm your address').should('exist');
 
-      // User entered address exists
-      cy.findByText('575 20th').should('exist');
-      cy.findByText(/San Francisco, CA 12345/i).should('exist');
-
-      // First suggestion
-      cy.findByText('575 20th Ave').should('exist');
-
-      // Second suggestion
-      cy.findByText('575 20th St').should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', 'Please confirm your address')
+        .and('contain', '575 20th')
+        .and('contain', '575 20th Ave')
+        .and('contain', '575 20th St');
 
       // Confirm we choose the first option (default)
       cy.findByTestId('confirm-address-button').click({
@@ -45,8 +42,9 @@ describe('Personal and contact information', () => {
       cy.wait('@finishedTransaction');
       cy.wait('@getUser');
 
-      cy.findByText(/575 20th St/i).should('exist');
-      cy.findByText(/San Francisco, CA 94107/i).should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', '575 20th St')
+        .and('contain', 'San Francisco, CA 94107');
     });
   });
 });

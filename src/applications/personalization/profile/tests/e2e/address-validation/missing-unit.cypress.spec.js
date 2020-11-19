@@ -9,11 +9,12 @@ describe('Personal and contact information', () => {
         .clear()
         .type('225 irving st');
       cy.get('#root_addressLine2').clear();
+      cy.get('#root_addressLine3').clear();
 
       cy.findByLabelText(/City/i)
         .clear()
         .type('San Francisco');
-      cy.get('#root_stateCode').select('CA');
+      cy.findByLabelText(/^State/).select('CA');
       cy.findByLabelText(/Zip code/i)
         .clear()
         .type('94122');
@@ -24,8 +25,9 @@ describe('Personal and contact information', () => {
 
       cy.wait('@validateAddress');
 
-      cy.findByText('Please add a unit number').should('exist');
-      cy.findByText('225 irving st').should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', 'Please add a unit number')
+        .and('contain', '225 irving st');
 
       cy.findByTestId('confirm-address-button').click({
         force: true,
@@ -34,8 +36,9 @@ describe('Personal and contact information', () => {
       cy.wait('@finishedTransaction');
       cy.wait('@getUser');
 
-      cy.findByText(/225 irving st/i).should('exist');
-      cy.findByText(/San Francisco, CA 94122/i).should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', '225 irving st')
+        .and('contain', 'San Francisco, CA 94122');
     });
   });
 });

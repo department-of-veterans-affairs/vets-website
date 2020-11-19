@@ -9,11 +9,12 @@ describe('Personal and contact information', () => {
         .clear()
         .type('400 65th st');
       cy.get('#root_addressLine2').clear();
+      cy.get('#root_addressLine3').clear();
 
       cy.findByLabelText(/City/i)
         .clear()
         .type('Seattle');
-      cy.get('#root_stateCode').select('WA');
+      cy.findByLabelText(/^State/).select('WA');
       cy.findByLabelText(/Zip code/i)
         .clear()
         .type('12345');
@@ -24,9 +25,10 @@ describe('Personal and contact information', () => {
 
       cy.wait('@validateAddress');
 
-      cy.findByText('Please confirm your address').should('exist');
-      cy.findByText('400 65th st').should('exist');
-      cy.findByText('400 NW 65th St').should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', 'Please confirm your address')
+        .and('contain', '400 65th st')
+        .and('contain', '400 NW 65th St');
 
       cy.findByTestId('confirm-address-button').click({
         force: true,
@@ -35,8 +37,9 @@ describe('Personal and contact information', () => {
       cy.wait('@finishedTransaction');
       cy.wait('@getUser');
 
-      cy.findByText(/400 NW 65th St/i).should('exist');
-      cy.findByText(/Seattle, WA 98117/i).should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', '400 NW 65th St')
+        .and('contain', 'Seattle, WA 98117');
     });
   });
 });

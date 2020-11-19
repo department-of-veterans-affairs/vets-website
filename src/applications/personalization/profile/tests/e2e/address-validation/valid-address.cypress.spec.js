@@ -3,18 +3,19 @@ import { setUp } from 'applications/personalization/profile/tests/e2e/address-va
 describe('Personal and contact information', () => {
   describe('should successfully update on Desktop', () => {
     describe('when entering a valid home address', () => {
-      it('should update successfully', () => {
+      it('should update successfully without showing the validation screen', () => {
         setUp('valid-address');
 
         cy.get('#root_addressLine1')
           .clear()
           .type('36320 Coronado Dr');
         cy.get('#root_addressLine2').clear();
+        cy.get('#root_addressLine3').clear();
 
         cy.findByLabelText(/City/i)
           .clear()
           .type('Fremont');
-        cy.get('#root_stateCode').select('CA');
+        cy.findByLabelText(/^State/).select('CA');
         cy.findByLabelText(/Zip code/i)
           .clear()
           .type('94536');
@@ -28,8 +29,9 @@ describe('Personal and contact information', () => {
         cy.wait('@finishedTransaction');
         cy.wait('@getUser');
 
-        cy.findByText(/36320 Coronado Dr/i).should('exist');
-        cy.findByText(/Fremont, CA 94536/i).should('exist');
+        cy.get('div[data-field-name="mailingAddress"]')
+          .should('contain', '36320 Coronado Dr')
+          .and('contain', 'Fremont, CA 94536');
       });
     });
   });

@@ -11,6 +11,7 @@ describe('Personal and contact information', () => {
         .clear()
         .type('Dam 1');
       cy.get('#root_addressLine2').clear();
+      cy.get('#root_addressLine3').clear();
 
       cy.findByLabelText(/City/i)
         .clear()
@@ -28,8 +29,10 @@ describe('Personal and contact information', () => {
       cy.wait('@finishedTransaction');
       cy.wait('@getUser');
 
-      cy.findByText(/Dam 1/i).should('exist');
-      cy.findByText(/Amsterdam, Noord-Holland, 1012 JS/i).should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', 'Dam 1')
+        .and('contain', 'Amsterdam, Noord-Holland, 1012 JS')
+        .and('contain', 'Netherlands');
     });
   });
 });

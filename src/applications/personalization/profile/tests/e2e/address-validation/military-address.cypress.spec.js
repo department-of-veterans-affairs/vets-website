@@ -5,18 +5,19 @@ describe('Personal and contact information', () => {
     it('should successfully update on Desktop', () => {
       setUp('military');
 
-      cy.get('[type="checkbox"]')
-        .first()
-        .check();
+      cy.findByRole('checkbox', {
+        name: /I live on a.*military base/i,
+      }).check();
 
       cy.get('#root_addressLine1')
         .clear()
         .type('PSC 808 Box 37');
       cy.get('#root_addressLine2').clear();
+      cy.get('#root_addressLine3').clear();
 
-      cy.findByLabelText(/City/i).select('FPO');
+      cy.get('#root_city').select('FPO');
 
-      cy.get('#root_stateCode').select('AE');
+      cy.findByLabelText(/^State/).select('AE');
       cy.findByLabelText(/Zip code/i)
         .clear()
         .type('09618');
@@ -30,8 +31,9 @@ describe('Personal and contact information', () => {
       cy.wait('@finishedTransaction');
       cy.wait('@getUser');
 
-      cy.findByText(/PSC 808 Box 37/i).should('exist');
-      cy.findByText(/FPO, Armed Forces Europe/i).should('exist');
+      cy.get('div[data-field-name="mailingAddress"]')
+        .should('contain', 'PSC 808 Box 37')
+        .and('contain', 'FPO, Armed Forces Europe');
     });
   });
 });
