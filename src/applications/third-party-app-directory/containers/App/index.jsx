@@ -1,7 +1,7 @@
 // Node modules.
 import React from 'react';
 // Relative imports.
-import AppDirectory from '../../components/AppDirectory';
+import ThirdPartyAppList from '../ThirdPartyAppList';
 
 export const App = () => (
   <div
@@ -9,7 +9,7 @@ export const App = () => (
     data-e2e-id="app"
   >
     {/* Derive the Page */}
-    <AppDirectory />
+    <ThirdPartyAppList />
   </div>
 );
 

@@ -220,7 +220,7 @@ export function getFacilityIdFromLocation(location) {
  * @param {String} id A location's fake FHIR id
  */
 export function getSiteIdFromFakeFHIRId(id) {
-  return parseId(id).substr(0, 3);
+  return id ? parseId(id).substr(0, 3) : null;
 }
 
 /**
