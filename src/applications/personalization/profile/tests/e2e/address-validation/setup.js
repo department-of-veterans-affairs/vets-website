@@ -11,8 +11,10 @@ export const setUp = type => {
     'DISMISSED_ANNOUNCEMENTS',
     JSON.stringify(['single-sign-on-intro']),
   );
+
   cy.login(mockUser);
   cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
+  cy.injectAxe();
 
   cy.findByRole('button', { name: /edit mailing address/i }).click();
 

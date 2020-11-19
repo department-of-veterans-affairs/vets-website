@@ -4,6 +4,7 @@ describe('Personal and contact information', () => {
   describe('when entering an address with a bad unit', () => {
     it('should successfully update on Desktop', () => {
       setUp('bad-unit');
+      cy.axeCheck();
 
       cy.get('#root_addressLine1')
         .clear()
@@ -27,6 +28,8 @@ describe('Personal and contact information', () => {
       });
 
       cy.wait('@validateAddress');
+
+      cy.axeCheck();
 
       cy.findByText('Please update or confirm your unit number').should(
         'exist',
