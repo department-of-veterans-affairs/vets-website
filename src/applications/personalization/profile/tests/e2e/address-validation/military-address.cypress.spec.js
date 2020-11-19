@@ -26,14 +26,15 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@validateAddress');
-      cy.wait('@saveAddress');
-      cy.wait('@finishedTransaction');
       cy.wait('@getUser');
 
       cy.get('div[data-field-name="mailingAddress"]')
         .should('contain', 'PSC 808 Box 37')
         .and('contain', 'FPO, Armed Forces Europe');
+
+      cy.findByRole('button', { name: /edit mailing address/i }).should(
+        'be.focused',
+      );
     });
   });
 });

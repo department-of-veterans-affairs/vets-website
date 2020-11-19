@@ -23,8 +23,6 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@validateAddress');
-
       cy.get('div[data-field-name="mailingAddress"]')
         .should('contain', 'Please confirm your address')
         .and('contain', '400 65th st')
@@ -33,13 +31,16 @@ describe('Personal and contact information', () => {
       cy.findByTestId('confirm-address-button').click({
         force: true,
       });
-      cy.wait('@saveAddress');
-      cy.wait('@finishedTransaction');
+
       cy.wait('@getUser');
 
       cy.get('div[data-field-name="mailingAddress"]')
         .should('contain', '400 NW 65th St')
         .and('contain', 'Seattle, WA 98117');
+
+      cy.findByRole('button', { name: /edit mailing address/i }).should(
+        'be.focused',
+      );
     });
   });
 });

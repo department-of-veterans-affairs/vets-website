@@ -23,8 +23,6 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@validateAddress');
-
       cy.findByText('Please confirm your address').should('exist');
 
       cy.get('div[data-field-name="mailingAddress"]')
@@ -38,13 +36,15 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@saveAddress');
-      cy.wait('@finishedTransaction');
       cy.wait('@getUser');
 
       cy.get('div[data-field-name="mailingAddress"]')
         .should('contain', '575 20th St')
         .and('contain', 'San Francisco, CA 94107');
+
+      cy.findByRole('button', { name: /edit mailing address/i }).should(
+        'be.focused',
+      );
     });
   });
 });

@@ -23,8 +23,6 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@validateAddress');
-
       cy.get('div[data-field-name="mailingAddress"]')
         .should('contain', 'Please add a unit number')
         .and('contain', '225 irving st');
@@ -32,13 +30,16 @@ describe('Personal and contact information', () => {
       cy.findByTestId('confirm-address-button').click({
         force: true,
       });
-      cy.wait('@saveAddress');
-      cy.wait('@finishedTransaction');
+
       cy.wait('@getUser');
 
       cy.get('div[data-field-name="mailingAddress"]')
         .should('contain', '225 irving st')
         .and('contain', 'San Francisco, CA 94122');
+
+      cy.findByRole('button', { name: /edit mailing address/i }).should(
+        'be.focused',
+      );
     });
   });
 });

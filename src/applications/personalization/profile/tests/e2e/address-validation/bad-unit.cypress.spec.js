@@ -27,8 +27,6 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@validateAddress');
-
       cy.axeCheck();
 
       cy.findByText('Please update or confirm your unit number').should(
@@ -43,13 +41,16 @@ describe('Personal and contact information', () => {
       cy.findByTestId('confirm-address-button').click({
         force: true,
       });
-      cy.wait('@saveAddress');
-      cy.wait('@finishedTransaction');
+
       cy.wait('@getUser');
 
       cy.get('div[data-field-name="mailingAddress"]')
         .should('contain', '225 irving st, Unit A')
         .and('contain', 'San Francisco, CA 94122');
+
+      cy.findByRole('button', { name: /edit mailing address/i }).should(
+        'be.focused',
+      );
     });
   });
 });

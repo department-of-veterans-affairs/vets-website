@@ -24,14 +24,15 @@ describe('Personal and contact information', () => {
           force: true,
         });
 
-        cy.wait('@validateAddress');
-        cy.wait('@saveAddress');
-        cy.wait('@finishedTransaction');
         cy.wait('@getUser');
 
         cy.get('div[data-field-name="mailingAddress"]')
           .should('contain', '36320 Coronado Dr')
           .and('contain', 'Fremont, CA 94536');
+
+        cy.findByRole('button', { name: /edit mailing address/i }).should(
+          'be.focused',
+        );
       });
     });
   });
