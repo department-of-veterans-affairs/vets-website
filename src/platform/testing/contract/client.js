@@ -260,7 +260,7 @@ module.exports = class PactBrokerClient {
 
   /**
    * Checks whether all consumers from the generated pacts can be deployed
-   * to the desired environment. Throws an error if the check fails.
+   * to the desired environment. Throws an error if the check fails on any.
    * @param {BrokerOperationOptions}
    */
   canDeploy = async options => {
@@ -272,7 +272,9 @@ module.exports = class PactBrokerClient {
         ['pactDir', 'version', 'tag'],
         options,
       );
+
       const consumerContexts = this.createConsumerContexts(options);
+
       results = await Promise.all(
         consumerContexts.map(this.isConsumerDeployable),
       );
@@ -281,7 +283,7 @@ module.exports = class PactBrokerClient {
       throw e;
     }
 
-    const deployable = results.reduce((arr, cur) => arr && cur);
+    const deployable = results.every(Boolean);
 
     if (!deployable) {
       throw new Error(
