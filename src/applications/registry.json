@@ -904,5 +904,14 @@
         }
       ]
     }
+  },
+  {
+    "appName": "Questionnaire List",
+    "entryName": "questionnaire-list",
+    "rootUrl": "/healthcare/list",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html"
+    }
   }
 ]
