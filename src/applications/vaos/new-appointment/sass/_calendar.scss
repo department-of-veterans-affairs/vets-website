@@ -101,9 +101,13 @@
   margin-bottom: 11px;
 }
 
+.vaos-calendar__nav h2 {
+  min-width: 245px;
+}
+
 .vaos-calendar__nav-links-button {
-  margin-top: -30px;
   background: none;
+  align-items: center;
 
   &:disabled {
     color: $color-gray-light !important;
@@ -113,6 +117,11 @@
   &:hover {
     background: none;
   }
+}
+
+.vaos-calendar__nav-links-button i {
+  font-size: 22px;
+  padding-top: 2px;
 }
 
 .vaos-calendar__options-container {

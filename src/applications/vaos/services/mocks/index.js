@@ -162,7 +162,6 @@ export default [
   },
   {
     path: /community_care\/eligibility/,
-    delay: 2000,
     response: {
       data: {
         id: 'PrimaryCare',

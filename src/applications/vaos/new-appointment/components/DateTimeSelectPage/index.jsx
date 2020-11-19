@@ -184,7 +184,6 @@ export function DateTimeSelectPage({
         </p>
       )}
       <CalendarWidget
-        monthsToShowAtOnce={2}
         maxSelections={1}
         availableDates={availableDates}
         currentlySelectedDate={currentlySelectedDate}

@@ -122,7 +122,6 @@ export function DateTimeRequestPage({
         schedule the best time for your appointment.
       </p>
       <CalendarWidget
-        monthsToShowAtOnce={2}
         multiSelect
         maxSelections={maxSelections}
         onChange={newData => {
