@@ -23,6 +23,7 @@ import {
 } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import { distBetween } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -258,10 +259,19 @@ export const genBBoxFromAddress = query => {
             Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
           ];
         }
+
+        const radius = distBetween(
+          features[0].bbox[1],
+          features[0].bbox[0],
+          features[0].bbox[3],
+          features[0].bbox[2],
+        );
+
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
+            radius,
             context: zipCode,
             id: Date.now(),
             inProgress: true,
@@ -327,9 +337,17 @@ export const genSearchAreaFromCenter = query => {
           ];
         }
 
+        const radius = distBetween(
+          features[0].bbox[1],
+          features[0].bbox[0],
+          features[0].bbox[3],
+          features[0].bbox[2],
+        );
+
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
+            radius,
             searchString: location,
             context: location,
             searchArea: {
