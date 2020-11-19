@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
+import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -11,6 +12,8 @@ import {
   submitErrorContent,
 } from '../content/confirmation-page';
 
+import { confirmationEmailFeature } from '../utils';
+
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -20,7 +23,7 @@ const scrollToTop = () => {
   });
 };
 
-export default class ConfirmationPage extends React.Component {
+export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isExpanded: false };
@@ -58,4 +61,15 @@ ConfirmationPage.propTypes = {
   claimId: PropTypes.string,
   jobId: PropTypes.string,
   submissionId: PropTypes.string,
+  areConfirmationEmailTogglesOn: PropTypes.bool.isRequired,
 };
+
+ConfirmationPage.defaultProps = {
+  areConfirmationEmailTogglesOn: false,
+};
+
+const mapStateToProps = state => ({
+  areConfirmationEmailTogglesOn: confirmationEmailFeature(state),
+});
+
+export default connect(mapStateToProps)(ConfirmationPage);
