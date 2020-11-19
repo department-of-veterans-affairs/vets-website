@@ -2,6 +2,24 @@ import * as Sentry from '@sentry/browser';
 
 import { ssoKeepAliveEndpoint } from 'platform/user/authentication/utilities';
 
+const caughtExceptions = {
+  'Failed to fetch': {
+    logType: Sentry.Severity.Error,
+  },
+  'NetworkError when attempting to fetch resource.': {
+    logType: Sentry.Severity.Error,
+  },
+  'The Internet connection appears to be offline': {
+    logType: Sentry.Severity.Info,
+  },
+  'The network connection was lost.': {
+    logType: Sentry.Severity.Info,
+  },
+  cancelled: {
+    logType: Sentry.Severity.Info,
+  },
+};
+
 export default async function keepAlive() {
   // Return a TTL and authn values from the IAM keepalive endpoint that
   // 1) indicates how long the user's current SSOe session will be alive for,
@@ -34,29 +52,13 @@ export default async function keepAlive() {
       }[resp.headers.get('va_eauth_csid')],
     };
   } catch (err) {
-    const caughtExceptions = {
-      'Failed to fetch': {
-        logType: Sentry.Severity.Error,
-      },
-      'NetworkError when attempting to fetch resource.': {
-        logType: Sentry.Severity.Error,
-      },
-      'The Internet connection appears to be offline': {
-        logType: Sentry.Severity.Info,
-      },
-      'The network connection was lost.': {
-        logType: Sentry.Severity.Info,
-      },
-      cancelled: {
-        logType: Sentry.Severity.Info,
-      },
-    }[err.message];
-
     Sentry.withScope(scope => {
       scope.setExtra('error', err);
       Sentry.captureMessage(
         `SSOe error: ${err.message}`,
-        caughtExceptions ? caughtExceptions.logType : err.message,
+        caughtExceptions[err.message]
+          ? caughtExceptions[err.message].logType
+          : Sentry.Severity.Error,
       );
     });
     return {};
