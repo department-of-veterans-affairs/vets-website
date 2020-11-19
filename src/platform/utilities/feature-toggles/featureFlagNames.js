@@ -60,6 +60,7 @@ export default Object.freeze({
   show526Wizard: 'show526Wizard',
   showChapter36: 'show_chapter_36',
   showChapter31: 'show_chapter_31',
+  viewPaymentHistory: 'view_payment_history',
   form1995EduUpdates: 'form_1995_edu_updates',
   requestLockedPdfPassword: 'request_locked_pdf_password',
 });
