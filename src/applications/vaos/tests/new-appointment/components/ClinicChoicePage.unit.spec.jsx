@@ -199,6 +199,68 @@ describe('VAOS <ClinicChoicePage>', () => {
     );
   });
 
+  it('should show message if user choose a different clinic but isn not eligible for requests', async () => {
+    const clinics = [
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
+        },
+      },
+      {
+        id: '309',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '309',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Red team clinic',
+        },
+      },
+    ];
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '211',
+      limit: true,
+      requestPastVisits: false,
+      directPastVisits: true,
+      clinics,
+      pastClinics: true,
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /amputation/i);
+    await setVAFacility(store, '983');
+
+    const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
+      store,
+    });
+
+    await screen.findByText(
+      /Choose your VA clinic for your amputation care appointment/i,
+    );
+
+    // choosing the third option sends you to request flow
+    userEvent.click(screen.getByText(/need a different clinic/i));
+    await waitFor(
+      () =>
+        expect(screen.getByLabelText(/need a different clinic/i).checked).to.be
+          .true,
+    );
+
+    await screen.findByText(
+      /You need to have visited this facility within the past/i,
+    );
+
+    expect(screen.getByText(/continue/i)).to.have.attribute('disabled');
+  });
+
   it('should show a yes/no choice when a single clinic is available', async () => {
     const clinics = [
       {
