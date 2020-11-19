@@ -9,6 +9,7 @@ import reduce from 'lodash/reduce';
 import PropTypes from 'prop-types';
 // Relative imports
 import { SearchResultPropTypes } from '../../prop-types';
+import { recordFindAppClick, recordInfoToggle } from '../../utils/analytics';
 
 export class SearchResult extends Component {
   static propTypes = {
@@ -24,11 +25,13 @@ export class SearchResult extends Component {
     };
   }
 
-  setShow = show => {
+  setShow = (show, item) => {
     if (show) {
       this.setState({ learnIcon: 'up' });
+      recordInfoToggle('expand', item.name, item.service_categories);
     } else {
       this.setState({ learnIcon: 'down' });
+      recordInfoToggle('collapse', item.name, item.service_categories);
     }
     this.setState({ show });
   };
@@ -73,6 +76,9 @@ export class SearchResult extends Component {
           <a
             className="usa-button usa-button-secondary vads-u-width--auto"
             href={item?.app_url}
+            onClick={e =>
+              recordFindAppClick(e, item.name, item.service_categories)
+            }
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -85,7 +91,7 @@ export class SearchResult extends Component {
           <button
             className="va-button-link vads-u-text-decoration--none vads-u-border-color--link-default vads-u-border-style--dotted vads-u-border-bottom--1px vads-u-margin-top--1p5"
             onClick={() => {
-              setShow(!show, item?.service_categories);
+              setShow(!show, item);
             }}
             type="button"
           >
