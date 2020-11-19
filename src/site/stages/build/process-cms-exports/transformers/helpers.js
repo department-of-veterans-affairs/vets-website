@@ -107,7 +107,14 @@ function getImageCrop(obj, imageStyle = null) {
       image.machine
     }/public${imageObj.image.derivative.url.replace('/img', '')}`;
     imageObj.image.url = url;
-    imageObj.image.derivative.url = url;
+    // Derivative urls have a full path starting with
+    // 'https://{buildtype}.cms.va.gov/sites/default/files/', so add that here.
+    // It doesn't matter what the build type is since it gets stripped out in convertDrupalFilesToLocal
+    // so just use prod here
+    imageObj.image.derivative.url = `https://prod.cms.va.gov/sites/default/files/${url.replace(
+      '/img/',
+      '',
+    )}`;
     imageObj.image.derivative.width = image.width;
     imageObj.image.derivative.height = image.height;
     return imageObj;
