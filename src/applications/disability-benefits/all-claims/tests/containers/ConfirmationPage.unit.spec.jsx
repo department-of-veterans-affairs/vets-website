@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ConfirmationPage } from '../../containers/ConfirmationPage';
+import ConfirmationPage from '../../containers/ConfirmationPage';
 import { submissionStatuses } from '../../constants';
 
 describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
