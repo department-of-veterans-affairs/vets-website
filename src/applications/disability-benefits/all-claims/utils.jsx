@@ -941,6 +941,7 @@ export const showSeparationLocation = formData => {
 };
 
 export const show526Wizard = state => toggleValues(state).show526Wizard;
+
 export const confirmationEmailFeature = state => {
   const isForm526ConfirmationEmailOn = toggleValues(state)[
     FEATURE_FLAG_NAMES.form526ConfirmationEmail

@@ -69,13 +69,25 @@ export const forwardingAddressDescription = () => (
 
 export const contactInfoDescription = ({
   formName = 'disability claim',
-} = {}) => (
-  <p>
-    This is the contact information we have on file for you. We’ll send any
-    important information about your {formName} to this address. Any updates you
-    make here to your contact information will only apply to this application.
-  </p>
-);
+  areConfirmationEmailTogglesOn,
+}) => {
+  return areConfirmationEmailTogglesOn ? (
+    <p className="contact-info-description" id="contact-info-new">
+      This is the contact information we have on file for you. Please review it
+      to make sure the information below is correct. We’ll send any important
+      information about your disability claim to your mailing address. After you
+      submit your claim, we’ll send you a confirmation email to your email
+      address.
+    </p>
+  ) : (
+    <p className="contact-info-description" id="contact-info-default">
+      This is the contact information we have on file for you. We’ll send any
+      important information about your {formName} to this address. Any updates
+      you make here to your contact information will only apply to this
+      application.
+    </p>
+  );
+};
 
 export const contactInfoUpdateHelpDescription = ({
   areConfirmationEmailTogglesOn,
@@ -105,6 +117,10 @@ export const contactInfoUpdateHelpDescription = ({
 const mapStateToProps = state => ({
   areConfirmationEmailTogglesOn: confirmationEmailFeature(state),
 });
+
+export const contactInfo = connect(mapStateToProps)(
+  contactInfoDescription,
+);
 
 export const contactInfoUpdateHelp = connect(mapStateToProps)(
   contactInfoUpdateHelpDescription,

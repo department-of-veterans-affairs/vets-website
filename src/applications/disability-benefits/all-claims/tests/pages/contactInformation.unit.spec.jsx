@@ -550,15 +550,95 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  describe('Form526 Confirmation Email Feature Toggles', () => {
-    it('renders new copy when both form526 confirmation email toggles are on', () => {
-      const togglesOnState = {
-        featureToggles: {
-          form526_confirmation_email: true,
-          form526_confirmation_email_show_copy: true,
-        },
-      };
+  describe('contactInfoDescription when Form526 Confirmation Email Feature Toggles', () => {
+    const togglesOnState = {
+      featureToggles: {
+        form526_confirmation_email: true,
+        form526_confirmation_email_show_copy: true,
+      },
+    };
 
+    it('renders new copy when both form526 confirmation email toggles are on', () => {
+      const toggleStore = createStore(
+        combineReducers({
+          ...commonReducer,
+          ...reducers,
+        }),
+        togglesOnState,
+      );
+
+      const form = mount(
+        <Provider store={toggleStore}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            data={{
+              mailingAddress: {},
+              phoneAndEmail: {},
+            }}
+            formData={{}}
+            uiSchema={uiSchema}
+          />
+        </Provider>,
+      );
+      // check if this component is used elsewhere outside of disabilities
+      expect(
+        form.find('p.contact-info-description#contact-info-new').length,
+      ).to.equal(1);
+      expect(
+        form.find('p.contact-info-description#contact-info-default').length,
+      ).to.equal(0);
+      form.unmount();
+    });
+
+    it('renders old copy when either form526 confirmation email toggles is off', () => {
+      const singleToggleOnStore = createStore(
+        combineReducers({
+          ...commonReducer,
+          ...reducers,
+        }),
+        {
+          featureToggles: {
+            ...togglesOnState.featureToggles,
+            form526_confirmation_email_show_copy: false,
+          },
+        },
+      );
+
+      const form = mount(
+        <Provider store={singleToggleOnStore}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            data={{
+              mailingAddress: {},
+              phoneAndEmail: {},
+            }}
+            formData={{}}
+            uiSchema={uiSchema}
+          />
+        </Provider>,
+      );
+
+      expect(
+        form.find('p.contact-info-description#contact-info-default').length,
+      ).to.equal(1);
+      expect(
+        form.find('p.contact-info-description#contact-info-new').length,
+      ).to.equal(0);
+      form.unmount();
+    });
+  });
+
+  describe('contactInfoUpdateHelp when Form526 Confirmation Email Feature Toggles', () => {
+    const togglesOnState = {
+      featureToggles: {
+        form526_confirmation_email: true,
+        form526_confirmation_email_show_copy: true,
+      },
+    };
+
+    it('renders new copy when both form526 confirmation email toggles are on', () => {
       const toggleStore = createStore(
         combineReducers({
           ...commonReducer,
@@ -592,23 +672,21 @@ describe('Disability benefits 526EZ contact information', () => {
     });
 
     it('renders old copy when either form526 confirmation email toggles is off', () => {
-      const togglesOnState = {
-        featureToggles: {
-          form526_confirmation_email: true,
-          form526_confirmation_email_show_copy: false,
-        },
-      };
-
-      const toggleStore = createStore(
+      const singleToggleOnStore = createStore(
         combineReducers({
           ...commonReducer,
           ...reducers,
         }),
-        togglesOnState,
+        {
+          featureToggles: {
+            ...togglesOnState.featureToggles,
+            form526_confirmation_email_show_copy: false,
+          },
+        },
       );
 
       const form = mount(
-        <Provider store={toggleStore}>
+        <Provider store={singleToggleOnStore}>
           <DefinitionTester
             definitions={formConfig.defaultDefinitions}
             schema={schema}
