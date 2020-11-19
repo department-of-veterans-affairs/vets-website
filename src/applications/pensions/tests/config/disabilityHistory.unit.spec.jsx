@@ -10,7 +10,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
-describe('Pensions disability history', () => {
+xdescribe('Pensions disability history', () => {
   const {
     schema,
     uiSchema,
