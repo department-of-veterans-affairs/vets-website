@@ -10,5 +10,6 @@
     "src/platform/testing/unit/enzyme-setup.js"
   ],
   "timeout": 1800000,
-  "parallel": true
+  "parallel": true,
+  "jobs": 5
 }

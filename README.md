@@ -265,7 +265,7 @@ yarn test:unit --log-level debug
 To **run tests with coverage output**, you can pass the coverage option:
 
 ```sh
-yarn test:unit --coverage
+yarn test:unit
 ```
 
 For **help with test runner usage**, you can run:

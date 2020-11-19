@@ -38,7 +38,7 @@ jobs:
             - ~/.cache/yarn
       - run: mkdir -p ./test-results
       - run:
-          command: yarn test:unit --coverage
+          command: yarn test:unit
           environment:
             MOCHA_FILE: ./test-results/test-results.xml
       - run: node ./script/app-coverage-report.js
