@@ -46,7 +46,6 @@ export const ContactInfoDescription = ({ profile }) => {
           {addBrAfter(street)}
           {addBrAfter(cityStateZip)}
           {addBrBefore(country)}
-          &nbsp;
         </p>
       </div>
     </>
