@@ -12,7 +12,7 @@ import { getVAFacilityMock, getVARequestMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { renderFromRoutes } from '../../mocks/setup';
 
-describe('VAOS integration: express care requests', () => {
+xdescribe('VAOS integration: express care requests', () => {
   describe('when shown in upcoming appointments tab', () => {
     const initialState = {
       featureToggles: {
