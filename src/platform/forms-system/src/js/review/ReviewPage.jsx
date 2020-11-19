@@ -4,6 +4,11 @@ import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import DowntimeNotification, {
+  externalServiceStatus,
+} from 'platform/monitoring/DowntimeNotification';
+import DowntimeMessage from 'platform/monitoring/DowntimeNotification/components/Down';
+
 import { focusElement } from '../utilities/ui';
 import ReviewChapters from '../review/ReviewChapters';
 import SubmitController from '../review/SubmitController';
@@ -27,17 +32,35 @@ class ReviewPage extends React.Component {
     focusElement('h2');
   }
 
+  renderDowntime = (downtime, children) => {
+    if (downtime.status === externalServiceStatus.down) {
+      const Message = this.props.formConfig.downtime.message || DowntimeMessage;
+
+      return <Message downtime={downtime} />;
+    }
+
+    return children;
+  };
+
   render() {
     const { formConfig, pageList, path } = this.props;
 
+    const downtimeDependencies = formConfig?.downtime?.dependencies || [];
     return (
       <div>
         <ReviewChapters formConfig={formConfig} pageList={pageList} />
-        <SubmitController
-          formConfig={formConfig}
-          pageList={pageList}
-          path={path}
-        />
+        <DowntimeNotification
+          appTitle="application"
+          render={this.renderDowntime}
+          dependencies={downtimeDependencies}
+          customText={formConfig.customText}
+        >
+          <SubmitController
+            formConfig={formConfig}
+            pageList={pageList}
+            path={path}
+          />
+        </DowntimeNotification>
       </div>
     );
   }
