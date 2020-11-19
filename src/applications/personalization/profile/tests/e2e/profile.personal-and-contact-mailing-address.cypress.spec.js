@@ -90,7 +90,6 @@ const confirmWebAddressesAreBlocked = () => {
     .should('exist')
     .contains(/please enter a valid street address/i);
   cy.get('#root_addressLine2').clear();
-  cy.get('#root_addressLine3').clear();
   cy.findByRole('alert').should('not.exist');
 
   // NOTE: resorting to selecting via a fragile element ID since there are two
