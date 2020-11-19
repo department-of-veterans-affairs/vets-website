@@ -114,6 +114,8 @@ export const fetchLocations = async (
   serviceType,
   page,
   dispatch,
+  center,
+  radius,
 ) => {
   try {
     const data = await LocatorApi.searchWithBounds(
@@ -122,6 +124,8 @@ export const fetchLocations = async (
       locationType,
       serviceType,
       page,
+      center,
+      radius,
     );
     // Record event as soon as API return results
     if (data.errors) {
@@ -146,6 +150,8 @@ export const searchWithBounds = ({
   facilityType,
   serviceType,
   page = 1,
+  center,
+  radius,
 }) => {
   const needsAddress = [
     LocationType.CC_PROVIDER,
@@ -180,10 +186,21 @@ export const searchWithBounds = ({
           serviceType,
           page,
           dispatch,
+          center,
+          radius,
         );
       });
     } else {
-      fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
+      fetchLocations(
+        null,
+        bounds,
+        facilityType,
+        serviceType,
+        page,
+        dispatch,
+        center,
+        radius,
+      );
     }
   };
 };
