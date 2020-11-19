@@ -50,6 +50,13 @@ const generateBasicAuthHeader = (username, password) => ({
 });
 
 /**
+ * Validates and escapes a string URL and returns it as a string.
+ * @param {string} url - String to be validated as URL.
+ * @return {string} URL that's been validated and cast to string.
+ */
+const urlString = url => new URL(url).toString();
+
+/**
  * Client that interacts with a Pact Broker.
  */
 module.exports = class PactBrokerClient {
@@ -62,7 +69,7 @@ module.exports = class PactBrokerClient {
   constructor({ url, username, password }) {
     try {
       validateRequiredOptions('PactBrokerClient', ['url'], { url });
-      this.url = new URL(url).toString();
+      this.url = urlString(url);
       this.authHeader =
         username && password
           ? generateBasicAuthHeader(username, password)
@@ -95,7 +102,7 @@ module.exports = class PactBrokerClient {
     const consumer = data.consumer.name;
     const provider = data.provider.name;
 
-    const url = new URL(
+    const url = urlString(
       path.join(
         this.url,
         'pacts',
@@ -103,7 +110,7 @@ module.exports = class PactBrokerClient {
         `consumer/${consumer}`,
         `version/${version}`,
       ),
-    ).toString();
+    );
 
     const response = await fetch(url, {
       method: 'PUT',
@@ -137,7 +144,7 @@ module.exports = class PactBrokerClient {
     const { data, version, tag } = pactObject;
     const consumer = data.consumer.name;
 
-    const url = new URL(
+    const url = urlString(
       path.join(
         this.url,
         'pacticipants',
@@ -145,7 +152,7 @@ module.exports = class PactBrokerClient {
         `versions/${version}`,
         `tags/${tag}`,
       ),
-    ).toString();
+    );
 
     const response = await fetch(url, {
       method: 'PUT',
@@ -224,9 +231,9 @@ module.exports = class PactBrokerClient {
 
     return this.parsePacts(pactDir).map(data => {
       const consumer = data.consumer.name;
-      const consumerUrl = new URL(baseUrl);
-      consumerUrl.searchParams.append('q[]pacticipant', consumer);
-      const url = consumerUrl.toString();
+      let url = new URL(baseUrl);
+      url.searchParams.append('q[]pacticipant', consumer);
+      url = url.toString();
       return { consumer, version, tag, url };
     });
   };
