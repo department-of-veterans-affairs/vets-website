@@ -10,6 +10,7 @@ export const vetFields = {
   preferredFacilityInfoView: 'view:preferredFacilityInfo',
   preferredFacilityStateView: 'veteranFacilityState',
   preferredFacilityView: 'veteranPreferredFacility',
+  facilityDescriptionHolder: 'view:facilityDescriptionHolder',
   previousTreatmentFacilityName: 'veteranLastTreatmentFacilityName',
   previousTreatmentFacilityType: 'veteranLastTreatmentFacilityType',
   primaryPhoneNumber: 'veteranPrimaryPhoneNumber',

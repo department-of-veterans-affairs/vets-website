@@ -1,3 +1,4 @@
+import React from 'react';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 
 import { states } from 'platform/forms/address';
@@ -15,6 +16,17 @@ const { vetUI } = definitions;
 
 const vetMedicalCenterPage = {
   uiSchema: {
+    'ui:description': (
+      <div>
+        <h3 className="vads-u-font-size--h4">Recent medical care</h3>
+        <p>
+          Please enter the name of the medical facility where the Veteran
+          <strong className="vads-u-margin-left--0p5">
+            last received medical treatment.
+          </strong>
+        </p>
+      </div>
+    ),
     [vetFields.previousTreatmentFacilityName]: {
       'ui:title': 'Name of medical facility',
     },
