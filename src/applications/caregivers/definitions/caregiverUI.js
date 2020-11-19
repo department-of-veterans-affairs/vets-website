@@ -1,4 +1,3 @@
-import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -20,7 +19,6 @@ import {
   medicalCenterLabels,
   medicalCentersByState,
   validateSSNIsUnique,
-  facilityNameMaxLength,
 } from 'applications/caregivers/helpers';
 
 const emptyFacilityList = [];
@@ -102,42 +100,6 @@ export default {
   },
   vetUI: {
     vetInputLabel: 'Veteran\u2019s',
-    previousTreatmentFacilityUI: {
-      'ui:title': ' ',
-      'ui:order': ['name', 'type'],
-      'ui:description': (
-        <div>
-          <h3 className="vads-u-font-size--h4">Recent medical care</h3>
-          <p>
-            Please enter the name of the medical facility where the Veteran
-            <strong className="vads-u-margin-left--0p5">
-              last received medical treatment.
-            </strong>
-          </p>
-        </div>
-      ),
-      name: {
-        'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
-        'ui:validations': [
-          {
-            validator: (errors, fieldData, formData) => {
-              facilityNameMaxLength(errors, formData);
-            },
-          },
-        ],
-        'ui:title': 'Name of medical facility',
-      },
-      type: {
-        'ui:required': formData => !!formData.veteranLastTreatmentFacility.name,
-        'ui:title': 'Was this a hospital or clinic?',
-        'ui:options': {
-          labels: {
-            hospital: 'Hospital',
-            clinic: 'Clinic',
-          },
-        },
-      },
-    },
     [vetFields.preferredFacilityView]: {
       'ui:description': PleaseSelectVAFacility(),
       [vetFields.preferredFacilityStateView]: {
