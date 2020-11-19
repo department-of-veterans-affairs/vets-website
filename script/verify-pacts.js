@@ -17,7 +17,7 @@ const options = {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    branch: 'u-don/pact-webhook',
+    branch: 'vagovteam-16325',
     parameters: {
       verify_stable_pacts: true,
       consumer_branch: process.env.CIRCLE_BRANCH,
