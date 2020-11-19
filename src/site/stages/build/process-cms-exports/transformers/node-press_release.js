@@ -27,7 +27,11 @@ const transform = entity => ({
     entity.fieldOffice && entity.fieldOffice[0]
       ? { entity: entity.fieldOffice[0] }
       : null,
-  fieldPdfVersion: entity.fieldPdfVersion[0] || null,
+  fieldPdfVersion: entity.fieldPdfVersion[0]
+    ? {
+        entity: entity.fieldPdfVersion[0],
+      }
+    : null,
   fieldPressReleaseContact: entity.fieldPressReleaseContact.map(i => ({
     entity: i,
   })),

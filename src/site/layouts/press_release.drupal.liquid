@@ -1,144 +1,57 @@
-{% comment %}
-    Example data:
-    {
-        "entityId": "95",
-        "entityBundle": "press_release",
-        "entityPublished": false,
-        "title": "Fayette County Veterans getting larger, more modern VA outpatient clinic",
-        "entityUrl": {
-            "breadcrumb": [
-                {
-                    "url": {
-                    "path": "/",
-                    "routed": true
-                },
-                    "text": "Home"
-                },
-                {
-                    "url": {
-                    "path": "/pittsburgh-health-care",
-                    "routed": true
-                },
-                    "text": "Pittsburgh Health Care System"
-                }
-            ],
-            "path": "/pittsburgh-health-care/press-releases/fayette-county-veterans-getting-larger-more-modern-va-outpatient-clinic"
-        },
-        "fieldReleaseDate": {
-            "value": "2018-11-26T05:43:34",
-            "date": "2018-11-26 05:43:34 UTC"
-        },
-        "fieldPdfVersion": {
-            "entity": {
-                "fieldDocument": {
-                    "entity": {
-                        "filename": "VAMC-Region-2019-02-21.pdf",
-                        "url": "http://stg.va.agile6.com/sites/default/files/2019-02/VAMC-Region-2019-02-21_0.pdf"
-                    }
-                }
-            }
-        },
-        "fieldAddress": {
-            "locality": "Pittsburgh",
-            "administrativeArea": "PA"
-        },
-        "fieldIntroText": "The Fayette County VA Outpatient Clinic will move to its new, larger space in the Fayette Plaza at 627 Pittsburgh Road, Suite 2, Uniontown, PA, on Dec. 3.",
-        "fieldPressReleaseFulltext": {
-            "processed": "<p>The new location is just three storefronts away from the current clinic but has more than double</p>\n\n<p>the space at 16,000 square feet.</p>"
-        },
-        "fieldPressReleaseContact": [
-            {
-                "entity": {
-                    "title": "Sheila Tunney",
-                    "fieldDescription": "Public Affairs Specialist",
-                    "fieldPhoneNumber": "412-360-1479",
-                    "fieldEmailAddress": "sheila.tunney@va.gov"
-                }
-            }
-        ],
-        "fieldPressReleaseDownloads": [
-            {
-                "entity": {
-                    "entityId": "17",
-                    "entityBundle": "document",
-                    "name": "VAMC-Region-2019-02-21.pdf",
-                    "fieldDocument": {
-                        "entity": {
-                            "filename": "VAMC-Region-2019-02-21.pdf",
-                            "url": "http://stg.va.agile6.com/sites/default/files/2019-02/VAMC-Region-2019-02-21.pdf"
-                        }
-                    }
-                }
-            },
-            {
-                "entity": {
-                    "entityId": "19",
-                    "entityBundle": "image",
-                    "name": "VHA-Region-Press_Releases-Detail.jpg",
-                    "image": {
-                        "alt": "Veteran's Day poster 2019",
-                        "url": "http://stg.va.agile6.com/sites/default/files/2019-02/VHA-Region-Press_Releases-Detail.jpg"
-                    }
-                }
-            }
-        ],
-        "fieldOffice": {
-            "entity": {
-                "fieldPressReleaseBlurb": {
-                    "processed": "<p><strong>About VA Pittsburgh Healthcare System</strong></p>"
-                }
-            }
-        }
-    },
-{% endcomment %}
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true deriveBreadcrumbsFromUrl = true%}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true deriveBreadcrumbsFromUrl = true %}
 
 <div id="content" class="interior">
     <main class="va-l-detail-page va-facility-page">
-        {% comment %} On prod, show the SideNav. {% endcomment %}
-        {% if buildtype == 'vagovprod' %}
-            <div class="usa-grid usa-grid-full">
-                {% comment %} SideNav {% endcomment %}
-                {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+        <div class="usa-grid usa-grid-full">
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
 
-                {% comment %} Content {% endcomment %}
-                <div class="usa-width-three-fourths">
-                    <article class="usa-content">
-                        <section class="vads-u-margin-bottom--5">
-                            <h1 class="vads-u-margin-bottom--2p5">{{ title }}</h1>
-                            <p class="vads-u-margin-bottom--0p5">PRESS RELEASE</p>
-                            <p class="vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-margin-top--0">{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
-                            <div>
-                                <button type="button" class="vads-u-margin-right--4 va-button-link" onclick="window.print(); return false;"><i class="fa fa-print vads-u-padding-right--1"></i>Print</button>
-                                {% if fieldPdfVersion != empty %}
-                                    <a href="{{ fieldPdfVersion.entity.fieldDocument.entity.url }}" download><i class="fa fa-download vads-u-padding-right--1"></i>Download press release (PDF)</a>
+            <div class="usa-width-three-fourths">
+                <article class="usa-content">
+                    <section class="vads-u-margin-bottom--5">
+                        <h1 class="vads-u-margin-bottom--2p5">{{ title }}</h1>
+                        <p class="vads-u-margin-bottom--0p5">PRESS RELEASE</p>
+                        <p class="vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-margin-top--0">{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
+                        <div>
+                            <button type="button" class="vads-u-margin-right--4 va-button-link"
+                                    onclick="window.print(); return false;">
+                                <i class="fa fa-print vads-u-padding-right--1"></i>
+                                Print
+                            </button>
+                            {% if fieldPdfVersion != empty %}
+                                <a href="{{ fieldPdfVersion.entity.fieldDocument.entity.url }}" download>
+                                    <i class="fa fa-download vads-u-padding-right--1"></i>
+                                    Download press release (PDF)
+                                </a>
+                            {% endif %}
+                        </div>
+                        <p class="va-introtext vads-u-font-size--lg vads-u-margin-top--3">{{ fieldAddress.locality }}
+                            , {{ fieldAddress.administrativeArea }} — {{ fieldIntroText }}</p>
+                        <div>{{ fieldPressReleaseFulltext.processed }}</div>
+                    </section>
+
+                    {% assign anyContacts = fieldPressReleaseContact.length %}
+                    {% if anyContacts > 0 %}
+                        <section class="vads-u-margin-bottom--6">
+                            <div class="vads-u-font-weight--bold">Media contacts</div>
+                            {% for contact in fieldPressReleaseContact %}
+                                {% assign c = contact.entity %}
+                                {% if c != empty %}
+                                    <div>
+                                        <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
+                                        <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.fieldPhoneNumber }}</p>
+                                        {% if c.fieldEmailAddress != empty %}
+                                            <p class="vads-u-margin-top--1 vads-u-margin-bottom--0"><a
+                                                        href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a>
+                                            </p>
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
-                            </div>
-                            <p class="va-introtext vads-u-font-size--lg vads-u-margin-top--3">{{ fieldAddress.locality }}, {{ fieldAddress.administrativeArea }} — {{ fieldIntroText }}</p>
-                            <div>{{ fieldPressReleaseFulltext.processed }}</div>
+                            {% endfor %}
                         </section>
-
-                        {% assign anyContacts = fieldPressReleaseContact.length %}
-                        {% if anyContacts > 0 %}
-                            <section class="vads-u-margin-bottom--6">
-                                <div class="vads-u-font-weight--bold">Media contacts</div>
-                                {% for contact in fieldPressReleaseContact %}
-                                    {% assign c = contact.entity %}
-                                    {% if c != empty %}
-                                        <div>
-                                            <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
-                                            <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.fieldPhoneNumber }}</p>
-                                            {% if c.fieldEmailAddress != empty %}
-                                                <p class="vads-u-margin-top--1 vads-u-margin-bottom--0"><a href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a></p>
-                                            {% endif %}
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </section>
-                        {%  endif %}
+                    {% endif %}
 
                         {% assign anyDownloads = fieldPressReleaseDownloads.length %}
                         {% if anyDownloads > 0 %}
@@ -162,86 +75,18 @@
                             </section>
                         {%  endif %}
 
-                        <section class="vads-u-margin-bottom--6 vads-u-text-align--center">###</section>
-
-                        <section class="vads-u-margin-bottom--3">
-                            {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}
-                        </section>
-                        {% assign index = entityUrl.breadcrumb.length | minus: 1 %}
-                        <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all news releases</a>
-                    </article>
-                </div>
-            </div>
-
-        {% comment %} On non-prod environments, do not show the SideNav. {% endcomment %}
-        {% else %}
-            <div class="usa-grid usa-grid-full">
-                <article class="usa-content">
-                    <section class="vads-u-margin-bottom--5">
-                        <h1 class="vads-u-margin-bottom--2p5">{{ title }}</h1>
-                        <p class="vads-u-margin-bottom--0p5">PRESS RELEASE</p>
-                        <p class="vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-margin-top--0">{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
-                        <div>
-                            <button type="button" class="vads-u-margin-right--4 va-button-link" onclick="window.print(); return false;"><i class="fa fa-print vads-u-padding-right--1"></i>Print</button>
-                            {% if fieldPdfVersion != empty %}
-                                <a href="{{ fieldPdfVersion.entity.fieldDocument.entity.url }}" download><i class="fa fa-download vads-u-padding-right--1"></i>Download press release (PDF)</a>
-                            {% endif %}
-                        </div>
-                        <p class="va-introtext vads-u-font-size--lg vads-u-margin-top--3">{{ fieldAddress.locality }}, {{ fieldAddress.administrativeArea }} — {{ fieldIntroText }}</p>
-                        <div>{{ fieldPressReleaseFulltext.processed }}</div>
-                    </section>
-
-                    {% assign anyContacts = fieldPressReleaseContact.length %}
-                    {% if anyContacts > 0 %}
-                        <section class="vads-u-margin-bottom--6">
-                            <div class="vads-u-font-weight--bold">Media contacts</div>
-                            {% for contact in fieldPressReleaseContact %}
-                                {% assign c = contact.entity %}
-                                {% if c != empty %}
-                                    <div>
-                                        <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
-                                        <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.fieldPhoneNumber }}</p>
-                                        {% if c.fieldEmailAddress != empty %}
-                                            <p class="vads-u-margin-top--1 vads-u-margin-bottom--0"><a href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a></p>
-                                        {% endif %}
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        </section>
-                    {%  endif %}
-
-                    {% assign anyDownloads = fieldPressReleaseDownloads.length %}
-                    {% if anyDownloads > 0 %}
-                        <section class="vads-u-margin-bottom--6">
-                            <div class="vads-u-font-weight--bold vads-u-margin-bottom--1">Download media assets</div>
-                            {% for asset in fieldPressReleaseDownloads %}
-                                {% assign a = asset.entity %}
-                                <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
-                                    <li class="vads-u-margin-bottom--1">
-                                        {% case a.entityBundle %}
-                                        {% when 'document' %}
-                                            <a href="{{ a.fieldDocument.entity.url }}" download>{{ a.name }}</a>
-                                        {% when a.entityBundle === 'image' %}
-                                            <a href="{{ a.image.url }}" download>{{ a.name }}</a>
-                                        {% when a.entityBundle === 'video' %}
-                                            <a href="{{ a.fieldMediaVideoEmbedField }}">{{ a.name }}</a>
-                                        {%  endcase %}
-                                    </li>
-                                </ul>
-                            {% endfor %}
-                        </section>
-                    {%  endif %}
-
                     <section class="vads-u-margin-bottom--6 vads-u-text-align--center">###</section>
 
                     <section class="vads-u-margin-bottom--3">
                         {{ fieldOffice.entity.fieldPressReleaseBlurb.processed }}
                     </section>
                     {% assign index = entityUrl.breadcrumb.length | minus: 1 %}
-                    <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all news releases</a>
+                    <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
+                       href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all news
+                        releases</a>
                 </article>
             </div>
-        {% endif %}
+        </div>
     </main>
 </div>
 {% include "src/site/includes/footer.html" %}
