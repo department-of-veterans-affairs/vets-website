@@ -15,7 +15,7 @@ const url =
 const options = {
   method: 'POST',
   headers: {
-    'Circle-Token': process.env.PACT_CIRCLECI_TOKEN,
+    'Circle-Token': process.env.CIRCLE_TOKEN,
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
