@@ -43,12 +43,12 @@ describe('parsePhoneNumber', () => {
   });
 
   it('with 800 numbers', () => {
-    const phone = '1-800-392-0000';
+    const phone = '1-800-827-1000';
     const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(
       phone,
     );
-    expect(formattedPhoneNumber).to.equal('1-800-392-0000');
+    expect(formattedPhoneNumber).to.equal('800-827-1000');
     expect(extension).to.equal('');
-    expect(contact).to.equal('8003920000');
+    expect(contact).to.equal('8008271000');
   });
 });
