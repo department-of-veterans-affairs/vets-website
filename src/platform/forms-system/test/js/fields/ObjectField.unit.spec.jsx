@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import { getFormDOM } from 'platform/testing/unit/schemaform-utils';
 import ObjectField from '../../../src/js/fields/ObjectField';
 
-describe('Schemaform: ObjectField', () => {
+xdescribe('Schemaform: ObjectField', () => {
   it('should render', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import TabItem from '../../../../appointment-list/components/AppointmentsPage/TabItem';
 
-describe('<TabItem>', () => {
+xdescribe('<TabItem>', () => {
   it('should render tab', () => {
     const tree = shallow(
       <TabItem id="id" title="Title Here" tabpath="upcoming" />,
