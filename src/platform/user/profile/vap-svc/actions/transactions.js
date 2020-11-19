@@ -130,6 +130,7 @@ export function refreshTransaction(
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
+            'error-key': transaction?.errors,
           });
         }
       }
@@ -312,6 +313,7 @@ export const validateAddress = (
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
       'profile-section': analyticsSectionName,
+      'error-key': error?.status,
     });
 
     return dispatch({
