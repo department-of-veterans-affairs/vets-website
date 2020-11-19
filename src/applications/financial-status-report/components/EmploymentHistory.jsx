@@ -351,7 +351,6 @@ const EmploymentHistory = ({
       )}
       {showSecondaryRecord && (
         // TODO: on create secondary formData should be null
-        // need to handle formData using redux
         <SecondaryEmploymentRecord
           registry={registry}
           schema={schema}
