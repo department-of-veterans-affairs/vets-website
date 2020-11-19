@@ -90,7 +90,7 @@ export default {
       'ui:title': `What is the ${label}  relationship to the Veteran?`,
     }),
     hasPrimaryCaregiverOneUI: {
-      'ui:title': 'Would you like to add a Primary Family Caregiver?',
+      'ui:title': 'Would you like to apply with a Primary Family Caregiver?',
       'ui:description': PrimaryCaregiverInfo({
         additionalInfo: true,
         headerInfo: false,

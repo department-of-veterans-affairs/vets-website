@@ -33,13 +33,19 @@ VetInfo.propTypes = {
   pageTitle: PropTypes.string,
 };
 
-export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
+export const PrimaryCaregiverInfo = ({
+  additionalInfo,
+  pageTitle,
+  headerInfo,
+}) => (
   <>
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
-    <p className="vads-u-margin-top--2">
-      Please complete the following information about the Primary Family
-      Caregiver.
-    </p>
+    {headerInfo && (
+      <p className="vads-u-margin-top--2">
+        Please complete the following information about the Primary Family
+        Caregiver.
+      </p>
+    )}
 
     {additionalInfo && (
       <section className="vads-u-margin-y--2p5">
@@ -74,6 +80,7 @@ export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
 PrimaryCaregiverInfo.propTypes = {
   additionalInfo: PropTypes.bool,
   pageTitle: PropTypes.string,
+  headerInfo: PropTypes.bool,
 };
 
 PrimaryCaregiverInfo.defaultProps = {

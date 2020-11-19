@@ -12,6 +12,10 @@
     a {
       &:visited {
         color: #004795;
+
+        abbr {
+          color: #004795;
+        }
       }
     }
   }
