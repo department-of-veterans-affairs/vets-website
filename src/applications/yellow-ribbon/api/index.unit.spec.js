@@ -3,7 +3,7 @@ import { expect } from 'chai';
 // Relative imports.
 import { fetchResultsApi } from './index';
 
-describe('Yellow Ribbon api functions', () => {
+xdescribe('Yellow Ribbon api functions', () => {
   describe('fetchResultsApi', () => {
     it('should return a normalized API response', async () => {
       const apiCall = await fetchResultsApi({ mockRequest: true });
