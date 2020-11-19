@@ -102,7 +102,7 @@ export const setIncomeData = income => ({
   income,
 });
 
-export const setDeductions = deductions => ({
+export const setDeductionsData = deductions => ({
   type: FSR_DEDUCTIONS,
   deductions,
 });

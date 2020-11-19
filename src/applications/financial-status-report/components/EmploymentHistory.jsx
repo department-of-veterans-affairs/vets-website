@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { setDeductions } from '../actions';
+import { setDeductionsData } from '../actions';
 import moment from 'moment';
 
 const PrimaryEmploymentRecord = ({
@@ -11,7 +11,7 @@ const PrimaryEmploymentRecord = ({
   onBlur,
   formData,
   onChange,
-  setData,
+  setDeductions,
   deductions,
   save,
   showPrimaryRecord,
@@ -87,7 +87,7 @@ const PrimaryEmploymentRecord = ({
         onBlur={onBlur}
         formData={formData}
         onChange={onChange}
-        setData={setData}
+        setDeductions={setDeductions}
         deductions={deductions}
       />
       <button
@@ -186,7 +186,7 @@ const PayrollDeductions = ({
   onBlur,
   // formData,
   // deductions,
-  // setData,
+  setDeductions,
 }) => {
   const { SchemaField } = registry.fields;
 
@@ -217,6 +217,7 @@ const PayrollDeductions = ({
         return index === itemIndex ? { ...item, value } : item;
       }),
     ]);
+    setDeductions(deductionTypes);
   };
 
   const total = deductionTypes.reduce((sum, item) => {
@@ -293,7 +294,7 @@ const EmploymentHistory = ({
   onBlur,
   onChange,
   formData,
-  setData,
+  setDeductions,
   deductions,
 }) => {
   const [savedRecords, setSavedRecords] = useState([]);
@@ -343,7 +344,7 @@ const EmploymentHistory = ({
           onBlur={onBlur}
           onChange={onChange}
           formData={formData}
-          setData={setData}
+          setDeductions={setDeductions}
           deductions={deductions}
           save={data => handleSaveRecord(data)}
           showPrimaryRecord={setShowPrimaryRecord}
@@ -359,7 +360,7 @@ const EmploymentHistory = ({
           onBlur={onBlur}
           onChange={onChange}
           formData={formData}
-          setData={setData}
+          setDeductions={setDeductions}
           deductions={deductions}
           save={data => handleSaveRecord(data)}
           showSecondaryRecord={setShowSecondaryRecord}
@@ -378,7 +379,7 @@ const EmploymentHistory = ({
 };
 
 const mapDispatchToProps = dispatch => ({
-  setData: data => dispatch(setDeductions(data)),
+  setDeductions: data => dispatch(setDeductionsData(data)),
 });
 
 const mapStateToProps = state => ({
