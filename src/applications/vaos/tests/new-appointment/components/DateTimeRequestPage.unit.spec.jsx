@@ -162,7 +162,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         }),
       ).to.be.ok;
     });
-
+    // start of error
     it('should display an alert when user selects more than 3 dates', async () => {
       const store = createTestStore({
         newAppointment: {
@@ -221,13 +221,15 @@ describe('VAOS <DateTimeRequestPage>', () => {
       checkbox = await screen.findByLabelText(/^PM/i);
       userEvent.click(checkbox);
 
+      // 8 Simulate user submit the form
+      const button = screen.getByText(/^Continue/);
+      userEvent.click(button);
+
       // NOTE: alert doesn't have a name so search for text too
-      expect(await screen.findByRole('alert')).to.be.ok;
-      expect(
-        screen.getByText(
-          'You can only choose up to 3 dates for your appointment.',
-        ),
-      ).to.be.ok;
+      await waitFor(() => {
+        expect(screen.findByRole('alert')).to.be.ok;
+      });
+      expect(screen.getByText(/You can only choose up to 3 dates/i)).to.be.ok;
     });
 
     it('should display an alert when user selects 2 dates and multiple times', async () => {
@@ -289,20 +291,16 @@ describe('VAOS <DateTimeRequestPage>', () => {
       });
       userEvent.click(checkbox);
 
-      // NOTE: alert doesn't have a name so search for text too
-      expect(screen.getByRole('alert')).to.be.ok;
-      expect(
-        screen.getByText(
-          'You can only choose up to 3 dates for your appointment.',
-        ),
-      ).to.be.ok;
-
       // 7. it should not allow the user to submit the form
       const button = screen.getByText(/^Continue/);
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.false;
       });
+
+      // NOTE: alert doesn't have a name so search for text too
+      expect(screen.getByRole('alert')).to.be.ok;
+      expect(screen.getByText(/You can only choose up to 3 dates./i)).to.be.ok;
     });
 
     it('should display an alert when user submits the form with no dates selected', async () => {
@@ -337,7 +335,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         ),
       ).to.be.ok;
 
-      // it should not allow user to submit the form
+      // 1 it should not allow user to submit the form
       button = screen.getByText(/^Continue/);
       userEvent.click(button);
       await waitFor(() => {
