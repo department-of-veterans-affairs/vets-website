@@ -21,7 +21,7 @@ export const directDepositDescription = () => {
 
 const gaBankInfoHelpText = () => {
   window.dataLayer.push({
-    event: 'edu-10203--form-help-text-clicked',
+    event: 'form-help-text-clicked',
     'help-text-label': 'What if I don’t have a bank account?',
   });
 };
