@@ -42,11 +42,11 @@ describe('Content on the personal information section in the profile', () => {
     cy.findByText(/Male/i).should('exist');
 
     // Check mailing address
-    cy.findByTestId('mailingAddress')
+    cy.get('div[data-field-name="mailingAddress"]')
       .contains(/1493 Martin Luther King Rd, Apt 1/i)
       .should('exist');
 
-    cy.findByTestId('mailingAddress')
+    cy.get('div[data-field-name="mailingAddress"]')
       .contains(/Fulton, NY 97062/i)
       .should('exist');
 
