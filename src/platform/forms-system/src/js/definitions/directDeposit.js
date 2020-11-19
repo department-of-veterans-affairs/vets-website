@@ -48,7 +48,8 @@ const uiSchema = optionalFields => {
       },
       'ui:options': {
         classNames: 'vads-u-margin-bottom--3',
-        hideIf: form => form?.declineDirectDeposit,
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        hideIf: form => !useDirectDeposit(form),
       },
     },
     declineDirectDeposit: {
