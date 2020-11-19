@@ -77,8 +77,8 @@ export const resolveParamsWithUrl = (
         `page=${page}`,
         `per_page=${perPage}`,
         roundRadius ? `radius=${roundRadius}` : null,
-        center && center.length > 0 ? `centerLat=${center[1]}` : null,
-        center && center.length > 0 ? `centerLng=${center[0]}` : null,
+        center && center.length > 0 ? `center_lat=${center[0]}` : null,
+        center && center.length > 0 ? `center_lng=${center[1]}` : null,
       ]).join('&'),
     };
   }
@@ -97,8 +97,8 @@ export const resolveParamsWithUrl = (
       facility === LocationType.VET_CENTER ? `exclude_mobile=true` : null,
       url === api.ccUrl ? `trim=true` : null,
       roundRadius ? `radius=${roundRadius}` : null,
-      center && center.length > 0 ? `centerLat=${center[1]}` : null,
-      center && center.length > 0 ? `centerLng=${center[0]}` : null,
+      center && center.length > 0 ? `center_lat=${center[0]}` : null,
+      center && center.length > 0 ? `center_lng=${center[1]}` : null,
     ]).join('&'),
   };
 };
