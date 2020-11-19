@@ -101,3 +101,15 @@ export const MapboxInit = {
     lat: 40.17887331434698,
   },
 };
+
+/**
+ * Mapbox api request countries
+ */
+
+export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
+
+/**
+ * Mapbox api request types
+ */
+
+export const TypeList = ['place', 'region', 'postcode', 'locality'];

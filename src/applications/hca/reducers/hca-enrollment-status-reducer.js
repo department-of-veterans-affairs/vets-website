@@ -1,5 +1,3 @@
-import formConfig from './config/form';
-import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import {
   FETCH_ENROLLMENT_STATUS_STARTED,
   FETCH_ENROLLMENT_STATUS_SUCCEEDED,
@@ -9,8 +7,8 @@ import {
   FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
   SET_DISMISSED_HCA_NOTIFICATION,
   SHOW_HCA_REAPPLY_CONTENT,
-} from './actions';
-import { HCA_ENROLLMENT_STATUSES } from './constants';
+} from '../actions';
+import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 const initialState = {
   applicationDate: null,
@@ -28,7 +26,7 @@ const initialState = {
   showHCAReapplyContent: false,
 };
 
-export function hcaEnrollmentStatus(state = initialState, action) {
+function hcaEnrollmentStatus(state = initialState, action) {
   switch (action.type) {
     case FETCH_ENROLLMENT_STATUS_STARTED:
       return { ...state, isLoadingApplicationStatus: true };
@@ -112,7 +110,4 @@ export function hcaEnrollmentStatus(state = initialState, action) {
   }
 }
 
-export default {
-  form: createSaveInProgressFormReducer(formConfig),
-  hcaEnrollmentStatus,
-};
+export default hcaEnrollmentStatus;
