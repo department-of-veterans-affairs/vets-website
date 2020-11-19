@@ -278,6 +278,7 @@ jobs:
 
 workflows:
   flag-for-manual-review:
+    unless: << pipeline.parameters.check_deployability >>
     jobs:
       - eslint-check:
           filters:
@@ -312,5 +313,6 @@ workflows:
     jobs:
       - can-i-deploy
   additional-linting:
+    unless: << pipeline.parameters.check_deployability >>
     jobs:
       - additional-linting
