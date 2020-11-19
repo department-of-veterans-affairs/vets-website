@@ -1,4 +1,28 @@
 export const createAddressValidationResponse = type => {
+  if (type === 'low-confidence') {
+    return {
+      addresses: [
+        {
+          address: {
+            addressLine1: '36 Coronado Dr',
+            addressType: 'DOMESTIC',
+            city: 'Fremont',
+            countryName: 'United States',
+            countryCodeIso3: 'USA',
+            stateCode: 'CA',
+            zipCode: '94536',
+          },
+          addressMetaData: {
+            confidenceScore: 0,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'MISSING_ZIP',
+          },
+        },
+      ],
+      validationKey: -46312769,
+    };
+  }
+
   if (type === 'military') {
     return {
       addresses: [

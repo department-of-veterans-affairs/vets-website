@@ -150,6 +150,42 @@ export const createUserResponse = type => {
     return userObject;
   }
 
+  if (type === 'low-confidence') {
+    userObject.data.attributes.vet360ContactInformation.mailingAddress = {
+      addressLine1: '36 Coronado Dr',
+      addressLine2: null,
+      addressLine3: null,
+      addressPou: 'CORRESPONDENCE',
+      addressType: 'DOMESTIC',
+      city: 'Fremont',
+      countryName: 'United States',
+      countryCodeIso2: 'US',
+      countryCodeIso3: 'USA',
+      countryCodeFips: null,
+      countyCode: null,
+      countyName: null,
+      createdAt: '2020-09-23T16:50:37.000Z',
+      effectiveEndDate: null,
+      effectiveStartDate: '2020-11-16T14:42:37.000Z',
+      geocodeDate: '2020-11-16T14:42:38.000Z',
+      geocodePrecision: 31,
+      id: 198543,
+      internationalPostalCode: null,
+      latitude: 37.5583,
+      longitude: -122.0224,
+      province: null,
+      sourceDate: '2020-11-16T14:42:37.000Z',
+      sourceSystemUser: null,
+      stateCode: 'CA',
+      transactionId: '1e9ddefa-62a0-4c6f-be00-c1b30d2e1e98',
+      updatedAt: '2020-11-16T14:42:38.000Z',
+      validationKey: null,
+      vet360Id: '1273780',
+      zipCode: '94536',
+      zipCodeSuffix: null,
+    };
+  }
+
   if (type === 'military') {
     userObject.data.attributes.vet360ContactInformation.mailingAddress = {
       addressLine1: 'PSC 808 Box 37',
