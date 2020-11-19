@@ -42,8 +42,6 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@getUser');
-
       cy.findByTestId('mailingAddress')
         .should('contain', '225 irving st, Unit A')
         .and('contain', 'San Francisco, CA 94122');

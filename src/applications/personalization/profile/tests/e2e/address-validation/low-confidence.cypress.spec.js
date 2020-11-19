@@ -37,10 +37,8 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@getUser');
-
       cy.findByTestId('mailingAddress')
-        .should('contain', '36326 Coronado Dr')
+        .should('contain', '36320 Coronado Dr')
         .and('contain', 'Fremont, CA 94536');
 
       cy.findByRole('button', { name: /edit mailing address/i }).should(

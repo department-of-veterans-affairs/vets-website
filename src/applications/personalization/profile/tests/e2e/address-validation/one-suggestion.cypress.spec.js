@@ -32,8 +32,6 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@getUser');
-
       cy.findByTestId('mailingAddress')
         .should('contain', '400 NW 65th St')
         .and('contain', 'Seattle, WA 98117');

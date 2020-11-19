@@ -26,8 +26,6 @@ describe('Personal and contact information', () => {
         force: true,
       });
 
-      cy.wait('@getUser');
-
       cy.findByTestId('mailingAddress')
         .should('contain', 'PSC 808 Box 37')
         .and('contain', 'FPO, Armed Forces Europe');
