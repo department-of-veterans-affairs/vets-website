@@ -7,11 +7,11 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 const IntroductionPage = props => {
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Financial Status Report" />
+      <FormTitle title="Apply for financial hardship assistance" />
       <p>Equal to VA Form 5655 (Financial Status Report).</p>
       <SaveInProgressIntro
-        startText="Start the Application"
-        unauthStartText="Sign in to start your application"
+        startText="Apply for financial hardship assistance"
+        unauthStartText="Sign in or create an account"
         hideUnauthedStartLink
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
@@ -68,14 +68,14 @@ const IntroductionPage = props => {
         buttonOnly
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
-        startText="Start the Application"
+        startText="Apply for financial hardship assistance"
+        unauthStartText="Sign in or create an account"
         hideUnauthedStartLink
         prefillEnabled={props.route.formConfig.prefillEnabled}
-        unauthStartText="Sign in to start your application"
         formConfig={formConfig}
       />
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-        <OMBInfo resBurden={30} ombNumber="" expDate="12/31/2021" />
+        <OMBInfo resBurden={60} ombNumber="2900-0862" expDate="02/28/2022" />
       </div>
     </div>
   );

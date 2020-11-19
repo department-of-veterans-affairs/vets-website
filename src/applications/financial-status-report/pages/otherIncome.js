@@ -1,36 +1,31 @@
 import ListLoop from '../components/ListLoop';
 
 export const uiSchema = {
-  employmentHistory: {
-    'ui:title': 'Your employment history',
-    'view:hasBeenEmployed': {
-      'ui:title': 'Have you been employed within the past two years?',
+  otherIncome: {
+    'ui:title': 'Your other income',
+    'view:socialSecurityPayments': {
+      'ui:title': 'Do you currently receive social security payments?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    'view:isEmployed': {
+    'view:hasSocialSecurity': {
       'ui:options': {
-        expandUnder: 'view:hasBeenEmployed',
+        expandUnder: 'view:socialSecurityPayments',
       },
-      'view:currentlyEmployed': {
-        'ui:title': 'Are you currently employed?',
+      'view:additionalIncome': {
+        'ui:title': 'Do you currently receive any additional income?',
         'ui:widget': 'yesNo',
         'ui:required': () => true,
       },
-      'view:isCurrentlyEmployed': {
+      'view:hasAdditionalIncome': {
         'ui:options': {
-          expandUnder: 'view:currentlyEmployed',
+          expandUnder: 'view:additionalIncome',
         },
         incomeType: {
           'ui:title': 'Type of income',
         },
         monthlyAmount: {
           'ui:title': 'Monthly amount',
-        },
-        employmentStart: {
-          'ui:title': 'Employment start date',
-          'ui:widget': 'date',
-          'ui:required': () => true,
         },
         employerName: {
           'ui:title': 'Employer name',
@@ -44,19 +39,19 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    employmentHistory: {
+    otherIncome: {
       type: 'object',
       properties: {
-        'view:hasBeenEmployed': {
+        'view:socialSecurityPayments': {
           type: 'boolean',
         },
-        'view:isEmployed': {
+        'view:hasSocialSecurity': {
           type: 'object',
           properties: {
-            'view:currentlyEmployed': {
+            'view:additionalIncome': {
               type: 'boolean',
             },
-            'view:isCurrentlyEmployed': {
+            'view:hasAdditionalIncome': {
               type: 'object',
               properties: {
                 incomeType: {
@@ -64,9 +59,6 @@ export const schema = {
                   enum: ['Income Type 1', 'Income Type 2', 'Income Type 3'],
                 },
                 monthlyAmount: {
-                  type: 'string',
-                },
-                employmentStart: {
                   type: 'string',
                 },
                 employerName: {
