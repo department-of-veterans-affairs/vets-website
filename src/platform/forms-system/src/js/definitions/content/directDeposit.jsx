@@ -6,8 +6,7 @@ export const directDepositDescription = () => {
     <div>
       <p>
         We make payments only through direct deposit, also called electronic
-        funds transfer (EFT). If you’re approved for the Rogers STEM
-        Scholarship, we’ll need to know where to deposit the funds.
+        funds transfer (EFT).
       </p>
       <img
         src="/img/direct-deposit-check-guide.png"
