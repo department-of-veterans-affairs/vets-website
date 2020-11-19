@@ -66,6 +66,7 @@ jobs:
           environment:
             MOCHA_FILE: ./test-results/test-results.xml
       - run: yarn pact:publish
+      - run: yarn pact:verify
       - persist_to_workspace:
           root: .
           paths:
@@ -90,6 +91,7 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - run: yarn test:contract
       - run: yarn pact:can-i-deploy
 
   security-audit:
@@ -285,15 +287,13 @@ workflows:
             branches:
               ignore: master
   test_and_build:
+    unless: << pipeline.parameters.check_deployability >>
     jobs:
       - lint
       - unit-test
       - contract-test
       - security-audit
       - build-e2e
-      - can-i-deploy:
-          requires:
-            - contract-test
       - build:
           requires:
             - lint
@@ -302,6 +302,10 @@ workflows:
       - e2e-test:
           requires:
             - build-e2e
+  can-i-depoy:
+    when: << pipeline.parameters.check_deployability >>
+    jobs:
+      - can-i-deploy
   additional-linting:
     jobs:
       - additional-linting
