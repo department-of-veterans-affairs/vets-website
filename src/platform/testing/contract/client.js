@@ -2,9 +2,8 @@
 
 const base64 = require('base-64');
 const fs = require('fs');
+const fetch = require('node-fetch');
 const path = require('path');
-
-require('isomorphic-fetch');
 
 /**
  * typedef {Object} PactObject
