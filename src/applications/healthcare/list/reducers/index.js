@@ -12,13 +12,14 @@ const initialState = {
 
 const questionnaireListReducer = (state = initialState, action) => {
   const { list } = state;
-  // console.log('in my reducer', { state, context, action });
   switch (action.type) {
     case QUESTIONNAIRE_LIST_LOADING:
       list.status = { ...list.status, isLoading: true };
       return { ...state, list };
     case QUESTIONNAIRE_LIST_LOADED:
-      return { ...state };
+      list.status = { ...list.status, isLoading: false };
+      list.questionnaires = { ...action.data };
+      return { ...state, list };
     default:
       return state;
   }

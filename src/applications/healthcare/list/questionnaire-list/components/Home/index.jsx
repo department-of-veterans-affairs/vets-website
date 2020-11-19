@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
@@ -9,9 +9,25 @@ import environment from 'platform/utilities/environment';
 import TabNav from './TabNav';
 import ToDoQuestionnaires from '../ToDoQuestionnaires';
 import CompletedQuestionnaires from '../CompletedQuestionnaires';
+import { loadQuestionnaires } from '../../../api';
+import {
+  questionnaireListLoading,
+  questionnaireListLoaded,
+} from '../../../actions';
 
 const Home = props => {
-  const { user } = props;
+  const { user, setLoading, setQuestionnaireData } = props;
+
+  useEffect(() => {
+    // call the API
+    setLoading();
+    loadQuestionnaires().then(response => {
+      const { data } = response;
+      // load data in to redux
+      setQuestionnaireData(data);
+    });
+  }, []);
+
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
@@ -52,4 +68,14 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = dispatch => {
+  return {
+    setLoading: () => dispatch(questionnaireListLoading()),
+    setQuestionnaireData: value => dispatch(questionnaireListLoaded(value)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home);
