@@ -208,19 +208,17 @@ describe('VAOS <ReviewPage> VA request', () => {
       event: 'vaos-request-submission',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
+      'vaos-number-of-preferred-providers': 0,
       flow: 'va-request',
     });
     expect(dataLayer[2]).to.deep.equal({
-      event: 'vaos-vaos-community-care-submission',
-      'vaos-number-of-preferred-providers': 0,
-    });
-    expect(dataLayer[3]).to.deep.equal({
       event: 'vaos-request-submission-successful',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
+      'vaos-number-of-preferred-providers': 0,
       flow: 'va-request',
     });
-    expect(dataLayer[4]).to.deep.equal({
+    expect(dataLayer[3]).to.deep.equal({
       flow: undefined,
       'health-TypeOfCare': undefined,
       'health-ReasonForAppointment': undefined,
@@ -232,6 +230,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       'vaos-number-of-items': undefined,
       'tab-text': undefined,
       alertBoxHeading: undefined,
+      'vaos-number-of-preferred-providers': undefined,
     });
   });
 
@@ -291,6 +290,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
+      'vaos-number-of-preferred-providers': 0,
     });
     expect(global.window.dataLayer[3]).to.deep.equal({
       flow: undefined,
@@ -304,6 +304,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       'vaos-number-of-items': undefined,
       'tab-text': undefined,
       alertBoxHeading: undefined,
+      'vaos-number-of-preferred-providers': undefined,
     });
   });
 });
