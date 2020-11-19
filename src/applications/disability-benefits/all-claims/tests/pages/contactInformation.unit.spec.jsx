@@ -581,7 +581,7 @@ describe('Disability benefits 526EZ contact information', () => {
           />
         </Provider>,
       );
-      // check if this component is used elsewhere outside of disabilities
+
       expect(
         form.find('p.contact-info-description#contact-info-new').length,
       ).to.equal(1);
