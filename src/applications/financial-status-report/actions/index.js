@@ -8,7 +8,7 @@ import {
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
   FSR_ADDITIONAL_INCOME,
-  FSR_DEDUCTIONS,
+  FSR_EMPLOYMENT_HISTORY,
 } from '../constants/actionTypes';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import moment from 'moment';
@@ -102,7 +102,7 @@ export const setAdditionalIncomeData = additionalIncome => ({
   additionalIncome,
 });
 
-export const setDeductionsData = deductions => ({
-  type: FSR_DEDUCTIONS,
-  deductions,
+export const setEmploymentHistoryData = employmentHistory => ({
+  type: FSR_EMPLOYMENT_HISTORY,
+  employmentHistory,
 });

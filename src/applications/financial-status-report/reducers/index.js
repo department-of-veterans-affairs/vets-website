@@ -5,7 +5,7 @@ import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
   FSR_ADDITIONAL_INCOME,
-  FSR_DEDUCTIONS,
+  FSR_EMPLOYMENT_HISTORY,
 } from '../constants/actionTypes';
 import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
 
@@ -15,7 +15,7 @@ const initialState = {
   pending: true,
   debts: [],
   additionalIncome: [],
-  deductions: [],
+  employmentHistory: [],
 };
 
 const fsrApi = (state = initialState, action) => {
@@ -49,10 +49,10 @@ const fsrApi = (state = initialState, action) => {
         additionalIncome: action.additionalIncome,
       };
     }
-    case FSR_DEDUCTIONS: {
+    case FSR_EMPLOYMENT_HISTORY: {
       return {
         ...state,
-        deductions: action.deductions,
+        employmentHistory: action.employmentHistory,
       };
     }
     default:

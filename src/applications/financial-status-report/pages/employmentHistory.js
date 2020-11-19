@@ -29,6 +29,10 @@ export const uiSchema = {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
         },
+        employmentEnd: {
+          'ui:title': 'Employment end date',
+          'ui:widget': 'date',
+        },
         employerName: {
           'ui:title': 'Employer name',
         },
@@ -62,6 +66,9 @@ export const schema = {
                   type: 'string',
                 },
                 employmentStart: {
+                  type: 'string',
+                },
+                employmentEnd: {
                   type: 'string',
                 },
                 employerName: {

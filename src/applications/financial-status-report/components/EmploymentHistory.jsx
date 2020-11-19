@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { setDeductionsData } from '../actions';
+import { setDeductionsData, setEmploymentHistoryData } from '../actions';
 import moment from 'moment';
 
 const PrimaryEmploymentRecord = ({
@@ -9,14 +9,27 @@ const PrimaryEmploymentRecord = ({
   uiSchema,
   idSchema,
   onBlur,
-  formData,
-  onChange,
-  setDeductions,
-  deductions,
   save,
   showPrimaryRecord,
+  employmentHistory,
+  setEmploymentHistory,
 }) => {
   const { SchemaField } = registry.fields;
+
+  const [employment, setEmployment] = useState([]);
+  const [deductions, setDeductions] = useState([
+    { id: 0, type: 'Federal taxes', value: null },
+    { id: 1, type: 'State taxes', value: null },
+    { id: 2, type: 'Retirement (401k)', value: null },
+    { id: 3, type: 'Social security', value: null },
+  ]);
+
+  const handleUpdate = (key, value) => {
+    setEmployment({
+      ...employment,
+      [key]: value,
+    });
+  };
 
   const handleSave = (e, data) => {
     e.preventDefault();
@@ -28,7 +41,10 @@ const PrimaryEmploymentRecord = ({
     } = data;
     if (employerName && employmentStart && employmentType && monthlyIncome) {
       showPrimaryRecord(false);
-      save(data);
+      save({
+        ...data,
+        deductions,
+      });
     }
   };
 
@@ -41,8 +57,8 @@ const PrimaryEmploymentRecord = ({
           onBlur={onBlur}
           registry={registry}
           idSchema={idSchema}
-          formData={formData.employmentType}
-          onChange={value => onChange({ ...formData, employmentType: value })}
+          formData={employment?.employmentType}
+          onChange={value => handleUpdate('employmentType', value)}
         />
       </div>
       <div className="input-employment-start">
@@ -52,8 +68,8 @@ const PrimaryEmploymentRecord = ({
           onBlur={onBlur}
           registry={registry}
           idSchema={idSchema}
-          formData={formData.employmentStart}
-          onChange={value => onChange({ ...formData, employmentStart: value })}
+          formData={employment?.employmentStart}
+          onChange={value => handleUpdate('employmentStart', value)}
         />
       </div>
       <div className="input-employer-name">
@@ -63,8 +79,8 @@ const PrimaryEmploymentRecord = ({
           onBlur={onBlur}
           registry={registry}
           idSchema={idSchema}
-          formData={formData.employerName}
-          onChange={value => onChange({ ...formData, employerName: value })}
+          formData={employment?.employerName}
+          onChange={value => handleUpdate('employerName', value)}
         />
       </div>
       <h4>Employment income</h4>
@@ -75,8 +91,8 @@ const PrimaryEmploymentRecord = ({
           onBlur={onBlur}
           registry={registry}
           idSchema={idSchema}
-          formData={formData.monthlyIncome}
-          onChange={value => onChange({ ...formData, monthlyIncome: value })}
+          formData={employment?.monthlyIncome}
+          onChange={value => handleUpdate('monthlyIncome', value)}
         />
       </div>
       <PayrollDeductions
@@ -85,14 +101,14 @@ const PrimaryEmploymentRecord = ({
         uiSchema={uiSchema}
         idSchema={idSchema}
         onBlur={onBlur}
-        formData={formData}
-        onChange={onChange}
-        setDeductions={setDeductions}
+        employmentHistory={employmentHistory}
+        setEmploymentHistory={setEmploymentHistory}
         deductions={deductions}
+        setDeductions={setDeductions}
       />
       <button
         className="btn-save usa-button-primary"
-        onClick={e => handleSave(e, formData)}
+        onClick={e => handleSave(e, employment)}
       >
         Save
       </button>
@@ -106,8 +122,6 @@ const SecondaryEmploymentRecord = ({
   uiSchema,
   idSchema,
   onBlur,
-  formData,
-  onChange,
   save,
   showSecondaryRecord,
 }) => {
@@ -122,6 +136,17 @@ const SecondaryEmploymentRecord = ({
     }
   };
 
+  const [employment, setEmployment] = useState({
+    employmentType: '',
+  });
+
+  const handleUpdate = (key, value) => {
+    setEmployment({
+      ...employment,
+      [key]: value,
+    });
+  };
+
   return (
     <div className="employment-history-container">
       <div className="input-employment-type">
@@ -131,8 +156,8 @@ const SecondaryEmploymentRecord = ({
           onBlur={onBlur}
           registry={registry}
           idSchema={idSchema}
-          formData={formData.employmentType}
-          onChange={value => onChange({ ...formData, employmentType: value })}
+          formData={employment.employmentType}
+          onChange={value => handleUpdate('employmentType', value)}
         />
       </div>
       <div className="input-employment-start">
@@ -142,19 +167,19 @@ const SecondaryEmploymentRecord = ({
           onBlur={onBlur}
           registry={registry}
           idSchema={idSchema}
-          formData={formData.employmentStart}
-          onChange={value => onChange({ ...formData, employmentStart: value })}
+          formData={employment.employmentStart}
+          onChange={value => handleUpdate('employmentStart', value)}
         />
       </div>
       <div className="input-employment-start">
         <SchemaField
-          schema={schema.properties.employmentStart}
-          uiSchema={uiSchema.employmentStart}
+          schema={schema.properties.employmentEnd}
+          uiSchema={uiSchema.employmentEnd}
           onBlur={onBlur}
           registry={registry}
           idSchema={idSchema}
-          formData={formData.employmentStart}
-          onChange={value => onChange({ ...formData, employmentStart: value })}
+          formData={employment.employmentEnd}
+          onChange={value => handleUpdate('employmentEnd', value)}
         />
       </div>
       <div className="input-employer-name">
@@ -164,13 +189,13 @@ const SecondaryEmploymentRecord = ({
           onBlur={onBlur}
           registry={registry}
           idSchema={idSchema}
-          formData={formData.employerName}
-          onChange={value => onChange({ ...formData, employerName: value })}
+          formData={employment.employerName}
+          onChange={value => handleUpdate('employerName', value)}
         />
       </div>
       <button
         className="btn-save usa-button-primary"
-        onClick={e => handleSave(e, formData)}
+        onClick={e => handleSave(e, employment)}
       >
         Save
       </button>
@@ -184,43 +209,32 @@ const PayrollDeductions = ({
   uiSchema,
   idSchema,
   onBlur,
-  // formData,
-  // deductions,
+  deductions,
   setDeductions,
 }) => {
   const { SchemaField } = registry.fields;
 
-  const [deductionTypes, setDeductionTypes] = useState([
-    { id: 0, type: 'Federal taxes', value: null },
-    { id: 1, type: 'State taxes', value: null },
-    { id: 2, type: 'Retirement (401k)', value: null },
-    { id: 3, type: 'Social security', value: null },
-  ]);
-
   const handleAddDeduction = () => {
-    const [last] = deductionTypes.slice(-1);
+    const [last] = deductions.slice(-1);
     let { id } = last;
     const newId = ++id;
-
-    setDeductionTypes(prevState => [
+    setDeductions(prevState => [
       ...prevState,
       { id: newId, type: 'New Deduction', value: null },
     ]);
   };
 
   const handleUpdate = (id, value) => {
-    const itemIndex = deductionTypes.findIndex(obj => obj.id === id);
-
-    setDeductionTypes(prevState => [
+    const itemIndex = deductions.findIndex(obj => obj.id === id);
+    setDeductions(prevState => [
       ...prevState.map((item, index) => {
         if (!value && index === itemIndex) return { ...item, value: 0 };
         return index === itemIndex ? { ...item, value } : item;
       }),
     ]);
-    setDeductions(deductionTypes);
   };
 
-  const total = deductionTypes.reduce((sum, item) => {
+  const total = deductions.reduce((sum, item) => {
     return sum + item.value;
   }, 0);
 
@@ -229,7 +243,7 @@ const PayrollDeductions = ({
       <h4>Payroll deductions</h4>
       <p>You can find your payroll deductions in a recent paycheck.</p>
       <div className="input-payroll-deduction">
-        {deductionTypes.map((item, i) => (
+        {deductions.map((item, i) => (
           <div key={i}>
             <label className="deduction-label">{item.type}</label>
             <SchemaField
@@ -238,9 +252,7 @@ const PayrollDeductions = ({
               onBlur={onBlur}
               registry={registry}
               idSchema={idSchema}
-              formData={
-                deductionTypes[i]?.value ? deductionTypes[i]?.value : ''
-              }
+              formData={deductions[i]?.value ? deductions[i]?.value : ''}
               onChange={value => handleUpdate(i, value)}
             />
           </div>
@@ -292,10 +304,8 @@ const EmploymentHistory = ({
   uiSchema,
   idSchema,
   onBlur,
-  onChange,
-  formData,
-  setDeductions,
-  deductions,
+  employmentHistory,
+  setEmploymentHistory,
 }) => {
   const [savedRecords, setSavedRecords] = useState([]);
   const [showPrimaryRecord, setShowPrimaryRecord] = useState(true);
@@ -303,6 +313,15 @@ const EmploymentHistory = ({
 
   const handleAddRecord = () => {
     setShowSecondaryRecord(true);
+    setEmploymentHistory([
+      ...employmentHistory,
+      {
+        employmentType: null,
+        employmentStart: null,
+        employmentEnd: null,
+        employerName: null,
+      },
+    ]);
   };
 
   const handleEditRecord = record => {
@@ -320,6 +339,13 @@ const EmploymentHistory = ({
   const handleSaveRecord = data => {
     setSavedRecords(prevState => [...prevState, data]);
   };
+
+  useEffect(
+    () => {
+      setEmploymentHistory(savedRecords);
+    },
+    [setEmploymentHistory, savedRecords],
+  );
 
   return (
     <>
@@ -342,28 +368,23 @@ const EmploymentHistory = ({
           uiSchema={uiSchema}
           idSchema={idSchema}
           onBlur={onBlur}
-          onChange={onChange}
-          formData={formData}
-          setDeductions={setDeductions}
-          deductions={deductions}
           save={data => handleSaveRecord(data)}
           showPrimaryRecord={setShowPrimaryRecord}
+          employmentHistory={employmentHistory}
+          setEmploymentHistory={setEmploymentHistory}
         />
       )}
       {showSecondaryRecord && (
-        // TODO: on create secondary formData should be null
         <SecondaryEmploymentRecord
           registry={registry}
           schema={schema}
           uiSchema={uiSchema}
           idSchema={idSchema}
           onBlur={onBlur}
-          onChange={onChange}
-          formData={formData}
-          setDeductions={setDeductions}
-          deductions={deductions}
           save={data => handleSaveRecord(data)}
           showSecondaryRecord={setShowSecondaryRecord}
+          employmentHistory={employmentHistory}
+          setEmploymentHistory={setEmploymentHistory}
         />
       )}
       <div className="add-item-container">
@@ -380,11 +401,12 @@ const EmploymentHistory = ({
 
 const mapDispatchToProps = dispatch => ({
   setDeductions: data => dispatch(setDeductionsData(data)),
+  setEmploymentHistory: data => dispatch(setEmploymentHistoryData(data)),
 });
 
 const mapStateToProps = state => ({
   title: 'Please provide your employment history for the past two years.',
-  deductions: state.fsr.deductions,
+  employmentHistory: state.fsr.employmentHistory,
 });
 
 export default connect(
