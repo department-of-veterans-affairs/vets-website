@@ -955,6 +955,9 @@ export function submitAppointmentOrRequest(history) {
     const additionalEventData = {
       'health-TypeOfCare': typeOfCare,
       'health-ReasonForAppointment': data?.reasonForAppointment,
+      'vaos-number-of-preferred-providers': data.ccEnabledSystems
+        ? data.ccEnabledSystems.length
+        : 0,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -1050,13 +1053,6 @@ export function submitAppointmentOrRequest(history) {
 
         dispatch({
           type: FORM_SUBMIT_SUCCEEDED,
-        });
-
-        recordEvent({
-          event: `${GA_PREFIX}-vaos-community-care-submission`,
-          'vaos-number-of-preferred-providers': data.ccEnabledSystems
-            ? data.ccEnabledSystems.length
-            : 0,
         });
 
         recordEvent({
