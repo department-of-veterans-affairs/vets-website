@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import DowntimeNotification, {
@@ -43,7 +42,7 @@ class ReviewPage extends React.Component {
   };
 
   render() {
-    const { formConfig, pageList, path } = this.props;
+    const { formConfig, pageList, path } = this.props.route;
 
     const downtimeDependencies = formConfig?.downtime?.dependencies || [];
     return (
@@ -66,20 +65,6 @@ class ReviewPage extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  const route = ownProps.route;
-  const { formConfig, pageList, path } = route;
-
-  return {
-    formConfig,
-    pageList,
-    path,
-    route,
-  };
-}
-
-const mapDispatchToProps = {};
-
 ReviewPage.propTypes = {
   pageList: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired,
@@ -88,11 +73,6 @@ ReviewPage.propTypes = {
   }).isRequired,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ReviewPage),
-);
+export default withRouter(ReviewPage);
 
 export { ReviewPage };
