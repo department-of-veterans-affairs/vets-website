@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 parameters:
   check_deployability:
@@ -277,7 +277,6 @@ jobs:
           path: ./cypress/screenshots
 
 workflows:
-  version: 2
   flag-for-manual-review:
     jobs:
       - eslint-check:
