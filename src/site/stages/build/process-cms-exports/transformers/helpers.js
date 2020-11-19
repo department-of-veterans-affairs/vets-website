@@ -103,9 +103,9 @@ function getImageCrop(obj, imageStyle = null) {
           .join(', ')}.`,
       );
     }
-    const url = `/img/styles/${image.machine}/${
-      imageObj.image.derivative.url
-    }`.replace('public:/', 'public');
+    const url = `/img/styles/${
+      image.machine
+    }/public${imageObj.image.derivative.url.replace('/img', '')}`;
     imageObj.image.url = url;
     imageObj.image.derivative.url = url;
     imageObj.image.derivative.width = image.width;
