@@ -36,7 +36,7 @@ export default {
   },
   sharedItems: {
     contactInfoTitle: 'Contact information',
-    fullNameUI: label => ({
+    fullNameUI: (label) => ({
       first: {
         'ui:title': `${label}  first name`,
         'ui:errorMessages': {
@@ -53,13 +53,13 @@ export default {
         'ui:title': `${label}  middle name`,
       },
     }),
-    dateOfBirthUI: label => currentOrPastDateUI(`${label}  date of birth`),
+    dateOfBirthUI: (label) => currentOrPastDateUI(`${label}  date of birth`),
     addressUI: address.uiSchema(' ', false),
-    primaryPhoneNumberUI: label =>
+    primaryPhoneNumberUI: (label) =>
       phoneUI(`${label}  primary telephone number (including area code)`),
-    alternativePhoneNumberUI: label =>
+    alternativePhoneNumberUI: (label) =>
       phoneUI(`${label}  alternate telephone number (including area code)`),
-    ssnUI: label => ({
+    ssnUI: (label) => ({
       ...ssnUI,
       'ui:title': `${label}  Social Security number or tax identification number`,
       'ui:description': label === 'Veteran\u2019s' && VeteranSSNInfo(),
@@ -80,17 +80,17 @@ export default {
         },
       ],
     }),
-    emailUI: label => email(`${label}  email address`),
-    genderUI: label => ({
+    emailUI: (label) => email(`${label}  email address`),
+    genderUI: (label) => ({
       'ui:title': `${label}  sex`,
       'ui:widget': 'radio',
       'ui:options': { labels: { F: 'Female', M: 'Male' } },
     }),
-    vetRelationshipUI: label => ({
+    vetRelationshipUI: (label) => ({
       'ui:title': `What is the ${label}  relationship to the Veteran?`,
     }),
     hasPrimaryCaregiverOneUI: {
-      'ui:title': 'Would you like to apply with a Primary Family Caregiver?',
+      'ui:title': 'Would you like to add a Primary Family Caregiver?',
       'ui:description': PrimaryCaregiverInfo({
         additionalInfo: true,
         headerInfo: false,
@@ -104,7 +104,7 @@ export default {
         headerInfo: false,
       }),
       'ui:widget': 'yesNo',
-      'ui:required': formData =>
+      'ui:required': (formData) =>
         !formData[primaryCaregiverFields.hasPrimaryCaregiver],
       'ui:validations': [
         {
@@ -127,7 +127,7 @@ export default {
       'ui:title': ' ',
       'ui:widget': SecondaryRequiredAlert,
       'ui:options': {
-        hideIf: formData => shouldHideAlert(formData),
+        hideIf: (formData) => shouldHideAlert(formData),
       },
     },
     hasSecondaryCaregiverTwoUI: {
@@ -153,7 +153,8 @@ export default {
         </div>
       ),
       name: {
-        'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
+        'ui:required': (formData) =>
+          !!formData.veteranLastTreatmentFacility.type,
         'ui:validations': [
           {
             validator: (errors, fieldData, formData) => {
@@ -164,7 +165,8 @@ export default {
         'ui:title': 'Name of medical facility',
       },
       type: {
-        'ui:required': formData => !!formData.veteranLastTreatmentFacility.name,
+        'ui:required': (formData) =>
+          !!formData.veteranLastTreatmentFacility.name,
         'ui:title': 'Was this a hospital or clinic?',
         'ui:options': {
           labels: {
@@ -187,7 +189,7 @@ export default {
         'ui:title': 'VA medical center',
         'ui:options': {
           labels: medicalCenterLabels,
-          updateSchema: form => {
+          updateSchema: (form) => {
             const state = get(
               `${[vetFields.preferredFacilityView]}.${[
                 vetFields.preferredFacilityStateView,
@@ -233,7 +235,7 @@ export default {
 export const confirmationEmailUI = (label, dataConstant) => ({
   'ui:title': `Re-enter ${label}  email address`,
   'ui:widget': 'email',
-  'ui:required': formData => !!formData[dataConstant],
+  'ui:required': (formData) => !!formData[dataConstant],
   'ui:validations': [
     {
       validator: (errors, fieldData, formData) => {
@@ -250,7 +252,7 @@ export const confirmationEmailUI = (label, dataConstant) => ({
   ],
 });
 
-export const addressWithoutCountryUI = label => ({
+export const addressWithoutCountryUI = (label) => ({
   'ui:title': ' ',
   'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
   street: {
