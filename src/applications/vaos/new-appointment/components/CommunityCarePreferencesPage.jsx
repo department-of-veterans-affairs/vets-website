@@ -190,7 +190,7 @@ export function CommunityCarePreferencesPage({
               newData.hasCommunityCareProvider
             ) {
               recordEvent({
-                event: `${GA_PREFIX}-int-radio-button-option-click`,
+                event: 'int-radio-button-option-click',
                 'radio-button-label': 'Has community care provider',
                 'radio-button-option-click-label':
                   newData.hasCommunityCareProvider,
