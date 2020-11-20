@@ -41,6 +41,16 @@ const responses = {
           gender: 'M',
           given_names: ['Julio', 'E'],
           active_status: 'active',
+          facilities: [
+            {
+              facility_id: '983',
+              is_cerner: false,
+            },
+            {
+              facility_id: '984',
+              is_cerner: false,
+            },
+          ],
         },
       },
     },
