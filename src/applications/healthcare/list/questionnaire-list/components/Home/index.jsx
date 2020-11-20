@@ -17,6 +17,8 @@ import {
   questionnaireListLoaded,
 } from '../../../actions';
 
+import { sortQuestionnairesByStatus } from '../../../utils';
+
 const Home = props => {
   const { user, isLoading, setLoading, setQuestionnaireData } = props;
 
@@ -27,7 +29,7 @@ const Home = props => {
       loadQuestionnaires().then(response => {
         const { data } = response;
         // load data in to redux
-        setQuestionnaireData(data);
+        setQuestionnaireData(sortQuestionnairesByStatus(data));
       });
     },
     [setLoading, setQuestionnaireData],
