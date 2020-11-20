@@ -57,7 +57,7 @@
     i {
       font-size: 24px;
     }
-    @include media($small-screen) {
+    @include media($medium-screen) {
       border-bottom-right-radius: 5px;
       border-top-right-radius: 5px;
     }
