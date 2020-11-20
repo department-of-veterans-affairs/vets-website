@@ -61,6 +61,7 @@
       border-bottom-right-radius: 5px;
       border-top-right-radius: 5px;
     }
+
     @include media($medium-screen) {
       display: block;
       padding: 1rem 2rem;

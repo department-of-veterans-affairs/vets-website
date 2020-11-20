@@ -217,7 +217,7 @@ class PreferencesWidget extends React.Component {
     const { showSavedMessage } = this.state;
 
     return (
-      <div>
+      <div data-testid="preferences-widget">
         <div className="title-container">
           <h2>Find VA benefits</h2>
           {isLoaded &&
