@@ -42,7 +42,7 @@ class DependencyVerification extends Component {
     } else {
       return (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--1 vads-u-margin-bottom--1 vads-u-border-left--7px vads-u-border-color--secondary">
-          <p className="">No dependents found</p>
+          <p className="">We can't find any dependents for this award type</p>
         </div>
       );
     }
