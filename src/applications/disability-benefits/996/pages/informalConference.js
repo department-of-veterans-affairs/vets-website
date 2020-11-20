@@ -1,4 +1,3 @@
-import React from 'react';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import ScheduleTimesReviewField from '../content/ScheduleTimesReviewField';
@@ -10,6 +9,7 @@ import {
   InformalConferenceDescription,
   InformalConferenceTitle,
   informalConferenceLabels,
+  informalConferenceTimeAllLabels,
   ContactRepresentativeDescription,
   RepresentativeNameTitle,
   RepresentativePhoneTitle,
@@ -39,11 +39,13 @@ const informalConference = {
         labels: informalConferenceLabels,
         updateSchema: (formData, schema) => {
           const choice = formData?.informalConference;
+          const article = document.querySelector('article');
           // informalConferenceTimes title needs to know this setting, so we'll
           // use CSS to control the view instead of doing some complicated form
           // data manipulation
-          if (choice && document) {
-            document.querySelector('article').dataset.contactChoice = choice;
+          if (choice && article) {
+            // no article available in unit tests
+            article.dataset.contactChoice = choice;
           }
           return schema;
         },
@@ -87,7 +89,7 @@ const informalConference = {
       },
     },
     informalConferenceTimes: {
-      'ui:title': <InformalConferenceTimes />,
+      'ui:title': InformalConferenceTimes,
       'ui:required': formData => formData?.informalConference !== 'no',
       'ui:errorMessages': {
         required: errorMessages.informalConferenceTimesMin,
@@ -101,6 +103,14 @@ const informalConference = {
         showFieldLabel: true,
         hideIf: formData => formData?.informalConference === 'no',
         expandUnder: 'informalConference',
+        updateSchema: (formData, schema, uiSchema) => {
+          Object.keys(informalConferenceTimeAllLabels).forEach(time => {
+            const options = uiSchema[time]['ui:options'] || {};
+            // pass informalConference to children
+            options.informalConference = formData?.informalConference;
+          });
+          return schema;
+        },
       },
     },
     'view:alert': {

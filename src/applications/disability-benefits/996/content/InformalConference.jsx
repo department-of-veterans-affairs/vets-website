@@ -34,20 +34,18 @@ export const RepresentativeNameTitle = 'Representative’s name';
 
 export const RepresentativePhoneTitle = 'Representative’s phone number';
 
-export const InformalConferenceTimes = () => {
-  const contact = (
-    <>
-      <span className="contact-choice selected-rep">your representative</span>
-      <span className="contact-choice selected-me">you</span>
-    </>
-  );
-  return (
-    <strong>
-      We’ll call {contact} first to schedule the informal conference. Please
-      choose up to two time periods when it’s best to call {contact}.
-    </strong>
-  );
-};
+const contacts = (
+  <>
+    <span className="contact-choice selected-rep">your representative</span>
+    <span className="contact-choice selected-me">you</span>
+  </>
+);
+export const InformalConferenceTimes = (
+  <strong>
+    We’ll call {contacts} first to schedule the informal conference. Please
+    choose up to two time periods when it’s best to call {contacts}.
+  </strong>
+);
 
 export const informalConferenceTimeAllLabels = {
   time0800to1000: '8:00 a.m. to 10:00 a.m. ET',
