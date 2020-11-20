@@ -50,7 +50,7 @@ const secondaryCaregiverContactPage = {
       secondaryCaregiversUI.secondaryOneInputLabel,
     ),
     [secondaryCaregiverFields.secondaryOne
-      .hasSecondaryCaregiverTwoView]: hasSecondaryCaregiverTwoUI,
+      .hasSecondaryCaregiverTwo]: hasSecondaryCaregiverTwoUI,
   },
   schema: {
     type: 'object',
@@ -72,7 +72,7 @@ const secondaryCaregiverContactPage = {
         secondaryCaregiverOneProps.email,
       [secondaryCaregiverFields.secondaryOne.vetRelationship]:
         secondaryCaregiverOneProps.vetRelationship,
-      [secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwoView]: {
+      [secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwo]: {
         type: 'boolean',
       },
     },

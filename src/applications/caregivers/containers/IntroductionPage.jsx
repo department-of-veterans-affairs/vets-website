@@ -152,7 +152,7 @@ const IntroductionPage = ({ route, router }) => {
               >
                 {links.applyVAHealthCare.label}
               </a>
-              (VA Form 10-10EZ).
+              (VA Form 10-10CG).
             </p>
           </li>
 
