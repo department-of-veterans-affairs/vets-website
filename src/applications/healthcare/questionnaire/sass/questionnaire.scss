@@ -40,7 +40,7 @@
   }
   .emergency-call-out{
     padding: 1.75rem 1rem 1.75rem 1.75rem;
-    background-color: #e1f3f8;
+    background-color: $color-aqua-lightest;
     margin-bottom: 2rem;
     line-height: 24px;
     header{
@@ -48,7 +48,7 @@
     }
     ul{
       margin: 0;
-    } 
+    }
     li{
       margin-left: 2rem;
     }
@@ -63,7 +63,7 @@
 
 .emergency-call-out{
   padding: 1.75rem 1rem 1.75rem 1.75rem;
-  background-color: #e1f3f8;
+  background-color: $color-aqua-lightest;
   margin-bottom: 2rem;
   line-height: 24px;
   header{
@@ -71,7 +71,7 @@
   }
   ul{
     margin: 0;
-  } 
+  }
   li{
     margin-left: 2rem;
   }
@@ -79,5 +79,5 @@
 
 
 #root_questions__title{
-  color: #323a45;
+  color: $color-gray-dark;
 }
