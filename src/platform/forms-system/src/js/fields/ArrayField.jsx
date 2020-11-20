@@ -105,17 +105,19 @@ export default class ArrayField extends React.Component {
   }
 
   scrollToRow(id) {
-    setTimeout(() => {
-      scroller.scrollTo(
-        `table_${id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: 0,
-        },
-      );
-    }, 100);
+    if (!this.props.uiSchema['ui:options'].doNotScroll) {
+      setTimeout(() => {
+        scroller.scrollTo(
+          `table_${id}`,
+          window.Forms?.scroll || {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+            offset: 0,
+          },
+        );
+      }, 100);
+    }
   }
 
   /*

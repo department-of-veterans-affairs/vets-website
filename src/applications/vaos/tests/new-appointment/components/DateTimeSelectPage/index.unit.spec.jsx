@@ -23,11 +23,13 @@ import {
 import { getClinicMock, getAppointmentSlotMock } from '../../../mocks/v0';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
-xdescribe('VAOS <DateTimeSelectPage>', () => {
+describe('VAOS <DateTimeSelectPage>', () => {
   it('should not submit form with validation error', async () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
+          clinicId: '308',
           calendarData: {
             currentlySelectedDate: null,
             selectedDates: [],
@@ -56,6 +58,8 @@ xdescribe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
+          clinicId: '308',
           calendarData: {},
         },
         pages: [],
@@ -72,45 +76,75 @@ xdescribe('VAOS <DateTimeSelectPage>', () => {
     expect(screen.getByRole('progressbar')).to.be.ok;
   });
 
-  it('should display wait time alert message when not in loading state', async () => {
-    const store = createTestStore({
-      newAppointment: {
-        data: {
-          calendarData: {},
+  it('should display error message if slots call fails', async () => {
+    // Initial global fetch
+    mockFetch();
+
+    const clinics = [
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
         },
-        pages: [],
-        eligibility: [],
-        appointmentSlotsStatus: FETCH_STATUS.succeeded,
       },
-    });
-
-    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
-      store,
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Your earliest appointment time',
-      }),
-    ).to.be.ok;
-  });
-
-  it('should display error message if slots call fails', () => {
-    const store = createTestStore({
-      newAppointment: {
-        data: {
-          calendarData: {},
+      {
+        id: '309',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '309',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Red team clinic',
         },
-        pages: [],
-        eligibility: [],
-        appointmentSlotsStatus: FETCH_STATUS.failed,
       },
+    ];
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics,
+      pastClinics: true,
     });
 
-    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
-      store,
-    });
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingVSPAppointmentNew: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+    };
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /green team/i);
+    await setPreferredDate(store, moment());
+
+    // First pass check to make sure the slots associated with green team are displayed
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    // 1. Wait for progressbar to disappear
+    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
 
     expect(
       screen.getByRole('heading', {
@@ -264,6 +298,8 @@ xdescribe('VAOS <DateTimeSelectPage>', () => {
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
+
+    expect(screen.findByText('Your earliest appointment time')).to.be.ok;
 
     // 2. Simulate user selecting a date
     let button = screen.getByLabelText(

@@ -29,6 +29,9 @@ describe('VAOS <TypeOfVisitPage> ', () => {
     const screen = renderWithStoreAndRouter(<TypeOfVisitPage />, {
       store,
     });
+
+    await screen.findByLabelText(/office visit/i);
+
     expect(screen.getAllByRole('radio').length).to.equal(3);
   });
 });

@@ -247,6 +247,7 @@ export function transform(formConfig, form) {
 
 export const fullMaidenNameUI = merge(fullNameUI, {
   maiden: { 'ui:title': 'Maiden name' },
+  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
 
 class SSNWidget extends React.Component {
