@@ -52,7 +52,7 @@ export function fetchTransactions() {
   return async dispatch => {
     try {
       let response;
-      if (isVAProfileServiceConfigured()) {
+      if (isVAProfileServiceConfigured() || window.Cypress) {
         response = await apiRequest('/profile/status/');
       } else {
         response = { data: [] };
@@ -106,9 +106,10 @@ export function refreshTransaction(
       });
 
       const route = _route || `/profile/status/${transactionId}`;
-      const transactionRefreshed = isVAProfileServiceConfigured()
-        ? await apiRequest(route)
-        : await localVAProfileService.updateTransaction(transactionId);
+      const transactionRefreshed =
+        isVAProfileServiceConfigured() || window.Cypress
+          ? await apiRequest(route)
+          : await localVAProfileService.updateTransaction(transactionId);
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
@@ -165,9 +166,10 @@ export function createTransaction(
         method,
       });
 
-      const transaction = isVAProfileServiceConfigured()
-        ? await apiRequest(route, options)
-        : await localVAProfileService.createTransaction();
+      const transaction =
+        isVAProfileServiceConfigured() || window.Cypress
+          ? await apiRequest(route, options)
+          : await localVAProfileService.createTransaction();
 
       if (transaction?.errors) {
         const error = new Error();
@@ -220,9 +222,10 @@ export const validateAddress = (
   };
 
   try {
-    const response = isVAProfileServiceConfigured()
-      ? await apiRequest('/profile/address_validation', options)
-      : await localVAProfileService.addressValidationSuccess();
+    const response =
+      isVAProfileServiceConfigured() || window.Cypress
+        ? await apiRequest('/profile/address_validation', options)
+        : await localVAProfileService.addressValidationSuccess();
     const { addresses, validationKey } = response;
     const suggestedAddresses = addresses
       // sort highest confidence score to lowest confidence score
@@ -344,9 +347,10 @@ export const updateValidationKeyAndSave = (
         'Content-Type': 'application/json',
       },
     };
-    const response = isVAProfileServiceConfigured()
-      ? await apiRequest('/profile/address_validation', options)
-      : await localVAProfileService.addressValidationSuccess();
+    const response =
+      isVAProfileServiceConfigured() || window.Cypress
+        ? await apiRequest('/profile/address_validation', options)
+        : await localVAProfileService.addressValidationSuccess();
     const { validationKey } = response;
 
     return dispatch(
