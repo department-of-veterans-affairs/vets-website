@@ -30,13 +30,7 @@ const transform = entity => ({
     entity: i,
   })),
   fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads.map(i => ({
-    entity: {
-      ...i,
-      image: {
-        ...i.image,
-        url: encodeURI(i.image.url.replace('public:/', '/img')),
-      },
-    },
+    entity: i,
   })),
   fieldPressReleaseFulltext: {
     processed: getWysiwygString(
