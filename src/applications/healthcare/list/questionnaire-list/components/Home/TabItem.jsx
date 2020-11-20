@@ -7,7 +7,6 @@ import classNames from 'classnames';
 export default function TabItem(props) {
   const { id, text, onNextTab, onPreviousTab, tabPath, isActive } = props;
 
-  // TODO use Memo?
   const onKeyDown = useMemo(
     () => {
       return e => {

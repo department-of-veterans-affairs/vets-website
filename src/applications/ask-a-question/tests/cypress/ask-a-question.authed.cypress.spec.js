@@ -12,7 +12,7 @@ import mockUser from './fixtures/mocks/mockUser.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['prefill-test'],
+    dataSets: ['prefill'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),

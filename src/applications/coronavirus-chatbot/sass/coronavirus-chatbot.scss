@@ -93,25 +93,15 @@ button.ac-pushButton:hover {
   display: none;
 }
 
+.webchat__initialsAvatar {
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  background: $color-primary-darkest !important;
+}
+
 /* horizontal container with chat bubbles */
 .webchat__stacked_indented_content {
   margin: 0 8px !important;
-}
-
-/* padding around question chat bubbles */
-.css-18q9i6z {
-  padding: 16px 8px !important;
-}
-
-/* gap between end of scroll area and bg */
-.css-1qyo5rb:first-child {
-  margin-top: 4px !important;
-}
-
-/* padding between question chat bubbles */
-.css-1qyo5rb:not(:first-child) {
-  padding-bottom: 8px !important;
-  margin-bottom: 0 !important;
 }
 
 /* padding around answer chat bubbles */
@@ -126,9 +116,8 @@ div.ac-container.ac-adaptiveCard {
 }
 
 /* "just now/5 mins ago" time indicator for each message */
-.css-1kceze8 {
-  visibility: hidden !important;
-  height: 0;
+.webchat__stacked-layout__status {
+  visibility: hidden;
 }
 
 /* unnecessary div above answer options in chat bubble */
@@ -147,14 +136,8 @@ div.ac-container.ac-adaptiveCard {
   min-width: 100% !important;
 }
 
-.css-yb0hx9.webchat__initialsAvatar.css-10h6e9z {
-  font-weight: 700 !important;
-  font-size: 18px !important;
-  background: $color-primary-darkest !important;
-}
-
 /* Connecting... text before chatbot shows */
-.webchat__connectivityStatus.css-nd6pw {
+.webchat__connectivityStatus {
   align-items: flex-start;
 }
 
@@ -163,7 +146,12 @@ div.ac-container.ac-adaptiveCard {
   overflow: visible !important;
 }
 
-.css-1t62idy {
+/* required to display chat in IE11 */
+#chatbot-wrapper-id > div {
   flex-direction: row !important;
   min-height: 900px;
+
+  & > div {
+    flex-direction: row;
+  }
 }

@@ -261,6 +261,7 @@ const formConfig = {
                   maiden: {
                     'ui:title': 'Sponsor’s maiden name',
                   },
+                  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
                 }),
                 militaryServiceNumber: {
                   'ui:title':

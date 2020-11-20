@@ -10,12 +10,12 @@ module.exports = {
         title: { type: 'string' },
         fieldBody: { $ref: 'ProcessedString' },
         fieldRegionalHealthService: {
-          oneOf: [
-            {
-              $ref: 'output/node-regional_health_care_service_des',
+          type: 'object',
+          items: {
+            entity: {
+              type: { $ref: 'output/node-regional_health_care_service_des' },
             },
-            { type: 'null' },
-          ],
+          },
         },
         fieldServiceLocation: {
           type: 'array',

@@ -10,11 +10,19 @@ import { getCernerURL } from 'platform/utilities/cerner';
 
 const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
-    <h2>On this page:</h2>
-    <a href="#va-blue-button">
-      My HealtheVet (VA Blue Button) and My VA Health{' '}
-    </a>
-    <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
+    <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
+      On this page:
+    </h2>
+    <ul>
+      <li>
+        <a href="#va-blue-button">
+          My HealtheVet (VA Blue Button) and My VA Health{' '}
+        </a>
+      </li>
+      <li>
+        <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
+      </li>
+    </ul>
     <h2 id="va-blue-button">My HealtheVet (VA Blue Button) and My VA Health</h2>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
