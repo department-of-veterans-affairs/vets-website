@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import environment from 'platform/utilities/environment';
@@ -16,18 +18,20 @@ import {
 } from '../../../actions';
 
 const Home = props => {
-  const { user, setLoading, setQuestionnaireData } = props;
+  const { user, isLoading, setLoading, setQuestionnaireData } = props;
 
-  useEffect(() => {
-    // call the API
-    setLoading();
-    loadQuestionnaires().then(response => {
-      const { data } = response;
-      // load data in to redux
-      setQuestionnaireData(data);
-    });
-  }, []);
-
+  useEffect(
+    () => {
+      // call the API
+      setLoading();
+      loadQuestionnaires().then(response => {
+        const { data } = response;
+        // load data in to redux
+        setQuestionnaireData(data);
+      });
+    },
+    [setLoading, setQuestionnaireData],
+  );
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
@@ -42,20 +46,29 @@ const Home = props => {
             and any you need to fill out before your upcoming appointment. You
             can also print a copy of questionnaires you've completed.
           </p>
-          <Router>
-            <TabNav />
-            <Switch>
-              <Route
-                path={`/healthcare/list/todo`}
-                component={ToDoQuestionnaires}
-              />
-              <Route
-                path={`/healthcare/list/completed`}
-                component={CompletedQuestionnaires}
-              />
-              <Route path={`/healthcare/list`} component={ToDoQuestionnaires} />
-            </Switch>
-          </Router>
+          {isLoading ? (
+            <>
+              <LoadingIndicator message="Loading your questionnaires." />
+            </>
+          ) : (
+            <Router>
+              <TabNav />
+              <Switch>
+                <Route
+                  path={`/healthcare/list/todo`}
+                  component={ToDoQuestionnaires}
+                />
+                <Route
+                  path={`/healthcare/list/completed`}
+                  component={CompletedQuestionnaires}
+                />
+                <Route
+                  path={`/healthcare/list`}
+                  component={ToDoQuestionnaires}
+                />
+              </Switch>
+            </Router>
+          )}
         </div>
       </div>
     </RequiredLoginView>
@@ -65,6 +78,7 @@ const Home = props => {
 function mapStateToProps(state) {
   return {
     user: state.user,
+    isLoading: state.questionnaireListData?.list?.status?.isLoading,
   };
 }
 

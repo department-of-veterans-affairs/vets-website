@@ -12,7 +12,7 @@ const loadQuestionnaires = async () => {
         import('./my-questionnaires.sample.json').then(module => {
           resolve(module.default);
         });
-      }, 2000);
+      }, 3000);
     });
   } else {
     const url = '/health_quest/v0/my/questionnaires';
