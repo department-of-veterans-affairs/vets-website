@@ -6,7 +6,7 @@ import Telephone, {
 
 const GetFormHelp = () => (
   <p className="help-talk">
-    Need help filling out the form or have questions about eligibility? Please
+    For help filling out this form, or if the form isn't working right, please
     call VA Benefits and Services at{' '}
     <Telephone contact={CONTACTS.VA_BENEFITS} />.<br />
     If you have hearing loss, call TTY:{' '}

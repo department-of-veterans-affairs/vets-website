@@ -802,7 +802,7 @@
     }
   },
   {
-    "appName": "28-8832-planning-and-guidance",
+    "appName": "Apply for Personalized Career Planning and Guidance with VA Form 28-8832",
     "entryName": "28-8832-planning-and-career-guidance",
     "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
     "template": {
@@ -813,11 +813,11 @@
       "breadcrumbs_override": [
         {
           "path": "careers-employment/education-and-career-counseling/",
-          "name": "Personalized Career Planning and Guidance"
+          "name": "Career planning and guidance"
         },
         {
           "path": "careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/introduction",
-          "name": "Apply for PCPG Form 28‑8832"
+          "name": "Apply for Personalized Career Planning and Guidance Form 28‑8832"
         }
       ]
     }
