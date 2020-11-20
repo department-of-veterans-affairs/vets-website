@@ -9,10 +9,5 @@
       "name": "Jimmy Hoffa"
     }
   ],
-  "dependentsNotOnAward": [
-    {
-      "id": 1,
-      "name": "Big Bird"
-    }
-  ]
+  "dependentsNotOnAward": []
 }

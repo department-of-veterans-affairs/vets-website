@@ -22,22 +22,30 @@ class DependencyVerification extends Component {
   }
 
   renderList(list) {
-    return list.map(item => {
+    if (list.length > 0) {
+      return list.map(item => {
+        return (
+          <div
+            key={item.id}
+            className="vads-u-background-color--gray-lightest vads-u-padding--1 vads-u-margin-bottom--1"
+          >
+            <dt>
+              <strong>Name: </strong>
+              {item.name}
+            </dt>
+            <dd>
+              <strong>Age: </strong> 31
+            </dd>
+          </div>
+        );
+      });
+    } else {
       return (
-        <div
-          key={item.id}
-          className="vads-u-background-color--gray-lightest vads-u-padding--1 vads-u-margin-bottom--1"
-        >
-          <dt>
-            <strong>Name: </strong>
-            {item.name}
-          </dt>
-          <dd>
-            <strong>Age: </strong> 31
-          </dd>
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--1 vads-u-margin-bottom--1 vads-u-border-left--7px vads-u-border-color--secondary">
+          <p className="">No dependents found</p>
         </div>
       );
-    });
+    }
   }
 
   handleCookieUser = () => {
@@ -61,13 +69,14 @@ class DependencyVerification extends Component {
           hideCloseButton
         >
           <p className="vads-u-font-size--md">
-            Below is a list of dependents we have on file for you at the VA. If
-            this list is correct, please choose the button to say it is correct.
+            To ensure your list of VA dependents is upt to date, please verify
+            the information below.
           </p>
           <AdditionalInfo triggerText="Why am I seeing this?">
             <p>
-              We want to ensure that we have the most accurate information for
-              you and your dependents.
+              Keeping this data current allows the VA to more accurately adjust
+              your compensation and benefits based on different life events that
+              occur from time to time.
             </p>
           </AdditionalInfo>
           <p
@@ -89,10 +98,10 @@ class DependencyVerification extends Component {
             className="usa-button-secondary"
             onClick={this.handleHideModal}
           >
-            Yes this list is correct
+            Yes, this list is correct
           </button>
           <button type="button" className="usa-button">
-            No I need to make a change
+            No, I need to make a change
           </button>
           <a onClick={this.justHideModal} className="vads-u-display--block">
             Skip for now
