@@ -6,7 +6,6 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
 import searchSettings from 'applications/search/manifest.json';
-
 // Relative imports.
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
@@ -117,7 +116,11 @@ const ResourcesAndSupportSearchApp = () => {
             <p className="vads-u-padding-x--1p5" id="pagination-summary">
               {paginationSummary}
             </p>
-            <SearchResultList results={currentPageOfResults} />
+            <SearchResultList
+              query={query}
+              results={currentPageOfResults}
+              totalResults={results.length}
+            />
             <Pagination
               maxPageListLength={RESULTS_PER_PAGE}
               onPageSelect={onPageSelect}

@@ -1,5 +1,6 @@
 import * as availableDebts from './availableDebts';
-import * as householdIncome from './householdIncome';
+import * as employmentHistory from './employmentHistory';
 import * as veteranInfo from './veteranInfo';
+import * as otherIncome from './otherIncome';
 
-export { availableDebts, householdIncome, veteranInfo };
+export { availableDebts, employmentHistory, otherIncome, veteranInfo };

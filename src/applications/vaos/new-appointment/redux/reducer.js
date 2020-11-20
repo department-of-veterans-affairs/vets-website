@@ -9,7 +9,6 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { getParentOfLocation } from '../../services/location';
 import { getEligibilityChecks, isEligible } from './helpers/eligibility';
 
 import {
@@ -76,7 +75,7 @@ import {
 
 import { getTypeOfCare } from '../../utils/selectors';
 import { distanceBetween } from '../../utils/address';
-import { getSiteIdFromOrganization } from '../../services/organization';
+import { getSiteIdFromFakeFHIRId } from '../../services/location';
 import { getClinicId } from '../../services/healthcare-service/transformers';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
@@ -343,24 +342,10 @@ export default function formReducer(state = initialState, action) {
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      if (parentFacilities.length === 1 || !typeOfCareFacilities.length) {
-        newData = {
-          ...newData,
-          vaParent: parentFacilities[0]?.id,
-        };
-      }
-
       if (typeOfCareFacilities.length === 1) {
-        const vaFacility = typeOfCareFacilities[0]?.id;
-        const vaParent = getParentOfLocation(
-          parentFacilities,
-          typeOfCareFacilities[0],
-        )?.id;
-
         newData = {
           ...newData,
-          vaFacility,
-          vaParent,
+          vaFacility: typeOfCareFacilities[0]?.id,
         };
       } else if (hasResidentialCoordinates) {
         typeOfCareFacilities = typeOfCareFacilities
@@ -894,10 +879,7 @@ export default function formReducer(state = initialState, action) {
 
       if (state.pastAppointments) {
         const pastAppointmentDateMap = new Map();
-        const org = state.parentFacilities.find(
-          parent => parent.id === state.data.vaParent,
-        );
-        const siteId = getSiteIdFromOrganization(org).substring(0, 3);
+        const siteId = getSiteIdFromFakeFHIRId(state.data.vaFacility);
 
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;

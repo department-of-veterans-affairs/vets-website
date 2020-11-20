@@ -18,12 +18,11 @@ import {
   vaosCommunityCare,
   selectSystemIds,
   getEligibilityStatus,
-  getRootIdForChosenFacility,
   getTypeOfCareFacilities,
-  getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
   selectIsCernerOnlyPatient,
+  selectUseFlatFacilityPage,
 } from '../../utils/selectors';
 import {
   getPreferences,
@@ -628,7 +627,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
-    const siteId = getSiteIdForChosenFacility(state, data.vaParent);
+    const siteId = getSiteIdFromFakeFHIRId(data.vaParent);
+
     let locations =
       previousNewAppointmentState.facilities[
         `${typeOfCareId}_${data.vaParent}`
@@ -772,7 +772,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = vaosVSPAppointmentNew(state);
-    const rootOrgId = getRootIdForChosenFacility(state);
+    const siteId = getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
 
@@ -811,7 +811,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
               .format('YYYY-MM-DD');
 
         const fetchedSlots = await getSlots({
-          siteId: rootOrgId,
+          siteId,
           typeOfCareId: data.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
@@ -955,6 +955,9 @@ export function submitAppointmentOrRequest(history) {
     const additionalEventData = {
       'health-TypeOfCare': typeOfCare,
       'health-ReasonForAppointment': data?.reasonForAppointment,
+      'vaos-number-of-preferred-providers': data.hasCommunityCareProvider
+        ? 1
+        : 0,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -1069,6 +1072,7 @@ export function submitAppointmentOrRequest(history) {
             facility: requestBody.facility,
             typeOfCareId: requestBody.typeOfCareId,
             cityState: requestBody.cityState,
+            useFlatFacilityPage: selectUseFlatFacilityPage(state),
           };
         }
         captureError(error, true, 'Request submission failure', extraData);

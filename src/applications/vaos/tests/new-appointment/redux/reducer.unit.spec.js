@@ -422,7 +422,6 @@ describe('VAOS reducer: newAppointment', () => {
       expect(newState.facilityPageSortMethod).to.equal(
         FACILITY_SORT_METHODS.distanceFromResidential,
       );
-      expect(newState.data.vaParent).to.equal('var983');
     });
 
     it('should set sort method to alphabetical if there is no residental address', () => {
