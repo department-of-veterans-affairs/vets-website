@@ -45,7 +45,7 @@ export default function(state = INITIAL_STATE, action) {
       };
     }
 
-    // Test fix for 7528 and 8228
+    // Fix for 7528 and 8228
     if (!environment.isProduction()) {
       localStorage.setItem('giEligibility', JSON.stringify(newState));
     }
@@ -53,8 +53,11 @@ export default function(state = INITIAL_STATE, action) {
     return newState;
   }
 
-  return {
-    ...state,
-    ...JSON.parse(localStorage.getItem('giEligibility')),
-  };
+  // Fix for 7528 and 8228
+  return !environment.isProduction()
+    ? {
+        ...state,
+        ...JSON.parse(localStorage.getItem('giEligibility')),
+      }
+    : state;
 }
