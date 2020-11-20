@@ -7,13 +7,18 @@ const CalendarCheckboxOption = ({
   fieldName,
   id,
   label,
+  secondaryLabel,
   onChange,
   value,
 }) => {
-  const divClasses = classNames('vaos-calendar__option', {
-    'vads-u-border-color--gray-light': disabled,
-    disabled,
-  });
+  const divClasses = classNames(
+    'vaos-calendar__checkbox-option',
+    'vads-u-background-color--white',
+    {
+      'vads-u-border-color--gray-light': disabled,
+      disabled,
+    },
+  );
 
   const labelClasses = classNames(
     'vads-u-margin--0',
@@ -41,6 +46,9 @@ const CalendarCheckboxOption = ({
           {label} appointment
         </span>
       </label>
+      {!!secondaryLabel && (
+        <span className="vads-u-font-size--sm">{secondaryLabel}</span>
+      )}
     </div>
   );
 };

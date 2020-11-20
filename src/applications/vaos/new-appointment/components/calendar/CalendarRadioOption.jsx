@@ -8,7 +8,7 @@ const CalendarRadioOption = ({
   onChange,
   label,
 }) => (
-  <div className="vaos-calendar__option">
+  <div className="vaos-calendar__radio-option">
     <input
       id={`radio-${id}`}
       type="radio"

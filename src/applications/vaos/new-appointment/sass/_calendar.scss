@@ -128,18 +128,26 @@
   position: absolute;
   width: 100%;
   left: 0;
-  margin-top: 8px;
+  margin-top: 15px;
+
+}
+
+.vaos-calendar__options-container fieldset {
+  width: unset;
 }
 
 .vaos-calendar__options {
-  display: flex;
   flex-wrap: wrap;
   margin: 0;
+  display: inline-flex;
+  border-radius: 5px;
+  padding: 12px 6px;
 }
 
 .vaos-calendar__option-cell {
   padding: 8px;
   width: 50%;
+  min-width: 120px;
 
   @include media($small-screen) {
     width: 33%;
@@ -154,13 +162,14 @@
   }
 }
 
-.vaos-calendar__option {
+.vaos-calendar__checkbox-option {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
   border: 1px solid $color-primary;
   border-radius: 5px;
-  padding: 8px 4px;
+  margin: 0 6px;
+  padding: 7px 10px;
 
   input[type="radio"],
   input[type="checkbox"] {

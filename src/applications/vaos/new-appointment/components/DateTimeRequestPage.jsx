@@ -25,10 +25,12 @@ export function getOptionsByDate() {
     {
       value: 'AM',
       label: 'AM',
+      secondaryLabel: 'Before noon',
     },
     {
       value: 'PM',
       label: 'PM',
+      secondaryLabel: 'Noon or later',
     },
   ];
 }

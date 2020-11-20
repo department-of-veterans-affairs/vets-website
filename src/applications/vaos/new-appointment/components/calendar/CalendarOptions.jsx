@@ -26,12 +26,9 @@ export default function CalendarOptions({
     const beginningCellIndex = [0, 1];
     const endCellIndexes = [3, 4];
 
-    // If list of items won't fill row, align items closer to selected cell
-    const cssClasses = classNames(
-      'vaos-calendar__options',
-      {
-        'vads-u-padding-left--1p5': hasError,
-      },
+    const containerClasses = classNames(
+      'vaos-calendar__options-container',
+      'vads-u-display--flex',
       selectedDateOptions.length < maxCellsPerRow
         ? {
             'vads-u-justify-content--flex-start': beginningCellIndex.includes(
@@ -46,9 +43,18 @@ export default function CalendarOptions({
         : null,
     );
 
+    // If list of items won't fill row, align items closer to selected cell
+    const cssClasses = classNames(
+      'vaos-calendar__options',
+      'vads-u-background-color--primary',
+      {
+        'vads-u-padding-left--1p5': hasError,
+      },
+    );
+
     return (
       <div
-        className="vaos-calendar__options-container"
+        className={containerClasses}
         id={`vaos-options-container-${currentlySelectedDate}`}
         ref={optionsHeightRef}
       >
@@ -69,34 +75,34 @@ export default function CalendarOptions({
                 fieldName,
               );
 
+              if (additionalOptions?.maxSelections > 1) {
+                return (
+                  <CalendarCheckboxOption
+                    key={`option-${index}`}
+                    id={`${currentlySelectedDate}_${index}`}
+                    fieldName={fieldName}
+                    value={o.value}
+                    checked={checked}
+                    onChange={() => handleSelectOption(dateObj)}
+                    label={o.label}
+                    secondaryLabel={o.secondaryLabel}
+                    disabled={
+                      !checked && selectedDates?.length === maxSelections
+                    }
+                  />
+                );
+              }
+
               return (
-                <div
+                <CalendarRadioOption
                   key={`option-${index}`}
-                  className="vaos-calendar__option-cell"
-                >
-                  {additionalOptions?.maxSelections > 1 ? (
-                    <CalendarCheckboxOption
-                      id={`${currentlySelectedDate}_${index}`}
-                      fieldName={fieldName}
-                      value={o.value}
-                      checked={checked}
-                      onChange={() => handleSelectOption(dateObj)}
-                      label={o.label}
-                      disabled={
-                        !checked && selectedDates?.length === maxSelections
-                      }
-                    />
-                  ) : (
-                    <CalendarRadioOption
-                      id={`${currentlySelectedDate}_${index}`}
-                      fieldName={fieldName}
-                      value={o.value}
-                      checked={checked}
-                      onChange={() => handleSelectOption(dateObj)}
-                      label={o.label}
-                    />
-                  )}
-                </div>
+                  id={`${currentlySelectedDate}_${index}`}
+                  fieldName={fieldName}
+                  value={o.value}
+                  checked={checked}
+                  onChange={() => handleSelectOption(dateObj)}
+                  label={o.label}
+                />
               );
             })}
           </div>
