@@ -83,17 +83,18 @@ export class SearchResult extends Component {
         {/* Toggle More Info */}
         <div className="learn-more">
           <button
-            className="va-button-link vads-u-text-decoration--none vads-u-border-color--link-default vads-u-border-style--dotted vads-u-border-bottom--1px vads-u-margin-top--1p5"
+            className="va-button-link vads-u-text-decoration--none vads-u-margin-top--1p5"
             onClick={() => {
               setShow(!show, item?.service_categories);
             }}
             type="button"
           >
-            Learn about {item?.name}{' '}
-            <i className={`fa fa-chevron-${learnIcon}`} />
+            <span className="additional-info-title">
+              Learn about {item?.name}{' '}
+              <i className={`fa fa-chevron-${learnIcon}`} />
+            </span>
           </button>
         </div>
-
         {show && (
           <>
             <hr />
