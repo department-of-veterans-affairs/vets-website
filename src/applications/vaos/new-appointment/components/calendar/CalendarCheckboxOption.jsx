@@ -12,7 +12,8 @@ const CalendarCheckboxOption = ({
   value,
 }) => {
   const divClasses = classNames(
-    'vaos-calendar__checkbox-option',
+    'vaos-calendar__option',
+    'vaos-calendar__option--checkbox',
     'vads-u-background-color--white',
     {
       'vads-u-border-color--gray-light': disabled,

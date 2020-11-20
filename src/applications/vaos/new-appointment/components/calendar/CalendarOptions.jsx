@@ -42,15 +42,18 @@ export default function CalendarOptions({
           }
         : null,
     );
+    const useCheckboxes = additionalOptions?.maxSelections > 1;
 
     // If list of items won't fill row, align items closer to selected cell
-    const cssClasses = classNames(
-      'vaos-calendar__options',
-      'vads-u-background-color--primary',
-      {
-        'vads-u-padding-left--1p5': hasError,
-      },
-    );
+    const cssClasses = classNames('vaos-calendar__options', {
+      'vads-u-background-color--primary': useCheckboxes,
+      'vaos-calendar__options--checkbox': useCheckboxes,
+      'vads-u-padding-left--1p5': hasError,
+    });
+
+    const fieldsetClasses = classNames({
+      'vads-u-width--auto': useCheckboxes,
+    });
 
     return (
       <div
@@ -58,7 +61,7 @@ export default function CalendarOptions({
         id={`vaos-options-container-${currentlySelectedDate}`}
         ref={optionsHeightRef}
       >
-        <fieldset>
+        <fieldset className={fieldsetClasses}>
           <legend className="vads-u-visibility--screen-reader">
             {additionalOptions.legend ||
               'Please select an option for this date'}
@@ -75,7 +78,7 @@ export default function CalendarOptions({
                 fieldName,
               );
 
-              if (additionalOptions?.maxSelections > 1) {
+              if (useCheckboxes) {
                 return (
                   <CalendarCheckboxOption
                     key={`option-${index}`}
