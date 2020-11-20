@@ -955,6 +955,9 @@ export function submitAppointmentOrRequest(history) {
     const additionalEventData = {
       'health-TypeOfCare': typeOfCare,
       'health-ReasonForAppointment': data?.reasonForAppointment,
+      'vaos-number-of-preferred-providers': data.hasCommunityCareProvider
+        ? 1
+        : 0,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
