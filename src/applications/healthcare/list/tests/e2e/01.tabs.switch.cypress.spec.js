@@ -26,4 +26,17 @@ describe('healthcare questionnaire list -- tabs ', () => {
       });
     });
   });
+  it('-- switch to todo tab', () => {
+    cy.fixture(
+      '../../src/applications/healthcare/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
+    ).then(features => {
+      cy.route('GET', '/v0/feature_toggles*', features);
+      cy.login(basicUser);
+      cy.visit('/healthcare/list');
+      cy.get('#tab_toDo').click();
+      cy.get('#tabpanel_toDo').then(el => {
+        expect(el).to.exist;
+      });
+    });
+  });
 });
