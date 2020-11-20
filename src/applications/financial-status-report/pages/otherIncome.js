@@ -15,7 +15,7 @@ export const uiSchema = {
       'view:additionalIncome': {
         'ui:title': 'Do you currently receive any additional income?',
         'ui:widget': 'yesNo',
-        'ui:required': () => true,
+        'ui:required': () => false,
       },
       'view:hasAdditionalIncome': {
         'ui:options': {

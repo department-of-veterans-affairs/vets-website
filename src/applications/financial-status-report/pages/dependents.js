@@ -1,17 +1,17 @@
 export const uiSchema = {
-  dependantsSection: {
+  dependentsSection: {
     'ui:title': 'Your employment history',
-    dependants: {
+    dependents: {
       'ui:title': 'Do you have any dependents?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
     hasDependents: {
       'ui:options': {
-        expandUnder: 'dependants',
+        expandUnder: 'dependents',
       },
-      dependantAge: {
-        type: 'number',
+      dependentAge: {
+        'ui:title': 'Dependent Age',
       },
     },
   },
@@ -19,18 +19,17 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    dependantsSection: {
+    dependentsSection: {
       type: 'object',
       properties: {
-        dependants: {
+        dependents: {
           type: 'boolean',
         },
         hasDependents: {
           type: 'object',
           properties: {
-            type: 'object',
-            dependantAge: {
-              type: 'string',
+            dependentAge: {
+              type: 'number',
             },
           },
         },
