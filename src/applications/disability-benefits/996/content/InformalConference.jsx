@@ -34,8 +34,13 @@ export const RepresentativeNameTitle = 'Representative’s name';
 
 export const RepresentativePhoneTitle = 'Representative’s phone number';
 
-export const InformalConferenceTimes = ({ isRep }) => {
-  const contact = isRep ? ' your representative' : ' you';
+export const InformalConferenceTimes = () => {
+  const contact = (
+    <>
+      <span className="contact-choice selected-rep">your representative</span>
+      <span className="contact-choice selected-me">you</span>
+    </>
+  );
   return (
     <strong>
       We’ll call {contact} first to schedule the informal conference. Please
