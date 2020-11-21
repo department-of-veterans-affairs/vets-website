@@ -3,7 +3,9 @@ import { cloneDeep } from 'lodash';
 
 import SignatureCheckbox from './SignatureCheckbox';
 
-const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
+const PreSubmitCheckboxGroup = props => {
+  console.log('props: ', props);
+  const { onSectionComplete, formData, showError } = props;
   const veteranLabel = `Veteran\u2019s`;
   const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
   const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
