@@ -130,25 +130,21 @@ export default function ConfirmationRequestInfo({
             </dl>
           </div>
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                Preferred date and time
-              </dt>
-              <dd>
-                <ul className="usa-unstyled-list">
-                  {data.calendarData?.selectedDates.map(
-                    ({ date, optionTime }) => (
-                      <li key={`${date}-${optionTime}`}>
-                        {moment(date).format('MMMM D, YYYY')}{' '}
-                        {optionTime === 'AM'
-                          ? 'in the morning'
-                          : 'in the afternoon'}
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </dd>
-            </dl>
+            <h4 className="vads-u-font-size--h4">Preferred date and time</h4>
+            <div>
+              <ul className="usa-unstyled-list">
+                {data.calendarData?.selectedDates.map(
+                  ({ date, optionTime }) => (
+                    <li key={`${date}-${optionTime}`}>
+                      {moment(date).format('MMMM D, YYYY')}{' '}
+                      {optionTime === 'AM'
+                        ? 'in the morning'
+                        : 'in the afternoon'}
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
           </div>
         </div>
         <div className="vads-u-margin-top--2">
@@ -158,30 +154,26 @@ export default function ConfirmationRequestInfo({
           >
             <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
               <div className="vaos_appts__message vads-u-flex--1 vaos-u-word-break--break-word">
-                <dl className="vads-u-margin--0 vads-u-margin-right--1">
-                  <dt className="vads-u-font-weight--bold">
+                <div className="vads-u-margin--0 vads-u-margin-right--1">
+                  <h4 className="vads-u-font-size--h4">
                     {
                       PURPOSE_TEXT.find(
                         purpose => purpose.id === data.reasonForAppointment,
                       )?.short
                     }
-                  </dt>
-                  <dd>{data.reasonAdditionalInfo}</dd>
-                </dl>
+                  </h4>
+                  <div>{data.reasonAdditionalInfo}</div>
+                </div>
               </div>
               <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
-                <dl className="vads-u-margin--0">
-                  <dt className="vads-u-font-weight--bold vads-u-display--block">
-                    Your contact details
-                  </dt>
-                  <dd>
-                    {data.email}
-                    <br />
-                    {data.phoneNumber}
-                    <br />
-                    {formatBestTime(data.bestTimeToCall)}{' '}
-                  </dd>
-                </dl>
+                <h4 className="vads-u-font-size--h4">Your contact details</h4>
+                <div>
+                  {data.email}
+                  <br />
+                  {data.phoneNumber}
+                  <br />
+                  {formatBestTime(data.bestTimeToCall)}{' '}
+                </div>
               </div>
             </div>
           </AdditionalInfo>

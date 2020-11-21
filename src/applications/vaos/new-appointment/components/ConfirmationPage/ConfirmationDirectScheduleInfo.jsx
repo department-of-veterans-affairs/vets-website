@@ -51,32 +51,26 @@ export default function ConfirmationDirectScheduleInfo({
 
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {clinic?.serviceName}
-              </dt>
-              <dd>
-                {!!facilityDetails && (
-                  <>
-                    {facilityDetails.name}
-                    <br />
-                    <FacilityAddress facility={facilityDetails} />
-                  </>
-                )}
-              </dd>
-            </dl>
+            <h4 className="vads-u-font-size--h4">{clinic?.serviceName}</h4>
+            <div>
+              {!!facilityDetails && (
+                <>
+                  {facilityDetails.name}
+                  <br />
+                  <FacilityAddress facility={facilityDetails} />
+                </>
+              )}
+            </div>
           </div>
           <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {
-                  PURPOSE_TEXT.find(
-                    purpose => purpose.id === data.reasonForAppointment,
-                  )?.short
-                }
-              </dt>
-              <dd>{data.reasonAdditionalInfo}</dd>
-            </dl>
+            <h4 className="vads-u-font-size--h4">
+              {
+                PURPOSE_TEXT.find(
+                  purpose => purpose.id === data.reasonForAppointment,
+                )?.short
+              }
+            </h4>
+            <div>{data.reasonAdditionalInfo}</div>
           </div>
         </div>
         {facilityDetails && (

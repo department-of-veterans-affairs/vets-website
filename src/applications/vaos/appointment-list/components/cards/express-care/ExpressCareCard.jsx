@@ -43,25 +43,19 @@ export default function ExpressCareCard({
       <ExpressCareStatus appointment={appointment} />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-          <dl className="vads-u-margin--0">
-            <dt className="vads-u-font-weight--bold vads-u-display--block">
-              Your contact details
-            </dt>
-            <dd>
-              <Telephone contact={getPatientTelecom(appointment, 'phone')} />
-              <br />
-              {getPatientTelecom(appointment, 'email')}
-            </dd>
-          </dl>
+          <h4 className="vads-u-font-size--h4">Your contact details</h4>
+          <div>
+            <Telephone contact={getPatientTelecom(appointment, 'phone')} />
+            <br />
+            {getPatientTelecom(appointment, 'email')}
+          </div>
         </div>
         {!!appointment.comment && (
           <div className="vads-u-flex--1 vaos-u-word-break--break-word vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                You shared these details about your concern
-              </dt>
-              <dd>{appointment.comment}</dd>
-            </dl>
+            <h4 className="vads-u-font-size--h4">
+              You shared these details about your concern
+            </h4>
+            <div>{appointment.comment}</div>
           </div>
         )}
       </div>

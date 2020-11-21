@@ -8,9 +8,9 @@ export default function AppointmentRequestCommunityCareLocation({
   );
 
   return (
-    <dl className="vads-u-margin--0">
-      <dt className="vads-u-font-weight--bold">Preferred provider</dt>
-      <dd>
+    <>
+      <h4 className="vads-u-font-weight--bold">Preferred provider</h4>
+      <div>
         {!providers.length && 'Not specified'}
         {!!providers.length && (
           <ul className="usa-unstyled-list">
@@ -23,7 +23,7 @@ export default function AppointmentRequestCommunityCareLocation({
             ))}
           </ul>
         )}
-      </dd>
-    </dl>
+      </div>
+    </>
   );
 }
