@@ -20,8 +20,6 @@ const SignatureCheckbox = ({
   const isSignatureComplete = isSigned && isChecked;
   const hasSubmit = globalFormState.submission.status;
   const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
-  console.log('globalFormState: ', globalFormState);
-  console.log('showError: ', showError);
 
   useEffect(
     () => {
