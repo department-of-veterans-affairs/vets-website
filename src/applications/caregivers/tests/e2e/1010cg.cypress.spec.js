@@ -15,6 +15,7 @@ const testSecondaryTwo = createTestConfig(
     dataPrefix: 'data',
     dataSets: [
       'requiredOnly',
+      'secondaryOneOnly',
       'oneSecondaryCaregivers',
       'twoSecondaryCaregivers',
     ],
@@ -36,6 +37,27 @@ const testSecondaryTwo = createTestConfig(
       'review-and-submit': () => {
         cy.get('@testKey').then(testKey => {
           switch (testKey) {
+            case 'secondaryOneOnly':
+              // sign signature as veteran
+              cy.findByTestId(veteranLabel)
+                .find('input')
+                .first()
+                .type('Micky Mouse');
+
+              cy.findByTestId(veteranLabel)
+                .find('[type="checkbox"]')
+                .check();
+
+              // sign signature as secondaryOne caregiver
+              cy.findByTestId(secondaryOneLabel)
+                .find('input')
+                .first()
+                .type('George Geef Goofus');
+
+              cy.findByTestId(secondaryOneLabel)
+                .find('[type="checkbox"]')
+                .check();
+              break;
             case 'oneSecondaryCaregivers':
               // sign signature as veteran
               cy.findByTestId(veteranLabel)

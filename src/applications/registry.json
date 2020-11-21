@@ -893,6 +893,7 @@
       "title:": "Search results",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
+      "private": true,
       "breadcrumbs_override": [
         {
           "path": "resources/",
@@ -903,6 +904,15 @@
           "name": "Search results"
         }
       ]
+    }
+  },
+  {
+    "appName": "Questionnaire List",
+    "entryName": "questionnaire-list",
+    "rootUrl": "/healthcare/list",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html"
     }
   }
 ]
