@@ -20,6 +20,8 @@ const SignatureCheckbox = ({
   const isSignatureComplete = isSigned && isChecked;
   const hasSubmit = globalFormState.submission.status;
   const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
+  console.log('globalFormState: ', globalFormState);
+  console.log('showError: ', showError);
 
   useEffect(
     () => {
@@ -53,6 +55,7 @@ const SignatureCheckbox = ({
         fullName={fullName}
         required={isRequired}
         showError={showError}
+        hasSubmit={hasSubmit}
       />
 
       <ErrorableCheckbox
