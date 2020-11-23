@@ -15,11 +15,6 @@ import {
   CONFIRMED,
 } from '../constants/addressValidationMessages';
 
-import {
-  isVAProfileServiceConfigured,
-  mockContactInformation,
-} from '@@vap-svc/util/local-vapsvc';
-
 const commonServices = {
   EMIS: 'EMIS',
   MVI: 'MVI',
