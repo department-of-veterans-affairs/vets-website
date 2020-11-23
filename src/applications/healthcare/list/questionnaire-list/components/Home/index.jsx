@@ -19,7 +19,7 @@ const Home = props => {
       verify={!environment.isLocalhost()}
     >
       <div className="row">
-        <div className="usa-width-two-thirds medium-8 columns">
+        <div className="usa-width-three-fourths medium-8 columns">
           <h1>Your health care questionnaires</h1>
           <p className="va-introtext">
             Review and keep track of your completed health care questionnaires
