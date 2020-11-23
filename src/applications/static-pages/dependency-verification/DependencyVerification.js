@@ -86,13 +86,6 @@ class DependencyVerification extends Component {
             Dependents On Award
           </p>
           <dl>{this.renderList(this.state.onAward)}</dl>
-          <p
-            className="vads-u-font-family--serif vads-u-font-weight--bold
-"
-          >
-            Dependents Not On Award
-          </p>
-          <dl>{this.renderList(this.state.notOnAward)}</dl>
           <button
             type="button"
             className="usa-button-secondary"
