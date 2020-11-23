@@ -134,4 +134,21 @@ describe('Schemaform <TextWidget>', () => {
     expect(tree.subTree('input').props.id).to.equal('1');
     expect(tree.subTree('input').props.value).to.equal(0);
   });
+  it('should not pass undefined if minLength and maxLength are undefined', () => {
+    const tree = SkinDeep.shallowRender(
+      <TextWidget
+        id="1"
+        value={0}
+        schema={{ type: 'number' }}
+        required
+        disabled={false}
+        onChange={() => null}
+        onBlur={() => null}
+        options={{}}
+      />,
+    );
+
+    expect(tree.subTree('input').props.min).to.not.exist;
+    expect(tree.subTree('input').props.max).to.not.exist;
+  });
 });
