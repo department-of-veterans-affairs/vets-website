@@ -10,6 +10,8 @@ export default function TextWidget(props) {
   }
   return (
     <input
+      min={props.min ? props.min : null}
+      max={props.max ? props.max : null}
       autoComplete={props.options.autocomplete}
       type={inputType}
       id={props.id}
