@@ -4,6 +4,13 @@ import CalendarRadioOption from './CalendarRadioOption';
 import CalendarCheckboxOption from './CalendarCheckboxOption';
 import { isDateOptionPairInSelectedArray } from './dateHelpers';
 
+/* 
+ * Because we want to create a background for a jagged grid of cells,
+ * we need to set padding and border radius for each cell depending on
+ * where it is in the grid and how many cells per row we're displaying
+ * 
+ * This was a huge pain to figure out
+ */
 function getOptionClasses(index, optionCount, rowSize) {
   return classNames(
     'vaos-calendar__option-cell',
@@ -31,6 +38,10 @@ function getOptionClasses(index, optionCount, rowSize) {
   );
 }
 
+/* 
+ * Simiarly to above, but for checkboxes, which we know we only ever have two of
+ * So calculations are against either the first or the second one
+ */
 function getCheckboxOptionClasses(index) {
   return classNames('vaos-calendar__option-cell', {
     'vaos-u-border-radius--top-left': index === 0,
@@ -46,6 +57,7 @@ function getCheckboxOptionClasses(index) {
 const smallMediaQuery = '(min-width: 481px)';
 const smallDesktopMediaQuery = '(min-width: 1008px)';
 
+// matches vaos-calendar__option-cell widths
 function calculateRowSize() {
   if (matchMedia(smallDesktopMediaQuery).matches) {
     return 4;
@@ -66,6 +78,9 @@ export default function CalendarOptions({
   optionsHeightRef,
   hasError,
 }) {
+  // Because we need to conditionally apply classes to get the right padding
+  // and border radius for each cell, we need to know when the page size trips
+  // a breakpoint
   const [rowSize, setRowSize] = useState(() => calculateRowSize());
   useEffect(() => {
     function updateRowSize() {
@@ -73,6 +88,7 @@ export default function CalendarOptions({
     }
 
     const smallMatcher = matchMedia(smallMediaQuery);
+    // IE 11 and some versions of Safar don't support addEventListener here
     smallMatcher.addListener(updateRowSize);
 
     const smallDesktopMatcher = matchMedia(smallDesktopMediaQuery);
