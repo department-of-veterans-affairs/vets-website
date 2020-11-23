@@ -21,7 +21,6 @@ import {
   medicalCenterLabels,
   medicalCentersByState,
   validateSSNIsUnique,
-  facilityNameMaxLength,
   shouldHideAlert,
 } from 'applications/caregivers/helpers';
 
