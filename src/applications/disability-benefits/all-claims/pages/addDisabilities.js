@@ -57,6 +57,12 @@ export const uiSchema = {
           'ui:options': {
             debounceRate: 200,
             freeInput: true,
+            updateSuggestions: (suggestions = [], value = '') => {
+              return value.length > 3 &&
+                suggestions[0]?.label.toLowerCase() !== value?.toLowerCase()
+                ? [{ id: '', label: value }, ...suggestions]
+                : suggestions;
+            },
             inputTransformers: [
               // Replace a bunch of things that aren't valid with valid equivalents
               input => input.replace(/["”’]/g, `'`),

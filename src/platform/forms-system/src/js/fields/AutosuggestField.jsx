@@ -107,10 +107,12 @@ export default class AutosuggestField extends React.Component {
   getSuggestions = (options, value) => {
     if (value) {
       const uiOptions = this.props.uiSchema['ui:options'];
-      return sortListByFuzzyMatch(value, options).slice(
-        0,
-        uiOptions.maxOptions,
-      );
+      const max = uiOptions.maxOptions;
+      const suggestions = sortListByFuzzyMatch(value, options).slice(0, max);
+
+      return typeof uiOptions.updateSuggestions === 'function'
+        ? uiOptions.updateSuggestions(suggestions, value).slice(0, max)
+        : suggestions;
     }
 
     return options;
