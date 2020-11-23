@@ -93,17 +93,15 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     tree.unmount();
   });
 
-  it('should render note without email if submissionStatus is apiFailure and areConfirmationEmailTogglesOn true', () => {
+  it('should not render email message when there is an error and areConfirmationEmailTogglesOn true', () => {
     const props = {
       ...defaultProps,
       areConfirmationEmailTogglesOn: true,
-      submissionStatus: submissionStatuses.apiFailure,
+      submissionStatus: submissionStatuses.failed,
     };
 
     const tree = shallow(<ConfirmationPage {...props} />);
-    expect(tree.find('#note-print').text()).to.contain(
-      'Please print this page for your records.',
-    );
+    expect(tree.find('#note-email').length).to.equal(0);
     tree.unmount();
   });
 });
