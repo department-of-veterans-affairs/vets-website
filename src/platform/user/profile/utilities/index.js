@@ -84,10 +84,7 @@ export function mapRawUserDataToState(json) {
       last,
     },
     verified,
-    vapContactInfo:
-      isVAProfileServiceConfigured() || window.Cypress
-        ? vet360ContactInformation
-        : mockContactInformation,
+    vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},
   };
