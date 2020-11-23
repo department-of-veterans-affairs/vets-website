@@ -104,8 +104,6 @@ export default {
         headerInfo: false,
       }),
       'ui:widget': 'yesNo',
-      'ui:required': formData =>
-        !formData[primaryCaregiverFields.hasPrimaryCaregiver],
       'ui:validations': [
         {
           validator: (errors, fieldData, formData) => {
