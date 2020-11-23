@@ -16,10 +16,8 @@ import {
   getRequestLimits,
 } from '../../services/var';
 
-import {
-  transformFormToExpressCareRequest,
-  createPreferenceBody,
-} from '../../utils/data';
+import { createPreferenceBody } from '../../utils/data';
+import { transformFormToExpressCareRequest } from './helpers/formSubmitTransformers';
 import {
   selectActiveExpressCareWindows,
   selectExpressCareNewRequest,

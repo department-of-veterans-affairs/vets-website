@@ -19,7 +19,7 @@ import { BDD_INFO_URL } from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }
 
   render() {
@@ -115,9 +115,8 @@ class IntroductionPage extends React.Component {
               {isBDDForm ? (
                 <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--4">
                   <strong className="usa-alert-body">
-                    Please be aware that you will need to be available for 45
-                    days after you file in order to complete VA exams during
-                    this period.
+                    Please be aware that you’ll need to be available for 45 days
+                    after you file a BDD claim to complete a VA exam.
                   </strong>
                 </div>
               ) : (
@@ -190,11 +189,10 @@ class IntroductionPage extends React.Component {
                     the steps you can expect:
                   </h4>
                   <ul>
-                    <li>Provide your Service Member information</li>
+                    <li>Provide your service member information</li>
                     <li>Provide your military history</li>
                     <li>
-                      Describe the conditions you are submitting (a) claim(s)
-                      for
+                      Describe the conditions you’re submitting a claim for
                     </li>
                   </ul>
                   After submitting the form, you’ll get a confirmation message.
@@ -209,7 +207,7 @@ class IntroductionPage extends React.Component {
               )}
             </li>
             <li className="process-step list-three">
-              <h3 className="vads-u-font-size--h4">VA Review</h3>
+              <h3 className="vads-u-font-size--h4">VA review</h3>
               <p>
                 We process applications in the order we receive them. The amount
                 of time it takes to process your claim depends on how many

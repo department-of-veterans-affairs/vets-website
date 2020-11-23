@@ -31,7 +31,8 @@ let oldWindow;
 
 const fakeWindow = () => {
   oldWindow = global.window;
-  global.window = {
+  global.window = Object.create(global.window);
+  Object.assign(global.window, {
     dataLayer: [],
     location: {
       get: () => global.window.location,
@@ -41,7 +42,7 @@ const fakeWindow = () => {
       pathname: '',
       search: '',
     },
-  };
+  });
 };
 
 describe('checkAutoSession', () => {
@@ -293,6 +294,10 @@ describe('checkAutoSession', () => {
 });
 
 describe('checkAndUpdateSSOeSession', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('should should do nothing if there is not SSO session active', () => {
     expect(localStorage.getItem('sessionExpirationSSO')).to.be.null;
     checkAndUpdateSSOeSession();

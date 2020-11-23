@@ -27,7 +27,7 @@
   "secondaryOneEmail": "minimouse@disney.com",
   "view:secondaryOneEmail": "minimouse@disney.com",
   "secondaryOneVetRelationship": "Friend/Neighbor",
-  "view:hassecondaryCaregiverTwo": true,
+  "view:hasSecondaryCaregiverTwo": true,
   "secondaryOneFullName": {
     "first": "George",
     "middle": "Geef",
@@ -35,7 +35,7 @@
   },
   "secondaryOneDateOfBirth": "1932-05-12",
   "view:hasSecondaryCaregiverOne": true,
-  "hasHealthInsurance": true,
+  "primaryHasHealthInsurance": true,
   "primaryAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",

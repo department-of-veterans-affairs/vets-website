@@ -22,9 +22,10 @@ import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
 import edu10203Manifest from 'applications/edu-benefits/10203/manifest.json';
 import preneedManifest from 'applications/pre-need/manifest.json';
 import pensionManifest from 'applications/pensions/manifest.json';
-import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
+import disability526Manifest from 'applications/disability-benefits/all-claims/manifest.json';
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
+import fsrManifest from 'applications/financial-status-report/manifest.json';
 
 import hcaConfig from 'applications/hca/config/form.js';
 import dependentStatusConfig from 'applications/disability-benefits/686c-674/config/form';
@@ -86,6 +87,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
+  [VA_FORM_IDS.FORM_5655]: 'financial status report',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -124,7 +126,7 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
 );
 
 export const formLinks = {
-  [VA_FORM_IDS.FORM_21_526EZ]: `${DISABILITY_526_V2_ROOT_URL}/`,
+  [VA_FORM_IDS.FORM_21_526EZ]: `${disability526Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21P_527EZ]: `${pensionManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21P_530]: `${burialsManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${hcaManifest.rootUrl}/`,
@@ -142,6 +144,7 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_21_686C]: `${dependentStatusManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_VA_2346A]: `${mdotManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_5655]: `${fsrManifest.rootUrl}/`,
 };
 
 export const trackingPrefixes = {
@@ -163,6 +166,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_21_686C]: '686-',
   [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
   [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
+  [VA_FORM_IDS.FORM_5655]: 'fsr-5655-',
 };
 
 export const sipEnabledForms = new Set([
@@ -184,6 +188,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_20_0996,
   VA_FORM_IDS.FORM_VA_2346A,
+  VA_FORM_IDS.FORM_5655,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself
@@ -245,9 +250,6 @@ export function sipFormSorter(formA, formB) {
 
 export const isFormAuthorizable = formConfig =>
   !!formConfig && !!formConfig.authorize;
-
-export const getFormAuthorizationState = (formConfig, state) =>
-  formConfig.getAuthorizationState(state);
 
 export const recordDashboardClick = (
   product,

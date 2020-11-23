@@ -44,12 +44,14 @@ export function saveFormApi(
   returnUrl,
   savedAt,
   trackingPrefix,
+  submission,
 ) {
   const body = JSON.stringify({
     metadata: {
       version,
       returnUrl,
       savedAt,
+      submission,
     },
     formData,
   });
@@ -92,7 +94,7 @@ export function saveFormApi(
       } else {
         Sentry.captureException(resOrError);
         Sentry.withScope(scope => {
-          scope.setEtxra('form', sanitizeForm(formData));
+          scope.setExtra('form', sanitizeForm(formData));
           Sentry.captureMessage('vets_sip_error_save');
         });
         recordEvent({

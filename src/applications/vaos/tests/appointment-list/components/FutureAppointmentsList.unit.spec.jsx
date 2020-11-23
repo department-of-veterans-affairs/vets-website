@@ -65,7 +65,6 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain('.fa-exclamation-triangle');
       expect(dateHeader).to.have.tagName('h3');
 
-      expect(baseElement).to.contain.text('Some facility name');
       expect(getByText(/view facility information/i)).to.have.attribute(
         'href',
         '/find-locations/facility/vha_442GC',
@@ -88,7 +87,7 @@ describe('VAOS integration: pending appointments', () => {
       );
 
       expect(baseElement).not.to.contain.text('Add to calendar');
-      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      expect(getByText(/cancel request/i)).to.have.tagName('button');
     });
 
     it('should show information with full facility info', async () => {
@@ -148,7 +147,7 @@ describe('VAOS integration: pending appointments', () => {
         'href',
         'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
       );
-      expect(baseElement).to.contain.text('Some facility name');
+      expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
       expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
       expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
       expect(baseElement).to.contain.text('307-778-7550');
@@ -334,7 +333,6 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain('.fa-exclamation-triangle');
       expect(dateHeader).to.have.tagName('h3');
 
-      expect(baseElement).to.contain.text('Some facility name');
       expect(getByText(/view facility information/i)).to.have.attribute(
         'href',
         '/find-locations/facility/vha_442GC',
@@ -347,7 +345,7 @@ describe('VAOS integration: pending appointments', () => {
       );
 
       expect(baseElement).not.to.contain.text('Add to calendar');
-      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      expect(getByText(/cancel request/i)).to.have.tagName('button');
     });
   });
 
@@ -419,7 +417,7 @@ describe('VAOS integration: pending appointments', () => {
           .add(3, 'days')
           .format('ddd, MMMM D, YYYY')} in the morning`,
       );
-      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      expect(getByText(/cancel request/i)).to.have.tagName('button');
       fireEvent.click(await findByText(/show more/i));
       await findByText(/a message from the patient/i);
       expect(baseElement).to.contain.text('Call morning');

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -13,7 +14,7 @@ export default function FacilitiesRadioWidget({
   onChange,
   formContext,
 }) {
-  const { loadingEligibility } = formContext;
+  const { loadingEligibility, sortMethod } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
 
@@ -35,8 +36,17 @@ export default function FacilitiesRadioWidget({
   return (
     <div>
       {displayedOptions.map((option, i) => {
-        const { id, name, address } = option?.label;
+        const { id, name, address, legacyVAR } = option?.label;
         const checked = option.value === value;
+        let distance;
+
+        if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
+          distance = legacyVAR?.distanceFromResidentialAddress;
+        } else if (
+          sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+        ) {
+          distance = legacyVAR?.distancefromCurrentLocation;
+        }
 
         return (
           <div className="form-radio-buttons" key={option.value}>
@@ -56,6 +66,11 @@ export default function FacilitiesRadioWidget({
               <span className="vads-u-display--block vads-u-font-size--sm">
                 {address?.city}, {address?.state}
               </span>
+              {!!distance && (
+                <span className="vads-u-display--block vads-u-font-size--sm">
+                  {distance} miles
+                </span>
+              )}
             </label>
           </div>
         );

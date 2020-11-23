@@ -41,6 +41,9 @@ export const uiSchema = {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid VA file number',
+    },
   },
   dateOfBirth: merge(currentOrPastDateUI('Date of birth'), {
     'ui:required': () => !hasSession(),

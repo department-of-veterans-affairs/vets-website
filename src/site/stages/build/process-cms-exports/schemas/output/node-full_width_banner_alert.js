@@ -1,4 +1,4 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
 const alertsSchema = require('./node-vamc_operating_status_and_alerts');
 
 module.exports = {
@@ -12,6 +12,7 @@ module.exports = {
     changed: { type: 'number' },
     entityUrl: { $ref: 'EntityUrl' },
     entityMetatags: { $ref: 'MetaTags' },
+    status: { type: 'boolean' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldAlertDismissable: { type: 'boolean' },
     fieldAlertEmailUpdatesButton: { type: 'boolean' },
@@ -23,8 +24,7 @@ module.exports = {
     fieldBannerAlertVamcs: {
       type: 'array',
       items: {
-        /* eslint-disable react-hooks/rules-of-hooks */
-        entity: usePartialSchema(alertsSchema, ['fieldOffice', 'entityUrl']),
+        entity: partialSchema(alertsSchema, ['fieldOffice', 'entityUrl']),
       },
     },
     fieldBody: { type: 'string' },
@@ -42,6 +42,7 @@ module.exports = {
     'changed',
     'entityUrl',
     'entityMetatags',
+    'status',
     'fieldAdministration',
     'fieldAlertDismissable',
     'fieldAlertEmailUpdatesButton',

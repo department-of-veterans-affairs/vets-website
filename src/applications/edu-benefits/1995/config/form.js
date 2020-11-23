@@ -17,6 +17,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { chapters } from './chapters';
 
+import manifest from '../manifest.json';
+
 const {
   preferredContactMethod,
   date,
@@ -25,11 +27,21 @@ const {
 } = fullSchema1995.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
   submit: submitForm,
   trackingPrefix: 'edu-1995-',
   formId: VA_FORM_IDS.FORM_22_1995,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your education benefits application (22-1995) is in progress.',
+      expired:
+        'Your saved education benefits application (22-1995) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
+  },
   version: 1,
   migrations: [urlMigration('/1995')],
   prefillEnabled: true,
@@ -48,7 +60,7 @@ const formConfig = {
     date,
     dateRange,
   },
-  title: 'Update your education benefits',
+  title: 'Change your education benefits',
   subTitle: 'Form 22-1995',
   preSubmitInfo,
   footerContent: FormFooter,

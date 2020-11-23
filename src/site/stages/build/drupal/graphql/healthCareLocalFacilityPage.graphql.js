@@ -24,43 +24,6 @@ module.exports = `
         }
       }
     }
-    fieldRegionPage {
-      entity {
-        ... on NodeHealthCareRegionPage {
-          fieldFacebook {
-            title
-            url {
-              path
-            }
-          }
-          fieldTwitter {
-            title
-            url {
-              path
-            }
-          }
-          fieldFlickr {
-            title
-            url {
-              path
-            }
-          }
-          fieldInstagram {
-            title
-            url {
-              path
-            }
-          }
-          fieldGovdeliveryIdEmerg
-          fieldGovdeliveryIdNews
-          fieldOperatingStatus {
-            url {
-              path
-            }
-          }
-        }
-      }
-    }
     fieldAddress {
       addressLine1
       locality
@@ -99,6 +62,13 @@ module.exports = `
           fieldRelatedLinks {
             entity {
               ... listOfLinkTeasers
+            }
+          }
+          fieldGovdeliveryIdEmerg
+          fieldGovdeliveryIdNews
+          fieldOperatingStatus {
+            url {
+              path
             }
           }
         }

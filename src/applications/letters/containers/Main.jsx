@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { systemDownMessage } from 'platform/static-data/error-messages';
+import { selectVAPContactInfo } from 'platform/user/selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound, isAddressEmpty } from '../utils/helpers';
+import noAddressBanner from '../components/NoAddressBanner';
 
-import { getLetterListAndBSLOptions } from '../actions/letters';
+import {
+  getLetterListAndBSLOptions,
+  profileHasEmptyAddress,
+} from '../actions/letters';
 
 const {
   awaitingResponse,
@@ -15,13 +20,15 @@ const {
   backendAuthenticationError,
   unavailable,
   letterEligibilityError,
+  hasEmptyAddress,
 } = AVAILABILITY_STATUSES;
 
 export class Main extends React.Component {
   componentDidMount() {
     if (!this.props.emptyAddress) {
-      this.props.getLetterListAndBSLOptions();
+      return this.props.getLetterListAndBSLOptions();
     }
+    return this.props.profileHasEmptyAddress();
   }
 
   appAvailability(lettersAvailability) {
@@ -48,6 +55,9 @@ export class Main extends React.Component {
       case letterEligibilityError:
         appContent = this.props.children;
         break;
+      case hasEmptyAddress:
+        appContent = noAddressBanner;
+        break;
       case unavailable: // fall-through to default
       case backendServiceError: // fall-through to default
       default:
@@ -69,14 +79,13 @@ function mapStateToProps(state) {
       serviceInfo: letterState.serviceInfo,
     },
     optionsAvailable: letterState.optionsAvailable,
-    emptyAddress: isAddressEmpty(state.user.profile.vet360.mailingAddress),
+    emptyAddress: isAddressEmpty(selectVAPContactInfo(state)?.mailingAddress),
   };
 }
 
 const mapDispatchToProps = {
-  // getBenefitSummaryOptions,
-  // getLetterList,
   getLetterListAndBSLOptions,
+  profileHasEmptyAddress,
 };
 
 export default connect(

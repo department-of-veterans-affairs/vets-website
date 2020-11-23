@@ -1,4 +1,4 @@
-import moment from '../../../utils/moment-tz';
+import moment from '../../../lib/moment-tz';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -68,7 +68,7 @@ describe('VAOS Express Care actions', () => {
           .format('HH:mm'),
       },
     ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestEligibilityCriteria(['983'], [requestCriteria]);
 
     const thunk = fetchExpressCareWindows();
     const dispatchSpy = sinon.spy();

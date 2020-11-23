@@ -1,8 +1,8 @@
 const data = {
-  hasDependentDebt: true,
+  hasDependentDebts: true,
   debts: [
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJHONS',
       deductionCode: '30',
@@ -33,14 +33,14 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'STUB_M',
       deductionCode: '44',
       benefitType: 'CH35 EDU',
-      diaryCode: '618',
+      diaryCode: '081',
       diaryCodeDescription:
-        'Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available.',
+        "We're referring this debt to the U.S. Department of the Treasury today.",
       amountOverpaid: 26000,
       amountWithheld: 0,
       originalAr: 100,
@@ -81,14 +81,13 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJOHNS',
       deductionCode: '71',
       benefitType: 'CH33 Books, Supplies/MISC EDU',
-      diaryCode: '100',
-      diaryCodeDescription:
-        'First Demand Letter - Inactive Benefits - Due Process',
+      diaryCode: '811',
+      diaryCodeDescription: `We’re reviewing your compromise offer`,
       amountOverpaid: 0,
       amountWithheld: 0,
       originalAr: 166.67,
@@ -102,7 +101,7 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJOHNS',
       deductionCode: '74',
@@ -137,7 +136,7 @@ const data = {
       ],
     },
     {
-      fileNumber: 796121200,
+      fileNumber: '796121200',
       payeeNumber: '00',
       personEntitled: 'AJHONS',
       deductionCode: '72',

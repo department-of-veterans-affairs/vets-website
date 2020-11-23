@@ -1,16 +1,17 @@
 import { expect } from 'chai';
 
 import {
-  formatNumber,
-  formatCurrency,
-  isVetTecSelected,
   addAllOption,
-  isCountryUSA,
+  convertRatingToStars,
+  formatCurrency,
+  formatDollarAmount,
+  formatNumber,
+  handleScrollOnInputFocus,
   isCountryInternational,
+  isCountryUSA,
+  isVetTecSelected,
   rubyifyKeys,
   sortOptionsByStateName,
-  formatDollarAmount,
-  handleScrollOnInputFocus,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -114,6 +115,47 @@ describe('GIBCT helpers:', () => {
       document.body.appendChild(mainDiv);
       handleScrollOnInputFocus('test');
       expect(scrolledIntoViewIsCalled).to.be.true;
+    });
+  });
+
+  describe('convertRatingToStars', () => {
+    it('returns null for invalid ratings', () => {
+      expect(convertRatingToStars('dogs')).to.eq(null);
+    });
+
+    it('converts string to number', () => {
+      const { full, half, display } = convertRatingToStars('2.24');
+      expect(full).to.eq(2);
+      expect(half).to.eq(false);
+      expect(display).to.eq('2.2');
+    });
+
+    it('converts < .3 as a whole number of stars', () => {
+      const { full, half, display } = convertRatingToStars(2.24);
+      expect(full).to.eq(2);
+      expect(half).to.eq(false);
+      expect(display).to.eq('2.2');
+    });
+
+    it('converts .3 as a half star', () => {
+      const { full, half, display } = convertRatingToStars(4.29);
+      expect(full).to.eq(4);
+      expect(half).to.eq(true);
+      expect(display).to.eq('4.3');
+    });
+
+    it('converts .7 as a half star', () => {
+      const { full, half, display } = convertRatingToStars(4.7);
+      expect(full).to.eq(4);
+      expect(half).to.eq(true);
+      expect(display).to.eq('4.7');
+    });
+
+    it('converts more than .7 as a full star', () => {
+      const { full, half, display } = convertRatingToStars(3.75);
+      expect(full).to.eq(4);
+      expect(half).to.eq(false);
+      expect(display).to.eq('3.8');
     });
   });
 });

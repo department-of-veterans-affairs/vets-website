@@ -46,8 +46,15 @@
     },
     {
       "column": 1,
-      "href": "https://www.nrd.gov",
+      "href": "https://www.va.gov/outreach-and-events/events/",
       "order": 7,
+      "target": null,
+      "title": "VA Outreach Events"
+    },
+    {
+      "column": 1,
+      "href": "https://www.nrd.gov",
+      "order": 8,
       "target": "_blank",
       "title": "National Resource Directory",
       "rel": "noopener noreferrer"
@@ -112,8 +119,15 @@
     },
     {
       "column": 2,
-      "href": "https://www.va.gov/welcome-kit/",
+      "href": "https://www.va.gov/outreach-and-events/outreach-materials/",
       "order": 9,
+      "target": null,
+      "title": "VA Outreach Materials"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/welcome-kit/",
+      "order": 10,
       "target": null,
       "title": "Print your VA welcome kit"
     },
@@ -197,11 +211,11 @@
     },
     {
       "column": 4,
-      "label": "Call VA311:",
-      "href": "tel:18446982311",
+      "label": "Call us:",
+      "href": "tel:18006982411",
       "order": 3,
       "target": null,
-      "title": "844-698-2311"
+      "title": "800-698-2411"
     },
     {
       "column": 4,
@@ -347,7 +361,7 @@
                 "text": "Coronavirus FAQs",
                 "href": "https://www.va.gov/coronavirus-veteran-frequently-asked-questions/"
               },
-              "description": "Get answers to frequently asked questions about COVID-19 and VA health care. You can also call VA311 at 844-698-2311."
+              "description": "Get answers to frequently asked questions about COVID-19 and VA health care. You can also call our MyVA411 main information line at at 800-698-2411."
             }
           }
         },

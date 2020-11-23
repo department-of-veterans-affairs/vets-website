@@ -20,7 +20,7 @@ const createFakeUserStore = (
           },
           dob: '1924-12-19',
           gender,
-          vet360: {
+          vapContactInfo: {
             mobilePhone: phones.hasMobile
               ? {
                   areaCode: '503',
@@ -161,9 +161,17 @@ const createFakeUserStore = (
   };
 };
 
-const createFakeChiefComplaintStore = () => {
+const createFakeReasonForVisitDescriptionStore = reason => {
   return {
-    getState: () => ({}),
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [{ bookingNotes: reason }],
+          },
+        },
+      },
+    }),
     subscribe: () => {},
     dispatch: () => {},
   };
@@ -172,8 +180,12 @@ const createFakeChiefComplaintStore = () => {
 const createFakeReasonForVisitStore = ({ reason = '' }) => {
   return {
     getState: () => ({
-      clipboardAppointmentDetails: {
-        reasonForVisit: reason,
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [{ bookingNotes: reason }],
+          },
+        },
       },
     }),
     subscribe: () => {},
@@ -181,8 +193,69 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
   };
 };
 
+const createFakeConfirmationStore = ({ hasData }) => {
+  return {
+    getState: () => {
+      return hasData
+        ? {
+            form: {
+              submission: {
+                response: {
+                  veteranInfo: { fullName: 'Mickey Mouse' },
+                  timestamp: new Date(),
+                },
+              },
+            },
+            questionnaireData: {
+              context: {
+                appointment: {
+                  vdsAppointments: [
+                    { clinic: { facility: { displayName: 'Magic Kingdom' } } },
+                  ],
+                },
+              },
+            },
+          }
+        : { form: {}, questionnaireData: {} };
+    },
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
+const createFakeIntroductionPageStore = (formId, savedForms) => {
+  return {
+    getState: () => ({
+      form: {
+        pages: [],
+        formId,
+      },
+      user: {
+        profile: {
+          savedForms: [...savedForms],
+        },
+      },
+      questionnaireData: {
+        context: {
+          appointment: {
+            vdsAppointments: [
+              { clinic: { facility: { displayName: 'Magic Kingdom' } } },
+            ],
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => ({
+      toggleLoginModal: () => {},
+    }),
+  };
+};
+
 export {
   createFakeUserStore,
-  createFakeChiefComplaintStore,
+  createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
+  createFakeConfirmationStore,
+  createFakeIntroductionPageStore,
 };

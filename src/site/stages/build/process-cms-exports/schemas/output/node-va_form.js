@@ -1,4 +1,28 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
+
+const dateSchema = {
+  oneOf: [
+    {
+      type: 'object',
+      properties: {
+        value: { type: 'string' },
+      },
+    },
+    { type: 'null' },
+  ],
+};
+
+const urlSchema = {
+  oneOf: [
+    {
+      type: 'object',
+      properties: {
+        uri: { type: 'string' },
+      },
+    },
+    { type: 'null' },
+  ],
+};
 
 const vaFormSchema = {
   type: 'object',
@@ -6,22 +30,7 @@ const vaFormSchema = {
     fieldVaFormName: { type: 'string' },
     fieldVaFormNumber: { type: 'string' },
     fieldVaFormUsage: { $ref: 'ProcessedString' },
-    fieldVaFormUrl: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          uri: {
-            type: 'object',
-            properties: {
-              path: { type: 'string' },
-            },
-            required: ['path'],
-          },
-        },
-        required: ['uri'],
-      },
-    },
+    fieldVaFormUrl: urlSchema,
   },
   required: [
     'fieldVaFormName',
@@ -40,13 +49,21 @@ module.exports = {
     created: { type: 'number' },
     changed: { type: 'number' },
     entityMetatags: { $ref: 'MetaTags' },
+    entityPublished: { type: 'boolean' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldBenefitCategories: {
       type: 'array',
-      items: { $ref: 'output/node-landing_page' },
+      items: {
+        entity: {
+          type: { $ref: 'output/node-landing_page' },
+        },
+      },
     },
     fieldVaFormAdministration: { $ref: 'output/taxonomy_term-administration' },
-    fieldVaFormIssueDate: { type: 'string' },
+    fieldAlert: {
+      oneOf: [{ $ref: 'BlockContent' }, { type: 'null' }],
+    },
+    fieldVaFormIssueDate: dateSchema,
     fieldVaFormLinkTeasers: {
       type: 'array',
       items: { $ref: 'output/paragraph-link_teaser' },
@@ -57,8 +74,7 @@ module.exports = {
     fieldVaFormRelatedForms: {
       type: 'array',
       items: {
-        /* eslint-disable react-hooks/rules-of-hooks */
-        entity: usePartialSchema(vaFormSchema, [
+        entity: partialSchema(vaFormSchema, [
           'fieldVaFormName',
           'fieldVaFormNumber',
           'fieldVaFormUsage',
@@ -66,50 +82,24 @@ module.exports = {
         ]),
       },
     },
-    fieldVaFormRevisionDate: { type: ['string', 'null'] },
+    fieldVaFormRevisionDate: dateSchema,
     fieldVaFormTitle: { type: 'string' },
     fieldVaFormToolIntro: { type: ['string', 'null'] },
-    fieldVaFormToolUrl: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          url: {
-            type: 'object',
-            properties: {
-              path: { type: 'string' },
-            },
-            required: ['path'],
-          },
-        },
-        required: ['url'],
-      },
-    },
+    fieldVaFormToolUrl: urlSchema,
     fieldVaFormType: { type: ['string', 'null'] },
-    fieldVaFormUrl: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          url: {
-            type: 'object',
-            properties: {
-              path: { type: 'string' },
-            },
-            required: ['path'],
-          },
-        },
-        required: ['url'],
-      },
+    fieldVaFormUrl: urlSchema,
+    fieldVaFormUsage: {
+      oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
     },
-    fieldVaFormUsage: { $ref: 'ProcessedString' },
   },
   required: [
     'title',
     'created',
     'changed',
     'entityMetatags',
+    'entityPublished',
     'fieldAdministration',
+    'fieldAlert',
     'fieldBenefitCategories',
     'fieldVaFormAdministration',
     'fieldVaFormIssueDate',

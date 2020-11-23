@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import CalendarCell from './CalendarCell';
-import { isDateInSelectedArray } from './../../../utils/calendar';
+import { isDateInSelectedArray } from './dateHelpers';
 
 export default class CalendarRow extends Component {
   static propTypes = {

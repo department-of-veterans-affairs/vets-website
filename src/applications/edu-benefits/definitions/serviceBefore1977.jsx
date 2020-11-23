@@ -6,23 +6,24 @@ const uiSchema = {
     'ui:widget': 'yesNo',
   },
   haveDependents: {
-    'ui:title': 'Do you have any children who fall into these categories?',
+    'ui:title': 'Do you have any children who are:',
     'ui:description': (
       <ul className="edu-benefits-dependents-desc">
-        <li>Under age 18</li>
         <li>
-          Between the ages of 18 and 22, not married, and attending school
+          Under age 18, <b>or</b>
         </li>
         <li>
-          Any age who are permanently disabled for mental or physical reasons
+          Between the ages of 18 and 22, not married, and attending school,{' '}
+          <b>or</b>
         </li>
+        <li>Permanently physically or mentally disabled</li>
       </ul>
     ),
     'ui:widget': 'yesNo',
   },
   parentDependent: {
     'ui:title':
-      'Do you have a parent who is dependent on your financial support?',
+      'Do you have a parent who depends on you for financial support?',
     'ui:widget': 'yesNo',
   },
 };

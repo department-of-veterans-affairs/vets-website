@@ -5,16 +5,17 @@ import { distBetween } from './facilityDistance';
  * Helper fn to record Markers events for GA
  */
 export const recordMarkerEvents = r => {
-  const { classification, name, facilityType } = r.attributes;
+  const { classification, name, facilityType, id } = r.attributes;
   const distance = r.distance;
 
-  if (classification && name && facilityType && distance) {
+  if (classification && name && facilityType && distance && id) {
     recordEvent({
       event: 'fl-map-pin-click',
       'fl-facility-type': facilityType,
       'fl-facility-classification': classification,
       'fl-facility-name': name,
       'fl-facility-distance-from-search': distance,
+      'fl-facility-id': id,
     });
   }
 };
@@ -41,6 +42,9 @@ export const recordZoomPanEvents = (e, searchCoords, currentZoomLevel) => {
       recordEvent({
         event: 'fl-search',
         'fl-map-miles-moved': distanceMoved,
+      });
+      recordEvent({
+        'fl-map-miles-moved': undefined,
       });
     }
   }
@@ -107,4 +111,43 @@ export const recordSearchResultsEvents = (props, results) => {
   }
 
   recordEvent(dataPush);
+};
+
+/**
+ * Helper fn to record map zoom
+ */
+export const recordZoomEvent = (lastZoom, currentZoom) => {
+  if (lastZoom === currentZoom) return;
+  if (lastZoom < currentZoom) {
+    recordEvent({ event: 'fl-map-zoom-in' });
+  } else if (lastZoom > currentZoom) {
+    recordEvent({ event: 'fl-map-zoom-out' });
+  }
+};
+
+/**
+ * Helper fn to record map panning
+ */
+export const recordPanEvent = (mapCenter, searchCoords) => {
+  return new Promise((resolve, _) => {
+    if (searchCoords && searchCoords.lat && searchCoords.lng) {
+      const distanceMoved = distBetween(
+        searchCoords.lat,
+        searchCoords.lng,
+        mapCenter.lat,
+        mapCenter.lng,
+      );
+      if (distanceMoved > 0) {
+        resolve(
+          recordEvent({
+            event: 'fl-search',
+            'fl-map-miles-moved': distanceMoved,
+          }),
+          recordEvent({
+            'fl-map-miles-moved': undefined,
+          }),
+        );
+      }
+    }
+  });
 };

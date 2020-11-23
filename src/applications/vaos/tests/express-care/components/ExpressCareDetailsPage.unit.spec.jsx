@@ -54,7 +54,7 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
           .format('HH:mm'),
       },
     ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestEligibilityCriteria(['983'], [requestCriteria]);
     const store = createTestStore({
       ...initialState,
     });

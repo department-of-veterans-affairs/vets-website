@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import moment from '../../../../utils/moment-tz';
-import { formatFacilityAddress } from '../../../../utils/formatters';
+import moment from '../../../../lib/moment-tz';
+import { formatFacilityAddress } from '../../../../services/location';
 import {
   APPOINTMENT_STATUS,
   PURPOSE_TEXT,
@@ -16,17 +16,20 @@ import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from '../AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
+  getATLASLocation,
   getVARFacilityId,
   getVAAppointmentLocationId,
   isVideoAppointment,
   isAtlasLocation,
   getVideoKind,
+  hasPractitioner,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
 import {
   getVideoInstructionText,
   VideoVisitInstructions,
 } from './VideoInstructions';
+import VideoVisitProviderSection from './VideoVisitProvider';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -71,6 +74,8 @@ export default function ConfirmedAppointmentListItem({
     videoKind !== VIDEO_TYPES.clinic &&
     videoKind !== VIDEO_TYPES.gfe;
 
+  const showProvider = isVideo && hasPractitioner(appointment);
+
   let instructionText = 'VA appointment';
   if (showInstructions) {
     instructionText = appointment.comment;
@@ -96,8 +101,7 @@ export default function ConfirmedAppointmentListItem({
   if (isAtlas) {
     header = 'VA Video Connect';
     vvcHeader = ' at an ATLAS location';
-    const address =
-      appointment.legacyVAR.apiData.vvsAppointments[0].tasInfo.address;
+    const { address } = getATLASLocation(appointment);
     if (address) {
       location = `${address.streetAddress}, ${address.city}, ${address.state} ${
         address.zipCode
@@ -186,6 +190,14 @@ export default function ConfirmedAppointmentListItem({
         )}
       </div>
 
+      {showProvider && (
+        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
+            <VideoVisitProviderSection participants={appointment.participant} />
+          </div>
+        </div>
+      )}
+
       {!cancelled &&
         !isPastAppointment && (
           <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
@@ -211,7 +223,9 @@ export default function ConfirmedAppointmentListItem({
             {showCancelButton && (
               <button
                 onClick={() => cancelAppointment(appointment)}
-                aria-label="Cancel appointment"
+                aria-label={`Cancel appointment on ${formatAppointmentDate(
+                  moment.parseZone(appointment.start),
+                )}`}
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
               >
                 Cancel appointment

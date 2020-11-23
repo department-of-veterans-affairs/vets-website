@@ -1,6 +1,8 @@
 import 'platform/polyfills';
 import './sass/questionnaire.scss';
 import './sass/footer.scss';
+import './sass/review.scss';
+import './sass/confirm.scss';
 
 import startApp from 'platform/startup';
 

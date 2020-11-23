@@ -9,15 +9,21 @@ import {
 import {
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
+  getATLASConfirmationCode,
+  getATLASLocation,
   getBookedAppointments,
   getAppointmentRequests,
   isVideoAppointment,
   isVideoGFE,
+  hasPractitioner,
+  getPractitionerDisplay,
+  FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../services/appointment';
 import {
   transformConfirmedAppointments,
   transformPendingAppointments,
 } from '../../../services/appointment/transformers';
+import { transformATLASLocation } from '../../../services/location/transformers';
 import {
   getVAAppointmentMock,
   getVideoAppointmentMock,
@@ -29,7 +35,6 @@ import { setRequestedPeriod } from '../../mocks/helpers';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../utils/constants';
 
 const now = moment();
@@ -170,6 +175,77 @@ describe('VAOS Appointment service', () => {
       ])[0];
 
       expect(isVideoGFE(gfe)).to.equal(true);
+    });
+  });
+
+  describe('getATLASLocation', () => {
+    it('should return the ATLAS address', () => {
+      const mock = getVideoAppointmentMock();
+      const tasInfo = {
+        confirmationCode: '7VBBCA',
+        address: {
+          streetAddress: '114 Dewey Ave',
+          city: 'Eureka',
+          state: 'MT',
+          zipCode: '59917',
+          country: 'USA',
+          longitude: -115.1,
+          latitude: 48.8,
+          additionalDetails: '',
+        },
+        siteCode: 9931,
+      };
+
+      const confirmedVA = transformConfirmedAppointments([
+        {
+          ...mock.attributes,
+          vvsAppointments: [
+            {
+              ...mock.attributes.vvsAppointments[0],
+              tasInfo,
+            },
+          ],
+        },
+      ])[0];
+
+      expect(getATLASLocation(confirmedVA)).to.eql(
+        transformATLASLocation(tasInfo),
+      );
+    });
+  });
+
+  describe('getATLASConfirmationCode', () => {
+    it('should return the ATLAS confirmation code', () => {
+      const mock = getVideoAppointmentMock();
+      const tasInfo = {
+        confirmationCode: '7VBBCA',
+        address: {
+          streetAddress: '114 Dewey Ave',
+          city: 'Eureka',
+          state: 'MT',
+          zipCode: '59917',
+          country: 'USA',
+          longitude: null,
+          latitude: null,
+          additionalDetails: '',
+        },
+      };
+
+      const confirmedVA = transformConfirmedAppointments([
+        {
+          ...mock.attributes,
+          vvsAppointments: [
+            {
+              ...mock.attributes.vvsAppointments[0],
+              tasInfo,
+            },
+          ],
+        },
+      ])[0];
+
+      expect(getATLASConfirmationCode(confirmedVA)).to.eql(
+        tasInfo.confirmationCode,
+      );
     });
   });
 
@@ -435,6 +511,37 @@ describe('VAOS Appointment service', () => {
       const filtered = appointments.filter(isValidPastAppointment);
 
       expect(filtered.length).to.equal(3);
+    });
+  });
+
+  describe('appointment practitioner', () => {
+    it('should return boolean if appointment contains keyword practitioner', () => {
+      const appointmentTrue = {
+        participant: [
+          { actor: { reference: 'Location/test' } },
+          { actor: { reference: 'Practitioner/Tester', display: 'Tester' } },
+        ],
+      };
+
+      const appointmentFalse = {
+        participant: [{ actor: { reference: 'Location/test' } }],
+      };
+
+      const responseTrue = hasPractitioner(appointmentTrue);
+      expect(responseTrue).to.be.true;
+
+      const responseFalse = hasPractitioner(appointmentFalse);
+      expect(responseFalse).to.be.false;
+    });
+
+    it('should return string of practitioner display', () => {
+      const appointment = [
+        { actor: { reference: 'Location/test' } },
+        { actor: { reference: 'Practitioner/Tester', display: 'Tester' } },
+      ];
+
+      const response = getPractitionerDisplay(appointment);
+      expect(response).to.equal('Tester');
     });
   });
 });

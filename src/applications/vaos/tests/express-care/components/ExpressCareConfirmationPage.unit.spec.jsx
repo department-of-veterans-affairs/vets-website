@@ -163,7 +163,7 @@ describe('VAOS integration: Express Care form submission', () => {
     );
 
     expect(screen.baseElement).to.contain.text('Your contact details');
-    expect(screen.baseElement).to.contain.text('5555555555');
+    expect(screen.baseElement).to.contain.text('555-555-5555');
     expect(screen.baseElement).to.contain.text('test@va.gov');
 
     expect(screen.baseElement).to.contain.text(
@@ -297,7 +297,7 @@ describe('VAOS integration: Express Care form submission', () => {
           .format('HH:mm'),
       },
     ]);
-    mockRequestEligibilityCriteria(['983'], requestCriteria);
+    mockRequestEligibilityCriteria(['983'], [requestCriteria]);
 
     const requestData = {
       id: 'testing',

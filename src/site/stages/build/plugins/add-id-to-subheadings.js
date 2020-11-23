@@ -1,6 +1,17 @@
 /*
  * Add unique ID to H2s and H3s that aren't in WYSIWYG or accordion buttons
  */
+const { ENTITY_BUNDLES } = require('../../../constants/content-modeling');
+
+const entityBundlesForResourcesAndSupport = new Set([
+  ENTITY_BUNDLES.STEP_BY_STEP,
+  ENTITY_BUNDLES.FAQ_MULTIPLE_Q_A,
+  ENTITY_BUNDLES.Q_A,
+  ENTITY_BUNDLES.CHECKLIST,
+  ENTITY_BUNDLES.MEDIA_LIST_IMAGES,
+  ENTITY_BUNDLES.MEDIA_LIST_VIDEOS,
+  ENTITY_BUNDLES.SUPPORT_RESOURCES_DETAIL_PAGE,
+]);
 
 function createUniqueId(headingEl, headingOptions) {
   const headingString = headingEl.text();
@@ -31,6 +42,11 @@ function generateHeadingIds() {
         const { dom } = file;
         const tableOfContents = dom('#table-of-contents ul');
 
+        if (!tableOfContents) {
+          // eslint-disable-next-line no-continue
+          continue;
+        }
+
         const headingOptions = {
           previousHeadings: [],
           previousId: 0,
@@ -39,7 +55,19 @@ function generateHeadingIds() {
           },
         };
 
-        dom('h2, h3').each((index, el) => {
+        let nodes = null;
+
+        if (entityBundlesForResourcesAndSupport.has(file.entityBundle)) {
+          nodes = dom('article h2');
+          if (nodes.length < 2) {
+            // eslint-disable-next-line no-continue
+            continue;
+          }
+        } else {
+          nodes = dom('h2, h3');
+        }
+
+        nodes.each((index, el) => {
           const heading = dom(el);
           const parent = heading.parents();
           const isInAccordionButton = parent.hasClass('usa-accordion-button');
@@ -61,15 +89,12 @@ function generateHeadingIds() {
             !isInAccordion
           ) {
             tableOfContents.append(
-              `<li class="vads-u-margin-bottom--2">
-                  <a href="#${heading.attr(
-                    'id',
-                  )}" onClick="recordEvent({ event: 'nav-jumplink-click' });"
+              `<li class="vads-u-margin-bottom--2"><a href="#${heading.attr(
+                'id',
+              )}" onClick="recordEvent({ event: 'nav-jumplink-click' });"
               class="vads-u-display--flex vads-u-text-decoration--none">
-                    <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"></i>
-                    ${heading.text()}
-                  </a>
-                </li>`,
+              <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1">
+              </i>${heading.text()}</a></li>`,
             );
             idAdded = true;
           }

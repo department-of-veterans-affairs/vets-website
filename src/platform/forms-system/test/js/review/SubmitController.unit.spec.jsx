@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import createCommonStore from 'platform/startup/store';
+import { testkit } from 'platform/testing/unit/sentry';
 
 import { SubmitController } from '../../../src/js/review/SubmitController';
 
@@ -71,6 +72,7 @@ const createForm = options => ({
     },
   },
   data: {},
+  loadedData: { metadata: { inProgressFormId: '123' } },
   ...options,
 });
 
@@ -97,6 +99,12 @@ const createStore = (options = {}) => {
 };
 
 describe('Schemaform review: SubmitController', () => {
+  beforeEach(() => {
+    testkit.reset();
+  });
+  afterEach(() => {
+    testkit.reset();
+  });
   it('should route to confirmation page after submit', () => {
     const form = createForm();
     const formConfig = createFormConfig();
@@ -185,29 +193,34 @@ describe('Schemaform review: SubmitController', () => {
     tree.unmount();
   });
 
-  it('should not submit when invalid', () => {
-    const form = createForm();
-    // Form with missing rquired field
+  it('should not submit when invalid data is entered', () => {
+    // Form with missing required field
+    const page = {
+      title: 'Missing stuff',
+      schema: {
+        type: 'object',
+        required: ['stuff'],
+        properties: {
+          stuff: { type: 'string' },
+        },
+      },
+    };
+    const form = createForm({
+      data: { privacyAgreementAccepted: true },
+      pages: { page1: { schema: page.schema } },
+    });
     const formConfig = createFormConfig({
       chapters: {
         chapter1: {
           pages: {
-            page1: {
-              title: 'Missing stuff',
-              schema: {
-                type: 'object',
-                required: ['stuff'],
-                properties: {
-                  stuff: { type: 'string' },
-                },
-              },
-            },
+            page1: page,
           },
         },
       },
-      data: { privacyAgreementAccepted: true },
     });
-    const pageList = createPageList();
+    const pageList = [
+      { path: 'page-1', pageKey: 'page1', schema: page.schema },
+    ];
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
@@ -236,15 +249,38 @@ describe('Schemaform review: SubmitController', () => {
 
     expect(submitForm.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
+    expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
     tree.unmount();
   });
 
-  it('should submit when valid', () => {
+  it('should submit submission error data to Sentry', () => {
+    // Form with missing required field
+    const page = {
+      title: 'Missing stuff',
+      schema: {
+        type: 'object',
+        required: ['stuff'],
+        properties: {
+          stuff: { type: 'string' },
+        },
+      },
+    };
     const form = createForm({
       data: { privacyAgreementAccepted: true },
+      pages: { page1: { schema: page.schema } },
     });
-    const formConfig = createFormConfig();
-    const pageList = createPageList();
+    const formConfig = createFormConfig({
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: page,
+          },
+        },
+      },
+    });
+    const pageList = [
+      { path: 'page-1', pageKey: 'page1', schema: page.schema },
+    ];
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
@@ -268,6 +304,53 @@ describe('Schemaform review: SubmitController', () => {
       </Provider>,
     );
 
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
+
+    expect(submitForm.called).to.be.false;
+
+    const sentryReports = testkit.reports();
+    expect(sentryReports.length).to.equal(1);
+    expect(sentryReports[0].extra.inProgressFormId).to.equal('123');
+    expect(sentryReports[0].extra.prefix).to.equal('test-');
+    expect(sentryReports[0].extra.errors)
+      .to.be.an('array')
+      .with.length('1');
+
+    tree.unmount();
+  });
+
+  it('should submit when valid', () => {
+    const form = createForm({
+      data: { privacyAgreementAccepted: true },
+    });
+    const formConfig = createFormConfig();
+    const pageList = createPageList();
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
+
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
+          trackingPrefix={formConfig.trackingPrefix}
+        />
+      </Provider>,
+    );
+
     // tree.find('.usa-button-primary').simulate('click');
     const submitButton = tree.getByText('Submit application');
     fireEvent.click(submitButton);
@@ -285,6 +368,7 @@ describe('Schemaform review: SubmitController', () => {
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -300,6 +384,7 @@ describe('Schemaform review: SubmitController', () => {
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
           submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
       </Provider>,
@@ -324,6 +409,7 @@ describe('Schemaform review: SubmitController', () => {
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -339,6 +425,7 @@ describe('Schemaform review: SubmitController', () => {
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
           submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
         />
       </Provider>,

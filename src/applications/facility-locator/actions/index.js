@@ -42,9 +42,8 @@ export const clearSearchResults = () => ({
  * @param {Object} location The actual location object if we already have it.
  *                 (This is a kinda hacky way to do a force update of the Redux
  *                  store to set the currently `selectedResult` but ¯\_(ツ)_/¯)
- * @param {number} api version number
  */
-export const fetchVAFacility = (id, location = null, apiVersion) => {
+export const fetchVAFacility = (id, location = null) => {
   if (location) {
     return {
       type: FETCH_LOCATION_DETAIL,
@@ -61,7 +60,7 @@ export const fetchVAFacility = (id, location = null, apiVersion) => {
     });
 
     try {
-      const data = await LocatorApi.fetchVAFacility(id, apiVersion);
+      const data = await LocatorApi.fetchVAFacility(id);
       dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
     } catch (error) {
       dispatch({ type: SEARCH_FAILED, error });
@@ -102,14 +101,13 @@ export const fetchProviderDetail = id => async dispatch => {
  * @param {Function} dispatch Redux's dispatch method
  * @param {number} api version number
  */
-const fetchLocations = async (
+export const fetchLocations = async (
   address = null,
   bounds,
   locationType,
   serviceType,
   page,
   dispatch,
-  apiVersion,
 ) => {
   try {
     const data = await LocatorApi.searchWithBounds(
@@ -118,7 +116,6 @@ const fetchLocations = async (
       locationType,
       serviceType,
       page,
-      apiVersion,
     );
     // Record event as soon as API return results
     if (data.errors) {
@@ -143,7 +140,6 @@ export const searchWithBounds = ({
   facilityType,
   serviceType,
   page = 1,
-  apiVersion,
 }) => {
   const needsAddress = [
     LocationType.CC_PROVIDER,
@@ -178,19 +174,10 @@ export const searchWithBounds = ({
           serviceType,
           page,
           dispatch,
-          apiVersion,
         );
       });
     } else {
-      fetchLocations(
-        null,
-        bounds,
-        facilityType,
-        serviceType,
-        page,
-        dispatch,
-        apiVersion,
-      );
+      fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
     }
   };
 };
@@ -271,6 +258,7 @@ export const genBBoxFromAddress = query => {
           payload: {
             ...query,
             context: zipCode,
+            id: Date.now(),
             inProgress: true,
             position: {
               latitude: coordinates[1],

@@ -36,6 +36,18 @@ module.exports = function registerFilters() {
     return dt;
   };
 
+  // Convert a timezone string (e.g. 'America/Los_Angeles') to an abbreviation
+  // e.g. "PST"
+  liquid.filters.timezoneAbbrev = (timezone, timestamp) => {
+    if (moment.tz.zone(timezone)) {
+      return moment.tz.zone(timezone).abbr(timestamp);
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('Invalid time zone: ', timezone);
+      return 'ET';
+    }
+  };
+
   liquid.filters.toTitleCase = phrase =>
     phrase
       .toLowerCase()
@@ -416,6 +428,32 @@ module.exports = function registerFilters() {
     return breadcrumbs;
   };
 
+  liquid.filters.deriveLcBreadcrumbs = (
+    breadcrumbs,
+    string,
+    currentPath,
+    pageTitle,
+  ) => {
+    // Remove any resources crumb - we don't want the drupal page title.
+    const filteredCrumbs = breadcrumbs.filter(
+      crumb => crumb.url.path !== '/resources',
+    );
+    // Add the resources crumb with the correct crumb title.
+    filteredCrumbs.push({
+      url: { path: '/resources', routed: false },
+      text: 'Resources and support',
+    });
+
+    if (pageTitle) {
+      filteredCrumbs.push({
+        url: { path: currentPath, routed: true },
+        text: string,
+      });
+    }
+
+    return filteredCrumbs;
+  };
+
   // used to get a base url path of a health care region from entityUrl.path
   liquid.filters.regionBasePath = path => path.split('/')[1];
 
@@ -451,6 +489,7 @@ module.exports = function registerFilters() {
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
 
   // get a value from a path of an object
+  // works for arrays as well
   liquid.filters.getValueFromObjPath = (obj, path) => _.get(obj, path);
 
   // get a value from a path of an object in an array

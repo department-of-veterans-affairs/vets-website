@@ -16,7 +16,7 @@ const transform = entity => {
       fieldAlertHeading: getDrupalValue(fieldAlertHeading),
       fieldVaParagraphs: fieldVaParagraphs.length ? fieldVaParagraphs : null,
       fieldAlertBlockReference: fieldAlertBlockReference.length
-        ? fieldAlertBlockReference
+        ? fieldAlertBlockReference[0]
         : null,
     },
   };

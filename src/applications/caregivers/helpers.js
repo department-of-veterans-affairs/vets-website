@@ -127,14 +127,6 @@ const hasSecondaryCaregiverTwo = formData =>
     secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwoView
   ] === true;
 
-export {
-  medicalCenterLabels,
-  medicalCentersByState,
-  submitTransform,
-  hasSecondaryCaregiverOne,
-  hasSecondaryCaregiverTwo,
-};
-
 const isSSNUnique = formData => {
   const {
     veteranSsnOrTin,
@@ -157,7 +149,7 @@ const isSSNUnique = formData => {
   return checkIfArrayIsUnique(allValidSSNs);
 };
 
-export const validateSSNIsUnique = (errors, formData) => {
+const validateSSNIsUnique = (errors, formData) => {
   if (!isSSNUnique(formData)) {
     errors.addError(
       "We're sorry. You've already entered this number elsewhere. Please check your data and try again.",
@@ -172,4 +164,13 @@ export const facilityNameMaxLength = (errors, formData) => {
       "You've entered too many characters, please enter less than 80 characters.",
     );
   }
+};
+
+export {
+  medicalCenterLabels,
+  medicalCentersByState,
+  submitTransform,
+  hasSecondaryCaregiverOne,
+  hasSecondaryCaregiverTwo,
+  validateSSNIsUnique,
 };

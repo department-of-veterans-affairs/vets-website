@@ -8,8 +8,8 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { getVARequestMock } from '../../mocks/v0';
-import { mockAppointmentInfo } from '../../mocks/helpers';
+import { getVAFacilityMock, getVARequestMock } from '../../mocks/v0';
+import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { renderFromRoutes } from '../../mocks/setup';
 
 describe('VAOS integration: express care requests', () => {
@@ -59,15 +59,36 @@ describe('VAOS integration: express care requests', () => {
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
 
+      const facility = {
+        id: 'vha_442GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '442GC',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            physical: {
+              zip: '82001-5356',
+              city: 'Cheyenne',
+              state: 'WY',
+              address1: '2360 East Pershing Boulevard',
+            },
+          },
+          phone: {
+            main: '307-778-7550',
+          },
+        },
+      };
+      mockFacilitiesFetch('vha_442GC', [facility]);
+
       const { baseElement, findByText, getByText } = renderFromRoutes({
         initialState,
       });
-      await findByText(/Some VA medical center/i);
+      await findByText(/Cheyenne VA Medical Center/i);
       expect(baseElement).to.contain.text('Express care appointment');
       expect(baseElement).not.to.contain.text('Preferred date and time');
       expect(baseElement).not.to.contain.text('in the morning');
       expect(baseElement).not.to.contain.text('Back pain');
-      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      expect(getByText(/cancel request/i)).to.have.tagName('button');
 
       fireEvent.click(getByText('Show more'));
       await findByText(/Reason for appointment/i);
@@ -95,6 +116,27 @@ describe('VAOS integration: express care requests', () => {
       appointment.id = '1234';
       mockAppointmentInfo({ requests: [appointment] });
 
+      const facility = {
+        id: 'vha_442GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '442GC',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            physical: {
+              zip: '82001-5356',
+              city: 'Cheyenne',
+              state: 'WY',
+              address1: '2360 East Pershing Boulevard',
+            },
+          },
+          phone: {
+            main: '307-778-7550',
+          },
+        },
+      };
+      mockFacilitiesFetch('vha_442GC', [facility]);
+
       const {
         baseElement,
         findByText,
@@ -104,9 +146,9 @@ describe('VAOS integration: express care requests', () => {
         initialState,
       });
 
-      await findByText(/Some VA medical center/i);
+      await findByText(/Cheyenne VA Medical Center/i);
       expect(baseElement).not.to.contain.text('Back pain');
-      expect(queryByText(/cancel appointment/i)).to.not.be.ok;
+      expect(queryByText(/cancel express care request/i)).to.not.be.ok;
 
       fireEvent.click(getByText('Show more'));
       await findByText(/Reason for appointment/i);
@@ -159,10 +201,12 @@ describe('VAOS integration: express care requests', () => {
       expect(baseElement).to.contain.text('Next step');
       expect(baseElement).to.contain('.fa-exclamation-triangle');
       expect(baseElement).to.contain('.vads-u-border-color--warning-message');
-      expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+      expect(getByText(/cancel express care request/i)).to.have.tagName(
+        'button',
+      );
 
       expect(baseElement).to.contain.text('Your contact details');
-      expect(baseElement).to.contain.text('5555555566');
+      expect(baseElement).to.contain.text('866-651-3180');
       expect(baseElement).to.contain.text('patient.test@va.gov');
 
       expect(baseElement).to.contain.text(
@@ -199,7 +243,7 @@ describe('VAOS integration: express care requests', () => {
       expect(baseElement).to.contain.text('Next step');
       expect(baseElement).to.contain('.fa-exclamation-triangle');
       expect(baseElement).to.contain('.vads-u-border-color--warning-message');
-      expect(queryByText(/cancel appointment/i)).to.not.be.ok;
+      expect(queryByText(/cancel express care request/i)).to.not.be.ok;
     });
 
     it('should show appropriate information for a cancelled request', async () => {
@@ -229,7 +273,7 @@ describe('VAOS integration: express care requests', () => {
       expect(getByText('Canceled')).to.be.ok;
       expect(baseElement).to.contain('.fa-exclamation-circle');
       expect(baseElement).to.contain('.vads-u-border-color--secondary-dark');
-      expect(queryByText(/cancel appointment/i)).to.not.be.ok;
+      expect(queryByText(/cancel express care request/i)).to.not.be.ok;
     });
 
     it('should show text when unable to reach veteran', async () => {
@@ -260,7 +304,7 @@ describe('VAOS integration: express care requests', () => {
       expect(getByText('Canceled – Could not reach Veteran')).to.be.ok;
       expect(baseElement).to.contain('.fa-exclamation-circle');
       expect(baseElement).to.contain('.vads-u-border-color--secondary-dark');
-      expect(queryByText(/cancel appointment/i)).to.not.be.ok;
+      expect(queryByText(/cancel express care request/i)).to.not.be.ok;
     });
 
     it('should show appropriate status when request is resolved', async () => {
@@ -290,7 +334,7 @@ describe('VAOS integration: express care requests', () => {
       expect(getByText('Complete')).to.be.ok;
       expect(baseElement).to.contain('.vads-u-border-color--green');
       expect(baseElement).to.contain('.fa-check-circle');
-      expect(queryByText(/cancel appointment/i)).to.not.be.ok;
+      expect(queryByText(/cancel express care request/i)).to.not.be.ok;
     });
 
     it('should not show up in upcoming tab', async () => {
@@ -444,16 +488,16 @@ describe('VAOS integration: express care requests', () => {
         path: '/express-care',
       });
 
-      await findByText(/cancel appointment/i);
+      await findByText(/cancel express care request/i);
       expect(baseElement).not.to.contain.text('Canceled');
 
-      fireEvent.click(getByText(/cancel appointment/i));
+      fireEvent.click(getByText(/cancel express care request/i));
 
       await findByRole('alertdialog');
 
-      fireEvent.click(getByText(/yes, cancel this appointment/i));
+      fireEvent.click(getByText(/yes, cancel this request/i));
 
-      await findByText(/your appointment has been canceled/i);
+      await findByText(/your request has been canceled/i);
 
       const cancelData = JSON.parse(
         global.fetch

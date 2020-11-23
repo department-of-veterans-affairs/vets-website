@@ -21,6 +21,7 @@ const missingFromVetsJsonSchema = [
 const root = path.join(__dirname, '../../../');
 
 const formConfigKeys = [
+  'rootUrl',
   'formId',
   'version',
   'migrations',
@@ -54,6 +55,7 @@ const formConfigKeys = [
   'authorizationMessage',
   'customText',
   'submissionError',
+  'saveInProgress',
 ];
 
 const validProperty = (
@@ -249,6 +251,17 @@ const validCustomText = ({ customText }) => {
   }
 };
 
+const validSaveInProgressConfig = formConfig => {
+  // TODO: Change this to not _require_ saveInProgress
+  validObjectProperty(formConfig, 'saveInProgress');
+  const messages = formConfig.saveInProgress?.messages;
+  if (messages) {
+    validStringProperty(messages, 'inProgress', false);
+    validStringProperty(messages, 'expired', false);
+    validStringProperty(messages, 'saved', false);
+  }
+};
+
 describe('form:', () => {
   // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
@@ -264,6 +277,7 @@ describe('form:', () => {
         import(configFilePath).then(({ default: formConfig }) => {
           validFormConfigKeys(formConfig);
           validFormId(formConfig);
+          validStringProperty(formConfig, 'rootUrl', true);
           validNumberProperty(formConfig, 'version');
           validMigrations(formConfig);
           validObjectProperty(formConfig, 'chapters');
@@ -292,6 +306,7 @@ describe('form:', () => {
           validAuthorization(formConfig);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
+          validSaveInProgressConfig(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down
           // If any of the expects in the above functions fail,
           // the test for the configFilePath fails as expected

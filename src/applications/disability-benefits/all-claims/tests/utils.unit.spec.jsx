@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 
-import { SAVED_SEPARATION_DATE } from '../../all-claims/constants';
+import {
+  SAVED_SEPARATION_DATE,
+  PTSD_MATCHES,
+} from '../../all-claims/constants';
 import {
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
@@ -35,6 +38,8 @@ import {
   formatDateRange,
   isBDD,
   show526Wizard,
+  isUndefined,
+  isDisabilityPtsd,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -478,7 +483,6 @@ describe('526 helpers', () => {
   describe('needsToEnter781', () => {
     it('should return true if user has selected Combat PTSD types', () => {
       const formData = {
-        'view:newDisabilities': true,
         newDisabilities: [
           {
             condition: 'Ptsd personal trauma',
@@ -493,7 +497,6 @@ describe('526 helpers', () => {
 
     it('should return true if user has selected Non-combat PTSD types', () => {
       const formData = {
-        'view:newDisabilities': true,
         newDisabilities: [
           {
             condition: 'Ptsd personal trauma',
@@ -515,7 +518,6 @@ describe('526 helpers', () => {
   describe('needsToEnter781a', () => {
     it('should return true if user has selected MST PTSD types', () => {
       const formData = {
-        'view:newDisabilities': true,
         newDisabilities: [
           {
             condition: 'Ptsd personal trauma',
@@ -530,7 +532,6 @@ describe('526 helpers', () => {
 
     it('should return true if user has selected Assault PTSD types', () => {
       const formData = {
-        'view:newDisabilities': true,
         newDisabilities: [
           {
             condition: 'Ptsd personal trauma',
@@ -566,7 +567,6 @@ describe('526 helpers', () => {
   describe('isUploading781aForm', () => {
     it('should return true if user has chosen to upload 781a', () => {
       const formData = {
-        'view:newDisabilities': true,
         newDisabilities: [
           {
             condition: 'Ptsd personal trauma',
@@ -630,12 +630,26 @@ describe('526 helpers', () => {
       expect(activeServicePeriods(formData)).to.eql([futurePeriod, noToDate]);
     });
   });
+
+  describe('isUndefined', () => {
+    it('should detect undefined (falsy) values', () => {
+      let undef;
+      expect(isUndefined()).to.be.true;
+      expect(isUndefined(false)).to.be.true;
+      expect(isUndefined('')).to.be.true;
+      expect(isUndefined(0)).to.be.true;
+      expect(isUndefined(undef)).to.be.true;
+      expect(isUndefined('0')).to.be.false;
+      expect(isUndefined(' ')).to.be.false;
+      expect(isUndefined(1)).to.be.false;
+      expect(isUndefined(true)).to.be.false;
+    });
+  });
 });
 
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
-      'view:newDisabilities': true,
       newDisabilities: [
         {
           condition: 'Ptsd personal trauma',
@@ -650,7 +664,6 @@ describe('isAnswering781Questions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
-      'view:newDisabilities': true,
       newDisabilities: [
         {
           condition: 'Ptsd personal trauma',
@@ -679,7 +692,6 @@ describe('isAnswering781Questions', () => {
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
-      'view:newDisabilities': true,
       newDisabilities: [
         {
           condition: 'Ptsd personal trauma',
@@ -694,7 +706,6 @@ describe('isAnswering781Questions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
-      'view:newDisabilities': true,
       newDisabilities: [
         {
           condition: 'Ptsd personal trauma',
@@ -723,7 +734,6 @@ describe('isAnswering781Questions', () => {
 describe('isAnswering781aQuestions', () => {
   it('should return true if user is answering first set of 781a incident questions', () => {
     const formData = {
-      'view:newDisabilities': true,
       newDisabilities: [
         {
           condition: 'Ptsd personal trauma',
@@ -738,7 +748,6 @@ describe('isAnswering781aQuestions', () => {
   });
   it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
     const formData = {
-      'view:newDisabilities': true,
       newDisabilities: [
         {
           condition: 'Ptsd personal trauma',
@@ -754,7 +763,6 @@ describe('isAnswering781aQuestions', () => {
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
-      'view:newDisabilities': true,
       newDisabilities: [
         {
           condition: 'Ptsd personal trauma',
@@ -772,7 +780,6 @@ describe('isAnswering781aQuestions', () => {
   describe('isUploading781aSupportingDocuments', () => {
     it('should return true when a user selects yes to upload sources', () => {
       const formData = {
-        'view:newDisabilities': true,
         newDisabilities: [
           {
             condition: 'Ptsd personal trauma',
@@ -899,6 +906,7 @@ describe('526 v2 depends functions', () => {
     },
   };
   const isBDDTrueData = {
+    'view:isBddData': true,
     serviceInformation: {
       servicePeriods: [
         {
@@ -917,6 +925,7 @@ describe('526 v2 depends functions', () => {
     },
   };
   const isBDDLessThan90Data = {
+    'view:isBddData': true,
     serviceInformation: {
       servicePeriods: [
         {
@@ -1007,6 +1016,9 @@ describe('526 v2 depends functions', () => {
     it('should return false if no service period is provided with a separation date', () => {
       expect(isBDD(null)).to.be.false;
     });
+    it('should return false if no service period is provided with a separation date', () => {
+      expect(isBDD({ 'view:isBddData': true })).to.be.false;
+    });
     it('should return true if a valid date is added to session storage from the wizard', () => {
       sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
@@ -1016,6 +1028,15 @@ describe('526 v2 depends functions', () => {
       );
       expect(isBDD(null)).to.be.true;
     });
+    it('should return true if a valid date is added to session storage from the wizard even if active duty flag is false', () => {
+      sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        moment()
+          .add(90, 'days')
+          .format('YYYY-MM-DD'),
+      );
+      expect(isBDD({ 'view:isBddData': true })).to.be.true;
+    });
     it('should return false for invalid dates in session storage from the wizard', () => {
       sessionStorage.setItem(
         SAVED_SEPARATION_DATE,
@@ -1024,6 +1045,18 @@ describe('526 v2 depends functions', () => {
           .format('YYYY-MM-DD'),
       );
       expect(isBDD(null)).to.be.false;
+    });
+    it('should return false for invalid dates in session storage from the wizard even if active duty flag is true', () => {
+      sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        moment()
+          .add(200, 'days')
+          .format('YYYY-MM-DD'),
+      );
+      expect(isBDD({ 'view:isBddData': true })).to.be.false;
+    });
+    it('should ignore in range service periods if not on active duty', () => {
+      expect(isBDD({ ...isBDDTrueData, 'view:isBddData': false })).to.be.false;
     });
   });
 
@@ -1035,6 +1068,18 @@ describe('526 v2 depends functions', () => {
     it('should get wizard feature flag value of false', () => {
       expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
         .false;
+    });
+  });
+
+  describe('isDisabilityPTSD', () => {
+    it('should return true for all variations in PTSD_MATCHES', () => {
+      PTSD_MATCHES.forEach(ptsdString => {
+        expect(isDisabilityPtsd(ptsdString)).to.be.true;
+      });
+    });
+    it('should return false for disabilities unrealted to PTSD', () => {
+      expect(isDisabilityPtsd('uncontrollable transforming into the Hulk')).to
+        .be.false;
     });
   });
 });

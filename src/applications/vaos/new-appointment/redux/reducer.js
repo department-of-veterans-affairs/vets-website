@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/max-switch-cases */
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import set from 'platform/utilities/data/set';
@@ -9,7 +10,7 @@ import {
 } from 'platform/forms-system/src/js/state/helpers';
 
 import { getParentOfLocation } from '../../services/location';
-import { getEligibilityChecks, isEligible } from '../../utils/eligibility';
+import { getEligibilityChecks, isEligible } from './helpers/eligibility';
 
 import {
   FORM_DATA_UPDATED,
@@ -22,6 +23,9 @@ import {
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
+  FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+  FORM_REQUEST_CURRENT_LOCATION,
+  FORM_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
@@ -37,12 +41,13 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
+  FORM_SHOW_ELIGIBILITY_MODAL,
   FORM_HIDE_ELIGIBILITY_MODAL,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
@@ -59,10 +64,9 @@ import {
 } from '../../redux/sitewide';
 
 import {
+  FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
-  REASON_ADDITIONAL_INFO_TITLES,
-  REASON_MAX_CHARS,
   FETCH_STATUS,
   PURPOSE_TEXT,
   TYPES_OF_CARE,
@@ -70,8 +74,21 @@ import {
 } from '../../utils/constants';
 
 import { getTypeOfCare } from '../../utils/selectors';
+import { distanceBetween } from '../../utils/address';
 import { getSiteIdFromOrganization } from '../../services/organization';
 import { getClinicId } from '../../services/healthcare-service/transformers';
+
+export const REASON_ADDITIONAL_INFO_TITLES = {
+  request:
+    'Please give us more detail about why you’re making this appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can’t have an appointment on a certain day or time.',
+  direct:
+    'Please provide any additional details you’d like to share with your provider about this appointment.',
+};
+
+export const REASON_MAX_CHARS = {
+  request: 100,
+  direct: 150,
+};
 
 const initialState = {
   pages: {},
@@ -95,6 +112,7 @@ const initialState = {
   submitStatus: FETCH_STATUS.notStarted,
   isCCEligible: false,
   hideUpdateAddressAlert: false,
+  requestLocationStatus: FETCH_STATUS.notStarted,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {
@@ -278,17 +296,17 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+    case FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
       return {
         ...state,
-        showTypeOfCareUnavailableModal: true,
+        showPodiatryAppointmentUnavailableModal: true,
         pageChangeInProgress: false,
       };
     }
-    case FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+    case FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
       return {
         ...state,
-        showTypeOfCareUnavailableModal: false,
+        showPodiatryAppointmentUnavailableModal: false,
       };
     }
     case CLICKED_UPDATE_ADDRESS_BUTTON: {
@@ -312,15 +330,19 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
+      let typeOfCareFacilities = action.facilities;
       const typeOfCareId = action.typeOfCareId;
-      const facilities = state.facilities;
-      const typeOfCareFacilities =
-        facilities[typeOfCareId] || action.facilities;
+      const address = action.address;
+      const hasResidentialCoordinates =
+        !!action.address?.latitude && !!action.address?.longitude;
+      const sortMethod = hasResidentialCoordinates
+        ? FACILITY_SORT_METHODS.distanceFromResidential
+        : FACILITY_SORT_METHODS.alphabetical;
 
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      if (parentFacilities.length === 1 || !facilities.length) {
+      if (parentFacilities.length === 1 || !typeOfCareFacilities.length) {
         newData = {
           ...newData,
           vaParent: parentFacilities[0]?.id,
@@ -339,17 +361,36 @@ export default function formReducer(state = initialState, action) {
           vaFacility,
           vaParent,
         };
-      } else {
-        newSchema = set(
-          'properties.vaFacility',
-          {
-            type: 'string',
-            enum: typeOfCareFacilities.map(facility => facility.id),
-            enumNames: typeOfCareFacilities,
-          },
-          newSchema,
-        );
+      } else if (hasResidentialCoordinates) {
+        typeOfCareFacilities = typeOfCareFacilities
+          .map(facility => {
+            const distanceFromResidentialAddress = distanceBetween(
+              address.latitude,
+              address.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromResidentialAddress,
+              },
+            };
+          })
+          .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
       }
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: typeOfCareFacilities.map(facility => facility.id),
+          enumNames: typeOfCareFacilities,
+        },
+        newSchema,
+      );
 
       const { data, schema } = setupFormData(
         newData,
@@ -364,13 +405,98 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           vaFacilityV2: schema,
         },
-        schema,
         facilities: {
-          ...facilities,
+          ...state.facilities,
           [typeOfCareId]: typeOfCareFacilities,
         },
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
+        facilityPageSortMethod: sortMethod,
+        showEligibilityModal: false,
+      };
+    }
+    case FORM_REQUEST_CURRENT_LOCATION: {
+      return {
+        ...state,
+        requestLocationStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
+      const formData = state.data;
+      const typeOfCareId = getTypeOfCare(formData).id;
+      const sortMethod = action.sortMethod;
+      const location = action.location;
+      let typeOfCareFacilities = state.facilities[typeOfCareId];
+      let newSchema = state.pages.vaFacilityV2;
+      let requestLocationStatus = state.requestLocationStatus;
+
+      if (location && typeOfCareFacilities?.length) {
+        const { coords } = location;
+        const { latitude, longitude } = coords;
+
+        if (latitude && longitude) {
+          typeOfCareFacilities = typeOfCareFacilities.map(facility => {
+            const distancefromCurrentLocation = distanceBetween(
+              latitude,
+              longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distancefromCurrentLocation,
+              },
+            };
+          });
+        }
+
+        requestLocationStatus = FETCH_STATUS.succeeded;
+      }
+
+      if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
+        typeOfCareFacilities = typeOfCareFacilities.sort(
+          (a, b) => a.name - b.name,
+        );
+      } else {
+        typeOfCareFacilities = typeOfCareFacilities.sort(
+          (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
+        );
+      }
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: typeOfCareFacilities.map(facility => facility.id),
+          enumNames: typeOfCareFacilities,
+        },
+        newSchema,
+      );
+
+      const { schema } = updateSchemaAndData(
+        newSchema,
+        action.uiSchema,
+        formData,
+      );
+
+      return {
+        ...state,
+        pages: {
+          ...state.pages,
+          vaFacilityV2: schema,
+        },
+        childFacilitiesStatus: FETCH_STATUS.succeeded,
+        facilityPageSortMethod: sortMethod,
+        requestLocationStatus,
+      };
+    }
+    case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
+      return {
+        ...state,
+        requestLocationStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
@@ -577,14 +703,15 @@ export default function formReducer(state = initialState, action) {
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(action.eligibilityData);
       const canSchedule = isEligible(eligibility);
+      const facilityId = action.facilityId || state.data.vaFacility;
 
       let clinics = state.clinics;
 
       if (!action.eligibilityData.clinics?.directFailed) {
         clinics = {
           ...state.clinics,
-          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
-            .eligibilityData.clinics,
+          [`${facilityId}_${action.typeOfCareId}`]: action.eligibilityData
+            .clinics,
         };
       }
 
@@ -593,17 +720,24 @@ export default function formReducer(state = initialState, action) {
         clinics,
         eligibility: {
           ...state.eligibility,
-          [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
+          [`${facilityId}_${action.typeOfCareId}`]: eligibility,
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,
-        showEligibilityModal: !canSchedule.direct && !canSchedule.request,
+        showEligibilityModal:
+          action.showModal && !canSchedule.direct && !canSchedule.request,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
       return {
         ...state,
         eligibilityStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_SHOW_ELIGIBILITY_MODAL: {
+      return {
+        ...state,
+        showEligibilityModal: true,
       };
     }
     case FORM_HIDE_ELIGIBILITY_MODAL: {

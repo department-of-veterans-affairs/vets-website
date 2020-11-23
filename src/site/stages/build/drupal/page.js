@@ -6,7 +6,12 @@ const set = require('lodash/fp/set');
 // Creates the file object to add to the file list using the page and layout
 function createFileObj(page, layout) {
   // Exclude some types from sitemap.
-  const privateTypes = ['outreach_asset', 'support_service', 'va_form'];
+  // @todo remove basic_landing_page when /resources/ is ready to be indexed
+  const privateTypes = [
+    'outreach_asset',
+    'support_service',
+    'basic_landing_page',
+  ];
   let privStatus = false;
   if (privateTypes.indexOf(page.entityBundle) > -1) {
     privStatus = true;

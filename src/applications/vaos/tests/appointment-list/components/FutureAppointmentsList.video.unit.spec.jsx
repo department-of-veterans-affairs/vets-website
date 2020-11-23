@@ -73,6 +73,13 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(baseElement).not.to.contain.text('Some random note');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+    expect(
+      global.window.dataLayer.find(
+        e =>
+          e.event === 'vaos-number-of-items-retrieved' &&
+          e['vaos-item-type'] === 'video_home',
+      )['vaos-number-of-items'],
+    ).to.equal(1);
   });
 
   it('should show active link if 30 minutes in the future', async () => {
@@ -306,6 +313,14 @@ describe('VAOS integration: upcoming video appointments', () => {
     // Using queryByText since it won't throw an execption when not found.
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.queryByText(/join appointment/i)).not.to.exist;
+
+    expect(
+      global.window.dataLayer.find(
+        e =>
+          e.event === 'vaos-number-of-items-retrieved' &&
+          e['vaos-item-type'] === 'video_gfe',
+      )['vaos-number-of-items'],
+    ).to.equal(1);
   });
 
   it('should reveal medication review instructions', async () => {
@@ -472,6 +487,14 @@ describe('VAOS integration: upcoming video appointments', () => {
       bookingNotes: 'Some random note',
       appointmentKind: 'CLINIC_BASED',
       status: { description: 'F', code: 'FUTURE' },
+      providers: [
+        {
+          clinic: {
+            ien: '455',
+            name: 'Testing',
+          },
+        },
+      ],
     };
     mockAppointmentInfo({ va: [appointment] });
     const facility = {
@@ -534,6 +557,14 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(baseElement).not.to.contain.text('Some random note');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+
+    expect(
+      global.window.dataLayer.find(
+        e =>
+          e.event === 'vaos-number-of-items-retrieved' &&
+          e['vaos-item-type'] === 'video_va_facility',
+      )['vaos-number-of-items'],
+    ).to.equal(1);
   });
 });
 
@@ -553,7 +584,14 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
-
+      providers: [
+        {
+          name: {
+            firstName: 'Meg',
+            lastName: 'Smith',
+          },
+        },
+      ],
       tasInfo: {
         siteCode: '9931',
         slotId: 'Slot8',
@@ -624,8 +662,15 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     expect(screen.getByText(/Appointment Code: 7VBBCA/i)).to.be.ok;
 
     // Should display who you will be meeting with
-    // TODO: This will be added later
-    // expect(screen.getByText(/You'll be meeting with/i)).to.be.ok;
-    // expect(screen.getByText(/Decker Konya/i)).to.be.ok;
+    expect(screen.getByText(/You’ll be meeting with/i)).to.be.ok;
+    expect(screen.getByText(/Meg Smith/i)).to.be.ok;
+
+    expect(
+      global.window.dataLayer.find(
+        e =>
+          e.event === 'vaos-number-of-items-retrieved' &&
+          e['vaos-item-type'] === 'video_atlas',
+      )['vaos-number-of-items'],
+    ).to.equal(1);
   });
 });
