@@ -7,7 +7,6 @@ export function recordVaosError(errorKey) {
     'error-key': errorKey,
   });
 }
-
 export function recordEligibilityFailure(
   errorKey,
   typeOfCare = null,
@@ -33,6 +32,7 @@ export function resetDataLayer() {
     alertBoxHeading: undefined,
     'vaos-item-type': undefined,
     'vaos-number-of-items': undefined,
+    'vaos-number-of-preferred-providers': undefined,
   });
 }
 

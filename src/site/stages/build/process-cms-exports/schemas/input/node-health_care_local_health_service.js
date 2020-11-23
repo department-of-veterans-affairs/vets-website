@@ -7,7 +7,9 @@ module.exports = {
     field_body: { $ref: 'GenericNestedString' },
     field_regional_health_service: {
       type: 'array',
-      items: { $ref: 'EntityReference' },
+      items: {
+        oneOf: [{ $ref: 'EntityReference' }, { type: 'array', maxItems: 0 }],
+      },
       maxItems: 1,
     },
     field_service_location: { $ref: 'EntityReferenceArray' },

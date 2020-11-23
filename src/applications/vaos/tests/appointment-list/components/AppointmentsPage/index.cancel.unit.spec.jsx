@@ -270,6 +270,7 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
+    expect(document.activeElement).to.have.tagName('h1');
   });
 
   it('should display error when cancel fails', async () => {
@@ -485,16 +486,16 @@ describe('VAOS integration appointment cancellation:', () => {
       initialState,
     });
 
-    await findByText(/cancel appointment/i);
+    await findByText(/cancel request/i);
     expect(baseElement).not.to.contain.text('Canceled');
 
-    fireEvent.click(getByText(/cancel appointment/i));
+    fireEvent.click(getByText(/cancel request/i));
 
     await findByRole('alertdialog');
 
-    fireEvent.click(getByText(/yes, cancel this appointment/i));
+    fireEvent.click(getByText(/yes, cancel this request/i));
 
-    await findByText(/your appointment has been canceled/i);
+    await findByText(/your request has been canceled/i);
 
     const cancelData = JSON.parse(
       global.fetch
@@ -514,6 +515,7 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
+    expect(document.activeElement).to.have.tagName('h1');
   });
 
   it('va appointments at Cerner site should direct users to portal', async () => {

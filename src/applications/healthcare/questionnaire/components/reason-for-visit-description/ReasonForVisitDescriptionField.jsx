@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { getBookingNoteFromAppointment } from '../../utils';
-
-import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+import TextAreaWidget from '@department-of-veterans-affairs/react-jsonschema-form/lib/components/widgets/TextareaWidget';
 
 const ReasonForVisitDescriptionField = props => {
   const { onReviewPage, reviewMode } = props.formContext;
@@ -27,7 +26,7 @@ const ReasonForVisitDescriptionField = props => {
   const editField = () => {
     return (
       <div data-testid="editField">
-        <TextWidget {...props} />
+        <TextAreaWidget {...props} />
       </div>
     );
   };

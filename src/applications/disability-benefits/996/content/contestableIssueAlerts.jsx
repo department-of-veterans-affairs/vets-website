@@ -8,9 +8,9 @@ import { disabilitiesExplanationAlert } from './contestedIssues';
 
 const noIssuesMessage = (
   <>
-    We don’t have any issues on file for you that are eligible for Higher-Level
-    Review. These are called contestable issues. If you think this is an error,
-    please call us at <Telephone contact={CONTACTS.VA_BENEFITS} />.
+    If you think this is an error, please call us at{' '}
+    <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday through
+    Friday, 8:00 a.m. to 9:00 p.m. ET.
     {disabilitiesExplanationAlert}
   </>
 );
@@ -29,7 +29,7 @@ const benefitError = type => (
 export const noContestableIssuesFound = (
   <AlertBox
     status="warning"
-    headline="You have no issues eligible for a Higher-Level Review"
+    headline="We don’t have any issues on file for you that are eligible for a Higher-Level Review"
     content={noIssuesMessage}
   />
 );
@@ -48,7 +48,21 @@ export const showWorkInProgress = (
   <AlertBox
     status="info"
     headline="We’re still working on this feature"
-    content={`We’re rolling out the Higher-Level Review form in stages. It’s
-      not quite ready yet, so please check back again soon.`}
+    content={
+      <>
+        <p>
+          We’re rolling out the Higher-Level Review form in stages. It’s not
+          quite ready yet. Please check back again soon.
+        </p>
+        <p>
+          <a
+            href="/decision-reviews/higher-level-review/"
+            className="u-vads-display--block u-vads-margin-top--2"
+          >
+            Return to Higher-Level Review information page
+          </a>
+        </p>
+      </>
+    }
   />
 );

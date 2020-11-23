@@ -6,6 +6,8 @@
 @import "../express-care/sass/styles";
 @import "../appointment-list/sass/styles";
 
+$vaos-loading-overlay: rgba($color-white, .9);
+
 .vaos-form__title {
   text-transform: uppercase;
 }
@@ -16,4 +18,31 @@ h1:focus {
 
 .vaos-u-word-break--break-word {
   word-break: break-word;
+}
+
+.vaos__loading-overlay {
+  background: $vaos-loading-overlay;
+  content: " ";
+  display: block;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+
+.vaos__loading-overlay-inner {
+  position: relative;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%);
+  width: 80%;
+  max-width: 500px;
+  cursor: auto;
+
+  @include media($medium-screen) {
+    top: 40%;
+  }
 }

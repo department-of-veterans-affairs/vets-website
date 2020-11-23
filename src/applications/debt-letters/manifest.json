@@ -2,5 +2,6 @@
   "appName": "Debt Letters",
   "entryFile": "./app-entry.jsx",
   "entryName": "your-debt",
-  "rootUrl": "/manage-va-debt/your-debt"
+  "rootUrl": "/manage-va-debt/your-debt",
+  "e2eTestsDisabled": true
 }

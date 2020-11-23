@@ -5,8 +5,8 @@ import { setupServer } from 'msw/node';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
 
-import * as mocks from '../../../msw-mocks';
-import PersonalInformation from '../../../components/personal-information/PersonalInformation';
+import * as mocks from '@@profile/msw-mocks';
+import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
 import {
   createBasicInitialState,
@@ -53,7 +53,7 @@ describe('PersonalInformation', () => {
     const {
       residentialAddress,
       mailingAddress,
-    } = initialState.user.profile.vet360;
+    } = initialState.user.profile.vapContactInfo;
 
     const view = renderWithProfileReducers(ui, { initialState });
 

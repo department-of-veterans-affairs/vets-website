@@ -469,6 +469,7 @@ describe('VAOS actions: appointments', () => {
         'vaos-number-of-items': undefined,
         'tab-text': undefined,
         alertBoxHeading: undefined,
+        'vaos-number-of-preferred-providers': undefined,
       });
     });
 

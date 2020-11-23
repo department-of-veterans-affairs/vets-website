@@ -137,13 +137,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '117':
       return {
         nextStep: (
-          <>
+          <span data-testid="diary-code-117-nextstep">
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us about payment options by{' '}
-              <strong> {dateOfLetter && endDate(dateOfLetter, 60)} </strong> to
-              avoid additional collection action. These include having your debt
-              reported to credit reporting agencies or referred to the U.S.
+              <strong> {dateOfLetter && endDate(dateOfLetter, 60)} </strong>
+              to avoid additional collection action. These include having your
+              debt reported to credit reporting agencies or referred to the U.S.
               Department of the Treasury.
             </p>
             <p>
@@ -157,16 +157,16 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
                 Review payment options
               </a>
             </p>
-          </>
+          </span>
         ),
       };
     case '123':
       return {
         nextStep: (
-          <>
+          <span data-testid="diary-code-123-nextstep">
             <p>
               <strong>Next step: </strong>
-              Please pay now or contact us about payment options by
+              Please pay now or contact us about payment options by{' '}
               <strong> {dateOfLetter && endDate(dateOfLetter, 60)} </strong>
               to avoid collection actions. If you don't pay or make other
               arrangements with us by this date, we're required by law to refer
@@ -183,7 +183,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
                 Review payment options
               </a>
             </p>
-          </>
+          </span>
         ),
       };
     case '212':
@@ -300,7 +300,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '855':
       return {
         nextStep: (
-          <p>
+          <p data-testid="diary-code-080-nextstep">
             <strong>Next step: </strong>
             Call the U.S. Department of the Treasury's Debt Management Center at{' '}
             <Telephone contact={CONTACTS.DMC_TREASURY || '888-826-3127'} />,
@@ -316,23 +316,21 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '503':
       return {
         nextStep: (
-          <>
+          <span data-testid="diary-code-500-nextstep">
             <p>
               <strong>Next step: </strong>
-              Please pay the full amount online or by phone now. If we don't
-              receive your payment by{' '}
-              <strong>{dateOfLetter && endDate(dateOfLetter, 30)}</strong>,
-              we're required by law to refer your debt to the U.S. Department of
-              the Treasury. After we do that, we can't help you manage your
-              debt.
+              Please pay the full amount online or by phone now to prevent
+              referral. If we don't receive your payment today we're required by
+              law to refer your debt to the U.S. Department of the Treasury.
             </p>
             <p>
-              <a href="https://www.pay.va.gov/">Pay online now</a> Or{' '}
-              <strong>make</strong> a payment <strong>over the</strong> phone at
-              <ContactDMC />. We’re here Monday through Friday, 7:30 a.m. to
-              7:00 p.m. ET.
+              <a href="https://www.pay.va.gov/">Pay online now</a>
             </p>
-          </>
+            <p>
+              Or make a payment over the phone at <ContactDMC />. We’re here
+              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            </p>
+          </span>
         ),
       };
     case '100':
@@ -341,7 +339,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '140':
       return {
         nextStep: (
-          <>
+          <span data-testid="diary-code-100-nextstep">
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us to start making payments again to
@@ -355,7 +353,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
                 Review payment options
               </a>
             </p>
-          </>
+          </span>
         ),
       };
     case '101':
@@ -372,7 +370,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '617':
       return {
         nextStep: (
-          <p>
+          <p data-testid="diary-code-101-nextstep">
             <strong>Next step: </strong>
             We'll keep offsetting your benefits each month until your debt is
             paid in full. If you'd like to pay in full now, please call us first
@@ -403,7 +401,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
     case '601':
       return {
         nextStep: (
-          <p>
+          <p data-testid="diary-code-600-nextstep">
             <strong>Next step: </strong>
             Please continue to make payments. If you begin receiving VA
             benefits, call us to set up an automatic payment plan. We'll keep
@@ -463,11 +461,10 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter) => {
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            Please pay now or contact us about payment options by
+            Please pay now or contact us about payment options by{' '}
             <strong> {dateOfLetter && endDate(dateOfLetter, 30)} </strong>
             to avoid late charges, interest, or collection actions. We're here
-            at
-            <ContactDMC />, Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            at <ContactDMC />, Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
             <a href="#howDoIPay" className="vads-u-margin-y--2">
               Review payment options
             </a>

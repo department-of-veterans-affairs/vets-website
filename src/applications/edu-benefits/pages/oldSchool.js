@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 
 import * as address from 'platform/forms/definitions/address';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
+import environment from 'platform/utilities/environment';
 
 export default function createOldSchoolPage(schema) {
   const { trainingEndDate, reasonForChange } = schema.properties;
@@ -26,7 +27,10 @@ export default function createOldSchoolPage(schema) {
         address: address.uiSchema(),
       },
       trainingEndDate: dateUI(
-        'When did you stop taking classes or participating in the training program? (Future dates are ok)',
+        // Prod flag for #15720
+        environment.isProduction()
+          ? 'When did you stop taking classes or participating in the training program? (Future dates are ok)'
+          : 'When did you stop taking classes or participating in the training program? (Future dates are ok.)',
       ),
       reasonForChange: {
         'ui:title':

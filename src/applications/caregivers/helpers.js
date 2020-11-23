@@ -8,7 +8,7 @@ import {
 
 // Merges all the state facilities into one object with values as keys
 // and labels as values
-const medicalCenterLabels = Object.keys(caregiverFacilities).reduce(
+export const medicalCenterLabels = Object.keys(caregiverFacilities).reduce(
   (labels, state) => {
     const stateLabels = caregiverFacilities[state].reduce(
       (centers, center) =>
@@ -24,14 +24,15 @@ const medicalCenterLabels = Object.keys(caregiverFacilities).reduce(
 );
 
 // Turns the facility list for each state into an array of strings
-const medicalCentersByState = mapValues(
+export const medicalCentersByState = mapValues(
   val => val.map(center => center.code),
   caregiverFacilities,
 );
 
 // transforms forData to match fullSchema structure for backend submission
-const submitTransform = (formConfig, form) => {
-  // checks for optional chapters using ssnOrTin
+export const submitTransform = (formConfig, form) => {
+  const hasPrimary = form.data['view:hasPrimaryCaregiver'] ? 'primary' : null;
+
   const hasSecondaryOne = form.data['view:hasSecondaryCaregiverOne']
     ? 'secondaryOne'
     : null;
@@ -104,7 +105,7 @@ const submitTransform = (formConfig, form) => {
     ...form,
     data: {
       ...buildChapterSortedObject(form.data, 'veteran'),
-      ...buildChapterSortedObject(form.data, 'primary'),
+      ...buildChapterSortedObject(form.data, hasPrimary),
       ...buildChapterSortedObject(form.data, hasSecondaryOne),
       ...buildChapterSortedObject(form.data, hasSecondaryTwo),
     },
@@ -119,13 +120,16 @@ const submitTransform = (formConfig, form) => {
   });
 };
 
-const hasSecondaryCaregiverOne = formData =>
-  formData[primaryCaregiverFields.hasSecondaryCaregiverOneView] === true;
+export const hasPrimaryCaregiver = formData => {
+  return formData[primaryCaregiverFields.hasPrimaryCaregiver] === true;
+};
 
-const hasSecondaryCaregiverTwo = formData =>
-  formData[
-    secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwoView
-  ] === true;
+export const hasSecondaryCaregiverOne = formData =>
+  formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === true;
+
+export const hasSecondaryCaregiverTwo = formData =>
+  formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwo] ===
+  true;
 
 const isSSNUnique = formData => {
   const {
@@ -149,7 +153,7 @@ const isSSNUnique = formData => {
   return checkIfArrayIsUnique(allValidSSNs);
 };
 
-const validateSSNIsUnique = (errors, formData) => {
+export const validateSSNIsUnique = (errors, formData) => {
   if (!isSSNUnique(formData)) {
     errors.addError(
       "We're sorry. You've already entered this number elsewhere. Please check your data and try again.",
@@ -166,11 +170,16 @@ export const facilityNameMaxLength = (errors, formData) => {
   }
 };
 
-export {
-  medicalCenterLabels,
-  medicalCentersByState,
-  submitTransform,
-  hasSecondaryCaregiverOne,
-  hasSecondaryCaregiverTwo,
-  validateSSNIsUnique,
+export const shouldHideAlert = formData => {
+  const hasPrimary = formData[primaryCaregiverFields.hasPrimaryCaregiver];
+  const hasSecondary =
+    formData[primaryCaregiverFields.hasSecondaryCaregiverOne];
+  const isSecondaryOneUndefined =
+    formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === undefined;
+
+  if (hasPrimary) return true;
+  if (hasSecondary) return true;
+  if (isSecondaryOneUndefined) return true;
+  if (!hasPrimary && !hasSecondary) return false;
+  return false;
 };

@@ -4,15 +4,16 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import { isWideScreen } from 'platform/utilities/accessibility/index';
-import { selectProfile } from 'platform/user/selectors';
+
+import { isWideScreen } from '~/platform/utilities/accessibility/index';
+import { selectProfile } from '~/platform/user/selectors';
 
 import {
   directDepositLoadError,
   fullNameLoadError,
   militaryInformationLoadError,
   personalInformationLoadError,
-} from 'applications/personalization/profile/selectors';
+} from '@@profile/selectors';
 
 import ProfileHeader from './ProfileHeader';
 import ProfileSubNav from './ProfileSubNav';
@@ -23,6 +24,7 @@ import { isEmpty } from 'lodash';
 const NotAllDataAvailableError = () => (
   <div data-testid="not-all-data-available-error">
     <AlertBox
+      level={2}
       status="warning"
       headline="We can’t load all of your information"
       className="vads-u-margin-bottom--4"

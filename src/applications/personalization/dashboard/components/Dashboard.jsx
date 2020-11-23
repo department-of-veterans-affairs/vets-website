@@ -2,6 +2,13 @@ import React from 'react';
 import { Router, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 
+import '../../../claims-status/sass/claims-status.scss';
+import '../sass/dashboard.scss';
+import '../sass/dashboard-alert.scss';
+import '../sass/messaging/messaging.scss';
+import '../sass/user-profile.scss';
+import '../../preferences/sass/preferences.scss';
+
 import routes from '../routes';
 
 function Dashboard({ rootUrl }) {

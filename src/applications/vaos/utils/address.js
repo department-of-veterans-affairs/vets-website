@@ -1,160 +1,9 @@
-import { createSelector } from 'reselect';
-import set from 'platform/utilities/data/set';
-import get from 'platform/utilities/data/get';
-import { validateWhiteSpace } from 'platform/forms/validations';
-
-import { states, isValidUSZipCode } from 'platform/forms/address';
-
-function validateAddress(errors, address) {
-  validateWhiteSpace(errors.street, address.street);
-  validateWhiteSpace(errors.city, address.city);
-
-  const hasAddressInfo =
-    typeof address.street !== 'undefined' &&
-    typeof address.city !== 'undefined' &&
-    typeof address.postalCode !== 'undefined';
-
-  if (hasAddressInfo && typeof address.state === 'undefined') {
-    errors.state.addError(
-      'Please enter a state, or remove other address information.',
-    );
-  }
-
-  const isValidPostalCode = isValidUSZipCode(address.postalCode);
-
-  // Add error message for postal code if it is invalid
-  if (address.postalCode && !isValidPostalCode) {
-    errors.postalCode.addError('Please provide a valid postal code');
-  }
-}
-
-const militaryStates = states.USA.filter(
-  state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA',
-).map(state => state.value);
-const militaryLabels = states.USA.filter(
-  state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA',
-).map(state => state.label);
-const usaStates = states.USA.map(state => state.value);
-const usaLabels = states.USA.map(state => state.label);
-
-function isMilitaryCity(city = '') {
-  const lowerCity = city.toLowerCase().trim();
-
-  return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
-}
-
-export const schema = {
-  type: 'object',
-  properties: {
-    street: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 30,
-      pattern: '^.*\\S.*',
-    },
-    street2: {
-      type: 'string',
-      maxLength: 30,
-    },
-    state: {
-      type: 'string',
-      enum: usaStates,
-      enumNames: usaLabels,
-    },
-    city: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 51,
-      pattern: '^.*\\S.*',
-    },
-    postalCode: {
-      type: 'string',
-      maxLength: 10,
-    },
-  },
-};
-
-export function uiSchema(label = '') {
-  const fieldOrder = ['street', 'street2', 'city', 'state', 'postalCode'];
-
-  const addressChangeSelector = createSelector(
-    ({ formData, path }) => get(path.concat('city'), formData),
-    (...args) => get('addressSchema', ...args),
-    (city, addressSchema) => {
-      const schemaUpdate = {
-        properties: addressSchema.properties,
-      };
-
-      const stateList = usaStates;
-      const labelList = usaLabels;
-
-      // We constrain the state list when someone picks a city that’s a military base
-      if (
-        isMilitaryCity(city) &&
-        schemaUpdate.properties.state.enum !== militaryStates
-      ) {
-        const withEnum = set(
-          'state.enum',
-          militaryStates,
-          schemaUpdate.properties,
-        );
-        schemaUpdate.properties = set(
-          'state.enumNames',
-          militaryLabels,
-          withEnum,
-        );
-      } else {
-        schemaUpdate.properties = set(
-          'state.enumNames',
-          labelList,
-          schemaUpdate.properties,
-        );
-        schemaUpdate.properties = set(
-          'state.enum',
-          stateList,
-          schemaUpdate.properties,
-        );
-      }
-
-      return schemaUpdate;
-    },
-  );
-
-  return {
-    'ui:title': label,
-    'ui:validations': [validateAddress],
-    'ui:options': {
-      updateSchema: (formData, addressSchema, addressUiSchema, index, path) =>
-        addressChangeSelector({
-          formData,
-          addressSchema,
-          path,
-        }),
-    },
-    'ui:order': fieldOrder,
-    street: {
-      'ui:title': 'Street',
-    },
-    street2: {
-      'ui:title': 'Line 2',
-    },
-    city: {
-      'ui:title': 'City',
-    },
-    state: {
-      'ui:title': 'State',
-    },
-    postalCode: {
-      'ui:title': 'Postal code',
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-      },
-    },
-  };
-}
-
 function toRadians(value) {
   return (value * Math.PI) / 180;
+}
+
+function toDegrees(value) {
+  return (value * 180) / Math.PI;
 }
 
 export function distanceBetween(lat1, lng1, lat2, lng2) {
@@ -173,6 +22,36 @@ export function distanceBetween(lat1, lng1, lat2, lng2) {
   return parseFloat((R * c).toFixed(1));
 }
 
+/*
+ * Adapted from node-geopoint: https://github.com/davidwood/node-geopoint
+ * 
+ * This will end up creating a 2 * radius by 2 * radius box around the lat
+ * long passed in. 
+ * 
+ * This is different than the FL bounding box calc, which adds a fixed amount
+ * of lat/long degrees to create a box
+ */
+export function calculateBoundingBox(lat, long, radius) {
+  const earthRadius = 3959;
+  const radDist = radius / earthRadius;
+  const radLat = toRadians(lat);
+  const radLong = toRadians(long);
+  // The space between lines of longitude differs depending on where you are
+  // on Earth, this takes that into account
+  const deltaLongitude = Math.asin(Math.sin(radDist) / Math.cos(radLat));
+  const minLongitude = radLong - deltaLongitude;
+  const maxLongitude = radLong + deltaLongitude;
+  const minLatitude = radLat - radDist;
+  const maxLatitude = radLat + radDist;
+
+  return [
+    toDegrees(minLatitude).toFixed(3),
+    toDegrees(minLongitude).toFixed(3),
+    toDegrees(maxLatitude).toFixed(3),
+    toDegrees(maxLongitude).toFixed(3),
+  ];
+}
+
 export function getPreciseLocation() {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
@@ -181,4 +60,26 @@ export function getPreciseLocation() {
         reject(new Error(`Geolocation error ${error.code}: ${error.message}`)),
     );
   });
+}
+
+export function vapAddressToString({
+  addressLine1,
+  addressLine2,
+  addressLine3,
+  city,
+  stateCode,
+  zipCode,
+  country,
+}) {
+  return [
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    stateCode,
+    zipCode,
+    country,
+  ]
+    .filter(item => !!item)
+    .join(',');
 }

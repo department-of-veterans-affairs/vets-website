@@ -8,8 +8,6 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../../utils/selectors';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
-import { getParentOfLocation } from '../../../services/location';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
@@ -19,6 +17,7 @@ import NoVASystems from './NoVASystems';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
+import LoadingOverlay from '../../../components/LoadingOverlay';
 
 const initialSchema = {
   type: 'object',
@@ -55,7 +54,6 @@ function VAFacilityPageV2({
   noValidVAFacilities,
   openFacilityPageV2,
   pageChangeInProgress,
-  parentFacilities,
   parentFacilitiesStatus,
   requestLocationStatus,
   routeToPreviousAppointmentPage,
@@ -72,7 +70,9 @@ function VAFacilityPageV2({
   const history = useHistory();
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
   const loadingParents = parentFacilitiesStatus === FETCH_STATUS.loading;
-  const loadingFacilities = childFacilitiesStatus === FETCH_STATUS.loading;
+  const loadingFacilities =
+    childFacilitiesStatus === FETCH_STATUS.loading ||
+    childFacilitiesStatus === FETCH_STATUS.notStarted;
 
   useEffect(
     () => {
@@ -86,18 +86,6 @@ function VAFacilityPageV2({
   const goBack = () => routeToPreviousAppointmentPage(history, pageKey);
 
   const goForward = () => routeToNextAppointmentPage(history, pageKey);
-
-  const onFacilityChange = newData => {
-    const facility = facilities.find(f => f.id === newData.vaFacility);
-    const vaParent = getParentOfLocation(parentFacilities, facility)?.id;
-
-    if (!!facility && !!vaParent) {
-      updateFormData(pageKey, uiSchema, {
-        ...newData,
-        vaParent,
-      });
-    }
-  };
 
   const title = (
     <h1 className="vads-u-font-size--h2">
@@ -281,7 +269,7 @@ function VAFacilityPageV2({
             title="VA Facility"
             schema={schema}
             uiSchema={uiSchema}
-            onChange={onFacilityChange}
+            onChange={newData => updateFormData(pageKey, uiSchema, newData)}
             onSubmit={goForward}
             formContext={{ loadingEligibility, sortMethod }}
             data={data}
@@ -297,17 +285,15 @@ function VAFacilityPageV2({
                 (facilities?.length === 1 && !canScheduleAtChosenFacility)
               }
             />
-            {loadingEligibility && (
-              <div aria-atomic="true" aria-live="assertive">
-                <AlertBox isVisible status="info" headline="Please wait">
-                  We’re checking if we can create an appointment for you at this
-                  facility. This may take up to a minute. Thank you for your
-                  patience.
-                </AlertBox>
-              </div>
-            )}
           </SchemaForm>
         )}
+
+      <LoadingOverlay
+        show={loadingEligibility}
+        message="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
+      />
 
       {showEligibilityModal && (
         <EligibilityModal

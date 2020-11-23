@@ -7,9 +7,9 @@ import {
   mockFetch,
   resetFetch,
   setFetchJSONFailure,
+  setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import { setupExpressCareMocks } from '../../mocks/helpers';
-import ExpressCareInfoPage from '../../../express-care/components/ExpressCareInfoPage';
 import { NewExpressCareRequest } from '../../../express-care';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
@@ -52,6 +52,21 @@ describe('VAOS integration: Express Care info page', () => {
 
     expect(await screen.findByText(/How Express Care Works/i)).to.exist;
     expect(
+      await screen.findByText(/Express Care can’t provide emergency help/i),
+    ).to.exist;
+    expect(screen.getByTestId('p_vaos-ecip-call-911')).to.have.id(
+      'vaos-ecip-call-911',
+    );
+    expect(screen.getByTestId('ul_vaos-ecip-call-911')).to.have.attr(
+      'aria-labelledby',
+      'vaos-ecip-call-911',
+    );
+    expect(screen.getByTestId('p_vaos-ecip-talk')).to.have.id('vaos-ecip-talk');
+    expect(screen.getByTestId('ul_vaos-ecip-talk')).to.have.attr(
+      'aria-labelledby',
+      'vaos-ecip-talk',
+    );
+    expect(
       screen.getByText(
         new RegExp(
           `You can request Express Care today between ${startTime.format(
@@ -81,7 +96,7 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
       store,
     });
 
@@ -106,7 +121,7 @@ describe('VAOS integration: Express Care info page', () => {
     const store = createTestStore({
       ...initialState,
     });
-    const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
       store,
     });
 
@@ -129,5 +144,36 @@ describe('VAOS integration: Express Care info page', () => {
 
     await waitFor(() => expect(screen.history.push.called).to.be.true);
     expect(screen.history.push.firstCall.args[0]).to.equal('/');
+  });
+
+  it('should render warning message', async () => {
+    setFetchJSONResponse(
+      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
+      {
+        data: [
+          {
+            id: '139',
+            type: 'maintenance_windows',
+            attributes: {
+              externalService: 'vaosWarning',
+              description: 'My description',
+              startTime: moment.utc().subtract('1', 'days'),
+              endTime: moment.utc().add('1', 'days'),
+            },
+          },
+        ],
+      },
+    );
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<NewExpressCareRequest />, {
+      store,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 3,
+        name: /You may have trouble using the VA appointments tool right now/,
+      }),
+    ).to.exist;
   });
 });

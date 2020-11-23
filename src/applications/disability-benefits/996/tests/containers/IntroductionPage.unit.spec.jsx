@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import { IntroductionPage } from '../../components/IntroductionPage';
+import { IntroductionPage } from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../actions';
@@ -15,7 +15,7 @@ import {
 
 const defaultProps = {
   getContestableIssues: () => {},
-  testHlr: true,
+  allowHlr: true,
   user: {
     profile: {
       // need to have a saved form or else form will redirect to v2
@@ -60,6 +60,17 @@ describe('IntroductionPage', () => {
   afterEach(() => {
     global.window = oldWindow;
     sessionStorage.removeItem(WIZARD_STATUS);
+  });
+
+  it('should render a work in progress message', () => {
+    const tree = shallow(
+      <IntroductionPage {...defaultProps} allowHlr={false} />,
+    );
+
+    const AlertBox = tree.find('AlertBox');
+    expect(AlertBox.length).to.equal(1);
+    expect(AlertBox.props().headline).to.contain('working on this feature');
+    tree.unmount();
   });
 
   it('should render CallToActionWidget', () => {

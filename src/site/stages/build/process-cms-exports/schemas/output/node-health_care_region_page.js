@@ -1,5 +1,4 @@
 const { partialSchema } = require('../../transformers/helpers');
-const personProfileSchema = require('./node-person_profile');
 const healthCareLocalFacilitySchema = require('./node-health_care_local_facility');
 const newsStorySchema = require('./node-news_story');
 const eventSchema = require('./node-event');
@@ -99,10 +98,6 @@ module.exports = {
     fieldGovdeliveryIdEmerg: { type: 'string' },
     fieldGovdeliveryIdNews: { type: 'string' },
     fieldOperatingStatus: socialMediaSchema,
-    fieldFacebook: socialMediaSchema,
-    fieldFlickr: socialMediaSchema,
-    fieldInstagram: socialMediaSchema,
-    fieldTwitter: socialMediaSchema,
     fieldNicknameForThisFacility: { type: ['string', 'null'] },
     fieldLinkFacilityEmergList: {
       type: ['object', 'null'],
@@ -120,28 +115,7 @@ module.exports = {
       $ref: 'output/paragraph-list_of_link_teasers',
     },
     fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
-    fieldLeadership: {
-      type: 'array',
-      items: {
-        entity: partialSchema(personProfileSchema, [
-          'entityPublished',
-          'title',
-          'fieldNameFirst',
-          'fieldLastName',
-          'fieldSuffix',
-          'fieldEmailAddress',
-          'fieldPhoneNumber',
-          'fieldDescription',
-          'fieldOffice',
-          'fieldIntroText',
-          'fieldPhotoAllowHiresDownload',
-          'fieldMedia',
-          'fieldBody',
-          'changed',
-          'entityUrl',
-        ]),
-      },
-    },
+    fieldMedia: { $ref: 'Media' },
     reverseFieldRegionPageNode: {
       type: 'object',
       properties: {
@@ -187,14 +161,9 @@ module.exports = {
     'fieldGovdeliveryIdEmerg',
     'fieldGovdeliveryIdNews',
     'fieldOperatingStatus',
-    'fieldFacebook',
-    'fieldFlickr',
-    'fieldInstagram',
-    'fieldTwitter',
     'fieldNicknameForThisFacility',
     'fieldLinkFacilityEmergList',
     'fieldPressReleaseBlurb',
-    'fieldLeadership',
     'reverseFieldRegionPageNode',
     'newsStoryTeasers',
     'allNewsStoryTeasers',

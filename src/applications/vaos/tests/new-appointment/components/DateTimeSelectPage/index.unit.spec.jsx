@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { Route } from 'react-router-dom';
-import { waitFor } from '@testing-library/dom';
+import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import {
   createTestStore,
@@ -28,6 +28,8 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
+          clinicId: '308',
           calendarData: {
             currentlySelectedDate: null,
             selectedDates: [],
@@ -43,9 +45,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // it should not allow user to submit the form without selecting a date
-    const button = screen.getByRole('button', {
-      name: /^Continue/,
-    });
+    const button = screen.getByText(/^Continue/);
     userEvent.click(button);
 
     // NOTE: alert does not have an accessible name to query by
@@ -58,6 +58,8 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
+          clinicId: '308',
           calendarData: {},
         },
         pages: [],
@@ -74,45 +76,75 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(screen.getByRole('progressbar')).to.be.ok;
   });
 
-  it('should display wait time alert message when not in loading state', async () => {
-    const store = createTestStore({
-      newAppointment: {
-        data: {
-          calendarData: {},
+  it('should display error message if slots call fails', async () => {
+    // Initial global fetch
+    mockFetch();
+
+    const clinics = [
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
         },
-        pages: [],
-        eligibility: [],
-        appointmentSlotsStatus: FETCH_STATUS.succeeded,
       },
-    });
-
-    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
-      store,
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Your earliest appointment time',
-      }),
-    ).to.be.ok;
-  });
-
-  it('should display error message if slots call fails', () => {
-    const store = createTestStore({
-      newAppointment: {
-        data: {
-          calendarData: {},
+      {
+        id: '309',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '309',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Red team clinic',
         },
-        pages: [],
-        eligibility: [],
-        appointmentSlotsStatus: FETCH_STATUS.failed,
       },
+    ];
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics,
+      pastClinics: true,
     });
 
-    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
-      store,
-    });
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingVSPAppointmentNew: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+    };
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /green team/i);
+    await setPreferredDate(store, moment());
+
+    // First pass check to make sure the slots associated with green team are displayed
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    // 1. Wait for progressbar to disappear
+    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
 
     expect(
       screen.getByRole('heading', {
@@ -262,29 +294,25 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     // 1. Wait for progressbar to disappear
-    await waitFor(
-      () =>
-        expect(
-          screen.queryByRole('progressbar', {
-            name: 'Finding appointment availability...',
-          }),
-        ).to.not.exist,
-    );
+    let overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
+
+    expect(screen.findByText('Your earliest appointment time')).to.be.ok;
 
     // 2. Simulate user selecting a date
-    let button = screen.getByRole('button', {
-      name: slot308Date.format('dddd, MMMM Do'),
-    });
+    let button = screen.getByLabelText(
+      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+    );
+
     userEvent.click(button);
+
     userEvent.click(
       await screen.findByRole('radio', { name: '9:00 AM option selected' }),
     );
 
-    userEvent.click(
-      screen.getByRole('button', {
-        name: /^Continue/,
-      }),
-    );
+    userEvent.click(screen.getByText(/^Continue/));
     await waitFor(() => {
       expect(screen.history.push.called).to.be.true;
     });
@@ -298,19 +326,15 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // 3. Wait for progressbar to disappear
-    await waitFor(
-      () =>
-        expect(
-          screen.queryByRole('progressbar', {
-            name: 'Finding appointment availability...',
-          }),
-        ).to.not.exist,
-    );
+    overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
 
     // 4. Simulate user selecting a date
-    button = screen.getByRole('button', {
-      name: slot309Date.format('dddd, MMMM Do'),
-    });
+    button = screen.getByLabelText(
+      new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
+    );
     userEvent.click(button);
     expect(
       await screen.findByRole('radio', { name: '1:00 PM option selected' }),

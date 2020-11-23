@@ -5,10 +5,10 @@ import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
 import { resetFetch } from 'platform/testing/unit/helpers';
-import { FIELD_TITLES, FIELD_NAMES } from 'vet360/constants';
+import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
-import * as mocks from '../../../msw-mocks';
-import PersonalInformation from '../../../components/personal-information/PersonalInformation';
+import * as mocks from '@@profile/msw-mocks';
+import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
 import {
   createBasicInitialState,

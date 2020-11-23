@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { MINIMUM_RATING_COUNT } from '../../../constants';
+import { formatCurrency } from '../../../utils/helpers';
 
 import { RatedSearchResult } from '../../../components/search/RatedSearchResult';
 
@@ -28,12 +29,13 @@ const result = {
   relaffil: 71,
   womenonly: 1,
   alias: 'BC',
+  facilityCode: '11700005',
 };
 
 const estimated = {
-  tuition: { qualifier: 'per year', value: 22805 },
-  housing: { qualifier: 'per month', value: 1191 },
-  books: { qualifier: 'per year', value: 1000 },
+  tuition: { qualifier: 'per year', ratedQualifier: ' / year', value: 22805 },
+  housing: { qualifier: 'per month', ratedQualifier: ' / month', value: 1191 },
+  books: { qualifier: 'per year', ratedQualifier: ' / year', value: 1000 },
 };
 
 describe('<SearchResult>', () => {
@@ -82,6 +84,52 @@ describe('<SearchResult>', () => {
     );
     expect(tree.html()).to.not.contain('Not yet rated');
     expect(tree.find('i').length).to.eq(5);
+    tree.unmount();
+  });
+
+  it('should render estimated values', () => {
+    const tree = mount(
+      <MemoryRouter>
+        <RatedSearchResult estimated={estimated} {...result} />,
+      </MemoryRouter>,
+    );
+    const { tuition, housing, books } = estimated;
+
+    const displayValue = ({ ratedQualifier, value }) =>
+      `${formatCurrency(value)}${ratedQualifier}`;
+
+    expect(tree.find(`#tuition-value-${result.facilityCode}`).text()).to.eq(
+      displayValue(tuition),
+    );
+    expect(tree.find(`#housing-value-${result.facilityCode}`).text()).to.eq(
+      displayValue(housing),
+    );
+    expect(tree.find(`#books-value-${result.facilityCode}`).text()).to.eq(
+      displayValue(books),
+    );
+    tree.unmount();
+  });
+
+  it('should not render $ when tuition qualifier includes %', () => {
+    const percentEstimated = {
+      ...estimated,
+      tuition: {
+        qualifier: '% of instate tuition',
+        ratedQualifier: '% in-state',
+        value: 100,
+      },
+    };
+
+    const { value, ratedQualifier } = percentEstimated.tuition;
+
+    const tree = mount(
+      <MemoryRouter>
+        <RatedSearchResult estimated={percentEstimated} {...result} />,
+      </MemoryRouter>,
+    );
+    expect(tree.find(`#tuition-value-${result.facilityCode}`).text()).to.eq(
+      `${value}${ratedQualifier}`,
+    );
     tree.unmount();
   });
 });

@@ -26,6 +26,7 @@ const createformReducer = (options = {}) =>
 const createFormConfig = options => ({
   urlPrefix: '/',
   trackingPrefix: 'test-',
+  prefillEnabled: true,
   preSubmitInfo: {
     required: true,
     field: 'privacyAgreementAccepted',
@@ -91,6 +92,12 @@ const createPageList = () => [
   },
 ];
 
+const createUserLogIn = (status = true) => ({
+  login: {
+    currentlyLoggedIn: status,
+  },
+});
+
 const createStore = (options = {}) => {
   return createCommonStore({
     form: createForm(options?.form || {}),
@@ -109,6 +116,7 @@ describe('Schemaform review: SubmitController', () => {
     const form = createForm();
     const formConfig = createFormConfig();
     const pageList = createPageList();
+    const user = createUserLogIn();
     const router = { push: sinon.spy() };
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
@@ -133,6 +141,7 @@ describe('Schemaform review: SubmitController', () => {
           setSubmission={setSubmission}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -149,6 +158,7 @@ describe('Schemaform review: SubmitController', () => {
           setSubmission={setSubmission}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -161,6 +171,7 @@ describe('Schemaform review: SubmitController', () => {
   it('should not submit when privacy agreement not accepted', () => {
     const form = createForm();
     const formConfig = createFormConfig();
+    const user = createUserLogIn();
     const router = { push: sinon.spy() };
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
@@ -181,6 +192,7 @@ describe('Schemaform review: SubmitController', () => {
           setSubmission={setSubmission}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -221,9 +233,11 @@ describe('Schemaform review: SubmitController', () => {
     const pageList = [
       { path: 'page-1', pageKey: 'page1', schema: page.schema },
     ];
+    const user = createUserLogIn();
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -232,6 +246,7 @@ describe('Schemaform review: SubmitController', () => {
     const tree = render(
       <Provider store={store}>
         <SubmitController
+          autoSaveForm={autoSaveForm}
           form={form}
           formConfig={formConfig}
           pageList={pageList}
@@ -240,6 +255,7 @@ describe('Schemaform review: SubmitController', () => {
           setSubmission={setSubmission}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -250,6 +266,72 @@ describe('Schemaform review: SubmitController', () => {
     expect(submitForm.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
     expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
+    expect(autoSaveForm.called).to.be.true;
+    tree.unmount();
+  });
+
+  it('should not submit when invalid data is entered, and not call autoSaveForm when not logged in', () => {
+    // Form with missing required field
+    const page = {
+      title: 'Missing stuff',
+      schema: {
+        type: 'object',
+        required: ['stuff'],
+        properties: {
+          stuff: { type: 'string' },
+        },
+      },
+    };
+    const form = createForm({
+      data: { privacyAgreementAccepted: true },
+      pages: { page1: { schema: page.schema } },
+    });
+    const formConfig = createFormConfig({
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: page,
+          },
+        },
+      },
+    });
+    const pageList = [
+      { path: 'page-1', pageKey: 'page1', schema: page.schema },
+    ];
+    const user = createUserLogIn(false);
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
+
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          autoSaveForm={autoSaveForm}
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+          user={user}
+        />
+      </Provider>,
+    );
+
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
+
+    expect(submitForm.called).to.be.false;
+    expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
+    expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
+    expect(autoSaveForm.notCalled).to.be.true;
     tree.unmount();
   });
 
@@ -281,9 +363,11 @@ describe('Schemaform review: SubmitController', () => {
     const pageList = [
       { path: 'page-1', pageKey: 'page1', schema: page.schema },
     ];
+    const user = createUserLogIn();
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -292,6 +376,7 @@ describe('Schemaform review: SubmitController', () => {
     const tree = render(
       <Provider store={store}>
         <SubmitController
+          autoSaveForm={autoSaveForm}
           form={form}
           formConfig={formConfig}
           pageList={pageList}
@@ -300,6 +385,7 @@ describe('Schemaform review: SubmitController', () => {
           setSubmission={setSubmission}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -316,6 +402,7 @@ describe('Schemaform review: SubmitController', () => {
     expect(sentryReports[0].extra.errors)
       .to.be.an('array')
       .with.length('1');
+    expect(autoSaveForm.called).to.be.true;
 
     tree.unmount();
   });
@@ -326,9 +413,11 @@ describe('Schemaform review: SubmitController', () => {
     });
     const formConfig = createFormConfig();
     const pageList = createPageList();
+    const user = createUserLogIn();
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -344,7 +433,9 @@ describe('Schemaform review: SubmitController', () => {
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
           submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -354,18 +445,21 @@ describe('Schemaform review: SubmitController', () => {
     fireEvent.click(submitButton);
 
     expect(submitForm.called).to.be.true;
+    expect(autoSaveForm.called).to.be.true;
     tree.unmount();
   });
 
-  it('should submit when valid and no preSubmit specified', () => {
-    const form = createForm();
-    const formConfig = createFormConfig({
-      preSubmitInfo: undefined,
+  it('should submit when valid, but not call autoSaveForm when not logged in', () => {
+    const form = createForm({
+      data: { privacyAgreementAccepted: true },
     });
+    const formConfig = createFormConfig();
     const pageList = createPageList();
+    const user = createUserLogIn(false);
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -381,7 +475,51 @@ describe('Schemaform review: SubmitController', () => {
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
           submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
+        />
+      </Provider>,
+    );
+
+    // tree.find('.usa-button-primary').simulate('click');
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
+
+    expect(submitForm.called).to.be.true;
+    expect(autoSaveForm.notCalled).to.be.true;
+    tree.unmount();
+  });
+
+  it('should submit when valid and no preSubmit specified', () => {
+    const form = createForm();
+    const formConfig = createFormConfig({
+      preSubmitInfo: undefined,
+    });
+    const pageList = createPageList();
+    const user = createUserLogIn();
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
+
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
+          trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -402,9 +540,11 @@ describe('Schemaform review: SubmitController', () => {
       },
     });
     const pageList = createPageList();
+    const user = createUserLogIn();
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
 
     const store = createStore({
       form,
@@ -420,7 +560,9 @@ describe('Schemaform review: SubmitController', () => {
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
           submitForm={submitForm}
+          autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -430,6 +572,7 @@ describe('Schemaform review: SubmitController', () => {
 
     expect(tree.getByText('NOTICE')).to.not.be.null;
     expect(submitForm.called).to.be.true;
+    expect(autoSaveForm.called).to.be.true;
 
     tree.unmount();
   });
@@ -444,6 +587,7 @@ describe('Schemaform review: SubmitController', () => {
       },
     });
     const pageList = createPageList();
+    const user = createUserLogIn();
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
@@ -466,6 +610,7 @@ describe('Schemaform review: SubmitController', () => {
           setSubmission={setSubmission}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -483,6 +628,7 @@ describe('Schemaform review: SubmitController', () => {
           setSubmission={setSubmission}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -506,6 +652,7 @@ describe('Schemaform review: SubmitController', () => {
       },
     });
     const pageList = createPageList();
+    const user = createUserLogIn();
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submission = {
@@ -529,6 +676,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           submission={submission}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -552,6 +700,7 @@ describe('Schemaform review: SubmitController', () => {
       },
     });
     const pageList = createPageList();
+    const user = createUserLogIn();
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submission = {
@@ -575,6 +724,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           submission={submission}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );
@@ -596,6 +746,7 @@ describe('Schemaform review: SubmitController', () => {
     });
     const formConfig = createFormConfig();
     const pageList = createPageList();
+    const user = createUserLogIn();
     const router = { push: sinon.spy() };
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
@@ -621,6 +772,7 @@ describe('Schemaform review: SubmitController', () => {
           submitForm={submitForm}
           submission={submission}
           trackingPrefix={formConfig.trackingPrefix}
+          user={user}
         />
       </Provider>,
     );

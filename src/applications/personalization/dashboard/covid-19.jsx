@@ -1,8 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 
 /*
@@ -195,6 +193,3 @@ export const COVID19Alert = ({ facilityId }) => (
     </p>
   </AlertBox>
 );
-
-export const showCOVID19AlertSelector = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.dashboardShowCovid19Alert];

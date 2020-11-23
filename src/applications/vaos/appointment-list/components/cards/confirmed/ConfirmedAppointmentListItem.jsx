@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import moment from '../../../../utils/moment-tz';
-import { formatFacilityAddress } from '../../../../utils/formatters';
+import moment from '../../../../lib/moment-tz';
+import { formatFacilityAddress } from '../../../../services/location';
 import {
   APPOINTMENT_STATUS,
   PURPOSE_TEXT,
@@ -223,7 +223,9 @@ export default function ConfirmedAppointmentListItem({
             {showCancelButton && (
               <button
                 onClick={() => cancelAppointment(appointment)}
-                aria-label="Cancel appointment"
+                aria-label={`Cancel appointment on ${formatAppointmentDate(
+                  moment.parseZone(appointment.start),
+                )}`}
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
               >
                 Cancel appointment

@@ -4,7 +4,10 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { ClinicChoicePage } from '../../../new-appointment/components/ClinicChoicePage';
+import {
+  ClinicChoicePage,
+  formatTypeOfCare,
+} from '../../../new-appointment/components/ClinicChoicePage';
 import { FETCH_STATUS } from '../../../utils/constants';
 
 describe('VAOS <ClinicChoicePage>', () => {
@@ -39,6 +42,7 @@ describe('VAOS <ClinicChoicePage>', () => {
         updateFormData={updateFormData}
         facilityDetailsStatus={FETCH_STATUS.loading}
         data={{}}
+        {...defaultProps}
       />,
     );
 
@@ -80,7 +84,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       />,
     );
 
-    form.setProps({ facilityDetailsStatus: FETCH_STATUS.successful });
+    form.setProps({ facilityDetailsStatus: FETCH_STATUS.succeeded });
 
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
@@ -187,6 +191,52 @@ describe('VAOS <ClinicChoicePage>', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(routeToNextAppointmentPage.called).to.be.true;
+    form.unmount();
+  });
+
+  describe('formatTypeOfCare', () => {
+    it('should not lower case MOVE', () => {
+      const result = formatTypeOfCare('MOVE! weight management');
+
+      expect(result).to.equal('MOVE! weight management');
+    });
+    it('should lower case regular types of care', () => {
+      const result = formatTypeOfCare('Primary care');
+
+      expect(result).to.equal('primary care');
+    });
+  });
+
+  it('should render "an" if the first letter of the type of care sounds like a vowel', () => {
+    const openClinicPage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const newProps = { ...defaultProps };
+    newProps.typeOfCare = { ...defaultProps.typeOfCare, name: 'Optometry' };
+
+    const form = mount(
+      <ClinicChoicePage
+        openClinicPage={openClinicPage}
+        updateFormData={updateFormData}
+        {...newProps}
+        schema={{
+          type: 'object',
+          properties: {
+            clinicId: {
+              type: 'string',
+              enum: ['455', '456', 'NONE'],
+              enumNames: ['Testing', 'Testing2', 'No'],
+            },
+          },
+        }}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(3);
+    expect(form.text()).to.contain(
+      'In the last 24 months you have had an optometry appointment in the following clinics, located at',
+    );
+
     form.unmount();
   });
 });

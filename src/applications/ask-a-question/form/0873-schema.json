@@ -514,6 +514,49 @@
             }
           }
         },
+        {
+          "properties": {
+            "levelOne": {
+              "type": "string",
+              "enum": [
+                "Home Loan Guaranty/All VA Mortgage Issues"
+              ]
+            },
+            "levelTwo": {
+              "type": "object",
+              "anyOf": [
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": [
+                        "Home Loan/Mortgage Web access & Tech problem"
+                      ]
+                    },
+                    "levelThree": {
+                      "type": "string",
+                      "enum": [
+                        "Home Loan VIP Portal Access",
+                        "Web Page Issues"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": [
+                        "Home Loan/Mortgage Certificates of Eligibility",
+                        "Home Loan/Mortgage Guaranty Issues"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
         {}
       ],
       "properties": {
@@ -1560,6 +1603,73 @@
             "459GF",
             "459GH",
             "358"
+          ]
+        },
+        "routeToState": {
+          "type": "string",
+          "enum": [
+            "AL",
+            "AK",
+            "AS",
+            "AZ",
+            "AR",
+            "AA",
+            "AE",
+            "AP",
+            "CA",
+            "CO",
+            "CT",
+            "DE",
+            "DC",
+            "FM",
+            "FL",
+            "GA",
+            "GU",
+            "HI",
+            "ID",
+            "IL",
+            "IN",
+            "IA",
+            "KS",
+            "KY",
+            "LA",
+            "ME",
+            "MH",
+            "MD",
+            "MA",
+            "MI",
+            "MN",
+            "MS",
+            "MO",
+            "MT",
+            "NE",
+            "NV",
+            "NH",
+            "NJ",
+            "NM",
+            "NY",
+            "NC",
+            "ND",
+            "MP",
+            "OH",
+            "OK",
+            "OR",
+            "PW",
+            "PA",
+            "PR",
+            "RI",
+            "SC",
+            "SD",
+            "TN",
+            "TX",
+            "UT",
+            "VT",
+            "VI",
+            "VA",
+            "WA",
+            "WV",
+            "WI",
+            "WY"
           ]
         }
       }

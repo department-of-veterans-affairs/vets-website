@@ -9,6 +9,7 @@ const {
   createMetaTagArray,
   partialSchema,
   findMatchingEntities,
+  entityObjectForKey,
 } = require('../transformers/helpers');
 
 describe('CMS export transformer helpers', () => {
@@ -231,7 +232,7 @@ describe('CMS export transformer helpers', () => {
     });
   });
 
-  describe('usePartialSchema', () => {
+  describe('partialSchema', () => {
     it('Should throw an error when a non-object schema is passed', () => {
       expect(() => partialSchema({ type: 'array' })).to.throw();
       expect(() => partialSchema(['invalid schema'])).to.throw();
@@ -375,6 +376,25 @@ describe('CMS export transformer helpers', () => {
         filter: e => e.field_keep_me,
       });
       expect(spy.calledOnce).to.be.true;
+    });
+  });
+
+  describe('entityObjectForKey', () => {
+    it('Returns an object with a single key "entity" and value entity[key][0]', () => {
+      const testEntity = {
+        foo: [{ bar: 1 }],
+      };
+      expect(entityObjectForKey(testEntity, 'foo')).to.deep.equal({
+        entity: { bar: 1 },
+      });
+    });
+
+    it('Returns null if entity is null', () => {
+      expect(entityObjectForKey(null, 'foo')).to.be.null;
+    });
+
+    it('Returns null if entity[key] is null', () => {
+      expect(entityObjectForKey({}, 'foo')).to.be.null;
     });
   });
 });

@@ -1,11 +1,3 @@
-export function formatTypeOfCare(careLabel) {
-  if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
-    return careLabel;
-  }
-
-  return careLabel.slice(0, 1).toLowerCase() + careLabel.slice(1);
-}
-
 export function titleCase(str) {
   return str
     .toLowerCase()
@@ -44,17 +36,6 @@ export function lowerCase(str = '') {
       return word.toLowerCase();
     })
     .join(' ');
-}
-
-/**
- * Returns formatted address from facility details object
- *
- * @param {*} facility - facility details object
- */
-export function formatFacilityAddress(facility) {
-  return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
-    facility.address?.state
-  } ${facility.address?.postalCode}`;
 }
 
 export function joinWithAnd(items) {

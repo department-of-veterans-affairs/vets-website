@@ -4,10 +4,10 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
-  selectVet360EmailAddress,
-  selectVet360HomePhoneString,
-  selectVet360MobilePhoneString,
-  selectVet360ResidentialAddress,
+  selectVAPEmailAddress,
+  selectVAPHomePhoneString,
+  selectVAPMobilePhoneString,
+  selectVAPResidentialAddress,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -18,12 +18,11 @@ import {
   vaosCommunityCare,
   selectSystemIds,
   getEligibilityStatus,
-  getRootIdForChosenFacility,
-  getSelectedTypeOfCareFacilities,
-  getSiteIdForChosenFacility,
+  getTypeOfCareFacilities,
   vaosVSPAppointmentNew,
   getCCEType,
   selectIsCernerOnlyPatient,
+  selectUseFlatFacilityPage,
 } from '../../utils/selectors';
 import {
   getPreferences,
@@ -52,33 +51,28 @@ import {
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
-  GA_FLOWS,
 } from '../../utils/constants';
+import { createPreferenceBody } from '../../utils/data';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
   transformFormToAppointment,
-  createPreferenceBody,
-} from '../../utils/data';
-
+} from './helpers/formSubmitTransformers';
 import {
   getEligibilityData,
   recordEligibilityGAEvents,
   logEligibilityExplanation,
-} from '../../utils/eligibility';
-
+} from './helpers/eligibility';
 import {
-  recordEligibilityFailure,
   resetDataLayer,
   recordItemsRetrieved,
+  recordEligibilityFailure,
 } from '../../utils/events';
-
 import {
   captureError,
   getErrorCodes,
   has400LevelError,
 } from '../../utils/error';
-
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
@@ -89,6 +83,12 @@ import {
 function parseFakeFHIRId(id) {
   return id.replace('var', '');
 }
+
+export const GA_FLOWS = {
+  DIRECT: 'direct',
+  VA_REQUEST: 'va-request',
+  CC_REQUEST: 'cc-request',
+};
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -153,10 +153,12 @@ export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
   'newAppointment/FORM_CALENDAR_FETCH_SLOTS_FAILED';
 export const FORM_CALENDAR_DATA_CHANGED =
   'newAppointment/FORM_CALENDAR_DATA_CHANGED';
-export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
-  'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
-export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
-  'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
+export const FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
+export const FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL';
+export const FORM_SHOW_ELIGIBILITY_MODAL =
+  'newAppointment/FORM_SHOW_ELIGIBILITY_MODAL';
 export const FORM_HIDE_ELIGIBILITY_MODAL =
   'newAppointment/FORM_HIDE_ELIGIBILITY_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
@@ -165,6 +167,8 @@ export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED';
+export const FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED =
+  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED';
 export const FORM_REQUEST_CURRENT_LOCATION =
   'newAppointment/FORM_REQUEST_CURRENT_LOCATION';
 export const FORM_REQUEST_CURRENT_LOCATION_FAILED =
@@ -206,15 +210,15 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function showTypeOfCareUnavailableModal() {
+export function showPodiatryAppointmentUnavailableModal() {
   return {
-    type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    type: FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   };
 }
 
-export function hideTypeOfCareUnavailableModal() {
+export function hidePodiatryAppointmentUnavailableModal() {
   return {
-    type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    type: FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   };
 }
 
@@ -248,9 +252,9 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 export function openTypeOfCarePage(page, uiSchema, schema) {
   return (dispatch, getState) => {
     const state = getState();
-    const email = selectVet360EmailAddress(state);
-    const homePhone = selectVet360HomePhoneString(state);
-    const mobilePhone = selectVet360MobilePhoneString(state);
+    const email = selectVAPEmailAddress(state);
+    const homePhone = selectVAPHomePhoneString(state);
+    const mobilePhone = selectVAPMobilePhoneString(state);
     const showCommunityCare = vaosCommunityCare(state);
 
     const phoneNumber = mobilePhone || homePhone;
@@ -289,7 +293,7 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
-export function checkEligibility(location, siteId) {
+export function checkEligibility({ location, siteId, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = vaosVSPAppointmentNew(state);
@@ -317,6 +321,7 @@ export function checkEligibility(location, siteId) {
         typeOfCareId,
         eligibilityData,
         facilityId: location.id,
+        showModal,
       });
 
       try {
@@ -345,12 +350,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
     try {
       const initialState = getState();
       const newAppointment = initialState.newAppointment;
+      const directSchedulingEnabled = vaosDirectScheduling(initialState);
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
       if (typeOfCareId) {
         const siteIds = selectSystemIds(initialState);
         const useVSP = vaosVSPAppointmentNew(initialState);
-        let typeOfCareFacilities = newAppointment.facilities[typeOfCareId];
+        let typeOfCareFacilities = getTypeOfCareFacilities(initialState);
         let siteId = null;
         let facilityId = newAppointment.data.vaFacility;
         let parentFacilities = newAppointment.parentFacilities;
@@ -373,6 +379,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             typeOfCareId,
             siteIds,
+            directSchedulingEnabled,
           });
         }
 
@@ -388,7 +395,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           typeOfCareId,
           schema,
           uiSchema,
-          address: selectVet360ResidentialAddress(initialState),
+          address: selectVAPResidentialAddress(initialState),
         });
 
         // If we have an already selected location or only have a single location
@@ -412,13 +419,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
         if (eligibilityDataNeeded && !eligibilityChecks) {
-          const selectedFacility = typeOfCareFacilities[0];
+          const location = typeOfCareFacilities.find(f => f.id === facilityId);
 
           if (!siteId) {
-            siteId = getSiteIdFromFakeFHIRId(selectedFacility.id);
+            siteId = getSiteIdFromFakeFHIRId(location.id);
           }
 
-          dispatch(checkEligibility(selectedFacility, siteId));
+          dispatch(checkEligibility({ location, siteId }));
         }
       }
     } catch (e) {
@@ -433,7 +440,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
     let location = null;
-    const facilities = getSelectedTypeOfCareFacilities(getState());
+    const facilities = getTypeOfCareFacilities(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distancefromCurrentLocation,
     );
@@ -478,6 +485,12 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
   };
 }
 
+export function showEligibilityModal() {
+  return {
+    type: FORM_SHOW_ELIGIBILITY_MODAL,
+  };
+}
+
 export function hideEligibilityModal() {
   return {
     type: FORM_HIDE_ELIGIBILITY_MODAL,
@@ -492,7 +505,7 @@ export function hideEligibilityModal() {
  * 2. A user has only one parent, so we also need to fetch facilities
  * 3. A user might only have one parent and facility available, so we need to also
  *    do eligibility checks
- * 4. A user might already have been on this page, in which case we may have some 
+ * 4. A user might already have been on this page, in which case we may have some
  *    of the above data already and don't want to make another api call
 */
 export function openFacilityPage(page, uiSchema, schema) {
@@ -614,7 +627,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
-    const siteId = getSiteIdForChosenFacility(state, data.vaParent);
+    const siteId = getSiteIdFromFakeFHIRId(data.vaParent);
+
     let locations =
       previousNewAppointmentState.facilities[
         `${typeOfCareId}_${data.vaParent}`
@@ -758,7 +772,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = vaosVSPAppointmentNew(state);
-    const rootOrgId = getRootIdForChosenFacility(state);
+    const siteId = getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
 
@@ -797,14 +811,13 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
               .format('YYYY-MM-DD');
 
         const fetchedSlots = await getSlots({
-          siteId: rootOrgId,
+          siteId,
           typeOfCareId: data.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
           useVSP,
         });
-
         const now = moment();
 
         mappedSlots = fetchedSlots.filter(slot =>
@@ -853,6 +866,15 @@ export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
+    page,
+    uiSchema,
+    schema,
+  };
+}
+
+export function openCommunityCareProviderSelectionPage(page, uiSchema, schema) {
+  return {
+    type: FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED,
     page,
     uiSchema,
     schema,
@@ -933,6 +955,9 @@ export function submitAppointmentOrRequest(history) {
     const additionalEventData = {
       'health-TypeOfCare': typeOfCare,
       'health-ReasonForAppointment': data?.reasonForAppointment,
+      'vaos-number-of-preferred-providers': data.hasCommunityCareProvider
+        ? 1
+        : 0,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -1047,6 +1072,7 @@ export function submitAppointmentOrRequest(history) {
             facility: requestBody.facility,
             typeOfCareId: requestBody.typeOfCareId,
             cityState: requestBody.cityState,
+            useFlatFacilityPage: selectUseFlatFacilityPage(state),
           };
         }
         captureError(error, true, 'Request submission failure', extraData);

@@ -1,6 +1,5 @@
+import moment from 'moment';
 import set from 'platform/utilities/data/set';
-
-import { generateMockFHIRSlots, generateMockSlots } from '../../utils/calendar';
 
 // fhir
 import healthcareService983 from './fhir/mock_healthcare_system_983.json';
@@ -23,16 +22,83 @@ import facilities983 from './var/facilities_983.json';
 import facilities984 from './var/facilities_984.json';
 import facilities983A6 from './var/facilities_983A6.json';
 import clinicList983 from './var/clinicList983.json';
+import clinicList612 from './var/clinicList612.json';
 import facilityDetails983 from './var/facility_details_983.json';
 import facilityDetails984 from './var/facility_details_984.json';
 import facilityData from './var/facility_data.json';
+import ccProviders from './var/cc_providers.json';
 import sitesSupportingVAR from './var/sites-supporting-var.json';
 import varSlots from './var/slots.json';
 import cancelReasons from './var/cancel_reasons.json';
 import requestEligibilityCriteria from './var/request_eligibility_criteria.json';
 import directBookingEligibilityCriteria from './var/direct_booking_eligibility_criteria.json';
-import { EXPRESS_CARE } from '../../utils/constants';
+import { EXPRESS_CARE, FREE_BUSY_TYPES } from '../../utils/constants';
 
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export function generateMockSlots() {
+  const times = [];
+  const today = moment();
+  const minuteSlots = ['00:00', '20:00', '40:00'];
+
+  while (times.length < 300) {
+    const daysToAdd = randomInt(1, 395);
+    const date = today
+      .clone()
+      .add(daysToAdd, 'day')
+      .format('YYYY-MM-DD');
+    const hour = `0${randomInt(9, 16)}`.slice(-2);
+    const minutes = minuteSlots[Math.floor(Math.random() * minuteSlots.length)];
+    const startDateTime = `${date}T${hour}:${minutes}.000+00:00`;
+    if (!times.includes(startDateTime)) {
+      times.push(startDateTime);
+    }
+  }
+
+  return times.sort().map(startDateTime => ({
+    startDateTime,
+    endDateTime: moment(startDateTime.replace('+00:00', ''))
+      .add(20, 'minutes')
+      .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+  }));
+}
+
+export function generateMockFHIRSlots() {
+  const times = [];
+  const today = moment();
+  const minuteSlots = [0, 20, 40];
+
+  while (times.length < 300) {
+    const minutes = minuteSlots[Math.floor(Math.random() * minuteSlots.length)];
+    const startDateTime = today
+      .clone()
+      .add(randomInt(1, 395), 'day')
+      .hour(randomInt(9, 16))
+      .minute(minutes)
+      .second(0)
+      .millisecond(0)
+      .toISOString();
+    if (!times.includes(startDateTime)) {
+      times.push(startDateTime);
+    }
+  }
+
+  return times.sort().map(start => ({
+    resource: {
+      start,
+      end: moment(start)
+        .add(20, 'minutes')
+        .toISOString(),
+      overbooked: false,
+      freeBusyType: FREE_BUSY_TYPES.free,
+    },
+  }));
+}
 /*
  * Handler definition:
  *
@@ -157,6 +223,8 @@ export default [
     response: url => {
       if (url.includes('facilities/983/')) {
         return clinicList983;
+      } else if (url.includes('facilities/612')) {
+        return clinicList612;
       }
 
       return {
@@ -177,6 +245,10 @@ export default [
   {
     path: /v1\/facilities\/va\?ids/,
     response: facilityData,
+  },
+  {
+    path: /v1\/facilities\/ccp/,
+    response: ccProviders,
   },
   {
     path: /vaos\/v0\/facilities\/.*\/available_appointments/,

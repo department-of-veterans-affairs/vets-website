@@ -1,12 +1,6 @@
 import React from 'react';
 
 import 'platform/polyfills';
-import '../profile/sass/user-profile.scss';
-import '../../claims-status/sass/claims-status.scss';
-import './sass/dashboard.scss';
-import './sass/dashboard-alert.scss';
-import './sass/messaging/messaging.scss';
-import '../preferences/sass/preferences.scss';
 
 import DashboardWrapper from '../dashboard-2/components/DashboardWrapper';
 

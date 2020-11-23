@@ -46,7 +46,7 @@ describe('686 add child - child place of birth', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(10);
     form.unmount();
   });
 

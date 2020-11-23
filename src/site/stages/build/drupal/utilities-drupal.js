@@ -18,10 +18,11 @@ function facilityLocationPath(regionPath, apiId, nickname) {
   return `${regionPath}/locations/${facilityPath}`;
 }
 
-function getDrupalCacheKey(env) {
+async function getDrupalCacheKey(env) {
+  const data = await getQuery(queries.GET_ALL_PAGES);
   const hash = crypto
     .createHash('md5')
-    .update(getQuery(queries.GET_ALL_PAGES))
+    .update(data)
     .digest('hex');
 
   return `${env}_${hash}`;

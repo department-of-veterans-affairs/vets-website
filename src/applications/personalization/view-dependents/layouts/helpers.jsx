@@ -13,10 +13,8 @@ export const errorFragment = (
     </p>
     <p>
       If you get this error again, please call the VA.gov help desk at
-      <a aria-label="8 4 4. 6 9 8. 2 3 1 1." href="tel:8446982311">
-        844-698-2311
-      </a>{' '}
-      (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+      <Telephone contact={CONTACTS.VA_311} />{' '}
+      <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />
       ). We're here Monday-Friday, 8:00a.m.-8:00p.m. ET.
     </p>
   </>
