@@ -28,19 +28,22 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
-  it('should render', () => {
+  it('should render', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
       store,
     });
 
+    expect(
+      await screen.findByText(
+        /What is the earliest date you’d like to be seen/,
+      ),
+    ).to.exist;
+
     expect(screen.baseElement).to.contain.text(
       'Tell us when you want to schedule your appointment',
     );
 
-    expect(screen.baseElement).to.contain.text(
-      'What is the earliest date you’d like to be seen?',
-    );
     expect(screen.baseElement).to.contain.text(
       'Please pick a date within the next 13 months.',
     );
@@ -56,7 +59,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
       store,
     });
 
-    fireEvent.click(screen.getByText(/Continue/));
+    fireEvent.click(await screen.findByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please provide a response',
     );
@@ -68,6 +71,8 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
       store,
     });
+
+    await screen.findByText(/Continue/);
 
     userEvent.selectOptions(screen.getByRole('combobox', { name: /month/i }), [
       '2',
@@ -91,6 +96,8 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
       store,
     });
+
+    await screen.findByText(/Continue/);
 
     userEvent.selectOptions(screen.getByRole('combobox', { name: /month/i }), [
       '2',
@@ -125,6 +132,8 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
       store,
     });
+
+    await screen.findByText(/Continue/);
 
     userEvent.selectOptions(screen.getByRole('combobox', { name: /month/i }), [
       maxMonth,

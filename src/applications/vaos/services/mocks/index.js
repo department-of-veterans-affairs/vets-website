@@ -22,6 +22,7 @@ import facilities983 from './var/facilities_983.json';
 import facilities984 from './var/facilities_984.json';
 import facilities983A6 from './var/facilities_983A6.json';
 import clinicList983 from './var/clinicList983.json';
+import clinicList612 from './var/clinicList612.json';
 import facilityDetails983 from './var/facility_details_983.json';
 import facilityDetails984 from './var/facility_details_984.json';
 import facilityData from './var/facility_data.json';
@@ -222,6 +223,8 @@ export default [
     response: url => {
       if (url.includes('facilities/983/')) {
         return clinicList983;
+      } else if (url.includes('facilities/612')) {
+        return clinicList612;
       }
 
       return {
