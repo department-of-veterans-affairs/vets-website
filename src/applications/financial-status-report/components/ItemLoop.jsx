@@ -18,7 +18,7 @@ const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
 /* Non-review growable table (array) field */
-export default class ArrayField extends React.Component {
+export default class ItemLoop extends React.Component {
   constructor(props) {
     super(props);
 
@@ -386,7 +386,7 @@ export default class ArrayField extends React.Component {
   }
 }
 
-ArrayField.propTypes = {
+ItemLoop.propTypes = {
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object,
   errorSchema: PropTypes.object,
