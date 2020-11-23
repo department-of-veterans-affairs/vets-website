@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { isEmpty } from 'lodash';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import {
@@ -11,9 +13,7 @@ import {
 } from '@@profile/components/connected-apps/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import { AdditionalInfoSections } from './AdditionalInfoSections';
 import { AppDeletedAlert } from './AppDeletedAlert';
-import availableConnectedApps from './availableConnectedApps';
 import { ConnectedApp } from './ConnectedApp';
 
 export class ConnectedApps extends Component {
@@ -85,6 +85,12 @@ export class ConnectedApps extends Component {
               choice whether to connect, or stay connected, to a third-party
               app.
             </p>
+
+            <p className="va-introtext vads-u-font-size--md">
+              You don’t have any third-party apps connected to your profile. Go
+              to the app directory to find out what apps are available to
+              connect to your profile.
+            </p>
           </>
         )}
 
@@ -107,24 +113,12 @@ export class ConnectedApps extends Component {
         ))}
 
         {showHasNoConnectedApps && (
-          <div className="connected-apps-intro vads-u-margin-bottom--2">
-            <h3>Third-party apps you can connect to your profile</h3>
-            <ul className="vads-u-padding-left--0 vads-u-margin-bottom--2">
-              {availableConnectedApps?.map(app => {
-                return (
-                  <li key={app.name} className="vads-u-padding-left--3">
-                    <a
-                      href={app.appURL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {app.name}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+          <Link
+            className="usa-button vads-u-margin-bottom--3"
+            href="/resources/find-apps-you-can-use"
+          >
+            Go to app directory
+          </Link>
         )}
 
         {loading && (
@@ -150,7 +144,21 @@ export class ConnectedApps extends Component {
             {...app}
           />
         ))}
-        <AdditionalInfoSections activeApps={activeApps} />
+
+        {!isEmpty(activeApps) && (
+          <div className="vads-u-margin-y--3 available-connected-apps">
+            <AdditionalInfo
+              triggerText={`What other third-party apps can I connect to my profile?`}
+            >
+              To find out what other third-party apps are available to connect
+              to your profile,{' '}
+              <a href="/resources/find-apps-you-can-use">
+                go to the app directory
+              </a>
+            </AdditionalInfo>
+          </div>
+        )}
+
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--primary-alt-lightest vads-u-padding--2p5 vads-u-margin-top--2">
           <h3 className="vads-u-margin--0 vads-u-font-size--lg">
             Have more questions about connected apps?

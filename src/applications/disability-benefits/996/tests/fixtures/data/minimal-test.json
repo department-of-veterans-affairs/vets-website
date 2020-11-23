@@ -14,7 +14,7 @@
         "attributes": {
           "ratingIssueSubjectText": "Headaches",
           "description": "Acute chronic head pain",
-          "ratingIssuePercentNumber": 20,
+          "ratingIssuePercentNumber": "20",
           "approxDecisionDate": "2020-11-10",
           "decisionIssueId": 44,
           "ratingIssueReferenceId": "66",

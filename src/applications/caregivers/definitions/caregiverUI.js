@@ -9,16 +9,20 @@ import {
   PleaseSelectVAFacility,
   AdditionalCaregiverInfo,
   VeteranSSNInfo,
+  PrimaryCaregiverInfo,
   SecondaryCaregiverInfo,
+  SecondaryRequiredAlert,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
-import { vetFields } from './constants';
+import { vetFields, primaryCaregiverFields } from './constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
   validateSSNIsUnique,
+  facilityNameMaxLength,
+  shouldHideAlert,
 } from 'applications/caregivers/helpers';
 
 const emptyFacilityList = [];
@@ -84,6 +88,14 @@ export default {
     vetRelationshipUI: label => ({
       'ui:title': `What is the ${label}  relationship to the Veteran?`,
     }),
+    hasPrimaryCaregiverOneUI: {
+      'ui:title': 'Would you like to add a Primary Family Caregiver?',
+      'ui:description': PrimaryCaregiverInfo({
+        additionalInfo: true,
+        headerInfo: false,
+      }),
+      'ui:widget': 'yesNo',
+    },
     hasSecondaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Secondary Family Caregiver?',
       'ui:description': SecondaryCaregiverInfo({
@@ -91,10 +103,35 @@ export default {
         headerInfo: false,
       }),
       'ui:widget': 'yesNo',
+      'ui:required': formData =>
+        !formData[primaryCaregiverFields.hasPrimaryCaregiver],
+      'ui:validations': [
+        {
+          validator: (errors, fieldData, formData) => {
+            const hasPrimary =
+              formData[primaryCaregiverFields.hasPrimaryCaregiver];
+            const hasSecondary =
+              formData[primaryCaregiverFields.hasSecondaryCaregiverOne];
+            const hasCaregiver = hasPrimary || hasSecondary;
+
+            if (!hasCaregiver) {
+              // We are adding a blank error to disable the ability to continue the form but not displaying the error text its self
+              errors.addError(' ');
+            }
+          },
+        },
+      ],
+    },
+    secondaryRequiredAlert: {
+      'ui:title': ' ',
+      'ui:widget': SecondaryRequiredAlert,
+      'ui:options': {
+        hideIf: formData => shouldHideAlert(formData),
+      },
     },
     hasSecondaryCaregiverTwoUI: {
       'ui:title': ' ',
-      'ui:description': AdditionalCaregiverInfo(),
+      'ui:description': AdditionalCaregiverInfo,
       'ui:widget': 'yesNo',
     },
   },
@@ -163,10 +200,10 @@ export const confirmationEmailUI = (label, dataConstant) => ({
   'ui:validations': [
     {
       validator: (errors, fieldData, formData) => {
-        const emailMatcher = () =>
+        const doesEmailMatch = () =>
           formData[dataConstant] === formData[`view:${dataConstant}`];
-        const doesEmailMatch = emailMatcher();
-        if (!doesEmailMatch) {
+
+        if (!doesEmailMatch()) {
           errors.addError(
             'This email does not match your previously entered email',
           );
