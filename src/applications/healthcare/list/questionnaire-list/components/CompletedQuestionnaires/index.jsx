@@ -8,7 +8,7 @@ const index = props => {
   const { questionnaires } = props;
   return (
     <div id="tabpanel_completed">
-      <h2>Completed questionnaires</h2>
+      <h2 className="questionnaire-list-header">Completed questionnaires</h2>
       <ul className="questionnaire-list completed">
         {questionnaires.map(questionnaire => {
           const { questionnaireResponse } = questionnaire;

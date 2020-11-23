@@ -42,7 +42,7 @@ const Home = props => {
     >
       <div className="row">
         <div className="usa-width-three-fourths medium-8 columns">
-          <h1>Your health care questionnaires</h1>
+          <h1>Your health questionnaires</h1>
           <p className="va-introtext">
             Review and keep track of your completed health care questionnaires
             and any you need to fill out before your upcoming appointment. You
