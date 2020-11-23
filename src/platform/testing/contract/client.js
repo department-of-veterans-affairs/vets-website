@@ -20,7 +20,7 @@ const path = require('path');
  */
 
 /**
- * typedef {Object} ConsumerDeployContext
+ * typedef {Object} VerificationContext
  * @param {string} consumer - The consumer name.
  * @param {string} version - The consumer version.
  * @param {string} tag - The environment to deploy the consumer.
@@ -214,16 +214,16 @@ module.exports = class PactBrokerClient {
 
   /**
    * Creates a set of objects that provide context for figuring out
-   * whether the consumers from the generated pacts can be deployed
-   * to the desired environment.
+   * whether the consumers from the generated pacts have passed
+   * verification and can be deployed to the desired environment.
    * @param {BrokerOperationOptions} options
-   * @return {ConsumerDeployContext[]}
+   * @return {VerificationContext[]}
    */
-  createConsumerContexts = ({ pactDir, version, tag }) => {
+  createVerificationContexts = ({ pactDir, version, tag }) => {
     const baseUrl = new URL(path.join(this.url, 'matrix'));
     // Get latest result for each consumer version and provider (cvp) pairing.
-    // In other words, checks if the consumer has passed verification with all
-    // of its providers on the latest provider versions with the given tag.
+    // In other words, checks if this consumer version has passed verification
+    // with all of its providers on the latest versions with the given tag.
     baseUrl.searchParams.append('latestby', 'cvp');
     baseUrl.searchParams.append('latest', true);
     baseUrl.searchParams.append('tag', tag);
@@ -239,38 +239,46 @@ module.exports = class PactBrokerClient {
   };
 
   /**
-   * Determines whether a consumer is deployable.
-   * @param {ConsumerDeployContext}
-   * @return {boolean}
+   * Retrieves the verification status for a consumer, including
+   * a summary of whether that consumer can be deployed.
+   * @param {VerificationContext}
+   * @return {Object}
    */
-  isConsumerDeployable = async ({ consumer, version, tag, url }) => {
+  getVerificationStatus = async ({ consumer, version, tag, url }) => {
+    console.log(url);
     const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(
-        `Failed to get deployable status for ${consumer}: ${response.status} ${
-          response.statusText
-        }`,
+        `Failed to get verification status for ${consumer}: ${
+          response.status
+        } ${response.statusText}`,
       );
     }
 
-    const { deployable, reason } = (await response.json()).summary;
+    const results = await response.json();
+    const { deployable, reason } = results.summary;
+
     console.log(
       `${
         deployable ? 'Can' : "Can't"
       } deploy ${consumer} on version ${version} to ${tag}.`,
     );
+
     console.log(reason);
-    return deployable;
+
+    return results;
   };
 
   /**
    * Checks whether all consumers from the generated pacts can be deployed
-   * to the desired environment. Throws an error if the check fails on any.
+   * to the desired environment. Returns the aggregate deployable status
+   * along with the verification results for each consumer.
    * @param {BrokerOperationOptions}
+   * @returns {Object}
    */
   canDeploy = async options => {
-    let results;
+    let verificationResults;
 
     try {
       validateRequiredOptions(
@@ -279,22 +287,19 @@ module.exports = class PactBrokerClient {
         options,
       );
 
-      const consumerContexts = this.createConsumerContexts(options);
+      const verificationContexts = this.createVerificationContexts(options);
 
-      results = await Promise.all(
-        consumerContexts.map(this.isConsumerDeployable),
+      verificationResults = await Promise.all(
+        verificationContexts.map(this.getVerificationStatus),
       );
     } catch (e) {
-      console.error('Failed to check deployability.');
+      console.error('Failed to check verification status.');
       throw e;
     }
 
-    const deployable = results.every(Boolean);
-
-    if (!deployable) {
-      throw new Error(
-        "Can't deploy. Try again after providers have successfully verified pacts for the consumers that couldn't deploy.",
-      );
-    }
+    return {
+      verificationResults,
+      canDeploy: verificationResults.every(result => result.summary.deployable),
+    };
   };
 };
