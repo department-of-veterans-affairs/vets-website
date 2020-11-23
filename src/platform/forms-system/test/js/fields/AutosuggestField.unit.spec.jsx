@@ -476,6 +476,53 @@ describe('<AutosuggestField>', () => {
     });
   });
 
+  it('should run updateSuggestions if freeInput is true and if updateSuggestions specified in ui:options', () => {
+    const onChange = sinon.spy();
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          freeInput: true,
+          updateSuggestions: (suggestions, value) => [
+            { id: '', label: value },
+            ...suggestions,
+          ],
+          labels: {
+            AL: 'Label 1',
+            BC: 'Label 2',
+          },
+        },
+      },
+      schema: {
+        type: 'string',
+        enum: ['AL', 'BC'],
+      },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange,
+      onBlur: () => {},
+    };
+    const processedSuggestions = [
+      {
+        id: 'AL',
+        label: 'Label 1',
+      },
+      {
+        id: 'BC',
+        label: 'Label 2',
+      },
+    ];
+    const tree = mount(<AutosuggestField {...props} />);
+
+    const suggestions = tree
+      .instance()
+      .getSuggestions(processedSuggestions, 'Label');
+    expect(suggestions).to.deep.equal([
+      { id: '', label: 'Label' },
+      ...processedSuggestions,
+    ]);
+    tree.unmount();
+  });
+
   it('should call onChange if input exists when setting options', () => {
     const uiSchema = {
       'ui:options': {
