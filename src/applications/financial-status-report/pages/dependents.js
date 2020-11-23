@@ -1,3 +1,6 @@
+import ItemLoop from '../components/ItemLoop';
+import DependentView from '../components/DependentView';
+
 export const uiSchema = {
   dependentsSection: {
     'ui:title': 'Your employment history',
@@ -12,6 +15,13 @@ export const uiSchema = {
       },
       dependentAge: {
         'ui:title': 'Dependent Age',
+        'ui:field': ItemLoop,
+        'ui:options': {
+          viewField: DependentView,
+        },
+        items: {
+          'ui:title': 'Age in years:',
+        },
       },
     },
   },
@@ -29,7 +39,14 @@ export const schema = {
           type: 'object',
           properties: {
             dependentAge: {
-              type: 'number',
+              type: 'array',
+              minItems: 0,
+              items: {
+                type: 'number',
+                minimum: 0,
+                min: 0,
+                exclusiveMinimum: 0,
+              },
             },
           },
         },
