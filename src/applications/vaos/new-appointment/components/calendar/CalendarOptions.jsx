@@ -4,21 +4,6 @@ import CalendarRadioOption from './CalendarRadioOption';
 import CalendarCheckboxOption from './CalendarCheckboxOption';
 import { isDateOptionPairInSelectedArray } from './dateHelpers';
 
-function partition(items, size) {
-  let start = 0;
-  let end = size;
-  const segments = [];
-  while (end < size) {
-    segments.push(items.slice(start, end));
-    start = end;
-    end += size;
-  }
-
-  segments.push(items.slice(start));
-
-  return segments;
-}
-
 function getOptionClasses(index, optionCount, rowSize) {
   return classNames(
     'vaos-calendar__option-cell',
@@ -31,10 +16,17 @@ function getOptionClasses(index, optionCount, rowSize) {
       'vaos-u-border-radius--bottom-left':
         index % rowSize === 0 && index + rowSize >= optionCount,
       'vaos-u-border-radius--bottom-right':
-        index + 1 === optionCount ||
+        (index + 1 === optionCount && optionCount < rowSize) ||
         ((index + 1) % rowSize === 0 && index + rowSize >= optionCount),
       'vads-u-padding-top--2': rowSize - index > 0,
       'vads-u-padding-left--2': index % rowSize === 0,
+      'vads-u-padding-right--2':
+        (index + 1) % rowSize === 0 ||
+        (index + 1 === optionCount && optionCount < rowSize),
+      'vaos-calendar__option-cell--last':
+        index + 1 === optionCount &&
+        (index + 1) % rowSize !== 0 &&
+        optionCount > rowSize,
     },
   );
 }
@@ -96,15 +88,6 @@ export default function CalendarOptions({
       ...justifyClasses,
     });
 
-    const optionsRowClasses = classNames(
-      'vaos-calendar__options-row',
-      'vads-u-background-color--primary',
-      'vads-u-padding-y--2',
-      'vads-u-padding-x--1',
-    );
-
-    const optionSegments = partition(selectedDateOptions, rowSize);
-
     return (
       <div
         className={containerClasses}
@@ -117,51 +100,51 @@ export default function CalendarOptions({
               'Please select an option for this date'}
           </legend>
           <div className={cssClasses}>
-            {optionSegments.map((segment, segmentIndex) => {
-              return (
-                <div key={`row${segmentIndex}`} className={optionsRowClasses}>
-                  {segment.map((o, index) => {
-                    const dateObj = {
-                      date: currentlySelectedDate,
-                      [fieldName]: o.value,
-                    };
-                    const checked = isDateOptionPairInSelectedArray(
-                      dateObj,
-                      selectedDates,
-                      fieldName,
-                    );
+            {selectedDateOptions.map((o, index) => {
+              const dateObj = {
+                date: currentlySelectedDate,
+                [fieldName]: o.value,
+              };
+              const checked = isDateOptionPairInSelectedArray(
+                dateObj,
+                selectedDates,
+                fieldName,
+              );
 
-                    if (useCheckboxes) {
-                      return (
-                        <CalendarCheckboxOption
-                          key={`option-${index}`}
-                          id={`${currentlySelectedDate}_${index}`}
-                          fieldName={fieldName}
-                          value={o.value}
-                          checked={checked}
-                          onChange={() => handleSelectOption(dateObj)}
-                          label={o.label}
-                          secondaryLabel={o.secondaryLabel}
-                          disabled={
-                            !checked && selectedDates?.length === maxSelections
-                          }
-                        />
-                      );
+              if (useCheckboxes) {
+                return (
+                  <CalendarCheckboxOption
+                    className={getCheckboxOptionClasses(index)}
+                    key={`option-${index}`}
+                    id={`${currentlySelectedDate}_${index}`}
+                    fieldName={fieldName}
+                    value={o.value}
+                    checked={checked}
+                    onChange={() => handleSelectOption(dateObj)}
+                    label={o.label}
+                    secondaryLabel={o.secondaryLabel}
+                    disabled={
+                      !checked && selectedDates?.length === maxSelections
                     }
+                  />
+                );
+              }
 
-                    return (
-                      <CalendarRadioOption
-                        key={`option-${index}`}
-                        id={`${currentlySelectedDate}_${index}`}
-                        fieldName={fieldName}
-                        value={o.value}
-                        checked={checked}
-                        onChange={() => handleSelectOption(dateObj)}
-                        label={o.label}
-                      />
-                    );
-                  })}
-                </div>
+              return (
+                <CalendarRadioOption
+                  className={getOptionClasses(
+                    index,
+                    selectedDateOptions.length,
+                    rowSize,
+                  )}
+                  key={`option-${index}`}
+                  id={`${currentlySelectedDate}_${index}`}
+                  fieldName={fieldName}
+                  value={o.value}
+                  checked={checked}
+                  onChange={() => handleSelectOption(dateObj)}
+                  label={o.label}
+                />
               );
             })}
           </div>
