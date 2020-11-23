@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import CalendarRadioOption from './CalendarRadioOption';
 import CalendarCheckboxOption from './CalendarCheckboxOption';
@@ -39,7 +39,21 @@ function getCheckboxOptionClasses(index) {
     'vaos-u-border-radius--bottom-right': index === 1,
     'vads-u-padding-left--2': index === 0,
     'vads-u-padding-top--2': true,
+    'vads-u-padding-right--2': index === 1,
   });
+}
+
+const smallMediaQuery = '(min-width: 481px)';
+const smallDesktopMediaQuery = '(min-width: 1008px)';
+
+function calculateRowSize() {
+  if (matchMedia(smallDesktopMediaQuery).matches) {
+    return 4;
+  } else if (matchMedia(smallMediaQuery).matches) {
+    return 3;
+  }
+
+  return 2;
 }
 
 export default function CalendarOptions({
@@ -52,7 +66,26 @@ export default function CalendarOptions({
   optionsHeightRef,
   hasError,
 }) {
-  const [rowSize, setRowSize] = useState(4);
+  const [rowSize, setRowSize] = useState(() => calculateRowSize());
+  useEffect(() => {
+    function updateRowSize() {
+      setRowSize(calculateRowSize());
+    }
+
+    const smallMatcher = matchMedia(smallMediaQuery);
+    smallMatcher.addEventListener('change', updateRowSize);
+
+    const smallDesktopMatcher = matchMedia(smallDesktopMediaQuery);
+    smallDesktopMatcher.addEventListener('change', () => {
+      setRowSize(calculateRowSize());
+    });
+
+    return () => {
+      smallMatcher.removeEventListener('change', updateRowSize);
+      smallDesktopMatcher.removeEventListener('change', updateRowSize);
+    };
+  }, []);
+
   const selectedDateOptions = additionalOptions?.getOptionsByDate(
     currentlySelectedDate,
   );
@@ -60,7 +93,7 @@ export default function CalendarOptions({
   if (selectedDateOptions) {
     const fieldName = additionalOptions.fieldName;
 
-    const maxCellsPerRow = 4;
+    const maxCellsPerRow = rowSize;
     const middleCellIndex = 2;
     const beginningCellIndex = [0, 1];
     const endCellIndexes = [3, 4];
@@ -113,38 +146,44 @@ export default function CalendarOptions({
 
               if (useCheckboxes) {
                 return (
-                  <CalendarCheckboxOption
-                    className={getCheckboxOptionClasses(index)}
+                  <div
                     key={`option-${index}`}
-                    id={`${currentlySelectedDate}_${index}`}
-                    fieldName={fieldName}
-                    value={o.value}
-                    checked={checked}
-                    onChange={() => handleSelectOption(dateObj)}
-                    label={o.label}
-                    secondaryLabel={o.secondaryLabel}
-                    disabled={
-                      !checked && selectedDates?.length === maxSelections
-                    }
-                  />
+                    className={getCheckboxOptionClasses(index)}
+                  >
+                    <CalendarCheckboxOption
+                      id={`${currentlySelectedDate}_${index}`}
+                      fieldName={fieldName}
+                      value={o.value}
+                      checked={checked}
+                      onChange={() => handleSelectOption(dateObj)}
+                      label={o.label}
+                      secondaryLabel={o.secondaryLabel}
+                      disabled={
+                        !checked && selectedDates?.length === maxSelections
+                      }
+                    />
+                  </div>
                 );
               }
 
               return (
-                <CalendarRadioOption
+                <div
                   className={getOptionClasses(
                     index,
                     selectedDateOptions.length,
                     rowSize,
                   )}
                   key={`option-${index}`}
-                  id={`${currentlySelectedDate}_${index}`}
-                  fieldName={fieldName}
-                  value={o.value}
-                  checked={checked}
-                  onChange={() => handleSelectOption(dateObj)}
-                  label={o.label}
-                />
+                >
+                  <CalendarRadioOption
+                    id={`${currentlySelectedDate}_${index}`}
+                    fieldName={fieldName}
+                    value={o.value}
+                    checked={checked}
+                    onChange={() => handleSelectOption(dateObj)}
+                    label={o.label}
+                  />
+                </div>
               );
             })}
           </div>

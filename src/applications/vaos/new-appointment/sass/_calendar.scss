@@ -134,27 +134,10 @@
 .vaos-calendar__options {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 8px;
-}
-
-.vaos-calendar__options--checkbox {
-  border-radius: 5px;
-  padding: 12px 6px;
   margin: 0 4px;
 
   @include media($small-screen) {
     margin: 0 8px;
-  }
-}
-
-.vaos-calendar__options-row {
-  display: flex;
-  width: 100%;
-  border-radius: 5px;
-
-  @include media($small-screen) {
-    display: inline-flex;
-    width: auto;
   }
 }
 
@@ -166,7 +149,7 @@
   position: relative;
 
   @include media($small-screen) {
-    width: 33%;
+    width: 33.3%;
   }
 
   @include media($small-desktop-screen) {
@@ -229,12 +212,11 @@
   flex: 1;
   flex-direction: column;
   padding: 7px 10px;
-  margin: 0 8px;
   min-width: 105px;
 }
 
 .vaos-calendar__option--radio {
-  align-items: center;
+  display: block;
   padding: 8px 4px;
   background-color: $color-white;
 }
