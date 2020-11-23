@@ -11,7 +11,6 @@ export const veteranPathPageNames = {
   noDisabilityRating: 'noDisabilityRating',
   yesActiveDutySeparation: 'yesActiveDutySeparation',
   noActiveDutySeparation: 'noActiveDutySeparation',
-  interestedInEmploymentHelp: 'interestedInEmploymentHelp',
   notInterestedInEmploymentHelp: 'notInterestedInEmploymentHelp',
 };
 

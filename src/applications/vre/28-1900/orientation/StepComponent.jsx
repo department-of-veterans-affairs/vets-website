@@ -1,18 +1,36 @@
 import React from 'react';
+import SegmentedProgressBar from '@department-of-veterans-affairs/formation-react/SegmentedProgressBar';
+import { orientationSteps } from './utils';
 
 const StepComponent = props => {
   const { step } = props;
+  const stepTotal = orientationSteps.length;
+  const data = orientationSteps[step];
   return (
     <div>
-      <h3>{step.title}</h3>
+      <h3 className="vads-u-margin-top--0">
+        {data.number}. {data.title}
+      </h3>
+      <p className="vads-u-font-size--h4">
+        Veteran Readiness and Employment orientation
+      </p>
+      <div className="vads-u-margin-bottom--3">
+        <SegmentedProgressBar current={data.number} total={stepTotal} />
+      </div>
       <iframe
-        width="100%"
-        height="450"
-        src={`https://www.youtube.com/embed/${step.path}`}
-        title={step.title}
+        width="325px"
+        height="185px"
+        src={`https://www.youtube.com/embed/${data.path}`}
+        title={data.title}
         frameBorder="0"
         allowFullScreen
       />
+      <p>{data.desc}</p>
+      <ul>
+        {data.list.map((item, index) => {
+          return <li key={index}>{item}</li>;
+        })}
+      </ul>
     </div>
   );
 };

@@ -9,7 +9,6 @@ import noDisabilityRating from './veteran/02-noDisabilityRating';
 import yesActiveDutySeparation from './veteran/03-yesActiveDutySeparation';
 import noActiveDutySeparation from './veteran/03-noActiveDutySeparation';
 import notInterestedInEmploymentHelp from './veteran/04-notInterestedInEmploymentHelp';
-import interestedInEmploymentHelp from './veteran/04-yesInterestedInEmploymentHelp';
 
 // Service Member Path Imports
 import isServiceMember from './service-member/isServiceMember';
@@ -36,7 +35,6 @@ export default [
   noDisabilityRating,
   yesActiveDutySeparation,
   noActiveDutySeparation,
-  interestedInEmploymentHelp,
   notInterestedInEmploymentHelp,
   noHonorableDischargeSM,
   yesHonorableDischargeSM,

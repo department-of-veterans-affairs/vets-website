@@ -12,7 +12,8 @@ const isVeteran = ({ setPageState, state = {} }) => (
     name={`${veteranPathPageNames.isVeteran}-option`}
     label={
       <p>
-        Did you receive an <strong>other than</strong> dishonorable discharge?
+        Did you receive a discharge status <strong>other than</strong>{' '}
+        dishonorable?
       </p>
     }
     id={`${veteranPathPageNames.isVeteran}-option`}
