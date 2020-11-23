@@ -82,8 +82,8 @@ function goBack({ routeToPreviousAppointmentPage, history }) {
   return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ data, setValidationError }) {
-  if (userSelectedSlot(data)) {
+function validate({ calendarData, setValidationError }) {
+  if (userSelectedSlot(calendarData)) {
     setValidationError(null);
   } else {
     setValidationError(missingDateError);

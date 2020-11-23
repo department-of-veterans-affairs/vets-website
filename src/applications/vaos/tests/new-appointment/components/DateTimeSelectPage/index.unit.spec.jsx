@@ -302,9 +302,16 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(screen.findByText('Your earliest appointment time')).to.be.ok;
 
     // 2. Simulate user selecting a date
-    let button = screen.getByLabelText(
+    let button = screen.queryByLabelText(
       new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
     );
+
+    if (!button) {
+      userEvent.click(screen.getByText(/^Next/));
+      button = await screen.findByLabelText(
+        new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+      );
+    }
 
     userEvent.click(button);
 
@@ -332,9 +339,17 @@ describe('VAOS <DateTimeSelectPage>', () => {
     }
 
     // 4. Simulate user selecting a date
-    button = screen.getByLabelText(
+    button = screen.queryByLabelText(
       new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
     );
+
+    if (!button) {
+      userEvent.click(screen.getByText(/^Next/));
+      button = await screen.findByLabelText(
+        new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
+      );
+    }
+
     userEvent.click(button);
     expect(
       await screen.findByRole('radio', { name: '1:00 PM option selected' }),

@@ -46,22 +46,11 @@ describe('VAOS <DateTimeRequestPage>', () => {
           name: moment().format('MMMM YYYY'),
         }),
       ).to.be.ok;
-      expect(
-        screen.getByRole('heading', {
-          level: 2,
-          name: moment()
-            .add(1, 'M')
-            .format('MMMM YYYY'),
-        }),
-      ).to.be.ok;
 
       // Find all available appointments for the current month
       const currentMonth = moment().format('MMMM');
-      const nextMonth = moment()
-        .add(1, 'month')
-        .format('MMMM');
       const buttons = screen
-        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
+        .getAllByLabelText(new RegExp(currentMonth))
         .filter(button => button.disabled === false);
 
       // it should allow the user to select morning for currently selected date
@@ -124,41 +113,23 @@ describe('VAOS <DateTimeRequestPage>', () => {
         expect(screen.history.push.called).to.be.false;
       });
 
-      // it should allow the user to view the next 2 month if viewing the current month
       button = screen.getByText('Next');
       userEvent.click(button);
       expect(
         screen.getByRole('heading', {
           level: 2,
           name: moment()
-            .add(2, 'M')
-            .format('MMMM YYYY'),
-        }),
-      ).to.be.ok;
-      expect(
-        screen.getByRole('heading', {
-          level: 2,
-          name: moment()
-            .add(3, 'M')
+            .add(1, 'M')
             .format('MMMM YYYY'),
         }),
       ).to.be.ok;
 
-      // it should allow the user to view the previous 2 calendar months when not viewing the current month
       button = screen.getByText('Previous');
       userEvent.click(button);
       expect(
         screen.getByRole('heading', {
           level: 2,
           name: moment().format('MMMM YYYY'),
-        }),
-      ).to.be.ok;
-      expect(
-        screen.getByRole('heading', {
-          level: 2,
-          name: moment()
-            .add(1, 'M')
-            .format('MMMM YYYY'),
         }),
       ).to.be.ok;
     });
@@ -185,12 +156,20 @@ describe('VAOS <DateTimeRequestPage>', () => {
 
       // Find all available appointments for the current month
       const currentMonth = moment().format('MMMM');
-      const nextMonth = moment()
-        .add(1, 'month')
-        .format('MMMM');
-      const buttons = screen
-        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
+      let buttons = screen
+        .getAllByLabelText(new RegExp(currentMonth))
         .filter(button => button.disabled === false);
+
+      if (buttons.length < 4) {
+        userEvent.click(screen.getByText(/^Next/));
+        const nextMonth = moment().add(1, 'month');
+        await screen.findByRole('heading', {
+          name: nextMonth.format('MMMM YYYY'),
+        });
+        buttons = screen
+          .getAllByLabelText(new RegExp(nextMonth.format('MMMM')))
+          .filter(button => button.disabled === false);
+      }
 
       // it should display an alert when the users selects more than the allowed dates
       // 1. Simulate user selecting a date
@@ -253,12 +232,20 @@ describe('VAOS <DateTimeRequestPage>', () => {
 
       // Find all available appointments for the current month
       const currentMonth = moment().format('MMMM');
-      const nextMonth = moment()
-        .add(1, 'month')
-        .format('MMMM');
-      const buttons = screen
-        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
+      let buttons = screen
+        .getAllByLabelText(new RegExp(currentMonth))
         .filter(button => button.disabled === false);
+
+      if (buttons.length < 2) {
+        userEvent.click(screen.getByText(/^Next/));
+        const nextMonth = moment().add(1, 'month');
+        await screen.findByRole('heading', {
+          name: nextMonth.format('MMMM YYYY'),
+        });
+        buttons = screen
+          .getAllByLabelText(new RegExp(nextMonth.format('MMMM')))
+          .filter(button => button.disabled === false);
+      }
 
       // it should display an alert when the users selects more than the allowed dates
       // 1. Simulate user selecting a date

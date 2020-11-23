@@ -73,16 +73,14 @@ export default function CalendarOptions({
     }
 
     const smallMatcher = matchMedia(smallMediaQuery);
-    smallMatcher.addEventListener('change', updateRowSize);
+    smallMatcher.addListener(updateRowSize);
 
     const smallDesktopMatcher = matchMedia(smallDesktopMediaQuery);
-    smallDesktopMatcher.addEventListener('change', () => {
-      setRowSize(calculateRowSize());
-    });
+    smallDesktopMatcher.addListener(updateRowSize);
 
     return () => {
-      smallMatcher.removeEventListener('change', updateRowSize);
-      smallDesktopMatcher.removeEventListener('change', updateRowSize);
+      smallMatcher.removeListener(updateRowSize);
+      smallDesktopMatcher.removeListener(updateRowSize);
     };
   }, []);
 
