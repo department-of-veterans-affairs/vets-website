@@ -14,6 +14,7 @@ import { CONFIRMED } from '../../constants/addressValidationMessages';
 import {
   isSuccessfulTransaction,
   isFailedTransaction,
+  failedTransactionStatus,
 } from '../util/transactions';
 
 export const VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS =
@@ -130,7 +131,7 @@ export function refreshTransaction(
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
-            'error-key': transaction?.errors,
+            'error-key': failedTransactionStatus(transactionRefreshed),
           });
         }
       }
@@ -313,7 +314,7 @@ export const validateAddress = (
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
       'profile-section': analyticsSectionName,
-      'error-key': error?.status,
+      'error-key': `${error[0]?.code}_${error[0]?.status}`,
     });
 
     return dispatch({
