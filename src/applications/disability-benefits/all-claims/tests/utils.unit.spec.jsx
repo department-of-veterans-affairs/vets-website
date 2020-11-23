@@ -1107,5 +1107,15 @@ describe('526 v2 depends functions', () => {
         }),
       ).to.be.false;
     });
+    it('should return false when form526 confirmation copy feature flag is undefined', () => {
+      expect(
+        confirmationEmailFeature({
+          featureToggles: {
+            /* eslint-disable camelcase */
+            form526_confirmation_email: true,
+          },
+        }),
+      ).to.be.false;
+    });
   });
 });

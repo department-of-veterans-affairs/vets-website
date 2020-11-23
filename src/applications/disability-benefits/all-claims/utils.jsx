@@ -950,5 +950,10 @@ export const confirmationEmailFeature = state => {
     FEATURE_FLAG_NAMES.form526ConfirmationEmailShowCopy
   ];
 
-  return isForm526ConfirmationEmailOn && isForm526ConfirmationEmailShowCopyOn;
+  return [
+    isForm526ConfirmationEmailOn,
+    isForm526ConfirmationEmailShowCopyOn,
+  ].includes(undefined)
+    ? false
+    : isForm526ConfirmationEmailOn && isForm526ConfirmationEmailShowCopyOn;
 };
