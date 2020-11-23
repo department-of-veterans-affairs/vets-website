@@ -18,7 +18,17 @@ const index = props => {
               key={appointment.id}
               data={questionnaire}
               Actions={() => (
-                <button className="va-button">Answer questions</button>
+                <a
+                  className="usa-button va-button"
+                  href={`/healthcare/questionnaire?id=${appointment.id}`}
+                  aria-label={`Fill out your pre-appointment questionnaire for your primary care visit at ${
+                    appointment.facilityName
+                  } on ${moment(appointment.appointmentTime).format(
+                    'MMMM, D, YYYY',
+                  )}`}
+                >
+                  Answer questions
+                </a>
               )}
               DueDate={() => {
                 const dueDate = moment(appointment.appointmentTime).subtract(
