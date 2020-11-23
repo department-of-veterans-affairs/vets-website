@@ -91,7 +91,7 @@ export function refreshTransaction(
 ) {
   return async (dispatch, getState) => {
     try {
-      const { transactionId } = transaction.data.attributes;
+      const { transactionId, metaData } = transaction.data.attributes;
       const state = getState();
       const isAlreadyAwaitingUpdate = state.vapService.transactionsAwaitingUpdate.includes(
         transactionId,
@@ -131,7 +131,7 @@ export function refreshTransaction(
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
-            'error-key': failedTransactionStatus(transactionRefreshed),
+            'error-key': `${metaData?.code}-address-save-failure`,
           });
         }
       }
@@ -314,7 +314,9 @@ export const validateAddress = (
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
       'profile-section': analyticsSectionName,
-      'error-key': `${error[0]?.code}_${error[0]?.status}`,
+      'error-key': `${error.errors?.[0]?.code}_${
+        error.errors?.[0]?.status
+      }-address-suggestion-failure`,
     });
 
     return dispatch({
