@@ -11,7 +11,7 @@ import {
   errorMessage,
 } from '../content/confirmation-poll';
 
-import { NULL_CONDITION_STRING } from '../constants';
+import { NULL_CONDITION_STRING, submissionStatuses } from '../constants';
 
 const template = (props, title, content, submissionMessage, messageType) => {
   const { fullName, disabilities, submittedAt } = props;
@@ -50,7 +50,8 @@ const template = (props, title, content, submissionMessage, messageType) => {
 
   return (
     <div>
-      {props.areConfirmationEmailTogglesOn ? (
+      {props.areConfirmationEmailTogglesOn &&
+      props.submissionStatus !== submissionStatuses.apiFailure ? (
         <h2 className="vads-u-font-size--h5" id="note-email">
           We'll send you an email to confirm that we received your claim. You
           can also print this page for your records.
