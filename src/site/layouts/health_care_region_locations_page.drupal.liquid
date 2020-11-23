@@ -28,8 +28,7 @@
               {% include 'src/site/includes/facilityListing.drupal.liquid' with entity = other %}
             {% endfor %}
             {% if fieldOtherVaLocations != empty and fieldOtherVaLocations.length %}
-              <h2 class="medium-screen:vads-u-margin-bottom--4" id="other-nearby-va-locations">Other
-                              nearby VA locations</h2>
+              <h2 class="medium-screen:vads-u-margin-bottom--4" id="other-nearby-va-locations">Other nearby VA locations</h2>
               <div data-widget-type="other-facility-locations-list" data-facilities="{{ fieldOtherVaLocations }}"></div>
             {% endif %}
           </section>

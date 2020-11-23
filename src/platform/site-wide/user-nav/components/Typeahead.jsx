@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
 import debounce from 'platform/utilities/data/debounce';
-
-export const isTypeaheadEnabled =
-  !environment.isProduction() && document.location.pathname === '/';
 
 export const typeaheadListId = 'onsite-search-typeahead';
 
-export default class Typeahead extends React.Component {
+export class Typeahead extends React.Component {
   constructor(props) {
     super(props);
     this.getSuggestions = debounce(
@@ -49,6 +45,11 @@ export default class Typeahead extends React.Component {
   }
 
   render() {
+    // if the feature toggle is off, don't render any suggestions
+    if (!this.props.searchTypeaheadEnabled) {
+      return null;
+    }
+
     return (
       <datalist id={typeaheadListId}>
         {this.state.suggestions.map(suggestion => (
@@ -62,8 +63,11 @@ export default class Typeahead extends React.Component {
 Typeahead.propTypes = {
   userInput: PropTypes.string,
   debounceRate: PropTypes.number,
+  searchTypeaheadEnabled: PropTypes.bool,
 };
 
 Typeahead.defaultProps = {
   debounceRate: 200,
 };
+
+export default Typeahead;
