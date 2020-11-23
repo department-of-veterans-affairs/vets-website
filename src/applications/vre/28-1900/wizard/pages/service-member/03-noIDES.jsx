@@ -1,15 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { serviceMemberPathPageNames } from '../pageList';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_INELIGIBLE,
-  CAREERS_EMPLOYMENT_ROOT_URL,
-} from 'applications/vre/28-1900/constants';
+import { CAREERS_EMPLOYMENT_ROOT_URL } from 'applications/vre/28-1900/constants';
 
 const NoIDES = () => {
-  useEffect(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
-  });
   return (
     <div className="feature">
       <p>

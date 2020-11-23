@@ -1,14 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { serviceMemberPathPageNames } from '../pageList';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_INELIGIBLE,
-} from 'applications/vre/28-1900/constants';
 
 const NoHonorableDischargeSM = () => {
-  useEffect(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
-  });
   return (
     <div className="feature">
       <p>

@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-// import { focusElement } from 'platform/utilities/ui';
+import Scroll from 'react-scroll';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { getEligiblePages } from 'platform/forms-system/src/js/routing';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo(getScrollOptions());
+};
 
 const IntroductionPage = props => {
   const [pageList, setPageList] = useState([]);
@@ -19,6 +25,8 @@ const IntroductionPage = props => {
         );
       };
       setPageList(getPageList());
+      focusElement('.schemaform-title > h1');
+      scrollToTop();
     },
     [props.form.data, props.route.pageList],
   );

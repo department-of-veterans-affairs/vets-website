@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import { serviceMemberPathPageNames } from '../pageList';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/vre/28-1900/constants';
+import { WIZARD_STATUS_COMPLETE } from 'applications/vre/28-1900/constants';
 
 const YesVaMemorandum = props => {
   const { setWizardStatus } = props;
   useEffect(
     () => {
-      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      setWizardStatus();
+      setWizardStatus(WIZARD_STATUS_COMPLETE);
     },
     [setWizardStatus],
   );

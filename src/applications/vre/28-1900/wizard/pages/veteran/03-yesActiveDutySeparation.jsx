@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import { veteranPathPageNames } from '../pageList';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/vre/28-1900/constants';
+import { WIZARD_STATUS_COMPLETE } from 'applications/vre/28-1900/constants';
 
 const YesActiveDutySeparation = props => {
   const { setWizardStatus } = props;
   useEffect(
     () => {
-      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      setWizardStatus();
+      setWizardStatus(WIZARD_STATUS_COMPLETE);
     },
     [setWizardStatus],
   );

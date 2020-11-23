@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
 import Wizard from 'applications/static-pages/wizard';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
-  CHAPTER_31_ROOT_URL,
-} from 'applications/vre/28-1900/constants';
+import { WIZARD_STATUS_COMPLETE } from 'applications/vre/28-1900/constants';
 import pages from 'applications/vre/28-1900/wizard/pages';
 import OrientationApp from 'applications/vre/28-1900/orientation/OrientationApp';
 
-const OrientationWizardContainer = () => {
+const OrientationWizardContainer = props => {
   const [showOrientation, setShowOrientation] = useState(false);
   const [showFormStartButton, setShowFormStartButton] = useState(false);
+  const { handleWizardUpdate } = props;
   // pass this down to wizard children so showOrientation can be updated once
   // a user makes it through a valid wizard flow
-  const showOrientationHandler = () => {
-    const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
-    setShowOrientation(wizardStatus);
+  const showOrientationHandler = status => {
+    setShowOrientation(status);
   };
 
   const showChapter31FormStartButton = () => {
@@ -46,9 +42,9 @@ const OrientationWizardContainer = () => {
           <strong>If you already know this is the correct form,</strong> you can
           go directly to the online application without answering questions.{' '}
           <a
-            href={`${CHAPTER_31_ROOT_URL}/introduction`}
+            href="#"
             onClick={() => {
-              sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+              handleWizardUpdate(WIZARD_STATUS_COMPLETE);
             }}
           >
             Apply online with VA Form 28-1900
@@ -70,7 +66,7 @@ const OrientationWizardContainer = () => {
             <a
               className="usa-button-primary va-button-primary"
               onClick={() => {
-                window.location = `${CHAPTER_31_ROOT_URL}`;
+                handleWizardUpdate(WIZARD_STATUS_COMPLETE);
               }}
             >
               Apply for Veteran Readiness and Employment benefits
