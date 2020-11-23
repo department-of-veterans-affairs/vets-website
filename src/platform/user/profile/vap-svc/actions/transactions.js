@@ -14,7 +14,6 @@ import { CONFIRMED } from '../../constants/addressValidationMessages';
 import {
   isSuccessfulTransaction,
   isFailedTransaction,
-  failedTransactionStatus,
 } from '../util/transactions';
 
 export const VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS =

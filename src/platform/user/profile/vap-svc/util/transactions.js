@@ -76,10 +76,6 @@ export function isFailedTransaction(transaction) {
   return FAILURE_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
-export function failedTransactionStatus(transaction) {
-  return FAILURE_STATUSES[(transaction?.data.attributes.transactionStatus)];
-}
-
 function matchErrorCode(codeSet, transaction) {
   // Create a codeSet that contains all the values of the passed-in codeSet,
   // with and without a `VET360_` prefix. The `VET360_` prefix is added by our
