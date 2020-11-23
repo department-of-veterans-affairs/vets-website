@@ -6,7 +6,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 import { isWideScreen } from '~/platform/utilities/accessibility/index';
-import { selectProfile } from '~/platform/user/selectors';
+import {
+  hasVAPServiceConnectionError,
+  selectProfile,
+} from '~/platform/user/selectors';
 
 import {
   directDepositLoadError,
@@ -119,6 +122,7 @@ const mapStateToProps = state => {
     showNotAllDataAvailableError:
       !!directDepositLoadError(state) ||
       !!fullNameLoadError(state) ||
+      !!hasVAPServiceConnectionError(state) ||
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),
   };
