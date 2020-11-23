@@ -105,7 +105,7 @@ const checkDeployability = () => {
     .canDeploy({
       pactDir: pactsFolder,
       version: commitHash,
-      tag: 'master',
+      tag: 'vagovteam-16325',
     })
     .then(handleStatus);
 };
