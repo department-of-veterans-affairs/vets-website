@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-  CHAPTER_31_ROOT_URL,
-  ORIENTATION_STATUS,
-} from 'applications/vre/28-1900/constants';
+import { ORIENTATION_STATUS } from 'applications/vre/28-1900/constants';
 import StepComponent from './StepComponent';
 
-const OrientationApp = () => {
+const OrientationApp = props => {
   const [step, setStep] = useState(0);
+  const { formStartHandler } = props;
   useEffect(
     () => {
       if (step === 4) {
@@ -32,14 +30,13 @@ const OrientationApp = () => {
             if (step < 4) {
               setStep(step + 1);
             } else {
-              window.location = `${CHAPTER_31_ROOT_URL}`;
-              sessionStorage.setItem(ORIENTATION_STATUS, true);
+              formStartHandler();
             }
           }}
           type="button"
           className="usa-button-primary"
         >
-          {step < 4 ? 'Continue »' : 'Apply for chapter 31 benefits'}
+          Continue »
         </a>
       </div>
     </div>

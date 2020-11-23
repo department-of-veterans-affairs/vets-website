@@ -91,6 +91,7 @@ const IntroductionPage = props => {
         <LoadingIndicator message="Checking status..." />
       ) : (
         <SaveInProgressIntro
+          buttonOnly
           prefillEnabled={props.route.formConfig.prefillEnabled}
           messages={props.route.formConfig.savedFormMessages}
           pageList={pageList?.pages}

@@ -10,12 +10,16 @@ import OrientationApp from 'applications/vre/28-1900/orientation/OrientationApp'
 
 const OrientationWizardContainer = () => {
   const [showOrientation, setShowOrientation] = useState(false);
-
+  const [showFormStartButton, setShowFormStartButton] = useState(false);
   // pass this down to wizard children so showOrientation can be updated once
   // a user makes it through a valid wizard flow
-  const update = () => {
+  const showOrientationHandler = () => {
     const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
     setShowOrientation(wizardStatus);
+  };
+
+  const showChapter31FormStartButton = () => {
+    setShowFormStartButton(true);
   };
 
   return (
@@ -50,8 +54,29 @@ const OrientationWizardContainer = () => {
             Apply online with VA Form 28-1900
           </a>
         </p>
-        <Wizard pages={pages} expander={false} setWizardStatus={update} />
-        {showOrientation && <OrientationApp />}
+        <Wizard
+          pages={pages}
+          expander={false}
+          setWizardStatus={showOrientationHandler}
+        />
+        {showOrientation && (
+          <OrientationApp formStartHandler={showChapter31FormStartButton} />
+        )}
+        {showFormStartButton && (
+          <div className="vads-u-padding--3 vads-u-background-color--gray-lightest">
+            <p>
+              <strong>Thank you for viewing the VR&E orientation.</strong>
+            </p>
+            <a
+              className="usa-button-primary va-button-primary"
+              onClick={() => {
+                window.location = `${CHAPTER_31_ROOT_URL}`;
+              }}
+            >
+              Apply for Veteran Readiness and Employment benefits
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );
