@@ -161,15 +161,6 @@ export const validateSSNIsUnique = (errors, formData) => {
   }
 };
 
-// export const facilityNameMaxLength = (errors, formData) => {
-//   const facilityNameLength = formData.veteranLastTreatmentFacilityName?.length;
-//   if (facilityNameLength > 80) {
-//     errors.addError(
-//       "You've entered too many characters, please enter less than 80 characters.",
-//     );
-//   }
-// };
-
 export const shouldHideAlert = formData => {
   const hasPrimary = formData[primaryCaregiverFields.hasPrimaryCaregiver];
   const hasSecondary =
