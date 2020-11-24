@@ -8,11 +8,9 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import {
   FacilityInfo,
   PleaseSelectVAFacility,
-  AdditionalCaregiverInfo,
   VeteranSSNInfo,
   PrimaryCaregiverInfo,
   SecondaryCaregiverInfo,
-  SecondaryRequiredAlert,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
@@ -23,7 +21,6 @@ import {
   medicalCentersByState,
   validateSSNIsUnique,
   facilityNameMaxLength,
-  shouldHideAlert,
 } from 'applications/caregivers/helpers';
 
 const emptyFacilityList = [];
@@ -122,18 +119,6 @@ export default {
           },
         },
       ],
-    },
-    secondaryRequiredAlert: {
-      'ui:title': ' ',
-      'ui:widget': SecondaryRequiredAlert,
-      'ui:options': {
-        hideIf: formData => shouldHideAlert(formData),
-      },
-    },
-    hasSecondaryCaregiverTwoUI: {
-      'ui:title': ' ',
-      'ui:description': AdditionalCaregiverInfo,
-      'ui:widget': 'yesNo',
     },
   },
   vetUI: {

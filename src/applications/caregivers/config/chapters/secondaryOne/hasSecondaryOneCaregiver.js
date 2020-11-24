@@ -6,7 +6,7 @@ const {
   secondaryRequiredAlert,
 } = definitions.sharedItems;
 
-const hasSecondaryCaregiverPage = {
+const hasSecondaryOneCaregiverPage = {
   uiSchema: {
     [primaryCaregiverFields.hasSecondaryCaregiverOne]: hasSecondaryCaregiverOneUI,
     'view:secondaryAlert': secondaryRequiredAlert,
@@ -24,4 +24,4 @@ const hasSecondaryCaregiverPage = {
   },
 };
 
-export default hasSecondaryCaregiverPage;
+export default hasSecondaryOneCaregiverPage;
