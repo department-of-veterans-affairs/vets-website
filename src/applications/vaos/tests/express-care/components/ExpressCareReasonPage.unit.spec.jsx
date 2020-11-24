@@ -35,7 +35,10 @@ describe('VAOS integration: Express Care form', () => {
       store,
     });
 
-    await screen.findByText('Select a reason for your Express Care request');
+    await screen.findByLabelText('Cough');
+    expect(screen.getByText('Select a reason for your Express Care request')).to
+      .exist;
+
     userEvent.click(screen.getByLabelText('Cough'));
     expect(screen.baseElement).to.contain.text(
       'If you need a mental health appointment today',

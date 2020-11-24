@@ -1,152 +1,205 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
+import userEvent from '@testing-library/user-event';
+import { cleanup } from '@testing-library/react';
+import { waitFor } from '@testing-library/dom';
 
-import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import useFormPageTester from '../../useFormPageTester';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
-import { CommunityCarePreferencesPage } from '../../../new-appointment/components/CommunityCarePreferencesPage';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+  setTypeOfCare,
+  setTypeOfFacility,
+} from '../../mocks/setup';
+import { getParentSiteMock } from '../../mocks/v0';
+import {
+  mockCommunityCareEligibility,
+  mockParentSites,
+} from '../../mocks/helpers';
 
-function CommunityCarePreferencesPageTester(props) {
-  const formProps = useFormPageTester(
-    props.data,
-    'openCommunityCarePreferencesPage',
-  );
-  return <CommunityCarePreferencesPage {...props} {...formProps} />;
-}
+import CommunityCarePreferencesPage from '../../../new-appointment/components/CommunityCarePreferencesPage';
 
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingCommunityCare: true,
+  },
+  user: {
+    profile: {
+      facilities: [{ facilityId: '983', isCerner: false }],
+    },
+  },
+};
 describe('VAOS <CommunityCarePreferencesPage>', () => {
-  it('should render', () => {
-    const form = mount(<CommunityCarePreferencesPageTester />);
-
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
-  });
-
-  it('should render provider fields', () => {
-    const form = mount(
-      <CommunityCarePreferencesPageTester
-        data={{ hasCommunityCareProvider: true }}
-        parentFacilitiesStatus={FETCH_STATUS.succeeded}
-      />,
-    );
-
-    expect(form.find('input').length).to.equal(10);
-    form.unmount();
-  });
-
-  it('should not submit empty form', () => {
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <CommunityCarePreferencesPageTester
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        parentFacilitiesStatus={FETCH_STATUS.succeeded}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(routeToNextAppointmentPage.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should update data after change', () => {
-    const form = mount(<CommunityCarePreferencesPageTester />);
-
-    selectRadio(form, 'root_hasCommunityCareProvider', 'Y');
-
-    expect(form.find('#root_hasCommunityCareProviderYes').getDOMNode().checked)
-      .to.be.true;
-    form.unmount();
-  });
-
-  it('should display link to facility locator', () => {
-    const form = mount(<CommunityCarePreferencesPageTester />);
-    selectRadio(form, 'root_hasCommunityCareProvider', 'Y');
-    const facilityLocatorLink = form.find('a');
-    expect(facilityLocatorLink.props().href).to.equal(
-      '/find-locations/?facilityType=cc_provider',
-    );
-    expect(form.text()).contains(
-      'Use the facility locator to find your preferred community care provider. Copy and paste their name and address below.',
-    );
-    form.unmount();
-  });
-
-  it('should submit with valid data', () => {
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <CommunityCarePreferencesPageTester
-        data={{ hasCommunityCareProvider: false, preferredLanguage: 'english' }}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
-  });
-
-  it('document title should match h1 text', () => {
-    const form = mount(<CommunityCarePreferencesPageTester />);
-    const pageTitle = 'Tell us your community care preferences';
-
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-
-    form.unmount();
-  });
-
-  it('should display error msg when phone number exceeds 10 char', () => {
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <CommunityCarePreferencesPageTester
-        data={{
-          hasCommunityCareProvider: true,
-          preferredLanguage: 'english',
-          communityCareProvider: {
-            practiceName: 'Practice name',
-            firstName: 'Jane',
-            lastName: 'Doe',
-            phone: '5555555555555555555555555',
-            address: {
-              street: '123 Test',
-              street2: 'line 2',
-              city: 'Northampton',
-              state: 'MA',
-              postalCode: '01060',
-            },
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
+  it('should render the page with appropriate inputs and prevent submission without required fields', async () => {
+    mockParentSites(
+      ['983'],
+      [
+        {
+          id: '983',
+          attributes: {
+            ...getParentSiteMock().attributes,
+            institutionCode: '983',
+            rootStationCode: '983',
+            parentStationCode: '983',
           },
-        }}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-      />,
+        },
+      ],
+    );
+    mockCommunityCareEligibility({
+      parentSites: ['983'],
+      supportedSites: ['983'],
+      careType: 'PrimaryCare',
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    const screen = renderWithStoreAndRouter(<CommunityCarePreferencesPage />, {
+      store,
+    });
+
+    await screen.findByText(
+      /do you have a preferred VA-approved community care provider for this primary care appointment/i,
     );
 
-    form.find('form').simulate('submit');
+    expect(screen.getAllByRole('radio').length).to.equal(2);
+    expect(screen.getAllByRole('combobox').length).to.equal(1);
+    expect(screen.queryAllByRole('textbox').length).to.equal(0);
 
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(routeToNextAppointmentPage.called).to.be.false;
-    form.unmount();
+    // Check provider fields display
+    userEvent.click(screen.getByLabelText('Yes'));
+
+    await screen.findByText(/to find your preferred community care provider/i);
+    expect(screen.getAllByRole('textbox').length).to.equal(8);
+    expect(screen.getAllByRole('combobox').length).to.equal(2);
+    expect(
+      screen.getByRole('link', { name: /facility locator/i }),
+    ).to.have.attribute('href', '/find-locations/?facilityType=cc_provider');
+    expect(screen.baseElement).to.contain.text(
+      'We’ll try to schedule your appointment',
+    );
+
+    // Continue without filling in required fields
+    userEvent.click(screen.getByText(/Continue/i));
+
+    expect((await screen.findAllByRole('alert')).length).to.equal(8);
+    expect(screen.history.push.called).to.be.false;
   });
 
-  it('should render alert message when user has preferred provider', () => {
-    const form = mount(
-      <CommunityCarePreferencesPageTester
-        data={{ hasCommunityCareProvider: true }}
-        parentFacilitiesStatus={FETCH_STATUS.succeeded}
-      />,
+  it('should update data and save it after page change', async () => {
+    mockParentSites(
+      ['983'],
+      [
+        {
+          id: '983',
+          attributes: {
+            ...getParentSiteMock().attributes,
+            institutionCode: '983',
+            rootStationCode: '983',
+            parentStationCode: '983',
+          },
+        },
+      ],
     );
+    mockCommunityCareEligibility({
+      parentSites: ['983'],
+      supportedSites: ['983'],
+      careType: 'PrimaryCare',
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    let screen = renderWithStoreAndRouter(<CommunityCarePreferencesPage />, {
+      store,
+    });
 
-    expect(form.text()).contains('We’ll try to schedule your appointment');
-    expect(form.text()).contains('Mailing address line 1');
-    form.unmount();
+    await screen.findAllByRole('radio');
+
+    expect(screen.getByRole('heading', { level: 1 })).to.have.text(
+      'Tell us your community care preferences',
+    );
+    expect(screen.getAllByRole('radio').length).to.equal(2);
+    expect(screen.getAllByRole('combobox').length).to.equal(1);
+
+    userEvent.selectOptions(screen.getByRole('combobox'), [
+      screen.getByText(/English/i),
+    ]);
+    userEvent.click(screen.getByLabelText(/^No/i));
+
+    await cleanup();
+    screen = renderWithStoreAndRouter(<CommunityCarePreferencesPage />, {
+      store,
+    });
+
+    expect((await screen.findByText(/English/i)).selected).to.be.true;
+
+    // Submit with required fields
+    userEvent.click(screen.getByText(/Continue/i));
+
+    await waitFor(() => {
+      expect(screen.history.push.called).to.be.true;
+    });
+  });
+
+  it('should display closest city question when user has multiple supported sites', async () => {
+    mockParentSites(
+      ['983'],
+      [
+        {
+          id: '983',
+          attributes: {
+            ...getParentSiteMock().attributes,
+            city: 'Bozeman',
+            stateAbbrev: 'MT',
+            institutionCode: '983',
+            rootStationCode: '983',
+            parentStationCode: '983',
+          },
+        },
+        {
+          id: '983GJ',
+          attributes: {
+            ...getParentSiteMock().attributes,
+            city: 'Belgrade',
+            stateAbbrev: 'MT',
+            institutionCode: '983GJ',
+            rootStationCode: '983',
+            parentStationCode: '983GJ',
+          },
+        },
+        {
+          id: '983GC',
+          attributes: {
+            ...getParentSiteMock().attributes,
+            institutionCode: '983GC',
+            rootStationCode: '983',
+            parentStationCode: '983GC',
+          },
+        },
+      ],
+    );
+    mockCommunityCareEligibility({
+      parentSites: ['983', '983GJ', '983GC'],
+      supportedSites: ['983', '983GJ'],
+      careType: 'PrimaryCare',
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    const screen = renderWithStoreAndRouter(<CommunityCarePreferencesPage />, {
+      store,
+    });
+
+    expect((await screen.findAllByRole('radio')).length).to.equal(4);
+    expect(screen.getByLabelText('Bozeman, MT')).to.exist;
+    expect(screen.getByLabelText('Belgrade, MT')).to.exist;
+
+    // Continue without filling in required fields
+    userEvent.click(screen.getByText(/Continue/i));
+
+    expect((await screen.findAllByRole('alert')).length).to.equal(3);
+    expect(screen.history.push.called).to.be.false;
   });
 });

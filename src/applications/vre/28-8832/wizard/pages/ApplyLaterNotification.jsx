@@ -6,16 +6,16 @@ const ApplyLaterNotification = () => {
   useEffect(() => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     recordEvent({
-      event: `howToWizard-notice-displayed`,
+      event: `howToWizard-alert-displayed`,
       'reason-for-notice': 'chose not to apply now',
     });
   });
 
   return (
-    <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--primary-alt-lightest">
+    <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest">
       <p className="vads-u-margin--0">
-        You can apply for career planning and guidance benefits when you’re
-        ready. Come back to this page to begin your application.
+        When you’re ready to apply for career planning and guidance, just come
+        back to this page to begin your application.
       </p>
     </div>
   );

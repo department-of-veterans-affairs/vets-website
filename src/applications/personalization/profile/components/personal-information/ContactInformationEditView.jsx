@@ -6,8 +6,8 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from '@@vap-svc/util/transactions';
+import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import ContactInformationActionButtons from './ContactInformationActionButtons';
-import Vet360EditModalErrorMessage from '@@vap-svc/components/base/Vet360EditModalErrorMessage';
 
 class ContactInformationEditView extends Component {
   static propTypes = {
@@ -114,6 +114,7 @@ class ContactInformationEditView extends Component {
         <div>
           <LoadingButton
             data-action="save-edit"
+            data-testid="save-edit-button"
             isLoading={isLoading}
             className="vads-u-width--auto vads-u-margin-top--0"
             disabled={!hasUnsavedEdits}
@@ -141,7 +142,7 @@ class ContactInformationEditView extends Component {
             className="vads-u-margin-bottom--1"
             data-testid="edit-error-alert"
           >
-            <Vet360EditModalErrorMessage
+            <VAPServiceEditModalErrorMessage
               title={title}
               error={error}
               clearErrors={clearErrors}

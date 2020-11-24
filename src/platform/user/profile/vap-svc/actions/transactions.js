@@ -57,7 +57,7 @@ export function fetchTransactions() {
       } else {
         response = { data: [] };
         // Uncomment the line below to simulate transactions being processed during initialization
-        // response = localVet360.getUserTransactions();
+        // response = localVAProfileService.getUserTransactions();
       }
       dispatch({
         type: VAP_SERVICE_TRANSACTIONS_FETCH_SUCCESS,
@@ -90,9 +90,9 @@ export function refreshTransaction(
 ) {
   return async (dispatch, getState) => {
     try {
-      const { transactionId } = transaction.data.attributes;
+      const { transactionId, metaData } = transaction.data.attributes;
       const state = getState();
-      const isAlreadyAwaitingUpdate = state.vet360.transactionsAwaitingUpdate.includes(
+      const isAlreadyAwaitingUpdate = state.vapService.transactionsAwaitingUpdate.includes(
         transactionId,
       );
 
@@ -130,6 +130,10 @@ export function refreshTransaction(
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
+            'error-key': `${metaData?.code}-address-save-failure`,
+          });
+          recordEvent({
+            'error-key': undefined,
           });
         }
       }
@@ -312,6 +316,13 @@ export const validateAddress = (
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
       'profile-section': analyticsSectionName,
+      'error-key': `${error.errors?.[0]?.code}_${
+        error.errors?.[0]?.status
+      }-address-suggestion-failure`,
+    });
+
+    recordEvent({
+      'error-key': undefined,
     });
 
     return dispatch({

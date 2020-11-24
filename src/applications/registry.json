@@ -271,24 +271,6 @@
     }
   },
   {
-    "appName": "686 Dependent-status form",
-    "entryName": "686-dependent-status",
-    "rootUrl": "/disability-benefits/apply/dependents",
-    "template": {
-      "title": "Declaration Of Status Of Dependents",
-      "heading": "Declaration of status of dependents",
-      "display_title": "Add or remove a dependent",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "disability/",
-          "name": "Disability benefits"
-        }
-      ]
-    }
-  },
-  {
     "appName": "Request for Higher-Level Review",
     "entryName": "0996-higher-level-review",
     "rootUrl": "/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996",
@@ -772,7 +754,7 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": true,
+      "vagovprod": false,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }
@@ -802,7 +784,7 @@
     }
   },
   {
-    "appName": "28-8832-planning-and-guidance",
+    "appName": "Apply for Personalized Career Planning and Guidance with VA Form 28-8832",
     "entryName": "28-8832-planning-and-career-guidance",
     "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
     "template": {
@@ -813,11 +795,11 @@
       "breadcrumbs_override": [
         {
           "path": "careers-employment/education-and-career-counseling/",
-          "name": "Personalized Career Planning and Guidance"
+          "name": "Career planning and guidance"
         },
         {
           "path": "careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/introduction",
-          "name": "Apply for PCPG Form 28‑8832"
+          "name": "Apply for Personalized Career Planning and Guidance Form 28‑8832"
         }
       ]
     }
@@ -830,7 +812,17 @@
       "includeBreadcrumbs": true,
       "vagovprod": false,
       "layout": "page-react.html",
-      "title": "View Payments"
+      "title": "View Payments",
+      "breadcrumbs_override": [
+        {
+          "path": "va-payment-history/",
+          "name": "View your VA payment history"
+        },
+        {
+          "path": "va-payment-history/payments",
+          "name": "Your VA payments"
+        }
+      ]
     }
   },
   {
@@ -901,6 +893,7 @@
       "title:": "Search results",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
+      "private": true,
       "breadcrumbs_override": [
         {
           "path": "resources/",
@@ -911,6 +904,24 @@
           "name": "Search results"
         }
       ]
+    }
+  },
+  {
+    "appName": "Questionnaire List",
+    "entryName": "questionnaire-list",
+    "rootUrl": "/healthcare/list",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "My Messages",
+    "entryName": "messages",
+    "rootUrl": "/my-messages",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
     }
   }
 ]

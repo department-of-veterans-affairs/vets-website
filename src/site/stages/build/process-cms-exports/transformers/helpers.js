@@ -103,11 +103,18 @@ function getImageCrop(obj, imageStyle = null) {
           .join(', ')}.`,
       );
     }
-    const url = `/img/styles/${image.machine}/${
-      imageObj.image.derivative.url
-    }`.replace('public:/', 'public');
+    const url = `/img/styles/${
+      image.machine
+    }/public${imageObj.image.derivative.url.replace('/img', '')}`;
     imageObj.image.url = url;
-    imageObj.image.derivative.url = url;
+    // Derivative urls have a full path starting with
+    // 'https://{buildtype}.cms.va.gov/sites/default/files/', so add that here.
+    // It doesn't matter what the build type is since it gets stripped out in convertDrupalFilesToLocal
+    // so just use prod here
+    imageObj.image.derivative.url = `https://prod.cms.va.gov/sites/default/files/${url.replace(
+      '/img/',
+      '',
+    )}`;
     imageObj.image.derivative.width = image.width;
     imageObj.image.derivative.height = image.height;
     return imageObj;
@@ -227,13 +234,13 @@ module.exports = {
       createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
       createMetaTag('MetaValue', 'keywords', metaTags.keywords),
       createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
+      createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
+      createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
       createMetaTag(
         'MetaProperty',
         'og:image:height',
         metaTags.og_image_height,
       ),
-      createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
-      createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
     ].filter(t => t.value);
   },
 
@@ -374,5 +381,20 @@ module.exports = {
         .filter(filter || (() => true))
         .map(entity => assembleEntityTree(entity))
     );
+  },
+
+  /**
+   * Returns an object with a single key "entity" and value entity[key][0].
+   * This is a very common pattern.
+   * @param entity
+   * @param key
+   * @returns {{entity: *}}
+   */
+  entityObjectForKey(entity, key) {
+    return entity && entity[key]
+      ? {
+          entity: entity[key][0],
+        }
+      : null;
   },
 };

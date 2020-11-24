@@ -2,7 +2,7 @@ version: 2
 jobs:
   lint:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:14.15.0
     steps:
       - checkout
       - restore_cache:
@@ -24,7 +24,7 @@ jobs:
 
   unit-test:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:14.15.0
     steps:
       - checkout
       - restore_cache:
@@ -38,9 +38,10 @@ jobs:
             - ~/.cache/yarn
       - run: mkdir -p ./test-results
       - run:
-          command: ./script/run-isolated-tests.sh
+          command: yarn test:unit --coverage
           environment:
             MOCHA_FILE: ./test-results/test-results.xml
+      - run: node ./script/app-coverage-report.js
       - store_test_results:
           path: ./test-results
       - store_artifacts:
@@ -48,7 +49,7 @@ jobs:
 
   contract-test:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:14.15.0
     steps:
       - checkout
       - restore_cache:
@@ -77,7 +78,7 @@ jobs:
 
   can-i-deploy:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:14.15.0
     steps:
       - checkout
       - attach_workspace:
@@ -94,14 +95,14 @@ jobs:
 
   security-audit:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:14.15.0
     steps:
       - checkout
       - run: yarn security-check
 
   additional-linting:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:14.15.0
     steps:
       - checkout
       - restore_cache:
@@ -117,7 +118,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:14.15.0
     steps:
       - checkout
       - restore_cache:
@@ -133,7 +134,7 @@ jobs:
 
   eslint-check:
     docker:
-      - image: circleci/node:10.18
+      - image: circleci/node:14.15.0
     environment:
       CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
       OVERALL_REVIEW_COMMENT: >
@@ -159,7 +160,7 @@ jobs:
 
   sentry-check:
     docker:
-      - image: circleci/node:10.18
+      - image: circleci/node:14.15.0
     environment:
       CODE_PATTERN: Sentry\.
       OVERALL_REVIEW_COMMENT: >
@@ -186,7 +187,7 @@ jobs:
 
   icon-check:
     docker:
-      - image: circleci/node:10.18
+      - image: circleci/node:14.15.0
     environment:
       CODE_PATTERN: (<i )|(<i$)
       OVERALL_REVIEW_COMMENT: >
@@ -214,7 +215,7 @@ jobs:
   build-e2e:
     working_directory: ~/vets-website
     docker:
-      - image: cypress/base:10.15.3
+      - image: cypress/base:14.15.0
     resource_class: xlarge
     steps:
       - checkout
@@ -241,7 +242,7 @@ jobs:
   e2e-test:
     working_directory: ~/vets-website
     docker:
-      - image: cypress/base:10.15.3
+      - image: cypress/base:14.15.0
     resource_class: xlarge
     steps:
       - checkout

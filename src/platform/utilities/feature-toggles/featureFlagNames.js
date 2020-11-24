@@ -1,6 +1,5 @@
 export default Object.freeze({
   preEntryCovid19Screener: 'preEntryCovid19Screener',
-  dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
   dashboardShowDashboard2: 'dashboard_show_dashboard_2',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
@@ -23,6 +22,9 @@ export default Object.freeze({
   vaOnlineSchedulingExpressCare: 'vaOnlineSchedulingExpressCare',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingFlatFacilityPage: 'vaOnlineSchedulingFlatFacilityPage',
+  vaOnlineSchedulingFlatFacilityPageSacramento:
+    'vaOnlineSchedulingFlatFacilityPageSacramento',
+  vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
@@ -44,7 +46,6 @@ export default Object.freeze({
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
   stemSCOEmail: 'stem_sco_email',
-  stemTextMessageQuestion: 'stem_text_message_question',
   showHealthcareExperienceQuestionnaire:
     'showHealthcareExperienceQuestionnaire',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
@@ -60,4 +61,6 @@ export default Object.freeze({
   showChapter36: 'show_chapter_36',
   showChapter31: 'show_chapter_31',
   form1995EduUpdates: 'form_1995_edu_updates',
+  requestLockedPdfPassword: 'request_locked_pdf_password',
+  searchTypeaheadEnabled: 'search_typeahead_enabled',
 });

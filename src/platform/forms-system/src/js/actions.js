@@ -205,6 +205,7 @@ export function uploadFile(
   onChange,
   onError,
   trackingPrefix,
+  password,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -244,13 +245,17 @@ export function uploadFile(
       onError();
       return null;
     }
+    if (password) {
+      onChange({ name: file.name, uploading: true, password });
+    } else {
+      onChange({ name: file.name, uploading: true });
+    }
 
-    onChange({
-      name: file.name,
-      uploading: true,
-    });
-
-    const payload = uiOptions.createPayload(file, getState().form.formId);
+    const payload = uiOptions.createPayload(
+      file,
+      getState().form.formId,
+      password,
+    );
 
     const req = new XMLHttpRequest();
 
@@ -261,9 +266,15 @@ export function uploadFile(
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
 
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange(fileData);
+        onChange({ ...fileData, isEncrypted: !!password });
       } else {
         let errorMessage = req.statusText;
+        try {
+          // detail contains a better error message
+          errorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
+        } catch (error) {
+          // intentionally empty
+        }
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
             moment.unix(
@@ -272,21 +283,28 @@ export function uploadFile(
           )}.`;
         }
 
-        onChange({
-          name: file.name,
-          errorMessage,
-        });
-        Sentry.captureMessage(`vets_upload_error: ${req.statusText}`);
+        if (password) {
+          onChange({
+            file, // return file object to allow resubmit
+            name: file.name,
+            errorMessage,
+            isEncrypted: true,
+          });
+        } else {
+          onChange({ name: file.name, errorMessage });
+        }
+        Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();
       }
     });
 
     req.addEventListener('error', () => {
       const errorMessage = 'Network request failed';
-      onChange({
-        name: file.name,
-        errorMessage,
-      });
+      if (password) {
+        onChange({ name: file.name, errorMessage, password: file.password });
+      } else {
+        onChange({ name: file.name, errorMessage });
+      }
       Sentry.withScope(scope => {
         scope.setExtra('statusText', req.statusText);
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);

@@ -15,7 +15,14 @@ const transform = (entity, { ancestors }) => ({
   promote: getDrupalValue(entity.promote),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   entityPublished: isPublished(getDrupalValue(entity.status)),
-  fieldAuthor: entity.fieldAuthor[0] || null,
+  fieldAuthor: entity.fieldAuthor[0]
+    ? {
+        entity: {
+          title: entity.fieldAuthor[0].title,
+          fieldDescription: entity.fieldAuthor[0].fieldDescription,
+        },
+      }
+    : null,
   fieldFullStory: {
     processed: getWysiwygString(getDrupalValue(entity.fieldFullStory)),
   },

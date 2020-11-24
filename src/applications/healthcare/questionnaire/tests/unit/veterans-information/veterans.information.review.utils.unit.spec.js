@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { mount } from 'enzyme';
 
 import {
   addressToDisplay,
@@ -42,44 +43,25 @@ describe('healthcare-questionnaire -- veterans information utils --', () => {
   });
 
   it('addressToDisplay -- no data', () => {
-    const display = addressToDisplay(undefined);
-    expect(display).to.eql([]);
+    const label = 'my label';
+    const display = addressToDisplay(label, undefined);
+    expect(display).to.eql({ label });
   });
   it('addressToDisplay -- all data', () => {
     const address = {
       addressLine1: '123 Fake Street',
-      addressLine2: 'Apt 203',
-      addressLine3: 'The Nook below the stairs',
       city: 'DoesNotExistVille',
       stateCode: 'PA',
       zipCode: '12345',
     };
-    const display = addressToDisplay(address);
-    expect(display).to.eql([
-      {
-        label: 'Street Address 1',
-        value: '123 Fake Street',
-      },
-      {
-        label: 'Street Address 2',
-        value: 'Apt 203',
-      },
-      {
-        label: 'Street Address 3',
-        value: 'The Nook below the stairs',
-      },
-      {
-        label: 'City',
-        value: 'DoesNotExistVille',
-      },
-      {
-        label: 'State',
-        value: 'Pennsylvania',
-      },
-      {
-        label: 'Zip',
-        value: '12345',
-      },
-    ]);
+    const label = 'my label';
+
+    const display = addressToDisplay(label, address);
+    const component = mount(display.value);
+    expect(component.find('span.address').text()).to.equal('123 Fake Street');
+    expect(component.find('span.city-state-zip').text()).to.equal(
+      'DoesNotExistVille, PA 12345',
+    );
+    component.unmount();
   });
 });

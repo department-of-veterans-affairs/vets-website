@@ -37,14 +37,20 @@ function createPastEventListPages(page, drupalPagePath, files) {
 
   // separate current events from past events;
   allEvents.entities.forEach(eventTeaser => {
+    // Get startdate from fieldDate Object
     const startDate = eventTeaser.fieldDate.startDate;
-    // TODO - this line is throwing a build-time warning:
-    // Deprecation warning: value provided is not in a recognized RFC2822 or ISO format.
-    // moment construction falls back to js Date(), which is not reliable across all browsers
-    // and versions. Non RFC2822/ISO date formats are discouraged and will be removed
-    // in an upcoming major release.
-    // Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.
-    const isPast = moment().diff(startDate, 'days');
+
+    // Convert the string to a date object to suppress a deprecation warning
+    const startDateObj = new Date(startDate);
+
+    // Pass the date object into Moment for formatting
+    const startDateUtc = moment(startDateObj)
+      .utc()
+      .format();
+
+    // Check if the date is in the past
+    const isPast = moment().diff(startDateUtc, 'days');
+
     if (isPast >= 1) {
       pastEventTeasers.entities.push(eventTeaser);
     }
@@ -149,6 +155,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
       facilitySidebar: sidebar,
       entityUrl: hsEntityUrl,
       alert: page.alert,
+      bannerAlert: page.bannerAlert,
       title: page.title,
       regionNickname: page.fieldNicknameForThisFacility,
       clinicalHealthServices,

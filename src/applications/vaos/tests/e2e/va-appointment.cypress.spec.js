@@ -14,6 +14,7 @@ describe('VAOS direct schedule flow', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
+    cy.findAllByRole('tab').should('exist');
 
     // Start flow
     cy.findByText('Schedule an appointment').click();
@@ -69,6 +70,10 @@ describe('VAOS direct schedule flow', () => {
       );
       expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
+    cy.wait('@appointmentPreferences').should(xhr => {
+      const request = xhr.requestBody;
+      expect(request.emailAddress).to.eq('veteran@gmail.com');
+    });
 
     // Confirmation page
     newApptTests.confirmationPageTest(additionalInfo);
@@ -80,6 +85,7 @@ describe('VAOS direct schedule flow', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
+    cy.findAllByRole('tab').should('exist');
 
     // Start flow
     cy.findByText('Schedule an appointment').click();
@@ -146,6 +152,7 @@ describe('VAOS direct schedule flow', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
+    cy.findAllByRole('tab').should('exist');
 
     // Start flow
     cy.findByText('Schedule an appointment').click();

@@ -22,11 +22,32 @@ module.exports = {
         endValue: { type: 'string' }, //  2019-06-12T23:00:00
       },
     },
+    fieldDatetimeRangeTimezone: {
+      type: 'object',
+      properties: {
+        value: { type: 'number' },
+        endValue: { type: ['number', 'null'] },
+        timezone: { type: 'string' },
+      },
+    },
     fieldDescription: { type: ['string', 'null'] },
     fieldEventCost: { type: ['string', 'null'] },
     fieldEventCta: { type: ['string', 'null'] },
     fieldEventRegistrationrequired: { type: 'boolean' },
-    fieldFacilityLocation: { type: ['object', 'null'] }, // When it's an object, it's an entity of some sort
+    fieldFacilityLocation: {
+      type: ['object', 'null'],
+      properties: {
+        entity: {
+          type: 'object',
+          properties: {
+            entityUrl: { $ref: 'EntityUrl' },
+            title: { type: 'string' },
+          },
+          required: ['entityUrl', 'title'],
+        },
+      },
+      required: ['entity'],
+    },
     fieldLink: {
       type: ['object', 'null'],
       properties: {
@@ -53,6 +74,7 @@ module.exports = {
     'fieldAddress',
     'fieldBody',
     'fieldDate',
+    'fieldDatetimeRangeTimezone',
     'fieldDescription',
     'fieldEventCost',
     'fieldEventCta',
