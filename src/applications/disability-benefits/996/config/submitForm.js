@@ -7,8 +7,8 @@ export const buildEventData = ({ sameOffice, informalConference }) => {
     informalConf = informalConference === 'rep' ? 'yes-with-rep' : 'yes';
   }
   return {
-    // or 'no'; this event should be renamed to decision-reviews-sameOffice
-    'decision-reviews-differentOffice': sameOffice ? 'yes' : 'no',
+    // or 'no'
+    'decision-reviews-same-office-to-review': sameOffice ? 'yes' : 'no',
     // or 'no', or 'yes-with-rep'
     'decision-reviews-informalConf': informalConf,
   };

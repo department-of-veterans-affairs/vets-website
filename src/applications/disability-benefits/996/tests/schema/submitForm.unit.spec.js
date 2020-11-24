@@ -7,19 +7,19 @@ describe('HLR submit event data', () => {
     expect(
       buildEventData({ sameOffice: true, informalConference: 'no' }),
     ).to.deep.equal({
-      'decision-reviews-differentOffice': 'yes',
+      'decision-reviews-same-office-to-review': 'yes',
       'decision-reviews-informalConf': 'no',
     });
     expect(
       buildEventData({ sameOffice: false, informalConference: 'rep' }),
     ).to.deep.equal({
-      'decision-reviews-differentOffice': 'no',
+      'decision-reviews-same-office-to-review': 'no',
       'decision-reviews-informalConf': 'yes-with-rep',
     });
     expect(
       buildEventData({ sameOffice: false, informalConference: 'yes' }),
     ).to.deep.equal({
-      'decision-reviews-differentOffice': 'no',
+      'decision-reviews-same-office-to-review': 'no',
       'decision-reviews-informalConf': 'yes',
     });
   });
