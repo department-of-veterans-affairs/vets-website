@@ -43,7 +43,6 @@
 .employment-history-container {
   display: flex;
   flex-direction: column;
-  width: 575px;
   background-color: #f1f1f1;
   padding: 10px 30px 20px;
 
@@ -100,7 +99,6 @@
 .add-item-container {
   display: flex;
   flex-direction: column;
-  width: 575px;
   background-color: #f1f1f1;
   padding: 20px 30px 20px;
   margin-top: 25px;
@@ -116,7 +114,6 @@
 .list-loop-container {
   display: flex;
   flex-direction: column;
-  width: 575px;
   background-color: $color-gray-lightest;
   padding: 10px 30px 20px;
   .list-loop-item-list {
