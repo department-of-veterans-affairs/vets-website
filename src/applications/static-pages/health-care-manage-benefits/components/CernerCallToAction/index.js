@@ -124,7 +124,10 @@ export class CernerCallToAction extends Component {
     }
 
     // Derive MyHealtheVet link text.
-    const myHealtheVetLinkText = myHealtheVetLink === appointmentsToolLink ? 'Go to the VA appointments tool' : 'Go to My HealtheVet';
+    const myHealtheVetLinkText =
+      myHealtheVetLink === appointmentsToolLink
+        ? 'Go to the VA appointments tool'
+        : 'Go to My HealtheVet';
 
     return (
       <div
@@ -180,7 +183,9 @@ export class CernerCallToAction extends Component {
             );
 
             // Derive the link text/label.
-            const linkText = isCerner ? 'Go to My VA Health' : myHealtheVetLinkText;
+            const linkText = isCerner
+              ? 'Go to My VA Health'
+              : myHealtheVetLinkText;
 
             return (
               <div key={`${id}-cta-link`}>
