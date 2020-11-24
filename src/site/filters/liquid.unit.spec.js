@@ -28,13 +28,41 @@ describe('timezoneAbbrev', () => {
 });
 
 describe('dateFromUnix', () => {
-  it('returns null for null', () => {
-    expect(liquid.filters.dateFromUnix()).to.be.null;
+  context('with default time zone', () => {
+    it('returns null for null', () => {
+      expect(liquid.filters.dateFromUnix()).to.be.null;
+    });
+
+    it('returns date with specified format', () => {
+      expect(liquid.filters.dateFromUnix(1604091600, 'dddd, MMM D YYYY')).to.eq(
+        'Friday, Oct. 30 2020',
+      );
+    });
+
+    it('returns time with specified format', () => {
+      expect(liquid.filters.dateFromUnix(1607958000, 'h:mm A')).to.eq(
+        '10:00 a.m.',
+      );
+    });
   });
 
-  it('returns date with specified format', () => {
-    expect(liquid.filters.dateFromUnix(1604091600, 'dddd, MMM D YYYY')).to.eq(
-      'Friday, Oct. 30 2020',
-    );
+  context('with specific time zone', () => {
+    it('returns time with specified format', () => {
+      expect(
+        liquid.filters.dateFromUnix(1607958000, 'h:mm A', 'America/Phoenix'),
+      ).to.eq('8:00 a.m.');
+    });
+
+    it('uses default if invalid timezone datatype passed', () => {
+      expect(liquid.filters.dateFromUnix(1607958000, 'h:mm A', {})).to.eq(
+        '10:00 a.m.',
+      );
+    });
+
+    it('uses default if invalid timezone passed', () => {
+      expect(
+        liquid.filters.dateFromUnix(1607958000, 'h:mm A', 'Not/A_Zone'),
+      ).to.eq('10:00 a.m.');
+    });
   });
 });
