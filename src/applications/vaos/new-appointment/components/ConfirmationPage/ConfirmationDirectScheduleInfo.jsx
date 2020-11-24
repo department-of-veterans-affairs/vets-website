@@ -51,7 +51,7 @@ export default function ConfirmationDirectScheduleInfo({
 
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <h4 className="vads-u-font-size--h4">{clinic?.serviceName}</h4>
+            <h3 className="vads-u-font-size--h4">{clinic?.serviceName}</h3>
             <div>
               {!!facilityDetails && (
                 <>
@@ -63,13 +63,13 @@ export default function ConfirmationDirectScheduleInfo({
             </div>
           </div>
           <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
-            <h4 className="vads-u-font-size--h4">
+            <h3 className="vads-u-font-size--h4">
               {
                 PURPOSE_TEXT.find(
                   purpose => purpose.id === data.reasonForAppointment,
                 )?.short
               }
-            </h4>
+            </h3>
             <div>{data.reasonAdditionalInfo}</div>
           </div>
         </div>

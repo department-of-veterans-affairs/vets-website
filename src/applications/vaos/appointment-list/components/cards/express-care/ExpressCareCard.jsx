@@ -28,6 +28,9 @@ export default function ExpressCareCard({
     },
   );
   const Heading = `h${headingLevel}`;
+
+  // Calculate next heading level
+  const Title = `h${parseInt(headingLevel, 10) + 1}`;
   return (
     <div
       data-request-id={appointment.id}
@@ -43,7 +46,7 @@ export default function ExpressCareCard({
       <ExpressCareStatus appointment={appointment} />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-          <h4 className="vads-u-font-size--h4">Your contact details</h4>
+          <Title className="vads-u-font-size--h4">Your contact details</Title>
           <div>
             <Telephone contact={getPatientTelecom(appointment, 'phone')} />
             <br />
@@ -52,9 +55,9 @@ export default function ExpressCareCard({
         </div>
         {!!appointment.comment && (
           <div className="vads-u-flex--1 vaos-u-word-break--break-word vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
-            <h4 className="vads-u-font-size--h4">
+            <Title className="vads-u-font-size--h4">
               You shared these details about your concern
-            </h4>
+            </Title>
             <div>{appointment.comment}</div>
           </div>
         )}

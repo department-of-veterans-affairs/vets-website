@@ -130,7 +130,7 @@ export default function ConfirmationRequestInfo({
             </dl>
           </div>
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <h4 className="vads-u-font-size--h4">Preferred date and time</h4>
+            <h3 className="vads-u-font-size--h4">Preferred date and time</h3>
             <div>
               <ul className="usa-unstyled-list">
                 {data.calendarData?.selectedDates.map(
@@ -155,18 +155,18 @@ export default function ConfirmationRequestInfo({
             <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
               <div className="vaos_appts__message vads-u-flex--1 vaos-u-word-break--break-word">
                 <div className="vads-u-margin--0 vads-u-margin-right--1">
-                  <h4 className="vads-u-font-size--h4">
+                  <h3 className="vads-u-font-size--h4">
                     {
                       PURPOSE_TEXT.find(
                         purpose => purpose.id === data.reasonForAppointment,
                       )?.short
                     }
-                  </h4>
+                  </h3>
                   <div>{data.reasonAdditionalInfo}</div>
                 </div>
               </div>
               <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
-                <h4 className="vads-u-font-size--h4">Your contact details</h4>
+                <h3 className="vads-u-font-size--h4">Your contact details</h3>
                 <div>
                   {data.email}
                   <br />
