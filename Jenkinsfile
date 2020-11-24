@@ -23,9 +23,11 @@ node('vetsgov-general-purpose') {
 
   stage('Compare content builds') {
     sh "echo Comparing"
-    dir("vets-website") {
-      sh "node -v"
-      sh "yarn validate-content-build"
+    try {
+      dockerContainer.inside(commonStages.DOCKER_ARGS) {
+        sh "node -v"
+        sh "cd /application &&  yarn validate-content-build"
+      }
     }
   }
 
