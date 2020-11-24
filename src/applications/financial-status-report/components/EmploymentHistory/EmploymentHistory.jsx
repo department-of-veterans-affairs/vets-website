@@ -119,7 +119,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  title: 'Please provide your employment history for the past two years.',
+  // title: 'Please provide your employment history for the past two years.',
   employmentHistory: state.fsr.employmentHistory,
 });
 
