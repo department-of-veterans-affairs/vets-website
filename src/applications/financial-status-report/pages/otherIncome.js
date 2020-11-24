@@ -4,23 +4,23 @@ import DependentView from '../components/DependentView';
 export const uiSchema = {
   otherIncome: {
     'ui:title': 'Your other income',
-    'view:socialSecurityPayments': {
+    socialSecurityPayments: {
       'ui:title': 'Do you currently receive social security payments?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    'view:hasSocialSecurity': {
+    hasSocialSecurity: {
       'ui:options': {
-        expandUnder: 'view:socialSecurityPayments',
+        expandUnder: 'socialSecurityPayments',
       },
-      'view:additionalIncome': {
+      additionalIncome: {
         'ui:title': 'Do you currently receive any additional income?',
         'ui:widget': 'yesNo',
         'ui:required': () => false,
       },
-      'view:hasAdditionalIncome': {
+      hasAdditionalIncome: {
         'ui:options': {
-          expandUnder: 'view:additionalIncome',
+          expandUnder: 'additionalIncome',
         },
         additionalIncome: {
           'ui:field': ItemLoop,
@@ -50,16 +50,16 @@ export const schema = {
     otherIncome: {
       type: 'object',
       properties: {
-        'view:socialSecurityPayments': {
+        socialSecurityPayments: {
           type: 'boolean',
         },
-        'view:hasSocialSecurity': {
+        hasSocialSecurity: {
           type: 'object',
           properties: {
-            'view:additionalIncome': {
+            additionalIncome: {
               type: 'boolean',
             },
-            'view:hasAdditionalIncome': {
+            hasAdditionalIncome: {
               type: 'object',
               properties: {
                 additionalIncome: {
