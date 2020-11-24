@@ -19,25 +19,31 @@ export const uiSchema = {
         'ui:required': () => false,
       },
       'view:hasAdditionalIncome': {
-        'ui:field': ItemLoop,
         'ui:options': {
           expandUnder: 'view:additionalIncome',
-          viewField: DependentView,
         },
-        incomeType: {
-          'ui:title': 'Type of income',
-        },
-        monthlyAmount: {
-          'ui:title': 'Monthly amount',
-        },
-        employerName: {
-          'ui:title': 'Employer name',
+        additionalIncome: {
+          'ui:field': ItemLoop,
+          'ui:options': {
+            viewField: DependentView,
+          },
+          items: {
+            'ui:title': 'Additional income:',
+            monthlyAmount: {
+              'ui:title': 'Monthly Amount',
+            },
+            incomeType: {
+              'ui:title': 'Income Type',
+            },
+            employerName: {
+              'ui:title': 'Employer Name',
+            },
+          },
         },
       },
     },
   },
 };
-
 export const schema = {
   type: 'object',
   properties: {
@@ -54,22 +60,30 @@ export const schema = {
               type: 'boolean',
             },
             'view:hasAdditionalIncome': {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  incomeType: {
-                    type: 'string',
-                    enum: ['Income Type 1', 'Income Type 2', 'Income Type 3'],
-                  },
-                  monthlyAmount: {
-                    type: 'string',
-                  },
-                  employerName: {
-                    type: 'string',
+              type: 'object',
+              properties: {
+                additionalIncome: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      incomeType: {
+                        type: 'string',
+                        enum: [
+                          'Income Type 1',
+                          'Income Type 2',
+                          'Income Type 3',
+                        ],
+                      },
+                      monthlyAmount: {
+                        type: 'string',
+                      },
+                      employerName: {
+                        type: 'string',
+                      },
+                    },
                   },
                 },
-                required: [],
               },
             },
           },
