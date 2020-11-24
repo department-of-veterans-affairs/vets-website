@@ -22,8 +22,8 @@ export const uiSchema = {
   'view:uploadServiceTreatmentRecordsQualifier': {
     'view:hasServiceTreatmentRecordsToUpload': {
       'ui:title': 'Do you want to upload your service treatment records?',
-      'ui:description':
-        'You can still  submit a Benefits Delivery at Discharge claim without your service treatment record.',
+      'ui:description': `(You can still submit a Benefits Delivery at Discharge
+        (BDD) claim online without your service treatment records.)`,
       'ui:widget': 'yesNo',
       'ui:options': {
         labels: {

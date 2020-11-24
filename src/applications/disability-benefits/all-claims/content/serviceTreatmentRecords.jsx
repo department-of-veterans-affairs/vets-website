@@ -8,9 +8,8 @@ const alertContent = (
       getting your service treatment records.
     </p>
     <p>
-      You don't have to turn in your records now, but we recommend that you
-      submit them with this application. If you decide to submit them later,
-      please do so as soon as possible.
+      While you don’t have to turn them in now, please submit them as soon as
+      you can.
     </p>
   </>
 );
@@ -18,7 +17,7 @@ const alertContent = (
 export const serviceTreatmentRecordsSubmitLater = (
   <div className="service-treatment-records-submit-later">
     <AlertBox
-      headline="We recommend you submit your service treatment records"
+      headline="Please submit your service treatment records as soon as possible"
       content={alertContent}
       status="warning"
     />
