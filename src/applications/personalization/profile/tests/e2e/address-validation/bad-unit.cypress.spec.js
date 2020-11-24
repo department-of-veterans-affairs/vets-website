@@ -1,7 +1,7 @@
 import { setUp } from 'applications/personalization/profile/tests/e2e/address-validation/setup';
 
 describe('Personal and contact information', () => {
-  describe.skip('when entering an address with a bad unit', () => {
+  describe('when entering an address with a bad unit', () => {
     it('should successfully update on Desktop', () => {
       setUp('bad-unit');
       cy.axeCheck();
