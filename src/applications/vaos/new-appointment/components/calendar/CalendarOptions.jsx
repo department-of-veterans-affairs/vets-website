@@ -88,7 +88,7 @@ export default function CalendarOptions({
     }
 
     const smallMatcher = matchMedia(smallMediaQuery);
-    // IE 11 and some versions of Safar don't support addEventListener here
+    // IE 11 and some versions of Safari don't support addEventListener here
     smallMatcher.addListener(updateRowSize);
 
     const smallDesktopMatcher = matchMedia(smallDesktopMediaQuery);
