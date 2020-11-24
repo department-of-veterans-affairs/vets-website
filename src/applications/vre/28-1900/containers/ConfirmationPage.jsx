@@ -22,8 +22,9 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const { submission, data } = this.props.form;
+    const { isLoggedIn, fullName } = this.props;
     const { response } = submission;
-    const name = data.veteranFullName;
+    const name = isLoggedIn ? fullName : data.veteranInformation.fullName;
 
     return (
       <div>
@@ -63,6 +64,8 @@ export class ConfirmationPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
+    fullName: state?.user?.profile?.userFullName,
+    isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   };
 }
 

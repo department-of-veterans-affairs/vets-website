@@ -5,16 +5,23 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import { WIZARD_STATUS } from 'applications/vre/28-1900/constants';
 
 Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: ['unauthenticated'], // Will remove when back end is set up
     dataPrefix: 'data',
     dataSets: ['unauthenticated'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
+    setupPerTest: () => {
+      cy.route('POST', '/v0/veteran_readiness_employment_claims', {
+        formSubmissionId: '123fake-submission-id-567',
+        timestamp: '2020-11-12',
+        attributes: {
+          guid: '123fake-submission-id-567',
+        },
+      }).as('submitApplication');
+    },
     pageHooks: {
       introduction: ({ afterHook }) => {
         // Previous button click fully loads a new page, so we need to
@@ -23,8 +30,16 @@ const testConfig = createTestConfig(
         cy.get('#isVeteran-option-0').click();
         cy.get('#yesHonorableDischarge-option-0').click();
         cy.get('#disabilityRating-option-0').click();
-        cy.get('#yesActiveDutySeparation-option-0').click();
-        cy.get('.usa-button-primary.va-button-primary').click();
+        cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
+        cy.findAllByText(/Apply for Veteran Readiness and Employment/i, {
+          selector: 'a',
+        })
+          .first()
+          .click();
         cy.injectAxe();
 
         afterHook(() => {
@@ -47,9 +62,6 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-    },
-    setupPerTest: () => {
-      window.sessionStorage.removeItem(WIZARD_STATUS);
     },
   },
   manifest,
