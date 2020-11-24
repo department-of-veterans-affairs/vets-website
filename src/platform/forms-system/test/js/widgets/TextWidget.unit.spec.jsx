@@ -117,10 +117,8 @@ describe('Schemaform <TextWidget>', () => {
     const tree = SkinDeep.shallowRender(
       <TextWidget
         id="1"
-        minLength="0"
-        maxLength="10"
         value={0}
-        schema={{ type: 'number' }}
+        schema={{ type: 'number', minValue: '0', maxValue: '10' }}
         required
         disabled={false}
         onChange={() => null}

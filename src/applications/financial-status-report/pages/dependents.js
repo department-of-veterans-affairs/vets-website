@@ -44,7 +44,7 @@ export const schema = {
               items: {
                 type: 'number',
                 minimum: 0,
-                min: 0,
+                minValue: '0',
                 exclusiveMinimum: 0,
               },
             },
