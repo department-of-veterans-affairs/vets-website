@@ -345,7 +345,11 @@ class ContactInformationField extends React.Component {
     }
 
     return (
-      <div className="vet360-profile-field" data-field-name={fieldName}>
+      <div
+        className="vet360-profile-field"
+        data-field-name={fieldName}
+        data-testid={fieldName}
+      >
         <Modal
           title={'Are you sure?'}
           status="warning"

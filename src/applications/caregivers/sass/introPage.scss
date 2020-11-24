@@ -12,6 +12,9 @@
     a {
       &:visited {
         color: $color-link-default;
+        abbr {
+          color: $color-link-default;
+        }
       }
     }
   }

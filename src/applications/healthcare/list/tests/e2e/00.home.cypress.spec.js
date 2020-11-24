@@ -8,6 +8,8 @@ it('healthcare questionnaire list -- loads manager page -- feature enabled', () 
     cy.login(basicUser);
     cy.visit('/healthcare/list');
     cy.get('h1').contains('Your health care questionnaires');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });
 

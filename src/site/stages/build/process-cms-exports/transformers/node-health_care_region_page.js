@@ -23,6 +23,7 @@ const transform = ({
   fieldGovdeliveryIdEmerg,
   fieldGovdeliveryIdNews,
   fieldOperatingStatus,
+  fieldOtherVaLocations,
   fieldNicknameForThisFacility,
   fieldRelatedLinks,
   fieldPressReleaseBlurb,
@@ -193,6 +194,7 @@ const transform = ({
           }))
       : [],
   },
+  fieldOtherVaLocations: fieldOtherVaLocations.map(i => i.value),
   otherFacilities: {
     entities: reverseFieldRegionPage
       ? reverseFieldRegionPage
@@ -330,6 +332,7 @@ module.exports = {
     'field_media',
     'field_nickname_for_this_facility',
     'field_operating_status',
+    'field_other_va_locations',
     'field_press_release_blurb',
     'field_related_links',
     'metatag',
