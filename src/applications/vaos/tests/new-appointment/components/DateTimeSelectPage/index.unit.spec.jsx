@@ -535,18 +535,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       preferredDate,
     });
 
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
-
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
@@ -616,18 +604,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       preferredDate,
     });
 
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
-
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
@@ -690,18 +666,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       slots: slots308,
       preferredDate,
     });
-
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
 
     const store = createTestStore(initialState);
 
@@ -767,18 +731,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       slots: slots308,
       preferredDate,
     });
-
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
 
     const store = createTestStore(initialState);
 
