@@ -8,7 +8,7 @@ import {
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
-import Typeahead from '../../components/Typeahead';
+import { Typeahead } from '../../components/Typeahead';
 
 describe('<Typeahead>', () => {
   beforeEach(() => {
@@ -26,13 +26,13 @@ describe('<Typeahead>', () => {
   });
 
   it('renders', () => {
-    const wrapper = shallow(<Typeahead />);
+    const wrapper = shallow(<Typeahead searchTypeaheadEnabled />);
     expect(wrapper.find('#onsite-search-typeahead')).to.exist;
     wrapper.unmount();
   });
 
   it('does not show suggestions when user input is limited', () => {
-    const wrapper = shallow(<Typeahead />);
+    const wrapper = shallow(<Typeahead searchTypeaheadEnabled />);
     wrapper.setProps({ userInput: 'hm' });
 
     expect(global.fetch.called).to.be.false;
@@ -40,7 +40,9 @@ describe('<Typeahead>', () => {
   });
 
   it('shows suggestions', async () => {
-    const wrapper = shallow(<Typeahead debounceRate={1} />);
+    const wrapper = shallow(
+      <Typeahead debounceRate={1} searchTypeaheadEnabled />,
+    );
     wrapper.setProps({ userInput: 'test' });
 
     await new Promise(resolve => setTimeout(resolve, 2));
