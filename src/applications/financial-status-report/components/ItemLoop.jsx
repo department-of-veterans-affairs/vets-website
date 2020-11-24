@@ -43,16 +43,7 @@ export default class ItemLoop extends React.Component {
           )
         : [true],
     };
-
-    this.onItemChange = this.onItemChange.bind(this);
-    this.handleAdd = this.handleAdd.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
-    this.scrollToTop = this.scrollToTop.bind(this);
-    this.scrollToRow = this.scrollToRow.bind(this);
   }
-
   // This fills in an empty item in the array if it has minItems set
   // so that schema validation runs against the fields in the first item
   // in the array. This shouldn’t be necessary, but there’s a fix in rjsf
@@ -72,25 +63,25 @@ export default class ItemLoop extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate = (nextProps, nextState) => {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
-  }
+  };
 
-  onItemChange(indexToChange, value) {
+  onItemChange = (indexToChange, value) => {
     const newItems = _.set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
-  }
+  };
 
-  getItemSchema(index) {
+  getItemSchema = index => {
     const schema = this.props.schema;
     if (schema.items.length > index) {
       return schema.items[index];
     }
 
     return schema.additionalItems;
-  }
+  };
 
-  scrollToTop() {
+  scrollToTop = () => {
     setTimeout(() => {
       scroller.scrollTo(
         `topOfTable_${this.props.idSchema.$id}`,
@@ -102,9 +93,9 @@ export default class ItemLoop extends React.Component {
         },
       );
     }, 100);
-  }
+  };
 
-  scrollToRow(id) {
+  scrollToRow = id => {
     if (!this.props.uiSchema['ui:options'].doNotScroll) {
       setTimeout(() => {
         scroller.scrollTo(
@@ -118,21 +109,21 @@ export default class ItemLoop extends React.Component {
         );
       }, 100);
     }
-  }
+  };
 
   /*
    * Clicking edit on an item that’s not last and so is in view mode
    */
-  handleEdit(index, status = true) {
+  handleEdit = (index, status = true) => {
     this.setState(_.set(['editing', index], status, this.state), () => {
       this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
     });
-  }
+  };
 
   /*
    * Clicking Update on an item that’s not last and is in edit mode
    */
-  handleUpdate(index) {
+  handleUpdate = index => {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
       this.setState(_.set(['editing', index], false, this.state), () => {
         this.scrollToTop();
@@ -144,12 +135,12 @@ export default class ItemLoop extends React.Component {
         scrollToFirstError();
       });
     }
-  }
+  };
 
   /*
    * Clicking Add another
    */
-  handleAdd() {
+  handleAdd = () => {
     const lastIndex = this.props.formData.length - 1;
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
@@ -178,12 +169,12 @@ export default class ItemLoop extends React.Component {
         scrollToFirstError();
       });
     }
-  }
+  };
 
   /*
    * Clicking Remove on an item in edit mode
    */
-  handleRemove(indexToRemove) {
+  handleRemove = indexToRemove => {
     const newItems = this.props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
@@ -196,7 +187,7 @@ export default class ItemLoop extends React.Component {
     this.setState(newState, () => {
       this.scrollToTop();
     });
-  }
+  };
 
   render() {
     const {
