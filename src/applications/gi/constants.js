@@ -1,6 +1,9 @@
 // WAIT_INTERVAL is in milliseconds.
 export const WAIT_INTERVAL = 333;
 
+// ELIGIBILITY_LIFESPAN is in milliseconds
+export const ELIGIBILITY_LIFESPAN = 3600000;
+
 // SMALL_SCREEN_WIDTH is in pixels
 export const SMALL_SCREEN_WIDTH = 481;
 

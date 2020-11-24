@@ -10,8 +10,8 @@ export default function TextWidget(props) {
   }
 
   const inputProps = {
-    ...(props.minLength && { min: props.minLength }),
-    ...(props.maxLength && { max: props.maxLength }),
+    ...(props.schema.minValue && { min: props.schema.minValue }),
+    ...(props.schema.maxValue && { max: props.schema.maxValue }),
     autoComplete: props.options.autocomplete,
     type: inputType,
     id: props.id,

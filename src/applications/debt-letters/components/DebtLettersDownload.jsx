@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,8 +6,12 @@ import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcr
 import { DebtLettersTable } from './DebtLettersTable';
 import { MobileTableView } from './MobileTableView';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
+  useEffect(() => {
+    scrollToTop();
+  });
   const renderAlert = () => (
     <div
       className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
@@ -34,7 +38,7 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   );
 
   return (
-    <div classNam="vads-l-row vads-u-margin-x--neg2p5">
+    <div className="vads-l-row vads-u-margin-x--neg2p5">
       <Breadcrumbs className="vads-u-font-family--sans">
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
@@ -63,9 +67,9 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
         {!isVBMSError &&
           debtLinks.length < 1 && (
             <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-              <h2 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h3">
+              <h3 className="vads-u-font-family--serif vads-u-margin-top--0">
                 VA debt collection is on hold due to the coronavirus
-              </h2>
+              </h3>
               <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
                 We’ve taken action to stop collection on newly established
                 Veteran debt and make it easier for Veterans to request extended

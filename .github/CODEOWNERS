@@ -11,6 +11,14 @@
 src/platform/forms        @department-of-veterans-affairs/vsp-design-system-fe
 src/platform/forms-system @department-of-veterans-affairs/vsp-design-system-fe
 
+# VSP-Identity authentication
+src/applications/auth @department-of-veterans-affairs/vsp-identity
+src/applications/login @department-of-veterans-affairs/vsp-identity
+src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/vsp-identity
+src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/vsp-identity
+src/platform/user/authentication @department-of-veterans-affairs/vsp-identity
+src/platform/utilities/sso @department-of-veterans-affairs/vsp-identity
+
 # VSA ----
 
 # Authenticated Experience
