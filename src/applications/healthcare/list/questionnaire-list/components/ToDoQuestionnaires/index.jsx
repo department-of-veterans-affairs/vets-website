@@ -69,7 +69,6 @@ const index = props => {
 
 function mapStateToProps(state) {
   return {
-    isLoading: state.questionnaireListData?.list?.status?.isLoading,
     questionnaires: state.questionnaireListData?.list?.questionnaires?.toDo,
   };
 }
