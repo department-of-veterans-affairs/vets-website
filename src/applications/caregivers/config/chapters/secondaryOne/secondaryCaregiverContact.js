@@ -14,7 +14,6 @@ const { address } = fullSchema.definitions;
 const {
   alternativePhoneNumberUI,
   emailUI,
-  hasSecondaryCaregiverTwoUI,
   primaryPhoneNumberUI,
   vetRelationshipUI,
   contactInfoTitle,
