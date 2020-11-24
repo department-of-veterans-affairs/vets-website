@@ -28,6 +28,8 @@ node('vetsgov-general-purpose') {
         sh "node -v"
         sh "cd /application &&  yarn validate-content-build"
       }
+    } catch (error) {
+      throw error
     }
   }
 
