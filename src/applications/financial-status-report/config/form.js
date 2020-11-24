@@ -10,6 +10,7 @@ import {
   employmentHistory,
   otherIncome,
   veteranInfo,
+  dependents,
 } from '../pages';
 
 const formChapterTitles = {
@@ -22,6 +23,7 @@ const formPageTitles = {
   availableDebts: 'Available Debts',
   employmentHistory: 'Your employment history',
   otherIncome: 'Other income',
+  dependents: 'Dependents',
 };
 
 const formConfig = {
@@ -89,6 +91,12 @@ const formConfig = {
           title: formPageTitles.otherIncome,
           uiSchema: otherIncome.uiSchema,
           schema: otherIncome.schema,
+        },
+        [formPageTitles.dependents]: {
+          path: 'dependents',
+          title: formPageTitles.dependents,
+          uiSchema: dependents.uiSchema,
+          schema: dependents.schema,
         },
       },
     },

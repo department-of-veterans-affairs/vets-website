@@ -544,4 +544,7 @@ module.exports = function registerFilters() {
     moment(timestamp1, 'YYYY-MM-DD').isAfter(moment(timestamp2, 'YYYY-MM-DD'));
 
   liquid.filters.phoneNumberArrayToObject = phoneNumberArrayToObject;
+
+  liquid.filters.sortEntityMetatags = item =>
+    item ? item.sort((a, b) => a.key.localeCompare(b.key)) : undefined;
 };
