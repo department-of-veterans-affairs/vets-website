@@ -11,9 +11,9 @@ const StepComponent = props => {
       <h3 className="vads-u-margin-top--0">
         {data.number}. {data.title}
       </h3>
-      <p className="vads-u-font-size--h4">
+      <h4 className="vads-u-font-weight--normal vads-u-margin-top--0">
         Veteran Readiness and Employment orientation
-      </p>
+      </h4>
       <div className="vads-u-margin-bottom--3">
         <SegmentedProgressBar current={data.number} total={stepTotal} />
       </div>

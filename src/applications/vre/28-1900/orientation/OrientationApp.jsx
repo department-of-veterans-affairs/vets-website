@@ -27,7 +27,6 @@ const OrientationApp = props => {
           onClick={() => {
             if (step < 4) {
               setStep(step + 1);
-              formStartHandler(false);
             } else {
               formStartHandler(true);
             }
