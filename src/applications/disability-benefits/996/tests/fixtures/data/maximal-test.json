@@ -22,7 +22,7 @@
         "attributes": {
           "ratingIssueSubjectText": "Headaches",
           "description": "Acute chronic head pain",
-          "ratingIssuePercentNumber": 20,
+          "ratingIssuePercentNumber": "20",
           "approxDecisionDate": "2020-11-10",
           "decisionIssueId": 44,
           "ratingIssueReferenceId": "66",
@@ -35,7 +35,7 @@
         "attributes": {
           "ratingIssueSubjectText": "Being green",
           "description": "Chronic greenness",
-          "ratingIssuePercentNumber": 50,
+          "ratingIssuePercentNumber": "50",
           "approxDecisionDate": "2020-11-01",
           "decisionIssueId": 42,
           "ratingIssueReferenceId": "52",
@@ -47,7 +47,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "Monocular vision",
-          "ratingIssuePercentNumber": 5,
+          "ratingIssuePercentNumber": "5",
           "approxDecisionDate": "2020-11-04",
           "decisionIssueId": 1,
           "ratingIssueReferenceId": "2",

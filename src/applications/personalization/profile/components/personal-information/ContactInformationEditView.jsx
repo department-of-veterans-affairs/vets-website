@@ -114,6 +114,7 @@ class ContactInformationEditView extends Component {
         <div>
           <LoadingButton
             data-action="save-edit"
+            data-testid="save-edit-button"
             isLoading={isLoading}
             className="vads-u-width--auto vads-u-margin-top--0"
             disabled={!hasUnsavedEdits}

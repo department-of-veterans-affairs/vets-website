@@ -382,4 +382,19 @@ module.exports = {
         .map(entity => assembleEntityTree(entity))
     );
   },
+
+  /**
+   * Returns an object with a single key "entity" and value entity[key][0].
+   * This is a very common pattern.
+   * @param entity
+   * @param key
+   * @returns {{entity: *}}
+   */
+  entityObjectForKey(entity, key) {
+    return entity && entity[key]
+      ? {
+          entity: entity[key][0],
+        }
+      : null;
+  },
 };

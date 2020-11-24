@@ -1,4 +1,4 @@
-import basicUser from './fixtures/users/user-basic.json';
+import basicUser from './fixtures/users/user-basic.js';
 
 describe('healthcare questionnaire -- demographics -- basic information', () => {
   beforeEach(() => {

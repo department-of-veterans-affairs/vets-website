@@ -64,4 +64,5 @@ export default Object.freeze({
   requestLockedPdfPassword: 'request_locked_pdf_password',
   form526ConfirmationEmail: 'form526_confirmation_email',
   form526ConfirmationEmailShowCopy: 'form526_confirmation_email_show_copy',
+  searchTypeaheadEnabled: 'search_typeahead_enabled',
 });
