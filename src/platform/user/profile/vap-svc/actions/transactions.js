@@ -132,6 +132,9 @@ export function refreshTransaction(
             'profile-section': analyticsSectionName,
             'error-key': `${metaData?.code}-address-save-failure`,
           });
+          recordEvent({
+            'error-key': undefined,
+          });
         }
       }
     } catch (err) {
@@ -316,6 +319,10 @@ export const validateAddress = (
       'error-key': `${error.errors?.[0]?.code}_${
         error.errors?.[0]?.status
       }-address-suggestion-failure`,
+    });
+
+    recordEvent({
+      'error-key': undefined,
     });
 
     return dispatch({
