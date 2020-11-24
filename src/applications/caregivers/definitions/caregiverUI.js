@@ -91,6 +91,7 @@ export default {
     }),
     hasPrimaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Primary Family Caregiver?',
+      'ui:required': true,
       'ui:description': PrimaryCaregiverInfo({
         additionalInfo: true,
         headerInfo: false,
@@ -104,6 +105,8 @@ export default {
         headerInfo: false,
       }),
       'ui:widget': 'yesNo',
+      'ui:required': formData =>
+        !formData[primaryCaregiverFields.hasPrimaryCaregiver],
       'ui:validations': [
         {
           validator: (errors, fieldData, formData) => {
