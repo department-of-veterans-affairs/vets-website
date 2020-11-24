@@ -231,10 +231,10 @@ describe('VAOS integration: Express Care form submission', () => {
       store,
     });
 
-    fireEvent.change(await screen.getByLabelText(/phone number/i), {
+    fireEvent.change(await screen.findByLabelText(/phone number/i), {
       target: { value: '9737790338' },
     });
-    fireEvent.change(await screen.getByLabelText(/email address/i), {
+    fireEvent.change(await screen.findByLabelText(/email address/i), {
       target: { value: 'judy.morrison@va.gov' },
     });
     fireEvent.click(await screen.findByText(/submit express care/i));
@@ -320,10 +320,10 @@ describe('VAOS integration: Express Care form submission', () => {
       store,
     });
 
-    fireEvent.change(await screen.getByLabelText(/phone number/i), {
+    fireEvent.change(await screen.findByLabelText(/phone number/i), {
       target: { value: requestData.attributes.phoneNumber },
     });
-    fireEvent.change(await screen.getByLabelText(/email address/i), {
+    fireEvent.change(await screen.findByLabelText(/email address/i), {
       target: { value: requestData.attributes.email },
     });
     fireEvent.click(await screen.findByText(/submit express care/i));
