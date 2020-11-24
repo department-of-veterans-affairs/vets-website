@@ -24,6 +24,7 @@ node('vetsgov-general-purpose') {
   stage('Compare content builds') {
     sh "echo Comparing"
     dir("vets-website") {
+      sh "node -v"
       sh "yarn validate-content-build"
     }
   }
