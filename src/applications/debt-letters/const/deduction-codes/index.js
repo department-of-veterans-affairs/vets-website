@@ -143,9 +143,9 @@ export const renderAdditionalInfo = deductionCode => {
 
 export const CoronaVirusAlert = () => (
   <>
-    <h3 className="vads-u-font-family--serif vads-u-margin-top--0">
+    <h2 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h3">
       VA debt collection is on hold due to the coronavirus
-    </h3>
+    </h2>
     <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
       We’ve taken action to stop collection on newly established Veteran debt
       and make it easier for Veterans to request extended repayment plans and

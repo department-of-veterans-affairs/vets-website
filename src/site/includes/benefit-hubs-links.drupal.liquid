@@ -7,7 +7,7 @@
         <li>
           <p class="vads-u-margin--0">
             <strong>
-              <a href="{{ relatedBenefitHub.entity.path.alias }}">
+              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ relatedBenefitHub.entity.fieldHomePageHubLabel | escape }}', 'links-list-section-header': 'VA benefits' })" href="{{ relatedBenefitHub.entity.path.alias }}">
                 {{ relatedBenefitHub.entity.fieldHomePageHubLabel }}
               </a>
             </strong>

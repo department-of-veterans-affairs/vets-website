@@ -1,16 +1,16 @@
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 import definitions from 'applications/caregivers/definitions/caregiverUI';
 
-const { hasSecondaryCaregiverOneUI } = definitions.sharedItems;
+const { hasPrimaryCaregiverOneUI } = definitions.sharedItems;
 
 const hasSecondaryCaregiverPage = {
   uiSchema: {
-    [primaryCaregiverFields.hasSecondaryCaregiverOneView]: hasSecondaryCaregiverOneUI,
+    [primaryCaregiverFields.hasPrimaryCaregiver]: hasPrimaryCaregiverOneUI,
   },
   schema: {
     type: 'object',
     properties: {
-      [primaryCaregiverFields.hasSecondaryCaregiverOneView]: {
+      [primaryCaregiverFields.hasPrimaryCaregiver]: {
         type: 'boolean',
       },
     },

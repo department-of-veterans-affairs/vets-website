@@ -1,0 +1,55 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+
+.questionnaire-list-tabs-container{
+  border-bottom: 1px solid $color-gray-light;
+  width: 100%;
+  z-index: -1;
+}
+
+.questionnaire-list-tabs{
+  display: flex;
+  width: 50%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+  li{
+    flex-basis: 50%;
+    padding: 0;
+    margin-bottom: -1px;
+  }
+}
+
+.questionnaire-list-tab {
+  padding: 0;
+  margin: 0;
+  height: 4rem;
+  font-size: 16px;
+  border-style: solid;
+  border-color: $color-gray-light;
+  border-width: 1px 1px 0px 1px ;
+  border-radius: 0 !important;
+  border-bottom: 1px solid $color-gray-light;
+  cursor: pointer;
+  background-color: $color-gray-light-alt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  &:hover, &:focus, &:active {
+    color: $color-gray-dark;
+    text-decoration: none;
+    background: $color-gray-lighter;
+  }
+
+  &.current {
+    border-bottom: solid 1px $color-white;
+    border-top: solid 3px $color-primary;
+    background: $color-white !important;
+    margin: 0;
+  }
+}
