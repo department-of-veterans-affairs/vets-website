@@ -1,4 +1,5 @@
-import ListLoop from '../components/ListLoop';
+import ItemLoop from '../components/ItemLoop';
+import DependentView from '../components/DependentView';
 
 export const uiSchema = {
   otherIncome: {
@@ -18,8 +19,10 @@ export const uiSchema = {
         'ui:required': () => false,
       },
       'view:hasAdditionalIncome': {
+        'ui:field': ItemLoop,
         'ui:options': {
           expandUnder: 'view:additionalIncome',
+          viewField: DependentView,
         },
         incomeType: {
           'ui:title': 'Type of income',
@@ -30,7 +33,6 @@ export const uiSchema = {
         employerName: {
           'ui:title': 'Employer name',
         },
-        'ui:field': ListLoop,
       },
     },
   },
@@ -52,18 +54,22 @@ export const schema = {
               type: 'boolean',
             },
             'view:hasAdditionalIncome': {
-              type: 'object',
-              properties: {
-                incomeType: {
-                  type: 'string',
-                  enum: ['Income Type 1', 'Income Type 2', 'Income Type 3'],
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  incomeType: {
+                    type: 'string',
+                    enum: ['Income Type 1', 'Income Type 2', 'Income Type 3'],
+                  },
+                  monthlyAmount: {
+                    type: 'string',
+                  },
+                  employerName: {
+                    type: 'string',
+                  },
                 },
-                monthlyAmount: {
-                  type: 'string',
-                },
-                employerName: {
-                  type: 'string',
-                },
+                required: [],
               },
             },
           },
