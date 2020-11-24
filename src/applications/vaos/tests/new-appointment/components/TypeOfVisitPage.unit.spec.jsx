@@ -55,7 +55,7 @@ it('should save type of visit choice on page change', async () => {
     store,
   });
 
-  expect(await screen.getByLabelText(/Office visit/i)).to.exist;
+  expect(await screen.findByLabelText(/Office visit/i)).to.exist;
 
   fireEvent.click(await screen.findByLabelText(/Office visit/i));
   await waitFor(() => {
