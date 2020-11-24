@@ -21,6 +21,10 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
+  stage('Compare content builds') {
+    sh "echo Comparing"
+  }
+
   stage('Lint|Security|Unit') {
     if (params.cmsEnvBuildOverride != 'none') { return }
 
