@@ -14,8 +14,8 @@ const OrientationWizardContainer = props => {
     setShowOrientation(status);
   };
 
-  const showChapter31FormStartButton = () => {
-    setShowFormStartButton(true);
+  const showChapter31FormStartButton = status => {
+    setShowFormStartButton(status);
   };
 
   return (
@@ -42,7 +42,6 @@ const OrientationWizardContainer = props => {
           <strong>If you already know this is the correct form,</strong> you can
           go directly to the online application without answering questions.{' '}
           <a
-            href="#"
             onClick={() => {
               handleWizardUpdate(WIZARD_STATUS_COMPLETE);
             }}
@@ -56,23 +55,29 @@ const OrientationWizardContainer = props => {
           setWizardStatus={showOrientationHandler}
         />
         {showOrientation && (
-          <OrientationApp formStartHandler={showChapter31FormStartButton} />
+          <OrientationApp
+            formControlStatus={showFormStartButton}
+            formStartHandler={showChapter31FormStartButton}
+          />
         )}
-        {showFormStartButton && (
-          <div className="vads-u-padding--3 vads-u-background-color--gray-lightest">
-            <p>
-              <strong>Thank you for viewing the VR&E orientation.</strong>
-            </p>
-            <a
-              className="usa-button-primary va-button-primary"
-              onClick={() => {
-                handleWizardUpdate(WIZARD_STATUS_COMPLETE);
-              }}
-            >
-              Apply for Veteran Readiness and Employment benefits
-            </a>
-          </div>
-        )}
+        {showFormStartButton &&
+          showOrientation && (
+            <div className="vads-u-padding--3 vads-u-background-color--gray-lightest">
+              <p>
+                <strong>Thank you for viewing the VR&E orientation.</strong> To
+                apply for Veteran Readiness & Employment benefits now, click the
+                button below.
+              </p>
+              <a
+                className="usa-button-primary va-button-primary"
+                onClick={() => {
+                  handleWizardUpdate(WIZARD_STATUS_COMPLETE);
+                }}
+              >
+                Apply for Veteran Readiness and Employment
+              </a>
+            </div>
+          )}
       </div>
     </div>
   );

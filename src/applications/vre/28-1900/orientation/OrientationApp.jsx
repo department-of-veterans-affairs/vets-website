@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { ORIENTATION_STATUS } from 'applications/vre/28-1900/constants';
 import StepComponent from './StepComponent';
 
 const OrientationApp = props => {
   const [step, setStep] = useState(0);
-  const { formStartHandler } = props;
-  useEffect(
-    () => {
-      if (step === 4) {
-        sessionStorage.setItem(ORIENTATION_STATUS, true);
-      }
-    },
-    [step],
-  );
+  const { formStartHandler, formControlStatus } = props;
+
+  // if a user has gone through the orientation already, reset this so the form start controls are once again hidden.
+  useEffect(() => {
+    if (formControlStatus) {
+      formStartHandler(false);
+    }
+  }, []);
   return (
     <div className="row vads-u-margin-bottom--1 vads-u-margin-top--2 vads-u-border--1px vads-u-padding--3 orientation-border">
       <StepComponent step={step} />
@@ -20,17 +18,18 @@ const OrientationApp = props => {
         {step > 0 && (
           <a
             onClick={() => (step === 0 ? step : setStep(step - 1))}
-            className="usa-button usa-button-secondary"
+            className="usa-button usa-button-secondary vads-u-padding-x--4"
           >
-            back
+            « Back
           </a>
         )}
         <a
           onClick={() => {
             if (step < 4) {
               setStep(step + 1);
+              formStartHandler(false);
             } else {
-              formStartHandler();
+              formStartHandler(true);
             }
           }}
           type="button"

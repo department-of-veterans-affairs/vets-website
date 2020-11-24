@@ -20,6 +20,7 @@ const isVeteran = ({ setPageState, state = {} }) => (
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}
     value={{ value: state.selected }}
+    additionalFieldsetClass="vads-u-margin-top--0"
   />
 );
 
