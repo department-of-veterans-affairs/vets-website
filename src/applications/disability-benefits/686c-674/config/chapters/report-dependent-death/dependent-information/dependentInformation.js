@@ -12,7 +12,9 @@ export const uiSchema = {
   deaths: {
     'ui:options': {
       viewField: DependentViewField,
-      itemName: 'deceased dependent',
+      itemName: 'Deceased dependent',
+      keepInPageOnReview: true,
+      customTitle: ' ',
     },
     items: {
       'ui:title': 'Dependent who is deceased',
@@ -23,19 +25,31 @@ export const uiSchema = {
           'ui:errorMessages': { required: 'Please enter a first name' },
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         middle: {
           'ui:title': 'Middle name',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         last: {
           'ui:title': 'Last name',
           'ui:errorMessages': { required: 'Please enter a last name' },
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         suffix: {
           'ui:title': 'Suffix',
-          'ui:options': { widgetClassNames: 'form-select-medium' },
+          'ui:options': {
+            widgetClassNames: 'form-select-medium',
+            useDlWrap: true,
+          },
         },
       },
       ssn: {
@@ -43,16 +57,25 @@ export const uiSchema = {
         'ui:title': 'Dependent’s Social Security number',
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+        'ui:options': {
+          useDlWrap: true,
+        },
       },
       birthDate: merge(currentOrPastDateUI('Dependent’s date of birth'), {
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+        'ui:options': {
+          useDlWrap: true,
+        },
       }),
       dependentType: {
         'ui:title': "What was your dependent's status?",
         'ui:widget': 'radio',
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+        'ui:options': {
+          useDlWrap: true,
+        },
       },
       childStatus: {
         'ui:title': "Child's status (Check all that apply)",
@@ -63,21 +86,37 @@ export const uiSchema = {
           expandUnderCondition: 'CHILD',
           showFieldLabel: true,
           keepInPageOnReview: true,
+          useDlWrap: true,
         },
         childUnder18: {
           'ui:title': 'Child under 18',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         stepChild: {
           'ui:title': 'Stepchild',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         adopted: {
           'ui:title': 'Adopted child',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         disabled: {
           'ui:title': 'Child incapable of self-support',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         childOver18InSchool: {
           'ui:title': 'Child 18-23 and in school',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
       },
     },

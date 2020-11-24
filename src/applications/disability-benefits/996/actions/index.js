@@ -35,10 +35,15 @@ export const getContestableIssues = props => {
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
           response,
+          benefitType,
         }),
       )
       .catch(errors =>
-        dispatch({ type: FETCH_CONTESTABLE_ISSUES_FAILED, errors }),
+        dispatch({
+          type: FETCH_CONTESTABLE_ISSUES_FAILED,
+          errors,
+          benefitType,
+        }),
       );
   };
 };

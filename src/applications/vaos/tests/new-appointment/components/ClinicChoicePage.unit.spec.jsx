@@ -206,4 +206,37 @@ describe('VAOS <ClinicChoicePage>', () => {
       expect(result).to.equal('primary care');
     });
   });
+
+  it('should render "an" if the first letter of the type of care sounds like a vowel', () => {
+    const openClinicPage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const newProps = { ...defaultProps };
+    newProps.typeOfCare = { ...defaultProps.typeOfCare, name: 'Optometry' };
+
+    const form = mount(
+      <ClinicChoicePage
+        openClinicPage={openClinicPage}
+        updateFormData={updateFormData}
+        {...newProps}
+        schema={{
+          type: 'object',
+          properties: {
+            clinicId: {
+              type: 'string',
+              enum: ['455', '456', 'NONE'],
+              enumNames: ['Testing', 'Testing2', 'No'],
+            },
+          },
+        }}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(3);
+    expect(form.text()).to.contain(
+      'In the last 24 months you have had an optometry appointment in the following clinics, located at',
+    );
+
+    form.unmount();
+  });
 });

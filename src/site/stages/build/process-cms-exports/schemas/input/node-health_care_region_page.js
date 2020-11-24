@@ -36,8 +36,13 @@ module.exports = {
     field_govdelivery_id_emerg: { $ref: 'GenericNestedString' },
     field_govdelivery_id_news: { $ref: 'GenericNestedString' },
     field_operating_status: socialMediaLinkSchema,
+    field_other_va_locations: {
+      type: 'array',
+      items: { value: 'string' },
+    },
     reverse_field_region_page: { $ref: 'EntityReferenceArray' },
     reverse_field_office: { $ref: 'EntityReferenceArray' },
+    field_media: { $ref: 'EntityReferenceArray' },
   },
   required: [
     'title',
@@ -50,7 +55,9 @@ module.exports = {
     'field_govdelivery_id_emerg',
     'field_govdelivery_id_news',
     'field_operating_status',
+    'field_other_va_locations',
     'reverse_field_region_page',
     'reverse_field_office',
+    'field_media',
   ],
 };
