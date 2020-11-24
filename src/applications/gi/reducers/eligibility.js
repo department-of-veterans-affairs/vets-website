@@ -1,4 +1,5 @@
 import { ELIGIBILITY_CHANGED } from '../actions';
+import { ELIGIBILITY_LIFESPAN } from '../constants';
 import localStorage from 'platform/utilities/storage/localStorage';
 import environment from 'platform/utilities/environment';
 
@@ -19,10 +20,12 @@ const INITIAL_STATE = Object.freeze({
 });
 
 export default function(state = INITIAL_STATE, action) {
+  let newState = { ...state };
+
   if (action.type === ELIGIBILITY_CHANGED) {
     const { field, value } = action;
 
-    let newState = {
+    newState = {
       ...state,
       [field]: value,
     };
@@ -47,6 +50,7 @@ export default function(state = INITIAL_STATE, action) {
 
     // Fix for 7528 and 8228
     if (!environment.isProduction()) {
+      newState.timestamp = new Date().getTime();
       localStorage.setItem('giEligibility', JSON.stringify(newState));
     }
 
@@ -54,10 +58,20 @@ export default function(state = INITIAL_STATE, action) {
   }
 
   // Fix for 7528 and 8228
-  return !environment.isProduction()
-    ? {
-        ...state,
-        ...JSON.parse(localStorage.getItem('giEligibility')),
-      }
-    : state;
+  if (!environment.isProduction()) {
+    const storedEligibility = JSON.parse(localStorage.getItem('giEligibility'));
+
+    if (
+      storedEligibility &&
+      storedEligibility.timestamp &&
+      new Date().getTime() - storedEligibility.timestamp < ELIGIBILITY_LIFESPAN
+    ) {
+      newState = {
+        ...newState,
+        ...storedEligibility,
+      };
+    }
+  }
+
+  return newState;
 }
