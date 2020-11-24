@@ -180,7 +180,7 @@ export class CernerCallToAction extends Component {
             );
 
             // Derive the link text/label.
-            const linkText = isCerner ? 'Go to My VA Health' : myHealtheVetLink;
+            const linkText = isCerner ? 'Go to My VA Health' : myHealtheVetLinkText;
 
             return (
               <div key={`${id}-cta-link`}>
