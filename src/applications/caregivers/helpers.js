@@ -121,15 +121,22 @@ export const submitTransform = (formConfig, form) => {
 };
 
 export const hasPrimaryCaregiver = formData => {
-  return formData[primaryCaregiverFields.hasPrimaryCaregiver] === true;
+  return formData[primaryCaregiverFields.hasPrimaryCaregiver];
 };
 
 export const hasSecondaryCaregiverOne = formData =>
-  formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === true;
+  formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverOne];
 
-export const hasSecondaryCaregiverTwo = formData =>
-  formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwo] ===
-  true;
+export const hasSecondaryCaregiverTwo = formData => {
+  const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
+  const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
+  console.log('hasSecondaryOne: ', hasSecondaryOne);
+  console.log('hasSecondaryTwo: ', hasSecondaryTwo);
+
+  if (!hasSecondaryOne) return false;
+
+  return hasSecondaryTwo;
+};
 
 const isSSNUnique = formData => {
   const {

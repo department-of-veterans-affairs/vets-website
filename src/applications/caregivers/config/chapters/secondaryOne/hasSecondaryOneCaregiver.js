@@ -1,5 +1,5 @@
 import definitions from 'applications/caregivers/definitions/caregiverUI';
-import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
+import { secondaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 import { SecondaryRequiredAlert } from 'applications/caregivers/components/AdditionalInfo';
 import { shouldHideAlert } from 'applications/caregivers/helpers';
 
@@ -7,7 +7,8 @@ const { hasSecondaryCaregiverOneUI } = definitions.sharedItems;
 
 const hasSecondaryOneCaregiverPage = {
   uiSchema: {
-    [primaryCaregiverFields.hasSecondaryCaregiverOne]: hasSecondaryCaregiverOneUI,
+    [secondaryCaregiverFields.secondaryOne
+      .hasSecondaryCaregiverOne]: hasSecondaryCaregiverOneUI,
     'view:secondaryAlert': {
       'ui:title': ' ',
       'ui:widget': SecondaryRequiredAlert,
@@ -19,7 +20,7 @@ const hasSecondaryOneCaregiverPage = {
   schema: {
     type: 'object',
     properties: {
-      [primaryCaregiverFields.hasSecondaryCaregiverOne]: {
+      [secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverOne]: {
         type: 'boolean',
       },
       'view:secondaryAlert': {
