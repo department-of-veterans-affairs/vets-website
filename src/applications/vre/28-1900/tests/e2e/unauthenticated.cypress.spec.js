@@ -10,6 +10,7 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
+    skip: ['unauthenticated'],
     dataPrefix: 'data',
     dataSets: ['unauthenticated'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
