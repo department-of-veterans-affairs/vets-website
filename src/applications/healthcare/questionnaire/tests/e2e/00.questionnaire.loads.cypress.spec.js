@@ -1,4 +1,4 @@
-import basicUser from './fixtures/users/user-basic.json';
+import basicUser from './fixtures/users/user-basic.js';
 
 it('healthcare questionnaire -- loads introduction page -- feature enabled', () => {
   cy.fixture(
