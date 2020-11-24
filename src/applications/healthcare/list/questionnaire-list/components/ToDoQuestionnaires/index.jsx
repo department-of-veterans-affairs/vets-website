@@ -16,7 +16,10 @@ const index = props => {
           {questionnaires.length === 0 ? (
             <EmptyMessage />
           ) : (
-            <ul className="questionnaire-list toDo">
+            <ul
+              data-testid="questionnaire-list"
+              className="questionnaire-list toDo"
+            >
               {questionnaires.map(questionnaire => {
                 const { appointment } = questionnaire;
                 return (

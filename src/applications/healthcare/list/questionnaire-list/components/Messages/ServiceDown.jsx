@@ -2,7 +2,10 @@ import React from 'react';
 
 export default function ServiceDown() {
   return (
-    <div className="usa-alert usa-alert-error questionnaire-unavailable">
+    <div
+      data-testid="service-down-message"
+      className="usa-alert usa-alert-error questionnaire-unavailable"
+    >
       <div className="usa-alert-body">
         <h4 className="claims-alert-header">
           Your questionnaires are currently unavailable.
