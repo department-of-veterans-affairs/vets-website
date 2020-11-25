@@ -7,7 +7,7 @@ it('healthcare questionnaire list -- loads manager page -- feature enabled', () 
     cy.route('GET', '/v0/feature_toggles*', features);
     cy.login(basicUser);
     cy.visit('/healthcare/list');
-    cy.get('h1').contains('Your health care questionnaires');
+    cy.get('h1').contains('Your health questionnaires');
     cy.injectAxe();
     cy.axeCheck();
   });
