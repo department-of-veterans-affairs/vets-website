@@ -1,4 +1,10 @@
 /* eslint-disable no-case-declarations */
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+import localStorage from 'platform/utilities/storage/localStorage';
+import environment from 'platform/utilities/environment';
+
+import { QUERY_LIFESPAN } from '../constants';
+
 import {
   FILTER_TOGGLED,
   SEARCH_STARTED,
@@ -7,7 +13,6 @@ import {
   PROGRAM_SEARCH_SUCCEEDED,
 } from '../actions';
 
-import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import {
   normalizedInstitutionAttributes,
   normalizedProgramAttributes,
@@ -77,6 +82,15 @@ export default function(state = INITIAL_STATE, action) {
     case FILTER_TOGGLED:
       return { ...state, filterOpened: !state.filterOpened };
     case SEARCH_STARTED:
+      // Fix for 7528
+      if (!environment.isProduction()) {
+        const query = {
+          ...action.query,
+          timestamp: new Date().getTime(),
+        };
+        localStorage.setItem('giQuery', JSON.stringify(query));
+      }
+
       return { ...state, query: action.query, inProgress: true };
     case SEARCH_FAILED:
       return {
@@ -117,6 +131,23 @@ export default function(state = INITIAL_STATE, action) {
         inProgress: false,
       };
     default:
-      return state;
+      let newState = { ...state };
+
+      // Fix for 7528
+      if (!environment.isProduction()) {
+        const storedQuery = JSON.parse(localStorage.getItem('giQuery'));
+
+        if (
+          storedQuery &&
+          storedQuery.timestamp &&
+          new Date().getTime() - storedQuery.timestamp < QUERY_LIFESPAN
+        ) {
+          newState = {
+            ...newState,
+            query: { ...storedQuery },
+          };
+        }
+      }
+      return newState;
   }
 }
