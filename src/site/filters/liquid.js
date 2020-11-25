@@ -115,9 +115,9 @@ module.exports = function registerFilters() {
 
   liquid.filters.unixFromDate = data => new Date(data).getTime();
 
-  liquid.filters.currentUnixFromDate = () => {
+  liquid.filters.currentTimeInSeconds = () => {
     const time = new Date();
-    return time.getTime();
+    return Math.floor(time.getTime() / 1000);
   };
 
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
@@ -544,4 +544,7 @@ module.exports = function registerFilters() {
     moment(timestamp1, 'YYYY-MM-DD').isAfter(moment(timestamp2, 'YYYY-MM-DD'));
 
   liquid.filters.phoneNumberArrayToObject = phoneNumberArrayToObject;
+
+  liquid.filters.sortEntityMetatags = item =>
+    item ? item.sort((a, b) => a.key.localeCompare(b.key)) : undefined;
 };
