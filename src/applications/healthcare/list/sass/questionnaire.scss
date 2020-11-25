@@ -53,3 +53,67 @@
     margin: 0;
   }
 }
+.empty-message{
+  background-color: $color-gray-lightest;
+  font-family: Bitter;
+  font-size: 2rem;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.3;
+  letter-spacing: normal;
+  color: $color-gray-dark;
+  padding: 2rem 10rem 2.5rem 2.5rem;
+  margin-bottom: 5rem;
+  p{
+    margin: 0;
+    padding: 0;
+    width: 75%;
+  }
+
+}
+
+.questionnaire-unavailable{
+  margin-bottom: 5rem;
+}
+
+ul.questionnaire-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 5rem;
+
+  .card{
+    background-color: $color-gray-lightest;
+    header{
+      font-size: 2.25rem;
+      font-weight: bold;
+      line-height: 1.3;
+      font-family: "Bitter";
+    }
+    .completed-date, .due-date{
+      font-weight: bold;
+      margin: 0;
+      margin-top: 0.75rem;
+      line-height: 1.5;
+    }
+    .due-date{
+      padding-top: 0.75rem;
+      p{
+        margin: 0;
+      }
+    }
+    .details{
+      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
+      *{
+        margin: 0;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+h2.questionnaire-list-header{
+  margin-bottom: 5rem;
+}
