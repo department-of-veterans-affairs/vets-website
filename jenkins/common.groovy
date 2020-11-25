@@ -188,6 +188,8 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       def buildLogPath = "/application/${envName}-build.log"
 
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
+      sh "echo ==================== COMPARING ===================="
+      sh "yarn validate-content-build"
 
       if (envName == 'vagovprod') {
 	checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
