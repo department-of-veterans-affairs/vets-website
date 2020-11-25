@@ -21,43 +21,43 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
-  stage('Lint|Security|Unit') {
-    if (params.cmsEnvBuildOverride != 'none') { return }
+  // stage('Lint|Security|Unit') {
+  //   if (params.cmsEnvBuildOverride != 'none') { return }
 
-    try {
-      parallel (
-        lint: {
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "cd /application && npm --no-color run lint"
-          }
-        },
+  //   try {
+  //     parallel (
+  //       lint: {
+  //         dockerContainer.inside(commonStages.DOCKER_ARGS) {
+  //           sh "cd /application && npm --no-color run lint"
+  //         }
+  //       },
 
-        // Check package.json for known vulnerabilities
-        security: {
-          retry(3) {
-            dockerContainer.inside(commonStages.DOCKER_ARGS) {
-              sh "cd /application && npm run security-check"
-            }
-          }
-        },
+  //       // Check package.json for known vulnerabilities
+  //       security: {
+  //         retry(3) {
+  //           dockerContainer.inside(commonStages.DOCKER_ARGS) {
+  //             sh "cd /application && npm run security-check"
+  //           }
+  //         }
+  //       },
 
-        unit: {
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "/cc-test-reporter before-build"
-            sh "cd /application && npm --no-color run test:unit -- --coverage"
-            sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
-          }
-        }
-      )
-    } catch (error) {
-      commonStages.slackNotify()
-      throw error
-    } finally {
-      dir("vets-website") {
-        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
-      }
-    }
-  }
+  //       unit: {
+  //         dockerContainer.inside(commonStages.DOCKER_ARGS) {
+  //           sh "/cc-test-reporter before-build"
+  //           sh "cd /application && npm --no-color run test:unit -- --coverage"
+  //           sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
+  //         }
+  //       }
+  //     )
+  //   } catch (error) {
+  //     commonStages.slackNotify()
+  //     throw error
+  //   } finally {
+  //     dir("vets-website") {
+  //       step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+  //     }
+  //   }
+  // }
 
   // Perform a build for each build type
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
