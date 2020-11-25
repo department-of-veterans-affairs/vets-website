@@ -15,10 +15,9 @@ export default function TopAlert({ toggleLoginModal }) {
               details.
             </li>
             <li>
-              ▪ We can prefill part of your questions based upon your account
-              details. ▪ You can save your questions in progress, and come back
-              later to finish filling it out. You’ll have until [time period]
-              before your upcoming appointment to submit it.
+              You can save your questions in progress, and come back later to
+              finish filling it out. You’ll have until [time period] before your
+              upcoming appointment to submit it.
             </li>
           </ul>
         </div>
