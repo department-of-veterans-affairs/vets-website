@@ -97,17 +97,17 @@ node('vetsgov-general-purpose') {
   commonStages.archiveAll(dockerContainer, ref);
   commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
-  stage('Compare content builds') {
-    sh "echo Comparing"
-    try {
-      dockerContainer.inside(commonStages.DOCKER_ARGS) {
-        sh "node -v"
-        sh "cd /application &&  yarn validate-content-build"
-      }
-    } catch (error) {
-      throw error
-    }
-  }
+  // stage('Compare content builds') {
+  //   sh "echo Comparing"
+  //   try {
+  //     dockerContainer.inside(commonStages.DOCKER_ARGS) {
+  //       sh "node -v"
+  //       sh "cd /application &&  yarn validate-content-build"
+  //     }
+  //   } catch (error) {
+  //     throw error
+  //   }
+  // }
 
   stage('Review') {
     if (commonStages.shouldBail()) {
