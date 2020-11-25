@@ -1,68 +1,88 @@
-import ListLoop from '../components/ListLoop';
+import ItemLoop from '../components/ItemLoop';
+import IncomeView from '../components/IncomeView';
 
 export const uiSchema = {
   otherIncome: {
     'ui:title': 'Your other income',
-    'view:socialSecurityPayments': {
+    socialSecurityPayments: {
       'ui:title': 'Do you currently receive social security payments?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    'view:hasSocialSecurity': {
+    hasSocialSecurity: {
       'ui:options': {
-        expandUnder: 'view:socialSecurityPayments',
+        expandUnder: 'socialSecurityPayments',
       },
-      'view:additionalIncome': {
+      additionalIncome: {
         'ui:title': 'Do you currently receive any additional income?',
         'ui:widget': 'yesNo',
         'ui:required': () => false,
       },
-      'view:hasAdditionalIncome': {
+      hasAdditionalIncome: {
         'ui:options': {
-          expandUnder: 'view:additionalIncome',
+          expandUnder: 'additionalIncome',
         },
-        incomeType: {
-          'ui:title': 'Type of income',
+        additionalIncome: {
+          'ui:field': ItemLoop,
+          'ui:options': {
+            viewField: IncomeView,
+          },
+          items: {
+            'ui:title': 'Additional income:',
+            monthlyAmount: {
+              'ui:title': 'Monthly Amount',
+            },
+            incomeType: {
+              'ui:title': 'Income Type',
+            },
+            employerName: {
+              'ui:title': 'Employer Name',
+            },
+          },
         },
-        monthlyAmount: {
-          'ui:title': 'Monthly amount',
-        },
-        employerName: {
-          'ui:title': 'Employer name',
-        },
-        'ui:field': ListLoop,
       },
     },
   },
 };
-
 export const schema = {
   type: 'object',
   properties: {
     otherIncome: {
       type: 'object',
       properties: {
-        'view:socialSecurityPayments': {
+        socialSecurityPayments: {
           type: 'boolean',
         },
-        'view:hasSocialSecurity': {
+        hasSocialSecurity: {
           type: 'object',
           properties: {
-            'view:additionalIncome': {
+            additionalIncome: {
               type: 'boolean',
             },
-            'view:hasAdditionalIncome': {
+            hasAdditionalIncome: {
               type: 'object',
               properties: {
-                incomeType: {
-                  type: 'string',
-                  enum: ['Income Type 1', 'Income Type 2', 'Income Type 3'],
-                },
-                monthlyAmount: {
-                  type: 'string',
-                },
-                employerName: {
-                  type: 'string',
+                additionalIncome: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      incomeType: {
+                        type: 'string',
+                        enum: [
+                          'Income Type 1',
+                          'Income Type 2',
+                          'Income Type 3',
+                        ],
+                      },
+                      monthlyAmount: {
+                        type: 'string',
+                      },
+                      employerName: {
+                        type: 'string',
+                      },
+                    },
+                  },
                 },
               },
             },
