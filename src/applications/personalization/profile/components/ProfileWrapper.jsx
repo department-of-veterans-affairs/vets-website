@@ -122,7 +122,7 @@ const mapStateToProps = state => {
     showNotAllDataAvailableError:
       !!directDepositLoadError(state) ||
       !!fullNameLoadError(state) ||
-      !!hasVAPServiceConnectionError(state) ||
+      hasVAPServiceConnectionError(state) ||
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),
   };
