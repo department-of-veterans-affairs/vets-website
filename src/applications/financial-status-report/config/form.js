@@ -12,12 +12,14 @@ import {
   veteranInfo,
   spouseEmployment,
   dependents,
+  householdAssets,
   spouseInformation,
 } from '../pages';
 
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
   householdIncomeTitle: 'Household income',
+  householdAssets: 'Household Assets',
 };
 
 const formPageTitles = {
@@ -27,6 +29,7 @@ const formPageTitles = {
   otherIncome: 'Other income',
   spouseEmployment: 'Your spouse information',
   dependents: 'Dependents',
+  householdAssets: 'Household Assets',
   spouseInformation: 'Spouse Information',
 };
 
@@ -113,6 +116,17 @@ const formConfig = {
           title: formPageTitles.dependents,
           uiSchema: dependents.uiSchema,
           schema: dependents.schema,
+        },
+      },
+    },
+    assetsInformationChapter: {
+      title: formChapterTitles.householdAssets,
+      pages: {
+        [formPageTitles.householdAssets]: {
+          path: 'assets',
+          title: formPageTitles.householdAssets,
+          uiSchema: householdAssets.uiSchema,
+          schema: householdAssets.schema,
         },
       },
     },
