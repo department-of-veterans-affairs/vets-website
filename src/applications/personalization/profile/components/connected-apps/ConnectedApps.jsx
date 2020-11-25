@@ -116,6 +116,13 @@ export class ConnectedApps extends Component {
           <Link
             className="usa-button vads-u-margin-bottom--3"
             href="/resources/find-apps-you-can-use"
+            onClick={() =>
+              recordEvent({
+                event: 'go-to-app-directory',
+                'profile-action': 'view-link',
+                'profile-section': 'connected-apps',
+              })
+            }
           >
             Go to app directory
           </Link>
@@ -152,7 +159,16 @@ export class ConnectedApps extends Component {
             >
               To find out what other third-party apps are available to connect
               to your profile,{' '}
-              <a href="/resources/find-apps-you-can-use">
+              <a
+                href="/resources/find-apps-you-can-use"
+                onClick={() =>
+                  recordEvent({
+                    event: 'go-to-app-directory',
+                    'profile-action': 'view-link',
+                    'profile-section': 'connected-apps',
+                  })
+                }
+              >
                 go to the app directory
               </a>
             </AdditionalInfo>

@@ -9,13 +9,14 @@ import {
   FacilityInfo,
   PleaseSelectVAFacility,
   VeteranSSNInfo,
+  SecondaryRequiredAlert,
   PrimaryCaregiverInfo,
   SecondaryCaregiverInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
-import { vetFields, primaryCaregiverFields } from './constants';
+import { vetFields } from './constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
@@ -86,6 +87,18 @@ export default {
     vetRelationshipUI: label => ({
       'ui:title': `What is the ${label}  relationship to the Veteran?`,
     }),
+    secondaryRequiredAlert: {
+      'ui:title': ' ',
+      'ui:widget': SecondaryRequiredAlert,
+      'ui:options': {
+        hideIf: formData => shouldHideAlert(formData),
+      },
+    },
+    hasSecondaryCaregiverTwoUI: {
+      'ui:title': ' ',
+      'ui:description': AdditionalCaregiverInfo,
+      'ui:widget': 'yesNo',
+    },
     hasPrimaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Primary Family Caregiver?',
       'ui:description': PrimaryCaregiverInfo({
