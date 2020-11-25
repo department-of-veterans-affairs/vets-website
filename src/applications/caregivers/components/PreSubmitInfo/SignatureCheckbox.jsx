@@ -18,7 +18,7 @@ const SignatureCheckbox = ({
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const isSignatureComplete = isSigned && isChecked;
-  const hasSubmit = globalFormState.submission.status;
+  const hasSubmit = !!globalFormState.submission.status;
   const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
 
   useEffect(
