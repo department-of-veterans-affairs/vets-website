@@ -24,10 +24,7 @@ describe('VAOS <ContactInfoPage>', () => {
       },
     );
 
-    // it should display page heading
-    expect(await screen.findByText('Your contact information')).to.be.ok;
-
-    let input = screen.getByLabelText(/^Your phone number/);
+    let input = await screen.findByLabelText(/^Your phone number/);
     userEvent.type(input, '5555555555');
 
     let checkbox = screen.getByLabelText(/^Morning \(8 a.m. – noon\)/);
@@ -36,6 +33,8 @@ describe('VAOS <ContactInfoPage>', () => {
     input = screen.getByLabelText(/^Your email address/);
     userEvent.type(input, 'joe.blow@gmail.com');
 
+    // it should display page heading
+    expect(screen.getByText('Your contact information')).to.be.ok;
     const button = await screen.findByText(/^Continue/);
 
     userEvent.click(button);
@@ -77,11 +76,11 @@ describe('VAOS <ContactInfoPage>', () => {
       },
     );
 
-    // it should display page heading
-    expect(await screen.findByText('Your contact information')).to.be.ok;
-
-    const button = screen.getByText(/^Continue/);
+    const button = await screen.findByText(/^Continue/);
     userEvent.click(button);
+
+    // it should display page heading
+    expect(screen.getByText('Your contact information')).to.be.ok;
 
     expect(await screen.findByText(/^Please enter a phone number/)).to.be.ok;
     expect(screen.getByText(/^Please choose at least one option/)).to.be.ok;
