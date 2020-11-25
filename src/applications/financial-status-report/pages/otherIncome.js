@@ -1,5 +1,5 @@
 import ItemLoop from '../components/ItemLoop';
-import DependentView from '../components/DependentView';
+import IncomeView from '../components/IncomeView';
 
 export const uiSchema = {
   otherIncome: {
@@ -25,7 +25,7 @@ export const uiSchema = {
         additionalIncome: {
           'ui:field': ItemLoop,
           'ui:options': {
-            viewField: DependentView,
+            viewField: IncomeView,
           },
           items: {
             'ui:title': 'Additional income:',
