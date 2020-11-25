@@ -34,7 +34,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
 
   return (
     <>
-      <h4 className="vads-u-font-weight--bold">
+      <h4 className="vaos-appts__block-label">
         How to join your video appointment
       </h4>
       <div>

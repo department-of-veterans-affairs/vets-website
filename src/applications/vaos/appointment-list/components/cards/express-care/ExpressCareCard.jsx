@@ -46,7 +46,9 @@ export default function ExpressCareCard({
       <ExpressCareStatus appointment={appointment} />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-          <Title className="vads-u-font-size--h4">Your contact details</Title>
+          <Title className="vaos-appts__block-label">
+            Your contact details
+          </Title>
           <div>
             <Telephone contact={getPatientTelecom(appointment, 'phone')} />
             <br />
@@ -55,7 +57,7 @@ export default function ExpressCareCard({
         </div>
         {!!appointment.comment && (
           <div className="vads-u-flex--1 vaos-u-word-break--break-word vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
-            <Title className="vads-u-font-size--h4">
+            <Title className="vaos-appts__block-label">
               You shared these details about your concern
             </Title>
             <div>{appointment.comment}</div>

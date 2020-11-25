@@ -103,7 +103,7 @@ export default function AppointmentRequestListItem({
         </div>
         {!isExpressCare && (
           <div className="vads-u-flex--1 vaos-u-word-break--break-word">
-            <h4 className="vads-u-font-size--h4">Preferred date and time</h4>
+            <h4 className="vaos-appts__block-label">Preferred date and time</h4>
             <div>
               <ul className="usa-unstyled-list">
                 {appointment.requestedPeriod.map((option, optionIndex) => (
@@ -130,7 +130,7 @@ export default function AppointmentRequestListItem({
             <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
               {isExpressCare && (
                 <>
-                  <h4 className="vads-u-font-size--h4">
+                  <h4 className="vaos-appts__block-label">
                     Reason for appointment
                   </h4>
                   <div>{appointment.reason}</div>
@@ -138,13 +138,15 @@ export default function AppointmentRequestListItem({
               )}
               {!isExpressCare && (
                 <>
-                  <h4 className="vads-u-font-size--h4">{appointment.reason}</h4>
+                  <h4 className="vaos-appts__block-label">
+                    {appointment.reason}
+                  </h4>
                   <div>{firstMessage}</div>
                 </>
               )}
             </div>
             <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
-              <h4 className="vads-u-font-size--h4">Your contact details</h4>
+              <h4 className="vaos-appts__block-label">Your contact details</h4>
               <div>
                 {getPatientTelecom(appointment, 'email')}
                 <br />

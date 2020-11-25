@@ -8,7 +8,7 @@ export default function VideoVisitProvider({ participants }) {
 
   return (
     <>
-      <h4 className="vads-u-font-weight--bold">You’ll be meeting with</h4>
+      <h4 className="vaos-appts__block-label">You’ll be meeting with</h4>
       <div>{getPractitionerDisplay(participants)}</div>
     </>
   );

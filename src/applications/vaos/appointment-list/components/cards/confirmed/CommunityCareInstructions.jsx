@@ -7,7 +7,7 @@ export default function AppointmentInstructions({ instructions }) {
 
   return (
     <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
-      <h4 className="vads-u-font-size--h4">Special instructions</h4>
+      <h4 className="vaos-appts__block-label">Special instructions</h4>
       <div>{instructions}</div>
     </div>
   );

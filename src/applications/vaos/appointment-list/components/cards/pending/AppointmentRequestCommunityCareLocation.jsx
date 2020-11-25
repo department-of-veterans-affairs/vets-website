@@ -9,7 +9,7 @@ export default function AppointmentRequestCommunityCareLocation({
 
   return (
     <>
-      <h4 className="vads-u-font-weight--bold">Preferred provider</h4>
+      <h4 className="vaos-appts__block-label">Preferred provider</h4>
       <div>
         {!providers.length && 'Not specified'}
         {!!providers.length && (

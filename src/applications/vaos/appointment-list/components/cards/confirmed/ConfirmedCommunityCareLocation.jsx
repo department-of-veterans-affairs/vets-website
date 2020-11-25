@@ -13,7 +13,7 @@ export default function ConfirmedCommunityCareLocation({ appointment }) {
   if (!location.address) {
     return (
       <>
-        <h4 className="vads-u-font-weight--bold">{location.name}</h4>
+        <h4 className="vaos-appts__block-label">{location.name}</h4>
         <div>
           This appointment is scheduled with a community care provider. Please
           do not report to your local VA facility. If you have questions, please
@@ -28,7 +28,7 @@ export default function ConfirmedCommunityCareLocation({ appointment }) {
   } else {
     return (
       <>
-        <h4 className="vads-u-font-size--h4">{location.name}</h4>
+        <h4 className="vaos-appts__block-label">{location.name}</h4>
         <div>
           <FacilityAddress facility={location} showDirectionsLink />
         </div>

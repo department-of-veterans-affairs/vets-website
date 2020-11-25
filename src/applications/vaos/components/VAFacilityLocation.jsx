@@ -42,7 +42,7 @@ export default function VAFacilityLocation({
 
   return (
     <>
-      <h4 className="vads-u-font-size--h4">
+      <h4 className="vaos-appts__block-label">
         {clinicName || facilityName || facility?.name}
       </h4>
       <div>{content}</div>
