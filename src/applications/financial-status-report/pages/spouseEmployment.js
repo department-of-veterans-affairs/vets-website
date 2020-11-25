@@ -1,10 +1,10 @@
-// import EmploymentHistory from '../components/EmploymentHistory/EmploymentHistory';
+import ItemLoop from '../components/ItemLoop';
+import PayrollDeductionView from '../components/PayrollDeductionView';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
   spouseName: {
     'ui:title': "What is your spouse's name",
-    'ui:class': 'foobar',
   },
   employmentHistory: {
     hasBeenEmployed: {
@@ -22,7 +22,6 @@ export const uiSchema = {
         'ui:required': () => true,
       },
       isCurrentlyEmployed: {
-        // 'ui:field': EmploymentHistory,
         'ui:options': {
           expandUnder: 'currentlyEmployed',
         },
@@ -40,6 +39,23 @@ export const uiSchema = {
         },
         monthlyIncome: {
           'ui:title': 'Gross monthly income',
+        },
+        payrollDeductions: {
+          'ui:field': ItemLoop,
+          'ui:options': {
+            viewField: PayrollDeductionView,
+          },
+          items: {
+            'ui:title': 'Payroll deductions',
+            'ui:description':
+              'You can find your payroll deductions in a recent paycheck.',
+            deductionType: {
+              'ui:title': 'Type of payroll deduction',
+            },
+            deductionAmout: {
+              'ui:title': 'Deduction amount',
+            },
+          },
         },
       },
     },
@@ -69,7 +85,6 @@ export const schema = {
               properties: {
                 employmentType: {
                   type: 'string',
-                  enum: ['Full-time', 'Part-time', 'Seasonal'],
                 },
                 employmentStart: {
                   type: 'string',
@@ -79,6 +94,20 @@ export const schema = {
                 },
                 monthlyIncome: {
                   type: 'number',
+                },
+                payrollDeductions: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      deductionType: {
+                        type: 'string',
+                      },
+                      deductionAmout: {
+                        type: 'number',
+                      },
+                    },
+                  },
                 },
               },
             },
