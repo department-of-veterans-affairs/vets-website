@@ -70,16 +70,13 @@
                       <p class="vads-u-margin--0">
                         <a href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
                       </p>
-                      <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}
-                      </p>
+                      <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}</p>
                     {% else %}
                       {% if fieldAddress.addressLine1 %}
-                        <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}
-                        </p>
+                        <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}</p>
                       {% endif %}
                       {% if fieldAddress.addressLine2 %}
-                        <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}
-                        </p>
+                        <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}</p>
                       {% endif %}
                       <p class="vads-u-margin--0">
                         {% if fieldAddress.locality %}
@@ -92,7 +89,6 @@
                       </p>
                     {% endif %}
                   </dd>
-
                 </dl>
               {% endif %}
 
@@ -107,18 +103,22 @@
                 {% if fieldLink or fieldEventCta or fieldAdditionalInformationAbo %}
                   <div class="registration vads-u-margin-top--4 vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--1">
                       <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-bottom--1">Registration</p>
+                    {{  start_timestamp |  json }}
+                    {{  current_timestamp |  json }}
                       {% if start_timestamp < current_timestamp %}
                           <p class="vads-u-margin--0 vads-u-color--secondary vads-u-font-weight--bold">This event already happened.</p>
                       {% else %}
                           {% if fieldLink %}
-                              <p class="vads-u-margin--0"><a
-                                          href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">
-                                            {% if fieldEventCta %}
-                                              {{ fieldEventCta | removeUnderscores | capitalize }}
-                                            {% else %}
-                                              More details
-                                            {% endif %}
-                                          </button></a>
+                              <p class="vads-u-margin--0">
+                                <a href="{{ fieldLink.url.path }}">
+                                  <button class="vads-u-margin--0">
+                                    {% if fieldEventCta %}
+                                      {{ fieldEventCta | removeUnderscores | capitalize }}
+                                    {% else %}
+                                      More details
+                                    {% endif %}
+                                  </button>
+                                </a>
                               </p>
                           {% endif %}
                           {% if fieldAdditionalInformationAbo %}
@@ -140,8 +140,10 @@
             </div>
           </div>
           {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
-          <a onclick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See
-                        all events</a>
+          <a onclick="recordEvent({ event: 'nav-secondary-button-click' });"
+             href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">
+            See all events
+          </a>
         </article>
 
         <div class="last-updated usa-content">
