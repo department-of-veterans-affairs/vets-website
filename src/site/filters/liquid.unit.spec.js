@@ -65,4 +65,11 @@ describe('dateFromUnix', () => {
       ).to.eq('10:00 a.m.');
     });
   });
+
+  describe('currentTimeInSeconds', () => {
+    it('returns time in seconds', () => {
+      expect(String(liquid.filters.currentTimeInSeconds()).length < 13).to.be
+        .true;
+    });
+  });
 });
