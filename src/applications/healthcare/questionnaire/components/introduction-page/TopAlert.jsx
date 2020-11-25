@@ -5,19 +5,20 @@ export default function TopAlert({ toggleLoginModal }) {
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
       <div className="usa-alert-body">
         <h3 className="usa-alert-heading" data-testid="sign-in-header">
-          Please sign in to start your questionnaire
+          Please sign in to start your questions
         </h3>
         <div className="usa-alert-text">
           <p>When you’re signed in to your VA.gov account:</p>
           <ul>
             <li>
-              We can prefill part of your questionnaire based on your account
+              We can prefill part of your questions based on your account
               details.
             </li>
             <li>
-              You can save your questionnaire in progress, and come back later
-              to finish filling it out. You’ll have until [time period] before
-              your upcoming appointment to submit it.
+              ▪ We can prefill part of your questions based upon your account
+              details. ▪ You can save your questions in progress, and come back
+              later to finish filling it out. You’ll have until [time period]
+              before your upcoming appointment to submit it.
             </li>
           </ul>
         </div>
