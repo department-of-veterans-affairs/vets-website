@@ -3,6 +3,7 @@ import * as employmentHistory from './employmentHistory';
 import * as veteranInfo from './veteranInfo';
 import * as otherIncome from './otherIncome';
 import * as dependents from './dependents';
+import * as spouseInformation from './spouseInformation';
 
 export {
   availableDebts,
@@ -10,4 +11,5 @@ export {
   otherIncome,
   veteranInfo,
   dependents,
+  spouseInformation,
 };
