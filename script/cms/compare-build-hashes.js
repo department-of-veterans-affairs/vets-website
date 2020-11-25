@@ -11,6 +11,11 @@ const path = require('path');
 // 'a/file/path': ['abcdef', '123456']
 const fileHashes = {};
 
+/**
+ * Calculates MD5 hash for a file.
+ * @param {string} filePath - Path to the file
+ * @return {string} The file hash.
+ */
 const calculateFileHash = filePath => {
   const data = fs.readFileSync(filePath, { encoding: 'utf8' });
   const hash = crypto.createHash('md5');
@@ -18,6 +23,12 @@ const calculateFileHash = filePath => {
   return hash.digest('hex');
 };
 
+/**
+ * Gathers file hashes for all HTML files in a build directory.
+ * Maps file paths to the hashes in a global object.
+ * @params {string} dirPath - The build directory path.
+ * @params {number} buildIndex - The index of the build from the script args.
+ */
 const collectFileHashes = (dirPath, buildIndex) => {
   fs.readdirSync(dirPath).forEach(fileName => {
     const filePath = path.join(dirPath, fileName);
@@ -31,6 +42,12 @@ const collectFileHashes = (dirPath, buildIndex) => {
   });
 };
 
+/**
+ * Checks DOM equality between a HTML document from different builds.
+ * @params {string} filePath - The file path of the HTML doc.
+ * @params {string[]} buildPaths - Array of build directory root paths.
+ * @return {boolean} Whether the DOMs are considered equal.
+ */
 const isDomEqual = async (filePath, buildPaths) => {
   const domPromises = buildPaths.map(
     async buildPath =>
@@ -41,6 +58,12 @@ const isDomEqual = async (filePath, buildPaths) => {
   return doms.reduce((acc, cur) => (acc.isEqualNode(cur) ? acc : null));
 };
 
+/**
+ * Compares builds given a list of builds. Writes a mapping of file paths
+ * to hashes per build for all HTML files, then writes a separate mapping
+ * only for hashes that differ.
+ * @param {string} buildPaths - Array of paths to build directories.
+ */
 const compareBuilds = async (buildPaths = []) => {
   const outputDir = 'comparison-output';
   const allHashesFile = path.join(outputDir, 'all-hashes.json');
