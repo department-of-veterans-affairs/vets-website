@@ -94,17 +94,17 @@ const formConfig = {
           uiSchema: otherIncome.uiSchema,
           schema: otherIncome.schema,
         },
-        [formPageTitles.dependents]: {
-          path: 'dependents',
-          title: formPageTitles.dependents,
-          uiSchema: dependents.uiSchema,
-          schema: dependents.schema,
-        },
         [formPageTitles.spouseEmployment]: {
           path: 'spouse-employment',
           title: formPageTitles.spouseEmployment,
           uiSchema: spouseEmployment.uiSchema,
           schema: spouseEmployment.schema,
+        },
+        [formPageTitles.dependents]: {
+          path: 'dependents',
+          title: formPageTitles.dependents,
+          uiSchema: dependents.uiSchema,
+          schema: dependents.schema,
         },
       },
     },
