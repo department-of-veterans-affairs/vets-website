@@ -914,5 +914,14 @@
       "vagovprod": true,
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "My Messages",
+    "entryName": "messages",
+    "rootUrl": "/my-messages",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]
