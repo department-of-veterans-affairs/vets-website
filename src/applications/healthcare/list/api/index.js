@@ -1,23 +1,24 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-const USE_MOCK_DATA = window.Cypress || environment.isLocalhost();
+const USE_MOCK_DATA =
+  window.Cypress || environment.isLocalhost || environment.isStaging;
 
-const loadAppointment = async () => {
+const loadQuestionnaires = async () => {
   let promise;
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve => {
       setTimeout(() => {
-        import('./appointment-data.json').then(module => {
+        import('./my-questionnaires.sample.json').then(module => {
           resolve(module.default);
         });
-      }, 0);
+      }, 1000);
     });
   } else {
-    const url = '/health_quest/v0/appointments/123123';
+    const url = '/health_quest/v0/my/questionnaires';
     promise = apiRequest(`${environment.API_URL}${url}`);
   }
   return promise;
 };
 
-export { loadAppointment };
+export { loadQuestionnaires };
