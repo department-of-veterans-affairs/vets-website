@@ -31,8 +31,8 @@ const setup = () => {
 describe('When there is a known issue connecting to VA Profile', () => {
   it('should render the correct error alerts and not show contact info', () => {
     setup();
-    // Top-level generic error alert should be shown
-    cy.findByTestId('not-all-data-available-error').should('exist');
+    // Top-level generic error alert should not be shown for this error
+    cy.findByTestId('not-all-data-available-error').should('not.exist');
 
     // Contact info alert should be shown
     cy.findByTestId('vap-service-not-available-error').should('exist');

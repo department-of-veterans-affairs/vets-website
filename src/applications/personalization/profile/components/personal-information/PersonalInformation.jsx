@@ -89,7 +89,7 @@ PersonalInformation.propTypes = {
 const mapStateToProps = state => ({
   showDirectDepositBlockedError: !!directDepositIsBlocked(state),
   hasUnsavedEdits: state.vapService.hasUnsavedEdits,
-  hasVAPServiceError: !!hasVAPServiceConnectionError(state),
+  hasVAPServiceError: hasVAPServiceConnectionError(state),
 });
 
 export default connect(
