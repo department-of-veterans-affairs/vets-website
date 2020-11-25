@@ -7,7 +7,8 @@ const transform = entity => ({
     fieldTitle: getDrupalValue(entity.fieldTitle),
     fieldVaParagraphs: entity.fieldVaParagraphs,
     fieldWysiwyg: {
-      processed: getWysiwygString(entity.fieldWysiwyg.processed),
+      // processed: getWysiwygString(entity.fieldWysiwyg.processed),
+      processed: getWysiwygString(getDrupalValue(entity.fieldWysiwyg)),
     },
   },
 });
