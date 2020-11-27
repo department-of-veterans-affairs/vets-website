@@ -60,6 +60,8 @@ export const DirectDepositContent = ({
   const { accountNumber, accountType, routingNumber } = formData;
   const isEmptyForm = !accountNumber && !accountType && !routingNumber;
 
+  const showSetup2FactorAuthentication = isLOA3 && !is2faEnabled;
+
   // when we enter and exit edit mode...
   useEffect(
     () => {
@@ -307,7 +309,7 @@ export const DirectDepositContent = ({
     return null;
   }
 
-  if (isLOA3 && !is2faEnabled) {
+  if (showSetup2FactorAuthentication) {
     return (
       <AlertBox
         className="vads-u-margin-bottom--2"
@@ -433,7 +435,7 @@ export const mapStateToProps = state => ({
   directDepositInfo: directDepositInformation(state),
   isDirectDepositSetUp: directDepositIsSetUp(state),
   directDepositUiState: directDepositUiStateSelector(state),
-  is2faEnabled: false,
+  is2faEnabled: isMultifactorEnabled(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 

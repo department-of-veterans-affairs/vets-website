@@ -225,7 +225,6 @@ const mapStateToProps = state => {
   const isDirectDepositSetUp = directDepositIsSetUp(state);
   const isDirectDepositBlocked = directDepositIsBlocked(state);
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
-  // HERE
   const is2faEnabled = isMultifactorEnabled(state);
   const shouldFetchDirectDepositInformation =
     isEvssAvailableSelector(state) && is2faEnabled;
