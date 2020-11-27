@@ -223,11 +223,11 @@ const mapStateToProps = state => {
     backendServices.EVSS_CLAIMS,
   );
   const isDirectDepositSetUp = directDepositIsSetUp(state);
+  const isEvssAvailable = isEvssAvailableSelector(state);
   const isDirectDepositBlocked = directDepositIsBlocked(state);
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
-  const shouldFetchDirectDepositInformation =
-    isEvssAvailableSelector(state) && is2faEnabled;
+  const shouldFetchDirectDepositInformation = isEvssAvailable && is2faEnabled;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
