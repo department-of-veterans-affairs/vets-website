@@ -5,7 +5,7 @@ import { PROFILE_PATH_NAMES } from 'applications/personalization/profile/constan
 
 describe('getRoutes', () => {
   describe('when options.removeDirectDeposit is false', () => {
-    it('should return all possible PROFILE_PATHS`', () => {
+    it('should return the direct deposit path`', () => {
       const allRoutes = getRoutes({ removeDirectDeposit: false });
       const hasDirectDepositRoute = allRoutes.some(
         route => route.name === PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
@@ -16,7 +16,7 @@ describe('getRoutes', () => {
   });
 
   describe('when options.removeDirectDeposit is true', () => {
-    it('should return all possible PROFILE_PATHS except for the Direct Deposit route', () => {
+    it('should not return the direct deposit path', () => {
       const allRoutes = getRoutes({ removeDirectDeposit: true });
       const hasDirectDepositRoute = allRoutes.some(
         route => route.name === PROFILE_PATH_NAMES.DIRECT_DEPOSIT,

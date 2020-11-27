@@ -9,16 +9,16 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import recordEvent from 'platform/monitoring/record-event';
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { mfa } from 'platform/user/authentication/utilities';
+import recordEvent from '~/platform/monitoring/record-event';
+import EbenefitsLink from '~/platform/site-wide/ebenefits/containers/EbenefitsLink';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { mfa } from '~/platform/user/authentication/utilities';
 
 import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
-} from 'platform/user/selectors';
-import { usePrevious } from 'platform/utilities/react-hooks';
+} from '~/platform/user/selectors';
+import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
   editModalToggled,
   savePaymentInformation as savePaymentInformationAction,
@@ -35,7 +35,7 @@ import PaymentInformationEditError from './PaymentInformationEditModalError';
 import ProfileInfoTable from '../ProfileInfoTable';
 import FraudVictimAlert from './FraudVictimAlert';
 
-import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
 export const DirectDepositContent = ({
   isLOA3,
@@ -313,7 +313,7 @@ export const DirectDepositContent = ({
     return (
       <AlertBox
         className="vads-u-margin-bottom--2"
-        headline="You'll need to set up 2-factor authentication before you can edit your direct deposit information."
+        headline="You’ll need to set up 2-factor authentication before you can edit your direct deposit information."
         content={
           <>
             <p>
@@ -353,7 +353,7 @@ export const DirectDepositContent = ({
         >
           <p>
             {' '}
-            {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won't be saved.`}
+            {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
           </p>
           <button
             className="usa-button-secondary"

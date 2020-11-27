@@ -128,7 +128,7 @@ describe('DirectDepositContent', () => {
     });
     expect(
       view.getByText(
-        /You'll need to set up 2-factor authentication before you can edit your direct deposit information./i,
+        /You’ll need to set up 2-factor authentication before you can edit your direct deposit information./i,
       ),
     ).to.exist;
     expect(view.queryByText(paymentAccount.financialInstitutionName)).not.to
