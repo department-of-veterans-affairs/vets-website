@@ -123,7 +123,7 @@ describe('DirectDepositContent', () => {
     initialState = createBasicInitialState();
     initialState.user.profile.multifactor = false;
 
-    const { view } = renderWithProfileReducers(ui, {
+    const view = renderWithProfileReducers(ui, {
       initialState,
     });
     expect(
@@ -131,11 +131,10 @@ describe('DirectDepositContent', () => {
         /You'll need to set up 2-factor authentication before you can edit your direct deposit information./i,
       ),
     ).to.exist;
-    expect(view.getByText(paymentAccount.financialInstitutionName)).not.to
+    expect(view.queryByText(paymentAccount.financialInstitutionName)).not.to
       .exist;
-    expect(view.getByText(paymentAccount.accountNumber)).not.to.exist;
-    expect(view.getByText(paymentAccount.accountType, { exact: false })).not.to
-      .exist;
+    expect(view.queryByText(paymentAccount.accountNumber)).not.to.exist;
+    expect(view.queryByText(paymentAccount.accountType)).not.to.exist;
   });
   describe('when bank info is not set up', () => {
     let view;

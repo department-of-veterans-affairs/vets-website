@@ -268,14 +268,6 @@ describe('mapStateToProps', () => {
         expect(props.shouldShowDirectDeposit).to.be.false;
       });
     });
-    describe('when direct deposit info should not be fetched because user has not set up 2FA', () => {
-      it('should be `false`', () => {
-        const state = makeDefaultState();
-        state.user.profile.multifactor = false;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.false;
-      });
-    });
     describe('when user is flagged as incompetent', () => {
       it('should be `false`', () => {
         const state = makeDefaultState();
