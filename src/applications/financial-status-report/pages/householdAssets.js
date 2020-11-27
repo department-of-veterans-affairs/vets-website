@@ -1,5 +1,5 @@
 import ItemLoop from '../components/ItemLoop';
-import RealEstateView from '../components/RealEstateView';
+import AssetView from '../components/AssetView';
 
 export const uiSchema = {
   householdAssets: {
@@ -26,23 +26,101 @@ export const uiSchema = {
     realEstate: {
       'ui:title': 'Do you currently own any real estate?',
       'ui:widget': 'yesNo',
-      hasRealEstate: {
+    },
+    hasRealEstate: {
+      'ui:options': {
+        expandUnder: 'realEstate',
+      },
+      realEstateValue: {
+        'ui:field': ItemLoop,
         'ui:options': {
-          expandUnder: 'realEstate',
+          viewField: AssetView,
         },
-        realEstateValue: {
-          'ui:field': ItemLoop,
-          'ui:options': {
-            viewField: RealEstateView,
+        items: {
+          'ui:title': 'Real estate owned:',
+          realEstateType: {
+            'ui:title': 'Real estate type',
           },
-          items: {
-            'ui:title': 'Real estate owned:',
-            realEstateType: {
-              'ui:title': 'Real estate type',
-            },
-            realEstateValue: {
-              'ui:title': 'Real estate value',
-            },
+          realEstateValue: {
+            'ui:title': 'Real estate value',
+          },
+        },
+      },
+    },
+    rvBoatOrCamper: {
+      'ui:title': 'Do you currently own any trailers, boats or campers?',
+      'ui:widget': 'yesNo',
+    },
+    hasRvBoatOrCamper: {
+      'ui:options': {
+        expandUnder: 'rvBoatOrCamper',
+      },
+      rvBoatOrCamperValue: {
+        'ui:field': ItemLoop,
+        'ui:options': {
+          viewField: AssetView,
+        },
+        items: {
+          'ui:title': 'Trailers, boats, or campers owned',
+          rvBoatOrCamperType: {
+            'ui:title': 'Type',
+          },
+          rvBoatOrCamperValue: {
+            'ui:title': 'Resale value',
+          },
+        },
+      },
+    },
+    automobiles: {
+      'ui:title': 'Do you currently own any automobiles?',
+      'ui:widget': 'yesNo',
+    },
+    hasAutomobiles: {
+      'ui:options': {
+        expandUnder: 'automobiles',
+      },
+      automobilesValue: {
+        'ui:field': ItemLoop,
+        'ui:options': {
+          viewField: AssetView,
+        },
+        items: {
+          'ui:title': 'Trailers, boats, or campers owned',
+          automobileMake: {
+            'ui:title': 'Automobile make',
+          },
+          automobileModel: {
+            'ui:title': 'Automobile model',
+          },
+          automobileYear: {
+            'ui:title': 'Automobile year',
+          },
+          automobileResaleValue: {
+            'ui:title': 'Automobile resale value',
+          },
+        },
+      },
+    },
+    otherAssets: {
+      'ui:title': 'Do you own other assets?',
+      'ui:widget': 'yesNo',
+    },
+    hasOtherAssets: {
+      'ui:options': {
+        expandUnder: 'otherAssets',
+      },
+      otherAssetsValue: {
+        'ui:field': ItemLoop,
+        'ui:options': {
+          viewField: AssetView,
+        },
+        items: {
+          'ui:title': 'Other assets owned',
+          otherAssetType: {
+            'ui:title': 'Asset Type',
+          },
+          otherAssetResaleValue: {
+            'ui:title': 'Resale Value',
           },
         },
       },
@@ -70,20 +148,92 @@ export const schema = {
         },
         realEstate: {
           type: 'boolean',
-          hasRealEstate: {
-            type: 'object',
-            properties: {
-              realEstateValue: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    realEstateType: {
-                      type: 'string',
-                    },
-                    realEstateValue: {
-                      type: 'string',
-                    },
+        },
+        hasRealEstate: {
+          type: 'object',
+          properties: {
+            realEstateValue: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  realEstateType: {
+                    type: 'string',
+                  },
+                  realEstateValue: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
+          },
+        },
+        rvBoatOrCamper: {
+          type: 'boolean',
+        },
+        hasRvBoatOrCamper: {
+          type: 'object',
+          properties: {
+            rvBoatOrCamperValue: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  rvBoatOrCamperType: {
+                    type: 'string',
+                  },
+                  rvBoatOrCamperValue: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
+          },
+        },
+        automobiles: {
+          type: 'boolean',
+        },
+        hasAutomobiles: {
+          type: 'object',
+          properties: {
+            automobilesValue: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  automobileMake: {
+                    type: 'string',
+                  },
+                  automobileModel: {
+                    type: 'string',
+                  },
+                  automobileYear: {
+                    type: 'string',
+                  },
+                  automobileResaleValue: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
+          },
+        },
+        otherAssets: {
+          type: 'boolean',
+        },
+        hasOtherAssets: {
+          type: 'object',
+          properties: {
+            otherAssetsValue: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  otherAssetType: {
+                    type: 'string',
+                  },
+                  otherAssetResaleValue: {
+                    type: 'string',
                   },
                 },
               },
