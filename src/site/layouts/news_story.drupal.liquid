@@ -1,57 +1,3 @@
-{% comment %}
-Example data:
-{
-    "entityId": "93",
-    "entityBundle": "news_story",
-    "entityPublished": false,
-    "promote": false,
-    "created": 1551049412,
-    "entityUrl": {
-        "breadcrumb": [
-            {
-                "url": {
-                "path": "/",
-                "routed": true
-            },
-                "text": "Home"
-            },
-            {
-                "url": {
-                "path": "/pittsburgh-health-care",
-                "routed": true
-            },
-                "text": "Pittsburgh Health Care System"
-            }
-            ],
-        "path": "/pittsburgh-health-care/news/opioid-use-review-clinic"
-    },
-    "title": "Opioid Use Review clinic",
-    "fieldAuthor": {
-        "entity": {
-            "title": "Sheila Tunney",
-            "fieldDescription": "Public Affairs Office"
-        }
-    },
-    "fieldImageCaption": "During a one-time, hourlong session, Opioid Use Review clinic staff talk with Veterans about their pain, discuss\r\nways to improve quality of life and provide opioid safety education, either in person in Pittsburgh or via\r\ntelehealth at regional VA outpatient clinics.",
-    "fieldIntroText": "Since 2014, more than 55 people* who may have otherwise overdosed and died have been saved with naloxone rescue kits issued to Veterans by VA Pittsburgh Healthcare System.",
-    "fieldMedia": {
-        "entity": {
-            "image": {
-                "alt": "Opioid Use Review clinic staff talk with Veterans about their pain",
-                "title": "",
-                "derivative": {
-                    "url": "http://stg.va.agile6.com/sites/default/files/styles/crop_2_1/public/2019-02/VAMC-Region-2019-02-21_0.jpg?itok=OwvOlLIz",
-                    "width": 468,
-                    "height": 326
-                }
-            }
-        }
-    },
-    "fieldFullStory": {
-        "processed": "<p>While that is an amazing fact, it is a small number compared to the more than 70,000* people in</p> ..."
-    }
-}
-{% endcomment %}
 {% if header == empty %}
     {% assign header = "h4" %}
 {% endif %}
@@ -62,53 +8,10 @@ Example data:
 
 <div id="content" class="interior">
     <main class="va-l-detail-page va-facility-page">
-        {% comment %} On prod environments, show the SideNav. {% endcomment %}
-        {% if buildtype == 'vagovprod' %}
-            <div class="usa-grid usa-grid-full">
-                {% comment %} SideNav {% endcomment %}
-                {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+        <div class="usa-grid usa-grid-full">
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
 
-                {% comment %} Content {% endcomment %}
-                <div class="usa-width-three-fourths">
-                    {% if !entityPublished %}
-                        <div class="usa-alert usa-alert-info" >
-                            <div class="usa-alert-body">
-                                <p class="usa-alert-text">You are viewing a draft.</p>
-                            </div>
-                        </div>
-                    {% endif %}
-
-                    <article class="usa-content">
-                        <h1>{{ title }}</h1>
-                        {% assign image = fieldMedia.entity.image %}
-                        <img class="story-detail-img {% if fieldImageCaption == empty %}vads-u-margin-bottom--2p5{% else %}vads-u-margin-bottom--1{% endif %}" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
-                        <div class="vads-u-font-size--sm vads-u-margin-bottom--2p5">{{ fieldImageCaption }}</div>
-                        {% if fieldAuthor != empty and fieldAuthor.entity != empty %}
-                            {% assign author = fieldAuthor.entity %}
-                            <div class="authored-by-line vads-u-margin-bottom--0p5 vads-u-font-weight--bold">By {{ author.title }}{% if author.fieldDescription != empty %}, {{ author.fieldDescription }} {% endif %}</div>
-                        {% endif %}
-                        <div class="created-line vads-u-margin-bottom--2p5">
-                            <time datetime="{{ created | dateFromUnix: 'YYYY-MM-DD'}}">{{ created | humanizeTimestamp }}</time>
-                        </div>
-
-                        {% include "src/site/facilities/story_social_share.drupal.liquid" %}
-
-                        <div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
-                            <div class="va-introtext">
-                                <p>{{ fieldIntroText }}</p>
-                            </div>
-                            <div class="full-story">
-                                {{ fieldFullStory.processed }}
-                            </div>
-                        </div>
-                        <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" class="vads-u-display--block vads-u-margin-bottom--7" href="{{ fieldListing.entity.entityUrl.path }}">See all stories</a>
-                    </article>
-                </div>
-            </div>
-
-        {% comment %} On non-prod environments, do not show the SideNav. {% endcomment %}
-        {% else %}
-            <div class="usa-grid usa-grid-full">
+            <div class="usa-width-three-fourths">
                 {% if !entityPublished %}
                     <div class="usa-alert usa-alert-info" >
                         <div class="usa-alert-body">
@@ -143,7 +46,7 @@ Example data:
                     <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" class="vads-u-display--block vads-u-margin-bottom--7" href="{{ fieldListing.entity.entityUrl.path }}">See all stories</a>
                 </article>
             </div>
-        {% endif %}
+        </div>
     </main>
 </div>
 {% include "src/site/includes/footer.html" %}

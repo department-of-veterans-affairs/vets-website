@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import moment from 'moment';
 import set from 'platform/utilities/data/set';
 

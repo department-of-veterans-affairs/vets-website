@@ -14,8 +14,9 @@
 
 {% assign tagsSize = entityMetatags | size %}
 {% if tagsSize > 0 %}
+{% assign sortedEntityMetatags = entityMetatags | sortEntityMetatags %}
 <!-- Metatags -->
-{% for tag in entityMetatags %}
+{% for tag in sortedEntityMetatags %}
     {% case tag.__typename %}
       {% when "MetaValue" %}
         {% if tag.key == "title" %}
@@ -43,21 +44,13 @@
   {% endif %}
   {% assign metaTitle = metaTitle | append: " | Veterans Affairs" %}
 <meta property="og:site_name" content="Veterans Affairs">
+<meta content="{{ metaTitle }}" property="og:title">
 <meta name="twitter:card" content="Summary">
 <meta name="twitter:site" content="@DeptVetAffairs">
 <meta name="twitter:image" content="{{ hostUrl }}/img/design/logo/va-og-twitter-image.png">
-<meta content="{{ metaTitle }}" property="og:title">
 <meta content="{{ metaTitle }}" name="twitter:title" >
-  {% if fieldIntroTextNewsStories %}
-    {% assign description = fieldIntroTextNewsStories.processed  | strip_html %}
-  {% elsif fieldIntroTextEventsPage %}
-    {% assign description = fieldIntroTextEventsPage.processed | strip_html %}
-  {% elsif fieldClinicalHealthServi %}
+  {% if fieldClinicalHealthServi %}
     {% assign description = fieldClinicalHealthServi.processed | strip_html %}
-  {% elsif fieldLocationsIntroBlurb %}
-    {% assign description = fieldLocationsIntroBlurb.processed | strip_html %}
-  {% elsif fieldPatientFamilyServicesIn %}
-    {% assign description = fieldPatientFamilyServicesIn.processed | strip_html %}
   {% elsif fieldPressReleaseBlurb %}
     {% assign description = fieldPressReleaseBlurb.processed | strip_html %}
   {% elsif fieldDescription %}

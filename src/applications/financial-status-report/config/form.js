@@ -10,6 +10,9 @@ import {
   employmentHistory,
   otherIncome,
   veteranInfo,
+  spouseEmployment,
+  dependents,
+  spouseInformation,
 } from '../pages';
 
 const formChapterTitles = {
@@ -22,6 +25,9 @@ const formPageTitles = {
   availableDebts: 'Available Debts',
   employmentHistory: 'Your employment history',
   otherIncome: 'Other income',
+  spouseEmployment: 'Your spouse information',
+  dependents: 'Dependents',
+  spouseInformation: 'Spouse Information',
 };
 
 const formConfig = {
@@ -75,11 +81,11 @@ const formConfig = {
         },
       },
     },
-    householdInformationChapter: {
+    householdIncomeChapter: {
       title: formChapterTitles.householdIncomeTitle,
       pages: {
         [formPageTitles.employmentHistory]: {
-          path: 'household-income',
+          path: 'employment-history',
           title: formPageTitles.employmentHistory,
           uiSchema: employmentHistory.uiSchema,
           schema: employmentHistory.schema,
@@ -89,6 +95,24 @@ const formConfig = {
           title: formPageTitles.otherIncome,
           uiSchema: otherIncome.uiSchema,
           schema: otherIncome.schema,
+        },
+        [formPageTitles.spouseInformation]: {
+          path: 'spouse-information',
+          title: formPageTitles.spouseInformation,
+          uiSchema: spouseInformation.uiSchema,
+          schema: spouseInformation.schema,
+        },
+        [formPageTitles.spouseEmployment]: {
+          path: 'spouse-employment',
+          title: formPageTitles.spouseEmployment,
+          uiSchema: spouseEmployment.uiSchema,
+          schema: spouseEmployment.schema,
+        },
+        [formPageTitles.dependents]: {
+          path: 'dependents',
+          title: formPageTitles.dependents,
+          uiSchema: dependents.uiSchema,
+          schema: dependents.schema,
         },
       },
     },

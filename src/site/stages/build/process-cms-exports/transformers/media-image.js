@@ -11,9 +11,9 @@ const transform = entity => ({
   image: {
     alt: entity.image[0].alt || '',
     title: entity.image[0].title || '',
-    url: encodeURI(entity.thumbnail[0].url),
+    url: encodeURI(entity.thumbnail[0].url.replace('public:/', '/img')),
     derivative: {
-      url: encodeURI(entity.thumbnail[0].url),
+      url: encodeURI(entity.thumbnail[0].url.replace('public:/', '/img')),
       width: entity.image[0].width,
       height: entity.image[0].height,
     },
