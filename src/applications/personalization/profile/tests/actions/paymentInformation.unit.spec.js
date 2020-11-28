@@ -134,6 +134,12 @@ describe('actions/paymentInformation', () => {
           expect(recordEventSpy.secondCall.args[0].event).to.equal(
             'profile-get-direct-deposit-retrieved',
           );
+          expect(
+            recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
+          ).to.be.true;
+          expect(
+            recordEventSpy.secondCall.args[0]['direct-deposit-setup-complete'],
+          ).to.be.true;
         });
       });
 
