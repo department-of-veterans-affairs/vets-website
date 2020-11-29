@@ -183,12 +183,12 @@ const formConfig = {
     },
     secondaryCaregiversTwoChapter: {
       title: secondaryCaregiversUI.secondaryTwoChapterTitle,
-      depends: formData => hasSecondaryCaregiverTwo(formData),
+      depends: formData => hasSecondaryCaregiverOne(formData),
       pages: {
         secondaryTwoCaregiverOne: {
           path: 'secondary-two-1',
           title: 'Secondary Family Caregiver information',
-          depends: formData => hasSecondaryCaregiverTwo(formData),
+          depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: hasSecondaryTwoCaregiverPage.uiSchema,
           schema: hasSecondaryTwoCaregiverPage.schema,
         },

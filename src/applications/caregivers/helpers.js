@@ -124,18 +124,16 @@ export const hasPrimaryCaregiver = formData => {
   return formData[primaryCaregiverFields.hasPrimaryCaregiver];
 };
 
-export const hasSecondaryCaregiverOne = formData =>
-  formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverOne];
+export const hasSecondaryCaregiverOne = formData => {
+  return formData[
+    secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverOne
+  ];
+};
 
 export const hasSecondaryCaregiverTwo = formData => {
-  const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
-  const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
-  console.log('hasSecondaryOne: ', hasSecondaryOne);
-  console.log('hasSecondaryTwo: ', hasSecondaryTwo);
-
-  if (!hasSecondaryOne) return false;
-
-  return hasSecondaryTwo;
+  return formData[
+    secondaryCaregiverFields.secondaryTwo.hasSecondaryCaregiverTwo
+  ];
 };
 
 const isSSNUnique = formData => {
@@ -180,9 +178,10 @@ export const facilityNameMaxLength = (errors, formData) => {
 export const shouldHideAlert = formData => {
   const hasPrimary = formData[primaryCaregiverFields.hasPrimaryCaregiver];
   const hasSecondary =
-    formData[primaryCaregiverFields.hasSecondaryCaregiverOne];
+    formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverOne];
   const isSecondaryOneUndefined =
-    formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === undefined;
+    formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverOne] ===
+    undefined;
 
   if (hasPrimary) return true;
   if (hasSecondary) return true;
