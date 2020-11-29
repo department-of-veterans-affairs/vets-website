@@ -1,8 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { medicalCentersByState } from 'applications/caregivers/helpers';
-import { states } from 'platform/forms/address';
-import { vetFields } from 'applications/caregivers/definitions/constants';
+
 import definitions from 'applications/caregivers/definitions/caregiverUI';
+import { medicalCentersByState } from 'applications/caregivers/helpers';
+import { vetFields } from 'applications/caregivers/definitions/constants';
+import { FacilityInfo } from 'applications/caregivers/components/AdditionalInfo';
+import { states } from 'platform/forms/address';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 const lastTreatmentFacility =
@@ -15,7 +17,10 @@ const vetMedicalCenterPage = {
     [vetFields.preferredFacilityView]: {
       ...vetUI[vetFields.preferredFacilityView],
     },
-    [vetFields.preferredFacilityInfoView]: vetUI.preferredFacilityInfo,
+    [vetFields.preferredFacilityInfoView]: {
+      'ui:title': ' ',
+      'ui:widget': FacilityInfo,
+    },
   },
   schema: {
     type: 'object',

@@ -6,21 +6,14 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import email from 'platform/forms-system/src/js/definitions/email';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import {
-  FacilityInfo,
   PleaseSelectVAFacility,
   VeteranSSNInfo,
   SecondaryRequiredAlert,
-  SecondaryCaregiverInfo,
-  AdditionalCaregiverInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
-import {
-  vetFields,
-  primaryCaregiverFields,
-  secondaryCaregiverFields,
-} from './constants';
+import { vetFields } from './constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
@@ -99,11 +92,6 @@ export default {
         hideIf: formData => shouldHideAlert(formData),
       },
     },
-    hasSecondaryCaregiverTwoUI: {
-      'ui:title': ' ',
-      'ui:description': AdditionalCaregiverInfo,
-      'ui:widget': 'yesNo',
-    },
   },
   vetUI: {
     vetInputLabel: 'Veteran\u2019s',
@@ -176,18 +164,6 @@ export default {
         },
       },
     },
-    preferredFacilityInfo: {
-      'ui:title': ' ',
-      'ui:widget': FacilityInfo,
-    },
-  },
-  primaryCaregiverUI: {
-    primaryInputLabel: 'Primary Family Caregiver\u2019s',
-    hasHealthInsurance: {
-      'ui:title':
-        'Does the Primary Family Caregiver applicant have health care coverage, such as Medicaid, Medicare, CHAMPVA, Tricare, or private insurance?',
-      'ui:widget': 'yesNo',
-    },
   },
   secondaryCaregiversUI: {
     secondaryOneInputLabel: 'Secondary Family Caregiver\u2019s',
@@ -198,6 +174,8 @@ export default {
       'Secondary Family Caregiver\u2019s (2) applicant information',
   },
 };
+
+export const primaryInputLabel = 'Primary Family Caregiver\u2019s';
 
 export const confirmationEmailUI = (label, dataConstant) => ({
   'ui:title': `Re-enter ${label}  email address`,
