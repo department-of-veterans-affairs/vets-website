@@ -1,5 +1,5 @@
 import ItemLoop from '../components/ItemLoop';
-import PayrollDeductionView from '../components/PayrollDeductionView';
+import AssetView from '../components/AssetView';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -15,36 +15,28 @@ export const uiSchema = {
       },
       'ui:description':
         'Please provide your spouse’s employment history for the past two years.',
-      employmentType: {
-        'ui:title': 'Type of employment',
-      },
-      employmentStart: {
-        'ui:title': 'Employment start date',
-        'ui:widget': 'date',
-        'ui:required': () => true,
-      },
-      employmentEnd: {
-        'ui:title': 'Employment end date',
-        'ui:widget': 'date',
-        'ui:required': () => true,
-      },
-      employerName: {
-        'ui:title': 'Employer name',
-      },
       payrollDeductions: {
         'ui:field': ItemLoop,
         'ui:options': {
-          viewField: PayrollDeductionView,
+          viewField: AssetView,
         },
         items: {
-          'ui:title': 'Payroll deductions',
-          'ui:description':
-            'You can find your payroll deductions in a recent paycheck.',
-          deductionType: {
-            'ui:title': 'Type of payroll deduction',
+          'ui:title': 'Add a job',
+          employmentType: {
+            'ui:title': 'Type of employment',
           },
-          deductionAmout: {
-            'ui:title': 'Deduction amount',
+          employmentStart: {
+            'ui:title': 'Employment start date',
+            'ui:widget': 'date',
+            'ui:required': () => true,
+          },
+          employmentEnd: {
+            'ui:title': 'Employment end date',
+            'ui:widget': 'date',
+            'ui:required': () => true,
+          },
+          employerName: {
+            'ui:title': 'Employer name',
           },
         },
       },
@@ -64,28 +56,22 @@ export const schema = {
         additionalEmployment: {
           type: 'object',
           properties: {
-            employmentType: {
-              type: 'string',
-            },
-            employmentStart: {
-              type: 'string',
-            },
-            employmentEnd: {
-              type: 'string',
-            },
-            employerName: {
-              type: 'string',
-            },
             payrollDeductions: {
               type: 'array',
               items: {
                 type: 'object',
                 properties: {
-                  deductionType: {
+                  employmentType: {
                     type: 'string',
                   },
-                  deductionAmout: {
-                    type: 'number',
+                  employmentStart: {
+                    type: 'string',
+                  },
+                  employmentEnd: {
+                    type: 'string',
+                  },
+                  employerName: {
+                    type: 'string',
                   },
                 },
               },
