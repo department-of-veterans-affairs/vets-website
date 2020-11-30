@@ -10,14 +10,12 @@ import {
   PleaseSelectVAFacility,
   AdditionalCaregiverInfo,
   VeteranSSNInfo,
-  PrimaryCaregiverInfo,
-  SecondaryCaregiverInfo,
   SecondaryRequiredAlert,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
-import { vetFields, primaryCaregiverFields } from './constants';
+import { vetFields } from './constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
@@ -89,40 +87,6 @@ export default {
     vetRelationshipUI: label => ({
       'ui:title': `What is the ${label}  relationship to the Veteran?`,
     }),
-    hasPrimaryCaregiverOneUI: {
-      'ui:title': 'Would you like to add a Primary Family Caregiver?',
-      'ui:description': PrimaryCaregiverInfo({
-        additionalInfo: true,
-        headerInfo: false,
-      }),
-      'ui:widget': 'yesNo',
-    },
-    hasSecondaryCaregiverOneUI: {
-      'ui:title': 'Would you like to add a Secondary Family Caregiver?',
-      'ui:description': SecondaryCaregiverInfo({
-        additionalInfo: true,
-        headerInfo: false,
-      }),
-      'ui:widget': 'yesNo',
-      'ui:required': formData =>
-        !formData[primaryCaregiverFields.hasPrimaryCaregiver],
-      'ui:validations': [
-        {
-          validator: (errors, fieldData, formData) => {
-            const hasPrimary =
-              formData[primaryCaregiverFields.hasPrimaryCaregiver];
-            const hasSecondary =
-              formData[primaryCaregiverFields.hasSecondaryCaregiverOne];
-            const hasCaregiver = hasPrimary || hasSecondary;
-
-            if (!hasCaregiver) {
-              // We are adding a blank error to disable the ability to continue the form but not displaying the error text its self
-              errors.addError(' ');
-            }
-          },
-        },
-      ],
-    },
     secondaryRequiredAlert: {
       'ui:title': ' ',
       'ui:widget': SecondaryRequiredAlert,

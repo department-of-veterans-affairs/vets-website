@@ -10,7 +10,7 @@ const { primaryCaregiverUI } = definitions;
 
 const primaryInfoPage = {
   uiSchema: {
-    'ui:description': () => PrimaryCaregiverInfo({ additionalInfo: true }),
+    'ui:description': () => PrimaryCaregiverInfo({ headerInfo: true }),
     [primaryCaregiverFields.fullName]: fullNameUI(
       primaryCaregiverUI.primaryInputLabel,
     ),

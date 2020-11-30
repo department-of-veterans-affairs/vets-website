@@ -70,6 +70,7 @@ function unescapeUnicode(string) {
  */
 function getDrupalValue(arr) {
   if (!arr || arr.length === 0) return null;
+  if (arr.length === 1 && arr[0].processed === '') return null;
   if (arr.length === 1)
     if (arr[0].processed)
       return typeof arr[0].processed === 'string'
@@ -234,13 +235,13 @@ module.exports = {
       createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
       createMetaTag('MetaValue', 'keywords', metaTags.keywords),
       createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
+      createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
+      createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
       createMetaTag(
         'MetaProperty',
         'og:image:height',
         metaTags.og_image_height,
       ),
-      createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
-      createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
     ].filter(t => t.value);
   },
 

@@ -45,7 +45,7 @@ describe('VAOS <TypeOfEyeCarePage>', () => {
       },
     );
 
-    expect((await screen.getAllByRole('radio')).length).to.equal(2);
+    expect((await screen.findAllByRole('radio')).length).to.equal(2);
     fireEvent.click(screen.getByText(/Continue/));
 
     expect(await screen.findByText('Please provide a response')).to.exist;

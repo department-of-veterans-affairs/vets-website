@@ -12,7 +12,7 @@ import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardF
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import {
-  contactInfoDescription,
+  contactInfo,
   contactInfoUpdateHelp,
   // forwardingAddressDescription,
   // ForwardingAddressViewField,
@@ -68,7 +68,7 @@ const citySchema = fullSchema.definitions.address.properties.city;
 
 export const uiSchema = {
   'ui:title': 'Contact information',
-  'ui:description': contactInfoDescription,
+  'ui:description': contactInfo,
   phoneAndEmail: {
     'ui:title': 'Phone & email',
     'ui:field': ReviewCardField,
