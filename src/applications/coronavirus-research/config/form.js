@@ -99,6 +99,7 @@ const formConfig = {
                 },
               },
               diagnosed: fullSchema.properties.diagnosed,
+              DIAGNOSED_DETAILS: fullSchema.properties.DIAGNOSED_DETAILS,
               closeContactPositive: fullSchema.properties.closeContactPositive,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,
