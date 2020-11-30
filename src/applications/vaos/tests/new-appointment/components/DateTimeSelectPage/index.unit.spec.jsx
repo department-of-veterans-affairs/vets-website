@@ -24,10 +24,14 @@ import { getClinicMock, getAppointmentSlotMock } from '../../../mocks/v0';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 describe('VAOS <DateTimeSelectPage>', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
   it('should not submit form with validation error', async () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
+          clinicId: '308',
           calendarData: {
             currentlySelectedDate: null,
             selectedDates: [],
@@ -56,6 +60,8 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          vaFacility: '983GB',
+          clinicId: '308',
           calendarData: {},
         },
         pages: [],
@@ -72,45 +78,75 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(screen.getByRole('progressbar')).to.be.ok;
   });
 
-  it('should display wait time alert message when not in loading state', async () => {
-    const store = createTestStore({
-      newAppointment: {
-        data: {
-          calendarData: {},
+  it('should display error message if slots call fails', async () => {
+    // Initial global fetch
+    mockFetch();
+
+    const clinics = [
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
         },
-        pages: [],
-        eligibility: [],
-        appointmentSlotsStatus: FETCH_STATUS.succeeded,
       },
-    });
-
-    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
-      store,
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Your earliest appointment time',
-      }),
-    ).to.be.ok;
-  });
-
-  it('should display error message if slots call fails', () => {
-    const store = createTestStore({
-      newAppointment: {
-        data: {
-          calendarData: {},
+      {
+        id: '309',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '309',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Red team clinic',
         },
-        pages: [],
-        eligibility: [],
-        appointmentSlotsStatus: FETCH_STATUS.failed,
       },
+    ];
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics,
+      pastClinics: true,
     });
 
-    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
-      store,
-    });
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingVSPAppointmentNew: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+    };
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /green team/i);
+    await setPreferredDate(store, moment());
+
+    // First pass check to make sure the slots associated with green team are displayed
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    // 1. Wait for progressbar to disappear
+    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
 
     expect(
       screen.getByRole('heading', {
@@ -265,6 +301,8 @@ describe('VAOS <DateTimeSelectPage>', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
+    expect(screen.getByText('Your earliest appointment time')).to.be.ok;
+
     // 2. Simulate user selecting a date
     let button = screen.getByLabelText(
       new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
@@ -306,5 +344,322 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     // Cleanup
     resetFetch();
+  });
+
+  it('should show validation error if no date selected', async () => {
+    const clinics = [
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
+        },
+      },
+    ];
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics,
+      pastClinics: true,
+    });
+    const slot308Date = moment();
+    const slots308 = [
+      {
+        ...getAppointmentSlotMock(),
+        startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        endDateTime: slot308Date
+          .clone()
+          .minute(20)
+          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+      },
+    ];
+
+    const preferredDate = moment();
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '308',
+      typeOfCareId: '323',
+      slots: slots308,
+      preferredDate,
+    });
+
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingVSPAppointmentNew: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+    };
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /yes/i);
+    await setPreferredDate(store, preferredDate);
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    await screen.findByText(
+      /Please select a desired date and time for your appointment/i,
+    );
+
+    userEvent.click(screen.getByText(/continue/i));
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please choose your preferred date and time for your appointment',
+    );
+    expect(screen.history.push.called).not.to.be.true;
+  });
+
+  it('should show urgent care alert if preferred date is today and slot is today', async () => {
+    const clinics = [
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
+        },
+      },
+    ];
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics,
+      pastClinics: true,
+    });
+    const slot308Date = moment();
+    const slots308 = [
+      {
+        ...getAppointmentSlotMock(),
+        startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        endDateTime: slot308Date
+          .clone()
+          .minute(20)
+          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+      },
+    ];
+
+    const preferredDate = moment();
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '308',
+      typeOfCareId: '323',
+      slots: slots308,
+      preferredDate,
+    });
+
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingVSPAppointmentNew: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+    };
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /yes/i);
+    await setPreferredDate(store, preferredDate);
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    expect(
+      await screen.findByText(/If you have an urgent medical need, please/i),
+    ).to.exist;
+  });
+
+  it('should show info standard of care alert when there is a wait for a mental health appointments', async () => {
+    const clinics = [
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
+        },
+      },
+    ];
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '502',
+      limit: true,
+      requestPastVisits: false,
+      directPastVisits: true,
+      clinics,
+      pastClinics: true,
+    });
+    const slot308Date = moment().add(22, 'days');
+    const slots308 = [
+      {
+        ...getAppointmentSlotMock(),
+        startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        endDateTime: slot308Date
+          .clone()
+          .minute(20)
+          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+      },
+    ];
+
+    const preferredDate = moment().add(6, 'days');
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '308',
+      typeOfCareId: '502',
+      slots: slots308,
+      preferredDate,
+    });
+
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingVSPAppointmentNew: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+    };
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /mental health/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /yes/i);
+    await setPreferredDate(store, preferredDate);
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    expect(
+      await screen.findByText(/The earliest we can schedule your appointment/i),
+    ).to.exist;
+    // This shouldn't show up if not eligible for requests
+    expect(screen.queryByText(/request an earlier appointment/i)).not.to.exist;
+  });
+
+  it('should show info standard of care alert when there is a wait for non mental health appointments', async () => {
+    const clinics = [
+      {
+        id: '308',
+        attributes: {
+          ...getClinicMock(),
+          siteCode: '983',
+          clinicId: '308',
+          institutionCode: '983',
+          clinicFriendlyLocationName: 'Green team clinic',
+        },
+      },
+    ];
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics,
+      pastClinics: true,
+    });
+    const slot308Date = moment().add(30, 'days');
+    const slots308 = [
+      {
+        ...getAppointmentSlotMock(),
+        startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        endDateTime: slot308Date
+          .clone()
+          .minute(20)
+          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+      },
+    ];
+
+    const preferredDate = moment().add(6, 'days');
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '308',
+      typeOfCareId: '323',
+      slots: slots308,
+      preferredDate,
+    });
+
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingVSPAppointmentNew: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+        },
+      },
+    };
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /yes/i);
+    await setPreferredDate(store, preferredDate);
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    expect(
+      await screen.findByText(/The earliest we can schedule your appointment/i),
+    ).to.exist;
+
+    // Go to the request flow if these dates don't work
+    userEvent.click(screen.getByText(/request an earlier appointment/i));
+
+    await waitFor(() =>
+      expect(screen.history.push.firstCall.args[0]).to.equal(
+        '/new-appointment/request-date',
+      ),
+    );
   });
 });

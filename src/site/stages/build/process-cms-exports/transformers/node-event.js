@@ -74,7 +74,15 @@ const transform = entity => ({
   fieldEventRegistrationrequired: getDrupalValue(
     entity.fieldEventRegistrationrequired,
   ),
-  fieldFacilityLocation: entity.fieldFacilityLocation[0] || null,
+  fieldFacilityLocation:
+    entity.fieldFacilityLocation && entity.fieldFacilityLocation.length
+      ? {
+          entity: {
+            entityUrl: entity.fieldFacilityLocation[0].entityUrl,
+            title: entity.fieldFacilityLocation[0].title,
+          },
+        }
+      : null,
   fieldLink: createLink(entity.fieldLink, ['url']),
   fieldLocationHumanreadable: getDrupalValue(entity.fieldLocationHumanreadable),
   fieldMedia:

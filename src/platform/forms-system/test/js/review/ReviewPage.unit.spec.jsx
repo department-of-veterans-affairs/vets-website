@@ -9,42 +9,60 @@ describe('Schemaform review: ReviewPage', () => {
     pathname: '/testing/0',
   };
 
+  const formConfig = {
+    chapters: {
+      chapter1: {
+        pages: {
+          page1: {},
+        },
+      },
+      chapter2: {
+        pages: {
+          page2: {},
+        },
+      },
+    },
+  };
+
+  const pageList = [
+    {
+      path: 'previous-page',
+    },
+    {
+      path: 'testing',
+      pageKey: 'testPage',
+    },
+    {
+      path: 'next-page',
+    },
+  ];
+
+  const form = {
+    submission: {
+      hasAttemptedSubmit: false,
+    },
+    data: {},
+  };
+
   it('should render chapters', () => {
-    const formConfig = {
-      chapters: {
-        chapter1: {
-          pages: {
-            page1: {},
-          },
-        },
-        chapter2: {
-          pages: {
-            page2: {},
-          },
-        },
-      },
-    };
+    const tree = shallow(
+      <ReviewPage
+        form={form}
+        openChapters={[]}
+        route={{ formConfig, pageList }}
+        setEditMode={f => f}
+        setPreSubmit={f => f}
+        location={location}
+      />,
+    );
+    expect(tree.find('withRouter(Connect(ReviewChapters))')).to.have.length(1);
+    expect(tree.find('withRouter(Connect(SubmitController))')).to.have.length(
+      1,
+    );
+    tree.unmount();
+  });
 
-    const pageList = [
-      {
-        path: 'previous-page',
-      },
-      {
-        path: 'testing',
-        pageKey: 'testPage',
-      },
-      {
-        path: 'next-page',
-      },
-    ];
-
-    const form = {
-      submission: {
-        hasAttemptedSubmit: false,
-      },
-      data: {},
-    };
-
+  it('should appropriately render a downtime notification', () => {
     const tree = shallow(
       <ReviewPage
         form={form}
@@ -56,10 +74,7 @@ describe('Schemaform review: ReviewPage', () => {
       />,
     );
 
-    expect(tree.find('withRouter(Connect(ReviewChapters))')).to.have.length(1);
-    expect(tree.find('withRouter(Connect(SubmitController))')).to.have.length(
-      1,
-    );
+    expect(tree.find('Connect(DowntimeNotification)')).to.have.length(1);
     tree.unmount();
   });
 });

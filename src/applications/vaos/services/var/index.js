@@ -143,6 +143,21 @@ export function getFacilitiesInfo(facilityIds) {
   ).then(parseApiList);
 }
 
+export function getCommunityCareFacilities({
+  address,
+  bbox,
+  specialties,
+  page = 1,
+  perPage = 10,
+}) {
+  const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
+  const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
+
+  return apiRequestWithMocks(
+    `/v1/facilities/ccp?address=${address}&per_page=${perPage}&page=${page}&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+  ).then(parseApiList);
+}
+
 export function getSitesSupportingVAR(systemIds) {
   return apiRequestWithMocks(
     `/vaos/v0/community_care/supported_sites?${systemIds

@@ -89,18 +89,35 @@ module.exports = function registerFilters() {
     return replaced;
   };
 
-  liquid.filters.dateFromUnix = (dt, format) => {
+  liquid.filters.dateFromUnix = (dt, format, tz = 'America/New_York') => {
     if (!dt) {
       return null;
     }
-    return moment.unix(dt).format(format);
+
+    let timezone = tz;
+
+    // TODO: figure out why this happens so frequently!
+    if (typeof tz !== 'string' || !tz.length) {
+      timezone = 'America/New_York';
+    } else if (!moment.tz.zone(tz)) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'Invalid timezone passed to dateFromUnix filter. Using default instead.',
+      );
+      timezone = 'America/New_York';
+    }
+
+    return moment
+      .unix(dt)
+      .tz(timezone)
+      .format(format);
   };
 
   liquid.filters.unixFromDate = data => new Date(data).getTime();
 
-  liquid.filters.currentUnixFromDate = () => {
+  liquid.filters.currentTimeInSeconds = () => {
     const time = new Date();
-    return time.getTime();
+    return Math.floor(time.getTime() / 1000);
   };
 
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);
@@ -511,7 +528,7 @@ module.exports = function registerFilters() {
   // react component `facility-appointment-wait-times-widget`
   // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
   liquid.filters.healthServiceApiId = serviceTaxonomy =>
-    serviceTaxonomy.fieldHealthServiceApiId;
+    serviceTaxonomy?.fieldHealthServiceApiId;
 
   // finds if a page is a child of a certain page using the entityUrl attribute
   // returns true or false
@@ -527,4 +544,7 @@ module.exports = function registerFilters() {
     moment(timestamp1, 'YYYY-MM-DD').isAfter(moment(timestamp2, 'YYYY-MM-DD'));
 
   liquid.filters.phoneNumberArrayToObject = phoneNumberArrayToObject;
+
+  liquid.filters.sortEntityMetatags = item =>
+    item ? item.sort((a, b) => a.key.localeCompare(b.key)) : undefined;
 };

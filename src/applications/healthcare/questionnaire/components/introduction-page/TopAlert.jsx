@@ -27,7 +27,7 @@ export default function TopAlert({ toggleLoginModal }) {
             toggleLoginModal(true, 'cta-form');
           }}
         >
-          Sign in to start the questionnaire
+          Sign in to answer questions
         </button>
       </div>
     </div>

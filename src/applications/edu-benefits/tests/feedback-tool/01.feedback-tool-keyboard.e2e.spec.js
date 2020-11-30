@@ -59,14 +59,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .repeatKeypress(TAB, 2)
     .allyEvaluateInput('#root_fullName_last', 'Rhodes');
 
-  // Skip the suffix and enter a quasi-real last four SSN
+  // Skip the suffix and enter a service affiliation
   client
     .repeatKeypress(TAB, 2)
-    .allyEvaluateInput('#root_socialSecurityNumberLastFour', '1234');
-
-  // Enter a service affiliation
-  client
-    .keys(TAB)
     .allyEvaluateSelectMenu('#root_serviceAffiliation', 'veteran', 'Veteran');
 
   // Let's continue to the next screen by tabbing and pressing enter

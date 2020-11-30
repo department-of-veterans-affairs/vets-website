@@ -5,8 +5,15 @@ import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-
-import { availableDebts, householdIncome, veteranInfo } from '../pages';
+import {
+  availableDebts,
+  employmentHistory,
+  otherIncome,
+  veteranInfo,
+  spouseEmployment,
+  dependents,
+  spouseInformation,
+} from '../pages';
 
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
@@ -14,12 +21,13 @@ const formChapterTitles = {
 };
 
 const formPageTitles = {
-  veteranInfoTitle: 'Veteran information',
-  employmentHistoryTitle: 'Your employment history',
   veteranInfo: 'Veteran information',
-  address: 'Shipping address',
-  addSuppliesPage: 'Add supplies to your order',
   availableDebts: 'Available Debts',
+  employmentHistory: 'Your employment history',
+  otherIncome: 'Other income',
+  spouseEmployment: 'Your spouse information',
+  dependents: 'Dependents',
+  spouseInformation: 'Spouse Information',
 };
 
 const formConfig = {
@@ -58,9 +66,9 @@ const formConfig = {
     veteranInformationChapter: {
       title: formChapterTitles.veteranInformationTitle,
       pages: {
-        [formPageTitles.veteranInfoTitle]: {
+        [formPageTitles.veteranInfo]: {
           path: 'veteran-information',
-          title: formPageTitles.veteranInfoTitle,
+          title: formPageTitles.veteranInfo,
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
@@ -73,14 +81,38 @@ const formConfig = {
         },
       },
     },
-    householdInformationChapter: {
+    householdIncomeChapter: {
       title: formChapterTitles.householdIncomeTitle,
       pages: {
-        [formPageTitles.employmentHistoryTitle]: {
-          path: 'household-income',
-          title: formPageTitles.employmentHistoryTitle,
-          uiSchema: householdIncome.uiSchema,
-          schema: householdIncome.schema,
+        [formPageTitles.employmentHistory]: {
+          path: 'employment-history',
+          title: formPageTitles.employmentHistory,
+          uiSchema: employmentHistory.uiSchema,
+          schema: employmentHistory.schema,
+        },
+        [formPageTitles.otherIncome]: {
+          path: 'other-income',
+          title: formPageTitles.otherIncome,
+          uiSchema: otherIncome.uiSchema,
+          schema: otherIncome.schema,
+        },
+        [formPageTitles.spouseInformation]: {
+          path: 'spouse-information',
+          title: formPageTitles.spouseInformation,
+          uiSchema: spouseInformation.uiSchema,
+          schema: spouseInformation.schema,
+        },
+        [formPageTitles.spouseEmployment]: {
+          path: 'spouse-employment',
+          title: formPageTitles.spouseEmployment,
+          uiSchema: spouseEmployment.uiSchema,
+          schema: spouseEmployment.schema,
+        },
+        [formPageTitles.dependents]: {
+          path: 'dependents',
+          title: formPageTitles.dependents,
+          uiSchema: dependents.uiSchema,
+          schema: dependents.schema,
         },
       },
     },
