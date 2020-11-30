@@ -154,6 +154,14 @@ article[data-location="contested-issues"] {
   margin-top: 1em;
 }
 /* page specific */
+article[data-contact-choice] .contact-choice {
+  display: none;
+}
+article[data-contact-choice="rep"] .contact-choice.selected-rep,
+article[data-contact-choice="me"] .contact-choice.selected-me {
+  display: inline-block;
+}
+
 article[data-location="request-informal-conference"] {
   .schemaform-block-header {
     margin-bottom: 1.5em;

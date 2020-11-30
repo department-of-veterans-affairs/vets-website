@@ -121,8 +121,13 @@ export class ConfirmationPage extends React.Component {
           href="/claim-or-appeal-status/"
           className="usa-button usa-button-primary"
         >
-          Track the status of your decision review
+          Check the status of your decision review
         </a>
+        <p>
+          <strong>Note</strong>: Please allow some time for your decision review
+          to process through our system. It could take 7 to 10 days for it to
+          show up in our claim status tool.
+        </p>
       </div>
     );
   }

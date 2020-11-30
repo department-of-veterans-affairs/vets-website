@@ -23,7 +23,7 @@
     "cy:run": "cypress run --config-file config/cypress.json",
     "cy:test:circle": "./script/run-cypress-tests-circle.sh",
     "cy:test:docker": "./script/run-cypress-tests-docker.sh",
-    "cy:testrail-run": "cypress run --config-file config/cypress.json --reporter-options domain=dsvavsp.testrail.io,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=Dashboard",
+    "cy:testrail-run": "cypress run --config-file config/cypress-testrail.json --reporter-options domain=dsvavsp.testrail.io,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
     "prebuild": "node script/prebuild.js",
@@ -190,7 +190,7 @@
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-jest": "^23.13.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-mocha": "^7.0.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.19.0",
@@ -208,6 +208,7 @@
     "glob": "^7.1.6",
     "html-webpack-plugin": "^4.3.0",
     "http-server": "^0.9.0",
+    "inquirer": "^6.0.0",
     "inquirer-autocomplete-prompt": "^1.0.2",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^23.6.0",
@@ -274,7 +275,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "6.10.1",
+    "@department-of-veterans-affairs/formation": "6.10.3",
     "@department-of-veterans-affairs/formation-react": "5.9.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
@@ -343,7 +344,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#bdc66babaef2f7addb84011f5c48f9196a3dbcbe",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#4f2d386700245582301ae2b04ddd629e422697a0",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

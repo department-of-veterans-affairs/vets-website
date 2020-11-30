@@ -1,6 +1,7 @@
-import { merge, set } from 'lodash/fp';
-
 import { ELIGIBILITY_CHANGED } from '../actions';
+import { ELIGIBILITY_LIFESPAN } from '../constants';
+import localStorage from 'platform/utilities/storage/localStorage';
+import environment from 'platform/utilities/environment';
 
 const INITIAL_STATE = Object.freeze({
   militaryStatus: 'veteran',
@@ -19,30 +20,58 @@ const INITIAL_STATE = Object.freeze({
 });
 
 export default function(state = INITIAL_STATE, action) {
+  let newState = { ...state };
+
   if (action.type === ELIGIBILITY_CHANGED) {
     const { field, value } = action;
 
-    const newState = {
+    newState = {
       ...state,
       [field]: value,
     };
 
     if (field === 'militaryStatus') {
-      return set('spouseActiveDuty', 'no', newState);
+      newState = {
+        ...newState,
+        spouseActiveDuty: 'no',
+      };
     }
 
     if (field === 'giBillChapter') {
-      return merge(newState, {
+      newState = {
+        ...newState,
         cumulativeService: '1.0',
         enlistmentService: '3',
         consecutiveService: '0.8',
         eligForPostGiBill: 'no',
         numberOfDependents: '0',
-      });
+      };
+    }
+
+    // Fix for 7528 and 8228
+    if (!environment.isProduction()) {
+      newState.timestamp = new Date().getTime();
+      localStorage.setItem('giEligibility', JSON.stringify(newState));
     }
 
     return newState;
   }
 
-  return state;
+  // Fix for 7528 and 8228
+  if (!environment.isProduction()) {
+    const storedEligibility = JSON.parse(localStorage.getItem('giEligibility'));
+
+    if (
+      storedEligibility &&
+      storedEligibility.timestamp &&
+      new Date().getTime() - storedEligibility.timestamp < ELIGIBILITY_LIFESPAN
+    ) {
+      newState = {
+        ...newState,
+        ...storedEligibility,
+      };
+    }
+  }
+
+  return newState;
 }

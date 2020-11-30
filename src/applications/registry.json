@@ -778,7 +778,7 @@
         },
         {
           "path": "careers-employment/vocational-rehabilitation/apply",
-          "name": "Apply for VR&E Form 28‑1900"
+          "name": "Apply for Veteran Readiness and Employment Form 28‑1900"
         }
       ]
     }
@@ -893,6 +893,7 @@
       "title:": "Search results",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
+      "private": true,
       "breadcrumbs_override": [
         {
           "path": "resources/",
@@ -903,6 +904,24 @@
           "name": "Search results"
         }
       ]
+    }
+  },
+  {
+    "appName": "Questionnaire List",
+    "entryName": "questionnaire-list",
+    "rootUrl": "/healthcare/list",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "My Messages",
+    "entryName": "messages",
+    "rootUrl": "/my-messages",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
     }
   }
 ]

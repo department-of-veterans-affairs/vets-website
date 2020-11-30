@@ -11,6 +11,14 @@
 src/platform/forms        @department-of-veterans-affairs/vsp-design-system-fe
 src/platform/forms-system @department-of-veterans-affairs/vsp-design-system-fe
 
+# VSP-Identity authentication
+src/applications/auth @department-of-veterans-affairs/vsp-identity
+src/applications/login @department-of-veterans-affairs/vsp-identity
+src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/vsp-identity
+src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/vsp-identity
+src/platform/user/authentication @department-of-veterans-affairs/vsp-identity
+src/platform/utilities/sso @department-of-veterans-affairs/vsp-identity
+
 # VSA ----
 
 # Authenticated Experience
@@ -52,6 +60,9 @@ src/site/layouts @department-of-veterans-affairs/vsa-facilities-frontend @depart
 src/platform/site-wide/sass/modules/_m-side-nav.scss @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/platform/site-wide/side-nav @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 
+# Liquid template filters
+src/site/filters @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
+
 # Caregiver
 src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
@@ -74,6 +85,7 @@ src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-hea
 
 # Other
 src/applications/ask-a-question @department-of-veterans-affairs/orchid
+src/applications/messages @department-of-veterans-affairs/orchid
 src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
 src/applications/third-party-app-directory @department-of-veterans-affairs/lighthouse-bilby

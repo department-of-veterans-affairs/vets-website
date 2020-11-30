@@ -10,7 +10,7 @@
       <li>
         <p class="vads-u-margin--0">
           <strong>
-            <a href="{{ fieldRelatedInformationLink.entity.fieldLink.url.path }}">
+            <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ fieldRelatedInformationLink.entity.fieldLink.title | escape }}', 'links-list-section-header': 'Related information' })" href="{{ fieldRelatedInformationLink.entity.fieldLink.url.path }}">
               {{ fieldRelatedInformationLink.entity.fieldLink.title }}
             </a>
           </strong>
