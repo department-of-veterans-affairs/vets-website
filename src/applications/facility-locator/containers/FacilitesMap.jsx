@@ -23,13 +23,19 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
+
+import mapboxClient from '../components/MapboxClient';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+
+const mbxClient = mbxGeo(mapboxClient);
+
 import {
   setFocus,
   buildMarker,
   resetMapElements,
   setSearchAreaPosition,
 } from '../utils/helpers';
-import { MapboxInit, MARKER_LETTERS } from '../constants';
+import { BOUNDING_RADIUS, MapboxInit, MARKER_LETTERS } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -402,6 +408,45 @@ const FacilitiesMap = props => {
     );
   };
 
+  const genBBoxFromCoords = (position, facilityType) => {
+    mbxClient
+      .reverseGeocode({
+        query: [position.longitude, position.latitude],
+        types: ['address'],
+      })
+      .send()
+      .then(({ body: { features } }) => {
+        const placeName = features[0].place_name;
+        if (!facilityType) {
+          props.updateSearchQuery({
+            searchString: placeName,
+          });
+          return;
+        }
+        const coordinates = features[0].center;
+        const zipCode =
+          features[0].context.find(v => v.id.includes('postcode')).text || '';
+
+        props.updateSearchQuery({
+          bounds: features[0].bbox || [
+            coordinates[0] - BOUNDING_RADIUS,
+            coordinates[1] - BOUNDING_RADIUS,
+            coordinates[0] + BOUNDING_RADIUS,
+            coordinates[1] + BOUNDING_RADIUS,
+          ],
+          searchString: placeName,
+          context: zipCode,
+          position,
+        });
+
+        updateUrlParams({
+          address: placeName,
+          context: zipCode,
+        });
+      })
+      .catch(error => error);
+  };
+
   useEffect(
     () => {
       const {
@@ -436,6 +481,16 @@ const FacilitiesMap = props => {
     };
 
     searchWithUrl();
+
+    navigator.geolocation.getCurrentPosition(currentPosition => {
+      const input = document.getElementById('street-city-state-zip');
+      if (input && !input.value) {
+        genBBoxFromCoords(
+          currentPosition.coords,
+          props.currentQuery.facilityType,
+        );
+      }
+    });
 
     const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);
