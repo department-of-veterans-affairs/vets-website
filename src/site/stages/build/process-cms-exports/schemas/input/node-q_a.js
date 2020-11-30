@@ -25,7 +25,6 @@ module.exports = {
     },
     field_buttons: {
       type: 'array',
-      maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
     field_contact_information: {
