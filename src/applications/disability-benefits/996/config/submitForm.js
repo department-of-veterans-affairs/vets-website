@@ -1,6 +1,18 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import recordEvent from 'platform/monitoring/record-event';
+
+export const buildEventData = ({ sameOffice, informalConference }) => {
+  let informalConf = 'no';
+  if (informalConference !== 'no') {
+    informalConf = informalConference === 'rep' ? 'yes-with-rep' : 'yes';
+  }
+  return {
+    // or 'no'
+    'decision-reviews-same-office-to-review': sameOffice ? 'yes' : 'no',
+    // or 'no', or 'yes-with-rep'
+    'decision-reviews-informalConf': informalConf,
+  };
+};
 
 const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
@@ -8,29 +20,9 @@ const submitForm = (form, formConfig) => {
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
 
-  // event data needed on successful submission
-  const { sameOffice, informalConference } = form.data;
-  let informalConf = 'no';
-  if (informalConference !== 'no') {
-    informalConf = informalConference === 'rep' ? 'yes-with-rep' : 'yes';
-  }
-  const eventData = {
-    // or 'no'
-    'decision-reviews-differentOffice': sameOffice ? 'yes' : 'no',
-    // or 'no', or 'yes-with-rep'
-    'decision-reviews-informalConf': informalConf,
-  };
-  // Submission attempt event
-  recordEvent({
-    event: `${trackingPrefix}-submission`,
-    ...eventData,
-  });
-  return submitToUrl(body, submitUrl, trackingPrefix, eventData).catch(() => {
-    recordEvent({
-      event: `${trackingPrefix}-submission-failure`,
-      ...eventData,
-    });
-  });
+  // eventData for analytics
+  const eventData = buildEventData(form.data);
+  return submitToUrl(body, submitUrl, trackingPrefix, eventData);
 };
 
 export default submitForm;

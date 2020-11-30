@@ -23,7 +23,7 @@
     {% assign end_date_full = fieldDate.endDate | timeZone: defaultTZ, "dddd, MMM D, h:mm A" %}
 {% endif %}
 
-{% assign current_timestamp = ''| currentUnixFromDate %}
+{% assign current_timestamp = ''| currentTimeInSeconds %}
 
 {% if start_date_no_time != empty and end_date_no_time == empty %}
     {% assign date_type = "start_date_only" %}
