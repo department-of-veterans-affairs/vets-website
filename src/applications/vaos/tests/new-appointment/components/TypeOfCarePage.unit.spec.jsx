@@ -300,6 +300,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       store,
     });
 
+    await screen.findAllByRole('radio');
     expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
   });
 

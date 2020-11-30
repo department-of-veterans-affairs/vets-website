@@ -32,11 +32,11 @@ describe('VAOS integration: past appointments', () => {
   it('should show select date range dropdown', async () => {
     mockPastAppointmentInfo({ va: [] });
 
-    const { queryByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
+    const { findByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
-    expect(queryByText(/Past 3 months/i)).to.exist;
+    expect(await findByText(/Past 3 months/i)).to.exist;
   });
 
   it('should update range on dropdown change', async () => {
