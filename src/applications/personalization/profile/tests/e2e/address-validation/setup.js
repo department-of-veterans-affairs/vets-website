@@ -16,7 +16,9 @@ export const setUp = type => {
   cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
   cy.injectAxe();
 
-  cy.findByRole('button', { name: /edit mailing address/i }).click();
+  cy.findByRole('button', { name: /edit mailing address/i }).click({
+    force: true,
+  });
 
   cy.route({
     method: 'POST',
