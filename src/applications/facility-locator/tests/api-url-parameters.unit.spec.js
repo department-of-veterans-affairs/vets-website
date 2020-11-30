@@ -193,6 +193,8 @@ describe('Locator url and parameters builder', () => {
     );
   });
 
+  /**
+   */
   it('With facilityType provider Should build a ccp request with longitude, latitude and radius params', () => {
     const result = resolveParamsWithUrl(
       encodeURI('I 35 Frontage Road, Austin, Texas 78753, United States'),
