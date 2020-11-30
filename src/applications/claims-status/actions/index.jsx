@@ -307,10 +307,11 @@ export function resetUploads() {
   };
 }
 
-export function addFile(files) {
+export function addFile(files, { isEncrypted = false } = {}) {
   return {
     type: ADD_FILE,
     files,
+    isEncrypted,
   };
 }
 
@@ -480,10 +481,11 @@ export function submitFiles(claimId, trackedItem, files) {
         });
 
         /* eslint-disable camelcase */
-        files.forEach(({ file, docType }) => {
+        files.forEach(({ file, docType, password }) => {
           uploader.addFiles(file, {
             tracked_item_id: trackedItemId,
             document_type: docType.value,
+            password: password.value,
           });
         });
         /* eslint-enable camelcase */
