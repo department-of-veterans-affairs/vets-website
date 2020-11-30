@@ -482,15 +482,17 @@ const FacilitiesMap = props => {
 
     searchWithUrl();
 
-    navigator.geolocation.getCurrentPosition(currentPosition => {
-      const input = document.getElementById('street-city-state-zip');
-      if (input && !input.value) {
-        genBBoxFromCoords(
-          currentPosition.coords,
-          props.currentQuery.facilityType,
-        );
-      }
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(currentPosition => {
+        const input = document.getElementById('street-city-state-zip');
+        if (input && !input.value) {
+          genBBoxFromCoords(
+            currentPosition.coords,
+            props.currentQuery.facilityType,
+          );
+        }
+      });
+    }
 
     const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);
