@@ -9,6 +9,7 @@
  */
 
 const { execSync } = require('child_process');
+const fetch = require('node-fetch');
 const path = require('path');
 
 const PactBrokerClient = require('../src/platform/testing/contract/client');
