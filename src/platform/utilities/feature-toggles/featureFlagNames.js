@@ -63,4 +63,7 @@ export default Object.freeze({
   viewPaymentHistory: 'view_payment_history',
   form1995EduUpdates: 'form_1995_edu_updates',
   requestLockedPdfPassword: 'request_locked_pdf_password',
+  form526ConfirmationEmail: 'form526_confirmation_email',
+  form526ConfirmationEmailShowCopy: 'form526_confirmation_email_show_copy',
+  searchTypeaheadEnabled: 'search_typeahead_enabled',
 });

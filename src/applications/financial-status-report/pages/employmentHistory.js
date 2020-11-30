@@ -1,26 +1,26 @@
-import EmploymentHistory from '../components/EmploymentHistory';
+import EmploymentHistory from '../components/EmploymentHistory/EmploymentHistory';
 
 export const uiSchema = {
   employmentHistory: {
     'ui:title': 'Your employment history',
-    'view:hasBeenEmployed': {
+    hasBeenEmployed: {
       'ui:title': 'Have you been employed within the past two years?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    'view:isEmployed': {
+    isEmployed: {
       'ui:options': {
-        expandUnder: 'view:hasBeenEmployed',
+        expandUnder: 'hasBeenEmployed',
       },
-      'view:currentlyEmployed': {
+      currentlyEmployed: {
         'ui:title': 'Are you currently employed?',
         'ui:widget': 'yesNo',
-        'ui:required': () => true,
+        'ui:required': () => false,
       },
-      'view:isCurrentlyEmployed': {
+      isCurrentlyEmployed: {
         'ui:field': EmploymentHistory,
         'ui:options': {
-          expandUnder: 'view:currentlyEmployed',
+          expandUnder: 'currentlyEmployed',
         },
         employmentType: {
           'ui:title': 'Type of employment',
@@ -29,13 +29,16 @@ export const uiSchema = {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
         },
+        employmentEnd: {
+          'ui:title': 'Employment end date',
+          'ui:widget': 'date',
+        },
         employerName: {
           'ui:title': 'Employer name',
         },
         monthlyIncome: {
           'ui:title': 'Gross monthly income',
         },
-        // payrollDeductions: {},
       },
     },
   },
@@ -47,22 +50,25 @@ export const schema = {
     employmentHistory: {
       type: 'object',
       properties: {
-        'view:hasBeenEmployed': {
+        hasBeenEmployed: {
           type: 'boolean',
         },
-        'view:isEmployed': {
+        isEmployed: {
           type: 'object',
           properties: {
-            'view:currentlyEmployed': {
+            currentlyEmployed: {
               type: 'boolean',
             },
-            'view:isCurrentlyEmployed': {
+            isCurrentlyEmployed: {
               type: 'object',
               properties: {
                 employmentType: {
                   type: 'string',
                 },
                 employmentStart: {
+                  type: 'string',
+                },
+                employmentEnd: {
                   type: 'string',
                 },
                 employerName: {
@@ -74,15 +80,6 @@ export const schema = {
                 payrollDeductions: {
                   type: 'number',
                 },
-
-                // payrollDeductions: {
-                //   type: 'array',
-                //   items: {
-                //     type: 'number',
-                //     title: 'Input Amount',
-                //     default: 0,
-                //   },
-                // },
               },
             },
           },

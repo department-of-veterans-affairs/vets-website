@@ -44,7 +44,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Vocational Readiness and Employment.',
   },
-  title: 'Apply for Veteran Readiness and Employment',
+  title: 'Apply for Veteran Readiness and Employment with VA Form 28-1900',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     veteranInformation: {

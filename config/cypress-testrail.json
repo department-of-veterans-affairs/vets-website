@@ -1,0 +1,22 @@
+{
+  "baseUrl": "http://localhost:3001",
+  "integrationFolder": "./src",
+  "modifyObstructiveCode": false,
+  "nodeVersion": "system",
+  "pluginsFile": "src/platform/testing/e2e/cypress/plugins/index.js",
+  "supportFile": "src/platform/testing/e2e/cypress/support/index.js",
+  "testFiles": "**/tests/**/*.cypress.spec.js?(x)",
+  "waitForAnimations": false,
+  "reporter": "cypress-testrail-reporter",
+  "reporterOptions": {
+    "domain": "dsvavsp.testrail.io",
+    "username": "TR_USER",
+    "password": "TR_API_KEY",
+    "projectId": "TR_PROJECTID",
+    "suiteId": "TR_SUITEID",
+    "runName": "TR_RUN_NAME",
+    "includeAllInTestRun": "TR_INCLUDE_ALL",
+    "groupId": "TR_GROUPID",
+    "filter": "TR_FILTER"
+  }
+}

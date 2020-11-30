@@ -2,7 +2,6 @@ const moment = require('moment');
 const { getImageCrop } = require('./helpers');
 const {
   getDrupalValue,
-  getWysiwygString,
   createMetaTagArray,
   uriToUrl,
   isPublished,
@@ -23,9 +22,9 @@ const transform = ({
   fieldGovdeliveryIdEmerg,
   fieldGovdeliveryIdNews,
   fieldOperatingStatus,
+  fieldOtherVaLocations,
   fieldNicknameForThisFacility,
   fieldRelatedLinks,
-  fieldPressReleaseBlurb,
   fieldLinkFacilityEmergList,
   reverseFieldRegionPage,
   reverseFieldOffice,
@@ -56,9 +55,6 @@ const transform = ({
         }
       : null,
   fieldRelatedLinks: fieldRelatedLinks[0],
-  fieldPressReleaseBlurb: {
-    processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
-  },
   entityMetatags: createMetaTagArray(metaTags),
   reverseFieldRegionPageNode: {
     entities: reverseFieldRegionPage || [],
@@ -193,6 +189,7 @@ const transform = ({
           }))
       : [],
   },
+  fieldOtherVaLocations: fieldOtherVaLocations.map(i => i.value),
   otherFacilities: {
     entities: reverseFieldRegionPage
       ? reverseFieldRegionPage
@@ -330,6 +327,7 @@ module.exports = {
     'field_media',
     'field_nickname_for_this_facility',
     'field_operating_status',
+    'field_other_va_locations',
     'field_press_release_blurb',
     'field_related_links',
     'metatag',
