@@ -1,7 +1,8 @@
-import { ELIGIBILITY_CHANGED } from '../actions';
-import { ELIGIBILITY_LIFESPAN } from '../constants';
 import localStorage from 'platform/utilities/storage/localStorage';
 import environment from 'platform/utilities/environment';
+
+import { ELIGIBILITY_CHANGED } from '../actions';
+import { ELIGIBILITY_LIFESPAN } from '../constants';
 
 const INITIAL_STATE = Object.freeze({
   militaryStatus: 'veteran',
@@ -48,7 +49,7 @@ export default function(state = INITIAL_STATE, action) {
       };
     }
 
-    // Fix for 7528 and 8228
+    // Fix for 8228
     if (!environment.isProduction()) {
       newState.timestamp = new Date().getTime();
       localStorage.setItem('giEligibility', JSON.stringify(newState));
@@ -57,13 +58,12 @@ export default function(state = INITIAL_STATE, action) {
     return newState;
   }
 
-  // Fix for 7528 and 8228
+  // Fix for 8228
   if (!environment.isProduction()) {
     const storedEligibility = JSON.parse(localStorage.getItem('giEligibility'));
 
     if (
-      storedEligibility &&
-      storedEligibility.timestamp &&
+      storedEligibility?.timestamp &&
       new Date().getTime() - storedEligibility.timestamp < ELIGIBILITY_LIFESPAN
     ) {
       newState = {
