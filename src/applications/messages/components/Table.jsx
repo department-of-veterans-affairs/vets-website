@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchInquiries } from '../actions';
-import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
+import Table from '@department-of-veterans-affairs/formation-react/Table';
 
 export class MessageTable extends React.Component {
   componentDidMount() {
@@ -11,12 +11,8 @@ export class MessageTable extends React.Component {
 
   render() {
     return (
-      <SortableTable
+      <Table
         className="va-table"
-        currentSort={{
-          value: 'String',
-          order: 'ASC',
-        }}
         fields={[
           {
             label: 'Subject',
@@ -58,7 +54,7 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
   return {
-    data: state.inquiryReducer.data,
+    data: state.messages.data,
   };
 }
 

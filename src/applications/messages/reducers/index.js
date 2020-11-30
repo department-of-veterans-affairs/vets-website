@@ -1,7 +1,7 @@
 import { inquiryReducer } from './inquiryReducer';
 
 const rootReducer = {
-  inquiryReducer,
+  messages: inquiryReducer,
 };
 
 export default rootReducer;
