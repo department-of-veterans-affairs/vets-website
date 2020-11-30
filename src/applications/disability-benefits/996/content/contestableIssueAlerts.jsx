@@ -66,3 +66,22 @@ export const showWorkInProgress = (
     }
   />
 );
+
+export const showHasEmptyAddress = (
+  <AlertBox
+    status="info"
+    headline="You need an address on file to apply"
+    content={
+      <>
+        <p>
+          You need a valid address on file in your profile to apply for higher
+          level reivew.
+        </p>
+        <p>
+          To add an address,{' '}
+          <a href="/profile">please go to your profile page.</a>
+        </p>
+      </>
+    }
+  />
+);
