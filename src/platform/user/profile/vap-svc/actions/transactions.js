@@ -131,7 +131,7 @@ export function refreshTransaction(
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
             'error-key': `${
-              transactionRefreshed?.data?.attributes?.metadata
+              transactionRefreshed?.data?.attributes?.metadata?.code
             }-address-save-failure`,
           });
           recordEvent({
