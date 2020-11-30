@@ -3,9 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
-import { SMALL_SCREEN_WIDTH } from '../constants';
 import { handleScrollOnInputFocus } from '../utils/helpers';
-import environment from 'platform/utilities/environment';
 
 /**
  * A radio button group with a label.
@@ -31,15 +29,7 @@ class RadioButtons extends React.Component {
   };
 
   handleFocus = () => {
-    // prod flag for bah-8821
-    if (environment.isProduction()) {
-      const field = document.getElementById(`${this.inputId}-legend`);
-      if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
-        field.scrollIntoView();
-      }
-    } else {
-      this.props.onFocus(`${this.inputId}-field`);
-    }
+    this.props.onFocus(`${this.inputId}-field`);
   };
 
   renderOptions = () => {
