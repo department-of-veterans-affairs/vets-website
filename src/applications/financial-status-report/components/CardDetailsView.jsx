@@ -1,7 +1,7 @@
 import React from 'react';
 import startCase from 'lodash/startCase';
 
-const AssetView = ({ formData }) => {
+const CardDetailsView = ({ formData }) => {
   const keys = Object.keys(formData);
   const values = Object.values(formData);
   return (
@@ -16,4 +16,4 @@ const AssetView = ({ formData }) => {
   );
 };
 
-export default AssetView;
+export default CardDetailsView;
