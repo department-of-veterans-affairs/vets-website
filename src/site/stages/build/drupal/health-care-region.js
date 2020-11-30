@@ -242,23 +242,23 @@ function addGetUpdatesFields(page, pages) {
 }
 
 /**
- * Sorts legacy dates (fieldDate) from oldest to newest, removing expired items.
+ * Sorts release dates (fieldReleaseDate) from oldest to newest, removing expired items.
  *
- * @param {legacyDates} array The dates array.
+ * @param {releaseDates} array The dates array.
  * @param {reverse} bool Sorting order set to default false.
  * @param {stale} bool Remove expired date items set to default false.
  * @return Filtered array of sorted items.
  */
-function legacyDateSorter(legacyDates = [], reverse = false, stale = true) {
+function releaseDateSorter(legacyDates = [], reverse = false, stale = true) {
   let sorted = legacyDates.entities.sort((a, b) => {
-    const start1 = moment(a.fieldDate.value);
-    const start2 = moment(b.fieldDate.value);
+    const start1 = moment(a.fieldReleaseDate.value);
+    const start2 = moment(b.fieldReleaseDate.value);
     return reverse ? start2 - start1 : start1 - start2;
   });
 
   if (stale) {
     sorted = sorted.filter(item =>
-      moment(item.fieldDate.value).isAfter(moment()),
+      moment(item.fieldReleaseDate.value).isAfter(moment()),
     );
   }
 
@@ -266,14 +266,14 @@ function legacyDateSorter(legacyDates = [], reverse = false, stale = true) {
 }
 
 /**
- * Sorts dates (fieldDatetimeRangeTimezone) from oldest to newest, removing expired items.
+ * Sorts event dates (fieldDatetimeRangeTimezone) from oldest to newest, removing expired items.
  *
  * @param {dates} array The dates array.
  * @param {reverse} bool Sorting order set to default false.
  * @param {stale} bool Remove expired date items set to default false.
  * @return Filtered array of sorted items.
  */
-function dateSorter(dates = [], reverse = false, stale = true) {
+function eventDateSorter(dates = [], reverse = false, stale = true) {
   let sorted = dates.entities.sort((a, b) => {
     const start1 = a.fieldDatetimeRangeTimezone.value;
     const start2 = b.fieldDatetimeRangeTimezone.value;
@@ -304,12 +304,12 @@ function dateSorter(dates = [], reverse = false, stale = true) {
 function addPager(page, files, field, template, aria) {
   // Sort events and remove stale items.
   if (page.allEventTeasers) {
-    page.allEventTeasers.entities = dateSorter(page.allEventTeasers);
+    page.allEventTeasers.entities = eventDateSorter(page.allEventTeasers);
   }
 
   // Sort news teasers.
   if (page.allPressReleaseTeasers) {
-    page.allPressReleaseTeasers.entities = legacyDateSorter(
+    page.allPressReleaseTeasers.entities = releaseDateSorter(
       page.allPressReleaseTeasers,
       true,
       false,
