@@ -176,6 +176,7 @@ class ObjectField extends React.Component {
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
     const fieldsetClassNames = uiOptions.classNames;
+    const forceDivWrapper = !!uiOptions.forceDivWrapper;
     const title = uiSchema['ui:title'] || schema.title;
     const CustomTitleField = typeof title === 'function' ? title : null;
 
@@ -290,8 +291,7 @@ class ObjectField extends React.Component {
       </div>
     );
 
-    const renderFieldset = !!showFieldLabel;
-    if (title && !renderFieldset) {
+    if (title && !forceDivWrapper) {
       return <fieldset className={fieldsetClassNames}>{fieldContent}</fieldset>;
     }
 

@@ -443,7 +443,7 @@ describe('Schemaform: ObjectField', () => {
     expect(id0).to.equal('root_test__title');
     expect(id1).to.equal('root_test2__title');
   });
-  it('should render without a fieldset when showFieldLabel is true', () => {
+  it('should render with a fieldset when forceDivWrapper is false', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const schema = {
@@ -466,54 +466,7 @@ describe('Schemaform: ObjectField', () => {
     const uiSchema = {
       'ui:title': 'Test title',
       'ui:options': {
-        showFieldLabel: true,
-      },
-      prop1: { 'ui:title': 'title1' },
-      prop2: { 'ui:title': 'title2' },
-      prop3: { 'ui:title': 'title3' },
-      prop4: { 'ui:title': 'title4' },
-    };
-
-    const form = ReactTestUtils.renderIntoDocument(
-      <div>
-        <ObjectField
-          uiSchema={uiSchema}
-          schema={schema}
-          idSchema={{}}
-          formData={{}}
-          onChange={onChange}
-          onBlur={onBlur}
-        />
-      </div>,
-    );
-    const formDOM = getFormDOM(form);
-    const fieldsets = formDOM.querySelectorAll('fieldset');
-    expect(fieldsets.length).to.equal(0);
-  });
-  it('should render with a single fieldset when showFieldLabel is false', () => {
-    const onChange = sinon.spy();
-    const onBlur = sinon.spy();
-    const schema = {
-      type: 'object',
-      properties: {
-        prop1: {
-          type: 'boolean',
-        },
-        prop2: {
-          type: 'boolean',
-        },
-        prop3: {
-          type: 'boolean',
-        },
-        prop4: {
-          type: 'boolean',
-        },
-      },
-    };
-    const uiSchema = {
-      'ui:title': 'Test title',
-      'ui:options': {
-        showFieldLabel: false,
+        forceDivWrapper: false,
       },
       prop1: { 'ui:title': 'title1' },
       prop2: { 'ui:title': 'title2' },
@@ -536,5 +489,52 @@ describe('Schemaform: ObjectField', () => {
     const formDOM = getFormDOM(form);
     const fieldsets = formDOM.querySelectorAll('fieldset');
     expect(fieldsets.length).to.equal(1);
+  });
+  it('should render without a fieldset when forceDivWrapper is true', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        prop1: {
+          type: 'boolean',
+        },
+        prop2: {
+          type: 'boolean',
+        },
+        prop3: {
+          type: 'boolean',
+        },
+        prop4: {
+          type: 'boolean',
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'Test title',
+      'ui:options': {
+        forceDivWrapper: true,
+      },
+      prop1: { 'ui:title': 'title1' },
+      prop2: { 'ui:title': 'title2' },
+      prop3: { 'ui:title': 'title3' },
+      prop4: { 'ui:title': 'title4' },
+    };
+
+    const form = ReactTestUtils.renderIntoDocument(
+      <div>
+        <ObjectField
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={{}}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      </div>,
+    );
+    const formDOM = getFormDOM(form);
+    const fieldsets = formDOM.querySelectorAll('fieldset');
+    expect(fieldsets.length).to.equal(0);
   });
 });
