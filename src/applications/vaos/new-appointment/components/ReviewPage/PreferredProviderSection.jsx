@@ -22,8 +22,12 @@ export default function PreferredProviderSection(props) {
                 {props.data.communityCareProvider.lastName}
                 <br />
                 {props.data.communityCareProvider.address.street}
-                <br />
-                {props.data.communityCareProvider.address.street2}
+                {!!props.data.communityCareProvider.address.street2 && (
+                  <>
+                    <br />
+                    {props.data.communityCareProvider.address.street2}
+                  </>
+                )}
                 <br />
                 {props.data.communityCareProvider.address.city},{' '}
                 {props.data.communityCareProvider.address.state}{' '}
