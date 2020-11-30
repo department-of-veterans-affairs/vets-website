@@ -10,11 +10,18 @@ import { focusElement } from 'platform/utilities/ui';
 import { links } from 'applications/caregivers/definitions/content';
 import { withRouter } from 'react-router';
 import { CaregiverSupportInfo } from 'applications/caregivers/components/AdditionalInfo';
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 
 const IntroductionPage = ({ route, router }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
+
+  const applicationTitle =
+    'Apply for the Program of Comprehensive Assistance for Family Caregivers';
 
   const startForm = () => {
     recordEvent({ event: 'caregivers-10-10cg-start-form' });
@@ -200,35 +207,38 @@ const IntroductionPage = ({ route, router }) => {
 
   return (
     <div className="caregivers-intro schemaform-intro">
-      <FormTitle
-        className="form-title"
-        title="Apply for the Program of Comprehensive Assistance for Family Caregivers"
-      />
-      <p>
-        Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)
-      </p>
-      <p className="va-introtext">
-        We recognize the important role of family caregivers in supporting the
-        health and wellness of Veterans.
-      </p>
+      <DowntimeNotification
+        appTitle={applicationTitle}
+        dependencies={[externalServices.mvi, externalServices.carma]}
+      >
+        <FormTitle className="form-title" title={applicationTitle} />
 
-      <button
-        style={{ display: 'inherit ' }}
-        className="usa-button vads-u-margin-y--3"
-        onClick={startForm}
-      >
-        Start your application
-      </button>
-      <ProcessTimeline />
-      <button
-        className="usa-button vads-u-margin-bottom--3"
-        onClick={startForm}
-      >
-        Start your application
-      </button>
-      <div className="omb-info--container vads-u-padding-left--0">
-        <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="09/30/2021" />
-      </div>
+        <p>
+          Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)
+        </p>
+        <p className="va-introtext">
+          We recognize the important role of family caregivers in supporting the
+          health and wellness of Veterans.
+        </p>
+
+        <button
+          style={{ display: 'inherit ' }}
+          className="usa-button vads-u-margin-y--3"
+          onClick={startForm}
+        >
+          Start your application
+        </button>
+        <ProcessTimeline />
+        <button
+          className="usa-button vads-u-margin-bottom--3"
+          onClick={startForm}
+        >
+          Start your application
+        </button>
+        <div className="omb-info--container vads-u-padding-left--0">
+          <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="09/30/2021" />
+        </div>
+      </DowntimeNotification>
     </div>
   );
 };
