@@ -38,6 +38,7 @@ import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../utils/SearchAreaControl';
 import recordEvent from 'platform/monitoring/record-event';
+import MapboxAccessibility from '../utils/mapbox-gl-accessibility';
 
 let currentZoom = 3;
 let searchAreaSet = false;
@@ -212,6 +213,12 @@ const FacilitiesMap = props => {
     const searchAreaControl = new SearchAreaControl(isMobile);
     mapInit.addControl(searchAreaControl);
     mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
+    mapInit.addControl(
+      new MapboxAccessibility({
+        accessibleLabelProperty: 'name',
+        layers: ['poi-label', 'transit-label'],
+      }),
+    );
     setSearchAreaPosition();
     mapInit.on('load', () => {
       setMapInit(mapInit);
