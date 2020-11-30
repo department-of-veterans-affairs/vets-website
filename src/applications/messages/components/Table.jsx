@@ -6,7 +6,7 @@ import SortableTable from '@department-of-veterans-affairs/formation-react/Sorta
 
 export class MessageTable extends React.Component {
   componentDidMount() {
-    this.props.dispatchFetchInquiries();
+    this.props.fetchInquiries();
   }
 
   render() {
@@ -52,17 +52,13 @@ MessageTable.propTypes = {
   ),
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatchFetchInquiries: () => {
-      dispatch(fetchInquiries());
-    },
-  };
+const mapDispatchToProps = {
+  fetchInquiries,
 };
 
 function mapStateToProps(state) {
   return {
-    data: state.data,
+    data: state.inquiryReducer.data,
   };
 }
 

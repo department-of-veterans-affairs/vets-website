@@ -4,11 +4,11 @@ import './sass/messages.scss';
 import startApp from 'platform/startup';
 
 import routes from './routes';
-import { InquiryReducer } from './reducers';
+import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({
   url: manifest.rootUrl,
-  reducer: InquiryReducer,
+  reducer,
   routes,
 });
