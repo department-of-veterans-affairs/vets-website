@@ -133,58 +133,6 @@
         "width": 1536,
         "height": 864
       }
-    ],
-    "allIPhoneViewports": [
-      {
-        "name": "iPhone 1st gen, iPhone 3G, iPhone 3GS, iPhone 4",
-        "width": 320,
-        "height": 480
-      },
-      {
-        "name": "iPhone 5, iPhone 5s, iPhone 5c, iPhone SE 1st gen",
-        "width": 320,
-        "height": 568
-      },
-      {
-        "name": "iPhone 12 mini",
-        "width": 360,
-        "height": 780
-      },
-      {
-        "name": "iPhone 6, iPhone 6s, iPhone 7, iPhone 8",
-        "width": 375,
-        "height": 667
-      },
-      {
-        "name": "iPhone X, iPhone XS, iPhone 11 Pro",
-        "width": 375,
-        "height": 812
-      },
-      {
-        "name": "iPhone SE 2nd gen",
-        "width": 375,
-        "height": 667
-      },
-      {
-        "name": "iPhone 12 Pro, iPhone 12",
-        "width": 390,
-        "height": 844
-      },
-      {
-        "name": "iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus, iPhone 8 Plus",
-        "width": 414,
-        "height": 736
-      },
-      {
-        "name": "iPhone XS Max, iPhone XR, iPhone 11, iPhone 11 Pro Max",
-        "width": 414,
-        "height": 896
-      },
-      {
-        "name": "iPhone 12 Pro Max",
-        "width": 428,
-        "height": 926
-      }
     ]
   }
 }
