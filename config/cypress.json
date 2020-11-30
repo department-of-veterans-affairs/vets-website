@@ -11,6 +11,7 @@
     "vaTopMobileViewports": [
       {
         "name": "iPhone XS Max, iPhone XR, iPhone 11, iPhone 11 Pro Max",
+        "rank": 1,
         "percentTraffic": 9.75,
         "percentTrafficPeriod": "October, 2020",
         "width": 414,
@@ -18,6 +19,7 @@
       },
       {
         "name": "iPhone 6, iPhone 6s, iPhone 7, iPhone 8",
+        "rank": 2,
         "percentTraffic": 5.52,
         "percentTrafficPeriod": "October, 2020",
         "width": 375,
@@ -25,6 +27,7 @@
       },
       {
         "name": "iPhone X, iPhone XS, iPhone 11 Pro",
+        "rank": 3,
         "percentTraffic": 5.5,
         "percentTrafficPeriod": "October, 2020",
         "width": 375,
@@ -32,6 +35,7 @@
       },
       {
         "name": "iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus, iPhone 8 Plus",
+        "rank": 4,
         "percentTraffic": 3.25,
         "percentTrafficPeriod": "October, 2020",
         "width": 414,
@@ -39,6 +43,7 @@
       },
       {
         "name": "iPhone 5, iPhone 5s, iPhone 5c, iPhone SE 1st gen",
+        "rank": 5,
         "percentTraffic": 1.49,
         "percentTrafficPeriod": "October, 2020",
         "width": 360,
@@ -48,6 +53,7 @@
     "vaTopTabletViewports": [
       {
         "name": "iPad 1-6, iPad mini, iPad Air 1-2, iPad Pro (1st gen 9.7 inch)",
+        "rank": 1,
         "percentTraffic": 2.97,
         "percentTrafficPeriod": "October, 2020",
         "width": 768,
@@ -55,6 +61,7 @@
       },
       {
         "name": "iPad 7th gen",
+        "rank": 2,
         "percentTraffic": 0.65,
         "percentTrafficPeriod": "October, 2020",
         "width": 810,
@@ -62,6 +69,7 @@
       },
       {
         "name": "iPad Pro (1st gen 12.9 inch), iPad Pro (2nd gen 12.9 inch), iPad Pro (3rd gen 12.9 inch), iPad Pro (4th gen 12.9 inch)",
+        "rank": 3,
         "percentTraffic": 0.49,
         "percentTrafficPeriod": "October, 2020",
         "width": 1024,
@@ -69,6 +77,7 @@
       },
       {
         "name": "iPad Air (3rd gen), iPad Pro (2nd gen 10.5 inch)",
+        "rank": 4,
         "percentTraffic": 0.43,
         "percentTrafficPeriod": "October, 2020",
         "width": 834,
@@ -76,6 +85,7 @@
       },
       {
         "name": "iPad Pro (3rd gen 11 inch), iPad Pro (4th gen 11 inch)",
+        "rank": 5,
         "percentTraffic": 0.23,
         "percentTrafficPeriod": "October, 2020",
         "width": 834,
@@ -85,6 +95,7 @@
     "vaTopDesktopViewports": [
       {
         "name": "Desktop 1920 x 1920",
+        "rank": 1,
         "percentTraffic": 11.85,
         "percentTrafficPeriod": "October, 2020",
         "width": 1920,
@@ -92,6 +103,7 @@
       },
       {
         "name": "Desktop 1366 x 768",
+        "rank": 2,
         "percentTraffic": 7.06,
         "percentTrafficPeriod": "October, 2020",
         "width": 1366,
@@ -99,6 +111,7 @@
       },
       {
         "name": "Desktop 1280 x 960",
+        "rank": 3,
         "percentTraffic": 6.86,
         "percentTrafficPeriod": "October, 2020",
         "width": 1280,
@@ -106,6 +119,7 @@
       },
       {
         "name": "Desktop 1440 x 900",
+        "rank": 4,
         "percentTraffic": 5.92,
         "percentTrafficPeriod": "October, 2020",
         "width": 1440,
@@ -113,6 +127,7 @@
       },
       {
         "name": "Desktop 1536 x 864",
+        "rank": 5,
         "percentTraffic": 3.68,
         "percentTrafficPeriod": "October, 2020",
         "width": 1536,
