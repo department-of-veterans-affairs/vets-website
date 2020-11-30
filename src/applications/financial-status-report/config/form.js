@@ -11,6 +11,7 @@ import {
   otherIncome,
   veteranInfo,
   spouseEmployment,
+  spouseSocialSecurity,
   dependents,
   householdAssets,
   spouseInformation,
@@ -27,10 +28,9 @@ const formPageTitles = {
   availableDebts: 'Available Debts',
   employmentHistory: 'Your employment history',
   otherIncome: 'Other income',
-  spouseEmployment: 'Your spouse information',
   dependents: 'Dependents',
   householdAssets: 'Household Assets',
-  spouseInformation: 'Spouse Information',
+  spouseInformation: 'Your spouse information',
 };
 
 const formConfig = {
@@ -107,9 +107,15 @@ const formConfig = {
         },
         [formPageTitles.spouseEmployment]: {
           path: 'spouse-employment',
-          title: formPageTitles.spouseEmployment,
+          title: formPageTitles.spouseInformation,
           uiSchema: spouseEmployment.uiSchema,
           schema: spouseEmployment.schema,
+        },
+        [formPageTitles.spouseSocialSecurity]: {
+          path: 'spouse-social-security',
+          title: formPageTitles.spouseInformation,
+          uiSchema: spouseSocialSecurity.uiSchema,
+          schema: spouseSocialSecurity.schema,
         },
         [formPageTitles.dependents]: {
           path: 'dependents',

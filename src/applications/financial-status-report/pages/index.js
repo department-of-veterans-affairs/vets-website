@@ -6,6 +6,7 @@ import * as spouseEmployment from './spouseEmployment';
 import * as dependents from './dependents';
 import * as householdAssets from './householdAssets';
 import * as spouseInformation from './spouseInformation';
+import * as spouseSocialSecurity from './spouseSocialSecurity';
 
 export {
   availableDebts,
@@ -16,4 +17,5 @@ export {
   dependents,
   householdAssets,
   spouseInformation,
+  spouseSocialSecurity,
 };
