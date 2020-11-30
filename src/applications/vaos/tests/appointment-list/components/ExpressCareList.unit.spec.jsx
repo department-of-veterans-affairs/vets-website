@@ -51,6 +51,7 @@ describe('VAOS integration: express care requests', () => {
         reasonForVisit: 'Back pain',
         friendlyLocationName: 'Some VA medical center',
         appointmentType: 'Express Care',
+        comment: 'loss of smell',
         facility: {
           ...appointment.attributes.facility,
           facilityCode: '983GC',
@@ -96,8 +97,10 @@ describe('VAOS integration: express care requests', () => {
       expect(baseElement).to.contain.text('Call morning');
       expect(baseElement).to.contain.text('Back pain');
       expect(baseElement).to.contain.text('Your contact details');
+      expect(await findByText('Your contact details')).to.have.tagName('h4');
       expect(baseElement).to.contain.text('patient.test@va.gov');
       expect(baseElement).to.contain.text('5555555566');
+      expect(baseElement).to.contain('h4');
     });
 
     it('should show appropriate information for an escalated request', async () => {
@@ -206,12 +209,16 @@ describe('VAOS integration: express care requests', () => {
       );
 
       expect(baseElement).to.contain.text('Your contact details');
+      expect(await findByText('Your contact details')).to.have.tagName('h4');
       expect(baseElement).to.contain.text('866-651-3180');
       expect(baseElement).to.contain.text('patient.test@va.gov');
 
       expect(baseElement).to.contain.text(
         'You shared these details about your concern',
       );
+      expect(
+        await findByText('You shared these details about your concern'),
+      ).to.have.tagName('h4');
       expect(baseElement).to.contain.text('Need help ASAP');
 
       const tab = getByText('Express Care');
@@ -305,6 +312,7 @@ describe('VAOS integration: express care requests', () => {
       expect(baseElement).to.contain('.fa-exclamation-circle');
       expect(baseElement).to.contain('.vads-u-border-color--secondary-dark');
       expect(queryByText(/cancel express care request/i)).to.not.be.ok;
+      expect(baseElement.querySelector('h4')).to.be.ok;
     });
 
     it('should show appropriate status when request is resolved', async () => {
@@ -335,6 +343,7 @@ describe('VAOS integration: express care requests', () => {
       expect(baseElement).to.contain('.vads-u-border-color--green');
       expect(baseElement).to.contain('.fa-check-circle');
       expect(queryByText(/cancel express care request/i)).to.not.be.ok;
+      expect(baseElement.querySelector('h4')).to.be.ok;
     });
 
     it('should not show up in upcoming tab', async () => {
