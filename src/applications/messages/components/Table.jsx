@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchInquiries } from '../actions';
 import Table from '@department-of-veterans-affairs/formation-react/Table';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
 export class MessageTable extends React.Component {
   componentDidMount() {
@@ -11,28 +13,37 @@ export class MessageTable extends React.Component {
 
   render() {
     return (
-      <Table
-        className="va-table"
-        fields={[
-          {
-            label: 'Subject',
-            value: 'subject',
-          },
-          {
-            label: 'Date last updated',
-            value: 'lastActiveTimestamp',
-          },
-          {
-            label: 'Reference',
-            value: 'confirmationNumber',
-          },
-          {
-            label: 'Status',
-            value: 'status',
-          },
-        ]}
-        data={this.props.data ? this.props.data : []}
-      />
+      <RequiredLoginView
+        serviceRequired={[backendServices.USER_PROFILE]}
+        user={this.props.user}
+      >
+        <h1 className={'vads-u-padding-x--2'}>My Messages</h1>
+        <div
+          className={'vads-u-padding-x--2 medium-screen:vads-u-padding-x--0'}
+        >
+          <Table
+            fields={[
+              {
+                label: 'Subject',
+                value: 'subject',
+              },
+              {
+                label: 'Date last updated',
+                value: 'lastActiveTimestamp',
+              },
+              {
+                label: 'Reference',
+                value: 'confirmationNumber',
+              },
+              {
+                label: 'Status',
+                value: 'status',
+              },
+            ]}
+            data={this.props.data ? this.props.data : []}
+          />
+        </div>
+      </RequiredLoginView>
     );
   }
 }
@@ -53,8 +64,11 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
+  const userState = state.user;
+
   return {
     data: state.messages.data,
+    user: userState,
   };
 }
 
