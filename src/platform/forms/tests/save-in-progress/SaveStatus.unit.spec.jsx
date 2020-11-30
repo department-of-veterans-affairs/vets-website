@@ -27,7 +27,7 @@ describe('<SaveStatus>', () => {
   it('should show last saved date', () => {
     props.form.autoSavedStatus = SAVE_STATUSES.success;
     const tree = SkinDeep.shallowRender(<SaveStatus {...props} />);
-    expect(tree.text()).to.include('Application has been saved.');
+    expect(tree.text()).to.include('Your application has been saved.');
   });
   it('should show saving', () => {
     props.form.autoSavedStatus = SAVE_STATUSES.pending;
@@ -38,7 +38,7 @@ describe('<SaveStatus>', () => {
     props.form.autoSavedStatus = undefined;
     props.form.lastSavedDate = undefined;
     const tree = SkinDeep.shallowRender(<SaveStatus {...props} />);
-    expect(tree.text()).to.not.have.string('Application has been saved.');
+    expect(tree.text()).to.not.have.string('Your application has been saved.');
     expect(tree.text()).to.not.have.string('Saving...');
   });
   it('should show session expired error', () => {
@@ -56,13 +56,18 @@ describe('<SaveStatus>', () => {
     const tree = SkinDeep.shallowRender(<SaveStatus {...props} />);
     expect(tree.text()).to.have.string('having some issues');
   });
-  it('should display the appSavedSuccessfullyMessage', () => {
+  it('should display the appSavedSuccessfullyMessage & SiP ID', () => {
     const appSavedSuccessfullyMessageProps = {
       ...props,
       form: {
         formId: VA_FORM_IDS.FORM_10_10EZ,
         lastSavedDate: 1505770055,
         autoSavedStatus: 'success',
+        loadedData: {
+          metadata: {
+            inProgressFormId: 98765,
+          },
+        },
       },
       formConfig: {
         customText: {
@@ -77,5 +82,6 @@ describe('<SaveStatus>', () => {
     expect(tree.subTree('.panel').text()).to.include(
       'Custom message saying your app has been saved.',
     );
+    expect(tree.subTree('.panel').text()).to.include('ID number is 98765');
   });
 });

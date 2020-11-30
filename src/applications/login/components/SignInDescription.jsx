@@ -33,7 +33,10 @@ export default function SignInDescription() {
           to be you—before we give you access to your information.
         </p>
         <p>
-          <a href="/sign-in-faq/#what-is-idme" target="_blank">
+          <a
+            href="/resources/privacy-and-security-on-vagov/#whats-idme-and-why-should-i-tr"
+            target="_blank"
+          >
             Learn more about ID.me
           </a>
         </p>
