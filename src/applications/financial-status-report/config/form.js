@@ -29,7 +29,7 @@ const formPageTitles = {
   employmentHistory: 'Your employment history',
   otherIncome: 'Other income',
   spouseEmployment: 'Your spouse information',
-  spouseAdditionalEmployment: 'Your spouse additional employment',
+  spouseAdditionalEmployment: 'Your spouse information',
   dependents: 'Dependents',
   householdAssets: 'Household Assets',
   spouseInformation: 'Spouse Information',

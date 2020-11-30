@@ -1,43 +1,39 @@
 import ItemLoop from '../components/ItemLoop';
-import AssetView from '../components/AssetView';
+import CardDetailsView from '../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
   employmentHistory: {
-    hasBeenEmployed: {
+    previousEmployment: {
       'ui:title': 'Has your spouse had additional jobs in the past two years?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    additionalEmployment: {
+    previousEmploymentRecords: {
       'ui:options': {
-        expandUnder: 'hasBeenEmployed',
+        expandUnder: 'previousEmployment',
+        viewField: CardDetailsView,
       },
       'ui:description':
         'Please provide your spouse’s employment history for the past two years.',
-      payrollDeductions: {
-        'ui:field': ItemLoop,
-        'ui:options': {
-          viewField: AssetView,
+      'ui:field': ItemLoop,
+      items: {
+        'ui:title': 'Add a job',
+        employmentType: {
+          'ui:title': 'Type of employment',
         },
-        items: {
-          'ui:title': 'Add a job',
-          employmentType: {
-            'ui:title': 'Type of employment',
-          },
-          employmentStart: {
-            'ui:title': 'Employment start date',
-            'ui:widget': 'date',
-            'ui:required': () => true,
-          },
-          employmentEnd: {
-            'ui:title': 'Employment end date',
-            'ui:widget': 'date',
-            'ui:required': () => true,
-          },
-          employerName: {
-            'ui:title': 'Employer name',
-          },
+        employmentStart: {
+          'ui:title': 'Employment start date',
+          'ui:widget': 'date',
+          'ui:required': () => true,
+        },
+        employmentEnd: {
+          'ui:title': 'Employment end date',
+          'ui:widget': 'date',
+          'ui:required': () => true,
+        },
+        employerName: {
+          'ui:title': 'Employer name',
         },
       },
     },
@@ -50,30 +46,25 @@ export const schema = {
     employmentHistory: {
       type: 'object',
       properties: {
-        hasBeenEmployed: {
+        previousEmployment: {
           type: 'boolean',
         },
-        additionalEmployment: {
-          type: 'object',
-          properties: {
-            payrollDeductions: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  employmentType: {
-                    type: 'string',
-                  },
-                  employmentStart: {
-                    type: 'string',
-                  },
-                  employmentEnd: {
-                    type: 'string',
-                  },
-                  employerName: {
-                    type: 'string',
-                  },
-                },
+        previousEmploymentRecords: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              employmentType: {
+                type: 'string',
+              },
+              employmentStart: {
+                type: 'string',
+              },
+              employmentEnd: {
+                type: 'string',
+              },
+              employerName: {
+                type: 'string',
               },
             },
           },
