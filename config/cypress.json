@@ -106,7 +106,7 @@
       {
         "list": "vaTopDesktopViewports",
         "rank": 1,
-        "devicesWithViewport": "Desktop 1920 x 1920",
+        "devicesWithViewport": "Unknown",
         "percentTraffic": 11.85,
         "percentTrafficPeriod": "October, 2020",
         "width": 1920,
@@ -115,7 +115,7 @@
       {
         "list": "vaTopDesktopViewports",
         "rank": 2,
-        "devicesWithViewport": "Desktop 1366 x 768",
+        "devicesWithViewport": "Unknown",
         "percentTraffic": 7.06,
         "percentTrafficPeriod": "October, 2020",
         "width": 1366,
@@ -124,7 +124,7 @@
       {
         "list": "vaTopDesktopViewports",
         "rank": 3,
-        "devicesWithViewport": "Desktop 1280 x 960",
+        "devicesWithViewport": "Unknown",
         "percentTraffic": 6.86,
         "percentTrafficPeriod": "October, 2020",
         "width": 1280,
@@ -133,7 +133,7 @@
       {
         "list": "vaTopDesktopViewports",
         "rank": 4,
-        "devicesWithViewport": "Desktop 1440 x 900",
+        "devicesWithViewport": "Unknown",
         "percentTraffic": 5.92,
         "percentTrafficPeriod": "October, 2020",
         "width": 1440,
@@ -142,7 +142,7 @@
       {
         "list": "vaTopDesktopViewports",
         "rank": 5,
-        "devicesWithViewport": "Desktop 1536 x 864",
+        "devicesWithViewport": "Unknown",
         "percentTraffic": 3.68,
         "percentTrafficPeriod": "October, 2020",
         "width": 1536,
