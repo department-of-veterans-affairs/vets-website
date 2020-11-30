@@ -213,7 +213,7 @@ class DashboardApp extends React.Component {
             </a>
             <p>
               <a
-                href="/sign-in-faq#verifying-your-identity"
+                href="/resources/verifying-your-identity-on-vagov/"
                 onClick={recordDashboardClick('learn-more-identity')}
               >
                 Learn about how to verify your identity
