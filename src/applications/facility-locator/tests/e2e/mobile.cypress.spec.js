@@ -42,13 +42,14 @@ describe('Mobile', () => {
   });
 
   it('should render in mobile layouts and tabs actions work', () => {
-    Cypress.env().vaTopMobileViewports.forEach((viewportData, i) => {
+    Cypress.env().vaTopMobileViewports.forEach(viewportData => {
       const {
         list,
         rank,
         devicesWithViewport,
         percentTraffic,
         percentTrafficPeriod,
+        viewportPreset,
         width,
         height,
       } = viewportData;
@@ -59,15 +60,12 @@ describe('Mobile', () => {
       cy.log(
         `% traffic for the month of ${percentTrafficPeriod}: ${percentTraffic}%`,
       );
+      cy.log(`Viewport width x height: ${width} x ${height}`);
 
       cy.visit('/find-locations');
       cy.injectAxe();
-      cy.viewport(width, height);
+      cy.viewportPreset(viewportPreset);
       cy.checkSearch();
-
-      cy.log('Test corresponding mobile preset:');
-      const preset = `va-top-mobile-${i + 1}`;
-      cy.viewportPreset(preset);
 
       cy.log('End of current iteration.');
     });
