@@ -138,8 +138,7 @@ export default function(state = INITIAL_STATE, action) {
         const storedQuery = JSON.parse(localStorage.getItem('giQuery'));
 
         if (
-          storedQuery &&
-          storedQuery.timestamp &&
+          storedQuery?.timestamp &&
           new Date().getTime() - storedQuery.timestamp < QUERY_LIFESPAN
         ) {
           newState = {

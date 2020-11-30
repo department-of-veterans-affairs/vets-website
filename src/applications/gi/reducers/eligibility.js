@@ -63,8 +63,7 @@ export default function(state = INITIAL_STATE, action) {
     const storedEligibility = JSON.parse(localStorage.getItem('giEligibility'));
 
     if (
-      storedEligibility &&
-      storedEligibility.timestamp &&
+      storedEligibility?.timestamp &&
       new Date().getTime() - storedEligibility.timestamp < ELIGIBILITY_LIFESPAN
     ) {
       newState = {
