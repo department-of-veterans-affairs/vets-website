@@ -443,7 +443,7 @@ describe('Schemaform: ObjectField', () => {
     expect(id0).to.equal('root_test__title');
     expect(id1).to.equal('root_test2__title');
   });
-  it('should render with a fieldset when forceDivWrapper is false', () => {
+  it('should render with a fieldset and legend when forceDivWrapper is false', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const schema = {
@@ -488,9 +488,11 @@ describe('Schemaform: ObjectField', () => {
     );
     const formDOM = getFormDOM(form);
     const fieldsets = formDOM.querySelectorAll('fieldset');
+    const legends = formDOM.querySelectorAll('legend');
     expect(fieldsets.length).to.equal(1);
+    expect(legends.length).to.equal(1);
   });
-  it('should render without a fieldset when forceDivWrapper is true', () => {
+  it('should render without a fieldset and legend when forceDivWrapper is true', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const schema = {
@@ -511,7 +513,7 @@ describe('Schemaform: ObjectField', () => {
       },
     };
     const uiSchema = {
-      'ui:title': 'Test title',
+      'ui:title': () => <p>Test Title</p>,
       'ui:options': {
         forceDivWrapper: true,
       },
@@ -535,6 +537,8 @@ describe('Schemaform: ObjectField', () => {
     );
     const formDOM = getFormDOM(form);
     const fieldsets = formDOM.querySelectorAll('fieldset');
+    const legends = formDOM.querySelectorAll('legend');
     expect(fieldsets.length).to.equal(0);
+    expect(legends.length).to.equal(0);
   });
 });
