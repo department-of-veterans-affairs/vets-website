@@ -42,24 +42,35 @@ describe('Mobile', () => {
   });
 
   it('should render in mobile layouts and tabs actions work', () => {
-    cy.visit('/find-locations');
-    cy.injectAxe();
+    Cypress.env().vaTopMobileViewports.forEach((viewportData, i) => {
+      const {
+        list,
+        rank,
+        devicesWithViewport,
+        percentTraffic,
+        percentTrafficPeriod,
+        width,
+        height,
+      } = viewportData;
 
-    // iPhone X
-    cy.viewport(400, 812);
-    cy.checkSearch();
+      cy.log(`Viewport list: ${list}`);
+      cy.log(`Viewport rank: ${rank}`);
+      cy.log(`Devices with viewport: ${devicesWithViewport}`);
+      cy.log(
+        `% traffic for the month of ${percentTrafficPeriod}: ${percentTraffic}%`,
+      );
 
-    // iPhone 6/7/8 plus
-    cy.viewport(414, 736);
-    cy.checkSearch();
+      cy.visit('/find-locations');
+      cy.injectAxe();
+      cy.viewport(width, height);
+      cy.checkSearch();
 
-    // Pixel 2
-    cy.viewport(411, 731);
-    cy.checkSearch();
+      cy.log('Test corresponding mobile preset:');
+      const preset = `va-top-mobile-${i + 1}`;
+      cy.viewportPreset(preset);
 
-    // Galaxy S5/Moto
-    cy.viewport(360, 640);
-    cy.checkSearch();
+      cy.log('End of current iteration.');
+    });
   });
 
   it('should render the appropriate elements at each breakpoint', () => {
