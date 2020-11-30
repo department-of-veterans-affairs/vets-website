@@ -47,9 +47,7 @@ function fillOutForm(facilitySelection) {
 
   // Check form requestBody is as expected
   cy.wait('@appointmentRequests').should(xhr => {
-    let date = moment()
-      .add(1, 'month')
-      .startOf('month');
+    let date = moment().add(5, 'days');
 
     // Check for weekend and select following Monday if true
     if (date.weekday() === 0) {
