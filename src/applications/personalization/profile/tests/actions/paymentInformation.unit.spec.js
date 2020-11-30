@@ -71,7 +71,151 @@ describe('actions/paymentInformation', () => {
         );
       });
 
-      describe('if the call succeeds', () => {
+      describe('if the call succeeds and the user is not eligible direct deposit', () => {
+        const paymentInfo = {
+          controlInformation: {
+            canUpdateAddress: true,
+            corpAvailIndicator: true,
+            corpRecFoundIndicator: true,
+            hasNoBdnPaymentsIndicator: true,
+            identityIndicator: true,
+            isCompetentIndicator: true,
+            indexIndicator: true,
+            noFiduciaryAssignedIndicator: true,
+            notDeceasedIndicator: true,
+          },
+          paymentAccount: {
+            accountType: null,
+            financialInstitutionName: null,
+            accountNumber: null,
+            financialInstitutionRoutingNumber: null,
+          },
+          paymentAddress: {
+            type: null,
+            addressEffectiveDate: null,
+            addressOne: null,
+            addressTwo: null,
+            addressThree: null,
+            city: null,
+            stateCode: null,
+            zipCode: null,
+            zipSuffix: null,
+            countryName: null,
+            militaryPostOfficeTypeCode: null,
+            militaryStateCode: null,
+          },
+          paymentType: 'CNP',
+        };
+
+        beforeEach(async () => {
+          setFetchJSONResponse(global.fetch.onFirstCall(), {
+            data: {
+              attributes: {
+                responses: [paymentInfo],
+              },
+            },
+          });
+          await actionCreator(dispatch);
+        });
+
+        it('dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
+          expect(dispatch.secondCall.args[0].type).to.be.equal(
+            paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+          );
+          expect(dispatch.secondCall.args[0].response).to.deep.equal({
+            responses: [paymentInfo],
+          });
+        });
+
+        it('reports the correct data to Google Analytics', () => {
+          expect(recordEventSpy.firstCall.args[0].event).to.equal(
+            'profile-get-direct-deposit-started',
+          );
+          expect(recordEventSpy.secondCall.args[0].event).to.equal(
+            'profile-get-direct-deposit-retrieved',
+          );
+          expect(
+            recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
+          ).to.be.false;
+          expect(
+            recordEventSpy.secondCall.args[0]['direct-deposit-setup-complete'],
+          ).to.be.false;
+        });
+      });
+
+      describe('if the call succeeds and the user is eligible to sign up for direct deposit', () => {
+        const paymentInfo = {
+          controlInformation: {
+            canUpdateAddress: true,
+            corpAvailIndicator: true,
+            corpRecFoundIndicator: true,
+            hasNoBdnPaymentsIndicator: true,
+            identityIndicator: true,
+            isCompetentIndicator: true,
+            indexIndicator: true,
+            noFiduciaryAssignedIndicator: true,
+            notDeceasedIndicator: true,
+          },
+          paymentAccount: {
+            accountType: null,
+            financialInstitutionName: null,
+            accountNumber: null,
+            financialInstitutionRoutingNumber: null,
+          },
+          paymentAddress: {
+            type: null,
+            addressEffectiveDate: null,
+            addressOne: '123 main st',
+            addressTwo: null,
+            addressThree: null,
+            city: 'San Francisco',
+            stateCode: 'CA',
+            zipCode: '94536',
+            zipSuffix: null,
+            countryName: null,
+            militaryPostOfficeTypeCode: null,
+            militaryStateCode: null,
+          },
+          paymentType: 'CNP',
+        };
+
+        beforeEach(async () => {
+          setFetchJSONResponse(global.fetch.onFirstCall(), {
+            data: {
+              attributes: {
+                responses: [paymentInfo],
+              },
+            },
+          });
+          await actionCreator(dispatch);
+        });
+
+        it('dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
+          expect(dispatch.secondCall.args[0].type).to.be.equal(
+            paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+          );
+          expect(dispatch.secondCall.args[0].response).to.deep.equal({
+            responses: [paymentInfo],
+          });
+        });
+
+        it('reports the correct data to Google Analytics', () => {
+          expect(recordEventSpy.firstCall.args[0].event).to.equal(
+            'profile-get-direct-deposit-started',
+          );
+          expect(recordEventSpy.secondCall.args[0].event).to.equal(
+            'profile-get-direct-deposit-retrieved',
+          );
+          expect(
+            recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
+          ).to.be.true;
+          expect(
+            recordEventSpy.secondCall.args[0]['direct-deposit-setup-complete'],
+          ).to.be.false;
+        });
+      });
+
+      describe('if the call succeeds and the user is signed up for direct deposit', () => {
         const paymentInfo = {
           controlInformation: {
             canUpdateAddress: true,
