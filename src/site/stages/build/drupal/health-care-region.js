@@ -37,21 +37,13 @@ function createPastEventListPages(page, drupalPagePath, files) {
 
   // separate current events from past events;
   allEvents.entities.forEach(eventTeaser => {
-    // Get startdate from fieldDate Object
-    const startDate = eventTeaser.fieldDate.startDate;
-
-    // Convert the string to a date object to suppress a deprecation warning
-    const startDateObj = new Date(startDate);
-
-    // Pass the date object into Moment for formatting
-    const startDateUtc = moment(startDateObj)
-      .utc()
-      .format();
+    const startDate = eventTeaser.fieldDatetimeRangeTimezone.value;
 
     // Check if the date is in the past
-    const isPast = moment().diff(startDateUtc, 'days');
+    const startDateUTC = moment.unix(startDate);
+    const currentDateUTC = new Date().getTime() / 1000;
 
-    if (isPast >= 1) {
+    if (startDateUTC < currentDateUTC) {
       pastEventTeasers.entities.push(eventTeaser);
     }
   });
@@ -59,7 +51,7 @@ function createPastEventListPages(page, drupalPagePath, files) {
   // sort past events into reverse chronological order by start date
   pastEventTeasers.entities = _.orderBy(
     pastEventTeasers.entities,
-    ['fieldDate.startDate'],
+    ['fieldDatetimeRangeTimezone.value'],
     ['desc'],
   );
 
@@ -286,7 +278,7 @@ function addPager(page, files, field, template, aria) {
   if (page.allEventTeasers) {
     page.allEventTeasers.entities = itemSorter(
       page.allEventTeasers,
-      'fieldDate',
+      'fieldDatetimeRangeTimezone',
     );
   }
   // Sort news teasers.
