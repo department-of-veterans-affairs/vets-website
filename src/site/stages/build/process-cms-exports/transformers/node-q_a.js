@@ -7,7 +7,7 @@ const {
 
 const transform = entity => ({
   entityType: 'node',
-  entityBundle: 'va_form',
+  entityBundle: 'q_a',
   title: getDrupalValue(entity.title),
   created: utcToEpochTime(getDrupalValue(entity.created)),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
