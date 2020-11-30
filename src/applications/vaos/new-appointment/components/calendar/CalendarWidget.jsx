@@ -266,14 +266,14 @@ export default function CalendarWidget({
 }) {
   const currentDate = moment();
   const maxMonth = getMaxMonth(maxDate, startMonth);
-  const [months, setMonths] = useState([currentDate]);
+  const [months, setMonths] = useState([moment(minDate)]);
 
   useEffect(
     () => {
       // Updates months to show at once if > default setting
       if (monthsToShowAtOnce > months.length) {
         const updatedMonths = [];
-        const startDate = startMonth ? moment(startMonth) : moment();
+        const startDate = startMonth ? moment(startMonth) : moment(minDate);
 
         for (let index = 0; index < monthsToShowAtOnce; index++) {
           updatedMonths.push(startDate.clone().add(index, 'months'));
@@ -281,7 +281,7 @@ export default function CalendarWidget({
         setMonths(updatedMonths);
       }
     },
-    [monthsToShowAtOnce, startMonth, months],
+    [monthsToShowAtOnce, startMonth, months, minDate],
   );
 
   const showError = validationError?.length > 0;

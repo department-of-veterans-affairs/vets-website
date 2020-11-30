@@ -43,12 +43,16 @@ describe('VAOS <DateTimeRequestPage>', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: moment().format('MMMM YYYY'),
+          name: moment()
+            .add(5, 'days')
+            .format('MMMM YYYY'),
         }),
       ).to.be.ok;
 
       // Find all available appointments for the current month
-      const currentMonth = moment().format('MMMM');
+      const currentMonth = moment()
+        .add(5, 'days')
+        .format('MMMM');
       const buttons = screen
         .getAllByLabelText(new RegExp(currentMonth))
         .filter(button => button.disabled === false);
@@ -155,14 +159,18 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // Find all available appointments for the current month
-      const currentMonth = moment().format('MMMM');
+      const currentMonth = moment()
+        .add(5, 'days')
+        .format('MMMM');
       let buttons = screen
         .getAllByLabelText(new RegExp(currentMonth))
         .filter(button => button.disabled === false);
 
       if (buttons.length < 4) {
         userEvent.click(screen.getByText(/^Next/));
-        const nextMonth = moment().add(1, 'month');
+        const nextMonth = moment()
+          .add(5, 'days')
+          .add(1, 'month');
         await screen.findByRole('heading', {
           name: nextMonth.format('MMMM YYYY'),
         });
@@ -231,14 +239,18 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // Find all available appointments for the current month
-      const currentMonth = moment().format('MMMM');
+      const currentMonth = moment()
+        .add(5, 'days')
+        .format('MMMM');
       let buttons = screen
         .getAllByLabelText(new RegExp(currentMonth))
         .filter(button => button.disabled === false);
 
       if (buttons.length < 2) {
         userEvent.click(screen.getByText(/^Next/));
-        const nextMonth = moment().add(1, 'month');
+        const nextMonth = moment()
+          .add(5, 'days')
+          .add(1, 'month');
         await screen.findByRole('heading', {
           name: nextMonth.format('MMMM YYYY'),
         });
