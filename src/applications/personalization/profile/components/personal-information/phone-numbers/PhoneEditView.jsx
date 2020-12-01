@@ -36,15 +36,15 @@ class PhoneEditView extends React.Component {
   };
 
   render() {
+    console.log('These are props in PhoneEditView', this.props);
+
     return (
       <ContactInformationEditView
         analyticsSectionName={this.props.analyticsSectionName}
         clearErrors={this.props.clearErrors}
-        deleteDisabled={this.props.deleteDisabled}
         field={this.props.field}
         formSchema={this.props.formSchema}
         getInitialFormValues={this.getInitialFormValues}
-        hasValidationError={this.props.hasValidationError}
         isEmpty={this.props.isEmpty}
         onCancel={this.props.onCancel}
         onChangeFormDataAndSchemas={this.props.onChangeFormDataAndSchemas}
@@ -55,7 +55,6 @@ class PhoneEditView extends React.Component {
         transaction={this.props.transaction}
         transactionRequest={this.props.transactionRequest}
         uiSchema={this.props.uiSchema}
-        useSchemaForm={this.props.useSchemaForm}
         type="phone"
       />
     );

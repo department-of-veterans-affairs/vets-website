@@ -29,7 +29,6 @@ export default class VAPServiceEditModal extends React.Component {
     render: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     transactionRequest: PropTypes.object,
-    useSchemaForm: PropTypes.bool,
   };
 
   componentDidMount() {

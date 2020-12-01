@@ -26,7 +26,6 @@ class EmailEditView extends React.Component {
         transaction={this.props.transaction}
         transactionRequest={this.props.transactionRequest}
         uiSchema={this.props.uiSchema}
-        useSchemaForm={this.props.useSchemaForm}
         type="email"
       />
     );

@@ -31,7 +31,6 @@ class ContactInformationEditView extends Component {
     title: PropTypes.string.isRequired,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
-    useSchemaForm: PropTypes.bool,
   };
 
   componentDidMount() {
