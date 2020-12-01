@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 
-import { fetchInquiries, FETCH_INQUIRIES_SUCCESS } from '../../actions/index';
+import { fetchInquiries, FETCH_INQUIRIES_SUCCESS } from '../actions';
 
 describe('fetchInquiries', () => {
   const mockData = {
