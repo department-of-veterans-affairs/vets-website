@@ -77,23 +77,6 @@ class AddressEditView extends React.Component {
     );
   };
 
-  renderForm = (formButtons, onSubmit) => (
-    <div>
-      {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
-        <CopyMailingAddress copyMailingAddress={this.copyMailingAddress} />
-      )}
-      <ContactInfoForm
-        formData={this.props.field.value}
-        formSchema={this.props.field.formSchema}
-        uiSchema={this.props.field.uiSchema}
-        onUpdateFormData={this.onInput}
-        onSubmit={onSubmit}
-      >
-        {formButtons}
-      </ContactInfoForm>
-    </div>
-  );
-
   render() {
     return (
       <ContactInformationEditView
@@ -110,12 +93,12 @@ class AddressEditView extends React.Component {
         onDelete={this.props.onDelete}
         onSubmit={this.props.onSubmit}
         refreshTransaction={this.props.refreshTransaction}
-        render={this.renderForm}
         title={this.props.title}
         transaction={this.props.transaction}
         transactionRequest={this.props.transactionRequest}
         uiSchema={this.props.uiSchema}
         useSchemaForm={this.props.useSchemaForm}
+        type="address"
       />
     );
   }

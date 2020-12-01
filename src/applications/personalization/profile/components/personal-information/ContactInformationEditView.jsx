@@ -8,6 +8,9 @@ import {
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import ContactInformationActionButtons from './ContactInformationActionButtons';
+import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
+import { FIELD_NAMES } from '@@vap-svc/constants';
+import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
 
 class ContactInformationEditView extends Component {
   static propTypes = {
@@ -25,7 +28,6 @@ class ContactInformationEditView extends Component {
     onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     refreshTransaction: PropTypes.func,
-    render: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
@@ -89,10 +91,10 @@ class ContactInformationEditView extends Component {
         isEmpty,
         onCancel,
         onDelete,
-        render,
         title,
         transaction,
         transactionRequest,
+        type,
       },
     } = this;
 
@@ -135,6 +137,49 @@ class ContactInformationEditView extends Component {
       </ContactInformationActionButtons>
     );
 
+    const addressRender = () => (
+      <div>
+        {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
+          <CopyMailingAddress copyMailingAddress={this.copyMailingAddress} />
+        )}
+        <ContactInfoForm
+          formData={this.props.field.value}
+          formSchema={this.props.field.formSchema}
+          uiSchema={this.props.field.uiSchema}
+          onUpdateFormData={this.onInput}
+          onSubmit={onSubmit}
+        >
+          {actionButtons}
+        </ContactInfoForm>
+      </div>
+    );
+
+    const emailRender = () => (
+      <>
+        <ContactInfoForm
+          formData={this.props.field.value}
+          formSchema={this.props.field.formSchema}
+          uiSchema={this.props.field.uiSchema}
+          onUpdateFormData={this.props.onChangeFormDataAndSchemas}
+          onSubmit={onSubmit}
+        >
+          {actionButtons}
+        </ContactInfoForm>
+      </>
+    );
+
+    const phoneRender = () => (
+      <ContactInfoForm
+        formData={this.props.field.value}
+        formSchema={this.props.field.formSchema}
+        uiSchema={this.props.field.uiSchema}
+        onUpdateFormData={this.props.onChangeFormDataAndSchemas}
+        onSubmit={onSubmit}
+      >
+        {actionButtons}
+      </ContactInfoForm>
+    );
+
     return (
       <>
         {error && (
@@ -149,7 +194,10 @@ class ContactInformationEditView extends Component {
             />
           </div>
         )}
-        {!!field && render(actionButtons, onSubmit)}
+        {!field && null}
+        {!!field && type === 'address' && addressRender()}
+        {!!field && type === 'email' && emailRender()}
+        {!!field && type === 'phone' && phoneRender()}
       </>
     );
   }

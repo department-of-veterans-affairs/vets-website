@@ -8,20 +8,6 @@ class EmailEditView extends React.Component {
   getInitialFormValues = () =>
     this.props.data ? { ...this.props.data } : { emailAddress: '' };
 
-  renderForm = (formButtons, onSubmit) => (
-    <>
-      <ContactInfoForm
-        formData={this.props.field.value}
-        formSchema={this.props.field.formSchema}
-        uiSchema={this.props.field.uiSchema}
-        onUpdateFormData={this.props.onChangeFormDataAndSchemas}
-        onSubmit={onSubmit}
-      >
-        {formButtons}
-      </ContactInfoForm>
-    </>
-  );
-
   render() {
     return (
       <ContactInformationEditView
@@ -38,12 +24,12 @@ class EmailEditView extends React.Component {
         onDelete={this.props.onDelete}
         onSubmit={this.props.onSubmit}
         refreshTransaction={this.props.refreshTransaction}
-        render={this.renderForm}
         title={this.props.title}
         transaction={this.props.transaction}
         transactionRequest={this.props.transactionRequest}
         uiSchema={this.props.uiSchema}
         useSchemaForm={this.props.useSchemaForm}
+        type="email"
       />
     );
   }
