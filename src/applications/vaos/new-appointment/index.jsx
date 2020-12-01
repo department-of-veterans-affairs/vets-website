@@ -10,7 +10,7 @@ import {
 import {
   selectUseFlatFacilityPage,
   selectIsCernerOnlyPatient,
-  vaosProviderSelection,
+  selectUseProviderSelection,
 } from '../utils/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
@@ -175,7 +175,7 @@ function mapStateToProps(state) {
   return {
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     flatFacilityPageEnabled: selectUseFlatFacilityPage(state),
-    providerSelectionEnabled: vaosProviderSelection(state),
+    providerSelectionEnabled: selectUseProviderSelection(state),
   };
 }
 
