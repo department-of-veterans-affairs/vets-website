@@ -35,7 +35,7 @@ import {
   resetMapElements,
   setSearchAreaPosition,
 } from '../utils/helpers';
-import { BOUNDING_RADIUS, MapboxInit, MARKER_LETTERS } from '../constants';
+import { MapboxInit, MARKER_LETTERS } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -428,17 +428,10 @@ const FacilitiesMap = props => {
           });
           return;
         }
-        const coordinates = features[0].center;
         const zipCode =
           features[0].context.find(v => v.id.includes('postcode')).text || '';
 
         props.updateSearchQuery({
-          bounds: features[0].bbox || [
-            coordinates[0] - BOUNDING_RADIUS,
-            coordinates[1] - BOUNDING_RADIUS,
-            coordinates[0] + BOUNDING_RADIUS,
-            coordinates[1] + BOUNDING_RADIUS,
-          ],
           searchString: placeName,
           context: zipCode,
           position,
