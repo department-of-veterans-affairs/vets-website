@@ -37,21 +37,13 @@ function createPastEventListPages(page, drupalPagePath, files) {
 
   // separate current events from past events;
   allEvents.entities.forEach(eventTeaser => {
-    // Get startdate from fieldDate Object
-    const startDate = eventTeaser.fieldDate.startDate;
-
-    // Convert the string to a date object to suppress a deprecation warning
-    const startDateObj = new Date(startDate);
-
-    // Pass the date object into Moment for formatting
-    const startDateUtc = moment(startDateObj)
-      .utc()
-      .format();
+    const startDate = eventTeaser.fieldDatetimeRangeTimezone.value;
 
     // Check if the date is in the past
-    const isPast = moment().diff(startDateUtc, 'days');
+    const startDateUTC = startDate;
+    const currentDateUTC = new Date().getTime() / 1000;
 
-    if (isPast >= 1) {
+    if (startDateUTC < currentDateUTC) {
       pastEventTeasers.entities.push(eventTeaser);
     }
   });
@@ -59,7 +51,7 @@ function createPastEventListPages(page, drupalPagePath, files) {
   // sort past events into reverse chronological order by start date
   pastEventTeasers.entities = _.orderBy(
     pastEventTeasers.entities,
-    ['fieldDate.startDate'],
+    ['fieldDatetimeRangeTimezone.value'],
     ['desc'],
   );
 
@@ -250,27 +242,55 @@ function addGetUpdatesFields(page, pages) {
 }
 
 /**
- * Sorts items from oldest to newest, removing expired items.
+ * Sorts release dates (fieldReleaseDate) from oldest to newest, removing expired items.
  *
- * @param {items} array The items array.
- * @param {field} string The target date field.
+ * @param {releaseDates} array The dates array.
  * @param {reverse} bool Sorting order set to default false.
  * @param {stale} bool Remove expired date items set to default false.
  * @return Filtered array of sorted items.
  */
-function itemSorter(items = [], field, reverse = false, stale = true) {
-  let sorted = items.entities.sort((a, b) => {
-    const start1 = moment(a[field].value);
-    const start2 = moment(b[field].value);
+function releaseDateSorter(legacyDates = [], reverse = false, stale = true) {
+  let sorted = legacyDates.entities.sort((a, b) => {
+    const start1 = moment(a.fieldReleaseDate.value);
+    const start2 = moment(b.fieldReleaseDate.value);
     return reverse ? start2 - start1 : start1 - start2;
   });
 
   if (stale) {
-    sorted = sorted.filter(item => moment(item[field].value).isAfter(moment()));
+    sorted = sorted.filter(item =>
+      moment(item.fieldReleaseDate.value).isAfter(moment()),
+    );
   }
 
   return sorted;
 }
+
+/**
+ * Sorts event dates (fieldDatetimeRangeTimezone) from oldest to newest, removing expired items.
+ *
+ * @param {dates} array The dates array.
+ * @param {reverse} bool Sorting order set to default false.
+ * @param {stale} bool Remove expired date items set to default false.
+ * @return Filtered array of sorted items.
+ */
+function eventDateSorter(dates = [], reverse = false, stale = true) {
+  let sorted = dates.entities.sort((a, b) => {
+    const start1 = a.fieldDatetimeRangeTimezone.value;
+    const start2 = b.fieldDatetimeRangeTimezone.value;
+    return reverse ? start2 - start1 : start1 - start2;
+  });
+
+  const currentDateUTC = new Date().getTime() / 1000;
+
+  if (stale) {
+    sorted = sorted.filter(
+      item => item.fieldDatetimeRangeTimezone.value > currentDateUTC,
+    );
+  }
+
+  return sorted;
+}
+
 /**
  * Add pagers to cms content listing pages.
  *
@@ -284,16 +304,13 @@ function itemSorter(items = [], field, reverse = false, stale = true) {
 function addPager(page, files, field, template, aria) {
   // Sort events and remove stale items.
   if (page.allEventTeasers) {
-    page.allEventTeasers.entities = itemSorter(
-      page.allEventTeasers,
-      'fieldDate',
-    );
+    page.allEventTeasers.entities = eventDateSorter(page.allEventTeasers);
   }
+
   // Sort news teasers.
   if (page.allPressReleaseTeasers) {
-    page.allPressReleaseTeasers.entities = itemSorter(
+    page.allPressReleaseTeasers.entities = releaseDateSorter(
       page.allPressReleaseTeasers,
-      'fieldReleaseDate',
       true,
       false,
     );

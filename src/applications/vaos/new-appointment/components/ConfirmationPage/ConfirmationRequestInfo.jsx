@@ -72,23 +72,28 @@ export default function ConfirmationRequestInfo({
         </div>
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
+            <div className="vads-u-margin--0">
               {isCommunityCare &&
                 !data.hasCommunityCareProvider && (
                   <>
-                    <dt>
+                    <h3 className="vaos-appts__block-label">
                       <strong>Preferred provider</strong>
-                    </dt>
-                    <dd>No preference</dd>
+                    </h3>
+                    <p
+                      className="vaos-appts__block-label"
+                      style={{ 'margin-bottom': 0 }}
+                    >
+                      No preference
+                    </p>
                   </>
                 )}
               {isCommunityCare &&
                 data.hasCommunityCareProvider && (
                   <>
-                    <dt>
+                    <h3 className="vaos-appts__block-label">
                       <strong>Preferred provider</strong>
-                    </dt>
-                    <dd>
+                    </h3>
+                    <div>
                       {!!data.communityCareProvider.practiceName && (
                         <>
                           {data.communityCareProvider.practiceName}
@@ -113,42 +118,38 @@ export default function ConfirmationRequestInfo({
                         {data.communityCareProvider.address.postalCode}
                         <br />
                       </p>
-                    </dd>
+                    </div>
                   </>
                 )}
               {!isCommunityCare &&
                 !!facilityDetails && (
                   <>
-                    <dt>
+                    <h3 className="vaos-appts__block-label">
                       <strong>{facilityDetails.name}</strong>
-                    </dt>
-                    <dd>
+                    </h3>
+                    <div>
                       <FacilityAddress facility={facilityDetails} />
-                    </dd>
+                    </div>
                   </>
                 )}
-            </dl>
+            </div>
           </div>
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                Preferred date and time
-              </dt>
-              <dd>
-                <ul className="usa-unstyled-list">
-                  {data.calendarData?.selectedDates.map(
-                    ({ date, optionTime }) => (
-                      <li key={`${date}-${optionTime}`}>
-                        {moment(date).format('MMMM D, YYYY')}{' '}
-                        {optionTime === 'AM'
-                          ? 'in the morning'
-                          : 'in the afternoon'}
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </dd>
-            </dl>
+            <h3 className="vaos-appts__block-label">Preferred date and time</h3>
+            <div>
+              <ul className="usa-unstyled-list">
+                {data.calendarData?.selectedDates.map(
+                  ({ date, optionTime }) => (
+                    <li key={`${date}-${optionTime}`}>
+                      {moment(date).format('MMMM D, YYYY')}{' '}
+                      {optionTime === 'AM'
+                        ? 'in the morning'
+                        : 'in the afternoon'}
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
           </div>
         </div>
         <div className="vads-u-margin-top--2">
@@ -158,30 +159,28 @@ export default function ConfirmationRequestInfo({
           >
             <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
               <div className="vaos_appts__message vads-u-flex--1 vaos-u-word-break--break-word">
-                <dl className="vads-u-margin--0 vads-u-margin-right--1">
-                  <dt className="vads-u-font-weight--bold">
+                <div className="vads-u-margin--0 vads-u-margin-right--1">
+                  <h3 className="vaos-appts__block-label">
                     {
                       PURPOSE_TEXT.find(
                         purpose => purpose.id === data.reasonForAppointment,
                       )?.short
                     }
-                  </dt>
-                  <dd>{data.reasonAdditionalInfo}</dd>
-                </dl>
+                  </h3>
+                  <div>{data.reasonAdditionalInfo}</div>
+                </div>
               </div>
               <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
-                <dl className="vads-u-margin--0">
-                  <dt className="vads-u-font-weight--bold vads-u-display--block">
-                    Your contact details
-                  </dt>
-                  <dd>
-                    {data.email}
-                    <br />
-                    {data.phoneNumber}
-                    <br />
-                    {formatBestTime(data.bestTimeToCall)}{' '}
-                  </dd>
-                </dl>
+                <h3 className="vaos-appts__block-label">
+                  Your contact details
+                </h3>
+                <div>
+                  {data.email}
+                  <br />
+                  {data.phoneNumber}
+                  <br />
+                  {formatBestTime(data.bestTimeToCall)}{' '}
+                </div>
               </div>
             </div>
           </AdditionalInfo>

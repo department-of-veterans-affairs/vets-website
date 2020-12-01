@@ -1,9 +1,9 @@
 import ItemLoop from '../components/ItemLoop';
-import AssetView from '../components/AssetView';
+import CardDetailsView from '../components/CardDetailsView';
 
 export const uiSchema = {
+  'ui:title': 'Your household assets',
   householdAssets: {
-    'ui:title': 'Your household assets',
     checkingAndSavings: {
       'ui:title':
         'What is the total amount in your checking and savings account(s)?',
@@ -34,7 +34,7 @@ export const uiSchema = {
       realEstateValue: {
         'ui:field': ItemLoop,
         'ui:options': {
-          viewField: AssetView,
+          viewField: CardDetailsView,
         },
         items: {
           'ui:title': 'Real estate owned:',
@@ -58,7 +58,7 @@ export const uiSchema = {
       rvBoatOrCamperValue: {
         'ui:field': ItemLoop,
         'ui:options': {
-          viewField: AssetView,
+          viewField: CardDetailsView,
         },
         items: {
           'ui:title': 'Trailers, boats, or campers owned',
@@ -82,7 +82,7 @@ export const uiSchema = {
       automobilesValue: {
         'ui:field': ItemLoop,
         'ui:options': {
-          viewField: AssetView,
+          viewField: CardDetailsView,
         },
         items: {
           'ui:title': 'Trailers, boats, or campers owned',
@@ -112,7 +112,7 @@ export const uiSchema = {
       otherAssetsValue: {
         'ui:field': ItemLoop,
         'ui:options': {
-          viewField: AssetView,
+          viewField: CardDetailsView,
         },
         items: {
           'ui:title': 'Other assets owned',
