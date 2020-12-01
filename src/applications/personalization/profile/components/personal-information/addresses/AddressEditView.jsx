@@ -7,6 +7,8 @@ import { focusElement } from '~/platform/utilities/ui';
 import { ADDRESS_POU, USA } from '@@vap-svc/constants';
 import ContactInformationEditView from '../ContactInformationEditView';
 
+import getInitialFormValues from 'applications/personalization/profile/util/getInitialFormValues';
+
 class AddressEditView extends React.Component {
   componentWillUnmount() {
     focusElement(`#${this.props.fieldName}-edit-link`);
@@ -21,12 +23,6 @@ class AddressEditView extends React.Component {
     }
     this.props.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
   };
-
-  getInitialFormValues = () =>
-    this.props.modalData ||
-    this.transformInitialFormValues(this.props.data) || {
-      countryCodeIso3: USA.COUNTRY_ISO3_CODE,
-    };
 
   /**
    * Returns a copy of the input object with an added `view:livesOnMilitaryBase`
@@ -83,7 +79,11 @@ class AddressEditView extends React.Component {
         deleteDisabled={this.props.deleteDisabled}
         field={this.props.field}
         formSchema={this.props.formSchema}
-        getInitialFormValues={this.getInitialFormValues}
+        getInitialFormValues={getInitialFormValues({
+          type: 'address',
+          modalData: this.props.modalData,
+          data: this.props.data,
+        })}
         hasValidationError={this.props.hasValidationError}
         isEmpty={this.props.isEmpty}
         onCancel={this.props.onCancel}

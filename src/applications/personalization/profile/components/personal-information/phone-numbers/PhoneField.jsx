@@ -2,16 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '@@vap-svc/constants';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
 import ContactInformationField from '../ContactInformationField';
-import ReceiveTextMessages from '@@vap-svc/containers/ReceiveTextMessages';
-
-import PhoneEditView from './PhoneEditView';
 
 const formSchema = {
   type: 'object',
@@ -134,24 +130,6 @@ export default class PhoneField extends React.Component {
   };
 
   render() {
-    const ContentView = ({ data }) => {
-      const { areaCode, phoneNumber, extension } = data;
-
-      return (
-        <div>
-          <Telephone
-            contact={`${areaCode}${phoneNumber}`}
-            extension={extension}
-            notClickable
-          />
-
-          {this.props.fieldName === FIELD_NAMES.MOBILE_PHONE && (
-            <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
-          )}
-        </div>
-      );
-    };
-
     return (
       <ContactInformationField
         apiRoute={API_ROUTES.TELEPHONES}

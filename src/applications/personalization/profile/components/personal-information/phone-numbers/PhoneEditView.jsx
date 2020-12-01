@@ -6,45 +6,21 @@ import ContactInformationEditView from '@@profile/components/personal-informatio
 import { isVAPatient } from '~/platform/user/selectors';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
+import getInitialFormValues from 'applications/personalization/profile/util/getInitialFormValues';
+
 class PhoneEditView extends React.Component {
-  getInitialFormValues = () => {
-    let initialFormValues = {
-      countryCode: '1',
-      extension: '',
-      inputPhoneNumber: '',
-      isTextable: false,
-      isTextPermitted: false,
-      'view:showSMSCheckbox': this.props.showSMSCheckbox,
-    };
-
-    if (this.props.data) {
-      const {
-        data,
-        data: { extension, areaCode, phoneNumber, isTextPermitted },
-        showSMSCheckbox,
-      } = this.props;
-      initialFormValues = {
-        ...data,
-        extension: extension || '',
-        inputPhoneNumber: `${areaCode}${phoneNumber}`,
-        isTextPermitted: isTextPermitted || false,
-        'view:showSMSCheckbox': showSMSCheckbox,
-      };
-    }
-
-    return initialFormValues;
-  };
-
   render() {
-    console.log('These are props in PhoneEditView', this.props);
-
     return (
       <ContactInformationEditView
         analyticsSectionName={this.props.analyticsSectionName}
         clearErrors={this.props.clearErrors}
         field={this.props.field}
         formSchema={this.props.formSchema}
-        getInitialFormValues={this.getInitialFormValues}
+        getInitialFormValues={getInitialFormValues({
+          type: 'phone',
+          data: this.props.data,
+          showSMSCheckbox: this.props.showSMSCheckbox,
+        })}
         isEmpty={this.props.isEmpty}
         onCancel={this.props.onCancel}
         onChangeFormDataAndSchemas={this.props.onChangeFormDataAndSchemas}

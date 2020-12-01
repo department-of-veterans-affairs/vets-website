@@ -1,11 +1,9 @@
 import React from 'react';
 
 import ContactInformationEditView from '../ContactInformationEditView';
+import getInitialFormValues from 'applications/personalization/profile/util/getInitialFormValues';
 
 class EmailEditView extends React.Component {
-  getInitialFormValues = () =>
-    this.props.data ? { ...this.props.data } : { emailAddress: '' };
-
   render() {
     return (
       <ContactInformationEditView
@@ -14,7 +12,10 @@ class EmailEditView extends React.Component {
         deleteDisabled={this.props.deleteDisabled}
         field={this.props.field}
         formSchema={this.props.formSchema}
-        getInitialFormValues={this.getInitialFormValues}
+        getInitialFormValues={getInitialFormValues({
+          type: 'email',
+          data: this.props.data,
+        })}
         hasValidationError={this.props.hasValidationError}
         isEmpty={this.props.isEmpty}
         onCancel={this.props.onCancel}
