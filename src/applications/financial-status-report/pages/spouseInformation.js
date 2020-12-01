@@ -1,6 +1,6 @@
 export const uiSchema = {
+  'ui:title': 'Your spouse information',
   spouseInformation: {
-    'ui:title': 'Your spouse information',
     maritalStatus: {
       'ui:title': 'What is your marital status?',
       'ui:widget': 'radio',
