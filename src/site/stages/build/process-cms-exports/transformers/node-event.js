@@ -47,6 +47,7 @@ const transform = entity => ({
   fieldBody: {
     processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
   },
+  // This field is deprecated and can probably be removed
   fieldDate: {
     startDate: toUtc(entity.fieldDate[0]?.value),
     value: toUtc(entity.fieldDate[0]?.value, false),
