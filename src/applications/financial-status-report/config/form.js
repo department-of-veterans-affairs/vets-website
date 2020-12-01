@@ -8,7 +8,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import {
   availableDebts,
   employmentHistory,
-  otherIncome,
+  additionalIncome,
   veteranInfo,
   spouseEmployment,
   spouseSocialSecurity,
@@ -29,7 +29,7 @@ const formPageTitles = {
   veteranInfo: 'Veteran information',
   availableDebts: 'Available Debts',
   employmentHistory: 'Your employment history',
-  otherIncome: 'Other income',
+  additionalIncome: 'Other income',
   spouseInformation: 'Spouse information',
   spouseEmployment: 'Spouse employment',
   spouseAdditionalEmployment: 'Spouse additonal employment',
@@ -99,11 +99,11 @@ const formConfig = {
           uiSchema: employmentHistory.uiSchema,
           schema: employmentHistory.schema,
         },
-        [formPageTitles.otherIncome]: {
+        [formPageTitles.additionalIncome]: {
           path: 'other-income',
-          title: formPageTitles.otherIncome,
-          uiSchema: otherIncome.uiSchema,
-          schema: otherIncome.schema,
+          title: formPageTitles.additionalIncome,
+          uiSchema: additionalIncome.uiSchema,
+          schema: additionalIncome.schema,
         },
         [formPageTitles.spouseInformation]: {
           path: 'spouse-information',

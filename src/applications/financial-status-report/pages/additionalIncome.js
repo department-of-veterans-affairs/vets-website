@@ -3,7 +3,7 @@ import IncomeView from '../components/IncomeView';
 
 export const uiSchema = {
   'ui:title': 'Your other income',
-  otherIncome: {
+  additionalIncome: {
     socialSecurityPayments: {
       'ui:title': 'Do you currently receive social security payments?',
       'ui:widget': 'yesNo',
@@ -47,7 +47,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    otherIncome: {
+    additionalIncome: {
       type: 'object',
       properties: {
         socialSecurityPayments: {
