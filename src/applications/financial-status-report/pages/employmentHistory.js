@@ -1,8 +1,8 @@
 import EmploymentHistory from '../components/EmploymentHistory/EmploymentHistory';
 
 export const uiSchema = {
+  'ui:title': 'Your employment history',
   employmentHistory: {
-    'ui:title': 'Your employment history',
     hasBeenEmployed: {
       'ui:title': 'Have you been employed within the past two years?',
       'ui:widget': 'yesNo',

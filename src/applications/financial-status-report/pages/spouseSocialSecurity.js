@@ -13,7 +13,6 @@ export const uiSchema = {
       },
       'ui:title':
         'How much does your spouse receive for Social Security each month?',
-      'ui:required': () => true,
     },
   },
 };

@@ -19,7 +19,6 @@ export const uiSchema = {
       currentlyEmployed: {
         'ui:title': 'Is your spouse currently employed?',
         'ui:widget': 'yesNo',
-        'ui:required': () => true,
       },
       isCurrentlyEmployed: {
         'ui:options': {

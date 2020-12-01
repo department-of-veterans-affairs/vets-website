@@ -12,6 +12,8 @@ import {
   veteranInfo,
   spouseEmployment,
   spouseSocialSecurity,
+  spouseBenefits,
+  spouseAdditionalEmployment,
   dependents,
   householdAssets,
   spouseInformation,
@@ -28,9 +30,13 @@ const formPageTitles = {
   availableDebts: 'Available Debts',
   employmentHistory: 'Your employment history',
   otherIncome: 'Other income',
+  spouseInformation: 'Spouse information',
+  spouseEmployment: 'Spouse employment',
+  spouseAdditionalEmployment: 'Spouse additonal employment',
+  spouseSocialSecurity: 'Spouse social security',
+  spouseBenefits: 'Spouse benefits',
   dependents: 'Dependents',
   householdAssets: 'Household Assets',
-  spouseInformation: 'Your spouse information',
 };
 
 const formConfig = {
@@ -107,13 +113,25 @@ const formConfig = {
         },
         [formPageTitles.spouseEmployment]: {
           path: 'spouse-employment',
-          title: formPageTitles.spouseInformation,
+          title: formPageTitles.spouseEmployment,
           uiSchema: spouseEmployment.uiSchema,
           schema: spouseEmployment.schema,
         },
+        [formPageTitles.spouseAdditionalEmployment]: {
+          path: 'spouse-additional-employment',
+          title: formPageTitles.spouseAdditionalEmployment,
+          uiSchema: spouseAdditionalEmployment.uiSchema,
+          schema: spouseAdditionalEmployment.schema,
+        },
+        [formPageTitles.spouseBenefits]: {
+          path: 'spouse-benefits',
+          title: formPageTitles.spouseBenefits,
+          uiSchema: spouseBenefits.uiSchema,
+          schema: spouseBenefits.schema,
+        },
         [formPageTitles.spouseSocialSecurity]: {
           path: 'spouse-social-security',
-          title: formPageTitles.spouseInformation,
+          title: formPageTitles.spouseSocialSecurity,
           uiSchema: spouseSocialSecurity.uiSchema,
           schema: spouseSocialSecurity.schema,
         },

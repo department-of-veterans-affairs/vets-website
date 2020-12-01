@@ -2,8 +2,8 @@ import ItemLoop from '../components/ItemLoop';
 import IncomeView from '../components/IncomeView';
 
 export const uiSchema = {
+  'ui:title': 'Your other income',
   otherIncome: {
-    'ui:title': 'Your other income',
     socialSecurityPayments: {
       'ui:title': 'Do you currently receive social security payments?',
       'ui:widget': 'yesNo',
