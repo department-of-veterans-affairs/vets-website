@@ -56,13 +56,13 @@ export class SearchResult extends Component {
 
           <div className="vads-u-flex--1 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--2">
             {/* App Name */}
-            <h3
+            <h2
               className="vads-u-margin--0 vads-u-margin-bottom--0p5"
               data-e2e-id="result-title"
               id={item?.id}
             >
               {item?.name}
-            </h3>
+            </h2>
 
             {/* Category and Platform */}
             <p className="vads-u-margin--0">
@@ -108,7 +108,7 @@ export class SearchResult extends Component {
             {/* Description */}
             {item?.description && (
               <>
-                <h4>About this app:</h4>
+                <h3>About this app:</h3>
                 <p className="vads-u-margin-bottom--0">{item?.description}</p>
               </>
             )}
@@ -142,10 +142,10 @@ export class SearchResult extends Component {
             {/* Permissions */}
             {!isEmpty(scopes) && (
               <>
-                <h4>
+                <h3>
                   {item?.name} may request access to your VA information,
                   including:
-                </h4>
+                </h3>
                 <ol className="vads-u-margin--0 vads-u-margin-top--1 vads-u-padding-left--2p5">
                   {reduce(
                     item?.service_categories,
