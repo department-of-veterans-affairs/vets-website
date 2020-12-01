@@ -413,7 +413,7 @@ const FacilitiesMap = props => {
     );
   };
 
-  const genBBoxFromCoords = (position, facilityType) => {
+  const genLocationFromCoords = position => {
     mbxClient
       .reverseGeocode({
         query: [position.longitude, position.latitude],
@@ -422,12 +422,6 @@ const FacilitiesMap = props => {
       .send()
       .then(({ body: { features } }) => {
         const placeName = features[0].place_name;
-        if (!facilityType) {
-          props.updateSearchQuery({
-            searchString: placeName,
-          });
-          return;
-        }
         const zipCode =
           features[0].context.find(v => v.id.includes('postcode')).text || '';
 
@@ -485,10 +479,7 @@ const FacilitiesMap = props => {
       navigator.geolocation.getCurrentPosition(currentPosition => {
         const input = document.getElementById('street-city-state-zip');
         if (input && !input.value) {
-          genBBoxFromCoords(
-            currentPosition.coords,
-            props.currentQuery.facilityType,
-          );
+          genLocationFromCoords(currentPosition.coords);
         }
       });
     }
