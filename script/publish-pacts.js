@@ -20,9 +20,9 @@ const commitHash = execSync('git rev-parse --verify HEAD')
   .toString()
   .trim();
 
-// const branchName = execSync('git rev-parse --abbrev-ref HEAD')
-//   .toString()
-//   .trim();
+const branchName = execSync('git rev-parse --abbrev-ref HEAD')
+  .toString()
+  .trim();
 
 const pactsFolder = path.resolve(__dirname, '../pacts');
 
@@ -30,7 +30,7 @@ pactBrokerClient
   .publishAndTagPacts({
     pactDir: pactsFolder,
     version: commitHash,
-    tag: 'master',
+    tag: branchName,
   })
   .catch(e => {
     console.error(e);
