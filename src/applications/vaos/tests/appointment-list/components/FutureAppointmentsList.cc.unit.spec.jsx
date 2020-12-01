@@ -69,6 +69,8 @@ describe('VAOS integration: upcoming CC appointments', () => {
     expect(baseElement).to.contain.text('Bring your glasses');
     expect(getByText(/add to calendar/i)).to.have.tagName('a');
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+    expect(await findByText('Big sky medical')).to.have.tagName('h4');
+    expect(await findByText('Special instructions')).to.have.tagName('h4');
   });
 
   it('should display Community Care header for Vista CC appts', async () => {

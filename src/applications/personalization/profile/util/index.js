@@ -70,6 +70,26 @@ export const hasInvalidWorkPhoneNumberError = errors =>
 export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY);
 
+export const directDepositBankInfo = apiData => {
+  return apiData?.responses?.[0]?.paymentAccount;
+};
+
+const directDepositAddressInfo = apiData => {
+  return apiData?.responses?.[0]?.paymentAddress;
+};
+
+export const isEligibleForDirectDeposit = apiData => {
+  const addressData = directDepositAddressInfo(apiData) ?? {};
+  return !!(
+    addressData.addressOne &&
+    addressData.city &&
+    addressData.stateCode
+  );
+};
+
+export const isSignedUpForDirectDeposit = apiData =>
+  !!directDepositBankInfo(apiData)?.accountNumber;
+
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an error occurs while trying to save/update a user's direct
 // deposit payment information. The value of the `error-key` prop will change
