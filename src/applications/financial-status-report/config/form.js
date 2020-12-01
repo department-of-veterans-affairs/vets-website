@@ -11,6 +11,7 @@ import {
   otherIncome,
   veteranInfo,
   spouseEmployment,
+  spouseBenefits,
   spouseAdditionalEmployment,
   dependents,
   householdAssets,
@@ -30,9 +31,10 @@ const formPageTitles = {
   otherIncome: 'Other income',
   spouseEmployment: 'Your spouse information',
   spouseAdditionalEmployment: 'Your spouse information',
+  spouseBenefits: 'Your spouse information',
   dependents: 'Dependents',
   householdAssets: 'Household Assets',
-  spouseInformation: 'Spouse Information',
+  spouseInformation: 'Your spouse information',
 };
 
 const formConfig = {
@@ -118,6 +120,12 @@ const formConfig = {
           title: formPageTitles.spouseAdditionalEmployment,
           uiSchema: spouseAdditionalEmployment.uiSchema,
           schema: spouseAdditionalEmployment.schema,
+        },
+        [formPageTitles.spouseBenefits]: {
+          path: 'spouse-benefits',
+          title: formPageTitles.spouseBenefits,
+          uiSchema: spouseBenefits.uiSchema,
+          schema: spouseBenefits.schema,
         },
         [formPageTitles.dependents]: {
           path: 'dependents',
