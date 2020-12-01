@@ -10,17 +10,14 @@ module.exports = {
     moderation_state: { $ref: 'GenericNestedString' },
     field_administration: {
       type: 'array',
-      maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
     field_alert_single: {
       type: 'array',
-      maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
     field_answer: {
       type: 'array',
-      maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
     field_buttons: {
@@ -29,7 +26,6 @@ module.exports = {
     },
     field_contact_information: {
       type: 'array',
-      maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
     field_other_categories: {
@@ -38,7 +34,6 @@ module.exports = {
     },
     field_primary_category: {
       type: 'array',
-      maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
     field_related_benefit_hubs: {
