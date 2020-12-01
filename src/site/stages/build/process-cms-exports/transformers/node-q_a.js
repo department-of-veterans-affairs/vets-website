@@ -16,7 +16,9 @@ const transform = entity => {
     entityPublished: isPublished(getDrupalValue(entity.status)),
     fieldAdministration: entity.fieldAdministration[0],
     fieldStandalonePage: getDrupalValue(entity.fieldStandalonePage),
-    fieldAlertSingle: entity.fieldAlertSingle[0],
+    fieldAlertSingle: {
+      entity: entity.fieldAlertSingle[0],
+    },
     fieldAnswer: entity.fieldAnswer[0] || null,
     fieldButtons: entity.fieldButtons,
     fieldContactInformation: entity.fieldContactInformation[0],
@@ -31,11 +33,11 @@ const transform = entity => {
 module.exports = {
   filter: [
     'title',
-    'created',
-    'changed',
-    'metatag',
-    'status',
-    'field_administration',
+    // 'created',
+    // 'changed',
+    // 'metatag',
+    // 'status',
+    // 'field_administration',
     'field_alert_single',
     'field_answer',
     'field_buttons',
