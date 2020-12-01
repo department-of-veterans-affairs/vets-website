@@ -7,7 +7,6 @@ export const uiSchema = {
 };
 
 export const schema = {
-  title: 'Financial Status Report 5655',
   type: 'object',
   properties: {
     veteranInfo: {
