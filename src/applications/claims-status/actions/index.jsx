@@ -425,8 +425,9 @@ export function submitFiles(claimId, trackedItem, files) {
                 });
                 dispatch(
                   setAdditionalEvidenceNotification({
-                    title: 'Error uploading files',
+                    title: `Error uploading ${hasError?.fileName || 'files'}`,
                     body:
+                      hasError?.errors?.[0]?.title ||
                       'There was an error uploading your files. Please try again',
                     type: 'error',
                   }),
@@ -457,16 +458,15 @@ export function submitFiles(claimId, trackedItem, files) {
                 ),
               });
             },
-            onError: (id, name, reason) => {
-              const errorCode = reason.substr(-3);
-              // this is a little hackish, but uploader expects a json response
-              if (!errorCode.startsWith('2')) {
-                hasError = true;
-              }
-              if (errorCode === '401') {
+            onError: (_id, fileName, _reason, { response, status }) => {
+              if (status === 401) {
                 dispatch({
                   type: SET_UNAUTHORIZED,
                 });
+              }
+              if (status < 200 || status > 299) {
+                hasError = JSON.parse(response || '{}');
+                hasError.fileName = fileName;
               }
             },
           },
