@@ -33,11 +33,11 @@ const transform = entity => {
 module.exports = {
   filter: [
     'title',
-    // 'created',
-    // 'changed',
-    // 'metatag',
-    // 'status',
-    // 'field_administration',
+    'created',
+    'changed',
+    'metatag',
+    'status',
+    'field_administration',
     'field_alert_single',
     'field_answer',
     'field_buttons',
