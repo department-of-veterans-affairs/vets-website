@@ -22,6 +22,8 @@ class LocatorApi {
     locationType,
     serviceType,
     page,
+    center,
+    radius,
   ) {
     const { params, url } = resolveParamsWithUrl(
       address,
@@ -29,6 +31,8 @@ class LocatorApi {
       serviceType,
       page,
       bounds,
+      center,
+      radius,
     );
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
