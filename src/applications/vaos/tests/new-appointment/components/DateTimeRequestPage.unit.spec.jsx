@@ -118,7 +118,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // it should not allow the user to view the previous month if viewing the current month
-      let button = screen.getByText('Previous');
+      let button = await screen.findByText('Previous');
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.false;
@@ -324,7 +324,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // it should display an alert when users tries to submit the form
-      let button = screen.getByText(/^Continue/);
+      let button = await screen.findByText(/^Continue/);
       userEvent.click(button);
 
       // NOTE: alert doesn't have a name so search for text too
