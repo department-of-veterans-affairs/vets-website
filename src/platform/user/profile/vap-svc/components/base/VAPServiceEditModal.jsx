@@ -33,7 +33,7 @@ export default class VAPServiceEditModal extends React.Component {
 
   componentDidMount() {
     this.props.onChangeFormDataAndSchemas(
-      this.props.getInitialFormValues(),
+      this.props.getInitialFormValues,
       this.props.formSchema,
       this.props.uiSchema,
     );

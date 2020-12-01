@@ -7,7 +7,7 @@ import { focusElement } from '~/platform/utilities/ui';
 import { ADDRESS_POU, USA } from '@@vap-svc/constants';
 import ContactInformationEditView from '../ContactInformationEditView';
 
-import getInitialFormValues from 'applications/personalization/profile/util/getInitialFormValues';
+import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
 
 class AddressEditView extends React.Component {
   componentWillUnmount() {

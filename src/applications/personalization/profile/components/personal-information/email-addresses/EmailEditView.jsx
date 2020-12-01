@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ContactInformationEditView from '../ContactInformationEditView';
-import getInitialFormValues from 'applications/personalization/profile/util/getInitialFormValues';
+import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
 
 class EmailEditView extends React.Component {
   render() {

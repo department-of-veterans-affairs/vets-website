@@ -1,31 +1,72 @@
-import { USA } from '@@vap-svc/constants';
+import { USA, ADDRESS_POU } from '@@vap-svc/constants';
+import pickBy from 'lodash/pickBy';
+import ADDRESS_DATA from '~/platform/forms/address/data';
 
-export const getInitialFormValues = ({ props }) => {
+/**
+ * Returns a copy of the input object with an added `view:livesOnMilitaryBase`
+ * value if the address is a overseas military mailing address
+ *
+ */
+const livesOnMilitaryBase = data => {
+  if (
+    data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
+    ADDRESS_DATA.militaryStates.includes(data?.stateCode) &&
+    ADDRESS_DATA.militaryCities.includes(data?.city)
+  ) {
+    return true;
+  }
+  return false;
+};
+
+/**
+ * Helper function that calls other helpers to:
+ * - totally remove data fields that are not set
+ * - set the form data's `view:livesOnMilitaryBase` prop to `true` if this is
+ *   an overseas military mailing address
+ *
+ * If the argument is not an object this function will simply return whatever
+ * was passed to it.
+ */
+const transformInitialFormValues = initialFormValues => {
+  if (!(initialFormValues instanceof Object)) {
+    return initialFormValues;
+  }
+  // totally removes data fields with falsey values from initialFormValues
+  // to prevent form validation errors.
+  const transformedData = pickBy(initialFormValues);
+  if (livesOnMilitaryBase(transformedData)) {
+    transformedData['view:livesOnMilitaryBase'] = true;
+  }
+  return transformedData;
+};
+
+export const getInitialFormValues = ({
+  type,
+  data,
+  modalData,
+  showSMSCheckbox,
+}) => {
   let initialFormValues;
 
-  if (props.type === 'address') {
-    initialFormValues = this.props.modalData ||
-      this.transformInitialFormValues(this.props.data) || {
+  if (type === 'address') {
+    initialFormValues = modalData ||
+      transformInitialFormValues(data) || {
         countryCodeIso3: USA.COUNTRY_ISO3_CODE,
       };
   }
 
-  if (props.type === 'phone') {
+  if (type === 'phone') {
     initialFormValues = {
       countryCode: '1',
       extension: '',
       inputPhoneNumber: '',
       isTextable: false,
       isTextPermitted: false,
-      'view:showSMSCheckbox': props.showSMSCheckbox,
+      'view:showSMSCheckbox': showSMSCheckbox,
     };
 
-    if (props.data) {
-      const {
-        data,
-        data: { extension, areaCode, phoneNumber, isTextPermitted },
-        showSMSCheckbox,
-      } = props;
+    if (data) {
+      const { extension, areaCode, phoneNumber, isTextPermitted } = data;
       initialFormValues = {
         ...data,
         extension: extension || '',
@@ -36,10 +77,8 @@ export const getInitialFormValues = ({ props }) => {
     }
   }
 
-  if (props.type === 'email') {
-    initialFormValues = props.data
-      ? { ...this.props.data }
-      : { emailAddress: '' };
+  if (type === 'email') {
+    initialFormValues = data ? { ...this.data } : { emailAddress: '' };
   }
 
   return initialFormValues;

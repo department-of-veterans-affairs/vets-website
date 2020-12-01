@@ -6,7 +6,7 @@ import ContactInformationEditView from '@@profile/components/personal-informatio
 import { isVAPatient } from '~/platform/user/selectors';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
-import getInitialFormValues from 'applications/personalization/profile/util/getInitialFormValues';
+import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
 
 class PhoneEditView extends React.Component {
   render() {
