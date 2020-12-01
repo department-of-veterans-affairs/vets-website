@@ -268,6 +268,7 @@ class ContactInformationField extends React.Component {
       activeEditView
     ]?.toLowerCase();
 
+    // THIS IS WHERE ALL THE REDUNDANT PROPS COME FROM
     const childProps = {
       ...this.props,
       clearErrors: this.clearErrors,
@@ -279,6 +280,8 @@ class ContactInformationField extends React.Component {
       onSubmit: this.onSubmit,
       refreshTransaction: this.refreshTransaction,
     };
+
+    console.log('This is childprops', childProps);
 
     const wrapInTransaction = children => {
       return (

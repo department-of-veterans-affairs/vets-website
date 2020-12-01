@@ -21,7 +21,6 @@ class ContactInformationEditView extends Component {
       value: PropTypes.object,
       validations: PropTypes.object,
     }),
-    hasValidationError: PropTypes.func,
     isEmpty: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
     onChangeFormDataAndSchemas: PropTypes.func.isRequired,
@@ -86,9 +85,11 @@ class ContactInformationEditView extends Component {
         clearErrors,
         deleteDisabled,
         field,
+        fieldName,
         hasUnsavedEdits,
         isEmpty,
         onCancel,
+        onChangeFormDataAndSchemas,
         onDelete,
         title,
         transaction,
@@ -153,19 +154,17 @@ class ContactInformationEditView extends Component {
 
         {!!field && (
           <div>
-            {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
+            {fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
               <CopyMailingAddress
                 copyMailingAddress={this.copyMailingAddress}
               />
             )}
             <ContactInfoForm
-              formData={this.props.field.value}
-              formSchema={this.props.field.formSchema}
-              uiSchema={this.props.field.uiSchema}
+              formData={field.value}
+              formSchema={field.formSchema}
+              uiSchema={field.uiSchema}
               onUpdateFormData={
-                type === 'address'
-                  ? this.onInput
-                  : this.props.onChangeFormDataAndSchemas
+                type === 'address' ? this.onInput : onChangeFormDataAndSchemas
               }
               onSubmit={onSubmit}
             >
