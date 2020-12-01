@@ -23,7 +23,7 @@
     "cy:run": "cypress run --config-file config/cypress.json",
     "cy:test:circle": "./script/run-cypress-tests-circle.sh",
     "cy:test:docker": "./script/run-cypress-tests-docker.sh",
-    "cy:testrail-run": "cypress run --config-file config/cypress.json --reporter-options domain=dsvavsp.testrail.io,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=Dashboard",
+    "cy:testrail-run": "cypress run --config-file config/cypress-testrail.json --reporter-options domain=dsvavsp.testrail.io,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
     "prebuild": "node script/prebuild.js",
@@ -344,7 +344,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#4f2d386700245582301ae2b04ddd629e422697a0",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8a9ef5109d833dcc65a1bf2c2ae785c3cccb1466",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

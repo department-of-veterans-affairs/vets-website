@@ -66,10 +66,10 @@ class ReviewPage extends React.Component {
 }
 
 ReviewPage.propTypes = {
-  pageList: PropTypes.array.isRequired,
-  path: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired,
+    pageList: PropTypes.array.isRequired,
+    path: PropTypes.string.isRequired,
   }).isRequired,
 };
 

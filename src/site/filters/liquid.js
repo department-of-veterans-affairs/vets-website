@@ -115,9 +115,9 @@ module.exports = function registerFilters() {
 
   liquid.filters.unixFromDate = data => new Date(data).getTime();
 
-  liquid.filters.currentUnixFromDate = () => {
+  liquid.filters.currentTimeInSeconds = () => {
     const time = new Date();
-    return time.getTime();
+    return Math.floor(time.getTime() / 1000);
   };
 
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);

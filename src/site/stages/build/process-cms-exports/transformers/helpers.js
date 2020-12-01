@@ -70,6 +70,7 @@ function unescapeUnicode(string) {
  */
 function getDrupalValue(arr) {
   if (!arr || arr.length === 0) return null;
+  if (arr.length === 1 && arr[0].processed === '') return null;
   if (arr.length === 1)
     if (arr[0].processed)
       return typeof arr[0].processed === 'string'

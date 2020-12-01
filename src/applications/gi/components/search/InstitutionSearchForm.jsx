@@ -6,11 +6,9 @@ import OnlineClassesFilter from './OnlineClassesFilter';
 import BenefitsForm from '../profile/BenefitsForm';
 import {
   handleInputFocusWithPotentialOverLap,
-  isMobileView,
   isVetTecSelected,
   useQueryParams,
 } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 
 function InstitutionSearchForm({
   autocomplete,
@@ -31,21 +29,13 @@ function InstitutionSearchForm({
   updateAutocompleteSearchTerm,
 }) {
   function handleInstitutionSearchInputFocus(fieldId) {
-    // prod flag for bah-8821
-    if (environment.isProduction() && isMobileView()) {
-      const field = document.getElementById(fieldId);
-      if (field) {
-        field.scrollIntoView();
-      }
-    } else {
-      const seeResultsButtonFieldId = 'see-results-button';
-      const scrollableFieldId = 'institution-search';
-      handleInputFocusWithPotentialOverLap(
-        fieldId,
-        seeResultsButtonFieldId,
-        scrollableFieldId,
-      );
-    }
+    const seeResultsButtonFieldId = 'see-results-button';
+    const scrollableFieldId = 'institution-search';
+    handleInputFocusWithPotentialOverLap(
+      fieldId,
+      seeResultsButtonFieldId,
+      scrollableFieldId,
+    );
   }
 
   const queryParams = useQueryParams();
