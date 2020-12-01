@@ -137,49 +137,6 @@ class ContactInformationEditView extends Component {
       </ContactInformationActionButtons>
     );
 
-    const addressRender = () => (
-      <div>
-        {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
-          <CopyMailingAddress copyMailingAddress={this.copyMailingAddress} />
-        )}
-        <ContactInfoForm
-          formData={this.props.field.value}
-          formSchema={this.props.field.formSchema}
-          uiSchema={this.props.field.uiSchema}
-          onUpdateFormData={this.onInput}
-          onSubmit={onSubmit}
-        >
-          {actionButtons}
-        </ContactInfoForm>
-      </div>
-    );
-
-    const emailRender = () => (
-      <>
-        <ContactInfoForm
-          formData={this.props.field.value}
-          formSchema={this.props.field.formSchema}
-          uiSchema={this.props.field.uiSchema}
-          onUpdateFormData={this.props.onChangeFormDataAndSchemas}
-          onSubmit={onSubmit}
-        >
-          {actionButtons}
-        </ContactInfoForm>
-      </>
-    );
-
-    const phoneRender = () => (
-      <ContactInfoForm
-        formData={this.props.field.value}
-        formSchema={this.props.field.formSchema}
-        uiSchema={this.props.field.uiSchema}
-        onUpdateFormData={this.props.onChangeFormDataAndSchemas}
-        onSubmit={onSubmit}
-      >
-        {actionButtons}
-      </ContactInfoForm>
-    );
-
     return (
       <>
         {error && (
@@ -194,10 +151,29 @@ class ContactInformationEditView extends Component {
             />
           </div>
         )}
-        {!field && null}
-        {!!field && type === 'address' && addressRender()}
-        {!!field && type === 'email' && emailRender()}
-        {!!field && type === 'phone' && phoneRender()}
+
+        {!!field && (
+          <div>
+            {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
+              <CopyMailingAddress
+                copyMailingAddress={this.copyMailingAddress}
+              />
+            )}
+            <ContactInfoForm
+              formData={this.props.field.value}
+              formSchema={this.props.field.formSchema}
+              uiSchema={this.props.field.uiSchema}
+              onUpdateFormData={
+                type === 'address'
+                  ? this.onInput
+                  : this.props.onChangeFormDataAndSchemas
+              }
+              onSubmit={onSubmit}
+            >
+              {actionButtons}
+            </ContactInfoForm>
+          </div>
+        )}
       </>
     );
   }

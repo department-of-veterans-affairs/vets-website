@@ -4,10 +4,8 @@ import pickBy from 'lodash/pickBy';
 import ADDRESS_DATA from '~/platform/forms/address/data';
 import { focusElement } from '~/platform/utilities/ui';
 
-import { ADDRESS_POU, FIELD_NAMES, USA } from '@@vap-svc/constants';
+import { ADDRESS_POU, USA } from '@@vap-svc/constants';
 import ContactInformationEditView from '../ContactInformationEditView';
-import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
-import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
 
 class AddressEditView extends React.Component {
   componentWillUnmount() {

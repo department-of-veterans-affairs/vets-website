@@ -2,8 +2,6 @@ import React from 'react';
 
 import ContactInformationEditView from '../ContactInformationEditView';
 
-import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
-
 class EmailEditView extends React.Component {
   getInitialFormValues = () =>
     this.props.data ? { ...this.props.data } : { emailAddress: '' };

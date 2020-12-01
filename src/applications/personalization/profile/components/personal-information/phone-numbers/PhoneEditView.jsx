@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 
 import { isVAPatient } from '~/platform/user/selectors';
-
 import { FIELD_NAMES } from '@@vap-svc/constants';
-
-import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
 
 class PhoneEditView extends React.Component {
   getInitialFormValues = () => {
