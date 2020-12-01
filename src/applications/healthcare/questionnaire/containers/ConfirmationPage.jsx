@@ -60,7 +60,7 @@ const ConfirmationPage = props => {
             </li>
           </ul>
         )}
-        <button className="usa-button-primary">Print this page</button>
+        <button className="usa-button-primary">View and print questions</button>
       </div>
       {appointment && (
         <div className="next-steps">
