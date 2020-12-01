@@ -19,7 +19,7 @@
       list-style: none;
     }
 
-    ol li {
+    ul li {
       list-style: disc;
     }
   }
@@ -37,5 +37,9 @@
     .learn-more {
       margin-left: 86px;
     }
+  }
+
+  button.va-button-link {
+    display: block;
   }
 }

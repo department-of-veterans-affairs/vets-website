@@ -90,6 +90,7 @@ export class SearchResult extends Component {
         {/* Toggle More Info */}
         <div className="learn-more">
           <button
+            aria-expanded={show}
             className="va-button-link vads-u-text-decoration--none vads-u-margin-top--1p5"
             onClick={() => {
               setShow(!show, item);
@@ -104,7 +105,7 @@ export class SearchResult extends Component {
         </div>
         {show && (
           <>
-            <hr />
+            <hr aria-hidden="true" />
 
             {/* Description */}
             {item?.description && (
@@ -147,7 +148,7 @@ export class SearchResult extends Component {
                   {item?.name} may request access to your VA information,
                   including:
                 </h3>
-                <ol className="vads-u-margin--0 vads-u-margin-top--1 vads-u-padding-left--2p5">
+                <ul className="vads-u-margin--0 vads-u-margin-top--1 vads-u-padding-left--2p5">
                   {reduce(
                     item?.service_categories,
                     (allPermissions, scope) => {
@@ -163,7 +164,7 @@ export class SearchResult extends Component {
                     },
                     [],
                   )}
-                </ol>
+                </ul>
               </>
             )}
           </>
