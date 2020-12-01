@@ -119,6 +119,7 @@ const transform = ({
           .map(r => ({
             title: r.title,
             uid: r.uid,
+            fieldDate: r.fieldDate,
             fieldDatetimeRangeTimezone: r.fieldDatetimeRangeTimezone,
             fieldDescription: r.fieldDescription,
             fieldLocationHumanreadable: r.fieldLocationHumanreadable,
@@ -251,6 +252,7 @@ const transform = ({
                     .slice(0, 1000)
                     .map(e => ({
                       title: e.title,
+                      fieldDate: e.fieldDate,
                       fieldDatetimeRangeTimezone: e.fieldDatetimeRangeTimezone,
                       fieldDescription: e.fieldDescription,
                       fieldLocationHumanreadable: e.fieldLocationHumanreadable,
@@ -282,6 +284,7 @@ const transform = ({
                     )
                     .map(e => ({
                       title: e.title,
+                      fieldDate: e.fieldDate,
                       fieldDatetimeRangeTimezone: e.fieldDatetimeRangeTimezone,
                       fieldDescription: e.fieldDescription,
                       fieldLocationHumanreadable: e.fieldLocationHumanreadable,
