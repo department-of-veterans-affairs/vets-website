@@ -271,7 +271,6 @@ class ContactInformationField extends React.Component {
     const childProps = {
       ContentView: this.props.ContentView,
       EditView: this.props.EditView,
-      activeEditView: this.props.activeEditView,
       analyticsSectionName: this.props.analyticsSectionName,
       apiRoute: this.props.apiRoute,
       blockEditMode: this.props.blockEditMode,
@@ -285,21 +284,16 @@ class ContactInformationField extends React.Component {
       formSchema: this.props.formSchema,
       hasUnsavedEdits: this.props.hasUnsavedEdits,
       isEmpty: this.props.isEmpty,
-      onAdd: this.onAdd,
       onCancel: this.onCancel,
       onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
       onDelete: this.onDelete,
       onEdit: this.onEdit,
       onSubmit: this.onSubmit,
-      openModal: this.props.openModal,
       refreshTransaction: this.refreshTransaction,
       showEditView: this.props.showEditView,
-      showValidationView: this.props.showValdationView,
-      title: this.props.title,
       transaction: this.props.transaction,
       transactionRequest: this.props.transactionRequest,
       uiSchema: this.props.uiSchema,
-      updateFormFieldWithSchema: this.props.updateFormFieldWithSchema,
       validateAddress: this.props.validateAddress,
     };
 
@@ -347,12 +341,7 @@ class ContactInformationField extends React.Component {
     }
 
     if (showEditView) {
-      content = (
-        <EditView
-          refreshTransaction={this.refreshTransaction}
-          {...childProps}
-        />
-      );
+      content = <EditView {...childProps} />;
     }
 
     if (showValidationView) {
