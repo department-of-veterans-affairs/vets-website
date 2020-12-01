@@ -171,21 +171,28 @@ const FacilitiesMap = props => {
     setIsSearching(true);
   };
 
+  const calculateSearchArea = () => {
+    const currentBounds = map.getBounds();
+    const { _ne, _sw } = currentBounds;
+    return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
+  };
+
   const handleSearchArea = () => {
     resetMapElements();
     const { currentQuery } = props;
     currentZoom = null;
     const center = map.getCenter().wrap();
-
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': currentQuery.facilityType,
       'fl-search-svc-type': currentQuery.serviceType,
     });
+    const currentMapBoundsDistance = calculateSearchArea();
 
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
+      currentMapBoundsDistance,
     });
   };
 

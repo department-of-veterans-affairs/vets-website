@@ -296,66 +296,71 @@ export const genBBoxFromAddress = query => {
  * from the coordinates center of the map
  */
 export const genSearchAreaFromCenter = query => {
-  const { lat, lng } = query;
+  const { lat, lng, currentMapBoundsDistance } = query;
   return dispatch => {
-    const types = TypeList;
-    mbxClient
-      .reverseGeocode({
-        countries: CountriesList,
-        types,
-        query: [lng, lat],
-      })
-      .send()
-      .then(({ body: { features } }) => {
-        const coordinates = features[0].center;
-        const zip =
-          features[0].context.find(v => v.id.includes('postcode')) || {};
-        const location = zip.text || features[0].place_name;
-        const featureBox = features[0].box;
+    if (currentMapBoundsDistance > 500) {
+      dispatch({ type: GEOCODE_FAILED });
+      dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+    } else {
+      const types = TypeList;
+      mbxClient
+        .reverseGeocode({
+          countries: CountriesList,
+          types,
+          query: [lng, lat],
+        })
+        .send()
+        .then(({ body: { features } }) => {
+          const coordinates = features[0].center;
+          const zip =
+            features[0].context.find(v => v.id.includes('postcode')) || {};
+          const location = zip.text || features[0].place_name;
+          const featureBox = features[0].box;
 
-        const sw = coordinates[0] - BOUNDING_RADIUS;
-        const se = coordinates[1] - BOUNDING_RADIUS;
-        const nw = coordinates[0] + BOUNDING_RADIUS;
-        const ne = coordinates[1] + BOUNDING_RADIUS;
-        let minBounds = [sw, se, nw, ne];
-        if (featureBox) {
-          minBounds = [
-            Math.min(featureBox[0], sw),
-            Math.min(featureBox[1], se),
-            Math.max(featureBox[2], nw),
-            Math.max(featureBox[3], ne),
-          ];
-        }
+          const sw = coordinates[0] - BOUNDING_RADIUS;
+          const se = coordinates[1] - BOUNDING_RADIUS;
+          const nw = coordinates[0] + BOUNDING_RADIUS;
+          const ne = coordinates[1] + BOUNDING_RADIUS;
+          let minBounds = [sw, se, nw, ne];
+          if (featureBox) {
+            minBounds = [
+              Math.min(featureBox[0], sw),
+              Math.min(featureBox[1], se),
+              Math.max(featureBox[2], nw),
+              Math.max(featureBox[3], ne),
+            ];
+          }
 
-        dispatch({
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            searchString: location,
-            context: location,
-            searchArea: {
-              locationString: location,
-              locationCoords: {
-                lng,
-                lat,
+          dispatch({
+            type: SEARCH_QUERY_UPDATED,
+            payload: {
+              searchString: location,
+              context: location,
+              searchArea: {
+                locationString: location,
+                locationCoords: {
+                  lng,
+                  lat,
+                },
+              },
+              mapBoxQuery: {
+                placeName: features[0].place_name,
+                placeType: features[0].place_type[0],
+              },
+              searchCoords: null,
+              bounds: minBounds,
+              position: {
+                latitude: lat,
+                longitude: lng,
               },
             },
-            mapBoxQuery: {
-              placeName: features[0].place_name,
-              placeType: features[0].place_type[0],
-            },
-            searchCoords: null,
-            bounds: minBounds,
-            position: {
-              latitude: lat,
-              longitude: lng,
-            },
-          },
+          });
+        })
+        .catch(_ => {
+          dispatch({ type: GEOCODE_FAILED });
+          dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
         });
-      })
-      .catch(_ => {
-        dispatch({ type: GEOCODE_FAILED });
-        dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
-      });
+    }
   };
 };
 
