@@ -5,26 +5,28 @@ const {
   utcToEpochTime,
 } = require('./helpers');
 
-const transform = entity => ({
-  entityType: 'node',
-  entityBundle: 'q_a',
-  title: getDrupalValue(entity.title),
-  created: utcToEpochTime(getDrupalValue(entity.created)),
-  changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityPublished: isPublished(getDrupalValue(entity.status)),
-  fieldAdministration: entity.fieldAdministration[0],
-  fieldStandalonePage: getDrupalValue(entity.fieldStandalonePage),
-  fieldAlertSingle: entity.fieldAlertSingle[0],
-  fieldAnswer: entity.fieldAnswer[0] || null,
-  fieldButtons: entity.fieldButtons,
-  fieldContactInformation: entity.fieldContactInformation[0],
-  fieldOtherCategories: entity.fieldOtherCategories,
-  fieldPrimaryCategory: entity.fieldPrimaryCategory[0],
-  fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
-  fieldRelatedInformation: entity.fieldRelatedInformation,
-  fieldTags: entity.fieldTags,
-});
+const transform = entity => {
+  return {
+    entityType: 'node',
+    entityBundle: 'q_a',
+    title: getDrupalValue(entity.title),
+    created: utcToEpochTime(getDrupalValue(entity.created)),
+    changed: utcToEpochTime(getDrupalValue(entity.changed)),
+    entityMetatags: createMetaTagArray(entity.metatag.value),
+    entityPublished: isPublished(getDrupalValue(entity.status)),
+    fieldAdministration: entity.fieldAdministration[0],
+    fieldStandalonePage: getDrupalValue(entity.fieldStandalonePage),
+    fieldAlertSingle: entity.fieldAlertSingle[0],
+    fieldAnswer: entity.fieldAnswer[0] || null,
+    fieldButtons: entity.fieldButtons,
+    fieldContactInformation: entity.fieldContactInformation[0],
+    fieldOtherCategories: entity.fieldOtherCategories,
+    fieldPrimaryCategory: entity.fieldPrimaryCategory[0],
+    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
+    fieldRelatedInformation: entity.fieldRelatedInformation,
+    fieldTags: entity.fieldTags,
+  };
+};
 
 module.exports = {
   filter: [
