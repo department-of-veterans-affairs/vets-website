@@ -268,20 +268,40 @@ class ContactInformationField extends React.Component {
       activeEditView
     ]?.toLowerCase();
 
-    // THIS IS WHERE ALL THE REDUNDANT PROPS COME FROM
     const childProps = {
-      ...this.props,
+      ContentView: this.props.ContentView,
+      EditView: this.props.EditView,
+      activeEditView: this.props.activeEditView,
+      analyticsSectionName: this.props.analyticsSectionName,
+      apiRoute: this.props.apiRoute,
+      blockEditMode: this.props.blockEditMode,
       clearErrors: this.clearErrors,
+      clearTransactionRequest: this.props.clearTransactionRequest,
+      convertCleanDataToPayLoad: this.props.convertCleanDataToPayLoad,
+      createTransaction: this.props.createTransaction,
+      data: this.props.data,
+      field: this.props.field,
+      fieldName: this.props.fieldName,
+      formSchema: this.props.formSchema,
+      hasUnsavedEdits: this.props.hasUnsavedEdits,
+      isEmpty: this.props.isEmpty,
       onAdd: this.onAdd,
       onCancel: this.onCancel,
       onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
       onDelete: this.onDelete,
       onEdit: this.onEdit,
       onSubmit: this.onSubmit,
+      openModal: this.props.openModal,
       refreshTransaction: this.refreshTransaction,
+      showEditView: this.props.showEditView,
+      showValidationView: this.props.showValdationView,
+      title: this.props.title,
+      transaction: this.props.transaction,
+      transactionRequest: this.props.transactionRequest,
+      uiSchema: this.props.uiSchema,
+      updateFormFieldWithSchema: this.props.updateFormFieldWithSchema,
+      validateAddress: this.props.validateAddress,
     };
-
-    console.log('This is childprops', childProps);
 
     const wrapInTransaction = children => {
       return (
