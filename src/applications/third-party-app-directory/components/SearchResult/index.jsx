@@ -74,6 +74,7 @@ export class SearchResult extends Component {
 
           {/* App URL */}
           <a
+            aria-label={`Find app ${item.name}`}
             className="usa-button usa-button-secondary vads-u-width--auto"
             href={item?.app_url}
             onClick={e =>
