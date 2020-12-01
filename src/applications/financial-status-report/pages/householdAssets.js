@@ -2,8 +2,8 @@ import ItemLoop from '../components/ItemLoop';
 import CardDetailsView from '../components/CardDetailsView';
 
 export const uiSchema = {
+  'ui:title': 'Your household assets',
   householdAssets: {
-    'ui:title': 'Your household assets',
     checkingAndSavings: {
       'ui:title':
         'What is the total amount in your checking and savings account(s)?',

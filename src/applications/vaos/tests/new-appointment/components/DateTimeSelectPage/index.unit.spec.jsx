@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import moment from 'moment';
 import { Route } from 'react-router-dom';
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
@@ -22,6 +23,18 @@ import {
 } from '../../../mocks/helpers';
 import { getClinicMock, getAppointmentSlotMock } from '../../../mocks/v0';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingVSPAppointmentNew: false,
+    vaOnlineSchedulingDirect: true,
+  },
+  user: {
+    profile: {
+      facilities: [{ facilityId: '983', isCerner: false }],
+    },
+  },
+};
 
 describe('VAOS <DateTimeSelectPage>', () => {
   beforeEach(() => mockFetch());
@@ -115,18 +128,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       pastClinics: true,
     });
 
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
-
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
@@ -186,31 +187,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
-    // Initial global fetch
-    mockFetch();
-
-    const clinics = [
-      {
-        id: '308',
-        attributes: {
-          ...getClinicMock(),
-          siteCode: '983',
-          clinicId: '308',
-          institutionCode: '983',
-          clinicFriendlyLocationName: 'Green team clinic',
-        },
-      },
-      {
-        id: '309',
-        attributes: {
-          ...getClinicMock(),
-          siteCode: '983',
-          clinicId: '309',
-          institutionCode: '983',
-          clinicFriendlyLocationName: 'Red team clinic',
-        },
-      },
-    ];
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -218,67 +194,75 @@ describe('VAOS <DateTimeSelectPage>', () => {
       limit: true,
       requestPastVisits: true,
       directPastVisits: true,
-      clinics,
+      clinics: [
+        {
+          id: '308',
+          attributes: {
+            ...getClinicMock(),
+            siteCode: '983',
+            clinicId: '308',
+            institutionCode: '983',
+            clinicFriendlyLocationName: 'Green team clinic',
+          },
+        },
+        {
+          id: '309',
+          attributes: {
+            ...getClinicMock(),
+            siteCode: '983',
+            clinicId: '309',
+            institutionCode: '983',
+            clinicFriendlyLocationName: 'Red team clinic',
+          },
+        },
+      ],
       pastClinics: true,
     });
+
     const slot308Date = moment()
       .day(9)
       .hour(9)
       .minute(0)
       .second(0);
-    const slots308 = [
-      {
-        ...getAppointmentSlotMock(),
-        startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        endDateTime: slot308Date
-          .clone()
-          .minute(20)
-          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-      },
-    ];
-
     const slot309Date = moment()
       .day(11)
       .hour(13)
       .minute(0)
       .second(0);
-    const slots309 = [
-      {
-        ...getAppointmentSlotMock(),
-        startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        endDateTime: slot309Date
-          .clone()
-          .minute(20)
-          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-      },
-    ];
     const preferredDate = moment();
+
     mockAppointmentSlotFetch({
       siteId: '983',
       clinicId: '308',
       typeOfCareId: '323',
-      slots: slots308,
+      slots: [
+        {
+          ...getAppointmentSlotMock(),
+          startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          endDateTime: slot308Date
+            .clone()
+            .minute(20)
+            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        },
+      ],
       preferredDate,
     });
     mockAppointmentSlotFetch({
       siteId: '983',
       clinicId: '309',
       typeOfCareId: '323',
-      slots: slots309,
+      slots: [
+        {
+          ...getAppointmentSlotMock(),
+          startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          endDateTime: slot309Date
+            .clone()
+            .minute(20)
+            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        },
+      ],
       preferredDate,
     });
-
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
 
     const store = createTestStore(initialState);
 
@@ -304,9 +288,16 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(screen.getByText('Your earliest appointment time')).to.be.ok;
 
     // 2. Simulate user selecting a date
-    let button = screen.getByLabelText(
+    let button = screen.queryByLabelText(
       new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
     );
+
+    if (!button) {
+      userEvent.click(screen.getByText(/^Next/));
+      button = await screen.findByLabelText(
+        new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+      );
+    }
 
     userEvent.click(button);
 
@@ -334,16 +325,170 @@ describe('VAOS <DateTimeSelectPage>', () => {
     }
 
     // 4. Simulate user selecting a date
-    button = screen.getByLabelText(
+    button = screen.queryByLabelText(
       new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
     );
+
+    if (!button) {
+      userEvent.click(screen.getByText(/^Next/));
+      button = await screen.findByLabelText(
+        new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
+      );
+    }
+
     userEvent.click(button);
     expect(
       await screen.findByRole('radio', { name: '1:00 PM option selected' }),
     ).to.be.ok;
+  });
 
-    // Cleanup
-    resetFetch();
+  it('should adjust look and feel by screen size', async () => {
+    const matchMediaStub = sinon.stub();
+    const listeners = [];
+    const matchResult = {
+      matches: false,
+      addListener: f => listeners.push(f),
+      removeListener: f => listeners.filter(l => l === f),
+    };
+    const oldMatchMedia = global.matchMedia;
+    global.matchMedia = matchMediaStub;
+    matchMediaStub.returns(matchResult);
+
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics: [
+        {
+          id: '308',
+          attributes: {
+            ...getClinicMock(),
+            siteCode: '983',
+            clinicId: '308',
+            institutionCode: '983',
+            clinicFriendlyLocationName: 'Green team clinic',
+          },
+        },
+      ],
+      pastClinics: true,
+    });
+
+    const slot308Date = moment()
+      .day(9)
+      .hour(9)
+      .minute(0)
+      .second(0);
+    const preferredDate = moment();
+
+    const slot = {
+      ...getAppointmentSlotMock(),
+      startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+      endDateTime: slot308Date
+        .clone()
+        .minute(20)
+        .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+    };
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '308',
+      typeOfCareId: '323',
+      // Doesn't matter for this test that they're all the same time
+      slots: [slot, slot, slot, slot, slot],
+      preferredDate,
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /Yes/i);
+    await setPreferredDate(store, preferredDate);
+
+    // First pass check to make sure the slots associated with green team are displayed
+    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
+      store,
+    });
+
+    // 1. Wait for progressbar to disappear
+    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
+
+    expect(screen.findByText('Your earliest appointment time')).to.be.ok;
+
+    // 2. Simulate user selecting a date
+    let button = screen.queryByLabelText(
+      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+    );
+
+    if (!button) {
+      userEvent.click(screen.getByText(/^Next/));
+      button = await screen.findByLabelText(
+        new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+      );
+    }
+
+    userEvent.click(button);
+
+    await screen.findAllByRole('radio');
+
+    // We can't really get around testing by class in here, since we're trying
+    // to verify the look and feel is correct for users
+    const slotElements = screen.baseElement.querySelectorAll(
+      '.vaos-calendar__option-cell',
+    );
+
+    // At a row size of 2, with an uneven number of elements
+    // the last element should have the last modifier, which adds extra padding
+    // the upper right cell should also have a border radius and extra padding
+    expect(slotElements[slotElements.length - 1]).to.have.class(
+      'vaos-calendar__option-cell--last',
+    );
+    expect(slotElements[1]).to.have.class('vaos-u-border-radius--top-right');
+    expect(slotElements[1]).to.have.class('vads-u-padding-right--2');
+
+    matchMediaStub.withArgs('(min-width: 1008px)').returns({
+      ...matchResult,
+      matches: true,
+    });
+    listeners[0]();
+
+    // At a row size of 4, the cell in the top right is now the 4th item, so
+    // that one should have the padding and border radius, and the second one
+    // should not anymore
+    await waitFor(() => {
+      expect(slotElements[3]).to.have.class('vaos-u-border-radius--top-right');
+    });
+    expect(slotElements[1]).not.to.have.class(
+      'vaos-u-border-radius--top-right',
+    );
+    expect(slotElements[1]).not.to.have.class('vads-u-padding-right--2');
+    expect(slotElements[3]).to.have.class('vads-u-padding-right--2');
+
+    matchMediaStub.withArgs('(min-width: 1008px)').returns(matchResult);
+    matchMediaStub.withArgs('(min-width: 481px)').returns({
+      ...matchResult,
+      matches: true,
+    });
+    listeners[0]();
+
+    // At a row size of 3, the cell in the top right is now the 3rd item, so
+    // that one should have the padding and border radius, and the fourth one
+    // should not anymore
+    await waitFor(() => {
+      expect(slotElements[2]).to.have.class('vaos-u-border-radius--top-right');
+    });
+    expect(slotElements[3]).not.to.have.class(
+      'vaos-u-border-radius--top-right',
+    );
+    expect(slotElements[3]).not.to.have.class('vads-u-padding-right--2');
+    expect(slotElements[2]).to.have.class('vads-u-padding-right--2');
+
+    global.matchMedia = oldMatchMedia;
   });
 
   it('should show validation error if no date selected', async () => {
@@ -389,18 +534,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       slots: slots308,
       preferredDate,
     });
-
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
 
     const store = createTestStore(initialState);
 
@@ -471,18 +604,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       preferredDate,
     });
 
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
-
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
@@ -545,18 +666,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       slots: slots308,
       preferredDate,
     });
-
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
 
     const store = createTestStore(initialState);
 
@@ -622,18 +731,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       slots: slots308,
       preferredDate,
     });
-
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingVSPAppointmentNew: false,
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
 
     const store = createTestStore(initialState);
 

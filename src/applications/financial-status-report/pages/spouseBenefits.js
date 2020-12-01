@@ -13,12 +13,10 @@ export const uiSchema = {
       compBenefits: {
         'ui:title':
           'What is the monthly amount your spouse receives for compensation and pension benefits?',
-        'ui:required': () => true,
       },
       eduBenefits: {
         'ui:title':
           'What is the monthly amount your spouse receives for education benefits?',
-        'ui:required': () => true,
       },
     },
   },

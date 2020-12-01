@@ -25,10 +25,12 @@ export function getOptionsByDate() {
     {
       value: 'AM',
       label: 'AM',
+      secondaryLabel: 'Before noon',
     },
     {
       value: 'PM',
       label: 'PM',
+      secondaryLabel: 'Noon or later',
     },
   ];
 }
@@ -122,7 +124,6 @@ export function DateTimeRequestPage({
         schedule the best time for your appointment.
       </p>
       <CalendarWidget
-        monthsToShowAtOnce={2}
         multiSelect
         maxSelections={maxSelections}
         onChange={newData => {
