@@ -17,6 +17,7 @@ import {
   dependents,
   householdAssets,
   spouseInformation,
+  spouseAdditionalIncome,
 } from '../pages';
 
 const formChapterTitles = {
@@ -29,12 +30,13 @@ const formPageTitles = {
   veteranInfo: 'Veteran information',
   availableDebts: 'Available Debts',
   employmentHistory: 'Your employment history',
-  additionalIncome: 'Other income',
+  additionalIncome: 'Additional Income',
   spouseInformation: 'Spouse information',
   spouseEmployment: 'Spouse employment',
   spouseAdditionalEmployment: 'Spouse additonal employment',
   spouseSocialSecurity: 'Spouse social security',
   spouseBenefits: 'Spouse benefits',
+  spouseAdditionalIncome: 'Spouse additional Income',
   dependents: 'Dependents',
   householdAssets: 'Household Assets',
 };
@@ -100,7 +102,7 @@ const formConfig = {
           schema: employmentHistory.schema,
         },
         [formPageTitles.additionalIncome]: {
-          path: 'other-income',
+          path: 'additional-income',
           title: formPageTitles.additionalIncome,
           uiSchema: additionalIncome.uiSchema,
           schema: additionalIncome.schema,
@@ -134,6 +136,12 @@ const formConfig = {
           title: formPageTitles.spouseSocialSecurity,
           uiSchema: spouseSocialSecurity.uiSchema,
           schema: spouseSocialSecurity.schema,
+        },
+        [formPageTitles.spouseAdditionalIncome]: {
+          path: 'spouse-additional-income',
+          title: formPageTitles.spouseAdditionalIncome,
+          uiSchema: spouseAdditionalIncome.uiSchema,
+          schema: spouseAdditionalIncome.schema,
         },
         [formPageTitles.dependents]: {
           path: 'dependents',
