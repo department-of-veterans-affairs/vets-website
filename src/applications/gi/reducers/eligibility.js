@@ -60,6 +60,7 @@ export default function(state = INITIAL_STATE, action) {
     storedEligibility?.timestamp &&
     new Date().getTime() - storedEligibility.timestamp < ELIGIBILITY_LIFESPAN
   ) {
+    delete storedEligibility.timestamp;
     newState = {
       ...newState,
       ...storedEligibility,

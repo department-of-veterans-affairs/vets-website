@@ -135,6 +135,7 @@ export default function(state = INITIAL_STATE, action) {
         storedQuery?.timestamp &&
         new Date().getTime() - storedQuery.timestamp < QUERY_LIFESPAN
       ) {
+        delete storedQuery.timestamp;
         newState = {
           ...newState,
           query: { ...storedQuery },
