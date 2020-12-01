@@ -207,6 +207,26 @@ const FacilitiesMap = props => {
     });
   };
 
+  const activateSearchAreaControl = () => {
+    const searchAreaControlId = document.getElementById(
+      'search-area-control-container',
+    );
+
+    if (calculateSearchArea() > 500) {
+      searchAreaControlId.style.display = 'none';
+      return;
+    }
+
+    if (searchAreaControlId.style.display === 'none') {
+      searchAreaControlId.style.display = 'block';
+    }
+
+    if (searchAreaControlId && !searchAreaSet) {
+      searchAreaControlId.addEventListener('click', handleSearchArea, false);
+      searchAreaSet = true;
+    }
+  };
+
   const setupMap = (setMapInit, mapContainerInit) => {
     mapboxgl.accessToken = mapboxToken;
     const mapInit = new mapboxgl.Map({
@@ -225,14 +245,6 @@ const FacilitiesMap = props => {
       mapInit.resize();
     });
 
-    mapInit.on('zoomend', () => {
-      const zoomNotFromSearch =
-        document.activeElement.id !== 'search-results-title';
-      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
-        recordZoomEvent(currentZoom, parseInt(mapInit.getZoom(), 10));
-      }
-      currentZoom = parseInt(mapInit.getZoom(), 10);
-    });
     return mapInit;
   };
 
@@ -241,22 +253,18 @@ const FacilitiesMap = props => {
    * For example coming back from a detail page
    */
   if (props.results.length > 0 && map) {
-    // Set dragend to track map-moved ga event
     map.on('dragend', () => {
-      const searchAreaControlId = document.getElementById(
-        'search-area-control-container',
-      );
-
-      if (searchAreaControlId.style.display === 'none') {
-        searchAreaControlId.style.display = 'block';
-      }
-
-      if (searchAreaControlId && !searchAreaSet) {
-        searchAreaControlId.addEventListener('click', handleSearchArea, false);
-        searchAreaSet = true;
-      }
-
+      activateSearchAreaControl();
       recordPanEvent(map.getCenter(), props.currentQuery);
+    });
+    map.on('zoomend', () => {
+      const zoomNotFromSearch =
+        document.activeElement.id !== 'search-results-title';
+      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
+        activateSearchAreaControl();
+        recordZoomEvent(currentZoom, parseInt(map.getZoom(), 10));
+      }
+      currentZoom = parseInt(map.getZoom(), 10);
     });
   }
 
