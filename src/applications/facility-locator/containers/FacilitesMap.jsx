@@ -476,6 +476,7 @@ const FacilitiesMap = props => {
     searchWithUrl();
 
     // TODO - improve the geolocation feature with a more react approach
+    // https://github.com/department-of-veterans-affairs/vets-website/pull/14963
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(currentPosition => {
         const input = document.getElementById('street-city-state-zip');
