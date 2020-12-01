@@ -7,7 +7,9 @@ const processInquiries = inquiries => {
   return inquiries.map(inquiry => {
     return {
       ...inquiry,
-      dateLastUpdated: moment(inquiry.lastActiveTimestamp).format('MM/DD/YYYY'),
+      dateLastUpdated: moment(inquiry.lastActiveTimestamp).format(
+        'MMMM D, YYYY',
+      ),
     };
   });
 };
