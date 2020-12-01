@@ -8,12 +8,16 @@ import GetFormHelp from '../components/GetFormHelp';
 import {
   availableDebts,
   employmentHistory,
-  otherIncome,
+  additionalIncome,
   veteranInfo,
   spouseEmployment,
+  spouseSocialSecurity,
+  spouseBenefits,
+  spouseAdditionalEmployment,
   dependents,
   householdAssets,
   spouseInformation,
+  spouseAdditionalIncome,
 } from '../pages';
 
 const formChapterTitles = {
@@ -26,11 +30,15 @@ const formPageTitles = {
   veteranInfo: 'Veteran information',
   availableDebts: 'Available Debts',
   employmentHistory: 'Your employment history',
-  otherIncome: 'Other income',
-  spouseEmployment: 'Your spouse information',
+  additionalIncome: 'Additional Income',
+  spouseInformation: 'Spouse information',
+  spouseEmployment: 'Spouse employment',
+  spouseAdditionalEmployment: 'Spouse additonal employment',
+  spouseSocialSecurity: 'Spouse social security',
+  spouseBenefits: 'Spouse benefits',
+  spouseAdditionalIncome: 'Spouse additional Income',
   dependents: 'Dependents',
   householdAssets: 'Household Assets',
-  spouseInformation: 'Spouse Information',
 };
 
 const formConfig = {
@@ -93,11 +101,11 @@ const formConfig = {
           uiSchema: employmentHistory.uiSchema,
           schema: employmentHistory.schema,
         },
-        [formPageTitles.otherIncome]: {
-          path: 'other-income',
-          title: formPageTitles.otherIncome,
-          uiSchema: otherIncome.uiSchema,
-          schema: otherIncome.schema,
+        [formPageTitles.additionalIncome]: {
+          path: 'additional-income',
+          title: formPageTitles.additionalIncome,
+          uiSchema: additionalIncome.uiSchema,
+          schema: additionalIncome.schema,
         },
         [formPageTitles.spouseInformation]: {
           path: 'spouse-information',
@@ -110,6 +118,30 @@ const formConfig = {
           title: formPageTitles.spouseEmployment,
           uiSchema: spouseEmployment.uiSchema,
           schema: spouseEmployment.schema,
+        },
+        [formPageTitles.spouseAdditionalEmployment]: {
+          path: 'spouse-additional-employment',
+          title: formPageTitles.spouseAdditionalEmployment,
+          uiSchema: spouseAdditionalEmployment.uiSchema,
+          schema: spouseAdditionalEmployment.schema,
+        },
+        [formPageTitles.spouseBenefits]: {
+          path: 'spouse-benefits',
+          title: formPageTitles.spouseBenefits,
+          uiSchema: spouseBenefits.uiSchema,
+          schema: spouseBenefits.schema,
+        },
+        [formPageTitles.spouseSocialSecurity]: {
+          path: 'spouse-social-security',
+          title: formPageTitles.spouseSocialSecurity,
+          uiSchema: spouseSocialSecurity.uiSchema,
+          schema: spouseSocialSecurity.schema,
+        },
+        [formPageTitles.spouseAdditionalIncome]: {
+          path: 'spouse-additional-income',
+          title: formPageTitles.spouseAdditionalIncome,
+          uiSchema: spouseAdditionalIncome.uiSchema,
+          schema: spouseAdditionalIncome.schema,
         },
         [formPageTitles.dependents]: {
           path: 'dependents',

@@ -33,11 +33,11 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
+    expect((await screen.findAllByRole('radio')).length).to.equal(2);
+
     expect(screen.baseElement).to.contain.text(
       'Choose where you want to receive your care',
     );
-
-    expect((await screen.findAllByRole('radio')).length).to.equal(2);
   });
 
   it('should show validation', async () => {

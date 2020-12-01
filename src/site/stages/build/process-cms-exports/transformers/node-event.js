@@ -48,10 +48,12 @@ const transform = entity => ({
     processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
   },
   fieldDate: {
-    startDate: toUtc(entity.fieldDate[0].value),
-    value: toUtc(entity.fieldDate[0].value, false),
-    endDate: toUtc(entity.fieldDate[0].end_value),
-    endValue: toUtc(entity.fieldDate[0].end_value, false),
+    startDate: toUtc(entity.fieldDate[0]?.value),
+    value: toUtc(entity.fieldDate[0]?.value, false),
+    // eslint-disable-next-line camelcase
+    endDate: toUtc(entity.fieldDate[0]?.end_value),
+    // eslint-disable-next-line camelcase
+    endValue: toUtc(entity.fieldDate[0]?.end_value, false),
   },
   // The templates expect timestamps, like we get from graphql,
   // but the cms-export gives us UTC dates.
