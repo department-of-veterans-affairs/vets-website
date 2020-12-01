@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MailingAddress from './MailingAddress';
-import ResidentialAddress from './ResidentialAddress';
-
+import AddressField from 'platform/user/profile/vap-svc/components/AddressField/AddressField.jsx';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInfoTable from '../../ProfileInfoTable';
 
 const AddressesTable = ({ className }) => (
@@ -12,11 +11,16 @@ const AddressesTable = ({ className }) => (
     data={[
       {
         title: 'Mailing address',
-        value: <MailingAddress />,
+        value: (
+          <AddressField
+            fieldName={FIELD_NAMES.MAILING_ADDRESS}
+            deleteDisabled
+          />
+        ),
       },
       {
         title: 'Home address',
-        value: <ResidentialAddress />,
+        value: <AddressField fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS} />,
       },
     ]}
     className={className}

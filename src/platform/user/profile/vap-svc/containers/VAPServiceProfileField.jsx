@@ -253,7 +253,7 @@ class VAPServiceProfileField extends React.Component {
               onClick={this.onAdd}
               className="va-button-link va-profile-btn"
             >
-              Please add your {title.toLowerCase()}
+              Please add your {fieldName?.toLowerCase()}
             </button>
           ) : (
             <Content {...childProps} />

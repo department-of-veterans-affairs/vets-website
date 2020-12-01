@@ -94,10 +94,9 @@ export const convertCleanDataToPayload = (data, fieldName) => {
   );
 };
 
-function AddressField({ title, fieldName, deleteDisabled }) {
+function AddressField({ fieldName, deleteDisabled }) {
   return (
     <VAPServiceProfileField
-      title={title}
       fieldName={fieldName}
       apiRoute={API_ROUTES.ADDRESSES}
       convertCleanDataToPayload={convertCleanDataToPayload}
@@ -112,7 +111,6 @@ function AddressField({ title, fieldName, deleteDisabled }) {
 }
 
 AddressField.propTypes = {
-  title: PropTypes.string.isRequired,
   deleteDisabled: PropTypes.bool,
   fieldName: PropTypes.oneOf([
     FIELD_NAMES.MAILING_ADDRESS,
