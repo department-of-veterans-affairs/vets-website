@@ -415,13 +415,15 @@ module.exports = {
             fieldAudienceBeneficiares: {
               type: ['object', 'null'],
               properties: {
-                type: 'object',
-                properties: {
-                  name: { type: 'string' },
-                  entityUrl: {
-                    type: ['object', 'null'],
-                    properties: {
-                      path: { type: 'string' },
+                entity: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string' },
+                    entityUrl: {
+                      type: ['object', 'null'],
+                      properties: {
+                        path: { type: 'string' },
+                      },
                     },
                   },
                 },
@@ -430,13 +432,15 @@ module.exports = {
             fieldTopics: {
               type: ['object', 'null'],
               properties: {
-                type: 'object',
-                properties: {
-                  name: { type: 'string' },
-                  entityUrl: {
-                    type: ['object', 'null'],
-                    properties: {
-                      path: { type: 'string' },
+                entity: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string' },
+                    entityUrl: {
+                      type: ['object', 'null'],
+                      properties: {
+                        path: { type: 'string' },
+                      },
                     },
                   },
                 },
