@@ -20,11 +20,16 @@ module.exports = {
       items: { $ref: 'EntityReference' },
     },
     field_intro_text_limited_html: {
-      type: ['object', 'null'],
-      properties: {
-        processed: { type: 'string' },
+      type: ['array', 'null'],
+      items: {
+        type: ['object', 'null'],
+        properties: {
+          value: { type: 'string' },
+          format: { type: 'string' },
+          processed: { type: 'string' },
+        },
+        required: ['processed'],
       },
-      required: ['processed'],
     },
     field_other_categories: {
       type: 'array',
