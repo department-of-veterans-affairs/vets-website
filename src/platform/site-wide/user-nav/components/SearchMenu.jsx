@@ -29,14 +29,9 @@ export class SearchMenu extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.props.searchTypeaheadEnabled) {
-      recordEvent({
-        event: 'search-type-ahead-enabled',
-      });
-      return;
-    }
     recordEvent({
-      event: 'search-type-ahead-disabled',
+      event: 'phased-roll-out-enabled',
+      'type-ahead-enabled': this.props.searchTypeaheadEnabled,
     });
   };
 
