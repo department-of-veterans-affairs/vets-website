@@ -7,6 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/formation-react/AlertBox';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 const ViewPaymentHistoryCTA = props => {
   let alertType;
@@ -18,18 +19,17 @@ const ViewPaymentHistoryCTA = props => {
     alertContent = (
       <>
         <p>
-          To use this feature, you'll need a Premium <strong>DS Login</strong>{' '}
+          To use this feature, you'll need a Premium <strong>DS Logon</strong>{' '}
           account. Your My HealtheVet or ID.me credentials won't work on the
           eBenefits website. Go to eBenefits to sign in, register, or upgrade
-          your <strong>DS Login</strong> account to Premium.
+          your <strong>DS Logon</strong> account to Premium.
         </p>
-        <a
-          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
-          type="button"
+        <EbenefitsLink
+          path="ebenefits/about/feature?feature=payment-history"
           className="usa-button-primary va-button-default"
         >
           Go to eBenefits to view payments
-        </a>
+        </EbenefitsLink>
       </>
     );
 
