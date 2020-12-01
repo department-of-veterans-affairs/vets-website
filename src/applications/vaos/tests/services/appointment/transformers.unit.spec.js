@@ -21,7 +21,7 @@ const tomorrow = moment().add(1, 'days');
 
 const appt = {
   id: '22cdc6741c00ac67b6cbf6b972d084c0',
-  startDate: '2020-12-07T16:00:00Z',
+  startDate: tomorrow.toISOString(),
   clinicId: '308',
   clinicFriendlyName: null,
   facilityId: '983',
@@ -30,7 +30,7 @@ const appt = {
     {
       bookingNote: 'RP test',
       appointmentLength: '60',
-      appointmentTime: '2020-12-07T16:00:00Z',
+      appointmentTime: tomorrow.toISOString(),
       clinic: {
         name: 'CHY OPT VAR1',
         askForCheckIn: false,
@@ -167,7 +167,7 @@ const ccPendingAppt = {
 
 const videoAppt = {
   id: '05760f00c80ae60ce49879cf37a05fc8',
-  startDate: '2020-11-25T15:17:00Z',
+  startDate: tomorrow.toISOString(),
   clinicId: null,
   clinicFriendlyName: null,
   facilityId: '983',
@@ -178,7 +178,7 @@ const videoAppt = {
       id: '8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
       appointmentKind: 'ADHOC',
       sourceSystem: 'SM',
-      dateTime: '2020-11-25T15:17:00Z',
+      dateTime: tomorrow.toISOString(),
       duration: 20,
       status: { description: 'F', code: 'FUTURE' },
       schedulingRequestType: 'NEXT_AVAILABLE_APPT',
@@ -325,7 +325,12 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set start date', () => {
-        expect(data.start).to.equal('2020-12-07T09:00:00-07:00');
+        expect(data.start).to.equal(
+          tomorrow
+            .clone()
+            .tz('America/Denver')
+            .format(),
+        );
       });
 
       it('should set minutesDuration', () => {
@@ -435,7 +440,12 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set start date', () => {
-        expect(data.start).to.equal('2020-11-25T08:17:00-07:00');
+        expect(data.start).to.equal(
+          tomorrow
+            .clone()
+            .tz('America/Denver')
+            .format(),
+        );
       });
 
       it('should set minutesDuration', () => {

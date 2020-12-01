@@ -359,7 +359,7 @@ class ContactInformationField extends React.Component {
           }}
         >
           <p>
-            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won't be saved.`}
+            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won’t be saved.`}
           </p>
           <button
             className="usa-button-secondary"

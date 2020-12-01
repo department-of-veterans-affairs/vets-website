@@ -222,8 +222,8 @@ const mapStateToProps = state => {
   const isEvssAvailableSelector = createIsServiceAvailableSelector(
     backendServices.EVSS_CLAIMS,
   );
-  const isEvssAvailable = isEvssAvailableSelector(state);
   const isDirectDepositSetUp = directDepositIsSetUp(state);
+  const isEvssAvailable = isEvssAvailableSelector(state);
   const isDirectDepositBlocked = directDepositIsBlocked(state);
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
@@ -270,10 +270,12 @@ const mapStateToProps = state => {
     isInMVI: isInMVISelector(state),
     isLOA3,
     shouldFetchDirectDepositInformation,
+
     shouldShowDirectDeposit:
-      shouldFetchDirectDepositInformation &&
-      !isDirectDepositBlocked &&
-      (isDirectDepositSetUp || isEligibleToSignUp),
+      (isLOA3 && !is2faEnabled) ||
+      (shouldFetchDirectDepositInformation &&
+        !isDirectDepositBlocked &&
+        (isDirectDepositSetUp || isEligibleToSignUp)),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),

@@ -1,4 +1,9 @@
-import { getData, createDirectDepositAnalyticsDataObject } from '../util';
+import {
+  createDirectDepositAnalyticsDataObject,
+  getData,
+  isEligibleForDirectDeposit,
+  isSignedUpForDirectDeposit,
+} from '../util';
 import recordAnalyticsEvent from 'platform/monitoring/record-event';
 
 export const PAYMENT_INFORMATION_FETCH_STARTED =
@@ -45,7 +50,18 @@ export function fetchPaymentInformation(recordEvent = recordAnalyticsEvent) {
         response,
       });
     } else {
-      recordEvent({ event: 'profile-get-direct-deposit-retrieved' });
+      recordEvent({
+        event: 'profile-get-direct-deposit-retrieved',
+        // The API might report an empty payment address for some folks who are
+        // already enrolled in direct deposit. But we want to make sure we
+        // always treat those who are signed up as being eligible. Therefore
+        // we'll check to see if they either have a payment address _or_ are
+        // already signed up for direct deposit here:
+        'direct-deposit-setup-eligible':
+          isEligibleForDirectDeposit(response) ||
+          isSignedUpForDirectDeposit(response),
+        'direct-deposit-setup-complete': isSignedUpForDirectDeposit(response),
+      });
       dispatch({
         type: PAYMENT_INFORMATION_FETCH_SUCCEEDED,
         response,

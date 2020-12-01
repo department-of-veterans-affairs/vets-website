@@ -21,9 +21,14 @@ export async function getOrganizations({ siteIds, useVSP = false }) {
     try {
       const parentFacilities = await getParentFacilities(siteIds);
 
-      return transformParentFacilities(parentFacilities).sort(
-        (a, b) => (a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1),
-      );
+      return transformParentFacilities(parentFacilities).sort((a, b) => {
+        // a.name comes 1st
+        if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
+        // b.name comes 1st
+        if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
+        // a.name and b.name are equal
+        return 0;
+      });
     } catch (e) {
       if (e.errors) {
         throw mapToFHIRErrors(e.errors);
