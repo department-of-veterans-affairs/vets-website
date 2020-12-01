@@ -29,7 +29,7 @@ export class MessageTable extends React.Component {
               },
               {
                 label: 'Date last updated',
-                value: 'lastActiveTimestamp',
+                value: 'dateLastUpdated',
               },
               {
                 label: 'Reference',
