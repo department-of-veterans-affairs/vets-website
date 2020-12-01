@@ -31,21 +31,18 @@ describe('fetchInquiries', () => {
     resetFetch();
   });
 
-  it('dispatches FETCH_INQUIRIES_SUCCESS when GET succeeds', done => {
+  it('dispatches FETCH_INQUIRIES_SUCCESS when GET succeeds', async () => {
     const dispatch = sinon.spy();
-    fetchInquiries()(dispatch)
-      .then(() => {
-        const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(FETCH_INQUIRIES_SUCCESS);
-        action.data.forEach(inquiry => {
-          expect(inquiry).to.include.all.keys(
-            'subject',
-            'confirmationNumber',
-            'status',
-            'dateLastUpdated',
-          );
-        });
-      })
-      .then(done, done);
+    await fetchInquiries()(dispatch);
+    const action = dispatch.firstCall.args[0];
+    expect(action.type).to.equal(FETCH_INQUIRIES_SUCCESS);
+    action.data.forEach(inquiry => {
+      expect(inquiry).to.include.all.keys(
+        'subject',
+        'confirmationNumber',
+        'status',
+        'dateLastUpdated',
+      );
+    });
   });
 });
