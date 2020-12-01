@@ -155,13 +155,12 @@ export default class PhoneField extends React.Component {
     return (
       <ContactInformationField
         apiRoute={API_ROUTES.TELEPHONES}
-        ContentView={ContentView}
         convertCleanDataToPayload={this.convertCleanDataToPayload}
-        EditView={PhoneEditView}
         fieldName={this.props.fieldName}
         formSchema={formSchema}
         title={this.props.title}
         uiSchema={uiSchema}
+        type="phone"
       />
     );
   }

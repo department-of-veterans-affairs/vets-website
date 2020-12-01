@@ -9,6 +9,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 import {
   isFailedTransaction,
@@ -32,8 +33,16 @@ import {
   selectVAPServiceTransaction,
 } from '@@vap-svc/selectors';
 
+import ReceiveTextMessages from 'platform/user/profile/vap-svc/containers/ReceiveTextMessages';
 import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
 import ContactInformationEditButton from './ContactInformationEditButton';
+
+import EmailEditView from 'applications/personalization/profile/components/personal-information/email-addresses/EmailEditView';
+import EmailView from '@@vap-svc/components/EmailField/EmailView';
+import AddressEditView from 'applications/personalization/profile/components/personal-information/addresses/AddressEditView';
+import AddressView from '@@vap-svc/components/AddressField/AddressView';
+import PhoneEditView from 'applications/personalization/profile/components/personal-information/phone-numbers/PhoneEditView';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -63,9 +72,7 @@ const classes = {
 
 class ContactInformationField extends React.Component {
   static propTypes = {
-    ContentView: PropTypes.func.isRequired,
     data: PropTypes.object,
-    EditView: PropTypes.func.isRequired,
     field: PropTypes.object,
     fieldName: PropTypes.string.isRequired,
     showEditView: PropTypes.bool.isRequired,
@@ -252,8 +259,6 @@ class ContactInformationField extends React.Component {
   render() {
     const {
       activeEditView,
-      ContentView,
-      EditView,
       fieldName,
       isEmpty,
       showEditView,
@@ -262,40 +267,12 @@ class ContactInformationField extends React.Component {
       transaction,
       transactionRequest,
       ValidationView,
+      type,
     } = this.props;
 
     const activeSection = VAP_SERVICE.FIELD_TITLES[
       activeEditView
     ]?.toLowerCase();
-
-    const childProps = {
-      ContentView: this.props.ContentView,
-      EditView: this.props.EditView,
-      analyticsSectionName: this.props.analyticsSectionName,
-      apiRoute: this.props.apiRoute,
-      blockEditMode: this.props.blockEditMode,
-      clearErrors: this.clearErrors,
-      clearTransactionRequest: this.props.clearTransactionRequest,
-      convertCleanDataToPayLoad: this.props.convertCleanDataToPayLoad,
-      createTransaction: this.props.createTransaction,
-      data: this.props.data,
-      field: this.props.field,
-      fieldName: this.props.fieldName,
-      formSchema: this.props.formSchema,
-      hasUnsavedEdits: this.props.hasUnsavedEdits,
-      isEmpty: this.props.isEmpty,
-      onCancel: this.onCancel,
-      onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
-      onDelete: this.onDelete,
-      onEdit: this.onEdit,
-      onSubmit: this.onSubmit,
-      refreshTransaction: this.refreshTransaction,
-      showEditView: this.props.showEditView,
-      transaction: this.props.transaction,
-      transactionRequest: this.props.transactionRequest,
-      uiSchema: this.props.uiSchema,
-      validateAddress: this.props.validateAddress,
-    };
 
     const wrapInTransaction = children => {
       return (
@@ -311,6 +288,42 @@ class ContactInformationField extends React.Component {
         </VAPServiceTransaction>
       );
     };
+
+    const PhoneView = ({ data }) => {
+      const { areaCode, phoneNumber, extension } = data;
+
+      return (
+        <div>
+          <Telephone
+            contact={`${areaCode}${phoneNumber}`}
+            extension={extension}
+            notClickable
+          />
+
+          {this.props.fieldName === FIELD_NAMES.MOBILE_PHONE && (
+            <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
+          )}
+        </div>
+      );
+    };
+
+    let ContentView;
+    let EditView;
+
+    if (type === 'email') {
+      ContentView = EmailView;
+      EditView = EmailEditView;
+    }
+
+    if (type === 'phone') {
+      ContentView = PhoneView;
+      EditView = PhoneEditView;
+    }
+
+    if (type === 'address') {
+      ContentView = AddressView;
+      EditView = AddressEditView;
+    }
 
     // default the content to the read-view
     let content = wrapInTransaction(
@@ -341,7 +354,34 @@ class ContactInformationField extends React.Component {
     }
 
     if (showEditView) {
-      content = <EditView {...childProps} />;
+      content = (
+        <EditView
+          analyticsSectionName={this.props.analyticsSectionName}
+          apiRoute={this.props.apiRoute}
+          blockEditMode={this.props.blockEditMode}
+          clearErrors={this.clearErrors}
+          clearTransactionRequest={this.props.clearTransactionRequest}
+          convertCleanDataToPayLoad={this.props.convertCleanDataToPayLoad}
+          createTransaction={this.props.createTransaction}
+          data={this.props.data}
+          field={this.props.field}
+          fieldName={this.props.fieldName}
+          formSchema={this.props.formSchema}
+          hasUnsavedEdits={this.props.hasUnsavedEdits}
+          isEmpty={this.props.isEmpty}
+          onCancel={this.onCancel}
+          onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
+          onDelete={this.onDelete}
+          onEdit={this.onEdit}
+          onSubmit={this.onSubmit}
+          refreshTransaction={this.refreshTransaction}
+          showEditView={this.props.showEditView}
+          transaction={this.props.transaction}
+          transactionRequest={this.props.transactionRequest}
+          uiSchema={this.props.uiSchema}
+          validateAddress={this.props.validateAddress}
+        />
+      );
     }
 
     if (showValidationView) {
@@ -473,8 +513,6 @@ const mapDispatchToProps = {
 /**
  * Container used to easily create components for VA Profile-backed contact information.
  * @property {string} fieldName The name of the property as it appears in the user.profile.vapContactInfo object.
- * @property {func} ContentView The component used to render the read-display of the field.
- * @property {func} EditView The component used to render the edit mode of the field.
  * @property {func} ValidationView The component used to render validation mode the field.
  * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
  * @property {string} apiRoute The API route used to create/update/delete the VA Profile contact info field.
@@ -487,8 +525,6 @@ const ContactInformationFieldContainer = connect(
 
 ContactInformationFieldContainer.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  ContentView: PropTypes.func.isRequired,
-  EditView: PropTypes.func.isRequired,
   ValidationView: PropTypes.func,
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,

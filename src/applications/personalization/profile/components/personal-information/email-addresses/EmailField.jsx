@@ -50,10 +50,9 @@ export default class EmailField extends React.Component {
         fieldName={this.props.fieldName}
         apiRoute={API_ROUTES.EMAILS}
         convertCleanDataToPayload={this.convertDataToPayload}
-        ContentView={EmailView}
-        EditView={EmailEditView}
         formSchema={formSchema}
         uiSchema={uiSchema}
+        type="email"
       />
     );
   }
