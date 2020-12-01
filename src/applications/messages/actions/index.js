@@ -1,7 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import moment from 'moment';
 
-export const FETCH_INQUIRIES = 'FETCH_INQUIRIES';
+export const FETCH_INQUIRIES_SUCCESS = 'FETCH_INQUIRIES_SUCCESS';
 
 const processInquiries = inquiries => {
   return inquiries.map(inquiry => {
@@ -19,7 +19,7 @@ export function fetchInquiries() {
     return apiRequest('/messages/inquiries', null)
       .then(response => {
         dispatch({
-          type: FETCH_INQUIRIES,
+          type: FETCH_INQUIRIES_SUCCESS,
           data: processInquiries(response.inquiries),
         });
       })
