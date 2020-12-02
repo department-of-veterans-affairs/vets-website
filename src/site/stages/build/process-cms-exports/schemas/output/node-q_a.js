@@ -3,7 +3,8 @@ module.exports = {
   properties: {
     entityBundle: { type: 'string', enum: ['q_a'] },
     entityType: { type: 'string', enum: ['node'] },
-    entityUrl: { $ref: 'EntityUrl' },
+    entityMetatags: { $ref: 'MetaTags' },
+    entityPublished: { type: 'boolean' },
     title: { type: 'string' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldAlertSingle: { $ref: 'output/paragraph-alert_single' },
