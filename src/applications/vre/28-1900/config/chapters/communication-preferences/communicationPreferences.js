@@ -74,6 +74,7 @@ export const uiSchema = {
       // this needed because ObjectField adds the schemaform-block class to this, which creates a huge top margin.
       classNames: 'vads-u-margin-top--neg2',
       showFieldLabel: true,
+      forceDivWrapper: true,
     },
     morning: {
       'ui:title': 'Mornings 6:00 to 10:00 a.m.',
