@@ -14,6 +14,14 @@ class AddressEditView extends React.Component {
     focusElement(`#${this.props.fieldName}-edit-link`);
   }
 
+  // We need to clear the values in the addres form when the user un-checks
+  // my home address is the same as my mailing address. This logic ensures that the
+  // mailing address is not cleared upon render
+
+  state = {
+    hasChecked: false,
+  };
+
   onInput = (value, schema, uiSchema) => {
     const newFieldValue = {
       ...value,
@@ -69,7 +77,9 @@ class AddressEditView extends React.Component {
   };
 
   copyMailingAddress = mailingAddress => {
+    this.setState({ hasChecked: true });
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
+
     this.props.onChangeFormDataAndSchemas(
       this.transformInitialFormValues(newAddressValue),
       this.props.field.formSchema,
@@ -80,7 +90,10 @@ class AddressEditView extends React.Component {
   renderForm = (formButtons, onSubmit) => (
     <div>
       {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
-        <CopyMailingAddress copyMailingAddress={this.copyMailingAddress} />
+        <CopyMailingAddress
+          copyMailingAddress={this.copyMailingAddress}
+          hasChecked={this.state.hasChecked}
+        />
       )}
       <ContactInfoForm
         formData={this.props.field.value}

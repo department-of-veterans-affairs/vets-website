@@ -1,14 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
-import pickBy from 'lodash/pickBy';
+import mapValues from 'lodash/mapValues';
 
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 
 import { FIELD_NAMES } from '../constants';
 
-import { selectVAPContactInfoField, selectEditedFormField } from '../selectors';
+import { selectVAPContactInfoField } from '../selectors';
 
 const ADDRESS_PROPS = [
   'addressLine1',
@@ -25,10 +24,19 @@ const ADDRESS_PROPS = [
 class CopyMailingAddress extends React.Component {
   onChange = event => {
     event.stopPropagation();
-    if (event.target.checked) {
-      const address = pick(this.props.mailingAddress, ADDRESS_PROPS);
-      this.props.copyMailingAddress(address);
+    const shouldClearValues = this.props.hasChecked && !event.target.checked;
+    let address;
+
+    // Upon explicit unchecking of 'my home address is the same as my mailing address'
+    if (shouldClearValues) {
+      address = mapValues(this.props.mailingAddress, () => null);
     }
+
+    if (event.target.checked) {
+      address = pick(this.props.mailingAddress, ADDRESS_PROPS);
+    }
+
+    this.props.copyMailingAddress(address, this.props.checked);
   };
 
   render() {
@@ -41,7 +49,6 @@ class CopyMailingAddress extends React.Component {
             name="copy-mailing-address-to-residential-address"
             id="copy-mailing-address-to-residential-address"
             autoComplete="false"
-            checked={this.props.checked}
             onChange={this.onChange}
           />
           <label htmlFor="copy-mailing-address-to-residential-address">
@@ -60,25 +67,9 @@ export function mapStateToProps(state) {
   );
   const hasEmptyMailingAddress = isEmptyAddress(mailingAddress);
 
-  const residentialAddress = selectEditedFormField(
-    state,
-    FIELD_NAMES.RESIDENTIAL_ADDRESS,
-  ).value;
-
-  const isChecked = () => {
-    if (hasEmptyMailingAddress) {
-      return false;
-    }
-    return isEqual(
-      pickBy(pick(mailingAddress, ADDRESS_PROPS), e => !!e),
-      pick(residentialAddress, ADDRESS_PROPS),
-    );
-  };
-
   return {
     mailingAddress,
     hasEmptyMailingAddress,
-    checked: isChecked(),
   };
 }
 
