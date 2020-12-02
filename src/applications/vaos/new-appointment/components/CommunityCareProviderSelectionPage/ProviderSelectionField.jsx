@@ -99,12 +99,6 @@ function ProviderSelectionField({
             </div>
           </>
         )}
-      {requestStatus === FETCH_STATUS.failed &&
-        showProvidersList && (
-          <div className="vads-u-padding-bottom--2">
-            <ErrorMessage />
-          </div>
-        )}
       {showProvidersList && (
         <>
           <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
@@ -115,6 +109,11 @@ function ProviderSelectionField({
           {loadingProviders && (
             <div className="vads-u-padding-bottom--2">
               <LoadingIndicator message="Loading the list of providers" />
+            </div>
+          )}
+          {requestStatus === FETCH_STATUS.failed && (
+            <div className="vads-u-padding-bottom--2">
+              <ErrorMessage />
             </div>
           )}
           {requestStatus === FETCH_STATUS.succeeded && (
