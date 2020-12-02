@@ -126,7 +126,7 @@ const disabilitiesList = (
       </li>
       <li>
         The issue or decision isn’t in our system yet. You’ll need to download
-        and fill out VA Form 20-0996 PDF (1.5MB) and submit it by fax or mail.
+        and fill out VA Form 20-0996 PDF (1.5MB) and submit it by mail.
       </li>
       <li>
         You’re applying for a benefit that another surviving dependent of the
