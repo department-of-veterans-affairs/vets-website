@@ -74,8 +74,8 @@ export const showHasEmptyAddress = (
     content={
       <>
         <p>
-          You need a valid address on file in your profile to apply for higher
-          level reivew.
+          You need a valid address on file in your profile to apply for
+          Higher-Level Reivew.
         </p>
         <p>
           To add an address,{' '}
