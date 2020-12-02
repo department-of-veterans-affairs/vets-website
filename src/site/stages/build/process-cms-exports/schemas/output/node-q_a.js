@@ -30,9 +30,9 @@ module.exports = {
     },
     fieldStandalonePage: { type: 'boolean' },
     fieldTags: {
-      type: ['object', 'null'],
-      properties: {
-        entity: { $ref: 'output/paragraph-audience_topics' },
+      type: 'array',
+      items: {
+        $ref: 'output/paragraph-audience_topics',
       },
     },
     // Needed for filtering reverse fields in other transformers

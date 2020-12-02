@@ -31,9 +31,7 @@ const transform = entity => {
     },
     fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
     fieldRelatedInformation: entity.fieldRelatedInformation,
-    fieldTags: {
-      entity: entity.fieldTags,
-    },
+    fieldTags: entity.fieldTags,
   };
 };
 
