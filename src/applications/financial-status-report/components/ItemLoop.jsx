@@ -144,14 +144,16 @@ const ItemLoop = props => {
     }
   };
 
-  const handleEdit = (index, status = true) => {
-    // this.setState(_.set(['editing', index], status, this.state), () => {
-    //   scrollToRow(`${props.idSchema.$id}_${index}`);
-    // });
-
-    setEditing(_.set(['editing', index], status), () => {
-      scrollToRow(`${props.idSchema.$id}_${index}`);
+  const handleEdit = (e, index) => {
+    e.preventDefault();
+    const editData = editing.map((item, i) => {
+      if (i === index) {
+        return true;
+      }
+      return false;
     });
+    setEditing(editData);
+    // scrollToRow(`${props.idSchema.$id}_${index}`);
   };
 
   const handleUpdate = index => {
@@ -272,6 +274,11 @@ const ItemLoop = props => {
       <div className="va-growable">
         <Element name={`topOfTable_${idSchema.$id}`} />
         {items.map((item, index) => {
+          const isEditing = editing[index];
+          const showSave = uiSchema['ui:options'].showSave;
+          const updateText = showSave && index === 0 ? 'Save' : 'Update';
+          const isLast = items.length === index + 1;
+          const notLastOrMultipleRows = showSave || !isLast || items.length > 1;
           const itemSchema = getItemSchema(index);
           const itemIdPrefix = `${idSchema.$id}_${index}`;
           const itemIdSchema = toIdSchema(
@@ -279,15 +286,6 @@ const ItemLoop = props => {
             itemIdPrefix,
             definitions,
           );
-          const showSave = uiSchema['ui:options'].showSave;
-          const updateText = showSave && index === 0 ? 'Save' : 'Update';
-          const isLast = items.length === index + 1;
-          const notLastOrMultipleRows = showSave || !isLast || items.length > 1;
-          let isEditing = false;
-
-          if (editing) {
-            isEditing = editing[index];
-          }
 
           return (isReviewMode ? (
             isEditing
@@ -359,11 +357,14 @@ const ItemLoop = props => {
             <div key={index} className="va-growable-background editable-row">
               <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
                 <div className="vads-u-flex--fill">
-                  <ViewField formData={item} onEdit={() => handleEdit(index)} />
+                  <ViewField
+                    formData={item}
+                    onEdit={e => handleEdit(e, index)}
+                  />
                 </div>
                 <button
                   className="usa-button-secondary edit vads-u-flex--auto"
-                  onClick={() => handleEdit(index)}
+                  onClick={e => handleEdit(e, index)}
                   aria-label={`Edit ${title}`}
                 >
                   Edit
