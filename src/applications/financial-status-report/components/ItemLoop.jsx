@@ -14,6 +14,163 @@ import {
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+const Header = ({
+  title,
+  hideTitle,
+  idSchema,
+  formContext,
+  uiSchema,
+  description,
+  registry,
+}) => {
+  const { TitleField } = registry.fields;
+  const textDescription = typeof description === 'string' ? description : null;
+  const DescriptionField =
+    typeof description === 'function' ? uiSchema['ui:description'] : null;
+
+  return (
+    <div className="schemaform-block-header">
+      {title && !hideTitle ? (
+        <TitleField
+          id={`${idSchema.$id}__title`}
+          title={title}
+          formContext={formContext}
+        />
+      ) : null}
+      {textDescription && <p>{textDescription}</p>}
+      {DescriptionField && (
+        <DescriptionField options={uiSchema['ui:options']} />
+      )}
+      {!textDescription && !DescriptionField && description}
+    </div>
+  );
+};
+
+const AddAnotherButton = ({
+  formData,
+  addAnotherDisabled,
+  uiOptions,
+  handleAdd,
+}) => (
+  <>
+    <button
+      type="button"
+      className={classNames('usa-button-secondary', 'va-growable-add-btn', {
+        'usa-button-disabled': !formData || addAnotherDisabled,
+      })}
+      disabled={!formData || addAnotherDisabled}
+      onClick={() => handleAdd()}
+    >
+      Add another {uiOptions.itemName}
+    </button>
+    <p>
+      {addAnotherDisabled &&
+        `You’ve entered the maximum number of items allowed.`}
+    </p>
+  </>
+);
+
+const EditCard = ({ item, index, title, handleEdit, uiOptions }) => {
+  const ViewField = uiOptions.viewField;
+  return (
+    <div className="va-growable-background editable-row">
+      <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
+        <div className="vads-u-flex--fill">
+          <ViewField formData={item} onEdit={e => handleEdit(e, index)} />
+        </div>
+        <button
+          className="usa-button-secondary edit vads-u-flex--auto"
+          onClick={e => handleEdit(e, index)}
+          aria-label={`Edit ${title}`}
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const InputCard = ({
+  title,
+  itemIdPrefix,
+  isLast,
+  items,
+  uiSchema,
+  index,
+  itemSchema,
+  errorSchema,
+  itemIdSchema,
+  handleChange,
+  item,
+  onBlur,
+  registry,
+  disabled,
+  readonly,
+  handleUpdate,
+  handleRemove,
+}) => {
+  const showSave = uiSchema['ui:options'].showSave;
+  const updateText = showSave && index === 0 ? 'Save' : 'Update';
+  const notLastOrMultipleRows = showSave || !isLast || items.length > 1;
+  const { SchemaField } = registry.fields;
+
+  return (
+    <div className={notLastOrMultipleRows ? 'va-growable-background' : null}>
+      <Element name={`table_${itemIdPrefix}`} />
+      <div className="row small-collapse">
+        <div className="small-12 columns va-growable-expanded">
+          {isLast && items.length > 1 && uiSchema['ui:options'].itemName ? (
+            <h3 className="vads-u-font-size--h5">
+              New {uiSchema['ui:options'].itemName}
+            </h3>
+          ) : null}
+          <div className="input-section">
+            <SchemaField
+              schema={itemSchema}
+              uiSchema={uiSchema.items}
+              errorSchema={errorSchema ? errorSchema[index] : undefined}
+              idSchema={itemIdSchema}
+              formData={item}
+              onBlur={onBlur}
+              registry={registry}
+              disabled={disabled}
+              readonly={readonly}
+              onChange={value => handleChange(index, value)}
+              required={false}
+            />
+          </div>
+          {notLastOrMultipleRows && (
+            <div className="row small-collapse">
+              <div className="small-6 left columns">
+                {(!isLast || showSave) && (
+                  <button
+                    className="float-left"
+                    onClick={e => handleUpdate(e, index)}
+                    aria-label={`${updateText} ${title}`}
+                  >
+                    {updateText}
+                  </button>
+                )}
+              </div>
+              <div className="small-6 right columns">
+                {index !== 0 && (
+                  <button
+                    className="usa-button-secondary float-right"
+                    type="button"
+                    onClick={() => handleRemove(index)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ItemLoop = ({
   uiSchema,
   idSchema,
@@ -28,16 +185,11 @@ const ItemLoop = ({
   onBlur,
 }) => {
   const definitions = registry.definitions;
-  const { TitleField, SchemaField } = registry.fields;
   const uiOptions = uiSchema['ui:options'] || {};
   const title = uiSchema['ui:title'] || schema.title;
   const hideTitle = !!uiOptions.title;
-  const description = uiSchema['ui:description'];
-  const textDescription = typeof description === 'string' ? description : null;
-  const ViewField = uiOptions.viewField;
-  const DescriptionField =
-    typeof description === 'function' ? uiSchema['ui:description'] : null;
   const isReviewMode = uiSchema['ui:options'].reviewMode;
+  const description = uiSchema['ui:description'];
   const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
   const [editing, setEditing] = useState([]);
@@ -173,9 +325,9 @@ const ItemLoop = ({
     }
   };
 
-  const handleRemove = indexToRemove => {
-    const newItems = formData.filter((item, index) => index !== indexToRemove);
-    const filtered = editing.filter((item, index) => index !== indexToRemove);
+  const handleRemove = index => {
+    const newItems = formData.filter((item, i) => index !== i);
+    const filtered = editing.filter((item, i) => index !== i);
     setEditing(filtered);
     onChange(newItems);
     scrollToTop();
@@ -196,29 +348,21 @@ const ItemLoop = ({
   return (
     <div className={containerClassNames}>
       {hasTitleOrDescription && (
-        <div className="schemaform-block-header">
-          {title && !hideTitle ? (
-            <TitleField
-              id={`${idSchema.$id}__title`}
-              title={title}
-              formContext={formContext}
-            />
-          ) : null}
-          {textDescription && <p>{textDescription}</p>}
-          {DescriptionField && (
-            <DescriptionField options={uiSchema['ui:options']} />
-          )}
-          {!textDescription && !DescriptionField && description}
-        </div>
+        <Header
+          title={title}
+          hideTitle={hideTitle}
+          idSchema={idSchema}
+          formContext={formContext}
+          uiSchema={uiSchema}
+          description={description}
+          registry={registry}
+        />
       )}
       <div className="va-growable">
         <Element name={`topOfTable_${idSchema.$id}`} />
         {items.map((item, index) => {
           const isEditing = editing[index];
-          const showSave = uiSchema['ui:options'].showSave;
-          const updateText = showSave && index === 0 ? 'Save' : 'Update';
           const isLast = items.length === index + 1;
-          const notLastOrMultipleRows = showSave || !isLast || items.length > 1;
           const itemSchema = getItemSchema(index);
           const itemIdPrefix = `${idSchema.$id}_${index}`;
           const itemIdSchema = toIdSchema(
@@ -232,101 +376,43 @@ const ItemLoop = ({
           ) : (
             isLast || isEditing
           )) ? (
-            <div
+            <InputCard
               key={index}
-              className={
-                notLastOrMultipleRows ? 'va-growable-background' : null
-              }
-            >
-              <Element name={`table_${itemIdPrefix}`} />
-              <div className="row small-collapse">
-                <div className="small-12 columns va-growable-expanded">
-                  {isLast &&
-                  items.length > 1 &&
-                  uiSchema['ui:options'].itemName ? (
-                    <h3 className="vads-u-font-size--h5">
-                      New {uiSchema['ui:options'].itemName}
-                    </h3>
-                  ) : null}
-                  <div className="input-section">
-                    <SchemaField
-                      key={index}
-                      schema={itemSchema}
-                      uiSchema={uiSchema.items}
-                      errorSchema={errorSchema ? errorSchema[index] : undefined}
-                      idSchema={itemIdSchema}
-                      formData={item}
-                      onChange={value => handleChange(index, value)}
-                      onBlur={onBlur}
-                      registry={registry}
-                      required={false}
-                      disabled={disabled}
-                      readonly={readonly}
-                    />
-                  </div>
-                  {notLastOrMultipleRows && (
-                    <div className="row small-collapse">
-                      <div className="small-6 left columns">
-                        {(!isLast || showSave) && (
-                          <button
-                            className="float-left"
-                            onClick={e => handleUpdate(e, index)}
-                            aria-label={`${updateText} ${title}`}
-                          >
-                            {updateText}
-                          </button>
-                        )}
-                      </div>
-                      <div className="small-6 right columns">
-                        {index !== 0 && (
-                          <button
-                            className="usa-button-secondary float-right"
-                            type="button"
-                            onClick={() => handleRemove(index)}
-                          >
-                            Remove
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+              itemIdPrefix={itemIdPrefix}
+              isLast={isLast}
+              items={items}
+              uiSchema={uiSchema}
+              index={index}
+              itemSchema={itemSchema}
+              errorSchema={errorSchema}
+              itemIdSchema={itemIdSchema}
+              item={item}
+              onBlur={onBlur}
+              registry={registry}
+              disabled={disabled}
+              readonly={readonly}
+              title={title}
+              handleUpdate={handleUpdate}
+              handleRemove={handleRemove}
+              handleChange={handleChange}
+            />
           ) : (
-            <div key={index} className="va-growable-background editable-row">
-              <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
-                <div className="vads-u-flex--fill">
-                  <ViewField
-                    formData={item}
-                    onEdit={e => handleEdit(e, index)}
-                  />
-                </div>
-                <button
-                  className="usa-button-secondary edit vads-u-flex--auto"
-                  onClick={e => handleEdit(e, index)}
-                  aria-label={`Edit ${title}`}
-                >
-                  Edit
-                </button>
-              </div>
-            </div>
+            <EditCard
+              key={index}
+              item={item}
+              index={index}
+              title={title}
+              handleEdit={handleEdit}
+              uiOptions={uiOptions}
+            />
           );
         })}
-        <button
-          type="button"
-          className={classNames('usa-button-secondary', 'va-growable-add-btn', {
-            'usa-button-disabled': !formData || addAnotherDisabled,
-          })}
-          disabled={!formData || addAnotherDisabled}
-          onClick={() => handleAdd()}
-        >
-          Add another {uiOptions.itemName}
-        </button>
-        <p>
-          {addAnotherDisabled &&
-            `You’ve entered the maximum number of items allowed.`}
-        </p>
+        <AddAnotherButton
+          formData={formData}
+          addAnotherDisabled={addAnotherDisabled}
+          uiOptions={uiOptions}
+          handleAdd={handleAdd}
+        />
       </div>
     </div>
   );
