@@ -8,9 +8,11 @@ const transform = entity => {
       entityType: 'paragraph',
       entityBundle: 'contact_information',
       fieldAdditionalContact: entity.fieldAdditionalContact[0] || null,
-      fieldBenefitHubContacts: entity.fieldBenefitHubContacts.map(entity => {
-        return { entity };
-      }),
+      fieldBenefitHubContacts: entity.fieldBenefitHubContacts.map(
+        benefitHubContact => {
+          return { entity: benefitHubContact };
+        },
+      ),
       fieldContactDefault: entity.fieldContactDefault[0] || null,
     },
   };
