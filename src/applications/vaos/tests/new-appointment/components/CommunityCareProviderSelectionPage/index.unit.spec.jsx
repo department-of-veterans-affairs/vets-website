@@ -18,7 +18,6 @@ import {
 } from '../../../mocks/helpers';
 
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
-import { waitFor } from '@testing-library/dom';
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 
@@ -115,9 +114,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Request a Primary care provider. (Optional)',
     );
-    expect(screen.baseElement).to.contain.text(
-      'You can request a provider you’d prefer for this appointment. If they aren’t available, we’ll schedule your appointment with a provider close to your home.',
-    );
     expect(screen.baseElement).to.contain.text('Choose a provider');
 
     // Continue without filling in required fields
@@ -140,7 +136,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Trigger provider list loading
     userEvent.click(await screen.findByText(/Choose a provider/i));
-    await waitFor(() => screen.getByText(/your address on file:/i));
+    expect(await screen.findByText(/your address on file:/i)).to.exist;
 
     // Verify provider list count and get load more button
     expect(screen.baseElement).to.contain.text(
@@ -152,29 +148,24 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect((await screen.findAllByRole('radio')).length).to.equal(7);
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
-    await waitFor(() =>
-      screen.getByText(/displaying 1 to 10 of 16 providers/i),
-    );
+    expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
+      .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
-    await waitFor(() =>
-      screen.getByText(/displaying 1 to 15 of 16 providers/i),
-    );
+    expect(await screen.findByText(/displaying 1 to 15 of 16 providers/i)).to
+      .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(17);
 
     userEvent.click(await screen.findByText(/\+ 1 more providers/i));
-    await waitFor(() =>
-      screen.getByText(/displaying 1 to 16 of 16 providers/i),
-    );
+    expect(await screen.findByText(/displaying 1 to 16 of 16 providers/i)).to
+      .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(18);
 
     // Choose Provider
-    userEvent.click((await screen.findAllByRole('radio'))[3]);
+    userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
     userEvent.click(
-      await waitFor(() =>
-        screen.getByRole('button', { name: /choose provider/i }),
-      ),
+      await screen.getByRole('button', { name: /choose provider/i }),
     );
     expect(screen.baseElement).to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
@@ -182,24 +173,24 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Change Provider
     userEvent.click(
-      await screen.getByRole('button', { name: /change provider/i }),
+      await screen.findByRole('button', { name: /change provider/i }),
     );
-    userEvent.click((await screen.findAllByRole('radio'))[4]);
+    userEvent.click(await screen.findByText(/LYONS, KRISTYN/i));
     userEvent.click(
-      await waitFor(() =>
-        screen.getByRole('button', { name: /choose provider/i }),
-      ),
+      await screen.findByRole('button', { name: /choose provider/i }),
     );
+
     expect(screen.baseElement).to.contain.text(
       'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
     );
 
     // Cancel Selection (not clearing of a selected provider)
     userEvent.click(
-      await screen.getByRole('button', { name: /change provider/i }),
+      await screen.findByRole('button', { name: /change provider/i }),
     );
-    await waitFor(() => screen.getByText(/displaying 1 to 5 of 16 providers/i));
-    await waitFor(() => screen.getByRole('button', { name: /cancel/i }));
+    expect(await screen.findByText(/displaying 1 to 5 of 16 providers/i)).to
+      .exist;
+    expect(await screen.findByRole('button', { name: /cancel/i })).to.exist;
     expect(screen.baseElement).to.contain.text(
       'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
     );
@@ -231,12 +222,12 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     // Trigger provider list loading
     userEvent.click(await screen.findByText(/Choose a provider/i));
     expect(
-      await screen.getByRole('heading', {
+      await screen.findByRole('heading', {
         name: /we’re sorry\. we’ve run into a problem/i,
       }),
     );
     expect(
-      await screen.getByText(
+      await screen.findByText(
         /something went wrong on our end. please try again later./i,
       ),
     );

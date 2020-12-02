@@ -43,11 +43,11 @@ function ProviderSelectionField({
     () => {
       if (showProvidersList && !loadingProviders) {
         scrollAndFocus('h2');
-      } else if (mounted && !loadingProviders) {
+      } else if (mounted && !showProvidersList) {
         scrollAndFocus('.va-button-link');
       }
     },
-    [showProvidersList],
+    [showProvidersList, loadingProviders],
   );
 
   return (
@@ -67,19 +67,19 @@ function ProviderSelectionField({
         providerSelected && (
           <>
             <span className="vads-u-display--block vads-u-font-weight--bold">
-              {formData?.name}
+              {formData.name}
             </span>
             <span className="vads-u-display--block">
-              {formData?.address?.line}
+              {formData.address?.line}
             </span>
             <span className="vads-u-display--block">
-              {formData?.address?.city}, {formData?.address?.state}{' '}
-              {formData?.address?.postalCode}
+              {formData.address?.city}, {formData.address?.state}{' '}
+              {formData.address?.postalCode}
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
               {distanceBetween(
-                formData?.position?.latitude,
-                formData?.position?.longitude,
+                formData.position?.latitude,
+                formData.position?.longitude,
                 address.latitude,
                 address.longitude,
               )}{' '}
@@ -94,16 +94,10 @@ function ProviderSelectionField({
                   setShowProvidersList(true);
                 }}
               >
-                Change Provider
+                Change provider
               </button>
             </div>
           </>
-        )}
-      {loadingProviders &&
-        showProvidersList && (
-          <div className="vads-u-padding-bottom--2">
-            <LoadingIndicator message="Loading the list of providers" />
-          </div>
         )}
       {requestStatus === FETCH_STATUS.failed &&
         showProvidersList && (
@@ -111,74 +105,82 @@ function ProviderSelectionField({
             <ErrorMessage />
           </div>
         )}
-      {requestStatus === FETCH_STATUS.succeeded &&
-        showProvidersList && (
-          <>
-            <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-              Choose a provider
-            </h2>
-            <p>Your address on file:</p>
-            <ResidentialAddress address={address} />
-            <p>
-              Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-              {communityCareProviderList.length} providers
-            </p>
-            {currentlyShownProvidersList.map(provider => {
-              const { name, position } = provider;
-              const checked = provider.id === checkedProvider;
-              const distance = distanceBetween(
-                position.latitude,
-                position.longitude,
-                address.latitude,
-                address.longitude,
-              );
-              return (
-                <div className="form-radio-buttons" key={provider.id}>
-                  <input
-                    type="radio"
-                    checked={checked}
-                    id={`${idSchema.$id}_${provider.id}`}
-                    name={`${idSchema.$id}`}
-                    value={provider.id}
-                    onChange={_ => setCheckedProvider(provider.id)}
-                    disabled={loadingProviders}
-                  />
-                  <label htmlFor={`${idSchema.$id}_${provider.id}`}>
-                    <span className="vads-u-display--block vads-u-font-weight--bold">
-                      {name}
-                    </span>
-                    <span className="vads-u-display--block">
-                      {provider.address?.line}
-                    </span>
-                    <span className="vads-u-display--block">
-                      {provider.address.city}, {provider.address.state}{' '}
-                      {provider.address.postalCode}
-                    </span>
-                    <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-                      {distance} miles
-                    </span>
-                  </label>
-                  {checked && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onChange(
-                          communityCareProviderList.find(
-                            p => p.id === checkedProvider,
-                          ),
-                        );
-                        setCheckedProvider();
-                        setShowProvidersList(false);
-                      }}
-                    >
-                      Choose Provider
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-          </>
-        )}
+      {showProvidersList && (
+        <>
+          <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+            Choose a provider
+          </h2>
+          <p>Your address on file:</p>
+          <ResidentialAddress address={address} />
+          {loadingProviders && (
+            <div className="vads-u-padding-bottom--2">
+              <LoadingIndicator message="Loading the list of providers" />
+            </div>
+          )}
+          {requestStatus === FETCH_STATUS.succeeded && (
+            <>
+              <p>
+                Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+                {communityCareProviderList.length} providers
+              </p>
+              {currentlyShownProvidersList.map(provider => {
+                const { name, position } = provider;
+                const checked = provider.id === checkedProvider;
+                const distance = distanceBetween(
+                  position.latitude,
+                  position.longitude,
+                  address.latitude,
+                  address.longitude,
+                );
+                return (
+                  <div className="form-radio-buttons" key={provider.id}>
+                    <input
+                      type="radio"
+                      checked={checked}
+                      id={`${idSchema.$id}_${provider.id}`}
+                      name={`${idSchema.$id}`}
+                      value={provider.id}
+                      onChange={_ => setCheckedProvider(provider.id)}
+                      disabled={loadingProviders}
+                    />
+                    <label htmlFor={`${idSchema.$id}_${provider.id}`}>
+                      <span className="vads-u-display--block vads-u-font-weight--bold">
+                        {name}
+                      </span>
+                      <span className="vads-u-display--block">
+                        {provider.address?.line}
+                      </span>
+                      <span className="vads-u-display--block">
+                        {provider.address.city}, {provider.address.state}{' '}
+                        {provider.address.postalCode}
+                      </span>
+                      <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+                        {distance} miles
+                      </span>
+                    </label>
+                    {checked && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onChange(
+                            communityCareProviderList.find(
+                              p => p.id === checkedProvider,
+                            ),
+                          );
+                          setCheckedProvider();
+                          setShowProvidersList(false);
+                        }}
+                      >
+                        Choose provider
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </>
+          )}
+        </>
+      )}
       {requestStatus === FETCH_STATUS.succeeded &&
         showProvidersList && (
           <div className="vads-u-display--flex">
