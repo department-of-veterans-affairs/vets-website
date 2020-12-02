@@ -26,7 +26,7 @@ const vaMedalliaStylesFilename = 'va-medallia-styles';
 
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
-const timestamp = new Date().getTime();
+// const timestamp = new Date().getTime();
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
@@ -112,12 +112,8 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: '/generated/',
-      filename: !isOptimizedBuild
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: !isOptimizedBuild
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      filename: `[name].entry.js`,
+      chunkFilename: `[name].entry.js`,
     },
     module: {
       rules: [
@@ -253,9 +249,7 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return isOptimizedBuild
-            ? `[name].[contenthash]-${timestamp}.css`
-            : `[name].css`;
+          return `[name].css`;
         },
       }),
 
