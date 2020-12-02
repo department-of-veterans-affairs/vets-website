@@ -38,49 +38,49 @@ const ItemLoop = props => {
 
   const [editing, setEditing] = useState([]);
 
+  useEffect(
+    () => {
+      const isEditing = props.formData
+        ? props.formData.map(
+            (item, index) => !errorSchemaIsValid(props.errorSchema[index]),
+          )
+        : [true];
+      setEditing(isEditing);
+    },
+    [props.errorSchema, props.formData],
+  );
+
   // useEffect(
   //   () => {
-  //     if (props.formData) {
-  //       return props.formData.map(
-  //         (item, index) => !errorSchemaIsValid(props.errorSchema[index]),
+  //     // Throw an error if there’s no viewField (should be React component)
+  //     if (typeof props.uiSchema['ui:options'].viewField !== 'function') {
+  //       throw new Error(
+  //         `No viewField found in uiSchema for ArrayField ${
+  //           props.idSchema.$id
+  //         }.`,
   //       );
   //     }
-  //     return [true];
   //   },
-  //   [props.errorSchema, props.formData],
+  //   [props.idSchema.$id, props.uiSchema],
   // );
 
-  useEffect(
-    () => {
-      // Throw an error if there’s no viewField (should be React component)
-      if (typeof props.uiSchema['ui:options'].viewField !== 'function') {
-        throw new Error(
-          `No viewField found in uiSchema for ArrayField ${
-            props.idSchema.$id
-          }.`,
-        );
-      }
-    },
-    [props.idSchema.$id, props.uiSchema],
-  );
-
-  useEffect(
-    () => {
-      const { schema, formData = [], registry } = props;
-      if (schema.minItems > 0 && formData.length === 0) {
-        props.onChange(
-          Array(schema.minItems).fill(
-            getDefaultFormState(
-              schema.additionalItems,
-              undefined,
-              registry.definitions,
-            ),
-          ),
-        );
-      }
-    },
-    [props],
-  );
+  // useEffect(
+  //   () => {
+  //     const { schema, formData = [], registry } = props;
+  //     if (schema.minItems > 0 && formData.length === 0) {
+  //       props.onChange(
+  //         Array(schema.minItems).fill(
+  //           getDefaultFormState(
+  //             schema.additionalItems,
+  //             undefined,
+  //             registry.definitions,
+  //           ),
+  //         ),
+  //       );
+  //     }
+  //   },
+  //   [props],
+  // );
 
   // componentDidMount() {
   //   const { schema, formData = [], registry } = this.props;
@@ -116,7 +116,7 @@ const ItemLoop = props => {
 
   // const scrollToTop = () => {
   //   setTimeout(() => {
-  //     scroller.scrollTo(
+  //     scroller.scrollTo(// TODO: sets new item to empty object should be integer for type number
   //       `topOfTable_${props.idSchema.$id}`,
   //       window.Forms?.scroll || {
   //         duration: 500,
@@ -175,8 +175,8 @@ const ItemLoop = props => {
   const handleAdd = () => {
     const lastIndex = props.formData.length - 1;
     if (errorSchemaIsValid(props.errorSchema[lastIndex])) {
-      // When we add another, we want to change the editing state of the currently
-      // last item, but not ones above it
+      // When we add another, we want to change the editing
+      // state of the last item, but not ones above it
 
       const newEditing = editing?.map(
         (val, index) => (index + 1 === editing.length ? false : val),
@@ -193,23 +193,13 @@ const ItemLoop = props => {
               props.schema.additionalItems,
               undefined,
               props.registry.definitions,
-            ) || {},
+              // ) || {}, // TODO: sets new item to empty object should be integer for type number
+            ) || undefined,
           );
           props.onChange(newFormData);
           scrollToRow(`${props.idSchema.$id}_${lastIndex + 1}`);
         }),
       );
-      // this.setState(newState, () => {
-      //   const newFormData = props.formData.concat(
-      //     getDefaultFormState(
-      //       props.schema.additionalItems,
-      //       undefined,
-      //       props.registry.definitions,
-      //     ) || {},
-      //   );
-      //   props.onChange(newFormData);
-      //   scrollToRow(`${props.idSchema.$id}_${lastIndex + 1}`);
-      // })
     } else {
       const touched = setArrayRecordTouched(props.idSchema.$id, lastIndex);
       props.formContext.setTouched(touched, () => {
@@ -222,9 +212,8 @@ const ItemLoop = props => {
     const newItems = props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
-    // const newState = _.assign(this.state, {
-    //   editing: editing.filter((val, index) => index !== indexToRemove),
-    // });
+    const filtered = editing.filter((val, index) => index !== indexToRemove);
+    setEditing(filtered);
     props.onChange(newItems);
     // this.setState(newState, () => {
     //   scrollToTop();
@@ -307,74 +296,73 @@ const ItemLoop = props => {
             isEditing = editing[index];
           }
 
-          if (isReviewMode ? isEditing : isLast || isEditing) {
-            return (
-              <div
-                key={index}
-                className={
-                  notLastOrMultipleRows ? 'va-growable-background' : null
-                }
-              >
-                <Element name={`table_${itemIdPrefix}`} />
-                <div className="row small-collapse">
-                  <div className="small-12 columns va-growable-expanded">
-                    {isLast &&
-                    items.length > 1 &&
-                    uiSchema['ui:options'].itemName ? (
-                      <h3 className="vads-u-font-size--h5">
-                        New {uiSchema['ui:options'].itemName}
-                      </h3>
-                    ) : null}
-                    <div className="input-section">
-                      <SchemaField
-                        key={index}
-                        schema={itemSchema}
-                        uiSchema={uiSchema.items}
-                        errorSchema={
-                          errorSchema ? errorSchema[index] : undefined
-                        }
-                        idSchema={itemIdSchema}
-                        formData={item}
-                        onChange={value => onItemChange(index, value)}
-                        onBlur={onBlur}
-                        registry={props.registry}
-                        required={false}
-                        disabled={disabled}
-                        readonly={readonly}
-                      />
-                    </div>
-                    {notLastOrMultipleRows && (
-                      <div className="row small-collapse">
-                        <div className="small-6 left columns">
-                          {(!isLast || showSave) && (
-                            <button
-                              className="float-left"
-                              onClick={() => handleUpdate(index)}
-                              aria-label={`${updateText} ${title}`}
-                            >
-                              {updateText}
-                            </button>
-                          )}
-                        </div>
-                        <div className="small-6 right columns">
-                          {index !== 0 && (
-                            <button
-                              className="usa-button-secondary float-right"
-                              type="button"
-                              onClick={() => handleRemove(index)}
-                            >
-                              Remove
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
+          return (isReviewMode ? (
+            isEditing
+          ) : (
+            isLast || isEditing
+          )) ? (
+            <div
+              key={index}
+              className={
+                notLastOrMultipleRows ? 'va-growable-background' : null
+              }
+            >
+              <Element name={`table_${itemIdPrefix}`} />
+              <div className="row small-collapse">
+                <div className="small-12 columns va-growable-expanded">
+                  {isLast &&
+                  items.length > 1 &&
+                  uiSchema['ui:options'].itemName ? (
+                    <h3 className="vads-u-font-size--h5">
+                      New {uiSchema['ui:options'].itemName}
+                    </h3>
+                  ) : null}
+                  <div className="input-section">
+                    <SchemaField
+                      key={index}
+                      schema={itemSchema}
+                      uiSchema={uiSchema.items}
+                      errorSchema={errorSchema ? errorSchema[index] : undefined}
+                      idSchema={itemIdSchema}
+                      formData={item}
+                      onChange={value => onItemChange(index, value)}
+                      onBlur={onBlur}
+                      registry={props.registry}
+                      required={false}
+                      disabled={disabled}
+                      readonly={readonly}
+                    />
                   </div>
+                  {notLastOrMultipleRows && (
+                    <div className="row small-collapse">
+                      <div className="small-6 left columns">
+                        {(!isLast || showSave) && (
+                          <button
+                            className="float-left"
+                            onClick={() => handleUpdate(index)}
+                            aria-label={`${updateText} ${title}`}
+                          >
+                            {updateText}
+                          </button>
+                        )}
+                      </div>
+                      <div className="small-6 right columns">
+                        {index !== 0 && (
+                          <button
+                            className="usa-button-secondary float-right"
+                            type="button"
+                            onClick={() => handleRemove(index)}
+                          >
+                            Remove
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-            );
-          }
-          return (
+            </div>
+          ) : (
             <div key={index} className="va-growable-background editable-row">
               <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
                 <div className="vads-u-flex--fill">
