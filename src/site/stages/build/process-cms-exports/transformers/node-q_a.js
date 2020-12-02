@@ -29,7 +29,7 @@ const transform = entity => {
     },
     fieldOtherCategories: entity.fieldOtherCategories.map(category => {
       return {
-        entity: entity.fieldOtherCategories,
+        entity: entity.category,
       };
     }),
     fieldPrimaryCategory: {
