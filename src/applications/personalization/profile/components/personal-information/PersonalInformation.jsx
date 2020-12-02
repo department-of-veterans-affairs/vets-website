@@ -6,8 +6,9 @@ import { connect } from 'react-redux';
 
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import { focusElement } from 'platform/utilities/ui';
+} from '~/platform/monitoring/DowntimeNotification';
+import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
+import { focusElement } from '~/platform/utilities/ui';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
@@ -20,6 +21,7 @@ import { PROFILE_PATHS } from '../../constants';
 const PersonalInformation = ({
   showDirectDepositBlockedError,
   hasUnsavedEdits,
+  hasVAPServiceError,
 }) => {
   const lastLocation = useLastLocation();
   useEffect(() => {
@@ -72,7 +74,7 @@ const PersonalInformation = ({
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
         {showDirectDepositBlockedError && <PaymentInformationBlocked />}
-        <PersonalInformationContent />
+        <PersonalInformationContent hasVAPServiceError={hasVAPServiceError} />
       </DowntimeNotification>
     </>
   );
@@ -81,11 +83,13 @@ const PersonalInformation = ({
 PersonalInformation.propTypes = {
   showDirectDepositBlockedError: PropTypes.bool.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
+  hasVAPServiceError: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   showDirectDepositBlockedError: !!directDepositIsBlocked(state),
   hasUnsavedEdits: state.vapService.hasUnsavedEdits,
+  hasVAPServiceError: hasVAPServiceConnectionError(state),
 });
 
 export default connect(
