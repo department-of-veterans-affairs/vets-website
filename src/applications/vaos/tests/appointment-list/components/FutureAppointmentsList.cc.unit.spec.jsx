@@ -110,7 +110,7 @@ describe('VAOS integration: upcoming CC appointments', () => {
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
   });
 
-  it('should not display when over 13 months away', () => {
+  it('should not display when over 13 months away', async () => {
     const appointment = getCCAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -128,8 +128,7 @@ describe('VAOS integration: upcoming CC appointments', () => {
       },
     );
 
-    return expect(findByText(/You don’t have any appointments/i)).to.eventually
-      .be.ok;
+    expect(await findByText(/You don’t have any appointments/i)).to.exist;
   });
 
   it('should handle UTC zone', async () => {

@@ -56,7 +56,7 @@ const eventTeasersSchema = max => ({
       items: {
         entity: partialSchema(eventSchema, [
           'title',
-          'fieldDate',
+          'fieldDatetimeRangeTimezone',
           'fieldDescription',
           'fieldLocationHumanreadable',
           'fieldFacilityLocation',

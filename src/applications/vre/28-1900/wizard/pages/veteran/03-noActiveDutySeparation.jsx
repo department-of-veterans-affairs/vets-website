@@ -1,21 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { veteranPathPageNames } from '../pageList';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_INELIGIBLE,
-} from 'applications/vre/28-1900/constants';
 
 const NoActiveDutySeparation = () => {
-  useEffect(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
-  });
   return (
-    <div className="feature">
+    <div className="feature vads-u-background-color--gray-lightest">
       <p>
         To apply for VR&E benefits, you must be within 12 years of whichever is
         later: your date of discharge or the date you received your disability
         rating.
       </p>
+      <a href="/careers-employment/vocational-rehabilitation/eligibility/">
+        Learn more about VR&E eligibility
+      </a>
     </div>
   );
 };

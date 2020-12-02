@@ -20,9 +20,6 @@ const IntroductionPage = ({ route, router }) => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
 
-  const applicationTitle =
-    'Apply for the Program of Comprehensive Assistance for Family Caregivers';
-
   const startForm = () => {
     recordEvent({ event: 'caregivers-10-10cg-start-form' });
     const pageList = route.pageList;
@@ -208,10 +205,13 @@ const IntroductionPage = ({ route, router }) => {
   return (
     <div className="caregivers-intro schemaform-intro">
       <DowntimeNotification
-        appTitle={applicationTitle}
+        appTitle="Application for the Program of Comprehensive Assistance for Family Caregivers"
         dependencies={[externalServices.mvi, externalServices.carma]}
       >
-        <FormTitle className="form-title" title={applicationTitle} />
+        <FormTitle
+          className="form-title"
+          title="Apply for the Program of Comprehensive Assistance for Family Caregivers"
+        />
 
         <p>
           Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)
