@@ -1,5 +1,10 @@
 import sinon from 'sinon';
-import { term, iso8601DateTime } from '@pact-foundation/pact/dsl/matchers';
+import {
+  term,
+  like,
+  eachLike,
+  iso8601DateTime,
+} from '@pact-foundation/pact/dsl/matchers';
 import { fetchInquiries } from '../../actions/';
 
 import contractTest from 'platform/testing/contract';
@@ -25,22 +30,20 @@ contractTest('My Messages', 'VA.gov API', mockApi => {
               generate: 'application/json',
             }),
           },
-          body: {
-            inquiries: [
-              {
-                subject: 'Eyeglasses',
-                confirmationNumber: '000-011',
-                status: 'RESOLVED',
-                creationTimestamp: iso8601DateTime(),
-                lastActiveTimestamp: iso8601DateTime(),
-                _links: {
-                  thread: {
-                    href: '/v1/user/{:user-id}/inquiry/000-011',
-                  },
+          body: like({
+            inquiries: eachLike({
+              subject: 'Eyeglasses',
+              confirmationNumber: '000-011',
+              status: 'RESOLVED',
+              creationTimestamp: iso8601DateTime(),
+              lastActiveTimestamp: iso8601DateTime(),
+              Links: {
+                thread: {
+                  href: '/v1/user/{:user-id}/inquiry/000-011',
                 },
               },
-            ],
-          },
+            }),
+          }),
         },
       });
 
