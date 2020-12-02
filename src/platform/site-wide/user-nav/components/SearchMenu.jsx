@@ -29,10 +29,12 @@ export class SearchMenu extends React.Component {
   }
 
   componentDidMount = () => {
-    recordEvent({
-      event: 'phased-roll-out-enabled',
-      'type-ahead-enabled': this.props.searchTypeaheadEnabled,
-    });
+    if (this.props.searchTypeaheadEnabled) {
+      recordEvent({
+        event: 'phased-roll-out-enabled',
+        'product-description': 'Type Ahead',
+      });
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -82,6 +84,7 @@ export class SearchMenu extends React.Component {
         ? this.state.suggestions.indexOf(suggestion) + 1
         : undefined,
       'type-ahead-options-list': this.state.suggestions,
+      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
     });
   };
 
