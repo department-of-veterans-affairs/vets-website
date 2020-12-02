@@ -38,5 +38,21 @@ module.exports = {
     // Needed for filtering reverse fields in other transformers
     status: { $ref: 'GenericNestedBoolean' },
   },
-  required: ['title'],
+  required: [
+    'title',
+    'created',
+    'changed',
+    'entityMetatags',
+    'entityPublished',
+    'fieldAlertSingle',
+    'fieldAnswer',
+    'fieldButtons',
+    'fieldContactInformation',
+    'fieldOtherCategories',
+    'fieldPrimaryCategory',
+    'fieldRelatedBenefitHubs',
+    'fieldRelatedInformation',
+    'fieldStandalonePage',
+    'fieldTags',
+  ],
 };
