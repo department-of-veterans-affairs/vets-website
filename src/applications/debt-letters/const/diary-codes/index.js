@@ -697,6 +697,21 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         ),
       };
     default:
-      return null;
+      return {
+        nextStep: (
+          <p>
+            <strong>Next step: </strong>
+            Please check back in 1 week for updates. If your account shows the
+            same information then, call us at <ContactDMC />, Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+          </p>
+        ),
+        status: (
+          <p>
+            <strong>Status: </strong>
+            We're updating your account.
+          </p>
+        ),
+      };
   }
 };
