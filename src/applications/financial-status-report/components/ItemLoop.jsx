@@ -179,27 +179,20 @@ const ItemLoop = props => {
       // state of the last item, but not ones above it
 
       const newEditing = editing?.map(
-        (val, index) => (index + 1 === editing.length ? false : val),
+        (item, index) => (index + 1 === editing.length ? false : item),
       );
-      const editingState = props.uiSchema['ui:options'].reviewMode;
-      const newState = _.assign(editing, {
-        editing: newEditing.concat(!!editingState),
-      });
-      setEditing(
-        (newState,
-        () => {
-          const newFormData = props.formData.concat(
-            getDefaultFormState(
-              props.schema.additionalItems,
-              undefined,
-              props.registry.definitions,
-              // ) || {}, // TODO: sets new item to empty object should be integer for type number
-            ) || undefined,
-          );
-          props.onChange(newFormData);
-          scrollToRow(`${props.idSchema.$id}_${lastIndex + 1}`);
-        }),
+
+      const newFormData = props.formData.concat(
+        getDefaultFormState(
+          props.schema.additionalItems,
+          undefined,
+          props.registry.definitions,
+          // ) || {}, // TODO: sets new item to empty object should be integer for type number
+        ) || undefined,
       );
+      props.onChange(newFormData);
+      setEditing(newEditing);
+      // scrollToRow(`${props.idSchema.$id}_${lastIndex + 1}`);
     } else {
       const touched = setArrayRecordTouched(props.idSchema.$id, lastIndex);
       props.formContext.setTouched(touched, () => {
