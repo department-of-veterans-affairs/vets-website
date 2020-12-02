@@ -14,7 +14,6 @@ import {
   serviceDateRangeErrorMessage,
   branchOfServiceTitle,
 } from '../../../constants/labels';
-import SectionHeader from '../../../components/SectionHeader';
 import { requireServiceInfo } from '../../inquiry/status/veteranStatusUI';
 
 const formFields = {
@@ -27,7 +26,6 @@ const formFields = {
 };
 
 export const veteranServiceInformationUI = {
-  'ui:description': SectionHeader('Veteran service information'),
   'ui:order': [
     'socialSecurityNumber',
     'serviceNumber',

@@ -3,11 +3,7 @@ import * as topic from './topic/topic';
 import { veteranStatusUI } from './status/veteranStatusUI';
 
 import fullSchema from '../0873-schema.json';
-import {
-  inquiryPageDescription,
-  inquiryTypeTitle,
-  queryTitle,
-} from '../../constants/labels';
+import { inquiryTypeTitle, queryTitle } from '../../constants/labels';
 
 const { inquiryType, query, veteranStatus } = fullSchema.properties;
 
@@ -20,7 +16,6 @@ const formFields = {
 
 const inquiryPage = {
   uiSchema: {
-    'ui:description': inquiryPageDescription,
     [formFields.inquiryType]: {
       'ui:title': inquiryTypeTitle,
     },

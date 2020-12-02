@@ -7,7 +7,6 @@ import fullNameUI from './fullName/fullName';
 import fullSchema from '../0873-schema.json';
 import * as address from './address/address';
 import {
-  contactInformationPageDescription,
   preferredContactMethodTitle,
   phoneTitle,
 } from '../../constants/labels';
@@ -28,7 +27,6 @@ const formFields = {
 
 const contactInformationPage = {
   uiSchema: {
-    'ui:description': contactInformationPageDescription,
     [formFields.fullName]: fullNameUI,
     [formFields.address]: address.uiSchema(
       '',

@@ -1,10 +1,8 @@
-import PageDescription from '../components/PageDescription';
 import SectionHeader from '../components/SectionHeader';
 
 /* --------------- Inquiry --------------- */
-export const inquiryChapterTitle = "Share why you're contacting us";
+export const inquiryChapterTitle = "Tell us the reason you're contacting us";
 export const inquiryPageTitle = 'Your message';
-export const inquiryPageDescription = PageDescription('Your message');
 
 export const topicLevelOneTitle = 'Which category best describes your message?';
 export const topicLevelTwoTitle = 'Which topic best describes your message?';
@@ -54,9 +52,6 @@ export const serviceDateRangeErrorMessage =
 /* --------------- Contact Information --------------- */
 export const contactInformationChapterTitle = 'Tell us about yourself';
 export const contactInformationPageTitle = 'Contact Information';
-export const contactInformationPageDescription = PageDescription(
-  'Your contact info',
-);
 
 export const preferredContactMethodTitle =
   'How should we get in touch with you?';
