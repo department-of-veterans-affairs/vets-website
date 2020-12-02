@@ -13,7 +13,7 @@ export const firstSidebarBlock = {
         your disability compensation, pension, claims and appeal, VR&E, and VA
         health care benefits.
       </p>
-      <a href="/profile">Link to profile page</a>
+      <a href="/profile">Go to your profile</a>
     </>
   ),
 };

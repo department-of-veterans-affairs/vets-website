@@ -192,11 +192,16 @@ const FacilitiesMap = props => {
   const handlePageSelect = page => {
     resetMapElements();
     const { currentQuery } = props;
+    const coords = currentQuery.position;
+    const radius = currentQuery.radius;
+    const center = [coords.latitude, coords.longitude];
     props.searchWithBounds({
       bounds: currentQuery.bounds,
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
       page,
+      center,
+      radius,
     });
   };
 
@@ -410,6 +415,10 @@ const FacilitiesMap = props => {
         context,
         searchString,
       } = props.currentQuery;
+      const { currentQuery } = props;
+      const coords = currentQuery.position;
+      const radius = currentQuery.radius;
+      const center = [coords.latitude, coords.longitude];
       // Search current area
       if (searchArea) {
         updateUrlParams({
@@ -424,6 +433,8 @@ const FacilitiesMap = props => {
           facilityType: props.currentQuery.facilityType,
           serviceType: props.currentQuery.serviceType,
           page: props.currentQuery.currentPage,
+          center,
+          radius,
         });
       }
     },
@@ -471,7 +482,11 @@ const FacilitiesMap = props => {
           context: props.currentQuery.context,
           address: props.currentQuery.searchString,
         });
-        const resultsPage = props.currentQuery.currentPage;
+        const { currentQuery } = props;
+        const coords = currentQuery.position;
+        const radius = currentQuery.radius;
+        const center = [coords.latitude, coords.longitude];
+        const resultsPage = currentQuery.currentPage;
 
         if (!props.searchBoundsInProgress) {
           props.searchWithBounds({
@@ -479,6 +494,8 @@ const FacilitiesMap = props => {
             facilityType: props.currentQuery.facilityType,
             serviceType: props.currentQuery.serviceType,
             page: resultsPage,
+            center,
+            radius,
           });
           setIsSearching(false);
         }

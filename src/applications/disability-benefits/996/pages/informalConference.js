@@ -1,6 +1,6 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
-import ScheduleTimesReviewField from '../containers/ScheduleTimesReviewField';
+import ScheduleTimesReviewField from '../content/ScheduleTimesReviewField';
 
 import { checkConferenceTimes } from '../validations';
 import { errorMessages, patternMessages } from '../constants';
@@ -9,11 +9,11 @@ import {
   InformalConferenceDescription,
   InformalConferenceTitle,
   informalConferenceLabels,
+  informalConferenceTimeAllLabels,
   ContactRepresentativeDescription,
   RepresentativeNameTitle,
   RepresentativePhoneTitle,
   InformalConferenceTimes,
-  informalConferenceTimeAllLabels,
   InformalConferenceTimeLabels,
   AttemptsInfoAlert,
 } from '../content/InformalConference';
@@ -22,8 +22,6 @@ const scheduleTimeUiSchema = key => ({
   'ui:title': InformalConferenceTimeLabels(key),
   'ui:options': {
     hideLabelText: true,
-    // custom entry updated by updateSchema (I know it's bad)
-    informalConference: 'me',
   },
   'ui:field': 'StringField',
   'ui:widget': 'checkbox',
@@ -39,6 +37,18 @@ const informalConference = {
       'ui:widget': 'radio',
       'ui:options': {
         labels: informalConferenceLabels,
+        updateSchema: (formData, schema) => {
+          const choice = formData?.informalConference;
+          const article = document.querySelector('article');
+          // informalConferenceTimes title needs to know this setting, so we'll
+          // use CSS to control the view instead of doing some complicated form
+          // data manipulation
+          if (choice && article) {
+            // no article available in unit tests
+            article.dataset.contactChoice = choice;
+          }
+          return schema;
+        },
       },
       'ui:errorMessages': {
         required: errorMessages.informalConferenceContactChoice,
@@ -60,6 +70,9 @@ const informalConference = {
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactName,
         },
+        'ui:options': {
+          hideIf: formData => formData?.informalConference !== 'rep',
+        },
       },
       phone: {
         'ui:title': RepresentativePhoneTitle,
@@ -70,29 +83,13 @@ const informalConference = {
           pattern: patternMessages.representativePhone,
           required: errorMessages.informalConferenceContactPhone,
         },
-      },
-      'view:TimesForRep': {
-        'ui:description': () => InformalConferenceTimes({ isRep: true }),
-      },
-    },
-    // 'view:ContactYouInfo': {
-    //   'ui:title': '',
-    //   'ui:description': ContactYouDescription,
-    //   'ui:options': {
-    //     hideIf: formData => formData?.informalConference !== 'me',
-    //     expandUnder: 'informalConference',
-    //   },
-    // },
-    // Time selection message you vs rep
-    'view:TimesForYou': {
-      'ui:title': InformalConferenceTimes,
-      'ui:options': {
-        hideIf: formData => formData?.informalConference !== 'me',
-        expandUnder: 'informalConference',
+        'ui:options': {
+          hideIf: formData => formData?.informalConference !== 'rep',
+        },
       },
     },
     informalConferenceTimes: {
-      'ui:title': ' ',
+      'ui:title': InformalConferenceTimes,
       'ui:required': formData => formData?.informalConference !== 'no',
       'ui:errorMessages': {
         required: errorMessages.informalConferenceTimesMin,
@@ -117,7 +114,7 @@ const informalConference = {
       },
     },
     'view:alert': {
-      'ui:title': ' ',
+      'ui:title': '',
       'view:contactYou': {
         'ui:title': ' ',
         'ui:description': AttemptsInfoAlert,
@@ -147,10 +144,6 @@ const informalConference = {
         type: 'string',
         enum: ['no', 'me', 'rep'],
       },
-      'view:ContactYouInfo': {
-        type: 'object',
-        properties: {},
-      },
       informalConferenceRep: {
         type: 'object',
         properties: {
@@ -164,15 +157,7 @@ const informalConference = {
           phone: {
             type: 'string',
           },
-          'view:TimesForRep': {
-            type: 'object',
-            properties: {},
-          },
         },
-      },
-      'view:TimesForYou': {
-        type: 'object',
-        properties: {},
       },
       informalConferenceTimes: {
         type: 'object',

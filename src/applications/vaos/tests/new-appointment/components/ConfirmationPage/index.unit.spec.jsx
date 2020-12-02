@@ -100,7 +100,8 @@ describe('VAOS <ConfirmationPage>', () => {
       store,
     });
 
-    expect(screen.getByText(/Your appointment has been scheduled./i)).to.be.ok;
+    expect(await screen.findByText(/Your appointment has been scheduled./i)).to
+      .be.ok;
     expect(
       screen.getByText(
         new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),

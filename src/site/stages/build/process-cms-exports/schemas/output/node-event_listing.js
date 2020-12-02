@@ -11,6 +11,7 @@ const reverseFieldSchema = {
           'title',
           'entityUrl',
           'fieldDate',
+          'fieldDatetimeRangeTimezone',
           'fieldDescription',
           'fieldLocationHumanreadable',
         ]),

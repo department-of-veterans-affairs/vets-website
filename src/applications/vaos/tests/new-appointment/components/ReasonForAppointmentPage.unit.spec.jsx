@@ -38,11 +38,11 @@ describe('VAOS integration: reason for appointment page with a single-site user'
       store,
     });
 
+    expect((await screen.findAllByRole('radio')).length).to.equal(4);
+
     expect(screen.baseElement).to.contain.text(
       'Please let us know why you’re making this appointment',
     );
-
-    expect(screen.getAllByRole('radio').length).to.equal(4);
 
     expect(
       screen.getByRole('heading', {
@@ -59,15 +59,15 @@ describe('VAOS integration: reason for appointment page with a single-site user'
       store,
     });
 
-    expect(screen.baseElement).to.contain.text(
-      'Tell us the reason for this appointment',
-    );
-
-    const textBox = screen.getByRole('textbox');
+    const textBox = await screen.findByRole('textbox');
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
       .to.equal('100');
+
+    expect(screen.baseElement).to.contain.text(
+      'Tell us the reason for this appointment',
+    );
 
     expect(
       screen.getByRole('heading', {
@@ -82,6 +82,7 @@ describe('VAOS integration: reason for appointment page with a single-site user'
       store,
     });
 
+    await screen.findByLabelText(/Routine or follow-up visit/i);
     fireEvent.click(screen.getByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please provide a response',
@@ -140,13 +141,14 @@ describe('VAOS integration: reason for appointment page with a single-site user'
       store,
     });
 
+    const textBox = await screen.findByRole('textbox');
+    fireEvent.change(textBox, { target: { value: '   ' } });
+    expect(textBox.value).to.equal('   ');
+
     expect(screen.baseElement).to.contain.text(
       'Tell us the reason for this appointment',
     );
 
-    const textBox = screen.getByRole('textbox');
-    fireEvent.change(textBox, { target: { value: '   ' } });
-    expect(textBox.value).to.equal('   ');
     fireEvent.click(screen.getByText(/Continue/));
 
     expect(await screen.findByRole('alert')).to.contain.text(
@@ -189,13 +191,13 @@ describe('VAOS integration: reason for appointment page with a single-site user'
       },
     );
 
+    const textBox = await screen.findByRole('textbox');
+    fireEvent.change(textBox, { target: { value: 'test' } });
+    expect(textBox.value).to.equal('test');
+
     expect(screen.baseElement).to.contain.text(
       'Tell us the reason for this appointment',
     );
-
-    const textBox = screen.getByRole('textbox');
-    fireEvent.change(textBox, { target: { value: 'test' } });
-    expect(textBox.value).to.equal('test');
 
     fireEvent.click(screen.getByText(/Continue/));
 

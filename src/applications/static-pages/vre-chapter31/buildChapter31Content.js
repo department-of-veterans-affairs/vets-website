@@ -64,9 +64,6 @@ const Chapter31Content = props => {
             {optionalSubwayMapItem}
           </ol>
         </div>
-        <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-margin-bottom--0 vads-u-font-weight--bold">
-          Ready to apply?
-        </p>
         <EbenefitsLink
           path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"
           className="usa-button-primary va-button-primary"

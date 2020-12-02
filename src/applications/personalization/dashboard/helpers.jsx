@@ -27,46 +27,6 @@ import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 import fsrManifest from 'applications/financial-status-report/manifest.json';
 
-import hcaConfig from 'applications/hca/config/form.js';
-import dependentStatusConfig from 'applications/disability-benefits/686c-674/config/form';
-import feedbackConfig from 'applications/edu-benefits/feedback-tool/config/form.js';
-import burialsConfig from 'applications/burials/config/form.js';
-import edu1990Config from 'applications/edu-benefits/1990/config/form.js';
-import edu1995Config from 'applications/edu-benefits/1995/config/form.js';
-import edu1990eConfig from 'applications/edu-benefits/1990e/config/form.js';
-import edu1990nConfig from 'applications/edu-benefits/1990n/config/form.js';
-import edu5490Config from 'applications/edu-benefits/5490/config/form.js';
-import edu5495Config from 'applications/edu-benefits/5495/config/form.js';
-import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
-import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
-import edu10203Config from 'applications/edu-benefits/10203/config/form.js';
-import preneedConfig from 'applications/pre-need/config/form.jsx';
-import pensionConfig from 'applications/pensions/config/form.js';
-import disability526Config from 'applications/disability-benefits/all-claims/config/form.js';
-import hlrConfig from 'applications/disability-benefits/996/config/form';
-import mdotConfig from 'applications/disability-benefits/2346/config/form';
-
-export const formConfigs = {
-  [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig,
-  [VA_FORM_IDS.FORM_21_526EZ]: disability526Config,
-  [VA_FORM_IDS.FORM_21_686C]: dependentStatusConfig,
-  [VA_FORM_IDS.FORM_21P_527EZ]: pensionConfig,
-  [VA_FORM_IDS.FORM_21P_530]: burialsConfig,
-  [VA_FORM_IDS.FORM_22_0993]: edu0993Config,
-  [VA_FORM_IDS.FORM_22_0994]: edu0994Config,
-  [VA_FORM_IDS.FORM_22_1990]: edu1990Config,
-  [VA_FORM_IDS.FORM_22_1990E]: edu1990eConfig,
-  [VA_FORM_IDS.FORM_22_1990N]: edu1990nConfig,
-  [VA_FORM_IDS.FORM_22_1995]: edu1995Config,
-  [VA_FORM_IDS.FORM_22_5490]: edu5490Config,
-  [VA_FORM_IDS.FORM_22_5495]: edu5495Config,
-  [VA_FORM_IDS.FORM_22_10203]: edu10203Config,
-  [VA_FORM_IDS.FORM_40_10007]: preneedConfig,
-  [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig,
-  [VA_FORM_IDS.FORM_20_0996]: hlrConfig,
-  [VA_FORM_IDS.FORM_VA_2346A]: mdotConfig,
-};
-
 export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
@@ -247,9 +207,6 @@ export function sipFormSorter(formA, formB) {
   [formA, formB].forEach(isValidForm);
   return formA.metadata.expiresAt - formB.metadata.expiresAt;
 }
-
-export const isFormAuthorizable = formConfig =>
-  !!formConfig && !!formConfig.authorize;
 
 export const recordDashboardClick = (
   product,

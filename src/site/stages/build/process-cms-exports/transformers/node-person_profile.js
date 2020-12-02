@@ -14,13 +14,21 @@ const transform = (entity, { ancestors }) => ({
   )}`,
   entityMetatags: createMetaTagArray(entity.metatag.value),
   entityPublished: isPublished(getDrupalValue(entity.status)),
-  fieldBody: getDrupalValue(entity.fieldBody),
+  fieldBody:
+    entity.fieldBody && entity.fieldBody.length > 0
+      ? { processed: entity.fieldBody[0].processed }
+      : null,
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldEmailAddress: getDrupalValue(entity.fieldEmailAddress),
   fieldLastName: getDrupalValue(entity.fieldLastName),
   fieldMedia:
     entity.fieldMedia && entity.fieldMedia.length > 0
-      ? { entity: getImageCrop(entity.fieldMedia[0], '_23MEDIUMTHUMBNAIL') }
+      ? {
+          entity: getImageCrop(
+            entity.fieldMedia[0],
+            '_1_1_SQUARE_MEDIUM_THUMBNAIL',
+          ),
+        }
       : null,
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
   fieldOffice: entity.fieldOffice[0]

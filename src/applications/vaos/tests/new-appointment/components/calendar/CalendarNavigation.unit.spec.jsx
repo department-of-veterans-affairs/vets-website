@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -7,16 +8,19 @@ import CalendarNavigation from '../../../../new-appointment/components/calendar/
 
 describe('VAOS <CalendarNavigation>', () => {
   it('should prev and next buttons', () => {
-    const tree = shallow(<CalendarNavigation />);
+    const tree = shallow(<CalendarNavigation momentMonth={moment()} />);
     const items = tree.find('button');
     expect(items.length).to.equal(2);
     expect(items.at(0).text()).to.equal('Previous');
     expect(items.at(1).text()).to.equal('Next');
+    expect(tree.find('h2').text()).to.equal(moment().format('MMMM YYYY'));
     tree.unmount();
   });
 
   it('should disable buttons if disabled props are passed', () => {
-    const tree = shallow(<CalendarNavigation prevDisabled nextDisabled />);
+    const tree = shallow(
+      <CalendarNavigation momentMonth={moment()} prevDisabled nextDisabled />,
+    );
     const items = tree.find('button');
     expect(items.at(0).props().disabled).to.equal(true);
     expect(items.at(1).props().disabled).to.equal(true);
@@ -28,6 +32,7 @@ describe('VAOS <CalendarNavigation>', () => {
     const nextOnClick = sinon.spy();
     const tree = shallow(
       <CalendarNavigation
+        momentMonth={moment()}
         prevOnClick={prevOnClick}
         nextOnClick={nextOnClick}
       />,
@@ -41,7 +46,7 @@ describe('VAOS <CalendarNavigation>', () => {
   });
 
   it('test CSS class added to button', () => {
-    const tree = shallow(<CalendarNavigation />);
+    const tree = shallow(<CalendarNavigation momentMonth={moment()} />);
     const items = tree.find('button.vaos-calendar__nav-links-button');
     expect(items).to.have.lengthOf(2);
     tree.unmount();

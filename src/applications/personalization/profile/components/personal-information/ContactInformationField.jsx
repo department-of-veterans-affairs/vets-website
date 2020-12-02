@@ -345,7 +345,11 @@ class ContactInformationField extends React.Component {
     }
 
     return (
-      <div className="vet360-profile-field" data-field-name={fieldName}>
+      <div
+        className="vet360-profile-field"
+        data-field-name={fieldName}
+        data-testid={fieldName}
+      >
         <Modal
           title={'Are you sure?'}
           status="warning"
@@ -355,7 +359,7 @@ class ContactInformationField extends React.Component {
           }}
         >
           <p>
-            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won't be saved.`}
+            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won’t be saved.`}
           </p>
           <button
             className="usa-button-secondary"

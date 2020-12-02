@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import moment from 'moment';
 import set from 'platform/utilities/data/set';
 
@@ -22,9 +23,11 @@ import facilities983 from './var/facilities_983.json';
 import facilities984 from './var/facilities_984.json';
 import facilities983A6 from './var/facilities_983A6.json';
 import clinicList983 from './var/clinicList983.json';
+import clinicList612 from './var/clinicList612.json';
 import facilityDetails983 from './var/facility_details_983.json';
 import facilityDetails984 from './var/facility_details_984.json';
 import facilityData from './var/facility_data.json';
+import ccProviders from './var/cc_providers.json';
 import sitesSupportingVAR from './var/sites-supporting-var.json';
 import varSlots from './var/slots.json';
 import cancelReasons from './var/cancel_reasons.json';
@@ -42,7 +45,7 @@ export function generateMockSlots() {
   const minuteSlots = ['00:00', '20:00', '40:00'];
 
   while (times.length < 300) {
-    const daysToAdd = randomInt(1, 395);
+    const daysToAdd = randomInt(1, 60);
     const date = today
       .clone()
       .add(daysToAdd, 'day')
@@ -75,7 +78,7 @@ export function generateMockFHIRSlots() {
     const minutes = minuteSlots[Math.floor(Math.random() * minuteSlots.length)];
     const startDateTime = today
       .clone()
-      .add(randomInt(1, 395), 'day')
+      .add(randomInt(1, 60), 'day')
       .hour(randomInt(9, 16))
       .minute(minutes)
       .second(0)
@@ -160,7 +163,6 @@ export default [
   },
   {
     path: /community_care\/eligibility/,
-    delay: 2000,
     response: {
       data: {
         id: 'PrimaryCare',
@@ -221,6 +223,8 @@ export default [
     response: url => {
       if (url.includes('facilities/983/')) {
         return clinicList983;
+      } else if (url.includes('facilities/612')) {
+        return clinicList612;
       }
 
       return {
@@ -241,6 +245,10 @@ export default [
   {
     path: /v1\/facilities\/va\?ids/,
     response: facilityData,
+  },
+  {
+    path: /v1\/facilities\/ccp/,
+    response: ccProviders,
   },
   {
     path: /vaos\/v0\/facilities\/.*\/available_appointments/,

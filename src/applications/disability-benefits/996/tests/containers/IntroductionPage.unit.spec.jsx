@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import { IntroductionPage } from '../../components/IntroductionPage';
+import { IntroductionPage } from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../actions';

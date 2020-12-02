@@ -107,11 +107,14 @@ export const fetchDebtLetters = () => async dispatch => {
 
     recordEvent({
       event: 'bam-get-veteran-dmc-info-successful',
-      'veteran-has-dependent-debt': response.hasDependentDebt,
+      'veteran-has-dependent-debt': response.hasDependentDebts,
     });
 
     if (filteredResponse.length > 0) {
-      recordEvent({ 'number-of-current-debt-cards': filteredResponse.length });
+      recordEvent({
+        event: 'bam-cards-retrieved',
+        'number-of-current-debt-cards': filteredResponse.length,
+      });
     }
     // suppress VBMS call if they have dependent debt
     if (!response.hasDependentDebts) {

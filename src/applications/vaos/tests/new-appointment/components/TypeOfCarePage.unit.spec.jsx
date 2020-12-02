@@ -49,7 +49,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect(screen.getAllByRole('radio').length).to.equal(11);
+    expect((await screen.findAllByRole('radio')).length).to.equal(11);
 
     // Verify alert is shown
     expect(
@@ -117,7 +117,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
   });
 
-  it('should show type of care page without podiatry when CC flag is off', () => {
+  it('should show type of care page without podiatry when CC flag is off', async () => {
     const store = createTestStore({
       ...initialState,
       featureToggles: {
@@ -130,7 +130,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect(screen.getAllByRole('radio').length).to.equal(10);
+    expect((await screen.findAllByRole('radio')).length).to.equal(10);
   });
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
@@ -152,7 +152,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     expect(screen.getByText(/please choose a type of care/i)).to.exist;
   });
 
-  xit('should open facility type page when CC eligible and has a support parent site', async () => {
+  it('should open facility type page when CC eligible and has a support parent site', async () => {
     const parentSite983 = {
       id: '983',
       attributes: {
@@ -173,7 +173,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
     mockParentSites(['983'], [parentSite983, parentSite983GC]);
     mockCommunityCareEligibility({
-      parentSites: ['983GC', '983'],
+      parentSites: ['983', '983GC'],
       supportedSites: ['983GC'],
       careType: 'PrimaryCare',
     });
@@ -300,6 +300,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       store,
     });
 
+    await screen.findAllByRole('radio');
     expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
   });
 
@@ -328,7 +329,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(
       await screen.findByRole('heading', {
-        level: '3',
+        level: 3,
         name: /You may have trouble using the VA appointments tool right now/,
       }),
     ).to.exist;

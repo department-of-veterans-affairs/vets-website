@@ -14,12 +14,14 @@ export const ContestedIssuesTitle = props =>
       Sorry, we couldn’t find any contested issues
     </h2>
   ) : (
-    <>
-      <strong>Select the issue you would like to have reviewed</strong>
+    <legend>
+      <strong className="vads-u-font-size--lg">
+        Select the issue(s) you would like to contest
+      </strong>
       <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
         (*Required)
       </span>
-    </>
+    </legend>
   );
 
 /**
@@ -36,9 +38,9 @@ export const disabilityOption = ({ attributes }) => {
     ratingIssuePercentNumber,
     approxDecisionDate,
   } = attributes;
-  // May need to throw an error to Sentry if any of these doesn't exist
+  // May need to throw an error to Sentry if any of these don't exist
   // A valid rated disability *can* have a rating percentage of 0%
-  const showPercentNumber = Number.isInteger(ratingIssuePercentNumber);
+  const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
 
   return (
     <div className="widget-content">
@@ -71,37 +73,40 @@ const disabilitiesList = (
       <li>
         We made the decision over a year ago. You have 1 year from the date on
         your decision letter to request a Higher-Level Review.{' '}
-        <strong>Note:</strong> If you weren’t able to request a timely review
-        due to COVID-19 pandemic, we may grant you an extension of the deadline.
-        To request an extension, <DownloadLink /> and attach a note that you’re
-        requesting a filing extension due to COVID-19.
+        <strong>Note:</strong> If you aren’t able to request a timely review due
+        to COVID-19, we may grant you a deadline extension. To request an
+        extension, fill out and submit VA Form 20-0996, with a note attached
+        that you’re requesting an extension due to COVID-19.
       </li>
       <li>
-        Your issue isn’t related to monthly compensation, pension, or survivor
-        benefits. For all other benefits, like health care, insurance or
-        education, you’ll need to <DownloadLink /> and submit it by mail or in
-        person.
+        Your issue is for a benefit type other than compensation or pension. To
+        request a Higher-Level Review for another benefit type, you’ll need to
+        fill out VA Form 20-0996 and submit it by mail or in person.
       </li>
       <li>
-        The issue or decision isn’t in our system yet. You’ll need to{' '}
-        <DownloadLink /> and submit it by fax or mail.
+        The issue or decision isn’t our system yet. You’ll need to fill VA Form
+        20-0996 and submit it by mail or in person.
       </li>
       <li>
-        You’re applying for a benefit that another surviving dependent of the
-        Veteran is also applying for. And by law, only 1 of you can receive the
-        benefit. You’ll need to appeal to the Board of Veterans’ Appeals.
+        You and another surviving dependent of the Veteran are applying for the
+        same benefit. And by law, only 1 of you can receive that benefit. You’ll
+        need to{' '}
+        <a href="/decision-reviews/board-appeal/">
+          appeal to the Board of Veterans’ Appeals
+        </a>
+        .
       </li>
       <li>
         You’re requesting a review of a Board of Veterans’ Appeals decision.
-        You’ll need to refer to the Board’s decision notice for your review
-        options.
+        Refer to the Board’s decision notice for your options.
       </li>
       <li>
-        You’re requesting a review of another Higher-Level Review. You can
-        either submit a supplemental claim or appeal to the Board of Veterans’
-        Appeals.
+        You’re requesting a review of a Higher-Level Review decision. You’ll
+        need to either file a Supplemental Claim or appeal to the Board of
+        Veterans’ Appeals.
       </li>
     </ul>
+    <DownloadLink content={'Download VA Form 20-0996'} />
     <p>
       To learn more about how COVID-19 affects claims or appeals, please visit
       our <a href={COVID_FAQ_URL}>Coronavirus FAQ page</a>.
@@ -113,7 +118,7 @@ export const disabilitiesExplanationAlert = (
   <>
     <p className="vads-u-margin-top--2p5" />
     <AdditionalInfo triggerText={'Why isn’t my issue eligible?'}>
-      <p>Your issue may not be eligible for a Higher-Level Review if:</p>
+      <p>Your issue may not be eligible if:</p>
       {disabilitiesList}
     </AdditionalInfo>
   </>
@@ -141,9 +146,8 @@ export const contestedIssuesAlert = ({ formContext }) => {
       status="error"
       className="contested-issues-error vads-u-margin-top--1"
       headline="Please choose a disability"
-      content={`You need to choose the rated disability you’re requesting for a
-        Higher-Level Review. We can’t process your request without a selected
-        disability.`}
+      content={`You need to choose a rated disability before we can process your
+        request for a Higher-Level Review.`}
     />
   );
 };

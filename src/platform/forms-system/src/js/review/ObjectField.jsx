@@ -118,8 +118,14 @@ class ObjectField extends React.Component {
         });
         if (objectFields.length > 1 && visible.length > 0) {
           return objectFields
-            .filter(() =>
-              showReviewField(first, schema, uiSchema, formData, formContext),
+            .filter(propName =>
+              showReviewField(
+                propName,
+                schema,
+                uiSchema,
+                formData,
+                formContext,
+              ),
             )
             .map(renderField);
         }

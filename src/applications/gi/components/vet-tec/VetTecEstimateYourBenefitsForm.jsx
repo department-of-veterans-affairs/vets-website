@@ -11,7 +11,6 @@ import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 import { renderLearnMoreLabel } from '../../utils/render';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
@@ -102,9 +101,9 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 
   renderScholarships = () => (
     <div id="scholarships-field">
-      <label
+      <div
         htmlFor="vetTecScholarships"
-        className="vads-u-display--inline-block"
+        className="vads-u-margin-top--4 vads-u-display--inline-block"
         id="scholarships-label"
       >
         {this.renderLearnMoreLabel({
@@ -113,7 +112,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           ariaLabel: ariaLabels.learnMore.scholarships,
           labelFor: 'vetTecScholarships',
         })}
-      </label>
+      </div>
       <input
         aria-labelledby="scholarships-label"
         inputMode="decimal"
@@ -129,20 +128,16 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           });
           this.recordInputChange(e);
         }}
-        onFocus={
-          // prod flag for bah-8821
-          !environment.isProduction() &&
-          handleScrollOnInputFocus.bind(this, 'scholarships-field')
-        }
+        onFocus={handleScrollOnInputFocus.bind(this, 'scholarships-field')}
       />
     </div>
   );
 
   renderTuitionFees = () => (
     <div id="tuition-field">
-      <label
+      <div
         htmlFor="vetTecTuitionFees"
-        className="vads-u-display--inline-block"
+        className="vads-u-margin-top--3 vads-u-display--inline-block"
         id="tuition-fees-label"
       >
         {this.renderLearnMoreLabel({
@@ -151,7 +146,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           ariaLabel: ariaLabels.learnMore.tuitionAndFees,
           labelFor: 'vetTecTuitionFees',
         })}
-      </label>
+      </div>
       <input
         aria-labelledby="tuition-fees-label"
         name="vetTecTuitionFees"
@@ -167,10 +162,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           });
           this.recordInputChange(e);
         }}
-        onFocus={
-          !environment.isProduction() &&
-          handleScrollOnInputFocus.bind(this, 'tuition-field')
-        }
+        onFocus={handleScrollOnInputFocus.bind(this, 'tuition-field')}
       />
     </div>
   );

@@ -33,11 +33,11 @@ export default function VideoVisitLocation({ appointment, facility }) {
   }
 
   return (
-    <dl className="vads-u-margin--0">
-      <dt className="vads-u-font-weight--bold">
+    <>
+      <h4 className="vaos-appts__block-label">
         How to join your video appointment
-      </dt>
-      <dd>
+      </h4>
+      <div>
         <VideoLink appointment={appointment} />
         {isAtlas && (
           <div className="vads-u-margin-top--2">
@@ -55,7 +55,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
               />
             </div>
           )}
-      </dd>
-    </dl>
+      </div>
+    </>
   );
 }

@@ -8,6 +8,7 @@ import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 
 import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
 import * as loginAttempted from '../sso/loginAttempted';
+import { keepAlive } from '../sso/keepAliveSSO';
 
 function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
   const response = new Response();
@@ -335,5 +336,105 @@ describe('checkAndUpdateSSOeSession', () => {
 
   afterEach(() => {
     localStorage.clear();
+  });
+});
+
+describe.skip('keepAlive', () => {
+  let sandbox;
+  let stubFetch;
+
+  before(() => {
+    sandbox = sinon.createSandbox();
+    stubFetch = sandbox.stub(global, 'fetch');
+  });
+
+  after(() => {
+    sandbox.restore();
+  });
+
+  it('should return an empty object on a type error', () => {
+    stubFetch.rejects('TypeError');
+    return keepAlive().then(res => expect(res).to.eql({}));
+  });
+
+  it('should return ttl 0 when not alive', () => {
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'false',
+        'session-timeout': '900',
+      },
+    });
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 0,
+        transactionid: null,
+        authn: undefined,
+      });
+    });
+  });
+
+  it('should return active dslogon session', () => {
+    /* eslint-disable camelcase */
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'true',
+        'session-timeout': '900',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'DSLogon',
+      },
+    });
+    /* eslint-enable camelcase */
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: 'dslogon',
+      });
+    });
+  });
+
+  it('should return active mhv session', () => {
+    /* eslint-disable camelcase */
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'true',
+        'session-timeout': '900',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'mhv',
+      },
+    });
+    /* eslint-enable camelcase */
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: 'myhealthevet',
+      });
+    });
+  });
+
+  it('should return active idme session', () => {
+    /* eslint-disable camelcase */
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'true',
+        'session-timeout': '900',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'idme',
+        va_eauth_authncontextclassref: '/loa1',
+      },
+    });
+    /* eslint-enable camelcase */
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: '/loa1',
+      });
+    });
   });
 });
