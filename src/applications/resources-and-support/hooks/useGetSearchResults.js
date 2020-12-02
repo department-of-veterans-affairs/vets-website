@@ -33,8 +33,6 @@ export default function useGetSearchResults(articles, query, page) {
           return keyword;
         });
 
-      console.log('keywords', keywords);
-
       const filteredArticles = articles.filter(article => {
         const articleTitleKeywords = article.title.toLowerCase().split(' ');
 
