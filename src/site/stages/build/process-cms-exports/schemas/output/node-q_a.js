@@ -24,7 +24,10 @@ module.exports = {
         entity: { $ref: 'output/node-landing_page' },
       },
     },
-    fieldRelatedInformation: { $ref: 'output/paragraph-link_teaser' },
+    fieldRelatedInformation: {
+      type: 'array',
+      items: { $ref: 'output/paragraph-link_teaser' },
+    },
     fieldStandalonePage: { type: 'boolean' },
     fieldTags: {
       type: ['object', 'null'],
