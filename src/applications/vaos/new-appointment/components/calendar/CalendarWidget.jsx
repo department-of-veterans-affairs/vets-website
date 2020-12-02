@@ -266,7 +266,7 @@ export default function CalendarWidget({
 }) {
   const currentDate = moment();
   const maxMonth = getMaxMonth(maxDate, startMonth);
-  const [months, setMonths] = useState([moment(minDate)]);
+  const [months, setMonths] = useState([moment(startMonth || minDate)]);
 
   useEffect(
     () => {

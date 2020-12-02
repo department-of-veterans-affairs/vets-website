@@ -9,7 +9,7 @@ import { FETCH_STATUS } from '../../../utils/constants';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-describe.only('VAOS <DateTimeRequestPage>', () => {
+describe('VAOS <DateTimeRequestPage>', () => {
   it('should allow user to request date and time for a community care appointment', async () => {
     const store = createTestStore({
       newAppointment: {
@@ -47,6 +47,17 @@ describe.only('VAOS <DateTimeRequestPage>', () => {
           .format('MMMM YYYY'),
       }),
     ).to.be.ok;
+
+    const dayHeaders = screen
+      .getAllByRole('columnheader')
+      .map(el => el.querySelector('.sr-only').textContent);
+    expect(dayHeaders).to.deep.equal([
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+    ]);
 
     // Find all available appointments for the current month
     const currentMonth = moment()
@@ -348,7 +359,7 @@ describe.only('VAOS <DateTimeRequestPage>', () => {
     });
   });
 
-  it.only('should not allow selections after max date', async () => {
+  it('should not allow selections after max date', async () => {
     const store = createTestStore({
       newAppointment: {
         data: {
@@ -368,25 +379,34 @@ describe.only('VAOS <DateTimeRequestPage>', () => {
       },
     );
 
-    const endMonth = moment()
-      .add(120, 'days')
-      .get('month');
-    let month = moment()
-      .add(1, 'day')
-      .get('month');
-    while (month < endMonth) {
-      const button = screen.getByText('Next');
-      userEvent.click(button);
-      month++;
+    const datePastMax = moment().add(121, 'days');
+    const endMonth = datePastMax.format('MMMM YYYY');
+    let monthHeader = screen.queryByText(endMonth);
+    const nextButton = await screen.findByText(/next/i);
+    while (!monthHeader && !nextButton.disabled) {
+      userEvent.click(nextButton);
+      monthHeader = screen.queryByText(endMonth);
     }
 
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: moment()
-          .add(1, 'M')
-          .format('MMMM YYYY'),
-      }),
-    ).to.be.ok;
+    if (monthHeader) {
+      let dateButton = screen.queryByText(datePastMax.format('D'));
+      // If we can't find a date, push out two days to get past the weekend
+      if (!dateButton) {
+        dateButton = screen.queryByText(
+          datePastMax
+            .clone()
+            .add(2, 'days')
+            .format('D'),
+        );
+      }
+
+      if (dateButton) {
+        expect(dateButton.disabled).to.be.true;
+      } else {
+        // if the date button still doesn't exist, we must have
+        // hit the end of the month, so make sure we can't go further
+        expect(nextButton.disabled).to.be.true;
+      }
+    }
   });
 });

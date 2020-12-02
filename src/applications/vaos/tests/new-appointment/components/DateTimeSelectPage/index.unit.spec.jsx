@@ -759,4 +759,84 @@ describe('VAOS <DateTimeSelectPage>', () => {
       ),
     );
   });
+
+  it('should start calendar on preferred date month', async () => {
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics: [
+        {
+          id: '309',
+          attributes: {
+            ...getClinicMock(),
+            siteCode: '983',
+            clinicId: '309',
+            institutionCode: '983',
+            clinicFriendlyLocationName: 'Red team clinic',
+          },
+        },
+      ],
+      pastClinics: true,
+    });
+
+    const slot309Date = moment()
+      .add(2, 'months')
+      .day(11)
+      .hour(13)
+      .minute(0)
+      .second(0);
+    const preferredDate = moment().add(2, 'months');
+
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '309',
+      typeOfCareId: '323',
+      slots: [
+        {
+          ...getAppointmentSlotMock(),
+          startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          endDateTime: slot309Date
+            .clone()
+            .minute(20)
+            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        },
+      ],
+      preferredDate,
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /Yes/i);
+    await setPreferredDate(store, preferredDate);
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    // 1. Wait for progressbar to disappear
+    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
+
+    expect(screen.getByText('Your earliest appointment time')).to.be.ok;
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: moment()
+          .add(2, 'months')
+          .format('MMMM YYYY'),
+      }),
+    ).to.be.ok;
+  });
 });
