@@ -23,6 +23,7 @@ const DebtLetterCard = props => {
   const additionalInfo = renderAdditionalInfo(
     debt.diaryCode,
     mostRecentHistory.date,
+    debt.benefitType,
   );
 
   return (

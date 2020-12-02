@@ -36,6 +36,7 @@ class DebtDetails extends Component {
     const additionalInfo = renderAdditionalInfo(
       selectedDebt.diaryCode,
       mostRecentHistory.date,
+      selectedDebt.benefitType,
     );
 
     return (
@@ -132,7 +133,7 @@ class DebtDetails extends Component {
                     <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
                     <td>
                       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                        {debtEntry.status}
+                        {additionalInfo.status}
                       </p>
                       <p className="vads-u-margin-top--0">
                         {debtEntry.description}
