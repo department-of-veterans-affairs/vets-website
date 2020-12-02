@@ -1,8 +1,8 @@
 import set from 'platform/utilities/data/set';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
+import fullNameUI from './fullName/fullName';
 
 import fullSchema from '../0873-schema.json';
 import * as address from './address/address';
