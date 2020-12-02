@@ -82,7 +82,6 @@ const verifyPacts = async () => {
       parameters: {
         verify_stable_pacts: true,
         consumer_branch: process.env.CIRCLE_BRANCH,
-        consumer_job_id: process.env.CIRCLE_BUILD_NUM,
         consumer_workflow_id: process.env.CIRCLE_WORKFLOW_ID,
       },
     }),
