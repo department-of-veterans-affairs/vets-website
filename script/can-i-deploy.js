@@ -72,7 +72,7 @@ const verifyPacts = async () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      branch: 'master',
+      branch: 'vagovteam-16325',
       parameters: {
         verify_stable_pacts: true,
         consumer_branch: process.env.CIRCLE_BRANCH,
@@ -156,7 +156,7 @@ const checkDeployability = () => {
     .canDeploy({
       pactDir: pactsFolder,
       version: commitHash,
-      tag: 'master',
+      tag: 'vagovteam-16325',
     })
     .then(handleStatus);
 };
