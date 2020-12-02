@@ -75,7 +75,7 @@ describe('VAOS <NoValidVAFacilities>', () => {
       parentDetails,
     };
     const screen = render(<NoValidVAFacilities formContext={formContext} />);
-    screen.debug();
+
     expect(
       screen.getByRole('heading', {
         name: 'There are no mental health appointments at this location',
