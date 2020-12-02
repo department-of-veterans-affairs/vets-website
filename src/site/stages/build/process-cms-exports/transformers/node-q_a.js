@@ -19,7 +19,11 @@ const transform = entity => {
       entity: entity.fieldAlertSingle[0],
     },
     fieldAnswer: entity.fieldAnswer[0] || null,
-    fieldButtons: entity.fieldButtons,
+    fieldButtons: entity.fieldButtons.map(button => {
+      return {
+        entity: button,
+      };
+    }),
     fieldContactInformation: {
       entity: entity.fieldContactInformation[0],
     },
