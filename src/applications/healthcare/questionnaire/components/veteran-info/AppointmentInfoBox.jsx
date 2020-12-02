@@ -49,7 +49,8 @@ const AppointmentInfoBox = props => {
   useEffect(
     () => {
       // only updates teh SIP data if there is no vet information.
-      if (Object.keys(data.veteranInfo).length === 0) {
+      if (Object.keys(data.veteranInfo || {}).length === 0) {
+        // console.log( setFormData );
         setFormData({ veteranInfo });
         const returnUrl = '/demographics';
         saveForm(formId, { ...data, veteranInfo }, version, returnUrl);
@@ -147,13 +148,12 @@ const mapStateToProps = state => {
       { label: 'Temporary', data: vapContactInfo?.temporaryPhone },
     ],
     appointment: state.questionnaireData?.context?.appointment,
+    setFormData: setData,
+    saveForm: autoSaveForm,
   };
 };
 
-const mapDispatchToProps = {
-  setFormData: setData,
-  saveForm: autoSaveForm,
-};
+const mapDispatchToProps = {};
 
 export default withRouter(
   connect(
