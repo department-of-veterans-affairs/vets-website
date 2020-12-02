@@ -1,135 +1,103 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import _ from 'lodash/fp';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-
-import {
-  toIdSchema,
-  getDefaultFormState,
-  // deepEquals,
-} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-
 import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
+import {
+  toIdSchema,
+  getDefaultFormState,
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
-// export default class ItemLoop extends React.Component {
-const ItemLoop = props => {
-  // constructor(props) {
-  //   super(props);
-
-  // Throw an error if there’s no viewField (should be React component)
-  // if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
-  //   throw new Error(
-  //     `No viewField found in uiSchema for ArrayField ${
-  //       this.props.idSchema.$id
-  //     }.`,
-  //   );
-  // }
-
-  // this.state = {
-  //   editing: props.formData ? props.formData.map((item, index) => !errorSchemaIsValid(props.errorSchema[index]),) : [true],
-  // };
-  // }
+const ItemLoop = ({
+  uiSchema,
+  idSchema,
+  schema,
+  onChange,
+  registry,
+  formData,
+  errorSchema,
+  formContext,
+  disabled,
+  readonly,
+  onBlur,
+}) => {
+  const definitions = registry.definitions;
+  const { TitleField, SchemaField } = registry.fields;
+  const uiOptions = uiSchema['ui:options'] || {};
+  const title = uiSchema['ui:title'] || schema.title;
+  const hideTitle = !!uiOptions.title;
+  const description = uiSchema['ui:description'];
+  const textDescription = typeof description === 'string' ? description : null;
+  const ViewField = uiOptions.viewField;
+  const DescriptionField =
+    typeof description === 'function' ? uiSchema['ui:description'] : null;
+  const isReviewMode = uiSchema['ui:options'].reviewMode;
+  const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
   const [editing, setEditing] = useState([]);
 
+  useEffect(() => {
+    // Throw an error if there’s no viewField (should be React component)
+    if (typeof uiSchema['ui:options'].viewField !== 'function') {
+      throw new Error(
+        `No viewField found in uiSchema for ArrayField ${idSchema.$id}.`,
+      );
+    }
+    if (schema.minItems > 0 && formData.length === 0) {
+      onChange(
+        Array(schema.minItems).fill(
+          getDefaultFormState(
+            schema.additionalItems,
+            undefined,
+            registry.definitions,
+          ),
+        ),
+      );
+    }
+  });
+
   useEffect(
     () => {
-      const isEditing = props.formData
-        ? props.formData.map(
-            (item, index) => !errorSchemaIsValid(props.errorSchema[index]),
-          )
+      const isEditing = formData
+        ? formData.map((item, index) => !errorSchemaIsValid(errorSchema[index]))
         : [true];
-      setEditing(isEditing);
+
+      if (formData?.length !== editing.length) {
+        setEditing(isEditing);
+      }
     },
-    [props.errorSchema, props.formData],
+    [errorSchema, formData, editing.length],
   );
 
-  // useEffect(
-  //   () => {
-  //     // Throw an error if there’s no viewField (should be React component)
-  //     if (typeof props.uiSchema['ui:options'].viewField !== 'function') {
-  //       throw new Error(
-  //         `No viewField found in uiSchema for ArrayField ${
-  //           props.idSchema.$id
-  //         }.`,
-  //       );
-  //     }
-  //   },
-  //   [props.idSchema.$id, props.uiSchema],
-  // );
-
-  // useEffect(
-  //   () => {
-  //     const { schema, formData = [], registry } = props;
-  //     if (schema.minItems > 0 && formData.length === 0) {
-  //       props.onChange(
-  //         Array(schema.minItems).fill(
-  //           getDefaultFormState(
-  //             schema.additionalItems,
-  //             undefined,
-  //             registry.definitions,
-  //           ),
-  //         ),
-  //       );
-  //     }
-  //   },
-  //   [props],
-  // );
-
-  // componentDidMount() {
-  //   const { schema, formData = [], registry } = this.props;
-  //   if (schema.minItems > 0 && formData.length === 0) {
-  //     this.props.onChange(
-  //       Array(schema.minItems).fill(
-  //         getDefaultFormState(
-  //           schema.additionalItems,
-  //           undefined,
-  //           registry.definitions,
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // shouldComponentUpdate = (nextProps, nextState) => {
-  //   return !deepEquals(props, nextProps) || nextState !== this.state;
-  // };
-
-  const onItemChange = (indexToChange, value) => {
-    const newItems = _.set(indexToChange, value, props.formData || []);
-    props.onChange(newItems);
-  };
-
   const getItemSchema = index => {
-    const schema = props.schema;
     if (schema.items.length > index) {
       return schema.items[index];
     }
     return schema.additionalItems;
   };
 
-  // const scrollToTop = () => {
-  //   setTimeout(() => {
-  //     scroller.scrollTo(// TODO: sets new item to empty object should be integer for type number
-  //       `topOfTable_${props.idSchema.$id}`,
-  //       window.Forms?.scroll || {
-  //         duration: 500,
-  //         delay: 0,
-  //         smooth: true,
-  //         offset: -60,
-  //       },
-  //     );
-  //   }, 100);
-  // };
+  const scrollToTop = () => {
+    setTimeout(() => {
+      scroller.scrollTo(
+        `topOfTable_${idSchema.$id}`,
+        window.Forms?.scroll || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+          offset: -60,
+        },
+      );
+    }, 100);
+  };
 
   const scrollToRow = id => {
-    if (!props.uiSchema['ui:options'].doNotScroll) {
+    if (!uiSchema['ui:options'].doNotScroll) {
       setTimeout(() => {
         scroller.scrollTo(
           `table_${id}`,
@@ -144,6 +112,11 @@ const ItemLoop = props => {
     }
   };
 
+  const handleChange = (index, value) => {
+    const newItems = _.set(index, value, formData || []);
+    onChange(newItems);
+  };
+
   const handleEdit = (e, index) => {
     e.preventDefault();
     const editData = editing.map((item, i) => {
@@ -153,96 +126,62 @@ const ItemLoop = props => {
       return false;
     });
     setEditing(editData);
-    // scrollToRow(`${props.idSchema.$id}_${index}`);
+    scrollToRow(`${idSchema.$id}_${index}`);
   };
 
   const handleUpdate = (e, index) => {
     e.preventDefault();
-    if (errorSchemaIsValid(props.errorSchema[index])) {
-      // this.setState(_.set(['editing', index], false, this.state), () => {
-      //   scrollToTop();
-      // });
-
-      setEditing(_.set(['editing', index], status), () => {
-        scrollToRow(`${props.idSchema.$id}_${index}`);
+    if (errorSchemaIsValid(errorSchema[index])) {
+      const editData = editing.map(() => {
+        return false;
       });
+      setEditing(editData);
+      scrollToRow(`${idSchema.$id}_${index}`);
     } else {
       // Set all the fields for this item as touched, so we show errors
-      const touched = setArrayRecordTouched(props.idSchema.$id, index);
-      props.formContext.setTouched(touched, () => {
+      const touched = setArrayRecordTouched(idSchema.$id, index);
+      formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
     }
   };
 
   const handleAdd = () => {
-    const lastIndex = props.formData.length - 1;
-    if (errorSchemaIsValid(props.errorSchema[lastIndex])) {
-      // When we add another, we want to change the editing
+    const lastIndex = formData.length - 1;
+    if (errorSchemaIsValid(errorSchema[lastIndex])) {
+      // When we add another item we want to change the editing
       // state of the last item, but not ones above it
-
       const newEditing = editing?.map(
         (item, index) => (index + 1 === editing.length ? false : item),
       );
-
-      const newFormData = props.formData.concat(
+      const newFormData = formData.concat(
         getDefaultFormState(
-          props.schema.additionalItems,
+          schema.additionalItems,
           undefined,
-          props.registry.definitions,
+          registry.definitions,
         ),
         // ) || {}, // TODO: sets new item to empty object should be integer for type number
       );
-      props.onChange(newFormData);
+      onChange(newFormData);
       setEditing(newEditing);
-      // scrollToRow(`${props.idSchema.$id}_${lastIndex + 1}`);
+      scrollToRow(`${idSchema.$id}_${lastIndex + 1}`);
     } else {
-      const touched = setArrayRecordTouched(props.idSchema.$id, lastIndex);
-      props.formContext.setTouched(touched, () => {
+      const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
+      formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
     }
   };
 
   const handleRemove = indexToRemove => {
-    const newItems = props.formData.filter(
-      (val, index) => index !== indexToRemove,
-    );
-    const filtered = editing.filter((val, index) => index !== indexToRemove);
+    const newItems = formData.filter((item, index) => index !== indexToRemove);
+    const filtered = editing.filter((item, index) => index !== indexToRemove);
     setEditing(filtered);
-    props.onChange(newItems);
-    // this.setState(newState, () => {
-    //   scrollToTop();
-    // });
+    onChange(newItems);
+    scrollToTop();
   };
 
-  const {
-    uiSchema,
-    errorSchema,
-    idSchema,
-    formData,
-    disabled,
-    readonly,
-    registry,
-    formContext,
-    onBlur,
-    schema,
-  } = props;
-  const definitions = registry.definitions;
-  const { TitleField, SchemaField } = registry.fields;
-
-  const uiOptions = uiSchema['ui:options'] || {};
-  const ViewField = uiOptions.viewField;
-  const title = uiSchema['ui:title'] || schema.title;
-  const hideTitle = !!uiOptions.title;
-  const description = uiSchema['ui:description'];
-  const textDescription = typeof description === 'string' ? description : null;
-  const DescriptionField =
-    typeof description === 'function' ? uiSchema['ui:description'] : null;
-  const isReviewMode = uiSchema['ui:options'].reviewMode;
-  const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
-
-  // if we have form data, use that, otherwise use an array with a single default object
+  // use form data otherwise use an array with a single default object
   const items =
     formData && formData.length
       ? formData
@@ -317,9 +256,9 @@ const ItemLoop = props => {
                       errorSchema={errorSchema ? errorSchema[index] : undefined}
                       idSchema={itemIdSchema}
                       formData={item}
-                      onChange={value => onItemChange(index, value)}
+                      onChange={value => handleChange(index, value)}
                       onBlur={onBlur}
-                      registry={props.registry}
+                      registry={registry}
                       required={false}
                       disabled={disabled}
                       readonly={readonly}
@@ -377,9 +316,9 @@ const ItemLoop = props => {
         <button
           type="button"
           className={classNames('usa-button-secondary', 'va-growable-add-btn', {
-            'usa-button-disabled': !props.formData || addAnotherDisabled,
+            'usa-button-disabled': !formData || addAnotherDisabled,
           })}
-          disabled={!props.formData || addAnotherDisabled}
+          disabled={!formData || addAnotherDisabled}
           onClick={() => handleAdd()}
         >
           Add another {uiOptions.itemName}
