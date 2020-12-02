@@ -92,6 +92,9 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: yarn pact:can-i-deploy
+      - store_artifacts:
+          path: /tmp/pact-verification-pipeline.json
+          destination: pact-verification-pipeline.json
 
   security-audit:
     docker:

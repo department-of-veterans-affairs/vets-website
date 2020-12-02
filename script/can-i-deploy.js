@@ -9,6 +9,7 @@
  */
 
 const { execSync } = require('child_process');
+const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
 
@@ -20,11 +21,48 @@ const handleError = error => {
 };
 
 /**
+ * Checks whether there was a previous call to verify,
+ * based on the existence of a previously generated artifact
+ * that contains details of the invoked verification workflow.
+ */
+const hasPreviousVerification = async () => {
+  const url = path.join(
+    'https://circleci.com/api/v2',
+    'project/gh',
+    'department-of-veterans-affairs/vets-website',
+    process.env.CIRCLE_BUILD_NUM,
+    'artifacts',
+  );
+
+  const response = await fetch(url, {
+    headers: { 'Circle-Token': process.env.CIRCLE_TOKEN },
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to get artifact to check for previous verification: ${
+        response.status
+      } ${response.statusText}`,
+    );
+  }
+
+  const artifacts = await response.json();
+
+  return artifacts.some(({ path: _path }) =>
+    _path.endsWith('pact-verification-pipeline.json'),
+  );
+};
+
+/**
  * Kicks off the verification job in the vets-api CI pipeline.
  */
 const verifyPacts = async () => {
-  const url =
-    'https://circleci.com/api/v2/project/github/department-of-veterans-affairs/vets-api/pipeline';
+  const url = path.join(
+    'https://circleci.com/api/v2',
+    'project/github',
+    'department-of-veterans-affairs/vets-api',
+    'pipeline',
+  );
 
   /* eslint-disable camelcase */
   const options = {
@@ -38,7 +76,8 @@ const verifyPacts = async () => {
       parameters: {
         verify_stable_pacts: true,
         consumer_branch: process.env.CIRCLE_BRANCH,
-        consumer_workflow: process.env.CIRCLE_WORKFLOW_ID,
+        consumer_job_id: process.env.CIRCLE_BUILD_NUM,
+        consumer_workflow_id: process.env.CIRCLE_WORKFLOW_ID,
       },
     }),
   };
@@ -55,7 +94,8 @@ const verifyPacts = async () => {
   }
 
   console.log('Successfully initiated Pact verification.');
-  console.log(await response.json());
+  const pipelineData = await response.json();
+  fs.writeFileSync('/tmp/pact-verification-pipeline.json', pipelineData);
 };
 
 /**
@@ -93,6 +133,16 @@ const checkDeployability = () => {
 
     if (unknownVerificationCount) {
       console.log("Some pacts haven't been verified by the provider.");
+
+      // Check whether there was a previous attempt to verify.
+      // This prevents an infinite loop where this job and the
+      // verification job endlessly invoke each other.
+      if (await hasPreviousVerification()) {
+        throw new Error(
+          `${defaultErrorMessage}. Previous call to verify did not determine verification status.`,
+        );
+      }
+
       await verifyPacts();
       throw new Error(`${defaultErrorMessage} until verification is complete.`);
     } else {
