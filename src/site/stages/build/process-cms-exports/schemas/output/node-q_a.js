@@ -31,10 +31,7 @@ module.exports = {
     },
     fieldStandalonePage: { type: 'boolean' },
     fieldTags: {
-      type: 'array',
-      items: {
-        $ref: 'output/paragraph-audience_topics',
-      },
+      $ref: 'output/paragraph-audience_topics',
     },
     // Needed for filtering reverse fields in other transformers
     status: { $ref: 'GenericNestedBoolean' },

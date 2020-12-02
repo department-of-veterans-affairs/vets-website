@@ -10,7 +10,7 @@ const transform = entity => {
       fieldButtonLabel: getDrupalValue(entity.fieldButtonLabel),
       fieldButtonLink: {
         url: {
-          path: entity.fieldButtonLink[0].uri,
+          path: entity.fieldButtonLink[0]?.uri,
         },
       },
     },

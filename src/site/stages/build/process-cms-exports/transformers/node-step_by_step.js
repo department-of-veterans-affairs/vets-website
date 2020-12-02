@@ -28,7 +28,7 @@ const transform = entity => {
     fieldRelatedInformation: entity.fieldRelatedInformation,
     fieldPrimaryCategory: entity.fieldPrimaryCategory[0] || null,
     fieldOtherCategories: entity.fieldOtherCategories,
-    fieldTags: entity.fieldTags,
+    fieldTags: entity.fieldTags[0],
   };
 };
 

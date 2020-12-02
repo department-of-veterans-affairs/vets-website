@@ -23,7 +23,7 @@ const transform = entity => {
     fieldPrimaryCategory: entity.fieldPrimaryCategory[0] || null,
     fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
     fieldRelatedInformation: entity.fieldRelatedInformation,
-    fieldTags: entity.fieldTags,
+    fieldTags: entity.fieldTags[0],
   };
 };
 
