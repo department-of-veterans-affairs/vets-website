@@ -145,6 +145,7 @@ const FacilitiesMap = props => {
       locationBounds.extend(
         new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
       );
+      map.fitBounds(locationBounds, { padding: 20 });
     }
 
     if (props.currentQuery.searchArea) {
@@ -157,8 +158,6 @@ const FacilitiesMap = props => {
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
     }
-
-    map.fitBounds(locationBounds, { padding: 20 });
   };
 
   const handleSearch = async () => {
@@ -188,6 +187,7 @@ const FacilitiesMap = props => {
     const { currentQuery } = props;
     currentZoom = null;
     const center = map.getCenter().wrap();
+    const bounds = map.getBounds();
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': currentQuery.facilityType,
@@ -199,6 +199,12 @@ const FacilitiesMap = props => {
       lat: center.lat,
       lng: center.lng,
       currentMapBoundsDistance,
+      currentBounds: [
+        parseFloat(bounds._sw.lng.toFixed(2)),
+        parseFloat(bounds._sw.lat.toFixed(2)),
+        parseFloat(bounds._ne.lng.toFixed(2)),
+        parseFloat(bounds._ne.lat.toFixed(2)),
+      ],
     });
   };
 
