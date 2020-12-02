@@ -190,7 +190,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
     expect(await screen.findByText(/displaying 1 to 5 of 16 providers/i)).to
       .exist;
-    expect(await screen.findByRole('button', { name: /cancel/i })).to.exist;
+    userEvent.click(await screen.findByRole('button', { name: /cancel/i }));
     expect(screen.baseElement).to.contain.text(
       'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
     );

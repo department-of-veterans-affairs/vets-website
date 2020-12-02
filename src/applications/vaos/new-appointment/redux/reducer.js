@@ -117,6 +117,7 @@ const initialState = {
   hideUpdateAddressAlert: false,
   requestLocationStatus: FETCH_STATUS.notStarted,
   communityCareProviderList: [],
+  requestStatus: FETCH_STATUS.notStarted,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {

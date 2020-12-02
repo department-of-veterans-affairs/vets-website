@@ -41,9 +41,9 @@ function ProviderSelectionField({
 
   useEffect(
     () => {
-      if (showProvidersList && !loadingProviders) {
+      if (showProvidersList) {
         scrollAndFocus('h2');
-      } else if (mounted && !showProvidersList) {
+      } else if (mounted) {
         scrollAndFocus('.va-button-link');
       }
     },
@@ -183,40 +183,38 @@ function ProviderSelectionField({
       {requestStatus === FETCH_STATUS.succeeded &&
         showProvidersList && (
           <div className="vads-u-display--flex">
-            {requestStatus === FETCH_STATUS.succeeded &&
-              !loadingProviders &&
-              showProvidersList &&
-              providersListLength < communityCareProviderList.length && (
-                <>
-                  <button
-                    type="button"
-                    className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
-                    onClick={() =>
-                      setProvidersListLength(providersListLength + 5)
-                    }
-                  >
-                    <span className="additional-info-title">
-                      +{' '}
-                      {Math.min(
-                        communityCareProviderList.length - providersListLength,
-                        INITIAL_PROVIDER_DISPLAY_COUNT,
-                      )}{' '}
-                      more providers
-                      <i className="fas fa-angle-down vads-u-padding-right--0p5" />
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-                    onClick={() => {
-                      setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
-                      setShowProvidersList(false);
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </>
-              )}
+            {providersListLength < communityCareProviderList.length && (
+              <>
+                <button
+                  type="button"
+                  className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
+                  onClick={() =>
+                    setProvidersListLength(providersListLength + 5)
+                  }
+                >
+                  <span className="additional-info-title">
+                    +{' '}
+                    {Math.min(
+                      communityCareProviderList.length - providersListLength,
+                      INITIAL_PROVIDER_DISPLAY_COUNT,
+                    )}{' '}
+                    more providers
+                    <i className="fas fa-angle-down vads-u-padding-right--0p5" />
+                  </span>
+                </button>
+              </>
+            )}
+            <button
+              type="button"
+              className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+              onClick={() => {
+                setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
+                setShowProvidersList(false);
+              }}
+              aria-label="Cancel choosing a provider"
+            >
+              Cancel
+            </button>
           </div>
         )}
     </div>
