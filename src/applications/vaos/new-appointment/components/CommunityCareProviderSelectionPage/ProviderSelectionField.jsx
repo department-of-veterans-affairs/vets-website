@@ -47,7 +47,7 @@ function ProviderSelectionField({
         scrollAndFocus('.va-button-link');
       }
     },
-    [showProvidersList, loadingProviders],
+    [showProvidersList],
   );
 
   return (
