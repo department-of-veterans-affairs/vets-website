@@ -14,7 +14,6 @@ const transform = entity => {
     changed: utcToEpochTime(getDrupalValue(entity.changed)),
     entityMetatags: createMetaTagArray(entity.metatag.value),
     entityPublished: isPublished(getDrupalValue(entity.status)),
-    fieldAdministration: entity.fieldAdministration[0],
     fieldStandalonePage: getDrupalValue(entity.fieldStandalonePage),
     fieldAlertSingle: {
       entity: entity.fieldAlertSingle[0],
@@ -24,11 +23,27 @@ const transform = entity => {
     fieldContactInformation: {
       entity: entity.fieldContactInformation[0],
     },
-    fieldOtherCategories: entity.fieldOtherCategories,
-    fieldPrimaryCategory: entity.fieldPrimaryCategory[0],
-    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
-    fieldRelatedInformation: entity.fieldRelatedInformation,
-    fieldTags: entity.fieldTags,
+    fieldOtherCategories: entity.fieldOtherCategories.map(category => {
+      return {
+        entity: entity.fieldOtherCategories
+      }
+    }),
+    fieldPrimaryCategory: {
+      entity: entity.fieldPrimaryCategory[0],
+    },
+    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs.map(benefitHub => {
+      return {
+        entity: benefitHub,
+      }
+    }),
+    fieldRelatedInformation: entity.fieldRelatedInformation.map(info => {
+      return {
+        entity: info
+      }
+    }),
+    fieldTags: {
+      entity: entity.fieldTags,
+    },
   };
 };
 
