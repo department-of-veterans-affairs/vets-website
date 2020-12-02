@@ -6,8 +6,12 @@ module.exports = {
       properties: {
         entityId: { type: 'string' },
         fieldAlertSelection: { type: 'string' },
-        fieldAlertNonReusableRef: { type: 'boolean' },
-        fieldAlertBlockReference: { $ref: 'output/block_content-alert' },
+        fieldAlertNonReusableRef: {
+          oneOf: [{ $ref: 'output/paragraph-alert' }, { type: 'null' }],
+        },
+        fieldAlertBlockReference: {
+          oneOf: [{ $ref: 'output/block_content-alert' }, { type: 'null' }],
+        },
       },
       required: [
         'entityId',

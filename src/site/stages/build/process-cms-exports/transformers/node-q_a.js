@@ -15,9 +15,7 @@ const transform = entity => {
     entityMetatags: createMetaTagArray(entity.metatag.value),
     entityPublished: isPublished(getDrupalValue(entity.status)),
     fieldStandalonePage: getDrupalValue(entity.fieldStandalonePage),
-    fieldAlertSingle: {
-      entity: entity.fieldAlertSingle[0],
-    },
+    fieldAlertSingle: entity.fieldAlertSingle[0],
     fieldAnswer: entity.fieldAnswer[0] || null,
     fieldButtons: entity.fieldButtons.map(button => {
       return {
@@ -29,7 +27,7 @@ const transform = entity => {
     },
     fieldOtherCategories: entity.fieldOtherCategories.map(category => {
       return {
-        entity: entity.category,
+        entity: category,
       };
     }),
     fieldPrimaryCategory: {
