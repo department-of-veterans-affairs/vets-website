@@ -26,13 +26,16 @@ const handleError = error => {
  * that contains details of the invoked verification workflow.
  */
 const hasPreviousVerification = async () => {
-  const url = path.join(
-    'https://circleci.com/api/v2',
-    'project/gh',
-    'department-of-veterans-affairs/vets-website',
-    process.env.CIRCLE_BUILD_NUM,
-    'artifacts',
-  );
+  const url = new URL(
+    path.join(
+      'api/v2',
+      'project/gh',
+      'department-of-veterans-affairs/vets-website',
+      process.env.CIRCLE_BUILD_NUM,
+      'artifacts',
+    ),
+    'https://circleci.com',
+  ).toString();
 
   const response = await fetch(url, {
     headers: { 'Circle-Token': process.env.CIRCLE_TOKEN },
@@ -57,12 +60,15 @@ const hasPreviousVerification = async () => {
  * Kicks off the verification job in the vets-api CI pipeline.
  */
 const verifyPacts = async () => {
-  const url = path.join(
-    'https://circleci.com/api/v2',
-    'project/github',
-    'department-of-veterans-affairs/vets-api',
-    'pipeline',
-  );
+  const url = new URL(
+    path.join(
+      'api/v2',
+      'project/github',
+      'department-of-veterans-affairs/vets-api',
+      'pipeline',
+    ),
+    'https://circleci.com',
+  ).toString();
 
   /* eslint-disable camelcase */
   const options = {

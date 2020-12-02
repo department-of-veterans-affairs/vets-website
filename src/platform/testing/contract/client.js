@@ -52,9 +52,10 @@ const generateBasicAuthHeader = (username, password) => ({
 /**
  * Validates and escapes a string URL and returns it as a string.
  * @param {string} url - String to be validated as URL.
+ * @param {string} [base] - Base URL string.
  * @return {string} URL that's been validated and cast to string.
  */
-const urlString = url => new URL(url).toString();
+const urlString = (url, base) => new URL(url, base).toString();
 
 /**
  * Client that interacts with a Pact Broker.
@@ -104,12 +105,12 @@ module.exports = class PactBrokerClient {
 
     const url = urlString(
       path.join(
-        this.url,
         'pacts',
         `provider/${provider}`,
         `consumer/${consumer}`,
         `version/${version}`,
       ),
+      this.url,
     );
 
     const response = await fetch(url, {
@@ -146,12 +147,11 @@ module.exports = class PactBrokerClient {
 
     const url = urlString(
       path.join(
-        this.url,
-        'pacticipants',
-        consumer,
+        `pacticipants/${consumer}`,
         `versions/${version}`,
         `tags/${tag}`,
       ),
+      this.url,
     );
 
     const response = await fetch(url, {
@@ -220,7 +220,7 @@ module.exports = class PactBrokerClient {
    * @return {VerificationContext[]}
    */
   createVerificationContexts = ({ pactDir, version, tag }) => {
-    const baseUrl = new URL(path.join(this.url, 'matrix'));
+    const baseUrl = new URL('matrix', this.url);
     // Get latest result for each consumer version and provider (cvp) pairing.
     // In other words, checks if this consumer version has passed verification
     // with all of its providers on the latest versions with the given tag.
