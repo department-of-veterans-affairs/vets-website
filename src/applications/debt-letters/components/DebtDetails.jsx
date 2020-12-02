@@ -36,6 +36,7 @@ class DebtDetails extends Component {
     const additionalInfo = renderAdditionalInfo(
       selectedDebt.diaryCode,
       mostRecentHistory.date,
+      selectedDebt.benefitType,
     );
 
     return (
