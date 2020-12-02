@@ -94,7 +94,6 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
 }
 
 function build(BUILD_OPTIONS) {
-  global.buildOptions = BUILD_OPTIONS;
   const smith = silverSmith();
 
   registerLiquidFilters();

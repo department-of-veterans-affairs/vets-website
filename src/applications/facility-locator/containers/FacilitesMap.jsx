@@ -23,6 +23,12 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
+
+import mapboxClient from '../components/MapboxClient';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+
+const mbxClient = mbxGeo(mapboxClient);
+
 import {
   setFocus,
   buildMarker,
@@ -407,6 +413,32 @@ const FacilitiesMap = props => {
     );
   };
 
+  const genLocationFromCoords = position => {
+    mbxClient
+      .reverseGeocode({
+        query: [position.longitude, position.latitude],
+        types: ['address'],
+      })
+      .send()
+      .then(({ body: { features } }) => {
+        const placeName = features[0].place_name;
+        const zipCode =
+          features[0].context.find(v => v.id.includes('postcode')).text || '';
+
+        props.updateSearchQuery({
+          searchString: placeName,
+          context: zipCode,
+          position,
+        });
+
+        updateUrlParams({
+          address: placeName,
+          context: zipCode,
+        });
+      })
+      .catch(error => error);
+  };
+
   useEffect(
     () => {
       const {
@@ -447,6 +479,17 @@ const FacilitiesMap = props => {
     };
 
     searchWithUrl();
+
+    // TODO - improve the geolocation feature with a more react approach
+    // https://github.com/department-of-veterans-affairs/vets-website/pull/14963
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(currentPosition => {
+        const input = document.getElementById('street-city-state-zip');
+        if (input && !input.value) {
+          genLocationFromCoords(currentPosition.coords);
+        }
+      });
+    }
 
     const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);
