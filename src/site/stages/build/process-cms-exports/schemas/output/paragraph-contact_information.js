@@ -6,9 +6,14 @@ module.exports = {
       properties: {
         entityBundle: { type: 'string' },
         fieldBenefitHubContacts: {
-          type: ['object', 'null'],
-          properties: {
-            entity: { $ref: 'output/node-landing_page' },
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              entity: {
+                $ref: 'output/node-landing_page',
+              },
+            },
           },
         },
         fieldContactDefault: { $ref: 'output/node-support_service' },

@@ -4,11 +4,15 @@ const { getDrupalValue } = require('./helpers');
 
 const transform = entity => {
   return {
-    entityType: 'paragraph',
-    entityBundle: 'contact_information',
-    fieldAdditionalContact: entity.fieldAdditionalContact[0] || null,
-    fieldBenefitHubContacts: entity.fieldBenefitHubContacts,
-    fieldContactDefault: entity.fieldContactDefault[0] || null,
+    entity: {
+      entityType: 'paragraph',
+      entityBundle: 'contact_information',
+      fieldAdditionalContact: entity.fieldAdditionalContact[0] || null,
+      fieldBenefitHubContacts: entity.fieldBenefitHubContacts.map(entity => {
+        return { entity };
+      }),
+      fieldContactDefault: entity.fieldContactDefault[0] || null,
+    },
   };
 };
 
