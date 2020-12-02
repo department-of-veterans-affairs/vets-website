@@ -24,17 +24,17 @@ const ADDRESS_PROPS = [
 class CopyMailingAddress extends React.Component {
   onChange = event => {
     event.stopPropagation();
-    const shouldClearValues = this.props.hasChecked && !event.target.checked;
-    let address;
+    const shouldClearHomeAddress =
+      this.props.hasChecked && !event.target.checked;
 
     // Upon explicit unchecking of 'my home address is the same as my mailing address'
-    if (shouldClearValues) {
-      address = mapValues(this.props.mailingAddress, () => null);
+    if (shouldClearHomeAddress) {
+      const address = mapValues(this.props.mailingAddress, () => null);
       this.props.copyMailingAddress(address, this.props.checked);
     }
 
     if (event.target.checked) {
-      address = pick(this.props.mailingAddress, ADDRESS_PROPS);
+      const address = pick(this.props.mailingAddress, ADDRESS_PROPS);
       this.props.copyMailingAddress(address, this.props.checked);
     }
   };
