@@ -305,6 +305,8 @@ export function checkEligibility({ location, siteId, showModal }) {
     });
 
     try {
+      const loadingStartTime = Date.now();
+
       const eligibilityData = await getEligibilityData(
         location,
         typeOfCareId,
@@ -312,6 +314,13 @@ export function checkEligibility({ location, siteId, showModal }) {
         directSchedulingEnabled,
         useVSP,
       );
+
+      if (showModal) {
+        recordEvent({
+          event: 'loading-indicator-displayed',
+          'loading-indicator-display-time': Date.now() - loadingStartTime,
+        });
+      }
 
       recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
       logEligibilityExplanation(eligibilityData, typeOfCareId, location.id);

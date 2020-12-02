@@ -220,7 +220,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     });
 
     expect(
-      screen.getByLabelText(/Bozeman VA medical center/i),
+      await screen.findByLabelText(/Bozeman VA medical center/i),
     ).to.have.attribute('checked');
   });
 

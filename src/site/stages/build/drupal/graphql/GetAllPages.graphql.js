@@ -55,7 +55,7 @@ queryParamToBeChanged.forEach(param => {
 
 const regex = new RegExp(`${regString}`, 'g');
 
-const buildQuery = async ({ useTomeSync }) => {
+const buildQuery = ({ useTomeSync }) => {
   const nodeContentFragments = useTomeSync
     ? ''
     : `
@@ -134,8 +134,6 @@ const buildQuery = async ({ useTomeSync }) => {
    * Queries for all of the pages out of Drupal
    * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
    */
-  const sideNavQuery = await facilitySidebarQuery.compiledQuery();
-
   const query = `
 
   ${nodeContentFragments}
@@ -144,7 +142,7 @@ const buildQuery = async ({ useTomeSync }) => {
     ${nodeQuery}
     ${icsFileQuery}
     ${sidebarQuery}
-    ${sideNavQuery}
+    ${facilitySidebarQuery}
     ${outreachSidebarQuery}
     ${alertsQuery}
     ${bannerAlertsQuery}

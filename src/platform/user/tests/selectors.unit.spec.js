@@ -29,6 +29,45 @@ describe('user selectors', () => {
     });
   });
 
+  describe('hasVAPServiceConnectionError', () => {
+    it('returns `true` if `user.profile.vapContactInfo.status === "SERVER_ERROR"`', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              status: 'SERVER_ERROR',
+            },
+          },
+        },
+      };
+      expect(selectors.hasVAPServiceConnectionError(state)).to.be.true;
+    });
+    it('returns `false` if `user.profile.vapContactInfo.status` is not "SERVER_ERROR"', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              status: 'NOT_FOUND',
+            },
+          },
+        },
+      };
+      expect(selectors.hasVAPServiceConnectionError(state)).to.be.false;
+    });
+    it('returns `false` if `user.profile.vapContactInfo.status` does not exist', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              email: {},
+            },
+          },
+        },
+      };
+      expect(selectors.hasVAPServiceConnectionError(state)).to.be.false;
+    });
+  });
+
   describe('selectVAPEmailAddress', () => {
     it('pulls out the state.profile.vapContactInfo.emailAddress', () => {
       const state = {

@@ -76,9 +76,11 @@ async function errorAppearsOnAllPages(
 
   let alert = await view.findByTestId(ALERT_ID);
   expect(alert).to.exist;
-  expect(alert).to.contain.html('We can’t load all of your information');
   expect(alert).to.contain.html(
-    'We’re sorry. Something went wrong on our end. We can’t display all the information on this page. Please refresh the page or try again later.',
+    'We can’t load all the information in your profile',
+  );
+  expect(alert).to.contain.html(
+    'We’re sorry. Something went wrong on our end. We can’t display all the information in your profile. Please refresh the page or try again later.',
   );
 
   pageNames.forEach(pageName => {
