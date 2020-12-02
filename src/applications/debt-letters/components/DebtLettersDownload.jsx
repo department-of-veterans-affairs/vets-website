@@ -7,10 +7,12 @@ import { DebtLettersTable } from './DebtLettersTable';
 import { MobileTableView } from './MobileTableView';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { setPageFocus } from '../utils/page';
 
 const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   useEffect(() => {
     scrollToTop();
+    setPageFocus('h1');
   });
   const renderAlert = () => (
     <div
@@ -48,7 +50,11 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
         </a>
       </Breadcrumbs>
       <div className="large-screen:vads-l-col--8">
-        <h1 id="downloadDebtLetters" className="vads-u-margin-bottom--2">
+        <h1
+          id="downloadDebtLetters"
+          className="vads-u-margin-bottom--2"
+          tabIndex="-1"
+        >
           Download debt letters{' '}
         </h1>
         <p className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--lg">
