@@ -392,7 +392,7 @@ export const DirectDepositContent = ({
                 scrollOnShow
               >
                 We’ve updated your bank account information for your{' '}
-                <strong>compensation and pension benefits</strong>.
+                <strong>compensation and pension benefits</strong>
               </AlertBox>
             )}
           </ReactCSSTransitionGroup>
