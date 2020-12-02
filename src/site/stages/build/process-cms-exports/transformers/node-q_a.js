@@ -29,11 +29,7 @@ const transform = entity => {
     fieldPrimaryCategory: {
       entity: entity.fieldPrimaryCategory[0],
     },
-    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs.map(benefitHub => {
-      return {
-        entity: benefitHub,
-      };
-    }),
+    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
     fieldRelatedInformation: entity.fieldRelatedInformation.map(info => {
       return {
         entity: info,
