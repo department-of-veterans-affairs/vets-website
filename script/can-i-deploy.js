@@ -51,7 +51,7 @@ const hasPreviousVerification = async () => {
 
   const artifacts = await response.json();
 
-  return artifacts.some(({ path: _path }) =>
+  return artifacts.items.some(({ path: _path }) =>
     _path.endsWith('pact-verification-pipeline.json'),
   );
 };
