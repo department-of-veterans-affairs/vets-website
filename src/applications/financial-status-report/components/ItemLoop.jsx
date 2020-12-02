@@ -156,7 +156,8 @@ const ItemLoop = props => {
     // scrollToRow(`${props.idSchema.$id}_${index}`);
   };
 
-  const handleUpdate = index => {
+  const handleUpdate = (e, index) => {
+    e.preventDefault();
     if (errorSchemaIsValid(props.errorSchema[index])) {
       // this.setState(_.set(['editing', index], false, this.state), () => {
       //   scrollToTop();
@@ -189,8 +190,8 @@ const ItemLoop = props => {
           props.schema.additionalItems,
           undefined,
           props.registry.definitions,
-          // ) || {}, // TODO: sets new item to empty object should be integer for type number
-        ) || undefined,
+        ),
+        // ) || {}, // TODO: sets new item to empty object should be integer for type number
       );
       props.onChange(newFormData);
       setEditing(newEditing);
@@ -330,7 +331,7 @@ const ItemLoop = props => {
                         {(!isLast || showSave) && (
                           <button
                             className="float-left"
-                            onClick={() => handleUpdate(index)}
+                            onClick={e => handleUpdate(e, index)}
                             aria-label={`${updateText} ${title}`}
                           >
                             {updateText}
