@@ -5,9 +5,10 @@ const { getDrupalValue } = require('./helpers');
 const transform = entity => ({
   entityType: 'taxonomy_term',
   entityBundle: 'lc_categories',
+  name: entity.name,
 });
 
 module.exports = {
-  filter: [''],
+  filter: ['name'],
   transform,
 };
