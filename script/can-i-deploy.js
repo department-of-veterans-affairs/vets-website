@@ -100,8 +100,11 @@ const verifyPacts = async () => {
   }
 
   console.log('Successfully initiated Pact verification.');
-  const pipelineData = await response.json();
-  fs.writeFileSync('/tmp/pact-verification-pipeline.json', pipelineData);
+
+  fs.writeFileSync(
+    '/tmp/pact-verification-pipeline.json',
+    JSON.stringify(await response.json(), null, 2),
+  );
 };
 
 /**
