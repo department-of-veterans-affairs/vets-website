@@ -216,7 +216,6 @@
     "jsdom": "^15.2.1",
     "json2csv": "^4.2.1",
     "jsonschema": "^1.1.1",
-    "libxmljs": "^0.19.7",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-date-in-filename": "^0.0.14",
     "mini-css-extract-plugin": "^0.9.0",
@@ -302,6 +301,7 @@
     "jsonschema": "^1.1.1",
     "leaflet": "^1.6.0",
     "leaflet-control-geocoder": "^1.13.0",
+    "libxmljs2": "^0.26.5",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.19",
     "mapbox-gl": "^1.12.0",
@@ -344,7 +344,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#4f2d386700245582301ae2b04ddd629e422697a0",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8a9ef5109d833dcc65a1bf2c2ae785c3cccb1466",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

@@ -31,17 +31,6 @@ const getDateFromButtonId = button => {
 };
 
 describe('VAOS <CalendarWidget>', () => {
-  it('should render 2 calendars', () => {
-    const tree = mount(<CalendarWidget monthsToShowAtOnce={2} />);
-    const cell = tree.find('.vaos-calendar__container');
-    expect(cell.length).to.equal(2);
-    const navigation = tree.find('.vaos-calendar__nav-links');
-    expect(navigation.length).to.equal(1);
-    const weekdayHeaders = tree.find('.vaos-calendar__weekday-container');
-    expect(weekdayHeaders.length).to.equal(2);
-    tree.unmount();
-  });
-
   it('should render loading indicator if loadingStatus === "loading"', () => {
     const tree = shallow(
       <CalendarWidget
@@ -91,7 +80,7 @@ describe('VAOS <CalendarWidget>', () => {
     );
     const cell = tree.find('.vaos-calendar__container');
     expect(cell.length).to.equal(1);
-    const navigation = tree.find('.vaos-calendar__nav-links');
+    const navigation = tree.find('.vaos-calendar__nav');
     expect(navigation.length).to.equal(1);
     const weekdayHeaders = tree.find('.vaos-calendar__weekday-container');
     expect(weekdayHeaders.length).to.equal(1);
@@ -106,9 +95,9 @@ describe('VAOS <CalendarWidget>', () => {
 
     expect(
       tree
-        .find('h2')
-        .at(0)
-        .text(),
+        .find('CalendarNavigation')
+        .prop('momentMonth')
+        .format('MMMM YYYY'),
     ).to.equal(moment().format('MMMM YYYY'));
 
     tree.unmount();

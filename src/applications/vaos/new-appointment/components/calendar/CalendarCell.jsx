@@ -30,7 +30,8 @@ const CalendarCell = ({
           if (optionsHeightRef?.current && buttonRef?.current) {
             const newHeight =
               optionsHeightRef.current.getBoundingClientRect().height +
-              buttonRef.current.getBoundingClientRect().height;
+              buttonRef.current.getBoundingClientRect().height +
+              10;
 
             if (newHeight !== optionsHeight) {
               setOptionsHeight(newHeight);
@@ -41,7 +42,8 @@ const CalendarCell = ({
         if (optionsHeightRef?.current && buttonRef?.current) {
           const newHeight =
             optionsHeightRef.current.getBoundingClientRect().height +
-            buttonRef.current.getBoundingClientRect().height;
+            buttonRef.current.getBoundingClientRect().height +
+            10;
 
           if (newHeight !== optionsHeight) {
             setOptionsHeight(newHeight);

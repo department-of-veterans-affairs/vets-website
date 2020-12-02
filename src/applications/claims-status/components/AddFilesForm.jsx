@@ -1,15 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
-
-import recordEvent from 'platform/monitoring/record-event';
 
 import ErrorableFileInput from '@department-of-veterans-affairs/formation-react/ErrorableFileInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+
+import recordEvent from 'platform/monitoring/record-event';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { checkForEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
 
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
@@ -47,31 +51,44 @@ const scrollToError = () => {
 const Element = Scroll.Element;
 
 class AddFilesForm extends React.Component {
-  constructor() {
-    super();
-    this.add = this.add.bind(this);
-    this.getErrorMessage = this.getErrorMessage.bind(this);
-    this.submit = this.submit.bind(this);
-    this.state = {
-      errorMessage: null,
-      checked: false,
-      errorMessageCheckbox: null,
-    };
-  }
-  getErrorMessage() {
+  state = {
+    errorMessage: null,
+    checked: false,
+    errorMessageCheckbox: null,
+  };
+
+  getErrorMessage = () => {
     if (this.state.errorMessage) {
       return this.state.errorMessage;
     }
     return validateIfDirty(this.props.field, () => this.props.files.length > 0)
       ? undefined
       : 'Please select a file first';
-  }
-  add(files) {
+  };
+
+  isFileEncrypted = async file =>
+    checkForEncryptedPdf(file)
+      .then(isEncrypted => isEncrypted)
+      // This _should_ only happen if a file is deleted after the user selects
+      // it for upload
+      .catch(() => false);
+
+  add = async files => {
     const file = files[0];
+    const { requestLockedPdfPassword, onAddFile } = this.props;
+    const extraData = {};
 
     if (isValidFile(file)) {
+      // Check if the file is an encrypted PDF
+      if (
+        requestLockedPdfPassword && // feature flag
+        file.name?.endsWith('pdf')
+      ) {
+        extraData.isEncrypted = await this.isFileEncrypted(file);
+      }
+
       this.setState({ errorMessage: null });
-      this.props.onAddFile(files);
+      onAddFile([file], extraData);
       setTimeout(() => {
         scrollToFile(this.props.files.length - 1);
         setFocus(
@@ -95,17 +112,24 @@ class AddFilesForm extends React.Component {
           'The file you selected is empty. Files uploaded must be larger than 0B.',
       });
     }
-  }
-  submit() {
+  };
+
+  submit = () => {
     this.setState(
       this.state.checked
         ? { errorMessageCheckbox: null }
         : { errorMessageCheckbox: 'Please accept the above' },
     );
 
+    const { files } = this.props;
+    const hasPasswords = files.every(
+      file => !file.isEncrypted || (file.isEncrypted && file.password.value),
+    );
+
     if (
-      this.props.files.length > 0 &&
-      this.props.files.every(isValidDocument) &&
+      files.length > 0 &&
+      files.every(isValidDocument) &&
+      hasPasswords &&
       this.state.checked
     ) {
       this.props.onSubmit();
@@ -113,14 +137,15 @@ class AddFilesForm extends React.Component {
       this.props.onDirtyFields();
       setTimeout(scrollToError);
     }
-  }
+  };
+
   render() {
     return (
       <div>
         <div>
           <p>
             <a
-              href
+              href="#"
               onClick={evt => {
                 evt.preventDefault();
                 recordEvent({
@@ -156,46 +181,74 @@ class AddFilesForm extends React.Component {
           <p className="file-requirement-header">Maximum file size:</p>
           <p className="file-requirement-text">50MB</p>
         </div>
-        {this.props.files.map(({ file, docType }, index) => (
-          <div key={index} className="document-item-container">
-            <Element name={`documentScroll${index}`} />
-            <div>
-              <div className="document-title-row">
-                <div className="document-title-text-container">
-                  <div>
-                    <span className="document-title">{file.name}</span>
+        {this.props.files.map(
+          ({ file, docType, isEncrypted, password }, index) => (
+            <div key={index} className="document-item-container">
+              <Element name={`documentScroll${index}`} />
+              <div>
+                <div className="document-title-row">
+                  <div className="document-title-text-container">
+                    <div>
+                      <span className="document-title">{file.name}</span>
+                    </div>
+                    <div>{displayFileSize(file.size)}</div>
                   </div>
-                  <div>{displayFileSize(file.size)}</div>
+                  <div className="remove-document-button">
+                    <button
+                      className="usa-button-secondary"
+                      onClick={() => this.props.onRemoveFile(index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-                <div className="remove-document-button">
-                  <button
-                    className="usa-button-secondary"
-                    onClick={() => this.props.onRemoveFile(index)}
-                  >
-                    Remove
-                  </button>
-                </div>
+                {isEncrypted && (
+                  <>
+                    <p className="clearfix">
+                      This is en encrypted PDF document. In order for us to be
+                      able to view the document, we will need the password to
+                      decrypt it.
+                    </p>
+                    <ErrorableTextInput
+                      required
+                      errorMessage={
+                        validateIfDirty(password, isNotBlank)
+                          ? undefined
+                          : 'Please provide a password to decrypt this file'
+                      }
+                      name="password"
+                      label={'PDF password'}
+                      field={password}
+                      onValueChange={update => {
+                        this.props.onFieldChange(
+                          `files[${index}].password`,
+                          update,
+                        );
+                      }}
+                    />
+                  </>
+                )}
+                <div className="clearfix" />
+                <ErrorableSelect
+                  required
+                  errorMessage={
+                    validateIfDirty(docType, isNotBlank)
+                      ? undefined
+                      : 'Please provide a response'
+                  }
+                  name="docType"
+                  label="What type of document is this?"
+                  options={DOC_TYPES}
+                  value={docType}
+                  emptyDescription="Select a description"
+                  onValueChange={update =>
+                    this.props.onFieldChange(`files[${index}].docType`, update)
+                  }
+                />
               </div>
-              <div className="clearfix" />
-              <ErrorableSelect
-                required
-                errorMessage={
-                  validateIfDirty(docType, isNotBlank)
-                    ? undefined
-                    : 'Please provide a response'
-                }
-                name="docType"
-                label="What type of document is this?"
-                options={DOC_TYPES}
-                value={docType}
-                emptyDescription="Select a description"
-                onValueChange={update =>
-                  this.props.onFieldChange(`files[${index}].docType`, update)
-                }
-              />
             </div>
-          </div>
-        ))}
+          ),
+        )}
         <ErrorableCheckbox
           onValueChange={checked => {
             this.setState({ checked });
@@ -270,4 +323,10 @@ AddFilesForm.propTypes = {
   onDirtyFields: PropTypes.func.isRequired,
 };
 
-export default AddFilesForm;
+const mapStateToProps = state => ({
+  requestLockedPdfPassword: toggleValues(state).request_locked_pdf_password,
+});
+
+export { AddFilesForm };
+
+export default connect(mapStateToProps)(AddFilesForm);

@@ -11,7 +11,6 @@ import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 import { renderLearnMoreLabel } from '../../utils/render';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
@@ -129,11 +128,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           });
           this.recordInputChange(e);
         }}
-        onFocus={
-          // prod flag for bah-8821
-          !environment.isProduction() &&
-          handleScrollOnInputFocus.bind(this, 'scholarships-field')
-        }
+        onFocus={handleScrollOnInputFocus.bind(this, 'scholarships-field')}
       />
     </div>
   );
@@ -167,10 +162,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           });
           this.recordInputChange(e);
         }}
-        onFocus={
-          !environment.isProduction() &&
-          handleScrollOnInputFocus.bind(this, 'tuition-field')
-        }
+        onFocus={handleScrollOnInputFocus.bind(this, 'tuition-field')}
       />
     </div>
   );
