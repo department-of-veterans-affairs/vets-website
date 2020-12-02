@@ -21,7 +21,9 @@ const transform = entity => {
     },
     fieldAnswer: entity.fieldAnswer[0] || null,
     fieldButtons: entity.fieldButtons,
-    fieldContactInformation: entity.fieldContactInformation[0],
+    fieldContactInformation: {
+      entity: entity.fieldContactInformation[0],
+    },
     fieldOtherCategories: entity.fieldOtherCategories,
     fieldPrimaryCategory: entity.fieldPrimaryCategory[0],
     fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
