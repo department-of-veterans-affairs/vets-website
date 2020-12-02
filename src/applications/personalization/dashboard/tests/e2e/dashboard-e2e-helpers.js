@@ -152,6 +152,39 @@ export const addUserPreferences = {
   },
 };
 
+// response from POST user/preferences after they have deleted a selection but still have selections remaining
+export const removeSinglePreference = {
+  data: {
+    id: '',
+    type: 'arrays',
+    attributes: {
+      userPreferences: [
+        {
+          code: 'benefits',
+          title:
+            'the benefits a veteran is interested in, so VA.gov can help you apply for them',
+          userPreferences: [
+            {
+              code: 'disability',
+              description:
+                'Find benefits for an illness or injury related to a veterans service',
+            },
+          ],
+        },
+      ],
+    },
+  },
+};
+
+// response from DELETE /user/preferences/benefits/delete_all
+export const deleteAllPreferences = {
+  data: {
+    id: '',
+    type: 'hashes',
+    attributes: { preferenceCode: 'benefits', userPreferences: [] },
+  },
+};
+
 export function makeUserObject(options = {}) {
   const services = [];
   if (options.rx) {

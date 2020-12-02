@@ -1,6 +1,5 @@
 import {
   addUserPreferences,
-  enrollmentStatusNotEnrolled,
   getPreferencesChoices,
   getUserPreferencesEmpty,
   makeUserObject,
@@ -28,11 +27,6 @@ describe('MyVA Dashboard - Find VA Benefits', () => {
         getPreferencesChoices,
       );
       cy.route('POST', '/v0/user/preferences', addUserPreferences);
-      cy.route(
-        'GET',
-        '/v0/health_care_applications/enrollment_status',
-        enrollmentStatusNotEnrolled,
-      );
     });
     it('should allow them to select some benefits to learn more about', () => {
       cy.visit('my-va/');
