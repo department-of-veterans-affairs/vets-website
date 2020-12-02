@@ -23,6 +23,7 @@ import {
 } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import { distBetween } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -113,6 +114,8 @@ export const fetchLocations = async (
   serviceType,
   page,
   dispatch,
+  center,
+  radius,
 ) => {
   try {
     const data = await LocatorApi.searchWithBounds(
@@ -121,6 +124,8 @@ export const fetchLocations = async (
       locationType,
       serviceType,
       page,
+      center,
+      radius,
     );
     // Record event as soon as API return results
     if (data.errors) {
@@ -145,6 +150,8 @@ export const searchWithBounds = ({
   facilityType,
   serviceType,
   page = 1,
+  center,
+  radius,
 }) => {
   const needsAddress = [
     LocationType.CC_PROVIDER,
@@ -179,10 +186,21 @@ export const searchWithBounds = ({
           serviceType,
           page,
           dispatch,
+          center,
+          radius,
         );
       });
     } else {
-      fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
+      fetchLocations(
+        null,
+        bounds,
+        facilityType,
+        serviceType,
+        page,
+        dispatch,
+        center,
+        radius,
+      );
     }
   };
 };
@@ -258,10 +276,19 @@ export const genBBoxFromAddress = query => {
             Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
           ];
         }
+
+        const radius = distBetween(
+          features[0].bbox[1],
+          features[0].bbox[0],
+          features[0].bbox[3],
+          features[0].bbox[2],
+        );
+
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
+            radius,
             context: zipCode,
             id: Date.now(),
             inProgress: true,
@@ -331,9 +358,17 @@ export const genSearchAreaFromCenter = query => {
             ];
           }
 
+          const radius = distBetween(
+            features[0].bbox[1],
+            features[0].bbox[0],
+            features[0].bbox[3],
+            features[0].bbox[2],
+          );
+
           dispatch({
             type: SEARCH_QUERY_UPDATED,
             payload: {
+              radius,
               searchString: location,
               context: location,
               searchArea: {

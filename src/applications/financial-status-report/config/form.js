@@ -8,31 +8,40 @@ import GetFormHelp from '../components/GetFormHelp';
 import {
   availableDebts,
   employmentHistory,
-  otherIncome,
+  additionalIncome,
   veteranInfo,
   spouseEmployment,
+  spouseSocialSecurity,
+  spouseBenefits,
   spouseAdditionalEmployment,
   dependents,
   householdAssets,
+  householdExpenses,
   spouseInformation,
+  spouseAdditionalIncome,
 } from '../pages';
 
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
   householdIncomeTitle: 'Household income',
   householdAssets: 'Household Assets',
+  householdExpenses: 'Household Expenses',
 };
 
 const formPageTitles = {
   veteranInfo: 'Veteran information',
   availableDebts: 'Available Debts',
   employmentHistory: 'Your employment history',
-  otherIncome: 'Other income',
-  spouseEmployment: 'Your spouse information',
-  spouseAdditionalEmployment: 'Your spouse information',
+  additionalIncome: 'Additional Income',
+  spouseInformation: 'Spouse information',
+  spouseEmployment: 'Spouse employment',
+  spouseAdditionalEmployment: 'Spouse additonal employment',
+  spouseSocialSecurity: 'Spouse social security',
+  spouseBenefits: 'Spouse benefits',
+  spouseAdditionalIncome: 'Spouse additional Income',
   dependents: 'Dependents',
   householdAssets: 'Household Assets',
-  spouseInformation: 'Spouse Information',
+  householdExpenses: 'Household Expenses',
 };
 
 const formConfig = {
@@ -95,11 +104,11 @@ const formConfig = {
           uiSchema: employmentHistory.uiSchema,
           schema: employmentHistory.schema,
         },
-        [formPageTitles.otherIncome]: {
-          path: 'other-income',
-          title: formPageTitles.otherIncome,
-          uiSchema: otherIncome.uiSchema,
-          schema: otherIncome.schema,
+        [formPageTitles.additionalIncome]: {
+          path: 'additional-income',
+          title: formPageTitles.additionalIncome,
+          uiSchema: additionalIncome.uiSchema,
+          schema: additionalIncome.schema,
         },
         [formPageTitles.spouseInformation]: {
           path: 'spouse-information',
@@ -119,6 +128,24 @@ const formConfig = {
           uiSchema: spouseAdditionalEmployment.uiSchema,
           schema: spouseAdditionalEmployment.schema,
         },
+        [formPageTitles.spouseBenefits]: {
+          path: 'spouse-benefits',
+          title: formPageTitles.spouseBenefits,
+          uiSchema: spouseBenefits.uiSchema,
+          schema: spouseBenefits.schema,
+        },
+        [formPageTitles.spouseSocialSecurity]: {
+          path: 'spouse-social-security',
+          title: formPageTitles.spouseSocialSecurity,
+          uiSchema: spouseSocialSecurity.uiSchema,
+          schema: spouseSocialSecurity.schema,
+        },
+        [formPageTitles.spouseAdditionalIncome]: {
+          path: 'spouse-additional-income',
+          title: formPageTitles.spouseAdditionalIncome,
+          uiSchema: spouseAdditionalIncome.uiSchema,
+          schema: spouseAdditionalIncome.schema,
+        },
         [formPageTitles.dependents]: {
           path: 'dependents',
           title: formPageTitles.dependents,
@@ -131,10 +158,21 @@ const formConfig = {
       title: formChapterTitles.householdAssets,
       pages: {
         [formPageTitles.householdAssets]: {
-          path: 'assets',
+          path: 'household-assets',
           title: formPageTitles.householdAssets,
           uiSchema: householdAssets.uiSchema,
           schema: householdAssets.schema,
+        },
+      },
+    },
+    householdExpensesChapter: {
+      title: formChapterTitles.householdExpenses,
+      pages: {
+        [formPageTitles.householdExpenses]: {
+          path: 'household-expenses',
+          title: formPageTitles.householdExpenses,
+          uiSchema: householdExpenses.uiSchema,
+          schema: householdExpenses.schema,
         },
       },
     },

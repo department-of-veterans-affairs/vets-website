@@ -116,6 +116,18 @@ describe('Actions', () => {
       expect(action).to.eql({
         type: ADD_FILE,
         files: 'Testing',
+        isEncrypted: false,
+      });
+    });
+  });
+  describe('addFile with encrypted flag', () => {
+    it('should return the correct action object', () => {
+      const action = addFile('Testing', { isEncrypted: true });
+
+      expect(action).to.eql({
+        type: ADD_FILE,
+        files: 'Testing',
+        isEncrypted: true,
       });
     });
   });
