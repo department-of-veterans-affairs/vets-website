@@ -17,11 +17,7 @@ const transform = entity => {
     fieldStandalonePage: getDrupalValue(entity.fieldStandalonePage),
     fieldAlertSingle: entity.fieldAlertSingle[0],
     fieldAnswer: entity.fieldAnswer[0] || null,
-    fieldButtons: entity.fieldButtons.map(button => {
-      return {
-        entity: button,
-      };
-    }),
+    fieldButtons: entity.fieldButtons,
     fieldContactInformation: {
       entity: entity.fieldContactInformation[0],
     },

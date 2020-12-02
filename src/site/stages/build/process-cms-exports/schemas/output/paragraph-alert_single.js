@@ -1,8 +1,8 @@
 module.exports = {
-  type: ['object', 'null'],
+  type: 'object',
   properties: {
     entity: {
-      type: 'object',
+      type: ['object', 'null'],
       properties: {
         entityId: { type: 'string' },
         fieldAlertSelection: { type: 'string' },

@@ -8,7 +8,10 @@ module.exports = {
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldAlertSingle: { $ref: 'output/paragraph-alert_single' },
     fieldAnswer: { $ref: 'output/paragraph-rich_text_char_limit_1000' },
-    fieldButtons: { $ref: 'output/paragraph-button' },
+    fieldButtons: {
+      type: 'array',
+      items: { $ref: 'output/paragraph-button' },
+    },
     fieldContactInformation: { $ref: 'output/paragraph-contact_information' },
     fieldOtherCategories: {
       type: 'array',

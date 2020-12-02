@@ -1,7 +1,15 @@
 module.exports = {
-  type: ['array', 'null'],
-  items: {
-    properties: {
+  type: 'object',
+  required: ['entity'],
+  properties: {
+    entity: {
+      type: ['object', 'null'],
+      required: [
+        'entityId',
+        'entityBundle',
+        'fieldButtonLabel',
+        'fieldButtonLink',
+      ],
       entityId: { type: 'string' },
       entityBundle: { type: 'string' },
       fieldButtonLabel: { type: 'string' },
@@ -19,11 +27,5 @@ module.exports = {
         required: ['url'],
       },
     },
-    required: [
-      'entityId',
-      'entityBundle',
-      'fieldButtonLabel',
-      'fieldButtonLink',
-    ],
   },
 };
