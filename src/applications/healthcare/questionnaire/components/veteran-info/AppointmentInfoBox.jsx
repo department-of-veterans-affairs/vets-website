@@ -1,22 +1,29 @@
-import moment from 'moment';
-import { genderLabels } from 'platform/static-data/labels';
 import React, { useEffect, useMemo, useState } from 'react';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import AddressView from './AddressView';
-import PhoneNumberView from './PhoneNumberView';
-import AppointmentDisplay from './AppointmentDisplay';
+import moment from 'moment';
+
+import { genderLabels } from 'platform/static-data/labels';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { selectProfile, selectVAPContactInfo } from 'platform/user/selectors';
 
-const AppointmentInfoBox = ({
-  userFullName,
-  dateOfBirth,
-  gender,
-  addresses,
-  phoneNumbers,
-  appointment,
-  setFormData,
-}) => {
+import AddressView from './AddressView';
+import PhoneNumberView from './PhoneNumberView';
+import AppointmentDisplay from './AppointmentDisplay';
+import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
+
+const AppointmentInfoBox = props => {
+  const {
+    userFullName,
+    dateOfBirth,
+    gender,
+    addresses,
+    phoneNumbers,
+    appointment,
+    setFormData,
+    saveForm,
+    form,
+  } = props;
   const [phones] = useState(phoneNumbers);
   const [allAddresses] = useState(addresses);
   const fullName = useMemo(
@@ -31,19 +38,24 @@ const AppointmentInfoBox = ({
   );
 
   const { residential, mailing } = allAddresses;
-
+  const { formId, version, data } = form;
+  const veteranInfo = {
+    gender,
+    dateOfBirth,
+    fullName,
+    phones,
+    addresses: allAddresses,
+  };
   useEffect(
     () => {
-      const veteranInfo = {
-        gender,
-        dateOfBirth,
-        fullName,
-        phones,
-        addresses: allAddresses,
-      };
-      setFormData({ veteranInfo });
+      // only updates teh SIP data if there is no vet information.
+      if (Object.keys(data.veteranInfo).length === 0) {
+        setFormData({ veteranInfo });
+        const returnUrl = '/demographics';
+        saveForm(formId, { ...data, veteranInfo }, version, returnUrl);
+      }
     },
-    [setFormData, gender, dateOfBirth, fullName, phones, allAddresses],
+    [setFormData, saveForm, veteranInfo, formId, version, data],
   );
 
   return (
@@ -120,6 +132,7 @@ const mapStateToProps = state => {
   const profile = selectProfile(state);
   const vapContactInfo = selectVAPContactInfo(state);
   return {
+    form: state.form,
     userFullName: profile.userFullName,
     dateOfBirth: profile.dob,
     gender: profile.gender,
@@ -139,9 +152,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setFormData: setData,
+  saveForm: autoSaveForm,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AppointmentInfoBox);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AppointmentInfoBox),
+);
