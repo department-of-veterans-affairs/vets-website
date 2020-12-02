@@ -14,17 +14,19 @@ const transform = entity => {
   return {
     entityType: 'node',
     entityBundle: 'step_by_step',
+    entityMetatags: createMetaTagArray(entity.metatag.value),
+    entityPublished: isPublished(getDrupalValue(entity.status)),
     changed: utcToEpochTime(getDrupalValue(entity.changed)),
     title: getDrupalValue(entity.title),
-    fieldIntroTextLimitedHtml: entity.fieldIntroTextLimitedHtml,
-    fieldAlertSingle: entity.fieldAlertSingle,
+    fieldIntroTextLimitedHtml: entity.fieldIntroTextLimitedHtml[0],
+    fieldAlertSingle: entity.fieldAlertSingle[0],
     fieldButtons: entity.fieldButtons,
-    fieldButtonsRepeat: entity.fieldButtonsRepeat,
+    fieldButtonsRepeat: getDrupalValue(entity.fieldButtonsRepeat),
     fieldSteps: entity.fieldSteps,
-    fieldContactInformation: entity.fieldContactInformation,
+    fieldContactInformation: entity.fieldContactInformation[0] || null,
     fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
     fieldRelatedInformation: entity.fieldRelatedInformation,
-    fieldPrimaryCategory: entity.fieldPrimaryCategory,
+    fieldPrimaryCategory: entity.fieldPrimaryCategory[0] || null,
     fieldOtherCategories: entity.fieldOtherCategories,
     fieldTags: entity.fieldTags,
   };
@@ -32,7 +34,11 @@ const transform = entity => {
 
 module.exports = {
   filter: [
+    'title',
+    'created',
     'changed',
+    'metatag',
+    'status',
     'field_alert_single',
     'field_buttons',
     'field_buttons_repeat',
@@ -44,11 +50,6 @@ module.exports = {
     'field_related_information',
     'field_steps',
     'field_tags',
-    'metatag',
-    'path',
-    'status',
-    'title',
-    'uid',
   ],
   transform,
 };

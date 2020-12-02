@@ -3,25 +3,16 @@
 module.exports = {
   type: 'object',
   properties: {
-    path: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          alias: { type: 'string' },
-          langcode: { type: 'string' },
-          pathauto: { type: 'number' },
-        },
-        required: ['alias', 'langcode', 'pathauto'],
-      },
-      maxItems: 1,
-    },
-    metatag: { $ref: 'RawMetaTags' },
-    uid: { $ref: 'EntityReferenceArray' },
-    title: { $ref: 'GenericNestedString' },
-    changed: { type: 'number' },
+    entityType: { type: 'string', enum: ['node'] },
+    entityBundle: { type: 'string', enum: ['step_by_step'] },
+    entityMetatags: { $ref: 'MetaTags' },
+    entityPublished: { type: 'boolean' },
+    title: { type: 'string' },
     fieldAlertSingle: { $ref: 'output/paragraph-alert_single' },
-    fieldButtons: { $ref: 'output/paragraph-button' },
+    fieldButtons: {
+      type: 'array',
+      items: { $ref: 'output/paragraph-button' },
+    },
     fieldButtonsRepeat: { type: 'boolean' },
     fieldContactInformation: { $ref: 'output/paragraph-contact_information' },
     fieldIntroTextLimitedHtml: {
@@ -42,23 +33,28 @@ module.exports = {
         entity: { $ref: 'output/node-landing_page' },
       },
     },
-    fieldRelatedInformation: { $ref: 'output/paragraph-link_teaser' },
+    fieldRelatedInformation: {
+      type: 'array',
+      items: { $ref: 'output/paragraph-link_teaser' },
+    },
     fieldSteps: {
       type: 'array',
       items: { $ref: 'output/paragraph-step_by_step' },
     },
     fieldTags: {
-      type: ['object', 'null'],
-      properties: {
-        entity: { $ref: 'output/paragraph-audience_topics' },
+      type: 'array',
+      items: {
+        $ref: 'output/paragraph-audience_topics',
       },
     },
     // Needed for filtering reverse fields in other transformers
     status: { $ref: 'GenericNestedBoolean' },
   },
   required: [
+    'title',
     'changed',
-    'fieldAlertSingle',
+    'entityMetatags',
+    'entityPublished',
     'fieldButtons',
     'fieldButtonsRepeat',
     'fieldContactInformation',
@@ -69,10 +65,5 @@ module.exports = {
     'fieldRelatedInformation',
     'fieldSteps',
     'fieldTags',
-    'metatag',
-    'path',
-    'status',
-    'title',
-    'uid',
   ],
 };

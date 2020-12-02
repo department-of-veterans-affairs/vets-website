@@ -5,7 +5,7 @@ const transform = entity => ({
     fieldAudienceBeneficiares: entity.fieldAudienceBeneficiares[0]
       ? entity.fieldAudienceBeneficiares[0]
       : null,
-    fieldTopics: entity.fieldTopics[0] ? entity.fieldTopics[0] : [],
+    fieldTopics: entity.fieldTopics,
   },
 });
 

@@ -45,7 +45,6 @@ module.exports = {
     'changed',
     'entityMetatags',
     'entityPublished',
-    'fieldAlertSingle',
     'fieldAnswer',
     'fieldButtons',
     'fieldContactInformation',
