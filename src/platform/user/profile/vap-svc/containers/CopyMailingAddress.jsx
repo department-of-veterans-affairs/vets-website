@@ -30,13 +30,13 @@ class CopyMailingAddress extends React.Component {
     // Upon explicit unchecking of 'my home address is the same as my mailing address'
     if (shouldClearValues) {
       address = mapValues(this.props.mailingAddress, () => null);
+      this.props.copyMailingAddress(address, this.props.checked);
     }
 
     if (event.target.checked) {
       address = pick(this.props.mailingAddress, ADDRESS_PROPS);
+      this.props.copyMailingAddress(address, this.props.checked);
     }
-
-    this.props.copyMailingAddress(address, this.props.checked);
   };
 
   render() {

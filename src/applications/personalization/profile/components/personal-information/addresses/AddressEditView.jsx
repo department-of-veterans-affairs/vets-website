@@ -14,7 +14,7 @@ class AddressEditView extends React.Component {
     focusElement(`#${this.props.fieldName}-edit-link`);
   }
 
-  // We need to clear the values in the addres form when the user un-checks
+  // We need to clear the values in the address form when the user un-checks
   // my home address is the same as my mailing address. This logic ensures that the
   // mailing address is not cleared upon render
 
