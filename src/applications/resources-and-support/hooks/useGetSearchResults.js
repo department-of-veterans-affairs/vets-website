@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import sortBy from 'lodash/sortBy';
 // Relative imports.
+import { SEARCH_IGNORE_LIST } from '../constants';
 import recordEvent from 'platform/monitoring/record-event';
 
 export default function useGetSearchResults(articles, query, page) {
@@ -15,7 +16,9 @@ export default function useGetSearchResults(articles, query, page) {
       }
 
       const keywords = query
+        .replace(new RegExp(SEARCH_IGNORE_LIST.join('|'), 'gi'), '')
         .split(' ')
+        .filter((word) => !!word)
         .map(keyword => keyword.toLowerCase())
         .map(keyword => {
           if (keyword.length > 6 && keyword.endsWith('ies')) {
@@ -29,6 +32,8 @@ export default function useGetSearchResults(articles, query, page) {
           }
           return keyword;
         });
+
+      console.log('keywords', keywords);
 
       const filteredArticles = articles.filter(article => {
         const articleTitleKeywords = article.title.toLowerCase().split(' ');
