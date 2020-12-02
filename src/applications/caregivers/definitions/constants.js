@@ -17,6 +17,7 @@ export const vetFields = {
 };
 
 export const primaryCaregiverFields = {
+  hasPrimaryCaregiver: 'view:hasPrimaryCaregiver',
   address: 'primaryAddress',
   alternativePhoneNumber: 'primaryAlternativePhoneNumber',
   dateOfBirth: 'primaryDateOfBirth',
@@ -28,7 +29,6 @@ export const primaryCaregiverFields = {
   verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
   hasHealthInsurance: 'primaryHasHealthInsurance',
-  hasPrimaryCaregiver: 'view:hasPrimaryCaregiver',
 };
 
 export const secondaryCaregiverFields = {

@@ -14,6 +14,7 @@ import {
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
+  hasSecondaryTwoPages,
 } from 'applications/caregivers/helpers';
 
 import definitions, {
@@ -188,21 +189,21 @@ const formConfig = {
         secondaryTwoCaregiverOne: {
           path: 'secondary-two-1',
           title: 'Secondary Family Caregiver information',
-          depends: formData => hasSecondaryCaregiverOne(formData),
+          depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: hasSecondaryTwoCaregiverPage.uiSchema,
           schema: hasSecondaryTwoCaregiverPage.schema,
         },
         secondaryTwoCaregiverTwo: {
           path: 'secondary-two-2',
           title: 'Secondary Family Caregiver (2) applicant information',
-          depends: formData => hasSecondaryCaregiverTwo(formData),
+          depends: formData => hasSecondaryTwoPages(formData),
           uiSchema: secondaryTwoInfoPage.uiSchema,
           schema: secondaryTwoInfoPage.schema,
         },
         secondaryTwoCaregiverThree: {
           path: 'secondary-two-3',
           title: secondaryCaregiversUI.secondaryTwoChapterTitle,
-          depends: formData => hasSecondaryCaregiverTwo(formData),
+          depends: formData => hasSecondaryTwoPages(formData),
           uiSchema: secondaryTwoContactPage.uiSchema,
           schema: secondaryTwoContactPage.schema,
         },

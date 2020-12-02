@@ -130,11 +130,36 @@ export const hasSecondaryCaregiverOne = formData => {
   ];
 };
 
+/*  TODO: need two functions 
+    one for hasSecondaryTwo question page
+    this function is going to be based off of
+    hasSecondaryOne || hasSecondaryFullName
+
+    one for hasSecondaryPages
+    this function is going to be based off of
+    hasSecondaryTwo
+
+*/
+
 export const hasSecondaryCaregiverTwo = formData => {
-  return formData[
-    secondaryCaregiverFields.secondaryTwo.hasSecondaryCaregiverTwo
-  ];
+  const hasSecondaryOne =
+    formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverOne];
+
+  const hasSecondaryFirstName = !!formData[
+    secondaryCaregiverFields.secondaryTwo.fullName
+  ]?.first;
+
+  const hasSecondaryLastName = !!formData[
+    secondaryCaregiverFields.secondaryTwo.fullName
+  ]?.last;
+
+  const hasSecondaryTwoFullName = hasSecondaryFirstName && hasSecondaryLastName;
+
+  return hasSecondaryOne || hasSecondaryTwoFullName;
 };
+
+export const hasSecondaryTwoPages = formData =>
+  formData[secondaryCaregiverFields.secondaryTwo.hasSecondaryCaregiverTwo];
 
 const isSSNUnique = formData => {
   const {
