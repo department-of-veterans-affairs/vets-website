@@ -27,7 +27,7 @@ const verifyPacts = async () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      branch: 'vagovteam-16325',
+      branch: 'master',
       parameters: {
         verify_stable_pacts: true,
         consumer_branch: process.env.CIRCLE_BRANCH,

@@ -31,7 +31,7 @@ const checkDeployability = async (retries = 3, timeout = 30) => {
   const { verificationResults, canDeploy } = await pactBrokerClient.canDeploy({
     pactDir: pactsFolder,
     version: commitHash,
-    tag: 'vagovteam-16325',
+    tag: 'master',
   });
 
   if (canDeploy) {
