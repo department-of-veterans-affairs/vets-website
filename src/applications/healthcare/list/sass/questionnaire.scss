@@ -93,11 +93,19 @@ ul.questionnaire-list {
     }
     .answer-button {
       display: flex;
-      min-width: 28%;
-      max-width: 28%;
-
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      text-align: center;
+      i {
+        display: none;
+      }
+      @include media($medium-screen) {
+        justify-content: space-between;
+        width: 19rem;
+        i{
+          display: inherit;
+        }
+      }
     }
     .completed-date, .due-date{
       font-weight: bold;
