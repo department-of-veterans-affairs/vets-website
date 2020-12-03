@@ -1,4 +1,5 @@
 import sinon from 'sinon';
+import { expect } from 'chai';
 import {
   term,
   like,
@@ -50,6 +51,27 @@ contractTest('My Messages', 'VA.gov API', mockApi => {
       const dispatch = sinon.stub();
 
       await fetchInquiries()(dispatch);
+    });
+
+    it('returns 401 if user is not logged in', async () => {
+      await mockApi().addInteraction({
+        state: 'not logged in',
+        uponReceiving: 'a GET request',
+        withRequest: {
+          method: 'GET',
+          path: '/v0/messages/inquiries',
+          headers: {
+            'X-Key-Inflection': 'camel',
+          },
+        },
+        willRespondWith: {
+          status: 401,
+        },
+      });
+
+      const dispatch = sinon.stub();
+
+      await expect(fetchInquiries()(dispatch)).to.be.rejected;
     });
   });
 });
