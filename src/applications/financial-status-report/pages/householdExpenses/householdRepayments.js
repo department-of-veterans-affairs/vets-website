@@ -1,5 +1,5 @@
-import ItemLoop from '../components/ItemLoop';
-import CardDetailsView from '../components/CardDetailsView';
+import ItemLoop from '../../components/ItemLoop';
+import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other repayments',
