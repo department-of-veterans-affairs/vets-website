@@ -145,15 +145,12 @@ function VetTecSearchPage({
   const queryFilterFields = getQueryFilterFields();
   useEffect(
     () => {
-      if (
-        !search.inProgress &&
-        !_.isEqual(search.query, queryFilterFields.query)
-      ) {
+      if (!search.inProgress) {
         dispatchInstitutionFilterChange(queryFilterFields.institutionFilter);
         dispatchFetchProgramSearchResults(queryFilterFields.query);
       }
     },
-    [location.search, queryFilterFields.query],
+    [!_.isEqual(search.query, queryFilterFields.query)],
   );
 
   useEffect(

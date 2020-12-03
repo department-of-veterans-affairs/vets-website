@@ -26,6 +26,7 @@ export const uiSchema = {
           'ui:field': ItemLoop,
           'ui:options': {
             viewField: IncomeView,
+            doNotScroll: true,
           },
           items: {
             'ui:title': 'Additional income:',

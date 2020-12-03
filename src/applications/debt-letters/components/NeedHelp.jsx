@@ -26,9 +26,8 @@ const NeedHelp = () => (
     </ul>
     <p>
       You may be required to submit a financial status report. Call the DMC at{' '}
-      <Telephone contact="8008270648" />
-      between 6:30 a.m. and 6:00 p.m. CT discuss your options and next steps.
-      For international callers, use{' '}
+      <Telephone contact="8008270648" /> between 6:30 a.m. and 6:00 p.m. CT to
+      discuss your options and next steps. For international callers, use{' '}
       <Telephone contact="6127136415" pattern={PATTERNS.OUTSIDE_US} />
       {'.'}
     </p>

@@ -1,1 +1,21 @@
 export const RESULTS_PER_PAGE = 10;
+export const SEARCH_IGNORE_LIST = [
+  'of',
+  'the',
+  'a',
+  'an',
+  'as',
+  'at',
+  'and',
+  'or',
+  'but',
+  'for',
+  'from',
+  'to',
+  'in',
+  'on',
+  'by',
+  'with',
+  'so',
+  'yet',
+];
