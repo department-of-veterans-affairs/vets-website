@@ -18,6 +18,7 @@ export const uiSchema = {
         'ui:field': ItemLoop,
         'ui:options': {
           viewField: DependentView,
+          doNotScroll: true,
         },
         items: {
           'ui:title': 'Age in years:',

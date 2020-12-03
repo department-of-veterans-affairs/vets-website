@@ -43,6 +43,7 @@ export const uiSchema = {
           'ui:field': ItemLoop,
           'ui:options': {
             viewField: PayrollDeductionView,
+            doNotScroll: true,
           },
           items: {
             'ui:title': 'Payroll deductions',
