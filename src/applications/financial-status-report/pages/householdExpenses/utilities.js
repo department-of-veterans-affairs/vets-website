@@ -3,7 +3,7 @@ import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
-  householdUtilities: {
+  utilities: {
     hasUtility: {
       'ui:title':
         'Do you pay any utility bills, such as electricity, water, or gas?',
@@ -35,7 +35,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    householdUtilities: {
+    utilities: {
       type: 'object',
       properties: {
         hasUtility: {

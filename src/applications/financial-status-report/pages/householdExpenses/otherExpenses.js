@@ -9,7 +9,7 @@ export const uiSchema = {
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    expenses: {
+    expenseRecords: {
       'ui:options': {
         expandUnder: 'hasExpenses',
         viewField: CardDetailsView,
@@ -40,7 +40,7 @@ export const schema = {
         hasExpenses: {
           type: 'boolean',
         },
-        expenses: {
+        expenseRecords: {
           type: 'array',
           items: {
             type: 'object',

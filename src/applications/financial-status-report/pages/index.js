@@ -10,9 +10,9 @@ import * as dependents from './householdIncome/dependents';
 import * as householdAssets from './householdAssets/householdAssets';
 import * as spouseInformation from './householdIncome/spouseInformation';
 import * as spouseSocialSecurity from './householdIncome/spouseSocialSecurity';
-import * as householdExpenses from './householdExpenses/householdExpenses';
-import * as householdUtilities from './householdExpenses/householdUtilities';
-import * as householdRepayments from './householdExpenses/householdRepayments';
+import * as expenses from './householdExpenses/expenses';
+import * as utilities from './householdExpenses/utilities';
+import * as repayments from './householdExpenses/repayments';
 import * as otherExpenses from './householdExpenses/otherExpenses';
 
 export {
@@ -28,8 +28,8 @@ export {
   spouseSocialSecurity,
   dependents,
   householdAssets,
-  householdExpenses,
-  householdUtilities,
-  householdRepayments,
+  expenses,
+  utilities,
+  repayments,
   otherExpenses,
 };

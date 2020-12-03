@@ -1,6 +1,6 @@
 export const uiSchema = {
   'ui:title': 'Your monthly household expenses',
-  householdExpenses: {
+  expenses: {
     housingExpense: {
       'ui:title':
         'How much do you spend on housing each month? Please include expenses such as rent, mortgage, taxes, and HOA fees',
@@ -16,7 +16,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    householdExpenses: {
+    expenses: {
       type: 'object',
       properties: {
         housingExpense: {
