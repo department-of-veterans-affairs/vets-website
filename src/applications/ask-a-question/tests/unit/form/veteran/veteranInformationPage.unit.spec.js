@@ -42,7 +42,7 @@ function addressFieldsShouldExist(wrapper, fieldSetName) {
   getLabelText(wrapper, 'City', fieldSetName).shouldExist();
   getLabelText(wrapper, 'State', fieldSetName).shouldExist();
   getLabelText(wrapper, 'Country', fieldSetName).shouldExist();
-  getLabelText(wrapper, 'Postal code', fieldSetName).shouldExist();
+  getLabelText(wrapper, 'Zip code', fieldSetName).shouldExist();
 }
 
 function nameFieldsShouldNotExist(wrapper, fieldSetName) {
@@ -188,8 +188,6 @@ describe('Veteran Information Page', () => {
       });
 
       it('should show veteran information', () => {
-        getText(wrapper, veteranInformationHeader).shouldExist();
-
         nameFieldsShouldExist(wrapper, 'veteranInformation');
         addressFieldsShouldExist(wrapper, 'veteranInformation');
         getLabelText(
@@ -275,8 +273,6 @@ describe('Veteran Information Page', () => {
         isDependent: false,
       });
 
-      getText(wrapper, dependentInformationHeader, '').shouldExist();
-
       relationshipToVeteranShouldExist(wrapper);
       nameFieldsShouldExist(wrapper, 'dependentInformation');
       addressFieldsShouldExist(wrapper, 'dependentInformation');
@@ -309,8 +305,6 @@ describe('Veteran Information Page', () => {
       });
 
       it('should show veteran information', () => {
-        getText(wrapper, veteranInformationHeader, '').shouldExist();
-
         nameFieldsShouldExist(wrapper, 'veteranInformation');
         addressFieldsShouldExist(wrapper, 'veteranInformation');
         getLabelText(

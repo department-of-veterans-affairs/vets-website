@@ -1,5 +1,3 @@
-import SectionHeader from '../components/SectionHeader';
-
 /* --------------- Inquiry --------------- */
 export const inquiryChapterTitle = "Tell us the reason you're contacting us";
 export const inquiryPageTitle = 'Your message';
@@ -26,9 +24,6 @@ export const veteranInformationChapterTitle = 'Tell us about the Veteran';
 export const veteranInformationPageTitle = 'Veteran Information';
 
 /* Veteran Status Information */
-export const veteranStatusSectionDescription = SectionHeader(
-  'How does a Veteran relate to your Message?',
-);
 export const veteranStatusTitle = 'My message is about benefits/services';
 export const isDependentTitle = 'Are you the dependent?';
 export const relationshipToVeteranTitle = 'Your relationship to the Veteran';
@@ -76,7 +71,6 @@ export const verifyEmailAddressError = 'Please re-enter your email address';
 export const phoneNumberError = 'Please enter your phone number';
 
 /* --------------- Dependent Information ------------- */
-export const dependentInformationHeader = 'Dependent information';
 
 export const dependentFirstName = "Dependent's first name";
 export const dependentLastName = "Dependent's last name";
@@ -93,7 +87,6 @@ export const dependentCountryError = "Please enter the dependent's country";
 export const dependentEmailError = "Please enter the dependent's email";
 
 /* --------------- Veteran Information ------------- */
-export const veteranInformationHeader = 'Veteran information';
 
 export const veteransFirstName = "Veteran's first name";
 export const veteransLastName = "Veteran's last name";
