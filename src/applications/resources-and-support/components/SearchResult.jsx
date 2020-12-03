@@ -25,11 +25,16 @@ export default function SearchResult({
   const onSearchResultClick = () => {
     recordEvent({
       event: 'onsite-search-results-click',
-      'search-text-input': query,
-      'search-selection': 'Resources and support',
+      'search-page-path': document.location.pathname,
+      'search-query': query,
+      'search-results-position': position,
       'search-results-total-count': totalResults,
       'search-results-total-pages': Math.ceil(totalResults / 10),
-      'search-results-position-number': position,
+      'search-selection': 'Resources and support',
+      'search-typeahead-enabled': false,
+      'type-ahead-option-keyword-selected': undefined,
+      'type-ahead-option-position': undefined,
+      'type-ahead-options-list': undefined,
     });
   };
 
