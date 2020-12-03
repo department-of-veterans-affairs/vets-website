@@ -11,7 +11,7 @@ import {
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-const Element = Scroll.Element;
+const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
 
 const Header = ({
@@ -46,31 +46,7 @@ const Header = ({
   );
 };
 
-const AddAnotherButton = ({
-  formData,
-  addAnotherDisabled,
-  uiOptions,
-  handleAdd,
-}) => (
-  <>
-    <button
-      type="button"
-      className={classNames('usa-button-secondary', 'va-growable-add-btn', {
-        'usa-button-disabled': !formData || addAnotherDisabled,
-      })}
-      disabled={!formData || addAnotherDisabled}
-      onClick={() => handleAdd()}
-    >
-      Add another {uiOptions.itemName}
-    </button>
-    <p>
-      {addAnotherDisabled &&
-        `You’ve entered the maximum number of items allowed.`}
-    </p>
-  </>
-);
-
-const EditCard = ({ item, index, title, handleEdit, uiOptions }) => {
+const EditSection = ({ item, index, title, handleEdit, uiOptions }) => {
   const ViewField = uiOptions.viewField;
   return (
     <div className="va-growable-background editable-row">
@@ -90,16 +66,14 @@ const EditCard = ({ item, index, title, handleEdit, uiOptions }) => {
   );
 };
 
-const InputCard = ({
+const InputSection = ({
   title,
-  itemIdPrefix,
   isLast,
   items,
+  schema,
   uiSchema,
   index,
-  itemSchema,
   errorSchema,
-  itemIdSchema,
   handleChange,
   item,
   onBlur,
@@ -108,15 +82,31 @@ const InputCard = ({
   readonly,
   handleUpdate,
   handleRemove,
+  idSchema,
 }) => {
   const showSave = uiSchema['ui:options'].showSave;
   const updateText = showSave && index === 0 ? 'Save' : 'Update';
   const notLastOrMultipleRows = showSave || !isLast || items.length > 1;
   const { SchemaField } = registry.fields;
+  const itemIdPrefix = `${idSchema.$id}_${index}`;
+
+  const getItemSchema = i => {
+    if (schema.items.length > i) {
+      return schema.items[i];
+    }
+    return schema.additionalItems;
+  };
+
+  const itemSchema = getItemSchema(index);
+  const itemIdSchema = toIdSchema(
+    itemSchema,
+    itemIdPrefix,
+    registry.definitions,
+  );
 
   return (
     <div className={notLastOrMultipleRows ? 'va-growable-background' : null}>
-      <Element name={`table_${itemIdPrefix}`} />
+      <ScrollElement name={`table_${itemIdPrefix}`} />
       <div className="row small-collapse">
         <div className="small-12 columns va-growable-expanded">
           {isLast && items.length > 1 && uiSchema['ui:options'].itemName ? (
@@ -171,6 +161,30 @@ const InputCard = ({
   );
 };
 
+const AddAnotherButton = ({
+  formData,
+  addAnotherDisabled,
+  uiOptions,
+  handleAdd,
+}) => (
+  <>
+    <button
+      type="button"
+      className={classNames('usa-button-secondary', 'va-growable-add-btn', {
+        'usa-button-disabled': !formData || addAnotherDisabled,
+      })}
+      disabled={!formData || addAnotherDisabled}
+      onClick={() => handleAdd()}
+    >
+      Add another {uiOptions.itemName}
+    </button>
+    <p>
+      {addAnotherDisabled &&
+        `You’ve entered the maximum number of items allowed.`}
+    </p>
+  </>
+);
+
 const ItemLoop = ({
   uiSchema,
   idSchema,
@@ -184,7 +198,6 @@ const ItemLoop = ({
   readonly,
   onBlur,
 }) => {
-  const definitions = registry.definitions;
   const uiOptions = uiSchema['ui:options'] || {};
   const title = uiSchema['ui:title'] || schema.title;
   const hideTitle = !!uiOptions.title;
@@ -227,25 +240,20 @@ const ItemLoop = ({
     [errorSchema, formData, editing.length],
   );
 
-  const getItemSchema = index => {
-    if (schema.items.length > index) {
-      return schema.items[index];
-    }
-    return schema.additionalItems;
-  };
-
   const scrollToTop = () => {
-    setTimeout(() => {
-      scroller.scrollTo(
-        `topOfTable_${idSchema.$id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: -60,
-        },
-      );
-    }, 100);
+    if (!uiSchema['ui:options'].doNotScroll) {
+      setTimeout(() => {
+        scroller.scrollTo(
+          `topOfTable_${idSchema.$id}`,
+          window.Forms?.scroll || {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+            offset: -60,
+          },
+        );
+      }, 100);
+    }
   };
 
   const scrollToRow = id => {
@@ -359,51 +367,43 @@ const ItemLoop = ({
         />
       )}
       <div className="va-growable">
-        <Element name={`topOfTable_${idSchema.$id}`} />
+        <ScrollElement name={`topOfTable_${idSchema.$id}`} />
         {items.map((item, index) => {
           const isEditing = editing[index];
           const isLast = items.length === index + 1;
-          const itemSchema = getItemSchema(index);
-          const itemIdPrefix = `${idSchema.$id}_${index}`;
-          const itemIdSchema = toIdSchema(
-            itemSchema,
-            itemIdPrefix,
-            definitions,
-          );
 
           return (isReviewMode ? (
             isEditing
           ) : (
             isLast || isEditing
           )) ? (
-            <InputCard
+            <InputSection
               key={index}
-              itemIdPrefix={itemIdPrefix}
+              item={item}
+              index={index}
+              title={title}
               isLast={isLast}
               items={items}
+              schema={schema}
               uiSchema={uiSchema}
-              index={index}
-              itemSchema={itemSchema}
-              errorSchema={errorSchema}
-              itemIdSchema={itemIdSchema}
-              item={item}
+              idSchema={idSchema}
               onBlur={onBlur}
               registry={registry}
               disabled={disabled}
               readonly={readonly}
-              title={title}
+              errorSchema={errorSchema}
+              handleChange={handleChange}
               handleUpdate={handleUpdate}
               handleRemove={handleRemove}
-              handleChange={handleChange}
             />
           ) : (
-            <EditCard
+            <EditSection
               key={index}
               item={item}
               index={index}
               title={title}
-              handleEdit={handleEdit}
               uiOptions={uiOptions}
+              handleEdit={handleEdit}
             />
           );
         })}
