@@ -174,15 +174,16 @@ describe('VAOS <ReviewPage> VA request', () => {
   });
 
   it('should submit successfully', async () => {
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
-      store,
-    });
-
     mockRequestSubmit('va', {
       id: 'fake_id',
     });
     mockPreferences(null);
     mockMessagesFetch('fake_id', {});
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
     await screen.findByText(/requesting a primary care appointment/i);
 
     userEvent.click(screen.getByText(/Request appointment/i));
@@ -208,12 +209,14 @@ describe('VAOS <ReviewPage> VA request', () => {
       event: 'vaos-request-submission',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
+      'vaos-number-of-preferred-providers': 0,
       flow: 'va-request',
     });
     expect(dataLayer[2]).to.deep.equal({
       event: 'vaos-request-submission-successful',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
+      'vaos-number-of-preferred-providers': 0,
       flow: 'va-request',
     });
     expect(dataLayer[3]).to.deep.equal({
@@ -228,14 +231,11 @@ describe('VAOS <ReviewPage> VA request', () => {
       'vaos-number-of-items': undefined,
       'tab-text': undefined,
       alertBoxHeading: undefined,
+      'vaos-number-of-preferred-providers': undefined,
     });
   });
 
   it('should show error message on failure', async () => {
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
-      store,
-    });
-
     mockFacilityFetch('vha_442', {
       id: 'vha_442',
       attributes: {
@@ -263,6 +263,11 @@ describe('VAOS <ReviewPage> VA request', () => {
         errors: [{}],
       },
     );
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
     await screen.findByText(/requesting a primary care appointment/i);
 
     userEvent.click(screen.getByText(/Request appointment/i));
@@ -287,6 +292,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
+      'vaos-number-of-preferred-providers': 0,
     });
     expect(global.window.dataLayer[3]).to.deep.equal({
       flow: undefined,
@@ -300,6 +306,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       'vaos-number-of-items': undefined,
       'tab-text': undefined,
       alertBoxHeading: undefined,
+      'vaos-number-of-preferred-providers': undefined,
     });
   });
 });

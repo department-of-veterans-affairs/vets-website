@@ -115,6 +115,14 @@ export const questions = [
     },
   },
   {
+    id: 'travel-463',
+    text: {
+      en: 'In the past 14 days, have you traveled outside of Alaska?',
+      es: 'En los últimos 14 días, ¿ha viajado fuera de Alaska?',
+    },
+    customId: ['463'],
+  },
+  {
     id: 'travel-459',
     text: {
       en: 'In the past 14 days, have you traveled outside of Hawaii?',

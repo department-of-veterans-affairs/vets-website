@@ -107,6 +107,7 @@ describe('VAOS integration: appointment list', () => {
       fourthDate.format('dddd, MMMM D, YYYY [at] h:mm a [UTC UTC]'),
       'Primary care appointment',
     ]);
+    expect(baseElement.querySelector('h4')).to.be.ok;
   });
 
   it('should sort requests by type of care', async () => {
@@ -158,6 +159,8 @@ describe('VAOS integration: appointment list', () => {
       'Mental health appointment',
       'Primary care appointment',
     ]);
+
+    expect(baseElement.querySelector('h4')).to.be.ok;
   });
 
   it('should show no appointments message when there are no appointments', () => {
@@ -619,7 +622,7 @@ describe('VAOS integration: appointment list', () => {
 
     expect(
       await screen.findByRole('heading', {
-        level: '3',
+        level: 3,
         name: /You may have trouble using the VA appointments tool right now/,
       }),
     ).to.exist;

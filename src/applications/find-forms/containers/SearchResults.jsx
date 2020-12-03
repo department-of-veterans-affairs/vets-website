@@ -122,8 +122,9 @@ export class SearchResults extends Component {
           className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
           data-forms-focus
         >
-          Showing {startLabel} &ndash; {lastLabel} of {results.length} results
-          for "<strong>{query}</strong>"
+          Showing <strong>{startLabel}</strong> &ndash;{' '}
+          <strong>{lastLabel}</strong> of <strong>{results.length}</strong>{' '}
+          results for "<strong>{query}</strong>"
         </h2>
 
         <dl className="vads-l-grid-container--full">{searchResults}</dl>
@@ -131,6 +132,7 @@ export class SearchResults extends Component {
         {/* Pagination Row */}
         {results.length > MAX_PAGE_LIST_LENGTH && (
           <Pagination
+            className="find-va-froms-pagination-override"
             maxPageListLength={MAX_PAGE_LIST_LENGTH}
             onPageSelect={onPageSelect}
             page={page}

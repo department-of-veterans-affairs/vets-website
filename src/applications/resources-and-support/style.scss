@@ -9,7 +9,7 @@
 
 .medium-screen-va-background-color--white {
   @media (min-width: $medium-screen) {
-    background-color: #ffffff !important;
+    background-color: $color-white !important;
   }
 }
 

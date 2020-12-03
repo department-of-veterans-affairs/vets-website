@@ -9,14 +9,14 @@
   @include messaging-rectangular-button;
 
   > i {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
   }
 }
 
 // Creates a radio input but with a hidden
 // control. Using high-specificity selector because
 // USWDS does.
-.msg-hidden-radio[type=radio] {
+.msg-hidden-radio[type="radio"] {
   // Overrides some silly USWDS input stuff
   height: auto;
   width: auto;
@@ -70,14 +70,4 @@
   padding: 1rem;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-// Exception for button in message table.
-.messaging-message-row {
-  .msg-move-to {
-    position: static;
-  }
-  .msg-move-to-options {
-    margin-left: -18.15rem;
-  }
 }

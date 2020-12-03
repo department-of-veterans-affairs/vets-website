@@ -3,9 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { SMALL_SCREEN_WIDTH } from '../constants';
 import { handleScrollOnInputFocus } from '../utils/helpers';
-import environment from 'platform/utilities/environment';
 
 /**
  * A form checkbox with a label that can display error messages.
@@ -28,14 +26,7 @@ class Checkbox extends React.Component {
   }
 
   handleFocus = e => {
-    // prod flag for bah-8821
-    if (environment.isProduction()) {
-      if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-        e.target.scrollIntoView();
-      }
-    } else {
-      this.props.onFocus(e);
-    }
+    this.props.onFocus(e);
   };
 
   render() {

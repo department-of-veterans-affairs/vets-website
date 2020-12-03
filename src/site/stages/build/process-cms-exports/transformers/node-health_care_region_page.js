@@ -1,7 +1,6 @@
-const moment = require('moment');
+const { getImageCrop } = require('./helpers');
 const {
   getDrupalValue,
-  getWysiwygString,
   createMetaTagArray,
   uriToUrl,
   isPublished,
@@ -15,6 +14,8 @@ const getSocialMediaObject = ({ uri, title }) =>
       }
     : null;
 
+const currentTimeInSeconds = new Date().getTime() / 1000;
+
 const transform = ({
   title,
   status,
@@ -22,12 +23,13 @@ const transform = ({
   fieldGovdeliveryIdEmerg,
   fieldGovdeliveryIdNews,
   fieldOperatingStatus,
+  fieldOtherVaLocations,
   fieldNicknameForThisFacility,
   fieldRelatedLinks,
-  fieldPressReleaseBlurb,
   fieldLinkFacilityEmergList,
   reverseFieldRegionPage,
   reverseFieldOffice,
+  fieldMedia,
 }) => ({
   entityType: 'node',
   entityBundle: 'health_care_region_page',
@@ -39,6 +41,10 @@ const transform = ({
   fieldOperatingStatus: fieldOperatingStatus[0]
     ? getSocialMediaObject(fieldOperatingStatus[0])
     : null,
+  fieldMedia:
+    fieldMedia && fieldMedia.length
+      ? { entity: getImageCrop(fieldMedia[0], '_72MEDIUMTHUMBNAIL') }
+      : null,
   fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
   fieldLinkFacilityEmergList:
     fieldLinkFacilityEmergList && fieldLinkFacilityEmergList[0]
@@ -50,9 +56,6 @@ const transform = ({
         }
       : null,
   fieldRelatedLinks: fieldRelatedLinks[0],
-  fieldPressReleaseBlurb: {
-    processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
-  },
   entityMetatags: createMetaTagArray(metaTags),
   reverseFieldRegionPageNode: {
     entities: reverseFieldRegionPage || [],
@@ -104,14 +107,20 @@ const transform = ({
               reverseField.entityBundle === 'event' &&
               reverseField.entityPublished &&
               reverseField.fieldFeatured &&
-              moment(reverseField.fieldDate.value).isAfter(moment(), 'day'),
+              reverseField.fieldDatetimeRangeTimezone.value >
+                currentTimeInSeconds,
           )
-          .sort((a, b) => a.fieldDate.value - b.fieldDate.value)
+          .sort(
+            (a, b) =>
+              a.fieldDatetimeRangeTimezone.value -
+              b.fieldDatetimeRangeTimezone.value,
+          )
           .slice(0, 2)
           .map(r => ({
             title: r.title,
             uid: r.uid,
             fieldDate: r.fieldDate,
+            fieldDatetimeRangeTimezone: r.fieldDatetimeRangeTimezone,
             fieldDescription: r.fieldDescription,
             fieldLocationHumanreadable: r.fieldLocationHumanreadable,
             fieldFacilityLocation: r.fieldFacilityLocation,
@@ -127,7 +136,11 @@ const transform = ({
               reverseField.entityBundle === 'event' &&
               reverseField.entityPublished,
           )
-          .sort((a, b) => a.fieldDate.value - b.fieldDate.value)
+          .sort(
+            (a, b) =>
+              a.fieldDatetimeRangeTimezone.value -
+              b.fieldDatetimeRangeTimezone.value,
+          )
           .slice(0, 500)
           .map(r => ({
             title: r.title,
@@ -187,6 +200,7 @@ const transform = ({
           }))
       : [],
   },
+  fieldOtherVaLocations: fieldOtherVaLocations.map(i => i.value),
   otherFacilities: {
     entities: reverseFieldRegionPage
       ? reverseFieldRegionPage
@@ -232,15 +246,14 @@ const transform = ({
                       reverseField =>
                         reverseField.entityBundle === 'event' &&
                         reverseField.entityPublished &&
-                        moment(reverseField.fieldDate.value).isAfter(
-                          moment(),
-                          'day',
-                        ),
+                        reverseField.fieldDatetimeRangeTimezone.value >
+                          currentTimeInSeconds,
                     )
                     .slice(0, 1000)
                     .map(e => ({
                       title: e.title,
                       fieldDate: e.fieldDate,
+                      fieldDatetimeRangeTimezone: e.fieldDatetimeRangeTimezone,
                       fieldDescription: e.fieldDescription,
                       fieldLocationHumanreadable: e.fieldLocationHumanreadable,
                       fieldFacilityLocation: e.fieldFacilityLocation,
@@ -266,14 +279,13 @@ const transform = ({
                         reverseField.entityBundle === 'event' &&
                         reverseField.entityPublished &&
                         reverseField.fieldFeatured &&
-                        moment(reverseField.fieldDate.value).isAfter(
-                          moment(),
-                          'day',
-                        ),
+                        reverseField.fieldDatetimeRangeTimezone.value >
+                          currentTimeInSeconds,
                     )
                     .map(e => ({
                       title: e.title,
                       fieldDate: e.fieldDate,
+                      fieldDatetimeRangeTimezone: e.fieldDatetimeRangeTimezone,
                       fieldDescription: e.fieldDescription,
                       fieldLocationHumanreadable: e.fieldLocationHumanreadable,
                       fieldFacilityLocation: e.fieldFacilityLocation,
@@ -321,8 +333,10 @@ module.exports = {
     'field_govdelivery_id_emerg',
     'field_govdelivery_id_news',
     'field_link_facility_emerg_list',
+    'field_media',
     'field_nickname_for_this_facility',
     'field_operating_status',
+    'field_other_va_locations',
     'field_press_release_blurb',
     'field_related_links',
     'metatag',

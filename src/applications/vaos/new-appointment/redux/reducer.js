@@ -9,7 +9,6 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { getParentOfLocation } from '../../services/location';
 import { getEligibilityChecks, isEligible } from './helpers/eligibility';
 
 import {
@@ -57,6 +56,9 @@ import {
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
   CLICKED_UPDATE_ADDRESS_BUTTON,
+  FORM_REQUESTED_PROVIDERS,
+  FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+  FORM_REQUESTED_PROVIDERS_FAILED,
 } from './actions';
 
 import {
@@ -76,7 +78,7 @@ import {
 
 import { getTypeOfCare } from '../../utils/selectors';
 import { distanceBetween } from '../../utils/address';
-import { getSiteIdFromOrganization } from '../../services/organization';
+import { getSiteIdFromFakeFHIRId } from '../../services/location';
 import { getClinicId } from '../../services/healthcare-service/transformers';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
@@ -114,6 +116,8 @@ const initialState = {
   isCCEligible: false,
   hideUpdateAddressAlert: false,
   requestLocationStatus: FETCH_STATUS.notStarted,
+  communityCareProviderList: [],
+  requestStatus: FETCH_STATUS.notStarted,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {
@@ -343,24 +347,10 @@ export default function formReducer(state = initialState, action) {
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      if (parentFacilities.length === 1 || !typeOfCareFacilities.length) {
-        newData = {
-          ...newData,
-          vaParent: parentFacilities[0]?.id,
-        };
-      }
-
       if (typeOfCareFacilities.length === 1) {
-        const vaFacility = typeOfCareFacilities[0]?.id;
-        const vaParent = getParentOfLocation(
-          parentFacilities,
-          typeOfCareFacilities[0],
-        )?.id;
-
         newData = {
           ...newData,
-          vaFacility,
-          vaParent,
+          vaFacility: typeOfCareFacilities[0]?.id,
         };
       } else if (hasResidentialCoordinates) {
         typeOfCareFacilities = typeOfCareFacilities
@@ -894,10 +884,7 @@ export default function formReducer(state = initialState, action) {
 
       if (state.pastAppointments) {
         const pastAppointmentDateMap = new Map();
-        const org = state.parentFacilities.find(
-          parent => parent.id === state.data.vaParent,
-        );
-        const siteId = getSiteIdFromOrganization(org).substring(0, 3);
+        const siteId = getSiteIdFromFakeFHIRId(state.data.vaFacility);
 
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
@@ -1022,9 +1009,7 @@ export default function formReducer(state = initialState, action) {
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.communityCareProvider.title',
-        `Do you have a preferred VA-approved community care provider for this ${
-          typeOfCare.name
-        } appointment?`,
+        `Request a ${typeOfCare.name} provider. (Optional)`,
         action.schema,
       );
 
@@ -1085,6 +1070,25 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         isCCEligible: action.isEligible,
+      };
+    }
+    case FORM_REQUESTED_PROVIDERS: {
+      return {
+        ...state,
+        requestStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
+      return {
+        ...state,
+        requestStatus: FETCH_STATUS.succeeded,
+        communityCareProviderList: action.communityCareProviderList,
+      };
+    }
+    case FORM_REQUESTED_PROVIDERS_FAILED: {
+      return {
+        ...state,
+        requestStatus: FETCH_STATUS.failed,
       };
     }
     default:

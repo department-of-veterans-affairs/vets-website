@@ -75,9 +75,7 @@ function disconnectApps(mobile = false) {
   // Check for the presence of 2 disconnect success alerts
   cy.get('.usa-alert-success').should('have.length', 2);
 
-  cy.findByText(/Third-party apps you can connect to your profile/i).should(
-    'exist',
-  );
+  cy.findByText(/Go to app directory/i).should('exist');
 }
 
 describe('Connected applications', () => {

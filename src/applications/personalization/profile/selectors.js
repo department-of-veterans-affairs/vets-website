@@ -1,3 +1,9 @@
+import {
+  directDepositBankInfo,
+  isEligibleForDirectDeposit,
+  isSignedUpForDirectDeposit,
+} from './util';
+
 export const directDepositInformation = state =>
   state.vaProfile?.paymentInformation;
 
@@ -5,10 +11,10 @@ export const directDepositUiState = state =>
   state.vaProfile?.paymentInformationUiState;
 
 export const directDepositAccountInformation = state =>
-  directDepositInformation(state)?.responses?.[0]?.paymentAccount;
+  directDepositBankInfo(directDepositInformation(state));
 
 export const directDepositIsSetUp = state =>
-  !!directDepositAccountInformation(state)?.accountNumber;
+  isSignedUpForDirectDeposit(directDepositInformation(state));
 
 export const directDepositLoadError = state =>
   directDepositInformation(state)?.error;
@@ -17,12 +23,7 @@ export const directDepositAddressInformation = state =>
   directDepositInformation(state)?.responses?.[0]?.paymentAddress;
 
 export const directDepositAddressIsSetUp = state => {
-  const addressInfo = directDepositAddressInformation(state);
-  return !!(
-    addressInfo?.addressOne &&
-    addressInfo?.city &&
-    addressInfo?.stateCode
-  );
+  return isEligibleForDirectDeposit(directDepositInformation(state));
 };
 
 export const directDepositIsBlocked = state => {

@@ -9,7 +9,7 @@ import {
 } from '../../forms-system/src/js/constants';
 
 function SaveStatus({
-  form: { lastSavedDate, autoSavedStatus },
+  form: { lastSavedDate, autoSavedStatus, loadedData },
   formConfig,
   isLoggedIn,
   showLoginModal,
@@ -18,12 +18,21 @@ function SaveStatus({
   let savedAtMessage;
   if (lastSavedDate) {
     const savedAt = moment(lastSavedDate);
-    savedAtMessage = ` Last saved at ${savedAt.format(
+    savedAtMessage = ` It was last saved on ${savedAt.format(
       'MMM D, YYYY [at] h:mm a',
     )}`;
   } else {
     savedAtMessage = '';
   }
+
+  const formId = loadedData?.metadata?.inProgressFormId;
+  const formIdMessage =
+    formId && savedAtMessage ? (
+      <>
+        {' '}
+        Your application ID number is <strong>{formId}</strong>.
+      </>
+    ) : null;
 
   const hasError =
     saveErrors.has(autoSavedStatus) &&
@@ -38,10 +47,13 @@ function SaveStatus({
   return (
     <div>
       {autoSavedStatus === SAVE_STATUSES.success && (
-        <div className="panel saved-success-container">
-          <i className="fa fa-check-circle saved-success-icon" />
-          {appSavedSuccessfullyMessage}
-          {savedAtMessage}
+        <div className="panel saved-success-container vads-u-display--flex">
+          <i className="fa fa-check-circle saved-success-icon vads-u-margin-top--0p5" />
+          <div>
+            {appSavedSuccessfullyMessage}
+            {savedAtMessage}
+            {formIdMessage}
+          </div>
         </div>
       )}
       {autoSavedStatus === SAVE_STATUSES.pending && (

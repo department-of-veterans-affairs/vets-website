@@ -1,29 +1,102 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import debounce from 'platform/utilities/data/debounce';
+import * as Sentry from '@sentry/browser';
 
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 
-import Typeahead, { isTypeaheadEnabled, typeaheadListId } from './Typeahead';
+export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
 
-class SearchMenu extends React.Component {
+export class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
+    this.getSuggestions = debounce(
+      this.props.debounceRate,
+      this.getSuggestions,
+    );
     this.state = {
       searchAction: replaceWithStagingDomain('https://www.va.gov/search/'),
       userInput: '',
+      suggestions: [],
     };
   }
 
-  componentDidUpdate() {
-    this.refs.searchField.focus();
+  componentDidMount = () => {
+    if (this.props.searchTypeaheadEnabled) {
+      recordEvent({
+        event: 'phased-roll-out-enabled',
+        'product-description': 'Type Ahead',
+      });
+    }
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { userInput } = this.state;
+
+    const inputChanged = prevState.userInput !== userInput;
+    if (inputChanged) {
+      this.getSuggestions();
+    }
+  }
+
+  async getSuggestions() {
+    const { userInput } = this.state;
+
+    if (userInput?.length <= 2) {
+      if (this.state.suggestions.length > 0) {
+        this.setState({ suggestions: [] });
+      }
+
+      return;
+    }
+
+    const encodedInput = encodeURIComponent(userInput);
+    try {
+      const response = await fetch(
+        `${searchGovSuggestionEndpoint}?=&name=va&q=${encodedInput}`,
+      );
+
+      const suggestions = await response.json();
+      this.setState({ suggestions });
+    } catch (error) {
+      Sentry.captureException(error);
+    }
   }
 
   handleInputChange = e => {
     this.setState({ userInput: e.target.value });
+  };
+
+  logSearchEvent = suggestion => () => {
+    recordEvent({
+      event: 'view_search_results',
+      'search-page-path': document.location.pathname,
+      'search-text-input': this.state.userInput,
+      'type-ahead-option-keyword-selected': suggestion,
+      'type-ahead-option-position': suggestion
+        ? this.state.suggestions.indexOf(suggestion) + 1
+        : undefined,
+      'type-ahead-options-list': this.state.suggestions,
+      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
+    });
+  };
+
+  formatTypeaheadSuggestion = suggestion => {
+    const { userInput } = this.state;
+    const remainder = suggestion.replace(userInput, '');
+    return (
+      <>
+        <strong>{userInput}</strong>
+        {remainder}
+      </>
+    );
   };
 
   makeForm = () => {
@@ -31,35 +104,96 @@ class SearchMenu extends React.Component {
       this.state.userInput &&
       this.state.userInput.replace(/\s/g, '').length > 0;
 
-    return (
-      <form
-        acceptCharset="UTF-8"
-        action={this.state.searchAction}
-        id="search"
-        method="get"
-      >
-        <label htmlFor="query" className="usa-sr-only">
-          Search:
-        </label>
+    if (!this.props.searchTypeaheadEnabled) {
+      return (
+        <form
+          acceptCharset="UTF-8"
+          action={this.state.searchAction}
+          id="search"
+          method="get"
+        >
+          <label htmlFor="query" className="usa-sr-only">
+            Search:
+          </label>
+          <div className="va-flex">
+            <input
+              autoComplete="off"
+              ref="searchField"
+              className="usagov-search-autocomplete vads-u-margin-right--0p5"
+              id="query"
+              name="query"
+              type="text"
+              onChange={this.handleInputChange}
+            />
+            <button
+              type="submit"
+              disabled={!validUserInput}
+              className="vads-u-margin-left--0p25"
+            >
+              <IconSearch color="#fff" />
+              <span className="usa-sr-only">Search</span>
+            </button>
+          </div>
+        </form>
+      );
+    }
 
-        <div className="va-flex">
-          <input
-            autoComplete="off"
-            ref="searchField"
-            className="usagov-search-autocomplete"
-            id="query"
-            name="query"
-            type="text"
-            list={typeaheadListId}
-            onChange={this.handleInputChange}
-          />
-          {isTypeaheadEnabled && <Typeahead userInput={this.state.userInput} />}
-          <button type="submit" disabled={!validUserInput}>
-            <IconSearch color="#fff" />
-            <span className="usa-sr-only">Search</span>
-          </button>
-        </div>
-      </form>
+    return (
+      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-width--full">
+        <form
+          acceptCharset="UTF-8"
+          action={this.state.searchAction}
+          id="search"
+          method="get"
+          onSubmit={this.logSearchEvent(undefined)}
+        >
+          <label htmlFor="query" className="usa-sr-only">
+            Search:
+          </label>
+
+          <div className="va-flex">
+            <input
+              autoComplete="off"
+              ref="searchField"
+              className="usagov-search-autocomplete vads-u-margin-right--0p5"
+              id="query"
+              name="query"
+              type="text"
+              onChange={this.handleInputChange}
+              value={this.state.userInput}
+            />
+
+            <button
+              type="submit"
+              disabled={!validUserInput}
+              className="vads-u-margin-left--0p25"
+            >
+              <IconSearch color="#fff" />
+              <span className="usa-sr-only">Search</span>
+            </button>
+          </div>
+        </form>
+        {this.state.suggestions.length > 0 && (
+          <ul className="typeahead-options vads-u-background-color--white vads-u-width--full vads-u-margin-y--1">
+            {this.state.suggestions.map(suggestion => (
+              <li key={suggestion}>
+                <a
+                  className="vads-u-padding--1 vads-u-line-height--2
+                  vads-u-color--base vads-u-text-decoration--none vads-u-width--full"
+                  onClick={this.logSearchEvent(suggestion)}
+                  href={replaceWithStagingDomain(
+                    `https://www.va.gov/search/?query=${encodeURIComponent(
+                      suggestion,
+                    )}`,
+                  )}
+                >
+                  {this.formatTypeaheadSuggestion(suggestion)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     );
   };
 
@@ -92,6 +226,18 @@ SearchMenu.propTypes = {
   cssClass: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func,
+  searchTypeaheadEnabled: PropTypes.bool,
+  debounceRate: PropTypes.number,
 };
 
-export default SearchMenu;
+SearchMenu.defaultProps = {
+  debounceRate: 200,
+};
+
+const mapStateToProps = store => ({
+  searchTypeaheadEnabled: toggleValues(store)[
+    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  ],
+});
+
+export default connect(mapStateToProps)(SearchMenu);

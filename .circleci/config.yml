@@ -39,9 +39,10 @@ jobs:
             - ~/.cache/yarn
       - run: mkdir -p ./test-results
       - run:
-          command: ./script/run-isolated-tests.sh
+          command: yarn test:unit --coverage
           environment:
             MOCHA_FILE: ./test-results/test-results.xml
+      - run: node ./script/app-coverage-report.js
       - store_test_results:
           path: ./test-results
       - store_artifacts:

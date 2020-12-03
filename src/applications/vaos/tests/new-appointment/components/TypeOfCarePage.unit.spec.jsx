@@ -49,7 +49,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect(screen.getAllByRole('radio').length).to.equal(11);
+    expect((await screen.findAllByRole('radio')).length).to.equal(11);
 
     // Verify alert is shown
     expect(
@@ -117,7 +117,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
   });
 
-  it('should show type of care page without podiatry when CC flag is off', () => {
+  it('should show type of care page without podiatry when CC flag is off', async () => {
     const store = createTestStore({
       ...initialState,
       featureToggles: {
@@ -130,7 +130,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect(screen.getAllByRole('radio').length).to.equal(10);
+    expect((await screen.findAllByRole('radio')).length).to.equal(10);
   });
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
@@ -300,6 +300,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       store,
     });
 
+    await screen.findAllByRole('radio');
     expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
   });
 
@@ -328,7 +329,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(
       await screen.findByRole('heading', {
-        level: '3',
+        level: 3,
         name: /You may have trouble using the VA appointments tool right now/,
       }),
     ).to.exist;

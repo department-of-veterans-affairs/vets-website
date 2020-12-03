@@ -1,3 +1,5 @@
+$color-responsive-table-border: #999;
+
 @media screen and (max-width: $medium-screen) {
   table.responsive {
     thead {
@@ -16,7 +18,7 @@
   }
   .va-table--responsive {
     tr {
-      border-top: 2px solid #999;
+      border-top: 2px solid $color-responsive-table-border;
     }
     thead {
       display: none;

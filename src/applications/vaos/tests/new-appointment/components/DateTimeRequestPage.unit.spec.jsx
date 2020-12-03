@@ -43,25 +43,18 @@ describe('VAOS <DateTimeRequestPage>', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: moment().format('MMMM YYYY'),
-        }),
-      ).to.be.ok;
-      expect(
-        screen.getByRole('heading', {
-          level: 2,
           name: moment()
-            .add(1, 'M')
+            .add(5, 'days')
             .format('MMMM YYYY'),
         }),
       ).to.be.ok;
 
       // Find all available appointments for the current month
-      const currentMonth = moment().format('MMMM');
-      const nextMonth = moment()
-        .add(1, 'month')
+      const currentMonth = moment()
+        .add(5, 'days')
         .format('MMMM');
       const buttons = screen
-        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
+        .getAllByLabelText(new RegExp(currentMonth))
         .filter(button => button.disabled === false);
 
       // it should allow the user to select morning for currently selected date
@@ -118,41 +111,14 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // it should not allow the user to view the previous month if viewing the current month
-      let button = screen.getByText('Previous');
+      let button = await screen.findByText('Previous');
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.false;
       });
 
-      // it should allow the user to view the next 2 month if viewing the current month
       button = screen.getByText('Next');
       userEvent.click(button);
-      expect(
-        screen.getByRole('heading', {
-          level: 2,
-          name: moment()
-            .add(2, 'M')
-            .format('MMMM YYYY'),
-        }),
-      ).to.be.ok;
-      expect(
-        screen.getByRole('heading', {
-          level: 2,
-          name: moment()
-            .add(3, 'M')
-            .format('MMMM YYYY'),
-        }),
-      ).to.be.ok;
-
-      // it should allow the user to view the previous 2 calendar months when not viewing the current month
-      button = screen.getByText('Previous');
-      userEvent.click(button);
-      expect(
-        screen.getByRole('heading', {
-          level: 2,
-          name: moment().format('MMMM YYYY'),
-        }),
-      ).to.be.ok;
       expect(
         screen.getByRole('heading', {
           level: 2,
@@ -161,8 +127,17 @@ describe('VAOS <DateTimeRequestPage>', () => {
             .format('MMMM YYYY'),
         }),
       ).to.be.ok;
-    });
 
+      button = screen.getByText('Previous');
+      userEvent.click(button);
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: moment().format('MMMM YYYY'),
+        }),
+      ).to.be.ok;
+    });
+    // start of error
     it('should display an alert when user selects more than 3 dates', async () => {
       const store = createTestStore({
         newAppointment: {
@@ -184,58 +159,64 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // Find all available appointments for the current month
-      const currentMonth = moment().format('MMMM');
-      const nextMonth = moment()
-        .add(1, 'month')
+      const currentMonth = moment()
+        .add(5, 'days')
         .format('MMMM');
-      const buttons = screen
-        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
+      let buttons = screen
+        .getAllByLabelText(new RegExp(currentMonth))
         .filter(button => button.disabled === false);
+
+      if (buttons.length < 4) {
+        userEvent.click(screen.getByText(/^Next/));
+        const nextMonth = moment()
+          .add(5, 'days')
+          .add(1, 'month');
+        await screen.findByRole('heading', {
+          name: nextMonth.format('MMMM YYYY'),
+        });
+        buttons = screen
+          .getAllByLabelText(new RegExp(nextMonth.format('MMMM')))
+          .filter(button => button.disabled === false);
+      }
 
       // it should display an alert when the users selects more than the allowed dates
       // 1. Simulate user selecting a date
       userEvent.click(buttons[0]);
 
       // 2. Simulate user selecting AM
-      let checkbox = await screen.findByRole('checkbox', {
-        name: 'AM appointment',
-      });
+      let checkbox = await screen.findByLabelText(/^AM/i);
       userEvent.click(checkbox);
 
       // 3. Simulate user selecting another date
       userEvent.click(buttons[1]);
 
       // 3. Simulate user selecting PM
-      checkbox = await screen.findByRole('checkbox', {
-        name: 'PM appointment',
-      });
+      checkbox = await screen.findByLabelText(/^PM/i);
       userEvent.click(checkbox);
 
       // 4. Simulate user selecting another date
       userEvent.click(buttons[2]);
 
       // 5. Simulate user selecting AM
-      checkbox = await screen.findByRole('checkbox', {
-        name: 'AM appointment',
-      });
+      checkbox = await screen.findByLabelText(/^AM/i);
       userEvent.click(checkbox);
 
       // 6. Simulate user selecting another date
       userEvent.click(buttons[3]);
 
       // 7. Simulate user selecting PM which should result in error
-      checkbox = await screen.findByRole('checkbox', {
-        name: 'PM appointment',
-      });
+      checkbox = await screen.findByLabelText(/^PM/i);
       userEvent.click(checkbox);
 
+      // 8 Simulate user submit the form
+      const button = screen.getByText(/^Continue/);
+      userEvent.click(button);
+
       // NOTE: alert doesn't have a name so search for text too
-      expect(await screen.findByRole('alert')).to.be.ok;
-      expect(
-        screen.getByText(
-          'You can only choose up to 3 dates for your appointment.',
-        ),
-      ).to.be.ok;
+      await waitFor(() => {
+        expect(screen.findByRole('alert')).to.be.ok;
+      });
+      expect(screen.getByText(/You can only choose up to 3 dates/i)).to.be.ok;
     });
 
     it('should display an alert when user selects 2 dates and multiple times', async () => {
@@ -258,13 +239,25 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // Find all available appointments for the current month
-      const currentMonth = moment().format('MMMM');
-      const nextMonth = moment()
-        .add(1, 'month')
+      const currentMonth = moment()
+        .add(5, 'days')
         .format('MMMM');
-      const buttons = screen
-        .getAllByLabelText(new RegExp(`(${currentMonth}|${nextMonth})`))
+      let buttons = screen
+        .getAllByLabelText(new RegExp(currentMonth))
         .filter(button => button.disabled === false);
+
+      if (buttons.length < 2) {
+        userEvent.click(screen.getByText(/^Next/));
+        const nextMonth = moment()
+          .add(5, 'days')
+          .add(1, 'month');
+        await screen.findByRole('heading', {
+          name: nextMonth.format('MMMM YYYY'),
+        });
+        buttons = screen
+          .getAllByLabelText(new RegExp(nextMonth.format('MMMM')))
+          .filter(button => button.disabled === false);
+      }
 
       // it should display an alert when the users selects more than the allowed dates
       // 1. Simulate user selecting a date
@@ -297,20 +290,16 @@ describe('VAOS <DateTimeRequestPage>', () => {
       });
       userEvent.click(checkbox);
 
-      // NOTE: alert doesn't have a name so search for text too
-      expect(screen.getByRole('alert')).to.be.ok;
-      expect(
-        screen.getByText(
-          'You can only choose up to 3 dates for your appointment.',
-        ),
-      ).to.be.ok;
-
       // 7. it should not allow the user to submit the form
       const button = screen.getByText(/^Continue/);
       userEvent.click(button);
       await waitFor(() => {
         expect(screen.history.push.called).to.be.false;
       });
+
+      // NOTE: alert doesn't have a name so search for text too
+      expect(screen.getByRole('alert')).to.be.ok;
+      expect(screen.getByText(/You can only choose up to 3 dates./i)).to.be.ok;
     });
 
     it('should display an alert when user submits the form with no dates selected', async () => {
@@ -334,7 +323,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       );
 
       // it should display an alert when users tries to submit the form
-      let button = screen.getByText(/^Continue/);
+      let button = await screen.findByText(/^Continue/);
       userEvent.click(button);
 
       // NOTE: alert doesn't have a name so search for text too
@@ -345,7 +334,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
         ),
       ).to.be.ok;
 
-      // it should not allow user to submit the form
+      // 1 it should not allow user to submit the form
       button = screen.getByText(/^Continue/);
       userEvent.click(button);
       await waitFor(() => {

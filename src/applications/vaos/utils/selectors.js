@@ -22,12 +22,11 @@ import {
   APPOINTMENT_STATUS,
   AUDIOLOGY_TYPES_OF_CARE,
 } from './constants';
+import { getSiteIdFromOrganization } from '../services/organization';
 import {
-  getRootOrganization,
-  getSiteIdFromOrganization,
-  getIdOfRootOrganization,
-} from '../services/organization';
-import { getParentOfLocation } from '../services/location';
+  getParentOfLocation,
+  getSiteIdFromFakeFHIRId,
+} from '../services/location';
 import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
@@ -71,12 +70,19 @@ export const vaosExpressCareNew = state =>
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 const vaosFlatFacilityPage = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
+const vaosFlatFacilityPageSacramento = state =>
+  toggleValues(state).vaOnlineSchedulingFlatFacilityPageSacramento;
 export const selectUseFlatFacilityPage = state =>
   vaosFlatFacilityPage(state) &&
   !selectIsCernerPatient(state) &&
-  !selectIsRegisteredToSacramentoVA(state);
-export const vaosProviderSelection = state =>
+  (!selectIsRegisteredToSacramentoVA(state) ||
+    vaosFlatFacilityPageSacramento(state));
+
+const vaosProviderSelection = state =>
   toggleValues(state).vaOnlineSchedulingProviderSelection;
+export const selectUseProviderSelection = state =>
+  vaosProviderSelection(state) &&
+  !!selectVAPResidentialAddress(state)?.addressLine1;
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -185,35 +191,8 @@ export function getChosenCCSystemId(state) {
   );
 }
 
-export function getRootOrganizationFromChosenParent(state, parentId) {
-  return getRootOrganization(
-    getParentFacilities(state),
-    parentId || getFormData(state).vaParent,
-  );
-}
-
-export function getRootIdForChosenFacility(state, parentId) {
-  const parentFacilities = getParentFacilities(state);
-
-  return getIdOfRootOrganization(
-    parentFacilities,
-    parentId || getFormData(state).vaParent,
-  );
-}
-
-export function getSiteIdForChosenFacility(state, currentParentId) {
-  const parentId = currentParentId || getFormData(state).vaParent;
-  const parentFacilities = getParentFacilities(state);
-  const parentOrg = getChosenParentInfo(state, parentId);
-
-  const rootOrg = getRootOrganization(parentFacilities, parentId);
-
-  if (rootOrg) {
-    return getSiteIdFromOrganization(rootOrg);
-  }
-
-  // This is a hack to get around some site ids not showing up in the parent sites list
-  return parentOrg?.partOf.reference.replace('Organization/var', '');
+export function getSiteIdForChosenFacility(state) {
+  return getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
 }
 
 export function getParentOfChosenFacility(state) {
@@ -328,6 +307,15 @@ export function selectCernerOrgIds(state) {
     .map(facility => facility.id);
 }
 
+export function selectProviderSelectionInfo(state) {
+  const { communityCareProviderList, requestStatus } = getNewAppointment(state);
+  return {
+    address: selectVAPResidentialAddress(state),
+    communityCareProviderList,
+    requestStatus,
+  };
+}
+
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
@@ -366,7 +354,6 @@ export function getFacilityPageV2Info(state) {
       childFacilitiesStatus === FETCH_STATUS.succeeded &&
       (!facilities || !facilities.length),
     parentFacilities,
-    parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentFacilitiesStatus,
     requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),

@@ -16,9 +16,11 @@ const reverseFields = reverseFieldListing => ({
         .map(reverseField => ({
           title: reverseField.title,
           entityUrl: reverseField.entityUrl,
+          entityBundle: reverseField.entityBundle,
+          entityPublished: reverseField.entityPublished,
           uid: reverseField.uid,
           fieldFeatured: reverseField.fieldFeatured,
-          fieldDate: reverseField.fieldDate,
+          fieldDatetimeRangeTimezone: reverseField.fieldDatetimeRangeTimezone,
           fieldDescription: reverseField.fieldDescription,
           fieldFacilityLocation: reverseField.fieldFacilityLocation,
           fieldLocationHumanreadable: reverseField.fieldLocationHumanreadable,

@@ -193,15 +193,16 @@ describe('VAOS <ReviewPage> CC request', () => {
   });
 
   it('should submit successfully', async () => {
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
-      store,
-    });
-
     mockRequestSubmit('cc', {
       id: 'fake_id',
     });
     mockPreferences(null);
     mockMessagesFetch('fake_id', {});
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
     await screen.findByText(/requesting a community care appointment/i);
 
     userEvent.click(screen.getByText(/Request appointment/i));
@@ -224,10 +225,6 @@ describe('VAOS <ReviewPage> CC request', () => {
   });
 
   it('should show error message on failure', async () => {
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
-      store,
-    });
-
     mockFacilityFetch('vha_442', {
       id: 'vha_442',
       attributes: {
@@ -255,6 +252,11 @@ describe('VAOS <ReviewPage> CC request', () => {
         errors: [{}],
       },
     );
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
     await screen.findByText(/requesting a community care appointment/i);
 
     userEvent.click(screen.getByText(/Request appointment/i));

@@ -15,9 +15,15 @@ import {
   GEOCODE_FAILED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
-import { LocationType, BOUNDING_RADIUS } from '../constants';
+import {
+  LocationType,
+  BOUNDING_RADIUS,
+  TypeList,
+  CountriesList,
+} from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import { distBetween } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -108,6 +114,8 @@ export const fetchLocations = async (
   serviceType,
   page,
   dispatch,
+  center,
+  radius,
 ) => {
   try {
     const data = await LocatorApi.searchWithBounds(
@@ -116,6 +124,8 @@ export const fetchLocations = async (
       locationType,
       serviceType,
       page,
+      center,
+      radius,
     );
     // Record event as soon as API return results
     if (data.errors) {
@@ -140,6 +150,8 @@ export const searchWithBounds = ({
   facilityType,
   serviceType,
   page = 1,
+  center,
+  radius,
 }) => {
   const needsAddress = [
     LocationType.CC_PROVIDER,
@@ -174,10 +186,21 @@ export const searchWithBounds = ({
           serviceType,
           page,
           dispatch,
+          center,
+          radius,
         );
       });
     } else {
-      fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
+      fetchLocations(
+        null,
+        bounds,
+        facilityType,
+        serviceType,
+        page,
+        dispatch,
+        center,
+        radius,
+      );
     }
   };
 };
@@ -203,7 +226,7 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: GEOCODE_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = ['place', 'region', 'postcode', 'locality'];
+    let types = TypeList;
     // check for postcode search
     const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
 
@@ -213,7 +236,7 @@ export const genBBoxFromAddress = query => {
 
     mbxClient
       .forwardGeocode({
-        countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
+        countries: CountriesList,
         types,
         autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
         query: query.searchString,
@@ -253,10 +276,19 @@ export const genBBoxFromAddress = query => {
             Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
           ];
         }
+
+        const radius = distBetween(
+          features[0].bbox[1],
+          features[0].bbox[0],
+          features[0].bbox[3],
+          features[0].bbox[2],
+        );
+
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
+            radius,
             context: zipCode,
             id: Date.now(),
             inProgress: true,
@@ -274,6 +306,83 @@ export const genBBoxFromAddress = query => {
             mapBoxQuery: {
               placeName: features[0].place_name,
               placeType: features[0].place_type[0],
+            },
+            searchArea: null,
+          },
+        });
+      })
+      .catch(_ => {
+        dispatch({ type: GEOCODE_FAILED });
+        dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+      });
+  };
+};
+
+/**
+ * Calculates a human readable location (address, zip, city, state) updated
+ * from the coordinates center of the map
+ */
+export const genSearchAreaFromCenter = query => {
+  const { lat, lng } = query;
+  return dispatch => {
+    const types = TypeList;
+    mbxClient
+      .reverseGeocode({
+        countries: CountriesList,
+        types,
+        query: [lng, lat],
+      })
+      .send()
+      .then(({ body: { features } }) => {
+        const coordinates = features[0].center;
+        const zip =
+          features[0].context.find(v => v.id.includes('postcode')) || {};
+        const location = zip.text || features[0].place_name;
+        const featureBox = features[0].box;
+
+        const sw = coordinates[0] - BOUNDING_RADIUS;
+        const se = coordinates[1] - BOUNDING_RADIUS;
+        const nw = coordinates[0] + BOUNDING_RADIUS;
+        const ne = coordinates[1] + BOUNDING_RADIUS;
+        let minBounds = [sw, se, nw, ne];
+        if (featureBox) {
+          minBounds = [
+            Math.min(featureBox[0], sw),
+            Math.min(featureBox[1], se),
+            Math.max(featureBox[2], nw),
+            Math.max(featureBox[3], ne),
+          ];
+        }
+
+        const radius = distBetween(
+          features[0].bbox[1],
+          features[0].bbox[0],
+          features[0].bbox[3],
+          features[0].bbox[2],
+        );
+
+        dispatch({
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            radius,
+            searchString: location,
+            context: location,
+            searchArea: {
+              locationString: location,
+              locationCoords: {
+                lng,
+                lat,
+              },
+            },
+            mapBoxQuery: {
+              placeName: features[0].place_name,
+              placeType: features[0].place_type[0],
+            },
+            searchCoords: null,
+            bounds: minBounds,
+            position: {
+              latitude: lat,
+              longitude: lng,
             },
           },
         });
