@@ -26,7 +26,7 @@ const vaMedalliaStylesFilename = 'va-medallia-styles';
 
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
-// const timestamp = new Date().getTime();
+const timestamp = new Date().getTime();
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
@@ -97,6 +97,10 @@ module.exports = env => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
+  const useHashFilenames = [ENVIRONMENTS.VAGOVPROD].includes(
+    buildOptions.buildtype,
+  );
+
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
@@ -112,8 +116,12 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: '/generated/',
-      filename: `[name].entry.js`,
-      chunkFilename: `[name].entry.js`,
+      filename: !useHashFilenames
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      chunkFilename: !useHashFilenames
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
     },
     module: {
       rules: [
@@ -249,7 +257,9 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return `[name].css`;
+          return useHashFilenames
+            ? `[name].[contenthash]-${timestamp}.css`
+            : `[name].css`;
         },
       }),
 
