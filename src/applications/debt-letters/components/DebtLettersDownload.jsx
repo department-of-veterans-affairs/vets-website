@@ -40,11 +40,11 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   );
 
   return (
-    <div className="vads-l-row vads-u-margin-x--neg2p5">
+    <div className="vads-l-row large-screen:vads-u-margin-x--neg2p5">
       <Breadcrumbs className="vads-u-font-family--sans">
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/your-debt">Current VA debt</a>
+        <a href="/manage-va-debt/your-debt">Your debt</a>
         <a href="/manage-va-debt/your-debt/debt-letters">
           Download debt letters
         </a>
