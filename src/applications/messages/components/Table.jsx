@@ -17,7 +17,7 @@ export class MessageTable extends React.Component {
         serviceRequired={[backendServices.USER_PROFILE]}
         user={this.props.user}
       >
-        <h1 className={'vads-u-padding-x--2'}>My Messages</h1>
+        <h1 className={'vads-u-padding-x--2'}>My messages</h1>
         <div
           className={'vads-u-padding-x--2 medium-screen:vads-u-padding-x--0'}
         >
