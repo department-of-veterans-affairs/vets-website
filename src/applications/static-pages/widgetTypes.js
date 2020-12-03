@@ -9,7 +9,7 @@ export default {
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   EDUCATION_APP_STATUS: 'education-app-status',
-  FIND_VA_FORMS: 'find-va-formss',
+  FIND_VA_FORMS: 'find-va-forms',
   FIND_VA_FORMS_INVALID_PDF_ALERT: 'find-va-forms-invalid-pdf-alert',
   FORM_686_CTA: 'form-686-CTA',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
@@ -19,8 +19,7 @@ export default {
   PENSION_APP_STATUS: 'pension-app-status',
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',
   RESOURCES_AND_SUPPORT_SEARCH: 'resources-and-support-search',
-  // THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
-  THIRD_PARTY_APP_DIRECTORY: 'find-va-forms',
+  THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   // Health Care | Manage Benefits widgets.
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
