@@ -55,7 +55,7 @@
               <ol class="process">
                 {% for fieldStep in fieldStepsItem.entity.fieldStep %}
                   <!-- Step -->
-                  <li class="process-step process-step-mobile list-{{ stepNumber | numToWord }}">
+                  <li class="process-step list-{{ stepNumber | numToWord }}">
                     <!-- Step wysiyg -->
                     {{ fieldStep.entity.fieldWysiwyg.processed }}
                     <!-- mobile template -->
