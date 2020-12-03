@@ -241,7 +241,7 @@ module.exports = class PactBrokerClient {
    * Retrieves the verification status for a consumer, including
    * a summary of whether that consumer can be deployed.
    * @param {VerificationContext}
-   * @return {Object}
+   * @return {Object} Verification result for the consumer.
    */
   getVerificationStatus = async ({ consumer, version, tag, url }) => {
     console.log(url);
