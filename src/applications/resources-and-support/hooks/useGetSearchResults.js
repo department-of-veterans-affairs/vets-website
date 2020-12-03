@@ -18,8 +18,8 @@ export default function useGetSearchResults(articles, query, page) {
       const keywords = query
         .split(' ')
         .filter(word => !!word)
-        .filter(word => !SEARCH_IGNORE_LIST.includes(word))
         .map(keyword => keyword.toLowerCase())
+        .filter(word => !SEARCH_IGNORE_LIST.includes(word))
         .map(keyword => {
           if (keyword.length > 6 && keyword.endsWith('ies')) {
             // Unpluralize the word, so that a search for "disabilities"
