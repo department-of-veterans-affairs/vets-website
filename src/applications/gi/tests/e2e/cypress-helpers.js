@@ -44,6 +44,28 @@ export const initApplicationMock = (
   initMockProfile(profile);
 };
 
+const sharedElements = [
+  'a[href]',
+  'button',
+  'details',
+  'input[type="text"]',
+  'input[type="email"]',
+  'input[type="password"]',
+  'input[type="search"]',
+  'input[type="tel"]',
+  'input[type="url"]',
+  'input[type="checkbox"]',
+  'input[type="number"]',
+  'input[type="file"]',
+  'input[type="date"]',
+  'input[type="datetime-local"]',
+  'input[type="month"]',
+  'input[type="time"]',
+  'input[type="week"]',
+  'select',
+  'textarea',
+];
+
 const elementsWithinCount = (elements, selector, count, msg) => {
   cy.get(selector).within(() => {
     cy.get(elements.join(', '))
@@ -66,24 +88,32 @@ const elementsWithinCount = (elements, selector, count, msg) => {
  */
 export const hasFocusableCount = (selector, count) => {
   const focusableElements = [
-    'a[href]',
-    'button',
-    'details',
-    'input[type="text"]',
-    'input[type="email"]',
-    'input[type="password"]',
-    'input[type="search"]',
-    'input[type="tel"]',
-    'input[type="url"]',
+    // 'a[href]',
+    // 'button',
+    // 'details',
+    // 'input[type="text"]',
+    // 'input[type="email"]',
+    // 'input[type="password"]',
+    // 'input[type="search"]',
+    // 'input[type="tel"]',
+    // 'input[type="url"]',
     'input[type="radio"]',
-    'input[type="checkbox"]',
-    'select',
-    'textarea',
+    // 'input[type="checkbox"]',
+    // 'input[type="number"]',
+    // 'input[type="file"]',
+    // 'input[type="date"]',
+    // 'input[type="datetime-local"]',
+    // 'input[type="month"]',
+    // 'input[type="time"]',
+    // 'input[type="week"]',
+    // 'select',
+    // 'textarea',
     '[tabindex="0"]',
     '[tabindex="-1"]',
   ];
+  const elements = [...sharedElements, ...focusableElements];
   const msg = `Page does not contain ${count} focusable elements.`;
-  elementsWithinCount(focusableElements, selector, count, msg);
+  elementsWithinCount(elements, selector, count, msg);
 };
 
 /**
@@ -92,22 +122,30 @@ export const hasFocusableCount = (selector, count) => {
  */
 export const hasTabbableCount = (selector, count) => {
   const tabbableElements = [
-    'a[href]',
-    'button',
-    'details',
-    'input[type="text"]',
-    'input[type="email"]',
-    'input[type="password"]',
-    'input[type="search"]',
-    'input[type="tel"]',
-    'input[type="url"]',
+    // 'a[href]',
+    // 'button',
+    // 'details',
+    // 'input[type="text"]',
+    // 'input[type="email"]',
+    // 'input[type="password"]',
+    // 'input[type="search"]',
+    // 'input[type="tel"]',
+    // 'input[type="url"]',
     'input[type="radio"]:checked',
-    'input[type="checkbox"]',
-    'select',
-    'textarea',
+    // 'input[type="checkbox"]',
+    // 'input[type="number"]',
+    // 'input[type="file"]',
+    // 'input[type="date"]',
+    // 'input[type="datetime-local"]',
+    // 'input[type="month"]',
+    // 'input[type="time"]',
+    // 'input[type="week"]',
+    // 'select',
+    // 'textarea',
     '[tabindex]:not([tabindex="-1"])',
   ];
 
+  const elements = [...sharedElements, ...tabbableElements];
   const msg = `Page does not contain ${count} tabbable elements.`;
-  elementsWithinCount(tabbableElements, selector, count, msg);
+  elementsWithinCount(elements, selector, count, msg);
 };
