@@ -154,7 +154,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       }),
     ).to.be.ok;
   });
-  // start of error
+
   it('should display an alert when user selects more than 3 dates', async () => {
     const store = createTestStore({
       newAppointment: {
@@ -230,10 +230,13 @@ describe('VAOS <DateTimeRequestPage>', () => {
     userEvent.click(button);
 
     // NOTE: alert doesn't have a name so search for text too
-    await waitFor(() => {
-      expect(screen.findByRole('alert')).to.be.ok;
-    });
+    expect(await screen.findByRole('alert')).to.be.ok;
     expect(screen.getByText(/You can only choose up to 3 dates/i)).to.be.ok;
+
+    // alert goes away after unselecting
+    userEvent.click(checkbox);
+    await waitFor(() => expect(checkbox.checked).to.be.false);
+    await waitFor(() => expect(screen.queryByRole('alert')).not.to.exist);
   });
 
   it('should display an alert when user selects 2 dates and multiple times', async () => {

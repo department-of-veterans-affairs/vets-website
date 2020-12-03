@@ -52,6 +52,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
         },
         pages: [],
         eligibility: [],
+        previousPages: {
+          selectDateTime: 'preferredDate',
+        },
       },
     });
 
@@ -66,6 +69,13 @@ describe('VAOS <DateTimeSelectPage>', () => {
     // NOTE: alert does not have an accessible name to query by
     await waitFor(() => {
       expect(screen.getByRole('alert')).to.be.ok;
+    });
+    expect(screen.history.push.called).to.be.false;
+
+    // should be able to go back with validation error
+    userEvent.click(screen.getByText(/Back$/));
+    await waitFor(() => {
+      expect(screen.history.push.called).to.be.true;
     });
   });
 
@@ -838,5 +848,160 @@ describe('VAOS <DateTimeSelectPage>', () => {
           .format('MMMM YYYY'),
       }),
     ).to.be.ok;
+  });
+
+  it('should fetch slots when moving between months', async () => {
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics: [
+        {
+          id: '308',
+          attributes: {
+            ...getClinicMock(),
+            siteCode: '983',
+            clinicId: '308',
+            institutionCode: '983',
+            clinicFriendlyLocationName: 'Green team clinic',
+          },
+        },
+      ],
+      pastClinics: true,
+    });
+
+    const preferredDate = moment()
+      .add(1, 'day')
+      .add(1, 'month');
+    const slot308Date = moment()
+      .add(1, 'day')
+      .add(1, 'month')
+      .startOf('month')
+      .day(9)
+      .hour(9)
+      .minute(0)
+      .second(0);
+    const secondSlotDate = slot308Date
+      .clone()
+      .add(2, 'month')
+      .day(9)
+      .hour(10)
+      .minute(0)
+      .second(0);
+
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '308',
+      typeOfCareId: '323',
+      slots: [
+        {
+          ...getAppointmentSlotMock(),
+          startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          endDateTime: slot308Date
+            .clone()
+            .minute(20)
+            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        },
+      ],
+      preferredDate,
+    });
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '308',
+      typeOfCareId: '323',
+      slots: [
+        {
+          ...getAppointmentSlotMock(),
+          startDateTime: secondSlotDate.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          endDateTime: secondSlotDate
+            .clone()
+            .minute(20)
+            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        },
+      ],
+      startDate: preferredDate
+        .clone()
+        .add('2', 'months')
+        .startOf('month'),
+      endDate: preferredDate
+        .clone()
+        .add('2', 'months')
+        .endOf('month'),
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /Yes/i);
+    await setPreferredDate(store, preferredDate);
+
+    // First pass check to make sure the slots associated with green team are displayed
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    let overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
+
+    let dayOfMonthButton = screen.getByLabelText(
+      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+    );
+    userEvent.click(dayOfMonthButton);
+    userEvent.click(
+      await screen.findByRole('radio', { name: '9:00 AM option selected' }),
+    );
+
+    // Need to move two months to trigger second fetch
+    userEvent.click(screen.getByText(/^Next/));
+    userEvent.click(screen.getByText(/^Next/));
+    overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
+
+    dayOfMonthButton = await screen.findByLabelText(
+      new RegExp(secondSlotDate.format('dddd, MMMM Do'), 'i'),
+    );
+    userEvent.click(dayOfMonthButton);
+
+    userEvent.click(
+      await screen.findByRole('radio', { name: '10:00 AM option selected' }),
+    );
+
+    // Go back and select initial slot
+    userEvent.click(screen.getByText(/^Prev/));
+    userEvent.click(screen.getByText(/^Prev/));
+
+    dayOfMonthButton = screen.getByLabelText(
+      new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
+    );
+    userEvent.click(dayOfMonthButton);
+    userEvent.click(
+      await screen.findByRole('radio', { name: '9:00 AM option selected' }),
+    );
+
+    // Have a selected slot, can move to next screen
+    userEvent.click(screen.getByText(/^Continue/));
+    await waitFor(() => {
+      expect(screen.history.push.called).to.be.true;
+    });
+    screen.history.push.reset();
+
+    // Clicking selected date should unselect date
+    userEvent.click(dayOfMonthButton);
+    userEvent.click(screen.getByText(/^Continue/));
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).to.be.ok;
+    });
+    expect(screen.history.push.called).to.be.false;
   });
 });
