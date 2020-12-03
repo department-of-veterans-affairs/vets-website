@@ -24,7 +24,11 @@ const transform = entity => {
     fieldButtonsRepeat: getDrupalValue(entity.fieldButtonsRepeat),
     fieldSteps: entity.fieldSteps,
     fieldContactInformation: entity.fieldContactInformation[0] || null,
-    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
+    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs.map(
+      nodeLandingPage => {
+        return { entity: nodeLandingPage };
+      },
+    ),
     fieldRelatedInformation: entity.fieldRelatedInformation,
     fieldPrimaryCategory: entity.fieldPrimaryCategory[0] || null,
     fieldOtherCategories: entity.fieldOtherCategories,

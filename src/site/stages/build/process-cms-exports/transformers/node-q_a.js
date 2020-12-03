@@ -21,7 +21,11 @@ const transform = entity => {
     fieldContactInformation: entity.fieldContactInformation[0] || null,
     fieldOtherCategories: entity.fieldOtherCategories,
     fieldPrimaryCategory: entity.fieldPrimaryCategory[0] || null,
-    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs,
+    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs.map(
+      nodeLandingPage => {
+        return { entity: nodeLandingPage };
+      },
+    ),
     fieldRelatedInformation: entity.fieldRelatedInformation,
     fieldTags: entity.fieldTags[0],
   };

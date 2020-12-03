@@ -30,7 +30,11 @@ module.exports = {
     fieldRelatedBenefitHubs: {
       type: ['array', 'null'],
       items: {
-        entity: { $ref: 'output/node-landing_page' },
+        type: 'object',
+        required: ['entity'],
+        properties: {
+          entity: { $ref: 'output/node-landing_page' },
+        },
       },
     },
     fieldRelatedInformation: {
