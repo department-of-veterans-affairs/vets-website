@@ -55,10 +55,9 @@
               <ol class="process">
                 {% for fieldStep in fieldStepsItem.entity.fieldStep %}
                   <!-- Step -->
-                  <li class="process-step list-{{ stepNumber | numToWord }}">
+                  <li class="process-step process-step-mobile list-{{ stepNumber | numToWord }}">
                     <!-- Step wysiyg -->
                     {{ fieldStep.entity.fieldWysiwyg.processed }}
-                    <br class="small-screen:vads-u-display--none"/>
                     <!-- mobile template -->
                     {% if fieldStep.entity.fieldMedia.entity.thumbnail != empty || fieldStep.entity.fieldAlert.entity %}
                       <div class="form-expanding-group additional-info-container medium-screen:vads-u-display--none">
