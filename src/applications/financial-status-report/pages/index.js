@@ -12,6 +12,7 @@ import * as spouseInformation from './spouseInformation';
 import * as spouseSocialSecurity from './spouseSocialSecurity';
 import * as householdExpenses from './householdExpenses';
 import * as householdUtilities from './householdUtilities';
+import * as householdRepayments from './householdRepayments';
 
 export {
   availableDebts,
@@ -28,4 +29,5 @@ export {
   householdAssets,
   householdExpenses,
   householdUtilities,
+  householdRepayments,
 };
