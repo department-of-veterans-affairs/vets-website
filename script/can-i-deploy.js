@@ -7,6 +7,7 @@
  * Only meant to run in CI.
  */
 
+const chalk = require('chalk');
 const path = require('path');
 
 const PactBrokerClient = require('../src/platform/testing/contract/client');
@@ -35,7 +36,7 @@ const checkDeployability = async (retries = 3, timeout = 30) => {
   });
 
   if (canDeploy) {
-    console.log('All pacts have passed verification.');
+    console.log(chalk.green('All pacts have passed verification.'));
     console.log(`Changes on commit ${commitHash} can be deployed.`);
     return verificationResults;
   }
@@ -50,7 +51,9 @@ const checkDeployability = async (retries = 3, timeout = 30) => {
   // Wait and check back on verification status if there are any unknowns.
   if (unknownVerificationCount && retries > 0) {
     console.log(
-      `Waiting for ${timeout} seconds to check verification status again...`,
+      chalk.yellow(
+        `Waiting for ${timeout} seconds to check verification status again...`,
+      ),
     );
     await new Promise(resolve => setTimeout(resolve, timeout * 1000));
     return checkDeployability(retries - 1, timeout * 2);
