@@ -15,10 +15,12 @@ import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 import { renderAdditionalInfo } from '../const/diary-codes';
+import { setPageFocus } from '../utils/page';
 
 class DebtDetails extends Component {
   componentDidMount() {
     scrollToTop();
+    setPageFocus('h1');
   }
   render() {
     const { selectedDebt } = this.props;
@@ -36,6 +38,7 @@ class DebtDetails extends Component {
     const additionalInfo = renderAdditionalInfo(
       selectedDebt.diaryCode,
       mostRecentHistory.date,
+      selectedDebt.benefitType,
     );
 
     return (
@@ -46,7 +49,10 @@ class DebtDetails extends Component {
           <a href="/manage-va-debt/your-debt">Your VA debt</a>
           <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
         </Breadcrumbs>
-        <h1 className="vads-u-font-family--serif vads-u-margin-bottom--2">
+        <h1
+          className="vads-u-font-family--serif vads-u-margin-bottom--2"
+          tabIndex="-1"
+        >
           Your {deductionCodes[selectedDebt.deductionCode]}
         </h1>
         <div className="vads-l-row">
@@ -132,7 +138,7 @@ class DebtDetails extends Component {
                     <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
                     <td>
                       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                        {debtEntry.status}
+                        {additionalInfo.status}
                       </p>
                       <p className="vads-u-margin-top--0">
                         {debtEntry.description}
