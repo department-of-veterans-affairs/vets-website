@@ -45,7 +45,7 @@ export default function useGetSearchResults(articles, query, page) {
 
       const orderedResults = sortBy(filteredArticles, 'title');
 
-      // Track the ordered results.
+      // Track R&S search results.
       recordEvent({
         event: 'view_search_results',
         'search-page-path': document.location.pathname,

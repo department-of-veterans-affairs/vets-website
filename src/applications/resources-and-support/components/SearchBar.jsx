@@ -17,8 +17,8 @@ export default function SearchBar({
   const disabled = userInput.length < 3;
 
   const onSubmit = event => {
+    // Track All VA.gov search.
     if (isGlobalSearch) {
-      // Track the ordered results.
       recordEvent({
         event: 'view_search_results',
         'search-page-path': document.location.pathname,

@@ -23,6 +23,7 @@ export default function SearchResult({
   totalResults,
 }) {
   const onSearchResultClick = () => {
+    // Track search result click.
     recordEvent({
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
