@@ -249,6 +249,7 @@ export default [
   {
     path: /v1\/facilities\/ccp/,
     response: ccProviders,
+    delay: 5000,
   },
   {
     path: /vaos\/v0\/facilities\/.*\/available_appointments/,
