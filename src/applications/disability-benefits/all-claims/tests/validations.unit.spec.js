@@ -244,8 +244,8 @@ describe('526 All Claims validations', () => {
   describe('validateBooleanGroup', () => {
     it('should add error if no props are true', () => {
       const errors = { addError: sinon.spy() };
-      validateBooleanGroup(errors, {
-        tests: false,
+      validateBooleanGroup(errors, { tests: false }, null, {
+        properties: { tests: 'string' },
       });
 
       expect(errors.addError.called).to.be.true;
@@ -253,7 +253,9 @@ describe('526 All Claims validations', () => {
 
     it('should add error if empty object', () => {
       const errors = { addError: sinon.spy() };
-      validateBooleanGroup(errors, {});
+      validateBooleanGroup(errors, {}, null, {
+        properties: { tests: 'string' },
+      });
 
       expect(errors.addError.called).to.be.true;
     });
@@ -278,9 +280,17 @@ describe('526 All Claims validations', () => {
 
     it('should use custom message', () => {
       const errors = { addError: sinon.spy() };
-      validateBooleanGroup(errors, { tests: false }, null, null, {
-        atLeastOne: 'testing',
-      });
+      validateBooleanGroup(
+        errors,
+        { tests: false },
+        null,
+        {
+          properties: { tests: 'string' },
+        },
+        {
+          atLeastOne: 'testing',
+        },
+      );
 
       expect(errors.addError.firstCall.args[0]).to.equal('testing');
     });
