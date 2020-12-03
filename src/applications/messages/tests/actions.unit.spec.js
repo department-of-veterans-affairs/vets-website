@@ -4,12 +4,12 @@ import sinon from 'sinon';
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 
 import {
-  processInquiries,
+  transformInquiries,
   fetchInquiries,
   FETCH_INQUIRIES_SUCCESS,
 } from '../actions';
 
-describe('processInquiries', () => {
+describe('transformInquiries', () => {
   const mockData = [
     {
       subject: 'Prosthetics',
@@ -26,13 +26,13 @@ describe('processInquiries', () => {
   ];
 
   it('formats dateLastUpdated', () => {
-    const result = processInquiries(mockData);
+    const result = transformInquiries(mockData);
 
     expect(result[0].dateLastUpdated).to.eql('November 4, 2020');
   });
 
   it('formats status', () => {
-    const result = processInquiries(mockData);
+    const result = transformInquiries(mockData);
 
     expect(result[0].status).to.eql('Open');
   });
@@ -69,13 +69,11 @@ describe('fetchInquiries', () => {
     await fetchInquiries()(dispatch);
     const action = dispatch.firstCall.args[0];
     expect(action.type).to.equal(FETCH_INQUIRIES_SUCCESS);
-    action.data.forEach(inquiry => {
-      expect(inquiry).to.include.all.keys(
-        'subject',
-        'confirmationNumber',
-        'status',
-        'dateLastUpdated',
-      );
-    });
+    expect(action.data[0]).to.include.all.keys(
+      'subject',
+      'confirmationNumber',
+      'status',
+      'dateLastUpdated',
+    );
   });
 });
