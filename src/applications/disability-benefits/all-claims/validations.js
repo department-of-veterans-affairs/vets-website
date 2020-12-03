@@ -326,7 +326,7 @@ export function validateBooleanGroup(
 ) {
   const { atLeastOne = 'Please choose at least one option' } = errorMessages;
   const group = userGroup || {};
-  const props = schema.properties;
+  const props = schema?.properties || {};
   if (
     !Object.keys(group).filter(
       item =>
