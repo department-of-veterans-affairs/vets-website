@@ -19,7 +19,9 @@ export class MessageTable extends React.Component {
       >
         <h1 className={'vads-u-padding-x--2'}>My messages</h1>
         <div
-          className={'vads-u-padding-x--2 medium-screen:vads-u-padding-x--0'}
+          className={
+            'vads-u-padding-x--2 medium-screen:vads-u-padding-x--0 vads-u-margin-bottom--6'
+          }
         >
           <Table
             fields={[
