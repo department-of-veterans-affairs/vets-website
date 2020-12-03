@@ -78,13 +78,16 @@ export class SearchMenu extends React.Component {
     recordEvent({
       event: 'view_search_results',
       'search-page-path': document.location.pathname,
-      'search-text-input': this.state.userInput,
+      'search-query': this.state.userInput,
+      'search-results-total-count': undefined,
+      'search-results-total-pages': undefined,
+      'search-selection': 'All VA.gov',
+      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
       'type-ahead-option-keyword-selected': suggestion,
       'type-ahead-option-position': suggestion
         ? this.state.suggestions.indexOf(suggestion) + 1
         : undefined,
       'type-ahead-options-list': this.state.suggestions,
-      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
     });
   };
 
