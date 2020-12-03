@@ -47,6 +47,7 @@
             <!-- TOC -->
             {% if fieldTableOfContentsBoolean %}
               <section id="table-of-contents">
+                <button type="button" class="vads-u-visibility--screen-reader">Back to top</button>
                 <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
                 <ul class="usa-unstyled-list"></ul>
               </section>
@@ -56,6 +57,7 @@
             {% for fieldQAGroup in fieldQAGroups %}
               <!-- Optional section header -->
               {% if fieldQAGroup.entity.fieldSectionHeader %}
+                <button type="button" class="vads-u-visibility--screen-reader">Back to top</button>
                 <h2>{{ fieldQAGroup.entity.fieldSectionHeader }}</h2>
               {% endif %}
 
@@ -87,6 +89,7 @@
                   {% endif %}
 
                   {% for fieldQA in fieldQAGroup.entity.fieldQAs %}
+                    <button type="button" class="vads-u-visibility--screen-reader">Back to top</button>
                     <{{ fieldSectionHeaderTag }}>{{ fieldQA.entity.title }}</{{ fieldSectionHeaderTag }}>
                     {% if fieldQA.entity %}
                       {% assign fieldAnswer = fieldQA.entity.fieldAnswer %}
@@ -135,8 +138,8 @@
       </div>
     </div>
   </main>
-    <!-- Up To Top Button -->
-    {% include "src/site/components/up_to_top_button.html" %}
+  <!-- Up To Top Button -->
+  {% include "src/site/components/up_to_top_button.html" %}
 </div>
 
 {% include "src/site/includes/footer.html" %}

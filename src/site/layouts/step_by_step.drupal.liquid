@@ -58,17 +58,30 @@
                   <li class="process-step list-{{ stepNumber | numToWord }}">
                     <!-- Step wysiyg -->
                     {{ fieldStep.entity.fieldWysiwyg.processed }}
-                    <br />
-
+                    <br class="vads-u-display--none medium-screen:vads-u-display--block"/>
+                    <!-- mobile template -->
+                    {% if fieldStep.entity.fieldMedia.entity != empty || fieldStep.entity.fieldAlert.entity %}
+                      <div class="form-expanding-group additional-info-container medium-screen:vads-u-display--none">
+                        <span class="additional-info-title">Show Details</span>
+                          <span>
+                            <div class="additional-info-content">
+                              {% include "src/site/paragraphs/alert_single.drupal.liquid" with alert = fieldStep.entity.fieldAlert.entity %}
+                              <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
+                              src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
+                            </div>
+                          </span>
+                      </div>
+                    {% endif %}
+                    <!-- desktop -->
+                    <span class="vads-u-display--none medium-screen:vads-u-display--block">
                     {% include "src/site/paragraphs/alert_single.drupal.liquid" with alert = fieldStep.entity.fieldAlert.entity %}
-
                     <!-- Step image -->
                     {% if fieldStep.entity.fieldMedia.entity != empty %}
                       <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
                         src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
                     {% endif %}
+                  </span>
                   </li>
-
                   <!-- Increment step number -->
                   {% assign stepNumber = stepNumber | plus: 1 %}
                 {% endfor %}
@@ -77,7 +90,7 @@
 
             <!-- Repeated buttons -->
             {% if fieldButtonsRepeat %}
-              <div class="vads-u-margin-top--3">
+              <div class="vads-u-margin-top--3 small-screen:vads-u-display--flex small-screen:vads-u-justify-content--center medium-screen:vads-u-display--block">
                 {% for fieldButton in fieldButtons  %}
                   {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
                 {% endfor %}

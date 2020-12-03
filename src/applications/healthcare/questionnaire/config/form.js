@@ -56,6 +56,7 @@ const formConfig = {
     continueAppButtonText: 'Continue questions',
     finishAppLaterMessage: 'Finish this questionnaire later.',
     appSavedSuccessfullyMessage: 'Questionnaire has been saved.',
+    submitButtonText: 'Submit answers',
   },
   chapters: {
     chapter1: {

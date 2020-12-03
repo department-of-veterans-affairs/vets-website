@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import FacilityHours from '../../components/FacilityHours';
@@ -21,21 +21,25 @@ const hoursOfOperation = [
 
 describe('VAOS <FacilityHours>', () => {
   it('should render', () => {
-    const tree = shallow(<FacilityHours hoursOfOperation={hoursOfOperation} />);
-    expect(tree.text()).to.contain('Sunday');
-    expect(tree.text()).to.contain('Monday');
-    expect(tree.text()).to.contain('Tuesday');
-    expect(tree.text()).to.contain('Wednesday');
-    expect(tree.text()).to.contain('Thursday');
-    expect(tree.text()).to.contain('Friday');
-    expect(tree.text()).to.contain('Saturday');
-    const dayDivs = tree.find('.vaos-facility-details__day');
-    expect(dayDivs.length).to.equal(7);
-    const hourDivs = tree.find('.vaos-facility-details__hours');
-    expect(hourDivs.length).to.equal(7);
-    expect(hourDivs.at(1).text()).to.equal('8:00 a.m. - 4:00 p.m.');
-    expect(hourDivs.at(2).text()).to.equal('Closed');
-    expect(hourDivs.at(3).text()).to.equal('24/7');
-    tree.unmount();
+    const screen = render(
+      <FacilityHours hoursOfOperation={hoursOfOperation} />,
+    );
+
+    expect(screen.getByText('Sunday')).to.be.ok;
+    expect(screen.getByText('Monday')).to.be.ok;
+    expect(screen.getByText('Tuesday')).to.be.ok;
+    expect(screen.getByText('Wednesday')).to.be.ok;
+    expect(screen.getByText('Thursday')).to.be.ok;
+    expect(screen.getByText('Friday')).to.be.ok;
+    expect(screen.getByText('Saturday')).to.be.ok;
+
+    // Facility should be open on Monday
+    expect(screen.getByText('8:00 a.m. - 4:00 p.m.')).to.be.ok;
+
+    // Facility should be closed on Tuesday
+    expect(screen.getByText('Closed')).to.be.ok;
+
+    // Facility should be open all day on Wed, Thu, Fri, Sat, & Sun
+    expect(screen.getAllByText('24/7').length).to.equal(5);
   });
 });
