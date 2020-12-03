@@ -28,10 +28,10 @@ const formFields = {
 export const veteranServiceInformationUI = {
   'ui:order': [
     'socialSecurityNumber',
+    'dateOfBirth',
     'serviceNumber',
     'claimNumber',
     'branchOfService',
-    'dateOfBirth',
     'serviceDateRange',
   ],
   [formFields.socialSecurityNumber]: {
@@ -54,6 +54,9 @@ export const veteranServiceInformationUI = {
     'ui:title': branchOfServiceTitle,
     'ui:required': formData =>
       requireServiceInfo(formData.veteranStatus.veteranStatus),
+    'ui:errorMessages': {
+      required: "Please enter the Veteran's branch of service",
+    },
   },
   [formFields.dateOfBirth]: {
     ...currentOrPastDateUI(dateOfBirthTitle),

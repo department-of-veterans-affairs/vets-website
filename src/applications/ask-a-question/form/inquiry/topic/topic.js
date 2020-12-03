@@ -234,9 +234,15 @@ export function uiSchema() {
     ],
     [formFields.levelOne]: {
       'ui:title': topicLevelOneTitle,
+      'ui:errorMessages': {
+        required: 'Please enter your category',
+      },
     },
     [formFields.levelTwo]: {
       'ui:title': topicLevelTwoTitle,
+      'ui:errorMessages': {
+        required: 'Please enter your topic',
+      },
     },
     [formFields.levelThree]: {
       'ui:title': topicLevelThreeTitle,
@@ -248,6 +254,9 @@ export function uiSchema() {
         expandUnderCondition: levelTwo => {
           return !!levelThreeRequiredTopics.has(levelTwo);
         },
+      },
+      'ui:errorMessages': {
+        required: 'Please enter your subtopic',
       },
     },
     [formFields.vaMedicalCenter]: {
@@ -261,6 +270,9 @@ export function uiSchema() {
           return !!medicalCenterRequiredTopics.has(levelTwo);
         },
       },
+      'ui:errorMessages': {
+        required: 'Please enter your medical center',
+      },
     },
     [formFields.routeToState]: {
       'ui:title': routeToStateTitle,
@@ -272,6 +284,9 @@ export function uiSchema() {
         expandUnderCondition: levelTwo => {
           return !!routeToStateRequiredTopics.has(levelTwo);
         },
+      },
+      'ui:errorMessages': {
+        required: 'Please enter your state',
       },
     },
   };

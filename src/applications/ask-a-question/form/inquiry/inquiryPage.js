@@ -16,14 +16,20 @@ const formFields = {
 
 const inquiryPage = {
   uiSchema: {
+    [formFields.topic]: topic.uiSchema(),
     [formFields.inquiryType]: {
       'ui:title': inquiryTypeTitle,
+      'ui:errorMessages': {
+        required: "Please enter the reason you're contacting us",
+      },
     },
-    [formFields.topic]: topic.uiSchema(),
     [formFields.query]: {
       'ui:title': queryTitle,
       'ui:widget': 'textarea',
       'ui:validations': [validateWhiteSpace],
+      'ui:errorMessages': {
+        required: 'Please enter your message',
+      },
     },
     [formFields.veteranStatus]: {
       ...veteranStatusUI,

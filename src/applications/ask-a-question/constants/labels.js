@@ -32,8 +32,8 @@ export const dateOfDeathTitle = 'Date of Death if known';
 export const branchOfServiceTitle = 'Branch of service';
 
 /* Additional Veteran Information */
-export const dateOfBirthTitle = 'Date of Birth';
-export const socialSecurityNumberTitle = 'Social Security number';
+export const dateOfBirthTitle = "Veteran's date of birth";
+export const socialSecurityNumberTitle = "Veteran's Social Security number";
 export const serviceStartDateTitle = 'Service start date';
 export const claimNumberTitle = 'Claim number';
 export const serviceEndDateTitle = 'Service end date';
@@ -43,9 +43,9 @@ export const serviceNumberTitle = 'Service number';
 export const socialSecurityNumberPatternErrorMessage =
   'Please enter a valid Social Security Number';
 export const serviceNumberPatternErrorMessage =
-  'Please enter a valid Service Number';
+  'Please enter a valid service number';
 export const claimNumberPatternErrorMessage =
-  'Please enter a valid Claim Number';
+  'Please enter a valid claim number';
 export const serviceDateRangeErrorMessage =
   'End of service must be after start of service';
 
@@ -64,7 +64,8 @@ export const dependentInformationHeader = 'Dependent information';
 
 export const dependentFirstName = "Dependent's first name";
 export const dependentLastName = "Dependent's last name";
-export const dependentRelationshipToVeteran = 'Your relation to the Veteran';
+export const dependentRelationshipToVeteran =
+  "Dependent's relationship to the Veteran";
 
 /* --------------- Veteran Information ------------- */
 export const veteranInformationHeader = 'Veteran information';
@@ -84,14 +85,16 @@ export const postalCodeTitle = 'Postal code';
 export const zipCodeTitle = 'Zip code';
 
 /* Address error messages */
+export const countryErrorMessage = 'Please enter your country';
 export const stateOrProvinceMissingErrorMessage =
-  'Please enter a state or province, or remove other address information.';
-export const stateOrProvinceErrorMessage = 'Please select a state or province';
-export const stateErrorMessage = 'Please enter a state';
-export const streetErrorMessage = 'Please enter a street address';
-export const cityErrorMessage = 'Please enter a city';
-export const postalCodeErrorMessage = 'Please provide a valid postal code';
-export const zipCodeRequiredErrorMessage = 'Please enter a zip code';
+  'Please enter your state or province, or remove other address information.';
+export const stateOrProvinceErrorMessage =
+  'Please select your state or province';
+export const stateErrorMessage = 'Please enter your state';
+export const streetErrorMessage = 'Please enter your street address';
+export const cityErrorMessage = 'Please enter your city';
+export const postalCodeErrorMessage = 'Please provide your postal code';
+export const zipCodeRequiredErrorMessage = 'Please enter your zip code';
 export const zipCodePatternErrorMessage =
   'Please enter a valid 5- or 9-digit zip code (dashes allowed)';
 

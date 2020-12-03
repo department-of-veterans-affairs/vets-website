@@ -15,6 +15,7 @@ import {
   dependentLastName,
   emailTitle,
   streetAddress,
+  zipCodeTitle,
 } from '../../../constants/labels';
 
 const formFields = {
@@ -31,14 +32,23 @@ export const dependentInformationUI = dependentInformationDisplayed => ({
   [formFields.relationshipToVeteran]: {
     'ui:title': dependentRelationshipToVeteran,
     'ui:required': dependentInformationDisplayed,
+    'ui:errorMessages': {
+      required: "Please enter the dependent's relationship to the Veteran",
+    },
   },
   [formFields.first]: {
     'ui:title': dependentFirstName,
     'ui:required': dependentInformationDisplayed,
+    'ui:errorMessages': {
+      required: "Please enter the dependent's first name",
+    },
   },
   [formFields.last]: {
     'ui:title': dependentLastName,
     'ui:required': dependentInformationDisplayed,
+    'ui:errorMessages': {
+      required: "Please enter the dependent's last name",
+    },
   },
   [formFields.address]: _.merge(uiSchema('', false, null, true), {
     'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
@@ -50,15 +60,24 @@ export const dependentInformationUI = dependentInformationDisplayed => ({
       'ui:required': formData => {
         return dependentInformationDisplayed(formData);
       },
+      'ui:errorMessages': {
+        required: "Please enter the dependent's country",
+      },
     },
     street2: {
       'ui:options': {
         hideIf: () => true,
       },
     },
+    postalCode: {
+      'ui:title': zipCodeTitle,
+    },
   }),
   [formFields.phone]: phoneUI(daytimePhoneAreaCodeTitle),
   [formFields.email]: _.merge(emailUI(emailTitle), {
     'ui:required': formData => dependentInformationDisplayed(formData),
+    'ui:errorMessages': {
+      required: "Please enter the dependent's email",
+    },
   }),
 });

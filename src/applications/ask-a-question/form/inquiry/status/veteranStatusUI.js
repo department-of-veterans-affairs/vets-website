@@ -37,6 +37,9 @@ export const veteranStatusUI = {
   'ui:description': veteranStatusSectionDescription,
   [formFields.veteranStatus]: {
     'ui:title': veteranStatusTitle,
+    'ui:errorMessages': {
+      required: 'Please enter your response',
+    },
   },
   [formFields.isDependent]: {
     'ui:title': isDependentTitle,
@@ -47,6 +50,9 @@ export const veteranStatusUI = {
       expandUnder: 'veteranStatus',
       expandUnderCondition: 'dependent',
     },
+    'ui:errorMessages': {
+      required: 'Please enter your response',
+    },
   },
   [formFields.relationshipToVeteran]: {
     'ui:title': relationshipToVeteranTitle,
@@ -55,6 +61,9 @@ export const veteranStatusUI = {
     'ui:options': {
       expandUnder: 'veteranStatus',
       expandUnderCondition: requireVetRelationship,
+    },
+    'ui:errorMessages': {
+      required: 'Please enter your relationship to the Veteran',
     },
   },
   [formFields.veteranIsDeceased]: {
@@ -66,6 +75,9 @@ export const veteranStatusUI = {
       hideIf: formData => {
         return !requireDeathInfo(formData);
       },
+    },
+    'ui:errorMessages': {
+      required: 'Please enter your response',
     },
   },
   [formFields.dateOfDeath]: {

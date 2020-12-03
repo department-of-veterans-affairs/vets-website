@@ -14,6 +14,7 @@ import {
   veteranInformationHeader,
   veteransFirstName,
   veteransLastName,
+  zipCodeTitle,
 } from '../../constants/labels';
 
 const formFields = {
@@ -40,10 +41,16 @@ export const veteranInformationUI = requireIfDisplayed => ({
   [formFields.first]: {
     'ui:title': veteransFirstName,
     'ui:required': requireIfDisplayed,
+    'ui:errorMessages': {
+      required: "Please enter the Veteran's first name",
+    },
   },
   [formFields.last]: {
     'ui:title': veteransLastName,
     'ui:required': requireIfDisplayed,
+    'ui:errorMessages': {
+      required: "Please enter the Veteran's last name",
+    },
   },
   [formFields.address]: _.merge(uiSchema('', false, null, true), {
     'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
@@ -57,11 +64,17 @@ export const veteranInformationUI = requireIfDisplayed => ({
     country: {
       'ui:required': formData =>
         requireIfDisplayed(formData) && veteranIsAlive(formData),
+      'ui:errorMessages': {
+        required: "Please enter the Veteran's country",
+      },
     },
     street2: {
       'ui:options': {
         hideIf: () => true,
       },
+    },
+    postalCode: {
+      'ui:title': zipCodeTitle,
     },
   }),
   [formFields.phone]: _.merge(phoneUI(daytimePhoneAreaCodeTitle), {
@@ -74,6 +87,9 @@ export const veteranInformationUI = requireIfDisplayed => ({
       requireIfDisplayed(formData) && veteranIsAlive(formData),
     'ui:options': {
       hideIf: formData => veteranIsDeceased(formData),
+    },
+    'ui:errorMessages': {
+      required: "Please enter the Veteran's email",
     },
   }),
 });
