@@ -17,6 +17,22 @@ export default function SearchBar({
   const disabled = userInput.length < 3;
 
   const onSubmit = event => {
+    if (isGlobalSearch) {
+      // Track the ordered results.
+      recordEvent({
+        event: 'view_search_results',
+        'search-page-path': document.location.pathname,
+        'search-query': userInput,
+        'search-results-total-count': undefined,
+        'search-results-total-pages': undefined,
+        'search-selection': 'All VA.gov',
+        'search-typeahead-enabled': false,
+        'type-ahead-option-keyword-selected': undefined,
+        'type-ahead-option-position': undefined,
+        'type-ahead-options-list': undefined,
+      });
+    }
+
     // Escape early if we are not on the search page to let the form submit manually.
     if (useDefaultFormSearch) {
       return;
