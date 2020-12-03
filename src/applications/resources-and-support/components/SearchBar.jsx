@@ -1,7 +1,8 @@
 // Node modules.
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
+// Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import resourcesSettings from '../manifest.json';
 import searchSettings from 'applications/search/manifest.json';
 
