@@ -14,7 +14,7 @@ contractTest('My Messages', 'VA.gov API', mockApi => {
   describe('GET /messages/inquiries', () => {
     it('returns a list of messages for user', async () => {
       await mockApi().addInteraction({
-        state: 'Logged In User With Messages',
+        state: 'logged in user with messages',
         uponReceiving: 'a GET request',
         withRequest: {
           method: 'GET',
@@ -38,7 +38,7 @@ contractTest('My Messages', 'VA.gov API', mockApi => {
               status: 'RESOLVED',
               creationTimestamp: iso8601DateTime(),
               lastActiveTimestamp: iso8601DateTime(),
-              Links: {
+              links: {
                 thread: {
                   href: '/v1/user/{:user-id}/inquiry/000-011',
                 },
