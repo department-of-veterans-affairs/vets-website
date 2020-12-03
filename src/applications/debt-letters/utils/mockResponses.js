@@ -1,5 +1,5 @@
 const data = {
-  hasDependentDebts: true,
+  hasDependentDebts: false,
   debts: [
     {
       fileNumber: '796121200',
