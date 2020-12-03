@@ -3,7 +3,6 @@ import {
   validateCity,
   validateStreet,
 } from 'platform/forms/definitions/address';
-import SectionHeader from '../../../components/SectionHeader';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import _ from 'lodash';
@@ -13,12 +12,11 @@ import {
   dependentEmailError,
   dependentFirstName,
   dependentFirstNameError,
-  dependentInformationHeader,
   dependentLastName,
   dependentLastNameError,
   dependentRelationshipToVeteran,
   dependentRelationshipToVeteranError,
-  emailTitle,
+  dependentEmail,
   streetAddress,
   zipCodeTitle,
 } from '../../../constants/labels';
@@ -33,7 +31,6 @@ const formFields = {
 };
 
 export const dependentInformationUI = dependentInformationDisplayed => ({
-  'ui:description': SectionHeader(dependentInformationHeader),
   [formFields.relationshipToVeteran]: {
     'ui:title': dependentRelationshipToVeteran,
     'ui:required': dependentInformationDisplayed,
@@ -79,7 +76,7 @@ export const dependentInformationUI = dependentInformationDisplayed => ({
     },
   }),
   [formFields.phone]: phoneUI(daytimePhoneAreaCodeTitle),
-  [formFields.email]: _.merge(emailUI(emailTitle), {
+  [formFields.email]: _.merge(emailUI(dependentEmail), {
     'ui:required': formData => dependentInformationDisplayed(formData),
     'ui:errorMessages': {
       required: dependentEmailError,

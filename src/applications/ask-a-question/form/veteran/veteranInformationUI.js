@@ -3,18 +3,16 @@ import {
   validateCity,
   validateStreet,
 } from 'platform/forms/definitions/address';
-import SectionHeader from '../../components/SectionHeader';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import _ from 'lodash';
 import {
   daytimePhoneAreaCodeTitle,
-  emailTitle,
+  veteranEmail,
   streetAddress,
   veteranCountryError,
   veteranEmailError,
   veteranFirstNameError,
-  veteranInformationHeader,
   veteranLastNameError,
   veteransFirstName,
   veteransLastName,
@@ -41,7 +39,6 @@ const veteranIsAlive = formData => {
 };
 
 export const veteranInformationUI = requireIfDisplayed => ({
-  'ui:description': SectionHeader(veteranInformationHeader),
   [formFields.first]: {
     'ui:title': veteransFirstName,
     'ui:required': requireIfDisplayed,
@@ -86,7 +83,7 @@ export const veteranInformationUI = requireIfDisplayed => ({
       hideIf: formData => veteranIsDeceased(formData),
     },
   }),
-  [formFields.email]: _.merge(emailUI(emailTitle), {
+  [formFields.email]: _.merge(emailUI(veteranEmail), {
     'ui:required': formData =>
       requireIfDisplayed(formData) && veteranIsAlive(formData),
     'ui:options': {

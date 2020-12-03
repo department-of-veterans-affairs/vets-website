@@ -6,7 +6,6 @@ import {
   isDependentTitle,
   relationshipToVeteranError,
   relationshipToVeteranTitle,
-  veteranStatusSectionDescription,
   veteranStatusTitle,
 } from '../../../constants/labels';
 
@@ -36,7 +35,6 @@ export const requireServiceInfo = selectedVeteranStatus =>
   selectedVeteranStatus && selectedVeteranStatus !== 'general';
 
 export const veteranStatusUI = {
-  'ui:description': veteranStatusSectionDescription,
   [formFields.veteranStatus]: {
     'ui:title': veteranStatusTitle,
     'ui:errorMessages': {

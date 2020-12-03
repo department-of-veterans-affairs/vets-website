@@ -80,6 +80,7 @@ export const dependentInformationHeader = 'Dependent information';
 
 export const dependentFirstName = "Dependent's first name";
 export const dependentLastName = "Dependent's last name";
+export const dependentEmail = "Dependent's Email";
 export const dependentRelationshipToVeteran =
   "Dependent's relationship to the Veteran";
 /* -------------- Dependent Errors -------------------- */
@@ -96,6 +97,7 @@ export const veteranInformationHeader = 'Veteran information';
 
 export const veteransFirstName = "Veteran's first name";
 export const veteransLastName = "Veteran's last name";
+export const veteranEmail = "Veteran's Email";
 /* --------------- Veteran Errors ------------- */
 export const veteranFirstNameError = "Please enter the Veteran's first name";
 export const veteranLastNameError = "Please enter the Veteran's last name";
