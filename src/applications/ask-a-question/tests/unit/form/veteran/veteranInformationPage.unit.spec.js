@@ -9,11 +9,9 @@ import formConfig from '../../../../form/form';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
   daytimePhoneAreaCodeTitle,
-  dependentInformationHeader,
   dependentRelationshipToVeteran,
   emailTitle,
   streetAddress,
-  veteranInformationHeader,
 } from '../../../../constants/labels';
 
 function expectBranchOfServiceToBeRequired(wrapper) {
@@ -250,8 +248,6 @@ describe('Veteran Information Page', () => {
         veteranStatus: 'dependent',
         isDependent: true,
       });
-
-      getText(wrapper, dependentInformationHeader, '').shouldNotExist();
 
       nameFieldsShouldNotExist(wrapper, 'dependentInformation');
       addressFieldsShouldNotExist(wrapper, 'dependentInformation');
