@@ -4,33 +4,29 @@ import CardDetailsView from '../components/CardDetailsView';
 export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
   householdUtilities: {
-    utilities: {
+    hasUtility: {
       'ui:title':
         'Do you pay any utility bills, such as electricity, water, or gas?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    hasUtilities: {
+    utilityRecords: {
       'ui:options': {
-        expandUnder: 'utilities',
+        expandUnder: 'hasUtility',
+        viewField: CardDetailsView,
+        doNotScroll: true,
+        showSave: true,
       },
-      utilityType: {
-        'ui:field': ItemLoop,
-        'ui:description':
-          'Enter each type of monthly utility bill separately below.',
-        'ui:options': {
-          viewField: CardDetailsView,
-          doNotScroll: true,
-          showSave: true,
+      'ui:field': ItemLoop,
+      'ui:description':
+        'Enter each type of monthly utility bill separately below.',
+      items: {
+        'ui:title': 'Add a utility',
+        utilityType: {
+          'ui:title': 'Type of utility',
         },
-        items: {
-          'ui:title': 'Add a utility',
-          utilityType: {
-            'ui:title': 'Type of utility',
-          },
-          monthlyUtilityAmount: {
-            'ui:title': 'Monthly payment amount',
-          },
+        monthlyUtilityAmount: {
+          'ui:title': 'Monthly payment amount',
         },
       },
     },
@@ -42,24 +38,19 @@ export const schema = {
     householdUtilities: {
       type: 'object',
       properties: {
-        utilities: {
+        hasUtility: {
           type: 'boolean',
         },
-        hasUtilities: {
-          type: 'object',
-          properties: {
-            utilityType: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  utilityType: {
-                    type: 'string',
-                  },
-                  monthlyUtilityAmount: {
-                    type: 'number',
-                  },
-                },
+        utilityRecords: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              utilityType: {
+                type: 'string',
+              },
+              monthlyUtilityAmount: {
+                type: 'number',
               },
             },
           },
