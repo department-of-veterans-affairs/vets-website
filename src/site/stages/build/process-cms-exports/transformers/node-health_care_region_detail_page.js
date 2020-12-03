@@ -13,7 +13,9 @@ const transform = (entity, { ancestors }) => ({
   entityPublished: isPublished(getDrupalValue(entity.status)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldAlert: getDrupalValue(entity.fieldAlert),
-  fieldContentBlock: entity.fieldContentBlock,
+  fieldContentBlock: entity.fieldContentBlock.filter(
+    content => content.entityPublished,
+  ),
   fieldFeaturedContent: entity.fieldFeaturedContent,
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: entity.fieldOffice[0]

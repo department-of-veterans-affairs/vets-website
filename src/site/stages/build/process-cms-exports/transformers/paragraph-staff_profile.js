@@ -1,3 +1,5 @@
+const { isPublished, getDrupalValue } = require('./helpers');
+
 const transform = entity => ({
   entity: {
     entityType: 'paragraph',
@@ -5,9 +7,10 @@ const transform = entity => ({
     queryFieldStaffProfile: {
       entities: [entity.fieldStaffProfile[0] || null],
     },
+    entityPublished: isPublished(getDrupalValue(entity.status)),
   },
 });
 module.exports = {
-  filter: ['field_staff_profile'],
+  filter: ['field_staff_profile', 'status'],
   transform,
 };
