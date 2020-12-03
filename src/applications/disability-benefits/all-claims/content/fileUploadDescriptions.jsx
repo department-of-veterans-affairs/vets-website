@@ -1,4 +1,5 @@
 import React from 'react';
+import { MAX_FILE_SIZE_MB } from '../constants';
 
 export const UploadDescription = ({ uploadTitle }) => (
   <div>
@@ -16,7 +17,7 @@ export const UploadDescription = ({ uploadTitle }) => (
         File types you can upload: .pdf (unlocked), .jpg, .jpeg, .png, .gif,
         .bmp, or .txt
       </li>
-      <li>Maximum file size: 50MB</li>
+      <li>{`Maximum file size: ${MAX_FILE_SIZE_MB}MB`}</li>
     </ul>
     <p>
       <em>

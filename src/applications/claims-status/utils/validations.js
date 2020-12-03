@@ -1,4 +1,7 @@
-const MAX_FILE_SIZE = 50 * 1024 * 1024;
+export const MAX_FILE_SIZE_MB = 150;
+
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // binary
+
 export const FILE_TYPES = ['pdf', 'gif', 'jpeg', 'jpg', 'bmp', 'txt'];
 
 export function isNotBlank(value) {
@@ -14,7 +17,7 @@ export function validateIfDirty(field, validator) {
 }
 
 export function isValidFileSize(file) {
-  return file.size < MAX_FILE_SIZE;
+  return file.size < MAX_FILE_SIZE_BYTES;
 }
 
 export function isEmptyFileSize(file) {

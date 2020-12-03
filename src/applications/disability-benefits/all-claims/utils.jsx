@@ -34,7 +34,7 @@ import {
   RESERVE_GUARD_TYPES,
   STATE_LABELS,
   STATE_VALUES,
-  FIFTY_MB,
+  MAX_FILE_SIZE_BYTES,
   USA,
   TYPO_THRESHOLD,
   itfStatuses,
@@ -649,7 +649,7 @@ export const ancillaryFormUploadUi = (
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
-    maxSize: FIFTY_MB,
+    maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1,
     createPayload: (file, _formId, password) => {
       const payload = new FormData();

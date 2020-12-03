@@ -89,9 +89,12 @@ export const VA_FORM4142_URL =
 export const VA_FORM4192_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf';
 
-export const TWENTY_FIVE_MB = 26214400;
+export const MAX_FILE_SIZE_MB = 50;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const FIFTY_MB = 52428800;
+export const MAX_PDF_FILE_SIZE_MB = 150;
+// binary based
+export const MAX_PDF_FILE_SIZE_BYTES = MAX_PDF_FILE_SIZE_MB * 1024 ** 2;
 
 export const PTSD_MATCHES = [
   'ptsd',

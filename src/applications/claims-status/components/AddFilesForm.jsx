@@ -28,6 +28,7 @@ import {
   isEmptyFileSize,
   isValidFileType,
   FILE_TYPES,
+  MAX_FILE_SIZE_MB,
 } from '../utils/validations';
 import { setFocus } from '../utils/page';
 
@@ -103,8 +104,7 @@ class AddFilesForm extends React.Component {
       });
     } else if (!isValidFileSize(file)) {
       this.setState({
-        errorMessage:
-          'The file you selected is larger than the 50MB maximum file size and could not be added.',
+        errorMessage: `The file you selected is larger than the ${MAX_FILE_SIZE_MB}MB maximum file size and could not be added.`,
       });
     } else if (isEmptyFileSize(file)) {
       this.setState({
@@ -179,7 +179,7 @@ class AddFilesForm extends React.Component {
           <p className="file-requirement-header">Accepted file types:</p>
           <p className="file-requirement-text">{displayTypes}</p>
           <p className="file-requirement-header">Maximum file size:</p>
-          <p className="file-requirement-text">50MB</p>
+          <p className="file-requirement-text">{`${MAX_FILE_SIZE_MB}MB`}</p>
         </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
