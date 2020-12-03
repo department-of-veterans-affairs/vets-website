@@ -11,7 +11,11 @@ import {
   daytimePhoneAreaCodeTitle,
   emailTitle,
   streetAddress,
+  veteranCountryError,
+  veteranEmailError,
+  veteranFirstNameError,
   veteranInformationHeader,
+  veteranLastNameError,
   veteransFirstName,
   veteransLastName,
   zipCodeTitle,
@@ -42,14 +46,14 @@ export const veteranInformationUI = requireIfDisplayed => ({
     'ui:title': veteransFirstName,
     'ui:required': requireIfDisplayed,
     'ui:errorMessages': {
-      required: "Please enter the Veteran's first name",
+      required: veteranFirstNameError,
     },
   },
   [formFields.last]: {
     'ui:title': veteransLastName,
     'ui:required': requireIfDisplayed,
     'ui:errorMessages': {
-      required: "Please enter the Veteran's last name",
+      required: veteranLastNameError,
     },
   },
   [formFields.address]: _.merge(uiSchema('', false, null, true), {
@@ -65,7 +69,7 @@ export const veteranInformationUI = requireIfDisplayed => ({
       'ui:required': formData =>
         requireIfDisplayed(formData) && veteranIsAlive(formData),
       'ui:errorMessages': {
-        required: "Please enter the Veteran's country",
+        required: veteranCountryError,
       },
     },
     street2: {
@@ -89,7 +93,7 @@ export const veteranInformationUI = requireIfDisplayed => ({
       hideIf: formData => veteranIsDeceased(formData),
     },
     'ui:errorMessages': {
-      required: "Please enter the Veteran's email",
+      required: veteranEmailError,
     },
   }),
 });

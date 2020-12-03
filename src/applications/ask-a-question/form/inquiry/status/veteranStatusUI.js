@@ -1,8 +1,10 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
   dateOfDeathTitle,
+  generalError,
   isDeceasedTitle,
   isDependentTitle,
+  relationshipToVeteranError,
   relationshipToVeteranTitle,
   veteranStatusSectionDescription,
   veteranStatusTitle,
@@ -38,7 +40,7 @@ export const veteranStatusUI = {
   [formFields.veteranStatus]: {
     'ui:title': veteranStatusTitle,
     'ui:errorMessages': {
-      required: 'Please enter your response',
+      required: generalError,
     },
   },
   [formFields.isDependent]: {
@@ -51,7 +53,7 @@ export const veteranStatusUI = {
       expandUnderCondition: 'dependent',
     },
     'ui:errorMessages': {
-      required: 'Please enter your response',
+      required: generalError,
     },
   },
   [formFields.relationshipToVeteran]: {
@@ -63,7 +65,7 @@ export const veteranStatusUI = {
       expandUnderCondition: requireVetRelationship,
     },
     'ui:errorMessages': {
-      required: 'Please enter your relationship to the Veteran',
+      required: relationshipToVeteranError,
     },
   },
   [formFields.veteranIsDeceased]: {
@@ -77,7 +79,7 @@ export const veteranStatusUI = {
       },
     },
     'ui:errorMessages': {
-      required: 'Please enter your response',
+      required: generalError,
     },
   },
   [formFields.dateOfDeath]: {

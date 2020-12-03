@@ -3,7 +3,12 @@ import * as topic from './topic/topic';
 import { veteranStatusUI } from './status/veteranStatusUI';
 
 import fullSchema from '../0873-schema.json';
-import { inquiryTypeTitle, queryTitle } from '../../constants/labels';
+import {
+  inquiryTypeError,
+  inquiryTypeTitle,
+  queryError,
+  queryTitle,
+} from '../../constants/labels';
 
 const { inquiryType, query, veteranStatus } = fullSchema.properties;
 
@@ -20,7 +25,7 @@ const inquiryPage = {
     [formFields.inquiryType]: {
       'ui:title': inquiryTypeTitle,
       'ui:errorMessages': {
-        required: "Please enter the reason you're contacting us",
+        required: inquiryTypeError,
       },
     },
     [formFields.query]: {
@@ -28,7 +33,7 @@ const inquiryPage = {
       'ui:widget': 'textarea',
       'ui:validations': [validateWhiteSpace],
       'ui:errorMessages': {
-        required: 'Please enter your message',
+        required: queryError,
       },
     },
     [formFields.veteranStatus]: {

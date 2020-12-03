@@ -4,11 +4,16 @@ import { states } from 'vets-json-schema/dist/constants.json';
 
 import fullSchema from '../../0873-schema.json';
 import {
-  topicLevelOneTitle,
-  topicLevelTwoTitle,
-  topicLevelThreeTitle,
-  vaMedicalCenterTitle,
+  medicalCenterError,
+  routeToStateError,
   routeToStateTitle,
+  topicLevelOneError,
+  topicLevelOneTitle,
+  topicLevelThreeError,
+  topicLevelThreeTitle,
+  topicLevelTwoError,
+  topicLevelTwoTitle,
+  vaMedicalCenterTitle,
 } from '../../../constants/labels';
 import {
   vaMedicalCentersLabels,
@@ -235,13 +240,13 @@ export function uiSchema() {
     [formFields.levelOne]: {
       'ui:title': topicLevelOneTitle,
       'ui:errorMessages': {
-        required: 'Please enter your category',
+        required: topicLevelOneError,
       },
     },
     [formFields.levelTwo]: {
       'ui:title': topicLevelTwoTitle,
       'ui:errorMessages': {
-        required: 'Please enter your topic',
+        required: topicLevelTwoError,
       },
     },
     [formFields.levelThree]: {
@@ -256,7 +261,7 @@ export function uiSchema() {
         },
       },
       'ui:errorMessages': {
-        required: 'Please enter your subtopic',
+        required: topicLevelThreeError,
       },
     },
     [formFields.vaMedicalCenter]: {
@@ -271,7 +276,7 @@ export function uiSchema() {
         },
       },
       'ui:errorMessages': {
-        required: 'Please enter your medical center',
+        required: medicalCenterError,
       },
     },
     [formFields.routeToState]: {
@@ -286,7 +291,7 @@ export function uiSchema() {
         },
       },
       'ui:errorMessages': {
-        required: 'Please enter your state',
+        required: routeToStateError,
       },
     },
   };

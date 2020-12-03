@@ -10,11 +10,18 @@ export const topicLevelThreeTitle =
   'Which subtopic best describes your message?';
 export const topicDescription =
   'Please start typing below. If you do not find a match, type space to see all possible categories';
-export const topicErrorMessage = 'Please enter a valid topic.';
 export const vaMedicalCenterTitle = 'Medical Center List';
 export const routeToStateTitle = 'Route to State';
 export const inquiryTypeTitle = "Tell us the reason you're contacting us";
 export const queryTitle = 'Please enter your message below';
+/* --------------- Inquiry Errors--------------- */
+export const topicLevelOneError = 'Please enter your category';
+export const topicLevelTwoError = 'Please enter your topic';
+export const topicLevelThreeError = 'Please enter your subtopic';
+export const medicalCenterError = 'Please enter your medical center';
+export const routeToStateError = 'Please enter your state';
+export const inquiryTypeError = "Please enter the reason you're contacting us";
+export const queryError = 'Please enter your message';
 
 /* --------------- Veteran Information --------------- */
 export const veteranInformationChapterTitle = 'Tell us about the Veteran';
@@ -30,6 +37,11 @@ export const relationshipToVeteranTitle = 'Your relationship to the Veteran';
 export const isDeceasedTitle = 'Is the Veteran deceased?';
 export const dateOfDeathTitle = 'Date of Death if known';
 export const branchOfServiceTitle = 'Branch of service';
+/* Veteran Status Errors */
+export const relationshipToVeteranError =
+  'Please enter your relationship to the Veteran';
+export const branchOfServiceError =
+  "Please enter the Veteran's branch of service";
 
 /* Additional Veteran Information */
 export const dateOfBirthTitle = "Veteran's date of birth";
@@ -58,6 +70,12 @@ export const preferredContactMethodTitle =
 export const phoneTitle = 'Daytime phone';
 export const emailTitle = 'Email';
 export const daytimePhoneAreaCodeTitle = 'Daytime phone';
+/* --------------- Contact Information Errors --------------- */
+export const firstNameError = 'Please enter your first name';
+export const lastNameError = 'Please enter your last name';
+export const emailAddressError = 'Please enter your email address';
+export const verifyEmailAddressError = 'Please re-enter your email address';
+export const phoneNumberError = 'Please enter your phone number';
 
 /* --------------- Dependent Information ------------- */
 export const dependentInformationHeader = 'Dependent information';
@@ -66,12 +84,25 @@ export const dependentFirstName = "Dependent's first name";
 export const dependentLastName = "Dependent's last name";
 export const dependentRelationshipToVeteran =
   "Dependent's relationship to the Veteran";
+/* -------------- Dependent Errors -------------------- */
+export const dependentRelationshipToVeteranError =
+  "Please enter the dependent's relationship to the Veteran";
+export const dependentFirstNameError =
+  "Please enter the dependent's first name";
+export const dependentLastNameError = "Please enter the dependent's last name";
+export const dependentCountryError = "Please enter the dependent's country";
+export const dependentEmailError = "Please enter the dependent's email";
 
 /* --------------- Veteran Information ------------- */
 export const veteranInformationHeader = 'Veteran information';
 
 export const veteransFirstName = "Veteran's first name";
 export const veteransLastName = "Veteran's last name";
+/* --------------- Veteran Errors ------------- */
+export const veteranFirstNameError = "Please enter the Veteran's first name";
+export const veteranLastNameError = "Please enter the Veteran's last name";
+export const veteranCountryError = "Please enter the Veteran's country";
+export const veteranEmailError = "Please enter the Veteran's email";
 
 /* Address fields */
 export const countryTitle = 'Country';
@@ -106,3 +137,6 @@ export const savedFormNoAuth = 'Please sign in again to continue your form';
 export const formTitle = 'Contact us';
 export const formSubTitle = 'Form 0873';
 export const unauthStartText = 'Sign in to start your message';
+
+/* -------------- Errors --------------- */
+export const generalError = 'Please enter your response';

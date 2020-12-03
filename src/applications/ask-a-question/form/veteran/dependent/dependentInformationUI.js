@@ -9,10 +9,15 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import _ from 'lodash';
 import {
   daytimePhoneAreaCodeTitle,
-  dependentInformationHeader,
-  dependentRelationshipToVeteran,
+  dependentCountryError,
+  dependentEmailError,
   dependentFirstName,
+  dependentFirstNameError,
+  dependentInformationHeader,
   dependentLastName,
+  dependentLastNameError,
+  dependentRelationshipToVeteran,
+  dependentRelationshipToVeteranError,
   emailTitle,
   streetAddress,
   zipCodeTitle,
@@ -33,21 +38,21 @@ export const dependentInformationUI = dependentInformationDisplayed => ({
     'ui:title': dependentRelationshipToVeteran,
     'ui:required': dependentInformationDisplayed,
     'ui:errorMessages': {
-      required: "Please enter the dependent's relationship to the Veteran",
+      required: dependentRelationshipToVeteranError,
     },
   },
   [formFields.first]: {
     'ui:title': dependentFirstName,
     'ui:required': dependentInformationDisplayed,
     'ui:errorMessages': {
-      required: "Please enter the dependent's first name",
+      required: dependentFirstNameError,
     },
   },
   [formFields.last]: {
     'ui:title': dependentLastName,
     'ui:required': dependentInformationDisplayed,
     'ui:errorMessages': {
-      required: "Please enter the dependent's last name",
+      required: dependentLastNameError,
     },
   },
   [formFields.address]: _.merge(uiSchema('', false, null, true), {
@@ -61,7 +66,7 @@ export const dependentInformationUI = dependentInformationDisplayed => ({
         return dependentInformationDisplayed(formData);
       },
       'ui:errorMessages': {
-        required: "Please enter the dependent's country",
+        required: dependentCountryError,
       },
     },
     street2: {
@@ -77,7 +82,7 @@ export const dependentInformationUI = dependentInformationDisplayed => ({
   [formFields.email]: _.merge(emailUI(emailTitle), {
     'ui:required': formData => dependentInformationDisplayed(formData),
     'ui:errorMessages': {
-      required: "Please enter the dependent's email",
+      required: dependentEmailError,
     },
   }),
 });

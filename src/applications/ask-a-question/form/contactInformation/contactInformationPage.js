@@ -7,8 +7,11 @@ import fullNameUI from './fullName/fullName';
 import fullSchema from '../0873-schema.json';
 import * as address from './address/address';
 import {
-  preferredContactMethodTitle,
+  emailAddressError,
+  phoneNumberError,
   phoneTitle,
+  preferredContactMethodTitle,
+  verifyEmailAddressError,
 } from '../../constants/labels';
 
 const { email, phone } = fullSchema.definitions;
@@ -32,14 +35,14 @@ const contactInformationPage = {
       'ui:required': (formData, _index) =>
         formData.preferredContactMethod === 'email',
       'ui:errorMessages': {
-        required: 'Please enter your email address',
+        required: emailAddressError,
       },
     }),
     [formFields.verifyEmail]: _.merge(
       confirmationEmailUI('', formFields.email),
       {
         'ui:errorMessages': {
-          required: 'Please re-enter your email address',
+          required: verifyEmailAddressError,
         },
       },
     ),
@@ -47,7 +50,7 @@ const contactInformationPage = {
       'ui:required': (formData, _index) =>
         formData.preferredContactMethod === 'phone',
       'ui:errorMessages': {
-        required: 'Please enter your phone number',
+        required: phoneNumberError,
       },
     }),
     [formFields.address]: address.uiSchema(

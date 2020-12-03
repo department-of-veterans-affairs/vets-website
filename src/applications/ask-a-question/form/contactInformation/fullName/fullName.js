@@ -1,14 +1,16 @@
+import { firstNameError, lastNameError } from '../../../constants/labels';
+
 const uiSchema = {
   first: {
     'ui:title': 'Your first name',
     'ui:errorMessages': {
-      required: 'Please enter your first name',
+      required: firstNameError,
     },
   },
   last: {
     'ui:title': 'Your last name',
     'ui:errorMessages': {
-      required: 'Please enter your last name',
+      required: lastNameError,
     },
   },
   suffix: {
