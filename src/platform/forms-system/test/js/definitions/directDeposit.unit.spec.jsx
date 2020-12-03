@@ -21,14 +21,14 @@ const testFieldOrder = (getSchemasOptions, expectedFieldNames) => {
 
 describe('Direct deposit definition', () => {
   it('should render all the fields', () =>
-    testFieldOrder(null, [
+    testFieldOrder({}, [
       'Account type',
       'Bank routing number',
       'Bank account number',
     ]));
 
   it('should render bankName', () =>
-    testFieldOrder({ bankName: true }, [
+    testFieldOrder({ optionalFields: { bankName: true } }, [
       'Account type',
       'Bank name',
       'Bank routing number',
@@ -36,7 +36,7 @@ describe('Direct deposit definition', () => {
     ]));
 
   it('should render declineDirectDeposit', () =>
-    testFieldOrder({ declineDirectDeposit: true }, [
+    testFieldOrder({ optionalFields: { declineDirectDeposit: true } }, [
       'Account type',
       'Bank routing number',
       'Bank account number',
@@ -44,13 +44,16 @@ describe('Direct deposit definition', () => {
     ]));
 
   it('should render all optional fields in the correct order', () =>
-    testFieldOrder({ bankName: true, declineDirectDeposit: true }, [
-      'Account type',
-      'Bank name',
-      'Bank routing number',
-      'Bank account number',
-      'I don’t want to use direct deposit',
-    ]));
+    testFieldOrder(
+      { optionalFields: { bankName: true, declineDirectDeposit: true } },
+      [
+        'Account type',
+        'Bank name',
+        'Bank routing number',
+        'Bank account number',
+        'I don’t want to use direct deposit',
+      ],
+    ));
 
   it('should return optional fields with supplied schema and uiSchema', () => {
     const bankNameSchema = { schema: 'bankName' };
@@ -59,10 +62,12 @@ describe('Direct deposit definition', () => {
     const declineDirectDepositUiSchema = { uiSchema: 'declineDirectDeposit' };
 
     const { schema, uiSchema } = getSchemas({
-      bankName: { schema: bankNameSchema, uiSchema: bankNameUiSchema },
-      declineDirectDeposit: {
-        schema: declineDirectDepositSchema,
-        uiSchema: declineDirectDepositUiSchema,
+      optionalFields: {
+        bankName: { schema: bankNameSchema, uiSchema: bankNameUiSchema },
+        declineDirectDeposit: {
+          schema: declineDirectDepositSchema,
+          uiSchema: declineDirectDepositUiSchema,
+        },
       },
     });
 
@@ -77,4 +82,8 @@ describe('Direct deposit definition', () => {
     expect(uiSchema.declineDirectDeposit).to.eql(declineDirectDepositUiSchema);
     expect(uiSchema.bankAccount.bankName).to.eql(bankNameUiSchema);
   });
+
+  it('should render the affected benefits', () => {});
+
+  it('should render the unaffected benefits', () => {});
 });

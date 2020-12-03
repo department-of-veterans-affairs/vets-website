@@ -12,7 +12,7 @@ const defaultOptionalFields = {
 
 const useDirectDeposit = form => !form?.declineDirectDeposit;
 
-const uiSchema = optionalFields => {
+const uiSchema = ({ optionalFields }) => {
   const ui = {
     'ui:title': 'Direct deposit',
     'ui:description': directDepositDescription,
@@ -145,18 +145,27 @@ const schema = optionalFields => {
 /**
  * Get the schema and uiSchema for direct deposit.
  *
- * @param {bool|OptionalField} [optionalFields.declineDirectDeposit] - Set to true
+ * @param {string[]} [options.affectedBenefits] - A list of affected benefits.
+ *        This is used in `directDepositAlert` in `./content/directDeposit.jsx`
+ * @param {string[]} [options.unaffectedBenefits] - A list of benefits NOT
+ *        affected. This is used in `directDepositAlert` in
+ *        `./content/directDeposit.jsx`
+ * @param {bool|OptionalField} [options.optionalFields.declineDirectDeposit] - Set to true
  *        to add the declineDirectDeposit field the default schema and uiSchema.
  *        Pass an object with schema and uiSchema properties to override either
  *        or both.
- * @param {bool|OptionalField} [optionalFields.bankName] - Set to true to add the
+ * @param {bool|OptionalField} [options.optionalFields.bankName] - Set to true to add the
  *        bankName field with the default schema and uiSchema. Pass an object
  *        with schema and uiSchema properties to override either or both.
  */
-export default optionalFields => {
-  const opts = Object.assign({}, defaultOptionalFields, optionalFields);
+export default ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
+  const optFields = Object.assign({}, defaultOptionalFields, optionalFields);
   return {
-    uiSchema: uiSchema(opts),
-    schema: schema(opts),
+    uiSchema: uiSchema({
+      affectedBenefits,
+      unaffectedBenefits,
+      optionalFields: optFields,
+    }),
+    schema: schema(optFields),
   };
 };
