@@ -50,9 +50,13 @@ export default function useGetSearchResults(articles, query, page) {
         event: 'view_search_results',
         'search-page-path': document.location.pathname,
         'search-query': query,
-        'search-selection': 'Resources and support',
         'search-results-total-count': orderedResults.length,
         'search-results-total-pages': Math.ceil(orderedResults.length / 10),
+        'search-selection': 'Resources and support',
+        'search-typeahead-enabled': false,
+        'type-ahead-option-keyword-selected': undefined,
+        'type-ahead-option-position': undefined,
+        'type-ahead-options-list': undefined,
       });
 
       setResults(orderedResults);

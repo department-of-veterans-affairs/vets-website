@@ -31,10 +31,6 @@ export default function SearchResult({
       'search-results-total-count': totalResults,
       'search-results-total-pages': Math.ceil(totalResults / 10),
       'search-selection': 'Resources and support',
-      'search-typeahead-enabled': false,
-      'type-ahead-option-keyword-selected': undefined,
-      'type-ahead-option-position': undefined,
-      'type-ahead-options-list': undefined,
     });
   };
 
