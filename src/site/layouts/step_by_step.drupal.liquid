@@ -49,18 +49,28 @@
               {% assign stepNumber = 1 %}
 
               <!-- Step list header -->
+              <div class="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between">
               <h2 class="vads-u-font-size--h2 vads-u-margin-y--4 vads-u-padding-top--0 ">
                 {{ fieldStepsItem.entity.fieldSectionHeader }}</h2>
+              <div class="vads-u-margin-y--4 form-expanding-group additional-info-container medium-screen:vads-u-display--none">
+                <span class="additional-info-title">Show All</span>
+                <span>
+                  <div class="additional-info-content vads-u-display--none">
+                   HELLO
+                  </div>
+                </span>
+              </div>
+              </div>
 
               <ol class="process">
                 {% for fieldStep in fieldStepsItem.entity.fieldStep %}
                   <!-- Step -->
-                  <li class="process-step list-{{ stepNumber | numToWord }}">
+                  <li class="process-step mobile-step-template list-{{ stepNumber | numToWord }}">
                     <!-- Step wysiyg -->
                     {{ fieldStep.entity.fieldWysiwyg.processed }}
                     <br class="vads-u-display--none medium-screen:vads-u-display--block"/>
                     <!-- mobile template -->
-                    {% if fieldStep.entity.fieldMedia.entity != empty || fieldStep.entity.fieldAlert.entity %}
+                    {% if fieldStep.entity.fieldMedia.entity.thumbnail != empty || fieldStep.entity.fieldAlert.entity %}
                       <div class="form-expanding-group additional-info-container medium-screen:vads-u-display--none">
                         <span class="additional-info-title">Show Details</span>
                           <span>
