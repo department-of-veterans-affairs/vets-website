@@ -8,8 +8,6 @@ export const topicLevelOneTitle = 'Which category best describes your message?';
 export const topicLevelTwoTitle = 'Which topic best describes your message?';
 export const topicLevelThreeTitle =
   'Which subtopic best describes your message?';
-export const topicDescription =
-  'Please start typing below. If you do not find a match, type space to see all possible categories';
 export const vaMedicalCenterTitle = 'Medical Center List';
 export const routeToStateTitle = 'Route to State';
 export const inquiryTypeTitle = "Tell us the reason you're contacting us";
