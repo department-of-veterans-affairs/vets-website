@@ -266,14 +266,14 @@ export default function CalendarWidget({
 }) {
   const currentDate = moment();
   const maxMonth = getMaxMonth(maxDate, startMonth);
-  const [months, setMonths] = useState([currentDate]);
+  const [months, setMonths] = useState([moment(minDate)]);
 
   useEffect(
     () => {
       // Updates months to show at once if > default setting
       if (monthsToShowAtOnce > months.length) {
         const updatedMonths = [];
-        const startDate = startMonth ? moment(startMonth) : moment();
+        const startDate = startMonth ? moment(startMonth) : moment(minDate);
 
         for (let index = 0; index < monthsToShowAtOnce; index++) {
           updatedMonths.push(startDate.clone().add(index, 'months'));
@@ -281,7 +281,7 @@ export default function CalendarWidget({
         setMonths(updatedMonths);
       }
     },
-    [monthsToShowAtOnce, startMonth, months],
+    [monthsToShowAtOnce, startMonth, months, minDate],
   );
 
   const showError = validationError?.length > 0;
@@ -329,23 +329,7 @@ export default function CalendarWidget({
                 aria-labelledby={`h2-${month.format('YYYY-MM')}`}
                 role="table"
               >
-                {/* this is where the renderMonth begin without the return */}
                 <>
-                  <h2
-                    id={`h2-${month.format('YYYY-MM')}`}
-                    className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif"
-                  >
-                    {month.format('MMMM YYYY')}
-                  </h2>
-                  <div
-                    className="sr-only"
-                    id={`vaos-calendar-instructions-${month.month()}`}
-                  >
-                    Press the Enter key to expand the day you want to schedule
-                    an appointment. Then press the Tab key or form shortcut key
-                    to select an appointment time.
-                  </div>
-
                   {index === 0 && (
                     <CalendarNavigation
                       prevOnClick={() =>
@@ -364,6 +348,7 @@ export default function CalendarWidget({
                           monthsToShowAtOnce,
                         )
                       }
+                      momentMonth={month}
                       prevDisabled={prevDisabled}
                       nextDisabled={nextDisabled}
                     />

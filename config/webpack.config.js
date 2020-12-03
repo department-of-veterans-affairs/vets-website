@@ -97,6 +97,10 @@ module.exports = env => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
+  const useHashFilenames = [ENVIRONMENTS.VAGOVPROD].includes(
+    buildOptions.buildtype,
+  );
+
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
@@ -112,10 +116,10 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: '/generated/',
-      filename: !isOptimizedBuild
+      filename: !useHashFilenames
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: !isOptimizedBuild
+      chunkFilename: !useHashFilenames
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
     },
@@ -253,7 +257,7 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return isOptimizedBuild
+          return useHashFilenames
             ? `[name].[contenthash]-${timestamp}.css`
             : `[name].css`;
         },

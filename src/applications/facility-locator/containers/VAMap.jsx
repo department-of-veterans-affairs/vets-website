@@ -93,11 +93,16 @@ class VAMap extends Component {
         this.genBBoxFromCoords(currentPosition.coords, facilityType);
       });
     } else {
+      const coords = this.props.currentQuery.position;
+      const radius = this.props.currentQuery.radius;
+      const center = [coords.latitude, coords.longitude];
       this.props.searchWithBounds({
         bounds: currentQuery.bounds,
         facilityType: currentQuery.facilityType,
         serviceType: currentQuery.serviceType,
         page: currentQuery.currentPage,
+        center,
+        radius,
       });
     }
   }
@@ -131,11 +136,16 @@ class VAMap extends Component {
       currentQuery.bounds !== newQuery.bounds &&
       !newQuery.searchBoundsInProgress
     ) {
+      const coords = newQuery.position;
+      const radius = newQuery.radius;
+      const center = [coords.latitude, coords.longitude];
       this.props.searchWithBounds({
         bounds: newQuery.bounds,
         facilityType: newQuery.facilityType,
         serviceType: newQuery.serviceType,
         page: resultsPage,
+        center,
+        radius,
       });
     }
 
@@ -333,11 +343,16 @@ class VAMap extends Component {
 
   handlePageSelect = page => {
     const { currentQuery } = this.props;
+    const coords = currentQuery.position;
+    const radius = currentQuery.radius;
+    const center = [coords.latitude, coords.longitude];
     this.props.searchWithBounds({
       bounds: currentQuery.bounds,
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
       page,
+      center,
+      radius,
     });
     setFocus(this.searchResultTitle.current);
   };

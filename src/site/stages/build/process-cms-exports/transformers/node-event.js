@@ -47,11 +47,14 @@ const transform = entity => ({
   fieldBody: {
     processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
   },
+  // This field is deprecated and can probably be removed
   fieldDate: {
-    startDate: toUtc(entity.fieldDate[0].value),
-    value: toUtc(entity.fieldDate[0].value, false),
-    endDate: toUtc(entity.fieldDate[0].end_value),
-    endValue: toUtc(entity.fieldDate[0].end_value, false),
+    startDate: toUtc(entity.fieldDate[0]?.value),
+    value: toUtc(entity.fieldDate[0]?.value, false),
+    // eslint-disable-next-line camelcase
+    endDate: toUtc(entity.fieldDate[0]?.end_value),
+    // eslint-disable-next-line camelcase
+    endValue: toUtc(entity.fieldDate[0]?.end_value, false),
   },
   // The templates expect timestamps, like we get from graphql,
   // but the cms-export gives us UTC dates.
@@ -59,10 +62,12 @@ const transform = entity => ({
     entity.fieldDatetimeRangeTimezone &&
     entity.fieldDatetimeRangeTimezone.length
       ? {
-          value: utcToEpochTime(entity.fieldDatetimeRangeTimezone[0].value),
-          endValue: utcToEpochTime(
-            entity.fieldDatetimeRangeTimezone[0].end_value,
-          ),
+          value: entity.fieldDatetimeRangeTimezone[0].value
+            ? utcToEpochTime(entity.fieldDatetimeRangeTimezone[0].value)
+            : null,
+          endValue: entity.fieldDatetimeRangeTimezone[0].end_value
+            ? utcToEpochTime(entity.fieldDatetimeRangeTimezone[0].end_value)
+            : null,
           timezone: entity.fieldDatetimeRangeTimezone[0].timezone,
         }
       : {},

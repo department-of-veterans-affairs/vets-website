@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import { otherPathPageNames } from '../pageList';
 import {
-  WIZARD_STATUS,
   WIZARD_STATUS_INELIGIBLE,
   CAREERS_EMPLOYMENT_ROOT_URL,
 } from 'applications/vre/28-1900/constants';
 
-const AmOther = () => {
-  useEffect(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
-  });
+const AmOther = props => {
+  const { setWizardStatus } = props;
+  useEffect(
+    () => {
+      setWizardStatus(WIZARD_STATUS_INELIGIBLE);
+    },
+    [setWizardStatus],
+  );
   return (
-    <div className="feature">
+    <div className="feature vads-u-background-color--gray-lightest">
       <p>
         To apply for VR&E benefits, you must be either a Veteran or active-duty
         service member.

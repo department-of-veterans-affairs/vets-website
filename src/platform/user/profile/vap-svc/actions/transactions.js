@@ -90,7 +90,7 @@ export function refreshTransaction(
 ) {
   return async (dispatch, getState) => {
     try {
-      const { transactionId, metadata } = transaction.data.attributes;
+      const { transactionId } = transaction.data.attributes;
       const state = getState();
       const isAlreadyAwaitingUpdate = state.vapService.transactionsAwaitingUpdate.includes(
         transactionId,
@@ -126,11 +126,15 @@ export function refreshTransaction(
         });
 
         if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
+          const errorMetadata =
+            transactionRefreshed?.data?.attributes?.metadata?.[0] ?? {};
+          const errorCode = errorMetadata.code ?? 'unknown-code';
+          const errorKey = errorMetadata.key ?? 'unknown-key';
           recordEvent({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
-            'error-key': `${metadata?.code}-address-save-failure`,
+            'error-key': `${errorCode}_${errorKey}-address-save-failure`,
           });
           recordEvent({
             'error-key': undefined,

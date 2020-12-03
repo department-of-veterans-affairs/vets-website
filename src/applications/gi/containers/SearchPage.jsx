@@ -28,7 +28,6 @@ import RatedSearchResult from '../components/search/RatedSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
-import environment from 'platform/utilities/environment';
 import { isMobileView, useQueryParams } from '../utils/helpers';
 import { searchWithFilters } from '../utils/search';
 
@@ -127,8 +126,7 @@ export function SearchPage({
 
   useEffect(
     () => {
-      // prod flag for bah-8821
-      if (environment.isProduction() || !isMobileView()) {
+      if (!isMobileView()) {
         scroller.scrollTo('searchPage', getScrollOptions());
       }
     },

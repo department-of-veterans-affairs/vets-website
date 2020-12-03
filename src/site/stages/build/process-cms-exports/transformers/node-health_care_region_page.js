@@ -1,8 +1,6 @@
-const moment = require('moment');
 const { getImageCrop } = require('./helpers');
 const {
   getDrupalValue,
-  getWysiwygString,
   createMetaTagArray,
   uriToUrl,
   isPublished,
@@ -16,6 +14,8 @@ const getSocialMediaObject = ({ uri, title }) =>
       }
     : null;
 
+const currentTimeInSeconds = new Date().getTime() / 1000;
+
 const transform = ({
   title,
   status,
@@ -26,7 +26,6 @@ const transform = ({
   fieldOtherVaLocations,
   fieldNicknameForThisFacility,
   fieldRelatedLinks,
-  fieldPressReleaseBlurb,
   fieldLinkFacilityEmergList,
   reverseFieldRegionPage,
   reverseFieldOffice,
@@ -57,9 +56,6 @@ const transform = ({
         }
       : null,
   fieldRelatedLinks: fieldRelatedLinks[0],
-  fieldPressReleaseBlurb: {
-    processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
-  },
   entityMetatags: createMetaTagArray(metaTags),
   reverseFieldRegionPageNode: {
     entities: reverseFieldRegionPage || [],
@@ -111,14 +107,20 @@ const transform = ({
               reverseField.entityBundle === 'event' &&
               reverseField.entityPublished &&
               reverseField.fieldFeatured &&
-              moment(reverseField.fieldDate.value).isAfter(moment(), 'day'),
+              reverseField.fieldDatetimeRangeTimezone.value >
+                currentTimeInSeconds,
           )
-          .sort((a, b) => a.fieldDate.value - b.fieldDate.value)
+          .sort(
+            (a, b) =>
+              a.fieldDatetimeRangeTimezone.value -
+              b.fieldDatetimeRangeTimezone.value,
+          )
           .slice(0, 2)
           .map(r => ({
             title: r.title,
             uid: r.uid,
             fieldDate: r.fieldDate,
+            fieldDatetimeRangeTimezone: r.fieldDatetimeRangeTimezone,
             fieldDescription: r.fieldDescription,
             fieldLocationHumanreadable: r.fieldLocationHumanreadable,
             fieldFacilityLocation: r.fieldFacilityLocation,
@@ -134,7 +136,11 @@ const transform = ({
               reverseField.entityBundle === 'event' &&
               reverseField.entityPublished,
           )
-          .sort((a, b) => a.fieldDate.value - b.fieldDate.value)
+          .sort(
+            (a, b) =>
+              a.fieldDatetimeRangeTimezone.value -
+              b.fieldDatetimeRangeTimezone.value,
+          )
           .slice(0, 500)
           .map(r => ({
             title: r.title,
@@ -240,15 +246,14 @@ const transform = ({
                       reverseField =>
                         reverseField.entityBundle === 'event' &&
                         reverseField.entityPublished &&
-                        moment(reverseField.fieldDate.value).isAfter(
-                          moment(),
-                          'day',
-                        ),
+                        reverseField.fieldDatetimeRangeTimezone.value >
+                          currentTimeInSeconds,
                     )
                     .slice(0, 1000)
                     .map(e => ({
                       title: e.title,
                       fieldDate: e.fieldDate,
+                      fieldDatetimeRangeTimezone: e.fieldDatetimeRangeTimezone,
                       fieldDescription: e.fieldDescription,
                       fieldLocationHumanreadable: e.fieldLocationHumanreadable,
                       fieldFacilityLocation: e.fieldFacilityLocation,
@@ -274,14 +279,13 @@ const transform = ({
                         reverseField.entityBundle === 'event' &&
                         reverseField.entityPublished &&
                         reverseField.fieldFeatured &&
-                        moment(reverseField.fieldDate.value).isAfter(
-                          moment(),
-                          'day',
-                        ),
+                        reverseField.fieldDatetimeRangeTimezone.value >
+                          currentTimeInSeconds,
                     )
                     .map(e => ({
                       title: e.title,
                       fieldDate: e.fieldDate,
+                      fieldDatetimeRangeTimezone: e.fieldDatetimeRangeTimezone,
                       fieldDescription: e.fieldDescription,
                       fieldLocationHumanreadable: e.fieldLocationHumanreadable,
                       fieldFacilityLocation: e.fieldFacilityLocation,

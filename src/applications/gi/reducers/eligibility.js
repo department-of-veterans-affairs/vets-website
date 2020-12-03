@@ -1,7 +1,7 @@
+import localStorage from 'platform/utilities/storage/localStorage';
+
 import { ELIGIBILITY_CHANGED } from '../actions';
 import { ELIGIBILITY_LIFESPAN } from '../constants';
-import localStorage from 'platform/utilities/storage/localStorage';
-import environment from 'platform/utilities/environment';
 
 const INITIAL_STATE = Object.freeze({
   militaryStatus: 'veteran',
@@ -48,29 +48,23 @@ export default function(state = INITIAL_STATE, action) {
       };
     }
 
-    // Fix for 7528 and 8228
-    if (!environment.isProduction()) {
-      newState.timestamp = new Date().getTime();
-      localStorage.setItem('giEligibility', JSON.stringify(newState));
-    }
+    newState.timestamp = new Date().getTime();
+    localStorage.setItem('giEligibility', JSON.stringify(newState));
 
     return newState;
   }
 
-  // Fix for 7528 and 8228
-  if (!environment.isProduction()) {
-    const storedEligibility = JSON.parse(localStorage.getItem('giEligibility'));
+  const storedEligibility = JSON.parse(localStorage.getItem('giEligibility'));
 
-    if (
-      storedEligibility &&
-      storedEligibility.timestamp &&
-      new Date().getTime() - storedEligibility.timestamp < ELIGIBILITY_LIFESPAN
-    ) {
-      newState = {
-        ...newState,
-        ...storedEligibility,
-      };
-    }
+  if (
+    storedEligibility?.timestamp &&
+    new Date().getTime() - storedEligibility.timestamp < ELIGIBILITY_LIFESPAN
+  ) {
+    delete storedEligibility.timestamp;
+    newState = {
+      ...newState,
+      ...storedEligibility,
+    };
   }
 
   return newState;

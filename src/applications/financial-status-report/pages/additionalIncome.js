@@ -2,8 +2,8 @@ import ItemLoop from '../components/ItemLoop';
 import IncomeView from '../components/IncomeView';
 
 export const uiSchema = {
-  otherIncome: {
-    'ui:title': 'Your other income',
+  'ui:title': 'Your other income',
+  additionalIncome: {
     socialSecurityPayments: {
       'ui:title': 'Do you currently receive social security payments?',
       'ui:widget': 'yesNo',
@@ -26,6 +26,7 @@ export const uiSchema = {
           'ui:field': ItemLoop,
           'ui:options': {
             viewField: IncomeView,
+            doNotScroll: true,
           },
           items: {
             'ui:title': 'Additional income:',
@@ -47,7 +48,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    otherIncome: {
+    additionalIncome: {
       type: 'object',
       properties: {
         socialSecurityPayments: {

@@ -28,14 +28,14 @@ export const schema = {
 export const uiSchema = {
   routingNumber: {
     'ui:title':
-      'Routing number (Your 9-digit routing number will update your bank’s name)',
+      'Routing number (Your bank’s name will appear after you add the 9-digit routing number)',
     'ui:errorMessages': {
       pattern: 'Please enter the bank’s 9-digit routing number.',
       required: 'Please enter the bank’s 9-digit routing number.',
     },
   },
   accountNumber: {
-    'ui:title': 'Account number (No more than 17 digits)',
+    'ui:title': 'Account number (This should be no more than 17 digits)',
     'ui:errorMessages': {
       pattern: 'Please enter your account number.',
       required: 'Please enter your account number.',
