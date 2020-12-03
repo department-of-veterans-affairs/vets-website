@@ -18,7 +18,7 @@ const pactBrokerClient = new PactBrokerClient({
 
 const pactsFolder = path.resolve(__dirname, '../pacts');
 const commitHash = process.env.CIRCLE_SHA1;
-const branchName = process.env.CIRCLE_BRANCH;
+const branchName = 'master'; // process.env.CIRCLE_BRANCH;
 
 pactBrokerClient
   .publishAndTagPacts({
