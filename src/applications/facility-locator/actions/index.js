@@ -323,7 +323,7 @@ export const genBBoxFromAddress = query => {
  * from the coordinates center of the map
  */
 export const genSearchAreaFromCenter = query => {
-  const { lat, lng, currentMapBoundsDistance } = query;
+  const { lat, lng, currentMapBoundsDistance, currentBounds } = query;
   return dispatch => {
     if (currentMapBoundsDistance > 500) {
       dispatch({ type: GEOCODE_FAILED });
@@ -338,31 +338,15 @@ export const genSearchAreaFromCenter = query => {
         })
         .send()
         .then(({ body: { features } }) => {
-          const coordinates = features[0].center;
           const zip =
             features[0].context.find(v => v.id.includes('postcode')) || {};
           const location = zip.text || features[0].place_name;
-          const featureBox = features[0].box;
-
-          const sw = coordinates[0] - BOUNDING_RADIUS;
-          const se = coordinates[1] - BOUNDING_RADIUS;
-          const nw = coordinates[0] + BOUNDING_RADIUS;
-          const ne = coordinates[1] + BOUNDING_RADIUS;
-          let minBounds = [sw, se, nw, ne];
-          if (featureBox) {
-            minBounds = [
-              Math.min(featureBox[0], sw),
-              Math.min(featureBox[1], se),
-              Math.max(featureBox[2], nw),
-              Math.max(featureBox[3], ne),
-            ];
-          }
 
           const radius = distBetween(
-            features[0].bbox[1],
-            features[0].bbox[0],
-            features[0].bbox[3],
-            features[0].bbox[2],
+            currentBounds[1],
+            currentBounds[0],
+            currentBounds[3],
+            currentBounds[2],
           );
 
           dispatch({
@@ -383,7 +367,7 @@ export const genSearchAreaFromCenter = query => {
                 placeType: features[0].place_type[0],
               },
               searchCoords: null,
-              bounds: minBounds,
+              bounds: currentBounds,
               position: {
                 latitude: lat,
                 longitude: lng,
