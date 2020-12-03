@@ -18,9 +18,9 @@ const PactBrokerClient = require('../src/platform/testing/contract/client');
  * Throws if status can't be determined after retries.
  *
  * @param {number} [retries=3] - Number of times to retry.
- * @param {number} [timeout=30000] - Milliseconds to wait for status.
+ * @param {number} [timeout=30] - Seconds to wait for status.
  */
-const checkDeployability = async (retries = 3, timeout = 30000) => {
+const checkDeployability = async (retries = 3, timeout = 30) => {
   const pactBrokerClient = new PactBrokerClient({
     url: process.env.PACT_BROKER_BASE_URL,
   });
@@ -52,7 +52,7 @@ const checkDeployability = async (retries = 3, timeout = 30000) => {
     console.log(
       `Waiting for ${timeout} seconds to check verification status again...`,
     );
-    await new Promise(resolve => setTimeout(resolve, timeout));
+    await new Promise(resolve => setTimeout(resolve, timeout * 1000));
     return checkDeployability(retries - 1, timeout * 2);
   }
 
