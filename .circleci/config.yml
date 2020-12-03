@@ -91,10 +91,8 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - run: yarn pact:verify
       - run: yarn pact:can-i-deploy
-      - store_artifacts:
-          path: /tmp/pact-verification-pipeline.json
-          destination: pact-verification-pipeline.json
 
   security-audit:
     docker:

@@ -274,7 +274,7 @@ module.exports = class PactBrokerClient {
    * to the desired environment. Returns the aggregate deployable status
    * along with the verification results for each consumer.
    * @param {BrokerOperationOptions}
-   * @returns {Object}
+   * @return {Object} Verification results and aggregate deployability status.
    */
   canDeploy = async options => {
     let verificationResults;
