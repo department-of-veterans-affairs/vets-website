@@ -21,6 +21,7 @@ import {
   householdExpenses,
   householdUtilities,
   householdRepayments,
+  otherExpenses,
 } from '../pages';
 
 const formChapterTitles = {
@@ -46,6 +47,7 @@ const formPageTitles = {
   householdExpenses: 'Household Expenses',
   householdUtilities: 'Household Utilities',
   householdRepayments: 'Household Repayments',
+  otherExpenses: 'Other expenses',
 };
 
 const formConfig = {
@@ -189,6 +191,12 @@ const formConfig = {
           title: formPageTitles.householdRepayments,
           uiSchema: householdRepayments.uiSchema,
           schema: householdRepayments.schema,
+        },
+        [formPageTitles.otherExpenses]: {
+          path: 'other-expenses',
+          title: formPageTitles.otherExpenses,
+          uiSchema: otherExpenses.uiSchema,
+          schema: otherExpenses.schema,
         },
       },
     },
