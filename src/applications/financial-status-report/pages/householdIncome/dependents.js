@@ -1,5 +1,5 @@
-import ItemLoop from '../components/ItemLoop';
-import DependentView from '../components/DependentView';
+import ItemLoop from '../../components/ItemLoop';
+import DependentView from '../../components/DependentView';
 
 export const uiSchema = {
   'ui:title': 'Your employment history',

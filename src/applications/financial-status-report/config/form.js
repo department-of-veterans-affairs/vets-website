@@ -10,6 +10,8 @@ import {
   employmentHistory,
   additionalIncome,
   veteranInfo,
+  spouseInformation,
+  spouseAdditionalIncome,
   spouseEmployment,
   spouseSocialSecurity,
   spouseBenefits,
@@ -18,8 +20,7 @@ import {
   householdAssets,
   householdExpenses,
   householdUtilities,
-  spouseInformation,
-  spouseAdditionalIncome,
+  householdRepayments,
 } from '../pages';
 
 const formChapterTitles = {
@@ -44,6 +45,7 @@ const formPageTitles = {
   householdAssets: 'Household Assets',
   householdExpenses: 'Household Expenses',
   householdUtilities: 'Household Utilities',
+  householdRepayments: 'Household Repayments',
 };
 
 const formConfig = {
@@ -181,6 +183,12 @@ const formConfig = {
           title: formPageTitles.householdUtilities,
           uiSchema: householdUtilities.uiSchema,
           schema: householdUtilities.schema,
+        },
+        [formPageTitles.householdRepayments]: {
+          path: 'household-repayments',
+          title: formPageTitles.householdRepayments,
+          uiSchema: householdRepayments.uiSchema,
+          schema: householdRepayments.schema,
         },
       },
     },
