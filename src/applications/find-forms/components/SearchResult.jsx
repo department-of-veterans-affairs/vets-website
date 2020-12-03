@@ -63,7 +63,14 @@ const SearchResult = ({ form }) => {
   }
 
   const {
-    attributes: { formToolUrl, formDetailsUrl, lastRevisionOn, title, url },
+    attributes: {
+      formToolUrl,
+      formDetailsUrl,
+      lastRevisionOn,
+      relatedForms,
+      title,
+      url,
+    },
     id,
   } = form;
 
@@ -84,6 +91,13 @@ const SearchResult = ({ form }) => {
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
         {lastRevision}
       </dd>
+
+      {relatedForms.length > 0 ? (
+        <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
+          <dfn className="vads-u-font-weight--bold">Related to:</dfn>{' '}
+          {relatedForms.join(', ')}
+        </dd>
+      ) : null}
 
       <dd className="vads-u-margin-bottom--1">
         <a href={url} rel="noreferrer noopener" {...linkProps}>
