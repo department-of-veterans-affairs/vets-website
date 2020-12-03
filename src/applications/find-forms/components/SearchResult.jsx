@@ -5,22 +5,56 @@ import moment from 'moment';
 import * as customPropTypes from '../prop-types';
 
 // Helper to derive the download link props.
-const deriveLinkProps = form => {
+const deriveLinkPropsFromFormURL = url => {
   const linkProps = {};
+  if (!url) return linkProps;
 
-  const isSameOrigin = form?.attributes?.url.startsWith(window.location.origin);
-  const isPDF = form?.attributes?.url.toLowerCase().includes('.pdf');
+  const isSameOrigin = url.startsWith(window.location.origin);
+  const isPDF = url.toLowerCase().includes('.pdf');
 
   if (!isSameOrigin || !isPDF) {
     // Just open in a new tab if we'd otherwise hit a CORS issue or if the form URL isn't a PDF.
     linkProps.target = '_blank';
   } else {
     // Use HTML5 `download` attribute.
-    linkProps.download = true;
+    linkProps.download = decodeURI(url.split('/').pop());
+    if (isPDF) linkProps.type = 'application/pdf';
   }
 
   return linkProps;
 };
+
+// builds results title
+const buildFormTitle = (id, detailsUrl, title) => (
+  <dt
+    className="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
+    data-e2e-id="result-title"
+  >
+    {detailsUrl ? (
+      <a href={detailsUrl} className="vads-u-text-decoration--none">
+        <dfn>
+          <span className="vads-u-visibility--screen-reader">
+            Visit the landing page for Form number
+          </span>
+          {id}{' '}
+        </dfn>
+        {title}
+        <i
+          className="fas fa-angle-right vads-u-margin-left--0p25"
+          style={{ verticalAlign: 'middle' }}
+        />
+      </a>
+    ) : (
+      <>
+        <dfn>
+          <span className="vads-u-visibility--screen-reader">Form number</span>{' '}
+          {id}{' '}
+        </dfn>
+        {title}
+      </>
+    )}
+  </dt>
+);
 
 const SearchResult = ({ form }) => {
   // Escape early if we don't have the necessary form attributes.
@@ -28,40 +62,44 @@ const SearchResult = ({ form }) => {
     return null;
   }
 
+  const {
+    attributes: { formToolUrl, formDetailsUrl, lastRevisionOn, title, url },
+    id,
+  } = form;
+
   // Derive the download link props.
-  const linkProps = deriveLinkProps(form);
+  const linkProps = deriveLinkPropsFromFormURL(url);
 
   // Derive labels.
-  const pdfLabel = form.attributes.url.toLowerCase().includes('.pdf')
-    ? '(PDF)'
-    : '';
-  const lastRevisionOn = form.attributes.lastRevisionOn
-    ? moment(form.attributes.lastRevisionOn).format('MM-DD-YYYY')
+  const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
+  const lastRevision = lastRevisionOn
+    ? moment(lastRevisionOn).format('MM-DD-YYYY')
     : 'N/A';
 
   return (
     <>
-      <dt
-        className="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
-        data-e2e-id="result-title"
-      >
-        <dfn>
-          <span className="vads-u-visibility--screen-reader">Form number</span>{' '}
-          {form.id}
-        </dfn>{' '}
-        {form.attributes.title}
-      </dt>
+      {buildFormTitle(id, formDetailsUrl, title)}
 
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
-        {lastRevisionOn}
+        {lastRevision}
       </dd>
 
-      <dd className="vads-u-padding-bottom--3">
-        <a href={form.attributes.url} rel="noreferrer noopener" {...linkProps}>
-          Download VA form {form.id} {pdfLabel}
+      <dd className="vads-u-margin-bottom--1">
+        <a href={url} rel="noreferrer noopener" {...linkProps}>
+          Download VA form {id} {pdfLabel}
         </a>
       </dd>
+
+      {formToolUrl ? (
+        <a
+          className="usa-button usa-button-secondary vads-u-margin-bottom--3"
+          href={formToolUrl}
+        >
+          Go to online tool{' '}
+          <span className="vads-u-visibility--screen-reader">for {title}</span>
+        </a>
+      ) : null}
     </>
   );
 };
