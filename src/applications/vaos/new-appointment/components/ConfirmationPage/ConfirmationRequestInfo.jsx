@@ -38,6 +38,9 @@ export default function ConfirmationRequestInfo({
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVideoVisit = data.visitType === 'telehealth';
   const [isAdditionalInfoOpen, toggleAdditionalInfo] = useState(false);
+  const hasSelectedProvider =
+    !!data.communityCareProvider &&
+    !!Object.keys(data.communityCareProvider).length;
 
   return (
     <div>
@@ -76,7 +79,7 @@ export default function ConfirmationRequestInfo({
             <div className="vads-u-margin--0">
               {isCommunityCare &&
                 ((!useProviderSelection && !data.hasCommunityCareProvider) ||
-                  (useProviderSelection && !data.communityCareProvider)) && (
+                  (useProviderSelection && !hasSelectedProvider)) && (
                   <>
                     <h3 className="vaos-appts__block-label">
                       <strong>Preferred provider</strong>
@@ -126,7 +129,7 @@ export default function ConfirmationRequestInfo({
                 )}
               {isCommunityCare &&
                 useProviderSelection &&
-                data.communityCareProvider && (
+                hasSelectedProvider && (
                   <>
                     <h3 className="vaos-appts__block-label">
                       <strong>Preferred provider</strong>

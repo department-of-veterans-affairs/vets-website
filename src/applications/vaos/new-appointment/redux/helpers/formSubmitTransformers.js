@@ -132,7 +132,11 @@ export function transformFormToCCRequest(state) {
   const provider = data.communityCareProvider;
   let preferredProviders = [];
 
-  if (useProviderSelection && provider) {
+  if (
+    useProviderSelection &&
+    !!data.communityCareProvider &&
+    Object.keys(data.communityCareProvider).length
+  ) {
     preferredProviders = [
       {
         address: {
@@ -142,10 +146,6 @@ export function transformFormToCCRequest(state) {
           zipCode: provider.address.postalCode,
         },
         practiceName: provider.name,
-        providerStreet: provider.address.line.join(', '),
-        providerCity: provider.address.city,
-        providerState: provider.address.state,
-        providerZipCode1: provider.address.postalCode,
       },
     ];
   } else if (data.hasCommunityCareProvider) {
