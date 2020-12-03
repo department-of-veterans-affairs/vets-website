@@ -48,6 +48,7 @@ const Header = ({
 
 const EditSection = ({ item, index, title, handleEdit, uiOptions }) => {
   const ViewField = uiOptions.viewField;
+
   return (
     <div className="va-growable-background editable-row">
       <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
