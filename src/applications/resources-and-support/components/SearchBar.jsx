@@ -29,7 +29,11 @@ export default function SearchBar({
   };
 
   return (
-    <div className="vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-y--3 vads-u-padding-x--1">
+    <div
+      className="medium-screen:vads-u-border-top--2px 
+    small-screen:vads-u-border-bottom--0px 
+    vads-u-border-color--gray-light vads-u-padding-y--3 vads-u-padding-x--1"
+    >
       {/* Mobile expand/collapse */}
       <button
         className={`${
@@ -54,7 +58,6 @@ export default function SearchBar({
           aria-hidden="true"
         />
       </button>
-
       {/* Search form */}
       <form
         data-testid="resources-support-search"
