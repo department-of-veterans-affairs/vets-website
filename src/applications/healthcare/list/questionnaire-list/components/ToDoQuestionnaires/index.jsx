@@ -28,7 +28,7 @@ const index = props => {
                     data={questionnaire}
                     Actions={() => (
                       <a
-                        className="usa-button va-button"
+                        className="usa-button va-button answer-button"
                         href={`/healthcare/questionnaire?id=${appointment.id}`}
                         aria-label={`Fill out your pre-appointment questionnaire for your primary care visit at ${
                           appointment.facilityName
@@ -36,7 +36,8 @@ const index = props => {
                           'MMMM, D, YYYY',
                         )}`}
                       >
-                        Answer questions
+                        <span>Answer questions</span>
+                        <i className={`fa fa-chevron-right`} />
                       </a>
                     )}
                     DueDate={() => {

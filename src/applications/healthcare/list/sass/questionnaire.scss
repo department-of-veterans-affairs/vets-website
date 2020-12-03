@@ -9,12 +9,12 @@
 
 .questionnaire-list-tabs{
   display: flex;
-  width: 50%;
   list-style: none;
   padding: 0;
   margin: 0;
-  @media (max-width: $small-screen) {
-    width: 100%;
+  width: 100%;
+  @include media($medium-screen) {
+    width: 50%;
   }
   li{
     flex-basis: 50%;
@@ -90,6 +90,14 @@ ul.questionnaire-list {
       font-weight: bold;
       line-height: 1.3;
       font-family: "Bitter";
+    }
+    .answer-button {
+      display: flex;
+      min-width: 28%;
+      max-width: 28%;
+
+      align-items: center;
+      justify-content: space-between;
     }
     .completed-date, .due-date{
       font-weight: bold;
