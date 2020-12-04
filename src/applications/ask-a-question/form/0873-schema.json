@@ -562,7 +562,7 @@
             "levelOne": {
               "type": "string",
               "enum": [
-                "Compensation (Service-Connected Bens)"
+                "Compensation (Service-Connected Benefits)"
               ]
             },
             "levelTwo": {
