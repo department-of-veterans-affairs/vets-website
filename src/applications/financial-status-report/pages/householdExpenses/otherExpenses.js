@@ -2,30 +2,29 @@ import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
-  'ui:title': 'Your monthly utility bills',
-  householdUtilities: {
-    hasUtility: {
-      'ui:title':
-        'Do you pay any utility bills, such as electricity, water, or gas?',
+  'ui:title': 'Other living expenses',
+  otherExpenses: {
+    hasExpenses: {
+      'ui:title': 'Do you have any additional living expenses to include?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    utilityRecords: {
+    expenseRecords: {
       'ui:options': {
-        expandUnder: 'hasUtility',
+        expandUnder: 'hasExpenses',
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
       },
       'ui:field': ItemLoop,
       'ui:description':
-        'Enter each type of monthly utility bill separately below.',
+        'Enter other living expenses separately below. Other living expenses include cell phone, clothing, and transportation.',
       items: {
-        'ui:title': 'Add a utility',
-        utilityType: {
-          'ui:title': 'Type of utility',
+        'ui:title': 'Add an expense',
+        expenseType: {
+          'ui:title': 'Type of expense',
         },
-        monthlyUtilityAmount: {
+        monthlyAmount: {
           'ui:title': 'Monthly payment amount',
         },
       },
@@ -35,21 +34,21 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    householdUtilities: {
+    otherExpenses: {
       type: 'object',
       properties: {
-        hasUtility: {
+        hasExpenses: {
           type: 'boolean',
         },
-        utilityRecords: {
+        expenseRecords: {
           type: 'array',
           items: {
             type: 'object',
             properties: {
-              utilityType: {
+              expenseType: {
                 type: 'string',
               },
-              monthlyUtilityAmount: {
+              monthlyAmount: {
                 type: 'number',
               },
             },
