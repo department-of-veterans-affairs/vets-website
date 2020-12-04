@@ -1,5 +1,10 @@
 import React from 'react';
+import MessageTable from '../components/Table';
 
-export default function App({ children }) {
-  return <div>{children}</div>;
+export default function App() {
+  return (
+    <div className="row">
+      <MessageTable />
+    </div>
+  );
 }

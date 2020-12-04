@@ -144,6 +144,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     const hsEntityUrl = createEntityUrlObj(drupalPagePath);
     const hsObj = {
       featuredContentHealthServices: page.fieldFeaturedContentHealthser,
+      fieldIntroText: page.fieldIntroText,
       facilitySidebar: sidebar,
       entityUrl: hsEntityUrl,
       alert: page.alert,
@@ -156,7 +157,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     const hsPage = updateEntityUrlObj(
       hsObj,
       drupalPagePath,
-      'Patient and health services',
+      'Health services',
       'health-services',
     );
     const hsPath = hsPage.entityUrl.path;

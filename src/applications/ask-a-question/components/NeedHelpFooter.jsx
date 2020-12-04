@@ -5,7 +5,7 @@ import Telephone, {
 
 const NeedHelpFooter = () => {
   return (
-    <>
+    <footer>
       <p>Having trouble with the form? Call our toll-free number:</p>
       <p>
         <Telephone contact={CONTACTS['222_VETS']} />
@@ -18,7 +18,7 @@ const NeedHelpFooter = () => {
         <br />
         Monday - Friday, 8:00 a.m. - 8:00 p.m. ET
       </p>
-    </>
+    </footer>
   );
 };
 
