@@ -11,6 +11,7 @@ const schema = {
     'firstName',
     'lastName',
     'emailAddress',
+    'phone',
     'dateOfBirth',
     'vaxPreference',
   ],
@@ -21,12 +22,22 @@ const schema = {
     lastName: {
       type: 'string',
     },
-    emailAddress: {
-      type: 'string',
-    },
     dateOfBirth: {
       type: 'string',
     },
+    ssn: {
+      type: 'string',
+      pattern: '^\\d{3}-?\\d{2}-?\\d{4}$',
+    },
+    emailAddress: {
+      type: 'string',
+      format: 'email',
+    },
+    phone: {
+      type: 'string',
+      pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
+    },
+
     vaxPreference: {
       type: 'string',
       enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'ALREADY_VACCINATED'],
@@ -47,6 +58,20 @@ const uiSchema = {
       required: 'Please enter your last name.',
     },
   },
+  dateOfBirth: {
+    'ui:title': 'Date of birth',
+    'ui:widget': 'date',
+    'ui:errorMessages': {
+      required: 'Please enter your date of birth.',
+    },
+  },
+  ssn: {
+    'ui:title': 'Social Security Number (SSN)',
+    'ui:errorMessages': {
+      required: 'Please enter your social security number.',
+      pattern: 'Please enter a valid social security number.',
+    },
+  },
   emailAddress: {
     'ui:title': 'Email address',
     'ui:errorMessages': {
@@ -55,11 +80,11 @@ const uiSchema = {
         'Please enter your email address again, using this format: X@X.com',
     },
   },
-  dateOfBirth: {
-    'ui:title': 'Date of birth',
-    'ui:widget': 'date',
+  phone: {
+    'ui:title': 'Phone',
     'ui:errorMessages': {
-      required: 'Please enter your date of birth.',
+      required: 'Please enter your phone number',
+      pattern: 'Please enter a valid phone number',
     },
   },
   vaxPreference: {

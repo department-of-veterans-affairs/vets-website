@@ -9,11 +9,9 @@ import formConfig from '../../../../form/form';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
   daytimePhoneAreaCodeTitle,
-  dependentInformationHeader,
   dependentRelationshipToVeteran,
   emailTitle,
   streetAddress,
-  veteranInformationHeader,
 } from '../../../../constants/labels';
 
 function expectBranchOfServiceToBeRequired(wrapper) {
@@ -42,7 +40,7 @@ function addressFieldsShouldExist(wrapper, fieldSetName) {
   getLabelText(wrapper, 'City', fieldSetName).shouldExist();
   getLabelText(wrapper, 'State', fieldSetName).shouldExist();
   getLabelText(wrapper, 'Country', fieldSetName).shouldExist();
-  getLabelText(wrapper, 'Postal code', fieldSetName).shouldExist();
+  getLabelText(wrapper, 'Zip code', fieldSetName).shouldExist();
 }
 
 function nameFieldsShouldNotExist(wrapper, fieldSetName) {
@@ -188,8 +186,6 @@ describe('Veteran Information Page', () => {
       });
 
       it('should show veteran information', () => {
-        getText(wrapper, veteranInformationHeader).shouldExist();
-
         nameFieldsShouldExist(wrapper, 'veteranInformation');
         addressFieldsShouldExist(wrapper, 'veteranInformation');
         getLabelText(
@@ -253,8 +249,6 @@ describe('Veteran Information Page', () => {
         isDependent: true,
       });
 
-      getText(wrapper, dependentInformationHeader, '').shouldNotExist();
-
       nameFieldsShouldNotExist(wrapper, 'dependentInformation');
       addressFieldsShouldNotExist(wrapper, 'dependentInformation');
       getLabelText(
@@ -274,8 +268,6 @@ describe('Veteran Information Page', () => {
         veteranStatus: 'dependent',
         isDependent: false,
       });
-
-      getText(wrapper, dependentInformationHeader, '').shouldExist();
 
       relationshipToVeteranShouldExist(wrapper);
       nameFieldsShouldExist(wrapper, 'dependentInformation');
@@ -309,8 +301,6 @@ describe('Veteran Information Page', () => {
       });
 
       it('should show veteran information', () => {
-        getText(wrapper, veteranInformationHeader, '').shouldExist();
-
         nameFieldsShouldExist(wrapper, 'veteranInformation');
         addressFieldsShouldExist(wrapper, 'veteranInformation');
         getLabelText(
