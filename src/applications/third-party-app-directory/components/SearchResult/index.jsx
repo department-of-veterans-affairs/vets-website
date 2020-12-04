@@ -57,7 +57,7 @@ export class SearchResult extends Component {
           <div className="vads-u-flex--1 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--2">
             {/* App Name */}
             <h2
-              className="vads-u-margin--0 vads-u-margin-bottom--0p5"
+              className="vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-font-size--h3"
               data-e2e-id="result-title"
               id={item?.id}
             >
@@ -91,7 +91,7 @@ export class SearchResult extends Component {
         <div className="learn-more">
           <button
             aria-expanded={show}
-            className="va-button-link vads-u-text-decoration--none vads-u-margin-top--1p5"
+            className="va-button-link vads-u-text-decoration--none vads-u-margin-top--1p5 vads-u-display--block"
             onClick={() => {
               setShow(!show, item);
             }}
@@ -110,7 +110,7 @@ export class SearchResult extends Component {
             {/* Description */}
             {item?.description && (
               <>
-                <h3>About this app:</h3>
+                <h3 className="vads-u-font-size--h4">About this app:</h3>
                 <p className="vads-u-margin-bottom--0">{item?.description}</p>
               </>
             )}
@@ -144,7 +144,7 @@ export class SearchResult extends Component {
             {/* Permissions */}
             {!isEmpty(scopes) && (
               <>
-                <h3>
+                <h3 className="vads-u-font-size--h4">
                   {item?.name} may request access to your VA information,
                   including:
                 </h3>
