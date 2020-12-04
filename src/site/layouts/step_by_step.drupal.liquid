@@ -79,9 +79,12 @@
                     {% endif %}
                     <!-- desktop -->
                     <span class="vads-u-display--none medium-screen:vads-u-display--block">
-                    <div class="vads-u-margin--1p5">
-                      {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldStep.entity.fieldAlert.entity %}
-                    </div>
+                      {% if fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty   
+                      %}
+                        <div class="vads-u-margin--1p5">
+                          {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldStep.entity.fieldAlert.entity %}
+                        </div>
+                      {% endif %}
                     <!-- Step image -->
                     {% if fieldStep.entity.fieldMedia.entity != empty %}
                       <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
