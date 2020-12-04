@@ -1,15 +1,17 @@
-import set from 'platform/utilities/data/set';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import _ from 'lodash';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
+import fullNameUI from './fullName/fullName';
 
 import fullSchema from '../0873-schema.json';
 import * as address from './address/address';
 import {
-  contactInformationPageDescription,
-  preferredContactMethodTitle,
+  emailAddressError,
+  phoneNumberError,
   phoneTitle,
+  preferredContactMethodTitle,
+  verifyEmailAddressError,
 } from '../../constants/labels';
 
 const { email, phone } = fullSchema.definitions;
@@ -28,8 +30,29 @@ const formFields = {
 
 const contactInformationPage = {
   uiSchema: {
-    'ui:description': contactInformationPageDescription,
     [formFields.fullName]: fullNameUI,
+    [formFields.email]: _.merge(emailUI(), {
+      'ui:required': (formData, _index) =>
+        formData.preferredContactMethod === 'email',
+      'ui:errorMessages': {
+        required: emailAddressError,
+      },
+    }),
+    [formFields.verifyEmail]: _.merge(
+      confirmationEmailUI('', formFields.email),
+      {
+        'ui:errorMessages': {
+          required: verifyEmailAddressError,
+        },
+      },
+    ),
+    [formFields.phone]: _.merge(phoneUI(phoneTitle), {
+      'ui:required': (formData, _index) =>
+        formData.preferredContactMethod === 'phone',
+      'ui:errorMessages': {
+        required: phoneNumberError,
+      },
+    }),
     [formFields.address]: address.uiSchema(
       '',
       true,
@@ -39,17 +62,6 @@ const contactInformationPage = {
       },
       true,
     ),
-    [formFields.phone]: set(
-      'ui:required',
-      (formData, _index) => formData.preferredContactMethod === 'phone',
-      phoneUI(phoneTitle),
-    ),
-    [formFields.email]: set(
-      'ui:required',
-      (formData, _index) => formData.preferredContactMethod === 'email',
-      emailUI(),
-    ),
-    [formFields.verifyEmail]: confirmationEmailUI('', formFields.email),
     [formFields.preferredContactMethod]: {
       'ui:title': preferredContactMethodTitle,
       'ui:widget': 'radio',
