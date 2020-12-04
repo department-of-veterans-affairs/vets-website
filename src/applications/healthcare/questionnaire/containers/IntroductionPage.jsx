@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
@@ -16,9 +17,16 @@ const IntroductionPage = props => {
   }, []);
 
   const { appointment } = props?.questionnaire?.context;
-  const facilityName = appointment?.attributes?.vdsAppointments
-    ? appointment?.attributes?.vdsAppointments[0]?.clinic?.facility?.displayName
-    : '';
+  const appointmentData = appointment?.attributes?.vdsAppointments
+    ? appointment?.attributes?.vdsAppointments[0]
+    : {};
+
+  const facilityName = appointmentData.clinic?.facility?.displayName || '';
+  let expirationTime = appointmentData.appointmentTime || '';
+
+  if (expirationTime) {
+    expirationTime = moment(expirationTime).format('MM/DD/YYYY');
+  }
 
   const { isLoggedIn, route, savedForms, formId } = props;
 
@@ -119,17 +127,14 @@ const IntroductionPage = props => {
           </p>
         </section>
       </section>
-      <div className="omb-info--container">
-        <OMBInfo />
-      </div>
       <section className="emergency-call-out">
         <header>
-          Note: If you need to talk to someone right away or need emergency
-          care,
+          <strong>Note:</strong> If you need to talk to someone right away or
+          need emergency care,
         </header>
         <ul>
           <li>
-            Call <Telephone contact="911" />, or
+            Call <Telephone contact="911" />, <strong>or</strong>
           </li>
           <li>
             Call the Veterans Crisis hotline at{' '}
@@ -138,6 +143,9 @@ const IntroductionPage = props => {
         </ul>
       </section>
       {getWelcomeMessage()}
+      <div className="omb-info--container">
+        <OMBInfo expDate={expirationTime} />
+      </div>
     </div>
   );
 };
