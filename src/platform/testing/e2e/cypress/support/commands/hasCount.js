@@ -42,15 +42,13 @@ const tabbableElements = [
 ];
 
 /**
- * Checks if the count of focusable elements is correct. Focusable elements are those
- * in the normal tab order (native focusable elements or those with tabIndex 0).
- * The count logic will break on tabindexes > 0 because we do not want to override the
- * browser's base tab order.
- */
-
-/**
- * Checks if the count of tabbable elements is correct. Tabbable elements are those
- * in the normal tab order (native focusable elements or those with tabIndex >= 0).
+ * Checks if the count of focusable or tabbable elements is correct.
+ * Focusable elements are those in the normal tab order (native
+ * focusable elements or those with tabIndex 0). The count logic
+ * will break on tabindexes > 0 because we do not want to override
+ * the browser's base tab order.
+ * Tabbable elements are those in the normal tab order (native
+ * focusable elements or those with tabIndex >= 0).
  */
 
 Cypress.Commands.add('hasCount', (elementCategory, selector, count) => {
