@@ -5,7 +5,13 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 const schema = {
   type: 'object',
-  required: ['firstName', 'lastName', 'emailAddress', 'dateOfBirth'],
+  required: [
+    'firstName',
+    'lastName',
+    'emailAddress',
+    'dateOfBirth',
+    'vaxPreference',
+  ],
   properties: {
     firstName: {
       type: 'string',
@@ -18,6 +24,10 @@ const schema = {
     },
     dateOfBirth: {
       type: 'string',
+    },
+    vaxPreference: {
+      type: 'string',
+      enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'ALREADY_VACCINATED'],
     },
   },
 };
@@ -48,6 +58,22 @@ const uiSchema = {
     'ui:widget': 'date',
     'ui:errorMessages': {
       required: 'Please enter your date of birth.',
+    },
+  },
+  vaxPreference: {
+    'ui:title': 'Interested in vaccine',
+    'ui:widget': 'radio',
+    'ui:errorMessages': {
+      required: 'Please select an answer.',
+    },
+    'ui:options': {
+      labels: {
+        INTERESTED: 'Interested',
+        NOT_INTERESTED: 'Not interested',
+        UNDECIDED: 'Unsure',
+        ALREADY_VACCINATED: 'Already received a vaccination',
+      },
+      classNames: '',
     },
   },
 };
