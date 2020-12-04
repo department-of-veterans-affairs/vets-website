@@ -1,5 +1,5 @@
-import ItemLoop from '../components/ItemLoop';
-import IncomeView from '../components/IncomeView';
+import ItemLoop from '../../components/ItemLoop';
+import IncomeView from '../../components/IncomeView';
 
 export const uiSchema = {
   'ui:title': 'Your other income',

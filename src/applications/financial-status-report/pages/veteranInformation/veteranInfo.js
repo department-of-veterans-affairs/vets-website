@@ -1,4 +1,4 @@
-import VeteranInfoBox from '../components/VeteranInfoBox';
+import VeteranInfoBox from '../../components/VeteranInfoBox';
 
 export const uiSchema = {
   veteranInfo: {
