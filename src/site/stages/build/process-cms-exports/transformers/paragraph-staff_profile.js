@@ -1,5 +1,3 @@
-const { isPublished, getDrupalValue } = require('./helpers');
-
 const transform = entity => ({
   entity: {
     entityType: 'paragraph',
@@ -7,10 +5,12 @@ const transform = entity => ({
     queryFieldStaffProfile: {
       entities: [entity.fieldStaffProfile[0] || null],
     },
-    entityPublished: isPublished(getDrupalValue(entity.status)),
+    // Unpublished person nodes will still have status == true here
+    // So we need to make sure we have fieldStaffProfile data instead.
+    entityPublished: !!entity.fieldStaffProfile[0],
   },
 });
 module.exports = {
-  filter: ['field_staff_profile', 'status'],
+  filter: ['field_staff_profile'],
   transform,
 };
