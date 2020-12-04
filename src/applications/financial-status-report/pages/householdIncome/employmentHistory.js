@@ -1,14 +1,10 @@
-import ItemLoop from '../components/ItemLoop';
-import PayrollDeductionView from '../components/PayrollDeductionView';
+import EmploymentHistory from '../../components/EmploymentHistory/EmploymentHistory';
 
 export const uiSchema = {
-  'ui:title': 'Your spouse information',
-  spouseName: {
-    'ui:title': "What is your spouse's name",
-  },
+  'ui:title': 'Your employment history',
   employmentHistory: {
     hasBeenEmployed: {
-      'ui:title': 'Has your spouse been employed within the past two years?',
+      'ui:title': 'Have you been employed within the past two years?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
@@ -17,15 +13,15 @@ export const uiSchema = {
         expandUnder: 'hasBeenEmployed',
       },
       currentlyEmployed: {
-        'ui:title': 'Is your spouse currently employed?',
+        'ui:title': 'Are you currently employed?',
         'ui:widget': 'yesNo',
+        'ui:required': () => false,
       },
       isCurrentlyEmployed: {
+        'ui:field': EmploymentHistory,
         'ui:options': {
           expandUnder: 'currentlyEmployed',
         },
-        'ui:description':
-          'Please provide information about your spouse’s current employment.',
         employmentType: {
           'ui:title': 'Type of employment',
         },
@@ -33,28 +29,15 @@ export const uiSchema = {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
         },
+        employmentEnd: {
+          'ui:title': 'Employment end date',
+          'ui:widget': 'date',
+        },
         employerName: {
           'ui:title': 'Employer name',
         },
         monthlyIncome: {
           'ui:title': 'Gross monthly income',
-        },
-        payrollDeductions: {
-          'ui:field': ItemLoop,
-          'ui:options': {
-            viewField: PayrollDeductionView,
-          },
-          items: {
-            'ui:title': 'Payroll deductions',
-            'ui:description':
-              'You can find your payroll deductions in a recent paycheck.',
-            deductionType: {
-              'ui:title': 'Type of payroll deduction',
-            },
-            deductionAmout: {
-              'ui:title': 'Deduction amount',
-            },
-          },
         },
       },
     },
@@ -64,9 +47,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    spouseName: {
-      type: 'string',
-    },
     employmentHistory: {
       type: 'object',
       properties: {
@@ -88,6 +68,9 @@ export const schema = {
                 employmentStart: {
                   type: 'string',
                 },
+                employmentEnd: {
+                  type: 'string',
+                },
                 employerName: {
                   type: 'string',
                 },
@@ -95,18 +78,7 @@ export const schema = {
                   type: 'number',
                 },
                 payrollDeductions: {
-                  type: 'array',
-                  items: {
-                    type: 'object',
-                    properties: {
-                      deductionType: {
-                        type: 'string',
-                      },
-                      deductionAmout: {
-                        type: 'number',
-                      },
-                    },
-                  },
+                  type: 'number',
                 },
               },
             },

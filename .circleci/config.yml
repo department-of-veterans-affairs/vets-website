@@ -1,4 +1,5 @@
-version: 2
+version: 2.1
+
 jobs:
   lint:
     docker:
@@ -91,6 +92,7 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - run: yarn pact:verify
       - run: yarn pact:can-i-deploy
 
   security-audit:
@@ -270,7 +272,6 @@ jobs:
           path: ./cypress/screenshots
 
 workflows:
-  version: 2
   flag-for-manual-review:
     jobs:
       - eslint-check:
@@ -292,14 +293,14 @@ workflows:
       - contract-test
       - security-audit
       - build-e2e
-      - can-i-deploy:
-          requires:
-            - contract-test
       - build:
           requires:
             - lint
             - unit-test
             - security-audit
+      - can-i-deploy:
+          requires:
+            - contract-test
       - e2e-test:
           requires:
             - build-e2e

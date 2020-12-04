@@ -108,6 +108,25 @@ class SearchApp extends React.Component {
     });
   };
 
+  onSearchResultClick = (bestBet, strippedTitle, index) => () => {
+    if (bestBet) {
+      recordEvent({
+        event: 'nav-searchresults',
+        'nav-path': `Recommended Results -> ${strippedTitle}`,
+      });
+    }
+    recordEvent({
+      event: 'onsite-search-results-click',
+      'search-query': this.state.userInput,
+      'search-total-results': this.props.search?.results?.length,
+      'search-total-result-pages': Math.ceil(
+        this.props.search?.results?.length / 10,
+      ),
+      'search-result-position': index + 1,
+      'search-result-page': this.state.page,
+    });
+  };
+
   renderResults() {
     const { loading, errors } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
@@ -223,7 +242,9 @@ class SearchApp extends React.Component {
     if (results && results.length > 0) {
       return (
         <ul className="results-list">
-          {results.map(r => this.renderWebResult(r))}
+          {results.map((result, index) =>
+            this.renderWebResult(result, undefined, undefined, index),
+          )}
         </ul>
       );
     }
@@ -236,22 +257,14 @@ class SearchApp extends React.Component {
   }
 
   /* eslint-disable react/no-danger */
-  renderWebResult(result, snippetKey = 'snippet', isBestBet = false) {
+  renderWebResult(result, snippetKey = 'snippet', isBestBet = false, index) {
     const strippedTitle = formatResponseString(result.title, true);
     return (
       <li key={result.url} className="result-item">
         <a
           className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
           href={replaceWithStagingDomain(result.url)}
-          onClick={
-            isBestBet
-              ? () =>
-                  recordEvent({
-                    event: 'nav-searchresults',
-                    'nav-path': `Recommended Results -> ${strippedTitle}`,
-                  })
-              : null
-          }
+          onClick={this.onSearchResultClick(isBestBet, strippedTitle, index)}
         >
           <h5
             dangerouslySetInnerHTML={{

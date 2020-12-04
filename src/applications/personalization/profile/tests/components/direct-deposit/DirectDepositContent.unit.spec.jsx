@@ -184,7 +184,7 @@ describe('DirectDepositContent', () => {
       // shows a save succeeded alert
       expect(
         view.findByRole('alert', {
-          name: /we’ve saved your direct deposit information/i,
+          name: /We’ve updated your bank account information/i,
         }),
       ).to.exist;
 
@@ -229,7 +229,7 @@ describe('DirectDepositContent', () => {
       // shows a save succeeded alert
       expect(
         view.findByRole('alert', {
-          name: /we’ve saved your direct deposit information/i,
+          name: /We’ve updated your bank account information/i,
         }),
       ).to.exist;
 
@@ -257,7 +257,7 @@ describe('DirectDepositContent', () => {
 
       // does not show save succeeded alert
       expect(view.container).to.not.contain.text(
-        /we’ve saved your direct deposit information/i,
+        /We’ve updated your bank account information/i,
       );
     });
   });

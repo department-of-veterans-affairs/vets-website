@@ -1,5 +1,5 @@
-import ItemLoop from '../components/ItemLoop';
-import CardDetailsView from '../components/CardDetailsView';
+import ItemLoop from '../../components/ItemLoop';
+import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -16,6 +16,7 @@ export const uiSchema = {
       'ui:field': ItemLoop,
       'ui:options': {
         viewField: CardDetailsView,
+        doNotScroll: true,
       },
       items: {
         'ui:title': 'Additional income:',

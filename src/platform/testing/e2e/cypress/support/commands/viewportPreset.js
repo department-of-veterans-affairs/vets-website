@@ -7,14 +7,14 @@ const presets = {
   'va-top-mobile-5': { width: 320, height: 568 },
   // Top tablet presets by traffic percentage, descending
   'va-top-tablet-1': { width: 768, height: 1024 },
-  'va-top-tablet-2': { width: 810, height: 1080 },
-  'va-top-tablet-3': { width: 1024, height: 1366 },
-  'va-top-tablet-4': { width: 834, height: 1112 },
-  'va-top-tablet-5': { width: 834, height: 1194 },
+  'va-top-tablet-2': { width: 1080, height: 1920 },
+  'va-top-tablet-3': { width: 720, height: 1280 },
+  'va-top-tablet-4': { width: 800, height: 1280 },
+  'va-top-tablet-5': { width: 601, height: 962 },
   // Top desktop presets by traffic percentage, descending
-  'va-top-desktop-1': { width: 1920, height: 1080 },
-  'va-top-desktop-2': { width: 1366, height: 768 },
-  'va-top-desktop-3': { width: 1280, height: 960 },
+  'va-top-desktop-1': { width: 1280, height: 960 },
+  'va-top-desktop-2': { width: 1920, height: 1080 },
+  'va-top-desktop-3': { width: 1366, height: 768 },
   'va-top-desktop-4': { width: 1440, height: 900 },
   'va-top-desktop-5': { width: 1536, height: 864 },
 };
