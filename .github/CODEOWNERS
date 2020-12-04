@@ -82,6 +82,7 @@ src/applications/edu-benefits/feedback-tool @department-of-veterans-affairs/bah-
 # CTO Health Products
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
+src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products
 
 # Other
 src/applications/ask-a-question @department-of-veterans-affairs/orchid
