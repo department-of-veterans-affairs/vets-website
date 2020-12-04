@@ -10,7 +10,6 @@ module.exports = {
         $ref: 'EntityReference',
       },
     },
-    status: { $ref: 'GenericNestedBoolean' },
   },
-  required: ['field_staff_profile', 'status'],
+  required: ['field_staff_profile'],
 };
