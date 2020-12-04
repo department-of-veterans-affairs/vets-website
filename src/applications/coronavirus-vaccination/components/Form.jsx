@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import * as userSelectors from 'platform/user/selectors';
 
 const schema = {
   type: 'object',
@@ -78,7 +80,7 @@ const uiSchema = {
   },
 };
 
-function Form({ router }) {
+function Form({ router, user: _user }) {
   const [formData, setFormData] = useState({});
   const onSubmit = _submittedFormData => {
     // console.log(submittedFormData);
@@ -103,4 +105,18 @@ function Form({ router }) {
   );
 }
 
-export default withRouter(Form);
+const mapStateToProps = state => {
+  return {
+    user: userSelectors.selectUser(state),
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Form),
+);
+export { Form };
