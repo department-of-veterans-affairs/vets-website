@@ -83,7 +83,33 @@ describe('Direct deposit definition', () => {
     expect(uiSchema.bankAccount.bankName).to.eql(bankNameUiSchema);
   });
 
-  it('should render the affected benefits', () => {});
+  it('should render the affected benefits', () => {
+    const { schema, uiSchema } = getSchemas({
+      affectedBenefits: 'disability compensation, pension, and education',
+    });
 
-  it('should render the unaffected benefits', () => {});
+    const form = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+    );
+
+    // If this throws, the test failed. If it doesn't, the test passed.
+    return form.getByText(
+      /will change your bank account information for VA benefits, including disability compensation, pension, and education./i,
+    );
+  });
+
+  it('should render the unaffected benefits', () => {
+    const { schema, uiSchema } = getSchemas({
+      unaffectedBenefits: 'disability compensation, pension, and education',
+    });
+
+    const form = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+    );
+
+    // If this throws, the test failed. If it doesn't, the test passed.
+    return form.getByText(
+      /These updates won’t change your information for disability compensation, pension, and education./i,
+    );
+  });
 });
