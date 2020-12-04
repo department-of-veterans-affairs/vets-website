@@ -3,6 +3,8 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+
 import * as userSelectors from 'platform/user/selectors';
 
 const schema = {
@@ -74,6 +76,7 @@ const uiSchema = {
   },
   emailAddress: {
     'ui:title': 'Email address',
+    'ui:widget': 'email',
     'ui:errorMessages': {
       required: 'Please enter your email address, using this format: X@X.com',
       pattern:
@@ -82,6 +85,7 @@ const uiSchema = {
   },
   phone: {
     'ui:title': 'Phone',
+    'ui:widget': PhoneNumberWidget,
     'ui:errorMessages': {
       required: 'Please enter your phone number',
       pattern: 'Please enter a valid phone number',
