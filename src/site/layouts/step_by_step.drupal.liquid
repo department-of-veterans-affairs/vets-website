@@ -59,20 +59,17 @@
                     <!-- Step wysiyg -->
                     {{ fieldStep.entity.fieldWysiwyg.processed }}
                     <!-- mobile template, hide ghost alerts -->
-                    {% if fieldStep.entity.fieldMedia.entity.thumbnail != empty ||
-                      fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty   
+                    {% if fieldStep.entity.fieldMedia.entity.thumbnail != empty and fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty   
                     %}
                       <div class="form-expanding-group additional-info-container medium-screen:vads-u-display--none">
                         <span class="additional-info-title">Show Details</span>
                           <span>
                             <div class="additional-info-content">
-                              <!-- <div class="vads-u-display--flex vads-u-flex-direction--column" > -->
                                 <div class="vads-u-margin--1p5">
                                 {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldStep.entity.fieldAlert.entity %}
                                 </div>
                                 <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
                                 src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
-                            <!-- </div> -->
                             </div>
                           </span>
                       </div>
