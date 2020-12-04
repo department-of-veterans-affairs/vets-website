@@ -32,9 +32,16 @@ function Introduction({ isProfileLoading, isLoggedIn, toggleLoginModal }) {
           status={ALERT_TYPE.INFO}
           headline="Save time by signing in before you start your application"
           content={
-            <button onClick={toggleLoginModal} className="usa-button">
-              Begin the application
-            </button>
+            <>
+              <p>
+                <button onClick={toggleLoginModal} className="usa-button">
+                  Begin the application
+                </button>
+              </p>
+              <p>
+                <Link to="/apply">Continue without signing in</Link>
+              </p>
+            </>
           }
         />
       );
