@@ -65,7 +65,7 @@ const InputSection = ({
   idSchema,
 }) => {
   const showSave = uiSchema['ui:options'].showSave;
-  const updateText = showSave && index === 0 ? 'Save' : 'Update';
+  const updateText = showSave ? 'Save' : 'Update';
   const notLastOrMultipleRows = showSave || !isLast || items.length > 1;
   const { SchemaField } = registry.fields;
   const itemIdPrefix = `${idSchema.$id}_${index}`;
@@ -85,7 +85,13 @@ const InputSection = ({
   );
 
   return (
-    <div className={notLastOrMultipleRows ? 'va-growable-background' : null}>
+    <div
+      className={
+        notLastOrMultipleRows
+          ? 'va-growable-background vads-u-margin-bottom--0'
+          : null
+      }
+    >
       <ScrollElement name={`table_${itemIdPrefix}`} />
       <div className="row small-collapse">
         <div className="small-12 columns va-growable-expanded">
@@ -150,9 +156,14 @@ const AddAnotherButton = ({
   <>
     <button
       type="button"
-      className={classNames('usa-button-secondary', 'va-growable-add-btn', {
-        'usa-button-disabled': !formData || addAnotherDisabled,
-      })}
+      className={classNames(
+        'usa-button-secondary',
+        'va-growable-add-btn',
+        'vads-u-margin-top--4',
+        {
+          'usa-button-disabled': !formData || addAnotherDisabled,
+        },
+      )}
       disabled={!formData || addAnotherDisabled}
       onClick={() => handleAdd()}
     >
@@ -181,7 +192,7 @@ const ItemLoop = ({
   const uiOptions = uiSchema['ui:options'] || {};
   const title = uiSchema['ui:title'] || schema.title;
   const hideTitle = !!uiOptions.title;
-  const isReviewMode = uiSchema['ui:options'].reviewMode;
+  const reviewMode = uiSchema['ui:options'].reviewMode;
   const description = uiSchema['ui:description'];
   const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
   const ViewField = uiOptions.viewField;
@@ -213,7 +224,6 @@ const ItemLoop = ({
       const isEditing = formData
         ? formData.map((item, index) => !errorSchemaIsValid(errorSchema[index]))
         : [true];
-
       if (formData?.length !== editing.length) {
         setEditing(isEditing);
       }
@@ -350,44 +360,107 @@ const ItemLoop = ({
       <div className="va-growable">
         <ScrollElement name={`topOfTable_${idSchema.$id}`} />
 
-        {items.map((item, index) => {
-          const isEditing = editing[index];
-          const isLast = items.length === index + 1;
+        {uiOptions.viewType === 'table' ? (
+          <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
+            {items.length > 1 && (
+              <thead>
+                <tr>
+                  <th className="vads-u-border--0 vads-u-padding-left--3">
+                    Type of utility
+                  </th>
+                  <th className="vads-u-border--0">Monthly payment amount</th>
+                  <th className="vads-u-border--0" />
+                </tr>
+              </thead>
+            )}
+            <tbody>
+              {items.map((item, index) => {
+                const isEditing = editing[index];
+                const isLast = items.length === index + 1;
 
-          return (isReviewMode ? (
-            isEditing
-          ) : (
-            isLast || isEditing
-          )) ? (
-            <InputSection
-              key={index}
-              item={item}
-              index={index}
-              title={title}
-              isLast={isLast}
-              items={items}
-              schema={schema}
-              uiSchema={uiSchema}
-              idSchema={idSchema}
-              onBlur={onBlur}
-              registry={registry}
-              disabled={disabled}
-              readonly={readonly}
-              errorSchema={errorSchema}
-              handleChange={handleChange}
-              handleUpdate={handleUpdate}
-              handleRemove={handleRemove}
-            />
-          ) : (
-            <ViewField
-              key={index}
-              formData={item}
-              index={index}
-              title={title}
-              onEdit={e => handleEdit(e, index)}
-            />
-          );
-        })}
+                return (reviewMode ? (
+                  isEditing
+                ) : (
+                  isLast || isEditing
+                )) ? (
+                  <tr key={index}>
+                    <td
+                      className="vads-u-border--0 vads-u-padding--0"
+                      colSpan="3"
+                    >
+                      <InputSection
+                        key={index}
+                        item={item}
+                        index={index}
+                        title={title}
+                        isLast={isLast}
+                        items={items}
+                        schema={schema}
+                        uiSchema={uiSchema}
+                        idSchema={idSchema}
+                        onBlur={onBlur}
+                        registry={registry}
+                        disabled={disabled}
+                        readonly={readonly}
+                        errorSchema={errorSchema}
+                        handleChange={handleChange}
+                        handleUpdate={handleUpdate}
+                        handleRemove={handleRemove}
+                      />
+                    </td>
+                  </tr>
+                ) : (
+                  <ViewField
+                    key={index}
+                    formData={item}
+                    index={index}
+                    title={title}
+                    onEdit={e => handleEdit(e, index)}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          items.map((item, index) => {
+            const isEditing = editing[index];
+            const isLast = items.length === index + 1;
+
+            return (reviewMode ? (
+              isEditing
+            ) : (
+              isLast || isEditing
+            )) ? (
+              <InputSection
+                key={index}
+                item={item}
+                index={index}
+                title={title}
+                isLast={isLast}
+                items={items}
+                schema={schema}
+                uiSchema={uiSchema}
+                idSchema={idSchema}
+                onBlur={onBlur}
+                registry={registry}
+                disabled={disabled}
+                readonly={readonly}
+                errorSchema={errorSchema}
+                handleChange={handleChange}
+                handleUpdate={handleUpdate}
+                handleRemove={handleRemove}
+              />
+            ) : (
+              <ViewField
+                key={index}
+                formData={item}
+                index={index}
+                title={title}
+                onEdit={e => handleEdit(e, index)}
+              />
+            );
+          })
+        )}
 
         <AddAnotherButton
           formData={formData}

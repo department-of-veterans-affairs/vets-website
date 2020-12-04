@@ -13,6 +13,7 @@ export const uiSchema = {
     utilityRecords: {
       'ui:options': {
         expandUnder: 'hasUtility',
+        viewType: 'table',
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
