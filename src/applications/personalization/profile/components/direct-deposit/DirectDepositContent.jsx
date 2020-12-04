@@ -391,7 +391,8 @@ export const DirectDepositContent = ({
                 className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                 scrollOnShow
               >
-                We’ve saved your direct deposit information.
+                We’ve updated your bank account information for your{' '}
+                <strong>compensation and pension benefits</strong>
               </AlertBox>
             )}
           </ReactCSSTransitionGroup>

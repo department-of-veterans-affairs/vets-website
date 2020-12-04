@@ -1,9 +1,9 @@
-import ItemLoop from '../components/ItemLoop';
-import CardDetailsView from '../components/CardDetailsView';
+import ItemLoop from '../../components/ItemLoop';
+import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
+  'ui:title': 'Your household assets',
   householdAssets: {
-    'ui:title': 'Your household assets',
     checkingAndSavings: {
       'ui:title':
         'What is the total amount in your checking and savings account(s)?',
@@ -35,6 +35,7 @@ export const uiSchema = {
         'ui:field': ItemLoop,
         'ui:options': {
           viewField: CardDetailsView,
+          doNotScroll: true,
         },
         items: {
           'ui:title': 'Real estate owned:',
@@ -59,6 +60,7 @@ export const uiSchema = {
         'ui:field': ItemLoop,
         'ui:options': {
           viewField: CardDetailsView,
+          doNotScroll: true,
         },
         items: {
           'ui:title': 'Trailers, boats, or campers owned',
@@ -83,6 +85,7 @@ export const uiSchema = {
         'ui:field': ItemLoop,
         'ui:options': {
           viewField: CardDetailsView,
+          doNotScroll: true,
         },
         items: {
           'ui:title': 'Trailers, boats, or campers owned',
@@ -113,6 +116,7 @@ export const uiSchema = {
         'ui:field': ItemLoop,
         'ui:options': {
           viewField: CardDetailsView,
+          doNotScroll: true,
         },
         items: {
           'ui:title': 'Other assets owned',

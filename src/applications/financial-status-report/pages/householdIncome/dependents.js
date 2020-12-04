@@ -1,9 +1,9 @@
-import ItemLoop from '../components/ItemLoop';
-import DependentView from '../components/DependentView';
+import ItemLoop from '../../components/ItemLoop';
+import DependentView from '../../components/DependentView';
 
 export const uiSchema = {
+  'ui:title': 'Your employment history',
   dependentsSection: {
-    'ui:title': 'Your employment history',
     dependents: {
       'ui:title': 'Do you have any dependents?',
       'ui:widget': 'yesNo',
@@ -18,6 +18,7 @@ export const uiSchema = {
         'ui:field': ItemLoop,
         'ui:options': {
           viewField: DependentView,
+          doNotScroll: true,
         },
         items: {
           'ui:title': 'Age in years:',

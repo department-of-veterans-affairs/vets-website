@@ -77,8 +77,12 @@ export const selectUseFlatFacilityPage = state =>
   !selectIsCernerPatient(state) &&
   (!selectIsRegisteredToSacramentoVA(state) ||
     vaosFlatFacilityPageSacramento(state));
-export const vaosProviderSelection = state =>
+
+const vaosProviderSelection = state =>
   toggleValues(state).vaOnlineSchedulingProviderSelection;
+export const selectUseProviderSelection = state =>
+  vaosProviderSelection(state) &&
+  !!selectVAPResidentialAddress(state)?.addressLine1;
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -301,6 +305,15 @@ export function selectCernerOrgIds(state) {
       );
     })
     .map(facility => facility.id);
+}
+
+export function selectProviderSelectionInfo(state) {
+  const { communityCareProviderList, requestStatus } = getNewAppointment(state);
+  return {
+    address: selectVAPResidentialAddress(state),
+    communityCareProviderList,
+    requestStatus,
+  };
 }
 
 export function getFacilityPageV2Info(state) {

@@ -23,6 +23,12 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
+
+import mapboxClient from '../components/MapboxClient';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+
+const mbxClient = mbxGeo(mapboxClient);
+
 import {
   setFocus,
   buildMarker,
@@ -192,11 +198,16 @@ const FacilitiesMap = props => {
   const handlePageSelect = page => {
     resetMapElements();
     const { currentQuery } = props;
+    const coords = currentQuery.position;
+    const radius = currentQuery.radius;
+    const center = [coords.latitude, coords.longitude];
     props.searchWithBounds({
       bounds: currentQuery.bounds,
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
       page,
+      center,
+      radius,
     });
   };
 
@@ -402,14 +413,39 @@ const FacilitiesMap = props => {
     );
   };
 
+  const genLocationFromCoords = position => {
+    mbxClient
+      .reverseGeocode({
+        query: [position.longitude, position.latitude],
+        types: ['address'],
+      })
+      .send()
+      .then(({ body: { features } }) => {
+        const placeName = features[0].place_name;
+        const zipCode =
+          features[0].context.find(v => v.id.includes('postcode')).text || '';
+
+        props.updateSearchQuery({
+          searchString: placeName,
+          context: zipCode,
+          position,
+        });
+
+        updateUrlParams({
+          address: placeName,
+          context: zipCode,
+        });
+      })
+      .catch(error => error);
+  };
+
   useEffect(
     () => {
-      const {
-        searchArea,
-        position,
-        context,
-        searchString,
-      } = props.currentQuery;
+      const { currentQuery } = props;
+      const { searchArea, position, context, searchString } = currentQuery;
+      const coords = currentQuery.position;
+      const radius = currentQuery.radius;
+      const center = [coords.latitude, coords.longitude];
       // Search current area
       if (searchArea) {
         updateUrlParams({
@@ -424,6 +460,8 @@ const FacilitiesMap = props => {
           facilityType: props.currentQuery.facilityType,
           serviceType: props.currentQuery.serviceType,
           page: props.currentQuery.currentPage,
+          center,
+          radius,
         });
       }
     },
@@ -436,6 +474,17 @@ const FacilitiesMap = props => {
     };
 
     searchWithUrl();
+
+    // TODO - improve the geolocation feature with a more react approach
+    // https://github.com/department-of-veterans-affairs/vets-website/pull/14963
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(currentPosition => {
+        const input = document.getElementById('street-city-state-zip');
+        if (input && !input.value) {
+          genLocationFromCoords(currentPosition.coords);
+        }
+      });
+    }
 
     const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);
@@ -471,7 +520,11 @@ const FacilitiesMap = props => {
           context: props.currentQuery.context,
           address: props.currentQuery.searchString,
         });
-        const resultsPage = props.currentQuery.currentPage;
+        const { currentQuery } = props;
+        const coords = currentQuery.position;
+        const radius = currentQuery.radius;
+        const center = [coords.latitude, coords.longitude];
+        const resultsPage = currentQuery.currentPage;
 
         if (!props.searchBoundsInProgress) {
           props.searchWithBounds({
@@ -479,6 +532,8 @@ const FacilitiesMap = props => {
             facilityType: props.currentQuery.facilityType,
             serviceType: props.currentQuery.serviceType,
             page: resultsPage,
+            center,
+            radius,
           });
           setIsSearching(false);
         }

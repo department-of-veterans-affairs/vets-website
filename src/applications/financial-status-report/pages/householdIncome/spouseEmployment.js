@@ -1,5 +1,5 @@
-import ItemLoop from '../components/ItemLoop';
-import PayrollDeductionView from '../components/PayrollDeductionView';
+import ItemLoop from '../../components/ItemLoop';
+import PayrollDeductionView from '../../components/PayrollDeductionView';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -19,7 +19,6 @@ export const uiSchema = {
       currentlyEmployed: {
         'ui:title': 'Is your spouse currently employed?',
         'ui:widget': 'yesNo',
-        'ui:required': () => true,
       },
       isCurrentlyEmployed: {
         'ui:options': {
@@ -44,6 +43,7 @@ export const uiSchema = {
           'ui:field': ItemLoop,
           'ui:options': {
             viewField: PayrollDeductionView,
+            doNotScroll: true,
           },
           items: {
             'ui:title': 'Payroll deductions',
