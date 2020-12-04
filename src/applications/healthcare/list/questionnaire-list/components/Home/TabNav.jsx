@@ -17,7 +17,7 @@ export default function TabNav() {
         <TabItem
           tabPath={`/healthcare/list/todo`}
           id="toDo"
-          text="To Do"
+          text="To do"
           isActive={!pathWithSlash.includes('completed')}
           onNextTab={() => {
             history.push('/healthcare/list/completed');

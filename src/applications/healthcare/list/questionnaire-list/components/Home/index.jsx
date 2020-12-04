@@ -40,38 +40,33 @@ const Home = props => {
       user={user}
       verify={!environment.isLocalhost()}
     >
-      <div className="row">
-        <div className="usa-width-three-fourths medium-8 columns">
-          <h1>Your health questionnaires</h1>
-          <p className="va-introtext">
-            Review and keep track of your completed health care questionnaires
-            and any you need to fill out before your upcoming appointment. You
-            can also print a copy of questionnaires you've completed.
-          </p>
-          {isLoading ? (
-            <>
-              <LoadingIndicator message="Loading your questionnaires." />
-            </>
-          ) : (
-            <Router>
-              <TabNav />
-              <Switch>
-                <Route
-                  path={`/healthcare/list/todo`}
-                  component={ToDoQuestionnaires}
-                />
-                <Route
-                  path={`/healthcare/list/completed`}
-                  component={CompletedQuestionnaires}
-                />
-                <Route
-                  path={`/healthcare/list`}
-                  component={ToDoQuestionnaires}
-                />
-              </Switch>
-            </Router>
-          )}
-        </div>
+      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+        <h1>Your health questionnaires</h1>
+        <p className="va-introtext">
+          Review and keep track of your completed health care questionnaires and
+          any you need to fill out before your upcoming appointment. You can
+          also print a copy of questionnaires you've completed.
+        </p>
+        {isLoading ? (
+          <>
+            <LoadingIndicator message="Loading your questionnaires." />
+          </>
+        ) : (
+          <Router>
+            <TabNav />
+            <Switch>
+              <Route
+                path={`/healthcare/list/todo`}
+                component={ToDoQuestionnaires}
+              />
+              <Route
+                path={`/healthcare/list/completed`}
+                component={CompletedQuestionnaires}
+              />
+              <Route path={`/healthcare/list`} component={ToDoQuestionnaires} />
+            </Switch>
+          </Router>
+        )}
       </div>
     </RequiredLoginView>
   );

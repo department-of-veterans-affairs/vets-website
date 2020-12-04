@@ -4,8 +4,10 @@
  * There is some complexity in the animation toggling function "scrollListener"
  * html is located in src/site/components/up_to_top_button.html
  */
+import { focusElement } from 'platform/utilities/ui';
 
 function navigateToTop() {
+  focusElement('#content');
   return window.scrollTo(0, 0);
 }
 

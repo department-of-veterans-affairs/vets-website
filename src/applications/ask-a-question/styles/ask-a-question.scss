@@ -38,5 +38,9 @@ ul.claim-list {
     margin-right: 0;
     margin-left: 0;
     padding-right: 0;
+
+.help-footer-box {
+  @include media($medium-large-screen) {
+    padding-top: 3.0rem;
   }
 }
