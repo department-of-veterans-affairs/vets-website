@@ -7,8 +7,10 @@ export default function Introduction() {
       <h2>Introduction</h2>
       <div className="va-introtext">
         <p>This is an introduction</p>
-        <Link to="/apply">Begin the application</Link>
       </div>
+      <Link className="usa-button" to="/apply">
+        Begin the application
+      </Link>
     </>
   );
 }
