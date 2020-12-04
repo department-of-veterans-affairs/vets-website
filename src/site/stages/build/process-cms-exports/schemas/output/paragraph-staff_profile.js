@@ -7,6 +7,7 @@ module.exports = {
       properties: {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['staff_profile'] },
+        entityPublished: { type: 'boolean' },
         queryFieldStaffProfile: {
           type: 'object',
           properties: {
