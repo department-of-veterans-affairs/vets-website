@@ -11,6 +11,7 @@ import formConfig from '../config/form';
 import {
   transform,
   transformRelatedDisabilities,
+  stringifyRelatedDisabilities,
   getFlatIncidentKeys,
   getPtsdChangeText,
   setActionTypes,
@@ -99,6 +100,55 @@ describe('transformRelatedDisabilities', () => {
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
     ).to.eql(['Some Condition Name']);
+  });
+});
+
+describe('stringifyRelatedDisabilities', () => {
+  it('should return an array of strings', () => {
+    const formData = {
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            'some condition name': true,
+            'another condition name': true,
+            'this condition is falsey!': false,
+          },
+        },
+      ],
+    };
+    expect(stringifyRelatedDisabilities(formData)).to.deep.equal({
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: [
+            'some condition name',
+            'another condition name',
+          ],
+        },
+      ],
+    });
+  });
+  it('will still add conditions to treatment names if they are not claimed', () => {
+    const formData = {
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            'some condition name': true,
+            'another condition name': true,
+            'this condition is falsey!': false,
+          },
+        },
+      ],
+    };
+    expect(stringifyRelatedDisabilities(formData)).to.deep.equal({
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: [
+            'some condition name',
+            'another condition name',
+          ],
+        },
+      ],
+    });
   });
 });
 

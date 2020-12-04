@@ -120,7 +120,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             We need to verify your military status to update your account. Next
             step: Please [contact us through
@@ -145,7 +145,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             Your payment is past due, and we're adding interest to the amount.
           </p>
@@ -177,7 +177,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </span>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             Your payment is past due.{' '}
           </p>
@@ -209,7 +209,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </span>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             Your payment is past due.{' '}
           </p>
@@ -229,7 +229,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             We need your address to update your account.{' '}
           </p>
@@ -249,7 +249,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             We've accepted your compromise payment.{' '}
           </p>
@@ -271,7 +271,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>
               Status: We've paused collection on this debt as you requested.
             </strong>{' '}
@@ -293,7 +293,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: We're reviewing your compromise offer</strong>
           </p>
         ),
@@ -324,7 +324,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         ),
         status: (
           <>
-            <p>
+            <p className="vads-u-margin-bottom--0">
               <strong>Status: </strong>
               We're updating your account
             </p>
@@ -354,7 +354,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         ),
         status: (
           <>
-            <p>
+            <p className="vads-u-margin-bottom--0">
               <strong>Status: </strong>
               We're updating your account
             </p>
@@ -375,7 +375,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         content: <p>You don't need to do anything at this time.</p>,
         status: (
           <>
-            <p>
+            <p className="vads-u-margin-bottom--0">
               <strong>Status: </strong>
               We're reviewing your account
             </p>
@@ -400,7 +400,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             We referred this debt to the U.S. Department of the Treasury.
           </p>
@@ -429,7 +429,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </span>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong> We're referring this debt to the U.S.
             Department of the Treasury today.
           </p>
@@ -458,7 +458,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </span>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             Your payment is due now.
           </p>
@@ -489,7 +489,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong> We're keeping part of your {benefitType}{' '}
             payments each month to pay your debt (called monthly offsets).
           </p>
@@ -512,7 +512,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             We've restarted collection on this debt.
           </p>
@@ -531,7 +531,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             Your payment is due.
           </p>
@@ -556,7 +556,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             Your payment is past due.
           </p>
@@ -587,7 +587,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             We need your completed Financial Status Report to make a decision on
             your request.
@@ -611,7 +611,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             Your payment is due.
           </p>
@@ -635,7 +635,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong> We're reviewing your waiver request.
           </p>
         ),
@@ -653,7 +653,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong> We're reviewing your debt dispute.
           </p>
         ),
@@ -671,7 +671,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong> We're reviewing your request for a waiver
             or hearing.
           </p>
@@ -690,7 +690,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong> We're reviewing your notice of
             disagreement.
           </p>
@@ -707,7 +707,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           </p>
         ),
         status: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
             We're updating your account.
           </p>

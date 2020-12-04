@@ -310,3 +310,29 @@ export const requireSeparationLocation = (err, fieldData, formData) => {
     err.addError('Please select a separation location from the suggestions');
   }
 };
+
+// Originally used the function from platform/forms-system/src/js/validation.js,
+// but we need to ignore conditions that have been removed from the new
+// disabilities array; the form data for treatedDisabilityNames doesn't remove
+// previous entries and they may still be true - see
+// https://github.com/department-of-veterans-affairs/va.gov-team/issues/15368
+// the schema name is not altered, only the form data from SiPs
+export function validateBooleanGroup(
+  errors,
+  userGroup,
+  form,
+  schema,
+  errorMessages = {},
+) {
+  const { atLeastOne = 'Please choose at least one option' } = errorMessages;
+  const group = userGroup || {};
+  const props = schema?.properties || {};
+  if (
+    !Object.keys(group).filter(
+      item =>
+        group[item] === true && (props[item] || props[item.toLowerCase()]),
+    ).length
+  ) {
+    errors.addError(atLeastOne);
+  }
+}
