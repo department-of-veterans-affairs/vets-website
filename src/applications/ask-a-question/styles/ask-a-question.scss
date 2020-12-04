@@ -30,9 +30,13 @@ ul.claim-list {
   .medium-5 {
     width: 50%;
   }
+  .medium-5.end.columns {
+    padding-right: 0;
+    padding-left: 0;
+  }
   .schemaform-buttons [type="submit"] {
     margin-right: 0;
-    margin-left: 0.5rem;
+    margin-left: 0;
     padding-right: 0;
   }
 }
