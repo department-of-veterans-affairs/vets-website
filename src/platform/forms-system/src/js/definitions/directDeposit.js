@@ -12,7 +12,7 @@ const defaultOptionalFields = {
 
 const useDirectDeposit = form => !form?.declineDirectDeposit;
 
-const uiSchema = ({ optionalFields }) => {
+const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
   const ui = {
     'ui:title': 'Direct deposit',
     'ui:description': directDepositDescription,
@@ -57,7 +57,10 @@ const uiSchema = ({ optionalFields }) => {
       },
     },
     'view:directDespositInfo': {
-      'ui:description': directDepositAlert,
+      'ui:description': directDepositAlert({
+        affectedBenefits,
+        unaffectedBenefits,
+      }),
     },
     'view:bankInfoHelpText': {
       'ui:description': bankInfoHelpText,
@@ -145,11 +148,13 @@ const schema = optionalFields => {
 /**
  * Get the schema and uiSchema for direct deposit.
  *
- * @param {string[]} [options.affectedBenefits] - A list of affected benefits.
- *        This is used in `directDepositAlert` in `./content/directDeposit.jsx`
- * @param {string[]} [options.unaffectedBenefits] - A list of benefits NOT
+ * @param {string} [options.affectedBenefits] - A list of affected benefits.
+ *        This is used in `directDepositAlert` in `./content/directDeposit.jsx`.
+ *        Example: "disability compensation, pension, and education"
+ * @param {string} [options.unaffectedBenefits] - A list of benefits NOT
  *        affected. This is used in `directDepositAlert` in
- *        `./content/directDeposit.jsx`
+ *        `./content/directDeposit.jsx`.
+ *        Example: "disability compensation, pension, and education"
  * @param {bool|OptionalField} [options.optionalFields.declineDirectDeposit] - Set to true
  *        to add the declineDirectDeposit field the default schema and uiSchema.
  *        Pass an object with schema and uiSchema properties to override either
