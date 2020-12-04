@@ -8,7 +8,9 @@ it('healthcare questionnaire -- loads introduction page -- feature enabled', () 
     cy.login(basicUser);
     cy.visit('/healthcare/questionnaire/introduction');
     cy.title().should('contain', 'Healthcare Questionnaire');
-    cy.get('.schemaform-title>h1').contains('Answer primary care questionnaire');
+    cy.get('.schemaform-title>h1').contains(
+      'Answer primary care questionnaire',
+    );
   });
 });
 
