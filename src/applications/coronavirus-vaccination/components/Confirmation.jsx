@@ -1,10 +1,14 @@
 import React from 'react';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export default function Confirmation() {
   return (
-    <>
-      <h2>Your application has been received</h2>
-      <p>Thank you.</p>
-    </>
+    <AlertBox
+      status={ALERT_TYPE.SUCCESS}
+      headline="Your application has been received"
+      content="Thank you"
+    />
   );
 }

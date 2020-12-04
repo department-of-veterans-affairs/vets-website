@@ -110,7 +110,7 @@ function getInitialFormData(profile) {
     firstName: profile?.userFullName?.first,
     lastName: profile?.userFullName?.last,
     dateOfBirth: profile?.dob,
-    ssn: '',
+    ssn: undefined,
     emailAddress: profile?.vapContactInfo?.email?.emailAddress,
     phone: profile?.vapContactInfo?.homePhone
       ? `${profile.vapContactInfo.homePhone.areaCode}${
