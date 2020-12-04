@@ -24,40 +24,7 @@ const initialSchema = {
     },
     communityCareProvider: {
       type: 'object',
-      properties: {
-        uniqueId: {
-          type: 'string',
-        },
-        name: {
-          type: 'string',
-        },
-        phone: {
-          type: 'string',
-        },
-        lat: {
-          type: 'number',
-        },
-        long: {
-          type: 'number',
-        },
-        address: {
-          type: 'object',
-          properties: {
-            street: {
-              type: 'string',
-            },
-            city: {
-              type: 'string',
-            },
-            state: {
-              type: 'string',
-            },
-            zip: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      properties: {},
     },
   },
 };
@@ -75,6 +42,8 @@ const uiSchema = {
     'ui:options': {
       showFieldLabel: true,
     },
+    'ui:description':
+      'You can request a provider you’d prefer for this appointment. If they aren’t available, we’ll schedule your appointment with a provider close to your home.',
     'ui:field': ProviderSelectionField,
   },
 };

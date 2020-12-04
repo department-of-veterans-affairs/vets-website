@@ -307,6 +307,15 @@ export function selectCernerOrgIds(state) {
     .map(facility => facility.id);
 }
 
+export function selectProviderSelectionInfo(state) {
+  const { communityCareProviderList, requestStatus } = getNewAppointment(state);
+  return {
+    address: selectVAPResidentialAddress(state),
+    communityCareProviderList,
+    requestStatus,
+  };
+}
+
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);

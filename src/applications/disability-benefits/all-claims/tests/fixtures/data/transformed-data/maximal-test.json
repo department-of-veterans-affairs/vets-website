@@ -43,9 +43,9 @@
           "state": "AK"
         },
         "treatedDisabilityNames": [
-          "Diabetes mellitus0",
-          "Diabetes mellitus1",
-          "myocardial infarction (MI)"
+          "diabetes mellitus0",
+          "diabetes mellitus1",
+          "myocardial infarction (mi)"
         ]
       },
       {
