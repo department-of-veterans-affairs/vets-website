@@ -6,8 +6,10 @@
  */
 
 function navigateToTop() {
-  if (document.getElementById('content')) {
-    document.getElementById('content').focus();
+  const content = document.getElementById('content');
+  if (content) {
+    content.setAttribute('tabindex', '-1');
+    content.focus();
   }
   return window.scrollTo(0, 0);
 }
