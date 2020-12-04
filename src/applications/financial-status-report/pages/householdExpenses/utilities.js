@@ -1,5 +1,5 @@
 import ItemLoop from '../../components/ItemLoop';
-import CardDetailsView from '../../components/CardDetailsView';
+import TableDetailsView from '../../components/TableDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
@@ -13,7 +13,7 @@ export const uiSchema = {
     utilityRecords: {
       'ui:options': {
         expandUnder: 'hasUtility',
-        viewField: CardDetailsView,
+        viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
       },

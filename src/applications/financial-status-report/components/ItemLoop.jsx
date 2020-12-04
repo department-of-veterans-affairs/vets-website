@@ -46,27 +46,6 @@ const Header = ({
   );
 };
 
-const EditSection = ({ item, index, title, handleEdit, uiOptions }) => {
-  const ViewField = uiOptions.viewField;
-
-  return (
-    <div className="va-growable-background editable-row">
-      <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
-        <div className="vads-u-flex--fill">
-          <ViewField formData={item} onEdit={e => handleEdit(e, index)} />
-        </div>
-        <button
-          className="usa-button-secondary edit vads-u-flex--auto"
-          onClick={e => handleEdit(e, index)}
-          aria-label={`Edit ${title}`}
-        >
-          Edit
-        </button>
-      </div>
-    </div>
-  );
-};
-
 const InputSection = ({
   title,
   isLast,
@@ -205,6 +184,7 @@ const ItemLoop = ({
   const isReviewMode = uiSchema['ui:options'].reviewMode;
   const description = uiSchema['ui:description'];
   const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
+  const ViewField = uiOptions.viewField;
 
   const [editing, setEditing] = useState([]);
 
@@ -369,6 +349,7 @@ const ItemLoop = ({
       )}
       <div className="va-growable">
         <ScrollElement name={`topOfTable_${idSchema.$id}`} />
+
         {items.map((item, index) => {
           const isEditing = editing[index];
           const isLast = items.length === index + 1;
@@ -398,16 +379,16 @@ const ItemLoop = ({
               handleRemove={handleRemove}
             />
           ) : (
-            <EditSection
+            <ViewField
               key={index}
-              item={item}
+              formData={item}
               index={index}
               title={title}
-              uiOptions={uiOptions}
-              handleEdit={handleEdit}
+              onEdit={e => handleEdit(e, index)}
             />
           );
         })}
+
         <AddAnotherButton
           formData={formData}
           addAnotherDisabled={addAnotherDisabled}
