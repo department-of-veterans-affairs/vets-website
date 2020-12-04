@@ -15,12 +15,12 @@ const HowDoIPay = () => (
       Management Center at <Telephone contact="8008270648" />
       {'.'}
     </p>
-    <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">Online</h3>
+    <h3 className="vads-u-margin-top--1">Online</h3>
     <p className="vads-u-margin-top--0">
       Pay directly from your bank account or by debit or credit card on the
       secure <a href="https://www.pay.va.gov/">pay.va.gov</a> website.
     </p>
-    <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By phone</h3>
+    <h3 className="vads-u-margin-top--1">By phone</h3>
     <p className="vads-u-margin-bottom--0 vads-u-margin-top--0">
       Call us at <Telephone contact="8008270648" />
       {'.'}
@@ -30,7 +30,7 @@ const HowDoIPay = () => (
       <Telephone contact="6127136415" pattern={PATTERNS.OUTSIDE_US} />
       {'.'}
     </p>
-    <h3 className="vads-u-margin-top--1 vads-u-font-size--h5">By mail</h3>
+    <h3 className="vads-u-margin-top--1">By mail</h3>
     <p className="vads-u-margin-y--0">
       Find instructions on how to pay by mail in the demand letter sent to your
       address or you can <Link to="/debt-letters">download them online</Link>.
