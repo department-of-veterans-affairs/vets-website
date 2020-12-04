@@ -11,14 +11,14 @@ import { fetchInquiries } from '../../actions/';
 import contractTest from 'platform/testing/contract';
 
 contractTest('My Messages', 'VA.gov API', mockApi => {
-  describe('GET /messages/inquiries', () => {
+  describe('GET /ask/inquiries', () => {
     it('returns a list of messages for user', async () => {
       await mockApi().addInteraction({
         state: 'logged in user with messages',
         uponReceiving: 'a GET request',
         withRequest: {
           method: 'GET',
-          path: '/v0/messages/inquiries',
+          path: '/v0/ask/inquiries',
           headers: {
             'X-Key-Inflection': 'camel',
           },
@@ -59,7 +59,7 @@ contractTest('My Messages', 'VA.gov API', mockApi => {
         uponReceiving: 'a GET request',
         withRequest: {
           method: 'GET',
-          path: '/v0/messages/inquiries',
+          path: '/v0/ask/inquiries',
           headers: {
             'X-Key-Inflection': 'camel',
           },
