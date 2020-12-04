@@ -7,7 +7,7 @@
 import { focusElement } from 'platform/utilities/ui';
 
 function navigateToTop() {
-  focusElement('#content');
+  focusElement('.merger');
   return window.scrollTo(0, 0);
 }
 
