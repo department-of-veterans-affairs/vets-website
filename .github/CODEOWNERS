@@ -52,7 +52,7 @@ src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
 src/applications/search @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
 src/applications/resources-and-support @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
-src/site/stages/build/process-cms-exports/schemas/input/block_content-promos.js
+src/site/stages/build/process-cms-exports/schemas/input/block_content-promo.js
 src/site/stages/build/process-cms-exports/schemas/input/node-basic_landing_page.js
 src/site/stages/build/process-cms-exports/schemas/input/node-checklist.js
 src/site/stages/build/process-cms-exports/schemas/input/node-faq_multiple_q_a.js
@@ -69,10 +69,9 @@ src/site/stages/build/process-cms-exports/schemas/input/paragraph-audience_topic
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-button.js
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-contact_information.js
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-email_contact.js
-src/site/stages/build/process-cms-exports/schemas/input/paragraph-link_teasers.js
+src/site/stages/build/process-cms-exports/schemas/input/paragraph-link_teaser.js
+src/site/stages/build/process-cms-exports/schemas/input/paragraph-list_of_link_teasers.js
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-lists_of_links.js
-src/site/stages/build/process-cms-exports/schemas/input/paragraph-lists_of_links.js
-src/site/stages/build/process-cms-exports/schemas/input/paragraph-lists_of_links_teasers.js
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-process.js
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-q_a.js
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-q_a_group.js
@@ -81,13 +80,13 @@ src/site/stages/build/process-cms-exports/schemas/input/paragraph-rich_text_char
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-step.js
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-step_by_step.js
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-table.js
-src/site/stages/build/process-cms-exports/schemas/input/paragraph-wysiwig.js
+src/site/stages/build/process-cms-exports/schemas/input/paragraph-wysiwyg.js
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-administration.js
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-audience_beneficiaries.js
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-lc_categories.js
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-products.js
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-topics.js
-src/site/stages/build/process-cms-exports/schemas/output/block_content-promos.js
+src/site/stages/build/process-cms-exports/schemas/output/block_content-promo.js
 src/site/stages/build/process-cms-exports/schemas/output/node-basic_landing_page.js
 src/site/stages/build/process-cms-exports/schemas/output/node-checklist.js
 src/site/stages/build/process-cms-exports/schemas/output/node-faq_multiple_q_a.js
@@ -104,10 +103,9 @@ src/site/stages/build/process-cms-exports/schemas/output/paragraph-audience_topi
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-button.js
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-contact_information.js
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-email_contact.js
-src/site/stages/build/process-cms-exports/schemas/output/paragraph-link_teasers.js
+src/site/stages/build/process-cms-exports/schemas/output/paragraph-link_teaser.js
+src/site/stages/build/process-cms-exports/schemas/output/paragraph-list_of_link_teasers.js
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-lists_of_links.js
-src/site/stages/build/process-cms-exports/schemas/output/paragraph-lists_of_links.js
-src/site/stages/build/process-cms-exports/schemas/output/paragraph-lists_of_links_teasers.js
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-process.js
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-q_a.js
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-q_a_group.js
@@ -116,13 +114,13 @@ src/site/stages/build/process-cms-exports/schemas/output/paragraph-rich_text_cha
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-step.js
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-step_by_step.js
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-table.js
-src/site/stages/build/process-cms-exports/schemas/output/paragraph-wysiwig.js
+src/site/stages/build/process-cms-exports/schemas/output/paragraph-wysiwyg.js
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-administration.js
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-audience_beneficiaries.js
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-lc_categories.js
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-products.js
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-topics.js
-src/site/stages/build/process-cms-exports/transformers/block_content-promos.js
+src/site/stages/build/process-cms-exports/transformers/block_content-promo.js
 src/site/stages/build/process-cms-exports/transformers/node-basic_landing_page.js
 src/site/stages/build/process-cms-exports/transformers/node-checklist.js
 src/site/stages/build/process-cms-exports/transformers/node-faq_multiple_q_a.js
@@ -139,10 +137,9 @@ src/site/stages/build/process-cms-exports/transformers/paragraph-audience_topics
 src/site/stages/build/process-cms-exports/transformers/paragraph-button.js
 src/site/stages/build/process-cms-exports/transformers/paragraph-contact_information.js
 src/site/stages/build/process-cms-exports/transformers/paragraph-email_contact.js
-src/site/stages/build/process-cms-exports/transformers/paragraph-link_teasers.js
+src/site/stages/build/process-cms-exports/transformers/paragraph-link_teaser.js
+src/site/stages/build/process-cms-exports/transformers/paragraph-list_of_link_teasers.js
 src/site/stages/build/process-cms-exports/transformers/paragraph-lists_of_links.js
-src/site/stages/build/process-cms-exports/transformers/paragraph-lists_of_links.js
-src/site/stages/build/process-cms-exports/transformers/paragraph-lists_of_links_teasers.js
 src/site/stages/build/process-cms-exports/transformers/paragraph-process.js
 src/site/stages/build/process-cms-exports/transformers/paragraph-q_a.js
 src/site/stages/build/process-cms-exports/transformers/paragraph-q_a_group.js
@@ -151,12 +148,13 @@ src/site/stages/build/process-cms-exports/transformers/paragraph-rich_text_char_
 src/site/stages/build/process-cms-exports/transformers/paragraph-step.js
 src/site/stages/build/process-cms-exports/transformers/paragraph-step_by_step.js
 src/site/stages/build/process-cms-exports/transformers/paragraph-table.js
-src/site/stages/build/process-cms-exports/transformers/paragraph-wysiwig.js
+src/site/stages/build/process-cms-exports/transformers/paragraph-wysiwyg.js
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-administration.js
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-audience_beneficiaries.js
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-lc_categories.js
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-products.js
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-topics.js
+
 
 # Facility Locator and VAMC pages
 src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend

@@ -14,7 +14,7 @@ The files in this directory are owned by the following teams:
 |               | node-vet_center
 |               | paragraph-health_care_local_facility_servi
 |               |
-| Public Web    | block_content-promos
+| Public Web    | block_content-promo
 |               | node-basic_landing_page
 |               | node-checklist
 |               | node-faq_multiple_q_a
@@ -31,9 +31,9 @@ The files in this directory are owned by the following teams:
 |               | paragraph-button
 |               | paragraph-contact_information
 |               | paragraph-email_contact
-|               | paragraph-link_teasers
+|               | paragraph-link_teaser
+|               | paragraph-list_of_link_teasers
 |               | paragraph-lists_of_links
-|               | paragraph-lists_of_links_teasers
 |               | paragraph-process
 |               | paragraph-q_a
 |               | paragraph-q_a_group
@@ -42,7 +42,7 @@ The files in this directory are owned by the following teams:
 |               | paragraph-step
 |               | paragraph-step_by_step
 |               | paragraph-table
-|               | paragraph-wysiwig
+|               | paragraph-wysiwyg
 |               | taxonomy_term-administration
 |               | taxonomy_term-audience_beneficiaries
 |               | taxonomy_term-lc_categories
