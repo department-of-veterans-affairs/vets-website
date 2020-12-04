@@ -43,7 +43,7 @@ describe('<CopyMailingAddress/>', () => {
       const result = mapStateToProps(state, ownProps);
 
       expect(result.mailingAddress).to.be.equal(mailingAddress);
-      expect(result.hasEmptyMailingAddress).to.be.false;
+      expect(result.emptyMailingAddress).to.be.false;
       expect(result.checked).to.be.false;
     });
 
