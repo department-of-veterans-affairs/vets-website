@@ -335,7 +335,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
-      let typeOfCareFacilities = action.facilities;
+      let facilities = action.facilities;
       const typeOfCareId = action.typeOfCareId;
       const address = action.address;
       const hasResidentialCoordinates =
@@ -347,13 +347,8 @@ export default function formReducer(state = initialState, action) {
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
-      if (typeOfCareFacilities.length === 1) {
-        newData = {
-          ...newData,
-          vaFacility: typeOfCareFacilities[0]?.id,
-        };
-      } else if (hasResidentialCoordinates) {
-        typeOfCareFacilities = typeOfCareFacilities
+      if (hasResidentialCoordinates && facilities.length) {
+        facilities = facilities
           .map(facility => {
             const distanceFromResidentialAddress = distanceBetween(
               address.latitude,
@@ -371,6 +366,19 @@ export default function formReducer(state = initialState, action) {
             };
           })
           .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
+      }
+
+      const typeOfCareFacilities = facilities.filter(
+        facility =>
+          facility.legacyVAR.directSupported ||
+          facility.legacyVAR.requestSupported,
+      );
+
+      if (typeOfCareFacilities.length === 1) {
+        newData = {
+          ...newData,
+          vaFacility: typeOfCareFacilities[0]?.id,
+        };
       }
 
       newSchema = set(
@@ -398,7 +406,7 @@ export default function formReducer(state = initialState, action) {
         },
         facilities: {
           ...state.facilities,
-          [typeOfCareId]: typeOfCareFacilities,
+          [typeOfCareId]: facilities,
         },
         parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
@@ -417,16 +425,16 @@ export default function formReducer(state = initialState, action) {
       const typeOfCareId = getTypeOfCare(formData).id;
       const sortMethod = action.sortMethod;
       const location = action.location;
-      let typeOfCareFacilities = state.facilities[typeOfCareId];
+      let facilities = state.facilities[typeOfCareId];
       let newSchema = state.pages.vaFacilityV2;
       let requestLocationStatus = state.requestLocationStatus;
 
-      if (location && typeOfCareFacilities?.length) {
+      if (location && facilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
 
         if (latitude && longitude) {
-          typeOfCareFacilities = typeOfCareFacilities.map(facility => {
+          facilities = facilities.map(facility => {
             const distancefromCurrentLocation = distanceBetween(
               latitude,
               longitude,
@@ -448,15 +456,18 @@ export default function formReducer(state = initialState, action) {
       }
 
       if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
-        typeOfCareFacilities = typeOfCareFacilities.sort(
-          (a, b) => a.name - b.name,
-        );
+        facilities = facilities.sort((a, b) => a.name - b.name);
       } else {
-        typeOfCareFacilities = typeOfCareFacilities.sort(
+        facilities = facilities.sort(
           (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
         );
       }
 
+      const typeOfCareFacilities = facilities.filter(
+        facility =>
+          facility.legacyVAR.directSupported ||
+          facility.legacyVAR.requestSupported,
+      );
       newSchema = set(
         'properties.vaFacility',
         {
@@ -478,6 +489,10 @@ export default function formReducer(state = initialState, action) {
         pages: {
           ...state.pages,
           vaFacilityV2: schema,
+        },
+        facilities: {
+          ...state.facilities,
+          [typeOfCareId]: facilities,
         },
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
