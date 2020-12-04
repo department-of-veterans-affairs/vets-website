@@ -7,8 +7,9 @@
 
   {% comment %} Non-reusable {% endcomment %}
   {% when "NR" %}
-    {% include "src/site/paragraphs/alert.drupal.liquid" with entity = entity.fieldAlertNonReusableRef.entity %}
-
+    {% if {{entity.fieldAlertNonReusableRef.entity | isEmptyObject }} %}
+      {% include "src/site/paragraphs/alert.drupal.liquid" with entity = entity.fieldAlertNonReusableRef.entity %}
+    {% endif %}
   {% else %}
     {% comment %} Do nothing {% endcomment %}
 {% endcase %}
