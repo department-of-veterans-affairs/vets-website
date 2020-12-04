@@ -6,12 +6,9 @@ import Telephone, {
 
 const HowDoIPay = () => (
   <div className="vads-u-font-family--sans">
-    <h3
-      id="howDoIPay"
-      className="vads-u-margin-top--4 vads-u-margin-bottom-2 vads-u-font-size--h2"
-    >
+    <h2 id="howDoIPay" className="vads-u-margin-top--4 vads-u-margin-bottom-2">
       How do I pay my VA debt?
-    </h3>
+    </h2>
     <p className="vads-u-margin-top--0">
       You can pay your debt online, by phone, or by mail. If you can't pay all
       of your debt or if you currently receive monthly benefits, call the Debt
