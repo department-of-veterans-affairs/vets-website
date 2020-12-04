@@ -9,6 +9,7 @@ const schema = {
     'firstName',
     'lastName',
     'emailAddress',
+    'phone',
     'dateOfBirth',
     'vaxPreference',
   ],
@@ -21,6 +22,11 @@ const schema = {
     },
     emailAddress: {
       type: 'string',
+      format: 'email',
+    },
+    phone: {
+      type: 'string',
+      pattern: '^\\D?(\\d{3})\\D?\\D?(\\d{3})\\D?(\\d{4})$',
     },
     dateOfBirth: {
       type: 'string',
@@ -51,6 +57,13 @@ const uiSchema = {
       required: 'Please enter your email address, using this format: X@X.com',
       pattern:
         'Please enter your email address again, using this format: X@X.com',
+    },
+  },
+  phone: {
+    'ui:title': 'Phone',
+    'ui:errorMessages': {
+      required: 'Please enter your phone number',
+      pattern: 'Please enter a valid phone number',
     },
   },
   dateOfBirth: {
