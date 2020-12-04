@@ -181,22 +181,6 @@ module.exports = function registerFilters() {
     }
     return output;
   };
-
-  const isEmptyObject = obj => {
-    return Object.keys(obj).length === 0;
-  };
-  liquid.filters.isEmptyObject = isEmptyObject;
-
-  liquid.filters.handleGhostAlerts = entity => {
-    if (isEmptyObject(entity)) {
-      return false;
-    }
-
-    if (isEmptyObject(entity.fieldAlertNonReusableRef.entity)) {
-      return false;
-    }
-    return true;
-  };
   liquid.filters.benefitTerms = data => {
     let output = 'General benefits information';
     if (data != null) {

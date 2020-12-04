@@ -58,9 +58,9 @@
                   <li class="process-step list-{{ stepNumber | numToWord }}">
                     <!-- Step wysiyg -->
                     {{ fieldStep.entity.fieldWysiwyg.processed }}
-                    <!-- mobile template -->
+                    <!-- mobile template, hide ghost alerts -->
                     {% if fieldStep.entity.fieldMedia.entity.thumbnail != empty ||
-                      {{fieldStep.entity.fieldAlert.entity | handleGhostAlerts }}   
+                      fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty   
                     %}
                       <div class="form-expanding-group additional-info-container medium-screen:vads-u-display--none">
                         <span class="additional-info-title">Show Details</span>
