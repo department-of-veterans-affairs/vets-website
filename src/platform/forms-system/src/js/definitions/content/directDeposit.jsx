@@ -26,14 +26,17 @@ const gaBankInfoHelpText = () => {
   });
 };
 
-export const directDepositAlert = () => (
+export const directDepositAlert = ({
+  affectedBenefits,
+  unaffectedBenefits,
+}) => (
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
   <div className="vads-u-padding-top--1p5" tabIndex="0">
     <p>
       <b>Note:</b> Any updates you make here will change your bank account
-      information for VA benefits, including disability compensation, pension,
-      and education. These updates won’t change your information for VA health
-      care.
+      information for VA benefits, including{' '}
+      {affectedBenefits || '[affected benefits]'}. These updates won’t change
+      your information for {unaffectedBenefits || '[unaffected benefits]'}.
     </p>
   </div>
 );
