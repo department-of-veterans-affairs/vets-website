@@ -6,6 +6,9 @@
  */
 
 function navigateToTop() {
+  if (document.getElementById('content')) {
+    document.getElementById('content').focus();
+  }
   return window.scrollTo(0, 0);
 }
 
