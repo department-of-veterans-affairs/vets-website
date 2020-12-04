@@ -105,8 +105,26 @@ const uiSchema = {
   },
 };
 
-function Form({ router, user: _user }) {
-  const [formData, setFormData] = useState({});
+function getInitialFormData(profile) {
+  return {
+    firstName: profile?.userFullName?.first,
+    lastName: profile?.userFullName?.last,
+    dateOfBirth: profile?.dob,
+    ssn: '',
+    emailAddress: profile?.vapContactInfo?.email?.emailAddress,
+    phone: profile?.vapContactInfo?.homePhone
+      ? `${profile.vapContactInfo.homePhone.areaCode}${
+          profile.vapContactInfo.homePhone.phoneNumber
+        }`
+      : '',
+  };
+}
+
+function Form({ router, isLoggedIn, profile }) {
+  const [formData, setFormData] = useState(
+    isLoggedIn ? getInitialFormData(profile) : {},
+  );
+
   const onSubmit = _submittedFormData => {
     // console.log(submittedFormData);
     router.replace('/confirmation');
@@ -132,7 +150,8 @@ function Form({ router, user: _user }) {
 
 const mapStateToProps = state => {
   return {
-    user: userSelectors.selectUser(state),
+    isLoggedIn: userSelectors.isLoggedIn(state),
+    profile: userSelectors.selectProfile(state),
   };
 };
 
