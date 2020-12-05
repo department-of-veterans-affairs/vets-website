@@ -30,6 +30,7 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import initScrollToTopButton from './scroll-top-button';
+import initTranslationLink from './i18Content';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
@@ -196,6 +197,9 @@ if (location.pathname === '/') {
 
 // Up to top button for Article Pages
 initScrollToTopButton();
+
+// translation link
+initTranslationLink();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({
