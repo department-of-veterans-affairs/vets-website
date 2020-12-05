@@ -30,7 +30,6 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import initScrollToTopButton from './scroll-top-button';
-import initTranslationLink from './i18Content';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
@@ -71,6 +70,7 @@ import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusCh
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
+import initTranslation from './translation';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -199,7 +199,7 @@ if (location.pathname === '/') {
 initScrollToTopButton();
 
 // translation link
-initTranslationLink();
+initTranslation();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

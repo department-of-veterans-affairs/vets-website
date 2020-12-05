@@ -1,16 +1,17 @@
 /* eslint-disable no-console */
-// this can be easily replaced with an API call. this follows the pattern of i18 here, namely using a json file
-// to store content in differnt languages
+// this can be easily replaced with an API call. this follows the pattern of i18 here:
 // https://react.i18next.com/getting-started
-const i18Content = {
-  en: { linkTitle: 'Read this page in English' },
-  es: { linkTitle: 'Leer esta pagina en espanol' },
-};
+// namely using a json file to store content in differnt languages
+// https://stackoverflow.com/questions/62225698/read-i18n-from-different-json-files-react-i18nnext
+import i18Content from './i18Content.json';
+
 function toggleLanguage(e) {
   if (e.target.dataset.lang === 'en') {
+    // this would be replaced by an api call
     e.target.dataset.lang = 'es';
     e.target.innerText = i18Content.en.linkTitle;
   } else {
+    // this would be replaced by an api call
     e.target.dataset.lang = 'en';
     e.target.innerText = i18Content.es.linkTitle;
   }
