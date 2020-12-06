@@ -14,7 +14,6 @@ function SelectFacilityWidget({
 }) {
   return (
     <>
-      <TextWidget value={value} onChange={onChange} type="text" {...props} />
       {patientFacilityIds ? (
         <PatientFacilities
           facilityIds={patientFacilityIds}
