@@ -9,8 +9,8 @@ import { requestStates } from 'platform/utilities/constants';
 
 import useFacilitiesApi from './hooks/useFacilitiesApi';
 
-export default function PatientFacilities({ patientFacilityIds }) {
-  const [facilities, requestState] = useFacilitiesApi(patientFacilityIds);
+export default function PatientFacilities({ facilityIds }) {
+  const [facilities, requestState] = useFacilitiesApi(facilityIds);
 
   switch (requestState) {
     case requestStates.pending: {

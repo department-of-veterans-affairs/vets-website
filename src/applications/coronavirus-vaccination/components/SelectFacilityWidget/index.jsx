@@ -16,7 +16,7 @@ function SelectFacilityWidget({
     <>
       <TextWidget value={value} onChange={onChange} type="text" {...props} />
       {patientFacilityIds ? (
-        <PatientFacilities patientFacilityIds={patientFacilityIds} />
+        <PatientFacilities facilityIds={patientFacilityIds} />
       ) : null}
     </>
   );
