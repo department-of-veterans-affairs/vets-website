@@ -2,6 +2,10 @@ import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as userSelectors from 'platform/user/selectors';
 
@@ -60,21 +64,36 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   }
 
   return (
-    <SchemaForm
-      addNameAttribute
-      // "name" and "title" are used only internally to SchemaForm
-      name="Coronavirus vaccination"
-      title="Coronavirus vaccination"
-      data={formState.formData}
-      schema={formState.formSchema}
-      uiSchema={formState.uiSchema}
-      onChange={onFormChange}
-      onSubmit={onSubmit}
-    >
-      <button type="submit" className="usa-button">
-        Apply
-      </button>
-    </SchemaForm>
+    <>
+      <div className="vads-u-margin-bottom--4">
+        <AlertBox
+          isVisible={isLoggedIn}
+          status={ALERT_TYPE.INFO}
+          headline="We filled in part of this form for you."
+          content={
+            <p>
+              If something looks off, visit your <a href="/profile">profile</a>{' '}
+              to update it.
+            </p>
+          }
+        />
+      </div>
+      <SchemaForm
+        addNameAttribute
+        // "name" and "title" are used only internally to SchemaForm
+        name="Coronavirus vaccination"
+        title="Coronavirus vaccination"
+        data={formState.formData}
+        schema={formState.formSchema}
+        uiSchema={formState.uiSchema}
+        onChange={onFormChange}
+        onSubmit={onSubmit}
+      >
+        <button type="submit" className="usa-button">
+          Apply
+        </button>
+      </SchemaForm>
+    </>
   );
 }
 
