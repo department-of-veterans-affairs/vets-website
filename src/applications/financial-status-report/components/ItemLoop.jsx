@@ -198,6 +198,7 @@ const ItemLoop = ({
   const ViewField = uiOptions.viewField;
 
   const [editing, setEditing] = useState([]);
+  const [showTable, setShowTable] = useState(false);
 
   useEffect(() => {
     // Throw an error if there’s no viewField (should be React component)
@@ -247,6 +248,14 @@ const ItemLoop = ({
     }
   };
 
+  // useEffect(
+  //   () => {
+  //     const isEditing = editing.some(val => val === true);
+  //     console.log('isEditing: ', isEditing);
+  //   },
+  //   [editing],
+  // );
+
   const scrollToRow = id => {
     if (!uiSchema['ui:options'].doNotScroll) {
       setTimeout(() => {
@@ -282,6 +291,7 @@ const ItemLoop = ({
 
   const handleUpdate = (e, index) => {
     e.preventDefault();
+    setShowTable(true);
     if (errorSchemaIsValid(errorSchema[index])) {
       const editData = editing.map(() => {
         return false;
@@ -300,21 +310,16 @@ const ItemLoop = ({
   const handleAdd = () => {
     const lastIndex = formData.length - 1;
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
-      // When we add another item we want to change the editing
-      // state of the last item, but not ones above it
-      const newEditing = editing?.map(
-        (item, index) => (index + 1 === editing.length ? false : item),
-      );
+      setEditing([...editing, true]);
+
       const newFormData = formData.concat(
         getDefaultFormState(
           schema.additionalItems,
           undefined,
           registry.definitions,
         ),
-        // ) || {}, // TODO: sets new item to empty object should be integer for type number
       );
       onChange(newFormData);
-      setEditing(newEditing);
       scrollToRow(`${idSchema.$id}_${lastIndex + 1}`);
     } else {
       const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
@@ -337,12 +342,13 @@ const ItemLoop = ({
     formData && formData.length
       ? formData
       : [getDefaultFormState(schema, undefined, registry.definitions)];
-  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
   const containerClassNames = classNames({
     'schemaform-field-container': true,
     'schemaform-block': hasTitleOrDescription,
   });
+
+  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
   return (
     <div className={containerClassNames}>
@@ -362,7 +368,7 @@ const ItemLoop = ({
 
         {uiOptions.viewType === 'table' ? (
           <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
-            {items.length > 1 && (
+            {showTable && (
               <thead>
                 <tr>
                   <th className="vads-u-border--0 vads-u-padding-left--3">
@@ -378,11 +384,7 @@ const ItemLoop = ({
                 const isEditing = editing[index];
                 const isLast = items.length === index + 1;
 
-                return (reviewMode ? (
-                  isEditing
-                ) : (
-                  isLast || isEditing
-                )) ? (
+                return isEditing ? (
                   <tr key={index}>
                     <td
                       className="vads-u-border--0 vads-u-padding--0"

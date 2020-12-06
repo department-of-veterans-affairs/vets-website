@@ -4,9 +4,9 @@ const TableDetailsView = ({ formData, onEdit, index }) => {
   return (
     <tr className="vads-u-border-top--1px vads-u-border-bottom--1px">
       <td className="vads-u-border--0 vads-u-padding-left--3">
-        {formData.utilityType}
+        {formData?.utilityType}
       </td>
-      <td className="vads-u-border--0">{formData.monthlyUtilityAmount}</td>
+      <td className="vads-u-border--0">{formData?.monthlyUtilityAmount}</td>
       <td className="vads-u-border--0">
         <a
           target="_blank"
