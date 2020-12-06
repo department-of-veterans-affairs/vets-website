@@ -34,7 +34,7 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
             <>
               <p>
                 <button onClick={toggleLoginModal} className="usa-button">
-                  Begin the application
+                  Sign in
                 </button>
               </p>
               <p>
