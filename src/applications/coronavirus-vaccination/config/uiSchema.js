@@ -71,7 +71,8 @@ export default {
     },
   },
   facility: {
-    'ui:title': 'Please select where you’d like to receive the COVID-19 vaccine.',
+    'ui:title':
+      'Please select where you’d like to receive the COVID-19 vaccine.',
     'ui:widget': SelectFacilityWidget,
     'ui:required': formData => formData.vaxPreference === 'INTERESTED',
     'ui:options': {

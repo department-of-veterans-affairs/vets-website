@@ -1,6 +1,10 @@
 import React from 'react';
 
-export default function FacilityRadioBox({ facility, selectedFacilityId, onFacilitySelected }) {
+export default function FacilityRadioBox({
+  facility,
+  selectedFacilityId,
+  onFacilitySelected,
+}) {
   const {
     id: facilityId,
     attributes: {

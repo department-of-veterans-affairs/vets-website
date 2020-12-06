@@ -10,30 +10,26 @@ const initialState = {
 };
 
 function reducer(state = initialState, action) {
-  switch (action.type) {
-    case FORM_DATA_UPDATED: {
-      const newUiSchema = updateUiSchema(action.uiSchema, action.formData);
-      const { data: newFormData, schema: newFormSchema } = updateSchemaAndData(
-        action.formSchema,
-        action.uiSchema,
-        action.formData,
-        true,
-      );
+  if (action.type === FORM_DATA_UPDATED) {
+    const newUiSchema = updateUiSchema(action.uiSchema, action.formData);
+    const { data: newFormData, schema: newFormSchema } = updateSchemaAndData(
+      action.formSchema,
+      action.uiSchema,
+      action.formData,
+      true,
+    );
 
-      return {
-        ...state,
-        formState: {
-          uiSchema: newUiSchema,
-          formSchema: newFormSchema,
-          formData: newFormData,
-        },
-      };
-    }
-
-    default: {
-      return state;
-    }
+    return {
+      ...state,
+      formState: {
+        uiSchema: newUiSchema,
+        formSchema: newFormSchema,
+        formData: newFormData,
+      },
+    };
   }
+
+  return state;
 }
 
 export default {

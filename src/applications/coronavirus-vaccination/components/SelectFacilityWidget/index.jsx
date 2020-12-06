@@ -4,12 +4,7 @@ import * as userSelectors from 'platform/user/selectors';
 
 import PatientFacilities from './PatientFacilities';
 
-function SelectFacilityWidget({
-  patientFacilityIds,
-  value,
-  onChange,
-  ...props
-}) {
+function SelectFacilityWidget({ patientFacilityIds, value, onChange }) {
   return (
     <>
       {patientFacilityIds ? (
