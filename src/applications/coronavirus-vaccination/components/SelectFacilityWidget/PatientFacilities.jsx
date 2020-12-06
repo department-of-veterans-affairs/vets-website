@@ -9,7 +9,7 @@ import { requestStates } from 'platform/utilities/constants';
 
 import useFacilitiesApi from './hooks/useFacilitiesApi';
 
-export default function PatientFacilities({ facilityIds }) {
+export default function PatientFacilities({ facilityIds, value, onChange }) {
   const [facilities, requestState] = useFacilitiesApi(facilityIds);
 
   switch (requestState) {
@@ -17,7 +17,42 @@ export default function PatientFacilities({ facilityIds }) {
       return <LoadingIndicator message="Loading your facilities..." />;
     }
     case requestStates.succeeded: {
-      return <code>{JSON.stringify(facilities)}</code>;
+      return (
+        <div>
+          {facilities.map(facility => {
+            const {
+              id: facilityId,
+              attributes: {
+                name: facilityName,
+                address: { physical: facilityAddress } = {},
+              },
+            } = facility;
+
+            const checked = facilityId === value;
+
+            return (
+              <div className="form-radio-buttons" key={facilityId}>
+                <input
+                  type="radio"
+                  name="facility"
+                  checked={checked}
+                  id={`radio-${facilityId}`}
+                  value={facilityId}
+                  onChange={() => onChange(facilityId)}
+                />
+                <label htmlFor={`radio-${facilityId}`}>
+                  <span className="vads-u-display--block vads-u-font-weight--bold">
+                    {facilityName}
+                  </span>
+                  <span className="vads-u-display--block vads-u-font-size--sm">
+                    {facilityAddress?.city}, {facilityAddress?.state}
+                  </span>
+                </label>
+              </div>
+            );
+          })}
+        </div>
+      );
     }
     case requestStates.failed: {
       return (
