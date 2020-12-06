@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as userSelectors from 'platform/user/selectors';
 
-import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
-
 import PatientFacilities from './PatientFacilities';
 
 function SelectFacilityWidget({
