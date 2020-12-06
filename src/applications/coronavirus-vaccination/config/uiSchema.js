@@ -1,4 +1,5 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import FacilityField from '../components/FacilityField';
 
 export default {
   firstName: {
@@ -62,7 +63,7 @@ export default {
   },
   facility: {
     'ui:title': 'Facility to receive vacccine',
-    'ui:widget': 'text',
+    'ui:widget': FacilityField,
     'ui:options': {
       hideIf: formData => formData.vaxPreference !== 'INTERESTED',
     },
