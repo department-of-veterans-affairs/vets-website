@@ -11,34 +11,29 @@ import initialFormSchema from '../config/schema';
 import initialUiSchema from '../config/uiSchema';
 
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
-  useEffect(() => {
-    // Initialize the form on first render
-    updateFormData(initialFormSchema, initialUiSchema, {});
-  }, []);
-
   useEffect(
     () => {
-      // Prefill the form after the profile data loads
-      if (!isLoggedIn) {
-        return;
+      // Initialize and prefill the form on first render
+      let initialFormData = {};
+
+      if (isLoggedIn) {
+        initialFormData = {
+          firstName: profile?.userFullName?.first,
+          lastName: profile?.userFullName?.last,
+          dateOfBirth: profile?.dob,
+          ssn: undefined,
+          emailAddress: profile?.vapContactInfo?.email?.emailAddress,
+          phone: profile?.vapContactInfo?.homePhone
+            ? `${profile.vapContactInfo.homePhone.areaCode}${
+                profile.vapContactInfo.homePhone.phoneNumber
+              }`
+            : '',
+        };
       }
 
-      const prefilled = {
-        firstName: profile?.userFullName?.first,
-        lastName: profile?.userFullName?.last,
-        dateOfBirth: profile?.dob,
-        ssn: undefined,
-        emailAddress: profile?.vapContactInfo?.email?.emailAddress,
-        phone: profile?.vapContactInfo?.homePhone
-          ? `${profile.vapContactInfo.homePhone.areaCode}${
-              profile.vapContactInfo.homePhone.phoneNumber
-            }`
-          : '',
-      };
-
-      updateFormData(formState.formSchema, formState.uiSchema, prefilled);
+      updateFormData(initialFormSchema, initialUiSchema, initialFormData);
     },
-    [isLoggedIn, profile],
+    [updateFormData, isLoggedIn, profile],
   );
 
   const onFormChange = useCallback(
