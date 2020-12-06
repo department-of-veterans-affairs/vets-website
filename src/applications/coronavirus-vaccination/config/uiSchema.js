@@ -1,5 +1,5 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import FacilityField from '../components/FacilityField';
+import SelectFacilityWidget from '../components/SelectFacilityWidget';
 
 export default {
   isIdentityVerified: {
@@ -72,7 +72,7 @@ export default {
   },
   facility: {
     'ui:title': 'VA location to receive COVID-19 vaccine',
-    'ui:widget': FacilityField,
+    'ui:widget': SelectFacilityWidget,
     'ui:required': formData => formData.vaxPreference === 'INTERESTED',
     'ui:options': {
       expandUnder: 'vaxPreference',

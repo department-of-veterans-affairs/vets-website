@@ -4,18 +4,20 @@ import * as userSelectors from 'platform/user/selectors';
 
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
-import usePatientFacilities from '../hooks/usePatientFacilities';
+import PatientFacilities from './PatientFacilities';
 
-function FacilityField({ patientFacilities, value, onChange, ...props }) {
-  const facilityIds = patientFacilities?.map(f => f.facilityId);
-  const [facilities, status] = usePatientFacilities(facilityIds);
-
+function SelectFacilityWidget({
+  patientFacilityIds,
+  value,
+  onChange,
+  ...props
+}) {
   return (
     <>
       <TextWidget value={value} onChange={onChange} type="text" {...props} />
-      <div>{JSON.stringify(patientFacilities)}</div>
-      {JSON.stringify(facilities)}
-      {JSON.stringify(status)}
+      {patientFacilityIds ? (
+        <PatientFacilities patientFacilityIds={patientFacilityIds} />
+      ) : null}
     </>
   );
 }
@@ -23,7 +25,9 @@ function FacilityField({ patientFacilities, value, onChange, ...props }) {
 const mapStateToProps = state => {
   return {
     isLoggedIn: userSelectors.isLoggedIn(state),
-    patientFacilities: userSelectors.selectPatientFacilities(state),
+    patientFacilityIds: userSelectors
+      .selectPatientFacilities(state)
+      ?.map(f => f.facilityId),
     formState: state.coronavirusVaccinationApp.formState,
   };
 };
@@ -33,5 +37,5 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(FacilityField);
-export { FacilityField };
+)(SelectFacilityWidget);
+export { SelectFacilityWidget };
