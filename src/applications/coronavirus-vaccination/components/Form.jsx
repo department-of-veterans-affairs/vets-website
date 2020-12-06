@@ -43,12 +43,16 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
     [formState],
   );
 
-  const onSubmit = _submittedFormData => {
-    // console.log(submittedFormData);
-    router.replace('/confirmation');
-  };
+  const onSubmit = useCallback(
+    () => {
+      // console.log(formState);
+      router.replace('/confirmation');
+    },
+    [router, formState],
+  );
 
   if (!formState) {
+    // The form is being initialized into Redux. Wait til next render.
     return null;
   }
 

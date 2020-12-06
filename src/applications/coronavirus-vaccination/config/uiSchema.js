@@ -62,9 +62,11 @@ export default {
     },
   },
   facility: {
-    'ui:title': 'Facility to receive vacccine',
+    'ui:title': 'VA location to receive COVID-19 vaccine',
     'ui:widget': FacilityField,
+    'ui:required': formData => formData.vaxPreference === 'INTERESTED',
     'ui:options': {
+      expandUnder: 'vaxPreference',
       hideIf: formData => formData.vaxPreference !== 'INTERESTED',
     },
   },

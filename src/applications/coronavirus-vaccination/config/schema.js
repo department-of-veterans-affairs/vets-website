@@ -7,7 +7,6 @@ export default {
     'phone',
     'dateOfBirth',
     'vaxPreference',
-    'facility',
   ],
   properties: {
     firstName: {
