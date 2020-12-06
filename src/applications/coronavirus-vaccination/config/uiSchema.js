@@ -2,6 +2,11 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 import FacilityField from '../components/FacilityField';
 
 export default {
+  isIdentityVerified: {
+    'ui:options': {
+      hideIf: () => true,
+    },
+  },
   firstName: {
     'ui:title': 'First name',
     'ui:errorMessages': {
@@ -26,6 +31,10 @@ export default {
     'ui:errorMessages': {
       required: 'Please enter your social security number.',
       pattern: 'Please enter a valid social security number.',
+    },
+    'ui:required': formData => !formData.isIdentityVerified,
+    'ui:options': {
+      hideIf: formData => formData.isIdentityVerified,
     },
   },
   emailAddress: {

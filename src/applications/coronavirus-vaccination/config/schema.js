@@ -9,6 +9,9 @@ export default {
     'vaxPreference',
   ],
   properties: {
+    isIdentityVerified: {
+      type: 'boolean',
+    },
     firstName: {
       type: 'string',
     },

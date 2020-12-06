@@ -14,10 +14,13 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   useEffect(
     () => {
       // Initialize and prefill the form on first render
-      let initialFormData = {};
+      let initialFormData = {
+        isIdentityVerified: false,
+      };
 
       if (isLoggedIn) {
         initialFormData = {
+          isIdentityVerified: profile?.loa?.current === profile?.loa?.highest,
           firstName: profile?.userFullName?.first,
           lastName: profile?.userFullName?.last,
           dateOfBirth: profile?.dob,
