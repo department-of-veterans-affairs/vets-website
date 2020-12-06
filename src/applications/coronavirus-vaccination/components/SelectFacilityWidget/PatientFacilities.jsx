@@ -8,6 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { requestStates } from 'platform/utilities/constants';
 
 import useFacilitiesApi from './hooks/useFacilitiesApi';
+import FacilityRadioBox from './FacilityRadioBox';
 
 export default function PatientFacilities({ facilityIds, value, onChange }) {
   const [facilities, requestState] = useFacilitiesApi(facilityIds);
@@ -18,40 +19,18 @@ export default function PatientFacilities({ facilityIds, value, onChange }) {
     }
     case requestStates.succeeded: {
       return (
-        <div>
+        <>
           {facilities.map(facility => {
-            const {
-              id: facilityId,
-              attributes: {
-                name: facilityName,
-                address: { physical: facilityAddress } = {},
-              },
-            } = facility;
-
-            const checked = facilityId === value;
-
             return (
-              <div className="form-radio-buttons" key={facilityId}>
-                <input
-                  type="radio"
-                  name="facility"
-                  checked={checked}
-                  id={`radio-${facilityId}`}
-                  value={facilityId}
-                  onChange={() => onChange(facilityId)}
-                />
-                <label htmlFor={`radio-${facilityId}`}>
-                  <span className="vads-u-display--block vads-u-font-weight--bold">
-                    {facilityName}
-                  </span>
-                  <span className="vads-u-display--block vads-u-font-size--sm">
-                    {facilityAddress?.city}, {facilityAddress?.state}
-                  </span>
-                </label>
-              </div>
+              <FacilityRadioBox
+                key={facility.id}
+                facility={facility}
+                selectedFacilityId={value}
+                onFacilitySelected={onChange}
+              />
             );
           })}
-        </div>
+        </>
       );
     }
     case requestStates.failed: {
