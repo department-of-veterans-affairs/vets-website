@@ -110,9 +110,19 @@ export function mapRawUserDataToState(json) {
     if (vaProfile.facilities) {
       userState.facilities = vaProfile.facilities;
     }
+
     userState.vaPatient = vaProfile.vaPatient;
     userState.mhvAccountState = vaProfile.mhvAccountState;
   }
+
+  userState.facilities = [
+    {
+      facilityId: 'vha_539GD',
+    },
+    {
+      facilityId: 'vha_539QC',
+    },
+  ];
 
   // This one is checking userState because there's no extra mapping and it's
   // easier to leave the mocking code the way it is

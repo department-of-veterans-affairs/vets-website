@@ -1,28 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-
 import * as userSelectors from 'platform/user/selectors';
+
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
-function FacilityField({
-  formState,
-  isLoggedIn,
-  patientFacilities,
-  value,
-  onChange,
-  ...props
-}) {
-  useEffect(
-    () => {
-      // todo hit the facilities API
-    },
-    [patientFacilities],
-  );
+import usePatientFacilities from '../hooks/usePatientFacilities';
+
+function FacilityField({ patientFacilities, value, onChange, ...props }) {
+  const facilityIds = patientFacilities?.map(f => f.facilityId);
+  const [facilities, status] = usePatientFacilities(facilityIds);
 
   return (
     <>
       <TextWidget value={value} onChange={onChange} type="text" {...props} />
       <div>{JSON.stringify(patientFacilities)}</div>
+      {JSON.stringify(facilities)}
+      {JSON.stringify(status)}
     </>
   );
 }
