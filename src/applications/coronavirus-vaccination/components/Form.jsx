@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-
 import * as userSelectors from 'platform/user/selectors';
 
-const schema = {
+import useSchemaForm from '../hooks/useSchemaForm';
+
+const covid19VaccinationFormSchema = {
   type: 'object',
   required: [
     'firstName',
@@ -16,6 +17,7 @@ const schema = {
     'phone',
     'dateOfBirth',
     'vaxPreference',
+    'facility',
   ],
   properties: {
     firstName: {
@@ -44,10 +46,13 @@ const schema = {
       type: 'string',
       enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'ALREADY_VACCINATED'],
     },
+    facility: {
+      type: 'string',
+    },
   },
 };
 
-const uiSchema = {
+const covid19VaccinationUiSchema = {
   firstName: {
     'ui:title': 'First name',
     'ui:errorMessages': {
@@ -107,6 +112,13 @@ const uiSchema = {
       classNames: '',
     },
   },
+  facility: {
+    'ui:title': 'Facility to receive vacccine',
+    'ui:widget': 'text',
+    'ui:options': {
+      hideIf: formData => formData.vaxPreference !== 'INTERESTED',
+    },
+  },
 };
 
 function getInitialFormData(profile) {
@@ -125,8 +137,11 @@ function getInitialFormData(profile) {
 }
 
 function Form({ router, isLoggedIn, profile }) {
-  const [formData, setFormData] = useState(
-    isLoggedIn ? getInitialFormData(profile) : {},
+  const initialFormData = isLoggedIn ? getInitialFormData(profile) : {};
+  const [formData, formSchema, uiSchema, setFormState] = useSchemaForm(
+    covid19VaccinationFormSchema,
+    covid19VaccinationUiSchema,
+    initialFormData,
   );
 
   const onSubmit = _submittedFormData => {
@@ -136,12 +151,13 @@ function Form({ router, isLoggedIn, profile }) {
 
   return (
     <SchemaForm
+      addNameAttribute
       // "name" and "title" are used only internally to SchemaForm
       name="Coronavirus vaccination"
       title="Coronavirus vaccination"
-      schema={schema}
+      schema={formSchema}
       uiSchema={uiSchema}
-      onChange={setFormData}
+      onChange={setFormState}
       onSubmit={onSubmit}
       data={formData}
     >
