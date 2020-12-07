@@ -11,7 +11,7 @@ import { fetchInquiries } from '../../actions/';
 import contractTest from 'platform/testing/contract';
 
 contractTest('My Messages', 'VA.gov API', mockApi => {
-  describe('GET /ask/inquiries', () => {
+  describe.skip('GET /ask/inquiries', () => {
     it('returns a list of messages for user', async () => {
       await mockApi().addInteraction({
         state: 'logged in user with messages',
