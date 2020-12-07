@@ -1,5 +1,5 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import SelectFacilityWidget from '../components/SelectFacilityWidget';
+// import SelectFacilityWidget from '../components/SelectFacilityWidget';
 
 export default {
   isIdentityVerified: {
@@ -83,14 +83,14 @@ export default {
       classNames: '',
     },
   },
-  preferredFacility: {
-    'ui:title':
-      'Please select where you’d like to receive the COVID-19 vaccine.',
-    'ui:widget': SelectFacilityWidget,
-    'ui:required': formData => formData.vaccineInterest === 'INTERESTED',
-    'ui:options': {
-      expandUnder: 'vaccineInterest',
-      // hideIf: formData => formData.vaccineInterest !== 'INTERESTED',
-    },
-  },
+  // preferredFacility: {
+  //   'ui:title':
+  //     'Please select where you’d like to receive the COVID-19 vaccine.',
+  //   'ui:widget': SelectFacilityWidget,
+  //   'ui:required': formData => formData.vaccineInterest === 'INTERESTED',
+  //   'ui:options': {
+  //     expandUnder: 'vaccineInterest',
+  //     // hideIf: formData => formData.vaccineInterest !== 'INTERESTED',
+  //   },
+  // },
 };

@@ -42,8 +42,8 @@ export default {
       type: 'string',
       enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'ALREADY_VACCINATED'],
     },
-    preferredFacility: {
-      type: 'string',
-    },
+    // preferredFacility: {
+    //   type: 'string',
+    // },
   },
 };
