@@ -3,19 +3,26 @@ import ContactDetailSection from './ContactDetailSection';
 import ReasonForAppointmentSection from './ReasonForAppointmentSection';
 import PreferredDatesSection from './PreferredDatesSection';
 import PreferredProviderSection from './PreferredProviderSection';
+import SelectedProviderSection from './SelectedProviderSection';
 
-export default function CommunityCareSection(props) {
+export default function CommunityCareSection({
+  data,
+  vaCityState,
+  useProviderSelection,
+}) {
   return (
     <>
-      <PreferredDatesSection data={props.data} />
+      <PreferredDatesSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <PreferredProviderSection
-        data={props.data}
-        vaCityState={props.vaCityState}
-      />
-      <ReasonForAppointmentSection data={props.data} />
+      {!useProviderSelection && (
+        <PreferredProviderSection data={data} vaCityState={vaCityState} />
+      )}
+      {useProviderSelection && (
+        <SelectedProviderSection data={data} vaCityState={vaCityState} />
+      )}
+      <ReasonForAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <ContactDetailSection data={props.data} />
+      <ContactDetailSection data={data} />
     </>
   );
 }

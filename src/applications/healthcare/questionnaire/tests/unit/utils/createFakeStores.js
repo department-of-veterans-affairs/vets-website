@@ -8,6 +8,7 @@ const createFakeUserStore = (
     hasWork: true,
     hasTemporary: true,
   },
+  data = {},
 ) => {
   return {
     getState: () => ({
@@ -155,9 +156,16 @@ const createFakeUserStore = (
           },
         },
       },
+      form: {
+        formId: 'my-cool-form',
+        data,
+        version: 0,
+      },
     }),
     subscribe: () => {},
-    dispatch: () => {},
+    dispatch: () => {
+      return {};
+    },
   };
 };
 

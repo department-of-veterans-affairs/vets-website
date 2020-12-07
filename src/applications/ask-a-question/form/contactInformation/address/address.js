@@ -12,6 +12,7 @@ import {
   canadaStateTitle,
   cityErrorMessage,
   cityTitle,
+  countryErrorMessage,
   countryTitle,
   postalCodeErrorMessage,
   postalCodeTitle,
@@ -372,6 +373,9 @@ export function uiSchema(
     'ui:order': fieldOrder,
     country: {
       'ui:title': countryTitle,
+      'ui:errorMessages': {
+        required: countryErrorMessage,
+      },
     },
     street: {
       'ui:title': 'Street',

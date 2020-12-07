@@ -496,7 +496,7 @@ export default function formReducer(state = initialState, action) {
 
         if (latitude && longitude) {
           typeOfCareFacilities = typeOfCareFacilities.map(facility => {
-            const distancefromCurrentLocation = distanceBetween(
+            const distanceFromCurrentLocation = distanceBetween(
               latitude,
               longitude,
               facility.position.latitude,
@@ -507,7 +507,7 @@ export default function formReducer(state = initialState, action) {
               ...facility,
               legacyVAR: {
                 ...facility.legacyVAR,
-                distancefromCurrentLocation,
+                distanceFromCurrentLocation,
               },
             };
           });

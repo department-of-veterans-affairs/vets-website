@@ -20,14 +20,14 @@ import {
 } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
-  editModalToggled,
-  savePaymentInformation as savePaymentInformationAction,
+  editCNPPaymentInformationToggled,
+  saveCNPPaymentInformation as savePaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
 import {
-  directDepositAccountInformation,
-  directDepositInformation,
-  directDepositIsSetUp,
-  directDepositUiState as directDepositUiStateSelector,
+  cnpDirectDepositAccountInformation,
+  cnpDirectDepositInformation,
+  cnpDirectDepositIsSetUp,
+  cnpDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
 
 import BankInfoForm from './BankInfoForm';
@@ -391,7 +391,8 @@ export const DirectDepositContent = ({
                 className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                 scrollOnShow
               >
-                We’ve saved your direct deposit information.
+                We’ve updated your bank account information for your{' '}
+                <strong>compensation and pension benefits</strong>
               </AlertBox>
             )}
           </ReactCSSTransitionGroup>
@@ -431,9 +432,9 @@ DirectDepositContent.propTypes = {
 
 export const mapStateToProps = state => ({
   isLOA3: isLOA3Selector(state),
-  directDepositAccountInfo: directDepositAccountInformation(state),
-  directDepositInfo: directDepositInformation(state),
-  isDirectDepositSetUp: directDepositIsSetUp(state),
+  directDepositAccountInfo: cnpDirectDepositAccountInformation(state),
+  directDepositInfo: cnpDirectDepositInformation(state),
+  isDirectDepositSetUp: cnpDirectDepositIsSetUp(state),
   directDepositUiState: directDepositUiStateSelector(state),
   is2faEnabled: isMultifactorEnabled(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
@@ -441,7 +442,7 @@ export const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   saveBankInformation: savePaymentInformationAction,
-  toggleEditState: editModalToggled,
+  toggleEditState: editCNPPaymentInformationToggled,
 };
 
 export default connect(

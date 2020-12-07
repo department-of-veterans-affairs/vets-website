@@ -46,3 +46,11 @@ a i {
 dl {
   width: 50%;
 }
+
+h1:focus {
+  outline: none !important;
+}
+
+dd {
+  width: 37%;
+}

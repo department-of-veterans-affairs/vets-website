@@ -12,7 +12,6 @@ export const childStatusDescription = (
       additional evidence to establish a dependent.
     </p>
     <AdditionalInfo triggerText="What are some examples of additional evidence?">
-      <p>What are some examples of additional evidence?</p>
       <p>
         You’ll need to provide a copy of your stepchild’s birth certificate,
         showing the names of both parents if you don’t live in the U.S. or a

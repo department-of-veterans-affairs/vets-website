@@ -463,7 +463,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema, isCC = false) {
       ? getCommunityCareFacilities(getState())
       : getTypeOfCareFacilities(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
-      f => !!f.legacyVAR?.distancefromCurrentLocation,
+      f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
 
     let type = FORM_PAGE_FACILITY_SORT_METHOD_UPDATED;

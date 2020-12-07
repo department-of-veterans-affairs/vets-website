@@ -65,26 +65,32 @@ class DebtDetails extends Component {
             </p>
             <div className="vads-u-display--flex vads-u-flex-direction--row">
               <dl className="vads-u-display--flex vads-u-flex-direction--column">
-                <dt className="vads-u-display--flex vads-u-margin-y--1 vads-u-justify-content--space-between">
-                  <strong>Date of first notice: </strong>
-                  <dd className="vads-u-align-content--flex-end">
+                <div className="vads-u-margin-y--1 vads-u-display--flex vads-u-justify-content--space-between">
+                  <dt>
+                    <strong>Date of first notice: </strong>
+                  </dt>
+                  <dd>
                     {moment(first(selectedDebt.debtHistory).date).format(
                       'MMMM D, YYYY',
                     )}
                   </dd>
-                </dt>
-                <dt className="vads-u-display--flex vads-u-justify-content--space-between">
-                  <strong>Original debt amount: </strong>
+                </div>
+                <div className="vads-u-display--flex vads-u-justify-content--space-between">
+                  <dt>
+                    <strong>Original debt amount: </strong>
+                  </dt>
                   <dd className="vads-u-margin-left--1">
                     {formatter.format(parseFloat(selectedDebt.originalAr))}
                   </dd>
-                </dt>
-                <dt className="vads-u-display--flex vads-u-margin-y--1 vads-u-justify-content--space-between">
-                  <strong>Current balance: </strong>
+                </div>
+                <div className="vads-u-margin-y--1 vads-u-display--flex vads-u-justify-content--space-between">
+                  <dt>
+                    <strong>Current balance: </strong>
+                  </dt>
                   <dd className="vads-u-margin-left--1">
                     {formatter.format(parseFloat(selectedDebt.currentAr))}
                   </dd>
-                </dt>
+                </div>
               </dl>
             </div>
 
@@ -126,8 +132,12 @@ class DebtDetails extends Component {
             <table className="vads-u-margin-y--4">
               <thead>
                 <tr>
-                  <td className="vads-u-font-weight--bold">Date</td>
-                  <td className="vads-u-font-weight--bold">Letter</td>
+                  <th className="vads-u-font-weight--bold" scope="col">
+                    Date
+                  </th>
+                  <th className="vads-u-font-weight--bold" scope="col">
+                    Letter
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -135,9 +145,7 @@ class DebtDetails extends Component {
                   <tr key={`${debtEntry.date}-${index}`}>
                     <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
                     <td>
-                      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                        {additionalInfo.status}
-                      </p>
+                      {additionalInfo.status}
                       <p className="vads-u-margin-top--0">
                         {debtEntry.description}
                       </p>

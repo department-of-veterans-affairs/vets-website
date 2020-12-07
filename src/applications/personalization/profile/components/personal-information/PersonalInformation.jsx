@@ -12,7 +12,7 @@ import { focusElement } from '~/platform/utilities/ui';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import { directDepositIsBlocked } from '@@profile/selectors';
+import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
 
 import PersonalInformationContent from './PersonalInformationContent';
 
@@ -87,7 +87,7 @@ PersonalInformation.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  showDirectDepositBlockedError: !!directDepositIsBlocked(state),
+  showDirectDepositBlockedError: !!cnpDirectDepositIsBlocked(state),
   hasUnsavedEdits: state.vapService.hasUnsavedEdits,
   hasVAPServiceError: hasVAPServiceConnectionError(state),
 });
