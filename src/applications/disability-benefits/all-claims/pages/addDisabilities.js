@@ -38,6 +38,7 @@ export const uiSchema = {
       viewField: NewDisability,
       reviewTitle: 'New Conditions',
       itemName: 'Condition',
+      includeIndexInTitle: true,
     },
     // Ideally, this would show the validation on the array itself (or the name
     // field in an array item), but that's not working.
