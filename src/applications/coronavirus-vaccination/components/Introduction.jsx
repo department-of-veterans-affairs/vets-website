@@ -33,12 +33,16 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
           content={
             <>
               <p>
-                <button onClick={toggleLoginModal} className="usa-button">
+                <button
+                  type="button"
+                  onClick={toggleLoginModal}
+                  className="usa-button"
+                >
                   Sign in
                 </button>
-              </p>
-              <p>
-                <Link to="/apply">Continue without signing in</Link>
+                <Link className="usa-button usa-button-secondary" to="/apply">
+                  Continue without signing in
+                </Link>
               </p>
             </>
           }
