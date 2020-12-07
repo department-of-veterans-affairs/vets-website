@@ -90,7 +90,7 @@ class SessionTimeoutModal extends React.Component {
         </div>
         <p>
           If you need more time, please click I need more time below. Otherwise,
-          we’ll sign you out to protect your privacy.
+          we’ll sign you out of your account to protect your privacy.
         </p>
         <div className="alert-actions">
           <button className="usa-button" onClick={this.extendSession}>
