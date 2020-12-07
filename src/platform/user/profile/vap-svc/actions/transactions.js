@@ -90,7 +90,7 @@ export function refreshTransaction(
 ) {
   return async (dispatch, getState) => {
     try {
-      const { transactionId, metaData } = transaction.data.attributes;
+      const { transactionId } = transaction.data.attributes;
       const state = getState();
       const isAlreadyAwaitingUpdate = state.vapService.transactionsAwaitingUpdate.includes(
         transactionId,
@@ -126,11 +126,18 @@ export function refreshTransaction(
         });
 
         if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
+          const errorMetadata =
+            transactionRefreshed?.data?.attributes?.metadata?.[0] ?? {};
+          const errorCode = errorMetadata.code ?? 'unknown-code';
+          const errorKey = errorMetadata.key ?? 'unknown-key';
           recordEvent({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
-            'error-key': `${metaData?.code}-address-save-failure`,
+            'error-key': `${errorCode}_${errorKey}-address-save-failure`,
+          });
+          recordEvent({
+            'error-key': undefined,
           });
         }
       }
@@ -316,6 +323,10 @@ export const validateAddress = (
       'error-key': `${error.errors?.[0]?.code}_${
         error.errors?.[0]?.status
       }-address-suggestion-failure`,
+    });
+
+    recordEvent({
+      'error-key': undefined,
     });
 
     return dispatch({

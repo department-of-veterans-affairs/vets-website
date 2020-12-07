@@ -9,6 +9,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { pendingMessage } from '../content/confirmation-poll';
 
 import { submissionStatuses, terminalStatuses } from '../constants';
+import { confirmationEmailFeature } from '../utils';
 
 export class ConfirmationPoll extends React.Component {
   // Using it as a prop for easy testing
@@ -101,7 +102,13 @@ export class ConfirmationPoll extends React.Component {
       return pendingMessage(this.state.longWait);
     }
 
-    const { fullName, disabilities, submittedAt, jobId } = this.props;
+    const {
+      fullName,
+      disabilities,
+      submittedAt,
+      jobId,
+      areConfirmationEmailTogglesOn,
+    } = this.props;
 
     return (
       <ConfirmationPage
@@ -111,6 +118,7 @@ export class ConfirmationPoll extends React.Component {
         fullName={fullName}
         disabilities={disabilities}
         submittedAt={submittedAt}
+        areConfirmationEmailTogglesOn={areConfirmationEmailTogglesOn}
       />
     );
   }
@@ -130,8 +138,9 @@ function mapStateToProps(state) {
   return {
     fullName: state.user.profile.userFullName,
     disabilities: selectAllDisabilityNames(state),
-    submittedAt: state.form.submission.submittedAt,
+    submittedAt: state.form.submission.timestamp,
     jobId: state.form.submission.response?.attributes?.jobId,
+    areConfirmationEmailTogglesOn: confirmationEmailFeature(state),
   };
 }
 

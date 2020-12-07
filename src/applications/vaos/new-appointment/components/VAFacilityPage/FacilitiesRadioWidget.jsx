@@ -45,7 +45,7 @@ export default function FacilitiesRadioWidget({
         } else if (
           sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
         ) {
-          distance = legacyVAR?.distancefromCurrentLocation;
+          distance = legacyVAR?.distanceFromCurrentLocation;
         }
 
         return (

@@ -56,6 +56,9 @@ import {
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
   CLICKED_UPDATE_ADDRESS_BUTTON,
+  FORM_REQUESTED_PROVIDERS,
+  FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+  FORM_REQUESTED_PROVIDERS_FAILED,
 } from './actions';
 
 import {
@@ -113,6 +116,8 @@ const initialState = {
   isCCEligible: false,
   hideUpdateAddressAlert: false,
   requestLocationStatus: FETCH_STATUS.notStarted,
+  communityCareProviderList: [],
+  requestStatus: FETCH_STATUS.notStarted,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {
@@ -422,7 +427,7 @@ export default function formReducer(state = initialState, action) {
 
         if (latitude && longitude) {
           typeOfCareFacilities = typeOfCareFacilities.map(facility => {
-            const distancefromCurrentLocation = distanceBetween(
+            const distanceFromCurrentLocation = distanceBetween(
               latitude,
               longitude,
               facility.position.latitude,
@@ -433,7 +438,7 @@ export default function formReducer(state = initialState, action) {
               ...facility,
               legacyVAR: {
                 ...facility.legacyVAR,
-                distancefromCurrentLocation,
+                distanceFromCurrentLocation,
               },
             };
           });
@@ -1004,9 +1009,7 @@ export default function formReducer(state = initialState, action) {
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.communityCareProvider.title',
-        `Do you have a preferred VA-approved community care provider for this ${
-          typeOfCare.name
-        } appointment?`,
+        `Request a ${typeOfCare.name} provider. (Optional)`,
         action.schema,
       );
 
@@ -1067,6 +1070,25 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         isCCEligible: action.isEligible,
+      };
+    }
+    case FORM_REQUESTED_PROVIDERS: {
+      return {
+        ...state,
+        requestStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
+      return {
+        ...state,
+        requestStatus: FETCH_STATUS.succeeded,
+        communityCareProviderList: action.communityCareProviderList,
+      };
+    }
+    case FORM_REQUESTED_PROVIDERS_FAILED: {
+      return {
+        ...state,
+        requestStatus: FETCH_STATUS.failed,
       };
     }
     default:

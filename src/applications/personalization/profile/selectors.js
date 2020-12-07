@@ -1,32 +1,33 @@
-export const directDepositInformation = state =>
-  state.vaProfile?.paymentInformation;
+import {
+  cnpDirectDepositBankInfo,
+  isEligibleForCNPDirectDeposit,
+  isSignedUpForCNPDirectDeposit,
+} from './util';
 
-export const directDepositUiState = state =>
-  state.vaProfile?.paymentInformationUiState;
+export const cnpDirectDepositInformation = state =>
+  state.vaProfile?.cnpPaymentInformation;
 
-export const directDepositAccountInformation = state =>
-  directDepositInformation(state)?.responses?.[0]?.paymentAccount;
+export const cnpDirectDepositUiState = state =>
+  state.vaProfile?.cnpPaymentInformationUiState;
 
-export const directDepositIsSetUp = state =>
-  !!directDepositAccountInformation(state)?.accountNumber;
+export const cnpDirectDepositAccountInformation = state =>
+  cnpDirectDepositBankInfo(cnpDirectDepositInformation(state));
 
-export const directDepositLoadError = state =>
-  directDepositInformation(state)?.error;
+export const cnpDirectDepositIsSetUp = state =>
+  isSignedUpForCNPDirectDeposit(cnpDirectDepositInformation(state));
 
-export const directDepositAddressInformation = state =>
-  directDepositInformation(state)?.responses?.[0]?.paymentAddress;
+export const cnpDirectDepositLoadError = state =>
+  cnpDirectDepositInformation(state)?.error;
 
-export const directDepositAddressIsSetUp = state => {
-  const addressInfo = directDepositAddressInformation(state);
-  return !!(
-    addressInfo?.addressOne &&
-    addressInfo?.city &&
-    addressInfo?.stateCode
-  );
+export const cnpDirectDepositAddressInformation = state =>
+  cnpDirectDepositInformation(state)?.responses?.[0]?.paymentAddress;
+
+export const cnpDirectDepositAddressIsSetUp = state => {
+  return isEligibleForCNPDirectDeposit(cnpDirectDepositInformation(state));
 };
 
-export const directDepositIsBlocked = state => {
-  const controlInfo = directDepositInformation(state)?.responses?.[0]
+export const cnpDirectDepositIsBlocked = state => {
+  const controlInfo = cnpDirectDepositInformation(state)?.responses?.[0]
     ?.controlInformation;
   if (!controlInfo) return false;
   return (

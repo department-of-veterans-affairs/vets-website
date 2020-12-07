@@ -43,6 +43,7 @@ export function choosePreferredDateTest() {
 
 export function selectTimeSlotTest() {
   cy.url().should('include', '/select-date');
+  cy.findByText(/Next/).click();
   cy.get(
     '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
   ).click();

@@ -1,4 +1,4 @@
-const libxmljs = require('libxmljs');
+const libxmljs2 = require('libxmljs2');
 const fetch = require('node-fetch');
 const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts.js');
@@ -23,7 +23,7 @@ const shouldIgnore = url => {
 function sitemapURLs() {
   return fetch(SITEMAP_URL)
     .then(res => res.text())
-    .then(body => libxmljs.parseXml(body))
+    .then(body => libxmljs2.parseXml(body))
     .then(doc =>
       doc
         .find('//xmlns:loc', SITEMAP_LOC_NS)

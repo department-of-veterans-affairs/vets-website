@@ -86,6 +86,7 @@ PrimaryCaregiverInfo.propTypes = {
 
 PrimaryCaregiverInfo.defaultProps = {
   additionalInfo: false,
+  headerInfo: true,
 };
 
 export const SecondaryCaregiverLegal = () => (

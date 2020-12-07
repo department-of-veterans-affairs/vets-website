@@ -103,23 +103,19 @@ export default function AppointmentRequestListItem({
         </div>
         {!isExpressCare && (
           <div className="vads-u-flex--1 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                Preferred date and time
-              </dt>
-              <dd>
-                <ul className="usa-unstyled-list">
-                  {appointment.requestedPeriod.map((option, optionIndex) => (
-                    <li key={`${appointment.id}-option-${optionIndex}`}>
-                      {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-                      {option.start.includes('00:00:00')
-                        ? TIME_TEXT.AM
-                        : TIME_TEXT.PM}
-                    </li>
-                  ))}
-                </ul>
-              </dd>
-            </dl>
+            <h4 className="vaos-appts__block-label">Preferred date and time</h4>
+            <div>
+              <ul className="usa-unstyled-list">
+                {appointment.requestedPeriod.map((option, optionIndex) => (
+                  <li key={`${appointment.id}-option-${optionIndex}`}>
+                    {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
+                    {option.start.includes('00:00:00')
+                      ? TIME_TEXT.AM
+                      : TIME_TEXT.PM}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         )}
       </div>
@@ -133,39 +129,35 @@ export default function AppointmentRequestListItem({
           <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
             <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
               {isExpressCare && (
-                <dl className="vads-u-margin--0">
-                  <dt className="vads-u-font-weight--bold">
+                <>
+                  <h4 className="vaos-appts__block-label">
                     Reason for appointment
-                  </dt>
-                  <dd>{appointment.reason}</dd>
-                </dl>
+                  </h4>
+                  <div>{appointment.reason}</div>
+                </>
               )}
               {!isExpressCare && (
-                <dl className="vads-u-margin--0">
-                  <dt className="vads-u-font-weight--bold">
+                <>
+                  <h4 className="vaos-appts__block-label">
                     {appointment.reason}
-                  </dt>
-                  <dd>{firstMessage}</dd>
-                </dl>
+                  </h4>
+                  <div>{firstMessage}</div>
+                </>
               )}
             </div>
             <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
-              <dl className="vads-u-margin--0">
-                <dt className="vads-u-font-weight--bold vads-u-display--block">
-                  Your contact details
-                </dt>
-                <dd>
-                  {getPatientTelecom(appointment, 'email')}
-                  <br />
-                  {getPatientTelecom(appointment, 'phone')}
-                  <br />
-                  <span className="vads-u-font-style--italic">
-                    <ListBestTimeToCall
-                      timesToCall={appointment.legacyVAR?.bestTimeToCall}
-                    />
-                  </span>
-                </dd>
-              </dl>
+              <h4 className="vaos-appts__block-label">Your contact details</h4>
+              <div>
+                {getPatientTelecom(appointment, 'email')}
+                <br />
+                {getPatientTelecom(appointment, 'phone')}
+                <br />
+                <span className="vads-u-font-style--italic">
+                  <ListBestTimeToCall
+                    timesToCall={appointment.legacyVAR?.bestTimeToCall}
+                  />
+                </span>
+              </div>
             </div>
           </div>
         </AdditionalInfoRow>

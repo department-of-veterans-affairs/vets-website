@@ -56,7 +56,7 @@ const eventTeasersSchema = max => ({
       items: {
         entity: partialSchema(eventSchema, [
           'title',
-          'fieldDate',
+          'fieldDatetimeRangeTimezone',
           'fieldDescription',
           'fieldLocationHumanreadable',
           'fieldFacilityLocation',
@@ -115,7 +115,6 @@ module.exports = {
     fieldRelatedLinks: {
       $ref: 'output/paragraph-list_of_link_teasers',
     },
-    fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
     fieldMedia: { $ref: 'Media' },
     reverseFieldRegionPageNode: {
       type: 'object',
@@ -165,7 +164,6 @@ module.exports = {
     'fieldOtherVaLocations',
     'fieldNicknameForThisFacility',
     'fieldLinkFacilityEmergList',
-    'fieldPressReleaseBlurb',
     'reverseFieldRegionPageNode',
     'newsStoryTeasers',
     'allNewsStoryTeasers',

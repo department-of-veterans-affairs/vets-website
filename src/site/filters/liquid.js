@@ -110,14 +110,16 @@ module.exports = function registerFilters() {
     return moment
       .unix(dt)
       .tz(timezone)
-      .format(format);
+      .format(format)
+      .replace(/AM/g, 'a.m.')
+      .replace(/PM/g, 'p.m.');
   };
 
   liquid.filters.unixFromDate = data => new Date(data).getTime();
 
-  liquid.filters.currentUnixFromDate = () => {
+  liquid.filters.currentTimeInSeconds = () => {
     const time = new Date();
-    return time.getTime();
+    return Math.floor(time.getTime() / 1000);
   };
 
   liquid.filters.numToWord = numConvert => converter.toWords(numConvert);

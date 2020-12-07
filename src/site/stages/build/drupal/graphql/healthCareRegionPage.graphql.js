@@ -74,11 +74,8 @@ module.exports = `
     }
     ${healthCareLocalFacilities}
     fieldOtherVaLocations
-    ${healthCareRegionFeaturedHealthServices}
+    ${healthCareRegionFeaturedHealthServices}    
     ${healthCareRegionHealthServices}
-    fieldPressReleaseBlurb {
-      processed
-    }
     eventTeasersAll: reverseFieldOfficeNode(limit: 1000, filter: {conditions: [{field: "type", value: "event_listing"}]}) {
       entities {
         ... on NodeEventListing {

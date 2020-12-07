@@ -8,22 +8,31 @@ export default function AppointmentRequestCommunityCareLocation({
   );
 
   return (
-    <dl className="vads-u-margin--0">
-      <dt className="vads-u-font-weight--bold">Preferred provider</dt>
-      <dd>
+    <>
+      <h4 className="vaos-appts__block-label">Preferred provider</h4>
+      <div>
         {!providers.length && 'Not specified'}
         {!!providers.length && (
           <ul className="usa-unstyled-list">
-            {providers.map(provider => (
-              <li key={provider.id}>
-                {provider.practitionerRole?.[0].location?.[0].display}
-                <br />
-                {provider.name.text}
-              </li>
-            ))}
+            {providers.map(provider => {
+              const practiceName =
+                provider.practitionerRole?.[0].location?.[0].display;
+
+              return (
+                <li key={provider.id}>
+                  {practiceName && (
+                    <>
+                      {practiceName}
+                      <br />
+                    </>
+                  )}
+                  {provider.name.text}
+                </li>
+              );
+            })}
           </ul>
         )}
-      </dd>
-    </dl>
+      </div>
+    </>
   );
 }

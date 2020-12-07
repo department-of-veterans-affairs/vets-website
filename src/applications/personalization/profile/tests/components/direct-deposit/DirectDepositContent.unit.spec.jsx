@@ -38,14 +38,14 @@ function createBasicInitialState() {
       },
     },
     vaProfile: {
-      paymentInformation: {
+      cnpPaymentInformation: {
         responses: [
           {
             paymentAccount,
           },
         ],
       },
-      paymentInformationUiState: {},
+      cnpPaymentInformationUiState: {},
     },
   };
 }
@@ -119,20 +119,28 @@ describe('DirectDepositContent', () => {
     });
     expect(container).to.be.empty;
   });
-  it('should render nothing if the user does not have 2FA set up', () => {
+  it('should only render an AlertBox prompting the user to set up 2FA if the user does not have 2FA set up and is LOA3', () => {
     initialState = createBasicInitialState();
     initialState.user.profile.multifactor = false;
 
-    const { container } = renderWithProfileReducers(ui, {
+    const view = renderWithProfileReducers(ui, {
       initialState,
     });
-    expect(container).to.be.empty;
+    expect(
+      view.getByText(
+        /You’ll need to set up 2-factor authentication before you can edit your direct deposit information./i,
+      ),
+    ).to.exist;
+    expect(view.queryByText(paymentAccount.financialInstitutionName)).not.to
+      .exist;
+    expect(view.queryByText(paymentAccount.accountNumber)).not.to.exist;
+    expect(view.queryByText(paymentAccount.accountType)).not.to.exist;
   });
   describe('when bank info is not set up', () => {
     let view;
     beforeEach(() => {
       initialState = createBasicInitialState();
-      initialState.vaProfile.paymentInformation.responses[0].paymentAccount = emptyPaymentAccount;
+      initialState.vaProfile.cnpPaymentInformation.responses[0].paymentAccount = emptyPaymentAccount;
       // Using queries on RTL `screen` does not work for some reason. So I'm just
       // storing the entire response from `render` as `view` so I can treat `view`
       // like I would `screen`
@@ -176,7 +184,7 @@ describe('DirectDepositContent', () => {
       // shows a save succeeded alert
       expect(
         view.findByRole('alert', {
-          name: /we’ve saved your direct deposit information/i,
+          name: /We’ve updated your bank account information/i,
         }),
       ).to.exist;
 
@@ -221,7 +229,7 @@ describe('DirectDepositContent', () => {
       // shows a save succeeded alert
       expect(
         view.findByRole('alert', {
-          name: /we’ve saved your direct deposit information/i,
+          name: /We’ve updated your bank account information/i,
         }),
       ).to.exist;
 
@@ -249,7 +257,7 @@ describe('DirectDepositContent', () => {
 
       // does not show save succeeded alert
       expect(view.container).to.not.contain.text(
-        /we’ve saved your direct deposit information/i,
+        /We’ve updated your bank account information/i,
       );
     });
   });
