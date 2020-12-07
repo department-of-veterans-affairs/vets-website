@@ -57,6 +57,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           birthDate: profile?.dob,
           ssn: undefined,
           email: profile?.vapContactInfo?.email?.emailAddress,
+          zipCode: profile?.vapContactInfo?.residentialAddress.zipCode,
           phone: profile?.vapContactInfo?.homePhone
             ? `${profile.vapContactInfo.homePhone.areaCode}${
                 profile.vapContactInfo.homePhone.phoneNumber
