@@ -67,7 +67,7 @@ src/site/filters @department-of-veterans-affairs/vsa-facilities-frontend @depart
 src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
 # Healthcare Experience
-src/applications/healthcare @department-of-veterans-affairs/vsa-healthcare-experience
+src/applications/health-care-questionnaire @department-of-veterans-affairs/vsa-healthcare-experience
 
 # /--- VSA
 
