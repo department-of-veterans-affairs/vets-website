@@ -557,6 +557,27 @@
             }
           }
         },
+        {
+          "properties": {
+            "levelOne": {
+              "type": "string",
+              "enum": [
+                "Compensation (Service-Connected Benefits)"
+              ]
+            },
+            "levelTwo": {
+              "type": "string",
+              "enum": [
+                "Filing for compensation benefits",
+                "Status of a pending claim",
+                "Issues/Questions about compensation received",
+                "Direct deposit inquiries",
+                "Aid and Attendance Benefits",
+                "Guardianship/Custodians"
+              ]
+            }
+          }
+        },
         {}
       ],
       "properties": {

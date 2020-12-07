@@ -10,15 +10,18 @@ import {
   employmentHistory,
   additionalIncome,
   veteranInfo,
+  spouseInformation,
+  spouseAdditionalIncome,
   spouseEmployment,
   spouseSocialSecurity,
   spouseBenefits,
   spouseAdditionalEmployment,
   dependents,
   householdAssets,
-  householdExpenses,
-  spouseInformation,
-  spouseAdditionalIncome,
+  expenses,
+  utilities,
+  repayments,
+  otherExpenses,
 } from '../pages';
 
 const formChapterTitles = {
@@ -41,7 +44,10 @@ const formPageTitles = {
   spouseAdditionalIncome: 'Spouse additional Income',
   dependents: 'Dependents',
   householdAssets: 'Household Assets',
-  householdExpenses: 'Household Expenses',
+  expenses: 'Household Expenses',
+  utilities: 'Household Utilities',
+  repayments: 'Household Repayments',
+  otherExpenses: 'Other expenses',
 };
 
 const formConfig = {
@@ -168,11 +174,29 @@ const formConfig = {
     householdExpensesChapter: {
       title: formChapterTitles.householdExpenses,
       pages: {
-        [formPageTitles.householdExpenses]: {
-          path: 'household-expenses',
-          title: formPageTitles.householdExpenses,
-          uiSchema: householdExpenses.uiSchema,
-          schema: householdExpenses.schema,
+        [formPageTitles.expenses]: {
+          path: 'expenses',
+          title: formPageTitles.expenses,
+          uiSchema: expenses.uiSchema,
+          schema: expenses.schema,
+        },
+        [formPageTitles.utilities]: {
+          path: 'utilities',
+          title: formPageTitles.utilities,
+          uiSchema: utilities.uiSchema,
+          schema: utilities.schema,
+        },
+        [formPageTitles.repayments]: {
+          path: 'repayments',
+          title: formPageTitles.repayments,
+          uiSchema: repayments.uiSchema,
+          schema: repayments.schema,
+        },
+        [formPageTitles.otherExpenses]: {
+          path: 'other-expenses',
+          title: formPageTitles.otherExpenses,
+          uiSchema: otherExpenses.uiSchema,
+          schema: otherExpenses.schema,
         },
       },
     },

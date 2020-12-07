@@ -5,4 +5,5 @@ import './syncFixtures';
 import './upload';
 import './injectAxeThenAxeCheck';
 import './viewportPreset';
+import './hasCount';
 import 'cy-mobile-commands';

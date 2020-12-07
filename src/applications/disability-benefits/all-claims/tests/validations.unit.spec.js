@@ -7,6 +7,7 @@ import {
   oneDisabilityRequired,
   hasMonthYear,
   validateDisabilityName,
+  validateBooleanGroup,
 } from '../validations';
 
 import disabilityLabels from '../content/disabilityLabels';
@@ -237,6 +238,61 @@ describe('526 All Claims validations', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, tooLong);
       expect(err.addError.calledOnce).to.be.true;
+    });
+  });
+
+  describe('validateBooleanGroup', () => {
+    it('should add error if no props are true', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, { tests: false }, null, {
+        properties: { tests: 'string' },
+      });
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should add error if empty object', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, {}, null, {
+        properties: { tests: 'string' },
+      });
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should add error if true prop isnt in the schema', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, { testz: true, tests: false }, null, {
+        properties: { tests: 'string' },
+      });
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should not add error if at least one prop is true', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, { tests: true }, null, {
+        properties: { tests: 'string' },
+      });
+
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should use custom message', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(
+        errors,
+        { tests: false },
+        null,
+        {
+          properties: { tests: 'string' },
+        },
+        {
+          atLeastOne: 'testing',
+        },
+      );
+
+      expect(errors.addError.firstCall.args[0]).to.equal('testing');
     });
   });
 });
