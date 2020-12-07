@@ -441,16 +441,24 @@ module.exports = function registerFilters() {
     return null;
   };
 
+  // TODO - add unit tests for this!
   liquid.filters.deriveLastBreadcrumbFromPath = (
     breadcrumbs,
     string,
     currentPath,
+    replaceLastItem = false,
   ) => {
     const last = {
       url: { path: currentPath, routed: true },
       text: string,
     };
-    breadcrumbs.push(last);
+
+    if (replaceLastItem) {
+      // replace last item in breadcrumbs with "last"
+      breadcrumbs.splice(breadcrumbs.length - 1, 1, last);
+    } else {
+      breadcrumbs.push(last);
+    }
 
     return breadcrumbs;
   };
