@@ -49,7 +49,10 @@ export class SearchResult extends Component {
     };
 
     return (
-      <li className="third-party-app vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px">
+      <li
+        aria-live="polite"
+        className="third-party-app vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px"
+      >
         <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
           {/* App Icon */}
           <img alt={`${item?.name} icon`} src={item?.logo_url} />
@@ -104,7 +107,7 @@ export class SearchResult extends Component {
           </button>
         </div>
         {show && (
-          <>
+          <div>
             <hr aria-hidden="true" />
 
             {/* Description */}
@@ -117,28 +120,28 @@ export class SearchResult extends Component {
 
             {/* Legal Links */}
             <a
-              className="vads-u-margin-top--2"
+              className="vads-u-margin-top--3 vads-u-display--block"
               href={item?.privacy_url}
               rel="noopener noreferrer"
               target="_blank"
             >
-              View the privacy policy
+              {`View the ${item.name} privacy policy`}
             </a>
             <a
-              className="vads-u-margin-top--1"
+              className="vads-u-margin-top--1 vads-u-display--block"
               href={item?.tos_url}
               rel="noopener noreferrer"
               target="_blank"
             >
-              View terms of service
+              {`View the ${item.name} terms of service`}
             </a>
             <a
-              className="vads-u-margin-top--1"
+              className="vads-u-margin-top--1  vads-u-margin-bottom--1 vads-u-display--block"
               href={`mailto:api@va.gov?subject=Report ${item?.name} to VA`}
               rel="noopener noreferrer"
               target="_blank"
             >
-              Report this app to VA
+              {`Report ${item.name} to VA`}
             </a>
 
             {/* Permissions */}
@@ -148,7 +151,10 @@ export class SearchResult extends Component {
                   {item?.name} may request access to your VA information,
                   including:
                 </h3>
-                <ul className="vads-u-margin--0 vads-u-margin-top--1 vads-u-padding-left--2p5">
+                <ul
+                  aria-label={`${item.name} - potential data requests`}
+                  className="vads-u-margin--0 vads-u-margin-top--2 vads-u-padding-left--2p5"
+                >
                   {reduce(
                     item?.service_categories,
                     (allPermissions, scope) => {
@@ -167,7 +173,7 @@ export class SearchResult extends Component {
                 </ul>
               </>
             )}
-          </>
+          </div>
         )}
       </li>
     );
