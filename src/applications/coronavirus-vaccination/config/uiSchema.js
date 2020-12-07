@@ -54,6 +54,19 @@ export default {
       pattern: 'Please enter a valid phone number',
     },
   },
+  contactMethod: {
+    'ui:title': 'Contact method',
+    'ui:widget': 'radio',
+    'ui:errorMessages': {
+      required: 'Please select a contact method',
+    },
+    'ui:options': {
+      labels: {
+        phone: 'Phone',
+        email: 'Email',
+      },
+    },
+  },
   vaccineInterest: {
     'ui:title': 'Interested in vaccine',
     'ui:widget': 'radio',

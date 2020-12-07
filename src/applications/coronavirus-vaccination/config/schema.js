@@ -7,6 +7,7 @@ export default {
     'phone',
     'birthDate',
     'vaccineInterest',
+    'contactMethod',
   ],
   properties: {
     isIdentityVerified: {
@@ -32,6 +33,10 @@ export default {
     phone: {
       type: 'string',
       pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
+    },
+    contactMethod: {
+      type: 'string',
+      enum: ['phone', 'email'],
     },
     vaccineInterest: {
       type: 'string',
