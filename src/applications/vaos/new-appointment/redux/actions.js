@@ -458,7 +458,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
     let location = null;
     const facilities = getTypeOfCareFacilities(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
-      f => !!f.legacyVAR?.distancefromCurrentLocation,
+      f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
 
     const action = {
