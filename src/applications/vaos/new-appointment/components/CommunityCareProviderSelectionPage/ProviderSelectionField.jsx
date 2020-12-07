@@ -8,6 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ErrorMessage from '../../../components/ErrorMessage';
+import RemoveProviderModal from './RemoveProviderModal';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -20,7 +21,9 @@ function ProviderSelectionField({
   requestProvidersList,
   communityCareProviderList,
 }) {
-  const [checkedProvider, setCheckedProvider] = useState();
+  const [checkedProvider, setCheckedProvider] = useState(false);
+  const [removedProvider, setRemovedProvider] = useState(false);
+  const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showProvidersList, setShowProvidersList] = useState(false);
   const [providersListLength, setProvidersListLength] = useState(
@@ -43,11 +46,13 @@ function ProviderSelectionField({
     () => {
       if (showProvidersList) {
         scrollAndFocus('h2');
+      } else if (mounted && removedProvider) {
+        scrollAndFocus('h2');
       } else if (mounted) {
         scrollAndFocus('.va-button-link');
       }
     },
-    [showProvidersList],
+    [showProvidersList, removedProvider],
   );
 
   return (
@@ -95,6 +100,15 @@ function ProviderSelectionField({
                 }}
               >
                 Change provider
+              </button>
+              <button
+                type="button"
+                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0 vads-u-margin-right--2"
+                onClick={() => {
+                  setShowRemoveProviderModal(true);
+                }}
+              >
+                Remove
               </button>
             </div>
           </>
@@ -217,6 +231,20 @@ function ProviderSelectionField({
             </button>
           </div>
         )}
+      {showRemoveProviderModal && (
+        <RemoveProviderModal
+          provider={formData}
+          address={address}
+          onClose={response => {
+            setShowRemoveProviderModal(false);
+            if (response === true) {
+              setRemovedProvider(true);
+              setCheckedProvider(false);
+              onChange({});
+            }
+          }}
+        />
+      )}
     </div>
   );
 }
