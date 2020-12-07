@@ -30,12 +30,10 @@ const PhoneNumbersTable = ({ className }) => (
       {
         title: 'Mobile',
         value: (
-          <>
-            <PhoneField
-              title={FIELD_TITLES[FIELD_NAMES.MOBILE_PHONE]}
-              fieldName={FIELD_NAMES.MOBILE_PHONE}
-            />
-          </>
+          <PhoneField
+            title={FIELD_TITLES[FIELD_NAMES.MOBILE_PHONE]}
+            fieldName={FIELD_NAMES.MOBILE_PHONE}
+          />
         ),
       },
       {
