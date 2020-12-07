@@ -35,7 +35,7 @@ import {
   resetMapElements,
   setSearchAreaPosition,
 } from '../utils/helpers';
-import { MapboxInit, MARKER_LETTERS } from '../constants';
+import { MapboxInit, MARKER_LETTERS, MAX_SEARCH_AREA } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -229,7 +229,7 @@ const FacilitiesMap = props => {
       'search-area-control-container',
     );
 
-    if (calculateSearchArea() > 500) {
+    if (calculateSearchArea() > MAX_SEARCH_AREA) {
       searchAreaControlId.style.display = 'none';
       return;
     }
