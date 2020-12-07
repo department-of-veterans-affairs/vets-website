@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-// import { axeCheck } from '../../helpers/test-helpers';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { mount } from 'enzyme';
 
