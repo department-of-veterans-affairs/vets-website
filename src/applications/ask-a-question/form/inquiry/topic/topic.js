@@ -6,7 +6,13 @@ import fullSchema from '../../0873-schema.json';
 import {
   medicalCenterError,
   routeToStateError,
-  routeToStateTitle, showFacilityCodeError, showFacilityCodeLabel,
+  routeToStateTitle,
+  showFacilityCodeError,
+  showFacilityCodeTitle,
+  stateOfResidence,
+  stateOfResidenceError,
+  stateOfSchool,
+  stateOfSchoolError,
   topicLevelOneError,
   topicLevelOneTitle,
   topicLevelThreeError,
@@ -31,7 +37,7 @@ const formFields = {
   routeToState: 'routeToState',
   showFacilityCode: 'showFacilityCode',
   stateOfResidence: 'stateOfResidence',
-  stateOfSchool: 'stateOfSchool'
+  stateOfSchool: 'stateOfSchool',
 };
 
 const getChildSchemaFromParentTopic = (
@@ -131,18 +137,36 @@ export const routeToStateRequiredTopics = new Set([
   'Home Loan/Mortgage Guaranty Issues',
 ]);
 
-export const showFacilityCodeField = new Set([
-  'School Officials Only',
+export const showFacilityCodeField = new Set(['School Officials Only']);
+
+export const showAdditionalGIBillFields = new Set([
+  'Work Study',
+  'Post-9/11 GI Bill',
+  'On-the-Job Training (OJT)/Apprenticeship',
+  'Survivors & Dependents',
+  'MGIB - Active Duty (Ch 30)',
+  'MGIB - Selected Reserve (Ch 1606)',
+  'School Certifying Official File Transfer',
+  'Licensing and Certification Tests',
+  'VR&E Counselors',
+  'Transfer of Benefits to Dependents (TEB)',
+  'Tuition Assistance Top-Up',
+  'WAVE',
+  'Counseling',
+  'VEAP (Ch 32)',
+  'Reserve Ed Asst Prog (Ch 1607) (REAP)',
+  'National Testing Programs',
+  'Colmery Section 110',
 ]);
+
+export function isValidFacilityCode(value) {
+  return /^[a-zA-Z0-9]{0,8}$/.test(value);
+}
 
 export function validateFacilityCode(errors, facilityCode) {
   if (facilityCode && !isValidFacilityCode(facilityCode)) {
     errors.addError(showFacilityCodeError);
   }
-}
-
-export function isValidFacilityCode(value) {
-  return /^[a-zA-Z0-9]{0,8}$/.test(value)
 }
 
 export function schema(currentSchema, topicProperty = 'topic') {
@@ -253,7 +277,9 @@ export function uiSchema() {
       'levelThree',
       'vaMedicalCenter',
       'routeToState',
-      'showFacilityCode'
+      'showFacilityCode',
+      'stateOfResidence',
+      'stateOfSchool',
     ],
     [formFields.levelOne]: {
       'ui:title': topicLevelOneTitle,
@@ -313,7 +339,7 @@ export function uiSchema() {
       },
     },
     [formFields.showFacilityCode]: {
-      'ui:title': showFacilityCodeLabel,
+      'ui:title': showFacilityCodeTitle,
       'ui:options': {
         expandUnder: 'levelTwo',
         expandUnderCondition: levelTwo => {
@@ -321,6 +347,36 @@ export function uiSchema() {
         },
       },
       'ui:validations': [validateFacilityCode],
+    },
+    [formFields.stateOfResidence]: {
+      'ui:title': stateOfResidence,
+      'ui:required': formData => {
+        return !!showAdditionalGIBillFields.has(formData.topic.levelTwo);
+      },
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!showAdditionalGIBillFields.has(levelTwo);
+        },
+      },
+      'ui:errorMessages': {
+        required: stateOfResidenceError,
+      },
+    },
+    [formFields.stateOfSchool]: {
+      'ui:title': stateOfSchool,
+      'ui:required': formData => {
+        return !!showAdditionalGIBillFields.has(formData.topic.levelTwo);
+      },
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!showAdditionalGIBillFields.has(levelTwo);
+        },
+      },
+      'ui:errorMessages': {
+        required: stateOfSchoolError,
+      },
     },
   };
 }
