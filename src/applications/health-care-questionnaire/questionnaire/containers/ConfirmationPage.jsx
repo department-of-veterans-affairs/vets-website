@@ -73,7 +73,10 @@ const ConfirmationPage = props => {
             <Telephone contact={appointment.attributes.clinicPhone} />.
           </p>
           <div className="nav-buttons">
-            <a className="usa-button-primary" href="/healthcare/list">
+            <a
+              className="usa-button-primary"
+              href="/health-care/health-questionnaires/questionnaires"
+            >
               Go to your health questionnaires
             </a>
             <a
