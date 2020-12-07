@@ -327,7 +327,29 @@ class ContactInformationField extends React.Component {
       content = (
         <EditView
           refreshTransaction={this.refreshTransaction}
-          {...childProps}
+          analyticsSectionName={this.props.analyticsSectionName}
+          apiRoute={this.props.apiRoute}
+          blockEditMode={this.props.blockEditMode}
+          clearErrors={this.clearErrors}
+          clearTransactionRequest={this.props.clearTransactionRequest}
+          convertCleanDataToPayLoad={this.props.convertCleanDataToPayLoad}
+          createTransaction={this.props.createTransaction}
+          data={this.props.data}
+          field={this.props.field}
+          fieldName={this.props.fieldName}
+          formSchema={this.props.formSchema}
+          hasUnsavedEdits={this.props.hasUnsavedEdits}
+          isEmpty={this.props.isEmpty}
+          onCancel={this.onCancel}
+          onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
+          onDelete={this.onDelete}
+          onEdit={this.onEdit}
+          onSubmit={this.onSubmit}
+          showEditView={this.props.showEditView}
+          transaction={this.props.transaction}
+          transactionRequest={this.props.transactionRequest}
+          uiSchema={this.props.uiSchema}
+          validateAddress={this.props.validateAddress}
         />
       );
     }

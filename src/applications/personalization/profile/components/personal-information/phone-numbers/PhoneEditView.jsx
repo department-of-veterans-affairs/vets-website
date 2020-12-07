@@ -53,9 +53,23 @@ class PhoneEditView extends React.Component {
   render() {
     return (
       <ContactInformationEditView
-        {...this.props}
+        analyticsSectionName={this.props.analyticsSectionName}
+        clearErrors={this.props.clearErrors}
+        field={this.props.field}
+        formSchema={this.props.formSchema}
         getInitialFormValues={this.getInitialFormValues}
+        isEmpty={this.props.isEmpty}
+        onCancel={this.props.onCancel}
+        onChangeFormDataAndSchemas={this.props.onChangeFormDataAndSchemas}
+        onDelete={this.props.onDelete}
+        onSubmit={this.props.onSubmit}
+        refreshTransaction={this.props.refreshTransaction}
         render={this.renderForm}
+        title={this.props.title}
+        transaction={this.props.transaction}
+        transactionRequest={this.props.transactionRequest}
+        type="phone"
+        uiSchema={this.props.uiSchema}
       />
     );
   }
