@@ -151,14 +151,9 @@ class ConfirmationPage extends React.Component {
             the mail. If we've approved your application, you can bring the COE
             to the VA certifying official at your school.
           </p>
-          <p className="confirmation-guidance-message screen-only">
+          <p className="confirmation-guidance-message">
             <a href="/education/after-you-apply/">
               Learn more about what happens after you apply
-            </a>
-          </p>
-          <p className="confirmation-guidance-message print-only">
-            <a href="/education/after-you-apply/">
-              Learn more about what happens after you apply:
             </a>
           </p>
           <h4 className="confirmation-guidance-heading pagebreak vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
