@@ -268,18 +268,6 @@ class ContactInformationField extends React.Component {
       activeEditView
     ]?.toLowerCase();
 
-    const childProps = {
-      ...this.props,
-      clearErrors: this.clearErrors,
-      onAdd: this.onAdd,
-      onCancel: this.onCancel,
-      onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
-      onDelete: this.onDelete,
-      onEdit: this.onEdit,
-      onSubmit: this.onSubmit,
-      refreshTransaction: this.refreshTransaction,
-    };
-
     const wrapInTransaction = children => {
       return (
         <VAPServiceTransaction
