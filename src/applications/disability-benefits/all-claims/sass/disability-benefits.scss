@@ -28,6 +28,11 @@ fieldset.schemaform-block,
   margin-top: 0;
 }
 
+/* Hide duplicate required span; first one in legend */
+.new-condition-description + .schemaform-required-span {
+  display: none;
+}
+
 .row .usa-date-of-birth.row {
   margin: unset;
 }

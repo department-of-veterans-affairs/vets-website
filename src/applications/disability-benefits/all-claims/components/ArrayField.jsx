@@ -360,9 +360,11 @@ export default class ArrayField extends React.Component {
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
             const itemName = uiOptions.itemName;
-            const indexText = uiOptions.includeIndexInTitle
-              ? ` ${index + 1}`
-              : '';
+            const legendText = `${
+              isLast && items.length > 1 ? 'New' : 'Editing'
+            } ${itemName || ''} ${
+              uiOptions.includeIndexInTitle ? index + 1 : ''
+            }`;
 
             if (isEditing) {
               return (
@@ -371,9 +373,12 @@ export default class ArrayField extends React.Component {
                   <div className="row small-collapse">
                     <fieldset className="small-12 columns va-growable-expanded">
                       <legend className="vads-u-font-size--base">
-                        {isLast && items.length > 1
-                          ? `New ${itemName || ''}${indexText}`
-                          : `Editing ${itemName || ''}${indexText}`}
+                        {legendText}
+                        {uiOptions.includeRequiredLabelInTitle && (
+                          <span className="schemaform-required-span vads-u-font-weight--normal">
+                            (*Required)
+                          </span>
+                        )}
                       </legend>
                       <div className="input-section">
                         <SchemaField

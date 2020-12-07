@@ -4,7 +4,6 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import disabilityLabels from '../content/disabilityLabels';
 import {
-  descriptionInfo,
   autoSuggestTitle,
   newOnlyAlert,
   increaseAndNewAlert,
@@ -30,15 +29,15 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
-  // 'ui:description': 'Please tell us the new conditions you want to claim.',
   newDisabilities: {
-    'ui:description': 'Please tell us the new conditions you want to claim.',
+    'ui:title': 'Please tell us the new conditions you want to claim.',
     'ui:field': ArrayField,
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'New Conditions',
       itemName: 'Condition',
       includeIndexInTitle: true,
+      includeRequiredLabelInTitle: true,
     },
     // Ideally, this would show the validation on the array itself (or the name
     // field in an array item), but that's not working.
@@ -83,9 +82,6 @@ export const uiSchema = {
           },
         },
       ),
-      'view:descriptionInfo': {
-        'ui:description': descriptionInfo,
-      },
       // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
       // disabled until design changes have been approved
       // 'ui:objectViewField': ConditionReviewField,
@@ -125,7 +121,6 @@ export const schema = {
         type: 'object',
         properties: {
           condition,
-          'view:descriptionInfo': { type: 'object', properties: {} },
         },
       },
     },
