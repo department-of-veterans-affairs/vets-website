@@ -29,7 +29,9 @@ const formFields = {
   levelThree: 'levelThree',
   vaMedicalCenter: 'vaMedicalCenter',
   routeToState: 'routeToState',
-  showFacilityCode: 'showFacilityCode'
+  showFacilityCode: 'showFacilityCode',
+  stateOfResidence: 'stateOfResidence',
+  stateOfSchool: 'stateOfSchool'
 };
 
 const getChildSchemaFromParentTopic = (
