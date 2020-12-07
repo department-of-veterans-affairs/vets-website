@@ -103,7 +103,6 @@ class AddressEditView extends React.Component {
         field={this.props.field}
         formSchema={this.props.formSchema}
         getInitialFormValues={this.getInitialFormValues}
-        hasUnsavedEdits={this.props.hasUnsavedEdits}
         hasValidationError={this.props.hasValidationError}
         isEmpty={this.props.isEmpty}
         onCancel={this.props.onCancel}
@@ -116,8 +115,6 @@ class AddressEditView extends React.Component {
         transaction={this.props.transaction}
         transactionRequest={this.props.transactionRequest}
         uiSchema={this.props.uiSchema}
-        EditView={this.props.EditView}
-        ContentView={this.props.ContentView}
       />
     );
   }

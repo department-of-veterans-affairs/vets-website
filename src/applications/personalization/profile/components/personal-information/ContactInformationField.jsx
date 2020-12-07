@@ -322,7 +322,6 @@ class ContactInformationField extends React.Component {
           clearTransactionRequest={this.props.clearTransactionRequest}
           convertCleanDataToPayLoad={this.props.convertCleanDataToPayLoad}
           createTransaction={this.props.createTransaction}
-          deleteDisabled={this.props.deleteDisabled}
           data={this.props.data}
           field={this.props.field}
           fieldName={this.props.fieldName}
@@ -332,7 +331,6 @@ class ContactInformationField extends React.Component {
           onCancel={this.onCancel}
           onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
           onDelete={this.onDelete}
-          title={this.props.title}
           onEdit={this.onEdit}
           onSubmit={this.onSubmit}
           showEditView={this.props.showEditView}
@@ -340,8 +338,6 @@ class ContactInformationField extends React.Component {
           transactionRequest={this.props.transactionRequest}
           uiSchema={this.props.uiSchema}
           validateAddress={this.props.validateAddress}
-          EditView={this.props.EditView}
-          ContentView={this.props.ContentView}
         />
       );
     }
