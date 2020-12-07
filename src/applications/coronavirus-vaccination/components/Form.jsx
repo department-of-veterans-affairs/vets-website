@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
 
 import AlertBox, {
   ALERT_TYPE,
@@ -23,6 +24,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
       };
 
       if (isLoggedIn) {
+        recordEvent({
+          event: 'covid-vaccination-login-successful-start-form',
+        });
         initialFormData = {
           isIdentityVerified: profile?.loa?.current === profile?.loa?.highest,
           firstName: profile?.userFullName?.first,
@@ -36,6 +40,10 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
               }`
             : '',
         };
+      } else {
+        recordEvent({
+          event: 'covid-vaccination-no-login-start-form',
+        });
       }
 
       updateFormData(initialFormSchema, initialUiSchema, initialFormData);
