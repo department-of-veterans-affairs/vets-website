@@ -3,11 +3,12 @@ export default {
   required: [
     'firstName',
     'lastName',
-    'emailAddress',
+    'email',
     'phone',
-    'dateOfBirth',
     'zipCode',
-    'vaxPreference',
+    'birthDate',
+    'vaccineInterest',
+    'contactPreference',
   ],
   properties: {
     isIdentityVerified: {
@@ -19,14 +20,14 @@ export default {
     lastName: {
       type: 'string',
     },
-    dateOfBirth: {
+    birthDate: {
       type: 'string',
     },
     ssn: {
       type: 'string',
       pattern: '^\\d{3}-?\\d{2}-?\\d{4}$',
     },
-    emailAddress: {
+    email: {
       type: 'string',
       format: 'email',
     },
@@ -38,15 +39,22 @@ export default {
       type: 'string',
       pattern: '^\\d{5}(-\\d{4})?$',
     },
-    vaxPreference: {
+    contactPreference: {
+      type: 'boolean',
+    },
+    contactMethod: {
+      type: 'string',
+      enum: ['phone', 'email'],
+    },
+    vaccineInterest: {
       type: 'string',
       enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'ALREADY_VACCINATED'],
     },
-    vaxPrefDetails: {
+    reasonUndecided: {
       type: 'string',
     },
-    facility: {
-      type: 'string',
-    },
+    // preferredFacility: {
+    //   type: 'string',
+    // },
   },
 };

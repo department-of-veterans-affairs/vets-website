@@ -1,5 +1,5 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import SelectFacilityWidget from '../components/SelectFacilityWidget';
+// import SelectFacilityWidget from '../components/SelectFacilityWidget';
 
 export default {
   isIdentityVerified: {
@@ -19,7 +19,7 @@ export default {
       required: 'Please enter your last name.',
     },
   },
-  dateOfBirth: {
+  birthDate: {
     'ui:title': 'Date of birth',
     'ui:widget': 'date',
     'ui:errorMessages': {
@@ -37,7 +37,7 @@ export default {
       hideIf: formData => formData.isIdentityVerified,
     },
   },
-  emailAddress: {
+  email: {
     'ui:title': 'Email address',
     'ui:widget': 'email',
     'ui:errorMessages': {
@@ -61,7 +61,30 @@ export default {
       pattern: 'Please enter a valid zip code',
     },
   },
-  vaxPreference: {
+  contactPreference: {
+    'ui:title': 'Do you have a preference for contacting you?',
+    'ui:widget': 'yesNo',
+    'ui:errorMessages': {
+      required: 'Please select an option',
+    },
+  },
+  contactMethod: {
+    'ui:title': 'Contact method',
+    'ui:widget': 'radio',
+    'ui:required': formData => formData.contactPreference,
+    'ui:errorMessages': {
+      required: 'Please select a contact method',
+    },
+    'ui:options': {
+      labels: {
+        phone: 'Phone',
+        email: 'Email',
+      },
+      hideIf: formData => !formData.contactPreference,
+      expandUnder: 'contactPreference',
+    },
+  },
+  vaccineInterest: {
     'ui:title': 'Interested in vaccine',
     'ui:widget': 'radio',
     'ui:errorMessages': {
@@ -74,28 +97,33 @@ export default {
         UNDECIDED: 'Unsure',
         ALREADY_VACCINATED: 'Already received a vaccination',
       },
-      classNames: '',
     },
   },
-  vaxPrefDetails: {
-    'ui:title':
-      'Why are you not interested or unsure about receiving this vaccine',
+  reasonUndecided: {
+    'ui:title': 'Reason for being unsure or uninterested',
+    'ui:widget': 'text',
     'ui:options': {
-      expandUnder: 'vaxPreference',
-      hideIf: formData =>
-        formData.vaxPreference === undefined ||
-        formData.vaxPreference === 'INTERESTED' ||
-        formData.vaxPreference === 'ALREADY_VACCINATED',
+      labels: {
+        phone: 'Phone',
+        email: 'Email',
+      },
+      hideIf: formData => {
+        return (
+          formData.vaccineInterest === 'INTERESTED' ||
+          formData.vaccineInterest === 'ALREADY_VACCINATED'
+        );
+      },
+      expandUnder: 'vaccineInterest',
     },
   },
-  facility: {
-    'ui:title':
-      'Please select where you’d like to receive the COVID-19 vaccine.',
-    'ui:widget': SelectFacilityWidget,
-    'ui:required': formData => formData.vaxPreference === 'INTERESTED',
-    'ui:options': {
-      expandUnder: 'vaxPreference',
-      hideIf: formData => formData.vaxPreference !== 'INTERESTED',
-    },
-  },
+  // preferredFacility: {
+  //   'ui:title':
+  //     'Please select where you’d like to receive the COVID-19 vaccine.',
+  //   'ui:widget': SelectFacilityWidget,
+  //   'ui:required': formData => formData.vaccineInterest === 'INTERESTED',
+  //   'ui:options': {
+  //     expandUnder: 'vaccineInterest',
+  //     // hideIf: formData => formData.vaccineInterest !== 'INTERESTED',
+  //   },
+  // },
 };
