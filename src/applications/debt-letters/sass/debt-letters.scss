@@ -47,6 +47,6 @@ dl {
   width: 50%;
 }
 
-h1 {
-  outline: 0;
+h1:focus {
+  outline: none !important;
 }

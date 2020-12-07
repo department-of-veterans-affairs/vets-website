@@ -1,10 +1,11 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
   dateOfDeathTitle,
+  generalError,
   isDeceasedTitle,
   isDependentTitle,
+  relationshipToVeteranError,
   relationshipToVeteranTitle,
-  veteranStatusSectionDescription,
   veteranStatusTitle,
 } from '../../../constants/labels';
 
@@ -34,9 +35,11 @@ export const requireServiceInfo = selectedVeteranStatus =>
   selectedVeteranStatus && selectedVeteranStatus !== 'general';
 
 export const veteranStatusUI = {
-  'ui:description': veteranStatusSectionDescription,
   [formFields.veteranStatus]: {
     'ui:title': veteranStatusTitle,
+    'ui:errorMessages': {
+      required: generalError,
+    },
   },
   [formFields.isDependent]: {
     'ui:title': isDependentTitle,
@@ -47,6 +50,9 @@ export const veteranStatusUI = {
       expandUnder: 'veteranStatus',
       expandUnderCondition: 'dependent',
     },
+    'ui:errorMessages': {
+      required: generalError,
+    },
   },
   [formFields.relationshipToVeteran]: {
     'ui:title': relationshipToVeteranTitle,
@@ -55,6 +61,9 @@ export const veteranStatusUI = {
     'ui:options': {
       expandUnder: 'veteranStatus',
       expandUnderCondition: requireVetRelationship,
+    },
+    'ui:errorMessages': {
+      required: relationshipToVeteranError,
     },
   },
   [formFields.veteranIsDeceased]: {
@@ -66,6 +75,9 @@ export const veteranStatusUI = {
       hideIf: formData => {
         return !requireDeathInfo(formData);
       },
+    },
+    'ui:errorMessages': {
+      required: generalError,
     },
   },
   [formFields.dateOfDeath]: {

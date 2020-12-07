@@ -38,14 +38,14 @@ function createBasicInitialState() {
       },
     },
     vaProfile: {
-      paymentInformation: {
+      cnpPaymentInformation: {
         responses: [
           {
             paymentAccount,
           },
         ],
       },
-      paymentInformationUiState: {},
+      cnpPaymentInformationUiState: {},
     },
   };
 }
@@ -140,7 +140,7 @@ describe('DirectDepositContent', () => {
     let view;
     beforeEach(() => {
       initialState = createBasicInitialState();
-      initialState.vaProfile.paymentInformation.responses[0].paymentAccount = emptyPaymentAccount;
+      initialState.vaProfile.cnpPaymentInformation.responses[0].paymentAccount = emptyPaymentAccount;
       // Using queries on RTL `screen` does not work for some reason. So I'm just
       // storing the entire response from `render` as `view` so I can treat `view`
       // like I would `screen`
