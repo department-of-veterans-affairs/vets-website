@@ -39,7 +39,7 @@ describe('DirectDeposit', () => {
         },
       },
       vaProfile: {
-        paymentInformation: {
+        cnpPaymentInformation: {
           responses: [
             {
               paymentAccount: {
@@ -51,7 +51,7 @@ describe('DirectDeposit', () => {
             },
           ],
         },
-        paymentInformationUiState: {},
+        cnpPaymentInformationUiState: {},
       },
     }),
     subscribe: () => {},

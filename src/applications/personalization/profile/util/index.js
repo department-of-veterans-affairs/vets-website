@@ -70,16 +70,16 @@ export const hasInvalidWorkPhoneNumberError = errors =>
 export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY);
 
-export const directDepositBankInfo = apiData => {
+export const cnpDirectDepositBankInfo = apiData => {
   return apiData?.responses?.[0]?.paymentAccount;
 };
 
-const directDepositAddressInfo = apiData => {
+const cnpDirectDepositAddressInfo = apiData => {
   return apiData?.responses?.[0]?.paymentAddress;
 };
 
-export const isEligibleForDirectDeposit = apiData => {
-  const addressData = directDepositAddressInfo(apiData) ?? {};
+export const isEligibleForCNPDirectDeposit = apiData => {
+  const addressData = cnpDirectDepositAddressInfo(apiData) ?? {};
   return !!(
     addressData.addressOne &&
     addressData.city &&
@@ -87,14 +87,14 @@ export const isEligibleForDirectDeposit = apiData => {
   );
 };
 
-export const isSignedUpForDirectDeposit = apiData =>
-  !!directDepositBankInfo(apiData)?.accountNumber;
+export const isSignedUpForCNPDirectDeposit = apiData =>
+  !!cnpDirectDepositBankInfo(apiData)?.accountNumber;
 
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an error occurs while trying to save/update a user's direct
-// deposit payment information. The value of the `error-key` prop will change
-// depending on the content of the `errors` array.
-export const createDirectDepositAnalyticsDataObject = (
+// deposit for compensation and pension payment information. The value of the
+// `error-key` prop will change depending on the content of the `errors` array.
+export const createCNPDirectDepositAnalyticsDataObject = (
   errors = [],
   isEnrolling = false,
 ) => {
