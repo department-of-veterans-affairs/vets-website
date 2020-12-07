@@ -192,12 +192,12 @@ const ItemLoop = ({
   const uiOptions = uiSchema['ui:options'] || {};
   const title = uiSchema['ui:title'] || schema.title;
   const hideTitle = !!uiOptions.title;
-  const reviewMode = uiSchema['ui:options'].reviewMode;
+  const isReviewMode = uiSchema['ui:options'].reviewMode;
   const description = uiSchema['ui:description'];
   const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
   const ViewField = uiOptions.viewField;
 
-  const [editing, setEditing] = useState([]);
+  const [editing, setEditing] = useState([true]);
   const [showTable, setShowTable] = useState(false);
 
   useEffect(() => {
@@ -247,14 +247,6 @@ const ItemLoop = ({
       }, 100);
     }
   };
-
-  // useEffect(
-  //   () => {
-  //     const isEditing = editing.some(val => val === true);
-  //     console.log('isEditing: ', isEditing);
-  //   },
-  //   [editing],
-  // );
 
   const scrollToRow = id => {
     if (!uiSchema['ui:options'].doNotScroll) {
@@ -310,7 +302,12 @@ const ItemLoop = ({
   const handleAdd = () => {
     const lastIndex = formData.length - 1;
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
-      setEditing([...editing, true]);
+      const editData = editing.map(() => {
+        return false;
+      });
+
+      setShowTable(true);
+      setEditing([...editData, true]);
 
       const newFormData = formData.concat(
         getDefaultFormState(
@@ -369,7 +366,7 @@ const ItemLoop = ({
         {uiOptions.viewType === 'table' ? (
           <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
             {showTable && (
-              <thead>
+              <thead className="vads-u-border-bottom--1px">
                 <tr>
                   <th className="vads-u-border--0 vads-u-padding-left--3">
                     Type of utility
@@ -384,7 +381,7 @@ const ItemLoop = ({
                 const isEditing = editing[index];
                 const isLast = items.length === index + 1;
 
-                return isEditing ? (
+                return isReviewMode || isEditing ? (
                   <tr key={index}>
                     <td
                       className="vads-u-border--0 vads-u-padding--0"
@@ -428,11 +425,7 @@ const ItemLoop = ({
             const isEditing = editing[index];
             const isLast = items.length === index + 1;
 
-            return (reviewMode ? (
-              isEditing
-            ) : (
-              isLast || isEditing
-            )) ? (
+            return isReviewMode || isEditing ? (
               <InputSection
                 key={index}
                 item={item}
