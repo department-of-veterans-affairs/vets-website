@@ -3,6 +3,8 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
+import '../sass/confirmation-page.scss';
+
 import { focusElement } from 'platform/utilities/ui';
 
 import { survivorBenefitsLabels } from '../../utils/labels';
@@ -37,7 +39,9 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h3 className="confirmation-page-title">
+          We’ve received your application
+        </h3>
         <p>
           We usually process claims within <strong>30 days</strong>.
         </p>
@@ -47,8 +51,8 @@ class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>
-            Education Benefit Claim{' '}
+          <h4 className="benefit-application-header">
+            Education benefit application{' '}
             <span className="additional">(Form 22-5495)</span>
           </h4>
           <span>
@@ -89,11 +93,18 @@ class ConfirmationPage extends React.Component {
             What happens after I apply?
           </h4>
           <p className="confirmation-guidance-message">
+            We usually decide on applications within 30 days.
+            <br />
+            You’ll get a Certificate of Eligibility (COE) or decision letter in
+            the mail. If we’ve approved your application, you can bring the COE
+            to the VA certifying official at your school.
+            <br />
             <a href="/education/after-you-apply/">
-              Find out what happens after you apply
+              Learn more about what happens after you apply
             </a>
           </p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
+          <hr className="need-help-hr" />
           <p className="confirmation-guidance-message">
             If you have questions, call 888-GI-BILL-1 (
             <a href="tel:+18884424551">888-442-4551</a>
