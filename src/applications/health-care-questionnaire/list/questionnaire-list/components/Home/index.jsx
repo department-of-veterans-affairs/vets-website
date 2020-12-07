@@ -19,6 +19,8 @@ import {
 
 import { sortQuestionnairesByStatus } from '../../../utils';
 
+import { path, todoPath, completedPath } from './routes';
+
 const Home = props => {
   const { user, isLoading, setLoading, setQuestionnaireData } = props;
 
@@ -55,15 +57,9 @@ const Home = props => {
           <Router>
             <TabNav />
             <Switch>
-              <Route
-                path={`/healthcare/list/todo`}
-                component={ToDoQuestionnaires}
-              />
-              <Route
-                path={`/healthcare/list/completed`}
-                component={CompletedQuestionnaires}
-              />
-              <Route path={`/healthcare/list`} component={ToDoQuestionnaires} />
+              <Route path={todoPath} component={ToDoQuestionnaires} />
+              <Route path={completedPath} component={CompletedQuestionnaires} />
+              <Route path={path} component={ToDoQuestionnaires} />
             </Switch>
           </Router>
         )}
