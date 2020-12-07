@@ -47,37 +47,32 @@ export const bankInfoHelpText = (
     onClick={gaBankInfoHelpText}
   >
     <p>
-      The Department of the Treasury requires all federal benefit payments be
-      made by electronic funds transfer (EFT), also called direct deposit.
+      The Veterans{' '}
+      <a
+        href="https://veteransbenefitsbanking.org/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Benefits Banking Program (VBBP)
+      </a>{' '}
+      provides a list of Veteran-friendly banks and credit unions. They’ll work
+      with you to set up an account, or help you qualify for an account, so you
+      can use direct deposit.
     </p>
+
     <p>
-      If you don’t have a bank account, or don’t wish to provide your bank
-      account information, you must receive your payment through Direct Express
-      Debit MasterCard. To request a Direct Express Debit MasterCard:
-      <ul>
-        <li>
-          Apply at{' '}
-          <a
-            href="https://www.usdirectexpress.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {' '}
-            www.usdirectexpress.com
-          </a>{' '}
-          <b>or</b>
-        </li>
-        <li>
-          {' '}
-          Call <Telephone contact={CONTACTS.GO_DIRECT} />
-        </li>
-      </ul>
+      To get started, call one of the participating banks or credit unions
+      listed on the VBBP website. Be sure to mention the Veterans Benefits
+      Banking Program.
     </p>
+
     <p>
-      If you choose not to enroll, you’ll need to call the Department of the
-      Treasury at <Telephone contact={CONTACTS.TESC} /> and speak to a
-      representative handling waiver requests. They’ll encourage you to
-      participate in EFT and address any questions or concerns you have.
+      <strong>Note:</strong> The Department of the Treasury requires us to make
+      electronic payments. If you don’t want to use direct deposit, you’ll need
+      to call the Department of the Treasury at{' '}
+      <Telephone contact={CONTACTS.TESC} />. Ask to talk with a representative
+      who handles waiver requests. They can answer any questions or concerns you
+      may have.
     </p>
   </AdditionalInfo>
 );
