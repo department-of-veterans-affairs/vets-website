@@ -716,6 +716,21 @@
     }
   },
   {
+    "appName": "CT Redesign Sandbox",
+    "entryName": "gi-sandbox",
+    "rootUrl": "/gi-bill-comparison-tool-sandbox",
+    "template": {
+      "vagovprod": false,
+      "title": "CT Redesign Sandbox",
+      "display_title": "CT Redesign Sandbox",
+      "description": "Sandbox for testing the CT redesign features so that the original Comparison Tool codebase is not filled with throw away code",
+      "layout": "page-react.html",
+      "collection": "education",
+      "spoke": "More resources",
+      "order": 1
+    }
+  },
+  {
     "appName": "Search",
     "entryName": "search",
     "rootUrl": "/search",

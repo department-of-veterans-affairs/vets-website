@@ -1,0 +1,19 @@
+.gi-app {
+  .va-modal {
+    .va-modal-inner {
+      max-width: 600px;
+      z-index: 100;
+    }
+
+    .va-modal-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .align-left {
+      margin-right: 1.5em;
+    }
+    ul {
+      margin-left: 1em;
+    }
+  }
+}
