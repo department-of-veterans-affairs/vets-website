@@ -19,7 +19,7 @@ export default {
       required: 'Please enter your last name.',
     },
   },
-  dateOfBirth: {
+  birthDate: {
     'ui:title': 'Date of birth',
     'ui:widget': 'date',
     'ui:errorMessages': {
@@ -37,7 +37,7 @@ export default {
       hideIf: formData => formData.isIdentityVerified,
     },
   },
-  emailAddress: {
+  email: {
     'ui:title': 'Email address',
     'ui:widget': 'email',
     'ui:errorMessages': {
@@ -54,7 +54,7 @@ export default {
       pattern: 'Please enter a valid phone number',
     },
   },
-  vaxPreference: {
+  vaccineInterest: {
     'ui:title': 'Interested in vaccine',
     'ui:widget': 'radio',
     'ui:errorMessages': {
@@ -70,14 +70,14 @@ export default {
       classNames: '',
     },
   },
-  facility: {
+  preferredFacility: {
     'ui:title':
       'Please select where you’d like to receive the COVID-19 vaccine.',
     'ui:widget': SelectFacilityWidget,
-    'ui:required': formData => formData.vaxPreference === 'INTERESTED',
+    'ui:required': formData => formData.vaccineInterest === 'INTERESTED',
     'ui:options': {
-      expandUnder: 'vaxPreference',
-      hideIf: formData => formData.vaxPreference !== 'INTERESTED',
+      expandUnder: 'vaccineInterest',
+      // hideIf: formData => formData.vaccineInterest !== 'INTERESTED',
     },
   },
 };

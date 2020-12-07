@@ -27,9 +27,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           isIdentityVerified: profile?.loa?.current === profile?.loa?.highest,
           firstName: profile?.userFullName?.first,
           lastName: profile?.userFullName?.last,
-          dateOfBirth: profile?.dob,
+          birthDate: profile?.dob,
           ssn: undefined,
-          emailAddress: profile?.vapContactInfo?.email?.emailAddress,
+          email: profile?.vapContactInfo?.email?.emailAddress,
           phone: profile?.vapContactInfo?.homePhone
             ? `${profile.vapContactInfo.homePhone.areaCode}${
                 profile.vapContactInfo.homePhone.phoneNumber
@@ -52,7 +52,6 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   const onSubmit = useCallback(
     () => {
-      // console.log(formState);
       router.replace('/confirmation');
     },
     [router, formState],

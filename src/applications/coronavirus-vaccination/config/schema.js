@@ -3,10 +3,10 @@ export default {
   required: [
     'firstName',
     'lastName',
-    'emailAddress',
+    'email',
     'phone',
-    'dateOfBirth',
-    'vaxPreference',
+    'birthDate',
+    'vaccineInterest',
   ],
   properties: {
     isIdentityVerified: {
@@ -18,14 +18,14 @@ export default {
     lastName: {
       type: 'string',
     },
-    dateOfBirth: {
+    birthDate: {
       type: 'string',
     },
     ssn: {
       type: 'string',
       pattern: '^\\d{3}-?\\d{2}-?\\d{4}$',
     },
-    emailAddress: {
+    email: {
       type: 'string',
       format: 'email',
     },
@@ -33,11 +33,11 @@ export default {
       type: 'string',
       pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
     },
-    vaxPreference: {
+    vaccineInterest: {
       type: 'string',
       enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'ALREADY_VACCINATED'],
     },
-    facility: {
+    preferredFacility: {
       type: 'string',
     },
   },
