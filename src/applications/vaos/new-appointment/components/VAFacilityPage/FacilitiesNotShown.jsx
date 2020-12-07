@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 import FacilityPhone from '../../../components/FacilityPhone';
 
-const UNSUPPORTED_FACILITY_RANGE = 10000;
+const UNSUPPORTED_FACILITY_RANGE = 100;
 
 export default function FacilitiesNotShown({ facilities, sortMethod }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,11 +60,14 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
       >
         {trigger}
         <div className="additional-info-content">
-          <p>
+          <p id="vaos-unsupported-label">
             Some facilities don’t offer online scheduling. You can call them
             directly to schedule your appointment.
           </p>
-          <ul className="usa-unstyled-list">
+          <ul
+            className="usa-unstyled-list"
+            aria-labelledby="vaos-unsupported-label"
+          >
             {nearbyUnsupportedFacilities.map(facility => (
               <li key={facility.id} className="vads-u-margin-top--2">
                 <strong>{facility.name}</strong>
@@ -77,6 +80,7 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
                     <br />
                   </>
                 )}
+                Main phone:{' '}
                 <FacilityPhone
                   contact={
                     facility.telecom.find(t => t.system === 'phone')?.value
@@ -85,6 +89,11 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
               </li>
             ))}
           </ul>
+          <p className="vads-u-margin-top--4">
+            <a href="/find-locations" target="_blank" rel="noopener nofollow">
+              Or, find a different VA location
+            </a>
+          </p>
         </div>
       </ExpandingGroup>
     </div>
