@@ -48,7 +48,6 @@ const Header = ({
 
 const InputSection = ({
   title,
-  isLast,
   items,
   schema,
   uiSchema,
@@ -66,7 +65,7 @@ const InputSection = ({
 }) => {
   const showSave = uiSchema['ui:options'].showSave;
   const updateText = showSave ? 'Save' : 'Update';
-  const notLastOrMultipleRows = showSave || !isLast || items.length > 1;
+  const notLastOrMultipleRows = showSave || items.length > 1;
   const { SchemaField } = registry.fields;
   const itemIdPrefix = `${idSchema.$id}_${index}`;
 
@@ -88,14 +87,14 @@ const InputSection = ({
     <div
       className={
         notLastOrMultipleRows
-          ? 'va-growable-background vads-u-margin-bottom--0'
+          ? 'va-growable-background vads-u-margin-bottom--2'
           : null
       }
     >
       <ScrollElement name={`table_${itemIdPrefix}`} />
       <div className="row small-collapse">
         <div className="small-12 columns va-growable-expanded">
-          {isLast && items.length > 1 && uiSchema['ui:options'].itemName ? (
+          {items.length > 1 && uiSchema['ui:options'].itemName ? (
             <h3 className="vads-u-font-size--h5">
               New {uiSchema['ui:options'].itemName}
             </h3>
@@ -118,7 +117,7 @@ const InputSection = ({
           {notLastOrMultipleRows && (
             <div className="row small-collapse">
               <div className="small-6 left columns">
-                {(!isLast || showSave) && (
+                {showSave && (
                   <button
                     className="float-left"
                     onClick={e => handleUpdate(e, index)}
@@ -379,7 +378,6 @@ const ItemLoop = ({
             <tbody>
               {items.map((item, index) => {
                 const isEditing = editing[index];
-                const isLast = items.length === index + 1;
 
                 return isReviewMode || isEditing ? (
                   <tr key={index}>
@@ -392,7 +390,6 @@ const ItemLoop = ({
                         item={item}
                         index={index}
                         title={title}
-                        isLast={isLast}
                         items={items}
                         schema={schema}
                         uiSchema={uiSchema}
@@ -423,7 +420,6 @@ const ItemLoop = ({
         ) : (
           items.map((item, index) => {
             const isEditing = editing[index];
-            const isLast = items.length === index + 1;
 
             return isReviewMode || isEditing ? (
               <InputSection
@@ -431,7 +427,6 @@ const ItemLoop = ({
                 item={item}
                 index={index}
                 title={title}
-                isLast={isLast}
                 items={items}
                 schema={schema}
                 uiSchema={uiSchema}
