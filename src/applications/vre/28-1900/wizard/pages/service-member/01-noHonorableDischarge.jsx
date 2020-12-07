@@ -1,7 +1,9 @@
 import React from 'react';
 import { serviceMemberPathPageNames } from '../pageList';
+import { recordNotificationEvent } from '../helpers';
 
 const NoHonorableDischargeSM = () => {
+  recordNotificationEvent('ineligibility - recieved an honorable discharge');
   return (
     <div className="feature vads-u-background-color--gray-lightest">
       <p>

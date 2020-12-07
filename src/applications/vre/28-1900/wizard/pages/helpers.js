@@ -15,3 +15,10 @@ export const handleChangeAndPageSet = (setPageState, value, options) => {
     'form-field-value': optionText,
   });
 };
+
+export const recordNotificationEvent = description => {
+  recordEvent({
+    event: 'howToWizard-alert-displayed',
+    'reason-for-alert': description,
+  });
+};

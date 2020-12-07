@@ -1,8 +1,10 @@
 import React from 'react';
 import { veteranPathPageNames } from '../pageList';
 import { CAREERS_EMPLOYMENT_ROOT_URL } from 'applications/vre/28-1900/constants';
+import { recordNotificationEvent } from '../helpers';
 
 const NoDisabilityRating = () => {
+  recordNotificationEvent('ineligibility - does not have disability rating');
   return (
     <div className="feature vads-u-background-color--gray-lightest">
       <p>

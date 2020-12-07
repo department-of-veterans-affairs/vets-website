@@ -1,7 +1,6 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { veteranPathPageNames } from '../pageList';
-
 import { handleChangeAndPageSet } from '../helpers';
 
 const options = [

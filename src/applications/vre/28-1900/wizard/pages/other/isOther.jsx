@@ -4,6 +4,7 @@ import {
   WIZARD_STATUS_INELIGIBLE,
   CAREERS_EMPLOYMENT_ROOT_URL,
 } from 'applications/vre/28-1900/constants';
+import { recordNotificationEvent } from '../helpers';
 
 const AmOther = props => {
   const { setWizardStatus } = props;
@@ -13,6 +14,7 @@ const AmOther = props => {
     },
     [setWizardStatus],
   );
+  recordNotificationEvent('ineligibility - is not a Veteran or Service Member');
   return (
     <div className="feature vads-u-background-color--gray-lightest">
       <p>
