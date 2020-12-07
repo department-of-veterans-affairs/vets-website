@@ -22,6 +22,7 @@ import {
   utilities,
   repayments,
   otherExpenses,
+  resolutionOptions,
 } from '../pages';
 
 const formChapterTitles = {
@@ -29,6 +30,7 @@ const formChapterTitles = {
   householdIncomeTitle: 'Household income',
   householdAssets: 'Household Assets',
   householdExpenses: 'Household Expenses',
+  resolutionOptions: 'Resolution Options',
 };
 
 const formPageTitles = {
@@ -48,6 +50,7 @@ const formPageTitles = {
   utilities: 'Household Utilities',
   repayments: 'Household Repayments',
   otherExpenses: 'Other expenses',
+  resolutionOptions: 'Resolution Options',
 };
 
 const formConfig = {
@@ -197,6 +200,17 @@ const formConfig = {
           title: formPageTitles.otherExpenses,
           uiSchema: otherExpenses.uiSchema,
           schema: otherExpenses.schema,
+        },
+      },
+    },
+    resolutionOptionsChapter: {
+      title: formChapterTitles.resolutionOptions,
+      pages: {
+        [formPageTitles.resolutionOptions]: {
+          path: 'resolution-options',
+          title: formPageTitles.resolutionOptions,
+          uiSchema: resolutionOptions.uiSchema,
+          schema: resolutionOptions.schema,
         },
       },
     },
