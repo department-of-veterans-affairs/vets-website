@@ -197,6 +197,16 @@ export function schema(currentSchema, topicProperty = 'topic') {
         enum: states.USA.map(state => state.value),
         enumNames: states.USA.map(state => state.label),
       },
+      stateOfResidence: {
+        type: 'string',
+        enum: states.USA.map(state => state.value),
+        enumNames: states.USA.map(state => state.label),
+      },
+      stateOfSchool: {
+        type: 'string',
+        enum: states.USA.map(state => state.value),
+        enumNames: states.USA.map(state => state.label),
+      },
     }),
   };
 }
