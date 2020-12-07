@@ -1890,6 +1890,9 @@
             "WI",
             "WY"
           ]
+        },
+        "socialSecurityNumber": {
+          "$ref": "#/definitions/ssn"
         }
       }
     },

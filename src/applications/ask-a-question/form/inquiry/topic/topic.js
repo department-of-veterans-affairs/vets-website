@@ -25,6 +25,7 @@ import {
   vaMedicalCentersLabels,
   vaMedicalCentersValues,
 } from './medicalCenters';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 const topicSchemaCopy = _.clone(fullSchema.properties.topic);
 topicSchemaCopy.anyOf.pop();
@@ -38,6 +39,7 @@ const formFields = {
   showFacilityCode: 'showFacilityCode',
   stateOfResidence: 'stateOfResidence',
   stateOfSchool: 'stateOfSchool',
+  socialSecurityNumber: 'socialSecurityNumber',
 };
 
 const getChildSchemaFromParentTopic = (
@@ -280,6 +282,7 @@ export function uiSchema() {
       'showFacilityCode',
       'stateOfResidence',
       'stateOfSchool',
+      'socialSecurityNumber',
     ],
     [formFields.levelOne]: {
       'ui:title': topicLevelOneTitle,
@@ -376,6 +379,19 @@ export function uiSchema() {
       },
       'ui:errorMessages': {
         required: stateOfSchoolError,
+      },
+    },
+    [formFields.socialSecurityNumber]: {
+      ...ssnUI,
+      'ui:required': formData => {
+        return !!showAdditionalGIBillFields.has(formData.topic.levelTwo);
+      },
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!showAdditionalGIBillFields.has(levelTwo);
+        },
+        widgetClassNames: 'usa-input-medium',
       },
     },
   };
