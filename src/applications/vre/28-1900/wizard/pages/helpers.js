@@ -1,0 +1,17 @@
+import recordEvent from 'platform/monitoring/record-event';
+
+const mapValueToOption = (value, options) => {
+  const optionText = options.filter(option => option.value === value);
+  return optionText[0].label;
+};
+
+export const handleChangeAndPageSet = (setPageState, value, options) => {
+  setPageState({ selected: value }, value);
+  const optionText = mapValueToOption(value, options);
+  recordEvent({
+    event: 'howToWizard-formChange',
+    'form-field-type': 'form-radio-buttons',
+    'form-field-label': 'Which of these describes you?',
+    'form-field-value': optionText,
+  });
+};
