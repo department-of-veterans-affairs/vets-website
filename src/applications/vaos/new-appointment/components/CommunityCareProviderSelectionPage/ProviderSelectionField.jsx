@@ -3,11 +3,10 @@ import { selectProviderSelectionInfo } from '../../../utils/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import ErrorMessage from '../../../components/ErrorMessage';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -19,6 +18,8 @@ function ProviderSelectionField({
   requestStatus,
   requestProvidersList,
   communityCareProviderList,
+  updateFacilitySortMethod,
+  schema,
 }) {
   const [checkedProvider, setCheckedProvider] = useState();
   const [mounted, setMounted] = useState(false);
@@ -108,16 +109,36 @@ function ProviderSelectionField({
           <ResidentialAddress address={address} />
           {loadingProviders && (
             <div className="vads-u-padding-bottom--2">
-              <LoadingIndicator message="Loading the list of providers" />
+              <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
             </div>
           )}
           {requestStatus === FETCH_STATUS.failed && (
             <div className="vads-u-padding-bottom--2">
-              <ErrorMessage />
+              <div className="usa-alert-body">
+                Your browser is blocked from finding your current location. Make
+                sure your browser’s location feature is turned on. If it isn’t
+                enabled, we’ll sort your VA facilities using your home address
+                that’s on file.
+              </div>
             </div>
           )}
           {requestStatus === FETCH_STATUS.succeeded && (
             <>
+              <p>
+                Or,{' '}
+                <button
+                  className="va-button-link"
+                  onClick={() => {
+                    updateFacilitySortMethod(
+                      FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                      {},
+                      true,
+                    );
+                  }}
+                >
+                  use your current location
+                </button>
+              </p>
               <p>
                 Displaying 1 to {currentlyShownProvidersList.length} of{' '}
                 {communityCareProviderList.length} providers
@@ -227,6 +248,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   requestProvidersList: actions.requestProvidersList,
+  updateFacilitySortMethod: actions.updateFacilitySortMethod,
 };
 
 export default connect(

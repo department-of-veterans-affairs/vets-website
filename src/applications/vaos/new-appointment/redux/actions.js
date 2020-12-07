@@ -23,6 +23,7 @@ import {
   getCCEType,
   selectIsCernerOnlyPatient,
   selectUseFlatFacilityPage,
+  getCommunityCareFacilities,
 } from '../../utils/selectors';
 import {
   getPreferences,
@@ -186,6 +187,8 @@ export const FORM_REQUESTED_PROVIDERS_SUCCEEDED =
   'newAppointment/FORM_REQUESTED_PROVIDERS_SUCCEEDED';
 export const FORM_REQUESTED_PROVIDERS_FAILED =
   'newAppointment/FORM_REQUESTED_PROVIDERS_FAILED';
+export const FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED =
+  'newAppointment/FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -453,16 +456,23 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   };
 }
 
-export function updateFacilitySortMethod(sortMethod, uiSchema) {
+export function updateFacilitySortMethod(sortMethod, uiSchema, isCC = false) {
   return async (dispatch, getState) => {
     let location = null;
-    const facilities = getTypeOfCareFacilities(getState());
+    const facilities = isCC
+      ? getCommunityCareFacilities(getState())
+      : getTypeOfCareFacilities(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distancefromCurrentLocation,
     );
 
+    let type = FORM_PAGE_FACILITY_SORT_METHOD_UPDATED;
+    if (isCC) {
+      type = FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED;
+    }
+
     const action = {
-      type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+      type,
       sortMethod,
       uiSchema,
     };
@@ -1132,6 +1142,7 @@ export function requestProvidersList(address) {
       dispatch({
         type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
         communityCareProviderList,
+        address,
       });
     } catch (e) {
       captureError(e);

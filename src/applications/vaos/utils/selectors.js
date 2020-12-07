@@ -753,3 +753,7 @@ export function getExpressCareFormPageInfo(state, pageKey) {
     pageChangeInProgress: newRequest.pageChangeInProgress,
   };
 }
+
+export function getCommunityCareFacilities(state) {
+  return getNewAppointment(state).communityCareProviderList;
+}

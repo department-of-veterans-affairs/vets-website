@@ -23,6 +23,7 @@ import {
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+  FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED,
   FORM_REQUEST_CURRENT_LOCATION,
   FORM_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
@@ -412,6 +413,74 @@ export default function formReducer(state = initialState, action) {
         requestLocationStatus: FETCH_STATUS.loading,
       };
     }
+    case FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED: {
+      const formData = state.data;
+      const sortMethod = action.sortMethod;
+      const location = action.location;
+      let typeOfCareFacilities = state.communityCareProviderList;
+      let newSchema = state.pages.vaFacilityV2;
+      let requestLocationStatus = state.requestLocationStatus;
+
+      if (location && typeOfCareFacilities?.length) {
+        const { coords } = location;
+        const { latitude, longitude } = coords;
+
+        if (latitude && longitude) {
+          typeOfCareFacilities = typeOfCareFacilities.map(facility => {
+            const distancefromCurrentLocation = distanceBetween(
+              latitude,
+              longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                // ...facility.legacyVAR,
+                distancefromCurrentLocation,
+              },
+            };
+          });
+        }
+
+        requestLocationStatus = FETCH_STATUS.succeeded;
+      }
+
+      if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
+        typeOfCareFacilities = typeOfCareFacilities.sort(
+          (a, b) => a.name - b.name,
+        );
+      }
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: typeOfCareFacilities.map(facility => facility.id),
+          enumNames: typeOfCareFacilities,
+        },
+        newSchema,
+      );
+
+      const { schema } = updateSchemaAndData(
+        newSchema,
+        action.uiSchema,
+        formData,
+      );
+
+      return {
+        ...state,
+        pages: {
+          ...state.pages,
+          ccPreferences: schema,
+        },
+        // childFacilitiesStatus: FETCH_STATUS.succeeded,
+        facilityPageSortMethod: sortMethod,
+        requestLocationStatus,
+      };
+    }
+
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
       const formData = state.data;
       const typeOfCareId = getTypeOfCare(formData).id;
@@ -1079,10 +1148,39 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
+      let myCommunityCareProviderList = action.communityCareProviderList;
+      const myAddress = action.address;
+      const myHasResidentialCoordinates =
+        !!action.address?.latitude && !!action.address?.longitude;
+      const sortMethod = myHasResidentialCoordinates
+        ? FACILITY_SORT_METHODS.distanceFromResidential
+        : FACILITY_SORT_METHODS.alphabetical;
+
+      if (myHasResidentialCoordinates) {
+        myCommunityCareProviderList = myCommunityCareProviderList
+          .map(facility => {
+            const distanceFromResidentialAddress = distanceBetween(
+              myAddress.latitude,
+              myAddress.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromResidentialAddress,
+              },
+            };
+          })
+          .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
+      }
+
       return {
         ...state,
         requestStatus: FETCH_STATUS.succeeded,
-        communityCareProviderList: action.communityCareProviderList,
+        communityCareProviderList: myCommunityCareProviderList,
       };
     }
     case FORM_REQUESTED_PROVIDERS_FAILED: {
