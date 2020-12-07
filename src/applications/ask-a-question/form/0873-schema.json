@@ -1753,6 +1753,9 @@
             "WI",
             "WY"
           ]
+        },
+        "showFacilityCode": {
+          "type": "string"
         }
       }
     },

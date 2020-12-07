@@ -16,6 +16,8 @@ export const topicLevelTwoError = 'Please enter your topic';
 export const topicLevelThreeError = 'Please enter your subtopic';
 export const medicalCenterError = 'Please enter your medical center';
 export const routeToStateError = 'Please enter your state';
+export const showFacilityCodeError = 'Please enter your valid facility code';
+export const showFacilityCodeLabel = 'Show Facility Code (FAC)';
 export const inquiryTypeError = "Please enter the reason you're contacting us";
 export const queryError = 'Please enter your message';
 

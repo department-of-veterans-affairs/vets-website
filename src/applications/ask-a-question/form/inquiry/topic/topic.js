@@ -6,7 +6,7 @@ import fullSchema from '../../0873-schema.json';
 import {
   medicalCenterError,
   routeToStateError,
-  routeToStateTitle,
+  routeToStateTitle, showFacilityCodeError, showFacilityCodeLabel,
   topicLevelOneError,
   topicLevelOneTitle,
   topicLevelThreeError,
@@ -29,6 +29,7 @@ const formFields = {
   levelThree: 'levelThree',
   vaMedicalCenter: 'vaMedicalCenter',
   routeToState: 'routeToState',
+  showFacilityCode: 'showFacilityCode'
 };
 
 const getChildSchemaFromParentTopic = (
@@ -127,6 +128,20 @@ export const medicalCenterRequiredTopics = new Set([
 export const routeToStateRequiredTopics = new Set([
   'Home Loan/Mortgage Guaranty Issues',
 ]);
+
+export const showFacilityCodeField = new Set([
+  'School Officials Only',
+]);
+
+export function validateFacilityCode(errors, facilityCode) {
+  if (facilityCode && !isValidFacilityCode(facilityCode)) {
+    errors.addError(showFacilityCodeError);
+  }
+}
+
+export function isValidFacilityCode(value) {
+  return /^[a-zA-Z0-9]{0,8}$/.test(value)
+}
 
 export function schema(currentSchema, topicProperty = 'topic') {
   const topicSchema = currentSchema.properties[topicProperty];
@@ -236,6 +251,7 @@ export function uiSchema() {
       'levelThree',
       'vaMedicalCenter',
       'routeToState',
+      'showFacilityCode'
     ],
     [formFields.levelOne]: {
       'ui:title': topicLevelOneTitle,
@@ -293,6 +309,16 @@ export function uiSchema() {
       'ui:errorMessages': {
         required: routeToStateError,
       },
+    },
+    [formFields.showFacilityCode]: {
+      'ui:title': showFacilityCodeLabel,
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!showFacilityCodeField.has(levelTwo);
+        },
+      },
+      'ui:validations': [validateFacilityCode],
     },
   };
 }
