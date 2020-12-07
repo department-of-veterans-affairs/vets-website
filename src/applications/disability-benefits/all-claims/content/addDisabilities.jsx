@@ -4,21 +4,24 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const autoSuggestTitle = (
-  <p>
-    If you know the name of your condition, you can type it here. You can write
-    whatever you want and we’ll make suggestions for possible disabilities.
-    (Shorter descriptions are better. For example, foot pain, back pain, or
-    hearing loss.)
-  </p>
+  <>
+    <p>
+      If you know the name of your condition, you can enter it below. If you’re
+      not sure of the name, you can enter what you want and we’ll suggest a list
+      of conditions. (When entering a condition name, we recommend you use
+      shorter descriptions. For example, foot pain, back pain, or hearing loss.)
+    </p>
+    You don’t have to choose one of the suggested conditions.
+  </>
 );
 
 export const descriptionInfo = (
   <div>
     <AdditionalInfo triggerText="What if I don’t know the name of my condition?">
       <p>
-        If you don’t know the name of your condition or aren’t finding a match,
-        you can type in your symptoms and we’ll help you figure out the name of
-        your condition during the exam process.
+        If you don’t know the name of your condition or aren’t finding a match
+        from the list, enter your symptoms and we’ll help you figure out the
+        name of your condition during the exam process.
       </p>
       <p>Shorter descriptions are better. For example:</p>
       <ul>
