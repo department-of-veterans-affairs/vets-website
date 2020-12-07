@@ -54,9 +54,17 @@ export default {
       pattern: 'Please enter a valid phone number',
     },
   },
+  contactPreference: {
+    'ui:title': 'Do you have a preference for contacting you?',
+    'ui:widget': 'yesNo',
+    'ui:errorMessages': {
+      required: 'Please select an option',
+    },
+  },
   contactMethod: {
     'ui:title': 'Contact method',
     'ui:widget': 'radio',
+    'ui:required': formData => formData.contactPreference,
     'ui:errorMessages': {
       required: 'Please select a contact method',
     },
@@ -65,6 +73,8 @@ export default {
         phone: 'Phone',
         email: 'Email',
       },
+      hideIf: formData => !formData.contactPreference,
+      expandUnder: 'contactPreference',
     },
   },
   vaccineInterest: {

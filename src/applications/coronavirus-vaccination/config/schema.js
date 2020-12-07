@@ -7,7 +7,7 @@ export default {
     'phone',
     'birthDate',
     'vaccineInterest',
-    'contactMethod',
+    'contactPreference',
   ],
   properties: {
     isIdentityVerified: {
@@ -33,6 +33,9 @@ export default {
     phone: {
       type: 'string',
       pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
+    },
+    contactPreference: {
+      type: 'boolean',
     },
     contactMethod: {
       type: 'string',
