@@ -36,12 +36,12 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
       },
       routingNumber: {
         ...bankAccountUI.routingNumber,
-        'ui:title': 'Bank routing number',
+        'ui:title': 'Bank routing number (No more than 9 digits)',
         'ui:required': useDirectDeposit,
       },
       accountNumber: {
         ...bankAccountUI.accountNumber,
-        'ui:title': 'Bank account number',
+        'ui:title': 'Bank account number (No more than 17 digits)',
         'ui:required': useDirectDeposit,
       },
       'ui:options': {
