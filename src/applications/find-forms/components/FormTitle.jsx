@@ -1,5 +1,5 @@
 import React from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const FormTitle = ({ id, formUrl, title }) => (
   <dt
@@ -35,9 +35,9 @@ const FormTitle = ({ id, formUrl, title }) => (
 );
 
 FormTitle.propTypes = {
-  id: Proptypes.string.isRequired,
-  formUrl: Proptypes.string,
-  title: Proptypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  formUrl: PropTypes.string,
+  title: PropTypes.string.isRequired,
 };
 
 export default FormTitle;
