@@ -11,17 +11,17 @@ import {
   eligibilityChange,
   showModal,
   hideModal,
-} from '../actions';
+} from '../../gi/actions';
 
-import VideoSidebar from '../components/content/VideoSidebar';
-import KeywordSearch from '../components/search/KeywordSearch';
-import BenefitNotification from '../components/content/BenefitNotification';
-import LandingPageTypeOfInstitutionFilter from '../components/search/LandingPageTypeOfInstitutionFilter';
-import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
-import { calculateFilters } from '../selectors/search';
-import { isVetTecSelected, useQueryParams } from '../utils/helpers';
+import VideoSidebar from '../../gi/components/content/VideoSidebar';
+import KeywordSearch from '../../gi/components/search/KeywordSearch';
+import BenefitNotification from '../../gi/components/content/BenefitNotification';
+import LandingPageTypeOfInstitutionFilter from '../../gi/components/search/LandingPageTypeOfInstitutionFilter';
+import OnlineClassesFilter from '../../gi/components/search/OnlineClassesFilter';
+import { calculateFilters } from '../../gi/selectors/search';
+import { isVetTecSelected, useQueryParams } from '../../gi/utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
-import BenefitsForm from '../components/profile/BenefitsForm';
+import BenefitsForm from '../../gi/components/profile/BenefitsForm';
 
 export function LandingPage({
   autocomplete,

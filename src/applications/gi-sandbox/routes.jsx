@@ -1,8 +1,8 @@
 import GiBillApp from './containers/GiBillApp';
 import LandingPage from './containers/LandingPage';
-import SearchPage from './containers/SearchPage';
-import VetTecSearchPage from './containers/VetTecSearchPage';
-import ProfilePage from './containers/ProfilePage';
+import SearchPage from '../gi/containers/SearchPage';
+import VetTecSearchPage from '../gi/containers/VetTecSearchPage';
+import ProfilePage from '../gi/containers/ProfilePage';
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 

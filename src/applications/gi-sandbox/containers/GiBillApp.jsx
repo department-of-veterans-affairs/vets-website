@@ -5,14 +5,18 @@ import { useLocation } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
-import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
-import Modals from '../containers/Modals';
-import PreviewBanner from '../components/heading/PreviewBanner';
-import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
-import AboutThisTool from '../components/content/AboutThisTool';
-import ServiceError from '../components/ServiceError';
-import Covid19Banner from '../components/heading/Covid19Banner';
-import { useQueryParams } from '../utils/helpers';
+import {
+  enterPreviewMode,
+  exitPreviewMode,
+  fetchConstants,
+} from '../../gi/actions';
+import Modals from '../../gi/containers/Modals';
+import PreviewBanner from '../../gi/components/heading/PreviewBanner';
+import GiBillBreadcrumbs from '../../gi/components/heading/GiBillBreadcrumbs';
+import AboutThisTool from '../../gi/components/content/AboutThisTool';
+import ServiceError from '../../gi/components/ServiceError';
+import Covid19Banner from '../../gi/components/heading/Covid19Banner';
+import { useQueryParams } from '../../gi/utils/helpers';
 
 export function GiBillApp({
   children,
