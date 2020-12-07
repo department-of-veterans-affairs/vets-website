@@ -1,57 +1,213 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import React, { useState, useEffect } from 'react';
+import _ from 'lodash/fp';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-
-import {
-  toIdSchema,
-  getDefaultFormState,
-  deepEquals,
-} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-
 import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
+import {
+  toIdSchema,
+  getDefaultFormState,
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-const Element = Scroll.Element;
+const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
 
-/* Non-review growable table (array) field */
-export default class ItemLoop extends React.Component {
-  constructor(props) {
-    super(props);
+const Header = ({
+  title,
+  hideTitle,
+  idSchema,
+  formContext,
+  uiSchema,
+  description,
+  registry,
+}) => {
+  const { TitleField } = registry.fields;
+  const textDescription = typeof description === 'string' ? description : null;
+  const DescriptionField =
+    typeof description === 'function' ? uiSchema['ui:description'] : null;
 
+  return (
+    <div className="schemaform-block-header">
+      {title && !hideTitle ? (
+        <TitleField
+          id={`${idSchema.$id}__title`}
+          title={title}
+          formContext={formContext}
+        />
+      ) : null}
+      {textDescription && <p>{textDescription}</p>}
+      {DescriptionField && (
+        <DescriptionField options={uiSchema['ui:options']} />
+      )}
+      {!textDescription && !DescriptionField && description}
+    </div>
+  );
+};
+
+const InputSection = ({
+  title,
+  items,
+  schema,
+  uiSchema,
+  index,
+  errorSchema,
+  handleChange,
+  item,
+  onBlur,
+  registry,
+  disabled,
+  readonly,
+  handleUpdate,
+  handleRemove,
+  idSchema,
+}) => {
+  const showSave = uiSchema['ui:options'].showSave;
+  const updateText = showSave ? 'Save' : 'Update';
+  const notLastOrMultipleRows = showSave || items.length > 1;
+  const { SchemaField } = registry.fields;
+  const itemIdPrefix = `${idSchema.$id}_${index}`;
+
+  const getItemSchema = i => {
+    if (schema.items.length > i) {
+      return schema.items[i];
+    }
+    return schema.additionalItems;
+  };
+
+  const itemSchema = getItemSchema(index);
+  const itemIdSchema = toIdSchema(
+    itemSchema,
+    itemIdPrefix,
+    registry.definitions,
+  );
+
+  return (
+    <div
+      className={
+        notLastOrMultipleRows
+          ? 'va-growable-background vads-u-margin-bottom--2'
+          : null
+      }
+    >
+      <ScrollElement name={`table_${itemIdPrefix}`} />
+      <div className="row small-collapse">
+        <div className="small-12 columns va-growable-expanded">
+          {items.length > 1 && uiSchema['ui:options'].itemName ? (
+            <h3 className="vads-u-font-size--h5">
+              New {uiSchema['ui:options'].itemName}
+            </h3>
+          ) : null}
+          <div className="input-section">
+            <SchemaField
+              schema={itemSchema}
+              uiSchema={uiSchema.items}
+              errorSchema={errorSchema ? errorSchema[index] : undefined}
+              idSchema={itemIdSchema}
+              formData={item}
+              onBlur={onBlur}
+              registry={registry}
+              disabled={disabled}
+              readonly={readonly}
+              onChange={value => handleChange(index, value)}
+              required={false}
+            />
+          </div>
+          {notLastOrMultipleRows && (
+            <div className="row small-collapse">
+              <div className="small-6 left columns">
+                {showSave && (
+                  <button
+                    className="float-left"
+                    onClick={e => handleUpdate(e, index)}
+                    aria-label={`${updateText} ${title}`}
+                  >
+                    {updateText}
+                  </button>
+                )}
+              </div>
+              <div className="small-6 right columns">
+                {index !== 0 && (
+                  <button
+                    className="usa-button-secondary float-right"
+                    type="button"
+                    onClick={() => handleRemove(index)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AddAnotherButton = ({
+  formData,
+  addAnotherDisabled,
+  uiOptions,
+  handleAdd,
+}) => (
+  <>
+    <button
+      type="button"
+      className={classNames(
+        'usa-button-secondary',
+        'va-growable-add-btn',
+        'vads-u-margin-top--4',
+        {
+          'usa-button-disabled': !formData || addAnotherDisabled,
+        },
+      )}
+      disabled={!formData || addAnotherDisabled}
+      onClick={() => handleAdd()}
+    >
+      Add another {uiOptions.itemName}
+    </button>
+    <p>
+      {addAnotherDisabled &&
+        `You’ve entered the maximum number of items allowed.`}
+    </p>
+  </>
+);
+
+const ItemLoop = ({
+  uiSchema,
+  idSchema,
+  schema,
+  onChange,
+  registry,
+  formData,
+  errorSchema,
+  formContext,
+  disabled,
+  readonly,
+  onBlur,
+}) => {
+  const uiOptions = uiSchema['ui:options'] || {};
+  const title = uiSchema['ui:title'] || schema.title;
+  const hideTitle = !!uiOptions.title;
+  const isReviewMode = uiSchema['ui:options'].reviewMode;
+  const description = uiSchema['ui:description'];
+  const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
+  const ViewField = uiOptions.viewField;
+
+  const [editing, setEditing] = useState([true]);
+  const [showTable, setShowTable] = useState(false);
+
+  useEffect(() => {
     // Throw an error if there’s no viewField (should be React component)
-    if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
+    if (typeof uiSchema['ui:options'].viewField !== 'function') {
       throw new Error(
-        `No viewField found in uiSchema for ArrayField ${
-          this.props.idSchema.$id
-        }.`,
+        `No viewField found in uiSchema for ArrayField ${idSchema.$id}.`,
       );
     }
-
-    /*
-     * We’re keeping the editing state in local state because it’s easier to manage and
-     * doesn’t need to persist from page to page
-     */
-
-    this.state = {
-      editing: props.formData
-        ? props.formData.map(
-            (item, index) => !errorSchemaIsValid(props.errorSchema[index]),
-          )
-        : [true],
-    };
-  }
-  // This fills in an empty item in the array if it has minItems set
-  // so that schema validation runs against the fields in the first item
-  // in the array. This shouldn’t be necessary, but there’s a fix in rjsf
-  // that has not been released yet
-  componentDidMount() {
-    const { schema, formData = [], registry } = this.props;
     if (schema.minItems > 0 && formData.length === 0) {
-      this.props.onChange(
+      onChange(
         Array(schema.minItems).fill(
           getDefaultFormState(
             schema.additionalItems,
@@ -61,42 +217,38 @@ export default class ItemLoop extends React.Component {
         ),
       );
     }
-  }
+  });
 
-  shouldComponentUpdate = (nextProps, nextState) => {
-    return !deepEquals(this.props, nextProps) || nextState !== this.state;
-  };
+  useEffect(
+    () => {
+      const isEditing = formData
+        ? formData.map((item, index) => !errorSchemaIsValid(errorSchema[index]))
+        : [true];
+      if (formData?.length !== editing.length) {
+        setEditing(isEditing);
+      }
+    },
+    [errorSchema, formData, editing.length],
+  );
 
-  onItemChange = (indexToChange, value) => {
-    const newItems = _.set(indexToChange, value, this.props.formData || []);
-    this.props.onChange(newItems);
-  };
-
-  getItemSchema = index => {
-    const schema = this.props.schema;
-    if (schema.items.length > index) {
-      return schema.items[index];
+  const scrollToTop = () => {
+    if (!uiSchema['ui:options'].doNotScroll) {
+      setTimeout(() => {
+        scroller.scrollTo(
+          `topOfTable_${idSchema.$id}`,
+          window.Forms?.scroll || {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+            offset: -60,
+          },
+        );
+      }, 100);
     }
-
-    return schema.additionalItems;
   };
 
-  scrollToTop = () => {
-    setTimeout(() => {
-      scroller.scrollTo(
-        `topOfTable_${this.props.idSchema.$id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: -60,
-        },
-      );
-    }, 100);
-  };
-
-  scrollToRow = id => {
-    if (!this.props.uiSchema['ui:options'].doNotScroll) {
+  const scrollToRow = id => {
+    if (!uiSchema['ui:options'].doNotScroll) {
       setTimeout(() => {
         scroller.scrollTo(
           `table_${id}`,
@@ -111,271 +263,207 @@ export default class ItemLoop extends React.Component {
     }
   };
 
-  /*
-   * Clicking edit on an item that’s not last and so is in view mode
-   */
-  handleEdit = (index, status = true) => {
-    this.setState(_.set(['editing', index], status, this.state), () => {
-      this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
-    });
+  const handleChange = (index, value) => {
+    const newItems = _.set(index, value, formData || []);
+    onChange(newItems);
   };
 
-  /*
-   * Clicking Update on an item that’s not last and is in edit mode
-   */
-  handleUpdate = index => {
-    if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editing', index], false, this.state), () => {
-        this.scrollToTop();
+  const handleEdit = (e, index) => {
+    e.preventDefault();
+    const editData = editing.map((item, i) => {
+      if (i === index) {
+        return true;
+      }
+      return false;
+    });
+    setEditing(editData);
+    scrollToRow(`${idSchema.$id}_${index}`);
+  };
+
+  const handleUpdate = (e, index) => {
+    e.preventDefault();
+    setShowTable(true);
+    if (errorSchemaIsValid(errorSchema[index])) {
+      const editData = editing.map(() => {
+        return false;
       });
+      setEditing(editData);
+      scrollToRow(`${idSchema.$id}_${index}`);
     } else {
       // Set all the fields for this item as touched, so we show errors
-      const touched = setArrayRecordTouched(this.props.idSchema.$id, index);
-      this.props.formContext.setTouched(touched, () => {
+      const touched = setArrayRecordTouched(idSchema.$id, index);
+      formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
     }
   };
 
-  /*
-   * Clicking Add another
-   */
-  handleAdd = () => {
-    const lastIndex = this.props.formData.length - 1;
-    if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
-      // When we add another, we want to change the editing state of the currently
-      // last item, but not ones above it
-      const newEditing = this.state.editing.map(
-        (val, index) => (index + 1 === this.state.editing.length ? false : val),
+  const handleAdd = () => {
+    const lastIndex = formData.length - 1;
+    if (errorSchemaIsValid(errorSchema[lastIndex])) {
+      const editData = editing.map(() => {
+        return false;
+      });
+
+      setShowTable(true);
+      setEditing([...editData, true]);
+
+      const newFormData = formData.concat(
+        getDefaultFormState(
+          schema.additionalItems,
+          undefined,
+          registry.definitions,
+        ),
       );
-      const editingState = this.props.uiSchema['ui:options'].reviewMode;
-      const newState = _.assign(this.state, {
-        editing: newEditing.concat(!!editingState),
-      });
-      this.setState(newState, () => {
-        const newFormData = this.props.formData.concat(
-          getDefaultFormState(
-            this.props.schema.additionalItems,
-            undefined,
-            this.props.registry.definitions,
-          ) || {},
-        );
-        this.props.onChange(newFormData);
-        this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
-      });
+      onChange(newFormData);
+      scrollToRow(`${idSchema.$id}_${lastIndex + 1}`);
     } else {
-      const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
-      this.props.formContext.setTouched(touched, () => {
+      const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
+      formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
     }
   };
 
-  /*
-   * Clicking Remove on an item in edit mode
-   */
-  handleRemove = indexToRemove => {
-    const newItems = this.props.formData.filter(
-      (val, index) => index !== indexToRemove,
-    );
-    const newState = _.assign(this.state, {
-      editing: this.state.editing.filter(
-        (val, index) => index !== indexToRemove,
-      ),
-    });
-    this.props.onChange(newItems);
-    this.setState(newState, () => {
-      this.scrollToTop();
-    });
+  const handleRemove = index => {
+    const newItems = formData.filter((item, i) => index !== i);
+    const filtered = editing.filter((item, i) => index !== i);
+    setEditing(filtered);
+    onChange(newItems);
+    scrollToTop();
   };
 
-  render() {
-    const {
-      uiSchema,
-      errorSchema,
-      idSchema,
-      formData,
-      disabled,
-      readonly,
-      registry,
-      formContext,
-      onBlur,
-      schema,
-    } = this.props;
-    const definitions = registry.definitions;
-    const { TitleField, SchemaField } = registry.fields;
+  // use form data otherwise use an array with a single default object
+  const items =
+    formData && formData.length
+      ? formData
+      : [getDefaultFormState(schema, undefined, registry.definitions)];
 
-    const uiOptions = uiSchema['ui:options'] || {};
-    const ViewField = uiOptions.viewField;
-    const title = uiSchema['ui:title'] || schema.title;
-    const hideTitle = !!uiOptions.title;
-    const description = uiSchema['ui:description'];
-    const textDescription =
-      typeof description === 'string' ? description : null;
-    const DescriptionField =
-      typeof description === 'function' ? uiSchema['ui:description'] : null;
-    const isReviewMode = uiSchema['ui:options'].reviewMode;
-    const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
+  const containerClassNames = classNames({
+    'schemaform-field-container': true,
+    'schemaform-block': hasTitleOrDescription,
+  });
 
-    // if we have form data, use that, otherwise use an array with a single default object
-    const items =
-      formData && formData.length
-        ? formData
-        : [getDefaultFormState(schema, undefined, registry.definitions)];
-    const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
+  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
-    const containerClassNames = classNames({
-      'schemaform-field-container': true,
-      'schemaform-block': hasTitleOrDescription,
-    });
+  return (
+    <div className={containerClassNames}>
+      {hasTitleOrDescription && (
+        <Header
+          title={title}
+          hideTitle={hideTitle}
+          idSchema={idSchema}
+          formContext={formContext}
+          uiSchema={uiSchema}
+          description={description}
+          registry={registry}
+        />
+      )}
+      <div className="va-growable">
+        <ScrollElement name={`topOfTable_${idSchema.$id}`} />
 
-    return (
-      <div className={containerClassNames}>
-        {hasTitleOrDescription && (
-          <div className="schemaform-block-header">
-            {title && !hideTitle ? (
-              <TitleField
-                id={`${idSchema.$id}__title`}
+        {uiOptions.viewType === 'table' ? (
+          <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
+            {showTable && (
+              <thead className="vads-u-border-bottom--1px">
+                <tr>
+                  <th className="vads-u-border--0 vads-u-padding-left--3">
+                    Type of utility
+                  </th>
+                  <th className="vads-u-border--0">Monthly payment amount</th>
+                  <th className="vads-u-border--0" />
+                </tr>
+              </thead>
+            )}
+            <tbody>
+              {items.map((item, index) => {
+                const isEditing = editing[index];
+
+                return isReviewMode || isEditing ? (
+                  <tr key={index}>
+                    <td
+                      className="vads-u-border--0 vads-u-padding--0"
+                      colSpan="3"
+                    >
+                      <InputSection
+                        key={index}
+                        item={item}
+                        index={index}
+                        title={title}
+                        items={items}
+                        schema={schema}
+                        uiSchema={uiSchema}
+                        idSchema={idSchema}
+                        onBlur={onBlur}
+                        registry={registry}
+                        disabled={disabled}
+                        readonly={readonly}
+                        errorSchema={errorSchema}
+                        handleChange={handleChange}
+                        handleUpdate={handleUpdate}
+                        handleRemove={handleRemove}
+                      />
+                    </td>
+                  </tr>
+                ) : (
+                  <ViewField
+                    key={index}
+                    formData={item}
+                    index={index}
+                    title={title}
+                    onEdit={e => handleEdit(e, index)}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          items.map((item, index) => {
+            const isEditing = editing[index];
+
+            return isReviewMode || isEditing ? (
+              <InputSection
+                key={index}
+                item={item}
+                index={index}
                 title={title}
-                formContext={formContext}
+                items={items}
+                schema={schema}
+                uiSchema={uiSchema}
+                idSchema={idSchema}
+                onBlur={onBlur}
+                registry={registry}
+                disabled={disabled}
+                readonly={readonly}
+                errorSchema={errorSchema}
+                handleChange={handleChange}
+                handleUpdate={handleUpdate}
+                handleRemove={handleRemove}
               />
-            ) : null}
-            {textDescription && <p>{textDescription}</p>}
-            {DescriptionField && (
-              <DescriptionField options={uiSchema['ui:options']} />
-            )}
-            {!textDescription && !DescriptionField && description}
-          </div>
+            ) : (
+              <ViewField
+                key={index}
+                formData={item}
+                index={index}
+                title={title}
+                onEdit={e => handleEdit(e, index)}
+              />
+            );
+          })
         )}
-        <div className="va-growable">
-          <Element name={`topOfTable_${idSchema.$id}`} />
-          {items.map((item, index) => {
-            // This is largely copied from the default ArrayField
-            const itemSchema = this.getItemSchema(index);
-            const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(
-              itemSchema,
-              itemIdPrefix,
-              definitions,
-            );
-            const showSave = uiSchema['ui:options'].showSave;
-            const updateText = showSave && index === 0 ? 'Save' : 'Update';
-            const isLast = items.length === index + 1;
-            const isEditing = this.state.editing[index];
-            const notLastOrMultipleRows =
-              showSave || !isLast || items.length > 1;
 
-            if (isReviewMode ? isEditing : isLast || isEditing) {
-              return (
-                <div
-                  key={index}
-                  className={
-                    notLastOrMultipleRows ? 'va-growable-background' : null
-                  }
-                >
-                  <Element name={`table_${itemIdPrefix}`} />
-                  <div className="row small-collapse">
-                    <div className="small-12 columns va-growable-expanded">
-                      {isLast &&
-                      items.length > 1 &&
-                      uiSchema['ui:options'].itemName ? (
-                        <h3 className="vads-u-font-size--h5">
-                          New {uiSchema['ui:options'].itemName}
-                        </h3>
-                      ) : null}
-                      <div className="input-section">
-                        <SchemaField
-                          key={index}
-                          schema={itemSchema}
-                          uiSchema={uiSchema.items}
-                          errorSchema={
-                            errorSchema ? errorSchema[index] : undefined
-                          }
-                          idSchema={itemIdSchema}
-                          formData={item}
-                          onChange={value => this.onItemChange(index, value)}
-                          onBlur={onBlur}
-                          registry={this.props.registry}
-                          required={false}
-                          disabled={disabled}
-                          readonly={readonly}
-                        />
-                      </div>
-                      {notLastOrMultipleRows && (
-                        <div className="row small-collapse">
-                          <div className="small-6 left columns">
-                            {(!isLast || showSave) && (
-                              <button
-                                className="float-left"
-                                onClick={() => this.handleUpdate(index)}
-                                aria-label={`${updateText} ${title}`}
-                              >
-                                {updateText}
-                              </button>
-                            )}
-                          </div>
-                          <div className="small-6 right columns">
-                            {index !== 0 && (
-                              <button
-                                className="usa-button-secondary float-right"
-                                type="button"
-                                onClick={() => this.handleRemove(index)}
-                              >
-                                Remove
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-            return (
-              <div key={index} className="va-growable-background editable-row">
-                <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
-                  <div className="vads-u-flex--fill">
-                    <ViewField
-                      formData={item}
-                      onEdit={() => this.handleEdit(index)}
-                    />
-                  </div>
-                  <button
-                    className="usa-button-secondary edit vads-u-flex--auto"
-                    onClick={() => this.handleEdit(index)}
-                    aria-label={`Edit ${title}`}
-                  >
-                    Edit
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-          <button
-            type="button"
-            className={classNames(
-              'usa-button-secondary',
-              'va-growable-add-btn',
-              {
-                'usa-button-disabled':
-                  !this.props.formData || addAnotherDisabled,
-              },
-            )}
-            disabled={!this.props.formData || addAnotherDisabled}
-            onClick={this.handleAdd}
-          >
-            Add another {uiOptions.itemName}
-          </button>
-          <p>
-            {addAnotherDisabled &&
-              `You’ve entered the maximum number of items allowed.`}
-          </p>
-        </div>
+        <AddAnotherButton
+          formData={formData}
+          addAnotherDisabled={addAnotherDisabled}
+          uiOptions={uiOptions}
+          handleAdd={handleAdd}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default ItemLoop;
 
 ItemLoop.propTypes = {
   schema: PropTypes.object.isRequired,

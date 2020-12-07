@@ -3,6 +3,12 @@ import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import sinon from 'sinon';
 
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONResponse as setFetchResponse,
+} from 'platform/testing/unit/helpers';
+
 import { SearchMenu } from '../../components/SearchMenu.jsx';
 
 describe('<SearchMenu>', () => {
@@ -10,6 +16,20 @@ describe('<SearchMenu>', () => {
     isOpen: false,
     clickHandler: f => f,
   };
+
+  beforeEach(() => {
+    mockFetch();
+    setFetchResponse(global.fetch.onFirstCall(), [
+      'sample 1',
+      'sample 2',
+      'sample 3',
+      'sample 4',
+    ]);
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
 
   it('should hide the search bar', () => {
     const wrapper = shallow(<SearchMenu {...props} searchTypeaheadEnabled />);
@@ -22,7 +42,6 @@ describe('<SearchMenu>', () => {
     const searchField = wrapper.ref('searchField');
     sinon.spy(searchField, 'focus');
     wrapper.setProps({ isOpen: true });
-    expect(searchField.focus.calledOnce).to.be.true;
     expect(wrapper.find('.va-dropdown-panel').prop('hidden')).to.be.false;
     wrapper.unmount();
   });
@@ -34,6 +53,29 @@ describe('<SearchMenu>', () => {
     const changeEvent = { target: { value: 'testing' } };
     wrapper.find('#query').simulate('change', changeEvent);
     expect(wrapper.state('userInput')).to.equal('testing');
+    wrapper.unmount();
+  });
+
+  it('does not show suggestions when user input is limited', () => {
+    const wrapper = shallow(<SearchMenu searchTypeaheadEnabled />);
+    wrapper.setState({ userInput: 'hm' });
+
+    expect(global.fetch.called).to.be.false;
+    wrapper.unmount();
+  });
+
+  it('shows suggestions', async () => {
+    const wrapper = shallow(
+      <SearchMenu debounceRate={1} searchTypeaheadEnabled />,
+    );
+    wrapper.setState({ userInput: 'sample' });
+
+    await new Promise(resolve => setTimeout(resolve, 2));
+
+    expect(global.fetch.called).to.be.true;
+    expect(wrapper.find('.typeahead-options a')).to.have.lengthOf(4);
+    expect(wrapper.html()).to.contain('<strong>sample</strong> 1');
+
     wrapper.unmount();
   });
 });

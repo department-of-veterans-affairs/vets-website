@@ -42,6 +42,7 @@ import {
   getLocation,
   getSiteIdFromFakeFHIRId,
   getLocationsByTypeOfCareAndSiteIds,
+  getCommunityProvidersByTypeOfCare,
 } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
@@ -179,6 +180,12 @@ export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
 export const CLICKED_UPDATE_ADDRESS_BUTTON =
   'newAppointment/CLICKED_UPDATE_ADDRESS_BUTTON';
+export const FORM_REQUESTED_PROVIDERS =
+  'newAppointment/FORM_REQUESTED_PROVIDERS';
+export const FORM_REQUESTED_PROVIDERS_SUCCEEDED =
+  'newAppointment/FORM_REQUESTED_PROVIDERS_SUCCEEDED';
+export const FORM_REQUESTED_PROVIDERS_FAILED =
+  'newAppointment/FORM_REQUESTED_PROVIDERS_FAILED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -305,6 +312,8 @@ export function checkEligibility({ location, siteId, showModal }) {
     });
 
     try {
+      const loadingStartTime = Date.now();
+
       const eligibilityData = await getEligibilityData(
         location,
         typeOfCareId,
@@ -312,6 +321,13 @@ export function checkEligibility({ location, siteId, showModal }) {
         directSchedulingEnabled,
         useVSP,
       );
+
+      if (showModal) {
+        recordEvent({
+          event: 'loading-indicator-displayed',
+          'loading-indicator-display-time': Date.now() - loadingStartTime,
+        });
+      }
 
       recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
       logEligibilityExplanation(eligibilityData, typeOfCareId, location.id);
@@ -442,7 +458,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
     let location = null;
     const facilities = getTypeOfCareFacilities(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
-      f => !!f.legacyVAR?.distancefromCurrentLocation,
+      f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
 
     const action = {
@@ -1097,6 +1113,31 @@ export function submitAppointmentOrRequest(history) {
         });
         resetDataLayer();
       }
+    }
+  };
+}
+
+export function requestProvidersList(address) {
+  return async (dispatch, getState) => {
+    try {
+      const typeOfCare = getTypeOfCare(getState().newAppointment.data);
+      dispatch({
+        type: FORM_REQUESTED_PROVIDERS,
+      });
+
+      const communityCareProviderList = await getCommunityProvidersByTypeOfCare(
+        { address, typeOfCare },
+      );
+
+      dispatch({
+        type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+        communityCareProviderList,
+      });
+    } catch (e) {
+      captureError(e);
+      dispatch({
+        type: FORM_REQUESTED_PROVIDERS_FAILED,
+      });
     }
   };
 }

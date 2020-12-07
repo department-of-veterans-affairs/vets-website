@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { FETCH_STATUS } from '../../../../utils/constants';
 
 import NoValidVAFacilities from '../../../../new-appointment/components/VAFacilityPage/NoValidVAFacilities';
@@ -19,6 +19,20 @@ const parentDetails = {
       value: '307-778-7550',
     },
   ],
+  hoursOfOperation: [
+    {
+      daysOfWeek: ['mon'],
+      allDay: false,
+      openingTime: '08:00',
+      closingTime: '16:00',
+    },
+    {
+      daysOfWeek: ['tue'],
+      allDay: true,
+      openingTime: null,
+      closingTime: null,
+    },
+  ],
 };
 
 describe('VAOS <NoValidVAFacilities>', () => {
@@ -26,33 +40,33 @@ describe('VAOS <NoValidVAFacilities>', () => {
     const formContext = {
       facilityDetailsStatus: FETCH_STATUS.loading,
     };
-    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
+    const screen = render(<NoValidVAFacilities formContext={formContext} />);
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
-    tree.unmount();
+    expect(screen.getByRole('progressbar')).to.be.ok;
   });
 
   it('should not display a loading indicator if FETCH_STATUS is succeeded', () => {
     const formContext = {
       facilityDetailsStatus: FETCH_STATUS.succeeded,
     };
-    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
+    const screen = render(<NoValidVAFacilities formContext={formContext} />);
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.false;
-    tree.unmount();
+    expect(screen.queryByRole('progressbar')).not.to.be.ok;
   });
 
   it('should render alert message', () => {
     const formContext = {
       typeOfCare: 'Mental health',
     };
-    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
+    const screen = render(<NoValidVAFacilities formContext={formContext} />);
 
-    expect(tree.text()).to.contain(
-      'There are no mental health appointments at this location',
-    );
-    expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
-    tree.unmount();
+    expect(
+      screen.getByRole('heading', {
+        name: 'There are no mental health appointments at this location',
+      }),
+    ).to.be.ok;
+
+    expect(screen.baseElement).to.contain('[aria-atomic="true"]');
   });
 
   it('should render facility info if parentDetails provided', () => {
@@ -60,12 +74,45 @@ describe('VAOS <NoValidVAFacilities>', () => {
       typeOfCare: 'Mental health',
       parentDetails,
     };
-    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
+    const screen = render(<NoValidVAFacilities formContext={formContext} />);
 
-    expect(tree.text()).to.contain('Cheyenne VA Medical Center');
-    expect(tree.text()).to.contain('307-778-7550');
-    expect(tree.find('a').length).to.equal(2);
-    tree.unmount();
+    expect(
+      screen.getByRole('heading', {
+        name: 'There are no mental health appointments at this location',
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(new RegExp(`${parentDetails.name}`))).to.exist;
+    expect(screen.getByText(new RegExp(`${parentDetails.address.line[0]}`))).to
+      .exist;
+    expect(
+      screen.getByText(
+        new RegExp(
+          `${parentDetails.address.city}, ${parentDetails.address.state} ${
+            parentDetails.address.postalCode
+          }`,
+        ),
+      ),
+    ).to.exist;
+    expect(screen.getByText('Directions')).to.exist;
+    expect(
+      screen.getByRole('link', {
+        name: 'Directions to Cheyenne VA Medical Center',
+      }),
+    ).to.exist;
+    expect(screen.getByText('Main phone:')).to.exist;
+    expect(screen.getByRole('link', { name: '3 0 7. 7 7 8. 7 5 5 0.' })).to
+      .exist;
+
+    // Facility should be open on Monday
+    expect(screen.getByText('8:00 a.m. - 4:00 p.m.')).to.be.ok;
+
+    // Facility should be open on Tuesday all day
+    expect(screen.getByText('24/7')).to.be.ok;
+
+    // Facility should be closed on all other days
+    const count = screen.getAllByText('Closed');
+    expect(count.length).to.equal(5);
   });
 
   it('should render a link to facility locator if no parentDetails provided', () => {
@@ -74,14 +121,18 @@ describe('VAOS <NoValidVAFacilities>', () => {
       siteId: '442',
     };
 
-    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
+    const screen = render(<NoValidVAFacilities formContext={formContext} />);
 
-    expect(tree.text()).to.contain(
-      'You can find contact information for this medical center at',
-    );
-    const link = tree.find('a');
-    expect(link.length).to.equal(1);
-    expect(link.props().href).to.equal(`/find-locations/facility/vha_442`);
-    tree.unmount();
+    expect(
+      screen.getByText(
+        /^You can find contact information for this medical center at/,
+      ),
+    ).to.be.ok;
+
+    expect(
+      screen.getByRole('link', {
+        name: 'our facility locator tool',
+      }),
+    ).to.exist;
   });
 });

@@ -110,7 +110,9 @@ module.exports = function registerFilters() {
     return moment
       .unix(dt)
       .tz(timezone)
-      .format(format);
+      .format(format)
+      .replace(/AM/g, 'a.m.')
+      .replace(/PM/g, 'p.m.');
   };
 
   liquid.filters.unixFromDate = data => new Date(data).getTime();

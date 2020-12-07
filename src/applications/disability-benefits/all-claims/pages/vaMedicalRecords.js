@@ -10,9 +10,9 @@ import {
   validateMilitaryTreatmentState,
   startedAfterServicePeriod,
   hasMonthYear,
+  validateBooleanGroup,
 } from '../validations';
 import { USA } from '../constants';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 const { vaTreatmentFacilities } = fullSchema.properties;
 

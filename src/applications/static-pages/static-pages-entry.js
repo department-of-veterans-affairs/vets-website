@@ -58,6 +58,7 @@ import createOtherFacilityListWidget from './facilities/otherFacilityList';
 import createChapter36CTA from './vre-chapter36/createChapter36CTA';
 import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
+import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
 
 // School resources widgets
 import {
@@ -186,6 +187,7 @@ createViewTestAndLabResultsPage(
 
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
+createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 
 // homepage widgets
 if (location.pathname === '/') {

@@ -13,6 +13,7 @@ import {
   getVAFacilityMock,
 } from '../mocks/v0';
 import sinon from 'sinon';
+import { vapAddressToString } from '../../utils/address';
 
 export function mockAppointmentInfo({
   va = [],
@@ -119,6 +120,38 @@ export function mockFacilityFetch(id, facility) {
     global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va/${id}`),
     { data: facility },
   );
+}
+
+export function mockCCProviderFetch(
+  address,
+  specialties,
+  bbox,
+  providers,
+  vaError = false,
+) {
+  const addressString = vapAddressToString(address);
+  const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
+  const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
+
+  if (vaError) {
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${
+          environment.API_URL
+        }/v1/facilities/ccp?address=${addressString}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+      ),
+      { errors: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${
+          environment.API_URL
+        }/v1/facilities/ccp?address=${addressString}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+      ),
+      { data: providers },
+    );
+  }
 }
 
 export function mockVACancelFetches(id, reasons) {
@@ -328,24 +361,27 @@ export function mockAppointmentSlotFetch({
   siteId,
   typeOfCareId,
   preferredDate,
+  startDate,
+  endDate,
   length = '20',
   clinicId,
   slots,
 }) {
+  const start = startDate || preferredDate.clone().startOf('month');
+  const end =
+    endDate ||
+    preferredDate
+      .clone()
+      .add(1, 'month')
+      .endOf('month');
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${
         environment.API_URL
       }/vaos/v0/facilities/${siteId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}` +
-        `&start_date=${preferredDate
-          .clone()
-          .startOf('month')
-          .format('YYYY-MM-DD')}` +
-        `&end_date=${preferredDate
-          .clone()
-          .add(1, 'month')
-          .endOf('month')
-          .format('YYYY-MM-DD')}`,
+        `&start_date=${start.format('YYYY-MM-DD')}` +
+        `&end_date=${end.format('YYYY-MM-DD')}`,
     ),
     {
       data: [

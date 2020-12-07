@@ -241,6 +241,44 @@ export function filterServicePeriods(formData) {
   return clonedData;
 }
 
+// Transform the related disabilities lists into an array of strings
+export const stringifyRelatedDisabilities = formData => {
+  if (!formData.vaTreatmentFacilities) {
+    return formData;
+  }
+  const clonedData = _.cloneDeep(formData);
+  const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
+    const allTreatedNames = Object.entries(
+      facility.treatedDisabilityNames,
+    ).reduce((list, [name, state]) => {
+      if (state) {
+        list.push(name);
+      }
+      return list;
+    }, []);
+
+    // Transform the related disabilities lists into an array of strings
+    return _.set(
+      'treatedDisabilityNames',
+      // transformRelatedDisabilities(
+      //   facility.treatedDisabilityNames,
+      //   getClaimedConditionNames(formData, false),
+      // ),
+
+      // Return all facility.treatedDisabilityNames set to true; this fixes an
+      // issue with SiPs data returning these names an inflection applied; not
+      // an ideal solution, but it will stop submitting empty arrays and
+      // causing the submission to be rejected. See
+      // github.com/department-of-veterans-affairs/va.gov-team/issues/15368
+      allTreatedNames,
+      facility,
+    );
+  });
+
+  clonedData.vaTreatmentFacilities = newVAFacilities;
+  return clonedData;
+};
+
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted
   const isBDDForm = isBDD(form.data);
@@ -462,27 +500,6 @@ export function transform(formConfig, form) {
     ).concat(transformedSecondaries);
 
     delete clonedData.newSecondaryDisabilities;
-    return clonedData;
-  };
-
-  // Transform the related disabilities lists into an array of strings
-  const stringifyRelatedDisabilities = formData => {
-    if (!formData.vaTreatmentFacilities) {
-      return formData;
-    }
-    const clonedData = _.cloneDeep(formData);
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
-      // Transform the related disabilities lists into an array of strings
-      _.set(
-        'treatedDisabilityNames',
-        transformRelatedDisabilities(
-          facility.treatedDisabilityNames,
-          getClaimedConditionNames(formData, false),
-        ),
-        facility,
-      ),
-    );
-    clonedData.vaTreatmentFacilities = newVAFacilities;
     return clonedData;
   };
 

@@ -4,8 +4,9 @@ import { veteranStatusUI } from './status/veteranStatusUI';
 
 import fullSchema from '../0873-schema.json';
 import {
-  inquiryPageDescription,
+  inquiryTypeError,
   inquiryTypeTitle,
+  queryError,
   queryTitle,
 } from '../../constants/labels';
 
@@ -20,15 +21,20 @@ const formFields = {
 
 const inquiryPage = {
   uiSchema: {
-    'ui:description': inquiryPageDescription,
+    [formFields.topic]: topic.uiSchema(),
     [formFields.inquiryType]: {
       'ui:title': inquiryTypeTitle,
+      'ui:errorMessages': {
+        required: inquiryTypeError,
+      },
     },
-    [formFields.topic]: topic.uiSchema(),
     [formFields.query]: {
       'ui:title': queryTitle,
       'ui:widget': 'textarea',
       'ui:validations': [validateWhiteSpace],
+      'ui:errorMessages': {
+        required: queryError,
+      },
     },
     [formFields.veteranStatus]: {
       ...veteranStatusUI,
