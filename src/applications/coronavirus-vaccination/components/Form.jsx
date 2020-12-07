@@ -7,15 +7,31 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as userSelectors from 'platform/user/selectors';
+import { requestStates } from 'platform/utilities/constants';
 
 import * as actions from '../actions';
 
 import initialFormSchema from '../config/schema';
 import initialUiSchema from '../config/uiSchema';
 
+import useSubmitForm from '../hooks/useSubmitForm';
+
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
+  const [submitStatus, submitToApi] = useSubmitForm();
+
+  useEffect(
+    () => {
+      if (submitStatus === requestStates.succeeded) {
+        router.replace('/confirmation');
+      }
+    },
+    [submitStatus],
+  );
+
   useEffect(
     () => {
       // Initialize and prefill the form on first render
@@ -58,9 +74,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
     [formState],
   );
 
-  const onSubmit = useCallback(
+  const onFormSubmit = useCallback(
     () => {
-      router.replace('/confirmation');
+      submitToApi(formState.formData);
     },
     [router, formState],
   );
@@ -68,6 +84,10 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   if (!formState) {
     // The form is being initialized into Redux. Wait til next render.
     return null;
+  }
+
+  if (submitStatus === requestStates.pending) {
+    return <LoadingIndicator message="Submitting your form..." />;
   }
 
   return (
@@ -94,8 +114,16 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         schema={formState.formSchema}
         uiSchema={formState.uiSchema}
         onChange={onFormChange}
-        onSubmit={onSubmit}
+        onSubmit={onFormSubmit}
       >
+        {submitStatus === requestStates.failed ? (
+          <div className="vads-u-margin-bottom-2">
+            <AlertBox
+              status={ALERT_TYPE.ERROR}
+              content="An error occurred while trying to save your form. Please try again later."
+            />
+          </div>
+        ) : null}
         <button type="submit" className="usa-button">
           Apply
         </button>
