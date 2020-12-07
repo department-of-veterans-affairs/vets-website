@@ -34,6 +34,13 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   useEffect(
     () => {
+      if (formState) {
+        // If formState isn't null, then we've already initialized the form
+        // so we skip doing it again. This occurs if you navigate to the form,
+        // fill out some fields, navigate back to the intro, then back to the form.
+        return;
+      }
+
       // Initialize and prefill the form on first render
       let initialFormData = {
         isIdentityVerified: false,
@@ -64,7 +71,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
       updateFormData(initialFormSchema, initialUiSchema, initialFormData);
     },
-    [updateFormData, isLoggedIn, profile],
+    [formState, updateFormData, isLoggedIn, profile],
   );
 
   const onFormChange = useCallback(
