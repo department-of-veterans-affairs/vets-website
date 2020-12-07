@@ -7,8 +7,8 @@ import {
   medicalCenterError,
   routeToStateError,
   routeToStateTitle,
-  showFacilityCodeError,
-  showFacilityCodeTitle,
+  facilityCodeError,
+  facilityCodeTitle,
   stateOfResidence,
   stateOfResidenceError,
   stateOfSchool,
@@ -36,7 +36,7 @@ const formFields = {
   levelThree: 'levelThree',
   vaMedicalCenter: 'vaMedicalCenter',
   routeToState: 'routeToState',
-  showFacilityCode: 'showFacilityCode',
+  facilityCode: 'facilityCode',
   stateOfResidence: 'stateOfResidence',
   stateOfSchool: 'stateOfSchool',
   socialSecurityNumber: 'socialSecurityNumber',
@@ -167,7 +167,7 @@ export function isValidFacilityCode(value) {
 
 export function validateFacilityCode(errors, facilityCode) {
   if (facilityCode && !isValidFacilityCode(facilityCode)) {
-    errors.addError(showFacilityCodeError);
+    errors.addError(facilityCodeError);
   }
 }
 
@@ -289,7 +289,7 @@ export function uiSchema() {
       'levelThree',
       'vaMedicalCenter',
       'routeToState',
-      'showFacilityCode',
+      'facilityCode',
       'stateOfResidence',
       'stateOfSchool',
       'socialSecurityNumber',
@@ -351,8 +351,8 @@ export function uiSchema() {
         required: routeToStateError,
       },
     },
-    [formFields.showFacilityCode]: {
-      'ui:title': showFacilityCodeTitle,
+    [formFields.facilityCode]: {
+      'ui:title': facilityCodeTitle,
       'ui:options': {
         expandUnder: 'levelTwo',
         expandUnderCondition: levelTwo => {

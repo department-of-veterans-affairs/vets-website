@@ -1754,7 +1754,7 @@
             "WY"
           ]
         },
-        "showFacilityCode": {
+        "facilityCode": {
           "type": "string"
         },
         "stateOfResidence": {
