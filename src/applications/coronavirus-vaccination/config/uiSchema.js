@@ -90,7 +90,23 @@ export default {
         UNDECIDED: 'Unsure',
         ALREADY_VACCINATED: 'Already received a vaccination',
       },
-      classNames: '',
+    },
+  },
+  reasonUndecided: {
+    'ui:title': 'Reason for being unsure or uninterested',
+    'ui:widget': 'text',
+    'ui:options': {
+      labels: {
+        phone: 'Phone',
+        email: 'Email',
+      },
+      hideIf: formData => {
+        return (
+          formData.vaccineInterest === 'INTERESTED' ||
+          formData.vaccineInterest === 'ALREADY_VACCINATED'
+        );
+      },
+      expandUnder: 'vaccineInterest',
     },
   },
   // preferredFacility: {
