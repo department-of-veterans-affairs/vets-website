@@ -54,6 +54,13 @@ export default {
       pattern: 'Please enter a valid phone number',
     },
   },
+  zipCode: {
+    'ui:title': 'Zip code',
+    'ui:errorMessages': {
+      required: 'Please enter your zip code',
+      pattern: 'Please enter a valid zip code',
+    },
+  },
   vaxPreference: {
     'ui:title': 'Interested in vaccine',
     'ui:widget': 'radio',
@@ -68,6 +75,17 @@ export default {
         ALREADY_VACCINATED: 'Already received a vaccination',
       },
       classNames: '',
+    },
+  },
+  vaxPrefDetails: {
+    'ui:title':
+      'Why are you not interested or unsure about receiving this vaccine',
+    'ui:options': {
+      expandUnder: 'vaxPreference',
+      hideIf: formData =>
+        formData.vaxPreference === undefined ||
+        formData.vaxPreference === 'INTERESTED' ||
+        formData.vaxPreference === 'ALREADY_VACCINATED',
     },
   },
   facility: {

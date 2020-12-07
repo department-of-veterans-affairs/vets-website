@@ -6,6 +6,7 @@ export default {
     'emailAddress',
     'phone',
     'dateOfBirth',
+    'zipCode',
     'vaxPreference',
   ],
   properties: {
@@ -33,9 +34,16 @@ export default {
       type: 'string',
       pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
     },
+    zipCode: {
+      type: 'string',
+      pattern: '^\\d{5}(-\\d{4})?$',
+    },
     vaxPreference: {
       type: 'string',
       enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'ALREADY_VACCINATED'],
+    },
+    vaxPrefDetails: {
+      type: 'string',
     },
     facility: {
       type: 'string',
