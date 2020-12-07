@@ -200,10 +200,10 @@ const FacilitiesMap = props => {
       lng: center.lng,
       currentMapBoundsDistance,
       currentBounds: [
-        parseFloat(bounds._sw.lng.toFixed(2)),
-        parseFloat(bounds._sw.lat.toFixed(2)),
-        parseFloat(bounds._ne.lng.toFixed(2)),
-        parseFloat(bounds._ne.lat.toFixed(2)),
+        bounds._sw.lng,
+        bounds._sw.lat,
+        bounds._ne.lng,
+        bounds._ne.lat,
       ],
     });
   };
