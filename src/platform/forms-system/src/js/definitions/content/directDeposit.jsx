@@ -34,9 +34,10 @@ export const directDepositAlert = ({
   <div className="vads-u-padding-top--1p5" tabIndex="0">
     <p>
       <b>Note:</b> Any updates you make here will change your bank account
-      information for VA benefits, including{' '}
+      information for some VA benefits, including{' '}
       {affectedBenefits || '[affected benefits]'}. These updates won’t change
-      your information for {unaffectedBenefits || '[unaffected benefits]'}.
+      your bank account information for{' '}
+      {unaffectedBenefits || '[unaffected benefits]'}.
     </p>
   </div>
 );
