@@ -42,11 +42,11 @@ describe('actions/paymentInformation', () => {
     let dispatch;
     let recordEventSpy;
 
-    describe('fetchPaymentInformation', () => {
+    describe('fetchCNPPaymentInformation', () => {
       beforeEach(() => {
         setup({ mockGA: true });
         recordEventSpy = sinon.spy();
-        actionCreator = paymentInformationActions.fetchPaymentInformation(
+        actionCreator = paymentInformationActions.fetchCNPPaymentInformation(
           recordEventSpy,
         );
         dispatch = sinon.spy();
@@ -63,11 +63,11 @@ describe('actions/paymentInformation', () => {
         ).to.be.true;
       });
 
-      it('dispatches FETCH_PAYMENT_INFORMATION_STARTED', async () => {
+      it('dispatches CNP_PAYMENT_INFORMATION_FETCH_STARTED', async () => {
         await actionCreator(dispatch);
 
         expect(dispatch.firstCall.args[0].type).to.be.equal(
-          paymentInformationActions.PAYMENT_INFORMATION_FETCH_STARTED,
+          paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_STARTED,
         );
       });
 
@@ -118,9 +118,9 @@ describe('actions/paymentInformation', () => {
           await actionCreator(dispatch);
         });
 
-        it('dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
+        it('dispatches CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
-            paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+            paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
           expect(dispatch.secondCall.args[0].response).to.deep.equal({
             responses: [paymentInfo],
@@ -190,9 +190,9 @@ describe('actions/paymentInformation', () => {
           await actionCreator(dispatch);
         });
 
-        it('dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
+        it('dispatches CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
-            paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+            paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
           expect(dispatch.secondCall.args[0].response).to.deep.equal({
             responses: [paymentInfo],
@@ -262,9 +262,9 @@ describe('actions/paymentInformation', () => {
           await actionCreator(dispatch);
         });
 
-        it('dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
+        it('dispatches CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
-            paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+            paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
           expect(dispatch.secondCall.args[0].response).to.deep.equal({
             responses: [paymentInfo],
@@ -288,25 +288,25 @@ describe('actions/paymentInformation', () => {
       });
 
       describe('if the call fails', () => {
-        it('dispatches PAYMENT_INFORMATION_FETCH_FAILED', async () => {
+        it('dispatches the correct actions', async () => {
           setFetchJSONFailure(global.fetch.onFirstCall(), {});
           await actionCreator(dispatch);
 
           expect(dispatch.firstCall.args[0].type).to.be.equal(
-            paymentInformationActions.PAYMENT_INFORMATION_FETCH_STARTED,
+            paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_STARTED,
           );
           expect(dispatch.secondCall.args[0].type).to.be.equal(
-            paymentInformationActions.PAYMENT_INFORMATION_FETCH_FAILED,
+            paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_FAILED,
           );
         });
       });
     });
 
-    describe('savePaymentInformation', () => {
+    describe('saveCNPPaymentInformation', () => {
       beforeEach(() => {
         setup({ mockGA: true });
         recordEventSpy = sinon.spy();
-        actionCreator = paymentInformationActions.savePaymentInformation(
+        actionCreator = paymentInformationActions.saveCNPPaymentInformation(
           {
             data: 'value',
           },
@@ -326,11 +326,11 @@ describe('actions/paymentInformation', () => {
         ).to.be.true;
       });
 
-      it('dispatches PAYMENT_INFORMATION_SAVE_STARTED', async () => {
+      it('dispatches CNP_PAYMENT_INFORMATION_SAVE_STARTED', async () => {
         await actionCreator(dispatch);
 
         expect(dispatch.firstCall.args[0].type).to.be.equal(
-          paymentInformationActions.PAYMENT_INFORMATION_SAVE_STARTED,
+          paymentInformationActions.CNP_PAYMENT_INFORMATION_SAVE_STARTED,
         );
       });
 
@@ -339,9 +339,9 @@ describe('actions/paymentInformation', () => {
           await actionCreator(dispatch);
         });
 
-        it('dispatches PAYMENT_INFORMATION_SAVE_SUCCEEDED', () => {
+        it('dispatches CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
-            paymentInformationActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+            paymentInformationActions.CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
           );
         });
 
@@ -380,9 +380,9 @@ describe('actions/paymentInformation', () => {
           await actionCreator(dispatch);
         });
 
-        it('dispatches PAYMENT_INFORMATION_SAVE_FAILED', () => {
+        it('dispatches CNP_PAYMENT_INFORMATION_SAVE_FAILED', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
-            paymentInformationActions.PAYMENT_INFORMATION_SAVE_FAILED,
+            paymentInformationActions.CNP_PAYMENT_INFORMATION_SAVE_FAILED,
           );
         });
 
@@ -402,11 +402,13 @@ describe('actions/paymentInformation', () => {
     beforeEach(() => setup({ mockGA: false }));
     afterEach(teardown);
 
-    describe('savePaymentInformation', () => {
-      it('still calls fetch and dispatches SAVE_PAYMENT_INFORMATION', async () => {
-        const actionCreator = paymentInformationActions.savePaymentInformation({
-          data: 'value',
-        });
+    describe('saveCNPPaymentInformation', () => {
+      it('still calls fetch and dispatches the correct actions', async () => {
+        const actionCreator = paymentInformationActions.saveCNPPaymentInformation(
+          {
+            data: 'value',
+          },
+        );
         const dispatch = sinon.spy();
 
         await actionCreator(dispatch);
@@ -414,10 +416,10 @@ describe('actions/paymentInformation', () => {
         expect(global.fetch.called).to.be.true;
         expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.firstCall.args[0].type).to.be.equal(
-          paymentInformationActions.PAYMENT_INFORMATION_SAVE_STARTED,
+          paymentInformationActions.CNP_PAYMENT_INFORMATION_SAVE_STARTED,
         );
         expect(dispatch.secondCall.args[0].type).to.be.equal(
-          paymentInformationActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+          paymentInformationActions.CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
         );
       });
     });
