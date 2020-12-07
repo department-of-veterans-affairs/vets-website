@@ -4,6 +4,8 @@ import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 
+import FormTitle from './FormTitle';
+
 // Helper to derive the download link props.
 const deriveLinkPropsFromFormURL = url => {
   const linkProps = {};
@@ -23,38 +25,6 @@ const deriveLinkPropsFromFormURL = url => {
 
   return linkProps;
 };
-
-// builds results title
-const buildFormTitle = (id, detailsUrl, title) => (
-  <dt
-    className="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
-    data-e2e-id="result-title"
-  >
-    {detailsUrl ? (
-      <a href={detailsUrl} className="vads-u-text-decoration--none">
-        <dfn>
-          <span className="vads-u-visibility--screen-reader">
-            Visit the landing page for Form number
-          </span>
-          {id}{' '}
-        </dfn>
-        {title}
-        <i
-          className="fas fa-angle-right vads-u-margin-left--0p25"
-          style={{ verticalAlign: 'middle' }}
-        />
-      </a>
-    ) : (
-      <>
-        <dfn>
-          <span className="vads-u-visibility--screen-reader">Form number</span>{' '}
-          {id}{' '}
-        </dfn>
-        {title}
-      </>
-    )}
-  </dt>
-);
 
 const SearchResult = ({ form }) => {
   // Escape early if we don't have the necessary form attributes.
@@ -85,7 +55,7 @@ const SearchResult = ({ form }) => {
 
   return (
     <>
-      {buildFormTitle(id, formDetailsUrl, title)}
+      <FormTitle id={id} formUrl={formDetailsUrl} title={title} />
 
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
@@ -111,7 +81,9 @@ const SearchResult = ({ form }) => {
           href={formToolUrl}
         >
           Go to online tool{' '}
-          <span className="vads-u-visibility--screen-reader">for {title}</span>
+          <span className="vads-u-visibility--screen-reader">
+            for {id} {title}
+          </span>
         </a>
       ) : null}
     </>
