@@ -26,7 +26,7 @@ export default function GiBillBreadcrumbs({ searchQuery }) {
       Education and training
     </a>,
     <Link to={root} key="main">
-      GI Bill® Comparison Tool
+      GI Bill® CT Redesign Sandbox
     </Link>,
   ];
 

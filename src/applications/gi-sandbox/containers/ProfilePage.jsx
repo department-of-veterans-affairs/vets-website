@@ -42,7 +42,9 @@ export function ProfilePage({
   useEffect(
     () => {
       if (institutionName) {
-        dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
+        dispatchSetPageTitle(
+          `${institutionName} - GI Bill® CT Redesign Sandbox`,
+        );
       }
     },
     [institutionName],
