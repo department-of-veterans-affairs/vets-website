@@ -169,7 +169,7 @@ export const showAdditionalGIBillFields = new Set([
 ]);
 
 export function isValidFacilityCode(value) {
-  return /^[a-zA-Z0-9]{0,8}$/.test(value);
+  return /^[a-zA-Z0-9]{8}$/.test(value);
 }
 
 export function validateFacilityCode(errors, facilityCode) {
