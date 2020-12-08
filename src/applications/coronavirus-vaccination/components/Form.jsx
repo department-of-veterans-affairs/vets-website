@@ -26,7 +26,14 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   useEffect(
     () => {
       if (submitStatus === requestStates.succeeded) {
+        recordEvent({
+          event: 'covid-vaccination--submission-successful',
+        });
         router.replace('/confirmation');
+      } else {
+        recordEvent({
+          event: 'covid-vaccination--submission-failed',
+        });
       }
     },
     [submitStatus],
@@ -134,7 +141,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           </div>
         ) : null}
         <button type="submit" className="usa-button">
-          Apply
+          Submit
         </button>
       </SchemaForm>
     </>
