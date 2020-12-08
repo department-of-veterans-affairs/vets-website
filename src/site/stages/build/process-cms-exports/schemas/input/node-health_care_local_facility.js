@@ -39,7 +39,7 @@ module.exports = {
             },
             required: ['0', '1', '2', '3', '4', '5', '6', 'caption'],
           },
-          format: { type: 'null' }, // Only ever seen it as null
+          format: { type: ['string', 'null'] },
           caption: { type: ['string', 'null'] },
         },
         required: ['value', 'format', 'caption'],

@@ -738,4 +738,147 @@ describe('VAOS data transformation', () => {
       providerOption: '',
     });
   });
+
+  it('should transform form using provider selection into CC request', () => {
+    const state = {
+      featureToggles: {
+        vaOnlineSchedulingProviderSelection: true,
+      },
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+          vapContactInfo: {
+            residentialAddress: {
+              addressLine1: '123 big sky st',
+              city: 'Cincinnati',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1,
+              longitude: -84.6,
+            },
+          },
+        },
+      },
+      newAppointment: {
+        data: {
+          phoneNumber: '5035551234',
+          bestTimeToCall: {
+            afternoon: true,
+          },
+          email: 'test@va.gov',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'asdf',
+          communityCareSystemId: 'var983',
+          preferredLanguage: 'english',
+          communityCareProvider: {
+            name: 'Practice',
+            address: {
+              line: ['456 elm st', 'sfasdf'],
+              state: 'MA',
+              city: 'northampton',
+              postalCode: '01050',
+            },
+          },
+          calendarData: {
+            currentlySelectedDate: '2019-11-20',
+            selectedDates: [
+              {
+                date: '2019-11-20',
+                optionTime: 'PM',
+              },
+            ],
+          },
+          facilityType: 'communityCare',
+          typeOfCareId: '323',
+        },
+        facilities: {},
+        facilityDetails: {},
+        clinics: {},
+        eligibility: {},
+        ccEnabledSystems: [
+          {
+            id: 'var983',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '983',
+              },
+            ],
+            name: 'CHYSHR-Cheyenne VA Medical Center',
+            address: {
+              city: 'Cheyenne',
+              state: 'WY',
+            },
+          },
+          {
+            id: 'var984',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '984',
+              },
+            ],
+            address: {
+              city: 'Dayton',
+              state: 'OH',
+            },
+          },
+        ],
+        pageChangeInProgress: false,
+        parentFacilitiesStatus: FETCH_STATUS.succeeded,
+        eligibilityStatus: FETCH_STATUS.succeeded,
+        facilityDetailsStatus: FETCH_STATUS.succeeded,
+        pastAppointments: null,
+        submitStatus: 'succeeded',
+      },
+    };
+    const data = transformFormToCCRequest(state);
+    expect(data).to.deep.equal({
+      typeOfCare: 'CCPRMYRTNE',
+      typeOfCareId: 'CCPRMYRTNE',
+      appointmentType: 'Primary care',
+      facility: {
+        name: 'CHYSHR-Cheyenne VA Medical Center',
+        facilityCode: '983',
+        parentSiteCode: '983',
+      },
+      purposeOfVisit: 'other',
+      phoneNumber: '5035551234',
+      verifyPhoneNumber: '5035551234',
+      bestTimetoCall: ['Afternoon'],
+      preferredProviders: [
+        {
+          address: {
+            street: '456 elm st, sfasdf',
+            city: 'northampton',
+            state: 'MA',
+            zipCode: '01050',
+          },
+          practiceName: 'Practice',
+        },
+      ],
+      newMessage: 'asdf',
+      preferredLanguage: 'English',
+      optionDate1: '11/20/2019',
+      optionDate2: 'No Date Selected',
+      optionDate3: 'No Date Selected',
+      optionTime1: 'PM',
+      optionTime2: 'No Time Selected',
+      optionTime3: 'No Time Selected',
+      preferredCity: 'Cincinnati',
+      preferredState: 'OH',
+      requestedPhoneCall: false,
+      email: 'test@va.gov',
+      officeHours: [],
+      reasonForVisit: '',
+      visitType: 'Office Visit',
+      distanceWillingToTravel: 40,
+      secondRequest: false,
+      secondRequestSubmitted: false,
+      inpatient: false,
+      status: 'Submitted',
+      providerId: '0',
+      providerOption: '',
+    });
+  });
 });
