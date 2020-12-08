@@ -108,6 +108,7 @@ function ProviderSelectionField({
                 Change provider
               </button>
               <button
+                aria-label={`Remove ${formData.name}`}
                 type="button"
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0 vads-u-margin-right--2"
                 onClick={() => {
