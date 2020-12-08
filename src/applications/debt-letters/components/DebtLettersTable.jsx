@@ -29,22 +29,31 @@ export const DebtLettersTable = ({ debtLinks }) => {
   };
 
   return (
-    <table className="vads-u-display--none vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0 medium-screen:vads-u-display--block">
+    <table
+      className="vads-u-display--none vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0 medium-screen:vads-u-display--block"
+      role="table"
+    >
       <thead>
-        <tr>
+        <tr role="row">
           <th
             className="vads-u-border--0 vads-u-padding-left--3"
             onClick={() => toggleDirection('date')}
+            tabIndex="-1"
+            scope="row"
           >
             Date <i className="fas fa-sort vads-u-margin-left--0p5" />
           </th>
           <th
             className="vads-u-border--0"
             onClick={() => toggleDirection('typeDescription')}
+            tabIndex="-1"
+            scope="row"
           >
             Type <i className="fas fa-sort vads-u-margin-left--0p5" />
           </th>
-          <th className="vads-u-border--0">Action</th>
+          <th className="vads-u-border--0" scope="row">
+            Action
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -52,6 +61,7 @@ export const DebtLettersTable = ({ debtLinks }) => {
           <tr
             key={debtLetter.documentId}
             className="vads-u-border-top--1px vads-u-border-bottom--1px"
+            role="row"
           >
             <td className="vads-u-border--0 vads-u-padding-left--3">
               {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
