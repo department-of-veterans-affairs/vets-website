@@ -77,7 +77,8 @@ jobs:
       - store_artifacts:
           path: ./test-results
 
-  script-test:
+  # test ability to pull cache from drupal
+  drupal-cache-test:
     docker:
       - image: circleci/node:14.15.0
     steps:
@@ -307,7 +308,7 @@ workflows:
       - lint
       - unit-test
       - contract-test
-      - script-test
+      - drupal-cache-test
       - security-audit
       - build-e2e
       - build:
