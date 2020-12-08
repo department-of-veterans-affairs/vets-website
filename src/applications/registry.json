@@ -934,6 +934,7 @@
     "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
     "template": {
       "vagovprod": false,
+      "title": "COVID-19 vaccines — Stay informed and help us prepare",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
