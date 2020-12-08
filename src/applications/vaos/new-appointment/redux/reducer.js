@@ -370,7 +370,7 @@ export default function formReducer(state = initialState, action) {
 
       const typeOfCareFacilities = facilities.filter(
         facility =>
-          facility.legacyVAR.directSupported ||
+          facility.legacyVAR.directSchedulingSupported ||
           facility.legacyVAR.requestSupported,
       );
 
