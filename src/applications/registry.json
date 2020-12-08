@@ -794,6 +794,10 @@
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
+          "path": "careers-employment",
+          "name": "Careers and employment"
+        },
+        {
           "path": "careers-employment/education-and-career-counseling/",
           "name": "Career planning and guidance"
         },
@@ -922,6 +926,22 @@
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "coronavirus-vaccination",
+    "entryName": "coronavirus-vaccination",
+    "rootUrl": "/coronavirus-vaccination",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "/coronavirus-vaccination",
+          "name": "Request a COVID-19 vaccination"
+        }
+      ]
     }
   }
 ]

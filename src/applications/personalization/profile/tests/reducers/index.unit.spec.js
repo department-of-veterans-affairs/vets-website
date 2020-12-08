@@ -66,9 +66,9 @@ describe('index reducer', () => {
     expect(state.militaryInformation.errors).to.eql(['error']);
   });
 
-  it('fetches paymentInformation', () => {
+  it('fetches cnpPaymentInformation', () => {
     const fetchAction = {
-      type: paymentInfoActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+      type: paymentInfoActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
       response: {
         something: 'something',
       },
@@ -76,33 +76,33 @@ describe('index reducer', () => {
 
     const state = vaProfile(undefined, fetchAction);
 
-    expect(state.paymentInformation).to.be.deep.equal(
+    expect(state.cnpPaymentInformation).to.be.deep.equal(
       fetchAction.response,
       'paymentInformation is initialized',
     );
   });
 
-  it('opens the paymentInformation-edit modal', () => {
-    const modalOpenAction = {
-      type: paymentInfoActions.PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED,
+  it('toggles the cnpPaymentInformation edit view', () => {
+    const editToggledAction = {
+      type: paymentInfoActions.CNP_PAYMENT_INFORMATION_EDIT_TOGGLED,
     };
 
-    const state = vaProfile(undefined, modalOpenAction);
+    const state = vaProfile(undefined, editToggledAction);
 
-    expect(state.paymentInformationUiState.isEditing).to.be.true;
+    expect(state.cnpPaymentInformationUiState.isEditing).to.be.true;
   });
 
-  it('saves paymentInformation', () => {
+  it('saves cnpPaymentInformation', () => {
     const saveAction = {
-      type: paymentInfoActions.PAYMENT_INFORMATION_SAVE_STARTED,
+      type: paymentInfoActions.CNP_PAYMENT_INFORMATION_SAVE_STARTED,
     };
 
     let state = vaProfile(undefined, saveAction);
 
-    expect(state.paymentInformationUiState.isSaving).to.be.true;
+    expect(state.cnpPaymentInformationUiState.isSaving).to.be.true;
 
     const savedAction = {
-      type: paymentInfoActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+      type: paymentInfoActions.CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
       response: {
         somethingElse: 'somethingElse',
       },
@@ -110,7 +110,7 @@ describe('index reducer', () => {
 
     state = vaProfile(state, savedAction);
 
-    expect(state.paymentInformation).to.be.deep.equal(
+    expect(state.cnpPaymentInformation).to.be.deep.equal(
       savedAction.response,
       'paymentInformation is updated',
     );
