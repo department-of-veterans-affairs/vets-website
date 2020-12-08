@@ -39,7 +39,7 @@ class ConfirmationPage extends React.Component {
       : {};
     const name = form.data.veteranFullName;
     const benefit = form.data.benefit;
-    const printPreviewColon = <div className="print-only">:</div>;
+    const printPreviewColon = <div className="print-only colon">:</div>;
 
     const docExplanation = this.state.isExpanded ? (
       <div className="usa-accordion-content" aria-hidden="false">
