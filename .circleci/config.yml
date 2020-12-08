@@ -1,8 +1,27 @@
 version: 2.1
+
 parameters:
   image-tag:
     type: string
     default: "14.15.0"
+
+commands:
+  yarn-install-cache:
+    description: "Install packages with yarn using saved cache"
+    parameters:
+      key-prefix:
+        type: string
+        default: yarn-packages-
+    steps:
+      - restore_cache:
+          keys:
+            - << parameters.key-prefix >>{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: << parameters.key-prefix >>{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
 jobs:
   lint:
@@ -10,15 +29,7 @@ jobs:
       - image: circleci/node:<< pipeline.parameters.image-tag >>
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      - yarn-install-cache
       - run: mkdir -p ./test-results
       - run: npx eslint --ext .js --ext .jsx --format junit --output-file ./test-results/eslint.xml .
       - run: yarn lint:sass
@@ -32,15 +43,7 @@ jobs:
       - image: circleci/node:<< pipeline.parameters.image-tag >>
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      - yarn-install-cache
       - run: mkdir -p ./test-results
       - run:
           command: yarn test:unit --coverage
@@ -57,14 +60,7 @@ jobs:
       - image: circleci/node:<< pipeline.parameters.image-tag >>
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      - yarn-install-cache
       - run: mkdir -p ./test-results
       - run: mkdir -p ./pacts
       - run:
@@ -81,21 +77,31 @@ jobs:
       - store_artifacts:
           path: ./test-results
 
-  can-i-deploy:
+  # test ability to pull cache from drupal
+  drupal-cache-test:
     docker:
       - image: circleci/node:<< pipeline.parameters.image-tag >>
     steps:
       - checkout
-      - attach_workspace:
-          at: .
       - restore_cache:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: yarn install --frozen-lockfile
+      - run:
+          command: yarn install --frozen-lockfile
       - save_cache:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - run: yarn fetch-drupal-cache
+
+  can-i-deploy:
+    docker:
+      - image: circleci/node:14.15.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - yarn-install-cache
       - run: yarn pact:verify
       - run: yarn pact:can-i-deploy
 
@@ -111,15 +117,7 @@ jobs:
       - image: circleci/node:<< pipeline.parameters.image-tag >>
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      - yarn-install-cache
       - run: npm run lint:circle
 
   build:
@@ -127,15 +125,7 @@ jobs:
       - image: circleci/node:<< pipeline.parameters.image-tag >>
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      - yarn-install-cache
       - run: yarn build:webpack
 
   eslint-check:
@@ -295,6 +285,7 @@ workflows:
       - lint
       - unit-test
       - contract-test
+      - drupal-cache-test
       - security-audit
       - build-e2e
       - build:
