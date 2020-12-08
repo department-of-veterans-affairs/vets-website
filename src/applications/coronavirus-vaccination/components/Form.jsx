@@ -100,6 +100,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   return (
     <>
+      <h1>COVID-19 vaccines — Stay informed and help us prepare</h1>
       <div className="vads-u-margin-bottom--4">
         <AlertBox
           isVisible={isLoggedIn}

@@ -12,6 +12,7 @@ import * as userSelectors from 'platform/user/selectors';
 function Introduction({ isLoggedIn, toggleLoginModal }) {
   return (
     <>
+      <h1>COVID-19 vaccines — Stay informed and help us prepare</h1>
       <p>
         We’re working to get COVID-19 vaccines to Veterans as quickly and safely
         as possible. We need your help to prepare. And we want to keep you
@@ -34,7 +35,7 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
           status={ALERT_TYPE.SUCCESS}
           headline="You’re all set"
           content={
-            <Link className="usa-button" to="/apply">
+            <Link className="usa-button" to="/form">
               Begin the application
             </Link>
           }
@@ -57,7 +58,7 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
                 >
                   Sign in
                 </button>
-                <Link className="usa-button usa-button-secondary" to="/apply">
+                <Link className="usa-button usa-button-secondary" to="/form">
                   Continue without signing in
                 </Link>
               </p>
