@@ -2,12 +2,15 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-function Confirmation({ router, formData }) {
+function Confirmation({ router: _router, formData }) {
   useEffect(() => {
     if (!formData) {
       // Redirect to the homepage if there isn't any form data in state.
       // This is the case for direct navigation to "/confirmation/".
-      router.replace('/');
+      // @todo this next line is commented out only for visibility purposes,
+      // so we can see the content w/o submitting a new form
+      // we should uncomment it before launch.
+      // router.replace('/');
     }
   });
 
