@@ -16,81 +16,81 @@ import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthentic
 
 contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
   describe('POST /registration', () => {
-    context('when a user is logged in', () => {
-      it('Success case: submit valid form will return a 201 Created HTTP response', async () => {
-        const authenticatedApiUrl = `${
-          environment.API_URL
-        }/covid_vaccine/v0/registration`;
+    it('Authenticated success case: submit valid form will return a 201 Created HTTP response', async () => {
+      const authenticatedApiUrl = `${
+        environment.API_URL
+      }/covid_vaccine/v0/registration`;
 
-        await mockApi().addInteraction({
-          state: 'authenticated user data with contact preference',
-          uponReceiving: 'a POST request',
-          withRequest: {
-            method: 'POST',
-            path: '/covid_vaccine/v0/registration',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: {
-              inquiry: {
-                form: JSON.stringify(authenticatedApplicationData),
-              },
+      const interaction = {
+        state: 'authenticated user data with contact preference',
+        uponReceiving: 'a POST request',
+        withRequest: {
+          method: 'POST',
+          path: '/covid_vaccine/v0/registration',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: {
+            inquiry: {
+              form: JSON.stringify(authenticatedApplicationData),
             },
           },
-          willRespondWith: {
-            status: 201,
-            // headers: {
-            //   'Content-Type': term({
-            //     matcher: '^application/json',
-            //     generate: 'application/json',
-            //   }),
-            // },
-            // body: like({}),
-          },
-        });
+        },
+        willRespondWith: {
+          status: 201,
+          // headers: {
+          //   'Content-Type': term({
+          //     matcher: '^application/json',
+          //     generate: 'application/json',
+          //   }),
+          // },
+          // body: like({}),
+        },
+      };
 
-        apiPostRequest(authenticatedApiUrl, authenticatedApplicationData);
-      });
+      await mockApi().addInteraction(interaction);
+
+      apiPostRequest(authenticatedApiUrl, authenticatedApplicationData);
     });
   });
 
   describe('POST /registration/unauthenticated', () => {
-    context('when a user is not logged in', () => {
-      it('Success case: submit valid form will return a 201 Created HTTP response', async () => {
-        const authenticatedApiUrl = `${
-          environment.API_URL
-        }/covid_vaccine/v0/registration`;
-        const unauthenticatedApiUrl = `${authenticatedApiUrl}/unauthenticated`;
+    it('Unauthenticated success case: submit valid form will return a 201 Created HTTP response', async () => {
+      const authenticatedApiUrl = `${
+        environment.API_URL
+      }/covid_vaccine/v0/registration`;
+      const unauthenticatedApiUrl = `${authenticatedApiUrl}/unauthenticated`;
 
-        await mockApi().addInteraction({
-          state: 'authenticated user data with contact preference',
-          uponReceiving: 'a POST request',
-          withRequest: {
-            method: 'POST',
-            path: '/covid_vaccine/v0/registration/unauthenticated',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: {
-              inquiry: {
-                form: JSON.stringify(unauthenticatedApplicationData),
-              },
+      const interaction = {
+        state: 'authenticated user data with contact preference',
+        uponReceiving: 'a POST request',
+        withRequest: {
+          method: 'POST',
+          path: '/covid_vaccine/v0/registration/unauthenticated',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: {
+            inquiry: {
+              form: JSON.stringify(unauthenticatedApplicationData),
             },
           },
-          willRespondWith: {
-            status: 201,
-            // headers: {
-            //   'Content-Type': term({
-            //     matcher: '^application/json',
-            //     generate: 'application/json',
-            //   }),
-            // },
-            // body: like({}),
-          },
-        });
+        },
+        willRespondWith: {
+          status: 201,
+          // headers: {
+          //   'Content-Type': term({
+          //     matcher: '^application/json',
+          //     generate: 'application/json',
+          //   }),
+          // },
+          // body: like({}),
+        },
+      };
 
-        apiPostRequest(unauthenticatedApiUrl, unauthenticatedApplicationData);
-      });
+      await mockApi().addInteraction(interaction);
+
+      apiPostRequest(unauthenticatedApiUrl, unauthenticatedApplicationData);
     });
   });
 });
