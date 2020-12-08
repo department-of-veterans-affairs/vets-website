@@ -149,7 +149,7 @@ module.exports = class PactBrokerClient {
         this.url,
         `pacticipants/${consumer}`,
         `versions/${version}`,
-        `tags/${tag}`,
+        `tags/${encodeURIComponent(tag)}`,
       ),
     );
 
