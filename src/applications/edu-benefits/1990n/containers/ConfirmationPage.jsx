@@ -55,7 +55,9 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h3 className="confirmation-page-title">
+          We've received your application
+        </h3>
         <p>
           We usually process claims within <strong>30 days</strong>.
         </p>
@@ -64,9 +66,9 @@ class ConfirmationPage extends React.Component {
           <br />
           <i>Please print this page for your records.</i>
         </p>
-        <div className="inset">
+        <div className="inset vads-u-margin-top--0">
           <h4>
-            Education Benefit Claim{' '}
+            Education benefit application{' '}
             <span className="additional">(Form 22-1990N)</span>
           </h4>
           <span>
