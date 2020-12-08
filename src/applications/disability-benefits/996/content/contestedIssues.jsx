@@ -22,12 +22,12 @@ import { scrollTo } from '../helpers';
 export const ContestedIssuesTitle = props =>
   props?.formData?.contestedIssues?.length === 0 ? (
     <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
-      Sorry, we couldn’t find any contested issues
+      Sorry, we couldn’t find any eligible issues
     </h2>
   ) : (
     <legend name="eligibleScrollElement">
       <strong className="vads-u-font-size--lg">
-        Select the issue(s) you would like to contest
+        Select the issue(s) you would like reviewed
       </strong>
       <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
         (*Required)
