@@ -8,7 +8,7 @@ export default {
     'zipCode',
     'birthDate',
     'vaccineInterest',
-    'contactPreference',
+    'zipCodeDetails',
   ],
   properties: {
     isIdentityVerified: {
@@ -39,22 +39,13 @@ export default {
       type: 'string',
       pattern: '^\\d{5}(-\\d{4})?$',
     },
-    contactPreference: {
-      type: 'boolean',
-    },
-    contactMethod: {
+    zipCodeDetails: {
       type: 'string',
-      enum: ['phone', 'email'],
+      enum: ['Yes', 'No', 'Unsure'],
     },
     vaccineInterest: {
       type: 'string',
-      enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'ALREADY_VACCINATED'],
+      enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'PREFER_NO_ANSWER'],
     },
-    reasonUndecided: {
-      type: 'string',
-    },
-    // preferredFacility: {
-    //   type: 'string',
-    // },
   },
 };

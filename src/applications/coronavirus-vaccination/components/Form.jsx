@@ -140,7 +140,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           </div>
         ) : null}
         <button type="submit" className="usa-button">
-          Apply
+          Submit
         </button>
       </SchemaForm>
     </>
