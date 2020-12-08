@@ -73,3 +73,28 @@ describe('dateFromUnix', () => {
     });
   });
 });
+
+describe('deriveLastBreadcrumbFromPath', () => {
+  it('returns a modified list of breadcrumbs with title at last', () => {
+    const origBreadCrumbsList = [
+      { url: 'http://va.gov', text: 'Home' },
+      { url: 'http://va.gov', text: 'Outreach and-events' },
+      { url: 'http://va.gov', text: 'Events' },
+      {
+        url: 'http://va.gov',
+        text: 'Pave connect-employer-session-windstream-communications',
+      },
+    ];
+    const title = 'PAVE Connect Employer Session: Windstream Communications';
+    const last = liquid.filters
+      .deriveLastBreadcrumbFromPath(
+        origBreadCrumbsList,
+        title,
+        'http://va.gov',
+        true,
+      )
+      .pop();
+
+    expect(last.text).to.eq(title);
+  });
+});
