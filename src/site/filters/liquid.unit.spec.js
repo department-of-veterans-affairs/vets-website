@@ -76,7 +76,7 @@ describe('dateFromUnix', () => {
 
 describe('deriveLastBreadcrumbFromPath', () => {
   it('returns a modified list of breadcrumbs with title at last', () => {
-    const origBreadCrumbsList = [
+    const origBreadCrumbsList1 = [
       { url: 'http://va.gov', text: 'Home' },
       { url: 'http://va.gov', text: 'Outreach and-events' },
       { url: 'http://va.gov', text: 'Events' },
@@ -85,17 +85,55 @@ describe('deriveLastBreadcrumbFromPath', () => {
         text: 'Pave connect-employer-session-windstream-communications',
       },
     ];
+    const origBreadCrumbsList2 = [
+      { url: 'http://va.gov', text: 'Events' },
+      {
+        url: 'http://va.gov',
+        text: 'Pave connect-employer-session-windstream-communications',
+      },
+    ];
+    const origBreadCrumbsList3 = [
+      { url: 'http://va.gov', text: 'Home' },
+      { url: 'http://va.gov', text: 'Outreach and-events' },
+      { url: 'http://va.gov', text: 'Events' },
+      { url: 'http://va.gov', text: 'Test' },
+      { url: 'http://va.gov', text: 'Testing page' },
+      { url: 'http://va.gov', text: 'Page testing' },
+      { url: 'http://va.gov', text: 'Page testing2' },
+      {
+        url: 'http://va.gov',
+        text: 'Pave connect-employer-session-windstream-communications',
+      },
+    ];
     const title = 'PAVE Connect Employer Session: Windstream Communications';
-    const last = liquid.filters
+    const last1 = liquid.filters
       .deriveLastBreadcrumbFromPath(
-        origBreadCrumbsList,
+        origBreadCrumbsList1,
+        title,
+        'http://va.gov',
+        true,
+      )
+      .pop();
+    const last2 = liquid.filters
+      .deriveLastBreadcrumbFromPath(
+        origBreadCrumbsList2,
+        title,
+        'http://va.gov',
+        true,
+      )
+      .pop();
+    const last3 = liquid.filters
+      .deriveLastBreadcrumbFromPath(
+        origBreadCrumbsList3,
         title,
         'http://va.gov',
         true,
       )
       .pop();
 
-    expect(last.text).to.eq(title);
+    expect(last1.text).to.eq(title);
+    expect(last2.text).to.eq(title);
+    expect(last3.text).to.eq(title);
   });
 
   it('returns breadcrumbs list with title as the last', () => {
