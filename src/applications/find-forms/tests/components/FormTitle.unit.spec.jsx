@@ -41,9 +41,8 @@ describe('Find VA Forms <FormTitle />', () => {
     const treeText = tree.text();
 
     // expecting result node tree text to include the following
-    [(props.title, props.id)].forEach(text => {
-      expect(treeText).to.include(text);
-    });
+    expect(treeText).to.include(props.title);
+    expect(treeText).to.include(props.id);
 
     // expect html title node to be the link
     expect(tree.html()).to.include(`href="${props.formToolUrl}"`);

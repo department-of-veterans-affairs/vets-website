@@ -19,7 +19,7 @@ const deriveLinkPropsFromFormURL = url => {
     linkProps.target = '_blank';
   } else {
     // Use HTML5 `download` attribute.
-    linkProps.download = decodeURI(url.split('/').pop());
+    linkProps.download = true;
     if (isPDF) linkProps.type = 'application/pdf';
   }
 
