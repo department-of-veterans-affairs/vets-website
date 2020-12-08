@@ -267,13 +267,16 @@ function ProviderSelectionField({
                         <button
                           type="button"
                           onClick={() => {
-                            onChange(
-                              communityCareProviderList.find(
-                                p => p.id === checkedProvider,
-                              ),
+                            const providerIndex = communityCareProviderList.findIndex(
+                              p => p.id === checkedProvider,
                             );
+                            onChange(communityCareProviderList[providerIndex]);
                             setCheckedProvider();
                             setShowProvidersList(false);
+                            recordEvent({
+                              event: 'vaos-order-position-provider-selection',
+                              providerPosition: providerIndex,
+                            });
                           }}
                         >
                           Choose provider
