@@ -361,24 +361,27 @@ export function mockAppointmentSlotFetch({
   siteId,
   typeOfCareId,
   preferredDate,
+  startDate,
+  endDate,
   length = '20',
   clinicId,
   slots,
 }) {
+  const start = startDate || preferredDate.clone().startOf('month');
+  const end =
+    endDate ||
+    preferredDate
+      .clone()
+      .add(1, 'month')
+      .endOf('month');
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${
         environment.API_URL
       }/vaos/v0/facilities/${siteId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}` +
-        `&start_date=${preferredDate
-          .clone()
-          .startOf('month')
-          .format('YYYY-MM-DD')}` +
-        `&end_date=${preferredDate
-          .clone()
-          .add(1, 'month')
-          .endOf('month')
-          .format('YYYY-MM-DD')}`,
+        `&start_date=${start.format('YYYY-MM-DD')}` +
+        `&end_date=${end.format('YYYY-MM-DD')}`,
     ),
     {
       data: [

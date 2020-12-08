@@ -1,5 +1,5 @@
 import ItemLoop from '../../components/ItemLoop';
-import DependentView from '../../components/DependentView';
+import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your employment history',
@@ -17,8 +17,9 @@ export const uiSchema = {
         'ui:title': 'Dependent Age',
         'ui:field': ItemLoop,
         'ui:options': {
-          viewField: DependentView,
+          viewField: CardDetailsView,
           doNotScroll: true,
+          showSave: true,
         },
         items: {
           'ui:title': 'Age in years:',

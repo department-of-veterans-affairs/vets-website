@@ -138,7 +138,7 @@ function mapStateToProps(state) {
   return {
     fullName: state.user.profile.userFullName,
     disabilities: selectAllDisabilityNames(state),
-    submittedAt: state.form.submission.submittedAt,
+    submittedAt: state.form.submission.timestamp,
     jobId: state.form.submission.response?.attributes?.jobId,
     areConfirmationEmailTogglesOn: confirmationEmailFeature(state),
   };

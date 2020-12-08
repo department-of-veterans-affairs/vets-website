@@ -19,6 +19,7 @@ import {
   getChosenCCSystemId,
   getChosenSlot,
   selectUseFlatFacilityPage,
+  selectUseProviderSelection,
 } from '../../../utils/selectors';
 import {
   findCharacteristic,
@@ -127,27 +128,43 @@ export function transformFormToVARequest(state) {
 
 export function transformFormToCCRequest(state) {
   const data = getFormData(state);
+  const useProviderSelection = selectUseProviderSelection(state);
+  const provider = data.communityCareProvider;
   let preferredProviders = [];
 
-  if (data.hasCommunityCareProvider) {
-    const street = `${data.communityCareProvider.address.street}, ${
-      data.communityCareProvider.address.street2
-    }`;
+  if (
+    useProviderSelection &&
+    !!data.communityCareProvider &&
+    Object.keys(data.communityCareProvider).length
+  ) {
+    preferredProviders = [
+      {
+        address: {
+          street: provider.address.line.join(', '),
+          city: provider.address.city,
+          state: provider.address.state,
+          zipCode: provider.address.postalCode,
+        },
+        practiceName: provider.name,
+      },
+    ];
+  } else if (data.hasCommunityCareProvider) {
+    const street = `${provider.address.street}, ${provider.address.street2}`;
     preferredProviders = [
       {
         address: {
           street,
-          city: data.communityCareProvider.address.city,
-          state: data.communityCareProvider.address.state,
-          zipCode: data.communityCareProvider.address.postalCode,
+          city: provider.address.city,
+          state: provider.address.state,
+          zipCode: provider.address.postalCode,
         },
-        firstName: data.communityCareProvider.firstName,
-        lastName: data.communityCareProvider.lastName,
-        practiceName: data.communityCareProvider.practiceName,
+        firstName: provider.firstName,
+        lastName: provider.lastName,
+        practiceName: provider.practiceName,
         providerStreet: street,
-        providerCity: data.communityCareProvider.address.city,
-        providerState: data.communityCareProvider.address.state,
-        providerZipCode1: data.communityCareProvider.address.postalCode,
+        providerCity: provider.address.city,
+        providerState: provider.address.state,
+        providerZipCode1: provider.address.postalCode,
       },
     ];
   }
