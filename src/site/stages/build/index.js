@@ -152,7 +152,7 @@ function build(BUILD_OPTIONS) {
   // Liquid substitution must occur before markdown is run otherwise markdown will escape the
   // bits of liquid commands (eg., quotes) and break things.
   //
-  // Unfortunately this must come before permalinks and navgation because of limitation in both
+  // Unfortunately this must come before permalinks and navigation because of limitation in both
   // modules regarding what files they understand. The consequence here is that liquid templates
   // *within* a single file do NOT have access to the final path that they will be rendered under
   // or any other metadata added by the permalinks() and navigation() filters.
@@ -179,7 +179,7 @@ function build(BUILD_OPTIONS) {
 
   // Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
   //
-  // This must come before navigation module, otherwise breadcrunmbs will see the wrong URLs.
+  // This must come before navigation module, otherwise breadcrumbs will see the wrong URLs.
   //
   // It also must come AFTER the markdown() module because it only recognizes .html files. See
   // comment above the inPlace() module for explanation of effects on the metadata().
@@ -260,7 +260,7 @@ function build(BUILD_OPTIONS) {
   smith.use(parseHtml, 'Parse HTML files');
 
   /**
-   * Add nonce attribute with substition string to all inline script tags
+   * Add nonce attribute with substitution string to all inline script tags
    * Convert onclick event handles into nonced script tags
    */
   smith.use(addNonceToScripts, 'Add nonce to script tags');
