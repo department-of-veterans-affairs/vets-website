@@ -113,3 +113,9 @@ describe('Direct deposit definition', () => {
     );
   });
 });
+
+describe('prefillBankInformation', () => {
+  it('should remove root-level fields in favor of "viewified" bank information', () => {});
+  it('should accept custom pre-filled field names', () => {});
+  it('should accept custom post-transformer field names', () => {});
+});

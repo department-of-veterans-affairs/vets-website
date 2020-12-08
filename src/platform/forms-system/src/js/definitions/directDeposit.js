@@ -174,3 +174,52 @@ export default ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
     schema: schema(optFields),
   };
 };
+
+export const defaultFieldNames = {
+  accountType: 'accountType',
+  accountNumber: 'accountNumber',
+  routingNumber: 'routingNumber',
+  bankName: 'bankName',
+};
+
+/**
+ * Use this function in the prefillTransformer to move all bank account
+ * information into `view:originalBankAccount`. This is useful when using the
+ * PaymentView component, which will display either `bankAccount` or
+ * `view:originalBankAccount`.
+ *
+ * @param {object} data - All the pre-filled form data
+ * @returns {object} - A new pre-filled form data object after transformation.
+ */
+export const prefillBankInformation = (
+  data,
+  prefilledFieldNames = defaultFieldNames,
+  postTransformerFieldNames = prefilledFieldNames,
+) => {
+  // TODO: Add an option for post-transformation field names
+  const newData = _.omit(
+    [
+      prefilledFieldNames.accountType,
+      prefilledFieldNames.accountNumber,
+      prefilledFieldNames.routingNumber,
+      prefilledFieldNames.bankName,
+    ],
+    data,
+  );
+
+  const { accountType, accountNumber, routingNumber, bankName } = data;
+
+  if (accountType && accountNumber && routingNumber && bankName) {
+    newData['view:originalBankAccount'] = viewifyFields({
+      [postTransformerFieldNames.accountType]: accountType,
+      [postTransformerFieldNames.accountNumber]: accountNumber,
+      [postTransformerFieldNames.routingNumber]: routingNumber,
+      [postTransformerFieldNames.bankName]: bankName,
+    });
+
+    // start the bank widget in 'review' mode
+    newData.bankAccount = { 'view:hasPrefilledBank': true };
+  }
+
+  return newData;
+};
