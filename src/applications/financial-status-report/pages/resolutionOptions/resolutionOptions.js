@@ -1,4 +1,6 @@
 import React from 'react';
+import FinancialOverview from '../../components/FinancialOverview';
+import DebtRepayment from '../../components/DebtRepayment';
 
 const resolutionOptions = [
   {
@@ -51,51 +53,12 @@ const resolutionOptions = [
   },
 ];
 
-const FinancialOverview = () => {
-  return (
-    <>
-      <h4>Your financial overview</h4>
-      <div className="usa-alert usa-alert-info background-color-only claims-alert-status">
-        <div>Total income: $3,000.00</div>
-        <div>Total expenses: $2,800.00</div>
-        <div>Discretionary income: $200.00</div>
-      </div>
-    </>
-  );
-};
-
-const DebtRepaymentOptions = () => {
-  return (
-    <>
-      <h4>Debt repayment options (1 of 3)</h4>
-      <div className="va-growable-background">
-        <h4>Post-9/11 GI Bill debt for tuition and fees</h4>
-        <span>Updated on July 12, 2020</span>
-        <p>
-          <strong>Amount owed: </strong>
-          $9,525.00
-        </p>
-        <p>
-          <strong>Status: </strong>
-          First debt notification sent
-        </p>
-        <p>
-          <strong>Date of first notice: </strong>
-          July 12, 2020
-        </p>
-      </div>
-    </>
-  );
-};
-
 export const uiSchema = {
   financialOverview: {
-    'ui:title': ' ',
     'ui:field': FinancialOverview,
   },
   debtRepaymentOptions: {
-    'ui:title': ' ',
-    'ui:field': DebtRepaymentOptions,
+    'ui:field': DebtRepayment,
   },
   resolutionOptions: {
     resolutionType: {
@@ -147,10 +110,20 @@ export const schema = {
   type: 'object',
   properties: {
     financialOverview: {
-      type: 'string',
+      type: 'object',
+      properties: {
+        income: {
+          type: 'string',
+        },
+      },
     },
     debtRepaymentOptions: {
-      type: 'string',
+      type: 'object',
+      properties: {
+        expenses: {
+          type: 'string',
+        },
+      },
     },
     resolutionOptions: {
       type: 'object',
