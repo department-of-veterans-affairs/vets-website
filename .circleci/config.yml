@@ -302,10 +302,6 @@ workflows:
           filters:
             branches:
               ignore: master
-      - script-check:
-          filters:
-            branches:
-              ignore: master
   test_and_build:
     jobs:
       - lint
