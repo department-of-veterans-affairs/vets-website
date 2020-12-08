@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import recordEvent from 'platform/monitoring/record-event';
 import FacilityPhone from '../../../components/FacilityPhone';
+import { GA_PREFIX } from '../../../utils/constants';
 
-const UNSUPPORTED_FACILITY_RANGE = 100;
+const UNSUPPORTED_FACILITY_RANGE = 1000;
 
 export default function FacilitiesNotShown({ facilities, sortMethod }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +14,16 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
       setIsOpen(false);
     },
     [sortMethod],
+  );
+  useEffect(
+    () => {
+      if (isOpen) {
+        recordEvent({
+          event: `${GA_PREFIX}-facilities-not-listed-click`,
+        });
+      }
+    },
+    [isOpen],
   );
 
   const nearbyUnsupportedFacilities = facilities.filter(
@@ -90,7 +102,16 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
             ))}
           </ul>
           <p className="vads-u-margin-top--4">
-            <a href="/find-locations" target="_blank" rel="noopener nofollow">
+            <a
+              href="/find-locations"
+              target="_blank"
+              rel="noopener nofollow"
+              onClick={() =>
+                recordEvent({
+                  event: `${GA_PREFIX}-facilities-not-listed-locator-click`,
+                })
+              }
+            >
               Or, find a different VA location
             </a>
           </p>
