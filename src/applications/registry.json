@@ -931,7 +931,7 @@
   {
     "appName": "coronavirus-vaccination",
     "entryName": "coronavirus-vaccination",
-    "rootUrl": "/covid-19-vaccine/stay-informed",
+    "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html",
