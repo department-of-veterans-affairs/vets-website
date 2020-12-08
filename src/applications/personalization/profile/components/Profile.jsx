@@ -33,11 +33,12 @@ import {
   fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
 import {
-  directDepositAddressIsSetUp,
-  directDepositIsBlocked,
-  directDepositIsSetUp,
+  cnpDirectDepositAddressIsSetUp,
+  cnpDirectDepositInformation,
+  cnpDirectDepositIsBlocked,
+  cnpDirectDepositIsSetUp,
 } from '@@profile/selectors';
-import { fetchPaymentInformation as fetchPaymentInformationAction } from '@@profile/actions/paymentInformation';
+import { fetchCNPPaymentInformation as fetchCNPPaymentInformationAction } from '@@profile/actions/paymentInformation';
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
@@ -50,24 +51,24 @@ class Profile extends Component {
       fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
-      fetchPaymentInformation,
-      shouldFetchDirectDepositInformation,
+      fetchCNPPaymentInformation,
+      shouldFetchCNPDirectDepositInformation,
     } = this.props;
     fetchMHVAccount();
     fetchFullName();
     fetchPersonalInformation();
     fetchMilitaryInformation();
-    if (shouldFetchDirectDepositInformation) {
-      fetchPaymentInformation();
+    if (shouldFetchCNPDirectDepositInformation) {
+      fetchCNPPaymentInformation();
     }
   }
 
   componentDidUpdate(prevProps) {
     if (
-      this.props.shouldFetchDirectDepositInformation &&
-      !prevProps.shouldFetchDirectDepositInformation
+      this.props.shouldFetchCNPDirectDepositInformation &&
+      !prevProps.shouldFetchCNPDirectDepositInformation
     ) {
-      this.props.fetchPaymentInformation();
+      this.props.fetchCNPPaymentInformation();
     }
   }
 
@@ -209,25 +210,26 @@ Profile.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
-  shouldFetchDirectDepositInformation: PropTypes.bool.isRequired,
+  shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
   shouldShowDirectDeposit: PropTypes.bool.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
-  fetchPaymentInformation: PropTypes.func.isRequired,
+  fetchCNPPaymentInformation: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   const isEvssAvailableSelector = createIsServiceAvailableSelector(
     backendServices.EVSS_CLAIMS,
   );
-  const isDirectDepositSetUp = directDepositIsSetUp(state);
+  const isDirectDepositSetUp = cnpDirectDepositIsSetUp(state);
   const isEvssAvailable = isEvssAvailableSelector(state);
-  const isDirectDepositBlocked = directDepositIsBlocked(state);
-  const isEligibleToSignUp = directDepositAddressIsSetUp(state);
+  const isDirectDepositBlocked = cnpDirectDepositIsBlocked(state);
+  const isEligibleToSignUp = cnpDirectDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
-  const shouldFetchDirectDepositInformation = isEvssAvailable && is2faEnabled;
+  const shouldFetchCNPDirectDepositInformation =
+    isEvssAvailable && is2faEnabled;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
@@ -252,14 +254,16 @@ const mapStateToProps = state => {
 
   // this piece of state will be set if the call to load name info succeeds or
   // fails:
-  const hasLoadedPaymentInformation = state.vaProfile?.paymentInformation;
+  const hasLoadedPaymentInformation = cnpDirectDepositInformation(state);
 
   const hasLoadedAllData =
     hasLoadedFullName &&
     hasLoadedMHVInformation &&
     hasLoadedPersonalInformation &&
     hasLoadedMilitaryInformation &&
-    (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
+    (shouldFetchCNPDirectDepositInformation
+      ? hasLoadedPaymentInformation
+      : true);
 
   const showLoader =
     !hasLoadedAllData || (!isLOA3 && !isLOA1 && currentlyLoggedIn);
@@ -269,11 +273,11 @@ const mapStateToProps = state => {
     showLoader,
     isInMVI: isInMVISelector(state),
     isLOA3,
-    shouldFetchDirectDepositInformation,
+    shouldFetchCNPDirectDepositInformation,
 
     shouldShowDirectDeposit:
       (isLOA3 && !is2faEnabled) ||
-      (shouldFetchDirectDepositInformation &&
+      (shouldFetchCNPDirectDepositInformation &&
         !isDirectDepositBlocked &&
         (isDirectDepositSetUp || isEligibleToSignUp)),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
@@ -287,7 +291,7 @@ const mapDispatchToProps = {
   fetchMHVAccount: fetchMHVAccountAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
-  fetchPaymentInformation: fetchPaymentInformationAction,
+  fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
 };

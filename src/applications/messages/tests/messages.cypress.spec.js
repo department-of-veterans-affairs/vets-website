@@ -5,6 +5,7 @@ describe(manifest.appName, () => {
   // Remove this block when the app has a content page in production.
   before(function() {
     if (Cypress.env('CI')) this.skip();
+    cy.login();
   });
 
   it('is accessible', () => {

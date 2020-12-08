@@ -95,7 +95,7 @@
         },
         "treatedDisabilityNames": {
           "Diabetes mellitus0": true,
-          "De-selected": true,
+          "De-selected": false,
           "knee replacement": true
         }
       }

@@ -19,7 +19,7 @@ function toUtc(timeString, withExplicitUtc = true) {
   );
   const formatString = withExplicitUtc
     ? 'YYYY-MM-DD HH:mm:ss [UTC]'
-    : 'YYYY-MM-DD[T]kk:mm:ss';
+    : 'YYYY-MM-DD[T]HH:mm:ss';
   return time.format(formatString);
 }
 
@@ -63,10 +63,10 @@ const transform = entity => ({
     entity.fieldDatetimeRangeTimezone.length
       ? {
           value: entity.fieldDatetimeRangeTimezone[0].value
-            ? Date.parse(entity.fieldDatetimeRangeTimezone[0].value) / 1000
+            ? utcToEpochTime(entity.fieldDatetimeRangeTimezone[0].value)
             : null,
           endValue: entity.fieldDatetimeRangeTimezone[0].end_value
-            ? Date.parse(entity.fieldDatetimeRangeTimezone[0].end_value) / 1000
+            ? utcToEpochTime(entity.fieldDatetimeRangeTimezone[0].end_value)
             : null,
           timezone: entity.fieldDatetimeRangeTimezone[0].timezone,
         }

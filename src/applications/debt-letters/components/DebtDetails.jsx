@@ -64,30 +64,34 @@ class DebtDetails extends Component {
               )}
             </p>
             <div className="vads-u-display--flex vads-u-flex-direction--row">
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--2">
-                <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-                  Date of first notice:
-                </p>
-                <p className="vads-u-margin-y--1 vads-u-font-weight--bold">
-                  Original debt amount:
-                </p>
-                <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-                  Current balance:
-                </p>
-              </div>
-              <div className="vads-u-display--flex vads-u-flex-direction--column">
-                <p className="vads-u-margin-y--0">
-                  {moment(first(selectedDebt.debtHistory).date).format(
-                    'MMMM D, YYYY',
-                  )}
-                </p>
-                <p className="vads-u-margin-y--1">
-                  {formatter.format(parseFloat(selectedDebt.originalAr))}
-                </p>
-                <p className="vads-u-margin-y--0">
-                  {formatter.format(parseFloat(selectedDebt.currentAr))}
-                </p>
-              </div>
+              <dl className="vads-u-display--flex vads-u-flex-direction--column">
+                <div className="vads-u-margin-y--1 vads-u-display--flex">
+                  <dt>
+                    <strong>Date of first notice: </strong>
+                  </dt>
+                  <dd className="vads-u-margin-left--1">
+                    {moment(first(selectedDebt.debtHistory).date).format(
+                      'MMMM D, YYYY',
+                    )}
+                  </dd>
+                </div>
+                <div className="vads-u-display--flex ">
+                  <dt>
+                    <strong>Original debt amount: </strong>
+                  </dt>
+                  <dd className="vads-u-margin-left--1">
+                    {formatter.format(parseFloat(selectedDebt.originalAr))}
+                  </dd>
+                </div>
+                <div className="vads-u-margin-y--1 vads-u-display--flex">
+                  <dt>
+                    <strong>Current balance: </strong>
+                  </dt>
+                  <dd className="vads-u-margin-left--1">
+                    {formatter.format(parseFloat(selectedDebt.currentAr))}
+                  </dd>
+                </div>
+              </dl>
             </div>
 
             {additionalInfo &&
@@ -128,8 +132,12 @@ class DebtDetails extends Component {
             <table className="vads-u-margin-y--4">
               <thead>
                 <tr>
-                  <td className="vads-u-font-weight--bold">Date</td>
-                  <td className="vads-u-font-weight--bold">Letter</td>
+                  <th className="vads-u-font-weight--bold" scope="col">
+                    Date
+                  </th>
+                  <th className="vads-u-font-weight--bold" scope="col">
+                    Letter
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -137,9 +145,7 @@ class DebtDetails extends Component {
                   <tr key={`${debtEntry.date}-${index}`}>
                     <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
                     <td>
-                      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                        {additionalInfo.status}
-                      </p>
+                      {additionalInfo.status}
                       <p className="vads-u-margin-top--0">
                         {debtEntry.description}
                       </p>
