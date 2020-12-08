@@ -1,9 +1,12 @@
 version: 2.1
 
-parameters:
-  image-tag:
-    type: string
-    default: "14.15.0"
+executors:
+  circleci-node:
+    docker:
+      - image: circleci/node:14.15.0
+  cypress:
+    docker:
+      - image: cypress/base:14.15.0
 
 commands:
   yarn-install-cache:
@@ -25,8 +28,7 @@ commands:
 
 jobs:
   lint:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     steps:
       - checkout
       - yarn-install-cache
@@ -39,8 +41,7 @@ jobs:
           path: ./test-results
 
   unit-test:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     steps:
       - checkout
       - yarn-install-cache
@@ -56,8 +57,7 @@ jobs:
           path: ./test-results
 
   contract-test:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     steps:
       - checkout
       - yarn-install-cache
@@ -79,8 +79,7 @@ jobs:
 
   # test ability to pull cache from drupal
   drupal-cache-test:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     steps:
       - checkout
       - restore_cache:
@@ -95,8 +94,7 @@ jobs:
       - run: yarn fetch-drupal-cache
 
   can-i-deploy:
-    docker:
-      - image: circleci/node:14.15.0
+    executor: circleci-node
     steps:
       - checkout
       - attach_workspace:
@@ -106,31 +104,27 @@ jobs:
       - run: yarn pact:can-i-deploy
 
   security-audit:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     steps:
       - checkout
       - run: yarn security-check
 
   additional-linting:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     steps:
       - checkout
       - yarn-install-cache
       - run: npm run lint:circle
 
   build:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     steps:
       - checkout
       - yarn-install-cache
       - run: yarn build:webpack
 
   eslint-check:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     environment:
       CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
       OVERALL_REVIEW_COMMENT: >
@@ -155,8 +149,7 @@ jobs:
           command: npm run pr-check
 
   sentry-check:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     environment:
       CODE_PATTERN: Sentry\.
       OVERALL_REVIEW_COMMENT: >
@@ -182,8 +175,7 @@ jobs:
           command: npm run pr-check
 
   icon-check:
-    docker:
-      - image: circleci/node:<< pipeline.parameters.image-tag >>
+    executor: circleci-node
     environment:
       CODE_PATTERN: (<i )|(<i$)
       OVERALL_REVIEW_COMMENT: >
@@ -210,8 +202,7 @@ jobs:
 
   build-e2e:
     working_directory: ~/vets-website
-    docker:
-      - image: cypress/base:<< pipeline.parameters.image-tag >>
+    executor: cypress
     resource_class: xlarge
     steps:
       - checkout
@@ -237,8 +228,7 @@ jobs:
 
   e2e-test:
     working_directory: ~/vets-website
-    docker:
-      - image: cypress/base:<< pipeline.parameters.image-tag >>
+    executor: cypress
     resource_class: xlarge
     steps:
       - checkout
