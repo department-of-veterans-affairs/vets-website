@@ -24,13 +24,12 @@ const resolutionOptions = [
     description: (
       <>
         <div>
-          If any monthly payment will create financial hardship for you or your
-          family, you can request that your debt be waived.This will reduce your
-          remaining education benefits entitlement.
+          If you are able to make smaller payments on your debt, your payment
+          plan can be extended to up to three years.
         </div>
         <p>
-          If your request for waiver is granted, some or all of your debt will
-          be forgiven and your balance reduced.
+          If your request for extended monthly payments is granted, you will
+          make smaller payments monthly by offset or direct payments.
         </p>
       </>
     ),
@@ -40,18 +39,37 @@ const resolutionOptions = [
     description: (
       <>
         <div>
-          If any monthly payment will create financial hardship for you or your
-          family, you can request that your debt be waived.This will reduce your
-          remaining education benefits entitlement.
+          If you need to resolve your debt now but can’t pay the full amount,
+          you can submit a compromise offer to resolve the debt.
         </div>
         <p>
-          If your request for waiver is granted, some or all of your debt will
-          be forgiven and your balance reduced.
+          If your request for a compromise is granted, you will need to pay the
+          compromise balance in full within 30 days.
         </p>
       </>
     ),
   },
 ];
+
+const renderLabels = () => {
+  let labels = null;
+  for (let i = 0; i < resolutionOptions.length; i++) {
+    labels = {
+      ...labels,
+      [resolutionOptions[i].type]: (
+        <>
+          <span className="vads-u-display--block vads-u-font-weight--bold">
+            {resolutionOptions[i].type}
+          </span>
+          <span className="vads-u-display--block vads-u-font-size--sm">
+            {resolutionOptions[i].description}
+          </span>
+        </>
+      ),
+    };
+  }
+  return labels;
+};
 
 export const uiSchema = {
   financialOverview: {
@@ -67,38 +85,7 @@ export const uiSchema = {
       'ui:required': () => true,
       'ui:widget': 'radio',
       'ui:options': {
-        labels: {
-          [resolutionOptions[0].type]: (
-            <>
-              <span className="vads-u-display--block vads-u-font-weight--bold">
-                {resolutionOptions[0].type}
-              </span>
-              <span className="vads-u-display--block vads-u-font-size--sm">
-                {resolutionOptions[0].description}
-              </span>
-            </>
-          ),
-          [resolutionOptions[1].type]: (
-            <>
-              <span className="vads-u-display--block vads-u-font-weight--bold">
-                {resolutionOptions[1].type}
-              </span>
-              <span className="vads-u-display--block vads-u-font-size--sm">
-                {resolutionOptions[1].description}
-              </span>
-            </>
-          ),
-          [resolutionOptions[2].type]: (
-            <>
-              <span className="vads-u-display--block vads-u-font-weight--bold">
-                {resolutionOptions[2].type}
-              </span>
-              <span className="vads-u-display--block vads-u-font-size--sm">
-                {resolutionOptions[2].description}
-              </span>
-            </>
-          ),
-        },
+        labels: renderLabels(),
       },
     },
     canAffordToPay: {
