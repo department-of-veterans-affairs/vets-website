@@ -939,5 +939,14 @@
         }
       ]
     }
+  },
+  {
+    "appName": "View your representative",
+    "entryName": "view-representative",
+    "rootUrl": "/view-change-representative/view",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]
