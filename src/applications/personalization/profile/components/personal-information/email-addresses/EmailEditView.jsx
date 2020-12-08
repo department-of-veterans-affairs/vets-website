@@ -31,6 +31,7 @@ class EmailEditView extends React.Component {
         field={this.props.field}
         formSchema={this.props.formSchema}
         getInitialFormValues={this.getInitialFormValues}
+        hasUnsavedEdits={this.props.hasUnsavedEdits}
         hasValidationError={this.props.hasValidationError}
         isEmpty={this.props.isEmpty}
         onCancel={this.props.onCancel}
