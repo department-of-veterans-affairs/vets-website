@@ -24,8 +24,10 @@ function Confirmation({ router: _router, formData }) {
       </p>
       <p>
         You can also visit our main{' '}
-        <a href="/covid-19-vaccine/">COVID-19 vaccines at VA page</a> for the
-        latest information and answers to common questions.
+        <a href="/health-care/covid-19-vaccine/">
+          COVID-19 vaccines at VA page
+        </a>{' '}
+        for the latest information and answers to common questions.
       </p>
       <p>
         <strong>Remember:</strong> You don’t need to sign up to get a vaccine.
