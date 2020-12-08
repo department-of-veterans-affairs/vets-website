@@ -107,19 +107,14 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   return (
     <>
-      <div className="vads-u-margin-bottom--4">
-        <AlertBox
-          isVisible={isLoggedIn}
-          status={ALERT_TYPE.INFO}
-          headline="We filled in part of this form for you."
-          content={
-            <p>
-              If something looks off, visit your <a href="/profile">profile</a>{' '}
-              to update it.
-            </p>
-          }
-        />
-      </div>
+      <h1>COVID-19 vaccines — Stay informed and help us prepare</h1>
+      {isLoggedIn ? (
+        <p>
+          <strong>Note:</strong> Any changes you make to your information here
+          won’t change your information in your VA.gov profile or any other
+          accounts.
+        </p>
+      ) : null}
       <SchemaForm
         addNameAttribute
         // "name" and "title" are used only internally to SchemaForm
