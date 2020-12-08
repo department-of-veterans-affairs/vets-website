@@ -49,7 +49,7 @@ export const chapters = {
         schema: servicePeriods.schema,
       },
       militaryHistory: {
-        title: 'Military history',
+        title: 'Service history',
         path: 'military/history',
         uiSchema: militaryHistory.uiSchema,
         schema: militaryHistory.schema,
