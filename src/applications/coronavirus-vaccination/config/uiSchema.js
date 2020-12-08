@@ -1,6 +1,8 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 // import SelectFacilityWidget from '../components/SelectFacilityWidget';
 
+import ssnUiSchema from 'platform/forms-system/src/js/definitions/ssn';
+
 export default {
   isIdentityVerified: {
     'ui:options': {
@@ -27,13 +29,10 @@ export default {
     },
   },
   ssn: {
-    'ui:title': 'Social Security Number (SSN)',
-    'ui:errorMessages': {
-      required: 'Please enter your social security number.',
-      pattern: 'Please enter a valid social security number.',
-    },
+    ...ssnUiSchema,
     'ui:required': formData => !formData.isIdentityVerified,
     'ui:options': {
+      ...ssnUiSchema['ui:options'],
       hideIf: formData => formData.isIdentityVerified,
     },
   },
@@ -61,27 +60,15 @@ export default {
       pattern: 'Please enter a valid zip code',
     },
   },
-  contactPreference: {
-    'ui:title': 'Do you have a preference for contacting you?',
-    'ui:widget': 'yesNo',
-    'ui:errorMessages': {
-      required: 'Please select an option',
-    },
-  },
-  contactMethod: {
-    'ui:title': 'Contact method',
+  zipCodeDetails: {
+    'ui:title': 'Will you be in this zip code for the next 6 to 12 months?',
     'ui:widget': 'radio',
-    'ui:required': formData => formData.contactPreference,
     'ui:errorMessages': {
-      required: 'Please select a contact method',
+      required: 'Please select an answer.',
     },
     'ui:options': {
-      labels: {
-        phone: 'Phone',
-        email: 'Email',
-      },
-      hideIf: formData => !formData.contactPreference,
-      expandUnder: 'contactPreference',
+      // hideIf: formData => !formData.zipCode,
+      expandUnder: 'zipCode',
     },
   },
   vaccineInterest: {
@@ -92,38 +79,11 @@ export default {
     },
     'ui:options': {
       labels: {
-        INTERESTED: 'Interested',
+        INTERESTED: 'Yes',
         NOT_INTERESTED: 'Not interested',
-        UNDECIDED: 'Unsure',
-        ALREADY_VACCINATED: 'Already received a vaccination',
+        UNDECIDED: "I'm not sure",
+        PREFER_NO_ANSWER: 'Prefer not to answer',
       },
     },
   },
-  reasonUndecided: {
-    'ui:title': 'Reason for being unsure or uninterested',
-    'ui:widget': 'text',
-    'ui:options': {
-      labels: {
-        phone: 'Phone',
-        email: 'Email',
-      },
-      hideIf: formData => {
-        return (
-          formData.vaccineInterest === 'INTERESTED' ||
-          formData.vaccineInterest === 'ALREADY_VACCINATED'
-        );
-      },
-      expandUnder: 'vaccineInterest',
-    },
-  },
-  // preferredFacility: {
-  //   'ui:title':
-  //     'Please select where you’d like to receive the COVID-19 vaccine.',
-  //   'ui:widget': SelectFacilityWidget,
-  //   'ui:required': formData => formData.vaccineInterest === 'INTERESTED',
-  //   'ui:options': {
-  //     expandUnder: 'vaccineInterest',
-  //     // hideIf: formData => formData.vaccineInterest !== 'INTERESTED',
-  //   },
-  // },
 };

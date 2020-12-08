@@ -22,6 +22,7 @@ import {
   noContestableIssuesFound,
   showContestableIssueError,
   showWorkInProgress,
+  showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
 import WizardContainer from '../wizard/WizardContainer';
 import {
@@ -30,6 +31,10 @@ import {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 import { SAVED_CLAIM_TYPE } from '../constants';
+
+import { isEmptyAddress } from 'platform/forms/address/helpers';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -121,7 +126,7 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { allowHlr } = this.props;
+    const { allowHlr, hasEmptyAddress } = this.props;
     const callToActionContent = this.getCallToActionContent();
     const showWizard = allowHlr && this.state.status !== WIZARD_STATUS_COMPLETE;
     const pageTitle = `Request a Higher-Level Review${
@@ -135,6 +140,17 @@ export class IntroductionPage extends React.Component {
           <FormTitle title={pageTitle} />
           <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
           <p>{showWorkInProgress}</p>
+        </article>
+      );
+    }
+
+    // check is user has address
+    if (hasEmptyAddress) {
+      return (
+        <article className="schemaform-intro">
+          <FormTitle title={pageTitle} />
+          <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
+          <p>{showHasEmptyAddress}</p>
         </article>
       );
     }
@@ -274,6 +290,9 @@ function mapStateToProps(state) {
     user,
     contestableIssues,
     allowHlr: higherLevelReviewFeature(state),
+    hasEmptyAddress: isEmptyAddress(
+      selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
+    ),
   };
 }
 
