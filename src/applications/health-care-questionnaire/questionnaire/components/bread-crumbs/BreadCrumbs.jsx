@@ -32,6 +32,7 @@ const BreadCrumbs = props => {
           <a
             aria-current="page"
             href="/health-care/health-questionnaires/questionnaires"
+            data-testid="current-location-text"
           >
             Answer {appointmentTypeText || 'health'} questionnaire
           </a>
