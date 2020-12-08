@@ -12,10 +12,23 @@ import * as userSelectors from 'platform/user/selectors';
 function Introduction({ isLoggedIn, toggleLoginModal }) {
   return (
     <>
-      <h2>Introduction</h2>
-      <div className="va-introtext">
-        <p>This is an introduction</p>
-      </div>
+      <p>
+        We’re working to get COVID-19 vaccines to Veterans as quickly and safely
+        as possible. We need your help to prepare. And we want to keep you
+        informed at every step.
+      </p>
+      <p>
+        Sign up below to help us understand your interest in getting a vaccine.
+        We’ll send you regular updates on how we’re providing vaccines across
+        the country—and when you can get your vaccine if you want one. We’ll
+        also offer information and answers to your questions along the way.
+      </p>
+      <p>
+        <strong>Note:</strong> You don’t need to sign up to get a vaccine. And
+        you can change your mind about getting a vaccine at any time. We’ll use
+        the information you provide to understand your interest and communicate
+        with you.
+      </p>
       {isLoggedIn ? (
         <AlertBox
           status={ALERT_TYPE.SUCCESS}
@@ -29,9 +42,13 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
       ) : (
         <AlertBox
           status={ALERT_TYPE.INFO}
-          headline="Save time by signing in before you start your application"
+          headline="Sign in to save time"
           content={
             <>
+              <p>
+                When you sign in, we can fill in some of your information for
+                you.
+              </p>
               <p>
                 <button
                   type="button"

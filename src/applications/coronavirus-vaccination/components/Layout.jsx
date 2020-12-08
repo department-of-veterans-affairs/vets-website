@@ -9,7 +9,7 @@ function Layout({ isProfileLoading, children }) {
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
       <div className="vads-l-row">
         <div className="vads-l-col--12">
-          <h1>Request a COVID-19 vaccination</h1>
+          <h1>COVID-19 vaccines — Stay informed and help us prepare</h1>
           {isProfileLoading ? (
             <LoadingIndicator message="Loading your profile..." />
           ) : (
