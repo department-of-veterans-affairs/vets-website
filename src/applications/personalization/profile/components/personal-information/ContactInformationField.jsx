@@ -331,6 +331,7 @@ class ContactInformationField extends React.Component {
           onCancel={this.onCancel}
           onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
           onDelete={this.onDelete}
+          title={this.props.title}
           onEdit={this.onEdit}
           onSubmit={this.onSubmit}
           showEditView={this.props.showEditView}
