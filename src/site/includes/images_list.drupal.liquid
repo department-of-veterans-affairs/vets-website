@@ -1,22 +1,23 @@
 <!-- this template needs to be included inside a <dl/> -->
-<!-- media list template  -->
+<!-- media list -->
 {% for mediaImage in images %}
 <div classname="vads-u-display--flex vads-u-margin-bottom--2">
+
     {% assign alt = mediaImage.entity.image.alt %}
     {% if alt == mediaImage.entity.entityLabel %}
         {% assign alt = '' %}
         {{ testing }}
     {% endif %}
+
     <div class="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-y--2">
         <div class="vads-l-row">
-            <{{image_title_tag}} class="{{image_title_class}} medium-screen:vads-u-display--none">{{ mediaImage.entity.entityLabel }}</{{image_title_tag}}>
-            <dd class="small-screen:vads-l-row medium-screen:vads-l-col--2">
-                <picture class="small-screen:vads-l-col--2">
+            <dd class="vads-l-col--2">
+                <picture>
                     <img class="vads-u-border--1px vads-u-border-color--gray-light" alt="{{ alt }}" height="{{ mediaImage.entity.image.height }}" width="{{ mediaImage.entity.image.width }}" src="{{ mediaImage.entity.image.url }}"/>
                 </picture>
             </dd>
-            <dt class="small-screen:vads-l-row medium-screen:vads-l-col--10 medium-screen:vads-u-padding-left--2 vads-u-margin-y--0">
-                <{{image_title_tag}} class="{{image_title_class}} vads-u-display--none medium-screen:vads-u-display--block vads-u-margin-y--0">{{ mediaImage.entity.entityLabel }}</{{image_title_tag}}>
+            <dt class="vads-l-col--10 vads-u-padding-left--2 vads-u-margin-top--0">
+                <{{image_title_tag}} class="{{image_title_class }} vads-u-margin-top--0">{{ mediaImage.entity.entityLabel }}</{{image_title_tag}}>
                 {% if mediaImage.entity.fieldDescription %}
                     <p>{{ mediaImage.entity.fieldDescription }}</p>
                 {% endif %}
