@@ -116,6 +116,8 @@ class AddressEditView extends React.Component {
         transaction={this.props.transaction}
         transactionRequest={this.props.transactionRequest}
         uiSchema={this.props.uiSchema}
+        EditView={this.props.EditView}
+        ContentView={this.props.ContentView}
       />
     );
   }
