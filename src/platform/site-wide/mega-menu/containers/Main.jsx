@@ -33,7 +33,7 @@ export function getAuthorizedLinkData(
   authenticatedLinks = authenticatedUserLinkData,
 ) {
   return [
-    ...replaceDomainsInData(defaultLinks),
+    ...(defaultLinks ? replaceDomainsInData(defaultLinks) : []),
     ...(loggedIn ? replaceDomainsInData(authenticatedLinks) : []),
   ];
 }
