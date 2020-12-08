@@ -149,6 +149,18 @@ module.exports = function registerFilters() {
     return output;
   };
 
+  liquid.filters.slice = (array, start, end) => {
+    return _.slice(array, start, end);
+  };
+
+  liquid.filters.paginateImages = imagesArr => {
+    return {
+      firstTen: imagesArr.slice(0, 10),
+      lastTen: imagesArr.slice(10),
+      moreThanTen: imagesArr.length > 10,
+    };
+  };
+
   liquid.filters.videoThumbnail = data => {
     const string = data.split('v=')[1];
     return `https://img.youtube.com/vi/${string}/sddefault.jpg`;
