@@ -30,6 +30,7 @@ export default {
   },
   ssn: {
     ...ssnUiSchema,
+    'ui:title': 'Social Security number (SSN)',
     'ui:required': formData => !formData.isIdentityVerified,
     'ui:options': {
       ...ssnUiSchema['ui:options'],
@@ -72,7 +73,7 @@ export default {
     },
   },
   vaccineInterest: {
-    'ui:title': 'Interested in vaccine',
+    'ui:title': 'Are you interested in getting a COVID-19 vaccine at VA?',
     'ui:widget': 'radio',
     'ui:errorMessages': {
       required: 'Please select an answer.',
@@ -80,9 +81,9 @@ export default {
     'ui:options': {
       labels: {
         INTERESTED: 'Yes',
-        NOT_INTERESTED: 'Not interested',
-        UNDECIDED: "I'm not sure",
-        PREFER_NO_ANSWER: 'Prefer not to answer',
+        NOT_INTERESTED: 'No',
+        UNDECIDED: 'I’m not sure yet.',
+        PREFER_NO_ANSWER: 'I prefer not to answer',
       },
     },
   },
