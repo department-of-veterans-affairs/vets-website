@@ -77,6 +77,22 @@ jobs:
       - store_artifacts:
           path: ./test-results
 
+  script-test:
+    docker:
+      - image: circleci/node:14.15.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: yarn fetch-drupal-cache
+
   can-i-deploy:
     docker:
       - image: circleci/node:14.15.0
@@ -286,11 +302,16 @@ workflows:
           filters:
             branches:
               ignore: master
+      - script-check:
+          filters:
+            branches:
+              ignore: master
   test_and_build:
     jobs:
       - lint
       - unit-test
       - contract-test
+      - script-test
       - security-audit
       - build-e2e
       - build:
