@@ -22,3 +22,10 @@ export const recordNotificationEvent = description => {
     'reason-for-alert': description,
   });
 };
+
+export const fireLinkClickEvent = event => {
+  recordEvent({
+    event: 'howToWizard-alert-link-click',
+    'howToWizard-alert-link-click-label': event.target.innerHTML,
+  });
+};

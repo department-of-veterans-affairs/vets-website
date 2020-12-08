@@ -1,6 +1,6 @@
 import React from 'react';
 import { veteranPathPageNames } from '../pageList';
-import { recordNotificationEvent } from '../helpers';
+import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 
 const NoHonorableDischarge = () => {
   recordNotificationEvent('ineligibility - recieved an honorable discharge');
@@ -10,7 +10,10 @@ const NoHonorableDischarge = () => {
         To apply for VR&E benefits, you must have received{' '}
         <strong>an other than</strong> dishonorable discharge.
       </p>
-      <a href="/discharge-upgrade-instructions/">
+      <a
+        onClick={e => fireLinkClickEvent(e)}
+        href="/discharge-upgrade-instructions/"
+      >
         Learn more about how to apply for a discharge upgrade
       </a>
     </div>
