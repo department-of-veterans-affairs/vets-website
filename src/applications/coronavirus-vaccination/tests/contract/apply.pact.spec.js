@@ -9,7 +9,8 @@ import contractTest from 'platform/testing/contract';
 //   string,
 //   term,
 // } from '@pact-foundation/pact/dsl/matchers';
-// import useSubmitForm from '../../hooks/useSubmitForm';
+import { apiPostRequest } from '../../apiCalls/';
+import environment from 'platform/utilities/environment';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
 import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthenticated-coronavirus-vaccination-application.json';
 
@@ -17,6 +18,10 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
   describe('POST /registration', () => {
     context('when a user is logged in', () => {
       it('Success case: submit valid form will return a 201 Created HTTP response', async () => {
+        const authenticatedApiUrl = `${
+          environment.API_URL
+        }/covid_vaccine/v0/registration`;
+
         await mockApi().addInteraction({
           state: 'authenticated user data with contact preference',
           uponReceiving: 'a POST request',
@@ -44,9 +49,7 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
           },
         });
 
-        // const [_, submitToApi] = useSubmitForm();
-        // submitToApi(authenticatedApplicationData)
-        // SUBMIT THE FORM!
+        apiPostRequest(authenticatedApiUrl, authenticatedApplicationData);
       });
     });
   });
@@ -54,6 +57,11 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
   describe('POST /registration/unauthenticated', () => {
     context('when a user is not logged in', () => {
       it('Success case: submit valid form will return a 201 Created HTTP response', async () => {
+        const authenticatedApiUrl = `${
+          environment.API_URL
+        }/covid_vaccine/v0/registration`;
+        const unauthenticatedApiUrl = `${authenticatedApiUrl}/unauthenticated`;
+
         await mockApi().addInteraction({
           state: 'authenticated user data with contact preference',
           uponReceiving: 'a POST request',
@@ -81,8 +89,7 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
           },
         });
 
-        // const [_, submitToApi] = useSubmitForm();
-        // submitToApi(unauthenticatedApplicationData)
+        apiPostRequest(unauthenticatedApiUrl, unauthenticatedApplicationData);
       });
     });
   });
