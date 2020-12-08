@@ -26,6 +26,9 @@ const uiSchema = {
   },
   accountNumber: {
     'ui:title': 'Bank account number',
+    'ui:errorMessages': {
+      required: 'Please enter a bank account number',
+    },
   },
   routingNumber: {
     'ui:title': 'Bank routing number',
