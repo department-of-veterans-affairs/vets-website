@@ -9,6 +9,7 @@ import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ErrorMessage from '../../../components/ErrorMessage';
 import RemoveProviderModal from './RemoveProviderModal';
+import recordEvent from 'platform/monitoring/record-event';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -91,7 +92,10 @@ function ProviderSelectionField({
           <button
             className="va-button-link"
             type="button"
-            onClick={() => setShowProvidersList(true)}
+            onClick={() => {
+              setShowProvidersList(true);
+              recordEvent({ event: 'vaos-choose-provider-click' });
+            }}
           >
             <i className="fas fa-plus vads-u-padding-right--0p5" />
             Choose a provider
@@ -294,9 +298,10 @@ function ProviderSelectionField({
                 <button
                   type="button"
                   className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
-                  onClick={() =>
-                    setProvidersListLength(providersListLength + 5)
-                  }
+                  onClick={() => {
+                    setProvidersListLength(providersListLength + 5);
+                    recordEvent({ event: 'vaos-provider-list-paginate' });
+                  }}
                 >
                   <span className="va-button-link">
                     +{' '}

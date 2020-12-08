@@ -8,6 +8,7 @@ import * as actions from '../../redux/actions';
 import { getFormPageInfo } from '../../../utils/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
+import recordEvent from 'platform/monitoring/record-event';
 
 const initialSchema = {
   type: 'object',
@@ -80,8 +81,18 @@ function CommunityCareProviderSelectionPage({
           title="Community Care preferences"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          onSubmit={() => {
+            recordEvent({
+              event:
+                Object.keys(data.communityCareProvider).length === 0
+                  ? 'vaos-continue-without-provider '
+                  : 'vaos-continue-with-provider',
+            });
+            routeToNextAppointmentPage(history, pageKey);
+          }}
+          onChange={newData => {
+            updateFormData(pageKey, uiSchema, newData);
+          }}
           data={data}
         >
           <FormButtons
