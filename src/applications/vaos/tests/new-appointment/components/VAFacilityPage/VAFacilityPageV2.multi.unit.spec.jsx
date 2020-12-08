@@ -756,6 +756,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
     expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be.ok;
+    expect(screen.getByText(/Facility that is disabled/i)).not.to.be.ok;
     const additionalInfoButton = screen.getByText(
       /Why isn.t my facility listed/i,
     );
