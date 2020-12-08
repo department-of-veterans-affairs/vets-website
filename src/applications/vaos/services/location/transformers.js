@@ -319,9 +319,9 @@ export function transformCommunityProviders(providers) {
       resourceType: 'Location',
       address: {
         line: [provider.address.street],
-        city: [provider.address.city],
-        state: [provider.address.state],
-        postalCode: [provider.address.zip],
+        city: provider.address.city,
+        state: provider.address.state,
+        postalCode: provider.address.zip,
       },
       name: provider.name,
       position: {

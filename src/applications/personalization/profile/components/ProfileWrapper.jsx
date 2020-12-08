@@ -9,7 +9,7 @@ import { isWideScreen } from '~/platform/utilities/accessibility/index';
 import { selectProfile } from '~/platform/user/selectors';
 
 import {
-  directDepositLoadError,
+  cnpDirectDepositLoadError,
   fullNameLoadError,
   militaryInformationLoadError,
   personalInformationLoadError,
@@ -117,7 +117,7 @@ const mapStateToProps = state => {
   return {
     hero: state.vaProfile?.hero,
     showNotAllDataAvailableError:
-      !!directDepositLoadError(state) ||
+      !!cnpDirectDepositLoadError(state) ||
       !!fullNameLoadError(state) ||
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),

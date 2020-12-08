@@ -74,14 +74,15 @@ src/applications/healthcare @department-of-veterans-affairs/vsa-healthcare-exper
 # Booz Allen Team
 src/applications/static-pages/school-resources @department-of-veterans-affairs/bah-code-reviewers
 src/applications/gi @department-of-veterans-affairs/bah-code-reviewers
+src/applications/edu-benefits/0993 @department-of-veterans-affairs/bah-code-reviewers
 src/applications/edu-benefits/1995 @department-of-veterans-affairs/bah-code-reviewers
-src/applications/edu-benefits/tests/1995 @department-of-veterans-affairs/bah-code-reviewers
 src/applications/edu-benefits/10203 @department-of-veterans-affairs/bah-code-reviewers
 src/applications/edu-benefits/feedback-tool @department-of-veterans-affairs/bah-code-reviewers
 
 # CTO Health Products
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
+src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products
 
 # Other
 src/applications/ask-a-question @department-of-veterans-affairs/orchid
