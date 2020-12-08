@@ -1,6 +1,8 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 // import SelectFacilityWidget from '../components/SelectFacilityWidget';
 
+import ssnUiSchema from 'platform/forms-system/src/js/definitions/ssn';
+
 export default {
   isIdentityVerified: {
     'ui:options': {
@@ -27,13 +29,10 @@ export default {
     },
   },
   ssn: {
-    'ui:title': 'Social Security Number (SSN)',
-    'ui:errorMessages': {
-      required: 'Please enter your social security number.',
-      pattern: 'Please enter a valid social security number.',
-    },
+    ...ssnUiSchema,
     'ui:required': formData => !formData.isIdentityVerified,
     'ui:options': {
+      ...ssnUiSchema['ui:options'],
       hideIf: formData => formData.isIdentityVerified,
     },
   },
