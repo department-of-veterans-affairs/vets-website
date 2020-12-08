@@ -5,17 +5,18 @@ import { connect } from 'react-redux';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
 
-function Introduction({ isProfileLoading, isLoggedIn, toggleLoginModal }) {
-  let callToAction = <LoadingIndicator message="Loading your profile..." />;
-
-  if (!isProfileLoading) {
-    if (isLoggedIn) {
-      callToAction = (
+function Introduction({ isLoggedIn, toggleLoginModal }) {
+  return (
+    <>
+      <h2>Introduction</h2>
+      <div className="va-introtext">
+        <p>This is an introduction</p>
+      </div>
+      {isLoggedIn ? (
         <AlertBox
           status={ALERT_TYPE.SUCCESS}
           headline="You’re all set"
@@ -25,43 +26,34 @@ function Introduction({ isProfileLoading, isLoggedIn, toggleLoginModal }) {
             </Link>
           }
         />
-      );
-    } else {
-      callToAction = (
+      ) : (
         <AlertBox
           status={ALERT_TYPE.INFO}
           headline="Save time by signing in before you start your application"
           content={
             <>
               <p>
-                <button onClick={toggleLoginModal} className="usa-button">
-                  Begin the application
+                <button
+                  type="button"
+                  onClick={toggleLoginModal}
+                  className="usa-button"
+                >
+                  Sign in
                 </button>
-              </p>
-              <p>
-                <Link to="/apply">Continue without signing in</Link>
+                <Link className="usa-button usa-button-secondary" to="/apply">
+                  Continue without signing in
+                </Link>
               </p>
             </>
           }
         />
-      );
-    }
-  }
-
-  return (
-    <>
-      <h2>Introduction</h2>
-      <div className="va-introtext">
-        <p>This is an introduction</p>
-      </div>
-      {callToAction}
+      )}
     </>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    isProfileLoading: userSelectors.isProfileLoading(state),
     isLoggedIn: userSelectors.isLoggedIn(state),
   };
 };

@@ -69,7 +69,7 @@ class DebtDetails extends Component {
                   <dt>
                     <strong>Date of first notice: </strong>
                   </dt>
-                  <dd className="vads-u-align-content--flex-end">
+                  <dd>
                     {moment(first(selectedDebt.debtHistory).date).format(
                       'MMMM D, YYYY',
                     )}
