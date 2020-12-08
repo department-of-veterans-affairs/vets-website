@@ -14,49 +14,6 @@ import authenticatedApplicationData from '../cypress/fixtures/data/authenticated
 import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthenticated-coronavirus-vaccination-application.json';
 
 contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
-  // describe('GET coronavirus-vaccination/apply', () => {
-  //   context('when a user is logged in', () => {
-  //     it('returns user data', async () => {
-  //       await mockApi().addInteraction({
-  //         state: 'logged in user form data', // finalize state
-  //         uponReceiving: 'a GET request',
-  //         withRequest: {
-  //           method: 'GET',
-  //           path: '/v0/ask/inquiries', // get path
-  //           headers: {}, //
-  //         },
-  //         willRespondWith: {
-  //           status: 200,
-  //           headers: {
-  //             'Content-Type': term({
-  //               matcher: '^application/json',
-  //               generate: 'application/json',
-  //             }),
-  //           },
-  //           body: like({
-  //             inquiries: eachLike({
-  //               subject: 'Eyeglasses',
-  //               confirmationNumber: '000-011',
-  //               status: 'RESOLVED',
-  //               creationTimestamp: iso8601DateTime(),
-  //               lastActiveTimestamp: iso8601DateTime(),
-  //               links: {
-  //                 thread: {
-  //                   href: '/v1/user/{:user-id}/inquiry/000-011',
-  //                 },
-  //               },
-  //             }),
-  //           }),
-  //         },
-  //       });
-
-  //       const dispatch = sinon.stub();
-
-  //       await fetchInquiries()(dispatch);
-  //     });
-  //   });
-  // });
-
   describe('POST /registration', () => {
     context('when a user is logged in', () => {
       it('Success case: submit valid form will return a 201 Created HTTP response', async () => {
@@ -89,6 +46,7 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
 
         // const [_, submitToApi] = useSubmitForm();
         // submitToApi(authenticatedApplicationData)
+        // SUBMIT THE FORM!
       });
     });
   });
