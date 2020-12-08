@@ -17,6 +17,9 @@ const PURPOSE_TEXT = Object.freeze([
   },
 ]);
 
+// NOTE: There is a room for refactor here, but to make sure its is the correct refactor,
+// The front end team is waiting until a third method is created tpo create a smart refactor
+
 const getBookingNoteFromAppointment = data => {
   const appointment = data?.attributes;
   if (!appointment) {
@@ -57,4 +60,26 @@ const getBookingNoteFromAppointment = data => {
   return display;
 };
 
-export { getBookingNoteFromAppointment };
+const getAppointTypeFromAppointment = data => {
+  const appointment = data?.attributes;
+  if (!appointment) {
+    return null;
+  }
+  if (!appointment.vdsAppointments?.length) {
+    return null;
+  }
+  const { clinic } = appointment.vdsAppointments[0];
+
+  if (!clinic) {
+    return null;
+  }
+  switch (clinic.stopCode) {
+    case 323:
+    case '323':
+      return 'Primary care';
+    default:
+      return null;
+  }
+};
+
+export { getBookingNoteFromAppointment, getAppointTypeFromAppointment };

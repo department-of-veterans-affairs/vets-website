@@ -924,7 +924,7 @@
           "name": "Health care"
         },
         {
-          "path": "/health-care/health-questionnaires/questionnaires",
+          "path": "health-care/health-questionnaires/questionnaires",
           "name": "Your health questionnaires"
         }
       ]
