@@ -212,7 +212,6 @@ export const prefillBankInformation = (
   prefilledFieldNames = defaultFieldNames,
   postTransformerFieldNames = prefilledFieldNames,
 ) => {
-  // TODO: Add an option for post-transformation field names
   const newData = _.omit(
     [
       prefilledFieldNames.accountType,
