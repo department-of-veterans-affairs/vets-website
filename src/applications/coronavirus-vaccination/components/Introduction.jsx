@@ -13,11 +13,13 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
   return (
     <>
       <h1>COVID-19 vaccines — Stay informed and help us prepare</h1>
-      <p>
-        We’re working to get COVID-19 vaccines to Veterans as quickly and safely
-        as possible. We need your help to prepare. And we want to keep you
-        informed at every step.
-      </p>
+      <div className="va-introtext">
+        <p>
+          We’re working to get COVID-19 vaccines to Veterans as quickly and
+          safely as possible. We need your help to prepare. And we want to keep
+          you informed at every step.
+        </p>
+      </div>
       <p>
         Sign up below to help us understand your interest in getting a vaccine.
         We’ll send you regular updates on how we’re providing vaccines across
