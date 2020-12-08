@@ -60,12 +60,12 @@ export const uiSchema = {
   debtRepaymentOptions: {
     'ui:field': DebtRepayment,
   },
-  resolutionOptions: {
+  relationship: {
     resolutionType: {
       'ui:title':
         'What type of help do you want for your Post-9/11 GI Bill debt for tuition and fees?',
-      'ui:widget': 'radio',
       'ui:required': () => true,
+      'ui:widget': 'radio',
       'ui:options': {
         labels: {
           [resolutionOptions[0].type]: (
@@ -103,6 +103,18 @@ export const uiSchema = {
     },
     canAffordToPay: {
       'ui:title': 'How much can you afford to pay monthly on this debt?',
+      'ui:options': {
+        expandUnder: 'resolutionType',
+        expandUnderCondition: 'Extended monthly payments',
+      },
+    },
+    offerToPay: {
+      'ui:title':
+        'How much do you offer to pay for this debt with a single payment?',
+      'ui:options': {
+        expandUnder: 'resolutionType',
+        expandUnderCondition: 'Compromise',
+      },
     },
   },
 };
@@ -125,7 +137,7 @@ export const schema = {
         },
       },
     },
-    resolutionOptions: {
+    relationship: {
       type: 'object',
       properties: {
         resolutionType: {
@@ -133,6 +145,9 @@ export const schema = {
           enum: resolutionOptions.map(option => option.type),
         },
         canAffordToPay: {
+          type: 'string',
+        },
+        offerToPay: {
           type: 'string',
         },
       },
