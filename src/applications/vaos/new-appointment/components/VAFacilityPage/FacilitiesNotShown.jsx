@@ -5,7 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
 
-const UNSUPPORTED_FACILITY_RANGE = 1000;
+const UNSUPPORTED_FACILITY_RANGE = 100;
 
 export default function FacilitiesNotShown({ facilities, sortMethod }) {
   const [isOpen, setIsOpen] = useState(false);
