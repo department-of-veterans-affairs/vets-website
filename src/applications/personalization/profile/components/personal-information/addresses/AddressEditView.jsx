@@ -99,11 +99,11 @@ class AddressEditView extends React.Component {
       <ContactInformationEditView
         analyticsSectionName={this.props.analyticsSectionName}
         clearErrors={this.props.clearErrors}
-        hasUnsavedEdits={this.props.hasUnsavedEdits}
         deleteDisabled={this.props.deleteDisabled}
         field={this.props.field}
         formSchema={this.props.formSchema}
         getInitialFormValues={this.getInitialFormValues}
+        hasUnsavedEdits={this.props.hasUnsavedEdits}
         hasValidationError={this.props.hasValidationError}
         isEmpty={this.props.isEmpty}
         onCancel={this.props.onCancel}
