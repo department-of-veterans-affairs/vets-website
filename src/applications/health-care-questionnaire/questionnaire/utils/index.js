@@ -17,8 +17,8 @@ const PURPOSE_TEXT = Object.freeze([
   },
 ]);
 
-// NOTE: There is a room for refactor here, but to make sure its is the correct refactor,
-// The front end team is waiting until a third method is created tpo create a smart refactor
+// NOTE: There is a room for refactor here, but to make sure its the correct refactor,
+// The front end team is waiting until a third method is created to create a smart refactor
 
 const getBookingNoteFromAppointment = data => {
   const appointment = data?.attributes;
@@ -73,10 +73,16 @@ const getAppointTypeFromAppointment = data => {
   if (!clinic) {
     return null;
   }
-  switch (clinic.stopCode) {
-    case 323:
+  const { stopCode } = clinic;
+  if (!stopCode) {
+    return null;
+  }
+  // Waiting till we expand our MVP to add more stop codes here
+  switch (clinic.stopCode.toString()) {
     case '323':
       return 'Primary care';
+    case '502':
+      return 'Mental health';
     default:
       return null;
   }
