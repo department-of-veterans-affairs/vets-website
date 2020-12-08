@@ -123,6 +123,13 @@ export const updateFormData = (oldData, newData) => {
   if (oldData.topic.levelOne !== newData.topic.levelOne) {
     Object.assign(newData.topic, { levelTwo: undefined });
   }
+  if (
+    oldData.topic.socialSecurityNumber !== newData.topic.socialSecurityNumber
+  ) {
+    Object.assign(newData.veteranServiceInformation, {
+      socialSecurityNumber: newData.topic.socialSecurityNumber,
+    });
+  }
   return newData;
 };
 
