@@ -441,7 +441,6 @@ module.exports = function registerFilters() {
     return null;
   };
 
-  // TODO - add unit tests for this!
   liquid.filters.deriveLastBreadcrumbFromPath = (
     breadcrumbs,
     string,

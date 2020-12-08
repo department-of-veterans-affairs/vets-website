@@ -97,4 +97,23 @@ describe('deriveLastBreadcrumbFromPath', () => {
 
     expect(last.text).to.eq(title);
   });
+
+  it('returns breadcrumbs list with title as the last', () => {
+    const origBreadCrumbsList = [
+      { url: 'http://va.gov', text: 'Home' },
+      { url: 'http://va.gov', text: 'VA Pittsburgh health care' },
+      { url: 'http://va.gov', text: 'Stories' },
+    ];
+    const title = 'New Program Empowers Community Providers';
+    const last = liquid.filters
+      .deriveLastBreadcrumbFromPath(
+        origBreadCrumbsList,
+        title,
+        'http://va.gov',
+        false,
+      )
+      .pop();
+
+    expect(last.text).to.eq(title);
+  });
 });
