@@ -16,8 +16,9 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
       <div className="va-introtext">
         <p>
           We’re working to get COVID-19 vaccines to Veterans as quickly and
-          safely as possible. We need your help to prepare. And we want to keep
-          you informed at every step.
+          safely as possible based on CDC guidelines and available supply. We
+          need your help to prepare. And we want to keep you informed at every
+          step.
         </p>
       </div>
       <p>
@@ -31,6 +32,9 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
         you can change your mind about getting a vaccine at any time. We’ll use
         the information you provide to understand your interest and communicate
         with you.
+      </p>
+      <p>
+        Learn who will get a COVID-19 vaccine first based on CDC guidelines.
       </p>
       {isLoggedIn ? (
         <Link className="usa-button" to="/form">
