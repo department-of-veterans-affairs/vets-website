@@ -166,13 +166,11 @@ class ConfirmationPage extends React.Component {
           </h4>
           <p className="confirmation-guidance-message">
             We usually decide on applications within 30 days.
-            <br />
-            <br />
-            You’ll get a Certificate of Eligibility (COE) or decision letter in
-            the mail. If we’ve approved your application, you can bring the COE
-            to the VA certifying official at your school.
-            <br />
-            <br />
+            <div className="spaced-content">
+              You’ll get a Certificate of Eligibility (COE) or decision letter
+              in the mail. If we’ve approved your application, you can bring the
+              COE to the VA certifying official at your school.
+            </div>
             <a href="/education/after-you-apply/">
               Learn more about what happens after you apply
             </a>
