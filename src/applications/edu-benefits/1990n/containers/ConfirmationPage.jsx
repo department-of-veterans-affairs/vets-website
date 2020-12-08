@@ -69,7 +69,9 @@ class ConfirmationPage extends React.Component {
         <div className="inset">
           <h4 className="vads-u-margin-top--0">
             Education benefit application{' '}
-            <span className="additional">(Form 22-1990N)</span>
+            <span className="vads-u-margin--0 vads-u-display--inline-block">
+              (Form 22-1990N)
+            </span>
           </h4>
           <span>
             for {name.first} {name.middle} {name.last} {name.suffix}
