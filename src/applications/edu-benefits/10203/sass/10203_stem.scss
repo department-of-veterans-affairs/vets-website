@@ -138,7 +138,9 @@
   // This needed for on the Review Page of the form
   list-style-type: none !important;
 }
-
+.colon {
+  display: inline;
+}
 .wizard-button::after {
   background-image: url(/img/arrow-down-white.svg);
   background-position: right bottom;
