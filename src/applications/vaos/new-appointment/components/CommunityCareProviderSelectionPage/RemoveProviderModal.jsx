@@ -14,7 +14,7 @@ export default function RemoveProviderModal({ onClose, provider, address }) {
         {provider.address?.city}, {provider.address?.state}{' '}
         {provider.address?.postalCode}
       </span>
-      <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+      <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold vads-u-margin-bottom--2">
         {distanceBetween(
           provider.position?.latitude,
           provider.position?.longitude,
@@ -44,9 +44,7 @@ export default function RemoveProviderModal({ onClose, provider, address }) {
       title={title}
       hideCloseButton
     >
-      <div aria-atomic="true" aria-live="assertive">
-        {content}
-      </div>
+      {content}
     </Modal>
   );
 }

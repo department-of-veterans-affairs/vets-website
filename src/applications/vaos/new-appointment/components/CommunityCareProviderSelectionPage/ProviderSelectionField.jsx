@@ -22,7 +22,6 @@ function ProviderSelectionField({
   communityCareProviderList,
 }) {
   const [checkedProvider, setCheckedProvider] = useState(false);
-  const [removedProvider, setRemovedProvider] = useState(false);
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showProvidersList, setShowProvidersList] = useState(false);
@@ -46,13 +45,20 @@ function ProviderSelectionField({
     () => {
       if (showProvidersList) {
         scrollAndFocus('h2');
-      } else if (mounted && removedProvider) {
-        scrollAndFocus('h2');
       } else if (mounted) {
         scrollAndFocus('.va-button-link');
       }
     },
-    [showProvidersList, removedProvider],
+    [showProvidersList],
+  );
+
+  useEffect(
+    () => {
+      if (mounted && Object.keys(formData).length === 0) {
+        scrollAndFocus('.va-button-link');
+      }
+    },
+    [formData],
   );
 
   return (
@@ -238,7 +244,6 @@ function ProviderSelectionField({
           onClose={response => {
             setShowRemoveProviderModal(false);
             if (response === true) {
-              setRemovedProvider(true);
               setCheckedProvider(false);
               onChange({});
             }
