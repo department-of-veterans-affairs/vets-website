@@ -1,14 +1,14 @@
 import contractTest from 'platform/testing/contract';
 // import sinon from 'sinon';
 // import { expect } from 'chai';
-// import {
-//   decimal,
-//   eachLike,
-//   integer,
-//   like,
-//   string,
-//   term,
-// } from '@pact-foundation/pact/dsl/matchers';
+import {
+  // decimal,
+  // eachLike,
+  // integer,
+  // like,
+  // string,
+  term,
+} from '@pact-foundation/pact/dsl/matchers';
 import { apiPostRequest } from '../../apiCalls/';
 import environment from 'platform/utilities/environment';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
@@ -28,22 +28,21 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
           method: 'POST',
           path: '/covid_vaccine/v0/registration',
           headers: {
+            'X-Key-Inflection': 'camel',
             'Content-Type': 'application/json',
           },
           body: {
-            inquiry: {
-              form: JSON.stringify(authenticatedApplicationData),
-            },
+            data: JSON.stringify(authenticatedApplicationData),
           },
         },
         willRespondWith: {
           status: 201,
-          // headers: {
-          //   'Content-Type': term({
-          //     matcher: '^application/json',
-          //     generate: 'application/json',
-          //   }),
-          // },
+          headers: {
+            'Content-Type': term({
+              matcher: '^application/json',
+              generate: 'application/json',
+            }),
+          },
           // body: like({}),
         },
       };
@@ -68,22 +67,21 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
           method: 'POST',
           path: '/covid_vaccine/v0/registration/unauthenticated',
           headers: {
+            'X-Key-Inflection': 'camel',
             'Content-Type': 'application/json',
           },
           body: {
-            inquiry: {
-              form: JSON.stringify(unauthenticatedApplicationData),
-            },
+            data: JSON.stringify(unauthenticatedApplicationData),
           },
         },
         willRespondWith: {
           status: 201,
-          // headers: {
-          //   'Content-Type': term({
-          //     matcher: '^application/json',
-          //     generate: 'application/json',
-          //   }),
-          // },
+          headers: {
+            'Content-Type': term({
+              matcher: '^application/json',
+              generate: 'application/json',
+            }),
+          },
           // body: like({}),
         },
       };
