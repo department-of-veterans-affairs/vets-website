@@ -80,7 +80,9 @@ describe('IntroductionPage', () => {
 
     const AlertBox = tree.find('AlertBox');
     expect(AlertBox.length).to.equal(1);
-    expect(AlertBox.props().headline).to.contain('need to have an address on file');
+    expect(AlertBox.props().headline).to.contain(
+      'need to have an address on file',
+    );
     tree.unmount();
   });
 
