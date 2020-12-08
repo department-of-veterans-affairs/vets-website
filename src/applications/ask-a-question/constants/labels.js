@@ -21,7 +21,7 @@ export const medicalCenterError = 'Please enter your medical center';
 export const routeToStateError = 'Please enter your state';
 export const stateOfSchoolError = 'Please enter the state of your school';
 export const stateOfResidenceError = 'Please enter your state of residence';
-export const facilityCodeError = 'Please enter your valid facility code';
+export const facilityCodeError = 'Please enter your 8 digit Facility Code';
 export const inquiryTypeError = "Please enter the reason you're contacting us";
 export const queryError = 'Please enter your message';
 
