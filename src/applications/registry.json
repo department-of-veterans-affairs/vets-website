@@ -819,12 +819,8 @@
       "title": "View Payments",
       "breadcrumbs_override": [
         {
-          "path": "va-payment-history/",
-          "name": "View your VA payment history"
-        },
-        {
           "path": "va-payment-history/payments",
-          "name": "Your VA payments"
+          "name": "View VA payment history"
         }
       ]
     }
