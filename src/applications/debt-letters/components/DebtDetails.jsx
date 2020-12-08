@@ -65,17 +65,17 @@ class DebtDetails extends Component {
             </p>
             <div className="vads-u-display--flex vads-u-flex-direction--row">
               <dl className="vads-u-display--flex vads-u-flex-direction--column">
-                <div className="vads-u-margin-y--1 vads-u-display--flex vads-u-justify-content--space-between">
+                <div className="vads-u-margin-y--1 vads-u-display--flex">
                   <dt>
                     <strong>Date of first notice: </strong>
                   </dt>
-                  <dd>
+                  <dd className="vads-u-margin-left--1">
                     {moment(first(selectedDebt.debtHistory).date).format(
                       'MMMM D, YYYY',
                     )}
                   </dd>
                 </div>
-                <div className="vads-u-display--flex vads-u-justify-content--space-between">
+                <div className="vads-u-display--flex ">
                   <dt>
                     <strong>Original debt amount: </strong>
                   </dt>
@@ -83,7 +83,7 @@ class DebtDetails extends Component {
                     {formatter.format(parseFloat(selectedDebt.originalAr))}
                   </dd>
                 </div>
-                <div className="vads-u-margin-y--1 vads-u-display--flex vads-u-justify-content--space-between">
+                <div className="vads-u-margin-y--1 vads-u-display--flex">
                   <dt>
                     <strong>Current balance: </strong>
                   </dt>

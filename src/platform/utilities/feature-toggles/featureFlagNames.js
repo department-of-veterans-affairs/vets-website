@@ -1,6 +1,7 @@
 export default Object.freeze({
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   dashboardShowDashboard2: 'dashboard_show_dashboard_2',
+  directDepositEducation: 'ch33_dd_profile',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
