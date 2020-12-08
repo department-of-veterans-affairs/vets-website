@@ -195,8 +195,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
     );
   });
-  // TODO: show more
-  // TODO: provider fetch failure
   it('should display an error when choose a provider clicked and provider fetch error', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
