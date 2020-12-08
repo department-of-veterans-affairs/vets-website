@@ -710,7 +710,7 @@ describe('VAOS integration: appointment list', () => {
       }),
     ).to.not.have.attribute('tabindex');
 
-    // move to the last tab
+    // move to the express care tab
 
     userEvent.click(
       screen.getByRole('tab', {
