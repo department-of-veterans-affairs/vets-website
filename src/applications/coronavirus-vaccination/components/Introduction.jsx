@@ -33,15 +33,9 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
         with you.
       </p>
       {isLoggedIn ? (
-        <AlertBox
-          status={ALERT_TYPE.SUCCESS}
-          headline="You’re all set"
-          content={
-            <Link className="usa-button" to="/form">
-              Begin the application
-            </Link>
-          }
-        />
+        <Link className="usa-button" to="/form">
+          Sign up to stay informed
+        </Link>
       ) : (
         <AlertBox
           status={ALERT_TYPE.INFO}
