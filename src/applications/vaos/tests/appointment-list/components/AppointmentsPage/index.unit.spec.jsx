@@ -597,6 +597,242 @@ describe('VAOS integration: appointment list', () => {
     ).to.have.attribute('tabindex', '-1');
   });
 
+  it('should call next tab on arrow right', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+      reasonForVisit: 'Back pain',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+      va: [],
+    });
+    mockRequestEligibilityCriteria(['983'], []);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+    });
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    // triggers arrow right key
+
+    fireEvent.keyDown(
+      screen.getByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+      { key: 'ArrowRight', keyCode: 39 },
+    );
+
+    expect(document.activeElement.id).to.equal('tabpast');
+
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'upcoming appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+
+    // triggers arrow right key
+
+    fireEvent.keyDown(
+      await screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+      { key: 'ArrowRight', keyCode: 39 },
+    );
+    expect(document.activeElement.id).to.equal('tabexpress-care');
+    expect(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+  });
+
+  it('should call previous tab on left right', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+      reasonForVisit: 'Back pain',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+      va: [],
+    });
+    mockRequestEligibilityCriteria(['983'], []);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+    });
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    // move to the last tab
+
+    userEvent.click(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+      }),
+    );
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    // triggers arrow left key
+
+    fireEvent.keyDown(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+      { key: 'ArrowLeft', keyCode: 37 },
+    );
+
+    expect(document.activeElement.id).to.equal('tabpast');
+
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+
+    // triggers arrow left key
+
+    fireEvent.keyDown(
+      await screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+      { key: 'ArrowLeft', keyCode: 37 },
+    );
+    expect(document.activeElement.id).to.equal('tabupcoming');
+    expect(
+      screen.getByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+  });
+
+  it('should focus on tab panel on arrow down', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+      reasonForVisit: 'Back pain',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+      va: [],
+    });
+    mockRequestEligibilityCriteria(['983'], []);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+    });
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    userEvent.click(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+      }),
+    );
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    // triggers arrow down key
+
+    fireEvent.keyDown(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+      { key: 'ArrowDown', keyCode: 40 },
+    );
+
+    expect(document.activeElement.id).to.equal('tabpanelexpress-care');
+    expect(screen.getByText(/Back pain/i)).to.exist;
+  });
+
   it('should render warning message', async () => {
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
