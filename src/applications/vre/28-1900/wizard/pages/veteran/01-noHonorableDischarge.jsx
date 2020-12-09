@@ -3,7 +3,7 @@ import { veteranPathPageNames } from '../pageList';
 import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 
 const NoHonorableDischarge = () => {
-  recordNotificationEvent('ineligibility - recieved an honorable discharge');
+  recordNotificationEvent('ineligibility - received a dishonorable discharge');
   return (
     <div className="feature vads-u-background-color--gray-lightest">
       <p>

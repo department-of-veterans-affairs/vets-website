@@ -26,6 +26,6 @@ export const recordNotificationEvent = description => {
 export const fireLinkClickEvent = event => {
   recordEvent({
     event: 'howToWizard-alert-link-click',
-    'howToWizard-alert-link-click-label': event.target.innerHTML,
+    'howToWizard-alert-link-click-label': event.target.innerText,
   });
 };
