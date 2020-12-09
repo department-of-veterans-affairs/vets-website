@@ -23,14 +23,17 @@ import {
   repayments,
   otherExpenses,
   resolutionOptions,
+  resolutionComments,
+  bankruptcyHistory,
 } from '../pages';
 
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
   householdIncomeTitle: 'Household income',
-  householdAssets: 'Household Assets',
-  householdExpenses: 'Household Expenses',
-  resolutionOptions: 'Resolution Options',
+  householdAssets: 'Household assets',
+  householdExpenses: 'Household expenses',
+  resolutionOptions: 'Resolution options',
+  bankruptcyHistory: 'Bankruptcy history',
 };
 
 const formPageTitles = {
@@ -51,6 +54,8 @@ const formPageTitles = {
   repayments: 'Household Repayments',
   otherExpenses: 'Other expenses',
   resolutionOptions: 'Resolution Options',
+  resolutionComments: 'Resolution Comments',
+  bankruptcyHistory: 'Bankruptcy History',
 };
 
 const formConfig = {
@@ -211,6 +216,23 @@ const formConfig = {
           title: formPageTitles.resolutionOptions,
           uiSchema: resolutionOptions.uiSchema,
           schema: resolutionOptions.schema,
+        },
+        [formPageTitles.resolutionComments]: {
+          path: 'resolution-comments',
+          title: formPageTitles.resolutionComments,
+          uiSchema: resolutionComments.uiSchema,
+          schema: resolutionComments.schema,
+        },
+      },
+    },
+    bankruptcyAttestationChapter: {
+      title: formChapterTitles.bankruptcyHistory,
+      pages: {
+        [formPageTitles.bankruptcyHistory]: {
+          path: 'bankruptcy-history',
+          title: formPageTitles.bankruptcyHistory,
+          uiSchema: bankruptcyHistory.uiSchema,
+          schema: bankruptcyHistory.schema,
         },
       },
     },

@@ -7,6 +7,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
+import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
@@ -126,7 +127,7 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { allowHlr, hasEmptyAddress } = this.props;
+    const { allowHlr, user, hasEmptyAddress } = this.props;
     const callToActionContent = this.getCallToActionContent();
     const showWizard = allowHlr && this.state.status !== WIZARD_STATUS_COMPLETE;
     const pageTitle = `Request a Higher-Level Review${
@@ -145,7 +146,7 @@ export class IntroductionPage extends React.Component {
     }
 
     // check is user has address
-    if (hasEmptyAddress) {
+    if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
       return (
         <article className="schemaform-intro">
           <FormTitle title={pageTitle} />
@@ -200,6 +201,7 @@ export class IntroductionPage extends React.Component {
                   onClick={() => {
                     this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                     this.setPageFocus();
+                    recordEvent({ event: `howToWizard-start-over` });
                   }}
                 >
                   go back and answer questions again

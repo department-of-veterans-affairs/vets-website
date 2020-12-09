@@ -22,16 +22,12 @@ const form = {
 describe('<ConfirmationPage>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
-
     expect(tree.subTree('.confirmation-page-title').text()).to.equal(
       "We've received your application.",
     );
-    expect(
-      tree
-        .everySubTree('span')[1]
-        .text()
-        .trim(),
-    ).to.equal('(Form 22-1995)');
+    expect(tree.text()).to.contain(
+      'Education benefit application (Form 22-1995)',
+    );
     expect(tree.everySubTree('p')[0].text()).to.contain(
       'We usually process applications within 30 days.',
     );
