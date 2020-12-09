@@ -23,6 +23,7 @@ export default function TextWidget(props) {
     onBlur: () => props.onBlur(props.id),
     onChange: event =>
       props.onChange(event.target.value ? event.target.value : undefined),
+    onFocus: props.onFocus,
   };
 
   return <input {...inputProps} />;
