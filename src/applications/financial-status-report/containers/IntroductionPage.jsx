@@ -12,7 +12,6 @@ const IntroductionPage = props => {
       <SaveInProgressIntro
         startText="Apply for financial hardship assistance"
         unauthStartText="Sign in or create an account"
-        hideUnauthedStartLink
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
@@ -70,7 +69,6 @@ const IntroductionPage = props => {
         pageList={props.route.pageList}
         startText="Apply for financial hardship assistance"
         unauthStartText="Sign in or create an account"
-        hideUnauthedStartLink
         prefillEnabled={props.route.formConfig.prefillEnabled}
         formConfig={formConfig}
       />

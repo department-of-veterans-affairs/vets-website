@@ -12,7 +12,7 @@ import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 
-import MegaMenu from '@department-of-veterans-affairs/formation-react/MegaMenu';
+import MegaMenu from '../components/MegaMenu';
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
@@ -33,7 +33,7 @@ export function getAuthorizedLinkData(
   authenticatedLinks = authenticatedUserLinkData,
 ) {
   return [
-    ...replaceDomainsInData(defaultLinks),
+    ...(defaultLinks ? replaceDomainsInData(defaultLinks) : []),
     ...(loggedIn ? replaceDomainsInData(authenticatedLinks) : []),
   ];
 }

@@ -1,5 +1,5 @@
 import ItemLoop from '../../components/ItemLoop';
-import PayrollDeductionView from '../../components/PayrollDeductionView';
+import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -42,8 +42,9 @@ export const uiSchema = {
         payrollDeductions: {
           'ui:field': ItemLoop,
           'ui:options': {
-            viewField: PayrollDeductionView,
+            viewField: CardDetailsView,
             doNotScroll: true,
+            showSave: true,
           },
           items: {
             'ui:title': 'Payroll deductions',
