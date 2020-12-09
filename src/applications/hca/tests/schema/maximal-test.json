@@ -17,7 +17,7 @@
       }
     ],
     "isMedicaidEligible": true,
-    "isEnrolledMedicarePartA": true,
+    "isEnrolledMedicarePartA": false,
     "medicarePartAEffectiveDate": "2009-01-02",
     "deductibleMedicalExpenses": 234,
     "deductibleFuneralExpenses": 11,
