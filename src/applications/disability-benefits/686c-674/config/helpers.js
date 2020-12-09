@@ -71,7 +71,7 @@ export const isInsideListLoopReturn = (
   return {
     'ui:title': uiTitle,
     isOutsideUs: {
-      'ui:title': 'This occurred outside the US',
+      'ui:title': 'This occurred outside the U.S.',
       'ui:options': {
         hideOnReviewIfFalse: true,
       },
@@ -121,7 +121,7 @@ export const isOutsideListLoopReturn = (
   return {
     'ui:title': uiTitle,
     isOutsideUs: {
-      'ui:title': 'This occurred outside the US',
+      'ui:title': 'This occurred outside the U.S.',
       'ui:options': {
         hideOnReviewIfFalse: true,
       },
