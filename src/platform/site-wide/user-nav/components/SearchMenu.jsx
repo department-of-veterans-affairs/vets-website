@@ -27,22 +27,21 @@ export class SearchMenu extends React.Component {
       suggestions: [],
     };
   }
-
-  componentDidMount = () => {
-    if (this.props.searchTypeaheadEnabled) {
-      recordEvent({
-        event: 'phased-roll-out-enabled',
-        'product-description': 'Type Ahead',
-      });
-    }
-  };
-
   componentDidUpdate(prevProps, prevState) {
     const { userInput } = this.state;
 
     const inputChanged = prevState.userInput !== userInput;
     if (inputChanged) {
       this.getSuggestions();
+    }
+    if (
+      !prevProps.searchTypeaheadEnabled &&
+      this.props.searchTypeaheadEnabled
+    ) {
+      recordEvent({
+        event: 'phased-roll-out-enabled',
+        'product-description': 'Type Ahead',
+      });
     }
   }
 
@@ -78,13 +77,16 @@ export class SearchMenu extends React.Component {
     recordEvent({
       event: 'view_search_results',
       'search-page-path': document.location.pathname,
-      'search-text-input': this.state.userInput,
+      'search-query': this.state.userInput,
+      'search-results-total-count': undefined,
+      'search-results-total-pages': undefined,
+      'search-selection': 'All VA.gov',
+      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
       'type-ahead-option-keyword-selected': suggestion,
       'type-ahead-option-position': suggestion
         ? this.state.suggestions.indexOf(suggestion) + 1
         : undefined,
       'type-ahead-options-list': this.state.suggestions,
-      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
     });
   };
 
