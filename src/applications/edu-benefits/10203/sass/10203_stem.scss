@@ -138,9 +138,7 @@
   // This needed for on the Review Page of the form
   list-style-type: none !important;
 }
-.colon {
-  display: inline;
-}
+
 .wizard-button::after {
   background-image: url(/img/arrow-down-white.svg);
   background-position: right bottom;
@@ -172,6 +170,10 @@ li.li-styling {
 @media print {
   .usa-width-two-thirds {
     width: 100%;
+  }
+  /* Include href when printing */
+  a:not([href^="tel"]):after {
+    content: ": (https://va.gov" attr(href) ")";
   }
 
   .schemaform-title,

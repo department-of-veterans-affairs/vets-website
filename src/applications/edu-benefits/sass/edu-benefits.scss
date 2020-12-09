@@ -21,9 +21,7 @@
   line-height: 0;
   position: relative;
 }
-.colon {
-  display: inline;
-}
+
 .edu-benefits-alert {
   margin-bottom: 23px;
 }
@@ -161,6 +159,10 @@
   }
   .pagebreak {
     page-break-before: always;
+  }
+  /* Include href when printing */
+  a:not([href^="tel"]):after {
+    content: ": (https://va.gov" attr(href) ")";
   }
 }
 

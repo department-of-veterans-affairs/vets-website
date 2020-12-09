@@ -36,7 +36,6 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.veteranFullName;
-    const printPreviewColon = <span className="print-only colon">:</span>;
 
     return (
       <div>
@@ -113,10 +112,9 @@ class ConfirmationPage extends React.Component {
             the mail. If we’ve approved your application, you can bring the COE
             to the VA certifying official at your school.
           </p>
-          <p>
+          <p className="confirmation-guidance-message">
             <a href="/education/after-you-apply/">
               Learn more about what happens after you apply
-              {printPreviewColon}
             </a>
           </p>
           <h4 className="confirmation-guidance-heading vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">

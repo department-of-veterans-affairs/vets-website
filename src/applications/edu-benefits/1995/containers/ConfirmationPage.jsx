@@ -39,7 +39,6 @@ class ConfirmationPage extends React.Component {
       : {};
     const name = form.data.veteranFullName;
     const benefit = form.data.benefit;
-    const printPreviewColon = <div className="print-only colon">:</div>;
 
     const docExplanation = this.state.isExpanded ? (
       <div className="usa-accordion-content" aria-hidden="false">
@@ -155,7 +154,6 @@ class ConfirmationPage extends React.Component {
           <p className="confirmation-guidance-message">
             <a href="/education/after-you-apply/">
               Learn more about what happens after you apply
-              {printPreviewColon}
             </a>
           </p>
           <h4 className="confirmation-guidance-heading pagebreak vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
