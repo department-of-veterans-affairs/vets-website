@@ -76,15 +76,17 @@ const SearchResult = ({ form }) => {
       </dd>
 
       {formToolUrl ? (
-        <a
-          className="usa-button usa-button-secondary vads-u-margin-bottom--3"
-          href={formToolUrl}
-        >
-          Go to online tool{' '}
-          <span className="vads-u-visibility--screen-reader">
-            for {id} {title}
-          </span>
-        </a>
+        <dd>
+          <a
+            className="usa-button usa-button-secondary vads-u-margin-bottom--3"
+            href={formToolUrl}
+          >
+            Go to online tool{' '}
+            <span className="vads-u-visibility--screen-reader">
+              for {id} {title}
+            </span>
+          </a>
+        </dd>
       ) : null}
     </>
   );
