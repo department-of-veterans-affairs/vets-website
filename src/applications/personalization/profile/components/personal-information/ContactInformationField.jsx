@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-
+import ReceiveTextMessages from 'platform/user/profile/vap-svc/containers/ReceiveTextMessages';
 import { focusElement } from '~/platform/utilities/ui';
 import recordEvent from '~/platform/monitoring/record-event';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 import {
   isFailedTransaction,
@@ -34,6 +35,13 @@ import {
 
 import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
 import ContactInformationEditButton from './ContactInformationEditButton';
+
+import EmailEditView from 'applications/personalization/profile/components/personal-information/email-addresses/EmailEditView';
+import EmailView from '@@vap-svc/components/EmailField/EmailView';
+import AddressEditView from 'applications/personalization/profile/components/personal-information/addresses/AddressEditView';
+import AddressView from '@@vap-svc/components/AddressField/AddressView';
+import PhoneEditView from 'applications/personalization/profile/components/personal-information/phone-numbers/PhoneEditView';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -63,9 +71,7 @@ const classes = {
 
 class ContactInformationField extends React.Component {
   static propTypes = {
-    ContentView: PropTypes.func.isRequired,
     data: PropTypes.object,
-    EditView: PropTypes.func.isRequired,
     field: PropTypes.object,
     fieldName: PropTypes.string.isRequired,
     showEditView: PropTypes.bool.isRequired,
@@ -252,8 +258,6 @@ class ContactInformationField extends React.Component {
   render() {
     const {
       activeEditView,
-      ContentView,
-      EditView,
       fieldName,
       isEmpty,
       showEditView,
@@ -262,6 +266,7 @@ class ContactInformationField extends React.Component {
       transaction,
       transactionRequest,
       ValidationView,
+      type,
     } = this.props;
 
     const activeSection = VAP_SERVICE.FIELD_TITLES[
@@ -311,6 +316,42 @@ class ContactInformationField extends React.Component {
       );
     }
 
+    const PhoneView = ({ data }) => {
+      const { areaCode, phoneNumber, extension } = data;
+
+      return (
+        <div>
+          <Telephone
+            contact={`${areaCode}${phoneNumber}`}
+            extension={extension}
+            notClickable
+          />
+
+          {this.props.fieldName === FIELD_NAMES.MOBILE_PHONE && (
+            <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
+          )}
+        </div>
+      );
+    };
+
+    let ContentView;
+    let EditView;
+
+    if (type === 'email') {
+      ContentView = EmailView;
+      EditView = EmailEditView;
+    }
+
+    if (type === 'phone') {
+      ContentView = PhoneView();
+      EditView = PhoneEditView;
+    }
+
+    if (type === 'address') {
+      ContentView = AddressView;
+      EditView = AddressEditView;
+    }
+
     if (showEditView) {
       content = (
         <EditView
@@ -340,8 +381,6 @@ class ContactInformationField extends React.Component {
           transactionRequest={this.props.transactionRequest}
           uiSchema={this.props.uiSchema}
           validateAddress={this.props.validateAddress}
-          EditView={this.props.EditView}
-          ContentView={this.props.ContentView}
         />
       );
     }
@@ -489,8 +528,6 @@ const ContactInformationFieldContainer = connect(
 
 ContactInformationFieldContainer.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  ContentView: PropTypes.func.isRequired,
-  EditView: PropTypes.func.isRequired,
   ValidationView: PropTypes.func,
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,

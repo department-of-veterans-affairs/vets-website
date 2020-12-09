@@ -11,8 +11,6 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 import ContactInformationField from '../ContactInformationField';
 import ReceiveTextMessages from '@@vap-svc/containers/ReceiveTextMessages';
 
-import PhoneEditView from './PhoneEditView';
-
 const formSchema = {
   type: 'object',
   properties: {
@@ -134,34 +132,15 @@ export default class PhoneField extends React.Component {
   };
 
   render() {
-    const ContentView = ({ data }) => {
-      const { areaCode, phoneNumber, extension } = data;
-
-      return (
-        <div>
-          <Telephone
-            contact={`${areaCode}${phoneNumber}`}
-            extension={extension}
-            notClickable
-          />
-
-          {this.props.fieldName === FIELD_NAMES.MOBILE_PHONE && (
-            <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
-          )}
-        </div>
-      );
-    };
-
     return (
       <ContactInformationField
         apiRoute={API_ROUTES.TELEPHONES}
-        ContentView={ContentView}
         convertCleanDataToPayload={this.convertCleanDataToPayload}
-        EditView={PhoneEditView}
         fieldName={this.props.fieldName}
         formSchema={formSchema}
         title={this.props.title}
         uiSchema={uiSchema}
+        type="phone"
       />
     );
   }
