@@ -36,25 +36,20 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const response = this.props.form.submission.response
-      ? this.props.form.submission.response.attributes
-      : {};
+    const { formId, submission } = form;
+    const response = submission.response ? submission.response.attributes : {};
     const name = form.data.veteranFullName;
     return (
       <div>
-        <div className="print-only">
-          <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
-          <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
-            Apply for the Rogers STEM Scholarship
-          </h1>
-          <span>Form 22-10203</span>
-        </div>
-        <ConfirmationPageTitle />
+        <ConfirmationPageTitle
+          formId={formId}
+          printHeader={'Apply for the Rogers STEM Scholarship'}
+        />
         <ConfirmationPageSummary
-          formId={form.formId}
+          formId={formId}
           formName={'Rogers STEM Scholarship'}
           response={response}
-          submission={form.submission}
+          submission={submission}
           name={name}
         />
         <ConfirmationGuidance />

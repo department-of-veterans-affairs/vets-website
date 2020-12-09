@@ -11,7 +11,7 @@ import {
   ConfirmationPageTitle,
   ConfirmationPageSummary,
   ConfirmationGuidance,
-  ReturnHome,
+  ConfirmationReturnHome,
 } from '../../components/ConfirmationPage';
 
 const scroller = Scroll.scroller;
@@ -47,9 +47,9 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const response = form.submission.response
-      ? form.submission.response.attributes
-      : {};
+    const { formId, submission } = form;
+
+    const response = submission.response ? submission.response.attributes : {};
     const name = form.data.applicantFullName;
     const appliedForVaEducationBenefits = _.get(
       form.data,
@@ -58,7 +58,7 @@ class ConfirmationPage extends React.Component {
     );
     return (
       <div>
-        <ConfirmationPageTitle />
+        <ConfirmationPageTitle formId={formId} />
         <AlertBox
           isVisible={!appliedForVaEducationBenefits}
           status="warning"
@@ -73,9 +73,9 @@ class ConfirmationPage extends React.Component {
           }
         />
         <ConfirmationPageSummary
-          formId={form.formId}
+          formId={formId}
           response={response}
-          submission={form.submission}
+          submission={submission}
           name={name}
         />
         {!appliedForVaEducationBenefits && (
@@ -98,7 +98,7 @@ class ConfirmationPage extends React.Component {
           </div>
         )}
         <ConfirmationGuidance />
-        <ReturnHome />
+        <ConfirmationReturnHome />
       </div>
     );
   }

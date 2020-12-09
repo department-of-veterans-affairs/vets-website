@@ -1,9 +1,19 @@
 import React from 'react';
 import moment from 'moment';
 
-export const ConfirmationPageTitle = () => {
+export const ConfirmationPageTitle = ({
+  formId,
+  printHeader = 'Update your education benefits',
+}) => {
   return (
     <>
+      <div className="print-only">
+        <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+        <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
+          {printHeader}
+        </h1>
+        <span>Form {formId}</span>
+      </div>
       <h3 className="confirmation-page-title screen-only">
         We've received your application.
       </h3>
@@ -24,12 +34,35 @@ export const ConfirmationPageTitle = () => {
   );
 };
 
+export const claimList = (response, submission) => {
+  return [
+    <li key={'confirmation-number'}>
+      <strong>Confirmation number</strong>
+      <br />
+      <span>{response.confirmationNumber}</span>
+    </li>,
+    <li key={'date-received'}>
+      <strong>Date received</strong>
+      <br />
+      <span>{moment(submission.submittedAt).format('MMM D, YYYY')}</span>
+    </li>,
+    <li key={'regional-office'}>
+      <strong>Your claim was sent to</strong>
+      <br />
+      <address className="schemaform-address-view">
+        {response.regionalOffice}
+      </address>
+    </li>,
+  ];
+};
+
 export const ConfirmationPageSummary = ({
   formId,
   formName = 'Education benefit application',
   response,
   submission,
   name,
+  claimInfoList,
 }) => {
   return (
     <div className="inset">
@@ -47,23 +80,7 @@ export const ConfirmationPageSummary = ({
       </span>
 
       <ul className="claim-list">
-        <li>
-          <strong>Confirmation number</strong>
-          <br />
-          <span>{response.confirmationNumber}</span>
-        </li>
-        <li>
-          <strong>Date received</strong>
-          <br />
-          <span>{moment(submission.submittedAt).format('MMM D, YYYY')}</span>
-        </li>
-        <li>
-          <strong>Your claim was sent to</strong>
-          <br />
-          <address className="schemaform-address-view">
-            {response.regionalOffice}
-          </address>
-        </li>
+        {claimInfoList || claimList(response, submission)}
       </ul>
     </div>
   );
@@ -80,7 +97,7 @@ export const ConfirmationGuidance = () => {
       <p className="confirmation-guidance-message">
         We usually decide on applications within 30 days.
       </p>
-      <p>
+      <p className="confirmation-guidance-message">
         You’ll get a Certificate of Eligibility (COE) or decision letter in the
         mail. If we’ve approved your application, you can bring the COE to the
         VA certifying official at your school.
@@ -103,7 +120,7 @@ export const ConfirmationGuidance = () => {
   );
 };
 
-export const ReturnHome = () => {
+export const ConfirmationReturnHome = () => {
   return (
     <div className="form-progress-buttons schemaform-back-buttons">
       <a href="/">
