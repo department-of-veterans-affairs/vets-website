@@ -22,7 +22,7 @@ import {
   transformCommunityProviders,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
-import { calculateBoundingBox, vapAddressToString } from '../../utils/address';
+import { calculateBoundingBox } from '../../utils/address';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
@@ -269,8 +269,10 @@ export async function getCommunityProvidersByTypeOfCare({
 }) {
   try {
     const communityCareProviders = await getCommunityCareFacilities({
-      address: vapAddressToString(address),
       bbox: calculateBoundingBox(address.latitude, address.longitude, radius),
+      latitude: address.latitude,
+      longitude: address.longitude,
+      radius,
       specialties: typeOfCare.specialties,
       page: 1,
       perPage: maxResults,
