@@ -126,7 +126,7 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { allowHlr, hasEmptyAddress } = this.props;
+    const { allowHlr, user, hasEmptyAddress } = this.props;
     const callToActionContent = this.getCallToActionContent();
     const showWizard = allowHlr && this.state.status !== WIZARD_STATUS_COMPLETE;
     const pageTitle = `Request a Higher-Level Review${
