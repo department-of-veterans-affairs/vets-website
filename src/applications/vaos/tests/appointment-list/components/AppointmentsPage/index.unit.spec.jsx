@@ -657,7 +657,7 @@ describe('VAOS integration: appointment list', () => {
     // triggers arrow right key
 
     fireEvent.keyDown(
-      await screen.getByRole('tab', {
+      await screen.findByRole('tab', {
         name: 'past appointments',
         selected: true,
       }),
@@ -753,7 +753,7 @@ describe('VAOS integration: appointment list', () => {
     // triggers arrow left key
 
     fireEvent.keyDown(
-      await screen.getByRole('tab', {
+      await screen.findByRole('tab', {
         name: 'past appointments',
         selected: true,
       }),
