@@ -54,7 +54,7 @@ const generateBasicAuthHeader = (username, password) => ({
  * @param {string} url - String to be validated as URL.
  * @return {string} URL that's been validated and cast to string.
  */
-const urlString = url => new URL(url).toString();
+const urlString = url => new URL(encodeURI(url)).toString();
 
 /**
  * Client that interacts with a Pact Broker.
@@ -99,15 +99,15 @@ module.exports = class PactBrokerClient {
    */
   publishPact = async pactObject => {
     const { data, version } = pactObject;
-    const consumer = encodeURIComponent(data.consumer.name);
-    const provider = encodeURIComponent(data.provider.name);
+    const consumer = data.consumer.name;
+    const provider = data.provider.name;
 
     const url = urlString(
       path.join(
         this.url,
         'pacts',
-        `provider/${provider}`,
-        `consumer/${consumer}`,
+        `provider/${encodeURIComponent(provider)}`,
+        `consumer/${encodeURIComponent(consumer)}`,
         `version/${version}`,
       ),
     );
@@ -142,16 +142,18 @@ module.exports = class PactBrokerClient {
    */
   tagPact = async pactObject => {
     const { data, version, tag } = pactObject;
-    const consumer = encodeURIComponent(data.consumer.name);
+    const consumer = data.consumer.name;
 
     const url = urlString(
       path.join(
         this.url,
-        `pacticipants/${consumer}`,
+        `pacticipants/${encodeURIComponent(consumer)}`,
         `versions/${version}`,
         `tags/${encodeURIComponent(tag)}`,
       ),
     );
+
+    console.log(url);
 
     const response = await fetch(url, {
       method: 'PUT',
