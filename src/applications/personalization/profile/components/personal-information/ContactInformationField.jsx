@@ -288,34 +288,6 @@ class ContactInformationField extends React.Component {
       );
     };
 
-    // default the content to the read-view
-    let content = wrapInTransaction(
-      <div className={classes.wrapper}>
-        <ContentView data={this.props.data} />
-        {this.isEditLinkVisible() && (
-          <ContactInformationEditButton
-            onEditClick={this.onEdit}
-            fieldName={fieldName}
-            title={title}
-            className={classes.editButton}
-          />
-        )}
-      </div>,
-    );
-
-    if (isEmpty) {
-      content = wrapInTransaction(
-        <button
-          type="button"
-          onClick={this.onAdd}
-          className="va-button-link va-profile-btn"
-          id={`${this.props.fieldName}-edit-link`}
-        >
-          Please add your {title.toLowerCase()}
-        </button>,
-      );
-    }
-
     const PhoneView = ({ data }) => {
       const { areaCode, phoneNumber, extension } = data;
 
@@ -343,13 +315,41 @@ class ContactInformationField extends React.Component {
     }
 
     if (type === 'phone') {
-      ContentView = PhoneView();
+      ContentView = PhoneView;
       EditView = PhoneEditView;
     }
 
     if (type === 'address') {
       ContentView = AddressView;
       EditView = AddressEditView;
+    }
+
+    // default the content to the read-view
+    let content = wrapInTransaction(
+      <div className={classes.wrapper}>
+        <ContentView data={this.props.data} />
+        {this.isEditLinkVisible() && (
+          <ContactInformationEditButton
+            onEditClick={this.onEdit}
+            fieldName={fieldName}
+            title={title}
+            className={classes.editButton}
+          />
+        )}
+      </div>,
+    );
+
+    if (isEmpty) {
+      content = wrapInTransaction(
+        <button
+          type="button"
+          onClick={this.onAdd}
+          className="va-button-link va-profile-btn"
+          id={`${this.props.fieldName}-edit-link`}
+        >
+          Please add your {title.toLowerCase()}
+        </button>,
+      );
     }
 
     if (showEditView) {
