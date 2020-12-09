@@ -1,6 +1,7 @@
 import {
   filterTopicArrayByLabel,
   getTopicsWithSubtopicsByCategory,
+  isValidFacilityCode,
 } from '../../../../../form/inquiry/topic/topic';
 import { expect } from 'chai';
 
@@ -186,6 +187,25 @@ describe('topic', () => {
         ],
       };
       expect(topicsWithSubtopicsByCategory).to.deep.include(expectedResult);
+    });
+  });
+
+  describe('isValidFacilityCode', () => {
+    describe('invalid facility code', () => {
+      it('should be invalid for special characters', () => {
+        expect(isValidFacilityCode('@bcd1234')).to.be.false;
+      });
+      it('should be invalid for length greater than 8 characters', () => {
+        expect(isValidFacilityCode('123456789')).to.be.false;
+      });
+      it('should be invalid for length less than 8 characters', () => {
+        expect(isValidFacilityCode('123456789')).to.be.false;
+      });
+    });
+    describe('valid facility code', () => {
+      it('should be valid for facility code with exactly 8 characters', () => {
+        expect(isValidFacilityCode('AaBb1234')).to.be.true;
+      });
     });
   });
 });
