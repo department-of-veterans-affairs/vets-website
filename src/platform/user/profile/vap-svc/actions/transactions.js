@@ -321,7 +321,11 @@ export const validateAddress = (
     const errorCode = error.errors?.[0]?.code;
     const errorStatus = error.errors?.[0]?.status;
     if (!errorCode || !errorStatus) {
-      Sentry.captureException(error);
+      if (error instanceof Error) {
+        Sentry.captureException(error);
+      } else {
+        Sentry.captureException(new Error('Unknown address validation error'));
+      }
     }
     recordEvent({
       event: 'profile-edit-failure',
