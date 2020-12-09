@@ -34,7 +34,7 @@ export default function createSchoolSelectionPage(schema, options) {
     educationProgram: educationProgram.uiSchema,
     educationObjective: {
       'ui:title':
-        'Education or career goal (For example, “I want to get a bachelor’s degree in criminal justice” or “I want to get an HVAC technician certificate” or “I want to become a police officer.”)s',
+        'Education or career goal (For example, “I want to get a bachelor’s degree in criminal justice” or “I want to get an HVAC technician certificate” or “I want to become a police officer.”)',
       'ui:widget': 'textarea',
     },
     nonVaAssistance: {
