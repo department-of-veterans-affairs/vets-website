@@ -145,7 +145,7 @@ export class IntroductionPage extends React.Component {
     }
 
     // check is user has address
-    if (hasEmptyAddress) {
+    if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
       return (
         <article className="schemaform-intro">
           <FormTitle title={pageTitle} />
