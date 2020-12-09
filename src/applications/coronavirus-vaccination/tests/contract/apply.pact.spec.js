@@ -41,7 +41,15 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
               generate: 'application/json',
             }),
           },
-          body: like({}),
+          body: {
+            data: {
+              id: like('C2B0CCBC18AFD5A489160753194205616'),
+              type: 'covid_vaccine_v0_registration_submissions',
+              attributes: {
+                createdAt: like('2020-12-09T16:39:02.153Z'),
+              },
+            },
+          },
         },
       };
 
@@ -78,7 +86,15 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
               generate: 'application/json',
             }),
           },
-          body: like({}),
+          body: {
+            data: {
+              id: like('C2B0CCBC18AFD5A489160753194205616'),
+              type: 'covid_vaccine_v0_registration_submissions',
+              attributes: {
+                createdAt: like('2020-12-09T16:39:02.153Z'),
+              },
+            },
+          },
         },
       };
 
