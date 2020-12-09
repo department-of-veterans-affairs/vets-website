@@ -1,9 +1,5 @@
 <div classname="vads-u-display--flex vads-u-margin-bottom--2">
     {% assign alt = mediaImage.entity.image.alt %}
-    {% if alt == mediaImage.entity.entityLabel %}
-        {% assign alt = '' %}
-        {{ testing }}
-    {% endif %}
     <div class="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-y--2 ">
         <div class="vads-l-row">
             <dt class="vads-l-col--12 medium-screen:vads-u-display--none vads-u-margin-bottom--2">
@@ -11,7 +7,7 @@
             </dt>
             <dd class=".vads-l-col--12 medium-screen:vads-l-col--2">
                 <picture>
-                    <img class="vads-u-border--1px vads-u-border-color--gray-light" alt="{{ alt }}" height="{{ mediaImage.entity.image.height }}" width="{{ mediaImage.entity.image.width }}" src="{{ mediaImage.entity.image.url }}"/>
+                    <img class="vads-u-min-height--viewport vads-u-background-color--gray-lightest vads-u-display--block vads-u-border--1px vads-u-border-color--gray-light" alt="{{ alt }}" height="{{ mediaImage.entity.image.height }}" width="{{ mediaImage.entity.image.width }}" />
                 </picture>
             </dd>
             <dt class=".vads-l-col--12 vads-l-col--10 medium-screen:vads-u-padding-left--2 medium-screen:vads-u-margin-top--0">
