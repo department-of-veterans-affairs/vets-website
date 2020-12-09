@@ -19,6 +19,7 @@ import {
   dependents,
   monetary,
   realEstate,
+  recreationalVehicles,
   expenses,
   utilities,
   repayments,
@@ -58,6 +59,7 @@ const formPageTitles = {
   resolutionOptions: 'Resolution Options',
   resolutionComments: 'Resolution Comments',
   bankruptcyHistory: 'Bankruptcy History',
+  recreationalVehicles: 'Recreational Vehicles',
 };
 
 const formConfig = {
@@ -184,6 +186,12 @@ const formConfig = {
           title: formPageTitles.realEstate,
           uiSchema: realEstate.uiSchema,
           schema: realEstate.schema,
+        },
+        [formPageTitles.recreationalVehicles]: {
+          path: 'recreational-vehicles',
+          title: formPageTitles.recreationalVehicles,
+          uiSchema: recreationalVehicles.uiSchema,
+          schema: recreationalVehicles.schema,
         },
       },
     },

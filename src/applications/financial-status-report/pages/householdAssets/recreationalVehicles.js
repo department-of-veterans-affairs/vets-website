@@ -2,28 +2,29 @@ import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
-  'ui:title': 'Your real estate assets',
-  hasRealEstate: {
-    'ui:title': 'Do you currently own any real estate?',
+  'ui:title': 'Your trailers, campers, and boats',
+  hasRecreationalVehicle: {
+    'ui:title': 'Do you currently own any trailers, campers, or boats?',
     'ui:widget': 'yesNo',
     'ui:required': () => true,
   },
-  realEstateRecords: {
-    'ui:description': 'Enter each of your real estate assets below.',
+  recreationalVehicleRecords: {
+    'ui:description':
+      'Enter each of your trailers, campers, and boats separately below.',
     'ui:field': ItemLoop,
     'ui:options': {
       viewField: CardDetailsView,
-      expandUnder: 'hasRealEstate',
+      expandUnder: 'hasRecreationalVehicle',
       doNotScroll: true,
       showSave: true,
     },
     items: {
-      'ui:title': 'Add real estate',
-      realEstateType: {
-        'ui:title': 'Type of real estate',
+      'ui:title': 'Add trailer, camper, or boat',
+      recreationalVehicleType: {
+        'ui:title': 'Type of vehicle',
         'ui:required': () => true,
       },
-      realEstateValue: {
+      recreationalVehicleValue: {
         'ui:title': 'Estimated value',
         'ui:required': () => true,
       },
@@ -34,18 +35,18 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    hasRealEstate: {
+    hasRecreationalVehicle: {
       type: 'boolean',
     },
-    realEstateRecords: {
+    recreationalVehicleRecords: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
-          realEstateType: {
+          recreationalVehicleType: {
             type: 'string',
           },
-          realEstateValue: {
+          recreationalVehicleValue: {
             type: 'string',
           },
         },
