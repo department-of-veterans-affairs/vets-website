@@ -39,8 +39,8 @@ export const chapters = {
       },
     },
   },
-  militaryService: {
-    title: 'Military history',
+  serviceService: {
+    title: 'Service history',
     pages: {
       servicePeriods: {
         path: 'military/service',
@@ -49,7 +49,7 @@ export const chapters = {
         schema: servicePeriods.schema,
       },
       militaryHistory: {
-        title: 'Service history',
+        title: 'Military history',
         path: 'military/history',
         uiSchema: militaryHistory.uiSchema,
         schema: militaryHistory.schema,
