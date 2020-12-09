@@ -87,9 +87,9 @@ const formConfig = {
         },
       },
     },
-    // Chapter - Military Service
+    // Chapter - Service history
     militaryService: {
-      title: 'Military service',
+      title: 'Service history',
       pages: {
         militaryService: {
           title: 'Military Service',
