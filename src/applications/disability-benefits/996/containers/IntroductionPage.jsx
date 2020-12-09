@@ -140,7 +140,7 @@ export class IntroductionPage extends React.Component {
         <article className="schemaform-intro">
           <FormTitle title={pageTitle} />
           <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
-          <p>{showWorkInProgress}</p>
+          {showWorkInProgress}
         </article>
       );
     }
@@ -151,7 +151,7 @@ export class IntroductionPage extends React.Component {
         <article className="schemaform-intro">
           <FormTitle title={pageTitle} />
           <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
-          <p>{showHasEmptyAddress}</p>
+          {showHasEmptyAddress}
         </article>
       );
     }
