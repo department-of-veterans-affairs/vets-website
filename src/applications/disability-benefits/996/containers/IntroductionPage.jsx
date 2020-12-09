@@ -201,7 +201,7 @@ export class IntroductionPage extends React.Component {
                   onClick={() => {
                     this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                     this.setPageFocus();
-                    recordEvent({ event: `howToWizard-start-over` });
+                    recordEvent({ event: 'howToWizard-start-over' });
                   }}
                 >
                   go back and answer questions again
