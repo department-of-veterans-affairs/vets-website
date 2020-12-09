@@ -1,3 +1,5 @@
+import FileUploader from '../../components/FileUploader';
+
 const adjudicationOptions = [
   'Yes, I have been adjudicated as bankrupt.',
   'No, I haven’t been adjudicated as bankrupt.',
@@ -41,13 +43,8 @@ export const uiSchema = {
           expandUnderCondition:
             'Yes, VA or a mortgage company was involved in this bankruptcy.',
         },
-        fileTypes: {
-          'ui:title': 'Accepted file types: ',
-          'ui:description': 'pdf, gif, jpeg, jpg, bmp, txt',
-        },
-        fileSize: {
-          'ui:title': 'Maximum file size: ',
-          'ui:description': '50MB',
+        uploadFiles: {
+          'ui:field': FileUploader,
         },
         bankruptcyComments: {
           'ui:title':
@@ -107,11 +104,9 @@ export const schema = {
             vaInvolved: {
               type: 'object',
               properties: {
-                fileTypes: {
-                  type: 'string',
-                },
-                fileSize: {
-                  type: 'string',
+                uploadFiles: {
+                  type: 'object',
+                  properties: {},
                 },
                 bankruptcyComments: {
                   type: 'string',

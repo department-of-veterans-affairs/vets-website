@@ -30,10 +30,10 @@ import {
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
   householdIncomeTitle: 'Household income',
-  householdAssets: 'Household Assets',
-  householdExpenses: 'Household Expenses',
-  resolutionOptions: 'Resolution Options',
-  bankruptcyHistory: 'Bankruptcy History',
+  householdAssets: 'Household assets',
+  householdExpenses: 'Household expenses',
+  resolutionOptions: 'Resolution options',
+  bankruptcyHistory: 'Bankruptcy attestation',
 };
 
 const formPageTitles = {
