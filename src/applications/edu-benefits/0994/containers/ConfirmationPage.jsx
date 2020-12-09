@@ -1,12 +1,16 @@
 import _ from 'lodash';
 import React from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import appendQuery from 'append-query';
 
 import { focusElement } from 'platform/utilities/ui';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
+import {
+  ConfirmationPageTitle,
+  ConfirmationPageSummary,
+} from '../../components/ConfirmationPage';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -41,8 +45,8 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const response = this.props.form.submission.response
-      ? this.props.form.submission.response.attributes
+    const response = form.submission.response
+      ? form.submission.response.attributes
       : {};
     const name = form.data.applicantFullName;
     const appliedForVaEducationBenefits = _.get(
@@ -52,17 +56,7 @@ class ConfirmationPage extends React.Component {
     );
     return (
       <div>
-        <h3 className="confirmation-page-title">
-          We've received your application
-        </h3>
-        <p>
-          We usually process claims within <strong>30 days</strong>.
-        </p>
-        <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
-        </p>
+        <ConfirmationPageTitle />
         <AlertBox
           isVisible={!appliedForVaEducationBenefits}
           status="warning"
@@ -76,38 +70,12 @@ class ConfirmationPage extends React.Component {
             </span>
           }
         />
-        <div className="inset">
-          <h4 className="vads-u-margin-top--0">
-            Education benefit application{' '}
-            <span className="additional">(Form 22-0994)</span>
-          </h4>
-          <span>
-            for {name && name.first} {name && name.middle} {name && name.last}{' '}
-            {name && name.suffix}
-          </span>
-
-          <ul className="claim-list">
-            <li>
-              <strong>Confirmation number</strong>
-              <br />
-              <span>{response.confirmationNumber}</span>
-            </li>
-            <li>
-              <strong>Date received</strong>
-              <br />
-              <span>
-                {moment(form.submission.submittedAt).format('MMM D, YYYY')}
-              </span>
-            </li>
-            <li>
-              <strong>Your claim was sent to</strong>
-              <br />
-              <address className="schemaform-address-view">
-                {response.regionalOffice}
-              </address>
-            </li>
-          </ul>
-        </div>
+        <ConfirmationPageSummary
+          formId={form.formId}
+          response={response}
+          submission={form.submission}
+          name={name}
+        />
         {!appliedForVaEducationBenefits && (
           <div>
             <p>
