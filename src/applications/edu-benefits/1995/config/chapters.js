@@ -39,7 +39,7 @@ export const chapters = {
       },
     },
   },
-  serviceService: {
+  militaryService: {
     title: 'Service history',
     pages: {
       servicePeriods: {
