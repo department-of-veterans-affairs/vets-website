@@ -25,12 +25,8 @@ const viewComponent = (...props) => (
 
 const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
   const ui = {
-    'ui:field': ReviewCardField,
-    'ui:options': {
-      viewComponent,
-    },
     'ui:title': 'Direct deposit information',
-    'ui:description': viewComponent,
+    // 'ui:description': viewComponent,
     'ui:order': [
       'bankAccount',
       'declineDirectDeposit',
@@ -38,8 +34,19 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
       'view:bankInfoHelpText',
     ],
     bankAccount: {
-      'ui:description': directDepositDescription,
-      'ui:order': ['accountType', 'bankName', 'routingNumber', 'accountNumber'],
+      'ui:field': ReviewCardField,
+      'ui:description':
+        'This is the bank account information we have on file for you. This is where we’ll send your payments.',
+      'ui:order': [
+        'view:ddDescription',
+        'accountType',
+        'bankName',
+        'routingNumber',
+        'accountNumber',
+      ],
+      'view:ddDescription': {
+        'ui:description': directDepositDescription,
+      },
       accountType: {
         ...bankAccountUI.accountType,
         'ui:required': useDirectDeposit,
@@ -61,6 +68,7 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         'ui:required': useDirectDeposit,
       },
       'ui:options': {
+        viewComponent,
         classNames: 'vads-u-margin-bottom--3',
         // eslint-disable-next-line react-hooks/rules-of-hooks
         hideIf: form => !useDirectDeposit(form),
@@ -118,6 +126,7 @@ const schema = optionalFields => {
       bankAccount: {
         type: 'object',
         properties: {
+          'view:ddDescription': { type: 'object', properties: {} },
           accountType: {
             type: 'string',
             enum: ['checking', 'savings'],
