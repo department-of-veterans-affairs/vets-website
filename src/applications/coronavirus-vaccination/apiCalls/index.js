@@ -1,7 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 
 export const apiPostRequest = async (url, data) => {
-  await apiRequest(url, {
+  return apiRequest(url, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
