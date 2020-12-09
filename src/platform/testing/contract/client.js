@@ -99,8 +99,8 @@ module.exports = class PactBrokerClient {
    */
   publishPact = async pactObject => {
     const { data, version } = pactObject;
-    const consumer = data.consumer.name;
-    const provider = data.provider.name;
+    const consumer = encodeURIComponent(data.consumer.name);
+    const provider = encodeURIComponent(data.provider.name);
 
     const url = urlString(
       path.join(
@@ -142,7 +142,7 @@ module.exports = class PactBrokerClient {
    */
   tagPact = async pactObject => {
     const { data, version, tag } = pactObject;
-    const consumer = data.consumer.name;
+    const consumer = encodeURIComponent(data.consumer.name);
 
     const url = urlString(
       path.join(
