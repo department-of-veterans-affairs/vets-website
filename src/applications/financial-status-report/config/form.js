@@ -23,6 +23,7 @@ import {
   repayments,
   otherExpenses,
   resolutionOptions,
+  resolutionComments,
 } from '../pages';
 
 const formChapterTitles = {
@@ -51,6 +52,7 @@ const formPageTitles = {
   repayments: 'Household Repayments',
   otherExpenses: 'Other expenses',
   resolutionOptions: 'Resolution Options',
+  resolutionComments: 'Resolution Comments',
 };
 
 const formConfig = {
@@ -211,6 +213,12 @@ const formConfig = {
           title: formPageTitles.resolutionOptions,
           uiSchema: resolutionOptions.uiSchema,
           schema: resolutionOptions.schema,
+        },
+        [formPageTitles.resolutionComments]: {
+          path: 'resolution-comments',
+          title: formPageTitles.resolutionComments,
+          uiSchema: resolutionComments.uiSchema,
+          schema: resolutionComments.schema,
         },
       },
     },
