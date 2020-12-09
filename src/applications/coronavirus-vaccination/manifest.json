@@ -1,0 +1,6 @@
+{
+  "appName": "coronavirus-vaccination",
+  "entryFile": "./coronavirus-vaccination-entry.jsx",
+  "entryName": "coronavirus-vaccination",
+  "rootUrl": "/health-care/covid-19-vaccine/stay-informed"
+}

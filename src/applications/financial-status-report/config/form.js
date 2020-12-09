@@ -10,22 +10,30 @@ import {
   employmentHistory,
   additionalIncome,
   veteranInfo,
+  spouseInformation,
+  spouseAdditionalIncome,
   spouseEmployment,
   spouseSocialSecurity,
   spouseBenefits,
   spouseAdditionalEmployment,
   dependents,
   householdAssets,
-  householdExpenses,
-  spouseInformation,
-  spouseAdditionalIncome,
+  expenses,
+  utilities,
+  repayments,
+  otherExpenses,
+  resolutionOptions,
+  resolutionComments,
+  bankruptcyHistory,
 } from '../pages';
 
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
   householdIncomeTitle: 'Household income',
-  householdAssets: 'Household Assets',
-  householdExpenses: 'Household Expenses',
+  householdAssets: 'Household assets',
+  householdExpenses: 'Household expenses',
+  resolutionOptions: 'Resolution options',
+  bankruptcyHistory: 'Bankruptcy history',
 };
 
 const formPageTitles = {
@@ -41,7 +49,13 @@ const formPageTitles = {
   spouseAdditionalIncome: 'Spouse additional Income',
   dependents: 'Dependents',
   householdAssets: 'Household Assets',
-  householdExpenses: 'Household Expenses',
+  expenses: 'Household Expenses',
+  utilities: 'Household Utilities',
+  repayments: 'Household Repayments',
+  otherExpenses: 'Other expenses',
+  resolutionOptions: 'Resolution Options',
+  resolutionComments: 'Resolution Comments',
+  bankruptcyHistory: 'Bankruptcy History',
 };
 
 const formConfig = {
@@ -168,11 +182,57 @@ const formConfig = {
     householdExpensesChapter: {
       title: formChapterTitles.householdExpenses,
       pages: {
-        [formPageTitles.householdExpenses]: {
-          path: 'household-expenses',
-          title: formPageTitles.householdExpenses,
-          uiSchema: householdExpenses.uiSchema,
-          schema: householdExpenses.schema,
+        [formPageTitles.expenses]: {
+          path: 'expenses',
+          title: formPageTitles.expenses,
+          uiSchema: expenses.uiSchema,
+          schema: expenses.schema,
+        },
+        [formPageTitles.utilities]: {
+          path: 'utilities',
+          title: formPageTitles.utilities,
+          uiSchema: utilities.uiSchema,
+          schema: utilities.schema,
+        },
+        [formPageTitles.repayments]: {
+          path: 'repayments',
+          title: formPageTitles.repayments,
+          uiSchema: repayments.uiSchema,
+          schema: repayments.schema,
+        },
+        [formPageTitles.otherExpenses]: {
+          path: 'other-expenses',
+          title: formPageTitles.otherExpenses,
+          uiSchema: otherExpenses.uiSchema,
+          schema: otherExpenses.schema,
+        },
+      },
+    },
+    resolutionOptionsChapter: {
+      title: formChapterTitles.resolutionOptions,
+      pages: {
+        [formPageTitles.resolutionOptions]: {
+          path: 'resolution-options',
+          title: formPageTitles.resolutionOptions,
+          uiSchema: resolutionOptions.uiSchema,
+          schema: resolutionOptions.schema,
+        },
+        [formPageTitles.resolutionComments]: {
+          path: 'resolution-comments',
+          title: formPageTitles.resolutionComments,
+          uiSchema: resolutionComments.uiSchema,
+          schema: resolutionComments.schema,
+        },
+      },
+    },
+    bankruptcyAttestationChapter: {
+      title: formChapterTitles.bankruptcyHistory,
+      pages: {
+        [formPageTitles.bankruptcyHistory]: {
+          path: 'bankruptcy-history',
+          title: formPageTitles.bankruptcyHistory,
+          uiSchema: bankruptcyHistory.uiSchema,
+          schema: bankruptcyHistory.schema,
         },
       },
     },

@@ -23,13 +23,15 @@ export default function SearchResult({
   totalResults,
 }) {
   const onSearchResultClick = () => {
+    // Track search result click.
     recordEvent({
       event: 'onsite-search-results-click',
-      'search-text-input': query,
-      'search-selection': 'Resources and support',
+      'search-page-path': document.location.pathname,
+      'search-query': query,
+      'search-results-position': position,
       'search-results-total-count': totalResults,
       'search-results-total-pages': Math.ceil(totalResults / 10),
-      'search-results-position-number': position,
+      'search-selection': 'Resources and support',
     });
   };
 

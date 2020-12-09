@@ -10,6 +10,7 @@ export default function ReviewRequestInfo({
   facility,
   vaCityState,
   pageTitle,
+  useProviderSelection,
 }) {
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVAAppointment = data.facilityType === FACILITY_TYPES.VAMC;
@@ -25,6 +26,7 @@ export default function ReviewRequestInfo({
           data={data}
           facility={facility}
           vaCityState={vaCityState}
+          useProviderSelection={useProviderSelection}
         />
       )}
       {isVAAppointment && (

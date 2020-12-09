@@ -18,8 +18,8 @@ export default function useGetSearchResults(articles, query, page) {
       const keywords = query
         .split(' ')
         .filter(word => !!word)
-        .filter(word => !SEARCH_IGNORE_LIST.includes(word))
         .map(keyword => keyword.toLowerCase())
+        .filter(word => !SEARCH_IGNORE_LIST.includes(word))
         .map(keyword => {
           if (keyword.length > 6 && keyword.endsWith('ies')) {
             // Unpluralize the word, so that a search for "disabilities"
@@ -45,13 +45,18 @@ export default function useGetSearchResults(articles, query, page) {
 
       const orderedResults = sortBy(filteredArticles, 'title');
 
-      // Track the ordered results.
+      // Track R&S search results.
       recordEvent({
         event: 'view_search_results',
-        'search-text-input': query,
-        'search-selection': 'Resources and support',
+        'search-page-path': document.location.pathname,
+        'search-query': query,
         'search-results-total-count': orderedResults.length,
         'search-results-total-pages': Math.ceil(orderedResults.length / 10),
+        'search-selection': 'Resources and support',
+        'search-typeahead-enabled': false,
+        'type-ahead-option-keyword-selected': undefined,
+        'type-ahead-option-position': undefined,
+        'type-ahead-options-list': undefined,
       });
 
       setResults(orderedResults);

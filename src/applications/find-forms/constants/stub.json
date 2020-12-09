@@ -1,59 +1,26 @@
 {
   "data": [
     {
-      "id": "10-1170",
+      "id": "SF2810",
       "type": "va_form",
       "attributes": {
-        "formName": "10-1170",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-1170-fill.pdf",
-        "title": "Application for Furnishing Nursing Home Care to Beneficiaries of VA- fillable",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2007-07-01",
-        "pages": 1,
-        "sha256": "39afe4f79e57d99d008de7f21da341b429cb1bd26b78be6f2d5fce3922fa0aad",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-7959C",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-7959C",
-        "url": "https://www.va.gov/vaforms/medical/pdf/10-7959c.pdf",
-        "title": "CHAMPVA - Other Health Insurance (OHI) Certificate",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2018-08-01",
-        "pages": 2,
-        "sha256": "c70299dfeed7a2cf2ccee6d9fa373ea4803e2becd75ee002d822e01e884e3585",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0094g",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0094g",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0094g-fill.pdf",
-        "title": "Associated Health Education Affiliation Agreement (FILLABLE)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": null,
-        "pages": 4,
-        "sha256": "49f42fbd6ee026134776251575b3f19909ddcacafbbce3208b50fd122c595e73",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0415",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0415",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0415-fill.pdf",
-        "title": "VA Geriatrics and Extended Care (GEC) Referral - fillable",
-        "firstIssuedOn": null,
-        "lastRevisionOn": null,
-        "pages": 5,
-        "sha256": "db7a90006df628300bc24c71e72643bec2afee2450b2e7d6315e0b849cb5255c",
-        "validPdf": true
+        "formName": "SF2810",
+        "url": "https://www.opm.gov/forms/pdf_fill/sf2810.pdf",
+        "title": "Notice of Change in Health Benefits Enrollment",
+        "firstIssuedOn": "2014-10-17",
+        "lastRevisionOn": "1995-06-21",
+        "pages": 7,
+        "sha256": "c46473bb0701bf171f9d7d46f477bd54450b4ca3a2c3cecd4bb33266cf70459a",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "non-va",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
       }
     },
     {
@@ -63,81 +30,20 @@
         "formName": "10-10163",
         "url": "https://www.va.gov/vaforms/medical/pdf/10-10163-fill.pdf",
         "title": "Request for and Permission to Participate in Sharing Protected Health Information through Health Information Exchanges",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2019-09-01",
+        "firstIssuedOn": "2019-09-26",
+        "lastRevisionOn": "2019-09-21",
         "pages": 1,
         "sha256": "3f98ce68c4c82ddecaaa32e79b2bdc423d34f8201d042afda3f59d4c9485a694",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "VA0730a",
-      "type": "va_form",
-      "attributes": {
-        "formName": "VA0730a",
-        "url": "https://www.va.gov/vaforms/va/pdf/VA0730a.pdf",
-        "title": "Child Care Subsidy Application Form",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2012-08-01",
-        "pages": 2,
-        "sha256": "080f316cbf5a11193946559fa5187c449ab4ee6cd030807d7f5a6f2ccb572d99",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "VA0730b",
-      "type": "va_form",
-      "attributes": {
-        "formName": "VA0730b",
-        "url": "https://www.va.gov/vaforms/va/pdf/VA0730b.pdf",
-        "title": "Child Care Provider Information",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2007-07-01",
-        "pages": 1,
-        "sha256": "9412e6445f497814ad2cdc483aabaabf49d4d39563ef1bcef4a523f47d00a39d",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-5345",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-5345",
-        "url": "https://www.va.gov/vaforms/medical/pdf/10-5345.pdf",
-        "title": "Request for and Authorization to Release Health Information",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2018-09-01",
-        "pages": 2,
-        "sha256": "7e78639a284fb9c52f4d89f77ce804aff062a0306cea947de22d437c7a204b36",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "VA0730i",
-      "type": "va_form",
-      "attributes": {
-        "formName": "VA0730i",
-        "url": "https://www.va.gov/vaforms/va/pdf/VA0730i.pdf",
-        "title": "Change in Child Care Provider",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2014-06-01",
-        "pages": 1,
-        "sha256": "b864eaf656a660d4d87c238ec850536de216522c5c703d658c0d6616306abb39",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "SF2810",
-      "type": "va_form",
-      "attributes": {
-        "formName": "SF2810",
-        "url": "https://www.opm.gov/forms/pdf_fill/sf2810.pdf",
-        "title": "Notice of Change in Health Benefits Enrollment",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "1995-06-01",
-        "pages": 7,
-        "sha256": "c46473bb0701bf171f9d7d46f477bd54450b4ca3a2c3cecd4bb33266cf70459a",
-        "validPdf": true
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
       }
     },
     {
@@ -151,77 +57,16 @@
         "lastRevisionOn": "2020-01-01",
         "pages": 5,
         "sha256": "6e6465e2e1c89225871daa9b6d86b92d1c263c7b02f98541212af7b35272372b",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0386",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0386",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0386-fill.pdf",
-        "title": "VHA Choice Approval For Medical Care",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2015-08-01",
-        "pages": 1,
-        "sha256": "69663c488b3868554f575eb04cbfa3984c798a90b06562857bf2709fe2ce93a7",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0491E",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0491E",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491e-fill%20(Evaluation%20and%20Recommendation).pdf",
-        "title": "Evaluation & Recommendation Form - Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
-        "pages": 1,
-        "sha256": "bef060c277be3dc48d436e1caf689f676d6ad7531bdedcb8f8df3051994a7732",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0491F",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0491F",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491f-fill%20(HPSP%20Agreement).pdf",
-        "title": "HEALTH PROFESSIONAL SCHOLARSHIP PROGRAM (HPSP) AGREEMENT",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
-        "pages": 2,
-        "sha256": "0bb57674b8ecd2cf9e16f90f77aa7807fe54e8a0443cf250220cc387fa176f39",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0491G",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0491G",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491g-fill%20(Application).pdf",
-        "title": "APPLICATION Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
-        "pages": 7,
-        "sha256": "67485e049500ef9fe2aa7bf779650adeb707f29b34118c01c7d6e622289e3528",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-10145",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-10145",
-        "url": "https://www.va.gov/vaforms/medical/pdf/10-10145.pdf",
-        "title": "DEPARTMENT OF VETERANS AFFAIRS VETERANS HEALTH ADMINISTRATION (VHA) VETERANS CHOICE PROGRAM PROVIDER AGREEMENT",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2016-02-01",
-        "pages": 6,
-        "sha256": "aeb33b8480bd7ced19b554143ff855ea5501d26f85db34c47a8ccb884e42e2c3",
-        "validPdf": true
+        "validPdf": false,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": null,
+        "deletedAt": null,
+        "relatedForms": null,
+        "benefitCategories": null
       }
     },
     {
@@ -230,12 +75,21 @@
       "attributes": {
         "formName": "10-0998",
         "url": "https://www.va.gov/vaforms/medical/pdf/10-0998%20online%20corrected.pdf",
-        "title": "Your Rights To Seek Further Review Of Our HealthCare Benefits Decision",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-05-01",
+        "title": "Your Rights to Seek Further Review of Our Healthcare Benefits Decision",
+        "firstIssuedOn": "2019-03-13",
+        "lastRevisionOn": "2020-05-21",
         "pages": 2,
         "sha256": "5436881887a88eee965af77b07163e36494bd8d3e11e5fed2ebbf8dddc0a97c6",
-        "validPdf": true
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
       }
     },
     {
@@ -244,12 +98,21 @@
       "attributes": {
         "formName": "10-0527",
         "url": "https://www.va.gov/vaforms/medical/pdf/10-0527_Choice_fill.pdf",
-        "title": "Request and Authorization to Release Protected Health Information to the Choice Program",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2015-10-01",
+        "title": "Request and Authorization to Release Protected Health Information to the Choice/PC3 Program",
+        "firstIssuedOn": "2015-02-01",
+        "lastRevisionOn": "2015-10-21",
         "pages": 1,
         "sha256": "150e84c94a8e0d43fa9e3278eeb86b42111df9bf1c5b8ffd36c1f22a73279078",
-        "validPdf": true
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
       }
     },
     {
@@ -263,35 +126,39 @@
         "lastRevisionOn": "2013-12-01",
         "pages": 1,
         "sha256": "8399079318e1562279dd498270e4a3e3a49b6ef133f38ff1cca6447b27e376a8",
-        "validPdf": false
+        "validPdf": false,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": null,
+        "deletedAt": null,
+        "relatedForms": null,
+        "benefitCategories": null
       }
     },
     {
-      "id": "10-10CG",
+      "id": "10-0094g",
       "type": "va_form",
       "attributes": {
-        "formName": "10-10CG",
-        "url": "https://www.va.gov/vaforms/medical/pdf/10-10CG_revised%202020.pdf",
-        "title": "Instructions for Completing Application for Comprehensive Assistance for Family Caregivers Program",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
-        "pages": 5,
-        "sha256": "8630de5c62deb05a32a4d9c2f2e224ea544bd0f4ef5f847c7534ccbc444e7708",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "SF2809",
-      "type": "va_form",
-      "attributes": {
-        "formName": "SF2809",
-        "url": "https://www.opm.gov/Forms/pdf_fill/SF2809.pdf",
-        "title": "Health Benefits Election Form",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2015-11-01",
-        "pages": 15,
-        "sha256": "819fa04dcb6dd2bc0efbc6c34a661546691bb02aa2090cc9285f1bdf789d8ef8",
-        "validPdf": true
+        "formName": "10-0094g",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0094g-fill.pdf",
+        "title": "Associated Health Education Affiliation Agreement Between the Department of Veterans Affairs (VA) and an Educational Program",
+        "firstIssuedOn": "2004-11-19",
+        "lastRevisionOn": "2004-11-19",
+        "pages": 4,
+        "sha256": "49f42fbd6ee026134776251575b3f19909ddcacafbbce3208b50fd122c595e73",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
       }
     },
     {
@@ -300,26 +167,23 @@
       "attributes": {
         "formName": "29-353",
         "url": "https://www.vba.va.gov/pubs/forms/VBA-29-353-ARE.pdf",
-        "title": "Application for Reinstatement (Non Medical - Comparative Health Statement) (Fillable)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2017-04-01",
+        "title": "Application for Reinstatement (Non Medical—Comparative Health Statement)",
+        "firstIssuedOn": "2020-12-01",
+        "lastRevisionOn": "2020-11-02",
         "pages": 2,
-        "sha256": "2cc226f2010dbaacb75704ee5af2f0e42e1caea7d4f6acc260473bee24843d4b",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0491C",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0491C",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491c-fill%20(Annual%20Deferment).pdf",
-        "title": "Annual VA Employment or Deferment Verification - Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
-        "pages": 1,
-        "sha256": "b8663736e020c00329e53ed20f8bec8a8851bc647b817eaa0db2f2b25f928e11",
-        "validPdf": true
+        "sha256": "975d4791f2eeda2ac7957ea8379b581c7108c3f641810aae2a91851dc9ece975",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "benefit",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": [
+          { "name": "Life insurance", "description": "VA life insurance" }
+        ]
       }
     },
     {
@@ -328,54 +192,21 @@
       "attributes": {
         "formName": "10-2850D",
         "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-2850d-fill.pdf",
-        "title": "APPLICATION FOR HEALTH PROFESSIONS TRAINEES",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2011-11-01",
+        "title": "Application for Health Professions Trainees",
+        "firstIssuedOn": "2009-03-01",
+        "lastRevisionOn": "2011-11-21",
         "pages": 4,
         "sha256": "e7c2c1b7730a8e19fef754e429fad551c3181d381e6424a8fa12ad4249e32841",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-493",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-493",
-        "url": "https://www.va.gov/vaforms/medical/pdf/10-493.pdf",
-        "title": "TRICARE Affirmation",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2016-04-01",
-        "pages": 1,
-        "sha256": "706db8a74bf49a0fac49b346f1fae9204af07b353f83840b96c6a100683307f6",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "VA0730h",
-      "type": "va_form",
-      "attributes": {
-        "formName": "VA0730h",
-        "url": "https://www.va.gov/vaforms/va/pdf/VA0730h.pdf",
-        "title": "VA Child Care Subsidy Program Benefit Payment Request Form",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2014-06-01",
-        "pages": 1,
-        "sha256": "3f31a4d992f2bd044127fad809375770de2477359cced58a9badcfc58526b2f3",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0491H",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0491H",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491h-fill%20(Notice%20of%20Approaching%20Graduation).pdf",
-        "title": "Notice of Approaching Graduation - Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
-        "pages": 1,
-        "sha256": "c9d0fe94fcc54218510794ee22bda9fe7faf0c9dd420c18ecb2d8b9eea046bd4",
-        "validPdf": true
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "employment",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
       }
     },
     {
@@ -389,245 +220,16 @@
         "lastRevisionOn": "2016-12-01",
         "pages": 1,
         "sha256": "56e4ffb6fa9c2ef8a564bb06d880d280b5ce41c423ab1b33cdb05b8df848643d",
-        "validPdf": false
-      }
-    },
-    {
-      "id": "10-1314",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-1314",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-1314-fill.pdf",
-        "title": "HSR&D Carer Development Awardee Annual Progress Report- fillable",
-        "firstIssuedOn": null,
-        "lastRevisionOn": null,
-        "pages": 2,
-        "sha256": "57b64462006dc0dfc70e229e43f06f86349bc50fa4e80b62dcc74480b4cc423c",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-10171",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-10171",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha%2010-10171-fill.pdf",
-        "title": "Veterans Care Agreement",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2019-05-01",
-        "pages": 16,
-        "sha256": "158fc34b0b8e74e357a5fec2b61458ad2e6610fdb7745f8b52f4df5ebe03e90a",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-2410",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-2410",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-2410-fill.pdf",
-        "title": "Agreement to Provide Home Care to Patient (FILLABLE)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2015-08-01",
-        "pages": 1,
-        "sha256": "7ae0f9580691eaf919fffe1c33a011c09ca1a5a40a8c5c9dd5f7314c22b3dfed",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-10EC",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-10EC",
-        "url": "https://www.va.gov/vaforms/medical/pdf/10-10EC%20Fill%202017.pdf",
-        "title": "Application For Extended Care Services",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2014-07-01",
-        "pages": 5,
-        "sha256": "5cd5a008d51ff4a7edfcc43c758d74135312193243aa46c5f58253677918fb3e",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-2407",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-2407",
-        "url": "https://www.va.gov/vaforms/medical/pdf/10-2407-fill.pdf",
-        "title": "Residential Care Home Program - Sponsor Application - fillable",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2015-08-01",
-        "pages": 1,
-        "sha256": "35805e3276444fe54a55a08f18383ecd2d25964bb1dde50c2440bb12bf3fce6c",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0525a",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0525a",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0525a-fill.pdf",
-        "title": "RESTRICTION OF THE RELEASE OF INDIVIDUALLY-IDENTIFIABLE HEALTH INFORMATION THROUGH eHEALTH EXCHANGE",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2013-06-01",
-        "pages": 2,
-        "sha256": "f2fe5f8b6bc2ac26c41ede2a46ce4b81ac1c34bd47ce3250fe55d645be27021f",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0525",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0525",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0525-fill.pdf",
-        "title": "RESTRICTION OF THE RELEASE OF INDIVIDUALLY-IDENTIFIABLE HEALTH INFORMATION THROUGH eHEALTH EXCHANGE",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2014-02-01",
-        "pages": 1,
-        "sha256": "373bde6bdcc17b2076a36839db2c3935dd12dc57f7a31c9a6b3225c8ac753616",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-10EZR",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-10EZR",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-10ezrfill.pdf",
-        "title": "Health Benefits Update Form (Fillable)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-01-01",
-        "pages": 4,
-        "sha256": "ce38ed58eefe81aed9137a135299c0d2eb5320591fca690826dee39e2261c6d2",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-2850C",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-2850C",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-2850c-fill.pdf",
-        "title": "Application for Associated Health Occupations (Fillable)- Order from SDC #F05428",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2016-11-01",
-        "pages": 4,
-        "sha256": "36ddb412bdf5e4cc8c27469b8feadc369216e3afc27437d30897f2140855e9d2",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-5345a",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-5345a",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-fill.pdf",
-        "title": "Individuals' Request for a Copy of Their Own Health Information - fill",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2017-08-01",
-        "pages": 1,
-        "sha256": "994c78cf4e934b249884c4af7f2094682d6a50c06bf95842bfc886762b63aed3",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-10SH",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-10SH",
-        "url": "https://www.va.gov/vaforms/medical/pdf/10-10SH-fill.pdf",
-        "title": "State Home Program Application For Veteran Care Medical Certification",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2016-09-01",
-        "pages": 5,
-        "sha256": "39cf116d06c9dbbc3c7340f3a8713f0b3db318c316943ad4690f4345162d5c8d",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0102",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0102",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0102-fill.pdf",
-        "title": "CAREER DEVELOPMENT APPLICATION - fillable",
-        "firstIssuedOn": null,
-        "lastRevisionOn": null,
-        "pages": 2,
-        "sha256": "53777da3898bd07133f057a84332d9c5ff670e12f3b40740754a87ca0c84bc24",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0388-4",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0388-4",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0388-4.pdf",
-        "title": "State Home Construction Grant Program Space Analysis - Adult Day Health Care",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2015-08-01",
-        "pages": 2,
-        "sha256": "b7ccbfb644c9b8478b43f8cc1740cd9e3c4aece8d76c008e8f971f9e71978cdd",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-10172",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-10172",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-10172.pdf",
-        "title": "Community Care Provider - Request for Service",
-        "firstIssuedOn": null,
-        "lastRevisionOn": null,
-        "pages": 2,
-        "sha256": "516a308a5bcf53bab10ffe94af0f4c9dafb18fc6bc4944b09c2cfe39ccf2df70",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0491I",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0491I",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491i-fill%20(Notice%20of%20Change).pdf",
-        "title": "Notice of Change and/or Annual Academic Status - Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
-        "pages": 1,
-        "sha256": "cf24eecf3f9aceefab87d3f23cd6dae383988a2c91619b5506a58b2ee2d2690f",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-10164",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-10164",
-        "url": "https://www.va.gov/vaforms/medical/pdf/10-10164-fill.pdf",
-        "title": "Opt-Out of Sharing Protected Health Information Through Health Information Exchanges",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
-        "pages": 1,
-        "sha256": "1d8a6dbdba538b6fdc16e6d2fb81a5d221c7133b106e0b5355a776fa749e508f",
-        "validPdf": true
-      }
-    },
-    {
-      "id": "10-0491",
-      "type": "va_form",
-      "attributes": {
-        "formName": "10-0491",
-        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491-fill%20(Academic%20Verification).pdf",
-        "title": "Academic Verification - Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
-        "pages": 5,
-        "sha256": "961c479fd72ac77655687ba70d57952ecf637e59f0d57f605b30b43dedf7c2e9",
-        "validPdf": true
+        "validPdf": false,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": null,
+        "deletedAt": null,
+        "relatedForms": null,
+        "benefitCategories": null
       }
     },
     {
@@ -636,12 +238,136 @@
       "attributes": {
         "formName": "10-0491K",
         "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491k-fill%20(Offer%20Response).pdf",
-        "title": "VA Scholarship Offer Response - Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
+        "title": "VA Scholarship Offer Response—Health Professional Scholarship Program (HPSP), Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP), Veterans Healing Veterans Medical Access and Education Scholarship Program (VHVMAESP)",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
         "pages": 1,
         "sha256": "db8a2a8a965bd49468b7b69e40097d33f40c177fd1d5c726d1099e9a1d8df2a7",
-        "validPdf": true
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-10171",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-10171",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha%2010-10171-fill.pdf",
+        "title": "Veterans Health Administration (VHA) Veterans Care Agreement",
+        "firstIssuedOn": "2019-05-16",
+        "lastRevisionOn": "2019-05-21",
+        "pages": 16,
+        "sha256": "158fc34b0b8e74e357a5fec2b61458ad2e6610fdb7745f8b52f4df5ebe03e90a",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-5345a-MHV",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-5345a-MHV",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf",
+        "title": "Individuals' Request for a Copy of Their Own Health Information",
+        "firstIssuedOn": "2006-12-11",
+        "lastRevisionOn": "2012-05-13",
+        "pages": 2,
+        "sha256": "abfd87d4abb6835ba1dbc71a3bb97228cab80eec0e2be0d471b4415a682f86f1",
+        "validPdf": false,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": "2020-11-12T00:00:00.000Z",
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-2850C",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-2850C",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-2850c-fill.pdf",
+        "title": "Application for Associated Health Occupations",
+        "firstIssuedOn": "2004-09-15",
+        "lastRevisionOn": "2016-11-21",
+        "pages": 4,
+        "sha256": "36ddb412bdf5e4cc8c27469b8feadc369216e3afc27437d30897f2140855e9d2",
+        "validPdf": true,
+        "formUsage": "<p>Use VA Form 10-2850C if you’re seeking employment with VA as a respiratory therapy technician, physical therapist, pharmacist, physician’s assistant, or other health professional.</p>",
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "employment",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-0525a",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0525a",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0525a-fill.pdf",
+        "title": "Restriction of the Release of Individually-Identifiable Health Information Through eHEALTH Exchange",
+        "firstIssuedOn": "2013-06-01",
+        "lastRevisionOn": "2013-06-21",
+        "pages": 2,
+        "sha256": "f2fe5f8b6bc2ac26c41ede2a46ce4b81ac1c34bd47ce3250fe55d645be27021f",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-0388-4",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0388-4",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0388-4.pdf",
+        "title": "State Home Construction Grant Program Space Analysis—Adult Day Health Care",
+        "firstIssuedOn": "2005-09-07",
+        "lastRevisionOn": "2015-08-21",
+        "pages": 2,
+        "sha256": "b7ccbfb644c9b8478b43f8cc1740cd9e3c4aece8d76c008e8f971f9e71978cdd",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
       }
     },
     {
@@ -651,11 +377,43 @@
         "formName": "10-0491A",
         "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491a-fill%20(Application%20Addendum)%20(002).pdf",
         "title": "Addendum to Application for Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
         "pages": 1,
         "sha256": "bc3d7499756043920bd754582722229ab71d371ea63c183faadd20a0d55f2aca",
-        "validPdf": true
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-10164",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-10164",
+        "url": "https://www.va.gov/vaforms/medical/pdf/10-10164-fill.pdf",
+        "title": "Opt-Out of Sharing Protected Health Information Through Health Information Exchanges",
+        "firstIssuedOn": "2019-09-23",
+        "lastRevisionOn": "2020-04-21",
+        "pages": 1,
+        "sha256": "1d8a6dbdba538b6fdc16e6d2fb81a5d221c7133b106e0b5355a776fa749e508f",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
       }
     },
     {
@@ -664,12 +422,501 @@
       "attributes": {
         "formName": "10-0491J",
         "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491j-fill%20(Deferment).pdf",
-        "title": "Request for Deferment for Advanced Education - Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
-        "firstIssuedOn": null,
-        "lastRevisionOn": "2020-04-01",
+        "title": "Request for Deferment for Advanced Education—Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
         "pages": 1,
         "sha256": "efd660178bf9fb68bc0632a97cb4127729432eeadf9d821eaa47c6bb14db7db6",
-        "validPdf": true
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-0491I",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0491I",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491i-fill%20(Notice%20of%20Change).pdf",
+        "title": "Notice of Change and/or Annual Academic Status—Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
+        "pages": 1,
+        "sha256": "cf24eecf3f9aceefab87d3f23cd6dae383988a2c91619b5506a58b2ee2d2690f",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "SF2809",
+      "type": "va_form",
+      "attributes": {
+        "formName": "SF2809",
+        "url": "https://www.opm.gov/Forms/pdf_fill/SF2809.pdf",
+        "title": "Health Benefits Election Form",
+        "firstIssuedOn": "2017-08-30",
+        "lastRevisionOn": "2015-11-21",
+        "pages": 15,
+        "sha256": "10ba6030b6f853c6e205e70b1d3bfee6a6d242e804e5c2fe930bc421a19ccbd6",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "non-va",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-252",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-252",
+        "url": "https://www.va.gov/vaforms/medical/pdf/10-252%20Authorization%20To%20Release%20Protected%20Health%20Information%20To%20State%20Local%20Public%20Authorities.pdf",
+        "title": "Authorization to Release Protected Health Information to State/Local Public Health Authorities",
+        "firstIssuedOn": "2019-12-01",
+        "lastRevisionOn": "2020-11-07",
+        "pages": 1,
+        "sha256": "56906cc97922558b6e4d42fcd13b8d5ce1eb4e3d9df8128fb491acc6c2ce0b3f",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "benefit",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": [
+          { "name": "Health care", "description": "VA health care" },
+          { "name": "Records", "description": "VA records" }
+        ]
+      }
+    },
+    {
+      "id": "10-1314",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-1314",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-1314-fill.pdf",
+        "title": "Health Services Research and Development Service Career Development Awardee—Annual Progress Report",
+        "firstIssuedOn": "2002-10-18",
+        "lastRevisionOn": "2002-10-18",
+        "pages": 2,
+        "sha256": "57b64462006dc0dfc70e229e43f06f86349bc50fa4e80b62dcc74480b4cc423c",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-0491",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0491",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491-fill%20(Academic%20Verification).pdf",
+        "title": "Academic Verification—Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
+        "pages": 5,
+        "sha256": "961c479fd72ac77655687ba70d57952ecf637e59f0d57f605b30b43dedf7c2e9",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-0137",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0137",
+        "url": "https://www.va.gov/vaforms/medical/pdf/VA%20Form%2010-0137%20FILL.pdf",
+        "title": "VA Advance Directive: Durable Power of Attorney for Health Care and Living Will",
+        "firstIssuedOn": "2003-06-05",
+        "lastRevisionOn": "2020-07-21",
+        "pages": 6,
+        "sha256": "85628bcae0c9fdfd2111999c1235f314ec66e5ac3eeb9e991c83009b6fe9ceb8",
+        "validPdf": true,
+        "formUsage": "<p>Use VA Form 10-0137 to give specific people permission to make health care decisions for you, and to let VA health care providers know your wishes for medical, mental health, long-term, and other types of care.</p>",
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": ["10-0137 (espanol)", "10-0137A"],
+        "benefitCategories": [
+          { "name": "Health care", "description": "VA health care" }
+        ]
+      }
+    },
+    {
+      "id": "10-10145",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-10145",
+        "url": "https://www.va.gov/vaforms/medical/pdf/10-10145.pdf",
+        "title": "Veterans Health Administration (VHA) Veterans Choice Program Provider Agreement",
+        "firstIssuedOn": "2015-12-10",
+        "lastRevisionOn": "2016-02-21",
+        "pages": 6,
+        "sha256": "aeb33b8480bd7ced19b554143ff855ea5501d26f85db34c47a8ccb884e42e2c3",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-0491F",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0491F",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491f-fill%20(HPSP%20Agreement).pdf",
+        "title": "Health Professional Scholarship Program (HPSP) Agreement",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
+        "pages": 2,
+        "sha256": "0bb57674b8ecd2cf9e16f90f77aa7807fe54e8a0443cf250220cc387fa176f39",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-10EZ",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-10EZ",
+        "url": "https://www.va.gov/vaforms/medical/pdf/10-10EZ-fillable.pdf",
+        "title": "Instructions and Enrollment Application for Health Benefits",
+        "firstIssuedOn": "2016-07-10",
+        "lastRevisionOn": "2020-01-21",
+        "pages": 5,
+        "sha256": "6e6465e2e1c89225871daa9b6d86b92d1c263c7b02f98541212af7b35272372b",
+        "validPdf": true,
+        "formUsage": "<p>Use VA Form 10-10EZ if you’re a Veteran and want to apply for VA health care. You must be enrolled in VA health care to get care at VA health facilities or to have us cover your care at a community care provider (an approved non-VA provider).  </p>",
+        "formToolIntro": "You can apply online instead of filling out and sending us the paper form.",
+        "formToolUrl": "https://www.va.gov/health-care/apply/application/introduction",
+        "formDetailsUrl": null,
+        "formType": "benefit",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": ["10-10EZ (esp)", "10-10EZR"],
+        "benefitCategories": [
+          { "name": "Health care", "description": "VA health care" }
+        ]
+      }
+    },
+    {
+      "id": "10-0525",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0525",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0525-fill.pdf",
+        "title": "Revocation of Restriction of the Release of Individually-Identifiable Health Information Through eHEALTH Exchange",
+        "firstIssuedOn": "2014-02-01",
+        "lastRevisionOn": "2014-02-21",
+        "pages": 1,
+        "sha256": "373bde6bdcc17b2076a36839db2c3935dd12dc57f7a31c9a6b3225c8ac753616",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-5345a",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-5345a",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-5345aJun2017.pdf",
+        "title": "Individuals' Request for a Copy of Their Own Health Information",
+        "firstIssuedOn": "2005-05-06",
+        "lastRevisionOn": "2020-10-21",
+        "pages": 1,
+        "sha256": "994c78cf4e934b249884c4af7f2094682d6a50c06bf95842bfc886762b63aed3",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "benefit",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": [
+          { "name": "Health care", "description": "VA health care" },
+          { "name": "Records", "description": "VA records" }
+        ]
+      }
+    },
+    {
+      "id": "10-9050",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-9050",
+        "url": "https://www.va.gov/vaforms/medical/pdf/VA%20Form%2010-9050%20-Health%20Care%20Personnel%20Influenza%20Vaccination%20Form%20Appendix%20B.pdf",
+        "title": "Health Care Personnel Influenza Vaccination Form Appendix B",
+        "firstIssuedOn": "2020-08-18",
+        "lastRevisionOn": "2020-08-21",
+        "pages": 1,
+        "sha256": "0c78e6a5073cb93c954d970bd895bf6d575dd0cedd1657c97923a5befacb611f",
+        "validPdf": false,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "VHA",
+        "language": "en",
+        "deletedAt": "2020-08-18T00:00:00.000Z",
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-10EZR",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-10EZR",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-10ezrfill.pdf",
+        "title": "Health Benefits Update Form ",
+        "firstIssuedOn": "2004-11-01",
+        "lastRevisionOn": "2020-01-21",
+        "pages": 4,
+        "sha256": "ce38ed58eefe81aed9137a135299c0d2eb5320591fca690826dee39e2261c6d2",
+        "validPdf": true,
+        "formUsage": "<p>Use VA Form 10-10EZR if you already receive VA health care benefits, and you need to update your personal, insurance, or financial information.</p>",
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": [
+          { "name": "Health care", "description": "VA health care" }
+        ]
+      }
+    },
+    {
+      "id": "10-0491D",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0491D",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491d-fill%20(Education%20Program%20Completion).pdf",
+        "title": "Education Program Completion Notice/Service Obligation Placement—Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
+        "pages": 1,
+        "sha256": "dee49ba2c3c317c5247141c52d59f43272cae6ca922866dd04681d4332864ccb",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-7959C",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-7959C",
+        "url": "https://www.va.gov/vaforms/medical/pdf/VA%20Form%2010-7959c.pdf",
+        "title": "CHAMPVA—Other Health Insurance (OHI) Certification",
+        "firstIssuedOn": "2004-09-15",
+        "lastRevisionOn": "2020-09-21",
+        "pages": 2,
+        "sha256": "2ef493b6e41419d189c65cdf2de93a0d2e05ac3db68945db57d5cc6c964ea145",
+        "validPdf": true,
+        "formUsage": "<p>Use VA Form 10-7959C or <a href=\"https://www.va.gov/COMMUNITYCARE/docs/pubfiles/forms/va-S10-7959c-fill.pdf\">Formulario VA 10-7959c (español)</a> when: </p>\n\n<ul><li>You’re applying for CHAMPVA (Civilian Health and Medical Program of the Department of Veterans Affairs), and have other health insurance to declare as part of your VA Form 10-10d application. </li>\n\t<li>Or you need to report changes in your other non-VA health insurance, such as new beneficiaries or coverage changes.</li>\n</ul>",
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "benefit",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": ["10-10d"],
+        "benefitCategories": [
+          {
+            "name": "Family member benefits",
+            "description": "VA benefits for spouses, dependents, survivors, and family caregivers"
+          },
+          { "name": "Health care", "description": "VA health care" }
+        ]
+      }
+    },
+    {
+      "id": "10-5345",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-5345",
+        "url": "https://www.va.gov/vaforms/medical/pdf/10-5345_Sept2018.pdf",
+        "title": "Request for and Authorization to Release Health Information",
+        "firstIssuedOn": "2018-09-01",
+        "lastRevisionOn": "2020-10-21",
+        "pages": 2,
+        "sha256": "f1a7be0bc46f4a22f737b8a3ca43d99959ed3c10caadd49df925f581ef4bcb55",
+        "validPdf": true,
+        "formUsage": "<p>Use VA Form 10-5345 to authorize us to share your health information with a non-VA (or third-party) individual or organization.</p>",
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": "benefit",
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": [
+          { "name": "Health care", "description": "VA health care" }
+        ]
+      }
+    },
+    {
+      "id": "10-0491G",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0491G",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491g-fill%20(Application).pdf",
+        "title": "Health Professional Scholarship Program (HPSP), Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP), & Veterans Healing Veterans Medical Access and Education Scholarship Program (VHVMAESP)",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
+        "pages": 7,
+        "sha256": "67485e049500ef9fe2aa7bf779650adeb707f29b34118c01c7d6e622289e3528",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-0491E",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0491E",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491e-fill%20(Evaluation%20and%20Recommendation).pdf",
+        "title": "Evaluation & Recommendation Form—Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
+        "pages": 1,
+        "sha256": "bef060c277be3dc48d436e1caf689f676d6ad7531bdedcb8f8df3051994a7732",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-0491C",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0491C",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491c-fill%20(Annual%20Deferment).pdf",
+        "title": "Annual VA Employment or Deferment Verification—Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
+        "pages": 1,
+        "sha256": "b8663736e020c00329e53ed20f8bec8a8851bc647b817eaa0db2f2b25f928e11",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
+      }
+    },
+    {
+      "id": "10-0491H",
+      "type": "va_form",
+      "attributes": {
+        "formName": "10-0491H",
+        "url": "https://www.va.gov/vaforms/medical/pdf/vha-10-0491h-fill%20(Notice%20of%20Approaching%20Graduation).pdf",
+        "title": "Notice of Approaching Graduation—Health Professional Scholarship Program (HPSP) & Visual Impairment and Orientation and Mobility Professionals Scholarship Program (VIOMPSP)",
+        "firstIssuedOn": "2013-12-01",
+        "lastRevisionOn": "2020-04-21",
+        "pages": 1,
+        "sha256": "c9d0fe94fcc54218510794ee22bda9fe7faf0c9dd420c18ecb2d8b9eea046bd4",
+        "validPdf": true,
+        "formUsage": null,
+        "formToolIntro": null,
+        "formToolUrl": null,
+        "formDetailsUrl": null,
+        "formType": null,
+        "language": "en",
+        "deletedAt": null,
+        "relatedForms": [],
+        "benefitCategories": []
       }
     }
   ]
