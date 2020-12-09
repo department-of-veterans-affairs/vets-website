@@ -21,6 +21,7 @@ import {
   realEstate,
   recreationalVehicles,
   vehicles,
+  otherAssets,
   expenses,
   utilities,
   repayments,
@@ -62,6 +63,7 @@ const formPageTitles = {
   bankruptcyHistory: 'Bankruptcy History',
   recreationalVehicles: 'Recreational Vehicles',
   vehicles: 'Vehicles',
+  otherAssets: 'Other Assets',
 };
 
 const formConfig = {
@@ -200,6 +202,12 @@ const formConfig = {
           title: formPageTitles.vehicles,
           uiSchema: vehicles.uiSchema,
           schema: vehicles.schema,
+        },
+        [formPageTitles.otherAssets]: {
+          path: 'other-assets',
+          title: formPageTitles.otherAssets,
+          uiSchema: otherAssets.uiSchema,
+          schema: otherAssets.schema,
         },
       },
     },
