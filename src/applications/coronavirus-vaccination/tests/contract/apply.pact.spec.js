@@ -22,7 +22,7 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
       }/covid_vaccine/v0/registration`;
 
       const interaction = {
-        state: 'authenticated user data with contact preference',
+        state: 'authenticated user application data',
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
@@ -59,7 +59,7 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
       const unauthenticatedApiUrl = `${authenticatedApiUrl}/unauthenticated`;
 
       const interaction = {
-        state: 'unauthenticated user data',
+        state: 'unauthenticated user application data',
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
