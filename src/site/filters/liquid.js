@@ -150,10 +150,6 @@ module.exports = function registerFilters() {
     }
     return output;
   };
-  // liquid .slice only works on strings
-  liquid.filters.sliceArray = (array, start, end = array.length) => {
-    return array.slice(start, end);
-  };
 
   liquid.filters.videoThumbnail = data => {
     const string = data.split('v=')[1];
@@ -174,6 +170,10 @@ module.exports = function registerFilters() {
   };
   // debugging helper
   liquid.filters.console = arg => console.log(arg, 'ARGGG');
+  //  liquid slice filter only works on strings
+  liquid.filters.sliceArray = (arr, start, end = undefined) => {
+    return _.slice(arr, start, end);
+  };
 
   liquid.filters.breakTerms = data => {
     let output = '';
