@@ -23,8 +23,14 @@ ul.original-disability-list {
   }
 }
 
+fieldset.schemaform-block,
 .wizard-content-inner .fieldset-input:first-child {
   margin-top: 0;
+}
+
+/* Hide duplicate required span; first one in legend */
+.new-condition-description + .schemaform-required-span {
+  display: none;
 }
 
 .row .usa-date-of-birth.row {
