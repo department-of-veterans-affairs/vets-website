@@ -288,7 +288,6 @@ class ContactInformationField extends React.Component {
     };
 
     let EditView;
-    let ValidationView;
 
     if (type === 'email') {
       EditView = EmailEditView;
@@ -300,7 +299,6 @@ class ContactInformationField extends React.Component {
 
     if (type === 'address') {
       EditView = AddressEditView;
-      ValidationView = AddressValidationView;
     }
 
     // default the content to the read-view
@@ -366,7 +364,7 @@ class ContactInformationField extends React.Component {
 
     if (showValidationView) {
       content = (
-        <ValidationView
+        <AddressValidationView
           refreshTransaction={this.refreshTransaction}
           transaction={transaction}
           transactionRequest={transactionRequest}
