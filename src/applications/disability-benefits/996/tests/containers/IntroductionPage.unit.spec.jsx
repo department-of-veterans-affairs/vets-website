@@ -81,7 +81,7 @@ describe('IntroductionPage', () => {
     };
 
     const tree = shallow(
-      <IntroductionPage {...defaultProps} hasEmptyAddress={true} user={user} />,
+      <IntroductionPage {...defaultProps} user={user} hasEmptyAddress />,
     );
 
     const AlertBox = tree.find('AlertBox');
