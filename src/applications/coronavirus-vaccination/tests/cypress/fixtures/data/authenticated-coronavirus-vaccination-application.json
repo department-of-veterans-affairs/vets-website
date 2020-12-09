@@ -3,11 +3,10 @@
   "firstName":"Jane",
   "lastName":"Doe",
   "birthDate":"1965-01-01",
-  "ssn":"419-54-5182",
+  "ssn":"419545182",
   "email":"jane.doe@va.gov",
   "phone":"1112223333",
   "zipCode":"60601",
-  "contactPreference":true,
-  "contactMethod":"phone",
+  "zipCodeDetails":"Yes",
   "vaccineInterest":"INTERESTED"
 }
