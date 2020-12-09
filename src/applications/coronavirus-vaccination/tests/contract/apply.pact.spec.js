@@ -31,9 +31,7 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
             'X-Key-Inflection': 'camel',
             'Content-Type': 'application/json',
           },
-          body: {
-            data: JSON.stringify(authenticatedApplicationData),
-          },
+          body: authenticatedApplicationData,
         },
         willRespondWith: {
           status: 201,
@@ -61,7 +59,7 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
       const unauthenticatedApiUrl = `${authenticatedApiUrl}/unauthenticated`;
 
       const interaction = {
-        state: 'authenticated user data with contact preference',
+        state: 'unauthenticated user data',
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
@@ -70,9 +68,7 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
             'X-Key-Inflection': 'camel',
             'Content-Type': 'application/json',
           },
-          body: {
-            data: JSON.stringify(unauthenticatedApplicationData),
-          },
+          body: unauthenticatedApplicationData,
         },
         willRespondWith: {
           status: 201,
