@@ -1,0 +1,32 @@
+<!-- this template needs to be included inside a <dl/> -->
+<!-- media list -->
+{%if images.size != 0%} 
+    {% assign pageSize = 10 %}
+    {% assign setOfRecords = 0 %}
+    {% for mediaImage in images %}
+        {% assign recordsCount = recordsCount | plus: 1 %}
+        {% assign remainingImages = images | sliceArray: pageSize %}
+        {%unless recordsCount > pageSize %}
+        {% for mediaImage in remainingImages %}
+        {% include "src/site/includes/image_detail_mobile_responsive.drupal.liquid" 
+        with mediaImage = mediaImage image_title_classes = image_title_classes image_title_tag = image_title_tag %}
+        </div>
+    {% endfor %}
+        {%endunless %}
+    {% endfor %}
+    {% if recordsCount > pageSize %}
+        <div class="form-expanding-group additional-info-container">
+            <span class="additional-info-title">Show More Images</span>
+            <span>
+                <div class="additional-info-content">
+                {% for mediaImage in remainingImages %}
+                    {% include "src/site/includes/image_detail_mobile_responsive.drupal.liquid" 
+                    with mediaImage = mediaImage image_title_classes = image_title_classes image_title_tag = image_title_tag %}
+                    </div>
+                {% endfor %}
+                </div>
+            </span>
+        </div>
+    {% endif %}
+{%endif %}
+
