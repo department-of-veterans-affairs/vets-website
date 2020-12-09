@@ -13,8 +13,6 @@ import {
 
 import ContactInformationField from '../ContactInformationField';
 
-import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
-
 import {
   getFormSchema,
   getUiSchema,
@@ -103,7 +101,6 @@ function AddressField({ title, fieldName, deleteDisabled }) {
       apiRoute={API_ROUTES.ADDRESSES}
       convertCleanDataToPayload={convertCleanDataToPayload}
       deleteDisabled={deleteDisabled}
-      ValidationView={AddressValidationView}
       formSchema={getFormSchema()}
       uiSchema={getUiSchema()}
       type="address"

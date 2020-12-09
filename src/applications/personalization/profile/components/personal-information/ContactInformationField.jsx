@@ -43,6 +43,8 @@ import AddressView from '@@vap-svc/components/AddressField/AddressView';
 import PhoneEditView from 'applications/personalization/profile/components/personal-information/phone-numbers/PhoneEditView';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
+import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
+
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
   'flex-direction--column',
@@ -265,7 +267,6 @@ class ContactInformationField extends React.Component {
       title,
       transaction,
       transactionRequest,
-      ValidationView,
       type,
     } = this.props;
 
@@ -308,6 +309,7 @@ class ContactInformationField extends React.Component {
 
     let ContentView;
     let EditView;
+    let ValidationView;
 
     if (type === 'email') {
       ContentView = EmailView;
@@ -322,6 +324,7 @@ class ContactInformationField extends React.Component {
     if (type === 'address') {
       ContentView = AddressView;
       EditView = AddressEditView;
+      ValidationView = AddressValidationView;
     }
 
     // default the content to the read-view
@@ -470,8 +473,8 @@ export const mapStateToProps = (state, ownProps) => {
   const isEmpty = !data;
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
+  // Double check we don't need another conditonal here
   const showValidationView =
-    ownProps.ValidationView &&
     addressValidationType === fieldName &&
     // TODO: use a constant for 'addressValidation'
     activeEditView === 'addressValidation';
@@ -514,9 +517,6 @@ const mapDispatchToProps = {
 /**
  * Container used to easily create components for VA Profile-backed contact information.
  * @property {string} fieldName The name of the property as it appears in the user.profile.vapContactInfo object.
- * @property {func} ContentView The component used to render the read-display of the field.
- * @property {func} EditView The component used to render the edit mode of the field.
- * @property {func} ValidationView The component used to render validation mode the field.
  * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
  * @property {string} apiRoute The API route used to create/update/delete the VA Profile contact info field.
  * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in the VA Profile service.
@@ -528,7 +528,6 @@ const ContactInformationFieldContainer = connect(
 
 ContactInformationFieldContainer.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  ValidationView: PropTypes.func,
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
