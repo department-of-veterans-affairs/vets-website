@@ -10,24 +10,24 @@ const SELECTORS = {
   NEXT_PAGE: '.va-pagination-next > a',
 };
 
-function createMockAPIResponse() {
-  cy.server();
-  cy.route({
-    method: 'GET',
-    url: '/v0/forms',
-    status: 200,
-    response: stub,
-  }).as('getFindAForm');
+function axeTestPage() {
+  cy.injectAxe();
+  cy.axeCheck();
 }
 
 describe('functionality of Find Forms', () => {
   it('search the form and expect dom to have elements', () => {
-    createMockAPIResponse();
+    cy.server();
+    cy.route({
+      method: 'GET',
+      url: '/v0/forms',
+      status: 200,
+      response: stub,
+    }).as('getFindAForm');
 
     // navigate to find-forms and make axe check on browser
     cy.visit('/find-forms/');
-    cy.injectAxe();
-    cy.axeCheck();
+    axeTestPage();
 
     // Ensure form is present
     cy.get(SELECTORS.SEARCH_FORM);
@@ -46,21 +46,17 @@ describe('functionality of Find Forms', () => {
     const pages = chunk(sortedForms, pageLength);
 
     pages.forEach((page, pageNumber) => {
-      page.forEach((form, formIndex) => {
+      page.forEach(form => {
         cy.get(`a[href="${form.attributes.url}"]`);
-
-        // Axe check on each page of results
-        if (formIndex === 0) {
-          cy.injectAxe();
-          cy.axeCheck();
-        }
       });
 
       const nextPage = pageNumber + 1;
       const hasNextPage = nextPage < pages.length;
 
       if (hasNextPage) {
-        cy.get(SELECTORS.NEXT_PAGE).click();
+        cy.get(SELECTORS.NEXT_PAGE)
+          .click()
+          .then(() => axeTestPage());
       }
     });
   });
