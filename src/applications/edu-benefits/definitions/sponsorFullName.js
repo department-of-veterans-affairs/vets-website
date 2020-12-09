@@ -24,7 +24,7 @@ const uiSchema = {
     'ui:title': "Sponsor's middle name",
   },
   suffix: {
-    'ui:title': "Sponsor's Suffix",
+    'ui:title': "Sponsor's suffix",
     'ui:options': {
       widgetClassNames: 'form-select-medium',
     },
