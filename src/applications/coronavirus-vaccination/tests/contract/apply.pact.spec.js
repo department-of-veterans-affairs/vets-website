@@ -5,7 +5,7 @@ import {
   // decimal,
   // eachLike,
   // integer,
-  // like,
+  like,
   // string,
   term,
 } from '@pact-foundation/pact/dsl/matchers';
@@ -41,13 +41,13 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
               generate: 'application/json',
             }),
           },
-          // body: like({}),
+          body: like({}),
         },
       };
 
       await mockApi().addInteraction(interaction);
 
-      apiPostRequest(authenticatedApiUrl, authenticatedApplicationData);
+      await apiPostRequest(authenticatedApiUrl, authenticatedApplicationData);
     });
   });
 
@@ -78,13 +78,16 @@ contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
               generate: 'application/json',
             }),
           },
-          // body: like({}),
+          body: like({}),
         },
       };
 
       await mockApi().addInteraction(interaction);
 
-      apiPostRequest(unauthenticatedApiUrl, unauthenticatedApplicationData);
+      await apiPostRequest(
+        unauthenticatedApiUrl,
+        unauthenticatedApplicationData,
+      );
     });
   });
 });
