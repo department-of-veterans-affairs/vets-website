@@ -470,11 +470,13 @@ function setContained(appt) {
           contained.push({
             resourceType: 'Practitioner',
             id: `cc-practitioner-${appt.id}-${index}`,
-            name: {
-              text: `${provider.firstName} ${provider.lastName}`,
-              family: provider.lastName,
-              given: provider.firstName,
-            },
+            name: provider.lastName
+              ? {
+                  text: `${provider.firstName} ${provider.lastName}`,
+                  family: provider.lastName,
+                  given: provider.firstName,
+                }
+              : null,
             address: provider.address ? address : null,
             practitionerRole: [
               {
