@@ -23,7 +23,6 @@ import {
   getCCEType,
   selectIsCernerOnlyPatient,
   selectUseFlatFacilityPage,
-  getCommunityCareFacilities,
 } from '../../utils/selectors';
 import {
   getPreferences,
@@ -456,23 +455,55 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   };
 }
 
-export function updateFacilitySortMethod(sortMethod, uiSchema, isCC = false) {
+export function updateCCProviderSortMethod(sortMethod) {
+  return async (dispatch, _getState) => {
+    let location = null;
+    const action = {
+      type: FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED,
+      sortMethod,
+    };
+
+    if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+      dispatch({
+        type: FORM_REQUEST_CURRENT_LOCATION,
+      });
+      recordEvent({
+        event: `${GA_PREFIX}-request-current-location-clicked`,
+      });
+      try {
+        location = await getPreciseLocation();
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-allowed`,
+        });
+        dispatch({
+          ...action,
+          location,
+        });
+      } catch (e) {
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-blocked`,
+        });
+        captureError(e, true, 'community care preferences page');
+        dispatch({
+          type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
+        });
+      }
+    } else {
+      dispatch(action);
+    }
+  };
+}
+
+export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
     let location = null;
-    const facilities = isCC
-      ? getCommunityCareFacilities(getState())
-      : getTypeOfCareFacilities(getState());
+    const facilities = getTypeOfCareFacilities(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
 
-    let type = FORM_PAGE_FACILITY_SORT_METHOD_UPDATED;
-    if (isCC) {
-      type = FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED;
-    }
-
     const action = {
-      type,
+      type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
       sortMethod,
       uiSchema,
     };

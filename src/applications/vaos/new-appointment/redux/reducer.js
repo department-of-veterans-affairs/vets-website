@@ -119,6 +119,8 @@ const initialState = {
   requestLocationStatus: FETCH_STATUS.notStarted,
   communityCareProviderList: [],
   requestStatus: FETCH_STATUS.notStarted,
+  currentLocation: {},
+  ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {
@@ -414,71 +416,28 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED: {
-      const formData = state.data;
-      const sortMethod = action.sortMethod;
-      const location = action.location;
-      let typeOfCareFacilities = state.communityCareProviderList;
-      let newSchema = state.pages.vaFacilityV2;
       let requestLocationStatus = state.requestLocationStatus;
 
-      if (location && typeOfCareFacilities?.length) {
-        const { coords } = location;
-        const { latitude, longitude } = coords;
+      requestLocationStatus = FETCH_STATUS.succeeded;
 
-        if (latitude && longitude) {
-          typeOfCareFacilities = typeOfCareFacilities.map(facility => {
-            const distancefromCurrentLocation = distanceBetween(
-              latitude,
-              longitude,
-              facility.position.latitude,
-              facility.position.longitude,
-            );
-
-            return {
-              ...facility,
-              legacyVAR: {
-                // ...facility.legacyVAR,
-                distancefromCurrentLocation,
-              },
-            };
-          });
-        }
-
-        requestLocationStatus = FETCH_STATUS.succeeded;
+      if (
+        action.sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+      ) {
+        return {
+          ...state,
+          currentLocation: {
+            latitude: action.location?.coords.latitude,
+            longitude: action.location?.coords.longitude,
+          },
+          ccProviderPageSortMethod: action.sortMethod,
+          requestLocationStatus,
+        };
+      } else {
+        return {
+          ...state,
+          ccProviderPageSortMethod: action.sortMethod,
+        };
       }
-
-      if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
-        typeOfCareFacilities = typeOfCareFacilities.sort(
-          (a, b) => a.name - b.name,
-        );
-      }
-
-      newSchema = set(
-        'properties.vaFacility',
-        {
-          type: 'string',
-          enum: typeOfCareFacilities.map(facility => facility.id),
-          enumNames: typeOfCareFacilities,
-        },
-        newSchema,
-      );
-
-      const { schema } = updateSchemaAndData(
-        newSchema,
-        action.uiSchema,
-        formData,
-      );
-
-      return {
-        ...state,
-        pages: {
-          ...state.pages,
-          ccPreferences: schema,
-        },
-        // childFacilitiesStatus: FETCH_STATUS.succeeded,
-        facilityPageSortMethod: sortMethod,
-        requestLocationStatus,
-      };
     }
 
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
@@ -1148,39 +1107,31 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
-      let myCommunityCareProviderList = action.communityCareProviderList;
-      const myAddress = action.address;
-      const myHasResidentialCoordinates =
-        !!action.address?.latitude && !!action.address?.longitude;
-      const sortMethod = myHasResidentialCoordinates
-        ? FACILITY_SORT_METHODS.distanceFromResidential
-        : FACILITY_SORT_METHODS.alphabetical;
+      let communityCareProviderList = action.communityCareProviderList;
+      const address = action.address;
 
-      if (myHasResidentialCoordinates) {
-        myCommunityCareProviderList = myCommunityCareProviderList
-          .map(facility => {
-            const distanceFromResidentialAddress = distanceBetween(
-              myAddress.latitude,
-              myAddress.longitude,
-              facility.position.latitude,
-              facility.position.longitude,
-            );
-
-            return {
-              ...facility,
-              legacyVAR: {
-                ...facility.legacyVAR,
-                distanceFromResidentialAddress,
-              },
-            };
-          })
-          .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
-      }
+      const sortMethod = state.ccProviderPageSortMethod
+        ? state.ccProviderPageSortMethod
+        : FACILITY_SORT_METHODS.distanceFromResidential;
+      communityCareProviderList = communityCareProviderList
+        .map(facility => {
+          const distance = distanceBetween(
+            address.latitude,
+            address.longitude,
+            facility.position.latitude,
+            facility.position.longitude,
+          );
+          return {
+            ...facility,
+            [sortMethod]: distance,
+          };
+        })
+        .sort((a, b) => a[sortMethod] - b[sortMethod]);
 
       return {
         ...state,
         requestStatus: FETCH_STATUS.succeeded,
-        communityCareProviderList: myCommunityCareProviderList,
+        communityCareProviderList,
       };
     }
     case FORM_REQUESTED_PROVIDERS_FAILED: {
