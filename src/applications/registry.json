@@ -861,7 +861,7 @@
   {
     "appName": "Healthcare Questionnaire",
     "entryName": "questionnaire",
-    "rootUrl": "/healthcare/questionnaire",
+    "rootUrl": "/health-care/health-questionnaires/questionnaires/answer-questions",
     "template": {
       "vagovprod": true,
       "layout": "page-react.html",
@@ -913,10 +913,21 @@
   {
     "appName": "Questionnaire List",
     "entryName": "questionnaire-list",
-    "rootUrl": "/healthcare/list",
+    "rootUrl": "/health-care/health-questionnaires/questionnaires",
     "template": {
       "vagovprod": true,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "health-care/",
+          "name": "Health care"
+        },
+        {
+          "path": "health-care/health-questionnaires/questionnaires",
+          "name": "Your health questionnaires"
+        }
+      ]
     }
   },
   {
