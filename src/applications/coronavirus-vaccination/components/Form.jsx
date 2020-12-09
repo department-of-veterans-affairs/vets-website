@@ -107,7 +107,12 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   return (
     <>
-      <h1>COVID-19 vaccines — Stay informed and help us prepare</h1>
+      <h1>Fill out the form below to sign up</h1>
+      <p>
+        We’ll send you regular updates on how we’re providing COVID-19 vaccines
+        across the country—and when you can get your vaccine if you want one.
+        You don't need to sign up to get a vaccine.
+      </p>
       {isLoggedIn ? (
         <p>
           <strong>Note:</strong> Any changes you make to your information here
@@ -134,8 +139,12 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
             />
           </div>
         ) : null}
-        <button type="submit" className="usa-button">
-          Submit
+        <button
+          type="submit"
+          className="usa-button"
+          aria-label="Sign up to stay informed about COVID-19 vaccines"
+        >
+          Sign up to stay informed
         </button>
       </SchemaForm>
     </>
