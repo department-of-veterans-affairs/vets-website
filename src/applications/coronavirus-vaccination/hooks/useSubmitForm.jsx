@@ -11,13 +11,13 @@ export default function useSubmitForm() {
   const [status, setSubmitStatus] = useState(requestStates.notCalled);
 
   const submit = useCallback(formData => {
-    const sendToApi = () => {
+    const sendToApi = async () => {
       const submissionUrl = formData.isIdentityVerified
         ? apiUrl
         : unauthenticatedApiUrl;
 
       try {
-        apiPostRequest(submissionUrl, formData);
+        await apiPostRequest(submissionUrl, formData);
         setSubmitStatus(requestStates.succeeded);
       } catch (error) {
         setSubmitStatus(requestStates.failed);
