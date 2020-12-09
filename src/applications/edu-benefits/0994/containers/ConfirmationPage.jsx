@@ -79,7 +79,7 @@ class ConfirmationPage extends React.Component {
           name={name}
         />
         {!appliedForVaEducationBenefits && (
-          <div>
+          <div className={'apply-for-1990'}>
             <p>
               <strong>{'Note: '}</strong>
               We’ll also need you to complete the Application for VA Education

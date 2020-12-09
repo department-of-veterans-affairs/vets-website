@@ -7,6 +7,7 @@ import {
   ConfirmationGuidance,
   ConfirmationPageSummary,
   ConfirmationPageTitle,
+  ConfirmationReturnHome,
 } from '../../components/ConfirmationPage';
 
 const scroller = Scroll.scroller;
@@ -53,11 +54,7 @@ class ConfirmationPage extends React.Component {
           name={name}
         />
         <ConfirmationGuidance />
-        <div className="form-progress-buttons schemaform-back-buttons">
-          <a href="/">
-            <button className="usa-button-primary">Go back to VA.gov</button>
-          </a>
-        </div>
+        <ConfirmationReturnHome />
       </div>
     );
   }
