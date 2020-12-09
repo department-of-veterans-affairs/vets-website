@@ -17,7 +17,8 @@ import {
   spouseBenefits,
   spouseAdditionalEmployment,
   dependents,
-  householdAssets,
+  monetary,
+  realEstate,
   expenses,
   utilities,
   repayments,
@@ -48,7 +49,8 @@ const formPageTitles = {
   spouseBenefits: 'Spouse benefits',
   spouseAdditionalIncome: 'Spouse additional Income',
   dependents: 'Dependents',
-  householdAssets: 'Household Assets',
+  monetary: 'Monetary assets',
+  realEstate: 'Realestate assets',
   expenses: 'Household Expenses',
   utilities: 'Household Utilities',
   repayments: 'Household Repayments',
@@ -168,14 +170,20 @@ const formConfig = {
         },
       },
     },
-    assetsInformationChapter: {
+    householdAssetsChapter: {
       title: formChapterTitles.householdAssets,
       pages: {
-        [formPageTitles.householdAssets]: {
-          path: 'household-assets',
-          title: formPageTitles.householdAssets,
-          uiSchema: householdAssets.uiSchema,
-          schema: householdAssets.schema,
+        [formPageTitles.monetary]: {
+          path: 'monetary-assets',
+          title: formPageTitles.monetary,
+          uiSchema: monetary.uiSchema,
+          schema: monetary.schema,
+        },
+        [formPageTitles.realEstate]: {
+          path: 'real-estate-assets',
+          title: formPageTitles.realEstate,
+          uiSchema: realEstate.uiSchema,
+          schema: realEstate.schema,
         },
       },
     },
