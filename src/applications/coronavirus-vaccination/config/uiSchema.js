@@ -67,10 +67,6 @@ export default {
     'ui:errorMessages': {
       required: 'Please select an answer.',
     },
-    'ui:options': {
-      // hideIf: formData => !formData.zipCode,
-      expandUnder: 'zipCode',
-    },
   },
   vaccineInterest: {
     'ui:title': 'Are you interested in getting a COVID-19 vaccine at VA?',
