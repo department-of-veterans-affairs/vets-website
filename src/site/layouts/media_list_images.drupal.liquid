@@ -51,23 +51,10 @@
                             {% assign image_title_classes = "vads-u-font-size--h3" %}
                         {% endif %}
                         <!-- Images List -->
-                        {%if fieldMediaListImages.entity.fieldImages.size != 0%}
-                            {% assign images_pagination = fieldMediaListImages.entity.fieldImages | paginateImages %}
-                        {% endif %}
+  
                         <dl class="usa-unstyled-list">
-                            {% include "src/site/includes/images_list.drupal.liquid" 
-                            with images = images_pagination.firstTen image_title_classes = image_title_classes image_title_tag = image_title_tag%}
-                            <!-- PAST TEN IMAGES, SHOW NEXT TEN -->
-                                                        <!-- TODO: update this logic, rather than showing all past ten -->
-                            {% if images_pagination.moreThanTen == true %}
-                                <div class="form-expanding-group additional-info-container">
-                                    <a class="additional-info-title show-more-images">Show More</a>
-                                    <div class="additional-info-content">
-                                        {% include "src/site/includes/images_list.drupal.liquid" 
-                                        with images = images_pagination.lastTen image_title_classes = image_title_classes image_title_tag = image_title_tag%}
-                                    </div>
-                                </div>
-                            {% endif %}
+                            {% include "src/site/includes/paginated_images_list.drupal.liquid" 
+                            with images = fieldMediaListImages.entity.fieldImages image_title_classes = image_title_classes image_title_tag = image_title_tag%}
                         </dl>
                         <!-- Repeated buttons -->
                         {% if fieldButtonsRepeat %}

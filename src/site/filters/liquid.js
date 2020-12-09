@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
 
 const moment = require('moment-timezone');
@@ -148,17 +150,9 @@ module.exports = function registerFilters() {
     }
     return output;
   };
-
-  liquid.filters.slice = (array, start, end) => {
-    return _.slice(array, start, end);
-  };
-
-  liquid.filters.paginateImages = imagesArr => {
-    return {
-      firstTen: imagesArr.slice(0, 10),
-      lastTen: imagesArr.slice(10),
-      moreThanTen: imagesArr.length > 10,
-    };
+  // liquid .slice only works on strings
+  liquid.filters.sliceArray = (array, start, end = array.length) => {
+    return array.slice(start, end);
   };
 
   liquid.filters.videoThumbnail = data => {
@@ -178,6 +172,8 @@ module.exports = function registerFilters() {
 
     return data;
   };
+  // debugging helper
+  liquid.filters.console = arg => console.log(arg, 'ARGGG');
 
   liquid.filters.breakTerms = data => {
     let output = '';
