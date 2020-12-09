@@ -14,7 +14,7 @@ import environment from 'platform/utilities/environment';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
 import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthenticated-coronavirus-vaccination-application.json';
 
-contractTest('coronavirus-vaccination', 'VA.gov API', mockApi => {
+contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('POST /registration', () => {
     it('Authenticated success case: submit valid form will return a 201 Created HTTP response', async () => {
       const authenticatedApiUrl = `${
