@@ -1,25 +1,26 @@
 import React, { useState, useCallback } from 'react';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
-export default function MaskedSSNWidget({ value, onChange, ...props }) {
+export default function MaskedSSNWidget({ value, onChange, onBlur, ...props }) {
   const [visibleValue, setVisibleValue] = useState(value);
 
-  const onFocus = useCallback(
+  const unmaskInput = useCallback(
     () => {
       setVisibleValue(value);
     },
     [setVisibleValue, value],
   );
 
-  const onBlur = useCallback(
-    () => {
+  const maskInput = useCallback(
+    event => {
       if (!value) {
         return;
       }
       const maskedValue = value.replace(/[0-9](?=.{4,}$)/g, '*');
       setVisibleValue(maskedValue);
+      onBlur(event);
     },
-    [setVisibleValue, value],
+    [setVisibleValue, onBlur, value],
   );
 
   const handleChange = useCallback(
@@ -35,8 +36,8 @@ export default function MaskedSSNWidget({ value, onChange, ...props }) {
       {...props}
       value={visibleValue}
       onChange={handleChange}
-      onBlur={onBlur}
-      onFocus={onFocus}
+      onBlur={maskInput}
+      onFocus={unmaskInput}
     />
   );
 }
