@@ -198,14 +198,11 @@ describe('topic', () => {
       it('should be invalid for length greater than 8 characters', () => {
         expect(isValidFacilityCode('123456789')).to.be.false;
       });
+      it('should be invalid for length less than 8 characters', () => {
+        expect(isValidFacilityCode('123456789')).to.be.false;
+      });
     });
     describe('valid facility code', () => {
-      it('should be valid for no facility code', () => {
-        expect(isValidFacilityCode('')).to.be.true;
-      });
-      it('should be valid for facility code less than 8 characters', () => {
-        expect(isValidFacilityCode('Ab12')).to.be.true;
-      });
       it('should be valid for facility code with exactly 8 characters', () => {
         expect(isValidFacilityCode('AaBb1234')).to.be.true;
       });
