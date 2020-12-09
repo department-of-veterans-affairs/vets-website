@@ -20,9 +20,9 @@ describe('functionality of Find Forms', () => {
     cy.server();
     cy.route({
       method: 'GET',
-      url: '/v0/forms',
-      status: 200,
       response: stub,
+      status: 200,
+      url: '/v0/forms?query=health',
     }).as('getFindAForm');
 
     // navigate to find-forms and make axe check on browser
@@ -35,6 +35,7 @@ describe('functionality of Find Forms', () => {
     // Search the form
     cy.get('input#va-form-query').type('health');
     cy.get(`${SELECTORS.SEARCH_FORM} .usa-button`).click();
+    cy.wait('@getFindAForm');
 
     // Ensure at least 1 title is present
     cy.get(`${SELECTORS.SEARCH_RESULT_TITLE}`);
