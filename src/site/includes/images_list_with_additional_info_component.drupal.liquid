@@ -2,7 +2,7 @@
 <!-- media list -->
 {%if images.size != 0%} 
     {% assign pageSize = 10 %}
-    {% assign remainingImages = images | sliceArray: pageSize %}
+    {% assign remainingImages = images | sliceArrayFromStart: pageSize, images.size %}
     {% for mediaImage in images %}
         {% assign recordsCount = recordsCount | plus: 1 %}
         {%unless recordsCount > pageSize %}

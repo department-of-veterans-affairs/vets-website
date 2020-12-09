@@ -168,11 +168,9 @@ module.exports = function registerFilters() {
 
     return data;
   };
-  // debugging helper
-  liquid.filters.console = arg => console.log(arg, 'ARGGG');
   //  liquid slice filter only works on strings
-  liquid.filters.sliceArray = (arr, start, end = undefined) => {
-    return _.slice(arr, start, end);
+  liquid.filters.sliceArrayFromStart = (arr, startIndex) => {
+    return _.slice(arr, startIndex);
   };
 
   liquid.filters.breakTerms = data => {
