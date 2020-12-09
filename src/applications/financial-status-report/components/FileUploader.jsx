@@ -13,9 +13,8 @@ import {
 } from '../components/utils/fileValidation';
 
 const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
-  const [errorMessage, setErrorMessage] = useState(null);
-
   const acceptedFileTypes = FILE_TYPES.map(type => `${type}`).join(', ');
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const scrollToFile = position => {
     const options = getScrollOptions({ offset: -25 });

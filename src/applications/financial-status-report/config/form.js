@@ -33,7 +33,7 @@ const formChapterTitles = {
   householdAssets: 'Household assets',
   householdExpenses: 'Household expenses',
   resolutionOptions: 'Resolution options',
-  bankruptcyHistory: 'Bankruptcy attestation',
+  bankruptcyHistory: 'Bankruptcy history',
 };
 
 const formPageTitles = {

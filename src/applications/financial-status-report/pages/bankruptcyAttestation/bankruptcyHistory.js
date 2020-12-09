@@ -11,6 +11,7 @@ const mortgageOptions = [
 ];
 
 export const uiSchema = {
+  'ui:title': 'Your bankruptcy history',
   bankruptcyHistory: {
     adjudicated: {
       'ui:title': 'Have you ever been adjudicated as bankrupt?',
