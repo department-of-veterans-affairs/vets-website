@@ -7,6 +7,7 @@ import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import RemoveProviderModal from './RemoveProviderModal';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -23,7 +24,8 @@ function ProviderSelectionField({
   currentLocation,
   sortMethod,
 }) {
-  const [checkedProvider, setCheckedProvider] = useState();
+  const [checkedProvider, setCheckedProvider] = useState(false);
+  const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showProvidersList, setShowProvidersList] = useState(false);
   const [providersListLength, setProvidersListLength] = useState(
@@ -38,6 +40,13 @@ function ProviderSelectionField({
     requestStatus === FETCH_STATUS.notStarted ||
     requestLocationStatus === FETCH_STATUS.loading;
   const providerSelected = 'id' in formData;
+  const key = sortMethod || FACILITY_SORT_METHODS.distanceFromResidential;
+  const sortByDistanceFromResidential =
+    !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
+
+  const sortByDistanceFromCurrentLocation =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -64,13 +73,14 @@ function ProviderSelectionField({
     [showProvidersList],
   );
 
-  // const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
-  const key = sortMethod || FACILITY_SORT_METHODS.distanceFromResidential;
-  const sortByDistanceFromResidential =
-    !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
-
-  const sortByDistanceFromCurrentLocation =
-    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
+  useEffect(
+    () => {
+      if (mounted && Object.keys(formData).length === 0) {
+        scrollAndFocus('.va-button-link');
+      }
+    },
+    [formData],
+  );
 
   return (
     <div className="vads-u-background-color--gray-lightest small-screen:vads-u-padding--2 medium-screen:vads-u-padding--3">
@@ -117,6 +127,16 @@ function ProviderSelectionField({
                 }}
               >
                 Change provider
+              </button>
+              <button
+                aria-label={`Remove ${formData.name}`}
+                type="button"
+                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0 vads-u-margin-right--2"
+                onClick={() => {
+                  setShowRemoveProviderModal(true);
+                }}
+              >
+                Remove
               </button>
             </div>
           </>
@@ -274,6 +294,19 @@ function ProviderSelectionField({
             </button>
           </div>
         )}
+      {showRemoveProviderModal && (
+        <RemoveProviderModal
+          provider={formData}
+          address={address}
+          onClose={response => {
+            setShowRemoveProviderModal(false);
+            if (response === true) {
+              setCheckedProvider(false);
+              onChange({});
+            }
+          }}
+        />
+      )}
     </div>
   );
 }
