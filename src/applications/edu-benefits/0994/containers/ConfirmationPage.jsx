@@ -53,7 +53,7 @@ class ConfirmationPage extends React.Component {
     return (
       <div>
         <h3 className="confirmation-page-title">
-          We’ve received your application
+          We've received your application
         </h3>
         <p>
           We usually process claims within <strong>30 days</strong>.
