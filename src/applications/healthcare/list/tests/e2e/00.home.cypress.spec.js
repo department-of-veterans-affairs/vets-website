@@ -2,7 +2,7 @@ import basicUser from './fixtures/users/user-basic.json';
 
 it('healthcare questionnaire list -- loads manager page -- feature enabled', () => {
   cy.fixture(
-    '../../src/applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
+    '../../src/applications/healthcare/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
   ).then(features => {
     cy.route('GET', '/v0/feature_toggles*', features);
     cy.login(basicUser);
@@ -15,11 +15,11 @@ it('healthcare questionnaire list -- loads manager page -- feature enabled', () 
 
 it('healthcare questionnaire  list-- can not manager page -- feature disabled', () => {
   cy.fixture(
-    '../../src/applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.disabled.json',
+    '../../src/applications/healthcare/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.disabled.json',
   ).then(features => {
     cy.route('GET', '/v0/feature_toggles*', features);
     const featureRoute = '/health-care/health-questionnaires/questionnaires/';
     cy.visit(featureRoute);
-    cy.url().should('not.match', /healthcare/);
+    cy.url().should('not.match', /health-care/);
   });
 });

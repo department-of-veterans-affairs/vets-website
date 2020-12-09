@@ -3,7 +3,7 @@ import basicUser from './fixtures/users/user-basic.js';
 describe('healthcare questionnaire -- landing page --', () => {
   beforeEach(() => {
     cy.fixture(
-      '../../src/applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
+      '../../src/applications/healthcare/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
     ).then(async features => {
       cy.route('GET', '/v0/feature_toggles*', features);
       cy.login(basicUser);
