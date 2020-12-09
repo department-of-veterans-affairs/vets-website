@@ -7,57 +7,63 @@ import SearchResult from '../../components/SearchResult';
 import FormTitle from '../../components/FormTitle';
 
 describe('Find VA Forms <SearchResult />', () => {
-  it('should render', () => {
-    const form = {
-      id: 'VA10192',
-      attributes: {
-        formName: 'VA10192',
-        formToolUrl:
-          'https://www.va.gov/health-care/about-information-for-pre-complaint-processing/',
-        lastRevisionOn: '2020-12-22',
-        relatedForms: ['10-10d', '10-7959C'],
-        title: 'Information for Pre-Complaint Processing',
-        url: 'https://www.va.gov/vaforms/va/pdf/VA10192.pdf',
-      },
-    };
+  const form = {
+    id: '10-10CG',
+    attributes: {
+      deletedAt: null,
+      firstIssuedOn: '2011-05-01',
+      formDetailsUrl:
+        'https://www.va.gov/health-care/about-caregiver-assistance-form-10-10cg/',
+      formName: '10-10CG',
+      formToolIntro:
+        'You can apply online instead of filling out and sending us the paper form.',
+      formToolUrl:
+        'https://www.va.gov/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg/introduction',
+      formType: null,
+      formUsage:
+        '<p>Use VA Form 10-10CG to apply for the Program of Comprehensive Assistance for Family Caregivers. Each time a new caregiver is appointed, a new VA Form 10-10CG is required.</p>',
+      language: 'en',
+      lastRevisionOn: '2020-09-21',
+      pages: 5,
+      relatedForms: ['10-10d', '10-7959C'],
+      sha256:
+        'ad611f1779e6e28f1ac5184a202c93492f76b6bd49c76c0c4b8a781c1c751d44',
+      title:
+        'Instructions and Application for Comprehensive Assistance for Family Caregivers Program',
+      url: 'https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf',
+      validPdf: true,
+    },
+  };
 
-    // full mount since <FormTitle /> is a child to SearchResult
+  it('should render child component', () => {
     const tree = mount(<SearchResult form={form} />);
-
-    const treeText = tree.text();
-
     // does parent contain child?
     expect(
       tree.contains([
         <FormTitle
           key={form.id}
           id={form.id}
-          formUrl={form.attributes.form}
+          formUrl={form.attributes.formDetailsUrl}
           title={form.attributes.title}
         />,
       ]),
     ).to.equal(true);
+    tree.unmount();
+  });
 
-    // expecting result node tree text to include the following
-    [
-      'Information for Pre-Complaint Processing',
-      'VA10192',
-      '12-22-2020',
-      'Form last updated',
-      '10-10d, 10-7959C',
-      'Download VA form VA10192 (PDF)',
-      'Related to',
-      'Go to online tool',
-    ].forEach(text => {
-      expect(treeText).to.include(text);
-    });
+  it('should have download or redirect attribute for form PDF dependant on CORS', () => {
+    const tree = mount(<SearchResult form={form} />);
+    const isSameOrigin = form.attributes.url.startsWith(window.location.origin);
 
-    // expecting html nodes to have the following links
-    [
-      'href="https://www.va.gov/vaforms/va/pdf/VA10192.pdf"',
-      'href="https://www.va.gov/health-care/about-information-for-pre-complaint-processing/"',
-    ].forEach(text => expect(tree.html()).to.include(text));
+    if (isSameOrigin) expect(tree.exists('[download=true]')).to.equal(true);
+    else expect(tree.exists('[target="_blank"]')).to.equal(true);
 
+    tree.unmount();
+  });
+
+  it('should have a button', () => {
+    const tree = mount(<SearchResult form={form} />);
+    expect(tree.exists('.usa-button')).to.equal(true);
     tree.unmount();
   });
 });
