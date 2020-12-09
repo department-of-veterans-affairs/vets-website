@@ -268,10 +268,30 @@ const createFakeIntroductionPageStore = (formId, savedForms) => {
   };
 };
 
+const createFakeStopCodeStore = (stopCode = '323') => {
+  return {
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            attributes: {
+              vdsAppointments: [{ clinic: { stopCode } }],
+            },
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => ({
+      toggleLoginModal: () => {},
+    }),
+  };
+};
 export {
   createFakeUserStore,
   createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
   createFakeConfirmationStore,
   createFakeIntroductionPageStore,
+  createFakeStopCodeStore,
 };

@@ -11,7 +11,9 @@ describe('healthcare questionnaire -- landing page --', () => {
         'DISMISSED_ANNOUNCEMENTS',
         JSON.stringify(['single-sign-on-intro']),
       );
-      cy.visit('/healthcare/questionnaire/introduction?skip');
+      cy.visit(
+        '/health-care/health-questionnaires/questionnaires/answer-questions/introduction?skip',
+      );
     });
   });
   it('accessibility', () => {
