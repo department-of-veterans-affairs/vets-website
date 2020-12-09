@@ -36,6 +36,7 @@ export const uiSchema = {
         'ui:options': {
           viewField: CardDetailsView,
           doNotScroll: true,
+          showSave: true,
         },
         items: {
           'ui:title': 'Real estate owned:',
@@ -61,6 +62,7 @@ export const uiSchema = {
         'ui:options': {
           viewField: CardDetailsView,
           doNotScroll: true,
+          showSave: true,
         },
         items: {
           'ui:title': 'Trailers, boats, or campers owned',
@@ -86,6 +88,7 @@ export const uiSchema = {
         'ui:options': {
           viewField: CardDetailsView,
           doNotScroll: true,
+          showSave: true,
         },
         items: {
           'ui:title': 'Trailers, boats, or campers owned',
@@ -117,6 +120,7 @@ export const uiSchema = {
         'ui:options': {
           viewField: CardDetailsView,
           doNotScroll: true,
+          showSave: true,
         },
         items: {
           'ui:title': 'Other assets owned',
