@@ -1,6 +1,7 @@
 import React from 'react';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { connect } from 'react-redux';
 
 import OnState from './On';
@@ -11,11 +12,14 @@ function CovidVaccineUpdatesCTA({ showLinkToOnlineForm }) {
     return <OnState />;
   }
 
-  return <OffState />;
+  if (showLinkToOnlineForm === false) {
+    return <OffState />;
+  }
+
+  return <LoadingIndicator message="Loading..." />;
 }
 
 const mapStateToProps = store => ({
-  user: store.user,
   showLinkToOnlineForm: toggleValues(store)[
     FEATURE_FLAG_NAMES.covidVaccineUpdatesCTA
   ],
