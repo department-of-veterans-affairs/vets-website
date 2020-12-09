@@ -10,6 +10,7 @@ import * as dependents from './householdIncome/dependents';
 import * as monetary from './householdAssets/monetary';
 import * as realEstate from './householdAssets/realEstate';
 import * as recreationalVehicles from './householdAssets/recreationalVehicles';
+import * as vehicles from './householdAssets/vehicles';
 import * as spouseInformation from './householdIncome/spouseInformation';
 import * as spouseSocialSecurity from './householdIncome/spouseSocialSecurity';
 import * as expenses from './householdExpenses/expenses';
@@ -35,6 +36,7 @@ export {
   monetary,
   realEstate,
   recreationalVehicles,
+  vehicles,
   expenses,
   utilities,
   repayments,
