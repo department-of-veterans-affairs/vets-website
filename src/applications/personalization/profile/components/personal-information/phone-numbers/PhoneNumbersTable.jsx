@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HomePhone from './HomePhone';
-import WorkPhone from './WorkPhone';
-import MobilePhone from './MobilePhone';
-import FaxNumber from './FaxNumber';
 
+import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
+import PhoneField from './PhoneField';
 import ProfileInfoTable from '../../ProfileInfoTable';
 
 const PhoneNumbersTable = ({ className }) => (
@@ -13,19 +11,39 @@ const PhoneNumbersTable = ({ className }) => (
     data={[
       {
         title: 'Home',
-        value: <HomePhone />,
+        value: (
+          <PhoneField
+            title={FIELD_TITLES[FIELD_NAMES.HOME_PHONE]}
+            fieldName={FIELD_NAMES.HOME_PHONE}
+          />
+        ),
       },
       {
         title: 'Work',
-        value: <WorkPhone />,
+        value: (
+          <PhoneField
+            title={FIELD_TITLES[FIELD_NAMES.WORK_PHONE]}
+            fieldName={FIELD_NAMES.WORK_PHONE}
+          />
+        ),
       },
       {
         title: 'Mobile',
-        value: <MobilePhone />,
+        value: (
+          <PhoneField
+            title={FIELD_TITLES[FIELD_NAMES.MOBILE_PHONE]}
+            fieldName={FIELD_NAMES.MOBILE_PHONE}
+          />
+        ),
       },
       {
         title: 'Fax',
-        value: <FaxNumber />,
+        value: (
+          <PhoneField
+            title={FIELD_TITLES[FIELD_NAMES.FAX_NUMBER]}
+            fieldName={FIELD_NAMES.FAX_NUMBER}
+          />
+        ),
       },
     ]}
     list
