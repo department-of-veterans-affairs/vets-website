@@ -1,5 +1,6 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import MaskedSSNWidget from '../components/MaskedSSNWidget';
+import { validateSSN } from 'platform/forms-system/src/js/validation';
 
 export default {
   isIdentityVerified: {
@@ -38,6 +39,7 @@ export default {
       pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',
       required: 'Please enter a SSN',
     },
+    'ui:validations': [validateSSN],
   },
   email: {
     'ui:title': 'Email address',

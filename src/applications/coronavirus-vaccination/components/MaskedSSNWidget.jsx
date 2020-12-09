@@ -7,7 +7,6 @@ export default function MaskedSSNWidget({ value, onChange, ...props }) {
   const onFocus = useCallback(
     () => {
       setVisibleValue(value);
-      console.log(value);
     },
     [setVisibleValue, value],
   );
@@ -17,9 +16,8 @@ export default function MaskedSSNWidget({ value, onChange, ...props }) {
       if (!value) {
         return;
       }
-
-      const smilies = new Array(value.length).fill('😄').join('');
-      setVisibleValue(smilies);
+      const maskedValue = value.replace(/[0-9](?=.{4,}$)/g, '*');
+      setVisibleValue(maskedValue);
     },
     [setVisibleValue, value],
   );
