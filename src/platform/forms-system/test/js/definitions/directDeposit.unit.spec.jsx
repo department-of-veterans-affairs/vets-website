@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { render, getNodeText } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import getSchemas from '../../../src/js/definitions/directDeposit';
+import getSchemas, {
+  prefillBankInformation,
+  defaultFieldNames,
+} from '../../../src/js/definitions/directDeposit';
 
 const getFieldNames = wrapper =>
   Array.from(
@@ -115,7 +118,82 @@ describe('Direct deposit definition', () => {
 });
 
 describe('prefillBankInformation', () => {
-  it('should remove root-level fields in favor of "viewified" bank information', () => {});
-  it('should accept custom pre-filled field names', () => {});
-  it('should accept custom post-transformer field names', () => {});
+  const prefilledFormData = {
+    standard: () => ({
+      accountType: 'checking',
+      accountNumber: '1234567890',
+      routingNumber: '012345',
+      bankName: 'Gringotts',
+      firstName: 'Harry',
+    }),
+    nonStandard: () => ({
+      type: 'checking',
+      account: '1234567890',
+      routing: '012345',
+      name: 'Gringotts',
+      firstName: 'Harry',
+    }),
+  };
+
+  const transformedFormData = {
+    standard: () => ({
+      bankAccount: {
+        'view:hasPrefilledBank': true,
+      },
+      'view:originalBankAccount': {
+        'view:accountType': 'checking',
+        'view:accountNumber': '1234567890',
+        'view:routingNumber': '012345',
+        'view:bankName': 'Gringotts',
+      },
+      firstName: 'Harry',
+    }),
+    nonStandard: () => ({
+      bankAccount: {
+        'view:hasPrefilledBank': true,
+      },
+      // Uses the same field names as what's pre-filled by default
+      'view:originalBankAccount': {
+        'view:type': 'checking',
+        'view:account': '1234567890',
+        'view:routing': '012345',
+        'view:name': 'Gringotts',
+      },
+      firstName: 'Harry',
+    }),
+  };
+
+  const nonStandardFieldNames = {
+    accountType: 'type',
+    accountNumber: 'account',
+    routingNumber: 'routing',
+    bankName: 'name',
+  };
+
+  it('should remove root-level fields in favor of "viewified" bank information', () => {
+    expect(prefillBankInformation(prefilledFormData.standard())).to.deep.equal(
+      transformedFormData.standard(),
+    );
+  });
+
+  it('should accept custom pre-filled field names', () => {
+    expect(
+      prefillBankInformation(
+        prefilledFormData.nonStandard(),
+        nonStandardFieldNames,
+      ),
+      // Note: The transformed data uses the same "viewified" field names as the
+      // pre-fill by default
+    ).to.deep.equal(transformedFormData.nonStandard());
+  });
+
+  it('should accept custom post-transformer field names', () => {
+    expect(
+      prefillBankInformation(
+        prefilledFormData.standard(),
+        defaultFieldNames,
+        nonStandardFieldNames,
+      ),
+    ).to.deep.equal(transformedFormData.nonStandard());
+  });
 });
