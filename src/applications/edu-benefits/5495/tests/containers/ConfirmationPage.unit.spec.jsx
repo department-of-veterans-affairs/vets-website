@@ -40,6 +40,6 @@ describe('Edu 5495 <ConfirmationPage>', () => {
     );
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('We usually decide on applications within 30 days.');
+    ).to.contain('Learn more about what happens after you apply');
   });
 });
