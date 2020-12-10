@@ -70,7 +70,7 @@ const fetchDebtLettersSuccess = debts => ({
   debts,
 });
 
-export const fetchDebts = () => async dispatch => {
+export const fetchDebts = () => async (dispatch, getState) => {
   try {
     const options = {
       method: 'GET',
@@ -81,9 +81,13 @@ export const fetchDebts = () => async dispatch => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = isVAProfileServiceConfigured()
-      ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
-      : await debtLettersSuccess();
+
+    const state = getState();
+
+    const response =
+      isVAProfileServiceConfigured() && state.user.login.currentlyLoggedIn
+        ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
+        : await debtLettersSuccess();
 
     const approvedDeductionCodes = Object.keys(deductionCodes);
     // remove any debts that do not have approved deductionCodes or
