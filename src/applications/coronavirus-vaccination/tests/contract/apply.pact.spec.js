@@ -17,9 +17,7 @@ import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthentic
 contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('POST /registration', () => {
     it('Authenticated success case: submit valid form will return a 201 Created HTTP response', async () => {
-      const authenticatedApiUrl = `${
-        environment.API_URL
-      }/covid_vaccine/v0/registration`;
+      const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
       const interaction = {
         state: 'authenticated user application data',
@@ -55,16 +53,13 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
       await mockApi().addInteraction(interaction);
 
-      await apiPostRequest(authenticatedApiUrl, authenticatedApplicationData);
+      await apiPostRequest(url, authenticatedApplicationData);
     });
   });
 
   describe('POST /registration/unauthenticated', () => {
     it('Unauthenticated success case: submit valid form will return a 201 Created HTTP response', async () => {
-      const authenticatedApiUrl = `${
-        environment.API_URL
-      }/covid_vaccine/v0/registration`;
-      const unauthenticatedApiUrl = `${authenticatedApiUrl}/unauthenticated`;
+      const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
       const interaction = {
         state: 'unauthenticated user application data',
@@ -100,10 +95,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
       await mockApi().addInteraction(interaction);
 
-      await apiPostRequest(
-        unauthenticatedApiUrl,
-        unauthenticatedApplicationData,
-      );
+      await apiPostRequest(url, unauthenticatedApplicationData);
     });
   });
 });
