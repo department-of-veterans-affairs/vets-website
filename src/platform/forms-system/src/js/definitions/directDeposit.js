@@ -231,7 +231,10 @@ export const prefillBankInformation = (
     data,
   );
 
-  const { accountType, accountNumber, routingNumber, bankName } = data;
+  const accountType = data[prefilledFieldNames.accountType];
+  const accountNumber = data[prefilledFieldNames.accountNumber];
+  const routingNumber = data[prefilledFieldNames.routingNumber];
+  const bankName = data[prefilledFieldNames.bankName];
 
   if (accountType && accountNumber && routingNumber && bankName) {
     newData['view:originalBankAccount'] = viewifyFields({
