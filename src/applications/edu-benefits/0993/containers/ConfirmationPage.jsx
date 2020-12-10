@@ -109,6 +109,11 @@ export class ConfirmationPage extends React.Component {
             ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
           </p>
         </div>
+        <div className="form-progress-buttons schemaform-back-buttons">
+          <a href="/">
+            <button className="usa-button-primary">Go back to VA.gov</button>
+          </a>
+        </div>
       </div>
     );
   }
