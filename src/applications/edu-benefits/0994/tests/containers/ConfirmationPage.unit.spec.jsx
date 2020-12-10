@@ -2,7 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ConfirmationPage } from '../../../0994/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../containers/ConfirmationPage';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import {
+  ConfirmationGuidance,
+  ConfirmationPageSummary,
+  ConfirmationPageTitle,
+  ConfirmationReturnHome,
+} from '../../../components/ConfirmationPage';
 
 const form = {
   submission: {
@@ -15,44 +22,26 @@ const form = {
       first: 'Jane',
       last: 'Doe',
     },
+    appliedForVaEducationBenefits: false,
   },
 };
 
 describe('Edu 0994 <ConfirmationPage>', () => {
   it('should render', () => {
     const tree = shallow(<ConfirmationPage form={form} />);
+    expect(tree).to.not.be.undefined;
+    expect(tree.find(AlertBox)).to.not.be.undefined;
+    expect(tree.find(ConfirmationPageTitle)).to.not.be.undefined;
+    expect(tree.find(ConfirmationPageSummary)).to.not.be.undefined;
+    expect(tree.find(ConfirmationGuidance)).to.not.be.undefined;
+    expect(tree.find(ConfirmationReturnHome)).to.not.be.undefined;
 
-    expect(tree.find('.confirmation-page-title').text()).to.equal(
-      'Your claim has been received',
-    );
+    tree.unmount();
+  });
 
-    const name = tree.find('span').at(1);
-    expect(name.text()).contains(form.data.applicantFullName.first);
-    expect(name.text()).contains(form.data.applicantFullName.last);
-
-    expect(
-      tree
-        .find('p')
-        .at(0)
-        .text(),
-    ).to.contain('We usually process claims within 30 days.');
-
-    expect(
-      tree
-        .find('p')
-        .at(1)
-        .text(),
-    ).to.contain(
-      'We may contact you for more information or documents.Please print this page for your records',
-    );
-
-    expect(
-      tree
-        .find('.confirmation-guidance-message')
-        .at(0)
-        .text(),
-    ).to.equal('Find out what happens after you apply');
-
+  it('should render 1990 warning when appliedForVaEducationBenefits is false', () => {
+    const tree = shallow(<ConfirmationPage form={form} />);
+    expect(tree.find('.apply-for-1990')).to.not.be.undefined;
     tree.unmount();
   });
 });
