@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as Sentry from '@sentry/browser';
 
 import { ssoKeepAliveEndpoint } from 'platform/user/authentication/utilities';
@@ -5,20 +6,24 @@ import { ssoKeepAliveEndpoint } from 'platform/user/authentication/utilities';
 export default async function keepAlive() {
   // Having outside of keepAlive method could expose information
   const caughtExceptions = {
+    // Possible CORS issue
     'Failed to fetch': {
-      logType: Sentry.Severity.Error,
+      LEVEL: Sentry.Severity.Error,
     },
     'NetworkError when attempting to fetch resource.': {
-      logType: Sentry.Severity.Error,
+      LEVEL: Sentry.Severity.Error,
     },
     'The Internet connection appears to be offline': {
-      logType: Sentry.Severity.Info,
+      LEVEL: Sentry.Severity.Info,
     },
     'The network connection was lost.': {
-      logType: Sentry.Severity.Info,
+      LEVEL: Sentry.Severity.Info,
     },
     cancelled: {
-      logType: Sentry.Severity.Info,
+      LEVEL: Sentry.Severity.Info,
+    },
+    default: {
+      LEVEL: Sentry.Severity.Error,
     },
   };
   // Return a TTL and authn values from the IAM keepalive endpoint that
@@ -53,13 +58,13 @@ export default async function keepAlive() {
     };
   } catch (err) {
     Sentry.withScope(scope => {
-      scope.setExtra('error', err);
-      Sentry.captureMessage(
-        `SSOe error: ${err.message}`,
-        caughtExceptions[err.message]
-          ? caughtExceptions[err.message].logType
-          : Sentry.Severity.Error,
-      );
+      const LEVEL = caughtExceptions[err.message]
+        ? caughtExceptions[err.message].TYPE
+        : caughtExceptions.default.TYPE;
+
+      scope.setLevel(LEVEL);
+      scope.setExtra('extraData', err);
+      Sentry.captureException(`SSOe ${LEVEL}: ${err.message}`);
     });
     return {};
   }
