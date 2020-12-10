@@ -6,7 +6,6 @@ export default {
     'email',
     'phone',
     'zipCode',
-    'birthDate',
     'vaccineInterest',
     'zipCodeDetails',
   ],

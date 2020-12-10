@@ -12,6 +12,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as userSelectors from 'platform/user/selectors';
 import { requestStates } from 'platform/utilities/constants';
+import { focusElement } from 'platform/utilities/ui';
 
 import * as actions from '../actions';
 
@@ -23,6 +24,10 @@ import useSubmitForm from '../hooks/useSubmitForm';
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   const [submitStatus, submitToApi] = useSubmitForm();
 
+  useEffect(() => {
+    focusElement('#covid-vaccination-heading-form');
+  }, []);
+
   useEffect(
     () => {
       if (submitStatus === requestStates.succeeded) {
@@ -30,7 +35,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           event: 'covid-vaccination--submission-successful',
         });
         router.replace('/confirmation');
-      } else {
+      } else if (submitStatus === requestStates.failed) {
         recordEvent({
           event: 'covid-vaccination--submission-failed',
         });
@@ -64,7 +69,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           birthDate: profile?.dob,
           ssn: undefined,
           email: profile?.vapContactInfo?.email?.emailAddress,
-          zipCode: profile?.vapContactInfo?.residentialAddress.zipCode,
+          zipCode: profile?.vapContactInfo?.residentialAddress?.zipCode,
           phone: profile?.vapContactInfo?.homePhone
             ? `${profile.vapContactInfo.homePhone.areaCode}${
                 profile.vapContactInfo.homePhone.phoneNumber
@@ -96,18 +101,20 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
     [router, formState],
   );
 
-  if (!formState) {
-    // The form is being initialized into Redux. Wait til next render.
-    return null;
-  }
-
   if (submitStatus === requestStates.pending) {
     return <LoadingIndicator message="Submitting your form..." />;
   }
 
   return (
     <>
-      <h1>COVID-19 vaccines — Stay informed and help us prepare</h1>
+      <h1 id="covid-vaccination-heading-form" className="no-outline">
+        Fill out the form below to sign up
+      </h1>
+      <p>
+        We’ll send you regular updates on how we’re providing COVID-19 vaccines
+        across the country—and when you can get your vaccine if you want one.
+        You don't need to sign up to get a vaccine.
+      </p>
       {isLoggedIn ? (
         <p>
           <strong>Note:</strong> Any changes you make to your information here
@@ -115,29 +122,37 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           accounts.
         </p>
       ) : null}
-      <SchemaForm
-        addNameAttribute
-        // "name" and "title" are used only internally to SchemaForm
-        name="Coronavirus vaccination"
-        title="Coronavirus vaccination"
-        data={formState.formData}
-        schema={formState.formSchema}
-        uiSchema={formState.uiSchema}
-        onChange={onFormChange}
-        onSubmit={onFormSubmit}
-      >
-        {submitStatus === requestStates.failed ? (
-          <div className="vads-u-margin-bottom-2">
-            <AlertBox
-              status={ALERT_TYPE.ERROR}
-              content="An error occurred while trying to save your form. Please try again later."
-            />
-          </div>
-        ) : null}
-        <button type="submit" className="usa-button">
-          Submit
-        </button>
-      </SchemaForm>
+      {formState ? (
+        <SchemaForm
+          addNameAttribute
+          // "name" and "title" are used only internally to SchemaForm
+          name="Coronavirus vaccination"
+          title="Coronavirus vaccination"
+          data={formState.formData}
+          schema={formState.formSchema}
+          uiSchema={formState.uiSchema}
+          onChange={onFormChange}
+          onSubmit={onFormSubmit}
+        >
+          {submitStatus === requestStates.failed ? (
+            <div className="vads-u-margin-bottom-2">
+              <AlertBox
+                status={ALERT_TYPE.ERROR}
+                content="An error occurred while trying to save your form. Please try again later."
+              />
+            </div>
+          ) : null}
+          <button
+            type="submit"
+            className="usa-button"
+            aria-label="Sign up to stay informed about COVID-19 vaccines"
+          >
+            Sign up to stay informed
+          </button>
+        </SchemaForm>
+      ) : (
+        <LoadingIndicator message="Loading the form..." />
+      )}
     </>
   );
 }
