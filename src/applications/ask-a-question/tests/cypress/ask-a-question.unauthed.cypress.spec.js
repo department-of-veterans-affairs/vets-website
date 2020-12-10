@@ -25,7 +25,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.route({
         method: 'POST',
-        url: '/v0/ask/asks',
+        url: '/v0/contact_us/inquiries',
         status: 200,
         response: {
           confirmationNumber: '000123456000A',

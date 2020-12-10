@@ -144,7 +144,9 @@ export function getFacilitiesInfo(facilityIds) {
 }
 
 export function getCommunityCareFacilities({
-  address,
+  latitude,
+  longitude,
+  radius,
   bbox,
   specialties,
   page = 1,
@@ -154,7 +156,7 @@ export function getCommunityCareFacilities({
   const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
 
   return apiRequestWithMocks(
-    `/v1/facilities/ccp?address=${address}&per_page=${perPage}&page=${page}&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+    `/v1/facilities/ccp?latitude=${latitude}&longitude=${longitude}&radius=${radius}&per_page=${perPage}&page=${page}&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
   ).then(parseApiList);
 }
 
