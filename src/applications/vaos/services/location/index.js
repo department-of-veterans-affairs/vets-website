@@ -22,7 +22,7 @@ import {
   transformCommunityProviders,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
-import { calculateBoundingBox, vapAddressToString } from '../../utils/address';
+import { calculateBoundingBox } from '../../utils/address';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
@@ -132,29 +132,9 @@ export async function getLocationsByTypeOfCareAndSiteIds({
     // disabled for that type of care.  If "No", it is enabled, but doesn't require
     // a previous appointment.  If "Yes", it is enabled and requires a previous appt
 
-    // Fetch facilities that support requests and filter
-    // only those that support the selected type of care
-    const requestFacilityIds =
-      criteria[0]
-        ?.filter(facility =>
-          facility?.requestSettings?.some(
-            setting =>
-              setting.id === typeOfCareId && !!setting.patientHistoryRequired,
-          ),
-        )
-        ?.map(facility => facility.id) || [];
-
-    // Fetch facilities that support direct scheduling and filter
-    // only those that support the selected type of care
+    const requestFacilityIds = criteria[0]?.map(facility => facility.id) || [];
     const directFacilityIds = directSchedulingEnabled
-      ? criteria[1]
-          ?.filter(facility =>
-            facility?.coreSettings?.some(
-              setting =>
-                setting.id === typeOfCareId && !!setting.patientHistoryRequired,
-            ),
-          )
-          ?.map(facility => facility.id) || []
+      ? criteria[1]?.map(facility => facility.id) || []
       : [];
 
     const uniqueIds = Array.from(
@@ -169,13 +149,35 @@ export async function getLocationsByTypeOfCareAndSiteIds({
         facilityIds: uniqueIds,
       });
 
+      const requestSupportedFacilityIds =
+        criteria[0]
+          ?.filter(facility =>
+            facility?.requestSettings?.some(
+              setting =>
+                setting.id === typeOfCareId && !!setting.patientHistoryRequired,
+            ),
+          )
+          ?.map(facility => facility.id) || [];
+
+      const directSupportedFacilityIds = directSchedulingEnabled
+        ? criteria[1]
+            ?.filter(facility =>
+              facility?.coreSettings?.some(
+                setting =>
+                  setting.id === typeOfCareId &&
+                  !!setting.patientHistoryRequired,
+              ),
+            )
+            ?.map(facility => facility.id) || []
+        : [];
+
       // Update the retrieved locations with requestSupported and
       // directSchedulingSupported, as well as replace IDs for dev/staging
       locations = locations?.map(location =>
         setSupportedSchedulingMethods({
           location,
-          requestFacilityIds,
-          directFacilityIds,
+          requestSupportedFacilityIds,
+          directSupportedFacilityIds,
         }),
       );
     }
@@ -269,8 +271,10 @@ export async function getCommunityProvidersByTypeOfCare({
 }) {
   try {
     const communityCareProviders = await getCommunityCareFacilities({
-      address: vapAddressToString(address),
       bbox: calculateBoundingBox(address.latitude, address.longitude, radius),
+      latitude: address.latitude,
+      longitude: address.longitude,
+      radius,
       specialties: typeOfCare.specialties,
       page: 1,
       perPage: maxResults,

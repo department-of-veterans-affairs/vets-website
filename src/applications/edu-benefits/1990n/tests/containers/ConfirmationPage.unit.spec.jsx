@@ -24,7 +24,7 @@ describe('Edu 1990n <ConfirmationPage>', () => {
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
 
     expect(tree.subTree('.confirmation-page-title').text()).to.equal(
-      'Claim received',
+      "We've received your application",
     );
     expect(
       tree
@@ -40,7 +40,7 @@ describe('Edu 1990n <ConfirmationPage>', () => {
     );
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply');
+    ).to.contain('We usually decide on applications within 30 days.');
   });
   it('should expand documents', () => {
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
