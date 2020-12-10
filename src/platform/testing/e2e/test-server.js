@@ -37,8 +37,10 @@ app.use(
     skip: (req, _res) => req.path.match(/(css|js|gif|jpg|png|svg)$/),
   }),
 );
+
 app.use(express.static(root));
-routes.forEach(url => {
+
+routes.sort((a, b) => b.length - a.length).forEach(url => {
   app.use(url, fallback(`${url}/index.html`, { root }));
 });
 
