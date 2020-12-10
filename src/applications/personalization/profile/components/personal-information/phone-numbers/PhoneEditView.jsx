@@ -7,49 +7,9 @@ import { isVAPatient } from '~/platform/user/selectors';
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
-import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
+import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
 
 class PhoneEditView extends React.Component {
-  getInitialFormValues = () => {
-    let initialFormValues = {
-      countryCode: '1',
-      extension: '',
-      inputPhoneNumber: '',
-      isTextable: false,
-      isTextPermitted: false,
-      'view:showSMSCheckbox': this.props.showSMSCheckbox,
-    };
-
-    if (this.props.data) {
-      const {
-        data,
-        data: { extension, areaCode, phoneNumber, isTextPermitted },
-        showSMSCheckbox,
-      } = this.props;
-      initialFormValues = {
-        ...data,
-        extension: extension || '',
-        inputPhoneNumber: `${areaCode}${phoneNumber}`,
-        isTextPermitted: isTextPermitted || false,
-        'view:showSMSCheckbox': showSMSCheckbox,
-      };
-    }
-
-    return initialFormValues;
-  };
-
-  renderForm = (formButtons, onSubmit) => (
-    <ContactInfoForm
-      formData={this.props.field.value}
-      formSchema={this.props.field.formSchema}
-      uiSchema={this.props.field.uiSchema}
-      onUpdateFormData={this.props.onChangeFormDataAndSchemas}
-      onSubmit={onSubmit}
-    >
-      {formButtons}
-    </ContactInfoForm>
-  );
-
   render() {
     return (
       <ContactInformationEditView
@@ -58,7 +18,13 @@ class PhoneEditView extends React.Component {
         deleteDisabled={this.props.deleteDisabled}
         field={this.props.field}
         formSchema={this.props.formSchema}
-        getInitialFormValues={this.getInitialFormValues}
+        getInitialFormValues={() =>
+          getInitialFormValues(
+            'phone',
+            this.props.data,
+            this.props.showSMSCheckbox,
+          )
+        }
         hasUnsavedEdits={this.props.hasUnsavedEdits}
         hasValidationError={this.props.hasValidationError}
         isEmpty={this.props.isEmpty}
@@ -67,7 +33,6 @@ class PhoneEditView extends React.Component {
         onDelete={this.props.onDelete}
         onSubmit={this.props.onSubmit}
         refreshTransaction={this.props.refreshTransaction}
-        render={this.renderForm}
         title={this.props.title}
         transaction={this.props.transaction}
         transactionRequest={this.props.transactionRequest}
