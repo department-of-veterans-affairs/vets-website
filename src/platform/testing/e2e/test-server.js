@@ -34,7 +34,11 @@ app.use(
 
 app.use(express.static(root));
 
-routes.sort((a, b) => b.length - a.length).forEach(url => {
+// Sort by descending path length to give precedence to deeper root URLs.
+// For example, '/foo/bar/baz' should match '/foo/bar' instead of '/foo'
+// because '/foo/bar' is a deeper and more specific path than '/foo'.
+routes.sort((a, b) => b.length - a.length);
+routes.forEach(url => {
   app.use(url, fallback(`${url}/index.html`, { root }));
 });
 
