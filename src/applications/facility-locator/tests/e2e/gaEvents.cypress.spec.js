@@ -42,11 +42,9 @@ describe('Google Analytics FL Events', () => {
           ]);
         });
 
-      cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true });
-      cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true });
-      cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true });
-      cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true });
-
+      [...Array(5)].forEach(_ =>
+        cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true }),
+      );
       cy.get('#mapbox-gl-container', { timeout: 10000 }).should(() => {
         assertDataLayerEvent(win, 'fl-map-zoom-in');
       });

@@ -29,6 +29,9 @@ Cypress.Commands.add('verifyOptions', () => {
 });
 
 Cypress.Commands.add('verifySearchArea', () => {
+  [...Array(15)].forEach(_ =>
+    cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true }),
+  );
   cy.get('.mapboxgl-canvas').swipe(
     [[310, 300], [310, 320], [310, 340], [310, 360], [310, 380]],
     [[50, 300], [50, 320], [50, 340], [50, 360], [50, 380]],
