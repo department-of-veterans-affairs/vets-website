@@ -4,6 +4,7 @@ import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
+import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -94,7 +95,7 @@ function ProviderSelectionField({
             type="button"
             onClick={() => {
               setShowProvidersList(true);
-              recordEvent({ event: 'vaos-choose-provider-click' });
+              recordEvent({ event: `${GA_PREFIX}-choose-provider-click` });
             }}
           >
             <i className="fas fa-plus vads-u-padding-right--0p5" />
@@ -267,14 +268,11 @@ function ProviderSelectionField({
                         <button
                           type="button"
                           onClick={() => {
-                            const providerIndex = communityCareProviderList.findIndex(
-                              p => p.id === checkedProvider,
-                            );
-                            onChange(communityCareProviderList[providerIndex]);
+                            onChange(provider);
                             setCheckedProvider();
                             setShowProvidersList(false);
                             recordEvent({
-                              event: 'vaos-order-position-provider-selection',
+                              event: `${GA_PREFIX}-order-position-provider-selection`,
                               providerPosition: providerIndex,
                             });
                           }}
@@ -303,7 +301,9 @@ function ProviderSelectionField({
                   className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
                   onClick={() => {
                     setProvidersListLength(providersListLength + 5);
-                    recordEvent({ event: 'vaos-provider-list-paginate' });
+                    recordEvent({
+                      event: `${GA_PREFIX}-provider-list-paginate`,
+                    });
                   }}
                 >
                   <span className="va-button-link">

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
-import { LANGUAGES } from '../../../utils/constants';
+import { GA_PREFIX, LANGUAGES } from '../../../utils/constants';
 import * as actions from '../../redux/actions';
 import { getFormPageInfo } from '../../../utils/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -85,8 +85,8 @@ function CommunityCareProviderSelectionPage({
             recordEvent({
               event:
                 Object.keys(data.communityCareProvider).length === 0
-                  ? 'vaos-continue-without-provider '
-                  : 'vaos-continue-with-provider',
+                  ? `${GA_PREFIX}-continue-without-provider`
+                  : `${GA_PREFIX}-continue-with-provider`,
             });
             routeToNextAppointmentPage(history, pageKey);
           }}
