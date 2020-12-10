@@ -126,6 +126,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
     });
   });
 
+  // I JUST FOUND OUT THAT THE UPDATE WILL ALSO BE A POST REQUEST. WAITING FOR MORE DETAILS.
   describe('PATCH /registration', () => {
     it('authenticated success case: submit valid updated registration will return a 204 No Content HTTP response', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`; // might need to be updated
