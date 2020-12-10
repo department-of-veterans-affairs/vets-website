@@ -7,6 +7,7 @@ import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import ErrorMessage from '../../../components/ErrorMessage';
 import RemoveProviderModal from './RemoveProviderModal';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
@@ -155,6 +156,11 @@ function ProviderSelectionField({
           {loadingProviders && (
             <div className="vads-u-padding-bottom--2">
               <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
+            </div>
+          )}
+          {requestStatus === FETCH_STATUS.failed && (
+            <div className="vads-u-padding-bottom--2">
+              <ErrorMessage />
             </div>
           )}
           {!loadingProviders &&

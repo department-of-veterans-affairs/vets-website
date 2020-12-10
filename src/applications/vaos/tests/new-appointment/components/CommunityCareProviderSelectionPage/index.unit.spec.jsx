@@ -209,6 +209,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Choose Provider
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
