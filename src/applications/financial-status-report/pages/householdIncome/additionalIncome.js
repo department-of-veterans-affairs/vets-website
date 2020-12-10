@@ -19,7 +19,7 @@ export const uiSchema = {
         expandUnder: 'hasAdditionalIncome',
       },
       items: {
-        'ui:title': 'Additional income:',
+        'ui:title': 'Additional income',
         incomeType: {
           'ui:title': 'Income Type',
         },
