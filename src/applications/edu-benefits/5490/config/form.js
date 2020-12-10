@@ -450,16 +450,16 @@ const formConfig = {
                 },
                 'ui:title': 'Name of Sponsor',
                 first: {
-                  'ui:title': 'Sponsor first name',
+                  'ui:title': "Sponsor's first name",
                 },
                 middle: {
-                  'ui:title': 'Sponsor middle name',
+                  'ui:title': "Sponsor's middle name",
                 },
                 last: {
-                  'ui:title': 'Sponsor last name',
+                  'ui:title': "Sponsor's last name",
                 },
                 suffix: {
-                  'ui:title': 'Sponsor suffix',
+                  'ui:title': "Sponsor's suffix",
                 },
               }),
               'view:veteranId': _.merge(personId.uiSchema(), {
@@ -482,7 +482,7 @@ const formConfig = {
                       'view:currentSponsorInformation.view:veteranId.view:noSSN',
                       formData,
                     ),
-                  'ui:title': 'Sponsor file number',
+                  'ui:title': "Sponsor's VA number",
                 },
               }),
             },
