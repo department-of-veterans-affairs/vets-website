@@ -8,7 +8,6 @@ import { selectProfile } from 'platform/user/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 
 const addBrAfter = line => line && [line, <br key={line} />];
-const addBrBefore = line => line && [<br key={line} />, line];
 
 export const ContactInfoDescription = ({ profile }) => {
   const { email, homePhone, mailingAddress } = profile.vapContactInfo;
@@ -45,7 +44,7 @@ export const ContactInfoDescription = ({ profile }) => {
         <p>
           {addBrAfter(street)}
           {addBrAfter(cityStateZip)}
-          {addBrBefore(country)}
+          {country}
         </p>
       </div>
     </>
