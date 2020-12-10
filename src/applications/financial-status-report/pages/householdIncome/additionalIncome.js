@@ -1,5 +1,5 @@
 import ItemLoop from '../../components/ItemLoop';
-import CardDetailsView from '../../components/CardDetailsView';
+import TableDetailsView from '../../components/TableDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your other income',
@@ -25,17 +25,18 @@ export const uiSchema = {
         additionalIncome: {
           'ui:field': ItemLoop,
           'ui:options': {
-            viewField: CardDetailsView,
+            viewType: 'table',
+            viewField: TableDetailsView,
             doNotScroll: true,
             showSave: true,
           },
           items: {
             'ui:title': 'Additional income:',
-            monthlyAmount: {
-              'ui:title': 'Monthly Amount',
-            },
             incomeType: {
               'ui:title': 'Income Type',
+            },
+            monthlyAmount: {
+              'ui:title': 'Monthly Amount',
             },
             employerName: {
               'ui:title': 'Employer Name',
