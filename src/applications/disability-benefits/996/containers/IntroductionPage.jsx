@@ -7,6 +7,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
+import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
@@ -22,6 +23,7 @@ import {
   noContestableIssuesFound,
   showContestableIssueError,
   showWorkInProgress,
+  showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
 import WizardContainer from '../wizard/WizardContainer';
 import {
@@ -30,6 +32,10 @@ import {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 import { SAVED_CLAIM_TYPE } from '../constants';
+
+import { isEmptyAddress } from 'platform/forms/address/helpers';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -121,7 +127,7 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { allowHlr } = this.props;
+    const { allowHlr, user, hasEmptyAddress } = this.props;
     const callToActionContent = this.getCallToActionContent();
     const showWizard = allowHlr && this.state.status !== WIZARD_STATUS_COMPLETE;
     const pageTitle = `Request a Higher-Level Review${
@@ -135,6 +141,17 @@ export class IntroductionPage extends React.Component {
           <FormTitle title={pageTitle} />
           <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
           <p>{showWorkInProgress}</p>
+        </article>
+      );
+    }
+
+    // check is user has address
+    if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
+      return (
+        <article className="schemaform-intro">
+          <FormTitle title={pageTitle} />
+          <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
+          <p>{showHasEmptyAddress}</p>
         </article>
       );
     }
@@ -184,6 +201,7 @@ export class IntroductionPage extends React.Component {
                   onClick={() => {
                     this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                     this.setPageFocus();
+                    recordEvent({ event: `howToWizard-start-over` });
                   }}
                 >
                   go back and answer questions again
@@ -274,6 +292,9 @@ function mapStateToProps(state) {
     user,
     contestableIssues,
     allowHlr: higherLevelReviewFeature(state),
+    hasEmptyAddress: isEmptyAddress(
+      selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
+    ),
   };
 }
 

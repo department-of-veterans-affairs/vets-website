@@ -195,6 +195,9 @@ const ItemLoop = ({
   const description = uiSchema['ui:description'];
   const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
   const ViewField = uiOptions.viewField;
+  const tableHeaders = Object.values(uiSchema?.items)
+    .filter(item => item['ui:title'] !== undefined)
+    .map(item => item['ui:title']);
 
   const [editing, setEditing] = useState([true]);
   const [showTable, setShowTable] = useState(false);
@@ -367,10 +370,13 @@ const ItemLoop = ({
             {showTable && (
               <thead className="vads-u-border-bottom--1px">
                 <tr>
-                  <th className="vads-u-border--0 vads-u-padding-left--3">
-                    Type of utility
-                  </th>
-                  <th className="vads-u-border--0">Monthly payment amount</th>
+                  {tableHeaders.map((item, i) => {
+                    return (
+                      <th key={i} className="vads-u-border--0">
+                        {item}
+                      </th>
+                    );
+                  })}
                   <th className="vads-u-border--0" />
                 </tr>
               </thead>

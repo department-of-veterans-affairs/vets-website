@@ -25,7 +25,7 @@
           ]
         },
         "useBuiltIns": "entry",
-        "corejs": "2.0.0",
+        "corejs": "3.8.1",
         "modules": false,
         "debug": false
       }
