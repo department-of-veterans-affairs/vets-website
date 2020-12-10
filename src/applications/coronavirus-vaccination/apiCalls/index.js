@@ -13,3 +13,13 @@ export const apiPostRequest = async (url, data) => {
 export const apiGetRequest = async url => {
   return apiRequest(url);
 };
+
+export const apiPatchRequest = async (url, data) => {
+  return apiRequest(url, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
