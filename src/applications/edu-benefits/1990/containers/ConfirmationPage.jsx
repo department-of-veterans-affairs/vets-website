@@ -9,8 +9,6 @@ import { focusElement } from 'platform/utilities/ui';
 import { getListOfBenefits } from '../../utils/helpers';
 import { benefitsRelinquishmentLabels } from '../helpers';
 
-import '../sass/confirmation-page.scss';
-
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -166,7 +164,7 @@ class ConfirmationPage extends React.Component {
           </h4>
           <p className="confirmation-guidance-message">
             We usually decide on applications within 30 days.
-            <div className="spaced-content">
+            <div className="vads-u-margin-y--1">
               You’ll get a Certificate of Eligibility (COE) or decision letter
               in the mail. If we’ve approved your application, you can bring the
               COE to the VA certifying official at your school.
@@ -175,8 +173,9 @@ class ConfirmationPage extends React.Component {
               Learn more about what happens after you apply
             </a>
           </p>
-          <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <hr className="need-help-hr" />
+          <h4 className="confirmation-guidance-heading pagebreak vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
+            Need help?
+          </h4>
           <p className="confirmation-guidance-message">
             If you have questions, call 1-888-GI-BILL-1 (
             <a href="tel:+18884424551">888-442-4551</a>
