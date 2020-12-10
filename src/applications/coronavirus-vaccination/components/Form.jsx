@@ -35,7 +35,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           event: 'covid-vaccination--submission-successful',
         });
         router.replace('/confirmation');
-      } else {
+      } else if (submitStatus === requestStates.failed) {
         recordEvent({
           event: 'covid-vaccination--submission-failed',
         });

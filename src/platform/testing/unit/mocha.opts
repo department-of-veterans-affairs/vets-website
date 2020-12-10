@@ -1,7 +1,8 @@
 --require src/platform/testing/unit/mocha-setup.js
 --require src/platform/testing/unit/enzyme-setup.js
 --require choma
---require @babel/polyfill
+--require core-js/stable
+--require regenerator-runtime/runtime
 --require blob-polyfill
 --require isomorphic-fetch
 --require mocha-snapshots

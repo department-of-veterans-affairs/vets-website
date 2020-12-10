@@ -45,7 +45,7 @@ function Confirmation({ router, formData }) {
 
 const mapStateToProps = state => {
   return {
-    formData: state.coronavirusVaccinationApp.formData,
+    formData: state.coronavirusVaccinationApp.formState?.formData,
   };
 };
 
