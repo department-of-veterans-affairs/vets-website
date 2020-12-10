@@ -1,7 +1,7 @@
 function _getReactLandingPages(files) {
   return Object.keys(files)
     .map(fileName => files[fileName])
-    .filter(file => !!file.entryname)
+    .filter(file => !!file.entryName)
     .map(file => `/${file.path}`);
 }
 
