@@ -111,9 +111,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         Fill out the form below to sign up
       </h1>
       <p>
-        We’ll send you regular updates on how we’re providing COVID-19 vaccines
-        across the country—and when you can get your vaccine if you want one.
-        You don't need to sign up to get a vaccine.
+        We’ll send you updates on how we’re providing COVID-19 vaccines across
+        the country—and when you can get your vaccine if you want one. You don't
+        need to sign up to get a vaccine.
       </p>
       {isLoggedIn ? (
         <p>
