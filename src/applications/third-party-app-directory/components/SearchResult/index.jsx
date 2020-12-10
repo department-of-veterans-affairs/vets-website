@@ -49,10 +49,7 @@ export class SearchResult extends Component {
     };
 
     return (
-      <li
-        aria-live="polite"
-        className="third-party-app vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px"
-      >
+      <li className="third-party-app vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px">
         <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
           {/* App Icon */}
           <img alt={`${item?.name} icon`} src={item?.logo_url} />
