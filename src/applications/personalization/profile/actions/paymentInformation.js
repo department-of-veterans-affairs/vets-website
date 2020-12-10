@@ -3,6 +3,7 @@ import {
   getData,
   isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
+  isSignedUpForEDUDirectDeposit,
 } from '../util';
 import recordAnalyticsEvent from 'platform/monitoring/record-event';
 
@@ -22,6 +23,23 @@ export const CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED =
   'CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED';
 export const CNP_PAYMENT_INFORMATION_SAVE_FAILED =
   'CNP_PAYMENT_INFORMATION_SAVE_FAILED';
+
+export const EDU_PAYMENT_INFORMATION_FETCH_STARTED =
+  'EDU_PAYMENT_INFORMATION_FETCH_STARTED';
+export const EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED =
+  'EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED';
+export const EDU_PAYMENT_INFORMATION_FETCH_FAILED =
+  'EDU_PAYMENT_INFORMATION_FETCH_FAILED';
+
+export const EDU_PAYMENT_INFORMATION_EDIT_TOGGLED =
+  'EDU_PAYMENT_INFORMATION_EDIT_TOGGLED';
+
+export const EDU_PAYMENT_INFORMATION_SAVE_STARTED =
+  'EDU_PAYMENT_INFORMATION_SAVE_STARTED';
+export const EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED =
+  'EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED';
+export const EDU_PAYMENT_INFORMATION_SAVE_FAILED =
+  'EDU_PAYMENT_INFORMATION_SAVE_FAILED';
 
 export function fetchCNPPaymentInformation(recordEvent = recordAnalyticsEvent) {
   return async dispatch => {
@@ -153,4 +171,92 @@ export function saveCNPPaymentInformation(
 
 export function editCNPPaymentInformationToggled() {
   return { type: CNP_PAYMENT_INFORMATION_EDIT_TOGGLED };
+}
+
+export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
+  return async dispatch => {
+    dispatch({ type: EDU_PAYMENT_INFORMATION_FETCH_STARTED });
+
+    recordEvent({ event: 'profile-get-edu-direct-deposit-started' });
+    const response = await getData('/profile/ch33_bank_accounts');
+
+    if (response.error) {
+      recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
+      dispatch({
+        type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
+        response,
+      });
+    } else {
+      recordEvent({
+        event: 'profile-get-edu-direct-deposit-retrieved',
+        'direct-deposit-setup-complete': isSignedUpForEDUDirectDeposit(
+          response,
+        ),
+      });
+      dispatch({
+        type: EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+        response: {
+          paymentAccount: response,
+        },
+      });
+    }
+  };
+}
+
+export function saveEDUPaymentInformation(
+  fields,
+  recordEvent = recordAnalyticsEvent,
+) {
+  return async dispatch => {
+    let gaClientId;
+    try {
+      // eslint-disable-next-line no-undef
+      gaClientId = ga.getAll()[0].get('clientId');
+    } catch (e) {
+      // don't want to break submitting because of a weird GA issue
+    }
+    const apiRequestOptions = {
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...fields,
+        gaClientId,
+      }),
+      method: 'PUT',
+      mode: 'cors',
+    };
+
+    dispatch({ type: EDU_PAYMENT_INFORMATION_SAVE_STARTED });
+
+    const response = await getData(
+      '/profile/ch33_bank_accounts',
+      apiRequestOptions,
+    );
+
+    if (response.error || response.errors) {
+      recordEvent({
+        event: 'profile-edit-failure',
+        'profile-action': 'save-failure',
+        'profile-section': 'edu-direct-deposit-information',
+      });
+      dispatch({
+        type: EDU_PAYMENT_INFORMATION_SAVE_FAILED,
+        response,
+      });
+    } else {
+      recordEvent({
+        event: 'profile-transaction',
+        'profile-section': 'edu-direct-deposit-information',
+      });
+      dispatch({
+        type: EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+        response,
+      });
+      // TODO: we might need to immediately fetch the updated bank info here
+      // since that is not part of the response after a successful save
+    }
+  };
+}
+
+export function editEDUPaymentInformationToggled() {
+  return { type: EDU_PAYMENT_INFORMATION_EDIT_TOGGLED };
 }
