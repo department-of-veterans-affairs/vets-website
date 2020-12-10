@@ -1,4 +1,9 @@
+import React from 'react';
+
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+
+// import SelectFacilityWidget from '../components/SelectFacilityWidget';
+
 import MaskedSSNWidget from '../components/MaskedSSNWidget';
 import { validateSSN } from 'platform/forms-system/src/js/validation';
 
@@ -22,11 +27,25 @@ export default {
   },
   birthDate: {
     'ui:title': 'Date of birth',
+    'ui:description': () => (
+      <span>
+        <b>Note: </b>
+        Your date of birth helps us match your information to your Veteran
+        records so we can better understand your needs.
+      </span>
+    ),
     'ui:widget': 'date',
   },
   ssn: {
     'ui:widget': MaskedSSNWidget,
     'ui:title': 'Social Security number (SSN)',
+    'ui:description': () => (
+      <span>
+        <b>Note: </b>
+        Your SSN helps us match your information to your Veteran records so we
+        can better understand your needs.
+      </span>
+    ),
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
       hideIf: formData => formData.isIdentityVerified,
@@ -67,9 +86,17 @@ export default {
     'ui:errorMessages': {
       required: 'Please select an answer.',
     },
+    'ui:options': {
+      labels: {
+        Yes: 'Yes',
+        No: 'No',
+        Unsure: "I'm not sure.",
+      },
+    },
   },
   vaccineInterest: {
-    'ui:title': 'Are you interested in getting a COVID-19 vaccine at VA?',
+    'ui:title':
+      'Do you plan to get a COVID-19 vaccine when one is available to you?',
     'ui:widget': 'radio',
     'ui:errorMessages': {
       required: 'Please select an answer.',
@@ -79,7 +106,7 @@ export default {
         INTERESTED: 'Yes',
         NOT_INTERESTED: 'No',
         UNDECIDED: 'I’m not sure yet.',
-        PREFER_NO_ANSWER: 'I prefer not to answer',
+        PREFER_NO_ANSWER: 'I prefer not to answer.',
       },
     },
   },
