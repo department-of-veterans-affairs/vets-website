@@ -171,11 +171,6 @@ li.li-styling {
   .usa-width-two-thirds {
     width: 100%;
   }
-  /* Include href when printing */
-  a:not([href^="tel"]):after {
-    content: ": (https://va.gov" attr(href) ")";
-  }
-
   .schemaform-title,
   .schemaform-subtitle {
     display: none;

@@ -160,10 +160,6 @@
   .pagebreak {
     page-break-before: always;
   }
-  /* Include href when printing */
-  a:not([href^="tel"]):after {
-    content: ": (https://va.gov" attr(href) ")";
-  }
 }
 
 div[data-chapter="benefitSelection"] {
