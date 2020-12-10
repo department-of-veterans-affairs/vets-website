@@ -31,12 +31,16 @@ import {
   selectVAPServiceTransaction,
 } from '@@vap-svc/selectors';
 
+import { isVAPatient } from '~/platform/user/selectors';
+
+import { FIELD_NAMES } from '@@vap-svc/constants';
+
 import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
 import ContactInformationEditButton from './ContactInformationEditButton';
 
-import EmailEditView from 'applications/personalization/profile/components/personal-information/email-addresses/EmailEditView';
-import AddressEditView from 'applications/personalization/profile/components/personal-information/addresses/AddressEditView';
-import PhoneEditView from 'applications/personalization/profile/components/personal-information/phone-numbers/PhoneEditView';
+import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
+
+import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 
 import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 
@@ -287,20 +291,6 @@ class ContactInformationField extends React.Component {
       );
     };
 
-    let EditView;
-
-    if (type === 'email') {
-      EditView = EmailEditView;
-    }
-
-    if (type === 'phone') {
-      EditView = PhoneEditView;
-    }
-
-    if (type === 'address') {
-      EditView = AddressEditView;
-    }
-
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
@@ -331,33 +321,34 @@ class ContactInformationField extends React.Component {
 
     if (showEditView) {
       content = (
-        <EditView
-          refreshTransaction={this.refreshTransaction}
+        <ContactInformationEditView
           analyticsSectionName={this.props.analyticsSectionName}
-          apiRoute={this.props.apiRoute}
-          blockEditMode={this.props.blockEditMode}
-          clearErrors={this.clearErrors}
-          clearTransactionRequest={this.props.clearTransactionRequest}
-          convertCleanDataToPayLoad={this.props.convertCleanDataToPayLoad}
-          createTransaction={this.props.createTransaction}
+          clearErrors={this.props.clearErrors}
           deleteDisabled={this.props.deleteDisabled}
-          data={this.props.data}
           field={this.props.field}
           fieldName={this.props.fieldName}
           formSchema={this.props.formSchema}
+          getInitialFormValues={() =>
+            getInitialFormValues({
+              type: this.props.type,
+              data: this.props.data,
+              showSMSCheckbox: this.props.showSMSCheckbox,
+              modalData: this.props.modalData,
+            })
+          }
           hasUnsavedEdits={this.props.hasUnsavedEdits}
+          hasValidationError={this.props.hasValidationError}
           isEmpty={this.props.isEmpty}
           onCancel={this.onCancel}
           onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
-          onDelete={this.onDelete}
+          onDelete={this.props.onDelete}
+          onSubmit={this.props.onSubmit}
+          refreshTransaction={this.props.refreshTransaction}
           title={this.props.title}
-          onEdit={this.onEdit}
-          onSubmit={this.onSubmit}
-          showEditView={this.props.showEditView}
           transaction={this.props.transaction}
           transactionRequest={this.props.transactionRequest}
           uiSchema={this.props.uiSchema}
-          validateAddress={this.props.validateAddress}
+          type={this.props.type}
         />
       );
     }
@@ -452,7 +443,9 @@ export const mapStateToProps = (state, ownProps) => {
     addressValidationType === fieldName &&
     // TODO: use a constant for 'addressValidation'
     activeEditView === 'addressValidation';
-
+  const isEnrolledInVAHealthCare = isVAPatient(state);
+  const showSMSCheckbox =
+    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
   return {
     hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
@@ -476,6 +469,8 @@ export const mapStateToProps = (state, ownProps) => {
     isEmpty,
     transaction,
     transactionRequest,
+    modalData: state.vapService?.modalData,
+    showSMSCheckbox,
   };
 };
 
