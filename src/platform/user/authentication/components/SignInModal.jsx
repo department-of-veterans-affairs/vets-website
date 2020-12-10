@@ -304,7 +304,7 @@ export class SignInModal extends React.Component {
                 </a>{' '}
                 and{' '}
                 <a
-                  href="/resources/verifying-your-identity-on-va-gov/"
+                  href="/resources/verifying-your-identity-on-vagov/"
                   target="_blank"
                 >
                   verifying your identity
