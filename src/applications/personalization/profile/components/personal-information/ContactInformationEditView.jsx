@@ -22,7 +22,6 @@ class ContactInformationEditView extends Component {
     analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
     deleteDisabled: PropTypes.bool,
-    getInitialFormValues: PropTypes.func.isRequired,
     field: PropTypes.shape({
       value: PropTypes.object,
       validations: PropTypes.object,
@@ -83,7 +82,9 @@ class ContactInformationEditView extends Component {
     }
 
     // AS DONE IN ADDRESSEDITVIEW, CHECK FOR CORRECTNESS
-    focusElement(`#${this.props.fieldName}-edit-link`);
+    if (this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS) {
+      focusElement(`#${this.props.fieldName}-edit-link`);
+    }
   }
 
   onSubmit = () => {

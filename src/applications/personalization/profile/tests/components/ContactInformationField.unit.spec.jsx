@@ -9,18 +9,6 @@ import {
 } from '@@profile/components/personal-information/ContactInformationField';
 import { FIELD_NAMES, TRANSACTION_STATUS } from '@@vap-svc/constants';
 
-function ContentView() {
-  return <h1>Content</h1>;
-}
-
-function EditView() {
-  return <span>EditView</span>;
-}
-
-function ValidationView() {
-  return <span>ValidationView</span>;
-}
-
 describe('<ContactInformationField/>', () => {
   let props = null;
   let component = null;
@@ -29,9 +17,7 @@ describe('<ContactInformationField/>', () => {
     props = {
       analyticsSectionName: 'some-field',
       clearErrors() {},
-      ContentView: () => <ContentView />,
       data: { someField: 'someFieldValue' },
-      EditView: () => <EditView />,
       field: null,
       fieldName: FIELD_NAMES.HOME_PHONE,
       showEditView: false,
@@ -54,15 +40,6 @@ describe('<ContactInformationField/>', () => {
     };
   });
 
-  it('renders the ContentView prop', () => {
-    component = enzyme.shallow(<ContactInformationField {...props} />);
-    expect(
-      component.find('ContentView'),
-      'the ContentView was rendered',
-    ).to.have.lengthOf(1);
-    component.unmount();
-  });
-
   it('conditional render based on existence of data', () => {
     const isEmptyProps = {
       ...props,
@@ -71,35 +48,14 @@ describe('<ContactInformationField/>', () => {
 
     component = enzyme.shallow(<ContactInformationField {...isEmptyProps} />);
     expect(
-      component.find('ContentView'),
-      'the ContentView was NOT rendered',
-    ).to.have.lengthOf(0);
-    expect(
       component.html(),
       'the add-button was rendered instead of the Content',
     ).to.contain('button');
     component.unmount();
   });
 
-  it('renders the EditView prop', () => {
-    props.showEditView = true;
-    sinon.spy(props, 'EditView');
-
-    component = enzyme.shallow(<ContactInformationField {...props} />);
-
-    expect(
-      component.find('EditView'),
-      'the EditView was rendered',
-    ).to.have.lengthOf(1);
-
-    component.find('EditView').dive();
-    expect(props.EditView.called).to.be.true;
-    component.unmount();
-  });
-
   it('renders the ValidationView prop', () => {
     props.showValidationView = true;
-    props.ValidationView = () => <ValidationView />;
     const expectedProps = {
       transaction: props.transaction,
       title: props.title,
@@ -242,7 +198,6 @@ describe('mapStateToProps', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {
           fieldName: FIELD_NAMES.MAILING_ADDRESS,
-          ValidationView: () => {},
         });
         expect(mappedProps.showValidationView).to.be.true;
       });
@@ -251,16 +206,6 @@ describe('mapStateToProps', () => {
       it('sets `showValidationView` to `false`', () => {
         const state = showValidationModalState();
         state.vapService.modal = 'notTheValidationModal';
-        const mappedProps = mapStateToProps(state, {
-          fieldName: FIELD_NAMES.MAILING_ADDRESS,
-          ValidationView: () => {},
-        });
-        expect(mappedProps.showValidationView).to.be.false;
-      });
-    });
-    describe('when no ValidationView was passed to the ContactInformationField component', () => {
-      it('sets `showValidationView` to `false`', () => {
-        const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {
           fieldName: FIELD_NAMES.MAILING_ADDRESS,
         });
@@ -272,7 +217,6 @@ describe('mapStateToProps', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {
           fieldName: FIELD_NAMES.RESIDENTIAL_ADDRESS,
-          ValidationView: () => {},
         });
         expect(mappedProps.showValidationView).to.be.false;
       });

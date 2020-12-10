@@ -34,17 +34,14 @@ import {
 import { isVAPatient } from '~/platform/user/selectors';
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
-
 import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
-import ContactInformationEditButton from './ContactInformationEditButton';
-
-import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
-
-import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
-
 import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 
-import renderContactInformation from 'applications/personalization/profile/util/contactInformation';
+import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
+import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
+
+import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
+import ContactInformationEditButton from './ContactInformationEditButton';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -294,7 +291,8 @@ class ContactInformationField extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        {renderContactInformation(data, type, fieldName)}
+        <ContactInformationView data={data} type={type} fieldName={fieldName} />
+
         {this.isEditLinkVisible() && (
           <ContactInformationEditButton
             onEditClick={this.onEdit}
