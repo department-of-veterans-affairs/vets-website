@@ -52,6 +52,7 @@ class ConfirmationPage extends React.Component {
         <p>We may contact you if we need more information or documents.</p>
         <p>
           <button
+            type="button"
             className="usa-button-primary screen-only"
             onClick={() => window.print()}
           >
@@ -122,9 +123,7 @@ class ConfirmationPage extends React.Component {
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
-              <button type="button" className="usa-button-primary">
-                Go back to VA.gov
-              </button>
+              <button className="usa-button-primary">Go back to VA.gov</button>
             </a>
           </div>
         </div>
