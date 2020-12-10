@@ -99,7 +99,7 @@ export default {
         INTERESTED: 'Yes',
         NOT_INTERESTED: 'No',
         UNDECIDED: 'I’m not sure yet.',
-        PREFER_NO_ANSWER: 'I prefer not to answer',
+        PREFER_NO_ANSWER: 'I prefer not to answer.',
       },
     },
   },
