@@ -35,7 +35,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           event: 'covid-vaccination--submission-successful',
         });
         router.replace('/confirmation');
-      } else {
+      } else if (submitStatus === requestStates.failed) {
         recordEvent({
           event: 'covid-vaccination--submission-failed',
         });
@@ -78,7 +78,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         };
       } else {
         recordEvent({
-          event: 'covid-vaccination-no-login-start-form',
+          event: 'no-login-start-form',
         });
       }
 
@@ -96,6 +96,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   const onFormSubmit = useCallback(
     () => {
+      recordEvent({ event: 'covid-vaccination--submission' });
       submitToApi(formState.formData);
     },
     [router, formState],
@@ -111,9 +112,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         Fill out the form below to sign up
       </h1>
       <p>
-        We’ll send you regular updates on how we’re providing COVID-19 vaccines
-        across the country—and when you can get your vaccine if you want one.
-        You don't need to sign up to get a vaccine.
+        We’ll send you updates on how we’re providing COVID-19 vaccines across
+        the country—and when you can get your vaccine if you want one. You don't
+        need to sign up to get a vaccine.
       </p>
       {isLoggedIn ? (
         <p>
