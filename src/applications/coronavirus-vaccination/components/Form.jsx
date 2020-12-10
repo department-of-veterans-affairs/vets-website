@@ -78,7 +78,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         };
       } else {
         recordEvent({
-          event: 'covid-vaccination-no-login-start-form',
+          event: 'no-login-start-form',
         });
       }
 
@@ -96,6 +96,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   const onFormSubmit = useCallback(
     () => {
+      recordEvent({ event: 'covid-vaccination--submission' });
       submitToApi(formState.formData);
     },
     [router, formState],
