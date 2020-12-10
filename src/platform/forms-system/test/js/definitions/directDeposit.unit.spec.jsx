@@ -23,23 +23,23 @@ describe('Direct deposit definition', () => {
   it('should render all the fields', () =>
     testFieldOrder({}, [
       'Account type',
-      'Bank routing number',
-      'Bank account number',
+      'Bank routing number (No more than 9 digits)',
+      'Bank account number (No more than 17 digits)',
     ]));
 
   it('should render bankName', () =>
     testFieldOrder({ optionalFields: { bankName: true } }, [
       'Account type',
       'Bank name',
-      'Bank routing number',
-      'Bank account number',
+      'Bank routing number (No more than 9 digits)',
+      'Bank account number (No more than 17 digits)',
     ]));
 
   it('should render declineDirectDeposit', () =>
     testFieldOrder({ optionalFields: { declineDirectDeposit: true } }, [
       'Account type',
-      'Bank routing number',
-      'Bank account number',
+      'Bank routing number (No more than 9 digits)',
+      'Bank account number (No more than 17 digits)',
       'I don’t want to use direct deposit',
     ]));
 
@@ -49,8 +49,8 @@ describe('Direct deposit definition', () => {
       [
         'Account type',
         'Bank name',
-        'Bank routing number',
-        'Bank account number',
+        'Bank routing number (No more than 9 digits)',
+        'Bank account number (No more than 17 digits)',
         'I don’t want to use direct deposit',
       ],
     ));
