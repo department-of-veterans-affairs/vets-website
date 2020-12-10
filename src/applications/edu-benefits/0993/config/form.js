@@ -63,7 +63,7 @@ const formConfig = {
   },
   chapters: {
     claimantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         claimantInformation: {
           title: 'Applicant Information',
@@ -88,12 +88,12 @@ const formConfig = {
                 'ui:title': 'Your middle name',
               },
               suffix: {
-                'ui:title': 'Your suffix',
+                'ui:title': 'Suffix',
               },
             }),
             claimantSocialSecurityNumber: _.assign(ssnUI, {
               'ui:required': formData => !formData['view:noSSN'],
-              'ui:title': 'Your Social Security number',
+              'ui:title': 'Social Security number',
             }),
             'view:noSSN': {
               'ui:title': 'I don’t have a Social Security number',
@@ -103,7 +103,7 @@ const formConfig = {
             },
             vaFileNumber: {
               'ui:required': formData => formData['view:noSSN'],
-              'ui:title': 'Your VA file number',
+              'ui:title': 'VA file number',
               'ui:options': {
                 expandUnder: 'view:noSSN',
               },
