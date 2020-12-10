@@ -561,3 +561,15 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   pointer-events: none;
   margin: 15px 0 0 15px;
 }
+
+button.mapboxgl-ctrl-zoom-in  {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+}
+
+button.mapboxgl-ctrl-zoom-out  {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+}
