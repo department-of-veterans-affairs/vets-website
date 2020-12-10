@@ -12,28 +12,29 @@ const ReviewDescription = ({ profile }) => {
     return null;
   }
 
-  const { email, homePhone, mailingAddress } = profile.vapContactInfo;
-  const isUS = mailingAddress.addressType !== ADDRESS_TYPES.international;
+  const { email, homePhone, mailingAddress } = profile.vapContactInfo || {};
+  const isUS = mailingAddress?.addressType !== ADDRESS_TYPES.international;
   const stateOrProvince = isUS ? 'State' : 'Province';
 
   // Label: formatted value in (design) display order
   const display = {
-    'Phone number': () => (
-      <Telephone
-        contact={`${homePhone?.areaCode}${homePhone?.phoneNumber}`}
-        extension={homePhone.extension || ''}
-        notClickable
-      />
-    ),
-    'Email address': () => email.emailAddress,
-    Country: () => (isUS ? '' : mailingAddress.countryName),
-    'Street address': () => mailingAddress.addressLine1,
-    'Line 2': () => mailingAddress.addressLine2,
-    'Line 3': () => mailingAddress.addressLine3,
-    City: () => mailingAddress.city,
-    [stateOrProvince]: () => mailingAddress[isUS ? 'stateCode' : 'province'],
+    'Phone number': () =>
+      homePhone && (
+        <Telephone
+          contact={`${homePhone?.areaCode}${homePhone?.phoneNumber}`}
+          extension={homePhone?.extension || ''}
+          notClickable
+        />
+      ),
+    'Email address': () => email?.emailAddress,
+    Country: () => (isUS ? '' : mailingAddress?.countryName),
+    'Street address': () => mailingAddress?.addressLine1,
+    'Line 2': () => mailingAddress?.addressLine2,
+    'Line 3': () => mailingAddress?.addressLine3,
+    City: () => mailingAddress?.city,
+    [stateOrProvince]: () => mailingAddress?.[isUS ? 'stateCode' : 'province'],
     'Postal code': () =>
-      mailingAddress[isUS ? 'zipCode' : 'internationalPostalCode'],
+      mailingAddress?.[isUS ? 'zipCode' : 'internationalPostalCode'],
   };
 
   return (

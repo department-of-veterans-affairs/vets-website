@@ -10,7 +10,7 @@ import { formatAddress } from 'platform/forms/address/helpers';
 const addBrAfter = line => line && [line, <br key={line} />];
 
 export const ContactInfoDescription = ({ profile }) => {
-  const { email, homePhone, mailingAddress } = profile.vapContactInfo;
+  const { email, homePhone, mailingAddress } = profile?.vapContactInfo || {};
   const { street, cityStateZip, country } = formatAddress(mailingAddress || {});
   const phone = `${homePhone?.areaCode || ''}${homePhone?.phoneNumber || ''}`;
 
@@ -33,7 +33,7 @@ export const ContactInfoDescription = ({ profile }) => {
           <strong>Primary phone</strong>:{' '}
           <Telephone
             contact={phone}
-            extension={homePhone.extension || ''}
+            extension={homePhone?.extension || ''}
             notClickable
           />
         </p>
