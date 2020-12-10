@@ -6,6 +6,22 @@ const {
   getImageCrop,
 } = require('./helpers');
 
+// Add any other pages here that require square thumbnails
+const squareThumnbnailPages = ['/pittsburgh-health-care/programs/cardiology'];
+
+const getThumbnail = ancestors => {
+  if (
+    ancestors.find(
+      a =>
+        a.entity.entityUrl &&
+        squareThumnbnailPages.includes(a.entity.entityUrl.path),
+    )
+  ) {
+    return '_1_1_SQUARE_MEDIUM_THUMBNAIL';
+  }
+  return '_23MEDIUMTHUMBNAIL';
+};
+
 const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'person_profile',
@@ -24,10 +40,7 @@ const transform = (entity, { ancestors }) => ({
   fieldMedia:
     entity.fieldMedia && entity.fieldMedia.length > 0
       ? {
-          entity: getImageCrop(
-            entity.fieldMedia[0],
-            '_1_1_SQUARE_MEDIUM_THUMBNAIL',
-          ),
+          entity: getImageCrop(entity.fieldMedia[0], getThumbnail(ancestors)),
         }
       : null,
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
