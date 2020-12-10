@@ -323,7 +323,7 @@ class ContactInformationField extends React.Component {
       content = (
         <ContactInformationEditView
           analyticsSectionName={this.props.analyticsSectionName}
-          clearErrors={this.props.clearErrors}
+          clearErrors={this.clearErrors}
           deleteDisabled={this.props.deleteDisabled}
           field={this.props.field}
           fieldName={this.props.fieldName}
