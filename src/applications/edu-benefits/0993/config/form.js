@@ -52,8 +52,8 @@ const formConfig = {
       'Please sign in again to continue your application to opt out of sharing VA education benefits information.',
   },
   transformForSubmit: transform,
-  title: 'Opt Out of Sharing VA Education Benefits Information',
-  subTitle: 'VA Form 22-0993',
+  title: 'Opt out of sharing education benefits information',
+  subTitle: 'Form 22-0993',
   preSubmitInfo,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -77,20 +77,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:description': PrefillMessage,
-            claimantFullName: _.merge(fullNameUI, {
-              first: {
-                'ui:title': 'Your first name',
-              },
-              last: {
-                'ui:title': 'Your last name',
-              },
-              middle: {
-                'ui:title': 'Your middle name',
-              },
-              suffix: {
-                'ui:title': 'Suffix',
-              },
-            }),
+            claimantFullName: fullNameUI,
             claimantSocialSecurityNumber: _.assign(ssnUI, {
               'ui:required': formData => !formData['view:noSSN'],
               'ui:title': 'Social Security number',
