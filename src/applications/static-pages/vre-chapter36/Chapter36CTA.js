@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
-import CallToActionWidget from 'platform/site-wide/cta-widget';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
+import { rootUrl as chapter36Url } from 'applications/vre/28-8832/manifest.json';
 
 const EDUCATION_CAREER_COUNSELING_PATH = 'education-and-career-counseling';
 
@@ -89,7 +89,13 @@ const Chapter36CTA = props => {
     content = (
       <>
         {!isEducationAndCareerPage ? <h2>How do I apply?</h2> : null}
-        <CallToActionWidget appId="chapter-36-cta" />
+        <a
+          className="usa-button-primary va-button-primary"
+          target="_self"
+          href={chapter36Url}
+        >
+          Apply for career counseling
+        </a>
       </>
     );
   }
