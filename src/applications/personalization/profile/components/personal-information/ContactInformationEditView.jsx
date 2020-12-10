@@ -30,8 +30,8 @@ class ContactInformationEditView extends Component {
     onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     refreshTransaction: PropTypes.func,
-    render: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
     uiSchema: PropTypes.object,
@@ -166,38 +166,28 @@ class ContactInformationEditView extends Component {
           </div>
         )}
 
-        {!!field &&
-          (type === 'phone' || type === 'email') && (
+        {!!field && (
+          <div>
+            {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
+              <CopyMailingAddress
+                copyMailingAddress={this.copyMailingAddress}
+              />
+            )}
             <ContactInfoForm
               formData={this.props.field.value}
               formSchema={this.props.field.formSchema}
               uiSchema={this.props.field.uiSchema}
-              onUpdateFormData={this.props.onChangeFormDataAndSchemas}
+              onUpdateFormData={
+                type === 'address'
+                  ? this.onInput
+                  : this.props.onChangeFormDataAndSchemas
+              }
               onSubmit={onSubmit}
             >
               {actionButtons}
             </ContactInfoForm>
-          )}
-
-        {!!field &&
-          type === 'address' && (
-            <div>
-              {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
-                <CopyMailingAddress
-                  copyMailingAddress={this.copyMailingAddress}
-                />
-              )}
-              <ContactInfoForm
-                formData={this.props.field.value}
-                formSchema={this.props.field.formSchema}
-                uiSchema={this.props.field.uiSchema}
-                onUpdateFormData={this.onInput}
-                onSubmit={onSubmit}
-              >
-                {actionButtons}
-              </ContactInfoForm>
-            </div>
-          )}
+          </div>
+        )}
       </>
     );
   }
