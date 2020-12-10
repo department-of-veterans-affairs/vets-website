@@ -9,3 +9,7 @@ export const apiPostRequest = async (url, data) => {
     },
   });
 };
+
+export const apiGetRequest = async url => {
+  return apiRequest(url);
+};
