@@ -11,6 +11,8 @@ import ContactInformationActionButtons from './ContactInformationActionButtons';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
 import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
 
+import { transformInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
+
 import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
 class ContactInformationEditView extends Component {
@@ -91,6 +93,15 @@ class ContactInformationEditView extends Component {
       newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
     }
     this.props.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
+  };
+
+  copyMailingAddress = mailingAddress => {
+    const newAddressValue = { ...this.props.field.value, ...mailingAddress };
+    this.props.onChangeFormDataAndSchemas(
+      transformInitialFormValues(newAddressValue),
+      this.props.field.formSchema,
+      this.props.field.uiSchema,
+    );
   };
 
   render() {

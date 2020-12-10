@@ -9,39 +9,35 @@ import { FIELD_NAMES } from '@@vap-svc/constants';
 
 import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
 
-class PhoneEditView extends React.Component {
-  render() {
-    return (
-      <ContactInformationEditView
-        analyticsSectionName={this.props.analyticsSectionName}
-        clearErrors={this.props.clearErrors}
-        deleteDisabled={this.props.deleteDisabled}
-        field={this.props.field}
-        formSchema={this.props.formSchema}
-        getInitialFormValues={() =>
-          getInitialFormValues(
-            'phone',
-            this.props.data,
-            this.props.showSMSCheckbox,
-          )
-        }
-        hasUnsavedEdits={this.props.hasUnsavedEdits}
-        hasValidationError={this.props.hasValidationError}
-        isEmpty={this.props.isEmpty}
-        onCancel={this.props.onCancel}
-        onChangeFormDataAndSchemas={this.props.onChangeFormDataAndSchemas}
-        onDelete={this.props.onDelete}
-        onSubmit={this.props.onSubmit}
-        refreshTransaction={this.props.refreshTransaction}
-        title={this.props.title}
-        transaction={this.props.transaction}
-        transactionRequest={this.props.transactionRequest}
-        uiSchema={this.props.uiSchema}
-        type="phone"
-      />
-    );
-  }
-}
+const PhoneEditView = props => (
+  <ContactInformationEditView
+    analyticsSectionName={props.analyticsSectionName}
+    clearErrors={props.clearErrors}
+    deleteDisabled={props.deleteDisabled}
+    field={props.field}
+    formSchema={props.formSchema}
+    getInitialFormValues={() =>
+      getInitialFormValues({
+        type: 'phone',
+        data: props.data,
+        showSMSCheckbox: props.showSMSCheckbox,
+      })
+    }
+    hasUnsavedEdits={props.hasUnsavedEdits}
+    hasValidationError={props.hasValidationError}
+    isEmpty={props.isEmpty}
+    onCancel={props.onCancel}
+    onChangeFormDataAndSchemas={props.onChangeFormDataAndSchemas}
+    onDelete={props.onDelete}
+    onSubmit={props.onSubmit}
+    refreshTransaction={props.refreshTransaction}
+    title={props.title}
+    transaction={props.transaction}
+    transactionRequest={props.transactionRequest}
+    uiSchema={props.uiSchema}
+    type="phone"
+  />
+);
 
 export function mapStateToProps(state, ownProps) {
   const isEnrolledInVAHealthCare = isVAPatient(state);
