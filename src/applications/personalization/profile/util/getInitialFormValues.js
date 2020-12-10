@@ -1,6 +1,8 @@
 export const getInitialFormValues = (type, data, showSMSCheckbox) => {
+  let initialFormValues;
+
   if (type === 'phone') {
-    let initialFormValues = {
+    initialFormValues = {
       countryCode: '1',
       extension: '',
       inputPhoneNumber: '',
@@ -22,6 +24,10 @@ export const getInitialFormValues = (type, data, showSMSCheckbox) => {
     }
 
     return initialFormValues;
+  }
+
+  if (type === 'email') {
+    return data ? { ...data } : { emailAddress: '' };
   }
 
   return null;

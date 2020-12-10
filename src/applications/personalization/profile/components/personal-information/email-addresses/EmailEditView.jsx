@@ -2,6 +2,8 @@ import React from 'react';
 
 import ContactInformationEditView from '../ContactInformationEditView';
 
+import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
+
 class EmailEditView extends React.Component {
   getInitialFormValues = () =>
     this.props.data ? { ...this.props.data } : { emailAddress: '' };
@@ -14,7 +16,13 @@ class EmailEditView extends React.Component {
         deleteDisabled={this.props.deleteDisabled}
         field={this.props.field}
         formSchema={this.props.formSchema}
-        getInitialFormValues={this.getInitialFormValues}
+        getInitialFormValues={() =>
+          getInitialFormValues(
+            'email',
+            this.props.data,
+            this.props.showSMSCheckbox,
+          )
+        }
         hasUnsavedEdits={this.props.hasUnsavedEdits}
         hasValidationError={this.props.hasValidationError}
         isEmpty={this.props.isEmpty}
