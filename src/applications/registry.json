@@ -937,10 +937,7 @@
           "path": "health-care/",
           "name": "Health care"
         },
-        {
-          "path": "health-care/covid-19-vaccine/",
-          "name": "COVID-19 vaccines"
-        },
+
         {
           "path": "health-care/covid-19-vaccine/stay-informed",
           "name": "Stay informed and help us prepare"
