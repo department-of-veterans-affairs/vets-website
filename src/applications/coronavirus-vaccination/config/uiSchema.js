@@ -23,14 +23,10 @@ export default {
   birthDate: {
     'ui:title': 'Date of birth',
     'ui:widget': 'date',
-    'ui:errorMessages': {
-      required: 'Please enter your date of birth.',
-    },
   },
   ssn: {
     'ui:widget': MaskedSSNWidget,
     'ui:title': 'Social Security number (SSN)',
-    'ui:required': formData => !formData.isIdentityVerified,
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
       hideIf: formData => formData.isIdentityVerified,
@@ -70,10 +66,6 @@ export default {
     'ui:widget': 'radio',
     'ui:errorMessages': {
       required: 'Please select an answer.',
-    },
-    'ui:options': {
-      // hideIf: formData => !formData.zipCode,
-      expandUnder: 'zipCode',
     },
   },
   vaccineInterest: {

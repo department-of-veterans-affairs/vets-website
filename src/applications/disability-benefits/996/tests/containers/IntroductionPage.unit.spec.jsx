@@ -74,8 +74,14 @@ describe('IntroductionPage', () => {
   });
 
   it('should show has empty address message', () => {
+    const user = {
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
     const tree = shallow(
-      <IntroductionPage {...defaultProps} hasEmptyAddress />,
+      <IntroductionPage {...defaultProps} user={user} hasEmptyAddress />,
     );
 
     const AlertBox = tree.find('AlertBox');
