@@ -57,7 +57,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
-          path: '/covid_vaccine/v0/registration/unauthenticated',
+          path: '/covid_vaccine/v0/registration',
           headers: {
             'X-Key-Inflection': 'camel',
             'Content-Type': 'application/json',
