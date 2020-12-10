@@ -158,6 +158,9 @@ const FacilitiesMap = props => {
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
     }
+    if (searchResultTitleRef.current) {
+      setFocus(searchResultTitleRef.current);
+    }
   };
 
   const handleSearch = async () => {
@@ -563,9 +566,6 @@ const FacilitiesMap = props => {
             radius,
           });
           setIsSearching(false);
-        }
-        if (searchResultTitleRef.current) {
-          setFocus(searchResultTitleRef.current);
         }
       }
     },
