@@ -94,7 +94,7 @@ const formConfig = {
         'Your application for financial hardship assistance has been saved.',
     },
   },
-  title: 'Apply for financial hardship assistance',
+  title: 'Request help for VA debt',
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
