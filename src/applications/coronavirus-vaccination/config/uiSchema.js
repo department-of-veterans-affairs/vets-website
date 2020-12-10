@@ -86,6 +86,13 @@ export default {
     'ui:errorMessages': {
       required: 'Please select an answer.',
     },
+    'ui:options': {
+      labels: {
+        Yes: 'Yes',
+        No: 'No',
+        Unsure: "I'm not sure.",
+      },
+    },
   },
   vaccineInterest: {
     'ui:title':
