@@ -12,7 +12,7 @@ import * as userSelectors from 'platform/user/selectors';
 function Introduction({ isLoggedIn, toggleLoginModal }) {
   return (
     <>
-      <h1>COVID-19 vaccines — Stay informed and help us prepare</h1>
+      <h1>COVID-19 vaccines: Stay informed and help us prepare</h1>
       <div className="va-introtext">
         <p>
           We’re working to get COVID-19 vaccines to Veterans as quickly and
@@ -23,18 +23,20 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
       </div>
       <p>
         Sign up below to help us understand your interest in getting a vaccine.
-        We’ll send you regular updates on how we’re providing vaccines across
-        the country—and when you can get your vaccine if you want one. We’ll
-        also offer information and answers to your questions along the way.
+        We’ll send you updates on how we’re providing vaccines across the
+        country—and when you can get your vaccine if you want one. We’ll also
+        offer information and answers to your questions along the way.
       </p>
       <p>
         <strong>Note:</strong> You don’t need to sign up to get a vaccine. And
         you can change your mind about getting a vaccine at any time. We’ll use
-        the information you provide to understand your interest and communicate
-        with you.
+        the information you provide to understand your interest and keep you
+        informed.
       </p>
       <p>
-        Learn who will get a COVID-19 vaccine first based on CDC guidelines.
+        <a href="/covid-19-vaccine/">
+          Learn who will get a COVID-19 vaccine first based on CDC guidelines
+        </a>
       </p>
       {isLoggedIn ? (
         <Link className="usa-button" to="/form">
