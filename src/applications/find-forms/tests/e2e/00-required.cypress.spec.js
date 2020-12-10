@@ -16,6 +16,10 @@ function axeTestPage() {
 }
 
 describe('functionality of Find Forms', () => {
+  before(function() {
+    if (Cypress.env('CIRCLECI')) this.skip();
+  });
+
   it('search the form and expect dom to have elements', () => {
     cy.server();
     cy.route({
