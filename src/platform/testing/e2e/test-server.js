@@ -2,15 +2,15 @@
 
 // Simple test server to serve up the build files.
 
-// This is used over a bear http-server invocation because it handles paths inside React apps
-// using the expression-history-api-fallback option.
+// This is used over a vanilla http-server because it handles paths
+// inside React apps using the express-history-api-fallback option.
 
-const fs = require('fs');
 const commandLineArgs = require('command-line-args');
 const express = require('express');
 const fallback = require('express-history-api-fallback');
-const path = require('path');
 const morgan = require('morgan');
+const path = require('path');
+
 const manifestHelpers = require('../../../../config/manifest-helpers');
 const ENVIRONMENTS = require('../../../site/constants/environments');
 
@@ -19,25 +19,25 @@ const optionDefinitions = [
   { name: 'port', type: Number, defaultValue: +(process.env.WEB_PORT || 3333) },
   { name: 'host', type: String, defaultValue: 'localhost' },
 ];
+
 const options = commandLineArgs(optionDefinitions);
+const root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
+const routes = manifestHelpers.getAppRoutes();
 
 const app = express();
-
-let root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
-if (!fs.existsSync(root)) {
-  // if there isn't a build directory here, then check the parent directory.
-  // This is a temporary adapation as we transition to vagov-content.
-  root = path.resolve(__dirname, `../../../../../build/${options.buildtype}`);
-}
-
-const routes = manifestHelpers.getAppRoutes();
 
 app.use(
   morgan('combined', {
     skip: (req, _res) => req.path.match(/(css|js|gif|jpg|png|svg)$/),
   }),
 );
+
 app.use(express.static(root));
+
+// Sort by descending path length to give precedence to deeper root URLs.
+// For example, '/foo/bar/baz' should match '/foo/bar' instead of '/foo'
+// because '/foo/bar' is a deeper and more specific path than '/foo'.
+routes.sort((a, b) => b.length - a.length);
 routes.forEach(url => {
   app.use(url, fallback(`${url}/index.html`, { root }));
 });
