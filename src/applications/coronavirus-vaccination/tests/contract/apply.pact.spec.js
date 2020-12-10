@@ -84,9 +84,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
       await apiPostRequest(url, authenticatedApplicationData);
     });
-  });
 
-  describe('POST /registration/unauthenticated', () => {
     it('unauthenticated success case: submit valid registration will return a 201 Created HTTP response', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
