@@ -1,7 +1,6 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-// import SelectFacilityWidget from '../components/SelectFacilityWidget';
-
-import ssnUiSchema from 'platform/forms-system/src/js/definitions/ssn';
+import MaskedSSNWidget from '../components/MaskedSSNWidget';
+import { validateSSN } from 'platform/forms-system/src/js/validation';
 
 export default {
   isIdentityVerified: {
@@ -26,12 +25,17 @@ export default {
     'ui:widget': 'date',
   },
   ssn: {
-    ...ssnUiSchema,
+    'ui:widget': MaskedSSNWidget,
     'ui:title': 'Social Security number (SSN)',
     'ui:options': {
-      ...ssnUiSchema['ui:options'],
+      widgetClassNames: 'usa-input-medium',
       hideIf: formData => formData.isIdentityVerified,
     },
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',
+      required: 'Please enter a SSN',
+    },
+    'ui:validations': [validateSSN],
   },
   email: {
     'ui:title': 'Email address',
