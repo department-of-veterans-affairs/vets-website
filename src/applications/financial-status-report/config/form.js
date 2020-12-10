@@ -8,7 +8,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import {
   availableDebts,
   currentEmployment,
-  // previousEmployment,
+  previousEmployment,
   socialSecurity,
   additionalIncome,
   veteranInfo,
@@ -130,14 +130,12 @@ const formConfig = {
           uiSchema: currentEmployment.uiSchema,
           schema: currentEmployment.schema,
         },
-
-        // [formPageTitles.previousEmployment]: {
-        //   path: 'previous-employment',
-        //   title: formPageTitles.previousEmployment,
-        //   uiSchema: previousEmployment.uiSchema,
-        //   schema: previousEmployment.schema,
-        // },
-
+        [formPageTitles.previousEmployment]: {
+          path: 'previous-employment',
+          title: formPageTitles.previousEmployment,
+          uiSchema: previousEmployment.uiSchema,
+          schema: previousEmployment.schema,
+        },
         [formPageTitles.socialSecurity]: {
           path: 'social-security',
           title: formPageTitles.socialSecurity,

@@ -27,14 +27,12 @@ export const uiSchema = {
         employmentStart: {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
-          'ui:required': () => true,
         },
         employerName: {
           'ui:title': 'Employer name',
         },
         grossMonthlyIncome: {
           'ui:title': 'Gross monthly income',
-          'ui:required': () => true,
         },
         payrollDeductions: {
           'ui:title': 'Payroll deductions',
