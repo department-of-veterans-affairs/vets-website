@@ -8,6 +8,10 @@ import {
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import ContactInformationActionButtons from './ContactInformationActionButtons';
+import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
+import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
+
+import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
 class ContactInformationEditView extends Component {
   static propTypes = {
@@ -79,6 +83,16 @@ class ContactInformationEditView extends Component {
     this.props.onSubmit(this.props.field.value);
   };
 
+  onInput = (value, schema, uiSchema) => {
+    const newFieldValue = {
+      ...value,
+    };
+    if (newFieldValue['view:livesOnMilitaryBase']) {
+      newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
+    }
+    this.props.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
+  };
+
   render() {
     const {
       onSubmit,
@@ -91,7 +105,7 @@ class ContactInformationEditView extends Component {
         isEmpty,
         onCancel,
         onDelete,
-        render,
+        type,
         title,
         transaction,
         transactionRequest,
@@ -151,7 +165,39 @@ class ContactInformationEditView extends Component {
             />
           </div>
         )}
-        {!!field && render(actionButtons, onSubmit)}
+
+        {!!field &&
+          (type === 'phone' || type === 'email') && (
+            <ContactInfoForm
+              formData={this.props.field.value}
+              formSchema={this.props.field.formSchema}
+              uiSchema={this.props.field.uiSchema}
+              onUpdateFormData={this.props.onChangeFormDataAndSchemas}
+              onSubmit={onSubmit}
+            >
+              {actionButtons}
+            </ContactInfoForm>
+          )}
+
+        {!!field &&
+          type === 'address' && (
+            <div>
+              {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
+                <CopyMailingAddress
+                  copyMailingAddress={this.copyMailingAddress}
+                />
+              )}
+              <ContactInfoForm
+                formData={this.props.field.value}
+                formSchema={this.props.field.formSchema}
+                uiSchema={this.props.field.uiSchema}
+                onUpdateFormData={this.onInput}
+                onSubmit={onSubmit}
+              >
+                {actionButtons}
+              </ContactInfoForm>
+            </div>
+          )}
       </>
     );
   }

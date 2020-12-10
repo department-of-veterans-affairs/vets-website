@@ -72,6 +72,7 @@ class PhoneEditView extends React.Component {
         transaction={this.props.transaction}
         transactionRequest={this.props.transactionRequest}
         uiSchema={this.props.uiSchema}
+        type="phone"
       />
     );
   }
