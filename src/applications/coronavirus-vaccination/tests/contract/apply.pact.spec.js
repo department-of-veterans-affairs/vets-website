@@ -1,14 +1,5 @@
 import contractTest from 'platform/testing/contract';
-// import sinon from 'sinon';
-// import { expect } from 'chai';
-import {
-  // decimal,
-  // eachLike,
-  // integer,
-  like,
-  // string,
-  term,
-} from '@pact-foundation/pact/dsl/matchers';
+import { like, term } from '@pact-foundation/pact/dsl/matchers';
 import { apiPostRequest } from '../../apiCalls/';
 import environment from 'platform/utilities/environment';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
