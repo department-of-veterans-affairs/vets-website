@@ -3,12 +3,13 @@
 const { getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
-  contentModelType: entity.contentModelType,
   entityType: 'paragraph',
   entityBundle: 'media_list_videos',
+  fieldSectionHeader: entity.fieldSectionHeader,
+  fieldVideos: entity.fieldVideos,
 });
 
 module.exports = {
-  filter: [''],
+  filter: ['fieldSectionHeader', 'fieldVideos'],
   transform,
 };

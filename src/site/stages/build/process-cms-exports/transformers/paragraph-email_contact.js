@@ -5,9 +5,11 @@ const { getDrupalValue } = require('./helpers');
 const transform = entity => ({
   entityType: 'paragraph',
   entityBundle: 'email_contact',
+  fieldEmailAddress: entity.fieldEmailAddress,
+  fieldEmailLabel: entity.fieldEmailLabel,
 });
 
 module.exports = {
-  filter: [''],
+  filter: ['fieldEmailAddress', 'fieldEmailLabel'],
   transform,
 };

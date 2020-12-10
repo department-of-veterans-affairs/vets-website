@@ -5,9 +5,11 @@ const { getDrupalValue } = require('./helpers');
 const transform = entity => ({
   entityType: 'paragraph',
   entityBundle: 'media_list_images',
+  fieldSectionHeader: entity.fieldSectionHeader,
+  fieldImages: entity.fieldImages,
 });
 
 module.exports = {
-  filter: [''],
+  filter: ['fieldSectionHeader', 'fieldImages'],
   transform,
 };
