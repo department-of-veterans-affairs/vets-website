@@ -9,3 +9,9 @@ export const UNAUTH_SIGN_IN_DEFAULT_MESSAGE =
 export const APP_TYPE_DEFAULT = 'application';
 export const APP_ACTION_DEFAULT = 'applying';
 export const REVIEW_APP_DEFAULT_MESSAGE = 'Review Application';
+
+export const accountTitleLabels = {
+  CHECKING: 'Checking Account',
+  SAVINGS: 'Savings Account',
+  NOBANK: 'No Bank Account',
+};
