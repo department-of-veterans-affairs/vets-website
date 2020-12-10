@@ -4,6 +4,8 @@ import SkinDeep from 'skin-deep';
 
 import { ConfirmationPage } from '../../../5495/containers/ConfirmationPage';
 
+import '../../../5495/sass/confirmation-page.scss';
+
 const form = {
   submission: {
     response: {
