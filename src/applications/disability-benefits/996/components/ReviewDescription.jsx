@@ -6,6 +6,7 @@ import Telephone from '@department-of-veterans-affairs/formation-react/Telephone
 
 import { selectProfile } from 'platform/user/selectors';
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
+import { PROFILE_URL } from '../constants';
 
 const ReviewDescription = ({ profile }) => {
   if (!profile) {
@@ -44,10 +45,10 @@ const ReviewDescription = ({ profile }) => {
           Contact information
         </h2>
         <a
-          href="/profile"
+          href={PROFILE_URL}
           target="_blank"
+          rel="noopener noreferrer"
           className="edit-btn primary-outline usa-button"
-          aria-label="Edit on Profile"
         >
           Edit on Profile
         </a>

@@ -7,6 +7,8 @@ import Telephone from '@department-of-veterans-affairs/formation-react/Telephone
 import { selectProfile } from 'platform/user/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 
+import { PROFILE_URL } from '../constants';
+
 const addBrAfter = line => line && [line, <br key={line} />];
 
 export const ContactInfoDescription = ({ profile }) => {
@@ -22,7 +24,7 @@ export const ContactInfoDescription = ({ profile }) => {
       </p>
       <p className="vads-u-margin-top--1p5">
         You can update this information on your{' '}
-        <a href="/profile" target="_blank" rel="noopener noreferrer">
+        <a href={PROFILE_URL} target="_blank" rel="noopener noreferrer">
           profile page
         </a>
         .
@@ -33,7 +35,7 @@ export const ContactInfoDescription = ({ profile }) => {
           <strong>Primary phone</strong>:{' '}
           <Telephone
             contact={phone}
-            extension={homePhone?.extension || ''}
+            extension={homePhone?.extension}
             notClickable
           />
         </p>
