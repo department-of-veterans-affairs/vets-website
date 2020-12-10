@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { selectProfile } from 'platform/user/selectors';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import { formatPhone } from './ContactInformation';
+import { selectProfile } from 'platform/user/selectors';
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 
 const ReviewDescription = ({ profile }) => {
@@ -18,8 +18,13 @@ const ReviewDescription = ({ profile }) => {
 
   // Label: formatted value in (design) display order
   const display = {
-    'Phone number': () =>
-      formatPhone(`${homePhone?.areaCode}${homePhone?.phoneNumber}`),
+    'Phone number': () => (
+      <Telephone
+        contact={`${homePhone?.areaCode}${homePhone?.phoneNumber}`}
+        extension={homePhone.extension || ''}
+        notClickable
+      />
+    ),
     'Email address': () => email.emailAddress,
     Country: () => (isUS ? '' : mailingAddress.countryName),
     'Street address': () => mailingAddress.addressLine1,

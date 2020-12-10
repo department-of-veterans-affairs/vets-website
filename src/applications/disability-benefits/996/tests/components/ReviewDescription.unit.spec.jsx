@@ -11,7 +11,7 @@ const profile = (addressOptions = {}) => ({
       emailAddress: 'foo@bar.com',
     },
     homePhone: {
-      areaCode: '123',
+      areaCode: '321',
       phoneNumber: '4567890',
     },
     mailingAddress: {
@@ -35,7 +35,13 @@ describe('Review description', () => {
     const rows = tree.find('.review-row');
     // country is not shown if it's the U.S.
     expect(rows.length).to.equal(6);
-    expect(rows.at(0).text()).to.contain('Phone number123-456-7890');
+    expect(rows.at(0).text()).to.contain('Phone number');
+    expect(
+      rows
+        .find('Telephone')
+        .dive()
+        .text(),
+    ).to.contain('321-456-7890');
     expect(rows.at(1).text()).to.contain('Email addressfoo@bar.com');
     expect(rows.at(2).text()).to.contain('Street address123 MAIN Street');
     expect(rows.at(3).text()).to.contain('CityTownsville');
@@ -58,7 +64,13 @@ describe('Review description', () => {
 
     const rows = tree.find('.review-row');
     expect(rows.length).to.equal(9);
-    expect(rows.at(0).text()).to.contain('Phone number123-456-7890');
+    expect(rows.at(0).text()).to.contain('Phone number');
+    expect(
+      rows
+        .find('Telephone')
+        .dive()
+        .text(),
+    ).to.contain('321-456-7890');
     expect(rows.at(1).text()).to.contain('Email addressfoo@bar.com');
     expect(rows.at(2).text()).to.contain('CountryAustralia');
     expect(rows.at(3).text()).to.contain('Street address123 MAIN Street');

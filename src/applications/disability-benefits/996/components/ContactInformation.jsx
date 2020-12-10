@@ -2,18 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+
 import { selectProfile } from 'platform/user/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 
 const addBrAfter = line => line && [line, <br key={line} />];
 const addBrBefore = line => line && [<br key={line} />, line];
-
-export const formatPhone = (number = '') => {
-  let i = 0;
-  return number.length === 10
-    ? '###-###-####'.replace(/#/g, () => number[i++] || '')
-    : number;
-};
 
 export const ContactInfoDescription = ({ profile }) => {
   const { email, homePhone, mailingAddress } = profile.vapContactInfo;
@@ -36,7 +31,12 @@ export const ContactInfoDescription = ({ profile }) => {
       <div className="blue-bar-block">
         <h3 className="vads-u-font-size--h4">Phone &amp; email</h3>
         <p>
-          <strong>Primary phone</strong>: {formatPhone(phone)}
+          <strong>Primary phone</strong>:{' '}
+          <Telephone
+            contact={phone}
+            extension={homePhone.extension || ''}
+            notClickable
+          />
         </p>
         <p>
           <strong>Email address</strong>: {email?.emailAddress || ''}
