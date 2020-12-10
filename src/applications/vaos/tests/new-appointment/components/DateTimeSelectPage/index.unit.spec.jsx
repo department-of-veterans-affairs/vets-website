@@ -189,11 +189,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     ).to.be.ok;
 
     // it should display link to phone number
-    expect(
-      screen.getByRole('link', {
-        name: '800-273-8255',
-      }),
-    ).to.be.ok;
+    expect(screen.getByText(/800-273-8255/)).to.have.tagName('a');
   });
 
   it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
