@@ -390,7 +390,10 @@ module.exports = env => {
     // apps we're scaffolding
     baseConfig.devServer.open = true;
     baseConfig.devServer.openPage =
-      buildOptions.openTo || getEntryManifests(buildOptions.entry)[0].rootUrl;
+      buildOptions.openTo || buildOptions.entry
+        ? // Assumes the first in the list has a rootUrl
+          getEntryManifests(buildOptions.entry)[0].rootUrl
+        : '';
   }
 
   if (isOptimizedBuild) {
