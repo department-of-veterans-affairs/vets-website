@@ -83,7 +83,7 @@ const ConfirmationPage = props => {
               className="appointment-details-link usa-button-primary usa-button-secondary"
               href="/health-care/schedule-view-va-appointments/appointments/"
             >
-              Go to appointment details
+              Go to your appointment details
             </a>
           </div>
         </div>
