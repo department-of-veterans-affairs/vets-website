@@ -2,6 +2,8 @@ import React, { Component, memo } from 'react';
 import PropTypes from 'prop-types';
 
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import { focusElement } from '~/platform/utilities/ui';
+
 import {
   isFailedTransaction,
   isPendingTransaction,
@@ -79,6 +81,9 @@ class ContactInformationEditView extends Component {
     if (this.props.transactionRequest?.error) {
       this.props.clearErrors();
     }
+
+    // AS DONE IN ADDRESSEDITVIEW, CHECK FOR CORRECTNESS
+    focusElement(`#${this.props.fieldName}-edit-link`);
   }
 
   onSubmit = () => {

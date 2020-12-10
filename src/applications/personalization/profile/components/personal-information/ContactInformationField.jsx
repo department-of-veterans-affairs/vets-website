@@ -341,8 +341,8 @@ class ContactInformationField extends React.Component {
           isEmpty={this.props.isEmpty}
           onCancel={this.onCancel}
           onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
-          onDelete={this.props.onDelete}
-          onSubmit={this.props.onSubmit}
+          onDelete={this.onDelete}
+          onSubmit={this.onSubmit}
           refreshTransaction={this.props.refreshTransaction}
           title={this.props.title}
           transaction={this.props.transaction}
