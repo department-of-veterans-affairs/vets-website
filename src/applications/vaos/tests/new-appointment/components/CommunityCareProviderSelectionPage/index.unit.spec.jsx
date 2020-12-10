@@ -15,6 +15,7 @@ import {
   mockCommunityCareEligibility,
   mockParentSites,
   mockCCProviderFetch,
+  mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
@@ -277,5 +278,88 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         /something went wrong on our end. please try again later./i,
       ),
     );
+  });
+
+  it('should notify user that the browser is blocked from using current location information', async () => {
+    const store = createTestStore(initialState);
+
+    mockGetCurrentPosition({ fail: true });
+
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['208D00000X', '207R00000X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/use your current location/i));
+
+    expect(
+      await screen.findByText(
+        /Your browser is blocked from finding your current location. Make sure your browser’s location feature is turned on./i,
+      ),
+    ).to.be.ok;
+  });
+
+  it('should sort by distance from current location (ascending) if user clicks "use current location"', async () => {
+    const store = createTestStore(initialState);
+
+    mockGetCurrentPosition({ fail: true });
+
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['208D00000X', '207R00000X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+
+    const miles = screen.queryAllByText(/miles$/);
+
+    expect(miles.length).to.equal(16);
+    expect(() => {
+      for (let i = 0; i < miles.length - 1; i++) {
+        if (
+          Number.parseFloat(miles[i].textContent) >
+          Number.parseFloat(miles[i + 1].textContent)
+        )
+          throw new Error();
+      }
+    }).to.not.throw;
   });
 });
