@@ -16,9 +16,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import * as actions from '../actions';
 
-import initialFormSchema from '../config/schema';
-import initialUiSchema from '../config/uiSchema';
-
+import useInitializeForm from '../hooks/useInitializeForm';
 import useSubmitForm from '../hooks/useSubmitForm';
 
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
@@ -44,48 +42,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
     [submitStatus],
   );
 
-  useEffect(
-    () => {
-      if (formState) {
-        // If formState isn't null, then we've already initialized the form
-        // so we skip doing it again. This occurs if you navigate to the form,
-        // fill out some fields, navigate back to the intro, then back to the form.
-        return;
-      }
-
-      // Initialize and prefill the form on first render
-      let initialFormData = {
-        isIdentityVerified: false,
-      };
-
-      if (isLoggedIn) {
-        recordEvent({
-          event: 'covid-vaccination-login-successful-start-form',
-        });
-        initialFormData = {
-          isIdentityVerified: profile?.loa?.current === profile?.loa?.highest,
-          firstName: profile?.userFullName?.first,
-          lastName: profile?.userFullName?.last,
-          birthDate: profile?.dob,
-          ssn: undefined,
-          email: profile?.vapContactInfo?.email?.emailAddress,
-          zipCode: profile?.vapContactInfo?.residentialAddress?.zipCode,
-          phone: profile?.vapContactInfo?.homePhone
-            ? `${profile.vapContactInfo.homePhone.areaCode}${
-                profile.vapContactInfo.homePhone.phoneNumber
-              }`
-            : '',
-        };
-      } else {
-        recordEvent({
-          event: 'no-login-start-form',
-        });
-      }
-
-      updateFormData(initialFormSchema, initialUiSchema, initialFormData);
-    },
-    [formState, updateFormData, isLoggedIn, profile],
-  );
+  useInitializeForm(formState, updateFormData, isLoggedIn, profile);
 
   const onFormChange = useCallback(
     nextFormData => {
