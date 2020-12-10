@@ -46,6 +46,12 @@ const helpSections = [
         description:
           'Automatically generate application landing pages. Can be used as an alternative to running a full content build.',
       },
+      {
+        name: 'env.openTo',
+        typeLabel: '{underline URL}',
+        description:
+          'The path to open the browser to when --env.scaffold is true. {dim --env.openTo path/to/my/app} will open the browser to {underline http://localhost:3001/path/to/my/app}. Defaults to the either the rootUrl of an app in --env.entry or the home page.',
+      },
     ],
   },
   {
