@@ -4,10 +4,8 @@ import start from './start';
 import isVeteran from './veteran/isVeteran';
 import noHonorableDischarge from './veteran/01-noHonorableDischarge';
 import yesHonorableDischarge from './veteran/01-yesHonorableDischarge';
-import disabilityRating from './veteran/02-disabilityRating';
+import yesDisabilityRating from './veteran/02-yesDisabilityRating';
 import noDisabilityRating from './veteran/02-noDisabilityRating';
-import yesActiveDutySeparation from './veteran/03-yesActiveDutySeparation';
-import noActiveDutySeparation from './veteran/03-noActiveDutySeparation';
 
 // Service Member Path Imports
 import isServiceMember from './service-member/isServiceMember';
@@ -28,10 +26,8 @@ export default [
   isOther,
   noHonorableDischarge,
   yesHonorableDischarge,
-  disabilityRating,
+  yesDisabilityRating,
   noDisabilityRating,
-  yesActiveDutySeparation,
-  noActiveDutySeparation,
   noHonorableDischargeSM,
   yesHonorableDischargeSM,
   noVaMemorandum,

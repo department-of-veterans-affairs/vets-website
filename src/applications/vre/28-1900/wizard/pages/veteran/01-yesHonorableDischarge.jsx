@@ -3,7 +3,7 @@ import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-rea
 import { veteranPathPageNames } from '../pageList';
 
 const options = [
-  { value: veteranPathPageNames.disabilityRating, label: 'Yes' },
+  { value: veteranPathPageNames.yesDisabilityRating, label: 'Yes' },
   { value: veteranPathPageNames.noDisabilityRating, label: 'No' },
 ];
 
