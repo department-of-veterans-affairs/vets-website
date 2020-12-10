@@ -94,7 +94,7 @@ describe('Direct deposit definition', () => {
 
     // If this throws, the test failed. If it doesn't, the test passed.
     return form.getByText(
-      /will change your bank account information for VA benefits, including disability compensation, pension, and education./i,
+      /will change your bank account information for some VA benefits, including disability compensation, pension, and education./i,
     );
   });
 
@@ -109,7 +109,7 @@ describe('Direct deposit definition', () => {
 
     // If this throws, the test failed. If it doesn't, the test passed.
     return form.getByText(
-      /These updates won’t change your information for disability compensation, pension, and education./i,
+      /These updates won’t change your bank account information for disability compensation, pension, and education./i,
     );
   });
 });
