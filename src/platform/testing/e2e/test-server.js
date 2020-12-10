@@ -2,8 +2,8 @@
 
 // Simple test server to serve up the build files.
 
-// This is used over a bear http-server invocation because it handles paths inside React apps
-// using the expression-history-api-fallback option.
+// This is used over a vanilla http-server because it handles paths
+// inside React apps using the express-history-api-fallback option.
 
 const fs = require('fs');
 const commandLineArgs = require('command-line-args');
