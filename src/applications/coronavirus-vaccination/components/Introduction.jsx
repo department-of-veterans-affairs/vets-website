@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
 
 import AlertBox, {
   ALERT_TYPE,
@@ -53,12 +54,31 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
               <p>
                 <button
                   type="button"
-                  onClick={toggleLoginModal}
+                  onClick={() => {
+                    toggleLoginModal(true, 'coronavirus-vaccination');
+                    recordEvent({
+                      event: 'cta-button-click',
+                      'button-type': 'default',
+                      'button-click-label': 'Sign in',
+                      'button-background-color': '#0071bb',
+                    });
+                  }}
                   className="usa-button"
                 >
                   Sign in
                 </button>
-                <Link className="usa-button usa-button-secondary" to="/form">
+                <Link
+                  className="usa-button usa-button-secondary"
+                  to="/form"
+                  onClick={() => {
+                    recordEvent({
+                      event: 'cta-button-click',
+                      'button-type': 'secondary',
+                      'button-click-label': 'Continue without signing in',
+                      'button-background-color': 'transparent',
+                    });
+                  }}
+                >
                   Continue without signing in
                 </Link>
               </p>

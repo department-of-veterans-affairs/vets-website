@@ -35,7 +35,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           event: 'covid-vaccination--submission-successful',
         });
         router.replace('/confirmation');
-      } else {
+      } else if (submitStatus === requestStates.failed) {
         recordEvent({
           event: 'covid-vaccination--submission-failed',
         });
@@ -78,7 +78,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         };
       } else {
         recordEvent({
-          event: 'covid-vaccination-no-login-start-form',
+          event: 'no-login-start-form',
         });
       }
 
@@ -96,6 +96,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   const onFormSubmit = useCallback(
     () => {
+      recordEvent({ event: 'covid-vaccination--submission' });
       submitToApi(formState.formData);
     },
     [router, formState],
