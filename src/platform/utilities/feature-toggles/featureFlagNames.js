@@ -66,4 +66,6 @@ export default Object.freeze({
   form526ConfirmationEmail: 'form526_confirmation_email',
   form526ConfirmationEmailShowCopy: 'form526_confirmation_email_show_copy',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
+  covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
+  covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
 });

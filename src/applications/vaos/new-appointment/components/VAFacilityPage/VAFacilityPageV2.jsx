@@ -18,6 +18,7 @@ import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCh
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
+import FacilitiesNotShown from './FacilitiesNotShown';
 
 const initialSchema = {
   type: 'object',
@@ -274,6 +275,10 @@ function VAFacilityPageV2({
             formContext={{ loadingEligibility, sortMethod }}
             data={data}
           >
+            <FacilitiesNotShown
+              facilities={facilities}
+              sortMethod={sortMethod}
+            />
             <FormButtons
               continueLabel=""
               pageChangeInProgress={pageChangeInProgress}
@@ -282,7 +287,8 @@ function VAFacilityPageV2({
                 loadingParents ||
                 loadingFacilities ||
                 loadingEligibility ||
-                (facilities?.length === 1 && !canScheduleAtChosenFacility)
+                (schema.properties.vaFacility.enum?.length === 1 &&
+                  !canScheduleAtChosenFacility)
               }
             />
           </SchemaForm>

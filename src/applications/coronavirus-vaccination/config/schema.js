@@ -6,7 +6,6 @@ export default {
     'email',
     'phone',
     'zipCode',
-    'birthDate',
     'vaccineInterest',
     'zipCodeDetails',
   ],
@@ -25,7 +24,6 @@ export default {
     },
     ssn: {
       type: 'string',
-      pattern: '^\\d{3}-?\\d{2}-?\\d{4}$',
     },
     email: {
       type: 'string',
