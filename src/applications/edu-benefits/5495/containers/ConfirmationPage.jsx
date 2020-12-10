@@ -3,8 +3,6 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import '../sass/confirmation-page.scss';
-
 import { focusElement } from 'platform/utilities/ui';
 
 import { survivorBenefitsLabels } from '../../utils/labels';
@@ -51,7 +49,7 @@ class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4 className="benefit-application-header">
+          <h4 className="vads-u-margin-top--0">
             Education benefit application{' '}
             <span className="additional">(Form 22-5495)</span>
           </h4>
@@ -103,8 +101,9 @@ class ConfirmationPage extends React.Component {
               Learn more about what happens after you apply
             </a>
           </p>
-          <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <hr className="need-help-hr" />
+          <h4 className="confirmation-guidance-heading pagebreak vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
+            Need help?
+          </h4>
           <p className="confirmation-guidance-message">
             If you have questions, call 888-GI-BILL-1 (
             <a href="tel:+18884424551">888-442-4551</a>
