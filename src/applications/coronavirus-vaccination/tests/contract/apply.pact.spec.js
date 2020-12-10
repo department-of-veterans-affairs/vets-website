@@ -11,11 +11,11 @@ import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthentic
 
 contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('GET /registration', () => {
-    it('Retrieves a saved application', async () => {
+    it('authenticated success case: request for saved registration will return a 200 OK HTTP response', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
       const interaction = {
-        state: 'authenticated user application data',
+        state: 'retreives saved registration for authenticated user',
         uponReceiving: 'a GET request',
         withRequest: {
           method: 'GET',
@@ -45,11 +45,11 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   });
 
   describe('POST /registration', () => {
-    it('Authenticated success case: submit valid form will return a 201 Created HTTP response', async () => {
+    it('authenticated success case: submit valid registration will return a 201 Created HTTP response', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
       const interaction = {
-        state: 'authenticated user application data',
+        state: 'authenticated user sumbits registration data',
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
@@ -87,11 +87,11 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   });
 
   describe('POST /registration/unauthenticated', () => {
-    it('Unauthenticated success case: submit valid form will return a 201 Created HTTP response', async () => {
+    it('unauthenticated success case: submit valid registration will return a 201 Created HTTP response', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
       const interaction = {
-        state: 'unauthenticated user application data',
+        state: 'unauthenticated user sumbits registration data',
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
@@ -129,11 +129,11 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   });
 
   describe('PATCH /registration', () => {
-    it('Authenticated success case: submit valid updated form will return a 204 No Content HTTP response', async () => {
+    it('authenticated success case: submit valid updated registration will return a 204 No Content HTTP response', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`; // might need to be updated
 
       const interaction = {
-        state: 'authenticated user updates application data',
+        state: 'authenticated user updates registration data',
         uponReceiving: 'a PATCH request',
         withRequest: {
           method: 'PATCH',
