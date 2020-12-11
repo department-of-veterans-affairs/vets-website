@@ -394,20 +394,23 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Permanent address', true), {
-              street: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid street. Must be at least 1 character.',
+            veteranPermanentAddress: _.merge(
+              addressUI('Permanent address', true),
+              {
+                street: {
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please provide a valid street. Must be at least 1 character.',
+                  },
+                },
+                city: {
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please provide a valid city. Must be at least 1 character.',
+                  },
                 },
               },
-              city: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid city. Must be at least 1 character.',
-                },
-              },
-            }),
+            ),
             'view:doesPermanentAddressMatchMailing': {
               'ui:title':
                 'Is your home address the same as your mailing address?',
@@ -417,27 +420,30 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
-                properties: {
-                  street: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street2: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street3: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  city: {
-                    minLength: 1,
-                    maxLength: 30,
+              veteranPermanentAddress: _.merge(
+                addressSchema(fullSchemaHca, true),
+                {
+                  properties: {
+                    street: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    street2: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    street3: {
+                      type: 'string',
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    city: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
                   },
                 },
-              }),
+              ),
               'view:doesPermanentAddressMatchMailing': {
                 type: 'boolean',
               },
@@ -449,53 +455,59 @@ const formConfig = {
             if profile has diff addresses for permanent && mailing are diff perform auto-fill && check yes/no
             if they are the same || mailing does not exist leave yes/no and mailing blank
         */
-        homeAddress: {
-          path: 'veteran-information/home-address',
-          title: 'Ho,e address',
+        mailingAddress: {
+          path: 'veteran-information/mailing-address',
+          title: 'Mailing address',
           initialData: {},
           depends: formData =>
             !formData['view:doesPermanentAddressMatchMailing'],
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranHomeAddress: _.merge(addressUI('Permanent address', true), {
-              street: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid street. Must be at least 1 character.',
+            veteranMailingAddress: _.merge(
+              addressUI('Permanent address', true),
+              {
+                street: {
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please provide a valid street. Must be at least 1 character.',
+                  },
+                },
+                city: {
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please provide a valid city. Must be at least 1 character.',
+                  },
                 },
               },
-              city: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid city. Must be at least 1 character.',
-                },
-              },
-            }),
+            ),
           },
           schema: {
             type: 'object',
             properties: {
-              veteranHomeAddress: _.merge(addressSchema(fullSchemaHca, true), {
-                properties: {
-                  street: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street2: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street3: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  city: {
-                    minLength: 1,
-                    maxLength: 30,
+              veteranMailingAddress: _.merge(
+                addressSchema(fullSchemaHca, true),
+                {
+                  properties: {
+                    street: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    street2: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    street3: {
+                      type: 'string',
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    city: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
                   },
                 },
-              }),
+              ),
             },
           },
         },
