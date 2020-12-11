@@ -11,6 +11,7 @@ import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
+import * as address from 'platform/forms-system/src/js/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
@@ -407,11 +408,74 @@ const formConfig = {
                 },
               },
             }),
+            'view:doesPermanentAddressMatchMailing': {
+              'ui:title':
+                'Is your home address the same as your mailing address?',
+              'ui:widget': 'yesNo',
+            },
           },
           schema: {
             type: 'object',
             properties: {
               veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
+                properties: {
+                  street: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street2: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street3: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  city: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                },
+              }),
+              'view:doesPermanentAddressMatchMailing': {
+                type: 'boolean',
+              },
+            },
+          },
+        },
+        /*  TODO: need to look into auto-fill for this field 
+            depending on how data comes back form profile... might need to do a deep address match
+            if profile has diff addresses for permanent && mailing are diff perform auto-fill && check yes/no
+            if they are the same || mailing does not exist leave yes/no and mailing blank
+        */
+        homeAddress: {
+          path: 'veteran-information/home-address',
+          title: 'Ho,e address',
+          initialData: {},
+          depends: formData =>
+            !formData['view:doesPermanentAddressMatchMailing'],
+          uiSchema: {
+            'ui:description': PrefillMessage,
+            veteranHomeAddress: _.merge(addressUI('Permanent address', true), {
+              street: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid street. Must be at least 1 character.',
+                },
+              },
+              city: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid city. Must be at least 1 character.',
+                },
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranHomeAddress: _.merge(addressSchema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,
