@@ -333,6 +333,7 @@ export function getFacilityPageV2Info(state) {
 
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibilityStatus = getEligibilityStatus(state);
+  const validFacilities = formInfo.schema?.properties.vaFacility.enum;
 
   return {
     ...formInfo,
@@ -352,12 +353,12 @@ export function getFacilityPageV2Info(state) {
       parentFacilities.length === 0,
     noValidVAFacilities:
       childFacilitiesStatus === FETCH_STATUS.succeeded &&
-      (!facilities || !facilities.length),
+      !validFacilities?.length,
     parentFacilities,
     parentFacilitiesStatus,
     requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),
-    singleValidVALocation: facilities?.length === 1 && !!data.vaFacility,
+    singleValidVALocation: validFacilities?.length === 1 && !!data.vaFacility,
     showEligibilityModal,
     sortMethod: facilityPageSortMethod,
     typeOfCare: typeOfCare?.name,

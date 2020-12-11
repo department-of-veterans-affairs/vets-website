@@ -3,7 +3,7 @@
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     {% assign crumbs = entityUrl.breadcrumb %}
     {% if deriveBreadcrumbsFromUrl == true %}
-      {% assign crumbs = entityUrl.breadcrumb | deriveLastBreadcrumbFromPath: title, entityUrl.path %}
+      {% assign crumbs = entityUrl.breadcrumb | deriveLastBreadcrumbFromPath: title, entityUrl.path, replaceLastItem %}
     {% endif %}
 
     {% if constructLcBreadcrumbs == true %}

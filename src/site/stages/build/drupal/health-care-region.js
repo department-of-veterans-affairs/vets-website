@@ -134,42 +134,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'health_care_region_locations_page.drupal.liquid',
   );
 
-  // Create "A-Z Services" || "Our health services" Page
-  // sort and group health services by their weight in drupal
-  if (page.fieldClinicalHealthServices) {
-    const clinicalHealthServices = sortServices(
-      page.fieldClinicalHealthServices.entities,
-    );
-
-    const hsEntityUrl = createEntityUrlObj(drupalPagePath);
-    const hsObj = {
-      featuredContentHealthServices: page.fieldFeaturedContentHealthser,
-      fieldIntroText: page.fieldIntroText,
-      facilitySidebar: sidebar,
-      entityUrl: hsEntityUrl,
-      alert: page.alert,
-      bannerAlert: page.bannerAlert,
-      title: page.title,
-      regionNickname: page.fieldNicknameForThisFacility,
-      clinicalHealthServices,
-    };
-
-    const hsPage = updateEntityUrlObj(
-      hsObj,
-      drupalPagePath,
-      'Health services',
-      'health-services',
-    );
-    const hsPath = hsPage.entityUrl.path;
-    hsPage.regionOrOffice = page.title;
-    hsPage.entityUrl = generateBreadCrumbs(hsPath);
-
-    files[`${drupalPagePath}/health-services/index.html`] = createFileObj(
-      hsPage,
-      'health_services_listing.drupal.liquid',
-    );
-  }
-
   // Press Release listing page
   const prEntityUrl = createEntityUrlObj(drupalPagePath);
   const prObj = {

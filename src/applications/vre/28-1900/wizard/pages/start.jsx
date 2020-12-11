@@ -6,6 +6,7 @@ import {
   serviceMemberPathPageNames,
   otherPathPageNames,
 } from './pageList';
+import { handleChangeAndPageSet } from './helpers';
 
 const options = [
   { value: veteranPathPageNames.isVeteran, label: 'Veteran' },
@@ -22,7 +23,9 @@ const StartPage = ({ setPageState, state = {} }) => (
     label="Which of these describes you?"
     id={`${startingPageName.start}-option`}
     options={options}
-    onValueChange={({ value }) => setPageState({ selected: value }, value)}
+    onValueChange={({ value }) =>
+      handleChangeAndPageSet(setPageState, value, options)
+    }
     value={{ value: state.selected }}
     additionalFieldsetClass="vads-u-margin-top--0"
   />

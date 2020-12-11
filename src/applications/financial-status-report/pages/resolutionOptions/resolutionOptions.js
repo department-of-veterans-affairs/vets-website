@@ -78,7 +78,7 @@ export const uiSchema = {
   debtRepaymentOptions: {
     'ui:field': DebtRepayment,
   },
-  relationship: {
+  resolution: {
     resolutionType: {
       'ui:title':
         'What type of help do you want for your Post-9/11 GI Bill debt for tuition and fees?',
@@ -124,7 +124,7 @@ export const schema = {
         },
       },
     },
-    relationship: {
+    resolution: {
       type: 'object',
       properties: {
         resolutionType: {

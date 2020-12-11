@@ -19,7 +19,7 @@ export const transformInquiries = inquiries => {
 
 export function fetchInquiries() {
   return async dispatch => {
-    const response = await apiRequest('/ask/inquiries', null);
+    const response = await apiRequest('/contact_us/inquiries', null);
     dispatch({
       type: FETCH_INQUIRIES_SUCCESS,
       data: transformInquiries(response.inquiries),

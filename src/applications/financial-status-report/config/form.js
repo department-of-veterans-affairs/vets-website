@@ -7,7 +7,10 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import {
   availableDebts,
-  employmentHistory,
+  currentEmployment,
+  previousEmployment,
+  benefits,
+  socialSecurity,
   additionalIncome,
   veteranInfo,
   spouseInformation,
@@ -17,26 +20,36 @@ import {
   spouseBenefits,
   spouseAdditionalEmployment,
   dependents,
-  householdAssets,
+  monetary,
+  realEstate,
+  recreationalVehicles,
+  vehicles,
+  otherAssets,
   expenses,
   utilities,
   repayments,
   otherExpenses,
   resolutionOptions,
+  resolutionComments,
+  bankruptcyHistory,
 } from '../pages';
 
 const formChapterTitles = {
   veteranInformationTitle: 'Veteran information',
   householdIncomeTitle: 'Household income',
-  householdAssets: 'Household Assets',
-  householdExpenses: 'Household Expenses',
-  resolutionOptions: 'Resolution Options',
+  householdAssets: 'Household assets',
+  householdExpenses: 'Household expenses',
+  resolutionOptions: 'Resolution options',
+  bankruptcyHistory: 'Bankruptcy history',
 };
 
 const formPageTitles = {
   veteranInfo: 'Veteran information',
   availableDebts: 'Available Debts',
-  employmentHistory: 'Your employment history',
+  currentEmployment: 'Current employment',
+  previousEmployment: 'Previous employment',
+  benefits: 'Benefits',
+  socialSecurity: 'Social security',
   additionalIncome: 'Additional Income',
   spouseInformation: 'Spouse information',
   spouseEmployment: 'Spouse employment',
@@ -45,12 +58,18 @@ const formPageTitles = {
   spouseBenefits: 'Spouse benefits',
   spouseAdditionalIncome: 'Spouse additional Income',
   dependents: 'Dependents',
-  householdAssets: 'Household Assets',
+  monetary: 'Monetary assets',
+  realEstate: 'Realestate assets',
   expenses: 'Household Expenses',
   utilities: 'Household Utilities',
   repayments: 'Household Repayments',
   otherExpenses: 'Other expenses',
   resolutionOptions: 'Resolution Options',
+  resolutionComments: 'Resolution Comments',
+  bankruptcyHistory: 'Bankruptcy History',
+  recreationalVehicles: 'Recreational Vehicles',
+  vehicles: 'Vehicles',
+  otherAssets: 'Other Assets',
 };
 
 const formConfig = {
@@ -81,7 +100,7 @@ const formConfig = {
         'Your application for financial hardship assistance has been saved.',
     },
   },
-  title: 'Apply for financial hardship assistance',
+  title: 'Request help for VA debt',
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
@@ -107,11 +126,29 @@ const formConfig = {
     householdIncomeChapter: {
       title: formChapterTitles.householdIncomeTitle,
       pages: {
-        [formPageTitles.employmentHistory]: {
-          path: 'employment-history',
-          title: formPageTitles.employmentHistory,
-          uiSchema: employmentHistory.uiSchema,
-          schema: employmentHistory.schema,
+        [formPageTitles.currentEmployment]: {
+          path: 'current-employment',
+          title: formPageTitles.currentEmployment,
+          uiSchema: currentEmployment.uiSchema,
+          schema: currentEmployment.schema,
+        },
+        [formPageTitles.previousEmployment]: {
+          path: 'previous-employment',
+          title: formPageTitles.previousEmployment,
+          uiSchema: previousEmployment.uiSchema,
+          schema: previousEmployment.schema,
+        },
+        [formPageTitles.benefits]: {
+          path: 'benefits',
+          title: formPageTitles.benefits,
+          uiSchema: benefits.uiSchema,
+          schema: benefits.schema,
+        },
+        [formPageTitles.socialSecurity]: {
+          path: 'social-security',
+          title: formPageTitles.socialSecurity,
+          uiSchema: socialSecurity.uiSchema,
+          schema: socialSecurity.schema,
         },
         [formPageTitles.additionalIncome]: {
           path: 'additional-income',
@@ -163,14 +200,38 @@ const formConfig = {
         },
       },
     },
-    assetsInformationChapter: {
+    householdAssetsChapter: {
       title: formChapterTitles.householdAssets,
       pages: {
-        [formPageTitles.householdAssets]: {
-          path: 'household-assets',
-          title: formPageTitles.householdAssets,
-          uiSchema: householdAssets.uiSchema,
-          schema: householdAssets.schema,
+        [formPageTitles.monetary]: {
+          path: 'monetary-assets',
+          title: formPageTitles.monetary,
+          uiSchema: monetary.uiSchema,
+          schema: monetary.schema,
+        },
+        [formPageTitles.realEstate]: {
+          path: 'real-estate-assets',
+          title: formPageTitles.realEstate,
+          uiSchema: realEstate.uiSchema,
+          schema: realEstate.schema,
+        },
+        [formPageTitles.recreationalVehicles]: {
+          path: 'recreational-vehicles',
+          title: formPageTitles.recreationalVehicles,
+          uiSchema: recreationalVehicles.uiSchema,
+          schema: recreationalVehicles.schema,
+        },
+        [formPageTitles.vehicles]: {
+          path: 'vehicles',
+          title: formPageTitles.vehicles,
+          uiSchema: vehicles.uiSchema,
+          schema: vehicles.schema,
+        },
+        [formPageTitles.otherAssets]: {
+          path: 'other-assets',
+          title: formPageTitles.otherAssets,
+          uiSchema: otherAssets.uiSchema,
+          schema: otherAssets.schema,
         },
       },
     },
@@ -211,6 +272,23 @@ const formConfig = {
           title: formPageTitles.resolutionOptions,
           uiSchema: resolutionOptions.uiSchema,
           schema: resolutionOptions.schema,
+        },
+        [formPageTitles.resolutionComments]: {
+          path: 'resolution-comments',
+          title: formPageTitles.resolutionComments,
+          uiSchema: resolutionComments.uiSchema,
+          schema: resolutionComments.schema,
+        },
+      },
+    },
+    bankruptcyAttestationChapter: {
+      title: formChapterTitles.bankruptcyHistory,
+      pages: {
+        [formPageTitles.bankruptcyHistory]: {
+          path: 'bankruptcy-history',
+          title: formPageTitles.bankruptcyHistory,
+          uiSchema: bankruptcyHistory.uiSchema,
+          schema: bankruptcyHistory.schema,
         },
       },
     },

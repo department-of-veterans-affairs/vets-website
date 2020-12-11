@@ -25,6 +25,8 @@ const transform = (entity, { ancestors }) => ({
           ? entity.fieldOffice[0]
           : {
               entityLabel: getDrupalValue(entity.fieldOffice[0].title),
+              // TODO: Can we just change the templates to use entityLabel?
+              title: getDrupalValue(entity.fieldOffice[0].title),
               entityType: entity.fieldOffice[0].entityType,
             },
       }

@@ -69,7 +69,7 @@ const formConfig = {
   chapters: {
     // Chapter - Benefits eligibility
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: {
           title: 'Applicant Information',
@@ -87,9 +87,9 @@ const formConfig = {
         },
       },
     },
-    // Chapter - Military Service
+    // Chapter - Service history
     militaryService: {
-      title: 'Military Service',
+      title: 'Service history',
       pages: {
         militaryService: {
           title: 'Military Service',
@@ -102,7 +102,7 @@ const formConfig = {
     },
     // Chapter - Education History
     educationHistory: {
-      title: 'Education History',
+      title: 'Education history',
       pages: {
         // page - Highest Level of education completed
         educationCompleted: {
@@ -115,7 +115,7 @@ const formConfig = {
     },
     // Chapter - High tech work experience
     highTechWorkExp: {
-      title: 'Work Experience',
+      title: 'Work experience',
       pages: {
         // page - yes/no working in high-tech industry
         highTechIndustry: {
@@ -129,7 +129,7 @@ const formConfig = {
     },
     // Chapter - Program Selection
     programSelection: {
-      title: 'Program Selection',
+      title: 'Program selection',
       pages: {
         // page - picked like to attend training programs
         trainingProgramsChoice: {
@@ -150,7 +150,7 @@ const formConfig = {
     },
     // Chapter - Personal Information
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         // page - contact information
         contactInformation: {
