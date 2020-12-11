@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Wizard from 'applications/static-pages/wizard';
 import { WIZARD_STATUS_COMPLETE } from 'applications/vre/28-1900/constants';
 import pages from 'applications/vre/28-1900/wizard/pages';
+import recordEvent from 'platform/monitoring/record-event';
 import OrientationApp from 'applications/vre/28-1900/orientation/OrientationApp';
 
 const OrientationWizardContainer = props => {
@@ -43,6 +44,9 @@ const OrientationWizardContainer = props => {
           go directly to the online application without answering questions.{' '}
           <a
             onClick={() => {
+              recordEvent({
+                event: 'howToWizard-skip',
+              });
               handleWizardUpdate(WIZARD_STATUS_COMPLETE);
             }}
           >

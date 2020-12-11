@@ -121,11 +121,13 @@ export const Form526Entry = ({
 
   return wrapInBreadcrumb(
     title,
-    <RequiredLoginView serviceRequired={serviceRequired} user={user} verify>
-      <ITFWrapper location={location} title={title}>
-        {content}
-      </ITFWrapper>
-    </RequiredLoginView>,
+    <article id="form-526" data-location={`${location?.pathname?.slice(1)}`}>
+      <RequiredLoginView serviceRequired={serviceRequired} user={user} verify>
+        <ITFWrapper location={location} title={title}>
+          {content}
+        </ITFWrapper>
+      </RequiredLoginView>
+    </article>,
   );
 };
 

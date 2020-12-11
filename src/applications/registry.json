@@ -819,12 +819,8 @@
       "title": "View Payments",
       "breadcrumbs_override": [
         {
-          "path": "va-payment-history/",
-          "name": "View your VA payment history"
-        },
-        {
           "path": "va-payment-history/payments",
-          "name": "Your VA payments"
+          "name": "View VA payment history"
         }
       ]
     }
@@ -859,7 +855,7 @@
     }
   },
   {
-    "appName": "Healthcare Questionnaire",
+    "appName": "Health care Questionnaire",
     "entryName": "questionnaire",
     "rootUrl": "/health-care/health-questionnaires/questionnaires/answer-questions",
     "template": {
@@ -944,7 +940,6 @@
     "entryName": "coronavirus-vaccination",
     "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
     "template": {
-      "vagovprod": false,
       "title": "COVID-19 vaccines — Stay informed and help us prepare",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,

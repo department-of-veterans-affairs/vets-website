@@ -103,6 +103,7 @@ const informalConference = {
         showFieldLabel: true,
         hideIf: formData => formData?.informalConference === 'no',
         expandUnder: 'informalConference',
+        forceDivWrapper: true,
         updateSchema: (formData, schema, uiSchema) => {
           Object.keys(informalConferenceTimeAllLabels).forEach(time => {
             const options = uiSchema[time]['ui:options'] || {};
@@ -120,6 +121,7 @@ const informalConference = {
         'ui:description': AttemptsInfoAlert,
         'ui:options': {
           hideIf: formData => formData?.informalConference !== 'me',
+          forceDivWrapper: true,
         },
       },
       'view:contactRepresentative': {

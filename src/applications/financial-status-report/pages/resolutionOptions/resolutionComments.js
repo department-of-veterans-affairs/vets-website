@@ -22,7 +22,7 @@ export const uiSchema = {
   'view:resolutionOptionsInfo': {
     'ui:description': ResolutionInfo,
   },
-  additionalComments: {
+  resolutionComments: {
     'ui:title': ' ',
     'ui:widget': 'textarea',
     'ui:options': {
@@ -50,7 +50,7 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    additionalComments: {
+    resolutionComments: {
       type: 'string',
     },
   },
