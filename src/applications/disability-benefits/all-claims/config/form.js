@@ -50,7 +50,6 @@ import { transform } from '../submit-transformer';
 
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
-import { supportingEvidenceOrientationBDD } from '../content/supportingEvidenceOrientationBDD';
 import {
   adaptiveBenefits,
   addDisabilities,
@@ -555,15 +554,10 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
-          depends: formData => !isBDD(formData),
-          uiSchema: { 'ui:description': supportingEvidenceOrientation },
-          schema: { type: 'object', properties: {} },
-        },
-        orientationBDD: {
-          title: '',
-          path: 'supporting-evidence/orientation-bdd',
-          depends: formData => isBDD(formData),
-          uiSchema: { 'ui:description': supportingEvidenceOrientationBDD },
+          uiSchema: {
+            'ui:description': formData =>
+              supportingEvidenceOrientation(formData),
+          },
           schema: { type: 'object', properties: {} },
         },
         serviceTreatmentRecords: {
