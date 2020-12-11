@@ -127,7 +127,7 @@ const formConfig = {
   errorText: ErrorText,
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: _.merge(
           applicantInformation(fullSchema1990, {
@@ -169,7 +169,7 @@ const formConfig = {
       },
     },
     benefitsEligibility: {
-      title: 'Benefits Eligibility',
+      title: 'Benefits eligibility',
       pages: {
         benefitsEligibility: {
           title: 'Benefits eligibility',
@@ -282,7 +282,7 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military History',
+      title: 'Service history',
       pages: {
         servicePeriods: {
           title: 'Service periods',
@@ -461,7 +461,7 @@ const formConfig = {
       },
     },
     educationHistory: {
-      title: 'Education History',
+      title: 'Education history',
       pages: {
         educationHistory: {
           title: 'Education history',
@@ -491,7 +491,7 @@ const formConfig = {
       },
     },
     employmentHistory: {
-      title: 'Employment History',
+      title: 'Employment history',
       pages: {
         employmentHistory: _.merge(employmentHistoryPage(fullSchema1990), {
           path: 'employment-history/employment-information',
@@ -499,7 +499,7 @@ const formConfig = {
       },
     },
     schoolSelection: {
-      title: 'School Selection',
+      title: 'School selection',
       pages: {
         schoolSelection: _.merge(
           createSchoolSelectionPage(fullSchema1990, {
@@ -518,7 +518,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         contactInformation: _.merge(contactInformationPage(fullSchema1990), {
           uiSchema: {
