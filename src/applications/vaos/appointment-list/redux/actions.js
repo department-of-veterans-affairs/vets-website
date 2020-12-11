@@ -36,7 +36,10 @@ import {
 } from '../../services/appointment';
 
 import { captureError, has400LevelError } from '../../utils/error';
-import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
+import {
+  STARTED_NEW_APPOINTMENT_FLOW,
+  STARTED_NEW_EXPRESS_CARE_FLOW,
+} from '../../redux/sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS_FAILED =
@@ -450,6 +453,12 @@ export function closeCancelAppointment() {
 export function startNewAppointmentFlow() {
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
+  };
+}
+
+export function startNewExpressCareFlow() {
+  return {
+    type: STARTED_NEW_EXPRESS_CARE_FLOW,
   };
 }
 

@@ -7,7 +7,6 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import ScheduleNewAppointment from './ScheduleNewAppointment';
 import * as actions from '../../redux/actions';
-import * as expressCareActions from '../../../express-care/redux/actions';
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
@@ -209,7 +208,7 @@ const mapDispatchToProps = {
   closeCancelAppointment: actions.closeCancelAppointment,
   confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
-  startNewExpressCareFlow: expressCareActions.startNewExpressCareFlow,
+  startNewExpressCareFlow: actions.startNewExpressCareFlow,
   fetchFutureAppointments: actions.fetchFutureAppointments,
 };
 
