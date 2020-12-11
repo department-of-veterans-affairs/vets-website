@@ -887,9 +887,7 @@ export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
     // Only show the page if both (or potentially neither) options are chosen on the claim-type page
-    depends: formData =>
-      newAndIncrease(formData) ||
-      (noClaimTypeSelected(formData) && !isBDD(formData)),
+    depends: formData => newAndIncrease(formData) && !isBDD(formData),
   },
   ratedDisabilities: {
     path: 'disabilities/rated-disabilities',
