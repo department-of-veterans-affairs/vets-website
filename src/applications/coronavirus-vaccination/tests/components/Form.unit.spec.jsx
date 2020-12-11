@@ -63,11 +63,14 @@ describe('<Form/>', () => {
       { exact: false },
     );
   });
+});
 
-  it('prefills a form from a previous submission', async () => {
+describe('<Form/> prefills -> by old form data', () => {
+  let server = null;
+
+  before(() => {
     resetFetch();
-
-    const server = setupServer(
+    server = setupServer(
       rest.get(
         `${environment.API_URL}/covid_vaccine/v0/registration`,
         (req, res, ctx) => {
@@ -95,7 +98,13 @@ describe('<Form/>', () => {
     );
 
     server.listen();
+  });
 
+  after(() => {
+    server.close();
+  });
+
+  it('prefills using old form data', async () => {
     const initialState = {
       user: {
         profile: {
@@ -132,14 +141,15 @@ describe('<Form/>', () => {
 
     expect(firstName.value).to.be.equal('Sean');
     expect(lastName.value).to.be.equal('Gptestkfive');
-
-    server.close();
   });
+});
 
-  it('prefills a form from profile data', async () => {
+describe('<Form/> prefills -> profile data ', () => {
+  let server = null;
+
+  before(() => {
     resetFetch();
-
-    const server = setupServer(
+    server = setupServer(
       rest.get(
         `${environment.API_URL}/covid_vaccine/v0/registration`,
         (req, res, ctx) => {
@@ -147,9 +157,13 @@ describe('<Form/>', () => {
         },
       ),
     );
+  });
 
-    server.listen();
+  after(() => {
+    server.close();
+  });
 
+  it('prefills from profile data', async () => {
     const doTest = async loa => {
       const initialState = {
         user: {
@@ -189,10 +203,9 @@ describe('<Form/>', () => {
     };
 
     // Test LOA1 users where a request for a prev form is NOT sent
-    doTest(1);
+    await doTest(1);
 
     // Test LOA3 users where a request for a prev form is sent but finds nothing.
-    doTest(3);
-    server.close();
+    await doTest(3);
   });
 });
