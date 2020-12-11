@@ -35,7 +35,10 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
         informed.
       </p>
       <p>
-        <a href="/covid-19-vaccine/">
+        <a
+          href="/health-care/covid-19-vaccine/#who-will-get-a-covid-19-vaccin"
+          rel="noopener noreferrer"
+        >
           Learn who will get a COVID-19 vaccine first based on CDC guidelines
         </a>
       </p>
