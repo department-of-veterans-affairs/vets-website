@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import * as actions from '../redux/actions';
@@ -113,12 +116,12 @@ function ReasonForAppointmentPage({
             content={
               <ul>
                 <li>
-                  Call <a href="tel:911">911</a>,{' '}
+                  Call <Telephone contact={CONTACTS['911']} />,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
                   Call the Veterans Crisis hotline at{' '}
-                  <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
+                  <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
