@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 
 import AlertBox, {
@@ -75,9 +76,12 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
       </h1>
       {previouslySubmittedFormData ? (
         <p>
-          Our records show you provided the information below on TODO. If you’d
-          like to update your information, please make any updates below and
-          click <strong>Sign up to stay informed.</strong>
+          Our records show you provided the information below on{' '}
+          {moment(previouslySubmittedFormData.createdAt).format(
+            'MMMM D, YYYY [at] k:mma',
+          )}
+          . If you’d like to update your information, please make any updates
+          below and click <strong>Sign up to stay informed.</strong>
         </p>
       ) : (
         <p>

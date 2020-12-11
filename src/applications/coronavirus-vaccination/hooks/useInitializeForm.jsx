@@ -55,10 +55,10 @@ export default function useInitializeForm(
                 isIdentityVerified,
                 firstName: previouslySubmittedFormData.firstName,
                 lastName: previouslySubmittedFormData.lastName,
-                birthDate: previouslySubmittedFormData.dateOfBirth,
+                birthDate: previouslySubmittedFormData.birthDate,
                 email: previouslySubmittedFormData.email,
                 zipCode: previouslySubmittedFormData.zipCode,
-                zipCodeDetails: previouslySubmittedFormData.timeAtZip,
+                zipCodeDetails: previouslySubmittedFormData.zipCodeDetails,
                 phone: previouslySubmittedFormData.phone,
                 vaccineInterest: previouslySubmittedFormData.vaccineInterest,
               };
@@ -82,7 +82,6 @@ export default function useInitializeForm(
           firstName: profile?.userFullName?.first,
           lastName: profile?.userFullName?.last,
           birthDate: profile?.dob,
-          ssn: undefined,
           email: profile?.vapContactInfo?.email?.emailAddress,
           zipCode: profile?.vapContactInfo?.residentialAddress?.zipCode,
           phone: profile?.vapContactInfo?.homePhone
