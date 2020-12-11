@@ -15,7 +15,7 @@ import { SELECTED } from '../constants';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
-export const VeteranInformation = ({
+const VeteranInformation = ({
   formData = {},
   profile = {},
   veteran = {},
@@ -138,6 +138,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   setFormData: setData,
 };
+
+export { VeteranInformation };
 
 export default connect(
   mapStateToProps,

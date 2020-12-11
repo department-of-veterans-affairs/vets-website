@@ -1,7 +1,11 @@
 import React from 'react';
 import { veteranPathPageNames } from '../pageList';
+import { recordNotificationEvent } from '../helpers';
 
 const NoActiveDutySeparation = () => {
+  recordNotificationEvent(
+    'ineligibility - outside time period from active duty discharge',
+  );
   return (
     <div className="feature vads-u-background-color--gray-lightest">
       <p>

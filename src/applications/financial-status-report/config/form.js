@@ -7,7 +7,9 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import {
   availableDebts,
-  employmentHistory,
+  currentEmployment,
+  previousEmployment,
+  socialSecurity,
   additionalIncome,
   veteranInfo,
   spouseInformation,
@@ -43,7 +45,9 @@ const formChapterTitles = {
 const formPageTitles = {
   veteranInfo: 'Veteran information',
   availableDebts: 'Available Debts',
-  employmentHistory: 'Your employment history',
+  currentEmployment: 'Current employment',
+  previousEmployment: 'Previous employment',
+  socialSecurity: 'Social security',
   additionalIncome: 'Additional Income',
   spouseInformation: 'Spouse information',
   spouseEmployment: 'Spouse employment',
@@ -94,7 +98,7 @@ const formConfig = {
         'Your application for financial hardship assistance has been saved.',
     },
   },
-  title: 'Apply for financial hardship assistance',
+  title: 'Request help for VA debt',
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
@@ -120,11 +124,23 @@ const formConfig = {
     householdIncomeChapter: {
       title: formChapterTitles.householdIncomeTitle,
       pages: {
-        [formPageTitles.employmentHistory]: {
-          path: 'employment-history',
-          title: formPageTitles.employmentHistory,
-          uiSchema: employmentHistory.uiSchema,
-          schema: employmentHistory.schema,
+        [formPageTitles.currentEmployment]: {
+          path: 'current-employment',
+          title: formPageTitles.currentEmployment,
+          uiSchema: currentEmployment.uiSchema,
+          schema: currentEmployment.schema,
+        },
+        [formPageTitles.previousEmployment]: {
+          path: 'previous-employment',
+          title: formPageTitles.previousEmployment,
+          uiSchema: previousEmployment.uiSchema,
+          schema: previousEmployment.schema,
+        },
+        [formPageTitles.socialSecurity]: {
+          path: 'social-security',
+          title: formPageTitles.socialSecurity,
+          uiSchema: socialSecurity.uiSchema,
+          schema: socialSecurity.schema,
         },
         [formPageTitles.additionalIncome]: {
           path: 'additional-income',

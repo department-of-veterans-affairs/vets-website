@@ -7,6 +7,7 @@ import { WIZARD_STATUS } from 'applications/static-pages/wizard';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
+import { CONTESTABLE_ISSUES_API } from '../constants';
 
 const testConfig = createTestConfig(
   {
@@ -43,7 +44,7 @@ const testConfig = createTestConfig(
 
       cy.route(
         'GET',
-        '/v0/higher_level_reviews/contestable_issues/compensation',
+        `/v0${CONTESTABLE_ISSUES_API}compensation`,
         mockContestableIssues,
       );
 
