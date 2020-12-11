@@ -1,8 +1,7 @@
 import React from 'react';
-import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { COVID_FAQ_URL, NULL_CONDITION_STRING } from '../constants';
+import { COVID_FAQ_URL } from '../constants';
 import DownloadLink from './DownloadLink';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
@@ -24,49 +23,7 @@ export const ContestedIssuesTitle = props =>
     </legend>
   );
 
-/**
- * @typedef {Object} Disability
- * @property {String} diagnosticCode
- * @property {String} issue
- * @property {String} percentNumber
- * @param {Disability} disability
- */
-export const disabilityOption = ({ attributes }) => {
-  const {
-    ratingIssueSubjectText,
-    description,
-    ratingIssuePercentNumber,
-    approxDecisionDate,
-  } = attributes;
-  // May need to throw an error to Sentry if any of these don't exist
-  // A valid rated disability *can* have a rating percentage of 0%
-  const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
-
-  return (
-    <div className="widget-content">
-      <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">
-        {typeof ratingIssueSubjectText === 'string'
-          ? ratingIssueSubjectText
-          : NULL_CONDITION_STRING}
-      </h3>
-      {description && (
-        <p className="vads-u-margin-bottom--0">{description || ''}</p>
-      )}
-      {showPercentNumber && (
-        <p className="vads-u-margin-bottom--0">
-          Current rating: <strong>{ratingIssuePercentNumber}%</strong>
-        </p>
-      )}
-      {approxDecisionDate && (
-        <p>
-          Decision date:{' '}
-          <strong>{moment(approxDecisionDate).format('MMM D, YYYY')}</strong>
-        </p>
-      )}
-    </div>
-  );
-};
-
+// Wrapped in a <div> on purpose
 const disabilitiesList = (
   <div>
     <ul>

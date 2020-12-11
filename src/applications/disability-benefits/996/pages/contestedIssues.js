@@ -1,8 +1,7 @@
-import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+import EligibleIssuesWidget from '../components/EligibleIssuesWidget';
 
 import {
   ContestedIssuesTitle,
-  disabilityOption,
   disabilitiesExplanation,
   contestedIssuesAlert,
 } from '../content/contestedIssues';
@@ -24,13 +23,9 @@ const contestedIssuesPage = {
     contestedIssues: {
       'ui:title': ' ',
       'ui:field': 'StringField',
-      'ui:widget': SelectArrayItemsWidget,
+      'ui:widget': EligibleIssuesWidget,
       'ui:options': {
-        showFieldLabel: 'label',
-        label: disabilityOption,
-        widgetClassNames: 'widget-outline',
         keepInPageOnReview: true,
-        customTitle: ' ',
       },
       'ui:validations': [requireRatedDisability],
       'ui:required': () => true,
