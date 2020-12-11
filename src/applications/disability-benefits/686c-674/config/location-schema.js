@@ -16,6 +16,9 @@ import { isInsideListLoopReturn, isOutsideListLoopReturn } from './helpers';
  * @param {string} outerField - The name of the set of location fields in the schema
  * @param {boolean} isInsideListLoop - A boolean for if this module is being used inside a list loop
  * @param {string} formChapter - The name of the form chapter this module is being used in
+ * @param {string} countryUiLabel - The form label used when the country input is rendered into the DOM
+ * @param {string} stateUiLabel - The form label used when the state input is rendered into the DOM
+ * @param {string} cityUiLabel - The form label used when the city input is rendered into the DOM
  *
  * @return {object}
  * */
@@ -26,12 +29,31 @@ export const locationUISchema = (
   isInsideListLoop,
   uiTitle,
   formChapter,
+  countryUiLabel = 'Country',
+  stateUiLabel = 'State',
+  cityUiLabel = 'City',
 ) => {
   // IF we are inside a list loop, return hideIf and required uiSchema that use `index`
   if (isInsideListLoop) {
-    return isInsideListLoopReturn(chapter, outerField, uiTitle, formChapter);
+    return isInsideListLoopReturn(
+      chapter,
+      outerField,
+      uiTitle,
+      formChapter,
+      countryUiLabel,
+      stateUiLabel,
+      cityUiLabel,
+    );
   }
 
   // IF we are NOT inside a list loop, return hideIf and required uiSchema that do NOT use `index`
-  return isOutsideListLoopReturn(chapter, outerField, uiTitle, formChapter);
+  return isOutsideListLoopReturn(
+    chapter,
+    outerField,
+    uiTitle,
+    formChapter,
+    countryUiLabel,
+    stateUiLabel,
+    cityUiLabel,
+  );
 };
