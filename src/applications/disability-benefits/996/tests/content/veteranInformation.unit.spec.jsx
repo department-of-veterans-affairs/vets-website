@@ -127,12 +127,12 @@ describe('veteranInformation', () => {
     expect(tree.find('.dob').text()).to.contain('January 1, 2000');
     expect(tree.find('.gender').text()).to.contain('Male');
 
-    expect(setFormData.calledOnce).to.be.true;
-    expect(setFormData.firstCall.args[0].benefitType).to.equal('compensation');
-    expect(setFormData.firstCall.args[0].contestedIssues).to.deep.equal(
+    expect(setFormData.called).to.be.true;
+    expect(setFormData.lastCall.args[0].benefitType).to.equal('compensation');
+    expect(setFormData.lastCall.args[0].contestedIssues).to.deep.equal(
       resultingIssueList,
     );
-    expect(setFormData.firstCall.args[0].zipCode5).to.equal('94608');
+    expect(setFormData.lastCall.args[0].zipCode5).to.equal('94608');
     tree.unmount();
   });
 });

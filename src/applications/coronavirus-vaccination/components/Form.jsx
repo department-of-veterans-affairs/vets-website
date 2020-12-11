@@ -78,7 +78,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         };
       } else {
         recordEvent({
-          event: 'covid-vaccination-no-login-start-form',
+          event: 'no-login-start-form',
         });
       }
 
@@ -96,6 +96,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   const onFormSubmit = useCallback(
     () => {
+      recordEvent({ event: 'covid-vaccination--submission' });
       submitToApi(formState.formData);
     },
     [router, formState],
@@ -108,12 +109,12 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   return (
     <>
       <h1 id="covid-vaccination-heading-form" className="no-outline">
-        Fill out the form below to sign up
+        Fill out the form below
       </h1>
       <p>
-        We’ll send you regular updates on how we’re providing COVID-19 vaccines
-        across the country—and when you can get your vaccine if you want one.
-        You don't need to sign up to get a vaccine.
+        We’ll send you updates on how we’re providing COVID-19 vaccines across
+        the country—and when you can get your vaccine if you want one. You don't
+        need to sign up to get a vaccine.
       </p>
       {isLoggedIn ? (
         <p>
@@ -145,9 +146,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           <button
             type="submit"
             className="usa-button"
-            aria-label="Sign up to stay informed about COVID-19 vaccines"
+            aria-label="Submit form for COVID-19 vaccine updates"
           >
-            Sign up to stay informed
+            Submit form
           </button>
         </SchemaForm>
       ) : (

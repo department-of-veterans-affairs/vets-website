@@ -24,7 +24,7 @@ describe('Edu 5495 <ConfirmationPage>', () => {
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
 
     expect(tree.subTree('.confirmation-page-title').text()).to.equal(
-      'Claim received',
+      'We’ve received your application',
     );
     expect(
       tree
@@ -40,6 +40,8 @@ describe('Edu 5495 <ConfirmationPage>', () => {
     );
     expect(
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply');
+    ).to.contain(
+      'We usually decide on applications within 30 days.You’ll get a Certificate of Eligibility (COE) or decision letter in the mail. If we’ve approved your application, you can bring the COE to the VA certifying official at your school.Learn more about what happens after you apply',
+    );
   });
 });
