@@ -146,7 +146,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           <button
             type="submit"
             className="usa-button"
-            aria-label="Submit form for COVID-19 vaccines updates"
+            aria-label="Submit form for COVID-19 vaccine updates"
           >
             Submit form
           </button>
