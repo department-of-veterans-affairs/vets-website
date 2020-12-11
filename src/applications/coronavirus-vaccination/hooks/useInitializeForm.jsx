@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { retrievePreviouslySubmittedForm } from '../api';
@@ -12,6 +12,8 @@ export default function useInitializeForm(
   isLoggedIn,
   profile,
 ) {
+  const [oldFormData, setOldFormData] = useState(null);
+
   useEffect(
     () => {
       if (formState) {
@@ -22,11 +24,11 @@ export default function useInitializeForm(
       }
 
       function renderEmptyForm() {
-        const emptyFormData = {
+        const formData = {
           isIdentityVerified: false,
         };
 
-        updateFormData(initialFormSchema, initialUiSchema, emptyFormData);
+        updateFormData(initialFormSchema, initialUiSchema, formData);
 
         recordEvent({
           event: 'no-login-start-form',
@@ -49,7 +51,7 @@ export default function useInitializeForm(
             const previouslySubmittedFormData = json?.data?.attributes;
 
             if (previouslySubmittedFormData) {
-              const prefilledFromOldForm = {
+              const formData = {
                 isIdentityVerified,
                 firstName: previouslySubmittedFormData.firstName,
                 lastName: previouslySubmittedFormData.lastName,
@@ -61,11 +63,9 @@ export default function useInitializeForm(
                 vaccineInterest: previouslySubmittedFormData.vaccineInterest,
               };
 
-              updateFormData(
-                initialFormSchema,
-                initialUiSchema,
-                prefilledFromOldForm,
-              );
+              updateFormData(initialFormSchema, initialUiSchema, formData);
+
+              setOldFormData(previouslySubmittedFormData);
 
               return;
             }
@@ -79,7 +79,7 @@ export default function useInitializeForm(
         // don't have a previous form submission. In this case, just prefill
         // off of the profile data.
 
-        const prefilledFromProfile = {
+        const formData = {
           isIdentityVerified,
           firstName: profile?.userFullName?.first,
           lastName: profile?.userFullName?.last,
@@ -94,11 +94,7 @@ export default function useInitializeForm(
             : '',
         };
 
-        updateFormData(
-          initialFormSchema,
-          initialUiSchema,
-          prefilledFromProfile,
-        );
+        updateFormData(initialFormSchema, initialUiSchema, formData);
       }
 
       if (isLoggedIn) {
@@ -109,4 +105,6 @@ export default function useInitializeForm(
     },
     [formState, updateFormData, isLoggedIn, profile],
   );
+
+  return [oldFormData];
 }
