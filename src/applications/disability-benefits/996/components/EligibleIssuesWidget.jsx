@@ -5,6 +5,7 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 
 import { SELECTED, NULL_CONDITION_STRING } from '../constants';
+import { ContestedIssuesAlert } from '../content/contestedIssues';
 
 /**
  * @typedef {Object} ContestableIssueAttributes
@@ -90,14 +91,21 @@ const EligibleIssuesWidget = props => {
   const onReviewPage = formContext.onReviewPage;
   const inReviewMode = onReviewPage && formContext.reviewMode;
 
+  const itemsLength = items?.length;
   const hasSelections = items?.reduce(
     (result, item) => result || !!get(SELECTED, item),
     false,
   );
 
+  const showError = formContext.submitted && !hasSelections;
+  const outerWrapClass = `review ${showError ? 'usa-input-error' : ''}`;
+
   const content = (
     <>
-      {items?.length && (!inReviewMode || (inReviewMode && hasSelections)) ? (
+      {showError && (
+        <ContestedIssuesAlert className={showError ? 'usa-input-error' : ''} />
+      )}
+      {itemsLength && (!inReviewMode || (inReviewMode && hasSelections)) ? (
         items.map((item, index) => {
           const itemIsSelected = !!get(SELECTED, item);
 
@@ -121,9 +129,9 @@ const EligibleIssuesWidget = props => {
             'review-row',
             'widget-wrapper',
             'vads-u-border--0',
-            'vads-u-margin-bottom--3',
             'vads-u-padding-top--1',
             'vads-u-padding-right--3',
+            index < itemsLength - 1 ? 'vads-u-margin-bottom--3' : '',
           ].join(' ');
 
           const checkboxWrap = [
@@ -202,7 +210,7 @@ const EligibleIssuesWidget = props => {
       )}
     </>
   );
-  return inReviewMode ? content : <dl className="review">{content}</dl>;
+  return inReviewMode ? content : <dl className={outerWrapClass}>{content}</dl>;
 };
 
 export default EligibleIssuesWidget;

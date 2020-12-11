@@ -3,7 +3,6 @@ import EligibleIssuesWidget from '../components/EligibleIssuesWidget';
 import {
   ContestedIssuesTitle,
   disabilitiesExplanation,
-  contestedIssuesAlert,
 } from '../content/contestedIssues';
 import {
   OfficeForReviewTitle,
@@ -29,14 +28,6 @@ const contestedIssuesPage = {
       },
       'ui:validations': [requireRatedDisability],
       'ui:required': () => true,
-    },
-    'view:contestedIssuesAlert': {
-      'ui:description': contestedIssuesAlert,
-      'ui:options': {
-        hideIf: formData =>
-          formData.contestedIssues?.some(entry => entry[SELECTED]) ||
-          hasNoContestedIssues(formData),
-      },
     },
     'view:disabilitiesExplanation': {
       'ui:description': disabilitiesExplanation,
@@ -79,10 +70,6 @@ const contestedIssuesPage = {
           properties: {},
           [SELECTED]: 'boolean',
         },
-      },
-      'view:contestedIssuesAlert': {
-        type: 'object',
-        properties: {},
       },
       'view:disabilitiesExplanation': {
         type: 'object',

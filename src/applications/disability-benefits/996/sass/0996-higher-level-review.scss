@@ -123,6 +123,10 @@
    }
  }
 
+ .eligible-issues-error h3 {
+  font-size: 1.7rem /* vads-u-font-size--md */
+ }
+
 /* Contested issue page specific definitions */
 article[data-location="contested-issues"] {
   /* hide error; we have a huge alert box instead; but it needs to show on

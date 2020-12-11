@@ -3,17 +3,18 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { COVID_FAQ_URL } from '../constants';
 import DownloadLink from './DownloadLink';
+import { scrollTo } from '../helpers';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
 export const ContestedIssuesTitle = props =>
   props?.formData?.contestedIssues?.length === 0 ? (
-    <h2 className="vads-u-font-size--h4">
+    <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
       Sorry, we couldn’t find any contested issues
     </h2>
   ) : (
-    <legend>
+    <legend name="eligibleScrollElement">
       <strong className="vads-u-font-size--lg">
         Select the issue(s) you would like to contest
       </strong>
@@ -96,15 +97,13 @@ export const disabilitiesExplanation = (
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const contestedIssuesAlert = ({ formContext }) => {
-  if (!formContext.submitted) return null;
+export const ContestedIssuesAlert = ({ className }) => {
+  setTimeout(() => scrollTo('eligibleScrollElement'), 300);
   return (
     <AlertBox
       status="error"
-      className="contested-issues-error vads-u-margin-top--1"
-      headline="Please choose a disability"
-      content={`You need to choose a rated disability before we can process your
-        request for a Higher-Level Review.`}
+      className={`eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2 ${className}`}
+      headline="Please choose an eligible issue so we can process your request"
     />
   );
 };
