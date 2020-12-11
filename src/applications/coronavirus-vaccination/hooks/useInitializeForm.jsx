@@ -64,9 +64,7 @@ export default function useInitializeForm(
               };
 
               updateFormData(initialFormSchema, initialUiSchema, formData);
-
               setOldFormData(previouslySubmittedFormData);
-
               return;
             }
           } catch (error) {
