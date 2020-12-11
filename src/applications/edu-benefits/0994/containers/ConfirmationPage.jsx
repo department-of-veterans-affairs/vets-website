@@ -92,6 +92,7 @@ class ConfirmationPage extends React.Component {
           </div>
         }
         formConfig={formConfig}
+        name={form.data.veteranFullName}
         submission={submission}
       />
     );

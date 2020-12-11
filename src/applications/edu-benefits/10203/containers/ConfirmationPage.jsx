@@ -32,6 +32,7 @@ class ConfirmationPage extends React.Component {
         submission={submission}
         printHeader="Apply for the Rogers STEM Scholarship"
         formName="Rogers STEM Scholarship"
+        name={form.data.veteranFullName}
       />
     );
   }

@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import moment from 'moment';
 
 export function ConfirmationPageContent({
+  additionalGuidance,
   afterTitleContent,
   claimInfoListItems,
   displayDefaultClaimList = true,
   docExplanation,
   docExplanationHeader,
+  formConfig,
   formName = 'Education benefit application',
-  additionalGuidance,
   guidance = (
     <>
       <h4 className="confirmation-guidance-heading">
@@ -29,7 +30,7 @@ export function ConfirmationPageContent({
       </p>
     </>
   ),
-  formConfig,
+  name,
   printHeader = 'Update your education benefits',
   submission,
 }) {
@@ -95,12 +96,14 @@ export function ConfirmationPageContent({
             (Form {formConfig.formId})
           </span>
         </h4>
-        <span>
-          for {name.first}
-          {name.middle && ` ${name.middle}`}
-          {name.last && ` ${name.last}`}
-          {name.suffix && ` ${name.suffix}`}
-        </span>
+        {name && (
+          <span>
+            for {name.first}
+            {name.middle && ` ${name.middle}`}
+            {name.last && ` ${name.last}`}
+            {name.suffix && ` ${name.suffix}`}
+          </span>
+        )}
 
         <ul className="claim-list">
           {claimInfoListItems}
