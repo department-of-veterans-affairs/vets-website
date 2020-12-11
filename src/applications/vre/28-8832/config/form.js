@@ -1,11 +1,11 @@
 import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { hasSession } from 'platform/user/profile/utilities';
 
+import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
 import { statusSelection } from './chapters/status-selection';
 import { veteranInformation } from './chapters/veteran-information';
 import GetFormHelp from '../components/GetFormHelp';
@@ -43,6 +43,9 @@ const formConfig = {
   getHelp: GetFormHelp,
   preSubmitInfo: PreSubmitInfo,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [externalServices.icmhs],
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',
     noAuth:

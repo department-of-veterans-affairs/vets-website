@@ -83,9 +83,8 @@ export default function FacilitiesRadioWidget({
             className="additional-info-button va-button-link vads-u-display--block"
             onClick={() => setDisplayAll(!displayAll)}
           >
-            <span className="additional-info-title">
+            <span className="va-button-link">
               {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
-              <i className="fas fa-angle-down" />
             </span>
           </button>
         )}

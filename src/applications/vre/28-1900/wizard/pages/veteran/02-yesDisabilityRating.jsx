@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { veteranPathPageNames } from '../pageList';
 import { WIZARD_STATUS_COMPLETE } from 'applications/vre/28-1900/constants';
 
-const YesActiveDutySeparation = props => {
+const YesDisabilityRating = props => {
   const { setWizardStatus } = props;
   useEffect(
     () => {
@@ -26,6 +26,6 @@ const YesActiveDutySeparation = props => {
 };
 
 export default {
-  name: veteranPathPageNames.yesActiveDutySeparation,
-  component: YesActiveDutySeparation,
+  name: veteranPathPageNames.yesDisabilityRating,
+  component: YesDisabilityRating,
 };
