@@ -29,7 +29,9 @@ const index = props => {
                     Actions={() => (
                       <a
                         className="usa-button va-button answer-button"
-                        href={`/healthcare/questionnaire?id=${appointment.id}`}
+                        href={`/health-care/health-questionnaires/questionnaires/answer-questions?id=${
+                          appointment.id
+                        }`}
                         aria-label={`Fill out your pre-appointment questionnaire for your primary care visit at ${
                           appointment.facilityName
                         } on ${moment(appointment.appointmentTime).format(
