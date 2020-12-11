@@ -64,14 +64,20 @@ export const isInsideListLoopReturn = (
   outerField,
   uiTitle,
   formChapter,
+  countryUiLabel,
+  stateUiLabel,
+  cityUiLabel,
 ) => {
   return {
     'ui:title': uiTitle,
     isOutsideUs: {
-      'ui:title': 'This occurred outside the US',
+      'ui:title': 'This occurred outside the U.S.',
+      'ui:options': {
+        hideOnReviewIfFalse: true,
+      },
     },
     country: {
-      'ui:title': 'Country',
+      'ui:title': countryUiLabel,
       'ui:required': (formData, index) =>
         formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
       'ui:options': {
@@ -84,7 +90,7 @@ export const isInsideListLoopReturn = (
       },
     },
     state: {
-      'ui:title': 'State',
+      'ui:title': stateUiLabel,
       'ui:required': (formData, index) =>
         !formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
       'ui:options': {
@@ -98,7 +104,7 @@ export const isInsideListLoopReturn = (
     },
     city: {
       'ui:required': formData => isChapterFieldRequired(formData, formChapter),
-      'ui:title': 'City',
+      'ui:title': cityUiLabel,
     },
   };
 };
@@ -108,14 +114,20 @@ export const isOutsideListLoopReturn = (
   outerField,
   uiTitle,
   formChapter,
+  countryUiLabel,
+  stateUiLabel,
+  cityUiLabel,
 ) => {
   return {
     'ui:title': uiTitle,
     isOutsideUs: {
-      'ui:title': 'This occurred outside the US',
+      'ui:title': 'This occurred outside the U.S.',
+      'ui:options': {
+        hideOnReviewIfFalse: true,
+      },
     },
     country: {
-      'ui:title': 'Country',
+      'ui:title': countryUiLabel,
       'ui:required': formData => formData?.[chapter]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: formData => {
@@ -127,7 +139,7 @@ export const isOutsideListLoopReturn = (
       },
     },
     state: {
-      'ui:title': 'State',
+      'ui:title': stateUiLabel,
       'ui:required': formData =>
         !formData?.[chapter]?.[outerField]?.isOutsideUs,
       'ui:options': {
@@ -141,7 +153,7 @@ export const isOutsideListLoopReturn = (
     },
     city: {
       'ui:required': formData => isChapterFieldRequired(formData, formChapter),
-      'ui:title': 'City',
+      'ui:title': cityUiLabel,
     },
   };
 };
