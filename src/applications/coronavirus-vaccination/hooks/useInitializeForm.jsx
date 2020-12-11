@@ -46,8 +46,7 @@ export default function useInitializeForm(
         // If they are LO3, attempt to load and prefill from a previous submission.
         if (isIdentityVerified) {
           try {
-            const response = await retrievePreviouslySubmittedForm();
-            const json = await response.json();
+            const json = await retrievePreviouslySubmittedForm();
             const previouslySubmittedFormData = json?.data?.attributes;
 
             if (previouslySubmittedFormData) {
