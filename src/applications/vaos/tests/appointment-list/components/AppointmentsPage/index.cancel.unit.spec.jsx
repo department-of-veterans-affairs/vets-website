@@ -194,7 +194,7 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(modal).to.contain.text('Big sky medical');
     expect(modal).to.contain.text('Jane Doctor');
-    expect(modal).to.contain.text('4065555555');
+    expect(modal).to.contain.text('406-555-5555');
 
     fireEvent.click(getByText(/OK/i));
 
@@ -515,7 +515,9 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
-    expect(document.activeElement).to.have.tagName('h1');
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
   });
 
   it('va appointments at Cerner site should direct users to portal', async () => {
