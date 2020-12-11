@@ -9,7 +9,7 @@ export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
     return;
   }
 
-  const introText = document.querySelector('.va-introtext');
+  const introText = document.querySelector('.va-introtext')?.nextElementSibling;
   const wrapper = introText.parentNode;
   const reactRoot = document.createElement('div');
 
