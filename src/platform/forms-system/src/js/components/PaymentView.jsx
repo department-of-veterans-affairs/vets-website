@@ -38,9 +38,15 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
             {accountTitleLabels[(accountType || '').toUpperCase()]}
           </strong>
         </p>
-        <p>Account number: {mask(accountNumber, 4)}</p>
-        <p>Bank routing number: {mask(routingNumber, 4)}</p>
-        <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>
+        <p data-testid="account-number">
+          Account number: {mask(accountNumber, 4)}
+        </p>
+        <p data-testid="routing-number">
+          Bank routing number: {mask(routingNumber, 4)}
+        </p>
+        <p data-testid="bank-name">
+          Bank name: {bankName || srSubstitute('', 'is blank')}
+        </p>
       </div>
     </>
   );
