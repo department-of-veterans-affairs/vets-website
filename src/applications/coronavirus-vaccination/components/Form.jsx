@@ -19,12 +19,15 @@ import * as actions from '../actions';
 
 import useInitializeForm from '../hooks/useInitializeForm';
 import useSubmitForm from '../hooks/useSubmitForm';
+import useRecaptcha from '../hooks/useRecaptcha';
 
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   const [submitStatus, submitToApi] = useSubmitForm();
+  const [setUpRecaptcha] = useRecaptcha();
 
   useEffect(() => {
     focusElement('#covid-vaccination-heading-form');
+    setUpRecaptcha();
   }, []);
 
   useEffect(
