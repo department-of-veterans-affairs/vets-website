@@ -123,11 +123,6 @@ describe('<Form/> prefills -> by old form data', () => {
       reducers: reducer,
     });
 
-    await screen.findByText(
-      'you provided the information below on December 10, 2020',
-      { exact: false },
-    );
-
     const firstName = await screen.findByLabelText('First name', {
       exact: false,
     });
