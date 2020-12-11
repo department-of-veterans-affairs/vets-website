@@ -55,10 +55,6 @@ describe('<Form/>', () => {
     screen.getByLabelText('Email', { exact: false });
     screen.getByLabelText('Zip code', { exact: false });
     screen.getByText(
-      'Will you be in this zip code for the next 6 to 12 months?',
-      { exact: false },
-    );
-    screen.getByText(
       'Do you plan to get a COVID-19 vaccine when one is available to you?',
       { exact: false },
     );
