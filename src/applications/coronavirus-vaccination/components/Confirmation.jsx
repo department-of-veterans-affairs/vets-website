@@ -33,10 +33,10 @@ function Confirmation({ router, formData }) {
         for the latest information and answers to common questions.
       </p>
       <p>
-        <strong>Remember:</strong> You don’t need to sign up to get a vaccine.
-        And you can change your mind about getting a vaccine at any time. We’ll
-        use the information you provide to understand your interest and
-        communicate with you. If you want to update your information later, you
+        <strong>Remember:</strong> This form doesn’t sign you up to get a
+        vaccine. And you can change your mind about getting a vaccine at any
+        time. We’ll use the information you provided to understand your interest
+        and keep you informed. If you want to update your information later, you
         can submit a new form.
       </p>
     </>
@@ -45,7 +45,7 @@ function Confirmation({ router, formData }) {
 
 const mapStateToProps = state => {
   return {
-    formData: state.coronavirusVaccinationApp.formData,
+    formData: state.coronavirusVaccinationApp.formState?.formData,
   };
 };
 

@@ -2,33 +2,40 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { selectProfile } from 'platform/user/selectors';
+import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import { formatPhone } from './ContactInformation';
+import { selectProfile } from 'platform/user/selectors';
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
+import { PROFILE_URL } from '../constants';
 
 const ReviewDescription = ({ profile }) => {
   if (!profile) {
     return null;
   }
 
-  const { email, homePhone, mailingAddress } = profile.vapContactInfo;
-  const isUS = mailingAddress.addressType !== ADDRESS_TYPES.international;
+  const { email, homePhone, mailingAddress } = profile.vapContactInfo || {};
+  const isUS = mailingAddress?.addressType !== ADDRESS_TYPES.international;
   const stateOrProvince = isUS ? 'State' : 'Province';
 
   // Label: formatted value in (design) display order
   const display = {
     'Phone number': () =>
-      formatPhone(`${homePhone?.areaCode}${homePhone?.phoneNumber}`),
-    'Email address': () => email.emailAddress,
-    Country: () => (isUS ? '' : mailingAddress.countryName),
-    'Street address': () => mailingAddress.addressLine1,
-    'Line 2': () => mailingAddress.addressLine2,
-    'Line 3': () => mailingAddress.addressLine3,
-    City: () => mailingAddress.city,
-    [stateOrProvince]: () => mailingAddress[isUS ? 'stateCode' : 'province'],
+      homePhone && (
+        <Telephone
+          contact={`${homePhone?.areaCode}${homePhone?.phoneNumber}`}
+          extension={homePhone?.extension || ''}
+          notClickable
+        />
+      ),
+    'Email address': () => email?.emailAddress,
+    Country: () => (isUS ? '' : mailingAddress?.countryName),
+    'Street address': () => mailingAddress?.addressLine1,
+    'Line 2': () => mailingAddress?.addressLine2,
+    'Line 3': () => mailingAddress?.addressLine3,
+    City: () => mailingAddress?.city,
+    [stateOrProvince]: () => mailingAddress?.[isUS ? 'stateCode' : 'province'],
     'Postal code': () =>
-      mailingAddress[isUS ? 'zipCode' : 'internationalPostalCode'],
+      mailingAddress?.[isUS ? 'zipCode' : 'internationalPostalCode'],
   };
 
   return (
@@ -38,10 +45,10 @@ const ReviewDescription = ({ profile }) => {
           Contact information
         </h2>
         <a
-          href="/profile"
+          href={PROFILE_URL}
           target="_blank"
+          rel="noopener noreferrer"
           className="edit-btn primary-outline usa-button"
-          aria-label="Edit on Profile"
         >
           Edit on Profile
         </a>
