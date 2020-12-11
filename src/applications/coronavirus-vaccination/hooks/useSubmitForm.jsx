@@ -1,23 +1,24 @@
 import { useState, useCallback } from 'react';
-
-import environment from 'platform/utilities/environment';
-import { apiPostRequest } from '../apiCalls';
 import { requestStates } from 'platform/utilities/constants';
 
-const apiUrl = `${environment.API_URL}/covid_vaccine/v0/registration`;
+import { saveForm } from '../api';
 
 export default function useSubmitForm() {
   const [status, setSubmitStatus] = useState(requestStates.notCalled);
 
   const submit = useCallback(formData => {
-    const sendToApi = async () => {
+    async function sendToApi() {
+      const normalized = {
+        ...formData,
+        zipCodeDetails: formData.locationDetails,
+      };
       try {
-        await apiPostRequest(apiUrl, formData);
+        await saveForm(normalized);
         setSubmitStatus(requestStates.succeeded);
       } catch (error) {
         setSubmitStatus(requestStates.failed);
       }
-    };
+    }
 
     setSubmitStatus(requestStates.pending);
     sendToApi();
