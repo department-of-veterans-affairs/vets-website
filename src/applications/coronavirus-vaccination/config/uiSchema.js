@@ -80,7 +80,7 @@ export default {
       pattern: 'Please enter a valid zip code',
     },
   },
-  zipCodeDetails: {
+  locationDetails: {
     'ui:title': 'Will you be in this zip code for the next 6 to 12 months?',
     'ui:widget': 'radio',
     'ui:errorMessages': {
