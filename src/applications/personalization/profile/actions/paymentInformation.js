@@ -189,6 +189,9 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
     } else {
       recordEvent({
         event: 'profile-get-edu-direct-deposit-retrieved',
+        // NOTE: the GET profile/ch33_bank_accounts/ is not able to tell us if a
+        // user is eligible to set up DD for EDU, so we are only reporting if
+        // they are currently enrolled in DD for EDU or not
         'direct-deposit-setup-complete': isSignedUpForEDUDirectDeposit(
           response,
         ),
