@@ -1,5 +1,8 @@
 import * as availableDebts from './veteranInformation/availableDebts';
-import * as employmentHistory from './householdIncome/employmentHistory';
+import * as currentEmployment from './householdIncome/currentEmployment';
+import * as previousEmployment from './householdIncome/previousEmployment';
+import * as benefits from './householdIncome/benefits';
+import * as socialSecurity from './householdIncome/socialSecurity';
 import * as veteranInfo from './veteranInformation/veteranInfo';
 import * as additionalIncome from './householdIncome/additionalIncome';
 import * as spouseAdditionalIncome from './householdIncome/spouseAdditionalIncome';
@@ -24,7 +27,10 @@ import * as bankruptcyHistory from './bankruptcyAttestation/bankruptcyHistory';
 
 export {
   availableDebts,
-  employmentHistory,
+  currentEmployment,
+  previousEmployment,
+  benefits,
+  socialSecurity,
   additionalIncome,
   spouseAdditionalIncome,
   veteranInfo,
