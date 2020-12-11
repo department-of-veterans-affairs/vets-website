@@ -31,14 +31,19 @@ class ConfirmationPage extends React.Component {
     const form = this.props.form;
     const { submission } = form;
     const { benefit } = form.data;
-    const response = submission.response ? submission.response.attributes : {};
 
     return (
       <ConfirmationPageContent
-        formConfig={formConfig}
-        response={response}
+        claimInfoListItems={[
+          <li key={'benefit'}>
+            <strong>Benefit to be transferred</strong>
+            <br />
+            {benefitsLabels[benefit]}
+          </li>,
+        ]}
+        docExplanationHeader="No documents required at this time"
         docExplanation={
-          <div className="usa-accordion-content" aria-hidden="false">
+          <>
             <p>In the future, you might need:</p>
             <ul>
               <li>Your reserve kicker</li>
@@ -54,15 +59,10 @@ class ConfirmationPage extends React.Component {
               </a>
               .
             </p>
-          </div>
+          </>
         }
-        claimInfoListItems={[
-          <li key={'benefit'}>
-            <strong>Benefit to be transferred</strong>
-            <br />
-            {benefitsLabels[benefit]}
-          </li>,
-        ]}
+        formConfig={formConfig}
+        submission={submission}
       />
     );
   }
