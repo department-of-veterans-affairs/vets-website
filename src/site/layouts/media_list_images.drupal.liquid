@@ -51,10 +51,9 @@
                             {% assign image_title_classes = "vads-u-font-size--h3" %}
                         {% endif %}
                         <!-- Images List -->
-  
                         <dl class="usa-unstyled-list">
                             {% include "src/site/includes/images_list_with_additional_info_component.drupal.liquid" 
-                            with images = fieldMediaListImages.entity.fieldImages image_title_classes = image_title_classes image_title_tag = image_title_tag%}
+                            with images = fieldMediaListImages.entity.fieldImages %}
                         </dl>
                         <!-- Repeated buttons -->
                         {% if fieldButtonsRepeat %}

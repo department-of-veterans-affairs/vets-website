@@ -7,7 +7,7 @@
         {% assign recordsCount = recordsCount | plus: 1 %}
         {%unless recordsCount > pageSize %}
         {% include "src/site/includes/image_detail_mobile_responsive.drupal.liquid" 
-        with mediaImage = mediaImage image_title_classes = image_title_classes image_title_tag = image_title_tag %}
+        with mediaImage = mediaImage  %}
         {%endunless %}
     {% endfor %}
     {% if recordsCount > pageSize %}
@@ -17,7 +17,7 @@
                 <div class="additional-info-content">
                 {% for remainingImage in remainingImages %}
                     {% include "src/site/includes/image_detail_mobile_responsive.drupal.liquid" 
-                    with mediaImage = remainingImage image_title_classes = image_title_classes image_title_tag = image_title_tag %}
+                    with mediaImage = remainingImage  %}
                 {% endfor %}
                 </div>
             </span>
