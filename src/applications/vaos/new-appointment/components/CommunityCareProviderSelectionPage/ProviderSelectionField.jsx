@@ -273,7 +273,7 @@ function ProviderSelectionField({
                             setShowProvidersList(false);
                             recordEvent({
                               event: `${GA_PREFIX}-order-position-provider-selection`,
-                              providerPosition: providerIndex,
+                              providerPosition: providerIndex + 1,
                             });
                           }}
                         >

@@ -21,7 +21,6 @@ import {
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
-import { fireEvent } from '@testing-library/dom';
 import { GA_PREFIX } from '../../../../utils/constants';
 
 const initialState = {
@@ -131,10 +130,12 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       /do you prefer that your community care provider speak a certain language?/i,
     );
 
-    fireEvent.change(languageSelect, { target: { value: 'english' } });
+    userEvent.selectOptions(languageSelect, ['english']);
     userEvent.click(screen.getByText(/Continue/i));
-    expect(global.window.dataLayer[2].event).to.equal(
-      `${GA_PREFIX}-continue-without-provider`,
+    expect(
+      global.window.dataLayer.some(
+        e => e === `${GA_PREFIX}-continue-without-provider`,
+      ),
     );
     expect(screen.history.push.called).to.be.true;
 
@@ -144,13 +145,20 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
+    expect(
+      global.window.dataLayer.some(
+        e => e === `${GA_PREFIX}-order-position-provider-selection`,
+      ),
+    );
     expect(await screen.baseElement).to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
     );
 
     userEvent.click(screen.getByText(/Continue/i));
-    expect(global.window.dataLayer[5].event).to.equal(
-      `${GA_PREFIX}-continue-with-provider`,
+    expect(
+      global.window.dataLayer.some(
+        e => e === `${GA_PREFIX}-continue-with-provider`,
+      ),
     );
     expect(screen.history.push.called).to.be.true;
   });
