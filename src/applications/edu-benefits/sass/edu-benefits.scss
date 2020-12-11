@@ -144,7 +144,7 @@
   width: 1em;
 }
 
-.wizard-button[aria-expanded="true"]:after {
+.wizard-button[aria-expanded=true]:after {
   background-image: url(/img/arrow-up-white.svg);
 }
 
@@ -157,12 +157,10 @@
   .schemaform-subtitle {
     display: none;
   }
-  .pagebreak {
-    page-break-before: always;
-  }
+  .pagebreak { page-break-before: always; }
 }
 
-div[data-chapter="benefitSelection"] {
+div[data-chapter="benefitSelection"]{
   .form-review-panel-page {
     margin-bottom: 0px;
   }
