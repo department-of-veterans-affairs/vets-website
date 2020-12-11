@@ -4,7 +4,10 @@ import FEATURE_FLAG_NAMES from './featureFlagNames';
 import { getFlipperId } from './helpers';
 
 const FLIPPER_ID = getFlipperId();
-const featureToggleQueryList = Object.values(FEATURE_FLAG_NAMES);
+
+const featureToggleQueryList = Object.keys(FEATURE_FLAG_NAMES).map(key => {
+  return FEATURE_FLAG_NAMES[key];
+});
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
   ',',
 )}&cookie_id=${FLIPPER_ID}`;
