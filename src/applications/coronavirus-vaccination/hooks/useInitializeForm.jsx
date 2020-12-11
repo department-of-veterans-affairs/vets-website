@@ -53,14 +53,14 @@ export default function useInitializeForm(
             if (previouslySubmittedFormData) {
               const formData = {
                 isIdentityVerified,
-                firstName: previouslySubmittedFormData.firstName,
-                lastName: previouslySubmittedFormData.lastName,
-                birthDate: previouslySubmittedFormData.birthDate,
-                email: previouslySubmittedFormData.email,
-                zipCode: previouslySubmittedFormData.zipCode,
-                zipCodeDetails: previouslySubmittedFormData.zipCodeDetails,
-                phone: previouslySubmittedFormData.phone,
-                vaccineInterest: previouslySubmittedFormData.vaccineInterest,
+                firstName: previouslySubmittedFormData?.firstName,
+                lastName: previouslySubmittedFormData?.lastName,
+                birthDate: previouslySubmittedFormData?.birthDate,
+                email: previouslySubmittedFormData?.email,
+                zipCode: previouslySubmittedFormData?.zipCode,
+                zipCodeDetails: previouslySubmittedFormData?.zipCodeDetails,
+                phone: previouslySubmittedFormData?.phone,
+                vaccineInterest: previouslySubmittedFormData?.vaccineInterest,
               };
 
               updateFormData(initialFormSchema, initialUiSchema, formData);
