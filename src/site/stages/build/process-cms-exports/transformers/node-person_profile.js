@@ -6,9 +6,15 @@ const {
   getImageCrop,
 } = require('./helpers');
 
+const logger = value => {
+  /* eslint-disable no-console */
+  console.log(value);
+};
+
 const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'person_profile',
+  parentSchema: entity.parentSchema,
   title: `${getDrupalValue(entity.fieldNameFirst)} ${getDrupalValue(
     entity.fieldLastName,
   )}`,
@@ -24,10 +30,15 @@ const transform = (entity, { ancestors }) => ({
   fieldMedia:
     entity.fieldMedia && entity.fieldMedia.length > 0
       ? {
-          entity: getImageCrop(
-            entity.fieldMedia[0],
-            '_1_1_SQUARE_MEDIUM_THUMBNAIL',
-          ),
+          // entity: getImageCrop(
+          //   entity.fieldMedia[0],
+          //   '_1_1_SQUARE_MEDIUM_THUMBNAIL',
+          // ),
+
+          entity: entity.parentSchema
+            ? getImageCrop(entity.fieldMedia[0], '_1_1_SQUARE_MEDIUM_THUMBNAIL')
+            : logger(entity.parentSchema),
+          // : getImageCrop(entity.fieldMedia[0], '_23MEDIUMTHUMBNAIL'),
         }
       : null,
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
@@ -57,6 +68,7 @@ const transform = (entity, { ancestors }) => ({
 });
 module.exports = {
   filter: [
+    'parentSchema',
     'path',
     'field_body',
     'field_description',
