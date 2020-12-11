@@ -213,14 +213,13 @@ function ProviderSelectionField({
                     setProvidersListLength(providersListLength + 5)
                   }
                 >
-                  <span className="additional-info-title">
+                  <span className="va-button-link">
                     +{' '}
                     {Math.min(
                       communityCareProviderList.length - providersListLength,
                       INITIAL_PROVIDER_DISPLAY_COUNT,
                     )}{' '}
                     more providers
-                    <i className="fas fa-angle-down vads-u-padding-right--0p5" />
                   </span>
                 </button>
               </>
