@@ -1,5 +1,4 @@
-require('core-js/stable');
-require('regenerator-runtime/runtime');
+require('@babel/polyfill');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
