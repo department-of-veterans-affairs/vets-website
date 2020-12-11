@@ -40,7 +40,6 @@ class ConfirmationPage extends React.Component {
     const { formId, submission } = form;
     const response = submission.response ? submission.response.attributes : {};
     const name = form.data.veteranFullName;
-
     return (
       <div>
         <ConfirmationPageTitle
