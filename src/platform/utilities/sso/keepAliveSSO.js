@@ -2,6 +2,8 @@ import * as Sentry from '@sentry/browser';
 
 import { ssoKeepAliveEndpoint } from 'platform/user/authentication/utilities';
 
+const SENTRY_LOG_THRESHOLD = [Sentry.Severity.Info];
+
 const logToSentry = data => {
   let isCaptured = null;
   const { message } = data;
@@ -30,8 +32,7 @@ const logToSentry = data => {
     ? caughtExceptions[message].TYPE
     : caughtExceptions.default.TYPE;
 
-  // Doesn't log "info" to Sentry
-  if (LEVEL !== Sentry.Severity.Info) {
+  if (!SENTRY_LOG_THRESHOLD.includes(LEVEL)) {
     Sentry.withScope(scope => {
       scope.setLevel(LEVEL);
       scope.setExtra(`${LEVEL}`, data);
