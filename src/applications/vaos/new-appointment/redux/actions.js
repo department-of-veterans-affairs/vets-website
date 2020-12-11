@@ -11,19 +11,21 @@ import {
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
-  getTypeOfCare,
   vaosDirectScheduling,
-  getNewAppointment,
-  getFormData,
   vaosCommunityCare,
   selectSystemIds,
-  getEligibilityStatus,
-  getTypeOfCareFacilities,
   vaosVSPAppointmentNew,
-  getCCEType,
   selectIsCernerOnlyPatient,
   selectUseFlatFacilityPage,
-} from '../../utils/selectors';
+} from '../../redux/selectors';
+import {
+  getTypeOfCare,
+  getNewAppointment,
+  getFormData,
+  getEligibilityStatus,
+  getTypeOfCareFacilities,
+  getCCEType,
+} from './selectors';
 import {
   getPreferences,
   updatePreferences,

@@ -11,11 +11,10 @@ import UpdateAddressAlert from './UpdateAddressAlert';
 import TypeOfCareAlert from './TypeOfCareAlert';
 import * as actions from '../../redux/actions';
 import {
-  getFormPageInfo,
-  getNewAppointment,
   vaosDirectScheduling,
   selectIsCernerOnlyPatient,
-} from '../../../utils/selectors';
+} from '../../../redux/selectors';
+import { getFormPageInfo, getNewAppointment } from '../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
 import { selectVAPResidentialAddress } from 'platform/user/selectors';

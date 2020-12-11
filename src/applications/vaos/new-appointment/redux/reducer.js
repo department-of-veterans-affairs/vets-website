@@ -76,7 +76,7 @@ import {
   PODIATRY_ID,
 } from '../../utils/constants';
 
-import { getTypeOfCare } from '../../utils/selectors';
+import { getTypeOfCare } from './selectors';
 import { distanceBetween } from '../../utils/address';
 import { getSiteIdFromFakeFHIRId } from '../../services/location';
 import { getClinicId } from '../../services/healthcare-service/transformers';

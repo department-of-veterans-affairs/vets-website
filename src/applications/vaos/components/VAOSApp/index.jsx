@@ -15,7 +15,7 @@ import {
   vaosApplication,
   selectFeatureToggleLoading,
   selectUseFlatFacilityPage,
-} from '../../utils/selectors';
+} from '../../redux/selectors';
 import NoRegistrationMessage from './NoRegistrationMessage';
 import AppUnavailable from './AppUnavailable';
 import DowntimeMessage from './DowntimeMessage';

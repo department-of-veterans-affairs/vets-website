@@ -11,16 +11,18 @@ import * as expressCareActions from '../../../express-care/redux/actions';
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
+  selectFutureStatus,
+  selectExpressCareAvailability,
+} from '../../redux/selectors';
+import {
   vaosRequests,
   vaosPastAppts,
   vaosDirectScheduling,
   vaosCommunityCare,
   vaosExpressCare,
   selectIsWelcomeModalDismissed,
-  selectExpressCare,
-  selectFutureStatus,
   selectIsCernerOnlyPatient,
-} from '../../../utils/selectors';
+} from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import TabNav from './TabNav';
@@ -198,7 +200,7 @@ function mapStateToProps(state) {
     showExpressCare: vaosExpressCare(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    expressCare: selectExpressCare(state),
+    expressCare: selectExpressCareAvailability(state),
   };
 }
 

@@ -9,7 +9,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { FETCH_STATUS } from '../../utils/constants';
 import * as actions from '../redux/actions';
 
-import { getClinicPageInfo } from '../../utils/selectors';
+import { getClinicPageInfo } from '../redux/selectors';
 import { useHistory } from 'react-router-dom';
 
 export function formatTypeOfCare(careLabel) {

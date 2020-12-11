@@ -10,11 +10,13 @@ import {
   vaosCancel,
   vaosRequests,
   vaosPastAppts,
-  selectFutureAppointments,
-  selectExpressCare,
-  selectFutureStatus,
   selectIsCernerOnlyPatient,
-} from '../../utils/selectors';
+} from '../../redux/selectors';
+import {
+  selectFutureAppointments,
+  selectExpressCareAvailability,
+  selectFutureStatus,
+} from '../redux/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
@@ -191,7 +193,7 @@ function mapStateToProps(state) {
     showCancelButton: vaosCancel(state),
     showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
-    expressCare: selectExpressCare(state),
+    expressCare: selectExpressCareAvailability(state),
   };
 }
 

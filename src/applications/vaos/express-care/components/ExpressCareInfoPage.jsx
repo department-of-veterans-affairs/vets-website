@@ -6,10 +6,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../../utils/constants';
 import * as actions from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
-import {
-  selectLocalExpressCareWindowString,
-  selectExpressCareNewRequest,
-} from '../../utils/selectors';
+import { selectLocalExpressCareWindowString } from '../../appointment-list/redux/selectors';
+import { selectExpressCareNewRequest } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import Telephone, {
   CONTACTS,

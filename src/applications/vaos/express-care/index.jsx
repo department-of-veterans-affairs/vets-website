@@ -11,7 +11,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import * as actions from '../appointment-list/redux/actions';
 import expressCareReducer from './redux/reducer';
 import { FETCH_STATUS } from '../utils/constants';
-import { selectExpressCare } from '../utils/selectors';
+import { selectExpressCareAvailability } from '../appointment-list/redux/selectors';
 import FormLayout from './components/FormLayout';
 import ExpressCareReasonPage from './components/ExpressCareReasonPage';
 import ExpressCareDetailsPage from './components/ExpressCareDetailsPage';
@@ -95,7 +95,7 @@ const mapDispatchToProps = {
 };
 
 export const NewExpressCareRequest = connect(
-  selectExpressCare,
+  selectExpressCareAvailability,
   mapDispatchToProps,
 )(NewExpressCareRequestSection);
 

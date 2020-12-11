@@ -1,6 +1,6 @@
 import React from 'react';
 import { FACILITY_TYPES } from '../../../utils/constants';
-import { getTypeOfCare } from '../../../utils/selectors';
+import { getTypeOfCare } from '../../redux/selectors';
 
 export default function TypeOfAppointmentSection({ data }) {
   const typeOfCare = getTypeOfCare(data)?.name;

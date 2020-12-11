@@ -9,10 +9,11 @@ import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../../utils/constants';
 import FormButtons from '../../components/FormButtons';
 import TextareaWidget from '../../components/TextareaWidget';
 import { validateWhiteSpace } from 'platform/forms/validations';
+import { selectLocalExpressCareWindowString } from '../../appointment-list/redux/selectors';
 import {
   selectExpressCare,
   getExpressCareFormPageInfo,
-} from '../../utils/selectors';
+} from '../redux/selectors';
 
 import * as actions from '../redux/actions';
 
@@ -184,6 +185,7 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
   return {
     ...selectExpressCare(state),
+    localWindowString: selectLocalExpressCareWindowString(state),
     ...getExpressCareFormPageInfo(state, pageKey),
   };
 }

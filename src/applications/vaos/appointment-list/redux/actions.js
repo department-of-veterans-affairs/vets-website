@@ -8,7 +8,7 @@ import {
   EXPRESS_CARE,
 } from '../../utils/constants';
 import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
-import { selectSystemIds, vaosExpressCare } from '../../utils/selectors';
+import { selectSystemIds, vaosExpressCare } from '../../redux/selectors';
 
 import {
   getCancelReasons,
