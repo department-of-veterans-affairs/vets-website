@@ -80,8 +80,7 @@ const IntroductionPage = props => {
         <p>
           We’ll send your completed questionnaire to your provider through a
           secure electronic communication. We’ll also add the questionnaire to
-          your medical record. Your provider will review your answers and
-          discuss them with you during your appointment.
+          your medical record.
         </p>
         <p>
           <strong>
