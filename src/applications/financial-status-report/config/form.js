@@ -9,6 +9,7 @@ import {
   availableDebts,
   currentEmployment,
   previousEmployment,
+  benefits,
   socialSecurity,
   additionalIncome,
   veteranInfo,
@@ -47,6 +48,7 @@ const formPageTitles = {
   availableDebts: 'Available Debts',
   currentEmployment: 'Current employment',
   previousEmployment: 'Previous employment',
+  benefits: 'Benefits',
   socialSecurity: 'Social security',
   additionalIncome: 'Additional Income',
   spouseInformation: 'Spouse information',
@@ -135,6 +137,12 @@ const formConfig = {
           title: formPageTitles.previousEmployment,
           uiSchema: previousEmployment.uiSchema,
           schema: previousEmployment.schema,
+        },
+        [formPageTitles.benefits]: {
+          path: 'benefits',
+          title: formPageTitles.benefits,
+          uiSchema: benefits.uiSchema,
+          schema: benefits.schema,
         },
         [formPageTitles.socialSecurity]: {
           path: 'social-security',
