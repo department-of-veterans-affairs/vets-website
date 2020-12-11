@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import * as Sentry from '@sentry/browser';
 
 import { ssoKeepAliveEndpoint } from 'platform/user/authentication/utilities';
