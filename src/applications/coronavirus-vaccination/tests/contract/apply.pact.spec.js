@@ -9,6 +9,15 @@ import environment from 'platform/utilities/environment';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
 import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthenticated-coronavirus-vaccination-application.json';
 
+// TODO:
+// check to see if get request to show action is made for unauthenticated users
+// get body for
+// get unauthenticated (if applicable)
+// post unauthenticated
+// post authenticated
+// get authenticated
+// patch/post authenticated - what's route for this?
+
 contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('GET /registration', () => {
     it('authenticated case: request for saved registration will return a 200 OK HTTP response', async () => {
