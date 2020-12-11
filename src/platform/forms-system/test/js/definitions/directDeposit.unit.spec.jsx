@@ -5,7 +5,6 @@ import { render, getNodeText } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import getSchemas, {
   prefillBankInformation,
-  defaultFieldNames,
 } from '../../../src/js/definitions/directDeposit';
 
 const getFieldNames = wrapper =>
@@ -135,33 +134,18 @@ describe('prefillBankInformation', () => {
     }),
   };
 
-  const transformedFormData = {
-    standard: () => ({
-      bankAccount: {
-        'view:hasPrefilledBank': true,
-      },
-      'view:originalBankAccount': {
-        'view:accountType': 'checking',
-        'view:accountNumber': '1234567890',
-        'view:routingNumber': '012345',
-        'view:bankName': 'Gringotts',
-      },
-      firstName: 'Harry',
-    }),
-    nonStandard: () => ({
-      bankAccount: {
-        'view:hasPrefilledBank': true,
-      },
-      // Uses the same field names as what's pre-filled by default
-      'view:originalBankAccount': {
-        'view:type': 'checking',
-        'view:account': '1234567890',
-        'view:routing': '012345',
-        'view:name': 'Gringotts',
-      },
-      firstName: 'Harry',
-    }),
-  };
+  const transformedFormData = () => ({
+    bankAccount: {
+      'view:hasPrefilledBank': true,
+    },
+    'view:originalBankAccount': {
+      'view:accountType': 'checking',
+      'view:accountNumber': '1234567890',
+      'view:routingNumber': '012345',
+      'view:bankName': 'Gringotts',
+    },
+    firstName: 'Harry',
+  });
 
   const nonStandardFieldNames = {
     accountType: 'type',
@@ -172,7 +156,7 @@ describe('prefillBankInformation', () => {
 
   it('should remove root-level fields in favor of "viewified" bank information', () => {
     expect(prefillBankInformation(prefilledFormData.standard())).to.deep.equal(
-      transformedFormData.standard(),
+      transformedFormData(),
     );
   });
 
@@ -182,18 +166,6 @@ describe('prefillBankInformation', () => {
         prefilledFormData.nonStandard(),
         nonStandardFieldNames,
       ),
-      // Note: The transformed data uses the same "viewified" field names as the
-      // pre-fill by default
-    ).to.deep.equal(transformedFormData.nonStandard());
-  });
-
-  it('should accept custom post-transformer field names', () => {
-    expect(
-      prefillBankInformation(
-        prefilledFormData.standard(),
-        defaultFieldNames,
-        nonStandardFieldNames,
-      ),
-    ).to.deep.equal(transformedFormData.nonStandard());
+    ).to.deep.equal(transformedFormData());
   });
 });

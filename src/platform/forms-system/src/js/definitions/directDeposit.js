@@ -213,7 +213,6 @@ export const defaultFieldNames = {
 export const prefillBankInformation = (
   data,
   prefilledFieldNames = defaultFieldNames,
-  postTransformerFieldNames = prefilledFieldNames,
 ) => {
   const newData = _.omit(
     [
@@ -232,10 +231,10 @@ export const prefillBankInformation = (
 
   if (accountType && accountNumber && routingNumber && bankName) {
     newData['view:originalBankAccount'] = viewifyFields({
-      [postTransformerFieldNames.accountType]: accountType,
-      [postTransformerFieldNames.accountNumber]: accountNumber,
-      [postTransformerFieldNames.routingNumber]: routingNumber,
-      [postTransformerFieldNames.bankName]: bankName,
+      accountType,
+      accountNumber,
+      routingNumber,
+      bankName,
     });
 
     // start the bank widget in 'review' mode
