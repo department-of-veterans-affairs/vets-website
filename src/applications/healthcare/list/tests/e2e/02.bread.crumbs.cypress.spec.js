@@ -6,7 +6,8 @@ it('health care questionnaire list -- loads manager page -- bread crumbs exists'
   ).then(features => {
     cy.route('GET', '/v0/feature_toggles*', features);
     cy.login(basicUser);
-    cy.visit('/health-care/health-questionnaires/questionnaires/');
+    const featureUrl = '/health-care/health-questionnaires/questionnaires/';
+    cy.visit(featureUrl);
     cy.get('#va-breadcrumbs-list')
       .children()
       .should('have.length', 3);
