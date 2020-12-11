@@ -763,4 +763,3 @@ export function getExpressCareFormPageInfo(state, pageKey) {
     pageChangeInProgress: newRequest.pageChangeInProgress,
   };
 }
-
