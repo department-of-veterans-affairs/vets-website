@@ -763,6 +763,3 @@ export function getExpressCareFormPageInfo(state, pageKey) {
   };
 }
 
-export function getCommunityCareFacilities(state) {
-  return getNewAppointment(state).communityCareProviderList;
-}

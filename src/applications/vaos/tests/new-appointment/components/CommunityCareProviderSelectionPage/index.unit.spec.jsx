@@ -317,10 +317,8 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     ).to.be.ok;
   });
 
-  it('should sort by distance from current location (ascending) if user clicks "use current location"', async () => {
+  it('should sort provider addresses by distance from home address in ascending order', async () => {
     const store = createTestStore(initialState);
-
-    mockGetCurrentPosition({ fail: true });
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
@@ -343,8 +341,63 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       },
     );
 
-    // Choose Provider
+    // Choose Provider based on home address
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+
+    const miles = screen.queryAllByText(/miles$/);
+
+    expect(miles.length).to.equal(16);
+    expect(() => {
+      for (let i = 0; i < miles.length - 1; i++) {
+        if (
+          Number.parseFloat(miles[i].textContent) >
+          Number.parseFloat(miles[i + 1].textContent)
+        )
+          throw new Error();
+      }
+    }).to.not.throw;
+  });
+
+  it('should sort provider addresses by distance from current location in ascending order', async () => {
+    const store = createTestStore(initialState);
+    const currentPosition = {
+      latitude: 37.5615,
+      longitude: 121.9988,
+      fail: false,
+    };
+
+    mockGetCurrentPosition(currentPosition);
+
+    mockCCProviderFetch(
+      currentPosition,
+      ['208D00000X', '207R00000X', '261QP2300X'],
+      calculateBoundingBox(
+        currentPosition.latitude,
+        currentPosition.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider based on home address
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+
+    // Choose Provider based on current location
+    userEvent.click(await screen.findByText(/use your current location$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));

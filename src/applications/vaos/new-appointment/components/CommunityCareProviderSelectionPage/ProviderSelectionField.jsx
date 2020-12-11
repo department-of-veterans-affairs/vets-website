@@ -38,8 +38,10 @@ function ProviderSelectionField({
   );
   const loadingProviders =
     requestStatus === FETCH_STATUS.loading ||
-    requestStatus === FETCH_STATUS.notStarted ||
-    requestLocationStatus === FETCH_STATUS.loading;
+    requestStatus === FETCH_STATUS.notStarted;
+
+  const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
+
   const providerSelected = 'id' in formData;
   const key = sortMethod || FACILITY_SORT_METHODS.distanceFromResidential;
   const sortByDistanceFromResidential =
@@ -147,13 +149,45 @@ function ProviderSelectionField({
           <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
             Choose a provider
           </h2>
-          {!loadingProviders && (
-            <>
-              <p>Your address on file:</p>
-              <ResidentialAddress address={address} />
-            </>
-          )}
+          {!loadingProviders &&
+            requestLocationStatus === FETCH_STATUS.succeeded &&
+            sortByDistanceFromCurrentLocation && (
+              <p className="vads-u-margin-top--0">
+                Providers based on your location
+              </p>
+            )}
+          {!loadingLocations &&
+            sortByDistanceFromResidential && (
+              <>
+                <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                  Your address on file:
+                </p>
+                <ResidentialAddress address={address} />
+                {(requestLocationStatus === FETCH_STATUS.notStarted ||
+                  requestLocationStatus === FETCH_STATUS.succeeded) && (
+                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+                    Or,{' '}
+                    <button
+                      type="button"
+                      className="va-button-link"
+                      onClick={() => {
+                        updateCCProviderSortMethod(
+                          FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                        );
+                      }}
+                    >
+                      use your current location
+                    </button>
+                  </p>
+                )}
+              </>
+            )}
           {loadingProviders && (
+            <div className="vads-u-padding-bottom--2">
+              <LoadingIndicator message="Loading the list of providers." />
+            </div>
+          )}
+          {loadingLocations && (
             <div className="vads-u-padding-bottom--2">
               <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
             </div>
@@ -163,9 +197,9 @@ function ProviderSelectionField({
               <ErrorMessage />
             </div>
           )}
-          {!loadingProviders &&
+          {!loadingLocations &&
             requestLocationStatus === FETCH_STATUS.failed && (
-              <div className="vads-u-padding-bottom--2">
+              <div className="vads-u-padding--2 vads-u-background-color--primary-alt-lightest">
                 <div className="usa-alert-body">
                   Your browser is blocked from finding your current location.
                   Make sure your browser’s location feature is turned on.
@@ -173,37 +207,24 @@ function ProviderSelectionField({
               </div>
             )}
           {!loadingProviders &&
-            requestStatus === FETCH_STATUS.succeeded && (
+            !loadingLocations &&
+            (requestStatus === FETCH_STATUS.succeeded ||
+              requestLocationStatus === FETCH_STATUS.succeeded) && (
               <>
-                {requestLocationStatus !== FETCH_STATUS.failed && (
-                  <p>
+                {sortByDistanceFromCurrentLocation && (
+                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
                     Or,{' '}
-                    {!!sortByDistanceFromResidential && (
-                      <button
-                        type="button"
-                        className="va-button-link"
-                        onClick={() => {
-                          updateCCProviderSortMethod(
-                            FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                          );
-                        }}
-                      >
-                        use your current location
-                      </button>
-                    )}
-                    {sortByDistanceFromCurrentLocation && (
-                      <button
-                        type="button"
-                        className="va-button-link"
-                        onClick={() => {
-                          updateCCProviderSortMethod(
-                            FACILITY_SORT_METHODS.distanceFromResidential,
-                          );
-                        }}
-                      >
-                        use your home address on file
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      className="va-button-link"
+                      onClick={() => {
+                        updateCCProviderSortMethod(
+                          FACILITY_SORT_METHODS.distanceFromResidential,
+                        );
+                      }}
+                    >
+                      use your home address on file
+                    </button>
                   </p>
                 )}
                 <p>
@@ -263,7 +284,10 @@ function ProviderSelectionField({
         </>
       )}
       {!loadingProviders &&
+        !loadingLocations &&
         requestStatus === FETCH_STATUS.succeeded &&
+        (requestLocationStatus === FETCH_STATUS.notStarted ||
+          requestLocationStatus === FETCH_STATUS.succeeded) &&
         showProvidersList && (
           <div className="vads-u-display--flex">
             {providersListLength < communityCareProviderList.length && (
