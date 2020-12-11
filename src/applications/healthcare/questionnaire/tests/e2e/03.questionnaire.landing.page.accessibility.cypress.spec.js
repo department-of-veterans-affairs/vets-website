@@ -15,7 +15,9 @@ describe('healthcare questionnaire -- landing page --', () => {
     });
   });
   it('accessibility', () => {
-    cy.get('.schemaform-title>h1').contains('Primary care questionnaire');
+    cy.get('.schemaform-title>h1').contains(
+      'Answer primary care questionnaire',
+    );
     cy.injectAxe();
     cy.axeCheck();
   });

@@ -10,7 +10,7 @@ const routes = (
   <Route path="/">
     <Route component={Layout} key="/main">
       <IndexRoute component={Introduction} key="/intro" />
-      <Route component={Form} key="/apply" path="/apply" />
+      <Route component={Form} key="/apply" path="/form" />
       <Route
         component={Confirmation}
         key="/confirmation"

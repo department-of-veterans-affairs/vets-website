@@ -1,5 +1,11 @@
+import React from 'react';
+
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+
 // import SelectFacilityWidget from '../components/SelectFacilityWidget';
+
+import MaskedSSNWidget from '../components/MaskedSSNWidget';
+import { validateSSN } from 'platform/forms-system/src/js/validation';
 
 export default {
   isIdentityVerified: {
@@ -21,21 +27,34 @@ export default {
   },
   birthDate: {
     'ui:title': 'Date of birth',
+    'ui:description': () => (
+      <span>
+        <b>Note: </b>
+        Your date of birth helps us match your information to your Veteran
+        records so we can better understand your needs.
+      </span>
+    ),
     'ui:widget': 'date',
-    'ui:errorMessages': {
-      required: 'Please enter your date of birth.',
-    },
   },
   ssn: {
-    'ui:title': 'Social Security Number (SSN)',
-    'ui:errorMessages': {
-      required: 'Please enter your social security number.',
-      pattern: 'Please enter a valid social security number.',
-    },
-    'ui:required': formData => !formData.isIdentityVerified,
+    'ui:widget': MaskedSSNWidget,
+    'ui:title': 'Social Security number (SSN)',
+    'ui:description': () => (
+      <span>
+        <b>Note: </b>
+        Your SSN helps us match your information to your Veteran records so we
+        can better understand your needs.
+      </span>
+    ),
     'ui:options': {
+      widgetClassNames: 'usa-input-medium',
       hideIf: formData => formData.isIdentityVerified,
     },
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',
+      required: 'Please enter a SSN',
+    },
+    'ui:validations': [validateSSN],
   },
   email: {
     'ui:title': 'Email address',
@@ -61,69 +80,34 @@ export default {
       pattern: 'Please enter a valid zip code',
     },
   },
-  contactPreference: {
-    'ui:title': 'Do you have a preference for contacting you?',
-    'ui:widget': 'yesNo',
-    'ui:errorMessages': {
-      required: 'Please select an option',
-    },
-  },
-  contactMethod: {
-    'ui:title': 'Contact method',
-    'ui:widget': 'radio',
-    'ui:required': formData => formData.contactPreference,
-    'ui:errorMessages': {
-      required: 'Please select a contact method',
-    },
-    'ui:options': {
-      labels: {
-        phone: 'Phone',
-        email: 'Email',
-      },
-      hideIf: formData => !formData.contactPreference,
-      expandUnder: 'contactPreference',
-    },
-  },
-  vaccineInterest: {
-    'ui:title': 'Interested in vaccine',
+  zipCodeDetails: {
+    'ui:title': 'Will you be in this zip code for the next 6 to 12 months?',
     'ui:widget': 'radio',
     'ui:errorMessages': {
       required: 'Please select an answer.',
     },
     'ui:options': {
       labels: {
-        INTERESTED: 'Interested',
-        NOT_INTERESTED: 'Not interested',
-        UNDECIDED: 'Unsure',
-        ALREADY_VACCINATED: 'Already received a vaccination',
+        Yes: 'Yes',
+        No: 'No',
+        Unsure: "I'm not sure.",
       },
     },
   },
-  reasonUndecided: {
-    'ui:title': 'Reason for being unsure or uninterested',
-    'ui:widget': 'text',
+  vaccineInterest: {
+    'ui:title':
+      'Do you plan to get a COVID-19 vaccine when one is available to you?',
+    'ui:widget': 'radio',
+    'ui:errorMessages': {
+      required: 'Please select an answer.',
+    },
     'ui:options': {
       labels: {
-        phone: 'Phone',
-        email: 'Email',
+        INTERESTED: 'Yes',
+        NOT_INTERESTED: 'No',
+        UNDECIDED: 'I’m not sure yet.',
+        PREFER_NO_ANSWER: 'I prefer not to answer.',
       },
-      hideIf: formData => {
-        return (
-          formData.vaccineInterest === 'INTERESTED' ||
-          formData.vaccineInterest === 'ALREADY_VACCINATED'
-        );
-      },
-      expandUnder: 'vaccineInterest',
     },
   },
-  // preferredFacility: {
-  //   'ui:title':
-  //     'Please select where you’d like to receive the COVID-19 vaccine.',
-  //   'ui:widget': SelectFacilityWidget,
-  //   'ui:required': formData => formData.vaccineInterest === 'INTERESTED',
-  //   'ui:options': {
-  //     expandUnder: 'vaccineInterest',
-  //     // hideIf: formData => formData.vaccineInterest !== 'INTERESTED',
-  //   },
-  // },
 };

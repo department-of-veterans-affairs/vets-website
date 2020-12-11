@@ -12,6 +12,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as userSelectors from 'platform/user/selectors';
 import { requestStates } from 'platform/utilities/constants';
+import { focusElement } from 'platform/utilities/ui';
 
 import * as actions from '../actions';
 
@@ -23,10 +24,21 @@ import useSubmitForm from '../hooks/useSubmitForm';
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   const [submitStatus, submitToApi] = useSubmitForm();
 
+  useEffect(() => {
+    focusElement('#covid-vaccination-heading-form');
+  }, []);
+
   useEffect(
     () => {
       if (submitStatus === requestStates.succeeded) {
+        recordEvent({
+          event: 'covid-vaccination--submission-successful',
+        });
         router.replace('/confirmation');
+      } else if (submitStatus === requestStates.failed) {
+        recordEvent({
+          event: 'covid-vaccination--submission-failed',
+        });
       }
     },
     [submitStatus],
@@ -57,7 +69,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           birthDate: profile?.dob,
           ssn: undefined,
           email: profile?.vapContactInfo?.email?.emailAddress,
-          zipCode: profile?.vapContactInfo?.residentialAddress.zipCode,
+          zipCode: profile?.vapContactInfo?.residentialAddress?.zipCode,
           phone: profile?.vapContactInfo?.homePhone
             ? `${profile.vapContactInfo.homePhone.areaCode}${
                 profile.vapContactInfo.homePhone.phoneNumber
@@ -66,7 +78,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         };
       } else {
         recordEvent({
-          event: 'covid-vaccination-no-login-start-form',
+          event: 'no-login-start-form',
         });
       }
 
@@ -84,15 +96,11 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   const onFormSubmit = useCallback(
     () => {
+      recordEvent({ event: 'covid-vaccination--submission' });
       submitToApi(formState.formData);
     },
     [router, formState],
   );
-
-  if (!formState) {
-    // The form is being initialized into Redux. Wait til next render.
-    return null;
-  }
 
   if (submitStatus === requestStates.pending) {
     return <LoadingIndicator message="Submitting your form..." />;
@@ -100,42 +108,52 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
   return (
     <>
-      <div className="vads-u-margin-bottom--4">
-        <AlertBox
-          isVisible={isLoggedIn}
-          status={ALERT_TYPE.INFO}
-          headline="We filled in part of this form for you."
-          content={
-            <p>
-              If something looks off, visit your <a href="/profile">profile</a>{' '}
-              to update it.
-            </p>
-          }
-        />
-      </div>
-      <SchemaForm
-        addNameAttribute
-        // "name" and "title" are used only internally to SchemaForm
-        name="Coronavirus vaccination"
-        title="Coronavirus vaccination"
-        data={formState.formData}
-        schema={formState.formSchema}
-        uiSchema={formState.uiSchema}
-        onChange={onFormChange}
-        onSubmit={onFormSubmit}
-      >
-        {submitStatus === requestStates.failed ? (
-          <div className="vads-u-margin-bottom-2">
-            <AlertBox
-              status={ALERT_TYPE.ERROR}
-              content="An error occurred while trying to save your form. Please try again later."
-            />
-          </div>
-        ) : null}
-        <button type="submit" className="usa-button">
-          Apply
-        </button>
-      </SchemaForm>
+      <h1 id="covid-vaccination-heading-form" className="no-outline">
+        Fill out the form below
+      </h1>
+      <p>
+        We’ll send you updates on how we’re providing COVID-19 vaccines across
+        the country—and when you can get your vaccine if you want one. You don't
+        need to sign up to get a vaccine.
+      </p>
+      {isLoggedIn ? (
+        <p>
+          <strong>Note:</strong> Any changes you make to your information here
+          won’t change your information in your VA.gov profile or any other
+          accounts.
+        </p>
+      ) : null}
+      {formState ? (
+        <SchemaForm
+          addNameAttribute
+          // "name" and "title" are used only internally to SchemaForm
+          name="Coronavirus vaccination"
+          title="Coronavirus vaccination"
+          data={formState.formData}
+          schema={formState.formSchema}
+          uiSchema={formState.uiSchema}
+          onChange={onFormChange}
+          onSubmit={onFormSubmit}
+        >
+          {submitStatus === requestStates.failed ? (
+            <div className="vads-u-margin-bottom-2">
+              <AlertBox
+                status={ALERT_TYPE.ERROR}
+                content="An error occurred while trying to save your form. Please try again later."
+              />
+            </div>
+          ) : null}
+          <button
+            type="submit"
+            className="usa-button"
+            aria-label="Submit form for COVID-19 vaccine updates"
+          >
+            Submit form
+          </button>
+        </SchemaForm>
+      ) : (
+        <LoadingIndicator message="Loading the form..." />
+      )}
     </>
   );
 }

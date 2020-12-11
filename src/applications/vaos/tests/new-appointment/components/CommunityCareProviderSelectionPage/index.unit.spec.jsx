@@ -195,8 +195,53 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
     );
   });
-  // TODO: show more
-  // TODO: provider fetch failure
+
+  it('should display choose provider when remove provider clicked', async () => {
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
+    userEvent.click(
+      await screen.getByRole('button', { name: /choose provider/i }),
+    );
+    expect(screen.baseElement).to.contain.text(
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+    );
+
+    // Remove Provider Cancel
+    userEvent.click(await screen.findByRole('button', { name: /remove/i }));
+    userEvent.click(
+      await screen.findByText(
+        /Are you sure you want to remove this provider\?/i,
+      ),
+    );
+    userEvent.click(await screen.findByRole('button', { name: /Cancel/i }));
+    expect(screen.baseElement).to.contain.text(
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+    );
+
+    // Remove Provider
+    userEvent.click(await screen.findByRole('button', { name: /remove/i }));
+    userEvent.click(
+      await screen.findByText(
+        /Are you sure you want to remove this provider\?/i,
+      ),
+    );
+    userEvent.click(
+      await screen.findByRole('button', { name: /Yes, remove provider/i }),
+    );
+    expect(await screen.getByRole('button', { name: /Choose a provider/i }));
+  });
+
   it('should display an error when choose a provider clicked and provider fetch error', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);

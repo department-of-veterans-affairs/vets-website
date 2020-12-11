@@ -263,15 +263,15 @@ export function transformATLASLocation(tasInfo) {
  */
 export function setSupportedSchedulingMethods({
   location,
-  requestFacilityIds,
-  directFacilityIds,
+  requestSupportedFacilityIds,
+  directSupportedFacilityIds,
 } = {}) {
   const id = location.id;
 
-  const requestSupported = requestFacilityIds.some(
+  const requestSupported = requestSupportedFacilityIds.some(
     facilityId => `var${facilityId}` === id,
   );
-  const directSchedulingSupported = directFacilityIds.some(
+  const directSchedulingSupported = directSupportedFacilityIds.some(
     facilityId => `var${facilityId}` === id,
   );
 

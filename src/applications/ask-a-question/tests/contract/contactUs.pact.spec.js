@@ -8,7 +8,7 @@ import formConfig from '../../form/form';
 import generalQuestionData from '../cypress/fixtures/data/general-question.json';
 
 contractTest('Contact Us', 'VA.gov API', mockApi => {
-  describe('POST /ask/asks', () => {
+  describe('POST /contact_us/inquiries', () => {
     it('Success case: submit valid form will return a 201 Created HTTP response', async () => {
       generalQuestionData.data.veteranStatus.veteranStatus = 'general';
       delete generalQuestionData.data['view:email'];
@@ -18,7 +18,7 @@ contractTest('Contact Us', 'VA.gov API', mockApi => {
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
-          path: '/v0/ask/asks',
+          path: '/v0/contact_us/inquiries',
           headers: {
             'X-Key-Inflection': 'camel',
             'Content-Type': 'application/json',

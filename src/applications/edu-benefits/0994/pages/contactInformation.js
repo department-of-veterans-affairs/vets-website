@@ -48,8 +48,8 @@ export const uiSchema = {
       viewComponent: PhoneEmailViewField,
     },
     saveClickTrackEvent: { event: 'edu-0994-personal-information-saved' },
-    dayTimePhone: phoneUI('Phone number'),
-    nightTimePhone: phoneUI('Alternate Phone number'),
+    dayTimePhone: phoneUI('Home phone number'),
+    nightTimePhone: phoneUI('Mobile phone number'),
     emailAddress: emailUI(),
   },
   mailingAddress: {
@@ -64,14 +64,6 @@ export const uiSchema = {
     street: {
       ...addressUiSchema.street,
       'ui:title': 'Street address',
-    },
-    street2: {
-      ...addressUiSchema.street2,
-      'ui:title': 'Street address (line 2)',
-    },
-    street3: {
-      ...addressUiSchema.street3,
-      'ui:title': 'Street address (line 3)',
     },
     city: addressUiSchema.city,
   },

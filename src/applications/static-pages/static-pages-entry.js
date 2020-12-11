@@ -66,6 +66,7 @@ import {
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
 import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
+import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
@@ -163,6 +164,7 @@ createPost911GiBillStatusWidget(
 );
 
 createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
+createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);

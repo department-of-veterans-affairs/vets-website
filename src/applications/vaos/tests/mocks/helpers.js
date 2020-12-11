@@ -13,7 +13,6 @@ import {
   getVAFacilityMock,
 } from '../mocks/v0';
 import sinon from 'sinon';
-import { vapAddressToString } from '../../utils/address';
 
 export function mockAppointmentInfo({
   va = [],
@@ -128,26 +127,30 @@ export function mockCCProviderFetch(
   bbox,
   providers,
   vaError = false,
+  radius = 60,
 ) {
-  const addressString = vapAddressToString(address);
   const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
   const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
 
   if (vaError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/v1/facilities/ccp?address=${addressString}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+          address.latitude
+        }&longitude=${
+          address.longitude
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
       ),
       { errors: [] },
     );
   } else {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/v1/facilities/ccp?address=${addressString}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+          address.latitude
+        }&longitude=${
+          address.longitude
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
       ),
       { data: providers },
     );

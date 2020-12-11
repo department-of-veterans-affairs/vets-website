@@ -66,7 +66,7 @@ const submitTransform = (formConfig, form) => {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/ask/asks`,
+  submitUrl: `${environment.API_URL}/v0/contact_us/inquiries`,
   transformForSubmit: submitTransform,
   footerContent: FormFooter,
   getHelp: NeedHelpFooter,

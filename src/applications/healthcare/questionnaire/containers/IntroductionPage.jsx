@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
@@ -16,9 +17,16 @@ const IntroductionPage = props => {
   }, []);
 
   const { appointment } = props?.questionnaire?.context;
-  const facilityName = appointment?.attributes?.vdsAppointments
-    ? appointment?.attributes?.vdsAppointments[0]?.clinic?.facility?.displayName
-    : '';
+  const appointmentData = appointment?.attributes?.vdsAppointments
+    ? appointment?.attributes?.vdsAppointments[0]
+    : {};
+
+  const facilityName = appointmentData.clinic?.facility?.displayName || '';
+  let expirationTime = appointmentData.appointmentTime || '';
+
+  if (expirationTime) {
+    expirationTime = moment(expirationTime).format('MM/DD/YYYY');
+  }
 
   const { isLoggedIn, route, savedForms, formId } = props;
 
@@ -57,46 +65,30 @@ const IntroductionPage = props => {
     }
   };
 
-  const title = 'Primary care questionnaire';
+  const title = 'Answer primary care questionnaire';
   const subTitle = facilityName;
   return (
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title={title} subTitle={subTitle} />
       <h2 className="better-prepare-yours">
-        To help us better prepare for your appointment, fill out this short
-        questionnaire about your upcoming visit. This is where you can give us
-        more detail about your appointment or let us know if there are any
-        specific health issues you want to discuss with your provider.
+        Please try to fill out this questionnaire at least [X] days before your
+        appointment. When you tell us about your symptoms and concerns, we can
+        better prepare to meet your needs.
       </h2>
       <section className="after-details">
         <h3>What happens after I answer the questions?</h3>
         <p>
-          After you answer the questions, your questionnaire will be securely
-          sent to your provider for review. The questionnaire will also be added
-          to your medical record. Please try to submit the questionnaire [X]
-          days before your appointment.
+          We’ll send your completed questionnaire to your provider through a
+          secure electronic communication. We’ll also add the questionnaire to
+          your medical record. Your provider will review your answers and
+          discuss them with you during your appointment.
         </p>
         <p>
           <strong>
-            Your provider will discuss the information on your questionnaire
+            Your provider will discuss the information in your questionnaire
             during your appointment.
           </strong>
         </p>
-        <section className="emergency-call-out">
-          <header>
-            Note: If you need to talk to someone right away or need emergency
-            care,
-          </header>
-          <ul>
-            <li>
-              Call <Telephone contact="911" />, or
-            </li>
-            <li>
-              Call the Veterans Crisis hotline at{' '}
-              <Telephone contact="800-273-8255" /> and select 1
-            </li>
-          </ul>
-        </section>
       </section>
       <section className="personal-information">
         <h3>
@@ -104,8 +96,8 @@ const IntroductionPage = props => {
           these questions?
         </h3>
         <p>
-          Like your medical record, we’ll keep the information you enter in the
-          questionnaire private.
+          We keep all of the information in your medical record private and
+          secure. This includes any information you share in this questionnaire.
         </p>
         <section>
           <header>
@@ -115,7 +107,10 @@ const IntroductionPage = props => {
             </strong>
           </header>
           <ul>
-            <li>Share your information only with your provider</li>
+            <li>
+              Share your information with only the people who need it as part of
+              providing your health care
+            </li>
             <li>
               Store all information in our secure electronic systems, and
               encrypt all sensitive data
@@ -126,12 +121,30 @@ const IntroductionPage = props => {
               data security
             </li>
           </ul>
+          <p>
+            If you print or download a copy of your questionnaire, you’ll need
+            to take responsibility for protecting that information.
+          </p>
         </section>
       </section>
-
+      <section className="emergency-call-out">
+        <header>
+          <strong>Note:</strong> If you need to talk to someone right away or
+          need emergency care,
+        </header>
+        <ul>
+          <li>
+            Call <Telephone contact="911" />, <strong>or</strong>
+          </li>
+          <li>
+            Call the Veterans Crisis hotline at{' '}
+            <Telephone contact="800-273-8255" /> and select 1
+          </li>
+        </ul>
+      </section>
       {getWelcomeMessage()}
       <div className="omb-info--container">
-        <OMBInfo ombNumber="0000-0000" expDate="mm/dd/yyyy" />
+        <OMBInfo expDate={expirationTime} />
       </div>
     </div>
   );

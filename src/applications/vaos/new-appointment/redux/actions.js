@@ -416,8 +416,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
         // If we have an already selected location or only have a single location
         // fetch eligbility data immediately
+        const supportedFacilities = typeOfCareFacilities?.filter(
+          facility =>
+            facility.legacyVAR.directSchedulingSupported ||
+            facility.legacyVAR.requestSupported,
+        );
         const eligibilityDataNeeded =
-          !!facilityId || typeOfCareFacilities?.length === 1;
+          !!facilityId || supportedFacilities?.length === 1;
 
         if (!typeOfCareFacilities.length) {
           recordEligibilityFailure(
@@ -428,14 +433,14 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         }
 
         if (eligibilityDataNeeded && !facilityId) {
-          facilityId = typeOfCareFacilities[0].id;
+          facilityId = supportedFacilities[0].id;
         }
 
         const eligibilityChecks =
           newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
         if (eligibilityDataNeeded && !eligibilityChecks) {
-          const location = typeOfCareFacilities.find(f => f.id === facilityId);
+          const location = supportedFacilities.find(f => f.id === facilityId);
 
           if (!siteId) {
             siteId = getSiteIdFromFakeFHIRId(location.id);

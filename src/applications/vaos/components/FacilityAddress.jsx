@@ -1,6 +1,6 @@
 import React from 'react';
 import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import FacilityPhone from './FacilityPhone';
 
 export default function FacilityAddress({
   name,
@@ -43,7 +43,7 @@ export default function FacilityAddress({
           </dt>{' '}
           <dd className="vads-u-display--inline">
             <br />
-            <Telephone contact={phone} />
+            <FacilityPhone contact={phone} />
           </dd>
         </dl>
       )}
