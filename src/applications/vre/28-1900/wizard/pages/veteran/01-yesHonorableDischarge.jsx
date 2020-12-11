@@ -4,7 +4,7 @@ import { veteranPathPageNames } from '../pageList';
 import { handleChangeAndPageSet } from '../helpers';
 
 const options = [
-  { value: veteranPathPageNames.disabilityRating, label: 'Yes' },
+  { value: veteranPathPageNames.yesDisabilityRating, label: 'Yes' },
   { value: veteranPathPageNames.noDisabilityRating, label: 'No' },
 ];
 
