@@ -43,7 +43,6 @@ function ProviderSelectionField({
   const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
 
   const providerSelected = 'id' in formData;
-  const key = sortMethod || FACILITY_SORT_METHODS.distanceFromResidential;
   const sortByDistanceFromResidential =
     !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
 
@@ -257,7 +256,7 @@ function ProviderSelectionField({
                           {provider.address.postalCode}
                         </span>
                         <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-                          {provider[key]} miles
+                          {provider[sortMethod]} miles
                         </span>
                       </label>
                       {checked && (
