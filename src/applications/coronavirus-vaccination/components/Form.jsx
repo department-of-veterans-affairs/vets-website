@@ -79,7 +79,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           Our records show you provided the information below on{' '}
           {moment(previouslySubmittedFormData.createdAt).format('MMMM D, YYYY')}
           . If you’d like to update your information, please make any updates
-          below and click <strong>Sign up to stay informed.</strong>
+          below and click <strong>Submit form.</strong>
         </p>
       ) : (
         <p>
