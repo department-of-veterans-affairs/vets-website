@@ -47,11 +47,11 @@ describe('<Form/>', () => {
       reducers: reducer,
     });
 
-    screen.getByText('Fill out the form below to sign up');
+    screen.getByText('Fill out the form below');
     screen.getByLabelText('Social Security number (SSN)');
     screen.getByLabelText('Last name', { exact: false });
     screen.getByLabelText('First name', { exact: false });
-    screen.getByText('Date of birth', { exact: false });
+    screen.getByText('Date of birth');
     screen.getByLabelText('Email', { exact: false });
     screen.getByLabelText('Zip code', { exact: false });
     screen.getByText(
@@ -59,7 +59,7 @@ describe('<Form/>', () => {
       { exact: false },
     );
     screen.getByText(
-      'Are you interested in getting a COVID-19 vaccine at VA?',
+      'Do you plan to get a COVID-19 vaccine when one is available to you?',
       { exact: false },
     );
   });
@@ -133,6 +133,66 @@ describe('<Form/>', () => {
     expect(firstName.value).to.be.equal('Sean');
     expect(lastName.value).to.be.equal('Gptestkfive');
 
+    server.close();
+  });
+
+  it('prefills a form from profile data', async () => {
+    resetFetch();
+
+    const server = setupServer(
+      rest.get(
+        `${environment.API_URL}/covid_vaccine/v0/registration`,
+        (req, res, ctx) => {
+          return res(ctx.status('404'));
+        },
+      ),
+    );
+
+    server.listen();
+
+    const doTest = async loa => {
+      const initialState = {
+        user: {
+          profile: {
+            userFullName: {
+              first: 'Jim',
+              last: 'Testing',
+            },
+            loa: {
+              current: loa,
+              highest: 3,
+            },
+          },
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+        coronavirusVaccinationApp: {
+          formState: null,
+        },
+      };
+
+      const screen = renderInReduxProvider(<FormContainer />, {
+        initialState,
+        reducers: reducer,
+      });
+
+      const firstName = await screen.findByLabelText('First name', {
+        exact: false,
+      });
+      const lastName = await screen.findByLabelText('Last name', {
+        exact: false,
+      });
+
+      expect(firstName.value).to.be.equal('Jim');
+      expect(lastName.value).to.be.equal('Testing');
+    };
+
+    // Test LOA1 users where a request for a prev form is NOT sent
+    doTest(1);
+
+    // Test LOA3 users where a request for a prev form is sent but finds nothing.
+    doTest(3);
     server.close();
   });
 });
