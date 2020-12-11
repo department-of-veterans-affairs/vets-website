@@ -158,7 +158,7 @@ const formConfig = {
         spouseMarriageHistory: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse',
+          title: 'Information about your spouse’s former marriage(s)',
           path: 'current-spouse-marriage-history',
           uiSchema: spouseMarriageHistory.uiSchema,
           schema: spouseMarriageHistory.schema,
@@ -166,7 +166,7 @@ const formConfig = {
         spouseMarriageHistoryDetails: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse',
+          title: 'Information about your spouse’s former marriage(s)',
           path: 'current-spouse-marriage-history/:index',
           showPagePerItem: true,
           arrayPath: 'spouseMarriageHistory',

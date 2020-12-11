@@ -17,6 +17,7 @@ export const uiSchema = {
         expandUnder: 'previousEmployment',
         viewField: CardDetailsView,
         doNotScroll: true,
+        showSave: true,
       },
       items: {
         'ui:title': 'Add a job',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -124,10 +124,8 @@ export function removeDateOptionPairFromSelectedArray(
   );
 }
 
-function handlePrev(onClickPrev, monthsToShowAtOnce, months, setMonths) {
-  const updatedMonths = months.map(m =>
-    m.subtract(monthsToShowAtOnce, 'months'),
-  );
+function handlePrev(onClickPrev, months, setMonths) {
+  const updatedMonths = months.map(m => m.subtract(1, 'months'));
 
   if (onClickPrev) {
     onClickPrev(
@@ -140,8 +138,8 @@ function handlePrev(onClickPrev, monthsToShowAtOnce, months, setMonths) {
   setMonths(updatedMonths);
 }
 
-function handleNext(onClickNext, months, setMonths, monthsToShowAtOnce) {
-  const updatedMonths = months.map(m => m.add(monthsToShowAtOnce, 'months'));
+function handleNext(onClickNext, months, setMonths) {
+  const updatedMonths = months.map(m => m.add(1, 'months'));
 
   if (onClickNext) {
     onClickNext(
@@ -255,7 +253,6 @@ export default function CalendarWidget({
   maxDate,
   maxSelections = 1,
   minDate,
-  monthsToShowAtOnce = 1,
   onChange,
   onClickNext,
   onClickPrev,
@@ -266,23 +263,7 @@ export default function CalendarWidget({
 }) {
   const currentDate = moment();
   const maxMonth = getMaxMonth(maxDate, startMonth);
-  const [months, setMonths] = useState([moment(minDate)]);
-
-  useEffect(
-    () => {
-      // Updates months to show at once if > default setting
-      if (monthsToShowAtOnce > months.length) {
-        const updatedMonths = [];
-        const startDate = startMonth ? moment(startMonth) : moment(minDate);
-
-        for (let index = 0; index < monthsToShowAtOnce; index++) {
-          updatedMonths.push(startDate.clone().add(index, 'months'));
-        }
-        setMonths(updatedMonths);
-      }
-    },
-    [monthsToShowAtOnce, startMonth, months, minDate],
-  );
+  const [months, setMonths] = useState([moment(startMonth || minDate)]);
 
   const showError = validationError?.length > 0;
 
@@ -333,20 +314,10 @@ export default function CalendarWidget({
                   {index === 0 && (
                     <CalendarNavigation
                       prevOnClick={() =>
-                        handlePrev(
-                          onClickPrev,
-                          monthsToShowAtOnce,
-                          months,
-                          setMonths,
-                        )
+                        handlePrev(onClickPrev, months, setMonths)
                       }
                       nextOnClick={() =>
-                        handleNext(
-                          onClickNext,
-                          months,
-                          setMonths,
-                          monthsToShowAtOnce,
-                        )
+                        handleNext(onClickNext, months, setMonths)
                       }
                       momentMonth={month}
                       prevDisabled={prevDisabled}
@@ -410,7 +381,6 @@ CalendarWidget.propTypes = {
   minDate: PropTypes.string, // YYYY-MM-DD
   maxDate: PropTypes.string, // YYYY-MM-DD
   maxSelections: PropTypes.number,
-  monthsToShowAtOnce: PropTypes.number,
   startMonth: PropTypes.string, // YYYY-MM
   onChange: PropTypes.func,
   onClickNext: PropTypes.func,

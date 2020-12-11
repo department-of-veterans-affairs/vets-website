@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/browser';
+
 import { apiRequest } from '~/platform/utilities/api';
 import { refreshProfile } from '~/platform/user/profile/actions';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -316,13 +318,20 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
+    const errorCode = error.errors?.[0]?.code;
+    const errorStatus = error.errors?.[0]?.status;
+    if (!errorCode || !errorStatus) {
+      if (error instanceof Error) {
+        Sentry.captureException(error);
+      } else {
+        Sentry.captureException(new Error('Unknown address validation error'));
+      }
+    }
     recordEvent({
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
       'profile-section': analyticsSectionName,
-      'error-key': `${error.errors?.[0]?.code}_${
-        error.errors?.[0]?.status
-      }-address-suggestion-failure`,
+      'error-key': `${errorCode}_${errorStatus}-address-suggestion-failure`,
     });
 
     recordEvent({
