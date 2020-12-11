@@ -22,7 +22,7 @@ export const uiSchema = {
           showSave: true,
         },
         items: {
-          'ui:title': 'Age in years:',
+          'ui:title': 'Dependent’s age',
         },
       },
     },
