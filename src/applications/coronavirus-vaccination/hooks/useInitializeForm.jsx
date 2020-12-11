@@ -57,7 +57,7 @@ export default function useInitializeForm(
                 birthDate: previouslySubmittedFormData?.birthDate,
                 email: previouslySubmittedFormData?.email,
                 zipCode: previouslySubmittedFormData?.zipCode,
-                zipCodeDetails: previouslySubmittedFormData?.zipCodeDetails,
+                locationDetails: previouslySubmittedFormData?.zipCodeDetails,
                 phone: previouslySubmittedFormData?.phone,
                 vaccineInterest: previouslySubmittedFormData?.vaccineInterest,
               };

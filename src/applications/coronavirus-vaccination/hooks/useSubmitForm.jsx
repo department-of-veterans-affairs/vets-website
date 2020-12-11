@@ -8,8 +8,12 @@ export default function useSubmitForm() {
 
   const submit = useCallback(formData => {
     async function sendToApi() {
+      const normalized = {
+        ...formData,
+        zipCodeDetails: formData.locationDetails,
+      };
       try {
-        await saveForm(formData);
+        await saveForm(normalized);
         setSubmitStatus(requestStates.succeeded);
       } catch (error) {
         setSubmitStatus(requestStates.failed);
