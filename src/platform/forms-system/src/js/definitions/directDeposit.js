@@ -1,9 +1,8 @@
-import React from 'react';
-
 import _ from 'platform/utilities/data';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import ReviewCardField from '../components/ReviewCardField';
+import PaymentView from '../components/PaymentView';
 import viewifyFields from '../utilities/viewify-fields';
 
 import {
@@ -19,14 +18,9 @@ const defaultOptionalFields = {
 
 const useDirectDeposit = form => !form?.declineDirectDeposit;
 
-const viewComponent = (...props) => (
-  <code>{JSON.stringify(props, null, 2)}</code>
-);
-
 const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
   const ui = {
     'ui:title': 'Direct deposit information',
-    // 'ui:description': viewComponent,
     'ui:order': [
       'bankAccount',
       'declineDirectDeposit',
@@ -68,7 +62,7 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         'ui:required': useDirectDeposit,
       },
       'ui:options': {
-        viewComponent,
+        viewComponent: PaymentView,
         classNames: 'vads-u-margin-bottom--3',
         // eslint-disable-next-line react-hooks/rules-of-hooks
         hideIf: form => !useDirectDeposit(form),
