@@ -586,4 +586,7 @@ img[data-srcset] {
 
 .image-desc {
   width: 50%;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
 }
