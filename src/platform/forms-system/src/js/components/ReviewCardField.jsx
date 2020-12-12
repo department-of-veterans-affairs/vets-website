@@ -461,7 +461,11 @@ ReviewCardField.propTypes = {
        */
       itemNameAction: PropTypes.string,
     }).isRequired,
-    'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    'ui:description': PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+      PropTypes.string,
+    ]),
     'ui:title': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,
