@@ -11,7 +11,6 @@ import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
-import * as address from 'platform/forms-system/src/js/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';

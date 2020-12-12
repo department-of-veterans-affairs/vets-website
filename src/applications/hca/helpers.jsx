@@ -1,3 +1,7 @@
+// TODO: Remove later, only for debugging
+/* eslint-disable sonarjs/no-use-of-empty-return-value */
+/* eslint-disable no-console */
+/* eslint-disable array-callback-return */
 import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
@@ -25,12 +29,61 @@ export {
   medicalCenterLabels,
 } from 'platform/utilities/medical-centers/medical-centers';
 
+/*  clean address so we only get address related properties 
+    then return the object as JSON so we can match them
+*/
+const cleanAddressObjectToJSON = address => {
+  const newAddress = address;
+  const keys = Object.keys(newAddress);
+
+  keys.map(key => {
+    if (key === 'id') delete newAddress[key];
+    if (key === 'effectiveStartDate') delete newAddress[key];
+    if (key === 'effectiveEndDate') delete newAddress[key];
+    if (key === 'createdAt') delete newAddress[key];
+    if (key === 'updatedAt') delete newAddress[key];
+    if (key === 'sourceDate') delete newAddress[key];
+    if (!newAddress[key]) delete newAddress[key];
+  });
+
+  return JSON.stringify(newAddress);
+};
+
 export function prefillTransformer(pages, formData, metadata, state) {
+  console.clear();
+  /*  TODO: where is this formData coming from?
+            why is there already a address in there?
+            why isn't this address auto-filling into the fields on the form already?
+  */
+  console.log('formData: ', formData);
+  const {
+    residentialAddress,
+    mailingAddress,
+  } = state?.user?.profile?.vapContactInfo;
+
+  const cleanedResidentialAddress = cleanAddressObjectToJSON(
+    residentialAddress,
+  );
+  const cleanedMailingAddress = cleanAddressObjectToJSON(mailingAddress);
+  const doesAddressMatch = cleanedResidentialAddress === cleanedMailingAddress;
+
   let newData = formData;
 
   if (isInMPI(state)) {
     newData = { ...newData, 'view:isUserInMvi': true };
   }
+
+  if (residentialAddress || mailingAddress) {
+    // spread in permanentAddress from profile always
+    newData = { ...newData, veteranPermanentAddress: residentialAddress };
+
+    // if addresses are not the same auto fill mailing address
+    if (!doesAddressMatch) {
+      newData = { ...newData, veteranMailingAddress: mailingAddress };
+    }
+  }
+
+  console.log('newData: ', newData);
 
   return {
     metadata,
