@@ -5,14 +5,14 @@
     {% assign remainingImages = images | sliceArrayFromStart: pageSize, images.size %}
         {% for mediaImage in images %}
             {% assign recordsCount = recordsCount | plus: 1 %}
-            {%unless recordsCount > pageSize %}
+            {% unless recordsCount > pageSize %}
                 {% include "src/site/includes/image_detail_mobile_responsive.drupal.liquid" 
                 with mediaImage = mediaImage  %}
-            {%endunless %}
+            {% endunless %}
         {% endfor %}
     {% if recordsCount > pageSize %}
-        <div class="form-expanding-group additional-info-container">
-            <span class="additional-info-title">Show More</span>
+        <div class="form-expanding-group additional-info-container vads-u-margin-y--2p5">
+            <span class="additional-info-title">Show more</span>
             <span>
                 <div class="additional-info-content">
                 {% for remainingImage in remainingImages %}
