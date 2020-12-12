@@ -252,6 +252,126 @@ describe('profile selectors', () => {
     });
   });
 
+  describe('eduDirectDepositInformation', () => {
+    it('should return the correct part of the state', () => {
+      const paymentInformation = {
+        accountNumber: null,
+        routingNumber: null,
+      };
+      const state = {
+        vaProfile: {
+          eduPaymentInformation: paymentInformation,
+        },
+      };
+
+      expect(selectors.eduDirectDepositInformation(state)).to.deep.equal(
+        paymentInformation,
+      );
+    });
+  });
+
+  describe('eduDirectDepositUiState', () => {
+    it('should return the correct part of the state', () => {
+      const uiState = {
+        foo: 'bar',
+      };
+      const state = {
+        vaProfile: {
+          eduPaymentInformationUiState: uiState,
+        },
+      };
+
+      expect(selectors.eduDirectDepositUiState(state)).to.deep.equal(uiState);
+    });
+  });
+
+  describe('eduDirectDepositAccountInformation', () => {
+    it('should return the correct part of the state', () => {
+      const accountInfo = {
+        accountNumber: null,
+        routingNumber: null,
+      };
+      const state = {
+        vaProfile: {
+          eduPaymentInformation: {
+            paymentAccount: accountInfo,
+          },
+        },
+      };
+
+      expect(selectors.eduDirectDepositAccountInformation(state)).to.deep.equal(
+        accountInfo,
+      );
+    });
+  });
+
+  describe('eduDirectDepositIsSetUp', () => {
+    it('returns `true` when an account number is set', () => {
+      const accountInfo = {
+        accountNumber: '123',
+        routingNumber: '456',
+      };
+      const state = {
+        vaProfile: {
+          eduPaymentInformation: {
+            paymentAccount: accountInfo,
+          },
+        },
+      };
+
+      expect(selectors.eduDirectDepositIsSetUp(state)).to.be.true;
+    });
+
+    it('returns `false` when an account number is not set', () => {
+      const accountInfo = {
+        accountNumber: null,
+        routingNumber: null,
+      };
+      const state = {
+        vaProfile: {
+          eduPaymentInformation: {
+            paymentAccount: accountInfo,
+          },
+        },
+      };
+
+      expect(selectors.eduDirectDepositIsSetUp(state)).to.be.false;
+    });
+  });
+
+  describe('eduDirectDepositLoadError', () => {
+    it('returns the error if it exists', () => {
+      const error = {
+        code: '123',
+      };
+      const state = {
+        vaProfile: {
+          eduPaymentInformation: {
+            error,
+          },
+        },
+      };
+
+      expect(selectors.eduDirectDepositLoadError(state)).to.deep.equal(error);
+    });
+
+    it('returns `undefined` when there is no error', () => {
+      const accountInfo = {
+        accountNumber: null,
+        routingNumber: null,
+      };
+      const state = {
+        vaProfile: {
+          eduPaymentInformation: {
+            paymentAccount: accountInfo,
+          },
+        },
+      };
+
+      expect(selectors.eduDirectDepositLoadError(state)).to.be.undefined;
+    });
+  });
+
   describe('fullNameLoadError', () => {
     it('should return the error data if it exists', () => {
       const state = {
