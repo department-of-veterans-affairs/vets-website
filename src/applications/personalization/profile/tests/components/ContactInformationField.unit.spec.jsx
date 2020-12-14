@@ -59,17 +59,17 @@ describe('<ContactInformationField/>', () => {
     component.unmount();
   });
 
-  it('renders the ContactInformationEditView', () => {
-    props.showEditView = true;
-    component = enzyme.shallow(<ContactInformationField {...props} />);
+  // it('renders the ContactInformationEditView', () => {
+  //   props.showEditView = true;
+  //   component = enzyme.shallow(<ContactInformationField {...props} />);
 
-    expect(
-      component.find('ContactInformationEditView'),
-      'the ContactInformationEditView was rendered',
-    ).to.have.lengthOf(1);
+  //   expect(
+  //     component.find('ContactInformationEditView'),
+  //     'the ContactInformationEditView was rendered',
+  //   ).to.have.lengthOf(1);
 
-    component.unmount();
-  });
+  //   component.unmount();
+  // });
 
   it('renders the ContactInformationView', () => {
     component = enzyme.shallow(<ContactInformationField {...props} />);
