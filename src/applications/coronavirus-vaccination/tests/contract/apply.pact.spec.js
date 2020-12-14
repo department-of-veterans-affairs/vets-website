@@ -15,6 +15,8 @@ import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthentic
 // post for authenticated user
 // => using saveForm
 // update cypress fixtures
+// => done for unauthenticated user
+// => check authenticated user
 
 contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('GET /registration', () => {
@@ -175,10 +177,12 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
           },
           body: {
             data: {
-              id: like('C2B0CCBC18AFD5A489160753194205616'),
+              id: like('BC79619E54A14BFF0D1607954051449112204'),
               type: 'covid_vaccine_v0_registration_submissions',
               attributes: {
-                createdAt: like('2020-12-09T16:39:02.153Z'),
+                createdAt: like('2020-12-14T13:54:11.501Z'),
+                vaccineInterest: like('INTERESTED'),
+                zipCode: like('10001'),
               },
             },
           },
