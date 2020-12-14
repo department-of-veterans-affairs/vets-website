@@ -48,9 +48,37 @@ describe('<ContactInformationField/>', () => {
 
     component = enzyme.shallow(<ContactInformationField {...isEmptyProps} />);
     expect(
+      component.find('ContactInformationView'),
+      'the ContactInformationView was NOT rendered',
+    ).to.have.lengthOf(0);
+
+    expect(
       component.html(),
       'the add-button was rendered instead of the Content',
     ).to.contain('button');
+    component.unmount();
+  });
+
+  it('renders the ContactInformationEditView', () => {
+    props.showEditView = true;
+    component = enzyme.shallow(<ContactInformationField {...props} />);
+
+    expect(
+      component.find('ContactInformationEditView'),
+      'the ContactInformationEditView was rendered',
+    ).to.have.lengthOf(1);
+
+    component.unmount();
+  });
+
+  it('renders the ContactInformationView', () => {
+    component = enzyme.shallow(<ContactInformationField {...props} />);
+
+    expect(
+      component.find('ContactInformationView'),
+      'the ContactInformationView was rendered',
+    ).to.have.lengthOf(1);
+
     component.unmount();
   });
 
