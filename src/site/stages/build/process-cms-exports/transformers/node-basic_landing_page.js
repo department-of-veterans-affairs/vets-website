@@ -2,11 +2,8 @@
 const {
   getDrupalValue,
   utcToEpochTime,
-  getWysiwygString,
-  createLink,
   createMetaTagArray,
   isPublished,
-  getImageCrop,
 } = require('./helpers');
 
 const transform = entity => {

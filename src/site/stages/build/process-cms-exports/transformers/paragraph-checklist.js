@@ -1,5 +1,3 @@
-const { getDrupalValue } = require('./helpers');
-
 const transform = entity => ({
   contentModelType: entity.contentModelType,
   entity: {

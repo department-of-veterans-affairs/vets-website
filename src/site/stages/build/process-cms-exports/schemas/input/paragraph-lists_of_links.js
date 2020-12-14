@@ -9,8 +9,5 @@ module.exports = {
       items: { $ref: 'EntityReference' },
     },
   },
-  required: [
-    'field_section_header',
-    'field_va_paragraphs',
-  ],
+  required: ['field_section_header', 'field_va_paragraphs'],
 };

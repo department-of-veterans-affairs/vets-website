@@ -2,11 +2,8 @@
 const {
   getDrupalValue,
   utcToEpochTime,
-  getWysiwygString,
-  createLink,
   createMetaTagArray,
   isPublished,
-  getImageCrop,
 } = require('./helpers');
 
 const transform = entity => {
@@ -24,7 +21,11 @@ const transform = entity => {
     fieldIntroTextLimitedHtml: entity.fieldIntroTextLimitedHtml[0],
     fieldOtherCategories: entity.fieldOtherCategories,
     fieldPrimaryCategory: entity.fieldPrimaryCategory[0] || null,
-    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs.map(nodeLandingPage => { return { entity: nodeLandingPage }}),
+    fieldRelatedBenefitHubs: entity.fieldRelatedBenefitHubs.map(
+      nodeLandingPage => {
+        return { entity: nodeLandingPage };
+      },
+    ),
     fieldRelatedInformation: entity.fieldRelatedInformation,
     fieldTableOfContentsBoolean: entity.fieldTableOfContentsBoolean,
     fieldTags: entity.fieldTags[0],
