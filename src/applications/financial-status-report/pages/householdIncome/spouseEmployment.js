@@ -38,17 +38,18 @@ export const uiSchema = {
           'ui:title': 'Employer name',
         },
         spouseIncome: currencyUI('Gross monthly income'),
-        payrollDeductions: {
+        spousePayrollDeductions: {
           'ui:field': ItemLoop,
+          'ui:title': 'Payroll deductions',
+          'ui:description':
+            'You can find your payroll deductions in a recent paycheck.',
           'ui:options': {
             viewField: CardDetailsView,
             doNotScroll: true,
             showSave: true,
+            itemName: 'Add a payroll deduction',
           },
           items: {
-            'ui:title': 'Payroll deductions',
-            'ui:description':
-              'You can find your payroll deductions in a recent paycheck.',
             deductionType: {
               'ui:title': 'Type of payroll deduction',
             },
@@ -93,7 +94,7 @@ export const schema = {
                 spouseIncome: {
                   type: 'number',
                 },
-                payrollDeductions: {
+                spousePayrollDeductions: {
                   type: 'array',
                   items: {
                     type: 'object',

@@ -52,8 +52,8 @@ const formConfig = {
       'Please sign in again to continue your application to opt out of sharing VA education benefits information.',
   },
   transformForSubmit: transform,
-  title: 'Opt Out of Sharing VA Education Benefits Information',
-  subTitle: 'VA Form 22-0993',
+  title: 'Opt out of sharing education benefits information',
+  subTitle: 'Form 22-0993',
   preSubmitInfo,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -63,7 +63,7 @@ const formConfig = {
   },
   chapters: {
     claimantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         claimantInformation: {
           title: 'Applicant Information',
@@ -77,23 +77,10 @@ const formConfig = {
           },
           uiSchema: {
             'ui:description': PrefillMessage,
-            claimantFullName: _.merge(fullNameUI, {
-              first: {
-                'ui:title': 'Your first name',
-              },
-              last: {
-                'ui:title': 'Your last name',
-              },
-              middle: {
-                'ui:title': 'Your middle name',
-              },
-              suffix: {
-                'ui:title': 'Your suffix',
-              },
-            }),
+            claimantFullName: fullNameUI,
             claimantSocialSecurityNumber: _.assign(ssnUI, {
               'ui:required': formData => !formData['view:noSSN'],
-              'ui:title': 'Your Social Security number',
+              'ui:title': 'Social Security number',
             }),
             'view:noSSN': {
               'ui:title': 'I don’t have a Social Security number',
@@ -103,7 +90,7 @@ const formConfig = {
             },
             vaFileNumber: {
               'ui:required': formData => formData['view:noSSN'],
-              'ui:title': 'Your VA file number',
+              'ui:title': 'VA file number',
               'ui:options': {
                 expandUnder: 'view:noSSN',
               },

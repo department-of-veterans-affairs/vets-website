@@ -34,18 +34,18 @@ export const uiSchema = {
         },
         grossMonthlyIncome: currencyUI('Gross monthly income'),
         payrollDeductions: {
+          'ui:field': ItemLoop,
           'ui:title': 'Payroll deductions',
           'ui:description':
             'You can find your payroll deductions in a recent paycheck.',
-          'ui:field': ItemLoop,
           'ui:options': {
             viewType: 'table',
             viewField: TableDetailsView,
             doNotScroll: true,
             showSave: true,
+            itemName: 'Add a payroll deduction',
           },
           items: {
-            'ui:title': 'Add a payroll deduction',
             deductionType: {
               'ui:title': 'Type of payroll deduction',
             },
