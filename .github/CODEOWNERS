@@ -66,7 +66,7 @@ src/site/filters @department-of-veterans-affairs/vsa-facilities-frontend @depart
 # Caregiver
 src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
-# Health Care Application 
+# Health Care Application
 src/applications/hca @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
 # Healthcare Experience
@@ -77,6 +77,7 @@ src/applications/healthcare @department-of-veterans-affairs/vsa-healthcare-exper
 # Booz Allen Team
 src/applications/static-pages/school-resources @department-of-veterans-affairs/bah-code-reviewers
 src/applications/gi @department-of-veterans-affairs/bah-code-reviewers
+src/applications/gi-sandbox @department-of-veterans-affairs/bah-code-reviewers
 src/applications/edu-benefits @department-of-veterans-affairs/bah-code-reviewers
 
 # CTO Health Products
