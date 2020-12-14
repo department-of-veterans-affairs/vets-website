@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
 
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 import { shallow } from 'enzyme';
@@ -9,6 +8,7 @@ import {
   ConfirmationPageSummary,
   ConfirmationPageTitle,
   ConfirmationReturnHome,
+  ConfirmationNoDocumentsRequired,
 } from '../../../components/ConfirmationPage';
 
 const form = {
@@ -33,20 +33,9 @@ describe('<ConfirmationPage>', () => {
     expect(tree.find(ConfirmationPageTitle)).to.not.be.undefined;
     expect(tree.find(ConfirmationPageSummary)).to.not.be.undefined;
     expect(tree.find(ConfirmationGuidance)).to.not.be.undefined;
+    expect(tree.find(ConfirmationNoDocumentsRequired)).to.not.be.undefined;
     expect(tree.find(ConfirmationReturnHome)).to.not.be.undefined;
 
     tree.unmount();
-  });
-
-  it('should expand documents', () => {
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
-
-    // Check to see that div.usa-accordion-content doesn't exist
-    expect(tree.subTree('.usa-accordion-content')).to.be.false;
-
-    tree.getMountedInstance().toggleExpanded({ preventDefault: f => f });
-
-    // Check to see that div.usa-accordion-content exists after expanding
-    expect(tree.subTree('.usa-accordion-content')).to.be.an('object');
   });
 });

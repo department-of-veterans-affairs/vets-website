@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your trailers, campers, and boats',
@@ -24,10 +25,7 @@ export const uiSchema = {
         'ui:title': 'Type of vehicle',
         'ui:required': () => true,
       },
-      recreationalVehicleValue: {
-        'ui:title': 'Estimated value',
-        'ui:required': () => true,
-      },
+      recreationalVehicleValue: currencyUI('Estimated value'),
     },
   },
 };
@@ -47,7 +45,7 @@ export const schema = {
             type: 'string',
           },
           recreationalVehicleValue: {
-            type: 'string',
+            type: 'number',
           },
         },
       },

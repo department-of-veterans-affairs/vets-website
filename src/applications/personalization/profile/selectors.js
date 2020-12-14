@@ -2,22 +2,38 @@ import {
   cnpDirectDepositBankInfo,
   isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
+  isSignedUpForEDUDirectDeposit,
 } from './util';
 
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
 
+export const eduDirectDepositInformation = state =>
+  state.vaProfile?.eduPaymentInformation;
+
 export const cnpDirectDepositUiState = state =>
   state.vaProfile?.cnpPaymentInformationUiState;
+
+export const eduDirectDepositUiState = state =>
+  state.vaProfile?.eduPaymentInformationUiState;
 
 export const cnpDirectDepositAccountInformation = state =>
   cnpDirectDepositBankInfo(cnpDirectDepositInformation(state));
 
+export const eduDirectDepositAccountInformation = state =>
+  eduDirectDepositInformation(state).paymentAccount;
+
 export const cnpDirectDepositIsSetUp = state =>
   isSignedUpForCNPDirectDeposit(cnpDirectDepositInformation(state));
 
+export const eduDirectDepositIsSetUp = state =>
+  isSignedUpForEDUDirectDeposit(eduDirectDepositAccountInformation(state));
+
 export const cnpDirectDepositLoadError = state =>
   cnpDirectDepositInformation(state)?.error;
+
+export const eduDirectDepositLoadError = state =>
+  eduDirectDepositInformation(state)?.error;
 
 export const cnpDirectDepositAddressInformation = state =>
   cnpDirectDepositInformation(state)?.responses?.[0]?.paymentAddress;

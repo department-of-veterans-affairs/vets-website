@@ -23,6 +23,7 @@ import {
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+  FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED,
   FORM_REQUEST_CURRENT_LOCATION,
   FORM_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_CALENDAR_FETCH_SLOTS,
@@ -118,6 +119,8 @@ const initialState = {
   requestLocationStatus: FETCH_STATUS.notStarted,
   communityCareProviderList: [],
   requestStatus: FETCH_STATUS.notStarted,
+  currentLocation: {},
+  ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
 };
 
 function getFacilities(state, typeOfCareId, vaParent) {
@@ -420,6 +423,31 @@ export default function formReducer(state = initialState, action) {
         requestLocationStatus: FETCH_STATUS.loading,
       };
     }
+    case FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED: {
+      let requestLocationStatus = state.requestLocationStatus;
+
+      requestLocationStatus = FETCH_STATUS.succeeded;
+
+      if (
+        action.sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+      ) {
+        return {
+          ...state,
+          currentLocation: {
+            latitude: action.location?.coords.latitude,
+            longitude: action.location?.coords.longitude,
+          },
+          ccProviderPageSortMethod: action.sortMethod,
+          requestLocationStatus,
+        };
+      } else {
+        return {
+          ...state,
+          ccProviderPageSortMethod: action.sortMethod,
+        };
+      }
+    }
+
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
       const formData = state.data;
       const typeOfCareId = getTypeOfCare(formData).id;
@@ -1094,10 +1122,31 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
+      let communityCareProviderList = action.communityCareProviderList;
+      const address = action.address;
+
+      const sortMethod = state.ccProviderPageSortMethod
+        ? state.ccProviderPageSortMethod
+        : FACILITY_SORT_METHODS.distanceFromResidential;
+      communityCareProviderList = communityCareProviderList
+        .map(facility => {
+          const distance = distanceBetween(
+            address.latitude,
+            address.longitude,
+            facility.position.latitude,
+            facility.position.longitude,
+          );
+          return {
+            ...facility,
+            [sortMethod]: distance,
+          };
+        })
+        .sort((a, b) => a[sortMethod] - b[sortMethod]);
+
       return {
         ...state,
         requestStatus: FETCH_STATUS.succeeded,
-        communityCareProviderList: action.communityCareProviderList,
+        communityCareProviderList,
       };
     }
     case FORM_REQUESTED_PROVIDERS_FAILED: {
