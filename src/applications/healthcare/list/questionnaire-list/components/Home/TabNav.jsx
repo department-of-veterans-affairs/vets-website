@@ -3,6 +3,8 @@ import TabItem from './TabItem';
 import { useHistory, useLocation } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 
+import { todoPath, completedPath } from './routes';
+
 export default function TabNav() {
   const history = useHistory();
   const location = useLocation();
@@ -15,30 +17,30 @@ export default function TabNav() {
     <nav className="questionnaire-list-tabs-container">
       <ul className="va-tabs questionnaire-list-tabs" role="tablist">
         <TabItem
-          tabPath={`/healthcare/list/todo`}
+          tabPath={todoPath}
           id="toDo"
           text="To do"
           isActive={!pathWithSlash.includes('completed')}
           onNextTab={() => {
-            history.push('/healthcare/list/completed');
+            history.push(completedPath);
             focusElement('#tab_completed');
           }}
           onPreviousTab={() => {
-            history.push('/healthcare/list/completed');
+            history.push(completedPath);
             focusElement('#tab_completed');
           }}
         />
         <TabItem
-          tabPath={`/healthcare/list/completed`}
+          tabPath={completedPath}
           id="completed"
           text="Completed"
           isActive={pathWithSlash.includes('completed')}
           onNextTab={() => {
-            history.push('/healthcare/list/todo');
+            history.push(todoPath);
             focusElement('#tab_toDo');
           }}
           onPreviousTab={() => {
-            history.push('/healthcare/list/todo');
+            history.push(todoPath);
             focusElement('#tab_toDo');
           }}
         />

@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -20,13 +21,11 @@ export const uiSchema = {
         showSave: true,
       },
       items: {
-        'ui:title': 'Additional income:',
+        'ui:title': 'Add income',
         incomeType: {
-          'ui:title': 'Income Type',
+          'ui:title': 'Type of income',
         },
-        monthlyAmount: {
-          'ui:title': 'Monthly Amount',
-        },
+        incomeAmount: currencyUI('Monthly income amount'),
       },
     },
   },
@@ -47,10 +46,9 @@ export const schema = {
             properties: {
               incomeType: {
                 type: 'string',
-                enum: ['Income Type 1', 'Income Type 2', 'Income Type 3'],
               },
-              monthlyAmount: {
-                type: 'string',
+              incomeAmount: {
+                type: 'number',
               },
             },
           },

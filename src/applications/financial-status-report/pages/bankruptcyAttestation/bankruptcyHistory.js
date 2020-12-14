@@ -35,7 +35,6 @@ export const uiSchema = {
       },
       mortgageCompany: {
         'ui:title': 'Was VA or a mortgage company involved in this bankruptcy?',
-        'ui:required': () => true,
         'ui:widget': 'radio',
       },
       vaInvolved: {

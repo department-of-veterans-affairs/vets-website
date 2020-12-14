@@ -8,6 +8,7 @@ import { benefitsLabels } from '../../utils/labels';
 import {
   claimList,
   ConfirmationGuidance,
+  ConfirmationNoDocumentsRequired,
   ConfirmationPageSummary,
   ConfirmationPageTitle,
   ConfirmationReturnHome,
@@ -84,26 +85,12 @@ class ConfirmationPage extends React.Component {
           name={name}
           claimInfoList={claimInfoList}
         />
-        <div
-          id="collapsiblePanel"
-          className="usa-accordion-bordered screen-only"
+        <ConfirmationNoDocumentsRequired
+          expanded={this.state.isExpanded}
+          toggleExpanded={this.toggleExpanded}
         >
-          <ul className="usa-unstyled-list">
-            <li>
-              <div className="accordion-header clearfix">
-                <button
-                  className="usa-button-unstyled"
-                  aria-expanded={this.state.isExpanded ? 'true' : 'false'}
-                  aria-controls="collapsible-document-explanation"
-                  onClick={this.toggleExpanded}
-                >
-                  No documents required at this time
-                </button>
-              </div>
-              <div id="collapsible-document-explanation">{docExplanation}</div>
-            </li>
-          </ul>
-        </div>
+          {docExplanation}
+        </ConfirmationNoDocumentsRequired>
         <ConfirmationGuidance />
         <ConfirmationReturnHome />
       </div>
