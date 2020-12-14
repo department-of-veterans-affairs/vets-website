@@ -14,6 +14,7 @@ import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthentic
 // => using saveForm
 // post for authenticated user
 // => using saveForm
+// update cypress fixtures
 
 contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('GET /registration', () => {
