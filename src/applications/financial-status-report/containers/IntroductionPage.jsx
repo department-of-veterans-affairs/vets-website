@@ -7,10 +7,10 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 const IntroductionPage = props => {
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply for financial hardship assistance" />
+      <FormTitle title="Request help for VA debt" />
       <p>Equal to VA Form 5655 (Financial Status Report).</p>
       <SaveInProgressIntro
-        startText="Apply for financial hardship assistance"
+        startText="Request help for VA debt"
         unauthStartText="Sign in or create an account"
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
@@ -67,7 +67,7 @@ const IntroductionPage = props => {
         buttonOnly
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
-        startText="Apply for financial hardship assistance"
+        startText="Request help for VA debt"
         unauthStartText="Sign in or create an account"
         prefillEnabled={props.route.formConfig.prefillEnabled}
         formConfig={formConfig}

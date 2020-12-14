@@ -11,7 +11,9 @@ describe('healthcare questionnaire -- demographics -- phone numbers', () => {
         'DISMISSED_ANNOUNCEMENTS',
         JSON.stringify(['single-sign-on-intro']),
       );
-      cy.visit('/healthcare/questionnaire/demographics?skip');
+      cy.visit(
+        '/health-care/health-questionnaires/questionnaires/answer-questions/demographics?skip',
+      );
     });
   });
   it('all default phone numbers', () => {

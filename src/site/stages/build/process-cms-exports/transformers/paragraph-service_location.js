@@ -8,7 +8,10 @@ const transform = entity => ({
   },
   fieldEmailContacts: entity.fieldEmailContacts
     ? entity.fieldEmailContacts.map(emailContactData => ({
-        entity: { ...emailContactData },
+        entity: {
+          fieldEmailLabel: getDrupalValue(emailContactData.fieldEmailLabel),
+          fieldEmailAddress: getDrupalValue(emailContactData.fieldEmailAddress),
+        },
       }))
     : null,
   fieldFacilityServiceHours: entity.fieldFacilityServiceHours[0],

@@ -3,7 +3,6 @@ import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { rootUrl as hearingAidSuppliesFormUrl } from 'applications/disability-benefits/2346/manifest.json';
 import { rootUrl as viewDependentsAppUrl } from 'applications/personalization/view-dependents/manifest.json';
 import { rootUrl as form686FormUrl } from 'applications/disability-benefits/686c-674/manifest.json';
-import { rootUrl as chapter36Url } from 'applications/vre/28-8832/manifest.json';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -29,7 +28,6 @@ export const widgetTypes = {
   VIEW_DEPENDENTS: 'view-dependents',
   ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
   CHANGE_ADDRESS: 'change-address',
-  CHAPTER_36_CTA: 'chapter-36-cta',
 };
 
 const HEALTH_TOOLS = [
@@ -201,12 +199,6 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
         redirect: false,
       };
 
-    case widgetTypes.CHAPTER_36_CTA:
-      return {
-        url: chapter36Url,
-        rediret: false,
-      };
-
     default:
       return {};
   }
@@ -310,9 +302,6 @@ export const serviceDescription = appId => {
 
     case widgetTypes.CHANGE_ADDRESS:
       return 'change your address';
-
-    case widgetTypes.CHAPTER_36_CTA:
-      return 'apply for career counseling';
 
     default:
       return 'use this service';
