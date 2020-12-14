@@ -52,38 +52,6 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
       await apiGetRequest(url);
     });
-
-    it('Unauthenticated case: request for saved registration will return a 403 Forbidden HTTP response', async () => {
-      const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
-
-      const interaction = {
-        state: 'unauthenticated request for saved submission is forbidden',
-        uponReceiving: 'a GET request',
-        withRequest: {
-          method: 'GET',
-          path: '/covid_vaccine/v0/registration',
-          headers: {
-            'X-Key-Inflection': 'camel',
-          },
-        },
-        willRespondWith: {
-          status: 403,
-          headers: {
-            'Content-Type': term({
-              matcher: '^application/json',
-              generate: 'application/json',
-            }),
-          },
-          body: {
-            data: like({}), // waiting for example data
-          },
-        },
-      };
-
-      await mockApi().addInteraction(interaction);
-
-      await apiGetRequest(url);
-    });
   });
 
   describe('POST /registration', () => {
