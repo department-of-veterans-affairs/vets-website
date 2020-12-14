@@ -102,8 +102,8 @@ describe('Schemaform <FormSaved>', () => {
         user={user()}
       />,
     );
-    expect(tree.subTree('withRouter(FormStartControls)').props.resumeOnly).to.be
-      .false;
+    expect(tree.subTree('withRouter(FormStartControls)').props.resumeOnly).to
+      .not.be.true;
   });
   it('should config form controls to be resume only', () => {
     const thisRoute = {
