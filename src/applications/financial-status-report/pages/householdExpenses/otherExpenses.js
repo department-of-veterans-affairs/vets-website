@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
-import CardDetailsView from '../../components/CardDetailsView';
+import TableDetailsView from '../../components/TableDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Other living expenses',
@@ -12,7 +13,8 @@ export const uiSchema = {
     expenseRecords: {
       'ui:options': {
         expandUnder: 'hasExpenses',
-        viewField: CardDetailsView,
+        viewType: 'table',
+        viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
       },
@@ -24,9 +26,7 @@ export const uiSchema = {
         expenseType: {
           'ui:title': 'Type of expense',
         },
-        monthlyAmount: {
-          'ui:title': 'Monthly payment amount',
-        },
+        expenseAmount: currencyUI('Monthly payment amount'),
       },
     },
   },
@@ -48,7 +48,7 @@ export const schema = {
               expenseType: {
                 type: 'string',
               },
-              monthlyAmount: {
+              expenseAmount: {
                 type: 'number',
               },
             },

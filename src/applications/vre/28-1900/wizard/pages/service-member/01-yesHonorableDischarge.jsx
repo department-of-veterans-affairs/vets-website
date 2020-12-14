@@ -1,6 +1,7 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { serviceMemberPathPageNames } from '../pageList';
+import { handleChangeAndPageSet } from '../helpers';
 
 const options = [
   { value: serviceMemberPathPageNames.yesVaMemorandum, label: 'Yes' },
@@ -18,7 +19,9 @@ const yesHonorableDischargeSM = ({ setPageState, state = {} }) => (
     }
     id={`${serviceMemberPathPageNames.yesHonorableDischargeSM}-option`}
     options={options}
-    onValueChange={({ value }) => setPageState({ selected: value }, value)}
+    onValueChange={({ value }) =>
+      handleChangeAndPageSet(setPageState, value, options)
+    }
     value={{ value: state.selected }}
     additionalFieldsetClass="vads-u-margin-top--0"
   />

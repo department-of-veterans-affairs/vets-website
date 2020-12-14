@@ -4,6 +4,9 @@
 .questionnaire-list-tabs-container{
   border-bottom: 1px solid $color-gray-light;
   width: 100%;
+  @include media($medium-screen) {
+    width: 70%;
+  }
   z-index: -1;
 }
 
@@ -85,6 +88,10 @@ ul.questionnaire-list {
 
   .card{
     background-color: $color-gray-lightest;
+    width: 100%;
+    @include media($medium-screen) {
+      width: 60%;
+    }
     header{
       font-size: 2.25rem;
       font-weight: bold;

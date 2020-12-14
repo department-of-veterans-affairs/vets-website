@@ -7,6 +7,7 @@ export default class SearchAreaControl {
     this.map = map;
     this.container = document.createElement('div');
     this.container.id = 'search-area-control-container';
+    this.container.setAttribute('aria-live', 'polite');
     this.container.className = this.isMobile
       ? 'mapboxgl-ctrl-bottom-center'
       : 'mapboxgl-ctrl-top-center';

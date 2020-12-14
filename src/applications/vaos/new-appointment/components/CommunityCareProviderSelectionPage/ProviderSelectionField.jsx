@@ -3,11 +3,12 @@ import { selectProviderSelectionInfo } from '../../../utils/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ErrorMessage from '../../../components/ErrorMessage';
+import RemoveProviderModal from './RemoveProviderModal';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -17,10 +18,15 @@ function ProviderSelectionField({
   onChange,
   idSchema,
   requestStatus,
+  requestLocationStatus,
   requestProvidersList,
   communityCareProviderList,
+  updateCCProviderSortMethod,
+  currentLocation,
+  sortMethod,
 }) {
-  const [checkedProvider, setCheckedProvider] = useState();
+  const [checkedProvider, setCheckedProvider] = useState(false);
+  const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showProvidersList, setShowProvidersList] = useState(false);
   const [providersListLength, setProvidersListLength] = useState(
@@ -33,11 +39,30 @@ function ProviderSelectionField({
   const loadingProviders =
     requestStatus === FETCH_STATUS.loading ||
     requestStatus === FETCH_STATUS.notStarted;
+
+  const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
+
   const providerSelected = 'id' in formData;
+  const sortByDistanceFromResidential =
+    !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
+
+  const sortByDistanceFromCurrentLocation =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
+
   useEffect(() => {
-    requestProvidersList(address);
     setMounted(true);
   }, []);
+
+  useEffect(
+    () => {
+      if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+        requestProvidersList(currentLocation);
+      } else {
+        requestProvidersList(address);
+      }
+    },
+    [sortMethod],
+  );
 
   useEffect(
     () => {
@@ -48,6 +73,15 @@ function ProviderSelectionField({
       }
     },
     [showProvidersList],
+  );
+
+  useEffect(
+    () => {
+      if (mounted && Object.keys(formData).length === 0) {
+        scrollAndFocus('.va-button-link');
+      }
+    },
+    [formData],
   );
 
   return (
@@ -96,6 +130,16 @@ function ProviderSelectionField({
               >
                 Change provider
               </button>
+              <button
+                aria-label={`Remove ${formData.name}`}
+                type="button"
+                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0 vads-u-margin-right--2"
+                onClick={() => {
+                  setShowRemoveProviderModal(true);
+                }}
+              >
+                Remove
+              </button>
             </div>
           </>
         )}
@@ -104,11 +148,47 @@ function ProviderSelectionField({
           <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
             Choose a provider
           </h2>
-          <p>Your address on file:</p>
-          <ResidentialAddress address={address} />
+          {!loadingProviders &&
+            requestLocationStatus === FETCH_STATUS.succeeded &&
+            sortByDistanceFromCurrentLocation && (
+              <p className="vads-u-margin-top--0">
+                Providers based on your location
+              </p>
+            )}
+          {!loadingLocations &&
+            sortByDistanceFromResidential && (
+              <>
+                <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                  Your address on file:
+                </p>
+                <ResidentialAddress address={address} />
+                {(requestLocationStatus === FETCH_STATUS.notStarted ||
+                  requestLocationStatus === FETCH_STATUS.succeeded) && (
+                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+                    Or,{' '}
+                    <button
+                      type="button"
+                      className="va-button-link"
+                      onClick={() => {
+                        updateCCProviderSortMethod(
+                          FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                        );
+                      }}
+                    >
+                      use your current location
+                    </button>
+                  </p>
+                )}
+              </>
+            )}
           {loadingProviders && (
             <div className="vads-u-padding-bottom--2">
-              <LoadingIndicator message="Loading the list of providers" />
+              <LoadingIndicator message="Loading the list of providers." />
+            </div>
+          )}
+          {loadingLocations && (
+            <div className="vads-u-padding-bottom--2">
+              <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
             </div>
           )}
           {requestStatus === FETCH_STATUS.failed && (
@@ -116,71 +196,97 @@ function ProviderSelectionField({
               <ErrorMessage />
             </div>
           )}
-          {requestStatus === FETCH_STATUS.succeeded && (
-            <>
-              <p>
-                Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-                {communityCareProviderList.length} providers
-              </p>
-              {currentlyShownProvidersList.map(provider => {
-                const { name, position } = provider;
-                const checked = provider.id === checkedProvider;
-                const distance = distanceBetween(
-                  position.latitude,
-                  position.longitude,
-                  address.latitude,
-                  address.longitude,
-                );
-                return (
-                  <div className="form-radio-buttons" key={provider.id}>
-                    <input
-                      type="radio"
-                      checked={checked}
-                      id={`${idSchema.$id}_${provider.id}`}
-                      name={`${idSchema.$id}`}
-                      value={provider.id}
-                      onChange={_ => setCheckedProvider(provider.id)}
-                      disabled={loadingProviders}
-                    />
-                    <label htmlFor={`${idSchema.$id}_${provider.id}`}>
-                      <span className="vads-u-display--block vads-u-font-weight--bold">
-                        {name}
-                      </span>
-                      <span className="vads-u-display--block">
-                        {provider.address?.line}
-                      </span>
-                      <span className="vads-u-display--block">
-                        {provider.address.city}, {provider.address.state}{' '}
-                        {provider.address.postalCode}
-                      </span>
-                      <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-                        {distance} miles
-                      </span>
-                    </label>
-                    {checked && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          onChange(
-                            communityCareProviderList.find(
-                              p => p.id === checkedProvider,
-                            ),
-                          );
-                          setCheckedProvider();
-                          setShowProvidersList(false);
-                        }}
-                      >
-                        Choose provider
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </>
-          )}
+          {!loadingLocations &&
+            requestLocationStatus === FETCH_STATUS.failed && (
+              <div className="vads-u-padding--2 vads-u-background-color--primary-alt-lightest">
+                <div className="usa-alert-body">
+                  Your browser is blocked from finding your current location.
+                  Make sure your browser’s location feature is turned on.
+                </div>
+              </div>
+            )}
+          {!loadingProviders &&
+            !loadingLocations &&
+            (requestStatus === FETCH_STATUS.succeeded ||
+              requestLocationStatus === FETCH_STATUS.succeeded) && (
+              <>
+                {sortByDistanceFromCurrentLocation && (
+                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+                    Or,{' '}
+                    <button
+                      type="button"
+                      className="va-button-link"
+                      onClick={() => {
+                        updateCCProviderSortMethod(
+                          FACILITY_SORT_METHODS.distanceFromResidential,
+                        );
+                      }}
+                    >
+                      use your home address on file
+                    </button>
+                  </p>
+                )}
+                <p>
+                  Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+                  {communityCareProviderList.length} providers
+                </p>
+                {currentlyShownProvidersList.map(provider => {
+                  const { name } = provider;
+                  const checked = provider.id === checkedProvider;
+                  return (
+                    <div className="form-radio-buttons" key={provider.id}>
+                      <input
+                        type="radio"
+                        checked={checked}
+                        id={`${idSchema.$id}_${provider.id}`}
+                        name={`${idSchema.$id}`}
+                        value={provider.id}
+                        onChange={_ => setCheckedProvider(provider.id)}
+                        disabled={loadingProviders}
+                      />
+                      <label htmlFor={`${idSchema.$id}_${provider.id}`}>
+                        <span className="vads-u-display--block vads-u-font-weight--bold">
+                          {name}
+                        </span>
+                        <span className="vads-u-display--block">
+                          {provider.address?.line}
+                        </span>
+                        <span className="vads-u-display--block">
+                          {provider.address.city}, {provider.address.state}{' '}
+                          {provider.address.postalCode}
+                        </span>
+                        <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+                          {provider[sortMethod]} miles
+                        </span>
+                      </label>
+                      {checked && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onChange(
+                              communityCareProviderList.find(
+                                p => p.id === checkedProvider,
+                              ),
+                            );
+                            setCheckedProvider();
+                            setShowProvidersList(false);
+                          }}
+                        >
+                          Choose provider
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </>
+            )}
         </>
       )}
-      {requestStatus === FETCH_STATUS.succeeded &&
+      {!loadingProviders &&
+        !loadingLocations &&
+        requestStatus === FETCH_STATUS.succeeded &&
+        (requestLocationStatus === FETCH_STATUS.notStarted ||
+          requestLocationStatus === FETCH_STATUS.succeeded) &&
         showProvidersList && (
           <div className="vads-u-display--flex">
             {providersListLength < communityCareProviderList.length && (
@@ -192,14 +298,13 @@ function ProviderSelectionField({
                     setProvidersListLength(providersListLength + 5)
                   }
                 >
-                  <span className="additional-info-title">
+                  <span className="va-button-link">
                     +{' '}
                     {Math.min(
                       communityCareProviderList.length - providersListLength,
                       INITIAL_PROVIDER_DISPLAY_COUNT,
                     )}{' '}
                     more providers
-                    <i className="fas fa-angle-down vads-u-padding-right--0p5" />
                   </span>
                 </button>
               </>
@@ -217,6 +322,19 @@ function ProviderSelectionField({
             </button>
           </div>
         )}
+      {showRemoveProviderModal && (
+        <RemoveProviderModal
+          provider={formData}
+          address={address}
+          onClose={response => {
+            setShowRemoveProviderModal(false);
+            if (response === true) {
+              setCheckedProvider(false);
+              onChange({});
+            }
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -227,6 +345,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   requestProvidersList: actions.requestProvidersList,
+  updateCCProviderSortMethod: actions.updateCCProviderSortMethod,
 };
 
 export default connect(

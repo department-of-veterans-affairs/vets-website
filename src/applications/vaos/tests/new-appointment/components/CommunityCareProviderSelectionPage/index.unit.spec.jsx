@@ -15,6 +15,7 @@ import {
   mockCommunityCareEligibility,
   mockParentSites,
   mockCCProviderFetch,
+  mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
@@ -195,8 +196,54 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
     );
   });
-  // TODO: show more
-  // TODO: provider fetch failure
+
+  it('should display choose provider when remove provider clicked', async () => {
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
+    userEvent.click(
+      await screen.getByRole('button', { name: /choose provider/i }),
+    );
+    expect(screen.baseElement).to.contain.text(
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+    );
+
+    // Remove Provider Cancel
+    userEvent.click(await screen.findByRole('button', { name: /remove/i }));
+    userEvent.click(
+      await screen.findByText(
+        /Are you sure you want to remove this provider\?/i,
+      ),
+    );
+    userEvent.click(await screen.findByRole('button', { name: /Cancel/i }));
+    expect(screen.baseElement).to.contain.text(
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+    );
+
+    // Remove Provider
+    userEvent.click(await screen.findByRole('button', { name: /remove/i }));
+    userEvent.click(
+      await screen.findByText(
+        /Are you sure you want to remove this provider\?/i,
+      ),
+    );
+    userEvent.click(
+      await screen.findByRole('button', { name: /Yes, remove provider/i }),
+    );
+    expect(await screen.getByRole('button', { name: /Choose a provider/i }));
+  });
+
   it('should display an error when choose a provider clicked and provider fetch error', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
@@ -231,5 +278,141 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         /something went wrong on our end. please try again later./i,
       ),
     );
+  });
+
+  it('should notify user that the browser is blocked from using current location information', async () => {
+    const store = createTestStore(initialState);
+
+    mockGetCurrentPosition({ fail: true });
+
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['208D00000X', '207R00000X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/use your current location/i));
+
+    expect(
+      await screen.findByText(
+        /Your browser is blocked from finding your current location. Make sure your browser’s location feature is turned on./i,
+      ),
+    ).to.be.ok;
+  });
+
+  it('should sort provider addresses by distance from home address in ascending order', async () => {
+    const store = createTestStore(initialState);
+
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['208D00000X', '207R00000X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider based on home address
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+
+    const miles = screen.queryAllByText(/miles$/);
+
+    expect(miles.length).to.equal(16);
+    expect(() => {
+      for (let i = 0; i < miles.length - 1; i++) {
+        if (
+          Number.parseFloat(miles[i].textContent) >
+          Number.parseFloat(miles[i + 1].textContent)
+        )
+          throw new Error();
+      }
+    }).to.not.throw;
+  });
+
+  it('should sort provider addresses by distance from current location in ascending order', async () => {
+    const store = createTestStore(initialState);
+    const currentPosition = {
+      latitude: 37.5615,
+      longitude: 121.9988,
+      fail: false,
+    };
+
+    mockGetCurrentPosition(currentPosition);
+
+    mockCCProviderFetch(
+      currentPosition,
+      ['208D00000X', '207R00000X', '261QP2300X'],
+      calculateBoundingBox(
+        currentPosition.latitude,
+        currentPosition.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider based on home address
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+
+    // Choose Provider based on current location
+    userEvent.click(await screen.findByText(/use your current location$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
+
+    const miles = screen.queryAllByText(/miles$/);
+
+    expect(miles.length).to.equal(16);
+    expect(() => {
+      for (let i = 0; i < miles.length - 1; i++) {
+        if (
+          Number.parseFloat(miles[i].textContent) >
+          Number.parseFloat(miles[i + 1].textContent)
+        )
+          throw new Error();
+      }
+    }).to.not.throw;
   });
 });

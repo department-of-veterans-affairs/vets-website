@@ -33,10 +33,14 @@ export default function ConfirmationRequestInfo({
   data,
   facilityDetails,
   pageTitle,
+  useProviderSelection,
 }) {
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVideoVisit = data.visitType === 'telehealth';
   const [isAdditionalInfoOpen, toggleAdditionalInfo] = useState(false);
+  const hasSelectedProvider =
+    !!data.communityCareProvider &&
+    !!Object.keys(data.communityCareProvider).length;
 
   return (
     <div>
@@ -74,7 +78,8 @@ export default function ConfirmationRequestInfo({
           <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
             <div className="vads-u-margin--0">
               {isCommunityCare &&
-                !data.hasCommunityCareProvider && (
+                ((!useProviderSelection && !data.hasCommunityCareProvider) ||
+                  (useProviderSelection && !hasSelectedProvider)) && (
                   <>
                     <h3 className="vaos-appts__block-label">
                       <strong>Preferred provider</strong>
@@ -88,6 +93,7 @@ export default function ConfirmationRequestInfo({
                   </>
                 )}
               {isCommunityCare &&
+                !useProviderSelection &&
                 data.hasCommunityCareProvider && (
                   <>
                     <h3 className="vaos-appts__block-label">
@@ -118,6 +124,29 @@ export default function ConfirmationRequestInfo({
                         {data.communityCareProvider.address.postalCode}
                         <br />
                       </p>
+                    </div>
+                  </>
+                )}
+              {isCommunityCare &&
+                useProviderSelection &&
+                hasSelectedProvider && (
+                  <>
+                    <h3 className="vaos-appts__block-label">
+                      <strong>Preferred provider</strong>
+                    </h3>
+                    <div>
+                      {data.communityCareProvider.name}
+                      <br />
+                      {data.communityCareProvider.address.line.map(line => (
+                        <>
+                          {line}
+                          <br />
+                        </>
+                      ))}
+                      {data.communityCareProvider.address.city},{' '}
+                      {data.communityCareProvider.address.state}{' '}
+                      {data.communityCareProvider.address.postalCode}
+                      <br />
                     </div>
                   </>
                 )}

@@ -35,7 +35,7 @@ import {
   resetMapElements,
   setSearchAreaPosition,
 } from '../utils/helpers';
-import { MapboxInit, MARKER_LETTERS } from '../constants';
+import { MapboxInit, MARKER_LETTERS, MAX_SEARCH_AREA } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -145,6 +145,7 @@ const FacilitiesMap = props => {
       locationBounds.extend(
         new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
       );
+      map.fitBounds(locationBounds, { padding: 20 });
     }
 
     if (props.currentQuery.searchArea) {
@@ -157,8 +158,9 @@ const FacilitiesMap = props => {
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
     }
-
-    map.fitBounds(locationBounds, { padding: 20 });
+    if (searchResultTitleRef.current) {
+      setFocus(searchResultTitleRef.current);
+    }
   };
 
   const handleSearch = async () => {
@@ -177,21 +179,35 @@ const FacilitiesMap = props => {
     setIsSearching(true);
   };
 
+  const calculateSearchArea = () => {
+    const currentBounds = map.getBounds();
+    const { _ne, _sw } = currentBounds;
+    return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
+  };
+
   const handleSearchArea = () => {
     resetMapElements();
     const { currentQuery } = props;
     currentZoom = null;
     const center = map.getCenter().wrap();
-
+    const bounds = map.getBounds();
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': currentQuery.facilityType,
       'fl-search-svc-type': currentQuery.serviceType,
     });
+    const currentMapBoundsDistance = calculateSearchArea();
 
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
+      currentMapBoundsDistance,
+      currentBounds: [
+        bounds._sw.lng,
+        bounds._sw.lat,
+        bounds._ne.lng,
+        bounds._ne.lat,
+      ],
     });
   };
 
@@ -211,6 +227,26 @@ const FacilitiesMap = props => {
     });
   };
 
+  const activateSearchAreaControl = () => {
+    const searchAreaControlId = document.getElementById(
+      'search-area-control-container',
+    );
+
+    if (calculateSearchArea() > MAX_SEARCH_AREA) {
+      searchAreaControlId.style.display = 'none';
+      return;
+    }
+
+    if (searchAreaControlId.style.display === 'none') {
+      searchAreaControlId.style.display = 'block';
+    }
+
+    if (searchAreaControlId && !searchAreaSet) {
+      searchAreaControlId.addEventListener('click', handleSearchArea, false);
+      searchAreaSet = true;
+    }
+  };
+
   const setupMap = (setMapInit, mapContainerInit) => {
     mapboxgl.accessToken = mapboxToken;
     const mapInit = new mapboxgl.Map({
@@ -222,21 +258,19 @@ const FacilitiesMap = props => {
 
     const searchAreaControl = new SearchAreaControl(isMobile);
     mapInit.addControl(searchAreaControl);
-    mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
+    mapInit.addControl(
+      new mapboxgl.NavigationControl({
+        // Hide rotation control.
+        showCompass: false,
+      }),
+      'top-left',
+    );
     setSearchAreaPosition();
     mapInit.on('load', () => {
       setMapInit(mapInit);
       mapInit.resize();
     });
 
-    mapInit.on('zoomend', () => {
-      const zoomNotFromSearch =
-        document.activeElement.id !== 'search-results-title';
-      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
-        recordZoomEvent(currentZoom, parseInt(mapInit.getZoom(), 10));
-      }
-      currentZoom = parseInt(mapInit.getZoom(), 10);
-    });
     return mapInit;
   };
 
@@ -245,22 +279,18 @@ const FacilitiesMap = props => {
    * For example coming back from a detail page
    */
   if (props.results.length > 0 && map) {
-    // Set dragend to track map-moved ga event
     map.on('dragend', () => {
-      const searchAreaControlId = document.getElementById(
-        'search-area-control-container',
-      );
-
-      if (searchAreaControlId.style.display === 'none') {
-        searchAreaControlId.style.display = 'block';
-      }
-
-      if (searchAreaControlId && !searchAreaSet) {
-        searchAreaControlId.addEventListener('click', handleSearchArea, false);
-        searchAreaSet = true;
-      }
-
+      activateSearchAreaControl();
       recordPanEvent(map.getCenter(), props.currentQuery);
+    });
+    map.on('zoomend', () => {
+      const zoomNotFromSearch =
+        document.activeElement.id !== 'search-results-title';
+      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
+        activateSearchAreaControl();
+        recordZoomEvent(currentZoom, parseInt(map.getZoom(), 10));
+      }
+      currentZoom = parseInt(map.getZoom(), 10);
     });
   }
 
@@ -536,9 +566,6 @@ const FacilitiesMap = props => {
             radius,
           });
           setIsSearching(false);
-        }
-        if (searchResultTitleRef.current) {
-          setFocus(searchResultTitleRef.current);
         }
       }
     },

@@ -1,6 +1,7 @@
 export default Object.freeze({
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   dashboardShowDashboard2: 'dashboard_show_dashboard_2',
+  directDepositEducation: 'ch33_dd_profile',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
@@ -61,9 +62,10 @@ export default Object.freeze({
   showChapter36: 'show_chapter_36',
   showChapter31: 'show_chapter_31',
   viewPaymentHistory: 'view_payment_history',
-  form1995EduUpdates: 'form_1995_edu_updates',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   form526ConfirmationEmail: 'form526_confirmation_email',
   form526ConfirmationEmailShowCopy: 'form526_confirmation_email_show_copy',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
+  covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
+  covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
 });

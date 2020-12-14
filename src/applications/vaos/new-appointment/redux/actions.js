@@ -186,6 +186,8 @@ export const FORM_REQUESTED_PROVIDERS_SUCCEEDED =
   'newAppointment/FORM_REQUESTED_PROVIDERS_SUCCEEDED';
 export const FORM_REQUESTED_PROVIDERS_FAILED =
   'newAppointment/FORM_REQUESTED_PROVIDERS_FAILED';
+export const FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED =
+  'newAppointment/FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -416,8 +418,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
         // If we have an already selected location or only have a single location
         // fetch eligbility data immediately
+        const supportedFacilities = typeOfCareFacilities?.filter(
+          facility =>
+            facility.legacyVAR.directSchedulingSupported ||
+            facility.legacyVAR.requestSupported,
+        );
         const eligibilityDataNeeded =
-          !!facilityId || typeOfCareFacilities?.length === 1;
+          !!facilityId || supportedFacilities?.length === 1;
 
         if (!typeOfCareFacilities.length) {
           recordEligibilityFailure(
@@ -428,14 +435,14 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         }
 
         if (eligibilityDataNeeded && !facilityId) {
-          facilityId = typeOfCareFacilities[0].id;
+          facilityId = supportedFacilities[0].id;
         }
 
         const eligibilityChecks =
           newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
         if (eligibilityDataNeeded && !eligibilityChecks) {
-          const location = typeOfCareFacilities.find(f => f.id === facilityId);
+          const location = supportedFacilities.find(f => f.id === facilityId);
 
           if (!siteId) {
             siteId = getSiteIdFromFakeFHIRId(location.id);
@@ -449,6 +456,45 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
       });
+    }
+  };
+}
+
+export function updateCCProviderSortMethod(sortMethod) {
+  return async (dispatch, _getState) => {
+    let location = null;
+    const action = {
+      type: FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED,
+      sortMethod,
+    };
+
+    if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+      dispatch({
+        type: FORM_REQUEST_CURRENT_LOCATION,
+      });
+      recordEvent({
+        event: `${GA_PREFIX}-request-current-location-clicked`,
+      });
+      try {
+        location = await getPreciseLocation();
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-allowed`,
+        });
+        dispatch({
+          ...action,
+          location,
+        });
+      } catch (e) {
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-blocked`,
+        });
+        captureError(e, true, 'community care preferences page');
+        dispatch({
+          type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
+        });
+      }
+    } else {
+      dispatch(action);
     }
   };
 }
@@ -1132,6 +1178,7 @@ export function requestProvidersList(address) {
       dispatch({
         type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
         communityCareProviderList,
+        address,
       });
     } catch (e) {
       captureError(e);

@@ -5,6 +5,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { disabilitiesExplanationAlert } from './contestedIssues';
+import { PROFILE_URL, HLR_INFO_URL } from '../constants';
 
 const noIssuesMessage = (
   <>
@@ -56,11 +57,27 @@ export const showWorkInProgress = (
         </p>
         <p>
           <a
-            href="/decision-reviews/higher-level-review/"
+            href={HLR_INFO_URL}
             className="u-vads-display--block u-vads-margin-top--2"
           >
             Return to Higher-Level Review information page
           </a>
+        </p>
+      </>
+    }
+  />
+);
+
+export const showHasEmptyAddress = (
+  <AlertBox
+    status="info"
+    headline="You need to have an address on file"
+    content={
+      <>
+        <p>
+          To request a Higher-Level Review, you need to have an address in your
+          VA.gov profile. To add an address,{' '}
+          <a href={PROFILE_URL}>please go to your profile page.</a>
         </p>
       </>
     }

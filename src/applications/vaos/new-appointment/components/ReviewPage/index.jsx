@@ -10,6 +10,7 @@ import {
   getChosenVACityState,
   getChosenFacilityDetails,
   getSiteIdForChosenFacility,
+  selectUseProviderSelection,
 } from '../../../utils/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
@@ -34,6 +35,7 @@ export function ReviewPage({
   submitStatusVaos400,
   systemId,
   submitAppointmentOrRequest,
+  useProviderSelection,
 }) {
   useEffect(() => {
     if (history && !data?.typeOfCareId) {
@@ -62,6 +64,7 @@ export function ReviewPage({
           facility={facility}
           vaCityState={vaCityState}
           pageTitle={pageTitle}
+          useProviderSelection={useProviderSelection}
         />
       )}
       <div className="vads-u-margin-y--2">
@@ -147,6 +150,7 @@ function mapStateToProps(state) {
     submitStatus: state.newAppointment.submitStatus,
     submitStatusVaos400: state.newAppointment.submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
+    useProviderSelection: selectUseProviderSelection(state),
   };
 }
 

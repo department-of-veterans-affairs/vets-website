@@ -179,8 +179,9 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   def long buildtime = System.currentTimeMillis() / 1000L;
   def buildDetails = buildDetails(envName, ref, buildtime)
-  def drupalAddress = DRUPAL_ADDRESSES.get(envName)
-  def drupalCred = DRUPAL_CREDENTIALS.get(envName)
+  // Use Drupal prod for all environments
+  def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
+  def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {

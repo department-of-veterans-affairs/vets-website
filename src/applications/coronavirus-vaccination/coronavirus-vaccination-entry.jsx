@@ -5,9 +5,11 @@ import startApp from 'platform/startup';
 import './style.scss';
 import routes from './routes';
 import manifest from './manifest.json';
+import reducer from './reducers';
 
 startApp({
   entryName: manifest.entryName,
   url: manifest.rootUrl,
   routes,
+  reducer,
 });

@@ -5,6 +5,7 @@ export default {
   CHAPTER_36_CTA: 'chapter-36-cta',
   CHAPTER_31_CTA: 'chapter-31-cta',
   CORONAVIRUS_CHATBOT: 'va-coronavirus-chatbot',
+  COVID_VACCINE_UPDATES_CTA: 'va-covid-vaccine-updates-cta',
   CTA: 'cta',
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',

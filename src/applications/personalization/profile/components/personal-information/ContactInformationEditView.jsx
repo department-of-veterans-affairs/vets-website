@@ -13,6 +13,7 @@ class ContactInformationEditView extends Component {
   static propTypes = {
     analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
+    deleteDisabled: PropTypes.bool,
     getInitialFormValues: PropTypes.func.isRequired,
     field: PropTypes.shape({
       value: PropTypes.object,
@@ -29,6 +30,7 @@ class ContactInformationEditView extends Component {
     title: PropTypes.string.isRequired,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
+    uiSchema: PropTypes.object,
     useSchemaForm: PropTypes.bool,
   };
 

@@ -1,122 +1,116 @@
+import React from 'react';
+import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import { FIELD_NAMES } from '@@vap-svc/constants';
-
-import { mapStateToProps } from '@@vap-svc/containers/CopyMailingAddress';
-
-import { convertNextValueToCleanData } from '@@vap-svc/components/AddressField/AddressField';
+import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
 
 describe('<CopyMailingAddress/>', () => {
-  describe('mapStateToProps', () => {
-    let state = null;
-    const ownProps = {
-      convertNextValueToCleanData,
-    };
-
-    beforeEach(() => {
-      state = {
-        user: {
-          profile: {
-            vapContactInfo: {
-              [FIELD_NAMES.MAILING_ADDRESS]: null,
+  describe('the checkbox', () => {
+    it('is checked when the Mailing Address and Home Address are equal', () => {
+      const fakeStore = {
+        getState: () => ({
+          vapService: {
+            formFields: {
+              residentialAddress: {
+                value: {
+                  addressLine1: '36320 Coronado Dr',
+                  addressLine2: null,
+                  addressLine3: null,
+                  addressPou: 'CORRESPONDENCE',
+                  city: 'Fremont',
+                  countryName: 'United States',
+                  countryCodeIso3: 'USA',
+                  internationalPostalCode: null,
+                  province: null,
+                  stateCode: 'CA',
+                  zipCode: '94536',
+                },
+              },
             },
           },
-        },
-        vapService: {
-          formFields: {
-            [FIELD_NAMES.MAILING_ADDRESS]: null,
+          user: {
+            profile: {
+              vapContactInfo: {
+                mailingAddress: {
+                  addressLine1: '36320 Coronado Dr',
+                  addressLine2: null,
+                  addressLine3: null,
+                  addressPou: 'CORRESPONDENCE',
+                  city: 'Fremont',
+                  countryName: 'United States',
+                  countryCodeIso3: 'USA',
+                  internationalPostalCode: null,
+                  province: null,
+                  stateCode: 'CA',
+                  zipCode: '94536',
+                },
+              },
+            },
           },
-        },
+        }),
+        subscribe: () => {},
+        dispatch: () => {},
       };
+      const component = enzyme.mount(<CopyMailingAddress store={fakeStore} />);
+      const checkbox = component.find(
+        '#copy-mailing-address-to-residential-address',
+      );
+      expect(checkbox.props().checked).to.equal(true);
+      component.unmount();
     });
 
-    it('returns the required props', () => {
-      const mailingAddress = { city: 'some city' };
-
-      state.user.profile.vapContactInfo[
-        FIELD_NAMES.MAILING_ADDRESS
-      ] = mailingAddress;
-      state.vapService.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
-        city: 'some other city',
+    it('is not checked when the Mailing Address and Home Address are not equal', () => {
+      const fakeStore = {
+        getState: () => ({
+          vapService: {
+            formFields: {
+              residentialAddress: {
+                value: {
+                  addressLine1: '36320 Coronado Dr',
+                  addressLine2: null,
+                  addressLine3: null,
+                  addressPou: 'CORRESPONDENCE',
+                  city: 'Fremont',
+                  countryName: 'United States',
+                  countryCodeIso3: 'USA',
+                  internationalPostalCode: null,
+                  province: null,
+                  stateCode: 'CA',
+                  zipCode: '94536',
+                },
+              },
+            },
+          },
+          user: {
+            profile: {
+              vapContactInfo: {
+                mailingAddress: {
+                  addressLine1: '36310 Coronado Dr',
+                  addressLine2: null,
+                  addressLine3: null,
+                  addressPou: 'CORRESPONDENCE',
+                  city: 'Fremont',
+                  countryName: 'United States',
+                  countryCodeIso3: 'USA',
+                  internationalPostalCode: null,
+                  province: null,
+                  stateCode: 'CA',
+                  zipCode: '94536',
+                },
+              },
+            },
+          },
+        }),
+        subscribe: () => {},
+        dispatch: () => {},
       };
 
-      const result = mapStateToProps(state, ownProps);
-
-      expect(result.mailingAddress).to.be.equal(mailingAddress);
-      expect(result.hasEmptyMailingAddress).to.be.false;
-      expect(result.checked).to.be.false;
-    });
-
-    describe('checked prop', () => {
-      beforeEach(() => {
-        // this is real data from staging
-        state.user.profile.vapContactInfo[FIELD_NAMES.MAILING_ADDRESS] = {
-          addressLine1: '36320 Coronado Dr',
-          addressLine2: null,
-          addressLine3: null,
-          addressPou: 'CORRESPONDENCE',
-          addressType: 'DOMESTIC',
-          city: 'Fremont',
-          countryName: 'United States',
-          countryCodeIso2: 'US',
-          countryCodeIso3: 'USA',
-          countryCodeFips: null,
-          countyCode: '06001',
-          countyName: 'Alameda County',
-          createdAt: '2019-10-04T17:52:48.000Z',
-          effectiveEndDate: null,
-          effectiveStartDate: '2020-03-04T18:33:56.000Z',
-          id: 104273,
-          internationalPostalCode: null,
-          province: null,
-          sourceDate: '2020-03-04T18:33:56.000Z',
-          sourceSystemUser: null,
-          stateCode: 'CA',
-          transactionId: '17a5fa0c-36be-4ce0-960d-b06d3b297ebe',
-          updatedAt: '2020-03-04T18:33:57.000Z',
-          validationKey: null,
-          vet360Id: '139281',
-          zipCode: '94536',
-          zipCodeSuffix: '5537',
-        };
-      });
-
-      it('is `true` when addresses are equal', () => {
-        // This is real data from staging
-        state.vapService.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
-          value: {
-            id: 145184,
-            addressLine1: '36320 Coronado Dr',
-            addressType: 'DOMESTIC',
-            city: 'Fremont',
-            countryCodeIso3: 'USA',
-            stateCode: 'CA',
-            zipCode: '94536',
-            addressPou: 'RESIDENCE/CHOICE',
-          },
-        };
-
-        const result = mapStateToProps(state, { useNewAddressForm: true });
-        expect(result.checked).to.be.true;
-      });
-
-      it('is `false` when addresses are not equal', () => {
-        state.vapService.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
-          value: {
-            id: 145184,
-            addressLine1: '123 Main St.',
-            addressType: 'DOMESTIC',
-            city: 'Fremont',
-            countryCodeIso3: 'USA',
-            stateCode: 'CA',
-            zipCode: '94536',
-            addressPou: 'RESIDENCE/CHOICE',
-          },
-        };
-
-        const result = mapStateToProps(state, { useNewAddressForm: true });
-        expect(result.checked).to.be.false;
-      });
+      const component = enzyme.mount(<CopyMailingAddress store={fakeStore} />);
+      const checkbox = component.find(
+        '#copy-mailing-address-to-residential-address',
+      );
+      expect(checkbox.props().checked).to.equal(false);
+      component.unmount();
     });
   });
 });

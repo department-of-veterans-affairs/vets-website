@@ -73,6 +73,25 @@ describe('IntroductionPage', () => {
     tree.unmount();
   });
 
+  it('should show has empty address message', () => {
+    const user = {
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const tree = shallow(
+      <IntroductionPage {...defaultProps} user={user} hasEmptyAddress />,
+    );
+
+    const AlertBox = tree.find('AlertBox');
+    expect(AlertBox.length).to.equal(1);
+    expect(AlertBox.props().headline).to.contain(
+      'need to have an address on file',
+    );
+    tree.unmount();
+  });
+
   it('should render CallToActionWidget', () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = shallow(<IntroductionPage {...defaultProps} />);

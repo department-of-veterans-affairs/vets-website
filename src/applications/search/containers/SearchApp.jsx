@@ -117,13 +117,14 @@ class SearchApp extends React.Component {
     }
     recordEvent({
       event: 'onsite-search-results-click',
+      'search-page-path': document.location.pathname,
       'search-query': this.state.userInput,
-      'search-total-results': this.props.search?.results?.length,
-      'search-total-result-pages': Math.ceil(
+      'search-results-position': index + 1,
+      'search-results-total-count': this.props.search?.totalEntries,
+      'search-results-total-pages': Math.ceil(
         this.props.search?.results?.length / 10,
       ),
-      'search-result-position': index + 1,
-      'search-result-page': this.state.page,
+      'search-selection': 'All VA.gov',
     });
   };
 
