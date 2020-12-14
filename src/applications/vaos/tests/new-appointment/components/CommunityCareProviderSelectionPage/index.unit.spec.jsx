@@ -141,7 +141,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Continue with filling in required fields with provider
     userEvent.click(await screen.findByText(/Choose a provider/i));
-    userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
+    userEvent.click(await screen.findByText(/OH, JANICE/i));
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
@@ -151,7 +151,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
     );
     expect(await screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24009342.6 miles',
     );
 
     userEvent.click(screen.getByText(/Continue/i));

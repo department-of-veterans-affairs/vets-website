@@ -3,8 +3,11 @@ import { selectProviderSelectionInfo } from '../../../utils/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
-import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
-import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
+import {
+  FETCH_STATUS,
+  FACILITY_SORT_METHODS,
+  GA_PREFIX,
+} from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -235,7 +238,7 @@ function ProviderSelectionField({
                   Displaying 1 to {currentlyShownProvidersList.length} of{' '}
                   {communityCareProviderList.length} providers
                 </p>
-                {currentlyShownProvidersList.map(provider => {
+                {currentlyShownProvidersList.map((provider, providerIndex) => {
                   const { name } = provider;
                   const checked = provider.id === checkedProvider;
                   return (
@@ -268,6 +271,7 @@ function ProviderSelectionField({
                         <button
                           type="button"
                           onClick={() => {
+                            onChange(communityCareProviderList[providerIndex]);
                             onChange(provider);
                             setCheckedProvider();
                             setShowProvidersList(false);
