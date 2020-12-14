@@ -74,6 +74,10 @@ export const cnpDirectDepositBankInfo = apiData => {
   return apiData?.responses?.[0]?.paymentAccount;
 };
 
+export const eduDirectDepositAccountNumber = apiData => {
+  return apiData.accountNumber;
+};
+
 const cnpDirectDepositAddressInfo = apiData => {
   return apiData?.responses?.[0]?.paymentAddress;
 };
@@ -89,6 +93,9 @@ export const isEligibleForCNPDirectDeposit = apiData => {
 
 export const isSignedUpForCNPDirectDeposit = apiData =>
   !!cnpDirectDepositBankInfo(apiData)?.accountNumber;
+
+export const isSignedUpForEDUDirectDeposit = apiData =>
+  !!eduDirectDepositAccountNumber(apiData);
 
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an error occurs while trying to save/update a user's direct

@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other repayments',
@@ -21,13 +22,8 @@ export const uiSchema = {
         creditorName: {
           'ui:title': 'Name of creditor',
         },
-        unpaidBalance: {
-          'ui:title': 'Unpaid balance',
-        },
-        monthlyPaymentAmount: {
-          'ui:title': 'Monthly payment amount',
-          'ui:required': () => true,
-        },
+        unpaidBalance: currencyUI('Unpaid balance'),
+        monthlyPaymentAmount: currencyUI('Monthly payment amount'),
       },
     },
   },

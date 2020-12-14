@@ -1,44 +1,26 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import NeedHelp from '../../components/NeedHelp';
 
 describe('VAOS <NeedHelp>', () => {
-  it('should render', () => {
-    const tree = shallow(<NeedHelp />);
+  it('should show contact information and feedback link', () => {
+    const screen = render(<NeedHelp />);
 
-    expect(tree.find('h2').text()).to.contain('Need help?');
-    expect(tree.hasClass('vads-u-margin-top--9')).be.true;
+    expect(screen.getByRole('heading', { level: 2, name: /need help/i })).to
+      .exist;
 
-    const links = tree.find('a');
-    expect(links.length).to.equal(4);
-    expect(links.at(0).props().href).to.equal('tel:8774705947');
-    expect(links.at(0).text()).to.equal('877-470-5947');
-    expect(links.at(1).props().href).to.equal(
-      'https://www.va.gov/find-locations/',
-    );
-    expect(links.at(1).text()).to.equal(
-      'Find your health facility’s phone number.',
-    );
-    expect(links.at(2).props().href).to.equal('tel:8666513180');
-    expect(links.at(2).text()).to.equal('866-651-3180');
-    expect(links.at(3).props().href).to.equal(
+    expect(screen.getByText(/877-470-5947/i)).to.have.attribute('href');
+    expect(screen.getByText(/866-651-3180/i)).to.have.attribute('href');
+    expect(
+      screen.getByRole('link', { name: /find your health facility/i }),
+    ).to.have.attribute('href', '/find-locations');
+    expect(
+      screen.getByRole('link', { name: /leave feedback/i }),
+    ).to.have.attribute(
+      'href',
       'https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE',
     );
-    expect(links.at(3).text()).to.equal(
-      'Leave feedback about this application',
-    );
-
-    const telephoneLinks = tree.find('Telephone');
-    expect(telephoneLinks.length).to.equal(2);
-
-    tree.unmount();
-  });
-  it('should have aria labels to hide from screen reader', () => {
-    const tree = shallow(<NeedHelp />);
-
-    expect(tree.find('hr[aria-hidden="true"]').exists()).to.be.true;
-    tree.unmount();
   });
 });
