@@ -53,8 +53,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
     // ERROR:
     it('request for saved registration that does not exist returns a 404 OK HTTP response and errors', async () => {
       const interaction = {
-        state:
-          'does not retrieve perviously saved submission data for user becase it does not exist',
+        state: 'submission data for user does not exist',
         uponReceiving: 'a GET request',
         withRequest: {
           method: 'GET',
@@ -93,7 +92,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('POST /registration', () => {
     it('authenticated success case: submit valid registration returns a 201 Created HTTP response', async () => {
       const interaction = {
-        state: 'authenticated user sumbits registration data',
+        state: 'authenticated user submits registration data',
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
@@ -133,7 +132,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
     it('unauthenticated success case: submit valid registration will return a 201 Created HTTP response', async () => {
       const interaction = {
-        state: 'unauthenticated user sumbits registration data',
+        state: 'unauthenticated user submits registration data',
         uponReceiving: 'a POST request',
         withRequest: {
           method: 'POST',
