@@ -85,7 +85,11 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
       await mockApi().addInteraction(interaction);
 
-      await retrievePreviouslySubmittedForm();
+      try {
+        await retrievePreviouslySubmittedForm();
+      } catch (e) {
+        // Catch the 404 error.
+      }
     });
   });
 
