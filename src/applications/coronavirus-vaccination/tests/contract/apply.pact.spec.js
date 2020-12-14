@@ -1,18 +1,14 @@
 import contractTest from 'platform/testing/contract';
 import { like, string, term } from '@pact-foundation/pact/dsl/matchers';
 import { retrievePreviouslySubmittedForm, saveForm } from '../../api/';
-import environment from 'platform/utilities/environment';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
 import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthenticated-coronavirus-vaccination-application.json';
 
 contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('GET /registration', () => {
-    // THIS PASSES
     it('request for saved submission that exists returns a 200 OK HTTP response and the registration data', async () => {
-      const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
-
       const interaction = {
-        state: 'retreives previously saved submission data for user',
+        state: 'retrieves previously saved submission data for user',
         uponReceiving: 'a GET request',
         withRequest: {
           method: 'GET',
@@ -51,13 +47,11 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
       await mockApi().addInteraction(interaction);
 
-      await retrievePreviouslySubmittedForm(url);
+      await retrievePreviouslySubmittedForm();
     });
 
     // ERROR:
     it('request for saved registration that does not exist returns a 404 OK HTTP response and errors', async () => {
-      const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
-
       const interaction = {
         state:
           'does not retrieve perviously saved submission data for user becase it does not exist',
@@ -94,15 +88,12 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
       await mockApi().addInteraction(interaction);
 
-      await retrievePreviouslySubmittedForm(url);
+      await retrievePreviouslySubmittedForm();
     });
   });
 
   describe('POST /registration', () => {
-    // ERROR:
     it('authenticated success case: submit valid registration returns a 201 Created HTTP response', async () => {
-      const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
-
       const interaction = {
         state: 'authenticated user sumbits registration data',
         uponReceiving: 'a POST request',
@@ -139,13 +130,10 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
       await mockApi().addInteraction(interaction);
 
-      await saveForm(url, authenticatedApplicationData);
+      await saveForm(authenticatedApplicationData);
     });
 
-    // ERROR:
     it('unauthenticated success case: submit valid registration will return a 201 Created HTTP response', async () => {
-      const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
-
       const interaction = {
         state: 'unauthenticated user sumbits registration data',
         uponReceiving: 'a POST request',
@@ -182,7 +170,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
 
       await mockApi().addInteraction(interaction);
 
-      await saveForm(url, unauthenticatedApplicationData);
+      await saveForm(unauthenticatedApplicationData);
     });
   });
 });
