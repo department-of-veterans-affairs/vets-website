@@ -26,7 +26,7 @@ import DateTimeSelectPage from './components/DateTimeSelectPage';
 import VAFacilityPage from './components/VAFacilityPage';
 import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
 import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
-import CommunityCareLanguage from './components/CommunityCareLanguage';
+import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
 import CommunityCareProviderSelectionPage from './components/CommunityCareProviderSelectionPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
@@ -159,7 +159,7 @@ function NewAppointmentSection({
         {providerSelectionEnabled && (
           <Route
             path={`${match.url}/community-care-language`}
-            component={CommunityCareLanguage}
+            component={CommunityCareLanguagePage}
           />
         )}
         <Route path={`${match.url}/clinics`} component={ClinicChoicePage} />

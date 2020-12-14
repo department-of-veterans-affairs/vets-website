@@ -30,8 +30,7 @@ const uiSchema = {
 const pageKey = 'ccLanguage';
 const pageTitle = 'Provider preferences';
 
-// Remove the export when the CommunityCarePreferencesPage.unit.spec.jsx is converted
-export function CommunityCarePreferencesPage({
+function CommunityCareLanguagePage({
   schema,
   data,
   pageChangeInProgress,
@@ -90,4 +89,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CommunityCarePreferencesPage);
+)(CommunityCareLanguagePage);
