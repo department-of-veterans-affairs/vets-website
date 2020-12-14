@@ -258,7 +258,13 @@ const FacilitiesMap = props => {
 
     const searchAreaControl = new SearchAreaControl(isMobile);
     mapInit.addControl(searchAreaControl);
-    mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
+    mapInit.addControl(
+      new mapboxgl.NavigationControl({
+        // Hide rotation control.
+        showCompass: false,
+      }),
+      'top-left',
+    );
     setSearchAreaPosition();
     mapInit.on('load', () => {
       setMapInit(mapInit);

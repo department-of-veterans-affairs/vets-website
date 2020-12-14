@@ -16,25 +16,20 @@ export default function NeedHelp() {
       />
       <p className="vads-u-margin-top--0">
         If you have questions about using the VA appointments tool, or if the
-        tool isn’t working right, please call{' '}
-        <a href="tel:8774705947">877-470-5947</a> (TTY:{' '}
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        tool isn’t working right, please call <Telephone contact="8774705947" />{' '}
+        (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">
         If you need help scheduling a VA or community care appointment, please
         call your VA or community care facility.{' '}
-        <a
-          href="https://www.va.gov/find-locations/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
           Find your health facility’s phone number.
         </a>
       </p>
       <p className="vads-u-margin-top--0">
         For questions about joining a VA Video Connect appointment, please call{' '}
-        <a href="tel:8666513180">866-651-3180</a> (TTY:{' '}
+        <Telephone contact="8666513180" /> (TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
       </p>

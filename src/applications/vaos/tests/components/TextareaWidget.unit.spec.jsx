@@ -1,32 +1,37 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import TextareaWidget from '../../components/TextareaWidget';
+import userEvent from '@testing-library/user-event';
 
 describe('VAOS <TextareaWidget>', () => {
   it('should render character limit', () => {
-    const tree = shallow(
+    const screen = render(
       <TextareaWidget value="Test" schema={{ maxLength: 20 }} />,
     );
 
-    expect(tree.find('textarea').props().maxLength).to.equal(20);
-    expect(tree.text()).to.contain('16 characters remaining');
-    tree.unmount();
+    expect(screen.getByText(/16 characters remaining/i)).to.exist;
+    expect(screen.getByRole('textbox')).to.have.attribute('maxlength', '20');
+    expect(screen.getByRole('textbox')).to.have.value('Test');
+  });
+
+  it('should render over the limit message', () => {
+    const screen = render(
+      <TextareaWidget value="Test" schema={{ maxLength: 2 }} />,
+    );
+
+    expect(screen.getByText(/2 characters over the limit/i)).to.exist;
+    expect(screen.getByRole('textbox')).to.have.attribute('maxlength', '2');
+    expect(screen.getByRole('textbox')).to.have.value('Test');
   });
 
   it('should call onChange', () => {
     const onChange = sinon.spy();
-    const tree = shallow(
-      <TextareaWidget onChange={onChange} value="Test" schema={{}} />,
-    );
+    const screen = render(<TextareaWidget onChange={onChange} schema={{}} />);
 
-    tree
-      .find('textarea')
-      .props()
-      .onChange({ target: { value: 'what' } });
-    expect(onChange.calledWith('what')).to.be.true;
-    tree.unmount();
+    userEvent.type(screen.getByRole('textbox'), 'w');
+    expect(onChange.calledWith('w')).to.be.true;
   });
 });

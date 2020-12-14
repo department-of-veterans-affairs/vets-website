@@ -6,8 +6,10 @@ it('healthcare questionnaire -- loads introduction page -- feature enabled', () 
   ).then(features => {
     cy.route('GET', '/v0/feature_toggles*', features);
     cy.login(basicUser);
-    cy.visit('/healthcare/questionnaire/introduction');
-    cy.title().should('contain', 'Healthcare Questionnaire');
+    cy.visit(
+      '/health-care/health-questionnaires/questionnaires/answer-questions/introduction',
+    );
+    cy.title().should('contain', 'Health care Questionnaire');
     cy.get('.schemaform-title>h1').contains(
       'Answer primary care questionnaire',
     );
@@ -19,9 +21,10 @@ it('healthcare questionnaire -- can not see feature -- feature disabled', () => 
     '../../src/applications/healthcare/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.disabled.json',
   ).then(features => {
     cy.route('GET', '/v0/feature_toggles*', features);
-    const featureRoute = '/healthcare/questionnaire/introduction';
+    const featureRoute =
+      '/health-care/health-questionnaires/questionnaires/answer-questions/introduction';
     cy.visit(featureRoute);
 
-    cy.url().should('not.match', /healthcare/);
+    cy.url().should('not.match', /health-care/);
   });
 });

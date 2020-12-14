@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your real estate assets',
@@ -23,9 +24,7 @@ export const uiSchema = {
       otherAssetType: {
         'ui:title': 'Type of asset',
       },
-      otherAssetAmount: {
-        'ui:title': 'Estimated value',
-      },
+      otherAssetAmount: currencyUI('Estimated value'),
     },
   },
 };

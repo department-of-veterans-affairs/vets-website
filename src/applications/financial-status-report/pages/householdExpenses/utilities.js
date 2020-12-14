@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
@@ -26,9 +27,7 @@ export const uiSchema = {
         utilityType: {
           'ui:title': 'Type of utility',
         },
-        monthlyUtilityAmount: {
-          'ui:title': 'Monthly payment amount',
-        },
+        monthlyUtilityAmount: currencyUI('Monthly payment amount'),
       },
     },
   },

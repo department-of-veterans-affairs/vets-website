@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -36,9 +37,7 @@ export const uiSchema = {
         employerName: {
           'ui:title': 'Employer name',
         },
-        monthlyIncome: {
-          'ui:title': 'Gross monthly income',
-        },
+        spouseIncome: currencyUI('Gross monthly income'),
         payrollDeductions: {
           'ui:field': ItemLoop,
           'ui:options': {
@@ -53,9 +52,7 @@ export const uiSchema = {
             deductionType: {
               'ui:title': 'Type of payroll deduction',
             },
-            deductionAmout: {
-              'ui:title': 'Deduction amount',
-            },
+            spouseDeductionAmount: currencyUI('Deduction amount'),
           },
         },
       },
@@ -93,7 +90,7 @@ export const schema = {
                 employerName: {
                   type: 'string',
                 },
-                monthlyIncome: {
+                spouseIncome: {
                   type: 'number',
                 },
                 payrollDeductions: {
@@ -104,7 +101,7 @@ export const schema = {
                       deductionType: {
                         type: 'string',
                       },
-                      deductionAmout: {
+                      spouseDeductionAmount: {
                         type: 'number',
                       },
                     },

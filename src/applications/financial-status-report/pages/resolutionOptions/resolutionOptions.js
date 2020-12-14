@@ -1,6 +1,7 @@
 import React from 'react';
 import FinancialOverview from '../../components/FinancialOverview';
 import DebtRepayment from '../../components/DebtRepayment';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 const resolutionOptions = [
   {
@@ -88,20 +89,23 @@ export const uiSchema = {
         labels: renderLabels(),
       },
     },
-    canAffordToPay: {
-      'ui:title': 'How much can you afford to pay monthly on this debt?',
+    affordToPay: {
       'ui:options': {
         expandUnder: 'resolutionType',
         expandUnderCondition: 'Extended monthly payments',
       },
+      canAffordToPay: currencyUI(
+        'How much can you afford to pay monthly on this debt?',
+      ),
     },
     offerToPay: {
-      'ui:title':
-        'How much do you offer to pay for this debt with a single payment?',
       'ui:options': {
         expandUnder: 'resolutionType',
         expandUnderCondition: 'Compromise',
       },
+      canOfferToPay: currencyUI(
+        'How much do you offer to pay for this debt with a single payment?',
+      ),
     },
   },
 };
@@ -131,11 +135,21 @@ export const schema = {
           type: 'string',
           enum: resolutionOptions.map(option => option.type),
         },
-        canAffordToPay: {
-          type: 'string',
+        affordToPay: {
+          type: 'object',
+          properties: {
+            canAffordToPay: {
+              type: 'number',
+            },
+          },
         },
         offerToPay: {
-          type: 'string',
+          type: 'object',
+          properties: {
+            canOfferToPay: {
+              type: 'number',
+            },
+          },
         },
       },
     },
