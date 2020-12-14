@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-
-import { survivorBenefitsLabels } from '../../utils/labels';
 import {
   claimList,
   ConfirmationGuidance,
@@ -39,18 +37,10 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.relativeFullName;
-    const benefit = form.data.benefit;
 
     const { formId, submission } = form;
 
     const claimInfoList = claimList(response, submission);
-    claimInfoList.unshift(
-      <li key={'benefit'}>
-        <strong>Benefit to be transferred</strong>
-        <br />
-        {survivorBenefitsLabels[benefit]}
-      </li>,
-    );
 
     return (
       <div>
