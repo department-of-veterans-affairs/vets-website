@@ -238,7 +238,8 @@ class ContactInformationField extends React.Component {
     }
   };
 
-  refreshTransaction = () => {
+  // THIS IS WHERE WE MESS UP
+  doRefreshTransaction = () => {
     this.props.refreshTransaction(
       this.props.transaction,
       this.props.analyticsSectionName,
@@ -269,6 +270,15 @@ class ContactInformationField extends React.Component {
       data,
     } = this.props;
 
+    // THIS IS NULL AND WHERE THE ERROR DERIVES FROM
+
+    console.log(
+      'This is transactionRequest in COontactInformatiomField',
+      transactionRequest,
+    );
+
+    console.log('This is fieldName in COontactInformatiomField', fieldName);
+
     const activeSection = VAP_SERVICE.FIELD_TITLES[
       activeEditView
     ]?.toLowerCase();
@@ -281,7 +291,7 @@ class ContactInformationField extends React.Component {
           title={title}
           transaction={transaction}
           transactionRequest={transactionRequest}
-          refreshTransaction={this.refreshTransaction}
+          refreshTransaction={this.doRefreshTransaction}
         >
           {children}
         </VAPServiceTransaction>
@@ -320,12 +330,12 @@ class ContactInformationField extends React.Component {
     if (showEditView) {
       content = (
         <ContactInformationEditView
-          analyticsSectionName={this.props.analyticsSectionName}
+          analyticsSectionName={this.props.analyticsSectionName} // FROM REDUX
           clearErrors={this.clearErrors}
-          deleteDisabled={this.props.deleteDisabled}
-          field={this.props.field}
-          fieldName={this.props.fieldName}
-          formSchema={this.props.formSchema}
+          deleteDisabled={this.props.deleteDisabled} // FROM 2 LEVELS UP, ONLY TRUE FOR MAILING ADDRESS
+          field={this.props.field} // FROM REDUX
+          fieldName={this.props.fieldName} // FROM REDUX
+          formSchema={this.props.formSchema} // FROM 1 LEVEL UP
           getInitialFormValues={() =>
             getInitialFormValues({
               type: this.props.type,
@@ -334,19 +344,19 @@ class ContactInformationField extends React.Component {
               modalData: this.props.modalData,
             })
           }
-          hasUnsavedEdits={this.props.hasUnsavedEdits}
-          hasValidationError={this.props.hasValidationError}
-          isEmpty={this.props.isEmpty}
+          hasUnsavedEdits={this.props.hasUnsavedEdits} // FROM REDUX
+          hasValidationError={this.props.hasValidationError} // DOES NOT EXIST??
+          isEmpty={this.props.isEmpty} // FROM REDUX
           onCancel={this.onCancel}
           onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
           onDelete={this.onDelete}
           onSubmit={this.onSubmit}
-          refreshTransaction={this.props.refreshTransaction}
-          title={this.props.title}
-          transaction={this.props.transaction}
-          transactionRequest={this.props.transactionRequest}
-          uiSchema={this.props.uiSchema}
-          type={this.props.type}
+          refreshTransaction={this.doRefreshTransaction} // FROM REDUX
+          title={this.props.title} // NOT SURE
+          transaction={this.props.transaction} // FROM REDUX
+          transactionRequest={this.props.transactionRequest} // FROM REDUX
+          uiSchema={this.props.uiSchema} // FROM 1 LEVEL UP
+          type={this.props.type} // FROM 1 LEVEL UP
         />
       );
     }
@@ -354,7 +364,7 @@ class ContactInformationField extends React.Component {
     if (showValidationView) {
       content = (
         <AddressValidationView
-          refreshTransaction={this.refreshTransaction}
+          refreshTransaction={this.doRefreshTransaction}
           transaction={transaction}
           transactionRequest={transactionRequest}
           title={title}

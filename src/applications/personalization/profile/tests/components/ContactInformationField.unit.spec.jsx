@@ -54,35 +54,6 @@ describe('<ContactInformationField/>', () => {
     component.unmount();
   });
 
-  it('renders the ValidationView prop', () => {
-    props.showValidationView = true;
-    const expectedProps = {
-      transaction: props.transaction,
-      title: props.title,
-      transactionRequest: props.transactionRequest,
-      clearErrors: props.clearErrors,
-      refreshTransaction: props.refreshTransaction,
-    };
-    sinon.spy(props, 'ValidationView');
-
-    component = enzyme.shallow(<ContactInformationField {...props} />);
-
-    expect(
-      component.find('ValidationView'),
-      'the ValidationView was rendered',
-    ).to.have.lengthOf(1);
-
-    component.find('ValidationView').dive();
-    expect(props.ValidationView.called).to.be.true;
-
-    const args = props.ValidationView.getCall(0).args[0];
-    expect(
-      args,
-      'No props were passed to the ValidationView constructor',
-    ).to.have.all.keys(expectedProps);
-    component.unmount();
-  });
-
   it('renders the edit link', () => {
     component = enzyme.shallow(<ContactInformationField {...props} />);
 
