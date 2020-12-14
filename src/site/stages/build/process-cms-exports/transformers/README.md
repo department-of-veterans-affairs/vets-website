@@ -29,6 +29,8 @@ The files in this directory are owned by the following teams:
 |               | paragraph-alert_single
 |               | paragraph-audience_topics
 |               | paragraph-button
+|               | paragraph-checklist
+|               | paragraph-checklist_item
 |               | paragraph-contact_information
 |               | paragraph-email_contact
 |               | paragraph-link_teaser
