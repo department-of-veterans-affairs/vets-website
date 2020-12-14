@@ -152,7 +152,17 @@ describe('Schemaform <FormSaved>', () => {
       ],
       formConfig: {},
     };
-    const tree = SkinDeep.shallowRender(<FormSaved route={thisRoute} />);
+    const tree = SkinDeep.shallowRender(
+      <FormSaved
+        scrollParams={{}}
+        location={{}}
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={thisRoute}
+        user={user()}
+      />,
+    );
     expect(tree.subTree('withRouter(FormStartControls)')).exist();
   });
   it('should handle save in progress being empty', () => {
@@ -169,7 +179,17 @@ describe('Schemaform <FormSaved>', () => {
         saveInProgress: {},
       },
     };
-    const tree = SkinDeep.shallowRender(<FormSaved route={thisRoute} />);
+    const tree = SkinDeep.shallowRender(
+      <FormSaved
+        scrollParams={{}}
+        location={{}}
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={thisRoute}
+        user={user()}
+      />,
+    );
     expect(tree.subTree('withRouter(FormStartControls)')).exist();
   });
 });
