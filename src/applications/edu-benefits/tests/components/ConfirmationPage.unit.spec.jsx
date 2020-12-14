@@ -6,6 +6,7 @@ import {
   ConfirmationPageTitle,
   ConfirmationPageSummary,
   ConfirmationGuidance,
+  ConfirmationNoDocumentsRequired,
   ConfirmationReturnHome,
 } from '../../components/ConfirmationPage';
 import moment from 'moment';
@@ -187,6 +188,14 @@ describe('Edu Benefits <ConfirmationPageSummary>', () => {
 describe('Edu Benefits <ConfirmationGuidance>', () => {
   it('should render', () => {
     const tree = shallow(<ConfirmationGuidance />);
+    expect(tree).to.not.be.undefined;
+    tree.unmount();
+  });
+});
+
+describe('Edu Benefits <ConfirmationNoDocumentsRequired>', () => {
+  it('should render', () => {
+    const tree = shallow(<ConfirmationNoDocumentsRequired />);
     expect(tree).to.not.be.undefined;
     tree.unmount();
   });

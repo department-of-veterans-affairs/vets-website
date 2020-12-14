@@ -120,6 +120,32 @@ export const ConfirmationGuidance = () => {
   );
 };
 
+export const ConfirmationNoDocumentsRequired = ({
+  expanded,
+  toggleExpanded,
+  children,
+}) => {
+  return (
+    <div id="collapsiblePanel" className="usa-accordion-bordered screen-only">
+      <ul className="usa-unstyled-list">
+        <li>
+          <div className="accordion-header clearfix">
+            <button
+              className="usa-button-unstyled"
+              aria-expanded={expanded ? 'true' : 'false'}
+              aria-controls="collapsible-document-explanation"
+              onClick={toggleExpanded}
+            >
+              No documents required at this time
+            </button>
+          </div>
+          <div id="collapsible-document-explanation">{children}</div>
+        </li>
+      </ul>
+    </div>
+  );
+};
+
 export const ConfirmationReturnHome = () => {
   return (
     <div className="form-progress-buttons schemaform-back-buttons">
