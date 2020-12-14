@@ -92,7 +92,6 @@ export function refreshTransaction(
 ) {
   return async (dispatch, getState) => {
     try {
-      console.log('Am i sometimes udnefined?', transaction);
       const { transactionId } = transaction.data.attributes;
       const state = getState();
       const isAlreadyAwaitingUpdate = state.vapService.transactionsAwaitingUpdate.includes(
@@ -146,10 +145,6 @@ export function refreshTransaction(
         }
       }
     } catch (err) {
-      console.log(
-        'This is transactio in src/platform/user/profile/vap-svc/actions/transactions.js',
-        transaction,
-      );
       dispatch({
         type: VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
         transaction,

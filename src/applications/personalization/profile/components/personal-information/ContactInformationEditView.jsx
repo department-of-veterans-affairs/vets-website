@@ -50,7 +50,6 @@ class ContactInformationEditView extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('In componentDidUpdate', this.props.refreshTransaction);
     // if the transaction just became pending, start calling the
     // refreshTransaction() on an interval
     if (
@@ -168,8 +167,6 @@ class ContactInformationEditView extends Component {
         </div>
       </ContactInformationActionButtons>
     );
-
-    console.log('These are all props passed', this.props);
 
     return (
       <>

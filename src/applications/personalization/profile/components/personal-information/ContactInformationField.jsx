@@ -239,7 +239,7 @@ class ContactInformationField extends React.Component {
   };
 
   // THIS IS WHERE WE MESS UP
-  doRefreshTransaction = () => {
+  refreshTransaction = () => {
     this.props.refreshTransaction(
       this.props.transaction,
       this.props.analyticsSectionName,
@@ -270,15 +270,6 @@ class ContactInformationField extends React.Component {
       data,
     } = this.props;
 
-    // THIS IS NULL AND WHERE THE ERROR DERIVES FROM
-
-    console.log(
-      'This is transactionRequest in COontactInformatiomField',
-      transactionRequest,
-    );
-
-    console.log('This is fieldName in COontactInformatiomField', fieldName);
-
     const activeSection = VAP_SERVICE.FIELD_TITLES[
       activeEditView
     ]?.toLowerCase();
@@ -291,7 +282,7 @@ class ContactInformationField extends React.Component {
           title={title}
           transaction={transaction}
           transactionRequest={transactionRequest}
-          refreshTransaction={this.doRefreshTransaction}
+          refreshTransaction={this.refreshTransaction}
         >
           {children}
         </VAPServiceTransaction>
@@ -351,7 +342,7 @@ class ContactInformationField extends React.Component {
           onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
           onDelete={this.onDelete}
           onSubmit={this.onSubmit}
-          refreshTransaction={this.doRefreshTransaction} // FROM REDUX
+          refreshTransaction={this.refreshTransaction} // FROM REDUX
           title={this.props.title} // NOT SURE
           transaction={this.props.transaction} // FROM REDUX
           transactionRequest={this.props.transactionRequest} // FROM REDUX
@@ -364,7 +355,7 @@ class ContactInformationField extends React.Component {
     if (showValidationView) {
       content = (
         <AddressValidationView
-          refreshTransaction={this.doRefreshTransaction}
+          refreshTransaction={this.refreshTransaction}
           transaction={transaction}
           transactionRequest={transactionRequest}
           title={title}

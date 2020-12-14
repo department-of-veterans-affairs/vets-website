@@ -104,10 +104,6 @@ export default function vapService(state = initialState, action) {
       };
 
     case VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED: {
-      console.log(
-        'This is action VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED',
-        action,
-      );
       return {
         ...state,
         transactions: state.transactions.concat(action.transaction),
@@ -125,10 +121,6 @@ export default function vapService(state = initialState, action) {
     }
 
     case VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED: {
-      console.log(
-        'This is action VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED',
-        action,
-      );
       const { transactionId } = action.transaction.data.attributes;
       return {
         ...state,
@@ -139,7 +131,6 @@ export default function vapService(state = initialState, action) {
     }
 
     case VAP_SERVICE_TRANSACTION_UPDATED: {
-      console.log('I AM HERE!! VAP_SERVICE_TRANSACTION_UPDATED', action);
       const { transaction } = action;
       const {
         transactionId: updatedTransactionId,
@@ -166,12 +157,7 @@ export default function vapService(state = initialState, action) {
     }
 
     case VAP_SERVICE_TRANSACTION_UPDATE_FAILED: {
-      console.log('I AM HERE!! VAP_SERVICE_TRANSACTION_UPDATE_FAILED', action);
       const { transactionId } = action.transaction?.data?.attributes;
-      console.log(
-        'This is action VAP_SERVICE_TRANSACTION_UPDATE_FAILED',
-        action,
-      );
       return {
         ...state,
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(
