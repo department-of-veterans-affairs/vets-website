@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your vehicles',
@@ -32,10 +33,7 @@ export const uiSchema = {
       vehicleYear: {
         'ui:title': 'Vehicle year',
       },
-      vehicleValue: {
-        'ui:title': 'Estimated value',
-        'ui:required': () => true,
-      },
+      vehicleValue: currencyUI('Estimated value'),
     },
   },
 };
