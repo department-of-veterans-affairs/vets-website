@@ -314,6 +314,7 @@ export function selectProviderSelectionInfo(state) {
     requestLocationStatus,
     currentLocation,
     ccProviderPageSortMethod,
+    data,
   } = getNewAppointment(state);
   return {
     address: selectVAPResidentialAddress(state),
@@ -322,6 +323,7 @@ export function selectProviderSelectionInfo(state) {
     requestLocationStatus,
     currentLocation,
     sortMethod: ccProviderPageSortMethod,
+    typeOfCare: getTypeOfCare(data),
   };
 }
 

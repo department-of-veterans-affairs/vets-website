@@ -9,6 +9,8 @@ import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ErrorMessage from '../../../components/ErrorMessage';
 import RemoveProviderModal from './RemoveProviderModal';
+import useSWR from 'swr';
+import { getCommunityProvidersByTypeOfCare } from '../../../services/location';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -17,13 +19,14 @@ function ProviderSelectionField({
   formData,
   onChange,
   idSchema,
-  requestStatus,
+  // requestStatus,
   requestLocationStatus,
-  requestProvidersList,
-  communityCareProviderList,
+  // requestProvidersList,
+  // communityCareProviderList,
   updateCCProviderSortMethod,
   currentLocation,
   sortMethod,
+  typeOfCare,
 }) {
   const [checkedProvider, setCheckedProvider] = useState(false);
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
@@ -32,13 +35,25 @@ function ProviderSelectionField({
   const [providersListLength, setProvidersListLength] = useState(
     INITIAL_PROVIDER_DISPLAY_COUNT,
   );
+  const { data: communityCareProviderList, error } = useSWR(
+    ['providerSelection', sortMethod, typeOfCare],
+    () => {
+      return getCommunityProvidersByTypeOfCare({
+        address:
+          sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+            ? currentLocation
+            : address,
+        typeOfCare,
+      });
+    },
+  );
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
     providersListLength,
   );
-  const loadingProviders =
-    requestStatus === FETCH_STATUS.loading ||
-    requestStatus === FETCH_STATUS.notStarted;
+  const loadingProviders = !communityCareProviderList;
+  // requestStatus === FETCH_STATUS.loading ||
+  // requestStatus === FETCH_STATUS.notStarted;
 
   const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
 
@@ -53,16 +68,16 @@ function ProviderSelectionField({
     setMounted(true);
   }, []);
 
-  useEffect(
-    () => {
-      if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
-        requestProvidersList(currentLocation);
-      } else {
-        requestProvidersList(address);
-      }
-    },
-    [sortMethod],
-  );
+  // useEffect(
+  //   () => {
+  //     if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+  //       requestProvidersList(currentLocation);
+  //     } else {
+  //       requestProvidersList(address);
+  //     }
+  //   },
+  //   [sortMethod],
+  // );
 
   useEffect(
     () => {
@@ -191,7 +206,7 @@ function ProviderSelectionField({
               <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
             </div>
           )}
-          {requestStatus === FETCH_STATUS.failed && (
+          {!!error && (
             <div className="vads-u-padding-bottom--2">
               <ErrorMessage />
             </div>
@@ -207,7 +222,7 @@ function ProviderSelectionField({
             )}
           {!loadingProviders &&
             !loadingLocations &&
-            (requestStatus === FETCH_STATUS.succeeded ||
+            (!!communityCareProviderList ||
               requestLocationStatus === FETCH_STATUS.succeeded) && (
               <>
                 {sortByDistanceFromCurrentLocation && (
@@ -284,7 +299,7 @@ function ProviderSelectionField({
       )}
       {!loadingProviders &&
         !loadingLocations &&
-        requestStatus === FETCH_STATUS.succeeded &&
+        !!communityCareProviderList &&
         (requestLocationStatus === FETCH_STATUS.notStarted ||
           requestLocationStatus === FETCH_STATUS.succeeded) &&
         showProvidersList && (
