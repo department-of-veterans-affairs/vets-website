@@ -8,12 +8,13 @@ export const uiSchema = {
     'Enter all debts you’re required to pay in regular monthly installments separately below. These debts include payments for car, television, washing machine, dealers, banks, finance companies, doctor bills, hospital bills, and repayment of borrowed money.',
   repayments: {
     repaymentRecords: {
+      'ui:field': ItemLoop,
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
+        itemName: 'Add installment or other debt',
       },
-      'ui:field': ItemLoop,
       items: {
         debtPurpose: {
           'ui:title': 'Purpose of debt',

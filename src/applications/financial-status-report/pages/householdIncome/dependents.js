@@ -9,16 +9,16 @@ export const uiSchema = {
     'ui:required': () => true,
   },
   dependentRecords: {
+    'ui:field': ItemLoop,
+    'ui:description': 'Enter the age of your dependent(s) separately below.',
     'ui:options': {
       expandUnder: 'dependents',
       viewField: CardDetailsView,
       doNotScroll: true,
       showSave: true,
+      itemName: 'Add a dependent',
     },
-    'ui:field': ItemLoop,
-    'ui:description': 'Enter the age of your dependent(s) separately below.',
     items: {
-      'ui:title': 'Add a dependent',
       dependentAge: {
         'ui:title': 'Dependent’s age',
       },

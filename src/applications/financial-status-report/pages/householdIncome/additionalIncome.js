@@ -12,15 +12,17 @@ export const uiSchema = {
     },
     additionalIncomeRecords: {
       'ui:field': ItemLoop,
+      'ui:description':
+        'Please provide information about additional income you currently receive.',
       'ui:options': {
         viewType: 'table',
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
         expandUnder: 'hasAdditionalIncome',
+        itemName: 'Add income',
       },
       items: {
-        'ui:title': 'Add income',
         incomeType: {
           'ui:title': 'Type of income',
         },

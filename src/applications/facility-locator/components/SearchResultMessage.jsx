@@ -45,8 +45,8 @@ const SearchResultMessage = ({
 
   return (
     <div className="search-result-title">
-      Please enter a location (street, city, state or postal code) and click
-      search above to find facilities.
+      Please enter a location (street, city, state, or postal code) and facility
+      type, then click search above to find facilities.
     </div>
   );
 };

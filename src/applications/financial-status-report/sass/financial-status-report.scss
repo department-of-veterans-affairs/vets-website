@@ -15,6 +15,25 @@
   padding-right: 2px;
 }
 
+.item-loop {
+  padding: 0 25px 15px 25px;
+  background-color: #f1f1f1;
+  .schemaform-field-container {
+    display: flex;
+    flex-wrap: wrap;
+    .schemaform-block-header {
+      width: 100%;
+    }
+    .schemaform-field-template {
+      margin: 0 15px 15px 0;
+      min-width: 215px;
+      label {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
 .schemaform-subtitle {
   width: 100%;
   margin-top: 10px;
@@ -106,7 +125,7 @@
   flex-direction: column;
   background-color: #f1f1f1;
   padding: 20px 30px 20px;
-  margin-top: 25px;
+  margin-top: 20px;
   .add-income-link-section {
     .plus-icon {
       color: #0071bb;
