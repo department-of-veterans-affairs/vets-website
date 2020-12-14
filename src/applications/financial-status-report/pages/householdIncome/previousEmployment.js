@@ -10,17 +10,17 @@ export const uiSchema = {
       'ui:required': () => true,
     },
     previousEmploymentRecords: {
+      'ui:field': ItemLoop,
       'ui:description':
         'Please provide your employment history for the past two years.',
-      'ui:field': ItemLoop,
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
         expandUnder: 'hasPreviousEmployment',
+        itemName: 'Add a job',
       },
       items: {
-        'ui:title': 'Add a job',
         previousEmploymentType: {
           'ui:title': 'Type of employment',
         },
@@ -33,7 +33,7 @@ export const uiSchema = {
           'ui:widget': 'date',
         },
         previousEmployerName: {
-          'ui:title': 'Employer Name',
+          'ui:title': 'Employer name',
         },
       },
     },

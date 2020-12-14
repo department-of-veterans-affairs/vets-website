@@ -10,16 +10,16 @@ export const uiSchema = {
     'ui:required': () => true,
   },
   vehicleRecords: {
-    'ui:description': 'Enter each of your vehicles separately below.',
     'ui:field': ItemLoop,
+    'ui:description': 'Enter each of your vehicles separately below.',
     'ui:options': {
       viewField: CardDetailsView,
       expandUnder: 'hasVehicle',
       doNotScroll: true,
       showSave: true,
+      itemName: 'Add a vehicle',
     },
     items: {
-      'ui:title': 'Add vehicle',
       vehicleType: {
         'ui:title': 'Type of vehicle',
         'ui:required': () => true,

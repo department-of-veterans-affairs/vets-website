@@ -10,17 +10,17 @@ export const uiSchema = {
     'ui:required': () => true,
   },
   recreationalVehicleRecords: {
+    'ui:field': ItemLoop,
     'ui:description':
       'Enter each of your trailers, campers, and boats separately below.',
-    'ui:field': ItemLoop,
     'ui:options': {
       viewField: CardDetailsView,
       expandUnder: 'hasRecreationalVehicle',
       doNotScroll: true,
       showSave: true,
+      itemName: 'Add trailer, camper, or boat',
     },
     items: {
-      'ui:title': 'Add trailer, camper, or boat',
       recreationalVehicleType: {
         'ui:title': 'Type of vehicle',
         'ui:required': () => true,
