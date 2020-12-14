@@ -50,7 +50,6 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
       await retrievePreviouslySubmittedForm();
     });
 
-    // ERROR:
     it('request for saved registration that does not exist returns a 404 OK HTTP response and errors', async () => {
       const interaction = {
         state: 'submission data for user does not exist',
