@@ -2,12 +2,18 @@
 /* eslint-disable no-unused-vars */
 const { getDrupalValue } = require('./helpers');
 
-const transform = entity => ({
-  entityType: 'paragraph',
-  entityBundle: 'step_by_step',
-});
+const transform = entity => {
+  return {
+    entity: {
+      entityType: 'paragraph',
+      entityBundle: 'step_by_step',
+      fieldStep: entity.fieldStep,
+      fieldSectionHeader: getDrupalValue(entity.fieldSectionHeader),
+    },
+  };
+};
 
 module.exports = {
-  filter: [''],
+  filter: ['field_section_header', 'field_step'],
   transform,
 };
