@@ -210,6 +210,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-number-of-preferred-providers': 0,
+      'vaos-community-care-preferred-language': undefined,
       flow: 'va-request',
     });
     expect(dataLayer[2]).to.deep.equal({
