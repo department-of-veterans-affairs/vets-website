@@ -52,7 +52,7 @@ function App({ location, children, chapter36Feature }) {
                     href={CAREERS_EMPLOYMENT_ROOT_URL}
                     className="u-vads-display--block u-vads-margin-top--2"
                   >
-                    Return to Career planning and guidance page
+                    Return to Career Planning and Guidance page
                   </a>
                 </>
               }
