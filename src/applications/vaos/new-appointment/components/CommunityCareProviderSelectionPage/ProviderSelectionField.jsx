@@ -271,7 +271,6 @@ function ProviderSelectionField({
                         <button
                           type="button"
                           onClick={() => {
-                            onChange(communityCareProviderList[providerIndex]);
                             onChange(provider);
                             setCheckedProvider();
                             setShowProvidersList(false);
