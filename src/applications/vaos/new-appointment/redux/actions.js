@@ -1081,6 +1081,7 @@ export function submitAppointmentOrRequest(history) {
         event: `${GA_PREFIX}-${eventType}-submission`,
         flow,
         ...additionalEventData,
+        'vaos-community-care-preferred-language': data.preferredLanguage,
       });
 
       try {
