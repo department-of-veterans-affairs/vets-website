@@ -24,7 +24,7 @@ describe('Edu 1990e <ConfirmationPage>', () => {
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
 
     expect(tree.subTree('.confirmation-page-title').text()).to.equal(
-      "We've received your application",
+      "We've received your application.",
     );
     expect(
       tree
