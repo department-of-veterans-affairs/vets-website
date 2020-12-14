@@ -16,7 +16,20 @@ const defaultOptionalFields = {
   bankName: false,
 };
 
-const useDirectDeposit = form => !form?.declineDirectDeposit;
+const bankAccountDescription = () => {
+  return 'This is the bank account information we have on file for you. This is where we’ll send your payments.';
+};
+
+const usingDirectDeposit = formData => !formData?.declineDirectDeposit;
+
+const bankFieldsHaveInput = formData =>
+  formData.bankAccount.accountType ||
+  formData.bankAccount.accountNumber ||
+  formData.bankAccount.routingNumber ||
+  formData.bankAccount.bankName;
+
+const bankFieldIsRequired = formData =>
+  bankFieldsHaveInput(formData) && usingDirectDeposit(formData);
 
 const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
   const ui = {
@@ -53,7 +66,7 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
       },
       accountType: {
         ...bankAccountUI.accountType,
-        'ui:required': useDirectDeposit,
+        'ui:required': bankFieldIsRequired,
       },
       // Optional fields such as bankName are added to the uiSchema here because
       // they'll be ignored if the corresponding property in the schema isn't
@@ -64,24 +77,19 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
       routingNumber: {
         ...bankAccountUI.routingNumber,
         'ui:title': 'Bank routing number (No more than 9 digits)',
-        'ui:required': useDirectDeposit,
+        'ui:required': bankFieldIsRequired,
       },
       accountNumber: {
         ...bankAccountUI.accountNumber,
         'ui:title': 'Bank account number (No more than 17 digits)',
-        'ui:required': useDirectDeposit,
-      },
-      'ui:options': {
-        viewComponent: PaymentView,
-        classNames: 'vads-u-margin-bottom--3',
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        hideIf: form => !useDirectDeposit(form),
+        'ui:required': bankFieldIsRequired,
       },
     },
     declineDirectDeposit: {
       'ui:title': 'I don’t want to use direct deposit',
       'ui:options': {
         hideOnReviewIfFalse: true,
+        widgetClassNames: 'vads-u-margin-top--4',
       },
     },
     'view:directDespositInfo': {
