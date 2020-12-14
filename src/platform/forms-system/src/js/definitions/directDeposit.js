@@ -29,8 +29,18 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
     ],
     bankAccount: {
       'ui:field': ReviewCardField,
-      'ui:description':
-        'This is the bank account information we have on file for you. This is where we’ll send your payments.',
+      'ui:options': {
+        viewComponent: PaymentView,
+        classNames: 'vads-u-margin-bottom--3',
+        hideIf: form => !usingDirectDeposit(form),
+        reviewTitle: 'Bank account information',
+        editTitle: 'Update bank account',
+        itemName: 'information',
+        itemNameAction: 'Update',
+        startInEdit: data => !data?.['view:hasPrefilledBank'],
+        volatileData: true,
+      },
+      'ui:description': bankAccountDescription,
       'ui:order': [
         'view:ddDescription',
         'accountType',
