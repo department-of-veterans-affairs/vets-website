@@ -31,13 +31,13 @@ import {
 } from '@@profile/selectors';
 
 import BankInfoForm from './BankInfoForm';
+
 import PaymentInformationEditError from './PaymentInformationEditModalError';
 import ProfileInfoTable from '../ProfileInfoTable';
-import FraudVictimAlert from './FraudVictimAlert';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
-export const DirectDepositContent = ({
+export const DirectDepositCNP = ({
   isLOA3,
   isDirectDepositSetUp,
   is2faEnabled,
@@ -262,41 +262,6 @@ export const DirectDepositContent = ({
     return data;
   };
 
-  const educationBenefitsData = () => [
-    {
-      value: (
-        <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <p className="vads-u-margin-top--0">
-            You’ll need to sign in to the eBenefits website with your{' '}
-            <strong>Premium DS Logon</strong> account to change your direct
-            deposit information for GI Bill and other education benefits online.
-          </p>{' '}
-          <p>
-            If you don’t have a <strong>Premium DS Logon</strong> account, you
-            can register for one or upgrade your Basic account to Premium. Your{' '}
-            <strong>MyHealtheVet</strong> or <strong>ID.me</strong> credentials
-            won’t work on eBenefits.
-          </p>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
-          >
-            Go to eBenefits to change your information
-          </a>
-          <a
-            className="vads-u-margin-top--2"
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://va.gov/change-direct-deposit/"
-          >
-            Find out how to change your information by mail or phone
-          </a>
-        </div>
-      ),
-    },
-  ];
-
   const mfaHandler = isAuthenticatedWithSSO => {
     recordEvent({ event: 'multifactor-link-clicked' });
     mfa(isAuthenticatedWithSSO ? 'v1' : 'v0');
@@ -401,17 +366,12 @@ export const DirectDepositContent = ({
           title="Disability compensation and pension benefits"
           data={directDepositData()}
         />
-        <FraudVictimAlert />
-        <ProfileInfoTable
-          title="Education benefits"
-          data={educationBenefitsData()}
-        />
       </>
     );
   }
 };
 
-DirectDepositContent.propTypes = {
+DirectDepositCNP.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   is2faEnabled: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
@@ -448,4 +408,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DirectDepositContent);
+)(DirectDepositCNP);
