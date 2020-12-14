@@ -6,7 +6,8 @@ import useRecaptcha from './useRecaptcha';
 
 export default function useSubmitForm() {
   const [status, setSubmitStatus] = useState(requestStates.notCalled);
-  const [, executeRecaptcha] = useRecaptcha();
+  const [executeRecaptcha] = useRecaptcha();
+  const appActionID = 'coronavirus_vaccine_submit';
 
   const submit = useCallback(formData => {
     async function sendToApi(token) {
@@ -24,7 +25,7 @@ export default function useSubmitForm() {
       }
     }
     if (!formData.isIdentityVerified) {
-      executeRecaptcha(sendToApi);
+      executeRecaptcha(sendToApi, appActionID);
     } else {
       sendToApi();
     }

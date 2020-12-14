@@ -1,16 +1,25 @@
-import { useCallback, useState } from 'react';
+import { useState, useCallback } from 'react';
 
-// temporary localhost key. will need to get real key from CredStash or ??
+// temporary localhost key. need to use real key.  Can this remain public or should still be stored in credStash?
 const SITE_KEY = '6Lcbbf0ZAAAAABAWyrsMSyTd1RRAM71rrk350SLa';
 
 export default function useRecaptcha() {
   const [recaptchaState, setRecaptchaState] = useState(false);
 
-  const setUpRecaptcha = useCallback(
-    () => {
+  const execute = (callback, appActionID) => {
+    window.grecaptcha.ready(() => {
+      window.grecaptcha
+        .execute(SITE_KEY, { action: appActionID })
+        .then(token => {
+          if (callback) callback(token);
+        });
+    });
+  };
+
+  const executeRecaptcha = useCallback(
+    submit => {
       const loadScriptByURL = (id, url, callback) => {
         const isScriptExist = document.getElementById(id);
-
         if (!isScriptExist) {
           const script = document.createElement('script');
           script.type = 'text/javascript';
@@ -32,6 +41,7 @@ export default function useRecaptcha() {
           `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`,
           function() {
             setRecaptchaState(true);
+            execute(submit);
           },
         );
       }
@@ -39,13 +49,5 @@ export default function useRecaptcha() {
     [recaptchaState],
   );
 
-  const executeRecaptcha = callback => {
-    window.grecaptcha.ready(() => {
-      window.grecaptcha.execute(SITE_KEY, { action: 'submit' }).then(token => {
-        if (callback) callback(token);
-      });
-    });
-  };
-
-  return [setUpRecaptcha, executeRecaptcha];
+  return [executeRecaptcha];
 }
