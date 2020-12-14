@@ -40,7 +40,7 @@ import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
 
-import { getInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
+import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information';
 import ContactInformationEditButton from './ContactInformationEditButton';
 
 const wrapperClasses = prefixUtilityClasses([
@@ -74,8 +74,10 @@ class ContactInformationField extends React.Component {
     data: PropTypes.object,
     field: PropTypes.object,
     fieldName: PropTypes.string.isRequired,
-    showEditView: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
+    modalData: PropTypes.object,
+    showEditView: PropTypes.bool.isRequired,
+    showSMSCheckBox: PropTypes.bool,
     title: PropTypes.string.isRequired,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
@@ -238,7 +240,6 @@ class ContactInformationField extends React.Component {
     }
   };
 
-  // THIS IS WHERE WE MESS UP
   refreshTransaction = () => {
     this.props.refreshTransaction(
       this.props.transaction,
@@ -321,12 +322,12 @@ class ContactInformationField extends React.Component {
     if (showEditView) {
       content = (
         <ContactInformationEditView
-          analyticsSectionName={this.props.analyticsSectionName} // FROM REDUX
+          analyticsSectionName={this.props.analyticsSectionName}
           clearErrors={this.clearErrors}
-          deleteDisabled={this.props.deleteDisabled} // FROM 2 LEVELS UP, ONLY TRUE FOR MAILING ADDRESS
-          field={this.props.field} // FROM REDUX
-          fieldName={this.props.fieldName} // FROM REDUX
-          formSchema={this.props.formSchema} // FROM 1 LEVEL UP
+          deleteDisabled={this.props.deleteDisabled}
+          field={this.props.field}
+          fieldName={this.props.fieldName}
+          formSchema={this.props.formSchema}
           getInitialFormValues={() =>
             getInitialFormValues({
               type: this.props.type,
@@ -335,19 +336,19 @@ class ContactInformationField extends React.Component {
               modalData: this.props.modalData,
             })
           }
-          hasUnsavedEdits={this.props.hasUnsavedEdits} // FROM REDUX
-          hasValidationError={this.props.hasValidationError} // DOES NOT EXIST??
-          isEmpty={this.props.isEmpty} // FROM REDUX
+          hasUnsavedEdits={this.props.hasUnsavedEdits}
+          hasValidationError={this.props.hasValidationError}
+          isEmpty={this.props.isEmpty}
           onCancel={this.onCancel}
           onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
           onDelete={this.onDelete}
           onSubmit={this.onSubmit}
-          refreshTransaction={this.refreshTransaction} // FROM REDUX
-          title={this.props.title} // NOT SURE
-          transaction={this.props.transaction} // FROM REDUX
-          transactionRequest={this.props.transactionRequest} // FROM REDUX
-          uiSchema={this.props.uiSchema} // FROM 1 LEVEL UP
-          type={this.props.type} // FROM 1 LEVEL UP
+          refreshTransaction={this.refreshTransaction}
+          title={this.props.title}
+          transaction={this.props.transaction}
+          transactionRequest={this.props.transactionRequest}
+          uiSchema={this.props.uiSchema}
+          type={this.props.type}
         />
       );
     }
@@ -437,7 +438,6 @@ export const mapStateToProps = (state, ownProps) => {
   const isEmpty = !data;
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
-  // Double check we don't need another conditonal here
   const showValidationView =
     addressValidationType === fieldName &&
     // TODO: use a constant for 'addressValidation'

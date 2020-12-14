@@ -13,7 +13,7 @@ import ContactInformationActionButtons from './ContactInformationActionButtons';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
 import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
 
-import { transformInitialFormValues } from 'applications/personalization/profile/util/getInitialFormValues';
+import { transformInitialFormValues } from 'applications/personalization/profile/util/contact-information';
 
 import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
