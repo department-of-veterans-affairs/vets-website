@@ -163,7 +163,7 @@ describe('Schemaform <FormSaved>', () => {
         user={user()}
       />,
     );
-    expect(tree.subTree('withRouter(FormStartControls)')).exist();
+    expect(tree.subTree('withRouter(FormStartControls)')).exist;
   });
   it('should handle save in progress being empty', () => {
     const thisRoute = {
@@ -190,6 +190,6 @@ describe('Schemaform <FormSaved>', () => {
         user={user()}
       />,
     );
-    expect(tree.subTree('withRouter(FormStartControls)')).exist();
+    expect(tree.subTree('withRouter(FormStartControls)')).to.exist;
   });
 });
