@@ -132,10 +132,12 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
           },
           body: {
             data: {
-              id: like('C2B0CCBC18AFD5A489160753194205616'),
-              type: 'covid_vaccine_v0_registration_submissions',
+              id: like('BC79619E54A14BFF0D1607952232618112202'),
+              type: like('covid_vaccine_v0_registration_submissions'),
               attributes: {
-                createdAt: like('2020-12-09T16:39:02.153Z'),
+                createdAt: like('2020-12-14T13:23:52.929Z'),
+                vaccineInterest: like('INTERESTED'),
+                zipCode: like('10001'),
               },
             },
           },
