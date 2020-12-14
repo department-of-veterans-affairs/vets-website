@@ -7,8 +7,13 @@ const transform = entity => ({
     processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
   },
   fieldServiceNameAndDescripti: entity.fieldServiceNameAndDescripti[0],
+  fieldLocalHealthCareService: entity.fieldLocalHealthCareService[0],
 });
 module.exports = {
-  filter: ['field_body', 'field_service_name_and_descripti'],
+  filter: [
+    'field_body',
+    'field_service_name_and_descripti',
+    'field_local_health_care_service_',
+  ],
   transform,
 };

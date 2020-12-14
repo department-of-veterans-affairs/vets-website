@@ -8,6 +8,13 @@ module.exports = {
     fieldServiceNameAndDescripti: {
       $ref: 'output/taxonomy_term-health_care_service_taxonomy',
     },
+    fieldLocalHealthCareService: {
+      $ref: 'output/node-health_care_local_health_service',
+    },
   },
-  required: ['fieldBody', 'fieldServiceNameAndDescripti'],
+  required: [
+    'fieldBody',
+    'fieldServiceNameAndDescripti',
+    'fieldLocalHealthCareService',
+  ],
 };
