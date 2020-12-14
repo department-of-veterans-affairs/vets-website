@@ -1,5 +1,5 @@
 import contractTest from 'platform/testing/contract';
-import { like, term } from '@pact-foundation/pact/dsl/matchers';
+import { like, string, term } from '@pact-foundation/pact/dsl/matchers';
 import { retrievePreviouslySubmittedForm, saveForm } from '../../api/';
 import environment from 'platform/utilities/environment';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
@@ -7,6 +7,7 @@ import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthentic
 
 contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('GET /registration', () => {
+    // THIS PASSES
     it('request for saved submission that exists returns a 200 OK HTTP response and the registration data', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
@@ -53,6 +54,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
       await retrievePreviouslySubmittedForm(url);
     });
 
+    // ERROR:
     it('request for saved registration that does not exist returns a 404 OK HTTP response and errors', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
@@ -97,6 +99,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   });
 
   describe('POST /registration', () => {
+    // ERROR:
     it('authenticated success case: submit valid registration returns a 201 Created HTTP response', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
@@ -122,13 +125,13 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
           },
           body: {
             data: {
-              id: like('BC79619E54A14BFF0D1607952232618112202'),
-              type: like('covid_vaccine_v0_registration_submissions'),
-              attributes: {
-                createdAt: like('2020-12-14T13:23:52.929Z'),
-                vaccineInterest: like('INTERESTED'),
-                zipCode: like('10001'),
-              },
+              id: string('BC79619E54A14BFF0D1607952232618112202'),
+              type: 'covid_vaccine_v0_registration_submissions',
+              attributes: like({
+                createdAt: '2020-12-14T13:23:52.929Z',
+                vaccineInterest: 'INTERESTED',
+                zipCode: '10001',
+              }),
             },
           },
         },
@@ -139,6 +142,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
       await saveForm(url, authenticatedApplicationData);
     });
 
+    // ERROR:
     it('unauthenticated success case: submit valid registration will return a 201 Created HTTP response', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
@@ -164,13 +168,13 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
           },
           body: {
             data: {
-              id: like('BC79619E54A14BFF0D1607954051449112204'),
+              id: string('BC79619E54A14BFF0D1607952232618112202'),
               type: 'covid_vaccine_v0_registration_submissions',
-              attributes: {
-                createdAt: like('2020-12-14T13:54:11.501Z'),
-                vaccineInterest: like('INTERESTED'),
-                zipCode: like('10001'),
-              },
+              attributes: like({
+                createdAt: '2020-12-14T13:23:52.929Z',
+                vaccineInterest: 'INTERESTED',
+                zipCode: '10001',
+              }),
             },
           },
         },
