@@ -29,17 +29,17 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
             data: {
               id: like('BC79619E54A14BFF0D1607952232618112202'),
               type: 'covid_vaccine_v0_registration_submissions',
-              attributes: {
-                createdAt: like('2020-12-14T13:23:52.929Z'),
-                vaccineInterest: like('INTERESTED'),
-                zipCode: like('10001'),
-                zipCodeDetails: like('Yes'),
-                phone: like('1112223333'),
-                email: like('test@example.com'),
-                firstName: like('JAMES'),
-                lastName: like('BECK'),
-                birthDate: like('1989-11-11'),
-              },
+              attributes: like({
+                createdAt: '2020-12-14T13:23:52.929Z',
+                vaccineInterest: 'INTERESTED',
+                zipCode: '10001',
+                zipCodeDetails: 'Yes',
+                phone: '1112223333',
+                email: 'test@example.com',
+                firstName: 'JAMES',
+                lastName: 'BECK',
+                birthDate: '1989-11-11',
+              }),
             },
           },
         },
@@ -72,16 +72,14 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
             }),
           },
           body: {
-            data: {
-              errors: [
-                {
-                  title: 'Record not found',
-                  detail: 'The record identified by  could not be found',
-                  code: '404',
-                  status: '404',
-                },
-              ],
-            },
+            errors: [
+              {
+                title: 'Record not found',
+                detail: 'The record identified by  could not be found',
+                code: '404',
+                status: '404',
+              },
+            ],
           },
         },
       };
