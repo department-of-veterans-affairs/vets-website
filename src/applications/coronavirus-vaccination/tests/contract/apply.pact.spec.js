@@ -5,19 +5,6 @@ import environment from 'platform/utilities/environment';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
 import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthenticated-coronavirus-vaccination-application.json';
 
-// TODO:
-// get for authenticated user who has not submitted before
-// => using retrievePreviouslySubmittedForm
-// get for authenticated user who has submitted before
-// => using retrievePreviouslySubmittedForm
-// post for unauthenticated user
-// => using saveForm
-// post for authenticated user
-// => using saveForm
-// update cypress fixtures
-// => done for unauthenticated user
-// => check authenticated user
-
 contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   describe('GET /registration', () => {
     it('request for saved submission that exists returns a 200 OK HTTP response and the registration data', async () => {
@@ -110,7 +97,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
   });
 
   describe('POST /registration', () => {
-    it('authenticated success case: submit valid registration will return a 201 Created HTTP response', async () => {
+    it('authenticated success case: submit valid registration returns a 201 Created HTTP response', async () => {
       const url = `${environment.API_URL}/covid_vaccine/v0/registration`;
 
       const interaction = {
