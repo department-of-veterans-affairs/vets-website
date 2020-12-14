@@ -93,13 +93,13 @@ const InputSection = ({
     >
       <ScrollElement name={`table_${itemIdPrefix}`} />
       <div className="row small-collapse">
-        <div className="small-12 columns va-growable-expanded">
+        <div className="small-12 columns">
           {items.length > 1 && uiSchema['ui:options'].itemName ? (
             <h3 className="vads-u-font-size--h5">
               New {uiSchema['ui:options'].itemName}
             </h3>
           ) : null}
-          <div className="input-section">
+          <div className="item-loop">
             <SchemaField
               schema={itemSchema}
               uiSchema={uiSchema.items}

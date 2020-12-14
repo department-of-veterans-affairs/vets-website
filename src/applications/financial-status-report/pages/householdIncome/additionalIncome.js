@@ -11,6 +11,8 @@ export const uiSchema = {
       'ui:required': () => true,
     },
     additionalIncomeRecords: {
+      'ui:description':
+        'Please provide information about additional income you currently receive.',
       'ui:field': ItemLoop,
       'ui:options': {
         viewType: 'table',
