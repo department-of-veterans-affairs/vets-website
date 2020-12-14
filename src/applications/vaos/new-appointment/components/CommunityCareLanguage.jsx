@@ -1,73 +1,62 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import FormButtons from '../../../components/FormButtons';
-import * as actions from '../../redux/actions';
-import { getFormPageInfo } from '../../../utils/selectors';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import ProviderSelectionField from './ProviderSelectionField';
+import FormButtons from '../../components/FormButtons';
+import { LANGUAGES } from '../../utils/constants';
+import * as actions from '../redux/actions';
+import { getFormPageInfo } from '../../utils/selectors';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { useHistory } from 'react-router-dom';
 
 const initialSchema = {
   type: 'object',
-  required: [],
+  required: ['preferredLanguage'],
   properties: {
-    communityCareSystemId: {
+    preferredLanguage: {
       type: 'string',
-      enum: [],
-    },
-    communityCareProvider: {
-      type: 'object',
-      properties: {},
+      enum: LANGUAGES.map(l => l.id),
+      enumNames: LANGUAGES.map(l => l.text),
     },
   },
 };
 
 const uiSchema = {
-  communityCareSystemId: {
-    'ui:title': 'What’s the closest city and state to you?',
-    'ui:widget': 'radio',
-  },
-  communityCareProvider: {
-    'ui:options': {
-      showFieldLabel: true,
-    },
-    'ui:description':
-      'You can request a provider you’d prefer for this appointment. If they aren’t available, we’ll schedule your appointment with a provider close to your home.',
-    'ui:field': ProviderSelectionField,
+  preferredLanguage: {
+    'ui:title':
+      'Do you prefer that your community care provider speak a certain language?',
   },
 };
 
-const pageKey = 'ccPreferences';
-const pageTitle = 'Tell us your community care preferences';
+const pageKey = 'ccLanguage';
+const pageTitle = 'Provider preferences';
 
-function CommunityCareProviderSelectionPage({
+// Remove the export when the CommunityCarePreferencesPage.unit.spec.jsx is converted
+export function CommunityCarePreferencesPage({
   schema,
   data,
   pageChangeInProgress,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   updateFormData,
-  openCommunityCareProviderSelectionPage,
+  openFormPage,
 }) {
   const history = useHistory();
-  useEffect(() => {
-    if (history && !data?.typeOfCareId) {
-      history.replace('/new-appointment');
-    } else {
+  useEffect(
+    () => {
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
-      openCommunityCareProviderSelectionPage(pageKey, uiSchema, initialSchema);
-    }
-  }, []);
+      openFormPage(pageKey, uiSchema, initialSchema);
+    },
+    [openFormPage],
+  );
 
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       {!!schema && (
         <SchemaForm
-          name="ccPreferences"
-          title="Community Care preferences"
+          name="ccLanguage"
+          title={pageTitle}
           schema={schema}
           uiSchema={uiSchema}
           onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
@@ -92,8 +81,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  openCommunityCareProviderSelectionPage:
-    actions.openCommunityCareProviderSelectionPage,
+  openFormPage: actions.openFormPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   updateFormData: actions.updateFormData,
@@ -102,4 +90,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CommunityCareProviderSelectionPage);
+)(CommunityCarePreferencesPage);
