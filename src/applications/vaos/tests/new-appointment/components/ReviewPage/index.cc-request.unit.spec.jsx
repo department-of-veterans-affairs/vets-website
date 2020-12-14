@@ -193,7 +193,7 @@ describe('VAOS <ReviewPage> CC request', () => {
     expect(uniqueLinks.size).to.equal(editLinks.length);
   });
 
-  it('it should submit successfully', async () => {
+  it('should submit successfully', async () => {
     mockRequestSubmit('cc', {
       id: 'fake_id',
     });
