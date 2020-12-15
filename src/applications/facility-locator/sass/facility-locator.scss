@@ -573,3 +573,8 @@ button.mapboxgl-ctrl-zoom-out  {
   margin-bottom: 0;
   margin-right: 0;
 }
+
+canvas.mapboxgl-canvas:focus {
+  outline: 2px solid $color-gold-light !important;
+  outline-offset: 2px;
+}
