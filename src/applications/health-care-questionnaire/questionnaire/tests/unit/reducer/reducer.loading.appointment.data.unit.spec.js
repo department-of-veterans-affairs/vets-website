@@ -9,7 +9,7 @@ import {
 
 import testData from '../../../api/appointment-data.json';
 
-describe('healthcare-questionnaire -- questionnaire reducer --', () => {
+describe('health care questionnaire -- questionnaire reducer --', () => {
   it('should set loading to true', () => {
     const action = questionnaireAppointmentLoading();
     const state = reducer.questionnaireData(undefined, action);

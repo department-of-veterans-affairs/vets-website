@@ -6,7 +6,7 @@ import IntroductionPage from '../../../containers/IntroductionPage';
 
 import { createFakeIntroductionPageStore } from '../utils/createFakeStores';
 
-describe('healthcare-questionnaire - introduction page  -', () => {
+describe('health care questionnaire - introduction page  -', () => {
   it('does not have a saved form', () => {
     const fakeStore = createFakeIntroductionPageStore('my-test-form', []);
     const wrapper = mount(<IntroductionPage store={fakeStore} />);

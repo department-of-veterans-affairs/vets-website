@@ -10,7 +10,7 @@ import {
   createFakeListStoreForServiceDown,
 } from '../utils/createFakeStores';
 
-describe('healthcare questionnaire list - todo list', () => {
+describe('health care questionnaire list - todo list', () => {
   it('No questionnaires -- service down message', () => {
     const fakeStore = createFakeListStoreForServiceDown();
     const component = mount(<CompletedQuestionnaires store={fakeStore} />);

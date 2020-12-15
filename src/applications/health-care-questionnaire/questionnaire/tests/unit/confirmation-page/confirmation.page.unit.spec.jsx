@@ -6,7 +6,7 @@ import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 import { createFakeConfirmationStore } from '../utils/createFakeStores';
 
-describe('healthcare-questionnaire - confirmation page  -', () => {
+describe('health care questionnaire - confirmation page  -', () => {
   it('displays information -- has data', () => {
     const fakeStore = createFakeConfirmationStore({ hasData: true });
     const wrapper = mount(<ConfirmationPage store={fakeStore} />);

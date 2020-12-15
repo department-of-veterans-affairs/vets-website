@@ -6,7 +6,7 @@ import AppointmentInfoBox from '../../../components/veteran-info/AppointmentInfo
 
 import { createFakeUserStore } from '../utils/createFakeStores';
 
-describe('healthcare-questionnaire - AppointmentInfoBox', () => {
+describe('health care questionnaire - AppointmentInfoBox', () => {
   it('Appointment Info Box -- details that are always shown -- Full name; date of birth;', () => {
     const fakeStore = createFakeUserStore();
     const appointmentDetails = mount(<AppointmentInfoBox store={fakeStore} />);

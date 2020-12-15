@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { getAppointTypeFromAppointment } from '../../../utils';
 
-describe('healthcare-questionnaire -- utils -- appointment parser -- getAppointTypeFromAppointment', () => {
+describe('health care questionnaire -- utils -- appointment parser -- getAppointTypeFromAppointment', () => {
   it('appointment is undefined', () => {
     const result = getAppointTypeFromAppointment(undefined);
     expect(result).to.be.null;

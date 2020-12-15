@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import VeteranInformationDisplay from '../../../components/veteran-info/VeteranInformationDisplay';
 
-describe('healthcare-questionnaire - VeteranInformationDisplay', () => {
+describe('health care questionnaire - VeteranInformationDisplay', () => {
   it('Appointment Info Box -- saving stuff', () => {
     const setFormData = sinon.spy();
     const saveForm = sinon.spy();

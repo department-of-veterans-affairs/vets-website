@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 
 import VeteranInfoReviewPage from '../../../components/veteran-info/VeteranInfoReviewPage';
 
-describe('healthcare-questionnaire - display vets information on review page', () => {
+describe('health care questionnaire - display vets information on review page', () => {
   it('shows basic information - full name, gender and date of birth', () => {
     const formData = {
       veteranInfo: {

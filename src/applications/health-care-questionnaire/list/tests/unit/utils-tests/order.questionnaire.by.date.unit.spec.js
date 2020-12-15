@@ -4,7 +4,7 @@ import { sortQuestionnairesByStatus } from '../../../utils';
 
 import testData from './data/order.questionnaire.data.json';
 
-describe('healthcare-questionnaire -- utils -- questionnaire list -- ordering by date --', () => {
+describe('health care questionnaire -- utils -- questionnaire list -- ordering by date --', () => {
   it('sorts completed', () => {
     const { data } = testData;
     const result = sortQuestionnairesByStatus(data);

@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 
 import QuestionnaireItem from '../../../questionnaire-list/components/QuestionnaireItem';
 
-describe('healthcare questionnaire list - display a questionnaire item', () => {
+describe('health care questionnaire list - display a questionnaire item', () => {
   it('appointment information', () => {
     const name = 'Magic Kingdom';
     const data = {

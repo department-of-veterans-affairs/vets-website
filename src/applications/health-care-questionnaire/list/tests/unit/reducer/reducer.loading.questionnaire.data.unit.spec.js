@@ -11,7 +11,7 @@ import { sortQuestionnairesByStatus } from '../../../utils';
 
 import testData from '../../../api/my-questionnaires.sample.json';
 
-describe('healthcare-questionnaire -- questionnaire reducer --', () => {
+describe('health care-questionnaire -- questionnaire reducer --', () => {
   it('should set loading to true', () => {
     const action = questionnaireListLoading();
     const state = reducer.questionnaireListData(undefined, action);

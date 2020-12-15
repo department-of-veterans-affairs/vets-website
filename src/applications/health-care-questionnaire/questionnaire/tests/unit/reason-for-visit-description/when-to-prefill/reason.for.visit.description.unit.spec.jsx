@@ -7,7 +7,7 @@ import ReasonForVisitDescriptionField from '../../../../components/reason-for-vi
 
 import { createFakeReasonForVisitDescriptionStore } from '../../utils/createFakeStores';
 
-describe('healthcare-questionnaire -- reason for visit', () => {
+describe('health care questionnaire -- reason for visit', () => {
   it('parsing reason from state -- no reason in value and no appointment', () => {
     const fakeStore = createFakeReasonForVisitDescriptionStore();
     const onChange = sinon.spy();

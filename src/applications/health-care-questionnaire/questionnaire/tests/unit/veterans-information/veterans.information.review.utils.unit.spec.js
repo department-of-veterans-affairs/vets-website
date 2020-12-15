@@ -7,7 +7,7 @@ import {
   stateCodeToFullState,
 } from '../../../components/veteran-info/utils';
 
-describe('healthcare-questionnaire -- veterans information utils --', () => {
+describe('health care questionnaire -- veterans information utils --', () => {
   it('stateCodeToFullState -- good data', () => {
     const value = stateCodeToFullState('PA');
 

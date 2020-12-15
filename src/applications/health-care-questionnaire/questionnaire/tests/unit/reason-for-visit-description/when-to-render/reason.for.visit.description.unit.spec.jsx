@@ -7,7 +7,7 @@ import ReasonForVisitDescriptionField from '../../../../components/reason-for-vi
 
 import { createFakeReasonForVisitDescriptionStore } from '../../utils/createFakeStores';
 
-describe('healthcare-questionnaire -- reason to visit description -- when to render --', () => {
+describe('health care questionnaire -- reason to visit description -- when to render --', () => {
   it('parsing reason from state -- text widget is rendered by default', () => {
     const fakeStore = createFakeReasonForVisitDescriptionStore();
     const onChange = sinon.spy();

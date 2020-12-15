@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import AppointmentDisplay from '../../../components/veteran-info/AppointmentDisplay';
 import testData from '../../../api/appointment-data.json';
 
-describe('healthcare-questionnaire - display an appointment -- ', () => {
+describe('health care questionnaire - display an appointment -- ', () => {
   it('has appointment data', () => {
     const mountedComponent = mount(
       <AppointmentDisplay appointment={testData.data} />,

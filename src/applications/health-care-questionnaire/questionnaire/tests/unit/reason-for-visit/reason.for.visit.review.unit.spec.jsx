@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 
 import ReasonForVisitReview from '../../../components/reason-for-visit/ReasonForVisitReview';
 
-describe('healthcare-questionnaire - reason for visit - review -', () => {
+describe('health care questionnaire - reason for visit - review -', () => {
   it('reason for visit exists', () => {
     const wrapper = mount(
       <ReasonForVisitReview>

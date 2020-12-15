@@ -6,7 +6,7 @@ import ReasonForVisitField from '../../../components/reason-for-visit/ReasonForV
 
 import { createFakeReasonForVisitStore } from '../utils/createFakeStores';
 
-describe('healthcare-questionnaire - reason for visit - visit page -', () => {
+describe('health care questionnaire - reason for visit - visit page -', () => {
   it('reason for visit exists', () => {
     const fakeStore = createFakeReasonForVisitStore({
       reason: 'Follow-up/Routine:yes i have a reason',

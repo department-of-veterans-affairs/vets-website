@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 
 import PhoneNumberView from '../../../components/veteran-info/PhoneNumberView';
 
-describe('healthcare-questionnaire - display a phone number', () => {
+describe('health care questionnaire - display a phone number', () => {
   it('valid phone number - should return formatted', () => {
     const data = {
       label: 'my-label',
