@@ -1,5 +1,9 @@
+export function selectExpressCare(state) {
+  return state.expressCare;
+}
+
 export function selectExpressCareNewRequest(state) {
-  return state.expressCare.newRequest;
+  return selectExpressCare(state).newRequest;
 }
 
 export function selectExpressCareFormData(state) {
@@ -13,8 +17,4 @@ export function getExpressCareFormPageInfo(state, pageKey) {
     data: newRequest.data,
     pageChangeInProgress: newRequest.pageChangeInProgress,
   };
-}
-
-export function selectExpressCare(state) {
-  return state.expressCare;
 }
