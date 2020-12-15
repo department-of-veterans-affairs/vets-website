@@ -16,10 +16,6 @@ const defaultOptionalFields = {
   bankName: false,
 };
 
-const bankAccountDescription = () => {
-  return 'This is the bank account information we have on file for you. This is where we’ll send your payments.';
-};
-
 const usingDirectDeposit = formData => !formData?.declineDirectDeposit;
 
 const bankFieldsHaveInput = formData =>
@@ -53,20 +49,19 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         startInEdit: data => !data?.['view:hasPrefilledBank'],
         volatileData: true,
       },
-      'ui:description': bankAccountDescription,
       'ui:order': [
-        'view:ddDescription',
         'accountType',
+        'view:ddDescription',
         'bankName',
         'routingNumber',
         'accountNumber',
       ],
-      'view:ddDescription': {
-        'ui:description': directDepositDescription,
-      },
       accountType: {
         ...bankAccountUI.accountType,
         'ui:required': bankFieldIsRequired,
+      },
+      'view:ddDescription': {
+        'ui:description': directDepositDescription,
       },
       // Optional fields such as bankName are added to the uiSchema here because
       // they'll be ignored if the corresponding property in the schema isn't
@@ -138,11 +133,11 @@ const schema = optionalFields => {
       bankAccount: {
         type: 'object',
         properties: {
-          'view:ddDescription': { type: 'object', properties: {} },
           accountType: {
             type: 'string',
             enum: ['checking', 'savings'],
           },
+          'view:ddDescription': { type: 'object', properties: {} },
           routingNumber: {
             type: 'string',
             pattern: '^\\d{9}$',
