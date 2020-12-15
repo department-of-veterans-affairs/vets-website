@@ -19,9 +19,9 @@ export const uiSchema = {
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
+        itemName: 'Add income',
       },
       items: {
-        'ui:title': 'Add income',
         incomeType: {
           'ui:title': 'Type of income',
         },

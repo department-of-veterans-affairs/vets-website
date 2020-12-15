@@ -11,18 +11,18 @@ export const uiSchema = {
       'ui:required': () => true,
     },
     expenseRecords: {
+      'ui:field': ItemLoop,
+      'ui:description':
+        'Enter other living expenses separately below. Other living expenses include cell phone, clothing, and transportation.',
       'ui:options': {
         expandUnder: 'hasExpenses',
         viewType: 'table',
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
+        itemName: 'Add an expense',
       },
-      'ui:field': ItemLoop,
-      'ui:description':
-        'Enter other living expenses separately below. Other living expenses include cell phone, clothing, and transportation.',
       items: {
-        'ui:title': 'Add an expense',
         expenseType: {
           'ui:title': 'Type of expense',
         },

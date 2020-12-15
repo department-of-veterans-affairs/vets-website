@@ -1,6 +1,6 @@
 import basicUser from './fixtures/users/user-basic.json';
 
-it('health care questionnaire list -- loads manager page -- bread crumbs exists', () => {
+it.skip('health care questionnaire list -- loads manager page -- bread crumbs exists', () => {
   cy.fixture(
     '../../src/applications/healthcare/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
   ).then(features => {
