@@ -6,7 +6,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-import basicUser from './fixtures/users/user-basic.json';
+import basicUser from './fixtures/users/user-basic.js';
 
 const testConfig = createTestConfig(
   {

@@ -6,7 +6,6 @@ import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import DebtCardsList from './DebtCardsList';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
@@ -44,9 +43,9 @@ class DebtLettersSummary extends Component {
 
     const renderEmptyAlert = () => (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-        <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
+        <h2 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h4">
           Our records show that you don't have any current debts
-        </h4>
+        </h2>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
           If you believe that you have a debt with the VA, call the Debt
           Management Center at <Telephone contact="8008270648" />
@@ -60,24 +59,6 @@ class DebtLettersSummary extends Component {
       </div>
     );
 
-    const bannerContent = (
-      <>
-        <p>
-          We’ve taken action to stop collection on newly established Veteran
-          debt and make it easier for Veterans to request extended repayment
-          plans and address other financial needs during this time.
-        </p>
-        <p>
-          You won’t receive any debt collection letters in the mail until after
-          December 31, 2020. For the latest information about managing VA debt,
-          visit our{' '}
-          <a href="http://va.gov/coronavirus-veteran-frequently-asked-questions/">
-            coronavirus FAQs
-          </a>
-          .
-        </p>
-      </>
-    );
     const { isError, isVBMSError, debts, debtLinks } = this.props;
     const allDebtsFetchFailure = isVBMSError && isError;
     const allDebtsEmpty =
@@ -105,13 +86,29 @@ class DebtLettersSummary extends Component {
               {allDebtsEmpty && renderEmptyAlert()}
               {!allDebtsFetchFailure && (
                 <>
-                  <AlertBox
-                    className="vads-u-margin-bottom--2"
-                    headline="VA debt collection is on hold due to the coronavirus"
-                    content={bannerContent}
-                    status="info"
-                    isVisible
-                  />
+                  <div className="usa-alert usa-alert-info  vads-u-padding--3 vads-u-margin-top--3">
+                    <div className="usa-alert-body ">
+                      <h2 className="usa-alert-heading vads-u-font-size--h3">
+                        VA debt collection is on hold due to the coronavirus
+                      </h2>
+                      <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+                        We’ve taken action to stop collection on newly
+                        established Veteran debt and make it easier for Veterans
+                        to request extended repayment plans and address other
+                        financial needs during this time.
+                      </p>
+                      <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+                        You won’t receive any debt collection letters in the
+                        mail until after December 31, 2020. For the latest
+                        information about managing VA debt, visit our{' '}
+                        <a href="http://va.gov/coronavirus-veteran-frequently-asked-questions/">
+                          coronavirus FAQs
+                        </a>
+                        {'.'}
+                      </p>
+                    </div>
+                  </div>
+
                   <OnThisPageLinks />
                   <DebtCardsList />
                 </>

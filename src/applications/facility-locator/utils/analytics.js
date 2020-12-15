@@ -128,26 +128,37 @@ export const recordZoomEvent = (lastZoom, currentZoom) => {
 /**
  * Helper fn to record map panning
  */
-export const recordPanEvent = (mapCenter, searchCoords) => {
+export const recordPanEvent = (mapCenter, currentQuery) => {
+  const { searchCoords, searchArea } = currentQuery;
   return new Promise((resolve, _) => {
-    if (searchCoords && searchCoords.lat && searchCoords.lng) {
-      const distanceMoved = distBetween(
+    let distanceMoved;
+
+    if (searchCoords) {
+      distanceMoved = distBetween(
         searchCoords.lat,
         searchCoords.lng,
         mapCenter.lat,
         mapCenter.lng,
       );
-      if (distanceMoved > 0) {
-        resolve(
-          recordEvent({
-            event: 'fl-search',
-            'fl-map-miles-moved': distanceMoved,
-          }),
-          recordEvent({
-            'fl-map-miles-moved': undefined,
-          }),
-        );
-      }
+    } else if (distanceMoved) {
+      distanceMoved = distBetween(
+        searchArea.locationCoords.lat,
+        searchArea.locationCoords.lng,
+        mapCenter.lat,
+        mapCenter.lng,
+      );
+    }
+
+    if (distanceMoved > 0) {
+      resolve(
+        recordEvent({
+          event: 'fl-search',
+          'fl-map-miles-moved': distanceMoved,
+        }),
+        recordEvent({
+          'fl-map-miles-moved': undefined,
+        }),
+      );
     }
   });
 };

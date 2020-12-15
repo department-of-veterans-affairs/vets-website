@@ -12,7 +12,7 @@ describe('healthcare-questionnaire - introduction page  -', () => {
     const wrapper = mount(<IntroductionPage store={fakeStore} />);
 
     expect(wrapper.find('[data-testid="sign-in-header"]').text()).to.equal(
-      'Please sign in to start your questionnaire',
+      'Please sign in to start your questions',
     );
     wrapper.unmount();
   });

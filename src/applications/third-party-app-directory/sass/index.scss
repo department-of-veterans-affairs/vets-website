@@ -12,16 +12,19 @@
       list-style: none;
     }
 
-    ol li {
+    ul li {
       list-style: disc;
     }
   }
 
   .third-party-app {
     border-radius: 5px;
+    overflow: hidden;
 
     img {
       max-width: 70px;
+      min-height: 70px;
+      object-fit: cover;
     }
 
     .learn-more {

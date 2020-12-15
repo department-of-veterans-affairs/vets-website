@@ -12,7 +12,7 @@ export default function DemographicField(props) {
     prop => formData[prop],
   );
   return (
-    <div>
+    <>
       <div className="review-row">
         <dt>{uiSchema['ui:title']}</dt>
         {categories.length > 0 && (
@@ -25,6 +25,6 @@ export default function DemographicField(props) {
           <dd>{uiSchema[prop]['ui:title']}</dd>
         </div>
       ))}
-    </div>
+    </>
   );
 }

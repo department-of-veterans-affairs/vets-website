@@ -6,6 +6,8 @@
 @import "../express-care/sass/styles";
 @import "../appointment-list/sass/styles";
 
+$vaos-loading-overlay: rgba($color-white, .9);
+
 .vaos-form__title {
   text-transform: uppercase;
 }
@@ -19,7 +21,7 @@ h1:focus {
 }
 
 .vaos__loading-overlay {
-  background: rgba(255, 255, 255, .9);
+  background: $vaos-loading-overlay;
   content: " ";
   display: block;
   height: 100%;

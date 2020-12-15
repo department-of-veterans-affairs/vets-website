@@ -149,16 +149,20 @@ class ViewPaymentsLists extends Component {
           <>
             <ViewPaymentsHeader />
             {paymentsReceivedTable}
-            <strong>Note:</strong> Some payment details might not be available
-            online. For example, direct-deposit payments less than $1 or check
-            payments less than $5, won’t show in your online payment history.
-            Gross (before deductions) payments and changes will show only for
-            recurring and irregular compensation payments. If you have questions
-            about payments made by VA, please call the VA Help Desk at{' '}
-            <Telephone contact={CONTACTS.VA_BENEFITS} />
+            <p>
+              <strong>Note:</strong> Some payment details might not be available
+              online. For example, direct-deposit payments less than $1 or check
+              payments less than $5, won’t show in your online payment history.
+              Gross (before deductions) payments and changes will show only for
+              recurring and irregular compensation payments.
+            </p>
+            <p>
+              If you have questions about payments made by VA, please call the
+              VA Help Desk at <Telephone contact={CONTACTS.VA_BENEFITS} />
+            </p>
             {paymentsReturnedTable}
             <h3>What if I find a check that I reported missing?</h3>
-            <p>
+            <p className="vads-u-margin-bottom--3">
               If you reported a check missing and found it later, you must
               return the original check to the U.S. Department of the Treasury
               and wait to receive your replacement check. If you endorse both

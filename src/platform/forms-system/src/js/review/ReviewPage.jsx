@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
+import DowntimeNotification, {
+  externalServiceStatus,
+} from 'platform/monitoring/DowntimeNotification';
+import DowntimeMessage from 'platform/monitoring/DowntimeNotification/components/Down';
 
 import { focusElement } from '../utilities/ui';
 import ReviewChapters from '../review/ReviewChapters';
@@ -27,49 +31,48 @@ class ReviewPage extends React.Component {
     focusElement('h2');
   }
 
-  render() {
-    const { formConfig, pageList, path } = this.props;
+  renderDowntime = (downtime, children) => {
+    if (downtime.status === externalServiceStatus.down) {
+      const Message = this.props.formConfig.downtime.message || DowntimeMessage;
 
+      return <Message downtime={downtime} />;
+    }
+
+    return children;
+  };
+
+  render() {
+    const { formConfig, pageList, path } = this.props.route;
+
+    const downtimeDependencies = formConfig?.downtime?.dependencies || [];
     return (
       <div>
         <ReviewChapters formConfig={formConfig} pageList={pageList} />
-        <SubmitController
-          formConfig={formConfig}
-          pageList={pageList}
-          path={path}
-        />
+        <DowntimeNotification
+          appTitle="application"
+          render={this.renderDowntime}
+          dependencies={downtimeDependencies}
+          customText={formConfig.customText}
+        >
+          <SubmitController
+            formConfig={formConfig}
+            pageList={pageList}
+            path={path}
+          />
+        </DowntimeNotification>
       </div>
     );
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  const route = ownProps.route;
-  const { formConfig, pageList, path } = route;
-
-  return {
-    formConfig,
-    pageList,
-    path,
-    route,
-  };
-}
-
-const mapDispatchToProps = {};
-
 ReviewPage.propTypes = {
-  pageList: PropTypes.array.isRequired,
-  path: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired,
+    pageList: PropTypes.array.isRequired,
+    path: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ReviewPage),
-);
+export default withRouter(ReviewPage);
 
 export { ReviewPage };

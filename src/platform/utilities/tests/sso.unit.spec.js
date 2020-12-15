@@ -339,7 +339,7 @@ describe('checkAndUpdateSSOeSession', () => {
   });
 });
 
-describe('keepAlive', () => {
+describe.skip('keepAlive', () => {
   let sandbox;
   let stubFetch;
 

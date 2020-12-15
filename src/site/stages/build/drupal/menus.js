@@ -264,6 +264,12 @@ function makeSection(hostUrl, hub, arrayDepth, promo, pages) {
  * @return {Array} headerData - Menu information formatted for the megaMenu React widget.
  */
 function formatHeaderData(buildOptions, contentData) {
+  if (!contentData?.data) {
+    // eslint-disable-next-line no-console
+    console.warn('formatHeaderData has no data');
+    return null;
+  }
+
   let menuLinks = contentData.data.menuLinkContentQuery.entities;
   const pages = contentData.data.nodeQuery.entities;
   const headerData = [];

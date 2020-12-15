@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-const VeteranInfoBox = props => {
-  const { first, middle, last, dateOfBirth, ssnLastFour, vaFileNumber } = props;
+const VeteranInfoBox = ({
+  first,
+  middle,
+  last,
+  dateOfBirth,
+  ssnLastFour,
+  vaFileNumber,
+}) => {
   const fullName = [first, middle, last]
     .filter(name => !!name)
     .join(' ')
@@ -58,7 +64,7 @@ const mapStateToProps = state => ({
   middle: state.form?.data?.personalData?.fullName?.middle,
   last: state.form?.data?.personalData?.fullName?.last,
   dateOfBirth: state.form?.data?.personalData?.dateOfBirth,
-  ssnLastFour: '0000',
+  ssnLastFour: state.form?.data?.personalIdentification?.sSn,
   vaFileNumber: '0123456789',
 });
 

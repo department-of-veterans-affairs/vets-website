@@ -29,7 +29,7 @@ a i {
   background-size: cover;
   font-size: 16px;
   color: $color-purple;
-  text-decoration: none solid rgb(0, 113, 188);
+  text-decoration: none solid $color-blue;
   text-align: center;
 
   &:visited {
@@ -41,4 +41,16 @@ a i {
   background-color: $color-aqua-lightest;
   padding: 0 23px;
   margin: 15px 0;
+}
+
+dl {
+  width: 50%;
+}
+
+h1:focus {
+  outline: none !important;
+}
+
+dt {
+  width: 50%;
 }

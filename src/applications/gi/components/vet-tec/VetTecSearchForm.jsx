@@ -6,13 +6,11 @@ import {
   addAllOption,
   getStateNameForCode,
   handleInputFocusWithPotentialOverLap,
-  isMobileView,
 } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
 import VetTecFilterBy from './VetTecFilterBy';
 import CautionaryWarningsFilter from '../search/CautionaryWarningsFilter';
-import environment from 'platform/utilities/environment';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
@@ -57,21 +55,13 @@ class VetTecSearchForm extends React.Component {
   };
 
   handleSearchInputFocus = fieldId => {
-    // prod flag for bah-8821
-    if (environment.isProduction() && isMobileView()) {
-      const field = document.getElementById(fieldId);
-      if (field) {
-        field.scrollIntoView();
-      }
-    } else {
-      const seeResultsButtonFieldId = 'see-results-button';
-      const scrollableFieldId = 'vet-tec-search';
-      handleInputFocusWithPotentialOverLap(
-        fieldId,
-        seeResultsButtonFieldId,
-        scrollableFieldId,
-      );
-    }
+    const seeResultsButtonFieldId = 'see-results-button';
+    const scrollableFieldId = 'vet-tec-search';
+    handleInputFocusWithPotentialOverLap(
+      fieldId,
+      seeResultsButtonFieldId,
+      scrollableFieldId,
+    );
   };
 
   renderLearningFormat = () => {

@@ -45,6 +45,7 @@ import {
   START_TEXT,
   FORM_STATUS_BDD,
 } from './constants';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -886,9 +887,7 @@ export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
     // Only show the page if both (or potentially neither) options are chosen on the claim-type page
-    depends: formData =>
-      newAndIncrease(formData) ||
-      (noClaimTypeSelected(formData) && !isBDD(formData)),
+    depends: formData => newAndIncrease(formData) && !isBDD(formData),
   },
   ratedDisabilities: {
     path: 'disabilities/rated-disabilities',
@@ -940,3 +939,19 @@ export const showSeparationLocation = formData => {
 };
 
 export const show526Wizard = state => toggleValues(state).show526Wizard;
+
+export const confirmationEmailFeature = state => {
+  const isForm526ConfirmationEmailOn = toggleValues(state)[
+    FEATURE_FLAG_NAMES.form526ConfirmationEmail
+  ];
+  const isForm526ConfirmationEmailShowCopyOn = toggleValues(state)[
+    FEATURE_FLAG_NAMES.form526ConfirmationEmailShowCopy
+  ];
+
+  return [
+    isForm526ConfirmationEmailOn,
+    isForm526ConfirmationEmailShowCopyOn,
+  ].includes(undefined)
+    ? false
+    : isForm526ConfirmationEmailOn && isForm526ConfirmationEmailShowCopyOn;
+};

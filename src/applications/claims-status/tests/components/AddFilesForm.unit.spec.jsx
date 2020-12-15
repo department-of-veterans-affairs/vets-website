@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import AddFilesForm from '../../components/AddFilesForm';
+import { AddFilesForm } from '../../components/AddFilesForm';
 
 describe('<AddFilesForm>', () => {
   it('should render component', () => {
@@ -306,5 +306,48 @@ describe('<AddFilesForm>', () => {
     tree.getMountedInstance().state.errorMessage = 'message';
     message = tree.getMountedInstance().getErrorMessage();
     expect(message).to.equal('message');
+  });
+
+  it('should show password input', () => {
+    const files = [
+      {
+        file: {
+          size: 20,
+          name: 'something.pdf',
+        },
+        docType: {
+          value: 'L501',
+          dirty: false,
+        },
+        password: {
+          value: 'password123',
+          dirty: false,
+        },
+        isEncrypted: true,
+      },
+    ];
+    const field = { value: '', dirty: false };
+    const onSubmit = sinon.spy();
+    const onAddFile = sinon.spy();
+    const onRemoveFile = sinon.spy();
+    const onFieldChange = sinon.spy();
+    const onCancel = sinon.spy();
+    const onDirtyFields = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <AddFilesForm
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}
+        requestLockedPdfPassword
+      />,
+    );
+    expect(tree.getMountedInstance().state.errorMessage).to.be.null;
+    expect(tree.subTree('ErrorableTextInput')).to.exist;
   });
 });

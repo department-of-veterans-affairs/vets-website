@@ -26,8 +26,6 @@ const vaMedalliaStylesFilename = 'va-medallia-styles';
 
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
-const timestamp = new Date().getTime();
-
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
@@ -55,6 +53,18 @@ const globalEntryFiles = {
   'shared-modules': sharedModules,
 };
 
+function getEntryManifests(entry) {
+  const allManifests = getAppManifests();
+  let entryManifests = allManifests;
+  if (entry) {
+    const entryNames = entry.split(',').map(name => name.trim());
+    entryManifests = allManifests.filter(manifest =>
+      entryNames.includes(manifest.entryName),
+    );
+  }
+  return entryManifests;
+}
+
 /**
  * Get a list of all the entry points.
  *
@@ -63,14 +73,7 @@ const globalEntryFiles = {
  * @return {Object} - The entry file paths mapped to the entry names
  */
 function getEntryPoints(entry) {
-  const manifests = getAppManifests();
-  let manifestsToBuild = manifests;
-  if (entry) {
-    const entryNames = entry.split(',').map(name => name.trim());
-    manifestsToBuild = manifests.filter(manifest =>
-      entryNames.includes(manifest.entryName),
-    );
-  }
+  const manifestsToBuild = getEntryManifests(entry);
 
   return getWebpackEntryPoints(manifestsToBuild);
 }
@@ -112,12 +115,8 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: '/generated/',
-      filename: !isOptimizedBuild
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: !isOptimizedBuild
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      filename: '[name].entry.js',
+      chunkFilename: '[name].entry.js',
     },
     module: {
       rules: [
@@ -253,9 +252,7 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return isOptimizedBuild
-            ? `[name].[contenthash]-${timestamp}.css`
-            : `[name].css`;
+          return `[name].css`;
         },
       }),
 
@@ -388,6 +385,15 @@ module.exports = env => {
         ],
       }),
     );
+
+    // Open the browser to either --env.openTo or one of the root URLs of the
+    // apps we're scaffolding
+    baseConfig.devServer.open = true;
+    baseConfig.devServer.openPage =
+      buildOptions.openTo || buildOptions.entry
+        ? // Assumes the first in the list has a rootUrl
+          getEntryManifests(buildOptions.entry)[0].rootUrl
+        : '';
   }
 
   if (isOptimizedBuild) {

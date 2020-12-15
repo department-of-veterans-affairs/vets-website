@@ -11,6 +11,7 @@ import {
   getChosenFacilityDetails,
   getSiteIdForChosenFacility,
   getChosenSlot,
+  selectUseProviderSelection,
 } from '../../../utils/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
@@ -31,6 +32,7 @@ export function ConfirmationPage({
   systemId,
   startNewAppointmentFlow,
   fetchFacilityDetails,
+  useProviderSelection,
 }) {
   const history = useHistory();
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
@@ -72,6 +74,7 @@ export function ConfirmationPage({
           data={data}
           facilityDetails={facilityDetails}
           pageTitle={pageTitle}
+          useProviderSelection={useProviderSelection}
         />
       )}
       <div className="vads-u-margin-y--2">
@@ -120,6 +123,7 @@ function mapStateToProps(state) {
     appointmentLength: getAppointmentLength(state),
     systemId: getSiteIdForChosenFacility(state),
     slot: getChosenSlot(state),
+    useProviderSelection: selectUseProviderSelection(state),
   };
 }
 

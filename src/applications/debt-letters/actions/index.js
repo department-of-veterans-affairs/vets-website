@@ -111,7 +111,10 @@ export const fetchDebtLetters = () => async dispatch => {
     });
 
     if (filteredResponse.length > 0) {
-      recordEvent({ 'number-of-current-debt-cards': filteredResponse.length });
+      recordEvent({
+        event: 'bam-cards-retrieved',
+        'number-of-current-debt-cards': filteredResponse.length,
+      });
     }
     // suppress VBMS call if they have dependent debt
     if (!response.hasDependentDebts) {

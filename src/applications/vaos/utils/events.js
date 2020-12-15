@@ -32,6 +32,7 @@ export function resetDataLayer() {
     alertBoxHeading: undefined,
     'vaos-item-type': undefined,
     'vaos-number-of-items': undefined,
+    'vaos-number-of-preferred-providers': undefined,
   });
 }
 

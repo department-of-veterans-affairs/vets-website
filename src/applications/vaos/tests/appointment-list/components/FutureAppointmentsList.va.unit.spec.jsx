@@ -119,10 +119,12 @@ describe('VAOS integration: upcoming VA appointments', () => {
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
     );
     expect(baseElement).to.contain.text('C&P BEV AUDIO FTC1');
+    expect(await findByText(/BEV AUDIO FTC1/)).to.have.tagName('h4');
     expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
     expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
     expect(baseElement).to.contain.text('307-778-7550');
+    expect(baseElement.querySelector('h4')).to.be.ok;
   });
 
   it('should show comment for self-scheduled appointments', async () => {
@@ -145,6 +147,8 @@ describe('VAOS integration: upcoming VA appointments', () => {
 
     expect(baseElement).to.contain.text('Follow-up/Routine');
     expect(baseElement).to.contain.text('Instructions');
+    expect(await findByText('Follow-up/Routine')).to.have.tagName('h4');
+    expect(baseElement.querySelector('h4')).to.be.ok;
   });
 
   it('should not show comment if does not start with preset purpose text', async () => {

@@ -4,16 +4,28 @@ import { states } from 'vets-json-schema/dist/constants.json';
 
 import fullSchema from '../../0873-schema.json';
 import {
-  topicLevelOneTitle,
-  topicLevelTwoTitle,
-  topicLevelThreeTitle,
-  vaMedicalCenterTitle,
+  medicalCenterError,
+  routeToStateError,
   routeToStateTitle,
+  facilityCodeError,
+  facilityCodeTitle,
+  stateOfResidence,
+  stateOfResidenceError,
+  stateOfSchool,
+  stateOfSchoolError,
+  topicLevelOneError,
+  topicLevelOneTitle,
+  topicLevelThreeError,
+  topicLevelThreeTitle,
+  topicLevelTwoError,
+  topicLevelTwoTitle,
+  vaMedicalCenterTitle,
 } from '../../../constants/labels';
 import {
   vaMedicalCentersLabels,
   vaMedicalCentersValues,
 } from './medicalCenters';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 const topicSchemaCopy = _.clone(fullSchema.properties.topic);
 topicSchemaCopy.anyOf.pop();
@@ -24,6 +36,10 @@ const formFields = {
   levelThree: 'levelThree',
   vaMedicalCenter: 'vaMedicalCenter',
   routeToState: 'routeToState',
+  facilityCode: 'facilityCode',
+  stateOfResidence: 'stateOfResidence',
+  stateOfSchool: 'stateOfSchool',
+  socialSecurityNumber: 'socialSecurityNumber',
 };
 
 const getChildSchemaFromParentTopic = (
@@ -107,6 +123,13 @@ export const updateFormData = (oldData, newData) => {
   if (oldData.topic.levelOne !== newData.topic.levelOne) {
     Object.assign(newData.topic, { levelTwo: undefined });
   }
+  if (
+    oldData.topic.socialSecurityNumber !== newData.topic.socialSecurityNumber
+  ) {
+    Object.assign(newData.veteranServiceInformation, {
+      socialSecurityNumber: newData.topic.socialSecurityNumber,
+    });
+  }
   return newData;
 };
 
@@ -122,6 +145,38 @@ export const medicalCenterRequiredTopics = new Set([
 export const routeToStateRequiredTopics = new Set([
   'Home Loan/Mortgage Guaranty Issues',
 ]);
+
+export const showFacilityCodeField = new Set(['School Officials Only']);
+
+export const showAdditionalGIBillFields = new Set([
+  'Work Study',
+  'Post-9/11 GI Bill',
+  'On-the-Job Training (OJT)/Apprenticeship',
+  'Survivors & Dependents',
+  'MGIB - Active Duty (Ch 30)',
+  'MGIB - Selected Reserve (Ch 1606)',
+  'School Certifying Official File Transfer',
+  'Licensing and Certification Tests',
+  'VR&E Counselors',
+  'Transfer of Benefits to Dependents (TEB)',
+  'Tuition Assistance Top-Up',
+  'WAVE',
+  'Counseling',
+  'VEAP (Ch 32)',
+  'Reserve Ed Asst Prog (Ch 1607) (REAP)',
+  'National Testing Programs',
+  'Colmery Section 110',
+]);
+
+export function isValidFacilityCode(value) {
+  return /^[a-zA-Z0-9]{8}$/.test(value);
+}
+
+export function validateFacilityCode(errors, facilityCode) {
+  if (facilityCode && !isValidFacilityCode(facilityCode)) {
+    errors.addError(facilityCodeError);
+  }
+}
 
 export function schema(currentSchema, topicProperty = 'topic') {
   const topicSchema = currentSchema.properties[topicProperty];
@@ -145,6 +200,16 @@ export function schema(currentSchema, topicProperty = 'topic') {
         enumNames: vaMedicalCentersLabels,
       },
       routeToState: {
+        type: 'string',
+        enum: states.USA.map(state => state.value),
+        enumNames: states.USA.map(state => state.label),
+      },
+      stateOfResidence: {
+        type: 'string',
+        enum: states.USA.map(state => state.value),
+        enumNames: states.USA.map(state => state.label),
+      },
+      stateOfSchool: {
         type: 'string',
         enum: states.USA.map(state => state.value),
         enumNames: states.USA.map(state => state.label),
@@ -231,12 +296,22 @@ export function uiSchema() {
       'levelThree',
       'vaMedicalCenter',
       'routeToState',
+      'facilityCode',
+      'stateOfResidence',
+      'stateOfSchool',
+      'socialSecurityNumber',
     ],
     [formFields.levelOne]: {
       'ui:title': topicLevelOneTitle,
+      'ui:errorMessages': {
+        required: topicLevelOneError,
+      },
     },
     [formFields.levelTwo]: {
       'ui:title': topicLevelTwoTitle,
+      'ui:errorMessages': {
+        required: topicLevelTwoError,
+      },
     },
     [formFields.levelThree]: {
       'ui:title': topicLevelThreeTitle,
@@ -248,6 +323,9 @@ export function uiSchema() {
         expandUnderCondition: levelTwo => {
           return !!levelThreeRequiredTopics.has(levelTwo);
         },
+      },
+      'ui:errorMessages': {
+        required: topicLevelThreeError,
       },
     },
     [formFields.vaMedicalCenter]: {
@@ -261,6 +339,9 @@ export function uiSchema() {
           return !!medicalCenterRequiredTopics.has(levelTwo);
         },
       },
+      'ui:errorMessages': {
+        required: medicalCenterError,
+      },
     },
     [formFields.routeToState]: {
       'ui:title': routeToStateTitle,
@@ -272,6 +353,62 @@ export function uiSchema() {
         expandUnderCondition: levelTwo => {
           return !!routeToStateRequiredTopics.has(levelTwo);
         },
+      },
+      'ui:errorMessages': {
+        required: routeToStateError,
+      },
+    },
+    [formFields.facilityCode]: {
+      'ui:title': facilityCodeTitle,
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!showFacilityCodeField.has(levelTwo);
+        },
+      },
+      'ui:validations': [validateFacilityCode],
+    },
+    [formFields.stateOfResidence]: {
+      'ui:title': stateOfResidence,
+      'ui:required': formData => {
+        return !!showAdditionalGIBillFields.has(formData.topic.levelTwo);
+      },
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!showAdditionalGIBillFields.has(levelTwo);
+        },
+      },
+      'ui:errorMessages': {
+        required: stateOfResidenceError,
+      },
+    },
+    [formFields.stateOfSchool]: {
+      'ui:title': stateOfSchool,
+      'ui:required': formData => {
+        return !!showAdditionalGIBillFields.has(formData.topic.levelTwo);
+      },
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!showAdditionalGIBillFields.has(levelTwo);
+        },
+      },
+      'ui:errorMessages': {
+        required: stateOfSchoolError,
+      },
+    },
+    [formFields.socialSecurityNumber]: {
+      ...ssnUI,
+      'ui:required': formData => {
+        return !!showAdditionalGIBillFields.has(formData.topic.levelTwo);
+      },
+      'ui:options': {
+        expandUnder: 'levelTwo',
+        expandUnderCondition: levelTwo => {
+          return !!showAdditionalGIBillFields.has(levelTwo);
+        },
+        widgetClassNames: 'usa-input-medium',
       },
     },
   };

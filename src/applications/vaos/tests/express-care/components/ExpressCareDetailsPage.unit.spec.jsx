@@ -64,9 +64,8 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
       store,
     });
 
-    await waitFor(() =>
-      expect(screen.baseElement).to.contain.text('Tell us about your cough'),
-    );
+    await screen.findByText(/tell us about your cough/i);
+
     expect(screen.baseElement).to.contain.text(
       'Please provide additional details about your symptoms',
     );

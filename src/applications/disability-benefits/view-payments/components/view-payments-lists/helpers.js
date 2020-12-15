@@ -9,6 +9,7 @@ export const paymentsReceivedFields = [
   {
     label: 'Amount',
     value: 'payCheckAmount',
+    alignRight: true,
   },
   {
     label: 'Type',
@@ -25,25 +26,28 @@ export const paymentsReceivedFields = [
   {
     label: 'Account',
     value: 'accountNumber',
+    alignRight: true,
   },
 ];
 
 export const paymentsReturnedFields = [
   {
-    label: 'Issue Date',
+    label: 'Issue date',
     value: 'returnedCheckIssueDt',
   },
   {
-    label: 'Cancel Date',
+    label: 'Cancel date',
     value: 'returnedCheckCancelDt',
   },
   {
     label: 'Amount',
     value: 'returnedCheckAmount',
+    alignRight: true,
   },
   {
     label: 'Check #',
     value: 'returnedCheckNumber',
+    alignRight: true,
   },
   {
     label: 'Type',

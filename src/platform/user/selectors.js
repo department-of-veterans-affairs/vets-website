@@ -58,6 +58,8 @@ export const selectPatientFacilities = state =>
   }) || null;
 export const selectVAPContactInfo = state =>
   selectProfile(state).vapContactInfo;
+export const hasVAPServiceConnectionError = state =>
+  selectVAPContactInfo(state)?.status === 'SERVER_ERROR';
 export const selectVAPEmailAddress = state =>
   selectVAPContactInfo(state)?.email?.emailAddress;
 const createPhoneNumberStringFromData = phoneNumberData => {

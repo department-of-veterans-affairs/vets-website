@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { setIncomeData } from '../actions';
+import { setAdditionalIncomeData } from '../actions';
 
 const AdditionalIncome = ({
   initType,
@@ -121,8 +121,8 @@ const ListItem = ({ item, edit }) => {
 const ListLoop = ({
   title,
   subTitle,
-  income,
-  setData,
+  additionalIncome,
+  setAdditionalIncome,
   registry,
   schema,
   uiSchema,
@@ -137,19 +137,19 @@ const ListLoop = ({
   });
 
   const handleUpdate = id => {
-    const itemIndex = income.findIndex(item => item.id === id);
+    const itemIndex = additionalIncome.findIndex(item => item.id === id);
     if (itemIndex === -1) return;
-    const updated = income.map((item, index) => {
+    const updated = additionalIncome.map((item, index) => {
       return index === itemIndex ? { ...item, ...savedItem } : item;
     });
 
-    setData(updated);
+    setAdditionalIncome(updated);
     setEditId(null);
   };
 
   const handleRemove = id => {
-    const updated = income.filter(item => item.id !== id);
-    setData(updated);
+    const updated = additionalIncome.filter(item => item.id !== id);
+    setAdditionalIncome(updated);
   };
 
   const handleEdit = id => {
@@ -159,7 +159,7 @@ const ListLoop = ({
 
   const handleSave = () => {
     if (!savedItem.id) return;
-    setData([...income, savedItem]);
+    setAdditionalIncome([...additionalIncome, savedItem]);
     setShowAdd(false);
   };
 
@@ -169,7 +169,7 @@ const ListLoop = ({
         <h3 className="title">{title}</h3>
         <p className="sub-title">{subTitle}</p>
       </div>
-      {income?.map(
+      {additionalIncome?.map(
         item =>
           item.id !== editId ? (
             <ListItem key={item.id} item={item} edit={handleEdit} />
@@ -193,8 +193,8 @@ const ListLoop = ({
             <div className="input-row">
               <div className="input-container">
                 <AdditionalIncome
-                  initType={income.type}
-                  initAmount={income.amount}
+                  initType={additionalIncome.type}
+                  initAmount={additionalIncome.amount}
                   registry={registry}
                   schema={schema}
                   uiSchema={uiSchema}
@@ -222,13 +222,13 @@ const ListLoop = ({
 };
 
 const mapDispatchToProps = dispatch => ({
-  setData: data => dispatch(setIncomeData(data)),
+  setAdditionalIncome: data => dispatch(setAdditionalIncomeData(data)),
 });
 
 const mapStateToProps = state => ({
   title: 'Your additional income',
   subTitle: 'Enter each type of additional income separately below.',
-  income: state.fsr.income,
+  additionalIncome: state.fsr.additionalIncome,
 });
 
 export default connect(

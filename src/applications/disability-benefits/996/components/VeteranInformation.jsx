@@ -15,7 +15,7 @@ import { SELECTED } from '../constants';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
-export const VeteranInformation = ({
+const VeteranInformation = ({
   formData = {},
   profile = {},
   veteran = {},
@@ -53,8 +53,8 @@ export const VeteranInformation = ({
           formData.contestedIssues || []
         ).every(
           (issue, index) =>
-            contestedIssues[index].ratingIssueReferenceId ===
-            issue.ratingIssueReferenceId,
+            contestedIssues[index]?.ratingIssueReferenceId ===
+            issue?.ratingIssueReferenceId,
         );
 
         if (
@@ -138,6 +138,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   setFormData: setData,
 };
+
+export { VeteranInformation };
 
 export default connect(
   mapStateToProps,

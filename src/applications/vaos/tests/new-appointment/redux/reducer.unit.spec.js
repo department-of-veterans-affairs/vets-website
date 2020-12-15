@@ -88,7 +88,13 @@ const facilityDataParsed = transformFacilities(
     ...item.attributes,
     id: item.id,
   })),
-);
+).map(location => ({
+  ...location,
+  legacyVAR: {
+    directSchedulingSupported: true,
+    requestSupported: true,
+  },
+}));
 
 describe('VAOS reducer: newAppointment', () => {
   it('should set the new schema', () => {
@@ -422,7 +428,6 @@ describe('VAOS reducer: newAppointment', () => {
       expect(newState.facilityPageSortMethod).to.equal(
         FACILITY_SORT_METHODS.distanceFromResidential,
       );
-      expect(newState.data.vaParent).to.equal('var983');
     });
 
     it('should set sort method to alphabetical if there is no residental address', () => {

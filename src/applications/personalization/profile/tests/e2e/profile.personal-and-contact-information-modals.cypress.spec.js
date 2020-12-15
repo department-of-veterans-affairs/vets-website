@@ -1,6 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 
-import mockUser from '../fixtures/users/user-36.json';
+import { mockUser } from '../fixtures/users/user.js';
 
 const setup = (mobile = false) => {
   window.localStorage.setItem(

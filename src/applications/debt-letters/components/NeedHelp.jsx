@@ -5,12 +5,12 @@ import Telephone, {
 
 const NeedHelp = () => (
   <div className="vads-u-font-family--sans">
-    <h3
+    <h2
       id="howDoIGetHelp"
-      className="vads-u-margin-top--4 vads-u-margin-bottom--0 vads-u-font-size--h2"
+      className="vads-u-margin-top--4 vads-u-margin-bottom--0"
     >
       How do I get financial help?
-    </h3>
+    </h2>
     <p className="vads-u-margin-top--2">
       If you need financial help, you can request:
     </p>
@@ -26,9 +26,8 @@ const NeedHelp = () => (
     </ul>
     <p>
       You may be required to submit a financial status report. Call the DMC at{' '}
-      <Telephone contact="8008270648" />
-      between 6:30 a.m. and 6:00 p.m. CT discuss your options and next steps.
-      For international callers, use{' '}
+      <Telephone contact="8008270648" /> between 6:30 a.m. and 6:00 p.m. CT to
+      discuss your options and next steps. For international callers, use{' '}
       <Telephone contact="6127136415" pattern={PATTERNS.OUTSIDE_US} />
       {'.'}
     </p>

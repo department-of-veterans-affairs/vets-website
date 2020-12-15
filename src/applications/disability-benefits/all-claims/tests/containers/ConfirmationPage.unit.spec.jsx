@@ -66,4 +66,42 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     ).to.contain('Something went wrong');
     tree.unmount();
   });
+
+  it('should render default print instructions when areConfirmationEmailTogglesOn false', () => {
+    const tree = testPage(submissionStatuses.succeeded);
+    expect(tree.find('#note-print').text()).to.contain(
+      'Please print this page',
+    );
+    tree.unmount();
+  });
+
+  it('should render note about email when areConfirmationEmailTogglesOn true', () => {
+    const props = {
+      ...defaultProps,
+      areConfirmationEmailTogglesOn: true,
+    };
+
+    const tree = shallow(
+      <ConfirmationPage
+        submissionStatus={submissionStatuses.succeeded}
+        {...props}
+      />,
+    );
+    expect(tree.find('#note-email').text()).to.contain(
+      "We'll send you an email to confirm",
+    );
+    tree.unmount();
+  });
+
+  it('should not render email message when there is an error and areConfirmationEmailTogglesOn true', () => {
+    const props = {
+      ...defaultProps,
+      areConfirmationEmailTogglesOn: true,
+      submissionStatus: submissionStatuses.failed,
+    };
+
+    const tree = shallow(<ConfirmationPage {...props} />);
+    expect(tree.find('#note-email').length).to.equal(0);
+    tree.unmount();
+  });
 });

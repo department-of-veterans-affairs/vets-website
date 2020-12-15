@@ -6,7 +6,7 @@ const ApplyLaterNotification = () => {
   useEffect(() => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     recordEvent({
-      event: `howToWizard-notice-displayed`,
+      event: `howToWizard-alert-displayed`,
       'reason-for-notice': 'chose not to apply now',
     });
   });

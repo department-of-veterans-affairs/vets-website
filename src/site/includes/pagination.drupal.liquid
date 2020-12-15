@@ -31,13 +31,17 @@
     {% endif %}
     <div class="va-pagination-inner">
       {% for page in paginator.inner %}
-        {% if page.class != "va-pagination-active" and totalItems <= paginatorCount %}
-          <a href="{{ page.href }}" class="{{ page.class }}" aria-label="Load page {{ page.label }}{{ paginator.ariaLabel }}">
-            {{ page.label }}
-          </a>
-        {% else %}
+        <a
+          aria-label="Load page {{ page.label }}{{ paginator.ariaLabel }}"
+          {% if page.class %}
+            class="{{ page.class }}"
+          {% endif %}
+          {% if page.class != "va-pagination-active" %}
+            href="{{ page.href }}"
+          {% endif %}
+        >
           {{ page.label }}
-        {% endif %}
+        </a>
         {% assign totalItems = totalItems | minus: 1 %}
       {% endfor %}
     </div>

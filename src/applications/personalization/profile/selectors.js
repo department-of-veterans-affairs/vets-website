@@ -1,32 +1,49 @@
-export const directDepositInformation = state =>
-  state.vaProfile?.paymentInformation;
+import {
+  cnpDirectDepositBankInfo,
+  isEligibleForCNPDirectDeposit,
+  isSignedUpForCNPDirectDeposit,
+  isSignedUpForEDUDirectDeposit,
+} from './util';
 
-export const directDepositUiState = state =>
-  state.vaProfile?.paymentInformationUiState;
+export const cnpDirectDepositInformation = state =>
+  state.vaProfile?.cnpPaymentInformation;
 
-export const directDepositAccountInformation = state =>
-  directDepositInformation(state)?.responses?.[0]?.paymentAccount;
+export const eduDirectDepositInformation = state =>
+  state.vaProfile?.eduPaymentInformation;
 
-export const directDepositIsSetUp = state =>
-  !!directDepositAccountInformation(state)?.accountNumber;
+export const cnpDirectDepositUiState = state =>
+  state.vaProfile?.cnpPaymentInformationUiState;
 
-export const directDepositLoadError = state =>
-  directDepositInformation(state)?.error;
+export const eduDirectDepositUiState = state =>
+  state.vaProfile?.eduPaymentInformationUiState;
 
-export const directDepositAddressInformation = state =>
-  directDepositInformation(state)?.responses?.[0]?.paymentAddress;
+export const cnpDirectDepositAccountInformation = state =>
+  cnpDirectDepositBankInfo(cnpDirectDepositInformation(state));
 
-export const directDepositAddressIsSetUp = state => {
-  const addressInfo = directDepositAddressInformation(state);
-  return !!(
-    addressInfo?.addressOne &&
-    addressInfo?.city &&
-    addressInfo?.stateCode
-  );
+export const eduDirectDepositAccountInformation = state =>
+  eduDirectDepositInformation(state).paymentAccount;
+
+export const cnpDirectDepositIsSetUp = state =>
+  isSignedUpForCNPDirectDeposit(cnpDirectDepositInformation(state));
+
+export const eduDirectDepositIsSetUp = state =>
+  isSignedUpForEDUDirectDeposit(eduDirectDepositAccountInformation(state));
+
+export const cnpDirectDepositLoadError = state =>
+  cnpDirectDepositInformation(state)?.error;
+
+export const eduDirectDepositLoadError = state =>
+  eduDirectDepositInformation(state)?.error;
+
+export const cnpDirectDepositAddressInformation = state =>
+  cnpDirectDepositInformation(state)?.responses?.[0]?.paymentAddress;
+
+export const cnpDirectDepositAddressIsSetUp = state => {
+  return isEligibleForCNPDirectDeposit(cnpDirectDepositInformation(state));
 };
 
-export const directDepositIsBlocked = state => {
-  const controlInfo = directDepositInformation(state)?.responses?.[0]
+export const cnpDirectDepositIsBlocked = state => {
+  const controlInfo = cnpDirectDepositInformation(state)?.responses?.[0]
     ?.controlInformation;
   if (!controlInfo) return false;
   return (

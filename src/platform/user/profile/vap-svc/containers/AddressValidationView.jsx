@@ -141,7 +141,11 @@ class AddressValidationView extends React.Component {
     }
 
     return (
-      <LoadingButton isLoading={isLoading} className="usa-button-primary">
+      <LoadingButton
+        isLoading={isLoading}
+        className="usa-button-primary"
+        data-testid="confirm-address-button"
+      >
         {buttonText}
       </LoadingButton>
     );

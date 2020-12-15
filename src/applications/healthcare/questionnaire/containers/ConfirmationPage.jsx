@@ -60,7 +60,7 @@ const ConfirmationPage = props => {
             </li>
           </ul>
         )}
-        <button className="usa-button-primary">Print this page</button>
+        <button className="usa-button-primary">View and print questions</button>
       </div>
       {appointment && (
         <div className="next-steps">
@@ -75,15 +75,15 @@ const ConfirmationPage = props => {
           <div className="nav-buttons">
             <a
               className="usa-button-primary"
-              href="/healthcare/questionnaire/manager"
+              href="/health-care/health-questionnaires/questionnaires"
             >
-              Go to your health care questionnaires
+              Go to your health questionnaires
             </a>
             <a
               className="appointment-details-link usa-button-primary usa-button-secondary"
               href="/health-care/schedule-view-va-appointments/appointments/"
             >
-              Go to appointment details
+              Go to your appointment details
             </a>
           </div>
         </div>

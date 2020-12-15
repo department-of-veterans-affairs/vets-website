@@ -20,7 +20,7 @@ export default function UploadStatus({ progress, files, onCancel }) {
               evt.preventDefault();
               onCancel();
             }}
-            href
+            href="#"
           >
             Cancel
           </a>

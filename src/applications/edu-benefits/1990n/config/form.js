@@ -69,7 +69,7 @@ const formConfig = {
   errorText: ErrorText,
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: applicantInformationPage(fullSchema1990n, {
           fields: [
@@ -131,7 +131,7 @@ const formConfig = {
       },
     },
     benefitSelection: {
-      title: 'Benefit Selection',
+      title: 'Benefit selection',
       pages: {
         benefitSelection: {
           path: 'benefits/selection', // other forms this is benefits/eligibility
@@ -154,7 +154,7 @@ const formConfig = {
       },
     },
     schoolSelection: {
-      title: 'School Selection',
+      title: 'School selection',
       pages: {
         schoolSelection: schoolSelectionPage(
           fullSchema1990n,
@@ -163,7 +163,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         contactInformation: contactInformationPage(fullSchema1990n),
         directDeposit: createDirectDepositPage(fullSchema1990n, {

@@ -557,6 +557,88 @@
             }
           }
         },
+        {
+          "properties": {
+            "levelOne": {
+              "type": "string",
+              "enum": [
+                "Compensation (Service-Connected Benefits)"
+              ]
+            },
+            "levelTwo": {
+              "type": "string",
+              "enum": [
+                "Filing for compensation benefits",
+                "Status of a pending claim",
+                "Issues/Questions about compensation received",
+                "Direct deposit inquiries",
+                "Aid and Attendance Benefits",
+                "Guardianship/Custodians"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "levelOne": {
+              "type": "string",
+              "enum": [
+                "Education/ GI Bill"
+              ]
+            },
+            "levelTwo": {
+              "type": "object",
+              "anyOf": [
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": [
+                        "Work Study"
+                      ]
+                    },
+                    "levelThree": {
+                      "type": "string",
+                      "enum": [
+                        "Application",
+                        "Inquiries (VAI)",
+                        "Position Descriptions",
+                        "Time Cards",
+                        "Signed Contracts"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "subLevelTwo": {
+                      "type": "string",
+                      "enum": [
+                        "Post-9/11 GI Bill",
+                        "School Officials Only",
+                        "On-the-Job Training (OJT)/Apprenticeship",
+                        "Survivors & Dependents",
+                        "MGIB - Active Duty (Ch 30)",
+                        "MGIB - Selected Reserve (Ch 1606)",
+                        "School Certifying Official File Transfer",
+                        "Licensing and Certification Tests",
+                        "VR&E Counselors",
+                        "Transfer of Benefits to Dependents (TEB)",
+                        "Tuition Assistance Top-Up",
+                        "WAVE",
+                        "Counseling",
+                        "VEAP (Ch 32)",
+                        "Reserve Ed Asst Prog (Ch 1607) (REAP)",
+                        "National Testing Programs",
+                        "Colmery Section 110"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
         {}
       ],
       "properties": {
@@ -1671,6 +1753,146 @@
             "WI",
             "WY"
           ]
+        },
+        "facilityCode": {
+          "type": "string"
+        },
+        "stateOfResidence": {
+          "type": "string",
+          "enum": [
+            "AL",
+            "AK",
+            "AS",
+            "AZ",
+            "AR",
+            "AA",
+            "AE",
+            "AP",
+            "CA",
+            "CO",
+            "CT",
+            "DE",
+            "DC",
+            "FM",
+            "FL",
+            "GA",
+            "GU",
+            "HI",
+            "ID",
+            "IL",
+            "IN",
+            "IA",
+            "KS",
+            "KY",
+            "LA",
+            "ME",
+            "MH",
+            "MD",
+            "MA",
+            "MI",
+            "MN",
+            "MS",
+            "MO",
+            "MT",
+            "NE",
+            "NV",
+            "NH",
+            "NJ",
+            "NM",
+            "NY",
+            "NC",
+            "ND",
+            "MP",
+            "OH",
+            "OK",
+            "OR",
+            "PW",
+            "PA",
+            "PR",
+            "RI",
+            "SC",
+            "SD",
+            "TN",
+            "TX",
+            "UT",
+            "VT",
+            "VI",
+            "VA",
+            "WA",
+            "WV",
+            "WI",
+            "WY"
+          ]
+        },
+        "stateOfSchool": {
+          "type": "string",
+          "enum": [
+            "AL",
+            "AK",
+            "AS",
+            "AZ",
+            "AR",
+            "AA",
+            "AE",
+            "AP",
+            "CA",
+            "CO",
+            "CT",
+            "DE",
+            "DC",
+            "FM",
+            "FL",
+            "GA",
+            "GU",
+            "HI",
+            "ID",
+            "IL",
+            "IN",
+            "IA",
+            "KS",
+            "KY",
+            "LA",
+            "ME",
+            "MH",
+            "MD",
+            "MA",
+            "MI",
+            "MN",
+            "MS",
+            "MO",
+            "MT",
+            "NE",
+            "NV",
+            "NH",
+            "NJ",
+            "NM",
+            "NY",
+            "NC",
+            "ND",
+            "MP",
+            "OH",
+            "OK",
+            "OR",
+            "PW",
+            "PA",
+            "PR",
+            "RI",
+            "SC",
+            "SD",
+            "TN",
+            "TX",
+            "UT",
+            "VT",
+            "VI",
+            "VA",
+            "WA",
+            "WV",
+            "WI",
+            "WY"
+          ]
+        },
+        "socialSecurityNumber": {
+          "$ref": "#/definitions/ssn"
         }
       }
     },

@@ -6,6 +6,7 @@ export function isVAProfileServiceConfigured() {
     // using the existence of VetsGov.pollTimeout as an indicator that we are
     // running unit tests and therefore _do_ want the FE to make real API calls
     window.VetsGov.pollTimeout ||
+    window.Cypress ||
     [
       'dev.va.gov',
       'preview.va.gov',
@@ -523,6 +524,7 @@ export default {
       1000,
     );
   },
+
   addressValidationSuccess() {
     return asyncReturn(
       {

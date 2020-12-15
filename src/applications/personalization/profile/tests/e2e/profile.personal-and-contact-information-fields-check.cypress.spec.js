@@ -1,6 +1,6 @@
 import { PROFILE_PATHS } from '../../constants';
 
-import mockUser from '../fixtures/users/user-36.json';
+import { mockUser } from '../fixtures/users/user.js';
 import mockPersonalInformation from '../fixtures/personal-information-success.json';
 import mockServiceHistory from '../fixtures/service-history-success.json';
 import mockFullName from '../fixtures/full-name-success.json';

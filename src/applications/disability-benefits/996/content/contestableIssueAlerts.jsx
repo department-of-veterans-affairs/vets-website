@@ -5,12 +5,13 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { disabilitiesExplanationAlert } from './contestedIssues';
+import { PROFILE_URL, HLR_INFO_URL } from '../constants';
 
 const noIssuesMessage = (
   <>
-    We don’t have any issues on file for you that are eligible for Higher-Level
-    Review. These are called contestable issues. If you think this is an error,
-    please call us at <Telephone contact={CONTACTS.VA_BENEFITS} />.
+    If you think this is an error, please call us at{' '}
+    <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday through
+    Friday, 8:00 a.m. to 9:00 p.m. ET.
     {disabilitiesExplanationAlert}
   </>
 );
@@ -29,7 +30,7 @@ const benefitError = type => (
 export const noContestableIssuesFound = (
   <AlertBox
     status="warning"
-    headline="You have no issues eligible for a Higher-Level Review"
+    headline="We don’t have any issues on file for you that are eligible for a Higher-Level Review"
     content={noIssuesMessage}
   />
 );
@@ -56,11 +57,27 @@ export const showWorkInProgress = (
         </p>
         <p>
           <a
-            href="/decision-reviews/higher-level-review/"
+            href={HLR_INFO_URL}
             className="u-vads-display--block u-vads-margin-top--2"
           >
             Return to Higher-Level Review information page
           </a>
+        </p>
+      </>
+    }
+  />
+);
+
+export const showHasEmptyAddress = (
+  <AlertBox
+    status="info"
+    headline="You need to have an address on file"
+    content={
+      <>
+        <p>
+          To request a Higher-Level Review, you need to have an address in your
+          VA.gov profile. To add an address,{' '}
+          <a href={PROFILE_URL}>please go to your profile page.</a>
         </p>
       </>
     }

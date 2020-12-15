@@ -18,12 +18,11 @@ import {
   vaosCommunityCare,
   selectSystemIds,
   getEligibilityStatus,
-  getRootIdForChosenFacility,
   getTypeOfCareFacilities,
-  getSiteIdForChosenFacility,
   vaosVSPAppointmentNew,
   getCCEType,
   selectIsCernerOnlyPatient,
+  selectUseFlatFacilityPage,
 } from '../../utils/selectors';
 import {
   getPreferences,
@@ -43,6 +42,7 @@ import {
   getLocation,
   getSiteIdFromFakeFHIRId,
   getLocationsByTypeOfCareAndSiteIds,
+  getCommunityProvidersByTypeOfCare,
 } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
@@ -180,6 +180,14 @@ export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
 export const CLICKED_UPDATE_ADDRESS_BUTTON =
   'newAppointment/CLICKED_UPDATE_ADDRESS_BUTTON';
+export const FORM_REQUESTED_PROVIDERS =
+  'newAppointment/FORM_REQUESTED_PROVIDERS';
+export const FORM_REQUESTED_PROVIDERS_SUCCEEDED =
+  'newAppointment/FORM_REQUESTED_PROVIDERS_SUCCEEDED';
+export const FORM_REQUESTED_PROVIDERS_FAILED =
+  'newAppointment/FORM_REQUESTED_PROVIDERS_FAILED';
+export const FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED =
+  'newAppointment/FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -306,6 +314,8 @@ export function checkEligibility({ location, siteId, showModal }) {
     });
 
     try {
+      const loadingStartTime = Date.now();
+
       const eligibilityData = await getEligibilityData(
         location,
         typeOfCareId,
@@ -313,6 +323,13 @@ export function checkEligibility({ location, siteId, showModal }) {
         directSchedulingEnabled,
         useVSP,
       );
+
+      if (showModal) {
+        recordEvent({
+          event: 'loading-indicator-displayed',
+          'loading-indicator-display-time': Date.now() - loadingStartTime,
+        });
+      }
 
       recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
       logEligibilityExplanation(eligibilityData, typeOfCareId, location.id);
@@ -401,8 +418,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
         // If we have an already selected location or only have a single location
         // fetch eligbility data immediately
+        const supportedFacilities = typeOfCareFacilities?.filter(
+          facility =>
+            facility.legacyVAR.directSchedulingSupported ||
+            facility.legacyVAR.requestSupported,
+        );
         const eligibilityDataNeeded =
-          !!facilityId || typeOfCareFacilities?.length === 1;
+          !!facilityId || supportedFacilities?.length === 1;
 
         if (!typeOfCareFacilities.length) {
           recordEligibilityFailure(
@@ -413,14 +435,14 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         }
 
         if (eligibilityDataNeeded && !facilityId) {
-          facilityId = typeOfCareFacilities[0].id;
+          facilityId = supportedFacilities[0].id;
         }
 
         const eligibilityChecks =
           newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
         if (eligibilityDataNeeded && !eligibilityChecks) {
-          const location = typeOfCareFacilities.find(f => f.id === facilityId);
+          const location = supportedFacilities.find(f => f.id === facilityId);
 
           if (!siteId) {
             siteId = getSiteIdFromFakeFHIRId(location.id);
@@ -438,12 +460,51 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   };
 }
 
+export function updateCCProviderSortMethod(sortMethod) {
+  return async (dispatch, _getState) => {
+    let location = null;
+    const action = {
+      type: FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED,
+      sortMethod,
+    };
+
+    if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+      dispatch({
+        type: FORM_REQUEST_CURRENT_LOCATION,
+      });
+      recordEvent({
+        event: `${GA_PREFIX}-request-current-location-clicked`,
+      });
+      try {
+        location = await getPreciseLocation();
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-allowed`,
+        });
+        dispatch({
+          ...action,
+          location,
+        });
+      } catch (e) {
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-blocked`,
+        });
+        captureError(e, true, 'community care preferences page');
+        dispatch({
+          type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
+        });
+      }
+    } else {
+      dispatch(action);
+    }
+  };
+}
+
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
     let location = null;
     const facilities = getTypeOfCareFacilities(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
-      f => !!f.legacyVAR?.distancefromCurrentLocation,
+      f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
 
     const action = {
@@ -628,7 +689,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
-    const siteId = getSiteIdForChosenFacility(state, data.vaParent);
+    const siteId = getSiteIdFromFakeFHIRId(data.vaParent);
+
     let locations =
       previousNewAppointmentState.facilities[
         `${typeOfCareId}_${data.vaParent}`
@@ -772,7 +834,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = vaosVSPAppointmentNew(state);
-    const rootOrgId = getRootIdForChosenFacility(state);
+    const siteId = getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
 
@@ -811,7 +873,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
               .format('YYYY-MM-DD');
 
         const fetchedSlots = await getSlots({
-          siteId: rootOrgId,
+          siteId,
           typeOfCareId: data.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
@@ -955,6 +1017,9 @@ export function submitAppointmentOrRequest(history) {
     const additionalEventData = {
       'health-TypeOfCare': typeOfCare,
       'health-ReasonForAppointment': data?.reasonForAppointment,
+      'vaos-number-of-preferred-providers': data.hasCommunityCareProvider
+        ? 1
+        : 0,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -1016,6 +1081,7 @@ export function submitAppointmentOrRequest(history) {
         event: `${GA_PREFIX}-${eventType}-submission`,
         flow,
         ...additionalEventData,
+        'vaos-community-care-preferred-language': data.preferredLanguage,
       });
 
       try {
@@ -1069,6 +1135,7 @@ export function submitAppointmentOrRequest(history) {
             facility: requestBody.facility,
             typeOfCareId: requestBody.typeOfCareId,
             cityState: requestBody.cityState,
+            useFlatFacilityPage: selectUseFlatFacilityPage(state),
           };
         }
         captureError(error, true, 'Request submission failure', extraData);
@@ -1093,6 +1160,32 @@ export function submitAppointmentOrRequest(history) {
         });
         resetDataLayer();
       }
+    }
+  };
+}
+
+export function requestProvidersList(address) {
+  return async (dispatch, getState) => {
+    try {
+      const typeOfCare = getTypeOfCare(getState().newAppointment.data);
+      dispatch({
+        type: FORM_REQUESTED_PROVIDERS,
+      });
+
+      const communityCareProviderList = await getCommunityProvidersByTypeOfCare(
+        { address, typeOfCare },
+      );
+
+      dispatch({
+        type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+        communityCareProviderList,
+        address,
+      });
+    } catch (e) {
+      captureError(e);
+      dispatch({
+        type: FORM_REQUESTED_PROVIDERS_FAILED,
+      });
     }
   };
 }

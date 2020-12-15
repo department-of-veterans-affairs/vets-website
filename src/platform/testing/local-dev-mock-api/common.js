@@ -41,6 +41,16 @@ const responses = {
           gender: 'M',
           given_names: ['Julio', 'E'],
           active_status: 'active',
+          facilities: [
+            {
+              facility_id: '983',
+              is_cerner: false,
+            },
+            {
+              facility_id: '984',
+              is_cerner: false,
+            },
+          ],
         },
       },
     },
@@ -62,6 +72,10 @@ const responses = {
         { name: 'vaOnlineSchedulingCommunityCare', value: true },
         { name: 'vaOnlineSchedulingDirect', value: true },
         { name: 'vaOnlineSchedulingPast', value: true },
+        { name: 'vaOnlineSchedulingExpressCare', value: true },
+        { name: 'vaOnlineSchedulingExpressCareNew', value: true },
+        { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
+        { name: 'vaOnlineSchedulingProviderSelection', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },

@@ -36,8 +36,9 @@ export default function claimDetailReducer(state = initialState, action) {
       const files = Array.prototype.map.call(action.files, file => ({
         file,
         docType: makeField(''),
+        password: makeField(''),
+        isEncrypted: action.isEncrypted,
       }));
-
       return _.set('files', state.files.concat(files), state);
     }
     case REMOVE_FILE: {

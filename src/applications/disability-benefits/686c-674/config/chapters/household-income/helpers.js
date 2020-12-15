@@ -20,6 +20,7 @@ export const netWorthCalculation = (
 
 export const netWorthTitle = (
   <p>
-    Is your <strong>net worth</strong> less than $129,094?
+    Did the household have a <strong>net worth</strong> greater than $129,094 in
+    the last tax year?
   </p>
 );

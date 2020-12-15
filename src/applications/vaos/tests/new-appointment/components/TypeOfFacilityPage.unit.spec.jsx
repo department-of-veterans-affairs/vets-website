@@ -33,11 +33,11 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
+    expect((await screen.findAllByRole('radio')).length).to.equal(2);
+
     expect(screen.baseElement).to.contain.text(
       'Choose where you want to receive your care',
     );
-
-    expect(screen.getAllByRole('radio').length).to.equal(2);
   });
 
   it('should show validation', async () => {
@@ -46,7 +46,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /continue »/i }));
+    fireEvent.click(await screen.findByText(/continue »/i));
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please provide a response',
     );

@@ -98,7 +98,7 @@ describe('Direct Deposit', () => {
 
     confirmDirectDepositIsBlocked();
 
-    cy.findByText(/we can’t load all of your information/i).should('exist');
+    cy.findByTestId('not-all-data-available-error').should('exist');
     cy.findByText(/something went wrong/i).should('exist');
   });
 });

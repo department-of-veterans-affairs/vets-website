@@ -21,7 +21,8 @@ const { serviceTreatmentRecordsAttachments } = fullSchema.properties;
 export const uiSchema = {
   'view:uploadServiceTreatmentRecordsQualifier': {
     'view:hasServiceTreatmentRecordsToUpload': {
-      'ui:title': 'Do you want to upload your service treatment records?',
+      'ui:title': `Do you want to upload your service treatment records? (You’ll
+        have a chance to upload your medical records later in the application.)`,
       'ui:widget': 'yesNo',
       'ui:options': {
         labels: {

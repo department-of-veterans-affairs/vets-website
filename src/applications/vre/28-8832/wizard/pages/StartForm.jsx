@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
@@ -9,8 +10,14 @@ const StartForm = () => {
   useEffect(() => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
   });
+  const handleClick = () => {
+    recordEvent({
+      event: `cta-primary-button-click`,
+    });
+  };
   return (
     <a
+      onClick={handleClick}
       href={`${PCPG_ROOT_URL}/introduction`}
       className="usa-button-primary va-button-primary"
     >

@@ -1,4 +1,4 @@
-import basicUser from './fixtures/users/user-basic.json';
+import basicUser from './fixtures/users/user-basic.js';
 
 describe('healthcare questionnaire -- landing page --', () => {
   beforeEach(() => {
@@ -11,11 +11,15 @@ describe('healthcare questionnaire -- landing page --', () => {
         'DISMISSED_ANNOUNCEMENTS',
         JSON.stringify(['single-sign-on-intro']),
       );
-      cy.visit('/healthcare/questionnaire/introduction?skip');
+      cy.visit(
+        '/health-care/health-questionnaires/questionnaires/answer-questions/introduction?skip',
+      );
     });
   });
   it('accessibility', () => {
-    cy.get('.schemaform-title>h1').contains('Primary care questionnaire');
+    cy.get('.schemaform-title>h1').contains(
+      'Answer primary care questionnaire',
+    );
     cy.injectAxe();
     cy.axeCheck();
   });

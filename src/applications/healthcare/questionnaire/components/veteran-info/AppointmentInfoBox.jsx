@@ -1,24 +1,27 @@
-import moment from 'moment';
-import { genderLabels } from 'platform/static-data/labels';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import AddressView from './AddressView';
-import PhoneNumberView from './PhoneNumberView';
-import AppointmentDisplay from './AppointmentDisplay';
+
 import { setData } from 'platform/forms-system/src/js/actions';
 import { selectProfile, selectVAPContactInfo } from 'platform/user/selectors';
 
-const AppointmentInfoBox = ({
-  userFullName,
-  dateOfBirth,
-  gender,
-  addresses,
-  phoneNumbers,
-  appointment,
-  setFormData,
-}) => {
-  const [phones] = useState(phoneNumbers);
-  const [allAddresses] = useState(addresses);
+import AppointmentDisplay from './AppointmentDisplay';
+import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
+import VeteranInformationDisplay from './VeteranInformationDisplay';
+
+const AppointmentInfoBox = props => {
+  const {
+    userFullName,
+    dateOfBirth,
+    gender,
+    addresses,
+    phoneNumbers,
+    appointment,
+    setFormData,
+    saveForm,
+    form,
+  } = props;
+
   const fullName = useMemo(
     () => {
       return [userFullName.first, userFullName.middle, userFullName.last]
@@ -30,21 +33,14 @@ const AppointmentInfoBox = ({
     [userFullName.first, userFullName.middle, userFullName.last],
   );
 
-  const { residential, mailing } = allAddresses;
-
-  useEffect(
-    () => {
-      const veteranInfo = {
-        gender,
-        dateOfBirth,
-        fullName,
-        phones,
-        addresses: allAddresses,
-      };
-      setFormData({ veteranInfo });
-    },
-    [setFormData, gender, dateOfBirth, fullName, phones, allAddresses],
-  );
+  const { formId, version, data } = form;
+  const veteranInfo = {
+    gender,
+    dateOfBirth,
+    fullName,
+    phoneNumbers,
+    addresses,
+  };
 
   return (
     <div>
@@ -52,60 +48,14 @@ const AppointmentInfoBox = ({
       <p>
         Below is the personal and contact information we have on file for you.
       </p>
-      <div className="vads-u-border-left--7px vads-u-border-color--primary">
-        <div className="vads-u-padding-left--2">
-          <p
-            className="vads-u-margin--1px vads-u-font-weight--bold"
-            aria-label="Veterans Full Name"
-            data-testid="fullName"
-          >
-            {fullName}
-          </p>
-          <p className="vads-u-margin--1px">
-            Date of birth:{' '}
-            <time
-              dateTime={dateOfBirth}
-              aria-label="Veteran's date of birth"
-              data-testid="dateOfBirth"
-            >
-              {moment(dateOfBirth).format('MMMM DD, YYYY')}
-            </time>
-          </p>
-          {gender && (
-            <>
-              <p className="vads-u-margin--1px">
-                Gender:{' '}
-                <span data-testid="gender">
-                  {genderLabels[gender] ? genderLabels[gender] : 'UNKNOWN'}
-                </span>
-              </p>
-            </>
-          )}
-          {mailing && (
-            <>
-              <p>
-                <span>Mailing address: </span>
-                <span data-testid="mailingAddress">
-                  <AddressView address={mailing} />
-                </span>
-              </p>
-            </>
-          )}
-          {residential && (
-            <>
-              <p>
-                <span>Home address: </span>
-                <span data-testid="residentialAddress">
-                  <AddressView address={residential} />
-                </span>
-              </p>
-            </>
-          )}
-          {phoneNumbers.filter(num => num.data).map((number, index) => {
-            return <PhoneNumberView key={index} number={number} />;
-          })}
-        </div>
-      </div>
+      <VeteranInformationDisplay
+        veteranInfo={veteranInfo}
+        data={data}
+        formId={formId}
+        version={version}
+        setFormData={setFormData}
+        saveForm={saveForm}
+      />
       <p>
         Note: If you need to update your personal information, please call
         Veterans Benefits Assistance at{' '}
@@ -120,6 +70,7 @@ const mapStateToProps = state => {
   const profile = selectProfile(state);
   const vapContactInfo = selectVAPContactInfo(state);
   return {
+    form: state.form,
     userFullName: profile.userFullName,
     dateOfBirth: profile.dob,
     gender: profile.gender,
@@ -139,9 +90,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setFormData: setData,
+  saveForm: autoSaveForm,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AppointmentInfoBox);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AppointmentInfoBox),
+);

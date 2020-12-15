@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/browser';
+
 import { apiRequest } from '~/platform/utilities/api';
 import { refreshProfile } from '~/platform/user/profile/actions';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -126,10 +128,18 @@ export function refreshTransaction(
         });
 
         if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
+          const errorMetadata =
+            transactionRefreshed?.data?.attributes?.metadata?.[0] ?? {};
+          const errorCode = errorMetadata.code ?? 'unknown-code';
+          const errorKey = errorMetadata.key ?? 'unknown-key';
           recordEvent({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
+            'error-key': `${errorCode}_${errorKey}-address-save-failure`,
+          });
+          recordEvent({
+            'error-key': undefined,
           });
         }
       }
@@ -308,10 +318,24 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
+    const errorCode = error.errors?.[0]?.code;
+    const errorStatus = error.errors?.[0]?.status;
+    if (!errorCode || !errorStatus) {
+      if (error instanceof Error) {
+        Sentry.captureException(error);
+      } else {
+        Sentry.captureException(new Error('Unknown address validation error'));
+      }
+    }
     recordEvent({
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
       'profile-section': analyticsSectionName,
+      'error-key': `${errorCode}_${errorStatus}-address-suggestion-failure`,
+    });
+
+    recordEvent({
+      'error-key': undefined,
     });
 
     return dispatch({

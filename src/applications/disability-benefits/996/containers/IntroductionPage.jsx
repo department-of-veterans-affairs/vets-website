@@ -1,27 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
+import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { isEmptyAddress } from 'platform/forms/address/helpers';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
+import { FIELD_NAMES } from '@@vap-svc/constants';
+
 import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
-
 import { higherLevelReviewFeature, scrollToTop } from '../helpers';
+import {
+  SAVED_CLAIM_TYPE,
+  SUPPLEMENTAL_CLAIM_URL,
+  FACILITY_LOCATOR_URL,
+  GET_HELP_REVIEW_REQUEST_URL,
+} from '../constants';
 import {
   noContestableIssuesFound,
   showContestableIssueError,
   showWorkInProgress,
+  showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
 import WizardContainer from '../wizard/WizardContainer';
 import {
@@ -29,7 +41,6 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import { SAVED_CLAIM_TYPE } from '../constants';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -37,14 +48,7 @@ export class IntroductionPage extends React.Component {
   };
 
   componentDidMount() {
-    // focus on h1 if wizard has completed
-    // focus on breadcrumb nav when wizard is visible
-    const focusTarget =
-      this.state.status === WIZARD_STATUS_COMPLETE
-        ? 'h1'
-        : '.va-nav-breadcrumbs-list';
-    focusElement(focusTarget);
-    scrollToTop();
+    this.setPageFocus();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -69,6 +73,17 @@ export class IntroductionPage extends React.Component {
       }
     }
   }
+
+  setPageFocus = () => {
+    // focus on h1 if wizard has completed
+    // focus on breadcrumb nav when wizard is visible
+    const focusTarget =
+      this.state.status === WIZARD_STATUS_COMPLETE
+        ? 'h1'
+        : '.va-nav-breadcrumbs-list';
+    focusElement(focusTarget);
+    scrollToTop();
+  };
 
   hasSavedForm = () => {
     const { user } = this.props;
@@ -117,23 +132,41 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
+    const { allowHlr, user, hasEmptyAddress } = this.props;
     const callToActionContent = this.getCallToActionContent();
-    const showWizard = this.state.status !== WIZARD_STATUS_COMPLETE;
+    const showWizard = allowHlr && this.state.status !== WIZARD_STATUS_COMPLETE;
+
+    // Change page title once wizard has closed to provide a Veteran using a
+    // screenreader some indication that the content has changed
+    const pageTitle = `Request a Higher-Level Review${
+      showWizard ? '' : ' with VA Form 20-0996'
+    }`;
 
     // check feature flag
-    if (!this.props.allowHlr) {
+    if (!allowHlr) {
       return (
         <article className="schemaform-intro">
-          <FormTitle title="Request a Higher-Level Review" />
+          <FormTitle title={pageTitle} />
           <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
-          <p>{showWorkInProgress}</p>
+          {showWorkInProgress}
+        </article>
+      );
+    }
+
+    // check is user has address
+    if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
+      return (
+        <article className="schemaform-intro">
+          <FormTitle title={pageTitle} />
+          <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
+          {showHasEmptyAddress}
         </article>
       );
     }
 
     return (
       <article className="schemaform-intro">
-        <FormTitle title="Request a Higher-Level Review" />
+        <FormTitle title={pageTitle} />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
 
         {showWizard ? (
@@ -144,37 +177,45 @@ export class IntroductionPage extends React.Component {
               {callToActionContent}
             </CallToActionWidget>
             <h2 className="vads-u-font-size--h3">
-              What is a Higher-Level Review
+              What’s a Higher-Level Review?
             </h2>
             <p>
-              If a Veteran or their representative wants to dispute a decision
-              they received on a claim, they can file a Higher-Level Review.
-              When you request a Higher-Level Review, you’re asking to have a
-              more senior, experienced reviewer take a look at your case and the
-              evidence you already provided. This more senior person will
-              determine whether the decision can be changed based on a
-              difference of opinion or a VA error.
+              If you or your representative disagree with VA’s decision on your
+              claim, you can request a Higher-Level Review. With a Higher-Level
+              Review, a senior reviewer will take a new look at your case and
+              the evidence you already provided. The reviewer will decide
+              whether the decision can be changed based on a difference of
+              opinion or an error.
             </p>
             <h2 className="vads-u-font-size--h3">
-              You cannot submit new evidence
+              You can’t submit new evidence with a Higher-Level Review
             </h2>
             <p>
-              The reviewer will only consider the evidence you have already
-              provided when reviewing your case. If you have new and relevant
-              evidence, you have the{' '}
-              <a href="/decision-reviews">
-                option to use a different Decision Review lane
-              </a>{' '}
-              in order to have that new evidence considered.
+              The senior reviewer will only review the evidence you already
+              provided. If you have new and relevant evidence, you can file{' '}
+              <a href={SUPPLEMENTAL_CLAIM_URL}>a Supplemental Claim</a>.
             </p>
             <div className="process schemaform-process">
-              <h3 className="vads-u-font-size--h4">
+              <h2 className="vads-u-font-size--h3">
                 Follow the steps below to request a Higher-Level Review.
-              </h3>
-              <br />
+              </h2>
+              <p className="vads-u-margin-top--2">
+                if you don’t think this is the right form for you,{' '}
+                <button
+                  className="va-button-link"
+                  onClick={() => {
+                    this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
+                    this.setPageFocus();
+                    recordEvent({ event: 'howToWizard-start-over' });
+                  }}
+                >
+                  go back and answer questions again
+                </button>
+                .
+              </p>
               <ol>
                 <li className="process-step list-one">
-                  <h4 className="vads-u-font-size--h5">Prepare</h4>
+                  <h3 className="vads-u-font-size--h4">Prepare</h3>
                   <p>To fill out this application, you’ll need your:</p>
                   <ul>
                     <li>Primary address</li>
@@ -185,17 +226,6 @@ export class IntroductionPage extends React.Component {
                     <li>Representative’s contact information (optional)</li>
                   </ul>
                   <p>
-                    When you request a Higher-Level Review, you won’t be able to
-                    submit new evidence. If you have new evidence to submit,
-                    you’ll need to select another review option.
-                  </p>
-                  <p>
-                    <a href="/decision-reviews">
-                      Learn more about review options
-                    </a>
-                    .
-                  </p>
-                  <p>
                     <strong>What if I need help with my application?</strong>
                   </p>
                   <p>
@@ -204,7 +234,7 @@ export class IntroductionPage extends React.Component {
                     representative. To find the nearest regional office, please
                     call <Telephone contact={CONTACTS.VA_BENEFITS} />
                     {' or '}
-                    <a href="/find-locations">
+                    <a href={FACILITY_LOCATOR_URL}>
                       visit our facility locator tool
                     </a>
                     .
@@ -213,13 +243,13 @@ export class IntroductionPage extends React.Component {
                     A Veterans Service Organization or VA-accredited attorney or
                     agent can also help you request a decision review.
                   </p>
-                  <a href="/decision-reviews/get-help-with-review-request">
+                  <a href={GET_HELP_REVIEW_REQUEST_URL}>
                     Get help requesting a decision review
                   </a>
                   .
                 </li>
                 <li className="process-step list-two">
-                  <h4 className="vads-u-font-size--h5">Apply</h4>
+                  <h3 className="vads-u-font-size--h4">Apply</h3>
                   <p>
                     Complete this Higher-Level Review form. After submitting the
                     form, you’ll get a confirmation message. You can print this
@@ -227,7 +257,7 @@ export class IntroductionPage extends React.Component {
                   </p>
                 </li>
                 <li className="process-step list-three">
-                  <h4 className="vads-u-font-size--h5">VA Review</h4>
+                  <h3 className="vads-u-font-size--h4">VA Review</h3>
                   <p>
                     Our goal for completing a Higher-Level Review is 125 days. A
                     review might take longer if we need to get records or
@@ -235,7 +265,7 @@ export class IntroductionPage extends React.Component {
                   </p>
                 </li>
                 <li className="process-step list-four">
-                  <h4 className="vads-u-font-size--h5">Decision</h4>
+                  <h3 className="vads-u-font-size--h4">Decision</h3>
                   <p>
                     Once we’ve processed your claim, you’ll get a notice in the
                     mail with our decision.
@@ -267,6 +297,9 @@ function mapStateToProps(state) {
     user,
     contestableIssues,
     allowHlr: higherLevelReviewFeature(state),
+    hasEmptyAddress: isEmptyAddress(
+      selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
+    ),
   };
 }
 

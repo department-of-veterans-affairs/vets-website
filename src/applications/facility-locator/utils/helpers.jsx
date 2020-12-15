@@ -54,6 +54,33 @@ export const buildMarker = (type, values) => {
   return null;
 };
 
+export const clearSearchAreaCtrl = () => {
+  const searchAreaControlId = document.getElementById(
+    'search-area-control-container',
+  );
+
+  if (searchAreaControlId) {
+    searchAreaControlId.style.display = 'none';
+  }
+};
+
+export const resetMapElements = () => {
+  clearLocationMarkers();
+  clearSearchAreaCtrl();
+};
+
+export const setSearchAreaPosition = () => {
+  const searchAreaContainer = document.getElementById(
+    'search-area-control-container',
+  );
+  document
+    .querySelector('.mapboxgl-control-container')
+    .appendChild(searchAreaContainer);
+  document
+    .querySelectorAll('.mapboxgl-ctrl-top-right')
+    .forEach(el => el.remove());
+};
+
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *

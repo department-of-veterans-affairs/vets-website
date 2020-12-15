@@ -268,18 +268,6 @@ class ContactInformationField extends React.Component {
       activeEditView
     ]?.toLowerCase();
 
-    const childProps = {
-      ...this.props,
-      clearErrors: this.clearErrors,
-      onAdd: this.onAdd,
-      onCancel: this.onCancel,
-      onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
-      onDelete: this.onDelete,
-      onEdit: this.onEdit,
-      onSubmit: this.onSubmit,
-      refreshTransaction: this.refreshTransaction,
-    };
-
     const wrapInTransaction = children => {
       return (
         <VAPServiceTransaction
@@ -327,7 +315,33 @@ class ContactInformationField extends React.Component {
       content = (
         <EditView
           refreshTransaction={this.refreshTransaction}
-          {...childProps}
+          analyticsSectionName={this.props.analyticsSectionName}
+          apiRoute={this.props.apiRoute}
+          blockEditMode={this.props.blockEditMode}
+          clearErrors={this.clearErrors}
+          clearTransactionRequest={this.props.clearTransactionRequest}
+          convertCleanDataToPayLoad={this.props.convertCleanDataToPayLoad}
+          createTransaction={this.props.createTransaction}
+          deleteDisabled={this.props.deleteDisabled}
+          data={this.props.data}
+          field={this.props.field}
+          fieldName={this.props.fieldName}
+          formSchema={this.props.formSchema}
+          hasUnsavedEdits={this.props.hasUnsavedEdits}
+          isEmpty={this.props.isEmpty}
+          onCancel={this.onCancel}
+          onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
+          onDelete={this.onDelete}
+          title={this.props.title}
+          onEdit={this.onEdit}
+          onSubmit={this.onSubmit}
+          showEditView={this.props.showEditView}
+          transaction={this.props.transaction}
+          transactionRequest={this.props.transactionRequest}
+          uiSchema={this.props.uiSchema}
+          validateAddress={this.props.validateAddress}
+          EditView={this.props.EditView}
+          ContentView={this.props.ContentView}
         />
       );
     }
@@ -345,7 +359,11 @@ class ContactInformationField extends React.Component {
     }
 
     return (
-      <div className="vet360-profile-field" data-field-name={fieldName}>
+      <div
+        className="vet360-profile-field"
+        data-field-name={fieldName}
+        data-testid={fieldName}
+      >
         <Modal
           title={'Are you sure?'}
           status="warning"
@@ -355,7 +373,7 @@ class ContactInformationField extends React.Component {
           }}
         >
           <p>
-            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won't be saved.`}
+            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won’t be saved.`}
           </p>
           <button
             className="usa-button-secondary"

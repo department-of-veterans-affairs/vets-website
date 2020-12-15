@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import { AdditionalResourcesLinks } from './AdditionalResourcesLinks';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
@@ -22,8 +21,7 @@ const AdditionalResources = ({ vetTec = false }) => {
     'small-12',
     'column',
     {
-      'additional-resources': !vetTec && environment.isProduction(),
-      'additional-resources-responsive': !vetTec && !environment.isProduction(),
+      'additional-resources-responsive': !vetTec,
       'additional-resources-vettec': vetTec,
     },
   );

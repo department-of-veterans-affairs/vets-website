@@ -17,6 +17,11 @@ const template = (props, title, content, submissionMessage, messageType) => {
   const { fullName, disabilities, submittedAt } = props;
   const { first, last, middle, suffix } = fullName;
 
+  // This is easier than passing down props and checking if the form type
+  const pageTitle = document.title.includes('Benefits')
+    ? 'Benefits Delivery at Discharge Claim'
+    : 'Disability Compensation Claim';
+
   const renderableContent =
     typeof content === 'string' && content !== '' ? <p>{content}</p> : content;
 
@@ -49,10 +54,15 @@ const template = (props, title, content, submissionMessage, messageType) => {
   }
 
   return (
-    <div>
-      <h2 className="vads-u-font-size--h5">
-        Please print this page for your records.
-      </h2>
+    <div className="confirmation-page">
+      <div className="print-only">
+        <img
+          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
+          alt="VA logo"
+          width="300"
+        />
+        <h2>{pageTitle}</h2>
+      </div>
 
       <AlertBox
         isVisible
@@ -61,10 +71,22 @@ const template = (props, title, content, submissionMessage, messageType) => {
         status={messageType}
       />
 
+      {props.areConfirmationEmailTogglesOn ? (
+        <h2 className="vads-u-font-size--h5" id="note-email">
+          We'll send you an email to confirm that we received your claim.{' '}
+          <span className="screen-only">
+            You can also print this page for your records.
+          </span>
+        </h2>
+      ) : (
+        <h2 className="vads-u-font-size--h5 screen-only" id="note-print">
+          Please print this page for your records.
+        </h2>
+      )}
+
       <div className="inset">
         <h3 className="vads-u-font-size--h4">
-          Disability Compensation Claim{' '}
-          <span className="additional">(Form 21-526EZ)</span>
+          {pageTitle} <span className="additional">(Form 21-526EZ)</span>
         </h3>
         <span>
           For {first} {middle} {last} {suffix}
@@ -78,9 +100,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
           <li>
             <strong>Conditions claimed</strong>
             <br />
-            <ul className="disability-list">
+            <ul className="disability-list vads-u-margin-top--0">
               {disabilities.map((disability, i) => (
-                <li key={i}>
+                <li key={i} className="vads-u-margin-bottom--0">
                   {typeof disability === 'string'
                     ? capitalizeEachWord(disability)
                     : NULL_CONDITION_STRING}
@@ -90,6 +112,12 @@ const template = (props, title, content, submissionMessage, messageType) => {
             {submissionMessage}
           </li>
         </ul>
+        <button
+          className="usa-button screen-only"
+          onClick={() => window.print()}
+        >
+          Print for your records
+        </button>
       </div>
 
       <div className="confirmation-guidance-container">

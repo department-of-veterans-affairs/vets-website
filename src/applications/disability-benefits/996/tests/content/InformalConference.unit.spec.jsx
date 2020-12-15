@@ -44,6 +44,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     );
 
     const formDOM = getFormDOM(form);
+
     // 3 Radio: Informal conference
     // 2 inputs (text + tel): rep name & phone
     // 4 checkboxes - time period

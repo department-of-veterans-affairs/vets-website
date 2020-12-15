@@ -8,6 +8,7 @@ const createFakeUserStore = (
     hasWork: true,
     hasTemporary: true,
   },
+  data = {},
 ) => {
   return {
     getState: () => ({
@@ -155,9 +156,16 @@ const createFakeUserStore = (
           },
         },
       },
+      form: {
+        formId: 'my-cool-form',
+        data,
+        version: 0,
+      },
     }),
     subscribe: () => {},
-    dispatch: () => {},
+    dispatch: () => {
+      return {};
+    },
   };
 };
 
@@ -260,10 +268,30 @@ const createFakeIntroductionPageStore = (formId, savedForms) => {
   };
 };
 
+const createFakeStopCodeStore = (stopCode = '323') => {
+  return {
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            attributes: {
+              vdsAppointments: [{ clinic: { stopCode } }],
+            },
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => ({
+      toggleLoginModal: () => {},
+    }),
+  };
+};
 export {
   createFakeUserStore,
   createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
   createFakeConfirmationStore,
   createFakeIntroductionPageStore,
+  createFakeStopCodeStore,
 };

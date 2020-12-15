@@ -9,7 +9,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 
 import DirectDeposit from '@@profile/components/direct-deposit/DirectDeposit';
-import DirectDepositContent from '@@profile/components/direct-deposit/DirectDepositContent';
+import DirectDepositCNP from '@@profile/components/direct-deposit/DirectDepositCNP';
 
 describe('DirectDeposit', () => {
   let wrapper;
@@ -39,7 +39,7 @@ describe('DirectDeposit', () => {
         },
       },
       vaProfile: {
-        paymentInformation: {
+        cnpPaymentInformation: {
           responses: [
             {
               paymentAccount: {
@@ -51,7 +51,7 @@ describe('DirectDeposit', () => {
             },
           ],
         },
-        paymentInformationUiState: {},
+        cnpPaymentInformationUiState: {},
       },
     }),
     subscribe: () => {},
@@ -88,7 +88,7 @@ describe('DirectDeposit', () => {
     it('should wrap a DirectDepositContent component', () => {
       const secondChild = directDeposit.childAt(1);
       const downtimeNotificationChild = secondChild.childAt(0).childAt(0);
-      expect(downtimeNotificationChild.type()).to.equal(DirectDepositContent);
+      expect(downtimeNotificationChild.type()).to.equal(DirectDepositCNP);
     });
   });
 });

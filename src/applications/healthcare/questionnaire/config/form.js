@@ -29,6 +29,7 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
+    resumeOnly: true,
     messages: {
       inProgress: '',
       expired:
@@ -56,6 +57,7 @@ const formConfig = {
     continueAppButtonText: 'Continue questions',
     finishAppLaterMessage: 'Finish this questionnaire later.',
     appSavedSuccessfullyMessage: 'Questionnaire has been saved.',
+    submitButtonText: 'Submit answers',
   },
   chapters: {
     chapter1: {

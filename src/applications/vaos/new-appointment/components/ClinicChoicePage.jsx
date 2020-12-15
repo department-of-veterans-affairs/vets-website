@@ -28,7 +28,9 @@ function getPageTitle(schema, typeOfCare) {
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
   let pageTitle = 'Clinic choice';
   if (schema?.properties.clinicId.enum.length === 2) {
-    pageTitle = `Make a ${typeOfCareLabel} appointment at your last clinic`;
+    pageTitle = `Make ${
+      vowelCheck(typeOfCareLabel) ? 'an' : 'a'
+    } ${typeOfCareLabel} appointment at your last clinic`;
   } else if (schema?.properties.clinicId.enum.length > 2) {
     pageTitle = `Choose your VA clinic for your ${typeOfCareLabel} appointment`;
   }
@@ -69,6 +71,8 @@ export function ClinicChoicePage({
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
   const usingUnsupportedRequestFlow =
     data.clinicId === 'NONE' && !canMakeRequests;
+  const schemaAndFacilityReady =
+    schema && facilityDetailsStatus !== FETCH_STATUS.loading;
   useEffect(() => {
     openClinicPage(pageKey, uiSchema, initialSchema);
   }, []);
@@ -78,10 +82,10 @@ export function ClinicChoicePage({
       scrollAndFocus();
       document.title = `${getPageTitle(schema, typeOfCare)} | Veterans Affairs`;
     },
-    [schema && facilityDetailsStatus !== FETCH_STATUS.loading],
+    [schemaAndFacilityReady],
   );
 
-  if (!schema || facilityDetailsStatus === FETCH_STATUS.loading) {
+  if (!schemaAndFacilityReady) {
     return <LoadingIndicator message="Loading your facility and clinic info" />;
   }
 
@@ -93,7 +97,7 @@ export function ClinicChoicePage({
             {getPageTitle(schema, typeOfCare)}
           </h1>
           Your last {typeOfCareLabel} appointment was at{' '}
-          {clinics[0].clinicFriendlyLocationName || clinics[0].clinicName}:
+          {clinics[0].serviceName}:
           {facilityDetails && (
             <p>
               <FacilityAddress
