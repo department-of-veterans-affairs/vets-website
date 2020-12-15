@@ -29,6 +29,7 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
+    resumeOnly: true,
     messages: {
       inProgress: '',
       expired:
