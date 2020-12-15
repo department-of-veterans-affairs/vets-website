@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import debounce from 'platform/utilities/data/debounce';
 import Downshift from 'downshift';
+import escape from 'lodash/escape';
 import * as Sentry from '@sentry/browser';
 
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
@@ -70,17 +71,6 @@ export class SearchMenu extends React.Component {
 
   handleInputChange = event => {
     this.setState({ userInput: event.target.value });
-  };
-
-  formatTypeaheadSuggestion = suggestion => {
-    const { userInput } = this.state;
-    const remainder = suggestion.replace(userInput, '');
-    return (
-      <>
-        <strong>{userInput}</strong>
-        {remainder}
-      </>
-    );
   };
 
   handleSearchEvent = suggestion => {
@@ -197,21 +187,28 @@ export class SearchMenu extends React.Component {
                 className="vads-u-margin-top--0p5"
                 role="listbox"
               >
-                {this.state.suggestions?.map((suggestion, index) => (
-                  <div
-                    key={suggestion}
-                    role="option"
-                    aria-selected={JSON.stringify(selectedItem === suggestion)}
-                    className={
-                      highlightedIndex === index
-                        ? highlightedSuggestion
-                        : regularSuggestion
-                    }
-                    {...getItemProps({ item: suggestion })}
-                  >
-                    {this.formatTypeaheadSuggestion(suggestion)}
-                  </div>
-                ))}
+                {this.state.suggestions?.map((suggestion, index) => {
+                  const formattedSuggestion = suggestion.replace(
+                    this.state.userInput,
+                    `<strong>${escape(this.state.userInput)}</strong>`,
+                  );
+                  return (
+                    <div
+                      key={suggestion}
+                      role="option"
+                      aria-selected={JSON.stringify(
+                        selectedItem === suggestion,
+                      )}
+                      className={
+                        highlightedIndex === index
+                          ? highlightedSuggestion
+                          : regularSuggestion
+                      }
+                      {...getItemProps({ item: suggestion })}
+                      dangerouslySetInnerHTML={{ __html: formattedSuggestion }}
+                    />
+                  );
+                })}
               </div>
             )}
           </div>
