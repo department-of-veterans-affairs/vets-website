@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your real estate assets',
@@ -9,23 +10,21 @@ export const uiSchema = {
     'ui:required': () => true,
   },
   otherAssetRecords: {
+    'ui:field': ItemLoop,
+    'ui:description': 'Enter each additional asset separately below.',
     'ui:options': {
       expandUnder: 'hasOtherAssets',
       viewType: 'table',
       viewField: TableDetailsView,
       doNotScroll: true,
       showSave: true,
+      itemName: 'Add an asset',
     },
-    'ui:field': ItemLoop,
-    'ui:description': 'Enter each additional asset separately below.',
     items: {
-      'ui:title': 'Add an asset',
       otherAssetType: {
         'ui:title': 'Type of asset',
       },
-      otherAssetAmount: {
-        'ui:title': 'Estimated value',
-      },
+      otherAssetAmount: currencyUI('Estimated value'),
     },
   },
 };

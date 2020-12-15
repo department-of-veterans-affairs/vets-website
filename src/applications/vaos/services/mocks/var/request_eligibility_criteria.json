@@ -166,8 +166,8 @@
               },
               {
                 "day": "FRIDAY",
-                "canSchedule": false,
-                "startTime": "08:58",
+                "canSchedule": true,
+                "startTime": "07:58",
                 "endTime": "23:59"
               },
               {

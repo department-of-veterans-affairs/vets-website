@@ -1,6 +1,7 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { HLR_INFO_URL } from '../../constants';
 
 import pageNames from './pageNames';
 
@@ -37,7 +38,7 @@ const LegacyNo = ({ setWizardStatus }) => {
         </button>
       </p>
       <a
-        href="/decision-reviews/higher-level-review"
+        href={HLR_INFO_URL}
         onClick={() => {
           recordEvent({
             event: 'howToWizard-alert-link-click',

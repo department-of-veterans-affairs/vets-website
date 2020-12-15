@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 
 import AlertBox, {
@@ -16,9 +17,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import * as actions from '../actions';
 
-import initialFormSchema from '../config/schema';
-import initialUiSchema from '../config/uiSchema';
-
+import useInitializeForm from '../hooks/useInitializeForm';
 import useSubmitForm from '../hooks/useSubmitForm';
 
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
@@ -44,47 +43,11 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
     [submitStatus],
   );
 
-  useEffect(
-    () => {
-      if (formState) {
-        // If formState isn't null, then we've already initialized the form
-        // so we skip doing it again. This occurs if you navigate to the form,
-        // fill out some fields, navigate back to the intro, then back to the form.
-        return;
-      }
-
-      // Initialize and prefill the form on first render
-      let initialFormData = {
-        isIdentityVerified: false,
-      };
-
-      if (isLoggedIn) {
-        recordEvent({
-          event: 'covid-vaccination-login-successful-start-form',
-        });
-        initialFormData = {
-          isIdentityVerified: profile?.loa?.current === profile?.loa?.highest,
-          firstName: profile?.userFullName?.first,
-          lastName: profile?.userFullName?.last,
-          birthDate: profile?.dob,
-          ssn: undefined,
-          email: profile?.vapContactInfo?.email?.emailAddress,
-          zipCode: profile?.vapContactInfo?.residentialAddress?.zipCode,
-          phone: profile?.vapContactInfo?.homePhone
-            ? `${profile.vapContactInfo.homePhone.areaCode}${
-                profile.vapContactInfo.homePhone.phoneNumber
-              }`
-            : '',
-        };
-      } else {
-        recordEvent({
-          event: 'no-login-start-form',
-        });
-      }
-
-      updateFormData(initialFormSchema, initialUiSchema, initialFormData);
-    },
-    [formState, updateFormData, isLoggedIn, profile],
+  const [previouslySubmittedFormData] = useInitializeForm(
+    formState,
+    updateFormData,
+    isLoggedIn,
+    profile,
   );
 
   const onFormChange = useCallback(
@@ -109,13 +72,23 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   return (
     <>
       <h1 id="covid-vaccination-heading-form" className="no-outline">
-        Fill out the form below to sign up
+        Fill out the form below
       </h1>
-      <p>
-        We’ll send you updates on how we’re providing COVID-19 vaccines across
-        the country—and when you can get your vaccine if you want one. You don't
-        need to sign up to get a vaccine.
-      </p>
+      {previouslySubmittedFormData ? (
+        <p>
+          Our records show you provided the information below on{' '}
+          {moment(previouslySubmittedFormData.createdAt).format('MMMM D, YYYY')}
+          . If you’d like to update your information, please make any updates
+          below and click <strong>Submit form.</strong>
+        </p>
+      ) : (
+        <p>
+          We’ll send you updates on how we’re providing COVID-19 vaccines across
+          the country—and when you can get your vaccine if you want one. You
+          don't need to sign up to get a vaccine.
+        </p>
+      )}
+
       {isLoggedIn ? (
         <p>
           <strong>Note:</strong> Any changes you make to your information here
@@ -146,9 +119,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           <button
             type="submit"
             className="usa-button"
-            aria-label="Sign up to stay informed about COVID-19 vaccines"
+            aria-label="Submit form for COVID-19 vaccine updates"
           >
-            Sign up to stay informed
+            Submit form
           </button>
         </SchemaForm>
       ) : (

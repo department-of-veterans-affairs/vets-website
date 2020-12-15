@@ -7,7 +7,7 @@ export default {
     'phone',
     'zipCode',
     'vaccineInterest',
-    'zipCodeDetails',
+    'locationDetails',
   ],
   properties: {
     isIdentityVerified: {
@@ -37,7 +37,7 @@ export default {
       type: 'string',
       pattern: '^\\d{5}(-\\d{4})?$',
     },
-    zipCodeDetails: {
+    locationDetails: {
       type: 'string',
       enum: ['Yes', 'No', 'Unsure'],
     },

@@ -1,4 +1,6 @@
-import EmploymentHistory from '../../components/EmploymentHistory/EmploymentHistory';
+import ItemLoop from '../../components/ItemLoop';
+import TableDetailsView from '../../components/TableDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your employment history',
@@ -15,10 +17,8 @@ export const uiSchema = {
       currentlyEmployed: {
         'ui:title': 'Are you currently employed?',
         'ui:widget': 'yesNo',
-        'ui:required': () => false,
       },
       isCurrentlyEmployed: {
-        'ui:field': EmploymentHistory,
         'ui:options': {
           expandUnder: 'currentlyEmployed',
         },
@@ -29,15 +29,28 @@ export const uiSchema = {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
         },
-        employmentEnd: {
-          'ui:title': 'Employment end date',
-          'ui:widget': 'date',
-        },
         employerName: {
           'ui:title': 'Employer name',
         },
-        monthlyIncome: {
-          'ui:title': 'Gross monthly income',
+        grossMonthlyIncome: currencyUI('Gross monthly income'),
+        payrollDeductions: {
+          'ui:field': ItemLoop,
+          'ui:title': 'Payroll deductions',
+          'ui:description':
+            'You can find your payroll deductions in a recent paycheck.',
+          'ui:options': {
+            viewType: 'table',
+            viewField: TableDetailsView,
+            doNotScroll: true,
+            showSave: true,
+            itemName: 'Add a payroll deduction',
+          },
+          items: {
+            deductionType: {
+              'ui:title': 'Type of payroll deduction',
+            },
+            deductionAmount: currencyUI('Deduction amount'),
+          },
         },
       },
     },
@@ -64,21 +77,30 @@ export const schema = {
               properties: {
                 employmentType: {
                   type: 'string',
+                  enum: ['Full-time', 'Part-time', 'Seasonal'],
                 },
                 employmentStart: {
-                  type: 'string',
-                },
-                employmentEnd: {
                   type: 'string',
                 },
                 employerName: {
                   type: 'string',
                 },
-                monthlyIncome: {
+                grossMonthlyIncome: {
                   type: 'number',
                 },
                 payrollDeductions: {
-                  type: 'number',
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      deductionType: {
+                        type: 'string',
+                      },
+                      deductionAmount: {
+                        type: 'number',
+                      },
+                    },
+                  },
                 },
               },
             },
