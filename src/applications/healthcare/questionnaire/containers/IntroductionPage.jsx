@@ -84,7 +84,7 @@ const IntroductionPage = props => {
         </p>
         <p>
           <strong>
-            Your provider will discuss the information in your questionnaire
+            Your provider will review your answers and discuss them with you
             during your appointment.
           </strong>
         </p>

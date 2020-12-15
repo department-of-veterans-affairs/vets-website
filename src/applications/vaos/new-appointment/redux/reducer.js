@@ -77,7 +77,7 @@ import {
   PODIATRY_ID,
 } from '../../utils/constants';
 
-import { getTypeOfCare } from '../../utils/selectors';
+import { getTypeOfCare } from './selectors';
 import { distanceBetween } from '../../utils/address';
 import { getSiteIdFromFakeFHIRId } from '../../services/location';
 import { getClinicId } from '../../services/healthcare-service/transformers';
@@ -201,6 +201,15 @@ export default function formReducer(state = initialState, action) {
       ) {
         newPages = unset('vaFacility', newPages);
         actionData = unset('vaFacility', actionData);
+      }
+
+      // reset community care provider if type of care changes
+      if (
+        getTypeOfCare(actionData)?.id !== getTypeOfCare(state.data)?.id &&
+        (state.pages.ccPreferences || !!state.data.communityCareProvider?.id)
+      ) {
+        newPages = unset('ccPreferences', newPages);
+        actionData = set('communityCareProvider', {}, actionData);
       }
 
       const { data, schema } = updateSchemaAndData(

@@ -9,11 +9,11 @@ import { focusElement } from 'platform/utilities/ui';
 import * as actions from '../../redux/actions';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../../utils/constants';
+import { vaosPastAppts } from '../../../redux/selectors';
 import {
-  vaosPastAppts,
   selectPastAppointments,
-  selectExpressCare,
-} from '../../../utils/selectors';
+  selectExpressCareAvailability,
+} from '../../redux/selectors';
 import ConfirmedAppointmentListItem from '../cards/confirmed/ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
@@ -215,7 +215,7 @@ function mapStateToProps(state) {
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
     showPastAppointments: vaosPastAppts(state),
-    expressCare: selectExpressCare(state),
+    expressCare: selectExpressCareAvailability(state),
   };
 }
 

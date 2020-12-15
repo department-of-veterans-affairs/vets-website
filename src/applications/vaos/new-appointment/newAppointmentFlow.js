@@ -1,11 +1,11 @@
+import { selectUseFlatFacilityPage } from '../redux/selectors';
 import {
   getChosenFacilityInfo,
   getEligibilityStatus,
   getFormData,
   getNewAppointment,
   getTypeOfCare,
-  selectUseFlatFacilityPage,
-} from '../utils/selectors';
+} from './redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import { getSiteIdFromFakeFHIRId } from '../services/location';
 import {
