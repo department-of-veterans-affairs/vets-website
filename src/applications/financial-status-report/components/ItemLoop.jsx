@@ -146,10 +146,10 @@ const AddAnotherButton = ({
 }) => (
   <>
     <div className="add-item-container">
-      <div className="add-income-link-section">
+      <div className="add-item-link-section">
         <i className="fas fa-plus plus-icon" />
         <a
-          className="add-income-link"
+          className="add-item-link"
           disabled={!formData || addAnotherDisabled}
           onClick={() => handleAdd()}
         >
