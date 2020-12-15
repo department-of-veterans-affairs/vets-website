@@ -573,3 +573,20 @@ img[data-srcset] {
 .va-u-outline--none:focus {
   outline: none;
 }
+
+.image-detail {
+  width: 25%;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+  .alt-text-container {
+    min-height: 200px;
+  }
+}
+
+.image-desc {
+  width: 50%;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
