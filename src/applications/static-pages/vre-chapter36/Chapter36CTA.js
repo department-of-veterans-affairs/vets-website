@@ -21,9 +21,12 @@ const Chapter36CTA = props => {
       Follow these steps to apply online for Chapter 36 services:
     </h3>
   ) : (
-    <h2 id="follow-these-steps-to-apply-fo">
-      Follow these steps to apply online now
-    </h2>
+    <>
+      <h2>How do I apply?</h2>
+      <h3 id="follow-these-steps-to-apply-fo">
+        Follow these steps to apply online now
+      </h3>
+    </>
   );
   if (props.includedInFlipper === undefined) {
     content = <LoadingIndicator message="Loading..." />;
