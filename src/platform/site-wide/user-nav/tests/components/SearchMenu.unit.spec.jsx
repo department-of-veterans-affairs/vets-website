@@ -33,7 +33,7 @@ describe('<SearchMenu>', () => {
 
   it('should hide the search bar', () => {
     const wrapper = shallow(<SearchMenu {...props} searchTypeaheadEnabled />);
-    expect(wrapper.find('#search-menu').prop('isOpen')).to.be.false;
+    expect(wrapper.find('#search').prop('isOpen')).to.be.false;
     wrapper.unmount();
   });
 
@@ -71,7 +71,7 @@ describe('<SearchMenu>', () => {
       userInput: 'sample',
     });
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 10));
     wrapper.update();
     expect(global.fetch.called).to.be.true;
 

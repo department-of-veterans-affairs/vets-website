@@ -121,7 +121,7 @@ export class SearchMenu extends React.Component {
 
     if (!this.props.searchTypeaheadEnabled) {
       return (
-        <form acceptCharset="UTF-8" id="search">
+        <form acceptCharset="UTF-8">
           <label htmlFor="query" className="usa-sr-only">
             Search:
           </label>
@@ -152,7 +152,6 @@ export class SearchMenu extends React.Component {
 
     return (
       <Downshift
-        id="search"
         inputValue={this.state.userInput}
         onSelect={item => this.handleSearchEvent(item)}
         itemToString={item => item}
@@ -202,9 +201,7 @@ export class SearchMenu extends React.Component {
                   <div
                     key={suggestion}
                     role="option"
-                    aria-selected={
-                      selectedItem === suggestion ? 'true' : 'false'
-                    }
+                    aria-selected={JSON.stringify(selectedItem === suggestion)}
                     className={
                       highlightedIndex === index
                         ? highlightedSuggestion
@@ -239,7 +236,7 @@ export class SearchMenu extends React.Component {
         clickHandler={this.props.clickHandler}
         dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
         cssClass={buttonClasses}
-        id="search-menu"
+        id="search"
         icon={icon}
         isOpen={this.props.isOpen}
       >
