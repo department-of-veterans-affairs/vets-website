@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
@@ -11,24 +12,22 @@ export const uiSchema = {
       'ui:required': () => true,
     },
     utilityRecords: {
+      'ui:field': ItemLoop,
+      'ui:description':
+        'Enter each type of monthly utility bill separately below.',
       'ui:options': {
         expandUnder: 'hasUtility',
         viewType: 'table',
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
+        itemName: 'Add a utility',
       },
-      'ui:field': ItemLoop,
-      'ui:description':
-        'Enter each type of monthly utility bill separately below.',
       items: {
-        'ui:title': 'Add a utility',
         utilityType: {
           'ui:title': 'Type of utility',
         },
-        monthlyUtilityAmount: {
-          'ui:title': 'Monthly payment amount',
-        },
+        monthlyUtilityAmount: currencyUI('Monthly payment amount'),
       },
     },
   },

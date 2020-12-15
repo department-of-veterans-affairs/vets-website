@@ -24,7 +24,7 @@ export default function OnState() {
           <p>
             <strong>Note:</strong> You don’t need to sign up to get a vaccine.
           </p>
-          <a href={covidVaccineFormUrl} className="usa-button">
+          <a href={covidVaccineFormUrl} className="usa-button-primary">
             Sign up to stay informed
           </a>
         </>

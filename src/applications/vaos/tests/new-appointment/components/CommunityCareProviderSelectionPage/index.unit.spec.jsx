@@ -21,6 +21,7 @@ import {
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
+import { GA_PREFIX } from '../../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -122,6 +123,44 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     expect((await screen.findAllByRole('alert')).length).to.equal(1);
     expect(screen.history.push.called).to.be.false;
+
+    // Continue with filling in required fields without provider
+    userEvent.click(await screen.getByRole('radio', { name: /Bozeman, MT/i }));
+    const languageSelect = screen.getByLabelText(
+      /do you prefer that your community care provider speak a certain language?/i,
+    );
+
+    userEvent.selectOptions(languageSelect, ['english']);
+    userEvent.click(screen.getByText(/Continue/i));
+    expect(
+      global.window.dataLayer.some(
+        e => e === `${GA_PREFIX}-continue-without-provider`,
+      ),
+    );
+    expect(screen.history.push.called).to.be.true;
+
+    // Continue with filling in required fields with provider
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/OH, JANICE/i));
+    userEvent.click(
+      await screen.getByRole('button', { name: /choose provider/i }),
+    );
+    expect(
+      global.window.dataLayer.some(
+        e => e === `${GA_PREFIX}-order-position-provider-selection`,
+      ),
+    );
+    expect(await screen.baseElement).to.contain.text(
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24009342.6 miles',
+    );
+
+    userEvent.click(screen.getByText(/Continue/i));
+    expect(
+      global.window.dataLayer.some(
+        e => e === `${GA_PREFIX}-continue-with-provider`,
+      ),
+    );
+    expect(screen.history.push.called).to.be.true;
   });
 
   it('should display list of providers when choose a provider clicked', async () => {

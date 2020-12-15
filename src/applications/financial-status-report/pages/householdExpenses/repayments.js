@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other repayments',
@@ -7,12 +8,13 @@ export const uiSchema = {
     'Enter all debts you’re required to pay in regular monthly installments separately below. These debts include payments for car, television, washing machine, dealers, banks, finance companies, doctor bills, hospital bills, and repayment of borrowed money.',
   repayments: {
     repaymentRecords: {
+      'ui:field': ItemLoop,
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
+        itemName: 'Add installment or other debt',
       },
-      'ui:field': ItemLoop,
       items: {
         debtPurpose: {
           'ui:title': 'Purpose of debt',
@@ -21,13 +23,8 @@ export const uiSchema = {
         creditorName: {
           'ui:title': 'Name of creditor',
         },
-        unpaidBalance: {
-          'ui:title': 'Unpaid balance',
-        },
-        monthlyPaymentAmount: {
-          'ui:title': 'Monthly payment amount',
-          'ui:required': () => true,
-        },
+        unpaidBalance: currencyUI('Unpaid balance'),
+        monthlyPaymentAmount: currencyUI('Monthly payment amount'),
       },
     },
   },
