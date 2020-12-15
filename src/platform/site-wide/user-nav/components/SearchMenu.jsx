@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import debounce from 'platform/utilities/data/debounce';
 import Downshift from 'downshift';
-import escape from 'lodash/escape';
+import { escape } from 'lodash';
 import * as Sentry from '@sentry/browser';
 
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
