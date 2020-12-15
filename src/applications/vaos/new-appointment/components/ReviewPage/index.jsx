@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { selectUseProviderSelection } from '../../../redux/selectors';
 import {
   getFormData,
   getFlowType,
@@ -10,8 +11,7 @@ import {
   getChosenVACityState,
   getChosenFacilityDetails,
   getSiteIdForChosenFacility,
-  selectUseProviderSelection,
-} from '../../../utils/selectors';
+} from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
