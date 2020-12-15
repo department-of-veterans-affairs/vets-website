@@ -19,9 +19,9 @@ export const ConfirmationPageTitle = ({
       </h3>
       <h4 className="print-only">We've received your application.</h4>
       <p>
-        We usually process claims within <strong>30 days</strong>.<br />
-        We may contact you if we need more information or documents.
+        We usually process claims within <strong>30 days</strong>.
       </p>
+      <p>We may contact you if we need more information or documents.</p>
       <p>
         <button
           className="usa-button-primary screen-only"
@@ -35,25 +35,27 @@ export const ConfirmationPageTitle = ({
 };
 
 export const claimList = (response, submission) => {
-  return [
-    <li key={'confirmation-number'}>
-      <strong>Confirmation number</strong>
-      <br />
-      <span>{response.confirmationNumber}</span>
-    </li>,
-    <li key={'date-received'}>
-      <strong>Date received</strong>
-      <br />
-      <span>{moment(submission.submittedAt).format('MMM D, YYYY')}</span>
-    </li>,
-    <li key={'regional-office'}>
-      <strong>Your claim was sent to</strong>
-      <br />
-      <address className="schemaform-address-view">
-        {response.regionalOffice}
-      </address>
-    </li>,
-  ];
+  return (
+    <ul className="claim-list">
+      <li key={'confirmation-number'}>
+        <strong>Confirmation number</strong>
+        <br />
+        <span>{response.confirmationNumber}</span>
+      </li>
+      <li key={'date-received'}>
+        <strong>Date received</strong>
+        <br />
+        <span>{moment(submission.submittedAt).format('MMM D, YYYY')}</span>
+      </li>
+      <li key={'regional-office'}>
+        <strong>Your claim was sent to</strong>
+        <br />
+        <address className="schemaform-address-view">
+          {response.regionalOffice}
+        </address>
+      </li>
+    </ul>
+  );
 };
 
 export const ConfirmationPageSummary = ({
@@ -79,9 +81,7 @@ export const ConfirmationPageSummary = ({
         {name.suffix && ` ${name.suffix}`}
       </span>
 
-      <ul className="claim-list">
-        {claimInfoList || claimList(response, submission)}
-      </ul>
+      <div>{claimInfoList || claimList(response, submission)}</div>
     </div>
   );
 };
