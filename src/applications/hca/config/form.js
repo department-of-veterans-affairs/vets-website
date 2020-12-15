@@ -393,23 +393,20 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranPermanentAddress: _.merge(
-              addressUI('Permanent address', true),
-              {
-                street: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid street. Must be at least 1 character.',
-                  },
-                },
-                city: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid city. Must be at least 1 character.',
-                  },
+            veteranAddress: _.merge(addressUI('Permanent address', true), {
+              street: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid street. Must be at least 1 character.',
                 },
               },
-            ),
+              city: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid city. Must be at least 1 character.',
+                },
+              },
+            }),
             'view:doesPermanentAddressMatchMailing': {
               'ui:title':
                 'Is your home address the same as your mailing address?',
@@ -419,30 +416,27 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              veteranPermanentAddress: _.merge(
-                addressSchema(fullSchemaHca, true),
-                {
-                  properties: {
-                    street: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    street2: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    street3: {
-                      type: 'string',
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    city: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
+              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
+                properties: {
+                  street: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street2: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street3: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  city: {
+                    minLength: 1,
+                    maxLength: 30,
                   },
                 },
-              ),
+              }),
               'view:doesPermanentAddressMatchMailing': {
                 type: 'boolean',
               },
