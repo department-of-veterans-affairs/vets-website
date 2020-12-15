@@ -84,36 +84,28 @@ const InputSection = ({
   );
 
   return (
-    <div
-      className={
-        notLastOrMultipleRows
-          ? 'va-growable-background vads-u-margin-bottom--2'
-          : null
-      }
-    >
+    <div className={notLastOrMultipleRows ? 'item-loop' : null}>
       <ScrollElement name={`table_${itemIdPrefix}`} />
       <div className="row small-collapse">
-        <div className="small-12 columns va-growable-expanded">
-          {items.length > 1 && uiSchema['ui:options'].itemName ? (
-            <h3 className="vads-u-font-size--h5">
-              New {uiSchema['ui:options'].itemName}
+        <div className="small-12 columns">
+          {items?.length && uiSchema['ui:options'].itemName ? (
+            <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--2">
+              {uiSchema['ui:options'].itemName}
             </h3>
           ) : null}
-          <div className="input-section">
-            <SchemaField
-              schema={itemSchema}
-              uiSchema={uiSchema.items}
-              errorSchema={errorSchema ? errorSchema[index] : undefined}
-              idSchema={itemIdSchema}
-              formData={item}
-              onBlur={onBlur}
-              registry={registry}
-              disabled={disabled}
-              readonly={readonly}
-              onChange={value => handleChange(index, value)}
-              required={false}
-            />
-          </div>
+          <SchemaField
+            schema={itemSchema}
+            uiSchema={uiSchema.items}
+            errorSchema={errorSchema ? errorSchema[index] : undefined}
+            idSchema={itemIdSchema}
+            formData={item}
+            onBlur={onBlur}
+            registry={registry}
+            disabled={disabled}
+            readonly={readonly}
+            onChange={value => handleChange(index, value)}
+            required={false}
+          />
           {notLastOrMultipleRows && (
             <div className="row small-collapse">
               <div className="small-6 left columns">
@@ -153,21 +145,18 @@ const AddAnotherButton = ({
   handleAdd,
 }) => (
   <>
-    <button
-      type="button"
-      className={classNames(
-        'usa-button-secondary',
-        'va-growable-add-btn',
-        'vads-u-margin-top--4',
-        {
-          'usa-button-disabled': !formData || addAnotherDisabled,
-        },
-      )}
-      disabled={!formData || addAnotherDisabled}
-      onClick={() => handleAdd()}
-    >
-      Add another {uiOptions.itemName}
-    </button>
+    <div className="add-item-container">
+      <div className="add-income-link-section">
+        <i className="fas fa-plus plus-icon" />
+        <a
+          className="add-income-link"
+          disabled={!formData || addAnotherDisabled}
+          onClick={() => handleAdd()}
+        >
+          {uiOptions.itemName ? uiOptions.itemName : 'Add another'}
+        </a>
+      </div>
+    </div>
     <p>
       {addAnotherDisabled &&
         `You’ve entered the maximum number of items allowed.`}

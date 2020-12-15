@@ -3,12 +3,17 @@ import { selectProviderSelectionInfo } from '../../../utils/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
-import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
+import {
+  FETCH_STATUS,
+  FACILITY_SORT_METHODS,
+  GA_PREFIX,
+} from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ErrorMessage from '../../../components/ErrorMessage';
 import RemoveProviderModal from './RemoveProviderModal';
+import recordEvent from 'platform/monitoring/record-event';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -91,7 +96,10 @@ function ProviderSelectionField({
           <button
             className="va-button-link"
             type="button"
-            onClick={() => setShowProvidersList(true)}
+            onClick={() => {
+              setShowProvidersList(true);
+              recordEvent({ event: `${GA_PREFIX}-choose-provider-click` });
+            }}
           >
             <i className="fas fa-plus vads-u-padding-right--0p5" />
             Choose a provider
@@ -230,7 +238,7 @@ function ProviderSelectionField({
                   Displaying 1 to {currentlyShownProvidersList.length} of{' '}
                   {communityCareProviderList.length} providers
                 </p>
-                {currentlyShownProvidersList.map(provider => {
+                {currentlyShownProvidersList.map((provider, providerIndex) => {
                   const { name } = provider;
                   const checked = provider.id === checkedProvider;
                   return (
@@ -263,13 +271,13 @@ function ProviderSelectionField({
                         <button
                           type="button"
                           onClick={() => {
-                            onChange(
-                              communityCareProviderList.find(
-                                p => p.id === checkedProvider,
-                              ),
-                            );
+                            onChange(provider);
                             setCheckedProvider();
                             setShowProvidersList(false);
+                            recordEvent({
+                              event: `${GA_PREFIX}-order-position-provider-selection`,
+                              providerPosition: providerIndex + 1,
+                            });
                           }}
                         >
                           Choose provider
@@ -294,9 +302,12 @@ function ProviderSelectionField({
                 <button
                   type="button"
                   className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
-                  onClick={() =>
-                    setProvidersListLength(providersListLength + 5)
-                  }
+                  onClick={() => {
+                    setProvidersListLength(providersListLength + 5);
+                    recordEvent({
+                      event: `${GA_PREFIX}-provider-list-paginate`,
+                    });
+                  }}
                 >
                   <span className="va-button-link">
                     +{' '}
