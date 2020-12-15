@@ -2,6 +2,8 @@ import { useState, useCallback } from 'react';
 
 // temporary localhost key. need to use real key.  Can this remain public or should still be stored in credStash?
 const SITE_KEY = '6Lcbbf0ZAAAAABAWyrsMSyTd1RRAM71rrk350SLa';
+const RECAPTCH_SCRIPT_ID = 'va-recaptcha-key';
+const RECAPTCHA_SCRIPT_URL = 'https://www.google.com/recaptcha/api.js?render=';
 
 export default function useRecaptcha() {
   const [recaptchaState, setRecaptchaState] = useState(false);
@@ -37,8 +39,8 @@ export default function useRecaptcha() {
       if (!recaptchaState) {
         // load the script by passing the URL
         loadScriptByURL(
-          'va-recaptcha-key',
-          `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`,
+          RECAPTCH_SCRIPT_ID,
+          `${RECAPTCHA_SCRIPT_URL}${SITE_KEY}`,
           function() {
             setRecaptchaState(true);
             execute(submit);
