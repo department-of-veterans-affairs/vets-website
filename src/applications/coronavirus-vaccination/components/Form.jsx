@@ -78,7 +78,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
     <>
       <DowntimeNotification
         appTitle="Covid 19 Vaccination Information"
-        dependencies={[externalServices.vetext_vaccine]}
+        dependencies={[externalServices.vetextVaccine]}
       >
         <h1 id="covid-vaccination-heading-form" className="no-outline">
           Fill out the form below

@@ -29,7 +29,7 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
       </div>
       <DowntimeNotification
         appTitle="Covid 19 Vaccination Information"
-        dependencies={[externalServices.vetext_vaccine]}
+        dependencies={[externalServices.vetextVaccine]}
       >
         <p>
           Sign up below to help us understand your interest in getting a
