@@ -182,7 +182,7 @@ export class SearchMenu extends React.Component {
               </button>
             </div>
             {isOpen && (
-              <div
+              <ul
                 id="suggestions-list"
                 className="vads-u-margin-top--0p5"
                 role="listbox"
@@ -193,7 +193,7 @@ export class SearchMenu extends React.Component {
                     `<strong>${escape(this.state.userInput)}</strong>`,
                   );
                   return (
-                    <div
+                    <li
                       key={suggestion}
                       role="option"
                       aria-selected={JSON.stringify(
@@ -209,7 +209,7 @@ export class SearchMenu extends React.Component {
                     />
                   );
                 })}
-              </div>
+              </ul>
             )}
           </div>
         )}
