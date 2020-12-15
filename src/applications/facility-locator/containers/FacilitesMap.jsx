@@ -239,6 +239,7 @@ const FacilitiesMap = props => {
 
     if (searchAreaControlId.style.display === 'none') {
       searchAreaControlId.style.display = 'block';
+      setFocus('#search-area-control');
     }
 
     if (searchAreaControlId && !searchAreaSet) {
