@@ -21,6 +21,14 @@
       "state": "MA",
       "postalCode": "01060"
     },
+    "view:doesPermanentAddressMatchMailing": true,
+    "veteranMailingAddress": {
+      "street": "123 elm st",
+      "city": "Northampton",
+      "country": "USA",
+      "state": "MA",
+      "postalCode": "01060"
+    },
     "gender": "F",
     "maritalStatus": "Never Married",
     "view:demographicCategories": {},
