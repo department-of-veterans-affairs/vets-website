@@ -192,9 +192,9 @@ class ContactInformationEditView extends Component {
               />
             )}
             <ContactInfoForm
-              formData={this.props.field.value}
-              formSchema={this.props.field.formSchema}
-              uiSchema={this.props.field.uiSchema}
+              formData={field.value}
+              formSchema={field.formSchema}
+              uiSchema={field.uiSchema}
               onUpdateFormData={
                 type === 'address'
                   ? this.onInput

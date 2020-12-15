@@ -29,6 +29,7 @@ import {
   selectEditedFormField,
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
+  selectEditViewData,
 } from '@@vap-svc/selectors';
 
 import { isVAPatient } from '~/platform/user/selectors';
@@ -75,7 +76,7 @@ class ContactInformationField extends React.Component {
     field: PropTypes.object,
     fieldName: PropTypes.string.isRequired,
     isEmpty: PropTypes.bool.isRequired,
-    modalData: PropTypes.object,
+    editViewData: PropTypes.object,
     showEditView: PropTypes.bool.isRequired,
     showSMSCheckBox: PropTypes.bool,
     title: PropTypes.string.isRequired,
@@ -333,7 +334,7 @@ class ContactInformationField extends React.Component {
               type: this.props.type,
               data: this.props.data,
               showSMSCheckbox: this.props.showSMSCheckbox,
-              modalData: this.props.modalData,
+              editViewData: this.props.editViewData,
             })
           }
           hasUnsavedEdits={this.props.hasUnsavedEdits}
@@ -468,7 +469,7 @@ export const mapStateToProps = (state, ownProps) => {
     isEmpty,
     transaction,
     transactionRequest,
-    modalData: state.vapService?.modalData,
+    editViewData: selectEditViewData(state),
     showSMSCheckbox,
   };
 };
