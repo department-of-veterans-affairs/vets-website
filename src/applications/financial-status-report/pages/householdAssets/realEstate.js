@@ -10,16 +10,16 @@ export const uiSchema = {
     'ui:required': () => true,
   },
   realEstateRecords: {
-    'ui:description': 'Enter each of your real estate assets below.',
     'ui:field': ItemLoop,
+    'ui:description': 'Enter each of your real estate assets below.',
     'ui:options': {
       viewField: CardDetailsView,
       expandUnder: 'hasRealEstate',
       doNotScroll: true,
       showSave: true,
+      itemName: 'Add real estate',
     },
     items: {
-      'ui:title': 'Add real estate',
       realEstateType: {
         'ui:title': 'Type of real estate',
         'ui:required': () => true,

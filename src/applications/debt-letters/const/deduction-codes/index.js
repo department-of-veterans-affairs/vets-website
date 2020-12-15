@@ -141,6 +141,79 @@ export const renderAdditionalInfo = deductionCode => {
   }
 };
 
+export const renderWhyMightIHaveThisDebt = deductionCode => {
+  switch (deductionCode) {
+    case '30':
+      return (
+        <>
+          <p>
+            Some reasons you have debt related to your compensation and pension
+            benefits might include:
+          </p>
+          <ul>
+            <li>
+              You’ve received a payment for disability compensation and military
+              pay at the same time.
+            </li>
+            <li>
+              You didn't let us know of a change in your marital or dependent
+              status.
+            </li>
+            <li>
+              You‘ve received two payments for the same compensation and pension
+              benefits.
+            </li>
+            <li>You didn’t let us know of additional income you might have.</li>
+            <li>
+              You didn’t let us know that you were incarcerated (sent to jail or
+              prison).
+            </li>
+            <li>There was a change in your active-duty status.</li>
+            <li>Your eligibility for a benefit has changed.</li>
+          </ul>
+        </>
+      );
+    case '41':
+    case '44':
+    case '71':
+    case '72':
+    case '74':
+    case '75':
+      return (
+        <>
+          <p>
+            Some reasons you have debt related to your education benefits might
+            include:
+          </p>
+          <ul>
+            <li>You were suspended or put on academic probation.</li>
+            <li>
+              You made a change in your course enrollment or withdrew from a
+              class. o Note: A change in course enrollment can cause an
+              overpayment in tuition, housing, and book and supplies.
+            </li>
+            <li>There was a change in your housing situation.</li>{' '}
+            <li>We made a duplicate payment to you.</li>
+            <li>
+              You withdrew from your college, university, or higher-education
+              program.
+            </li>
+            <li>There was a change in your active-duty status.</li>
+            <li>Your eligibility for a benefit has changed.</li>
+          </ul>
+          <p>
+            <strong>Note: </strong>
+            For Post-9/11 GI Bill benefits, we make separate payments for
+            tuition, housing, and books and supplies. When there is a change in
+            one of these benefits, we’ll collect the three debts separately.
+          </p>
+        </>
+      );
+    default:
+      return null;
+  }
+};
+
 export const CoronaVirusAlert = () => (
   <>
     <h2 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h3">
