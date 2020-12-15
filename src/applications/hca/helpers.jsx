@@ -32,40 +32,41 @@ export {
 /*  clean address so we only get address related properties 
     then return the object as JSON so we can match them
 */
-const cleanAddressObjectToJSON = address => {
-  const newAddress = address;
-  const keys = Object.keys(newAddress);
+const cleanAddressObject = address => {
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    zipCode,
+    stateCode,
+    countryCodeIso3,
+  } = address;
 
-  keys.map(key => {
-    if (key === 'id') delete newAddress[key];
-    if (key === 'effectiveStartDate') delete newAddress[key];
-    if (key === 'effectiveEndDate') delete newAddress[key];
-    if (key === 'createdAt') delete newAddress[key];
-    if (key === 'updatedAt') delete newAddress[key];
-    if (key === 'sourceDate') delete newAddress[key];
-    if (!newAddress[key]) delete newAddress[key];
-  });
-
-  return JSON.stringify(newAddress);
+  return {
+    street: addressLine1,
+    street2: addressLine2 || null,
+    street3: addressLine3 || null,
+    city,
+    postalCode: zipCode,
+    country: countryCodeIso3,
+    state: stateCode,
+  };
 };
 
 export function prefillTransformer(pages, formData, metadata, state) {
   console.clear();
-  /*  TODO: where is this formData coming from?
-            why is there already a address in there?
-            why isn't this address auto-filling into the fields on the form already?
-  */
-  console.log('formData: ', formData);
+
   const {
     residentialAddress,
     mailingAddress,
   } = state?.user?.profile?.vapContactInfo;
 
-  const cleanedResidentialAddress = cleanAddressObjectToJSON(
-    residentialAddress,
-  );
-  const cleanedMailingAddress = cleanAddressObjectToJSON(mailingAddress);
-  const doesAddressMatch = cleanedResidentialAddress === cleanedMailingAddress;
+  const cleanedResidentialAddress = cleanAddressObject(residentialAddress);
+  const cleanedMailingAddress = cleanAddressObject(mailingAddress);
+  const doesAddressMatch =
+    JSON.stringify(cleanedResidentialAddress) ===
+    JSON.stringify(cleanedMailingAddress);
 
   let newData = formData;
 
@@ -75,11 +76,17 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   if (residentialAddress || mailingAddress) {
     // spread in permanentAddress from profile always
-    newData = { ...newData, veteranPermanentAddress: residentialAddress };
+    newData = { ...newData, veteranAddress: cleanedResidentialAddress };
+
+    // auto-fill doesPermanentAddressMatchMailing yes/no field
+    newData = {
+      ...newData,
+      'view:doesPermanentAddressMatchMailing': doesAddressMatch,
+    };
 
     // if addresses are not the same auto fill mailing address
     if (!doesAddressMatch) {
-      newData = { ...newData, veteranMailingAddress: mailingAddress };
+      newData = { ...newData, veteranMailingAddress: cleanedMailingAddress };
     }
   }
 
