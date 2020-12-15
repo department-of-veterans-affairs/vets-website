@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/dom';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
@@ -126,19 +127,14 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Continue with filling in required fields without provider
     userEvent.click(await screen.getByRole('radio', { name: /Bozeman, MT/i }));
-    const languageSelect = screen.getByLabelText(
-      /do you prefer that your community care provider speak a certain language?/i,
-    );
-
-    userEvent.selectOptions(languageSelect, ['english']);
     userEvent.click(screen.getByText(/Continue/i));
     expect(
       global.window.dataLayer.some(
         e => e === `${GA_PREFIX}-continue-without-provider`,
       ),
     );
-    expect(screen.history.push.called).to.be.true;
 
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
     // Continue with filling in required fields with provider
     userEvent.click(await screen.findByText(/Choose a provider/i));
     userEvent.click(await screen.findByText(/OH, JANICE/i));
@@ -160,7 +156,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         e => e === `${GA_PREFIX}-continue-with-provider`,
       ),
     );
-    expect(screen.history.push.called).to.be.true;
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
   });
 
   it('should display list of providers when choose a provider clicked', async () => {

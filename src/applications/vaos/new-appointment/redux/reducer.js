@@ -1075,7 +1075,7 @@ export default function formReducer(state = initialState, action) {
           system =>
             `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
         );
-        initialSchema.required.push('communityCareSystemId');
+        initialSchema.required = ['communityCareSystemId'];
       }
       const { data, schema } = setupFormData(
         formData,
