@@ -1,7 +1,7 @@
 import AccountSecurity from './components/account-security/AccountSecurity';
 import PersonalInformation from './components/personal-information/PersonalInformation';
 import MilitaryInformation from './components/military-information/MilitaryInformation';
-import DirectDeposit from './components/direct-deposit/DirectDeposit';
+import DirectDeposit from './components/direct-deposit/DirectDepositWrapper';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
