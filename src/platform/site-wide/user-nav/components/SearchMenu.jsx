@@ -95,7 +95,7 @@ export class SearchMenu extends React.Component {
       `https://www.va.gov/search/?query=${encodeURIComponent(query)}`,
     );
 
-    window.location.replace(searchUrl);
+    window.location.assign(searchUrl);
   };
 
   makeForm = () => {
