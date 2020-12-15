@@ -7,9 +7,9 @@ import * as actions from '../redux/actions';
 import {
   vaosCancel,
   vaosRequests,
-  selectExpressCareRequests,
   selectIsCernerOnlyPatient,
-} from '../../utils/selectors';
+} from '../../redux/selectors';
+import { selectExpressCareRequests } from '../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../utils/constants';
 import ExpressCareCard from './cards/express-care/ExpressCareCard';
 import NoAppointments from './NoAppointments';

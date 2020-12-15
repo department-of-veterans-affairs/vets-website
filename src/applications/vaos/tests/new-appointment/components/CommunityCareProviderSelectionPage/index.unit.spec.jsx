@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
+import { cleanup } from '@testing-library/react';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
@@ -449,5 +450,53 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
           throw new Error();
       }
     }).to.not.throw;
+  });
+
+  it('should reset provider selected when type of care changes', async () => {
+    const store = createTestStore(initialState);
+
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['208D00000X', '207R00000X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    let screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider based on home address
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+
+    userEvent.click(await screen.findByLabelText(/OH, JANICE/i));
+    userEvent.click(
+      await screen.findByRole('button', { name: /choose provider/i }),
+    );
+
+    // make sure it saves successfully
+    await screen.findByRole('button', { name: /remove/i });
+
+    // remove the page and change the type of care
+    await cleanup();
+    await setTypeOfCare(store, /podiatry/i);
+
+    screen = renderWithStoreAndRouter(<CommunityCareProviderSelectionPage />, {
+      store,
+    });
+
+    // the provider should no longer be set
+    expect(await screen.findByText(/Choose a provider/i)).to.exist;
+    expect(screen.queryByText(/OH, JANICE/i)).to.not.exist;
   });
 });

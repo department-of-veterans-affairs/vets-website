@@ -80,9 +80,9 @@ const getAppointTypeFromAppointment = data => {
   // Waiting till we expand our MVP to add more stop codes here
   switch (clinic.stopCode.toString()) {
     case '323':
-      return 'Primary care';
+      return 'primary care';
     case '502':
-      return 'Mental health';
+      return 'mental health';
     default:
       return null;
   }

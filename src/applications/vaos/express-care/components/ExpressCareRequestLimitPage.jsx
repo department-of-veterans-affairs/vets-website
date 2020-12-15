@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { FETCH_STATUS } from '../../utils/constants';
 import { Link } from 'react-router-dom';
-import { selectExpressCareNewRequest } from '../../utils/selectors';
+import { selectExpressCareNewRequest } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 function ExpressCareRequestLimitPage({
