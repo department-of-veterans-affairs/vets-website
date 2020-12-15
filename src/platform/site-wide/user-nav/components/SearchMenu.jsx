@@ -55,7 +55,6 @@ export class SearchMenu extends React.Component {
 
       return;
     }
-
     const encodedInput = encodeURIComponent(userInput);
     try {
       const response = await fetch(
@@ -126,12 +125,12 @@ export class SearchMenu extends React.Component {
           <label htmlFor="query" className="usa-sr-only">
             Search:
           </label>
-          <div className="va-flex">
+          <div className="va-flex vads-u-padding--1">
             <input
               aria-label="search"
               autoComplete="off"
               ref="searchField"
-              className=" vads-u-margin-right--0p5"
+              className="usagov-search-autocomplete vads-u-margin-left--0p5 vads-u-margin-right--0p25"
               id="query"
               name="query"
               type="text"
@@ -140,7 +139,7 @@ export class SearchMenu extends React.Component {
             <button
               type="submit"
               disabled={!validUserInput}
-              className="vads-u-margin-left--0p25"
+              className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
               onSubmit={() => this.handleSearchEvent()}
             >
               <IconSearch color="#fff" />
@@ -156,9 +155,8 @@ export class SearchMenu extends React.Component {
         id="search"
         inputValue={this.state.userInput}
         onSelect={item => this.handleSearchEvent(item)}
-        itemToString={item => {
-          return item;
-        }}
+        itemToString={item => item}
+        isOpen={this.props.isOpen}
       >
         {({
           getInputProps,
@@ -174,15 +172,14 @@ export class SearchMenu extends React.Component {
               </label>
               <input
                 autoComplete="off"
-                ref="searchField"
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1  vads-u-width--full"
-                id="query"
                 name="query"
                 aria-controls="suggestions-list"
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleInputChange,
                   'aria-labelledby': 'site search',
+                  id: 'query',
                 })}
               />
               <button

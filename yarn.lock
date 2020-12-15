@@ -1282,14 +1282,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-<<<<<<< HEAD
-"@department-of-veterans-affairs/formation-react@6.0.1":
-=======
 "@department-of-veterans-affairs/formation-react@6.0.2":
->>>>>>> f586ea32c... Squash commits for implementing downshift
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-6.0.1.tgz#7ffda4682d1112585ae406bf2497bcfa69723b2f"
-  integrity sha512-WbCLIwEPkWr8kv7tcEI9dqF6tbdOqeNaRgxf+7a+PF9SnNjsh5FDpMCJhu7JvAFzl2zldMjbuRVzsnubrvdu9Q==
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-6.0.2.tgz#213a4e521a6eca551e722b15fa9351f80b5c8879"
+  integrity sha512-qtS2i1n2ltbD1TSD9+PsBAtchwJCAlQn7C/1gYyUIkKQZriu7T6vyVIp2TNkdszm80NhHEp9YQmfHnpB4kZwsg==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
