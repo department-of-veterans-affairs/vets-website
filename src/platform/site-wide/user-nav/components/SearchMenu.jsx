@@ -205,6 +205,7 @@ export class SearchMenu extends React.Component {
                           : regularSuggestion
                       }
                       {...getItemProps({ item: suggestion })}
+                      // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{ __html: formattedSuggestion }}
                     />
                   );
