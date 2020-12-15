@@ -40,8 +40,6 @@ class ConfirmationPage extends React.Component {
 
     const { formId, submission } = form;
 
-    const claimInfoList = claimList(response, submission);
-
     return (
       <div>
         <ConfirmationPageTitle formId={formId} />
@@ -50,7 +48,6 @@ class ConfirmationPage extends React.Component {
           response={response}
           submission={submission}
           name={name}
-          claimInfoList={claimInfoList}
         />
         <ConfirmationGuidance />
         <ConfirmationReturnHome />
