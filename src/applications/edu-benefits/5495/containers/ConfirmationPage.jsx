@@ -4,7 +4,6 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import {
-  claimList,
   ConfirmationGuidance,
   ConfirmationPageSummary,
   ConfirmationPageTitle,
