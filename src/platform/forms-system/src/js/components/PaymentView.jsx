@@ -30,7 +30,10 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
   return (
     <>
       {!dataChanged && (
-        <p>We’re currently paying your compensation to this account</p>
+        <p>
+          This is the bank account information we have on file for you. This is
+          where we’ll send your payments.
+        </p>
       )}
       <div className="blue-bar-block">
         <p>
