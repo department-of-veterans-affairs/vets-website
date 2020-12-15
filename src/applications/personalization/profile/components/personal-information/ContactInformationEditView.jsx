@@ -13,7 +13,7 @@ import ContactInformationActionButtons from './ContactInformationActionButtons';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
 import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
 
-import { transformInitialFormValues } from 'applications/personalization/profile/util/contact-information';
+import { transformInitialFormValues } from '@@profile/util/contact-information';
 
 import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
@@ -26,6 +26,7 @@ class ContactInformationEditView extends Component {
       value: PropTypes.object,
       validations: PropTypes.object,
     }),
+    formSchema: PropTypes.object,
     hasValidationError: PropTypes.func,
     isEmpty: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,

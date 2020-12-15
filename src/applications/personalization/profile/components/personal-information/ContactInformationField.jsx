@@ -40,7 +40,7 @@ import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
 
-import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information';
+import { getInitialFormValues } from '@@profile/util/contact-information';
 import ContactInformationEditButton from './ContactInformationEditButton';
 
 const wrapperClasses = prefixUtilityClasses([
