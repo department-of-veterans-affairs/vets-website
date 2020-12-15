@@ -12,7 +12,7 @@ describe('health care questionnaire - bread crumbs -', () => {
     const wrapper = mount(<BreadCrumbs store={fakeStore} />);
     expect(
       wrapper.find('[data-testid="current-location-text"]').text(),
-    ).to.equal('Answer Primary care questionnaire');
+    ).to.equal('Answer primary care questionnaire');
     wrapper.unmount();
   });
   it('displays with out appointment data', () => {
