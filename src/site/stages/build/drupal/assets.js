@@ -91,7 +91,7 @@ function updateAttr(attr, doc, client) {
     const srcAttr = item.attr(attr);
 
     const siteURI = srcAttr.match(
-      /https?:\/\/([a-zA-Z0-9]+[.])*cms[.]va[.]gov/,
+      /https?:\/\/([a-zA-Z0-9-]+[.])*cms[.]va[.]gov/,
     )[0];
     // *.ci.cms.va.gov ENVs don't have AWS URLs.
     const newAssetPath = convertAssetPath(srcAttr);

@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your vehicles',
@@ -9,16 +10,16 @@ export const uiSchema = {
     'ui:required': () => true,
   },
   vehicleRecords: {
-    'ui:description': 'Enter each of your vehicles separately below.',
     'ui:field': ItemLoop,
+    'ui:description': 'Enter each of your vehicles separately below.',
     'ui:options': {
       viewField: CardDetailsView,
       expandUnder: 'hasVehicle',
       doNotScroll: true,
       showSave: true,
+      itemName: 'Add a vehicle',
     },
     items: {
-      'ui:title': 'Add vehicle',
       vehicleType: {
         'ui:title': 'Type of vehicle',
         'ui:required': () => true,
@@ -32,10 +33,7 @@ export const uiSchema = {
       vehicleYear: {
         'ui:title': 'Vehicle year',
       },
-      vehicleValue: {
-        'ui:title': 'Estimated value',
-        'ui:required': () => true,
-      },
+      vehicleValue: currencyUI('Estimated value'),
     },
   },
 };

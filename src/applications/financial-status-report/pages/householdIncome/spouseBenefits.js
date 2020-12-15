@@ -1,3 +1,5 @@
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+
 export const uiSchema = {
   'ui:title': 'Your spouse information',
   spouseBenefits: {
@@ -10,14 +12,12 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'hasBenefits',
       },
-      compBenefits: {
-        'ui:title':
-          'What is the monthly amount your spouse receives for compensation and pension benefits?',
-      },
-      eduBenefits: {
-        'ui:title':
-          'What is the monthly amount your spouse receives for education benefits?',
-      },
+      compBenefits: currencyUI(
+        'What is the monthly amount your spouse receives for compensation and pension benefits?',
+      ),
+      eduBenefits: currencyUI(
+        'What is the monthly amount your spouse receives for education benefits?',
+      ),
     },
   },
 };

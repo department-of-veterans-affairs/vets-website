@@ -186,6 +186,8 @@ export const FORM_REQUESTED_PROVIDERS_SUCCEEDED =
   'newAppointment/FORM_REQUESTED_PROVIDERS_SUCCEEDED';
 export const FORM_REQUESTED_PROVIDERS_FAILED =
   'newAppointment/FORM_REQUESTED_PROVIDERS_FAILED';
+export const FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED =
+  'newAppointment/FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -454,6 +456,45 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       dispatch({
         type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
       });
+    }
+  };
+}
+
+export function updateCCProviderSortMethod(sortMethod) {
+  return async (dispatch, _getState) => {
+    let location = null;
+    const action = {
+      type: FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED,
+      sortMethod,
+    };
+
+    if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+      dispatch({
+        type: FORM_REQUEST_CURRENT_LOCATION,
+      });
+      recordEvent({
+        event: `${GA_PREFIX}-request-current-location-clicked`,
+      });
+      try {
+        location = await getPreciseLocation();
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-allowed`,
+        });
+        dispatch({
+          ...action,
+          location,
+        });
+      } catch (e) {
+        recordEvent({
+          event: `${GA_PREFIX}-request-current-location-blocked`,
+        });
+        captureError(e, true, 'community care preferences page');
+        dispatch({
+          type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
+        });
+      }
+    } else {
+      dispatch(action);
     }
   };
 }
@@ -1040,6 +1081,7 @@ export function submitAppointmentOrRequest(history) {
         event: `${GA_PREFIX}-${eventType}-submission`,
         flow,
         ...additionalEventData,
+        'vaos-community-care-preferred-language': data.preferredLanguage,
       });
 
       try {
@@ -1137,6 +1179,7 @@ export function requestProvidersList(address) {
       dispatch({
         type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
         communityCareProviderList,
+        address,
       });
     } catch (e) {
       captureError(e);

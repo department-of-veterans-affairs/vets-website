@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import { Link } from 'react-router-dom';
 import { MENTAL_HEALTH } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
@@ -68,7 +71,7 @@ export const WaitTimeAlert = ({
                   <ul>
                     <li>
                       Call the Veterans Crisis hotline at{' '}
-                      <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
+                      <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
                       <span className="vads-u-font-weight--bold">or</span>
                     </li>
                     <li>

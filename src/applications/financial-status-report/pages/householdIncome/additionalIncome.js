@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your other income',
@@ -11,24 +12,21 @@ export const uiSchema = {
     },
     additionalIncomeRecords: {
       'ui:field': ItemLoop,
+      'ui:description':
+        'Please provide information about additional income you currently receive.',
       'ui:options': {
         viewType: 'table',
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
         expandUnder: 'hasAdditionalIncome',
+        itemName: 'Add income',
       },
       items: {
-        'ui:title': 'Additional income',
         incomeType: {
-          'ui:title': 'Income Type',
+          'ui:title': 'Type of income',
         },
-        monthlyAmount: {
-          'ui:title': 'Monthly Amount',
-        },
-        employerName: {
-          'ui:title': 'Employer Name',
-        },
+        monthlyAmount: currencyUI('Monthly income amount'),
       },
     },
   },
@@ -49,13 +47,9 @@ export const schema = {
             properties: {
               incomeType: {
                 type: 'string',
-                enum: ['Income Type 1', 'Income Type 2', 'Income Type 3'],
               },
               monthlyAmount: {
-                type: 'string',
-              },
-              employerName: {
-                type: 'string',
+                type: 'number',
               },
             },
           },
