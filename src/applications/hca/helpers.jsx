@@ -1,7 +1,3 @@
-// TODO: Remove later, only for debugging
-/* eslint-disable sonarjs/no-use-of-empty-return-value */
-/* eslint-disable no-console */
-/* eslint-disable array-callback-return */
 import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
@@ -33,6 +29,7 @@ export {
     then return the object as JSON so we can match them
 */
 const cleanAddressObject = address => {
+  // take the address data we want from profile
   const {
     addressLine1,
     addressLine2,
@@ -43,6 +40,7 @@ const cleanAddressObject = address => {
     countryCodeIso3,
   } = address;
 
+  // make the address data match the schema
   return {
     street: addressLine1,
     street2: addressLine2 || null,
@@ -55,8 +53,6 @@ const cleanAddressObject = address => {
 };
 
 export function prefillTransformer(pages, formData, metadata, state) {
-  console.clear();
-
   const {
     residentialAddress,
     mailingAddress,
@@ -89,8 +85,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
       newData = { ...newData, veteranMailingAddress: cleanedMailingAddress };
     }
   }
-
-  console.log('newData: ', newData);
 
   return {
     metadata,
