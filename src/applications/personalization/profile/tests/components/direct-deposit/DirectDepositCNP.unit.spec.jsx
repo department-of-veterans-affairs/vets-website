@@ -10,7 +10,7 @@ import { resetFetch } from 'platform/testing/unit/helpers';
 import * as mocks from '@@profile/msw-mocks';
 import { renderWithProfileReducers } from '@@profile/tests/unit-test-helpers';
 
-import DirectDepositContent from '@@profile/components/direct-deposit/DirectDepositContent';
+import DirectDepositCNP from '@@profile/components/direct-deposit/DirectDepositCNP';
 
 const paymentAccount = {
   accountType: 'Checking',
@@ -82,7 +82,7 @@ function findCancelEditButton(view) {
   return view.getByText('Cancel', { selector: 'button' });
 }
 
-describe('DirectDepositContent', () => {
+describe('DirectDepositCNP', () => {
   let server;
   before(() => {
     // before we can use msw, we need to make sure that global.fetch has been
@@ -100,7 +100,7 @@ describe('DirectDepositContent', () => {
 
   const ui = (
     <MemoryRouter>
-      <DirectDepositContent />
+      <DirectDepositCNP />
     </MemoryRouter>
   );
 
@@ -156,7 +156,6 @@ describe('DirectDepositContent', () => {
         .null;
       expect(view.queryByText(paymentAccount.accountNumber)).not.to.exist;
       expect(view.queryByText(paymentAccount.accountType)).not.to.exist;
-      expect(view.getByText(/been the victim of bank fraud/i)).to.exist;
     });
     it('should allow entering and exiting edit mode', async () => {
       userEvent.click(findSetUpBankInfoButton(view));
@@ -213,7 +212,6 @@ describe('DirectDepositContent', () => {
       expect(view.getByText(paymentAccount.accountNumber)).to.exist;
       expect(view.getByText(paymentAccount.accountType, { exact: false })).to
         .exist;
-      expect(view.getByText(/been the victim of bank fraud/i)).to.exist;
       expect(findSetUpBankInfoButton(view)).not.to.exist;
     });
     it('should handle a successful bank info update', async () => {

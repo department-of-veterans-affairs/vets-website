@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
+import { selectUseProviderSelection } from '../../../redux/selectors';
 import {
   getAppointmentLength,
   getFormData,
@@ -11,8 +12,7 @@ import {
   getChosenFacilityDetails,
   getSiteIdForChosenFacility,
   getChosenSlot,
-  selectUseProviderSelection,
-} from '../../../utils/selectors';
+} from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
 import {

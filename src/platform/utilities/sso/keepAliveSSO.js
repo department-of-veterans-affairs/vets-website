@@ -2,25 +2,54 @@ import * as Sentry from '@sentry/browser';
 
 import { ssoKeepAliveEndpoint } from 'platform/user/authentication/utilities';
 
-export default async function keepAlive() {
-  // Having outside of keepAlive method could expose information
+const SENTRY_LOG_THRESHOLD = [Sentry.Severity.Info];
+
+const logToSentry = data => {
+  let isCaptured = null;
+  const { message } = data;
   const caughtExceptions = {
     'Failed to fetch': {
-      logType: Sentry.Severity.Error,
+      LEVEL: Sentry.Severity.Warning,
     },
     'NetworkError when attempting to fetch resource.': {
-      logType: Sentry.Severity.Error,
+      LEVEL: Sentry.Severity.Warning,
     },
-    'The Internet connection appears to be offline': {
-      logType: Sentry.Severity.Info,
+    'The Internet connection appears to be offline.': {
+      LEVEL: Sentry.Severity.Info,
     },
     'The network connection was lost.': {
-      logType: Sentry.Severity.Info,
+      LEVEL: Sentry.Severity.Info,
     },
     cancelled: {
-      logType: Sentry.Severity.Info,
+      LEVEL: Sentry.Severity.Info,
+    },
+    default: {
+      LEVEL: Sentry.Severity.Error,
     },
   };
+
+  const LEVEL = caughtExceptions[message]
+    ? caughtExceptions[message].TYPE
+    : caughtExceptions.default.TYPE;
+
+  if (!SENTRY_LOG_THRESHOLD.includes(LEVEL)) {
+    Sentry.withScope(scope => {
+      scope.setLevel(LEVEL);
+      scope.setExtra(`${LEVEL}`, data);
+      if (typeof data === 'string') {
+        Sentry.captureMessage(`SSOe ${LEVEL}: ${message}`);
+      } else {
+        Sentry.captureException(data);
+      }
+      isCaptured = true;
+    });
+  } else {
+    isCaptured = false;
+  }
+  return isCaptured;
+};
+
+export default async function keepAlive() {
   // Return a TTL and authn values from the IAM keepalive endpoint that
   // 1) indicates how long the user's current SSOe session will be alive for,
   // 2) and the AuthN context the user used when authenticating.
@@ -52,15 +81,7 @@ export default async function keepAlive() {
       }[resp.headers.get('va_eauth_csid')],
     };
   } catch (err) {
-    Sentry.withScope(scope => {
-      scope.setExtra('error', err);
-      Sentry.captureMessage(
-        `SSOe error: ${err.message}`,
-        caughtExceptions[err.message]
-          ? caughtExceptions[err.message].logType
-          : Sentry.Severity.Error,
-      );
-    });
+    logToSentry(err);
     return {};
   }
 }

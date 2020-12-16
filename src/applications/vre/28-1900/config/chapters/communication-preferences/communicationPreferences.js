@@ -85,8 +85,5 @@ export const uiSchema = {
     afternoon: {
       'ui:title': 'Afternoons 2:00 to 6:00 p.m.',
     },
-    other: {
-      'ui:title': 'Other times',
-    },
   },
 };

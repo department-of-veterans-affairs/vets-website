@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTypeOfCare } from '../../../utils/selectors';
+import { getTypeOfCare } from '../../redux/selectors';
 import { FLOW_TYPES, FACILITY_TYPES } from '../../../utils/constants';
 import { lowerCase } from '../../../utils/formatters';
 

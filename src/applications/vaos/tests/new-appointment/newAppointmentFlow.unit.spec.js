@@ -513,6 +513,57 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
 
+  describe('ccPreferences page', () => {
+    describe('next page', () => {
+      it('should be reasonForAppointment if provider selection is disabled', () => {
+        const state = {
+          featureToggles: {
+            loading: false,
+          },
+        };
+
+        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+          'reasonForAppointment',
+        );
+      });
+
+      it('should be reasonForAppointment if provider selection is enabled but user has no address on file', () => {
+        const state = {
+          featureToggles: {
+            loading: false,
+            vaOnlineSchedulingProviderSelection: true,
+          },
+        };
+
+        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+          'reasonForAppointment',
+        );
+      });
+
+      it('should be ccLanguage if provider selection is enabled', () => {
+        const state = {
+          user: {
+            profile: {
+              vapContactInfo: {
+                residentialAddress: {
+                  addressLine1: '597 Mt Prospect Ave',
+                },
+              },
+            },
+          },
+          featureToggles: {
+            loading: false,
+            vaOnlineSchedulingProviderSelection: true,
+          },
+        };
+
+        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+          'ccLanguage',
+        );
+      });
+    });
+  });
+
   describe('reasonForAppointment page', () => {
     describe('next page', () => {
       it('should be visitType if in the VA flow', () => {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
-import { getPreferredDate } from '../../utils/selectors';
+import { getPreferredDate } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { useHistory } from 'react-router-dom';
 import * as actions from '../redux/actions';
