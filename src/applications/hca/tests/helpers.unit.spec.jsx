@@ -12,8 +12,6 @@ import {
   prefillTransformer,
 } from '../helpers.jsx';
 
-// TODO: add prefillTransformer unit test
-
 describe('HCA helpers', () => {
   describe('expensesLessThanIncome', () => {
     it('should return true if expenses less than income', () => {
