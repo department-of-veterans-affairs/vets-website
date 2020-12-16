@@ -127,7 +127,7 @@ export class SearchMenu extends React.Component {
 
     if (!this.props.searchTypeaheadEnabled) {
       return (
-        <form acceptCharset="UTF-8">
+        <form acceptCharset="UTF-8" onSubmit={() => this.handleSearchEvent()}>
           <label htmlFor="query" className="usa-sr-only">
             Search:
           </label>
@@ -146,7 +146,6 @@ export class SearchMenu extends React.Component {
               type="submit"
               disabled={!validUserInput}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
-              onSubmit={() => this.handleSearchEvent()}
             >
               <IconSearch color="#fff" />
               <span className="usa-sr-only">Search</span>
