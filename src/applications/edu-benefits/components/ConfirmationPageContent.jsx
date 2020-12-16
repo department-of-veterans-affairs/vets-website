@@ -90,14 +90,14 @@ export function ConfirmationPageContent({
       {afterTitleContent}
 
       <div className="inset">
-        <h4 className="vads-u-margin-top--0">
+        <h4 className="vads-u-margin-top--0 confirmation-header">
           {formName}{' '}
           <span className="vads-u-margin--0 vads-u-display--inline-block">
             (Form {formConfig.formId})
           </span>
         </h4>
         {name && (
-          <span>
+          <span className="applicant-name">
             for {name.first}
             {name.middle && ` ${name.middle}`}
             {name.last && ` ${name.last}`}
@@ -156,7 +156,9 @@ export function ConfirmationPageContent({
       </div>
       <div className="form-progress-buttons schemaform-back-buttons">
         <a href="/">
-          <button className="usa-button-primary">Go back to VA.gov</button>
+          <button type="button" className="usa-button-primary">
+            Go back to VA.gov
+          </button>
         </a>
       </div>
     </div>
