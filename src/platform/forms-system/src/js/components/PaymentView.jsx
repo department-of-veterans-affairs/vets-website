@@ -28,7 +28,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
   );
 
   return (
-    <>
+    <div className="vads-u-margin-x--4">
       {!dataChanged && (
         <p>
           This is the bank account information we have on file for you. This is
@@ -51,7 +51,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
           Bank name: {bankName || srSubstitute('', 'is blank')}
         </p>
       </div>
-    </>
+    </div>
   );
 };
 
