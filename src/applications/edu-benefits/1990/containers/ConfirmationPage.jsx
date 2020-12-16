@@ -25,11 +25,6 @@ class ConfirmationPage extends React.Component {
     scrollToTop();
   }
 
-  toggleExpanded = e => {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
-  };
-
   makeList(arr) {
     if (arr && arr.length) {
       return (
