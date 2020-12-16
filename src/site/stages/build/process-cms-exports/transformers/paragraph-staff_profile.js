@@ -2,16 +2,7 @@ const { getImageCrop } = require('./helpers');
 
 const setImageCrop = media => {
   const imageObj = Object.assign({}, media);
-
   // Reset the values to the original state
-  // image: {
-  //   url: encodeURI(entity.thumbnail[0].url.replace('public:/', '/img')),
-  //   derivative: {
-  //     url: encodeURI(entity.thumbnail[0].url.replace('public:/', '/img')),
-  //     width: entity.image[0].width,
-  //     height: entity.image[0].height,
-  //   },
-  // },
   imageObj.image.url = encodeURI(
     imageObj.thumbnail.url.replace('public:/', '/img'),
   );
@@ -20,7 +11,6 @@ const setImageCrop = media => {
   );
   imageObj.image.derivative.width = 0;
   imageObj.image.derivative.height = 0;
-
   // Re-apply the Image style size
   return getImageCrop(imageObj, '_1_1_SQUARE_MEDIUM_THUMBNAIL');
 };
