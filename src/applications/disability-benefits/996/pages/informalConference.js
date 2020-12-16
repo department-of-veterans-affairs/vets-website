@@ -126,7 +126,6 @@ const informalConference = {
       time2: {
         'ui:title': informalConferenceTimeTitles.second,
         'ui:options': {
-          // hideIf: isFirstConferenceTimeEmpty,
           hideEmptyValueInReview: true,
         },
       },
