@@ -10,7 +10,7 @@ import AlertBox, {
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
 
-function Introduction({ isLoggedIn, toggleLoginModal }) {
+function Introduction({ isLoggedIn }) {
   return (
     <>
       <h1>COVID-19 vaccines: Stay informed and help us prepare</h1>
@@ -22,12 +22,12 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
           step.
         </p>
       </div>
-      <p>
+      {/* <p>
         Sign up below to help us understand your interest in getting a vaccine.
         We’ll send you updates on how we’re providing vaccines across the
         country—and when you can get your vaccine if you want one. We’ll also
         offer information and answers to your questions along the way.
-      </p>
+      </p> */}
 
       {isLoggedIn ? (
         <Link className="usa-button" to="/form">
@@ -35,11 +35,11 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
         </Link>
       ) : (
         <>
-          <p>
+          {/* <p>
             When you sign in, we can fill in some of your information for you.
-          </p>
+          </p> */}
           <p>
-            <button
+            {/* <button
               type="button"
               onClick={() => {
                 toggleLoginModal(true, 'coronavirus-vaccination');
@@ -53,7 +53,7 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
               className="usa-button"
             >
               Sign in
-            </button>
+            </button> */}
             <Link
               className="usa-button usa-button-secondary"
               to="/form"
@@ -66,7 +66,8 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
                 });
               }}
             >
-              Continue without signing in
+              {/* Continue without signing in */}
+              Continue
             </Link>
           </p>
         </>
