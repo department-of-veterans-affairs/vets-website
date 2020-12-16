@@ -49,12 +49,17 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         volatileData: true,
       },
       'ui:order': [
+        'view:paymentText',
         'accountType',
         'view:ddDescription',
         'bankName',
         'routingNumber',
         'accountNumber',
       ],
+      'view:paymentText': {
+        'ui:description':
+          'We make payments only through direct deposit, also called electronic funds transfer (EFT).',
+      },
       accountType: {
         ...bankAccountUI.accountType,
         'ui:required': bankFieldIsRequired,
@@ -132,6 +137,7 @@ const schema = optionalFields => {
       bankAccount: {
         type: 'object',
         properties: {
+          'view:paymentText': { type: 'object', properties: {} },
           accountType: {
             type: 'string',
             enum: ['checking', 'savings'],

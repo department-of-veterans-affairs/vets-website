@@ -6,11 +6,7 @@ import Telephone, {
 
 export const directDepositDescription = () => {
   return (
-    <div>
-      <p>
-        We make payments only through direct deposit, also called electronic
-        funds transfer (EFT).
-      </p>
+    <div className="vads-u-margin-top--2">
       <img
         src="/img/direct-deposit-check-guide.png"
         alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
