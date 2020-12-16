@@ -19,8 +19,8 @@ const routes = (
       />
       <Route
         component={Unsubscribe}
-        key="/unsubscribe:sid"
-        path="/unsubscribe:sid"
+        key="/unsubscribe/:sid"
+        path="/unsubscribe/:sid"
       />
     </Route>
   </Route>
