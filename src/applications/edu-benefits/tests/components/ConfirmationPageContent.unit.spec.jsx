@@ -179,7 +179,43 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
     tree.unmount();
   });
 
-  it('should render', () => {
+  it('should render document explanation accordion', () => {
+    const tree = shallow(
+      <ConfirmationPageContent
+        formConfig={formConfig}
+        submission={submission}
+        docExplanationHeader="TEST"
+        docExplanation={<div>Explanation</div>}
+      />,
+    );
+    expect(tree.find('#collapsiblePanel').text()).to.contain('TEST');
+    tree.unmount();
+  });
+
+  it('should expand document explanation accordion on click', () => {
+    const tree = shallow(
+      <ConfirmationPageContent
+        formConfig={formConfig}
+        submission={submission}
+        docExplanationHeader="TEST"
+        docExplanation={<div>Explanation</div>}
+      />,
+    );
+    // Check to see that div.usa-accordion-content doesn't exist
+    expect(tree.find('.usa-accordion-content').length).to.eq(0);
+
+    tree.find('.doc-explanation').simulate('click');
+
+    // Check to see that div.usa-accordion-content exists after expanding
+    expect(tree.find('.usa-accordion-content').length).to.eq(1);
+
+    expect(tree.find('.usa-accordion-content').text()).to.contain(
+      'Explanation',
+    );
+    tree.unmount();
+  });
+
+  it('should render back button', () => {
     const tree = shallow(
       <ConfirmationPageContent
         formConfig={formConfig}

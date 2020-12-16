@@ -121,7 +121,7 @@ export function ConfirmationPageContent({
               <li>
                 <div className="accordion-header clearfix">
                   <button
-                    className="usa-button-unstyled"
+                    className="usa-button-unstyled doc-explanation"
                     aria-expanded={isExpanded ? 'true' : 'false'}
                     aria-controls="collapsible-document-explanation"
                     onClick={() => setIsExpanded(!isExpanded)}
