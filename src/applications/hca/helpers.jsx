@@ -40,11 +40,12 @@ const cleanAddressObject = address => {
     countryCodeIso3,
   } = address;
 
-  // make the address data match the schema
+  /* make the address data match the schema
+   fields expect undefined NOT null */
   return {
     street: addressLine1,
-    street2: addressLine2 || null,
-    street3: addressLine3 || null,
+    street2: addressLine2 || undefined,
+    street3: addressLine3 || undefined,
     city,
     postalCode: zipCode,
     country: countryCodeIso3,
