@@ -22,12 +22,12 @@ function Introduction({ isLoggedIn }) {
           step.
         </p>
       </div>
-      {/* <p>
+      <p>
         Sign up below to help us understand your interest in getting a vaccine.
         We’ll send you updates on how we’re providing vaccines across the
         country—and when you can get your vaccine if you want one. We’ll also
         offer information and answers to your questions along the way.
-      </p> */}
+      </p>
 
       {isLoggedIn ? (
         <Link className="usa-button" to="/form">
