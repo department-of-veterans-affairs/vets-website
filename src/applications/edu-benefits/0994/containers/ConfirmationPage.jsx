@@ -25,20 +25,9 @@ const url1990 = appendQuery(
 );
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
   }
 
   render() {
