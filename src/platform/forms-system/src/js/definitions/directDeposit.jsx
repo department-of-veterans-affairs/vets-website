@@ -24,7 +24,7 @@ const usingDirectDeposit = formData => !formData?.declineDirectDeposit;
 // more, with `volitileData: true`, hitting cancel will set
 // `view:hasPrefilledBank` back to true.
 const bankFieldIsRequired = formData =>
-  !formData.bankAccount['view:hasPrefilledBank'] &&
+  !formData.bankAccount?.['view:hasPrefilledBank'] &&
   usingDirectDeposit(formData);
 
 const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
