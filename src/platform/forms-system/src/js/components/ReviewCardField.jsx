@@ -203,7 +203,7 @@ export default class ReviewCardField extends React.Component {
     const Tag = formContext.onReviewPage ? 'h4' : 'h3';
 
     return (
-      <div className="review-card vads-u-margin-top--4">
+      <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
           <Tag className={titleClasses}>{title}</Tag>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
