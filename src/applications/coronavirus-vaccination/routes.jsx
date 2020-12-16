@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 import Introduction from './components/Introduction';
 import Form from './components/Form';
 import Confirmation from './components/Confirmation';
+import Unsubscribe from './components/Unsubscribe';
 
 const routes = (
   <Route path="/">
@@ -17,6 +18,7 @@ const routes = (
         path="/confirmation"
       />
     </Route>
+    <Route component={Unsubscribe} key="/unsubscribe" path="/unsubscribe" />
   </Route>
 );
 
