@@ -47,9 +47,11 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
         <p data-testid="routing-number">
           Bank routing number: {mask(routingNumber, 4)}
         </p>
-        <p data-testid="bank-name">
-          Bank name: {bankName || srSubstitute('', 'is blank')}
-        </p>
+        {bankName && (
+          <p data-testid="bank-name">
+            Bank name: {bankName || srSubstitute('', 'is blank')}
+          </p>
+        )}
       </div>
     </div>
   );
