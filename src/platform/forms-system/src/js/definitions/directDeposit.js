@@ -29,7 +29,6 @@ const bankFieldIsRequired = formData =>
 
 const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
   const ui = {
-    'ui:title': 'Direct deposit information',
     'ui:order': [
       'bankAccount',
       'declineDirectDeposit',
@@ -42,8 +41,8 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         viewComponent: PaymentView,
         classNames: 'vads-u-margin-bottom--3',
         hideIf: form => !usingDirectDeposit(form),
-        reviewTitle: 'Bank account information',
-        editTitle: 'Update bank account',
+        reviewTitle: 'Direct deposit information',
+        editTitle: 'Direct deposit information',
         itemName: 'account information',
         itemNameAction: 'Update',
         startInEdit: data => !data?.['view:hasPrefilledBank'],
