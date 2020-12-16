@@ -19,15 +19,6 @@ export default {
     lastName: {
       type: 'string',
     },
-    fullName: {
-      type: 'object',
-      properties: {
-        'view:textObject': {
-          type: 'object',
-          properties: {},
-        },
-      },
-    },
     birthDate: {
       type: 'string',
     },

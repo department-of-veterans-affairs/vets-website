@@ -18,26 +18,14 @@ export default {
     'ui:errorMessages': {
       required: 'Please enter your first name.',
     },
-    'ui:options': {
-      hideIf: formData => formData.isIdentityVerified,
-    },
+    'ui:disabled': formData => formData.isIdentityVerified,
   },
   lastName: {
     'ui:title': 'Last name',
     'ui:errorMessages': {
       required: 'Please enter your last name.',
     },
-    'ui:options': {
-      hideIf: formData => formData.isIdentityVerified,
-    },
-  },
-  fullName: {
-    'view:textObject': {
-      'ui:description': 'Name:  First Last',
-    },
-    'ui:options': {
-      hideIf: formData => formData.isIdentityVerified,
-    },
+    'ui:disabled': formData => formData.isIdentityVerified,
   },
   birthDate: {
     'ui:title': 'Date of birth',
@@ -49,6 +37,7 @@ export default {
       </span>
     ),
     'ui:widget': 'date',
+    'ui:disabled': formData => formData.isIdentityVerified,
   },
   ssn: {
     'ui:widget': MaskedSSNWidget,
