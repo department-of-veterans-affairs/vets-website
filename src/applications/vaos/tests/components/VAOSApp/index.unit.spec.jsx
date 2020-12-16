@@ -180,6 +180,5 @@ describe('VAOS <VAOSApp>', () => {
         ),
       ).to.be.ok;
     });
-    screen.debug();
   });
 });
