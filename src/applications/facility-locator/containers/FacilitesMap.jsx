@@ -475,13 +475,8 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
-      const {
-        searchArea,
-        position,
-        context,
-        searchString,
-      } = props.currentQuery;
       const { currentQuery } = props;
+      const { searchArea, position, context, searchString } = currentQuery;
       const coords = currentQuery.position;
       const radius = currentQuery.radius;
       const center = [coords.latitude, coords.longitude];
