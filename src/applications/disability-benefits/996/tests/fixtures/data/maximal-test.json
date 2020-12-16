@@ -13,8 +13,8 @@
       "phone": "8005551212"
     },
     "informalConferenceTimes": {
-      "time0800to1000": true,
-      "time1000to1230": true
+      "time1": "time0800to1000",
+      "time2": "time1000to1230"
     },
     "contestedIssues": [
       {
