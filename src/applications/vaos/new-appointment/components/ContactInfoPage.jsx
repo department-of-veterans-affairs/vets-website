@@ -5,7 +5,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import FormButtons from '../../components/FormButtons';
 
-import { getFormPageInfo } from '../../utils/selectors';
+import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { useHistory } from 'react-router-dom';
 import * as actions from '../redux/actions';

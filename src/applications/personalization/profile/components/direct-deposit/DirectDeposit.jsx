@@ -7,7 +7,9 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 
-import DirectDepositContent from './DirectDepositContent';
+import FraudVictimAlert from './FraudVictimAlert';
+import DirectDepositCNP from './DirectDepositCNP';
+import DirectDepositEDU from './DirectDepositEDU';
 
 const DirectDeposit = () => {
   useEffect(() => {
@@ -26,11 +28,15 @@ const DirectDeposit = () => {
       </h2>
       <DowntimeNotification
         appTitle="direct deposit"
-        render={handleDowntimeForSection('direct deposit')}
+        render={handleDowntimeForSection(
+          'direct deposit for compensation and pension',
+        )}
         dependencies={[externalServices.evss]}
       >
-        <DirectDepositContent />
+        <DirectDepositCNP />
       </DowntimeNotification>
+      <FraudVictimAlert />
+      <DirectDepositEDU />
     </>
   );
 };

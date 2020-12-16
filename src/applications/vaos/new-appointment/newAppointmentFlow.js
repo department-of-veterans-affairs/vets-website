@@ -1,11 +1,14 @@
 import {
+  selectUseFlatFacilityPage,
+  selectUseProviderSelection,
+} from '../redux/selectors';
+import {
   getChosenFacilityInfo,
   getEligibilityStatus,
   getFormData,
   getNewAppointment,
   getTypeOfCare,
-  selectUseFlatFacilityPage,
-} from '../utils/selectors';
+} from './redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import { getSiteIdFromFakeFHIRId } from '../services/location';
 import {
@@ -183,6 +186,16 @@ export default {
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
+    next(state) {
+      if (selectUseProviderSelection(state)) {
+        return 'ccLanguage';
+      }
+
+      return 'reasonForAppointment';
+    },
+  },
+  ccLanguage: {
+    url: '/new-appointment/community-care-language',
     next: 'reasonForAppointment',
   },
   vaFacility: {

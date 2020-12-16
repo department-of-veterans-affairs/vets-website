@@ -23,13 +23,6 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:description': (
-    <p>
-      <strong>The information below is optional.</strong> You don't have to
-      answer these questions now, but we may ask for this information again when
-      we process your application.
-    </p>
-  ),
   'ui:title': 'Additional Information',
   yearsOfEducation: {
     'ui:title': 'How many years of education do you have?',
@@ -41,6 +34,7 @@ export const uiSchema = {
     'ui:errorMessages': {
       pattern: 'Please enter a number',
     },
+    'ui:required': () => true,
   },
   isMoving: {
     'ui:widget': 'yesNo',
@@ -49,6 +43,7 @@ export const uiSchema = {
         Are you moving in the <strong>next 30 days?</strong>
       </p>
     ),
+    'ui:required': () => true,
   },
   newAddress: {
     'ui:title': (

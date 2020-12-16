@@ -8,6 +8,7 @@ import {
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import App from './App';
+import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
 
 const QuestionnaireWrapper = ({
   location,
@@ -25,7 +26,12 @@ const QuestionnaireWrapper = ({
     window.location.replace('/');
     return <></>;
   } else {
-    return <App location={location}>{children}</App>;
+    return (
+      <>
+        <BreadCrumbs />
+        <App location={location}>{children}</App>
+      </>
+    );
   }
 };
 

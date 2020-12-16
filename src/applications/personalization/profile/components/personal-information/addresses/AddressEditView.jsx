@@ -97,9 +97,27 @@ class AddressEditView extends React.Component {
   render() {
     return (
       <ContactInformationEditView
+        analyticsSectionName={this.props.analyticsSectionName}
+        clearErrors={this.props.clearErrors}
+        deleteDisabled={this.props.deleteDisabled}
+        field={this.props.field}
+        formSchema={this.props.formSchema}
         getInitialFormValues={this.getInitialFormValues}
+        hasUnsavedEdits={this.props.hasUnsavedEdits}
+        hasValidationError={this.props.hasValidationError}
+        isEmpty={this.props.isEmpty}
+        onCancel={this.props.onCancel}
+        onChangeFormDataAndSchemas={this.props.onChangeFormDataAndSchemas}
+        onDelete={this.props.onDelete}
+        onSubmit={this.props.onSubmit}
+        refreshTransaction={this.props.refreshTransaction}
         render={this.renderForm}
-        {...this.props}
+        title={this.props.title}
+        transaction={this.props.transaction}
+        transactionRequest={this.props.transactionRequest}
+        uiSchema={this.props.uiSchema}
+        EditView={this.props.EditView}
+        ContentView={this.props.ContentView}
       />
     );
   }

@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your employment history',
@@ -31,28 +32,24 @@ export const uiSchema = {
         employerName: {
           'ui:title': 'Employer name',
         },
-        grossMonthlyIncome: {
-          'ui:title': 'Gross monthly income',
-        },
+        grossMonthlyIncome: currencyUI('Gross monthly income'),
         payrollDeductions: {
+          'ui:field': ItemLoop,
           'ui:title': 'Payroll deductions',
           'ui:description':
             'You can find your payroll deductions in a recent paycheck.',
-          'ui:field': ItemLoop,
           'ui:options': {
             viewType: 'table',
             viewField: TableDetailsView,
             doNotScroll: true,
             showSave: true,
+            itemName: 'Add a payroll deduction',
           },
           items: {
-            'ui:title': 'Add a payroll deduction',
             deductionType: {
               'ui:title': 'Type of payroll deduction',
             },
-            deductionAmount: {
-              'ui:title': 'Deduction amount',
-            },
+            deductionAmount: currencyUI('Deduction amount'),
           },
         },
       },
@@ -100,7 +97,7 @@ export const schema = {
                         type: 'string',
                       },
                       deductionAmount: {
-                        type: 'string',
+                        type: 'number',
                       },
                     },
                   },

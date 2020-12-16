@@ -58,6 +58,7 @@ describe('VAOS <ReviewPage> CC request', () => {
           email: 'joeblow@gmail.com',
           reasonAdditionalInfo: 'I need an appt',
           communityCareSystemId: 'var983',
+          preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
             practiceName: 'Community medical center',
@@ -222,6 +223,16 @@ describe('VAOS <ReviewPage> CC request', () => {
 
     const preferences = JSON.parse(global.fetch.getCall(3).args[1].body);
     expect(preferences.emailAddress).to.equal('joeblow@gmail.com');
+
+    const dataLayer = global.window.dataLayer;
+    expect(dataLayer[1]).to.deep.equal({
+      event: 'vaos-community-care-submission',
+      'health-TypeOfCare': 'Primary care',
+      'health-ReasonForAppointment': undefined,
+      'vaos-number-of-preferred-providers': 1,
+      'vaos-community-care-preferred-language': 'english',
+      flow: 'cc-request',
+    });
   });
 
   it('should show error message on failure', async () => {
