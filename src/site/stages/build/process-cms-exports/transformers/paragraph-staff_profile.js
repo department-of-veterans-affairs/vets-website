@@ -21,6 +21,7 @@ const setImageCrop = media => {
   imageObj.image.derivative.width = 0;
   imageObj.image.derivative.height = 0;
 
+  // Re-apply the Image style size
   return getImageCrop(imageObj, '_1_1_SQUARE_MEDIUM_THUMBNAIL');
 };
 
@@ -28,9 +29,6 @@ const transform = entity => ({
   entity: {
     entityType: 'paragraph',
     entityBundle: 'staff_profile',
-    // queryFieldStaffProfile: {
-    //   entities: [entity.fieldStaffProfile[0] || null],
-    // },
     queryFieldStaffProfile: {
       entities: entity.fieldStaffProfile.map(staffProfile => ({
         fieldMedia: staffProfile.fieldMedia
