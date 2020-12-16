@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-import formConfig from '../config/form';
 import { benefitsLabels } from '../../utils/labels';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
@@ -29,7 +28,7 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const { submission } = form;
+    const { submission, formId } = form;
     const { benefit } = form.data;
 
     return (
@@ -61,7 +60,7 @@ class ConfirmationPage extends React.Component {
             </p>
           </>
         }
-        formConfig={formConfig}
+        formId={formId}
         name={form.data.veteranFullName}
         submission={submission}
       />

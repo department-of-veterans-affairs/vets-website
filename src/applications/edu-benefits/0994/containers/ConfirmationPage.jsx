@@ -7,7 +7,6 @@ import appendQuery from 'append-query';
 import { focusElement } from 'platform/utilities/ui';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import formConfig from '../config/form';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 const scroller = Scroll.scroller;
@@ -32,7 +31,7 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const { submission } = form;
+    const { submission, formId } = form;
 
     const appliedForVaEducationBenefits = _.get(
       form.data,
@@ -80,9 +79,9 @@ class ConfirmationPage extends React.Component {
             )}
           </div>
         }
-        formConfig={formConfig}
-        name={form.data.veteranFullName}
+        formId={formId}
         submission={submission}
+        name={form.data.veteranFullName}
       />
     );
   }

@@ -4,7 +4,6 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
-import formConfig from '../config/form';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -23,6 +22,7 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
+    const { submission, formId } = form;
 
     return (
       <ConfirmationPageContent
@@ -42,9 +42,9 @@ class ConfirmationPage extends React.Component {
             </p>
           </>
         }
-        formConfig={formConfig}
+        formId={formId}
         name={form.data.veteranFullName}
-        submission={form.submission}
+        submission={submission}
       />
     );
   }

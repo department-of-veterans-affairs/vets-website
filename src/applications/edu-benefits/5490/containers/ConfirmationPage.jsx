@@ -6,7 +6,6 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { survivorBenefitsLabels } from '../../utils/labels';
 
-import formConfig from '../config/form';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 const scroller = Scroll.scroller;
@@ -37,6 +36,7 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
+    const { submission, formId } = form;
     const benefit = form.data.benefit;
 
     return (
@@ -50,9 +50,9 @@ class ConfirmationPage extends React.Component {
           </li>,
         ]}
         printHeader={'Apply for education benefits as an eligible dependent'}
-        formConfig={formConfig}
+        formId={formId}
         name={form.data.relativeFullName}
-        submission={form.submission}
+        submission={submission}
       />
     );
   }

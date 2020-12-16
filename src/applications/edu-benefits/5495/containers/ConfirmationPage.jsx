@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-import formConfig from '../config/form';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 const scroller = Scroll.scroller;
@@ -23,12 +22,13 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
+    const { submission, formId } = form;
 
     return (
       <ConfirmationPageContent
-        formConfig={formConfig}
+        formId={formId}
         name={form.data.veteranFullName}
-        submission={form.submission}
+        submission={submission}
       />
     );
   }

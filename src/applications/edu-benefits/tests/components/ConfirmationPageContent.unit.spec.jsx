@@ -5,9 +5,7 @@ import moment from 'moment';
 
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
-const formConfig = {
-  formId: '22-1111',
-};
+const formId = '22-1111';
 
 const submission = {
   response: {
@@ -22,10 +20,7 @@ const submission = {
 describe('Edu Benefits <ConfirmationPageContent>', () => {
   it('should render', () => {
     const tree = shallow(
-      <ConfirmationPageContent
-        formConfig={formConfig}
-        submission={submission}
-      />,
+      <ConfirmationPageContent formId={formId} submission={submission} />,
     );
     expect(tree).to.not.be.undefined;
     tree.unmount();
@@ -33,23 +28,17 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
 
   it('should display formId', () => {
     const tree = shallow(
-      <ConfirmationPageContent
-        formConfig={formConfig}
-        submission={submission}
-      />,
+      <ConfirmationPageContent formId={formId} submission={submission} />,
     );
     expect(tree.find('.confirmation-header span').text()).to.equal(
-      `(Form ${formConfig.formId})`,
+      `(Form ${formId})`,
     );
     tree.unmount();
   });
 
   it('should display default text', () => {
     const tree = shallow(
-      <ConfirmationPageContent
-        formConfig={formConfig}
-        submission={submission}
-      />,
+      <ConfirmationPageContent formId={formId} submission={submission} />,
     );
     expect(tree.find('.confirmation-page-title').text()).to.equal(
       "We've received your application.",
@@ -61,7 +50,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
   it('should display printHeader', () => {
     const tree = shallow(
       <ConfirmationPageContent
-        formConfig={formConfig}
+        formId={formId}
         submission={submission}
         printHeader={'Apply for the Rogers STEM Scholarship'}
       />,
@@ -75,7 +64,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
   it('should display applicant name', () => {
     const tree = shallow(
       <ConfirmationPageContent
-        formConfig={formConfig}
+        formId={formId}
         submission={submission}
         name={{
           first: 'Test',
@@ -93,10 +82,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
 
   it('should display default formName', () => {
     const tree = shallow(
-      <ConfirmationPageContent
-        formConfig={formConfig}
-        submission={submission}
-      />,
+      <ConfirmationPageContent formId={formId} submission={submission} />,
     );
     expect(tree.find('.confirmation-header').text()).to.include(
       'Education benefit application',
@@ -107,7 +93,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
   it('should display formName', () => {
     const tree = shallow(
       <ConfirmationPageContent
-        formConfig={formConfig}
+        formId={formId}
         submission={submission}
         formName={'Rogers STEM Scholarship'}
       />,
@@ -121,7 +107,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
   it('should display confirmation number', () => {
     const tree = shallow(
       <ConfirmationPageContent
-        formConfig={formConfig}
+        formId={formId}
         submission={submission}
         formName={'Rogers STEM Scholarship'}
       />,
@@ -138,10 +124,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
 
   it('should display date received', () => {
     const tree = shallow(
-      <ConfirmationPageContent
-        formConfig={formConfig}
-        submission={submission}
-      />,
+      <ConfirmationPageContent formId={formId} submission={submission} />,
     );
     expect(
       tree
@@ -155,10 +138,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
 
   it('should display regional office', () => {
     const tree = shallow(
-      <ConfirmationPageContent
-        formConfig={formConfig}
-        submission={submission}
-      />,
+      <ConfirmationPageContent formId={formId} submission={submission} />,
     );
     const claimInfo = tree.find('li').at(2);
     expect(claimInfo.text()).contains(
@@ -170,10 +150,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
 
   it('should render confirmation guidance', () => {
     const tree = shallow(
-      <ConfirmationPageContent
-        formConfig={formConfig}
-        submission={submission}
-      />,
+      <ConfirmationPageContent formId={formId} submission={submission} />,
     );
     expect(tree.find('.confirmation-guidance-container')).to.not.be.undefined;
     tree.unmount();
@@ -182,7 +159,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
   it('should render document explanation accordion', () => {
     const tree = shallow(
       <ConfirmationPageContent
-        formConfig={formConfig}
+        formId={formId}
         submission={submission}
         docExplanationHeader="TEST"
         docExplanation={<div>Explanation</div>}
@@ -195,7 +172,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
   it('should expand document explanation accordion on click', () => {
     const tree = shallow(
       <ConfirmationPageContent
-        formConfig={formConfig}
+        formId={formId}
         submission={submission}
         docExplanationHeader="TEST"
         docExplanation={<div>Explanation</div>}
@@ -217,10 +194,7 @@ describe('Edu Benefits <ConfirmationPageContent>', () => {
 
   it('should render back button', () => {
     const tree = shallow(
-      <ConfirmationPageContent
-        formConfig={formConfig}
-        submission={submission}
-      />,
+      <ConfirmationPageContent formId={formId} submission={submission} />,
     );
     expect(tree.find('.schemaform-back-buttons button')).to.not.be.undefined;
     tree.unmount();

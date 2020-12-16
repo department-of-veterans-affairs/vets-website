@@ -8,7 +8,7 @@ export function ConfirmationPageContent({
   displayDefaultClaimList = true,
   docExplanation,
   docExplanationHeader,
-  formConfig,
+  formId,
   formName = 'Education benefit application',
   guidance = (
     <>
@@ -67,7 +67,7 @@ export function ConfirmationPageContent({
           <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
             {printHeader}
           </h1>
-          <span>Form {formConfig.formId}</span>
+          <span>Form {formId}</span>
         </div>
         <h3 className="confirmation-page-title screen-only">
           We've received your application.
@@ -93,7 +93,7 @@ export function ConfirmationPageContent({
         <h4 className="vads-u-margin-top--0 confirmation-header">
           {formName}{' '}
           <span className="vads-u-margin--0 vads-u-display--inline-block">
-            (Form {formConfig.formId})
+            (Form {formId})
           </span>
         </h4>
         {name && (

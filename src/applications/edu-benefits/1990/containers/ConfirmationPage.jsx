@@ -5,7 +5,6 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import formConfig from '../config/form';
 import { getListOfBenefits } from '../../utils/helpers';
 import { benefitsRelinquishmentLabels } from '../helpers';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
@@ -40,7 +39,7 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const { submission } = form;
+    const { submission, formId } = form;
     const benefits = form.data['view:selectedBenefits'];
     const benefitsRelinquished = _.get(
       'data.view:benefitsRelinquishedContainer.benefitsRelinquished',
@@ -86,7 +85,7 @@ class ConfirmationPage extends React.Component {
             </p>
           </>
         }
-        formConfig={formConfig}
+        formId={formId}
         name={form.data.veteranFullName}
         submission={submission}
       />
