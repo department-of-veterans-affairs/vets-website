@@ -32,6 +32,9 @@
       }
     }
   }
+  .usa-button-secondary {
+    background: #fff;
+  }
 }
 
 .schemaform-subtitle {
@@ -126,7 +129,7 @@
   background-color: #f1f1f1;
   padding: 20px 30px 20px;
   margin-top: 20px;
-  .add-income-link-section {
+  .add-item-link-section {
     .plus-icon {
       color: #0071bb;
       margin-right: 5px;
@@ -211,13 +214,13 @@
       }
     }
   }
-  .add-income-link-section {
+  .add-item-link-section {
     .plus-icon {
       color: $color-blue;
       margin-right: 5px;
     }
   }
-  .add-income-link,
+  .add-item-link,
   .remove-link {
     font-size: 16px;
     color: $color-link-default;

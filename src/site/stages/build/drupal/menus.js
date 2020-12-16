@@ -1,3 +1,4 @@
+const sortBy = require('lodash/sortBy');
 /* eslint-disable no-param-reassign */
 
 /**
@@ -276,8 +277,7 @@ function formatHeaderData(buildOptions, contentData) {
   const { hostUrl } = buildOptions;
 
   // Sort by menu weight so we don't have do any sorting later.
-  menuLinks.sort((a, b) => a.weight - b.weight);
-
+  menuLinks = sortBy(menuLinks, 'weight');
   // To create the desired json schema, we'll need a hierarchical
   // list of menu links, rather than the flat list that Drupal/GraphQL
   // provide.
