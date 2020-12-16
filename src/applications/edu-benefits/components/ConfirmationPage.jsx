@@ -19,9 +19,9 @@ export const ConfirmationPageTitle = ({
       </h3>
       <h4 className="print-only">We've received your application.</h4>
       <p>
-        We usually process claims within <strong>30 days</strong>.
+        We usually process claims within <strong>30 days</strong>.<br />
+        We may contact you if we need more information or documents.
       </p>
-      <p>We may contact you if we need more information or documents.</p>
       <p>
         <button
           className="usa-button-primary screen-only"
@@ -33,31 +33,27 @@ export const ConfirmationPageTitle = ({
     </>
   );
 };
-
 export const claimList = (response, submission) => {
-  return (
-    <ul className="claim-list">
-      <li key={'confirmation-number'}>
-        <strong>Confirmation number</strong>
-        <br />
-        <span>{response.confirmationNumber}</span>
-      </li>
-      <li key={'date-received'}>
-        <strong>Date received</strong>
-        <br />
-        <span>{moment(submission.submittedAt).format('MMM D, YYYY')}</span>
-      </li>
-      <li key={'regional-office'}>
-        <strong>Your claim was sent to</strong>
-        <br />
-        <address className="schemaform-address-view">
-          {response.regionalOffice}
-        </address>
-      </li>
-    </ul>
-  );
+  return [
+    <li key={'confirmation-number'}>
+      <strong>Confirmation number</strong>
+      <br />
+      <span>{response.confirmationNumber}</span>
+    </li>,
+    <li key={'date-received'}>
+      <strong>Date received</strong>
+      <br />
+      <span>{moment(submission.submittedAt).format('MMM D, YYYY')}</span>
+    </li>,
+    <li key={'regional-office'}>
+      <strong>Your claim was sent to</strong>
+      <br />
+      <address className="schemaform-address-view">
+        {response.regionalOffice}
+      </address>
+    </li>,
+  ];
 };
-
 export const ConfirmationPageSummary = ({
   formId,
   formName = 'Education benefit application',
@@ -80,12 +76,12 @@ export const ConfirmationPageSummary = ({
         {name.last && ` ${name.last}`}
         {name.suffix && ` ${name.suffix}`}
       </span>
-
-      <div>{claimInfoList || claimList(response, submission)}</div>
+      <ul className="claim-list">
+        {claimInfoList || claimList(response, submission)}
+      </ul>
     </div>
   );
 };
-
 export const ConfirmationGuidance = () => {
   return (
     <div className="confirmation-guidance-container">
@@ -110,7 +106,6 @@ export const ConfirmationGuidance = () => {
       <h4 className="confirmation-guidance-heading vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
         Need help?
       </h4>
-
       <p className="confirmation-guidance-message">
         If you have questions, call 1-888-GI-BILL-1 (
         <a href="tel:+18884424551">1-888-442-4551</a>
@@ -119,7 +114,6 @@ export const ConfirmationGuidance = () => {
     </div>
   );
 };
-
 export const ConfirmationNoDocumentsRequired = ({
   expanded,
   toggleExpanded,
@@ -145,7 +139,6 @@ export const ConfirmationNoDocumentsRequired = ({
     </div>
   );
 };
-
 export const ConfirmationReturnHome = () => {
   return (
     <div className="form-progress-buttons schemaform-back-buttons">

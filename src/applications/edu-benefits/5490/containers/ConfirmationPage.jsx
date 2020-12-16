@@ -48,34 +48,32 @@ class ConfirmationPage extends React.Component {
     const name = form.data.relativeFullName;
     const benefit = form.data.benefit;
 
-    const claimList = (
-      <ul className="claim-list">
-        <li>
+    const claimList = [
+      <li key={'selected-benefit'}>
+        <div className="vads-u-margin-bottom--neg1p5">
           <strong>Selected benefit</strong>
-          <br />
-          {survivorBenefitsLabels[benefit]}
-        </li>
-        <li>
-          <strong>Confirmation number</strong>
-          <br />
-          <span>{response.confirmationNumber}</span>
-        </li>
-        <li>
-          <strong>Date received</strong>
-          <br />
-          <span>
-            {moment(form.submission.submittedAt).format('MMM D, YYYY')}
-          </span>
-        </li>
-        <li>
-          <strong>Your claim was sent to</strong>
-          <br />
-          <address className="schemaform-address-view">
-            {response.regionalOffice}
-          </address>
-        </li>
-      </ul>
-    );
+        </div>
+
+        {survivorBenefitsLabels[benefit]}
+      </li>,
+      <li key={'confirmation-number'}>
+        <strong>Confirmation number</strong>
+        <br />
+        <span>{response.confirmationNumber}</span>
+      </li>,
+      <li key={'date-received'}>
+        <strong>Date received</strong>
+        <br />
+        <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+      </li>,
+      <li key={'regional-office'}>
+        <strong>Your claim was sent to</strong>
+        <br />
+        <address className="schemaform-address-view">
+          {response.regionalOffice}
+        </address>
+      </li>,
+    ];
 
     return (
       <div>
