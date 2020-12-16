@@ -64,15 +64,16 @@ describe('<SearchMenu>', () => {
 
   it('shows suggestions', async () => {
     const wrapper = mount(
-      <SearchMenu debounceRate={1} searchTypeaheadEnabled isOpen />,
+      <SearchMenu debounceRate={1} searchTypeaheadEnabled />,
     );
 
     wrapper.setState({
       userInput: 'sample',
     });
 
-    await new Promise(resolve => setTimeout(resolve, 10));
+    await new Promise(resolve => setTimeout(resolve, 2));
     wrapper.update();
+
     expect(global.fetch.called).to.be.true;
 
     expect(wrapper.find('#suggestions-list').children()).to.have.lengthOf(5);

@@ -15,6 +15,7 @@ import IconSearch from '@department-of-veterans-affairs/formation-react/IconSear
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 
 export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
+const ENTER_KEY = 13;
 
 export class SearchMenu extends React.Component {
   constructor(props) {
@@ -71,6 +72,17 @@ export class SearchMenu extends React.Component {
 
   handleInputChange = event => {
     this.setState({ userInput: event.target.value });
+  };
+
+  handleKeyUp = event => {
+    if (
+      (event.which || event.keyCode) === ENTER_KEY &&
+      document.getElementById('query') === document.activeElement
+    ) {
+      event.target.blur();
+      this.handleSearchEvent();
+    }
+    console.log(`got a key up from ${document.activeElement}`);
   };
 
   handleSearchEvent = suggestion => {
@@ -145,7 +157,7 @@ export class SearchMenu extends React.Component {
         inputValue={this.state.userInput}
         onSelect={item => this.handleSearchEvent(item)}
         itemToString={item => item}
-        isOpen={this.props.isOpen}
+        isOpen={this.state.suggestions.length > 0}
       >
         {({
           getInputProps,
@@ -163,12 +175,13 @@ export class SearchMenu extends React.Component {
                 autoComplete="off"
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1  vads-u-width--full"
                 name="query"
-                aria-controls="suggestions-list"
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleInputChange,
                   'aria-labelledby': 'site search',
                   id: 'query',
+                  ref: 'query',
+                  onKeyUp: this.handleKeyUp,
                 })}
               />
               <button
