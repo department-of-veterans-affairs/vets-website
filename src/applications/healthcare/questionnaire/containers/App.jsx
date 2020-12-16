@@ -30,6 +30,8 @@ const App = props => {
           const { data } = response;
           setLoadedAppointment(data);
           setIsLoading(false);
+          // update routes to include appointment id
+
           setForm(f => {
             return {
               ...f,
