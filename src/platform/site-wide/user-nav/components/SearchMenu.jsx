@@ -82,7 +82,6 @@ export class SearchMenu extends React.Component {
       event.target.blur();
       this.handleSearchEvent();
     }
-    console.log(`got a key up from ${document.activeElement}`);
   };
 
   handleSearchEvent = suggestion => {
@@ -168,19 +167,23 @@ export class SearchMenu extends React.Component {
         }) => (
           <div className="typeahead-search vads-u-padding--0 vads-u-padding-x--0p5 medium-screen:vads-u-padding--0">
             <div className="va-flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-x--0p5 medium-screen:vads-u-padding--0">
-              <label htmlFor="query" className="usa-sr-only">
+              <label
+                id="site-search-label"
+                htmlFor="query"
+                className="usa-sr-only"
+              >
                 Search:
               </label>
               <input
                 autoComplete="off"
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1  vads-u-width--full"
                 name="query"
+                aria-owns="suggestions-list"
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleInputChange,
-                  'aria-labelledby': 'site search',
+                  'aria-labelledby': 'site-search-label',
                   id: 'query',
-                  ref: 'query',
                   onKeyUp: this.handleKeyUp,
                 })}
               />
@@ -199,6 +202,7 @@ export class SearchMenu extends React.Component {
                 id="suggestions-list"
                 className="vads-u-margin-top--0p5"
                 role="listbox"
+                aria-label="suggestions-list"
               >
                 {this.state.suggestions?.map((suggestion, index) => {
                   const formattedSuggestion = suggestion.replace(
@@ -219,7 +223,9 @@ export class SearchMenu extends React.Component {
                       }
                       {...getItemProps({ item: suggestion })}
                       // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{ __html: formattedSuggestion }}
+                      dangerouslySetInnerHTML={{
+                        __html: formattedSuggestion,
+                      }}
                     />
                   );
                 })}
