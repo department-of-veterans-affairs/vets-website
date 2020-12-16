@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from 'platform/utilities/data';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
@@ -29,6 +30,15 @@ const bankFieldIsRequired = formData =>
 
 const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
   const ui = {
+    'ui:title': ({ formData }) => {
+      return formData.declineDirectDeposit ? (
+        <div className="schemaform-block-header">
+          <legend className="schemaform-block-title" id="root__title">
+            Direct deposit information
+          </legend>
+        </div>
+      ) : null;
+    },
     'ui:order': [
       'bankAccount',
       'declineDirectDeposit',
