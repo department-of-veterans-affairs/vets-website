@@ -89,6 +89,20 @@ function ProviderSelectionField({
     [formData],
   );
 
+  useEffect(
+    () => {
+      if (
+        showProvidersList &&
+        providersListLength > INITIAL_PROVIDER_DISPLAY_COUNT
+      ) {
+        scrollAndFocus(
+          `#provider_${providersListLength - INITIAL_PROVIDER_DISPLAY_COUNT}`,
+        );
+      }
+    },
+    [providersListLength],
+  );
+
   return (
     <div className="vads-u-background-color--gray-lightest small-screen:vads-u-padding--2 medium-screen:vads-u-padding--3">
       {!showProvidersList &&
@@ -127,7 +141,11 @@ function ProviderSelectionField({
               )}{' '}
               miles
             </span>
-            <div className="vads-u-display--flex">
+            <div
+              className="vads-u-display--flex"
+              aria-atomic="true"
+              aria-live="assertive"
+            >
               <button
                 type="button"
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0 vads-u-margin-right--2"
@@ -242,17 +260,22 @@ function ProviderSelectionField({
                   const { name } = provider;
                   const checked = provider.id === checkedProvider;
                   return (
-                    <div className="form-radio-buttons" key={provider.id}>
+                    <div
+                      className="form-radio-buttons"
+                      key={provider.id}
+                      aria-atomic="true"
+                      aria-live="assertive"
+                    >
                       <input
                         type="radio"
                         checked={checked}
-                        id={`${idSchema.$id}_${provider.id}`}
+                        id={`provider_${providerIndex}`}
                         name={`${idSchema.$id}`}
                         value={provider.id}
                         onChange={_ => setCheckedProvider(provider.id)}
                         disabled={loadingProviders}
                       />
-                      <label htmlFor={`${idSchema.$id}_${provider.id}`}>
+                      <label htmlFor={`provider_${providerIndex}`}>
                         <span className="vads-u-display--block vads-u-font-weight--bold">
                           {name}
                         </span>
@@ -300,6 +323,8 @@ function ProviderSelectionField({
             {providersListLength < communityCareProviderList.length && (
               <>
                 <button
+                  aria-atomic="true"
+                  aria-live="assertive"
                   type="button"
                   className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
                   onClick={() => {
@@ -309,6 +334,7 @@ function ProviderSelectionField({
                     });
                   }}
                 >
+                  <span className="sr-only">show</span>
                   <span className="va-button-link">
                     +{' '}
                     {Math.min(
