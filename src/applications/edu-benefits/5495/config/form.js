@@ -132,7 +132,7 @@ const formConfig = {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
               vaFileNumber: {
-                'ui:title': "Sponsor's VA number",
+                'ui:title': "Sponsor's VA file number",
               },
               veteranSocialSecurityNumber: {
                 'ui:title': "Sponsor's Social Security number",

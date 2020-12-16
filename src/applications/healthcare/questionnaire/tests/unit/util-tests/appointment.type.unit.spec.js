@@ -47,7 +47,7 @@ describe('healthcare-questionnaire -- utils -- appointment parser -- getAppointT
         vdsAppointments: [{ clinic: { stopCode: '323' } }],
       },
     });
-    expect(result).to.equal('Primary care');
+    expect(result).to.equal('primary care');
   });
   it('stop exists, mental health  ', () => {
     const result = getAppointTypeFromAppointment({
@@ -55,6 +55,6 @@ describe('healthcare-questionnaire -- utils -- appointment parser -- getAppointT
         vdsAppointments: [{ clinic: { stopCode: '502' } }],
       },
     });
-    expect(result).to.equal('Mental health');
+    expect(result).to.equal('mental health');
   });
 });

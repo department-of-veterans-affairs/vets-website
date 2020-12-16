@@ -16,6 +16,7 @@ import {
   createTestStore,
   setTypeOfCare,
   renderWithStoreAndRouter,
+  setTypeOfEyeCare,
 } from '../../../mocks/setup';
 import {
   mockEligibilityFetches,
@@ -894,5 +895,85 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(screen.queryByText(/Disabled facility near residential address/i))
       .not.to.be.ok;
   });
-  // TODO: should use correct eligibility info after a split type of care is changed
+
+  it('should display correct facilities after changing type of care', async () => {
+    const facilityIdsForTwoTypesOfCare = ['983', '983GC', '983QA', '984'];
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(
+      parentSiteIds,
+      facilityIdsForTwoTypesOfCare.map(id => {
+        return {
+          id,
+          attributes: {
+            ...directFacilityAttributes,
+            id,
+            coreSettings: [
+              {
+                ...directFacilityAttributes.coreSettings[0],
+                id: '323',
+              },
+            ],
+          },
+        };
+      }),
+    );
+    mockRequestEligibilityCriteria(
+      parentSiteIds,
+      facilityIdsForTwoTypesOfCare.map(id => {
+        const requestSettings = [
+          {
+            ...requestFacilityAttributes.requestSettings[0],
+            id: '323',
+          },
+        ];
+
+        // turn on optometry for a couple facilities
+        if (['984', '983QA'].includes(id)) {
+          requestSettings.push({
+            ...requestFacilityAttributes.requestSettings[0],
+            id: '408',
+          });
+        }
+
+        return {
+          id,
+          attributes: {
+            ...requestFacilityAttributes,
+            id,
+            requestSettings,
+          },
+        };
+      }),
+    );
+    const vhaIdentifiers = facilityIdsForTwoTypesOfCare.map(
+      id => `vha_${id.replace('983', '442').replace('984', '552')}`,
+    );
+    mockFacilitiesFetch(
+      vhaIdentifiers.join(','),
+      facilities.filter(facility => vhaIdentifiers.includes(facility.id)),
+    );
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+
+    let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+    expect(await screen.findAllByRole('radio')).to.have.length(4);
+
+    await cleanup();
+
+    await setTypeOfCare(store, /eye care/i);
+    await setTypeOfEyeCare(store, /optometry/i);
+
+    screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    expect(await screen.findAllByRole('radio')).to.have.length(2);
+  });
 });

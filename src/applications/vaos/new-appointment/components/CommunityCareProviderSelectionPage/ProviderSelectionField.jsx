@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { selectProviderSelectionInfo } from '../../../utils/selectors';
+import { selectProviderSelectionInfo } from '../../redux/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
