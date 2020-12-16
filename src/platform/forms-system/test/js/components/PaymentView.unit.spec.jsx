@@ -18,7 +18,9 @@ describe('PaymentView', () => {
       <PaymentView originalData={viewifyFields(formData())} />,
     );
 
-    view.getByText('We’re currently paying your compensation to this account');
+    view.getByText(
+      'This is the bank account information we have on file for you. This is where we’ll send your payments.',
+    );
     view.getByText('Checking Account');
     expect(view.getByTestId('account-number').textContent).to.equal(
       'Account number: ●●●●●●ending with4321',
