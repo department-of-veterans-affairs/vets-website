@@ -9,7 +9,6 @@ const {
 const transform = (entity, { ancestors }) => ({
   entityType: 'node',
   entityBundle: 'person_profile',
-  parentSchema: entity.parentSchema,
   title: `${getDrupalValue(entity.fieldNameFirst)} ${getDrupalValue(
     entity.fieldLastName,
   )}`,
