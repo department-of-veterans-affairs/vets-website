@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -24,20 +25,30 @@ export default function FacilitiesRadioWidget({
     selectedIndex >= INITIAL_FACILITY_DISPLAY_COUNT,
   );
 
+  // currently shown facility list
   const displayedOptions = displayAll
     ? enumOptions
     : enumOptions.slice(0, INITIAL_FACILITY_DISPLAY_COUNT);
-
+  // remaining facilities count
   const hiddenCount =
     enumOptions.length > INITIAL_FACILITY_DISPLAY_COUNT
       ? enumOptions.length - INITIAL_FACILITY_DISPLAY_COUNT
       : 0;
 
+  useEffect(
+    () => {
+      if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
+        scrollAndFocus(`#facility_${INITIAL_FACILITY_DISPLAY_COUNT}`);
+      }
+    },
+    [displayedOptions.length, displayAll],
+  );
+
   return (
     <div>
-      {displayedOptions.map((option, i) => {
-        const { id, name, address, legacyVAR } = option?.label;
-        const checked = option.value === value;
+      {displayedOptions.map((facility, facilityIndex) => {
+        const { id, name, address, legacyVAR } = facility?.label;
+        const checked = facility.value === value;
         let distance;
 
         if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
@@ -49,17 +60,22 @@ export default function FacilitiesRadioWidget({
         }
 
         return (
-          <div className="form-radio-buttons" key={option.value}>
+          <div
+            className="form-radio-buttons"
+            key={facility.value}
+            aria-atomic="true"
+            aria-live="assertive"
+          >
             <input
               type="radio"
               checked={checked}
-              id={`${id}_${i}`}
+              id={`facility_${facilityIndex}`}
               name={`${id}`}
-              value={option.value}
-              onChange={_ => onChange(option.value)}
+              value={facility.value}
+              onChange={_ => onChange(facility.value)}
               disabled={loadingEligibility}
             />
-            <label htmlFor={`${id}_${i}`}>
+            <label htmlFor={`facility_${facilityIndex}`}>
               <span className="vads-u-display--block vads-u-font-weight--bold">
                 {name}
               </span>
@@ -81,8 +97,13 @@ export default function FacilitiesRadioWidget({
           <button
             type="button"
             className="additional-info-button va-button-link vads-u-display--block"
-            onClick={() => setDisplayAll(!displayAll)}
+            aria-atomic="true"
+            aria-live="assertive"
+            onClick={() => {
+              setDisplayAll(!displayAll);
+            }}
           >
+            <span className="sr-only">show</span>
             <span className="va-button-link">
               {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
             </span>

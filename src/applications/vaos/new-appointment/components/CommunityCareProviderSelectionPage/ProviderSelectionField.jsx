@@ -328,7 +328,9 @@ function ProviderSelectionField({
                   type="button"
                   className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
                   onClick={() => {
-                    setProvidersListLength(providersListLength + 5);
+                    setProvidersListLength(
+                      providersListLength + INITIAL_PROVIDER_DISPLAY_COUNT,
+                    );
                     recordEvent({
                       event: `${GA_PREFIX}-provider-list-paginate`,
                     });
