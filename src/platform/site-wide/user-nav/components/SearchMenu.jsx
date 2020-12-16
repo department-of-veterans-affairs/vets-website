@@ -125,7 +125,7 @@ export class SearchMenu extends React.Component {
     const regularSuggestion =
       'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full';
 
-    if (this.props.searchTypeaheadEnabled) {
+    if (!this.props.searchTypeaheadEnabled) {
       return (
         <form
           acceptCharset="UTF-8"
