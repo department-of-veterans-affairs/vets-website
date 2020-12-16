@@ -7,7 +7,7 @@ const { runCommand } = require('./utils');
 const defaultPath = './src/**/*.unit.spec.js?(x)';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'log-level', type: String, defaultValue: 'log' },
+  { name: 'log-level', type: String, defaultValue: 'debug' },
   { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'reporter', type: String, defaultValue: null },
