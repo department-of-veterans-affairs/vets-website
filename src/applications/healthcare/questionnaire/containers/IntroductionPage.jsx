@@ -52,7 +52,7 @@ const IntroductionPage = props => {
           pageList={props.route?.pageList}
           startText="Start the questionnaire"
           formConfig={props.route?.formConfig}
-          resumeOnly
+          resumeOnly={props.route?.formConfig.saveInProgress.resumeOnly}
           renderSignInMessage={UnAuthedWelcomeMessage}
         />
       );
@@ -80,12 +80,11 @@ const IntroductionPage = props => {
         <p>
           We’ll send your completed questionnaire to your provider through a
           secure electronic communication. We’ll also add the questionnaire to
-          your medical record. Your provider will review your answers and
-          discuss them with you during your appointment.
+          your medical record.
         </p>
         <p>
           <strong>
-            Your provider will discuss the information in your questionnaire
+            Your provider will review your answers and discuss them with you
             during your appointment.
           </strong>
         </p>

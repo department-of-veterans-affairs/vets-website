@@ -7,7 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import * as actions from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
-import { getDateTimeSelect } from '../../../utils/selectors';
+import { getDateTimeSelect } from '../../redux/selectors';
 import CalendarWidget from '../calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';

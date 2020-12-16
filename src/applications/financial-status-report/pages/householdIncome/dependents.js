@@ -2,54 +2,43 @@ import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
-  'ui:title': 'Your employment history',
-  dependentsSection: {
-    dependents: {
-      'ui:title': 'Do you have any dependents?',
-      'ui:widget': 'yesNo',
-      'ui:required': () => true,
+  'ui:title': 'Your dependents',
+  dependents: {
+    'ui:title': 'Do you have any dependents?',
+    'ui:widget': 'yesNo',
+    'ui:required': () => true,
+  },
+  dependentRecords: {
+    'ui:field': ItemLoop,
+    'ui:description': 'Enter the age of your dependent(s) separately below.',
+    'ui:options': {
+      expandUnder: 'dependents',
+      viewField: CardDetailsView,
+      doNotScroll: true,
+      showSave: true,
+      itemName: 'Add a dependent',
     },
-    hasDependents: {
-      'ui:options': {
-        expandUnder: 'dependents',
-      },
+    items: {
       dependentAge: {
-        'ui:title': 'Dependent Age',
-        'ui:field': ItemLoop,
-        'ui:options': {
-          viewField: CardDetailsView,
-          doNotScroll: true,
-          showSave: true,
-        },
-        items: {
-          'ui:title': 'Age in years:',
-        },
+        'ui:title': 'Dependent’s age',
       },
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {
-    dependentsSection: {
-      type: 'object',
-      properties: {
-        dependents: {
-          type: 'boolean',
-        },
-        hasDependents: {
-          type: 'object',
-          properties: {
-            dependentAge: {
-              type: 'array',
-              minItems: 0,
-              items: {
-                type: 'number',
-                minimum: 0,
-                minValue: '0',
-                exclusiveMinimum: 0,
-              },
-            },
+    dependents: {
+      type: 'boolean',
+    },
+    dependentRecords: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          dependentAge: {
+            type: 'string',
           },
         },
       },

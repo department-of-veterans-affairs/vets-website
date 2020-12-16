@@ -94,12 +94,6 @@ describe('<ContactInformationField/>', () => {
 
     component.find('EditView').dive();
     expect(props.EditView.called).to.be.true;
-
-    const args = props.EditView.getCall(0).args[0];
-    expect(
-      args,
-      'All props were passed to the EditView constructor',
-    ).to.have.all.keys(Object.keys(props));
     component.unmount();
   });
 

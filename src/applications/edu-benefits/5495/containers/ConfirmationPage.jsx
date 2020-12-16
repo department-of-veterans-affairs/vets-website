@@ -1,11 +1,14 @@
 import React from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-
-import { survivorBenefitsLabels } from '../../utils/labels';
+import {
+  ConfirmationGuidance,
+  ConfirmationPageSummary,
+  ConfirmationPageTitle,
+  ConfirmationReturnHome,
+} from '../../components/ConfirmationPage';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -33,90 +36,20 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.relativeFullName;
-    const benefit = form.data.benefit;
+
+    const { formId, submission } = form;
 
     return (
       <div>
-        <h3 className="confirmation-page-title">
-          We’ve received your application
-        </h3>
-        <p>
-          We usually process claims within <strong>30 days</strong>.
-        </p>
-        <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
-        </p>
-        <div className="inset">
-          <h4 className="vads-u-margin-top--0">
-            Education benefit application{' '}
-            <span className="additional">(Form 22-5495)</span>
-          </h4>
-          <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
-          </span>
-
-          <ul className="claim-list">
-            {benefit && (
-              <li>
-                <strong>Benefit</strong>
-                <br />
-                {survivorBenefitsLabels[benefit]}
-              </li>
-            )}
-            <li>
-              <strong>Confirmation number</strong>
-              <br />
-              <span>{response.confirmationNumber}</span>
-            </li>
-            <li>
-              <strong>Date received</strong>
-              <br />
-              <span>
-                {moment(form.submission.submittedAt).format('MMM D, YYYY')}
-              </span>
-            </li>
-            <li>
-              <strong>Your claim was sent to</strong>
-              <br />
-              <address className="schemaform-address-view">
-                {response.regionalOffice}
-              </address>
-            </li>
-          </ul>
-        </div>
-        <div className="confirmation-guidance-container">
-          <h4 className="confirmation-guidance-heading">
-            What happens after I apply?
-          </h4>
-          <p className="confirmation-guidance-message">
-            We usually decide on applications within 30 days.
-            <br />
-            You’ll get a Certificate of Eligibility (COE) or decision letter in
-            the mail. If we’ve approved your application, you can bring the COE
-            to the VA certifying official at your school.
-            <br />
-            <a href="/education/after-you-apply/">
-              Learn more about what happens after you apply
-            </a>
-          </p>
-          <h4 className="confirmation-guidance-heading pagebreak vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
-            Need help?
-          </h4>
-          <p className="confirmation-guidance-message">
-            If you have questions, call 888-GI-BILL-1 (
-            <a href="tel:+18884424551">888-442-4551</a>
-            ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
-          </p>
-        </div>
-        <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 usa-width-one-half medium-6 columns">
-            <a href="/">
-              <button className="usa-button-primary">Go back to VA.gov</button>
-            </a>
-          </div>
-        </div>
+        <ConfirmationPageTitle formId={formId} />
+        <ConfirmationPageSummary
+          formId={formId}
+          response={response}
+          submission={submission}
+          name={name}
+        />
+        <ConfirmationGuidance />
+        <ConfirmationReturnHome />
       </div>
     );
   }

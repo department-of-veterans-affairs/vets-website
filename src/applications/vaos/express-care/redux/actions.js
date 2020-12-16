@@ -18,10 +18,8 @@ import {
 
 import { createPreferenceBody } from '../../utils/data';
 import { transformFormToExpressCareRequest } from './helpers/formSubmitTransformers';
-import {
-  selectActiveExpressCareWindows,
-  selectExpressCareNewRequest,
-} from '../../utils/selectors';
+import { selectActiveExpressCareWindows } from '../../appointment-list/redux/selectors';
+import { selectExpressCareNewRequest } from '../redux/selectors';
 import { captureError } from '../../utils/error';
 import {
   EXPRESS_CARE,

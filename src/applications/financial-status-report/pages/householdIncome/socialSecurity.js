@@ -1,3 +1,5 @@
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+
 export const uiSchema = {
   'ui:title': 'Your other income',
   additionalIncome: {
@@ -6,11 +8,13 @@ export const uiSchema = {
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    socialSecurityPayments: {
-      'ui:title': 'How much do you receive for Social Security each month?',
+    socialSecurity: {
       'ui:options': {
         expandUnder: 'hasSocialSecurityPayments',
       },
+      socialSecurityAmount: currencyUI(
+        'How much do you receive for Social Security each month?',
+      ),
     },
   },
 };
@@ -23,8 +27,13 @@ export const schema = {
         hasSocialSecurityPayments: {
           type: 'boolean',
         },
-        socialSecurityPayments: {
-          type: 'string',
+        socialSecurity: {
+          type: 'object',
+          properties: {
+            socialSecurityAmount: {
+              type: 'number',
+            },
+          },
         },
       },
     },

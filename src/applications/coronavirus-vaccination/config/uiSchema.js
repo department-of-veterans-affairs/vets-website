@@ -5,7 +5,10 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 // import SelectFacilityWidget from '../components/SelectFacilityWidget';
 
 import MaskedSSNWidget from '../components/MaskedSSNWidget';
-import { validateSSN } from 'platform/forms-system/src/js/validation';
+import {
+  validateSSN,
+  validateCurrentOrPastDate,
+} from 'platform/forms-system/src/js/validation';
 
 export default {
   isIdentityVerified: {
@@ -35,6 +38,10 @@ export default {
       </span>
     ),
     'ui:widget': 'date',
+    'ui:errorMessages': {
+      pattern: 'Please enter a complete date',
+    },
+    'ui:validations': [validateCurrentOrPastDate],
   },
   ssn: {
     'ui:widget': MaskedSSNWidget,
@@ -80,7 +87,7 @@ export default {
       pattern: 'Please enter a valid zip code',
     },
   },
-  zipCodeDetails: {
+  locationDetails: {
     'ui:title': 'Will you be in this zip code for the next 6 to 12 months?',
     'ui:widget': 'radio',
     'ui:errorMessages': {

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import { deductionCodes } from '../const/deduction-codes';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import {
+  deductionCodes,
+  renderWhyMightIHaveThisDebt,
+} from '../const/deduction-codes';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
@@ -15,6 +19,7 @@ import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 import { renderAdditionalInfo } from '../const/diary-codes';
+
 import { setPageFocus } from '../utils/page';
 
 class DebtDetails extends Component {
@@ -39,6 +44,10 @@ class DebtDetails extends Component {
       selectedDebt.diaryCode,
       mostRecentHistory.date,
       selectedDebt.benefitType,
+    );
+
+    const whyMightIHaveThisDebtContent = renderWhyMightIHaveThisDebt(
+      selectedDebt.deductionCode,
     );
 
     return (
@@ -94,23 +103,19 @@ class DebtDetails extends Component {
               </dl>
             </div>
 
-            {additionalInfo &&
-              (additionalInfo.nextStep ? (
-                <div className="debt-details-nextstep">
-                  {additionalInfo.nextStep}
-                </div>
-              ) : (
-                additionalInfo.headline && (
-                  <AlertBox
-                    className="vads-u-margin-y--4 debt-details-alert"
-                    headline={additionalInfo.headline}
-                    content={additionalInfo.content}
-                    status="info"
-                    level={2}
-                  />
-                )
-              ))}
+            <AlertBox
+              className="vads-u-margin-y--4 debt-details-alert"
+              status="info"
+              backgroundOnly
+            >
+              {additionalInfo.nextStep}
+            </AlertBox>
 
+            {whyMightIHaveThisDebtContent && (
+              <AdditionalInfo triggerText="Why might I have this debt?">
+                {whyMightIHaveThisDebtContent}
+              </AdditionalInfo>
+            )}
             <OnThisPageLinks isDetailsPage />
 
             <h2
