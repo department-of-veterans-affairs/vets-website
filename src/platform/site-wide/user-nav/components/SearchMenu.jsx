@@ -15,7 +15,9 @@ import IconSearch from '@department-of-veterans-affairs/formation-react/IconSear
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 
 export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
+
 const ENTER_KEY = 13;
+const ESCAPE_KEY = 27;
 
 export class SearchMenu extends React.Component {
   constructor(props) {
@@ -79,8 +81,11 @@ export class SearchMenu extends React.Component {
       (event.which || event.keyCode) === ENTER_KEY &&
       document.getElementById('query') === document.activeElement
     ) {
-      event.target.blur();
       this.handleSearchEvent();
+      return;
+    }
+    if ((event.which || event.keyCode) === ESCAPE_KEY) {
+      this.props.clickHandler();
     }
   };
 
@@ -156,6 +161,7 @@ export class SearchMenu extends React.Component {
         inputValue={this.state.userInput}
         onSelect={item => this.handleSearchEvent(item)}
         itemToString={item => item}
+        onKeyUp={this.handleKeyUp}
         isOpen={this.state.suggestions.length > 0}
       >
         {({
@@ -264,11 +270,11 @@ export class SearchMenu extends React.Component {
 }
 
 SearchMenu.propTypes = {
-  cssClass: PropTypes.string,
-  isOpen: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func,
-  searchTypeaheadEnabled: PropTypes.bool,
+  cssClass: PropTypes.string,
   debounceRate: PropTypes.number,
+  isOpen: PropTypes.bool.isRequired,
+  searchTypeaheadEnabled: PropTypes.bool,
 };
 
 SearchMenu.defaultProps = {
