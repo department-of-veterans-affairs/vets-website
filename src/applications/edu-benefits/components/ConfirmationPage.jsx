@@ -33,6 +33,7 @@ export const ConfirmationPageTitle = ({
     </>
   );
 };
+
 export const claimList = (response, submission) => {
   return [
     <li key={'confirmation-number'}>
@@ -54,6 +55,7 @@ export const claimList = (response, submission) => {
     </li>,
   ];
 };
+
 export const ConfirmationPageSummary = ({
   formId,
   formName = 'Education benefit application',
@@ -76,12 +78,14 @@ export const ConfirmationPageSummary = ({
         {name.last && ` ${name.last}`}
         {name.suffix && ` ${name.suffix}`}
       </span>
+
       <ul className="claim-list">
         {claimInfoList || claimList(response, submission)}
       </ul>
     </div>
   );
 };
+
 export const ConfirmationGuidance = () => {
   return (
     <div className="confirmation-guidance-container">
@@ -106,6 +110,7 @@ export const ConfirmationGuidance = () => {
       <h4 className="confirmation-guidance-heading vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4">
         Need help?
       </h4>
+
       <p className="confirmation-guidance-message">
         If you have questions, call 1-888-GI-BILL-1 (
         <a href="tel:+18884424551">1-888-442-4551</a>
@@ -114,6 +119,7 @@ export const ConfirmationGuidance = () => {
     </div>
   );
 };
+
 export const ConfirmationNoDocumentsRequired = ({
   expanded,
   toggleExpanded,
@@ -139,6 +145,7 @@ export const ConfirmationNoDocumentsRequired = ({
     </div>
   );
 };
+
 export const ConfirmationReturnHome = () => {
   return (
     <div className="form-progress-buttons schemaform-back-buttons">
