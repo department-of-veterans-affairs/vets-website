@@ -20,11 +20,6 @@ const scrollToTop = () => {
 };
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();

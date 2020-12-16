@@ -4,12 +4,8 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import {
-  ConfirmationPageTitle,
-  ConfirmationPageSummary,
-  ConfirmationGuidance,
-  ConfirmationReturnHome,
-} from '../../components/ConfirmationPage';
+import formConfig from '../config/form';
+import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -21,43 +17,21 @@ const scrollToTop = () => {
 };
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
-  }
-
   render() {
     const form = this.props.form;
-    const { formId, submission } = form;
-    const response = submission.response ? submission.response.attributes : {};
-    const name = form.data.relativeFullName;
 
     return (
-      <div>
-        <ConfirmationPageTitle
-          formId={formId}
-          printHeader={'Apply to use transferred education benefits'}
-        />
-        <ConfirmationPageSummary
-          formId={formId}
-          response={response}
-          submission={submission}
-          name={name}
-        />
-        <ConfirmationGuidance />
-        <ConfirmationReturnHome />
-      </div>
+      <ConfirmationPageContent
+        printHeader={'Apply to use transferred education benefits'}
+        formConfig={formConfig}
+        name={form.data.relativeFullName}
+        submission={form.submission}
+      />
     );
   }
 }

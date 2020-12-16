@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
@@ -7,12 +6,8 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { survivorBenefitsLabels } from '../../utils/labels';
 
-import {
-  ConfirmationPageTitle,
-  ConfirmationPageSummary,
-  ConfirmationGuidance,
-  ConfirmationReturnHome,
-} from '../../components/ConfirmationPage';
+import formConfig from '../config/form';
+import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -42,55 +37,23 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const { formId, submission } = form;
-
-    const response = submission.response ? submission.response.attributes : {};
-    const name = form.data.relativeFullName;
     const benefit = form.data.benefit;
 
-    const claimList = [
-      <li key={'selected-benefit'}>
-        <div className="vads-u-margin-bottom--neg1p5">
-          <strong>Selected benefit</strong>
-        </div>
-
-        {survivorBenefitsLabels[benefit]}
-      </li>,
-      <li key={'confirmation-number'}>
-        <strong>Confirmation number</strong>
-        <br />
-        <span>{response.confirmationNumber}</span>
-      </li>,
-      <li key={'date-received'}>
-        <strong>Date received</strong>
-        <br />
-        <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
-      </li>,
-      <li key={'regional-office'}>
-        <strong>Your claim was sent to</strong>
-        <br />
-        <address className="schemaform-address-view">
-          {response.regionalOffice}
-        </address>
-      </li>,
-    ];
-
     return (
-      <div>
-        <ConfirmationPageTitle
-          formId={formId}
-          printHeader={'Apply for education benefits as an eligible dependent'}
-        />
-        <ConfirmationPageSummary
-          formId={formId}
-          response={response}
-          submission={submission}
-          name={name}
-          claimInfoList={claimList}
-        />
-        <ConfirmationGuidance />
-        <ConfirmationReturnHome />
-      </div>
+      <ConfirmationPageContent
+        claimInfoListItems={[
+          <li key={'selected-benefit'}>
+            <div className="vads-u-margin-bottom--neg1p5">
+              <strong>Selected benefit</strong>
+            </div>
+            {survivorBenefitsLabels[benefit]}
+          </li>,
+        ]}
+        printHeader={'Apply for education benefits as an eligible dependent'}
+        formConfig={formConfig}
+        name={form.data.relativeFullName}
+        submission={form.submission}
+      />
     );
   }
 }
