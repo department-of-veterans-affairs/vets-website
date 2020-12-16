@@ -264,7 +264,7 @@ export default class ReviewCardField extends React.Component {
       'review-card--header',
       'vads-u-background-color--gray-lightest',
       'vads-u-padding-y--0',
-      'vads-u-padding-x--1',
+      'vads-u-padding-x--2',
       'vads-u-display--flex',
       'vads-u-justify-content--space-between',
       'vads-u-align-items--center',
