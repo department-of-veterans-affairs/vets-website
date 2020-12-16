@@ -178,7 +178,7 @@ export class SearchMenu extends React.Component {
                 autoComplete="off"
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1  vads-u-width--full"
                 name="query"
-                aria-owns="suggestions-list"
+                aria-controls={isOpen ? 'suggestions-list' : ''}
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleInputChange,
