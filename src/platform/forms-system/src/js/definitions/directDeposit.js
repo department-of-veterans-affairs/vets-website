@@ -19,11 +19,13 @@ const defaultOptionalFields = {
 
 const usingDirectDeposit = formData => !formData?.declineDirectDeposit;
 
-const bankFieldsHaveInput = formData =>
-  !formData.bankAccount['view:hasPrefilledBank'];
-
+// This works because the pre-fill transformer adds it, but when we add new
+// data, this will always be absent because it's not an actual field. What's
+// more, with `volitileData: true`, hitting cancel will set
+// `view:hasPrefilledBank` back to true.
 const bankFieldIsRequired = formData =>
-  bankFieldsHaveInput(formData) && usingDirectDeposit(formData);
+  !formData.bankAccount['view:hasPrefilledBank'] &&
+  usingDirectDeposit(formData);
 
 const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
   const ui = {
