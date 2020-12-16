@@ -257,6 +257,9 @@ const FacilitiesMap = props => {
       zoom: MapboxInit.zoomInit,
     });
 
+    const mapContainerElement = document.getElementById('mapbox-gl-container');
+    if (mapContainerElement) mapContainerElement.setAttribute('tabindex', 0);
+
     const searchAreaControl = new SearchAreaControl(isMobile);
     mapInit.addControl(searchAreaControl);
     mapInit.addControl(
