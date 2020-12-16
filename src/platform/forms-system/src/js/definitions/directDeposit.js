@@ -44,7 +44,7 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         hideIf: form => !usingDirectDeposit(form),
         reviewTitle: 'Bank account information',
         editTitle: 'Update bank account',
-        itemName: 'information',
+        itemName: 'account information',
         itemNameAction: 'Update',
         startInEdit: data => !data?.['view:hasPrefilledBank'],
         volatileData: true,
