@@ -1,3 +1,6 @@
+const { partialSchema } = require('../../transformers/helpers');
+const personProfileSchema = require('./node-person_profile');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -16,7 +19,31 @@ module.exports = {
               maxItems: 1,
               items: {
                 oneOf: [
-                  { $ref: 'output/node-person_profile' },
+                  {
+                    entity: partialSchema(personProfileSchema, [
+                      'contentModelType',
+                      'entityType',
+                      'entityBundle',
+                      'title',
+                      'entityMetatags',
+                      'entityPublished',
+                      'fieldBody',
+                      'fieldDescription',
+                      'fieldEmailAddress',
+                      'fieldLastName',
+                      'fieldMedia',
+                      'fieldNameFirst',
+                      'fieldOffice',
+                      'fieldPhoneNumber',
+                      'fieldSuffix',
+                      'fieldIntroText',
+                      'fieldPhotoAllowHiresDownload',
+                      'changed',
+                      'status',
+                      'fieldCompleteBiography',
+                      'entityUrl',
+                    ]),
+                  },
                   { type: 'null' },
                 ],
               },
