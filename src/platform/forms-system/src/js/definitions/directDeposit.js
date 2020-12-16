@@ -20,10 +20,7 @@ const defaultOptionalFields = {
 const usingDirectDeposit = formData => !formData?.declineDirectDeposit;
 
 const bankFieldsHaveInput = formData =>
-  formData.bankAccount.accountType ||
-  formData.bankAccount.accountNumber ||
-  formData.bankAccount.routingNumber ||
-  formData.bankAccount.bankName;
+  !formData.bankAccount['view:hasPrefilledBank'];
 
 const bankFieldIsRequired = formData =>
   bankFieldsHaveInput(formData) && usingDirectDeposit(formData);
