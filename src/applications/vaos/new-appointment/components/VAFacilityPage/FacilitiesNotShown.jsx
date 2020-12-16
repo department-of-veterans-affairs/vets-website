@@ -26,14 +26,14 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
     [isOpen],
   );
 
-  const nearbyUnsupportedFacilities = facilities.filter(
+  const nearbyUnsupportedFacilities = facilities?.filter(
     facility =>
       !facility.legacyVAR.directSchedulingSupported &&
       !facility.legacyVAR.requestSupported &&
       facility.legacyVAR[sortMethod] < UNSUPPORTED_FACILITY_RANGE,
   );
 
-  if (!nearbyUnsupportedFacilities.length) {
+  if (!nearbyUnsupportedFacilities?.length) {
     return null;
   }
 

@@ -1,59 +1,61 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
+import { LANGUAGES } from '../../utils/constants';
 import * as actions from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
-import { TYPE_OF_VISIT } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { useHistory } from 'react-router-dom';
 
 const initialSchema = {
   type: 'object',
-  required: ['visitType'],
+  required: ['preferredLanguage'],
   properties: {
-    visitType: {
+    preferredLanguage: {
       type: 'string',
-      enum: TYPE_OF_VISIT.map(v => v.id),
-      enumNames: TYPE_OF_VISIT.map(v => v.name),
+      enum: LANGUAGES.map(l => l.id),
+      enumNames: LANGUAGES.map(l => l.text),
     },
   },
 };
 
 const uiSchema = {
-  visitType: {
-    'ui:widget': 'radio',
+  preferredLanguage: {
     'ui:title':
-      'Please let us know how you would like to be seen for this appointment.',
+      'Do you prefer that your community care provider speak a certain language?',
   },
 };
 
-const pageKey = 'visitType';
-const pageTitle = 'Choose a type of appointment';
+const pageKey = 'ccLanguage';
+const pageTitle = 'Provider preferences';
 
-function TypeOfVisitPage({
+function CommunityCareLanguagePage({
   schema,
   data,
-  openFormPage,
-  updateFormData,
-  routeToPreviousAppointmentPage,
-  routeToNextAppointmentPage,
   pageChangeInProgress,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateFormData,
+  openFormPage,
 }) {
   const history = useHistory();
-  useEffect(() => {
-    openFormPage(pageKey, uiSchema, initialSchema);
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+      openFormPage(pageKey, uiSchema, initialSchema);
+    },
+    [openFormPage],
+  );
 
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       {!!schema && (
         <SchemaForm
-          name="Type of visit"
-          title="Type of visit"
+          name="ccLanguage"
+          title={pageTitle}
           schema={schema}
           uiSchema={uiSchema}
           onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
@@ -72,17 +74,19 @@ function TypeOfVisitPage({
 }
 
 function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
+  return {
+    ...getFormPageInfo(state, pageKey),
+  };
 }
 
 const mapDispatchToProps = {
   openFormPage: actions.openFormPage,
-  updateFormData: actions.updateFormData,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
+  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  updateFormData: actions.updateFormData,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TypeOfVisitPage);
+)(CommunityCareLanguagePage);
