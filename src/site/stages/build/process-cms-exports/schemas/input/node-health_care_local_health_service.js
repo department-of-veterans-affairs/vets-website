@@ -17,6 +17,7 @@ module.exports = {
     field_referral_required: { $ref: 'GenericNestedString' },
     field_walk_ins_accepted: { $ref: 'GenericNestedString' },
     field_phone_numbers_paragraph: { $ref: 'EntityReferenceArray' },
+    field_facility_location: { $ref: 'EntityReferenceArray' },
   },
   required: [
     'title',
@@ -27,5 +28,6 @@ module.exports = {
     'field_referral_required',
     'field_walk_ins_accepted',
     'field_phone_numbers_paragraph',
+    'field_facility_location',
   ],
 };

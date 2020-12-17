@@ -29,11 +29,18 @@ const transform = entity => ({
         },
       }),
     ),
+    fieldFacilityLocation: {
+      entityUrl: entity.fieldFacilityLocation[0].entityUrl,
+      fieldNicknameForThisFacility:
+        entity.fieldFacilityLocation[0].fieldNicknameForThisFacility,
+      title: entity.fieldFacilityLocation[0].title,
+    },
   },
 });
 module.exports = {
   filter: [
     'title',
+    'field_facility_location',
     'field_body',
     'field_regional_health_service',
     'field_service_location',
