@@ -19,3 +19,9 @@ export const links = {
     label: 'Application for Health Benefits',
   },
 };
+
+export const veteranSignatureContent = [
+  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
+];
+export const primaryCaregiverContent = [];
+export const secondaryCaregiverContent = [];

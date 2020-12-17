@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { cloneDeep } from 'lodash';
 
 import SignatureCheckbox from './SignatureCheckbox';
+import {
+  veteranSignatureContent,
+  primaryCaregiverContent,
+  secondaryCaregiverContent,
+} from 'applications/caregivers/definitions/content.js';
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const veteranLabel = `Veteran\u2019s`;
