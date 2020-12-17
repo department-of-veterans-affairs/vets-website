@@ -152,8 +152,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         <p>
           I certify that I give consent to the individual(s) named in this
           application to perform personal care services for me upon being
-          approved as Primary and/or Secondary Family Caregivers in the Program
-          of Comprehensive Assistance for Family Caregivers.
+          approved as a Primary and/or Secondary Family Caregiver(s) in the
+          Program of Comprehensive Assistance for Family Caregivers.
         </p>
 
         <PrivacyPolicy />
