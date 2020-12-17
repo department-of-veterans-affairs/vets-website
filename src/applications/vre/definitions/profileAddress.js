@@ -256,7 +256,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
     },
     postalCode: {
       'ui:required': uiRequiredCallback,
-      'ui:title': 'Postal Code',
+      'ui:title': 'Postal code',
       'ui:errorMessages': {
         required: 'Postal code is required',
         pattern: 'Please enter a valid US zip code',
