@@ -394,7 +394,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         )
           throw new Error();
       }
-    }).to.not.throw;
+    }).to.not.throw();
   });
 
   it('should sort provider addresses by distance from current location in ascending order', async () => {
@@ -449,7 +449,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         )
           throw new Error();
       }
-    }).to.not.throw;
+    }).to.not.throw();
   });
 
   it('should reset provider selected when type of care changes', async () => {
