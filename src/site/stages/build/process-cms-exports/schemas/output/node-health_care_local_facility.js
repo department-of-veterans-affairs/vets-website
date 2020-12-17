@@ -30,12 +30,12 @@ module.exports = {
     },
     fieldFacilityLocatorApiId: { type: ['string', 'null'] },
     fieldIntroText: { type: ['string', 'null'] },
-    fieldLocalHealthCareService: {
-      type: ['array', 'null'],
-      // Alternatively, we can pull out only the bits of this schema that we'll use,
-      // but for now, that' just more work.
-      items: { $ref: 'output/node-health_care_local_health_service' },
-    },
+    // fieldLocalHealthCareService: {
+    //   type: ['array', 'null'],
+    //   // Alternatively, we can pull out only the bits of this schema that we'll use,
+    //   // but for now, that' just more work.
+    //   items: { $ref: 'output/node-health_care_local_health_service' },
+    // },
     fieldLocationServices: {
       type: ['array', 'null'],
       items: {
@@ -73,7 +73,7 @@ module.exports = {
     'fieldFacilityHours',
     'fieldFacilityLocatorApiId',
     'fieldIntroText',
-    'fieldLocalHealthCareService',
+    // 'fieldLocalHealthCareService',
     'fieldLocationServices',
     'fieldMainLocation',
     'fieldMedia',
