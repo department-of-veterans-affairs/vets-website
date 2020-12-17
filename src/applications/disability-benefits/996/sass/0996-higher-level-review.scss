@@ -208,22 +208,6 @@ article[data-location="request-informal-conference"] {
 
 /* Step 4 Review Application */
 article[data-location="review-and-submit"] {
-  /* reduce huge gaps where text should be rendered */
-  .schemaform-field-template {
-    margin-top: 0;
-  }
-
-  /* tweak second entry */
-  .scheduled-time + .scheduled-time {
-    padding-top: 0;
-    margin-top: -0.5rem;
-    border-top-width: 0;
-
-    /* hide duplicate label */
-    .time-contact {
-      display: none;
-    }
-  }
   .normal-weight-in-review {
     font-weight: normal;
   }

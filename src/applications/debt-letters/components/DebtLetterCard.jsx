@@ -39,13 +39,12 @@ const DebtLetterCard = props => {
         {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
       </p>
       {additionalInfo.status && (
-        <p
+        <div
           className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"
           data-testid="diary-codes-status"
         >
-          <strong>Status: </strong>
           {additionalInfo.status}
-        </p>
+        </div>
       )}
       {additionalInfo && (
         <div
