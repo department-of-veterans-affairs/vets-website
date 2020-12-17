@@ -46,10 +46,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .before(Timeouts.submission);
 
   // Confirmation page
-  client.waitForElementVisible(
-    '.schemaform-confirmation-section-header',
-    Timeouts.normal,
-  );
+  client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
 
   client.axeCheck('.main');
   client.end();
