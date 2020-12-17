@@ -7,7 +7,7 @@ import pickBy from 'lodash/pickBy';
 import mapValues from 'lodash/mapValues';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 
-import { FIELD_NAMES } from '../constants';
+import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
 import { selectVAPContactInfoField, selectEditedFormField } from '../selectors';
 
@@ -54,8 +54,7 @@ class CopyMailingAddress extends React.Component {
 
       // We need the id to remain the same to prevent POST calls
       clearedHomeAddress.id = mailingAddress.id || null;
-      clearedHomeAddress.countryCodeIso3 =
-        mailingAddress.countryCodeIso3 || null;
+      clearedHomeAddress.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
 
       copyMailingAddress(clearedHomeAddress);
       return;
