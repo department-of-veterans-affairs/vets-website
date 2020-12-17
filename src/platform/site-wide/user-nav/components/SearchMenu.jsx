@@ -54,6 +54,19 @@ export class SearchMenu extends React.Component {
     }
   }
 
+  isUserInputValid = () => {
+    const { userInput } = this.state;
+
+    // check to make sure user input isn't empty
+    const isCorrectLength =
+      userInput && userInput.replace(/\s/g, '').length > 0;
+    if (!isCorrectLength) {
+      return false;
+    }
+    // this will likely expand in the future
+    return true;
+  };
+
   getSuggestions = async () => {
     const { userInput } = this.state;
 
@@ -103,7 +116,7 @@ export class SearchMenu extends React.Component {
       return;
     }
 
-    // update our highlighted suggestion for search logging
+    // keep track of the index of the highlighted suggestion so we can use it to fire off a search / log events
     this.setState({ highlightedIndex: state.highlightedIndex });
   };
 
@@ -124,6 +137,12 @@ export class SearchMenu extends React.Component {
   // handle event logging and fire off a search query
   handleSearchEvent = suggestion => {
     const { suggestions, userInput } = this.state;
+    const { isUserInputValid } = this;
+
+    // if the user tries to search with an empty input, escape early
+    if (!isUserInputValid) {
+      return;
+    }
 
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
@@ -162,10 +181,8 @@ export class SearchMenu extends React.Component {
       handleInputChange,
       handleSearchEvent,
       handleKeyUp,
+      isUserInputValid,
     } = this;
-
-    // check to make sure user input is valid
-    const validUserInput = userInput && userInput.replace(/\s/g, '').length > 0;
 
     const highlightedSuggestion =
       'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full';
@@ -199,7 +216,7 @@ export class SearchMenu extends React.Component {
             />
             <button
               type="submit"
-              disabled={!validUserInput}
+              disabled={!isUserInputValid}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
@@ -251,7 +268,7 @@ export class SearchMenu extends React.Component {
               />
               <button
                 type="submit"
-                disabled={!validUserInput}
+                disabled={!isUserInputValid}
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
                 onClick={() => handleSearchEvent()}
                 onFocus={() => this.setState({ suggestions: [] })}
@@ -279,7 +296,6 @@ export class SearchMenu extends React.Component {
                       aria-selected={JSON.stringify(
                         selectedItem === suggestion,
                       )}
-                      data-index={index}
                       className={
                         highlightedIndex === index
                           ? highlightedSuggestion
