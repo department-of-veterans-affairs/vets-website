@@ -1,3 +1,4 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import basicUser from './fixtures/users/user-basic.js';
 
 describe('healthcare questionnaire -- demographics -- phone numbers', () => {
@@ -7,10 +8,7 @@ describe('healthcare questionnaire -- demographics -- phone numbers', () => {
     ).then(async features => {
       cy.route('GET', '/v0/feature_toggles*', features);
       cy.login(basicUser);
-      window.localStorage.setItem(
-        'DISMISSED_ANNOUNCEMENTS',
-        JSON.stringify(['single-sign-on-intro']),
-      );
+      disableFTUXModals();
       cy.visit(
         '/health-care/health-questionnaires/questionnaires/answer-questions/demographics?skip',
       );

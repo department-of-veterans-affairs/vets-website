@@ -1,12 +1,11 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+
 import { PROFILE_PATHS } from '../../constants';
 
 import { mockUser } from '../fixtures/users/user.js';
 
 const setup = (mobile = false) => {
-  window.localStorage.setItem(
-    'DISMISSED_ANNOUNCEMENTS',
-    JSON.stringify(['single-sign-on-intro']),
-  );
+  disableFTUXModals();
 
   if (mobile) {
     cy.viewport('iphone-4');
