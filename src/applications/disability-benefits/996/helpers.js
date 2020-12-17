@@ -12,13 +12,15 @@ export const higherLevelReviewFeature = state =>
 export const $ = (selector, DOM) => DOM.querySelector(selector);
 export const $$ = (selector, DOM) => DOM.querySelectorAll(selector);
 
-export const scrollToTop = () => {
-  Scroll.scroller.scrollTo('topScrollElement', {
+export const scrollTo = (target = 'topScrollElement') => {
+  Scroll.scroller.scrollTo(target, {
     duration: 500,
     delay: 0,
     smooth: true,
   });
 };
+
+export const scrollToTop = scrollTo;
 
 /**
  * @typedef ContestableIssues
