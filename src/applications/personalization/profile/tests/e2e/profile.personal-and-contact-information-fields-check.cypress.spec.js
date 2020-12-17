@@ -1,3 +1,4 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import { mockUser } from '../fixtures/users/user.js';
@@ -6,11 +7,7 @@ import mockServiceHistory from '../fixtures/service-history-success.json';
 import mockFullName from '../fixtures/full-name-success.json';
 
 const setup = () => {
-  window.localStorage.setItem(
-    'DISMISSED_ANNOUNCEMENTS',
-    JSON.stringify(['single-sign-on-intro']),
-  );
-
+  disableFTUXModals();
   cy.login(mockUser);
   cy.route('GET', 'v0/profile/personal_information', mockPersonalInformation);
   cy.route('GET', 'v0/profile/service_history', mockServiceHistory);

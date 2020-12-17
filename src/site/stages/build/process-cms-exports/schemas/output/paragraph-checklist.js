@@ -7,7 +7,10 @@ module.exports = {
       properties: {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['checklist'] },
-        fieldChecklistSections: { $ref: 'paragraph-checklist_item' },
+        fieldChecklistSections: {
+          type: 'array',
+          items: { $ref: 'output/paragraph-checklist_item' },
+        },
       },
       required: ['fieldChecklistSections'],
     },

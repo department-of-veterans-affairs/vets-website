@@ -55,7 +55,7 @@ export default {
     phone: '8005551212',
   },
   informalConferenceTimes: {
-    time0800to1000: true,
+    time1: 'time0800to1000',
   },
   benefitType: 'compensation',
   zipCode5: '98765',
