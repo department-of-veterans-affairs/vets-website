@@ -29,21 +29,21 @@ describe('Opt Out <ConfirmationPage>', () => {
 
     expect(
       tree
-        .find('.schemaform-confirmation-section-header')
+        .find('.confirmation-page-title')
         .at(0)
         .text(),
     ).to.contain('Your opt-out form has been submitted');
     expect(tree.find('.claim-list').exists()).to.be.true;
     expect(
       tree
-        .find('span')
-        .at(1)
+        .find('.claim-list span')
+        .at(0)
         .text(),
     ).to.contain('3702390024');
     expect(
       tree
-        .find('span')
-        .at(2)
+        .find('.claim-list span')
+        .at(1)
         .text(),
     ).to.contain('Jan. 1, 2010');
     expect(
@@ -73,7 +73,7 @@ describe('Opt Out <ConfirmationPage>', () => {
 
     expect(
       tree
-        .find('.schemaform-confirmation-section-header')
+        .find('.confirmation-page-title')
         .at(0)
         .text(),
     ).to.contain('Your opt-out form has been submitted');
