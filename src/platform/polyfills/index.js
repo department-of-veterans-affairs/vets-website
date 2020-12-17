@@ -3,7 +3,8 @@
  * @name platform/polyfills
  */
 
-import '@babel/polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 import './download-attribute';
 import './canvas-toBlob';

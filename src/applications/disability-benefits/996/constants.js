@@ -40,16 +40,12 @@ export const errorMessages = {
   informalConferenceContactChoice: 'Please choose an option',
   informalConferenceContactName: 'Please enter a name',
   informalConferenceContactPhone: 'Please enter a number',
-  informalConferenceTimesMin: 'You can choose up to two time periods',
-  informalConferenceTimesMax: 'You can choose up to two time periods',
+  informalConferenceContactPhonePattern:
+    'Please enter a 10-digit phone number (with or without dashes)',
+  informalConferenceTimes: 'Please select a time',
   contestedIssue: 'Please select a contested issue',
   contestedIssueCommentLength:
     'Please enter no more than 400 characters in this field',
-};
-
-export const patternMessages = {
-  representativePhone:
-    'Please enter a 10-digit phone number (with or without dashes)',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';

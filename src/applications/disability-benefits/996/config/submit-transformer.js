@@ -27,9 +27,10 @@ export function transform(formConfig, form) {
       time1230to1400: '1230-1400 ET',
       time1400to1630: '1400-1630 ET',
     };
-    return Object.keys(informalConferenceTimes).reduce((times, key) => {
-      if (informalConferenceTimes[key]) {
-        times.push(xRef[key]);
+    return ['time1', 'time2'].reduce((times, key) => {
+      const value = informalConferenceTimes[key] ?? '';
+      if (value !== '') {
+        times.push(xRef[value]);
       }
       return times;
     }, []);

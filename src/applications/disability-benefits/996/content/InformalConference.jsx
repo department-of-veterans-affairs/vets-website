@@ -34,6 +34,7 @@ export const RepresentativeNameTitle = 'Representative’s name';
 
 export const RepresentativePhoneTitle = 'Representative’s phone number';
 
+// Using CSS to use article[data-contact-choice] attribute to set visibility
 const contacts = (
   <>
     <span className="contact-choice selected-rep">your representative</span>
@@ -41,11 +42,16 @@ const contacts = (
   </>
 );
 export const InformalConferenceTimes = (
-  <strong>
-    We’ll call {contacts} first to schedule the informal conference. Please
-    choose up to two time periods when it’s best to call {contacts}.
-  </strong>
+  <>
+    <strong>We’ll call {contacts} to schedule an informal conference.</strong>
+    <p>Please provide 1 or 2 preferred times for a call.</p>
+  </>
 );
+
+export const informalConferenceTimeTitles = {
+  first: <>Choose the best time for us to call {contacts}</>,
+  second: 'Choose another time for us to call',
+};
 
 export const informalConferenceTimeAllLabels = {
   time0800to1000: '8:00 a.m. to 10:00 a.m. ET',
@@ -53,11 +59,6 @@ export const informalConferenceTimeAllLabels = {
   time1230to1400: '12:30 p.m. to 2:00 p.m. ET',
   time1400to1630: '2:00 p.m. to 4:30 p.m. ET',
 };
-
-// These labels are hidden on the review page
-export const InformalConferenceTimeLabels = key => (
-  <span className="time-title">{informalConferenceTimeAllLabels[key]}</span>
-);
 
 export const InformalConferenceAvailability = contact => (
   <span className="time-contact">
