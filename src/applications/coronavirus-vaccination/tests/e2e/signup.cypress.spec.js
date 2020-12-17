@@ -1,7 +1,7 @@
 import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
 
 describe('COVID-19 Vaccination Preparation Form', () => {
-  describe('when entering a valid contact information without signing in', () => {
+  describe('when entering valid contact information without signing in', () => {
     before(() => {
       cy.server();
       cy.route('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
