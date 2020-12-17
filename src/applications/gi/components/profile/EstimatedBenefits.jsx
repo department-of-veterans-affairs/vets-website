@@ -173,27 +173,30 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
         aria-label="Total paid to you"
         role="list"
       >
-        <CalculatorResultRow
-          label="Housing allowance"
-          value={outputs.housingAllowance.value}
-          visible={outputs.housingAllowance.visible}
-          screenReaderSpan={month}
-          header
-        />
-        <CalculatorResultRow
-          label="Book stipend"
-          value={outputs.bookStipend.value}
-          visible={outputs.bookStipend.visible}
-          screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
-          header
-        />
-        <CalculatorResultRow
-          label="Total paid to you"
-          value={outputs.totalPaidToYou.value}
-          bold
-          visible={outputs.totalPaidToYou.visible}
-          header
-        />
+        <div className="vads-u-margin-bottom--neg0p5 eyb-h4">
+          <CalculatorResultRow
+            label="Housing allowance"
+            value={outputs.housingAllowance.value}
+            visible={outputs.housingAllowance.visible}
+            screenReaderSpan={month}
+          />
+        </div>
+        <div className="vads-u-margin-bottom--neg0p5 eyb-h4">
+          <CalculatorResultRow
+            label="Book stipend"
+            value={outputs.bookStipend.value}
+            visible={outputs.bookStipend.visible}
+            screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
+          />
+        </div>
+        <div className="eyb-h4">
+          <CalculatorResultRow
+            label="Total paid to you"
+            value={outputs.totalPaidToYou.value}
+            bold
+            visible={outputs.totalPaidToYou.visible}
+          />
+        </div>
       </ul>
     </div>
     <hr aria-hidden="true" />
