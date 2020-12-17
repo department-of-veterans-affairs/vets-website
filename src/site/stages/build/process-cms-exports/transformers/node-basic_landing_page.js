@@ -18,7 +18,8 @@ const transform = entity => {
     fieldIntroTextLimitedHtml: entity.fieldIntroTextLimitedHtml[0],
     fieldMetaTitle: entity.fieldMetaTitle?.[0]?.value || null,
     fieldProduct: entity.fieldProduct?.[0] || null,
-    fieldTableOfContentsBoolean: entity.fieldTableOfContentsBoolean?.[0]?.value || false,
+    fieldTableOfContentsBoolean:
+      entity.fieldTableOfContentsBoolean?.[0]?.value || false,
     title: getDrupalValue(entity.title),
   };
 };

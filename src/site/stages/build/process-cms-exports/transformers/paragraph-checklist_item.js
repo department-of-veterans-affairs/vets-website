@@ -5,7 +5,9 @@ const transform = entity => ({
     entityBundle: 'checklist_item',
     fieldSectionIntro: entity.fieldSectionIntro?.[0]?.value || null,
     fieldSectionHeader: entity.fieldSectionHeader?.[0]?.value || null,
-    fieldChecklistItems: entity.fieldChecklistItems.map(checklistItem => checklistItem.value),
+    fieldChecklistItems: entity.fieldChecklistItems.map(
+      checklistItem => checklistItem.value,
+    ),
   },
 });
 
