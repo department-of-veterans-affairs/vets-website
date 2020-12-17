@@ -34,11 +34,10 @@ export default function FacilitiesRadioWidget({
     enumOptions.length > INITIAL_FACILITY_DISPLAY_COUNT
       ? enumOptions.length - INITIAL_FACILITY_DISPLAY_COUNT
       : 0;
-
   useEffect(
     () => {
       if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
-        scrollAndFocus(`#facility_${INITIAL_FACILITY_DISPLAY_COUNT}`);
+        scrollAndFocus(`#facility_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`);
       }
     },
     [displayedOptions.length, displayAll],
@@ -58,6 +57,7 @@ export default function FacilitiesRadioWidget({
         ) {
           distance = legacyVAR?.distanceFromCurrentLocation;
         }
+        const facilityPosition = facilityIndex + 1;
 
         return (
           <div
@@ -69,13 +69,13 @@ export default function FacilitiesRadioWidget({
             <input
               type="radio"
               checked={checked}
-              id={`facility_${facilityIndex}`}
+              id={`facility_${facilityPosition}`}
               name={`${id}`}
               value={facility.value}
               onChange={_ => onChange(facility.value)}
               disabled={loadingEligibility}
             />
-            <label htmlFor={`facility_${facilityIndex}`}>
+            <label htmlFor={`facility_${facilityPosition}`}>
               <span className="vads-u-display--block vads-u-font-weight--bold">
                 {name}
               </span>
