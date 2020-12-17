@@ -6,6 +6,8 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import debounce from 'platform/utilities/data/debounce';
+import Downshift from 'downshift';
+import { escape } from 'lodash';
 import * as Sentry from '@sentry/browser';
 
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
@@ -13,6 +15,9 @@ import IconSearch from '@department-of-veterans-affairs/formation-react/IconSear
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 
 export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
+
+const ENTER_KEY = 13;
+const ESCAPE_KEY = 27;
 
 export class SearchMenu extends React.Component {
   constructor(props) {
@@ -22,7 +27,6 @@ export class SearchMenu extends React.Component {
       this.getSuggestions,
     );
     this.state = {
-      searchAction: replaceWithStagingDomain('https://www.va.gov/search/'),
       userInput: '',
       suggestions: [],
     };
@@ -55,7 +59,6 @@ export class SearchMenu extends React.Component {
 
       return;
     }
-
     const encodedInput = encodeURIComponent(userInput);
     try {
       const response = await fetch(
@@ -69,11 +72,24 @@ export class SearchMenu extends React.Component {
     }
   }
 
-  handleInputChange = e => {
-    this.setState({ userInput: e.target.value });
+  handleInputChange = event => {
+    this.setState({ userInput: event.target.value });
   };
 
-  logSearchEvent = suggestion => () => {
+  handleKeyUp = event => {
+    if (
+      (event.which || event.keyCode) === ENTER_KEY &&
+      document.getElementById('query') === document.activeElement
+    ) {
+      this.handleSearchEvent();
+      return;
+    }
+    if ((event.which || event.keyCode) === ESCAPE_KEY) {
+      this.props.clickHandler();
+    }
+  };
+
+  handleSearchEvent = suggestion => {
     recordEvent({
       event: 'view_search_results',
       'search-page-path': document.location.pathname,
@@ -88,17 +104,14 @@ export class SearchMenu extends React.Component {
         : undefined,
       'type-ahead-options-list': this.state.suggestions,
     });
-  };
 
-  formatTypeaheadSuggestion = suggestion => {
-    const { userInput } = this.state;
-    const remainder = suggestion.replace(userInput, '');
-    return (
-      <>
-        <strong>{userInput}</strong>
-        {remainder}
-      </>
+    const query = suggestion || this.state.userInput;
+
+    const searchUrl = replaceWithStagingDomain(
+      `https://www.va.gov/search/?query=${encodeURIComponent(query)}`,
     );
+
+    window.location.assign(searchUrl);
   };
 
   makeForm = () => {
@@ -106,22 +119,30 @@ export class SearchMenu extends React.Component {
       this.state.userInput &&
       this.state.userInput.replace(/\s/g, '').length > 0;
 
+    const highlightedSuggestion =
+      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full';
+
+    const regularSuggestion =
+      'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full';
+
     if (!this.props.searchTypeaheadEnabled) {
       return (
         <form
           acceptCharset="UTF-8"
-          action={this.state.searchAction}
-          id="search"
-          method="get"
+          onSubmit={event => {
+            event.preventDefault();
+            this.handleSearchEvent();
+          }}
         >
           <label htmlFor="query" className="usa-sr-only">
             Search:
           </label>
-          <div className="va-flex">
+          <div className="va-flex vads-u-padding--1">
             <input
+              aria-label="search"
               autoComplete="off"
               ref="searchField"
-              className="usagov-search-autocomplete vads-u-margin-right--0p5"
+              className="usagov-search-autocomplete vads-u-margin-left--0p5 vads-u-margin-right--0p25"
               id="query"
               name="query"
               type="text"
@@ -130,7 +151,7 @@ export class SearchMenu extends React.Component {
             <button
               type="submit"
               disabled={!validUserInput}
-              className="vads-u-margin-left--0p25"
+              className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
               <span className="usa-sr-only">Search</span>
@@ -141,61 +162,89 @@ export class SearchMenu extends React.Component {
     }
 
     return (
-      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-width--full">
-        <form
-          acceptCharset="UTF-8"
-          action={this.state.searchAction}
-          id="search"
-          method="get"
-          onSubmit={this.logSearchEvent(undefined)}
-        >
-          <label htmlFor="query" className="usa-sr-only">
-            Search:
-          </label>
-
-          <div className="va-flex">
-            <input
-              autoComplete="off"
-              ref="searchField"
-              className="usagov-search-autocomplete vads-u-margin-right--0p5"
-              id="query"
-              name="query"
-              type="text"
-              onChange={this.handleInputChange}
-              value={this.state.userInput}
-            />
-
-            <button
-              type="submit"
-              disabled={!validUserInput}
-              className="vads-u-margin-left--0p25"
-            >
-              <IconSearch color="#fff" />
-              <span className="usa-sr-only">Search</span>
-            </button>
+      <Downshift
+        inputValue={this.state.userInput}
+        onSelect={item => this.handleSearchEvent(item)}
+        itemToString={item => item}
+        onKeyUp={this.handleKeyUp}
+        isOpen={this.state.suggestions.length > 0}
+      >
+        {({
+          getInputProps,
+          getItemProps,
+          isOpen,
+          highlightedIndex,
+          selectedItem,
+        }) => (
+          <div className="typeahead-search vads-u-padding--0 vads-u-padding-x--0p5 medium-screen:vads-u-padding--0">
+            <div className="va-flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-x--0p5 medium-screen:vads-u-padding--0">
+              <label
+                id="site-search-label"
+                htmlFor="query"
+                className="usa-sr-only"
+              >
+                Search:
+              </label>
+              <input
+                autoComplete="off"
+                className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1  vads-u-width--full"
+                name="query"
+                aria-controls={isOpen ? 'suggestions-list' : undefined}
+                {...getInputProps({
+                  type: 'text',
+                  onChange: this.handleInputChange,
+                  'aria-labelledby': 'site-search-label',
+                  id: 'query',
+                  onKeyUp: this.handleKeyUp,
+                })}
+              />
+              <button
+                type="submit"
+                disabled={!validUserInput}
+                className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
+                onClick={() => this.handleSearchEvent()}
+              >
+                <IconSearch color="#fff" />
+                <span className="usa-sr-only">Search</span>
+              </button>
+            </div>
+            {isOpen && (
+              <ul
+                id="suggestions-list"
+                className="vads-u-margin-top--0p5"
+                role="listbox"
+                aria-label="suggestions-list"
+              >
+                {this.state.suggestions?.map((suggestion, index) => {
+                  const formattedSuggestion = suggestion.replace(
+                    this.state.userInput,
+                    `<strong>${escape(this.state.userInput)}</strong>`,
+                  );
+                  return (
+                    <li
+                      key={suggestion}
+                      role="option"
+                      aria-selected={JSON.stringify(
+                        selectedItem === suggestion,
+                      )}
+                      className={
+                        highlightedIndex === index
+                          ? highlightedSuggestion
+                          : regularSuggestion
+                      }
+                      {...getItemProps({ item: suggestion })}
+                      // eslint-disable-next-line react/no-danger
+                      dangerouslySetInnerHTML={{
+                        __html: formattedSuggestion,
+                      }}
+                    />
+                  );
+                })}
+              </ul>
+            )}
           </div>
-        </form>
-        {this.state.suggestions.length > 0 && (
-          <ul className="typeahead-options vads-u-background-color--white vads-u-width--full vads-u-margin-y--1">
-            {this.state.suggestions.map(suggestion => (
-              <li key={suggestion}>
-                <a
-                  className="vads-u-padding--1 vads-u-line-height--2
-                  vads-u-color--base vads-u-text-decoration--none vads-u-width--full"
-                  onClick={this.logSearchEvent(suggestion)}
-                  href={replaceWithStagingDomain(
-                    `https://www.va.gov/search/?query=${encodeURIComponent(
-                      suggestion,
-                    )}`,
-                  )}
-                >
-                  {this.formatTypeaheadSuggestion(suggestion)}
-                </a>
-              </li>
-            ))}
-          </ul>
         )}
-      </div>
+      </Downshift>
     );
   };
 
@@ -213,8 +262,9 @@ export class SearchMenu extends React.Component {
         onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
         buttonText="Search"
         clickHandler={this.props.clickHandler}
+        dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
         cssClass={buttonClasses}
-        id="search-menu"
+        id="search"
         icon={icon}
         isOpen={this.props.isOpen}
       >
@@ -225,11 +275,11 @@ export class SearchMenu extends React.Component {
 }
 
 SearchMenu.propTypes = {
-  cssClass: PropTypes.string,
-  isOpen: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func,
-  searchTypeaheadEnabled: PropTypes.bool,
+  cssClass: PropTypes.string,
   debounceRate: PropTypes.number,
+  isOpen: PropTypes.bool.isRequired,
+  searchTypeaheadEnabled: PropTypes.bool,
 };
 
 SearchMenu.defaultProps = {

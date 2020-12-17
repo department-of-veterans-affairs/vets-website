@@ -7,7 +7,7 @@ import {
 } from '../../utilities';
 
 const checkboxTitle =
-  'I live on a United States military base outside of the U.S.';
+  'I live on a United States military base outside of the country.';
 
 export const schema = {
   type: 'object',

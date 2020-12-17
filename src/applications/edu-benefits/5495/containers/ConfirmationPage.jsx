@@ -3,12 +3,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-import {
-  ConfirmationGuidance,
-  ConfirmationPageSummary,
-  ConfirmationPageTitle,
-  ConfirmationReturnHome,
-} from '../../components/ConfirmationPage';
+import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -20,11 +15,6 @@ const scrollToTop = () => {
 };
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();
@@ -32,25 +22,14 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const response = this.props.form.submission.response
-      ? this.props.form.submission.response.attributes
-      : {};
-    const name = form.data.relativeFullName;
-
-    const { formId, submission } = form;
+    const { submission, formId } = form;
 
     return (
-      <div>
-        <ConfirmationPageTitle formId={formId} />
-        <ConfirmationPageSummary
-          formId={formId}
-          response={response}
-          submission={submission}
-          name={name}
-        />
-        <ConfirmationGuidance />
-        <ConfirmationReturnHome />
-      </div>
+      <ConfirmationPageContent
+        formId={formId}
+        name={form.data.veteranFullName}
+        submission={submission}
+      />
     );
   }
 }

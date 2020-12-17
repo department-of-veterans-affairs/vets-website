@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import sinon from 'sinon';
 
 import {
   mockFetch,
@@ -24,6 +23,7 @@ describe('<SearchMenu>', () => {
       'sample 2',
       'sample 3',
       'sample 4',
+      'sample 5',
     ]);
   });
 
@@ -33,14 +33,12 @@ describe('<SearchMenu>', () => {
 
   it('should hide the search bar', () => {
     const wrapper = shallow(<SearchMenu {...props} searchTypeaheadEnabled />);
-    expect(wrapper.find('#search-menu').prop('isOpen')).to.be.false;
+    expect(wrapper.find('#search').prop('isOpen')).to.be.false;
     wrapper.unmount();
   });
 
-  it('should show and focus the search bar when opened', () => {
+  it('should show the search bar when opened', () => {
     const wrapper = mount(<SearchMenu {...props} searchTypeaheadEnabled />);
-    const searchField = wrapper.ref('searchField');
-    sinon.spy(searchField, 'focus');
     wrapper.setProps({ isOpen: true });
     expect(wrapper.find('.va-dropdown-panel').prop('hidden')).to.be.false;
     wrapper.unmount();
@@ -65,15 +63,21 @@ describe('<SearchMenu>', () => {
   });
 
   it('shows suggestions', async () => {
-    const wrapper = shallow(
+    const wrapper = mount(
       <SearchMenu debounceRate={1} searchTypeaheadEnabled />,
     );
-    wrapper.setState({ userInput: 'sample' });
+
+    wrapper.setState({
+      userInput: 'sample',
+    });
 
     await new Promise(resolve => setTimeout(resolve, 2));
+    wrapper.update();
 
     expect(global.fetch.called).to.be.true;
-    expect(wrapper.find('.typeahead-options a')).to.have.lengthOf(4);
+
+    expect(wrapper.find('#suggestions-list').children()).to.have.lengthOf(5);
+
     expect(wrapper.html()).to.contain('<strong>sample</strong> 1');
 
     wrapper.unmount();

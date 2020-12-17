@@ -1,13 +1,11 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockLOA1User from '../fixtures/users/user-loa1.json';
 
 describe('LOA1 users', () => {
   beforeEach(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      JSON.stringify(['single-sign-on-intro']),
-    );
+    disableFTUXModals();
     cy.login(mockLOA1User);
     // login() calls cy.server() so we can now mock routes
   });
