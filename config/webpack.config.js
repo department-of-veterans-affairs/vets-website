@@ -101,6 +101,12 @@ module.exports = env => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
+  // Setting this up for staging and dev so we can test it
+  const setUpAWSpath = [
+    ENVIRONMENTS.VAGOVSTAGING,
+    ENVIRONMENTS.VAGOVDEV,
+  ].includes(buildOptions.buildtype);
+
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
@@ -117,7 +123,7 @@ module.exports = env => {
   function setPublicPath() {
     let awsPath;
 
-    if (!isOptimizedBuild) {
+    if (!setUpAWSpath) {
       awsPath = '/generated/';
     } else {
       awsPath = `${BUCKETS[buildOptions.buildtype]}/generated/`;
