@@ -141,25 +141,25 @@ export function refreshTransaction(
 
           const addressNames = Object.values(ANALYTICS_ADDRESS_FIELD_NAMES);
           const phoneNames = Object.values(ANALYTICS_PHONE_FIELD_NAMES);
-          let errorSection;
+          let sectionName = analyticsSectionName;
 
           if (addressNames.includes(analyticsSectionName)) {
-            errorSection = 'address';
+            sectionName = 'address';
           }
 
           if (phoneNames.includes(analyticsSectionName)) {
-            errorSection = 'phone';
+            sectionName = 'phone';
           }
 
           if (analyticsSectionName === ANALYTICS_FIELD_MAP.email) {
-            errorSection = 'email';
+            sectionName = 'email';
           }
 
           recordEvent({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
-            'error-key': `${errorCode}_${errorKey}-${errorSection}-save-failure`,
+            'error-key': `${errorCode}_${errorKey}-${sectionName}-save-failure`,
           });
           recordEvent({
             'error-key': undefined,
