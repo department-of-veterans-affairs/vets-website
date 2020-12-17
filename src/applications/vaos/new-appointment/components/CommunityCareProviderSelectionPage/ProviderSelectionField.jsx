@@ -96,7 +96,9 @@ function ProviderSelectionField({
         providersListLength > INITIAL_PROVIDER_DISPLAY_COUNT
       ) {
         scrollAndFocus(
-          `#provider_${providersListLength - INITIAL_PROVIDER_DISPLAY_COUNT}`,
+          `#provider_${providersListLength -
+            INITIAL_PROVIDER_DISPLAY_COUNT +
+            1}`,
         );
       }
     },
@@ -259,6 +261,7 @@ function ProviderSelectionField({
                 {currentlyShownProvidersList.map((provider, providerIndex) => {
                   const { name } = provider;
                   const checked = provider.id === checkedProvider;
+                  const providerPosition = providerIndex + 1;
                   return (
                     <div
                       className="form-radio-buttons"
@@ -269,13 +272,13 @@ function ProviderSelectionField({
                       <input
                         type="radio"
                         checked={checked}
-                        id={`provider_${providerIndex}`}
+                        id={`provider_${providerPosition}`}
                         name={`${idSchema.$id}`}
                         value={provider.id}
                         onChange={_ => setCheckedProvider(provider.id)}
                         disabled={loadingProviders}
                       />
-                      <label htmlFor={`provider_${providerIndex}`}>
+                      <label htmlFor={`provider_${providerPosition}`}>
                         <span className="vads-u-display--block vads-u-font-weight--bold">
                           {name}
                         </span>
@@ -299,7 +302,7 @@ function ProviderSelectionField({
                             setShowProvidersList(false);
                             recordEvent({
                               event: `${GA_PREFIX}-order-position-provider-selection`,
-                              providerPosition: providerIndex + 1,
+                              providerPosition: { providerPosition },
                             });
                           }}
                         >
