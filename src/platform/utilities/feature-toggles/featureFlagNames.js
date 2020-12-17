@@ -26,6 +26,7 @@ export default Object.freeze({
   vaOnlineSchedulingFlatFacilityPageSacramento:
     'vaOnlineSchedulingFlatFacilityPageSacramento',
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
+  vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',

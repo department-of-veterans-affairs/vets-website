@@ -38,6 +38,8 @@ const vaosFlatFacilityPage = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
 const vaosFlatFacilityPageSacramento = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPageSacramento;
+export const vaOnlineSchedulingCheetah = state =>
+  toggleValues(state).vaOnlineSchedulingCheetah;
 export const selectUseFlatFacilityPage = state =>
   vaosFlatFacilityPage(state) &&
   !selectIsCernerPatient(state) &&
