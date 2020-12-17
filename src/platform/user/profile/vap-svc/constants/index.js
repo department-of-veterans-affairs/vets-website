@@ -90,6 +90,20 @@ export const ANALYTICS_FIELD_MAP = {
   smsOptout: 'sms-optout',
 };
 
+export const ANALYTICS_ADDRESS_FIELD_NAMES = {
+  mailingAddress: 'mailing-address',
+  residentialAddress: 'home-address',
+};
+
+export const ANALYTICS_PHONE_FIELD_NAMES = {
+  primaryTelephone: 'primary-telephone',
+  alternateTelephone: 'alternative-telephone',
+  homePhone: 'home-telephone',
+  mobilePhone: 'mobile-telephone',
+  workPhone: 'work-telephone',
+  faxNumber: 'fax-telephone',
+};
+
 export const API_ROUTES = {
   INIT_VAP_SERVICE_ID: '/profile/initialize_vet360_id',
   TELEPHONES: '/profile/telephones',

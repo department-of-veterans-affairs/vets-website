@@ -5,7 +5,13 @@ import { refreshProfile } from '~/platform/user/profile/actions';
 import recordEvent from '~/platform/monitoring/record-event';
 import { inferAddressType } from '~/applications/letters/utils/helpers';
 
-import { FIELD_NAMES, ADDRESS_POU } from '@@vap-svc/constants';
+import {
+  ANALYTICS_ADDRESS_FIELD_NAMES,
+  ANALYTICS_FIELD_MAP,
+  ANALYTICS_PHONE_FIELD_NAMES,
+  ADDRESS_POU,
+  FIELD_NAMES,
+} from '@@vap-svc/constants';
 
 import { showAddressValidationModal } from '../../utilities';
 
@@ -132,13 +138,23 @@ export function refreshTransaction(
             transactionRefreshed?.data?.attributes?.metadata?.[0] ?? {};
           const errorCode = errorMetadata.code ?? 'unknown-code';
           const errorKey = errorMetadata.key ?? 'unknown-key';
-          const addressSection =
-            analyticsSectionName === FIELD_NAMES.MAILING_ADDRESS ||
-            analyticsSectionName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
-          const errorSection = addressSection
-            ? 'address'
-            : analyticsSectionName;
+          const addressNames = Object.values(ANALYTICS_ADDRESS_FIELD_NAMES);
+          const phoneNames = Object.values(ANALYTICS_PHONE_FIELD_NAMES);
+          let errorSection;
+
+          if (addressNames.includes(analyticsSectionName)) {
+            errorSection = 'address';
+          }
+
+          if (phoneNames.includes(analyticsSectionName)) {
+            errorSection = 'phone';
+          }
+
+          if (analyticsSectionName === ANALYTICS_FIELD_MAP.email) {
+            errorSection = 'email';
+          }
+
           recordEvent({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
