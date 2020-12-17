@@ -1,11 +1,20 @@
+import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
+
 describe('COVID-19 Vaccination Preparation Form', () => {
   describe('when entering a valid contact information without signing in', () => {
     before(() => {
+      cy.server();
+      cy.route('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
+        'feature',
+      );
       cy.visit('health-care/covid-19-vaccine/stay-informed/');
-      cy.injectAxeThenAxeCheck();
+      cy.wait('@feature');
+      cy.injectAxe();
     });
 
     it('should successfully submit the vaccine preparation form', () => {
+      // Intro page
+      cy.axeCheck();
       cy.get('.vads-l-row').contains(
         'COVID-19 vaccines: Stay informed and help us prepare',
       );
@@ -14,6 +23,12 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
       cy.findByText('Continue without signing in', { selector: 'a' }).click();
 
+      // Form page
+      cy.url().should(
+        'include',
+        '/health-care/covid-19-vaccine/stay-informed/form',
+      );
+      cy.axeCheck();
       cy.get('#covid-vaccination-heading-form').contains(
         'Fill out the form below',
       );
@@ -64,6 +79,12 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.get('.usa-button').click();
       cy.wait('@response');
 
+      // Confirmation page
+      cy.url().should(
+        'include',
+        '/health-care/covid-19-vaccine/stay-informed/confirmation',
+      );
+      cy.axeCheck();
       cy.get('#covid-vaccination-heading-confirmation').contains(
         "We've received your information",
       );
