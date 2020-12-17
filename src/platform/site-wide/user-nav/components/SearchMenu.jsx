@@ -16,6 +16,9 @@ import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropD
 
 export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
 
+const ENTER_KEY = 13;
+const ESCAPE_KEY = 27;
+
 export class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -73,6 +76,19 @@ export class SearchMenu extends React.Component {
     this.setState({ userInput: event.target.value });
   };
 
+  handleKeyUp = event => {
+    if (
+      (event.which || event.keyCode) === ENTER_KEY &&
+      document.getElementById('query') === document.activeElement
+    ) {
+      this.handleSearchEvent();
+      return;
+    }
+    if ((event.which || event.keyCode) === ESCAPE_KEY) {
+      this.props.clickHandler();
+    }
+  };
+
   handleSearchEvent = suggestion => {
     recordEvent({
       event: 'view_search_results',
@@ -111,7 +127,13 @@ export class SearchMenu extends React.Component {
 
     if (!this.props.searchTypeaheadEnabled) {
       return (
-        <form acceptCharset="UTF-8">
+        <form
+          acceptCharset="UTF-8"
+          onSubmit={event => {
+            event.preventDefault();
+            this.handleSearchEvent();
+          }}
+        >
           <label htmlFor="query" className="usa-sr-only">
             Search:
           </label>
@@ -130,7 +152,6 @@ export class SearchMenu extends React.Component {
               type="submit"
               disabled={!validUserInput}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
-              onSubmit={() => this.handleSearchEvent()}
             >
               <IconSearch color="#fff" />
               <span className="usa-sr-only">Search</span>
@@ -145,7 +166,8 @@ export class SearchMenu extends React.Component {
         inputValue={this.state.userInput}
         onSelect={item => this.handleSearchEvent(item)}
         itemToString={item => item}
-        isOpen={this.props.isOpen}
+        onKeyUp={this.handleKeyUp}
+        isOpen={this.state.suggestions.length > 0}
       >
         {({
           getInputProps,
@@ -156,19 +178,24 @@ export class SearchMenu extends React.Component {
         }) => (
           <div className="typeahead-search vads-u-padding--0 vads-u-padding-x--0p5 medium-screen:vads-u-padding--0">
             <div className="va-flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-x--0p5 medium-screen:vads-u-padding--0">
-              <label htmlFor="query" className="usa-sr-only">
+              <label
+                id="site-search-label"
+                htmlFor="query"
+                className="usa-sr-only"
+              >
                 Search:
               </label>
               <input
                 autoComplete="off"
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1  vads-u-width--full"
                 name="query"
-                aria-controls="suggestions-list"
+                aria-controls={isOpen ? 'suggestions-list' : undefined}
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleInputChange,
-                  'aria-labelledby': 'site search',
+                  'aria-labelledby': 'site-search-label',
                   id: 'query',
+                  onKeyUp: this.handleKeyUp,
                 })}
               />
               <button
@@ -186,6 +213,7 @@ export class SearchMenu extends React.Component {
                 id="suggestions-list"
                 className="vads-u-margin-top--0p5"
                 role="listbox"
+                aria-label="suggestions-list"
               >
                 {this.state.suggestions?.map((suggestion, index) => {
                   const formattedSuggestion = suggestion.replace(
@@ -206,7 +234,9 @@ export class SearchMenu extends React.Component {
                       }
                       {...getItemProps({ item: suggestion })}
                       // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{ __html: formattedSuggestion }}
+                      dangerouslySetInnerHTML={{
+                        __html: formattedSuggestion,
+                      }}
                     />
                   );
                 })}
@@ -245,11 +275,11 @@ export class SearchMenu extends React.Component {
 }
 
 SearchMenu.propTypes = {
-  cssClass: PropTypes.string,
-  isOpen: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func,
-  searchTypeaheadEnabled: PropTypes.bool,
+  cssClass: PropTypes.string,
   debounceRate: PropTypes.number,
+  isOpen: PropTypes.bool.isRequired,
+  searchTypeaheadEnabled: PropTypes.bool,
 };
 
 SearchMenu.defaultProps = {

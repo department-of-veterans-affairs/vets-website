@@ -72,49 +72,60 @@
 /* Contested issue cards (contested issue page & review/submit page)
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
-.widget-outline {
-  padding: 0;
-  border: solid 4px $color-primary-alt-light;
-  border-radius: 7px;
-  margin-top: 0.5em;
+ dl.review {
+   .widget-wrapper {
+     position: relative;
 
-  &.selected {
-    border-color: $color-primary;
-  }
+     .widget-outline {
+       border: solid 4px $color-primary-alt-light;
+       border-radius: 7px;
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       max-width: unset;
 
-  &:last-child {
-    margin-bottom: 1em;
-  }
+       &.selected {
+         border-color: $color-primary;
+       }
 
-  /* long descriptions cause the content to shift down, using flex to fix it */
-  .widget-content {
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
-  }
+       &::before {
+        margin-left: 1em;
+        margin-top: 1em;
+      }
+     }
 
-  h4 {
-    margin-top: 0;
-  }
+     dt.widget-checkbox {
+       margin-top: 2em;
+       width: 3em;
+       min-width: unset;
 
-  input[type="checkbox"] + label {
-    // The former margin was to separate the checkbox from the elements above
-    // it, but now that we have the outline, we need to move the whitespace to
-    // the outside of the border.
-    margin-top: 0em;
-    margin-bottom: 0em;
-    padding: 1em;
+       &.checkbox-hidden {
+         width: 0;
+       }
 
-    // Eliminate unnecessary margin inside the label component
-    > div *:last-child {
-      margin-bottom: 0em;
-    }
+       [type="checkbox"] {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin: 0;
+       }
+     }
 
-    .widget-content {
-      padding: 0;
-    }
-  }
-}
+
+     dd.widget-content {
+       text-align: unset;
+     }
+
+     h4 {
+       margin-top: 0;
+     }
+   }
+ }
+
+ .eligible-issues-error h3 {
+  font-size: 1.7rem /* vads-u-font-size--md */
+ }
 
 /* Contested issue page specific definitions */
 article[data-location="contested-issues"] {
@@ -197,22 +208,6 @@ article[data-location="request-informal-conference"] {
 
 /* Step 4 Review Application */
 article[data-location="review-and-submit"] {
-  /* reduce huge gaps where text should be rendered */
-  .schemaform-field-template {
-    margin-top: 0;
-  }
-
-  /* tweak second entry */
-  .scheduled-time + .scheduled-time {
-    padding-top: 0;
-    margin-top: -0.5rem;
-    border-top-width: 0;
-
-    /* hide duplicate label */
-    .time-contact {
-      display: none;
-    }
-  }
   .normal-weight-in-review {
     font-weight: normal;
   }

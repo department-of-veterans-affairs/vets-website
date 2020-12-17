@@ -29,7 +29,7 @@ module.exports = {
     fieldPrimaryCategory: { $ref: 'output/taxonomy_term-lc_categories' },
     fieldQAGroups: {
       type: 'array',
-      items: { $ref: 'paragraph-q_a_group' },
+      items: { $ref: 'output/paragraph-q_a_group' },
     },
     fieldRelatedBenefitHubs: {
       type: ['array', 'null'],
@@ -45,15 +45,9 @@ module.exports = {
       type: 'array',
       items: { $ref: 'output/paragraph-link_teaser' },
     },
-    fieldTableOfContentsBoolean: {
-      type: 'boolean',
-    },
     fieldTags: {
       $ref: 'output/paragraph-audience_topics',
     },
-    // Needed for filtering reverse fields in other transformers
-    status: { $ref: 'GenericNestedBoolean' },
-    title: { type: 'string' },
   },
   required: [
     'changed',
@@ -61,13 +55,7 @@ module.exports = {
     'entityMetatags',
     'entityPublished',
     'entityType',
-    'fieldContentBlock',
-    'fieldDescription',
     'fieldIntroTextLimitedHtml',
-    'fieldMetaTitle',
     'fieldQAGroups',
-    'fieldTableOfContentsBoolean',
-    'status',
-    'title',
   ],
 };

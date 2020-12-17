@@ -27,7 +27,9 @@ const testConfig = createTestConfig(
         cy.injectAxe();
 
         afterHook(() => {
-          cy.get('.schemaform-start-button').click();
+          cy.get('.schemaform-start-button')
+            .first()
+            .click();
         });
       },
       'claimant-address': ({ afterHook }) => {
