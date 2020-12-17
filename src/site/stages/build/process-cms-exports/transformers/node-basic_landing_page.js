@@ -13,12 +13,13 @@ const transform = entity => {
     entityMetatags: createMetaTagArray(entity.metatag.value),
     entityPublished: isPublished(getDrupalValue(entity.status)),
     entityType: 'node',
-    fieldContentBlock: entity.fieldContentBlock,
-    fieldDescription: entity.fieldDescription,
+    fieldContentBlock: entity.fieldContentBlock[0],
+    fieldDescription: entity.fieldDescription?.[0]?.value || null,
     fieldIntroTextLimitedHtml: entity.fieldIntroTextLimitedHtml[0],
-    fieldMetaTitle: entity.fieldMetaTitle,
-    fieldProduct: entity.fieldProduct,
-    fieldTableOfContentsBoolean: entity.fieldTableOfContentsBoolean,
+    fieldMetaTitle: entity.fieldMetaTitle?.[0]?.value || null,
+    fieldProduct: entity.fieldProduct?.[0] || null,
+    fieldTableOfContentsBoolean:
+      entity.fieldTableOfContentsBoolean?.[0]?.value || false,
     title: getDrupalValue(entity.title),
   };
 };
@@ -34,7 +35,6 @@ module.exports = {
     'field_product',
     'field_table_of_contents_boolean',
     'metatag',
-    'status',
     'title',
   ],
   transform,
