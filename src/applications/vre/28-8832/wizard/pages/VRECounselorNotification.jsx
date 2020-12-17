@@ -10,7 +10,7 @@ const VRECounselorNotification = () => {
     });
   });
 
-  const handleClick = e => {
+  const handleClick = () => {
     recordEvent({
       event: `howToWizard-alert-link-click`,
       'howToWizard-alert-link-click-label':
