@@ -43,7 +43,8 @@ export const secondaryCaregiverContent = [
   'I understand that participation in PCAFC does not create an employment relationship between me and the Department of Veterans Affairs.',
 ];
 
-const signatureBoxNoteContent = 'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or providing incorrect information. (See 18 U.S.C. 1001)',
+export const signatureBoxNoteContent =
+  'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or providing incorrect information. (See 18 U.S.C. 1001)';
 
 export const PrivacyPolicy = () => (
   <p>
