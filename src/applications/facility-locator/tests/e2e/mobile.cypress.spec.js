@@ -9,7 +9,7 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#facility-search').click();
 
   // Search title
-  cy.get('#search-results-subheader').should('exist');
+  cy.get('#search-results-subheader', { timeout: 10000 }).should('exist');
 
   // Tabs
   cy.get('#react-tabs-0').contains('View List');
