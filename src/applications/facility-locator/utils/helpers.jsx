@@ -78,7 +78,7 @@ export const setSearchAreaPosition = () => {
     .appendChild(searchAreaContainer);
   document
     .querySelectorAll('.mapboxgl-ctrl-top-right')
-    // IE 11 doesn't support .remove() and core-js doesn't polyfill DOM methods.
+    // IE 11 doesn't support ChildNode.remove() and core-js doesn't polyfill DOM methods.
     .forEach(el => el.parentNode.removeChild(el));
 };
 
