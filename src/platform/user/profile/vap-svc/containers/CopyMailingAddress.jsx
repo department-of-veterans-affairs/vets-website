@@ -54,6 +54,9 @@ class CopyMailingAddress extends React.Component {
 
       // We need the id to remain the same to prevent POST calls
       clearedHomeAddress.id = mailingAddress.id || null;
+      clearedHomeAddress.countryCodeIso3 =
+        mailingAddress.countryCodeIso3 || null;
+
       copyMailingAddress(clearedHomeAddress);
       return;
     }
