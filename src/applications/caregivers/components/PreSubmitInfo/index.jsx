@@ -150,9 +150,13 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       >
         <h3>Veteran&apos;s statement of truth</h3>
         <p>
-          I certify that I am a family member of the Veteran named in this
-          application or I reside with the Veteran, or will do so upon
-          designation as the Veteran's Primary Family Caregiver.
+          I certify that I give consent to the individual(s) named in this
+          application to perform personal care services for me (or if the
+          Veteran’s Representative, the Veteran) upon being approved as a
+          Primary and/or Secondary Family Caregiver(s) in the Program of
+          Comprehensive Assistance for Family Caregivers. I certify that the
+          information provided in this form is correct and true to the best of
+          my knowledge and belief.
         </p>
 
         <PrivacyPolicy />
