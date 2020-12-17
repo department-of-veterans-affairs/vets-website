@@ -108,13 +108,23 @@ module.exports = env => {
     !!buildOptions.entry;
 
   const outputPath = `${buildOptions.destination}/generated`;
+  function setPublicPath() {}
+  // const setPublicPath = () => {
+  //   return buildOptions.buildtype === 'vagovprod'
+  //     ? 'https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/'
+  //   : buildOptions.buildtype === 'vagovstaging'
+  //     ? 'https://staging-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/'
+  //   : buildOptions.buildtype === 'vagovdev'
+  //     ? 'https://dev-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/'
+  //   : '/generated/';
+  // };
 
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: outputPath,
-      publicPath: '/generated/',
+      publicPath: setPublicPath(),
       filename: '[name].entry.js',
       chunkFilename: '[name].entry.js',
     },
