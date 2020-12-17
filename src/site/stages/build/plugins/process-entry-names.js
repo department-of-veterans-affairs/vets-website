@@ -87,7 +87,9 @@ function processEntryNames(buildOptions) {
         const hashedEntryName = entryNamesDictionary.get(entryName) || [];
 
         // Ensure we have valid options and that the entry exists.
-        const entryExists = files[hashedEntryName.slice(1)];
+        const fileRef = `generated/${hashedEntryName.split('/generated/')[1]}`;
+        const entryExists = files[fileRef];
+
         if (
           buildOptions.buildtype !== environments.LOCALHOST &&
           !buildOptions.isPreviewServer &&

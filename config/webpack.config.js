@@ -109,16 +109,22 @@ module.exports = env => {
     !!buildOptions.entry;
 
   const outputPath = `${buildOptions.destination}/generated`;
-  function setPublicPath() {}
-  // const setPublicPath = () => {
-  //   return buildOptions.buildtype === 'vagovprod'
-  //     ? 'https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/'
-  //   : buildOptions.buildtype === 'vagovstaging'
-  //     ? 'https://staging-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/'
-  //   : buildOptions.buildtype === 'vagovdev'
-  //     ? 'https://dev-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/'
-  //   : '/generated/';
-  // };
+
+  /**
+   * Return the correct AWS path for files so they are not served from va.gov
+   * @return {String} - The file path used in the webpack config
+   */
+  function setPublicPath() {
+    let awsPath;
+
+    if (!isOptimizedBuild) {
+      awsPath = '/generated/';
+    } else {
+      awsPath = `${BUCKETS[buildOptions.buildtype]}/generated/`;
+    }
+
+    return awsPath;
+  }
 
   const baseConfig = {
     mode: 'development',

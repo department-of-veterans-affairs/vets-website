@@ -69,7 +69,7 @@ function linkAssetsToBucket(options, fileNames) {
       }
     }
 
-    const newContents = new Buffer(dom.serialize());
+    const newContents = Buffer.from(dom.serialize());
 
     fs.writeFileSync(htmlFileName, newContents);
     dom.window.close();
