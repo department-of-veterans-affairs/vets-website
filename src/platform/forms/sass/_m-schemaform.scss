@@ -696,3 +696,7 @@ textarea.resize-y {
 textarea.resize-x {
   resize: horizontal;
 }
+
+select:disabled {
+  background-color: $color-gray-lighter;
+}
