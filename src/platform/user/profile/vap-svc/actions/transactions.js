@@ -132,11 +132,18 @@ export function refreshTransaction(
             transactionRefreshed?.data?.attributes?.metadata?.[0] ?? {};
           const errorCode = errorMetadata.code ?? 'unknown-code';
           const errorKey = errorMetadata.key ?? 'unknown-key';
+          const addressSection =
+            analyticsSectionName === FIELD_NAMES.MAILING_ADDRESS ||
+            analyticsSectionName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
+
+          const errorSection = addressSection
+            ? 'address'
+            : analyticsSectionName;
           recordEvent({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
-            'error-key': `${errorCode}_${errorKey}-address-save-failure`,
+            'error-key': `${errorCode}_${errorKey}-${errorSection}-save-failure`,
           });
           recordEvent({
             'error-key': undefined,
