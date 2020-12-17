@@ -51,6 +51,9 @@ class CopyMailingAddress extends React.Component {
     // If mailing + home addresses are the same, clear the home address
     if (this.areHomeMailingAddressesEqual()) {
       const clearedHomeAddress = mapValues(mailingAddress, () => null);
+
+      // We need the id to remain the same to prevent POST calls
+      clearedHomeAddress.id = mailingAddress.id;
       copyMailingAddress(clearedHomeAddress);
       return;
     }
