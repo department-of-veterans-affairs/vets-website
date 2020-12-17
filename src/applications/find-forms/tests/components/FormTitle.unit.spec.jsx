@@ -10,6 +10,7 @@ describe('Find VA Forms <FormTitle />', () => {
     id: 'VA10192',
     formDetailsUrl:
       'https://www.va.gov/health-care/about-information-for-pre-complaint-processing/',
+    showFindFormsMVPEnhancements: true, //  TODO: 12/17/20 remove prop once feature is deployed to prod in Jan 2012 https://github.com/department-of-veterans-affairs/va.gov-team/issues/16930
     title: 'Information for Pre-Complaint Processing',
   };
 
@@ -18,6 +19,7 @@ describe('Find VA Forms <FormTitle />', () => {
       <FormTitle
         id={props.id}
         formUrl={props.formDetailsUrl}
+        showFindFormsMVPEnhancements={props.showFindFormsMVPEnhancements}
         title={props.title}
       />,
     );
@@ -51,6 +53,7 @@ describe('Find VA Forms <FormTitle />', () => {
       <FormTitle
         id={props.id}
         formUrl={props.formDetailsUrl}
+        showFindFormsMVPEnhancements={props.showFindFormsMVPEnhancements}
         title={props.title}
       />,
     );

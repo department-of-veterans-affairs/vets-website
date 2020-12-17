@@ -11,6 +11,7 @@ import { focusElement } from 'platform/utilities/ui';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 import { updatePaginationAction } from '../actions';
+import { getFormState, mvpEnhancements } from '../helpers/selectors';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -24,6 +25,7 @@ export class SearchResults extends Component {
     query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     startIndex: PropTypes.number.isRequired,
+    showFindFormsMVPEnhancements: PropTypes.bool.isRequired,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
   };
@@ -55,7 +57,15 @@ export class SearchResults extends Component {
 
   render() {
     const { onPageSelect } = this;
-    const { error, fetching, page, query, results, startIndex } = this.props;
+    const {
+      error,
+      fetching,
+      page,
+      query,
+      results,
+      showFindFormsMVPEnhancements,
+      startIndex,
+    } = this.props;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
@@ -114,7 +124,13 @@ export class SearchResults extends Component {
 
     const searchResults = results
       .slice(startIndex, lastIndex)
-      .map(form => <SearchResult key={form.id} form={form} />);
+      .map(form => (
+        <SearchResult
+          key={form.id}
+          form={form}
+          showFindFormsMVPEnhancements={showFindFormsMVPEnhancements}
+        />
+      ));
 
     return (
       <>
@@ -146,12 +162,13 @@ export class SearchResults extends Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.findVAFormsReducer.error,
-  fetching: state.findVAFormsReducer.fetching,
-  page: state.findVAFormsReducer.page,
-  query: state.findVAFormsReducer.query,
-  results: state.findVAFormsReducer.results,
-  startIndex: state.findVAFormsReducer.startIndex,
+  error: getFormState(state).error,
+  fetching: getFormState(state).fetching,
+  page: getFormState(state).page,
+  query: getFormState(state).query,
+  results: getFormState(state).results,
+  startIndex: getFormState(state).startIndex,
+  showFindFormsMVPEnhancements: mvpEnhancements(state),
 });
 
 const mapDispatchToProps = dispatch => ({
