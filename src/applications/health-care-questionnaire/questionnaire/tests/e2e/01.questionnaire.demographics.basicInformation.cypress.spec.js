@@ -7,10 +7,6 @@ describe('health care questionnaire -- demographics -- basic information', () =>
     ).then(async features => {
       cy.route('GET', '/v0/feature_toggles*', features);
       cy.login(basicUser);
-      window.localStorage.setItem(
-        'DISMISSED_ANNOUNCEMENTS',
-        JSON.stringify(['single-sign-on-intro']),
-      );
       cy.visit(
         '/health-care/health-questionnaires/questionnaires/answer-questions/demographics?skip',
       );

@@ -3,13 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import {
-  ConfirmationGuidance,
-  ConfirmationPageSummary,
-  ConfirmationPageTitle,
-  ConfirmationReturnHome,
-} from '../../../components/ConfirmationPage';
+import { ConfirmationPageContent } from '../../../components/ConfirmationPageContent';
 
 const form = {
   submission: {
@@ -29,13 +23,7 @@ const form = {
 describe('Edu 0994 <ConfirmationPage>', () => {
   it('should render', () => {
     const tree = shallow(<ConfirmationPage form={form} />);
-    expect(tree).to.not.be.undefined;
-    expect(tree.find(AlertBox)).to.not.be.undefined;
-    expect(tree.find(ConfirmationPageTitle)).to.not.be.undefined;
-    expect(tree.find(ConfirmationPageSummary)).to.not.be.undefined;
-    expect(tree.find(ConfirmationGuidance)).to.not.be.undefined;
-    expect(tree.find(ConfirmationReturnHome)).to.not.be.undefined;
-
+    expect(tree.find(ConfirmationPageContent)).to.not.be.undefined;
     tree.unmount();
   });
 

@@ -3,25 +3,19 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
-import { GA_PREFIX, LANGUAGES } from '../../../utils/constants';
+import { GA_PREFIX } from '../../../utils/constants';
 import * as actions from '../../redux/actions';
-import { getFormPageInfo } from '../../../utils/selectors';
+import { getFormPageInfo } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
 import recordEvent from 'platform/monitoring/record-event';
 
 const initialSchema = {
   type: 'object',
-  required: ['preferredLanguage'],
   properties: {
     communityCareSystemId: {
       type: 'string',
       enum: [],
-    },
-    preferredLanguage: {
-      type: 'string',
-      enum: LANGUAGES.map(l => l.id),
-      enumNames: LANGUAGES.map(l => l.text),
     },
     communityCareProvider: {
       type: 'object',
@@ -34,10 +28,6 @@ const uiSchema = {
   communityCareSystemId: {
     'ui:title': 'What’s the closest city and state to you?',
     'ui:widget': 'radio',
-  },
-  preferredLanguage: {
-    'ui:title':
-      'Do you prefer that your community care provider speak a certain language?',
   },
   communityCareProvider: {
     'ui:options': {
