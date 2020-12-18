@@ -11,6 +11,7 @@ import { focusElement } from 'platform/utilities/ui';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 import { updatePaginationAction } from '../actions';
+import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -24,6 +25,7 @@ export class SearchResults extends Component {
     query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     startIndex: PropTypes.number.isRequired,
+    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
   };
@@ -55,7 +57,15 @@ export class SearchResults extends Component {
 
   render() {
     const { onPageSelect } = this;
-    const { error, fetching, page, query, results, startIndex } = this.props;
+    const {
+      error,
+      fetching,
+      page,
+      query,
+      results,
+      showFindFormsResultsLinkToFormDetailPages,
+      startIndex,
+    } = this.props;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
@@ -114,7 +124,15 @@ export class SearchResults extends Component {
 
     const searchResults = results
       .slice(startIndex, lastIndex)
-      .map(form => <SearchResult key={form.id} form={form} />);
+      .map(form => (
+        <SearchResult
+          key={form.id}
+          form={form}
+          showFindFormsResultsLinkToFormDetailPages={
+            showFindFormsResultsLinkToFormDetailPages
+          }
+        />
+      ));
 
     return (
       <>
@@ -146,12 +164,13 @@ export class SearchResults extends Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.findVAFormsReducer.error,
-  fetching: state.findVAFormsReducer.fetching,
-  page: state.findVAFormsReducer.page,
-  query: state.findVAFormsReducer.query,
-  results: state.findVAFormsReducer.results,
-  startIndex: state.findVAFormsReducer.startIndex,
+  error: getFindFormsAppState(state).error,
+  fetching: getFindFormsAppState(state).fetching,
+  page: getFindFormsAppState(state).page,
+  query: getFindFormsAppState(state).query,
+  results: getFindFormsAppState(state).results,
+  startIndex: getFindFormsAppState(state).startIndex,
+  showFindFormsResultsLinkToFormDetailPages: mvpEnhancements(state),
 });
 
 const mapDispatchToProps = dispatch => ({
