@@ -79,6 +79,7 @@ export const disabilityOption = ({ attributes }) => {
 
 const disabilitiesList = (
   <div>
+    <p>Your issue may not be eligible for review if:</p>
     <ul>
       <li>
         We made the decision over a year ago. You have 1 year from the date on
@@ -136,7 +137,6 @@ export const disabilitiesExplanationAlert = (
   <>
     <p className="vads-u-margin-top--2p5" />
     <AdditionalInfo triggerText={'Why isn’t my issue eligible?'}>
-      <p>Your issue may not be eligible if:</p>
       {disabilitiesList}
     </AdditionalInfo>
   </>
@@ -144,7 +144,6 @@ export const disabilitiesExplanationAlert = (
 
 export const disabilitiesExplanation = (
   <AdditionalInfo triggerText={'Don’t see the issue you’re looking for?'}>
-    <p>There are many reasons a decision might not appear in the list above.</p>
     {disabilitiesList}
   </AdditionalInfo>
 );
