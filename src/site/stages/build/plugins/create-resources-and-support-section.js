@@ -330,7 +330,6 @@ function createResourcesAndSupportWebsiteSection() {
     excludeQaNodesThatAreNotStandalonePages(files);
     createArticleListingsPages(files);
     createSearchResults(files);
-    excludeFromSiteMap(files);
   };
 }
 
