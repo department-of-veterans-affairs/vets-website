@@ -1,6 +1,6 @@
 // Node modules.
 import { useEffect, useState } from 'react';
-import { map, orderBy, reduce } from 'lodash';
+import { orderBy } from 'lodash';
 // Relative imports.
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
@@ -56,19 +56,20 @@ export default function useGetSearchResults(articles, query, page) {
           ...article,
 
           // Number of times a keyword is found in the article's title.
-          keywordsCountsTitle: keywords?.reduce((keywordInstances, keyword) => {
-            keywordInstances +=
-              article.title.toLowerCase()?.split(keyword)?.length || 0;
-            return keywordInstances - 1;
-          }, 0),
+          keywordsCountsTitle: keywords?.reduce(
+            (keywordInstances, keyword) =>
+              keywordInstances +
+              article.title.toLowerCase()?.split(keyword)?.length -
+              1,
+            0,
+          ),
 
           // Number of times a keyword is found in the article's description.
           keywordsCountsDescription: keywords?.reduce(
-            (keywordInstances, keyword) => {
-              keywordInstances +=
-                article.description.toLowerCase()?.split(keyword)?.length || 0;
-              return keywordInstances - 1;
-            },
+            (keywordInstances, keyword) =>
+              keywordInstances +
+              article.description.toLowerCase()?.split(keyword)?.length -
+              1,
             0,
           ),
         }));
