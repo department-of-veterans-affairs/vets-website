@@ -27,7 +27,7 @@ const deriveLinkPropsFromFormURL = url => {
   return linkProps;
 };
 
-const SearchResult = ({ form, showFindFormsMVPEnhancements }) => {
+const SearchResult = ({ form, showFindFormsResultsLinkToFormDetailPages }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -60,7 +60,9 @@ const SearchResult = ({ form, showFindFormsMVPEnhancements }) => {
         id={id}
         formUrl={formDetailsUrl}
         title={title}
-        showFindFormsMVPEnhancements={showFindFormsMVPEnhancements}
+        showFindFormsResultsLinkToFormDetailPages={
+          showFindFormsResultsLinkToFormDetailPages
+        }
       />
 
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
@@ -100,7 +102,7 @@ const SearchResult = ({ form, showFindFormsMVPEnhancements }) => {
 
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
-  showFindFormsMVPEnhancements: PropTypes.bool.isRequired,
+  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
 };
 
 export default SearchResult;

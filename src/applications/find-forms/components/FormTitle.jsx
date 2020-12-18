@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormTitle = ({ id, formUrl, showFindFormsMVPEnhancements, title }) => (
+const FormTitle = ({
+  id,
+  formUrl,
+  showFindFormsResultsLinkToFormDetailPages,
+  title,
+}) => (
   <dt
     className="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
     data-e2e-id="result-title"
   >
-    {formUrl && showFindFormsMVPEnhancements ? (
+    {formUrl && showFindFormsResultsLinkToFormDetailPages ? (
       <a href={formUrl} className="vads-u-text-decoration--none">
         <dfn>
           <span className="vads-u-visibility--screen-reader">
@@ -38,7 +43,7 @@ FormTitle.propTypes = {
   id: PropTypes.string.isRequired,
   formUrl: PropTypes.string,
   title: PropTypes.string.isRequired,
-  showFindFormsMVPEnhancements: PropTypes.bool.isRequired,
+  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
 };
 
 export default FormTitle;

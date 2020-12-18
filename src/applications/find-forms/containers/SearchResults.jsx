@@ -11,7 +11,7 @@ import { focusElement } from 'platform/utilities/ui';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 import { updatePaginationAction } from '../actions';
-import { getFormState, mvpEnhancements } from '../helpers/selectors';
+import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -25,7 +25,7 @@ export class SearchResults extends Component {
     query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     startIndex: PropTypes.number.isRequired,
-    showFindFormsMVPEnhancements: PropTypes.bool.isRequired,
+    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
   };
@@ -63,7 +63,7 @@ export class SearchResults extends Component {
       page,
       query,
       results,
-      showFindFormsMVPEnhancements,
+      showFindFormsResultsLinkToFormDetailPages,
       startIndex,
     } = this.props;
 
@@ -128,7 +128,9 @@ export class SearchResults extends Component {
         <SearchResult
           key={form.id}
           form={form}
-          showFindFormsMVPEnhancements={showFindFormsMVPEnhancements}
+          showFindFormsResultsLinkToFormDetailPages={
+            showFindFormsResultsLinkToFormDetailPages
+          }
         />
       ));
 
@@ -162,13 +164,13 @@ export class SearchResults extends Component {
 }
 
 const mapStateToProps = state => ({
-  error: getFormState(state).error,
-  fetching: getFormState(state).fetching,
-  page: getFormState(state).page,
-  query: getFormState(state).query,
-  results: getFormState(state).results,
-  startIndex: getFormState(state).startIndex,
-  showFindFormsMVPEnhancements: mvpEnhancements(state),
+  error: getFindFormsAppState(state).error,
+  fetching: getFindFormsAppState(state).fetching,
+  page: getFindFormsAppState(state).page,
+  query: getFindFormsAppState(state).query,
+  results: getFindFormsAppState(state).results,
+  startIndex: getFindFormsAppState(state).startIndex,
+  showFindFormsResultsLinkToFormDetailPages: mvpEnhancements(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -68,5 +68,5 @@ export default Object.freeze({
   searchTypeaheadEnabled: 'search_typeahead_enabled',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
-  showFindFormsMVPEnhancement: 'find_forms_mvp_enhancement',
+  showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
 });

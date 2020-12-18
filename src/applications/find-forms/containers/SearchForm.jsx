@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import { getFormState } from '../helpers/selectors';
+import { getFindFormsAppState } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
 
 export class SearchForm extends Component {
@@ -90,7 +90,7 @@ export class SearchForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  fetching: getFormState(state).fetching,
+  fetching: getFindFormsAppState(state).fetching,
 });
 
 const mapDispatchToProps = {
