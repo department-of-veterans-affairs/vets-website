@@ -26,6 +26,15 @@ const deriveLinkPropsFromFormURL = url => {
   return linkProps;
 };
 
+const deriveLatestIssue = (d1, d2) => {
+  // TODO: write a unit test.
+  if (!d1 && !d2) return 'N/A';
+
+  if (moment(d1).isAfter(d2)) return moment(d1).format('MM-DD-YYYY');
+
+  return moment(d2).format('MM-DD-YYYY');
+};
+
 const SearchResult = ({ form }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
@@ -34,6 +43,7 @@ const SearchResult = ({ form }) => {
 
   const {
     attributes: {
+      firstIssuedOn,
       formToolUrl,
       formDetailsUrl,
       lastRevisionOn,
@@ -49,9 +59,7 @@ const SearchResult = ({ form }) => {
 
   // Derive labels.
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
-  const lastRevision = lastRevisionOn
-    ? moment(lastRevisionOn).format('MM-DD-YYYY')
-    : 'N/A';
+  const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
   return (
     <>
