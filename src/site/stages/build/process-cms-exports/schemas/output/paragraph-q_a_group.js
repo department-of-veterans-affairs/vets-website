@@ -12,7 +12,7 @@ module.exports = {
           type: 'array',
           items: { $ref: 'output/node-q_a' },
         },
-        fieldSectionHeader: { type: 'string' },
+        fieldSectionHeader: { type: ['string', 'null'] },
       },
       required: ['fieldAccordionDisplay', 'fieldQAs', 'fieldSectionHeader'],
     },

@@ -27,7 +27,6 @@ const transform = entity => {
       },
     ),
     fieldRelatedInformation: entity.fieldRelatedInformation,
-    fieldTableOfContentsBoolean: entity.fieldTableOfContentsBoolean,
     fieldTags: entity.fieldTags[0],
     title: getDrupalValue(entity.title),
   };

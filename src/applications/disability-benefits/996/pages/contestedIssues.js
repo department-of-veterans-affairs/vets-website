@@ -50,8 +50,10 @@ const contestedIssuesPage = {
       },
     },
     sameOfficeAlert: {
-      'ui:title': OfficeForReviewAlert,
+      'ui:title': '', // prevent alert from being added to a legend
+      'ui:description': OfficeForReviewAlert,
       'ui:options': {
+        forceDivWrapper: true,
         hideIf: formData =>
           formData?.sameOffice !== true || hasNoContestedIssues(formData),
       },
