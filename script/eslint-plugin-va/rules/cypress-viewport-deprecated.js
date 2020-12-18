@@ -1,5 +1,5 @@
 const MESSAGE =
-  'Deprecated Cypress viewport method. Please choose a method from https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/testing/end-to-end/cypress-best-practices-on-vsp.md#viewport-presets-cyviewportpresetpreset-orientation-options';
+  'Deprecated Cypress viewport method, please choose a method from https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/testing/end-to-end/cypress-best-practices-on-vsp.md#viewport-presets-cyviewportpresetpreset-orientation-options';
 
 const rule = {
   meta: {
