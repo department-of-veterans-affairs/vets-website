@@ -7,7 +7,7 @@ describe(manifest.appName, () => {
     if (Cypress.env('CI')) this.skip();
   });
 
-  it.skip('is accessible', () => {
+  it('is accessible', () => {
     cy.visit(manifest.rootUrl);
     cy.injectAxeThenAxeCheck();
   });
