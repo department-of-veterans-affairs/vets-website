@@ -4,27 +4,19 @@ import { connect } from 'react-redux';
 
 const ContactInfoCard = ({ streetAddress, cityState, country }) => {
   return (
-    <>
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-        <h4 className="vads-u-margin--0 vads-u-margin-bottom--2">
-          Mailing address
-        </h4>
-        <div className="vads-u-padding-left--1 vads-u-border-left--7px vads-u-border-color--primary">
-          <p className="vads-u-margin--1px">{streetAddress}</p>
-          <p className="vads-u-margin--1px">{cityState}</p>
-          <p className="vads-u-margin--1px">{country}</p>
-        </div>
-        <div className="vads-u-margin-top--1">
-          <a onClick={() => {}}>Edit mailing address</a>
-        </div>
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3 vads-u-margin-bottom--5">
+      <h4 className="vads-u-margin--0 vads-u-margin-bottom--2">
+        Mailing address
+      </h4>
+      <div className="vads-u-padding-left--1 vads-u-border-left--7px vads-u-border-color--primary">
+        <p className="vads-u-margin--1px">{streetAddress}</p>
+        <p className="vads-u-margin--1px">{cityState}</p>
+        <p className="vads-u-margin--1px">{country}</p>
       </div>
-      <p>
-        <span className="vads-u-font-weight--bold">Note:</span> If you need to
-        update your personal information, please call Veterans Benefits
-        Assistance at <a href="tel:800-827-1000">800-827-1000</a>, Monday
-        through Friday, 8:00 a.m. to 9:00 p.m. ET.
-      </p>
-    </>
+      <div className="vads-u-margin-top--1">
+        <a onClick={() => {}}>Edit mailing address</a>
+      </div>
+    </div>
   );
 };
 
