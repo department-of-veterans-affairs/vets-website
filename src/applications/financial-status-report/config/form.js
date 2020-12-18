@@ -32,6 +32,7 @@ import {
   resolutionOptions,
   resolutionComments,
   bankruptcyHistory,
+  contactInfo,
 } from '../pages';
 
 const formChapterTitles = {
@@ -46,6 +47,7 @@ const formChapterTitles = {
 const formPageTitles = {
   veteranInfo: 'Veteran information',
   availableDebts: 'Available Debts',
+  contactInfo: 'Contact Information',
   currentEmployment: 'Current employment',
   previousEmployment: 'Previous employment',
   benefits: 'Benefits',
@@ -120,6 +122,12 @@ const formConfig = {
           title: formPageTitles.availableDebts,
           uiSchema: availableDebts.uiSchema,
           schema: availableDebts.schema,
+        },
+        [formPageTitles.contactInfo]: {
+          path: 'contact-information',
+          title: formPageTitles.contactInfo,
+          uiSchema: contactInfo.uiSchema,
+          schema: contactInfo.schema,
         },
       },
     },
