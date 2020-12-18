@@ -1,9 +1,10 @@
 // Node modules.
 import { useEffect, useState } from 'react';
-import sortBy from 'lodash/sortBy';
+import { orderBy } from 'lodash';
 // Relative imports.
-import { SEARCH_IGNORE_LIST } from '../constants';
+import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
+import { SEARCH_IGNORE_LIST } from '../constants';
 
 export default function useGetSearchResults(articles, query, page) {
   const [results, setResults] = useState([]);
@@ -33,7 +34,7 @@ export default function useGetSearchResults(articles, query, page) {
           return keyword;
         });
 
-      const filteredArticles = articles.filter(article => {
+      let filteredArticles = articles.filter(article => {
         const articleTitleKeywords = article.title.toLowerCase().split(' ');
 
         return keywords.some(keyword => {
@@ -43,7 +44,45 @@ export default function useGetSearchResults(articles, query, page) {
         });
       });
 
-      const orderedResults = sortBy(filteredArticles, 'title');
+      let orderedResults = [];
+
+      // Keep legacy sorting on production.
+      if (environment.isProduction()) {
+        orderedResults = orderBy(filteredArticles, 'title');
+
+        // Experiment with new sorting on non-prod envs.
+      } else {
+        filteredArticles = filteredArticles?.map(article => ({
+          ...article,
+
+          // Number of times a keyword is found in the article's title.
+          keywordsCountsTitle: keywords?.reduce(
+            (keywordInstances, keyword) =>
+              keywordInstances +
+              article.title.toLowerCase()?.split(keyword)?.length -
+              1,
+            0,
+          ),
+
+          // Number of times a keyword is found in the article's description.
+          keywordsCountsDescription: keywords?.reduce(
+            (keywordInstances, keyword) =>
+              keywordInstances +
+              article.description.toLowerCase()?.split(keyword)?.length -
+              1,
+            0,
+          ),
+        }));
+
+        // Sort first by query word instances found in title descending
+        // Sort ties then by query word instances found in description descending
+        // Sort ties then by alphabetical descending
+        orderedResults = orderBy(
+          filteredArticles,
+          ['keywordsCountsTitle', 'keywordsCountsDescription', 'title'],
+          ['desc', 'desc', 'asc'],
+        );
+      }
 
       // Track R&S search results.
       recordEvent({
