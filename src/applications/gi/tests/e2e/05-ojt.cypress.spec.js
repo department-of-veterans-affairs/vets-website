@@ -22,6 +22,7 @@ describe('OJT institution', () => {
     cy.get('#search-button').click();
 
     // Search page
+    cy.injectAxeThenAxeCheck();
     cy.url().should(
       'include',
       `/search?category=employer&name=${encodeURIComponent(searchTerm).replace(
@@ -36,9 +37,8 @@ describe('OJT institution', () => {
       .first()
       .click();
 
-    cy.injectAxe(); // added
-
     // Profile page
+    cy.injectAxeThenAxeCheck();
     const eybSections = {
       yourMilitaryDetails: 'Your military details',
       learningFormat: 'Learning format and schedule',
