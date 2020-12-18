@@ -103,9 +103,6 @@ const EligibleIssuesWidget = props => {
 
   const content = (
     <>
-      {showError && (
-        <ContestedIssuesAlert className={showError ? 'usa-input-error' : ''} />
-      )}
       {itemsLength && (!inReviewMode || (inReviewMode && hasSelections)) ? (
         items.map((item, index) => {
           const itemIsSelected = !!get(SELECTED, item);
@@ -211,7 +208,17 @@ const EligibleIssuesWidget = props => {
       )}
     </>
   );
-  return inReviewMode ? content : <dl className={outerWrapClass}>{content}</dl>;
+  return inReviewMode ? (
+    <div className={showError ? 'usa-input-error vads-u-margin-top--0' : ''}>
+      {showError && <ContestedIssuesAlert />}
+      {content}
+    </div>
+  ) : (
+    <div className={showError ? 'usa-input-error vads-u-margin-top--0' : ''}>
+      {showError && <ContestedIssuesAlert />}
+      <dl className={outerWrapClass}>{content}</dl>
+    </div>
+  );
 };
 
 export default EligibleIssuesWidget;
