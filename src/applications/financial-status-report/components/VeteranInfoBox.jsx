@@ -51,12 +51,13 @@ VeteranInfoBox.propTypes = {
 };
 
 VeteranInfoBox.defaultProps = {
-  first: '',
-  last: '',
-  middle: '',
-  dateOfBirth: '',
-  ssnLastFour: '',
-  vaFileNumber: '',
+  // set these back to empty strings after UAT
+  first: 'Hector',
+  last: 'Smith',
+  middle: 'R',
+  dateOfBirth: '01/01/1970',
+  ssnLastFour: '1234',
+  vaFileNumber: '12345',
 };
 
 const mapStateToProps = state => ({
