@@ -37,7 +37,11 @@ export default function FacilitiesRadioWidget({
   useEffect(
     () => {
       if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
-        scrollAndFocus(`#facility_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`);
+        scrollAndFocus(
+          `#${
+            enumOptions[INITIAL_FACILITY_DISPLAY_COUNT].label.id
+          }_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`,
+        );
       }
     },
     [displayedOptions.length, displayAll],
@@ -45,9 +49,9 @@ export default function FacilitiesRadioWidget({
 
   return (
     <div>
-      {displayedOptions.map((facility, facilityIndex) => {
-        const { id, name, address, legacyVAR } = facility?.label;
-        const checked = facility.value === value;
+      {displayedOptions.map((option, i) => {
+        const { id, name, address, legacyVAR } = option?.label;
+        const checked = option.value === value;
         let distance;
 
         if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
@@ -57,25 +61,20 @@ export default function FacilitiesRadioWidget({
         ) {
           distance = legacyVAR?.distanceFromCurrentLocation;
         }
-        const facilityPosition = facilityIndex + 1;
+        const facilityPosition = i + 1;
 
         return (
-          <div
-            className="form-radio-buttons"
-            key={facility.value}
-            aria-atomic="true"
-            aria-live="assertive"
-          >
+          <div className="form-radio-buttons" key={option.value}>
             <input
               type="radio"
               checked={checked}
-              id={`facility_${facilityPosition}`}
+              id={`${id}_${facilityPosition}`}
               name={`${id}`}
-              value={facility.value}
-              onChange={_ => onChange(facility.value)}
+              value={option.value}
+              onChange={_ => onChange(option.value)}
               disabled={loadingEligibility}
             />
-            <label htmlFor={`facility_${facilityPosition}`}>
+            <label htmlFor={`${id}_${facilityPosition}`}>
               <span className="vads-u-display--block vads-u-font-weight--bold">
                 {name}
               </span>
@@ -97,8 +96,6 @@ export default function FacilitiesRadioWidget({
           <button
             type="button"
             className="additional-info-button va-button-link vads-u-display--block"
-            aria-atomic="true"
-            aria-live="assertive"
             onClick={() => {
               setDisplayAll(!displayAll);
             }}
