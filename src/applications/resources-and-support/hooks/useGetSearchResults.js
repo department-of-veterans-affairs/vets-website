@@ -79,7 +79,7 @@ export default function useGetSearchResults(articles, query, page) {
         orderedResults = orderBy(
           filteredArticles,
           ['keywordsCountsTitle', 'keywordsCountsDescription', 'title'],
-          ['desc', 'desc', 'desc'],
+          ['desc', 'desc', 'asc'],
         );
       }
 
