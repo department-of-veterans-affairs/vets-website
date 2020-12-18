@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import useSWR from 'swr';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
@@ -13,9 +14,9 @@ import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ErrorMessage from '../../../components/ErrorMessage';
 import RemoveProviderModal from './RemoveProviderModal';
-import useSWR from 'swr';
 import recordEvent from 'platform/monitoring/record-event';
 import { getCommunityProvidersByTypeOfCare } from '../../../services/location';
+import { captureError } from '../../../utils/error';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -24,10 +25,7 @@ function ProviderSelectionField({
   formData,
   onChange,
   idSchema,
-  // requestStatus,
   requestLocationStatus,
-  // requestProvidersList,
-  // communityCareProviderList,
   updateCCProviderSortMethod,
   currentLocation,
   sortMethod,
@@ -40,28 +38,28 @@ function ProviderSelectionField({
   const [providersListLength, setProvidersListLength] = useState(
     INITIAL_PROVIDER_DISPLAY_COUNT,
   );
+  const sortLocation =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+      ? currentLocation
+      : address;
   const { data: communityCareProviderList, error } = useSWR(
-    ['providerSelection', sortMethod, typeOfCare],
-    () => {
-      return getCommunityProvidersByTypeOfCare({
-        address:
-          sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
-            ? currentLocation
-            : address,
+    ['providerSelection', sortLocation, typeOfCare],
+    () =>
+      getCommunityProvidersByTypeOfCare({
+        address: sortLocation,
         typeOfCare,
-      });
+      }),
+    {
+      onError: e => captureError(e),
     },
   );
+
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
     providersListLength,
   );
   const loadingProviders = !communityCareProviderList;
-  // requestStatus === FETCH_STATUS.loading ||
-  // requestStatus === FETCH_STATUS.notStarted;
-
   const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
-
   const providerSelected = 'id' in formData;
   const sortByDistanceFromResidential =
     !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
@@ -72,17 +70,6 @@ function ProviderSelectionField({
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  // useEffect(
-  //   () => {
-  //     if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
-  //       requestProvidersList(currentLocation);
-  //     } else {
-  //       requestProvidersList(address);
-  //     }
-  //   },
-  //   [sortMethod],
-  // );
 
   useEffect(
     () => {
@@ -279,7 +266,13 @@ function ProviderSelectionField({
                           {provider.address.postalCode}
                         </span>
                         <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-                          {provider[sortMethod]} miles
+                          {distanceBetween(
+                            provider.position?.latitude,
+                            provider.position?.longitude,
+                            sortLocation.latitude,
+                            sortLocation.longitude,
+                          )}{' '}
+                          miles
                         </span>
                       </label>
                       {checked && (
@@ -370,7 +363,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  requestProvidersList: actions.requestProvidersList,
   updateCCProviderSortMethod: actions.updateCCProviderSortMethod,
 };
 

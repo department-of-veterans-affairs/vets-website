@@ -57,9 +57,6 @@ import {
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
   CLICKED_UPDATE_ADDRESS_BUTTON,
-  FORM_REQUESTED_PROVIDERS,
-  FORM_REQUESTED_PROVIDERS_SUCCEEDED,
-  FORM_REQUESTED_PROVIDERS_FAILED,
 } from './actions';
 
 import {
@@ -1122,46 +1119,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         isCCEligible: action.isEligible,
-      };
-    }
-    case FORM_REQUESTED_PROVIDERS: {
-      return {
-        ...state,
-        requestStatus: FETCH_STATUS.loading,
-      };
-    }
-    case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
-      let communityCareProviderList = action.communityCareProviderList;
-      const address = action.address;
-
-      const sortMethod = state.ccProviderPageSortMethod
-        ? state.ccProviderPageSortMethod
-        : FACILITY_SORT_METHODS.distanceFromResidential;
-      communityCareProviderList = communityCareProviderList
-        .map(facility => {
-          const distance = distanceBetween(
-            address.latitude,
-            address.longitude,
-            facility.position.latitude,
-            facility.position.longitude,
-          );
-          return {
-            ...facility,
-            [sortMethod]: distance,
-          };
-        })
-        .sort((a, b) => a[sortMethod] - b[sortMethod]);
-
-      return {
-        ...state,
-        requestStatus: FETCH_STATUS.succeeded,
-        communityCareProviderList,
-      };
-    }
-    case FORM_REQUESTED_PROVIDERS_FAILED: {
-      return {
-        ...state,
-        requestStatus: FETCH_STATUS.failed,
       };
     }
     default:
