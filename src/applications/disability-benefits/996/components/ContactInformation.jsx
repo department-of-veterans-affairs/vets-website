@@ -23,9 +23,9 @@ export const ContactInfoDescription = ({ profile }) => {
         important information about your Higher-Level Review to this address.
       </p>
       <p className="vads-u-margin-top--1p5">
-        You can update this information on your{' '}
+        You can{' '}
         <a href={PROFILE_URL} target="_blank" rel="noopener noreferrer">
-          profile page
+          update this information on your profile page
         </a>
         .
       </p>
