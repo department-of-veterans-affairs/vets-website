@@ -2,9 +2,9 @@ import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/
 import formConfig from './config/form';
 import QuestionnaireWrapper from './containers/QuestionnaireWrapper.jsx';
 
-import { getAppointmentIdFromUrl, addAppointmentIdToFormId } from './utils';
+import { getCurrentAppointmentId, addAppointmentIdToFormId } from './utils';
 
-const id = getAppointmentIdFromUrl(window);
+const id = getCurrentAppointmentId(window);
 formConfig.formId = addAppointmentIdToFormId(id, formConfig.formId);
 
 const route = {
