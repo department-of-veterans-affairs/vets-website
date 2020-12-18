@@ -6,6 +6,3 @@ export const selectShowQuestionnaire = state =>
 
 export const selectLoadingFeatureFlags = state =>
   state?.featureToggles?.loading;
-
-export const selectAppointment = state =>
-  state?.questionnaireData?.context?.appointment;
