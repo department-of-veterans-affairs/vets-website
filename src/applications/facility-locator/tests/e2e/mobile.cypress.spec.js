@@ -42,24 +42,27 @@ describe('Mobile', () => {
   });
 
   it('should render in mobile layouts and tabs actions work', () => {
-    cy.visit('/find-locations');
-    cy.injectAxe();
+    Cypress.env().vaTopMobileViewports.forEach(viewportData => {
+      const {
+        list,
+        rank,
+        devicesWithViewport,
+        percentTraffic,
+        percentTrafficPeriod,
+        viewportPreset,
+      } = viewportData;
 
-    // iPhone X
-    cy.viewport(400, 812);
-    cy.checkSearch();
-
-    // iPhone 6/7/8 plus
-    cy.viewport(414, 736);
-    cy.checkSearch();
-
-    // Pixel 2
-    cy.viewport(411, 731);
-    cy.checkSearch();
-
-    // Galaxy S5/Moto
-    cy.viewport(360, 640);
-    cy.checkSearch();
+      cy.visit('/find-locations');
+      cy.injectAxe();
+      cy.viewportPreset(viewportPreset);
+      cy.log(`Viewport list: ${list}`);
+      cy.log(`Viewport rank: ${rank}`);
+      cy.log(`Devices with viewport: ${devicesWithViewport}`);
+      cy.log(
+        `% traffic for the month of ${percentTrafficPeriod}: ${percentTraffic}%`,
+      );
+      cy.checkSearch();
+    });
   });
 
   it('should render the appropriate elements at each breakpoint', () => {
@@ -79,7 +82,7 @@ describe('Mobile', () => {
     cy.viewport(1007, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(899, 2);
+      expect($element.width()).closeTo(907, 2);
     });
     cy.get('.desktop-map-container').should('exist');
     cy.get('.react-tabs').should('not.exist');
@@ -88,7 +91,7 @@ describe('Mobile', () => {
     cy.viewport(768, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(660, 2);
+      expect($element.width()).closeTo(675, 2);
     });
     cy.get('.desktop-map-container').should('exist');
     cy.get('.react-tabs').should('not.exist');
@@ -97,7 +100,7 @@ describe('Mobile', () => {
     cy.viewport(481, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(397, 2);
+      expect($element.width()).closeTo(412, 2);
     });
     cy.get('.desktop-map-container').should('not.exist');
     cy.get('.react-tabs').should('exist');
