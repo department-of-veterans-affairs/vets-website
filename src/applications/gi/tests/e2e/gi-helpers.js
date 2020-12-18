@@ -138,10 +138,6 @@ export const checkSectionAccordion = (
     clickAccordion(sections[sectionName]);
   } else {
     const id = createAccordionButtonId(sections[sectionName]);
-
-    // cy.injectAxe(); // added
-    // cy.axeCheck(); // added
-
     cy.get(id).axeCheck();
   }
   eybAccordionExpandedCheck(sections, sections[sectionName]);
@@ -154,8 +150,6 @@ export const verifySearchResults = (results = searchResults) => {
   results.data.forEach(({ attributes: profile }) => {
     cy.get(`#search-result-${profile.facility_code}`).should('be.visible');
   });
-
-  // cy.axeCheck();
 };
 
 export const verifyVetTecSearchResults = (results = vetTecSearchResults) => {
