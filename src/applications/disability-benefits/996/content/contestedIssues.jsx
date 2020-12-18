@@ -24,10 +24,8 @@ export const ContestedIssuesTitle = props =>
       Sorry, we couldn’t find any eligible issues
     </h2>
   ) : (
-    <legend name="eligibleScrollElement">
-      <strong className="vads-u-font-size--lg">
-        Select the issue(s) you would like reviewed
-      </strong>
+    <legend name="eligibleScrollElement" className="vads-u-font-size--lg">
+      Select the issue(s) you would like reviewed
       <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
         (*Required)
       </span>
@@ -54,11 +52,11 @@ export const disabilityOption = ({ attributes }) => {
 
   return (
     <div className="widget-content">
-      <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">
+      <span className="vads-u-font-weight--bold">
         {typeof ratingIssueSubjectText === 'string'
           ? ratingIssueSubjectText
           : NULL_CONDITION_STRING}
-      </h3>
+      </span>
       {description && (
         <p className="vads-u-margin-bottom--0">{description || ''}</p>
       )}
