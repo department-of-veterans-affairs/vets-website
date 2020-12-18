@@ -1,6 +1,7 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your employment history',
@@ -17,22 +18,45 @@ export const uiSchema = {
       currentlyEmployed: {
         'ui:title': 'Are you currently employed?',
         'ui:widget': 'yesNo',
+        'ui:required': formData =>
+          formData.employmentHistory.hasBeenEmployed === true,
       },
       isCurrentlyEmployed: {
+        'ui:description':
+          'Please provide information about your current employment.',
         'ui:options': {
           expandUnder: 'currentlyEmployed',
         },
         employmentType: {
           'ui:title': 'Type of employment',
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
+          'ui:required': formData =>
+            formData.employmentHistory?.isEmployed?.currentlyEmployed === true,
         },
         employmentStart: {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
+          'ui:options': {
+            widgetClassNames: 'employment-start-date',
+          },
+          'ui:required': formData =>
+            formData.employmentHistory?.isEmployed?.currentlyEmployed === true,
         },
         employerName: {
           'ui:title': 'Employer name',
+          'ui:options': {
+            widgetClassNames: 'input-size-6',
+          },
         },
-        grossMonthlyIncome: currencyUI('Gross monthly income'),
+        grossMonthlyIncome: _.merge(currencyUI('Gross monthly income'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-1',
+          },
+          'ui:required': formData =>
+            formData.employmentHistory?.isEmployed?.currentlyEmployed === true,
+        }),
         payrollDeductions: {
           'ui:field': ItemLoop,
           'ui:title': 'Payroll deductions',
@@ -77,7 +101,7 @@ export const schema = {
               properties: {
                 employmentType: {
                   type: 'string',
-                  enum: ['Full-time', 'Part-time', 'Seasonal'],
+                  enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
                 },
                 employmentStart: {
                   type: 'string',
