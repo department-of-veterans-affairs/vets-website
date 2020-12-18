@@ -9,7 +9,7 @@ import {
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import App from './App';
 import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
-import { getAppointmentIdFromUrl } from '../utils';
+import { getCurrentAppointmentId, setCurrentAppointmentId } from '../utils';
 
 const QuestionnaireWrapper = ({
   location,
@@ -17,28 +17,15 @@ const QuestionnaireWrapper = ({
   isQuestionnaireEnabled,
   isLoadingFeatureFlags,
 }) => {
-  // check url
-  const urlId = getAppointmentIdFromUrl(window);
+  const appointmentId = getCurrentAppointmentId(window);
 
-  // if a url id
-  if (urlId) {
-    // store in session
-    const data = {
-      appointmentId: urlId,
-    };
-    sessionStorage.setItem('currentHealthQuestionnaire', JSON.stringify(data));
+  if (!appointmentId) {
+    // if no url and no session, trigger redirect.
+    return window.location.replace(
+      '/health-care/health-questionnaires/questionnaires',
+    );
   } else {
-    // if no url id,
-    const data = sessionStorage.getItem('currentHealthQuestionnaire') ?? '{}';
-    const parsed = JSON.parse(data);
-    const sId = parsed?.appointmentId;
-    // check session
-    if (!sId) {
-      // if no url and no session, trigger redirect.
-      return window.location.replace(
-        '/health-care/health-questionnaires/questionnaires',
-      );
-    }
+    setCurrentAppointmentId(appointmentId);
   }
 
   if (isLoadingFeatureFlags) {
@@ -59,11 +46,11 @@ const QuestionnaireWrapper = ({
     );
   }
 };
-
 const mapStateToProps = state => ({
   isQuestionnaireEnabled: selectShowQuestionnaire(state),
   isLoadingFeatureFlags: selectLoadingFeatureFlags(state),
 });
+
 const mapDispatchToProps = _dispatch => ({});
 
 export default connect(
