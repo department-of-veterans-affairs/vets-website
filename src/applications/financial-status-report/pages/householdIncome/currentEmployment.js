@@ -1,7 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your employment history',
@@ -50,13 +49,14 @@ export const uiSchema = {
             widgetClassNames: 'input-size-6',
           },
         },
-        grossMonthlyIncome: _.merge(currencyUI('Gross monthly income'), {
+        grossMonthlyIncome: {
+          ...currencyUI('Gross monthly income'),
           'ui:options': {
-            widgetClassNames: 'input-size-1',
+            classNames: 'input-size-1',
           },
           'ui:required': formData =>
             formData.employmentHistory?.isEmployed?.currentlyEmployed === true,
-        }),
+        },
         payrollDeductions: {
           'ui:field': ItemLoop,
           'ui:title': 'Payroll deductions',
