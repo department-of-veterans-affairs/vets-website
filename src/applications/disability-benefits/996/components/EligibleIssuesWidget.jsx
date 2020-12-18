@@ -25,18 +25,19 @@ const DisabilityTitle = ({ attributes, checkboxVisible }) => {
   const { ratingIssueSubjectText } = attributes;
   const className = [
     'vads-u-margin-y--0',
-    'vads-u-font-size--h4',
+    'vads-u-font-size--md',
+    'vads-u-font-weight--bold',
     checkboxVisible
       ? 'vads-u-display--inline vads-u-margin-left--1'
       : 'vads-u-margin-left--2',
   ].join(' ');
 
   return (
-    <h3 className={className}>
+    <span className={className}>
       {typeof ratingIssueSubjectText === 'string'
         ? ratingIssueSubjectText
         : NULL_CONDITION_STRING}
-    </h3>
+    </span>
   );
 };
 
