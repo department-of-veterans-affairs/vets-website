@@ -39,6 +39,9 @@ class FormSaved extends React.Component {
     }
   }
 
+  getResumeOnly = () => {
+    return this.props.route?.formConfig?.saveInProgress?.resumeOnly;
+  };
   render() {
     const { formId, lastSavedDate, expirationMessage } = this.props;
     const { profile } = this.props.user;
@@ -108,6 +111,7 @@ class FormSaved extends React.Component {
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
           formSaved
+          resumeOnly={this.getResumeOnly()}
         />
       </div>
     );

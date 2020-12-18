@@ -1,4 +1,5 @@
-require('@babel/polyfill');
+require('core-js/stable');
+require('regenerator-runtime/runtime');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -29,6 +30,8 @@ const generateWebpackDevConfig = require('./webpack.dev.config.js');
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
+const timestamp = new Date().getTime();
+
 const sharedModules = [
   getAbsolutePath('src/platform/polyfills'),
   'react',
@@ -53,6 +56,18 @@ const globalEntryFiles = {
   'shared-modules': sharedModules,
 };
 
+function getEntryManifests(entry) {
+  const allManifests = getAppManifests();
+  let entryManifests = allManifests;
+  if (entry) {
+    const entryNames = entry.split(',').map(name => name.trim());
+    entryManifests = allManifests.filter(manifest =>
+      entryNames.includes(manifest.entryName),
+    );
+  }
+  return entryManifests;
+}
+
 /**
  * Get a list of all the entry points.
  *
@@ -61,14 +76,7 @@ const globalEntryFiles = {
  * @return {Object} - The entry file paths mapped to the entry names
  */
 function getEntryPoints(entry) {
-  const manifests = getAppManifests();
-  let manifestsToBuild = manifests;
-  if (entry) {
-    const entryNames = entry.split(',').map(name => name.trim());
-    manifestsToBuild = manifests.filter(manifest =>
-      entryNames.includes(manifest.entryName),
-    );
-  }
+  const manifestsToBuild = getEntryManifests(entry);
 
   return getWebpackEntryPoints(manifestsToBuild);
 }
@@ -95,6 +103,11 @@ module.exports = env => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
+  const useHashFilenames = [
+    ENVIRONMENTS.VAGOVSTAGING,
+    ENVIRONMENTS.VAGOVPROD,
+  ].includes(buildOptions.buildtype);
+
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
@@ -110,8 +123,12 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: '/generated/',
-      filename: '[name].entry.js',
-      chunkFilename: '[name].entry.js',
+      filename: !useHashFilenames
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      chunkFilename: !useHashFilenames
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
     },
     module: {
       rules: [
@@ -247,7 +264,9 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return `[name].css`;
+          return useHashFilenames
+            ? `[name].[contenthash]-${timestamp}.css`
+            : `[name].css`;
         },
       }),
 
@@ -380,6 +399,15 @@ module.exports = env => {
         ],
       }),
     );
+
+    // Open the browser to either --env.openTo or one of the root URLs of the
+    // apps we're scaffolding
+    baseConfig.devServer.open = true;
+    baseConfig.devServer.openPage =
+      buildOptions.openTo || buildOptions.entry
+        ? // Assumes the first in the list has a rootUrl
+          getEntryManifests(buildOptions.entry)[0].rootUrl
+        : '';
   }
 
   if (isOptimizedBuild) {

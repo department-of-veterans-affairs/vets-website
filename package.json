@@ -129,7 +129,6 @@
     "@babel/plugin-proposal-throw-expressions": "^7.10.1",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-syntax-import-meta": "^7.10.1",
-    "@babel/polyfill": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-react": "^7.10.1",
     "@babel/register": "^7.10.3",
@@ -276,7 +275,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "6.10.3",
-    "@department-of-veterans-affairs/formation-react": "6.0.1",
+    "@department-of-veterans-affairs/formation-react": "6.0.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
@@ -286,7 +285,7 @@
     "classnames": "^2.2.6",
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.5",
-    "core-js": "^2.5.7",
+    "core-js": "^3.8.1",
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
     "express": "^4.17.1",
@@ -337,6 +336,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "regenerator-runtime": "^0.13.7",
     "reselect": "^2.5.4",
     "swr": "^0.3.9",
     "syswide-cas": "^5.3.0",
@@ -346,7 +346,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8a9ef5109d833dcc65a1bf2c2ae785c3cccb1466",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c12156e77d9cbffa439ee0ec2ddf42b805658023",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

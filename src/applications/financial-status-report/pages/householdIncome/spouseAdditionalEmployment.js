@@ -10,17 +10,17 @@ export const uiSchema = {
       'ui:required': () => true,
     },
     previousEmploymentRecords: {
+      'ui:field': ItemLoop,
       'ui:description':
         'Please provide your spouse’s employment history for the past two years.',
-      'ui:field': ItemLoop,
       'ui:options': {
         expandUnder: 'previousEmployment',
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
+        itemName: 'Add a job',
       },
       items: {
-        'ui:title': 'Add a job',
         employmentType: {
           'ui:title': 'Type of employment',
         },

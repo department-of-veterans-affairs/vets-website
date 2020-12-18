@@ -4,6 +4,18 @@ module.exports = {
   type: 'object',
   properties: {
     name: { $ref: 'GenericNestedString' },
+    path: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['alias'],
+        properties: {
+          alias: {
+            type: 'string',
+          },
+        },
+      },
+    },
   },
-  required: ['name'],
+  required: ['name', 'path'],
 };
