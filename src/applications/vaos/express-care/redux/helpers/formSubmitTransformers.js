@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { EXPRESS_CARE } from '../../../utils/constants';
-import { selectExpressCareFormData } from '../../../utils/selectors';
+import { selectExpressCareFormData } from '../selectors';
 
 // express-care
 export function transformFormToExpressCareRequest(state, facility) {

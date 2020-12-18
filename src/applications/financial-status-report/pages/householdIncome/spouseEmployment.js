@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -36,26 +37,23 @@ export const uiSchema = {
         employerName: {
           'ui:title': 'Employer name',
         },
-        monthlyIncome: {
-          'ui:title': 'Gross monthly income',
-        },
-        payrollDeductions: {
+        spouseIncome: currencyUI('Gross monthly income'),
+        spousePayrollDeductions: {
           'ui:field': ItemLoop,
+          'ui:title': 'Payroll deductions',
+          'ui:description':
+            'You can find your payroll deductions in a recent paycheck.',
           'ui:options': {
             viewField: CardDetailsView,
             doNotScroll: true,
             showSave: true,
+            itemName: 'Add a payroll deduction',
           },
           items: {
-            'ui:title': 'Payroll deductions',
-            'ui:description':
-              'You can find your payroll deductions in a recent paycheck.',
             deductionType: {
               'ui:title': 'Type of payroll deduction',
             },
-            deductionAmout: {
-              'ui:title': 'Deduction amount',
-            },
+            spouseDeductionAmount: currencyUI('Deduction amount'),
           },
         },
       },
@@ -93,10 +91,10 @@ export const schema = {
                 employerName: {
                   type: 'string',
                 },
-                monthlyIncome: {
+                spouseIncome: {
                   type: 'number',
                 },
-                payrollDeductions: {
+                spousePayrollDeductions: {
                   type: 'array',
                   items: {
                     type: 'object',
@@ -104,7 +102,7 @@ export const schema = {
                       deductionType: {
                         type: 'string',
                       },
-                      deductionAmout: {
+                      spouseDeductionAmount: {
                         type: 'number',
                       },
                     },

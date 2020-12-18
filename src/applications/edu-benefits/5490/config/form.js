@@ -126,7 +126,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: applicantInformationPage(fullSchema5490, {
           labels: { relationship: relationshipLabels },
@@ -138,7 +138,7 @@ const formConfig = {
       },
     },
     benefitSelection: {
-      title: 'Benefits Eligibility',
+      title: 'Benefits eligibility',
       pages: {
         benefitSelection: {
           title: 'Benefits eligibility',
@@ -322,14 +322,14 @@ const formConfig = {
                   },
                 },
                 // Re-label the inputs to add 'sponsor'
-                first: { 'ui:title': 'Sponsor first name' },
-                last: { 'ui:title': 'Sponsor last name' },
-                middle: { 'ui:title': 'Sponsor middle name' },
-                suffix: { 'ui:title': 'Sponsor suffix' },
+                first: { 'ui:title': "Sponsor's first name" },
+                last: { 'ui:title': "Sponsor's last name" },
+                middle: { 'ui:title': "Sponsor's middle name" },
+                suffix: { 'ui:title': "Sponsor's suffix" },
               }),
               'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
-                  'ui:title': 'Sponsor Social Security number',
+                  'ui:title': "Sponsor's Social Security number",
                   'ui:required': formData =>
                     _.get(
                       'previousBenefits.view:claimedSponsorService',
@@ -345,7 +345,7 @@ const formConfig = {
                     'I don’t know my sponsor’s Social Security number',
                 },
                 vaFileNumber: {
-                  'ui:title': 'Sponsor file number',
+                  'ui:title': "Sponsor's VA number",
                   'ui:required': formData =>
                     _.get(
                       'previousBenefits.view:claimedSponsorService',
@@ -394,7 +394,7 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor Information',
+      title: 'Sponsor information',
       pages: {
         sponsorInformation: {
           title: 'Sponsor information',
@@ -450,21 +450,21 @@ const formConfig = {
                 },
                 'ui:title': 'Name of Sponsor',
                 first: {
-                  'ui:title': 'Sponsor first name',
+                  'ui:title': "Sponsor's first name",
                 },
                 middle: {
-                  'ui:title': 'Sponsor middle name',
+                  'ui:title': "Sponsor's middle name",
                 },
                 last: {
-                  'ui:title': 'Sponsor last name',
+                  'ui:title': "Sponsor's last name",
                 },
                 suffix: {
-                  'ui:title': 'Sponsor suffix',
+                  'ui:title': "Sponsor's suffix",
                 },
               }),
               'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
-                  'ui:title': 'Sponsor Social Security number',
+                  'ui:title': "Sponsor's Social Security number",
                   'ui:required': formData =>
                     !_.get('currentSameAsPrevious', formData) &&
                     !_.get(
@@ -482,13 +482,13 @@ const formConfig = {
                       'view:currentSponsorInformation.view:veteranId.view:noSSN',
                       formData,
                     ),
-                  'ui:title': 'Sponsor file number',
+                  'ui:title': "Sponsor's VA number",
                 },
               }),
             },
-            veteranDateOfBirth: currentOrPastDateUI('Sponsor date of birth'),
+            veteranDateOfBirth: currentOrPastDateUI("Sponsor's date of birth"),
             veteranDateOfDeath: currentOrPastDateUI(
-              'Sponsor date of death or date listed as MIA or POW',
+              "Sponsor's date of death or date listed as MIA or POW",
             ),
           },
           schema: {
@@ -515,7 +515,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Sponsor service',
             serviceBranch: {
-              'ui:title': 'Branch of service',
+              'ui:title': "Sponsor's branch of service",
             },
             currentlyActiveDuty: {
               'ui:title': 'Is your sponsor on active duty?',
@@ -539,7 +539,7 @@ const formConfig = {
       },
     },
     educationHistory: {
-      title: 'Education History',
+      title: 'Education history',
       pages: {
         educationHistory: {
           title: 'Education history',
@@ -649,13 +649,13 @@ const formConfig = {
       },
     },
     employmentHistory: {
-      title: 'Employment History',
+      title: 'Employment history',
       pages: {
         employmentHistory: employmentHistoryPage(fullSchema5490, false),
       },
     },
     schoolSelection: {
-      title: 'School Selection',
+      title: 'School selection',
       pages: {
         schoolSelection: _.merge(
           createSchoolSelectionPage(
@@ -710,7 +710,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         contactInformation: contactInformationPage(
           fullSchema5490,

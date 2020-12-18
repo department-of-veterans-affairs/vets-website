@@ -5,7 +5,7 @@ import { refreshProfile } from '~/platform/user/profile/actions';
 import recordEvent from '~/platform/monitoring/record-event';
 import { inferAddressType } from '~/applications/letters/utils/helpers';
 
-import { FIELD_NAMES, ADDRESS_POU } from '@@vap-svc/constants';
+import { ADDRESS_POU, FIELD_NAMES } from '@@vap-svc/constants';
 
 import { showAddressValidationModal } from '../../utilities';
 
@@ -132,11 +132,12 @@ export function refreshTransaction(
             transactionRefreshed?.data?.attributes?.metadata?.[0] ?? {};
           const errorCode = errorMetadata.code ?? 'unknown-code';
           const errorKey = errorMetadata.key ?? 'unknown-key';
+
           recordEvent({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': analyticsSectionName,
-            'error-key': `${errorCode}_${errorKey}-address-save-failure`,
+            'error-key': `${errorCode}_${errorKey}-${analyticsSectionName}-save-failure`,
           });
           recordEvent({
             'error-key': undefined,

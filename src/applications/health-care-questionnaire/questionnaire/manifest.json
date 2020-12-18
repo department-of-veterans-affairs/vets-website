@@ -1,0 +1,6 @@
+{
+  "appName": "Health Care Questionnaire",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "questionnaire",
+  "rootUrl": "/health-care/health-questionnaires/questionnaires/answer-questions"
+}

@@ -1,6 +1,0 @@
-{
-  "appName": "Questionnaire List",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "questionnaire-list",
-  "rootUrl": "/healthcare/list"
-}

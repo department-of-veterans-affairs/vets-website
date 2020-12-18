@@ -32,6 +32,12 @@
     ],
     "@babel/react"
   ],
+  "ignore": [
+    /* Ignore the file containing core-js polyfill imports for older browsers. If Babel processes the file,
+     * it will remove all the imports because they are not needed for the newer browsers in the list above.
+     */
+    "./src/platform/polyfills/preESModulesPolyfills.js"
+  ],
   "plugins": [
     "lodash",
     // Stage 2

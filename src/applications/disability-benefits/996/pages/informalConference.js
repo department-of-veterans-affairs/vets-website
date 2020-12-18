@@ -1,32 +1,24 @@
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
-import ScheduleTimesReviewField from '../content/ScheduleTimesReviewField';
 
-import { checkConferenceTimes } from '../validations';
-import { errorMessages, patternMessages } from '../constants';
+import {
+  checkConferenceTimes,
+  isFirstConferenceTimeEmpty,
+} from '../validations';
+import { errorMessages } from '../constants';
 
 import {
   InformalConferenceDescription,
   InformalConferenceTitle,
+  informalConferenceTimeTitles,
   informalConferenceLabels,
   informalConferenceTimeAllLabels,
   ContactRepresentativeDescription,
   RepresentativeNameTitle,
   RepresentativePhoneTitle,
   InformalConferenceTimes,
-  InformalConferenceTimeLabels,
   AttemptsInfoAlert,
 } from '../content/InformalConference';
-
-const scheduleTimeUiSchema = key => ({
-  'ui:title': InformalConferenceTimeLabels(key),
-  'ui:options': {
-    hideLabelText: true,
-  },
-  'ui:field': 'StringField',
-  'ui:widget': 'checkbox',
-  'ui:reviewField': ScheduleTimesReviewField,
-});
 
 const informalConference = {
   uiSchema: {
@@ -80,7 +72,7 @@ const informalConference = {
         'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:required': formData => formData?.informalConference === 'rep',
         'ui:errorMessages': {
-          pattern: patternMessages.representativePhone,
+          pattern: errorMessages.informalConferenceContactPhonePattern,
           required: errorMessages.informalConferenceContactPhone,
         },
         'ui:options': {
@@ -90,26 +82,51 @@ const informalConference = {
     },
     informalConferenceTimes: {
       'ui:title': InformalConferenceTimes,
-      'ui:required': formData => formData?.informalConference !== 'no',
-      'ui:errorMessages': {
-        required: errorMessages.informalConferenceTimesMin,
-      },
-      'ui:validations': [checkConferenceTimes],
-      time0800to1000: scheduleTimeUiSchema('time0800to1000'),
-      time1000to1230: scheduleTimeUiSchema('time1000to1230'),
-      time1230to1400: scheduleTimeUiSchema('time1230to1400'),
-      time1400to1630: scheduleTimeUiSchema('time1400to1630'),
       'ui:options': {
         showFieldLabel: true,
         hideIf: formData => formData?.informalConference === 'no',
         expandUnder: 'informalConference',
-        updateSchema: (formData, schema, uiSchema) => {
-          Object.keys(informalConferenceTimeAllLabels).forEach(time => {
-            const options = uiSchema[time]['ui:options'] || {};
-            // pass informalConference to children
-            options.informalConference = formData?.informalConference;
-          });
-          return schema;
+        forceDivWrapper: true,
+        updateSchema: formData => {
+          const time1Setting = formData?.informalConferenceTimes?.time1 || '';
+          const time2Setting = formData?.informalConferenceTimes?.time2 || '';
+          const enums = Object.keys(informalConferenceTimeAllLabels);
+          const enumNames = Object.values(informalConferenceTimeAllLabels);
+          return {
+            type: 'object',
+            properties: {
+              time1: {
+                type: 'string',
+                enum: enums.filter(val => val !== time2Setting),
+                enumNames: enumNames.filter(
+                  label =>
+                    label !== informalConferenceTimeAllLabels[time2Setting],
+                ),
+              },
+              time2: {
+                type: 'string',
+                enum: enums.filter(val => val !== time1Setting),
+                enumNames: enumNames.filter(
+                  label =>
+                    label !== informalConferenceTimeAllLabels[time1Setting],
+                ),
+              },
+            },
+          };
+        },
+      },
+      time1: {
+        'ui:title': informalConferenceTimeTitles.first,
+        'ui:required': formData => formData?.informalConference !== 'no',
+        'ui:validations': [checkConferenceTimes],
+        'ui:errorMessages': {
+          required: errorMessages.informalConferenceTimes,
+        },
+      },
+      time2: {
+        'ui:title': informalConferenceTimeTitles.second,
+        'ui:options': {
+          hideEmptyValueInReview: true,
         },
       },
     },
@@ -120,6 +137,7 @@ const informalConference = {
         'ui:description': AttemptsInfoAlert,
         'ui:options': {
           hideIf: formData => formData?.informalConference !== 'me',
+          forceDivWrapper: true,
         },
       },
       'view:contactRepresentative': {
@@ -130,8 +148,7 @@ const informalConference = {
         },
       },
       'ui:options': {
-        hideIf: formData =>
-          !checkConferenceTimes(null, formData?.informalConferenceTimes),
+        hideIf: isFirstConferenceTimeEmpty,
         expandUnder: 'informalConference',
       },
     },
@@ -162,17 +179,11 @@ const informalConference = {
       informalConferenceTimes: {
         type: 'object',
         properties: {
-          time0800to1000: {
-            type: 'boolean',
+          time1: {
+            type: 'string',
           },
-          time1000to1230: {
-            type: 'boolean',
-          },
-          time1230to1400: {
-            type: 'boolean',
-          },
-          time1400to1630: {
-            type: 'boolean',
+          time2: {
+            type: 'string',
           },
         },
       },

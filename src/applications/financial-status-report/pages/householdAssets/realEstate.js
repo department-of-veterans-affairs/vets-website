@@ -1,5 +1,6 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your real estate assets',
@@ -9,24 +10,21 @@ export const uiSchema = {
     'ui:required': () => true,
   },
   realEstateRecords: {
-    'ui:description': 'Enter each of your real estate assets below.',
     'ui:field': ItemLoop,
+    'ui:description': 'Enter each of your real estate assets below.',
     'ui:options': {
       viewField: CardDetailsView,
       expandUnder: 'hasRealEstate',
       doNotScroll: true,
       showSave: true,
+      itemName: 'Add real estate',
     },
     items: {
-      'ui:title': 'Add real estate',
       realEstateType: {
         'ui:title': 'Type of real estate',
         'ui:required': () => true,
       },
-      realEstateValue: {
-        'ui:title': 'Estimated value',
-        'ui:required': () => true,
-      },
+      realEstateValue: currencyUI('Estimated value'),
     },
   },
 };
@@ -46,7 +44,7 @@ export const schema = {
             type: 'string',
           },
           realEstateValue: {
-            type: 'string',
+            type: 'number',
           },
         },
       },

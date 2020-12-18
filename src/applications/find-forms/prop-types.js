@@ -2,16 +2,25 @@ import PropTypes from 'prop-types';
 
 const Form = PropTypes.shape({
   id: PropTypes.string.isRequired,
+  type: PropTypes.string,
   attributes: PropTypes.shape({
     formName: PropTypes.string.isRequired, // same as id
-    title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
-    validPdf: PropTypes.bool,
-    validPDF: PropTypes.bool,
+    title: PropTypes.string.isRequired,
     lastRevisionOn: PropTypes.string,
     firstIssuedOn: PropTypes.string, // always null; meaningless property
-    sha: PropTypes.string,
     pages: PropTypes.number,
+    sha256: PropTypes.string,
+    validPdf: PropTypes.bool,
+    formUsage: PropTypes.string,
+    formToolIntro: PropTypes.string,
+    formToolUrl: PropTypes.string,
+    formDetailsUrl: PropTypes.string,
+    formType: PropTypes.string,
+    language: PropTypes.string,
+    deletedAt: PropTypes.string,
+    relatedForms: PropTypes.array,
+    benefitCategories: PropTypes.array,
   }).isRequired,
 });
 

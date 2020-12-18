@@ -37,7 +37,7 @@ const SearchResult = ({ form }) => {
       formToolUrl,
       formDetailsUrl,
       lastRevisionOn,
-      relatedForms,
+      benefitCategories,
       title,
       url,
     },
@@ -62,10 +62,10 @@ const SearchResult = ({ form }) => {
         {lastRevision}
       </dd>
 
-      {relatedForms.length > 0 ? (
+      {benefitCategories && benefitCategories.length > 0 ? (
         <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
           <dfn className="vads-u-font-weight--bold">Related to:</dfn>{' '}
-          {relatedForms.join(', ')}
+          {benefitCategories.map(f => f.name).join(', ')}
         </dd>
       ) : null}
 
