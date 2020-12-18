@@ -10,7 +10,7 @@ describe('Find VA Forms <FormTitle />', () => {
     id: 'VA10192',
     formDetailsUrl:
       'https://www.va.gov/health-care/about-information-for-pre-complaint-processing/',
-    showFindFormsMVPEnhancements: true, //  TODO: 12/17/20 remove prop once feature is deployed to prod in Jan 2012 https://github.com/department-of-veterans-affairs/va.gov-team/issues/16930
+    showFindFormsMVPEnhancements: true, //  TODO: 12/17/20 remove prop once feature is deployed to prod in Jan 12 2020 https://github.com/department-of-veterans-affairs/va.gov-team/issues/16930
     title: 'Information for Pre-Complaint Processing',
   };
 
