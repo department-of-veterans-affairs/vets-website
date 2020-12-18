@@ -20,9 +20,13 @@
   margin-top: 10px;
 }
 
+#root__title {
+  height: 35px;
+}
+
 .item-loop-container {
   margin-top: 10px;
-  .item-loop-header {
+  .item-loop-header legend {
     margin-top: 30px;
   }
   .item-loop {
