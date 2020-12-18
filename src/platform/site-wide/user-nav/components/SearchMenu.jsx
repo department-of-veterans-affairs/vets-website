@@ -17,7 +17,6 @@ import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropD
 export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
 
 const ENTER_KEY = 13;
-const ESCAPE_KEY = 27;
 
 export class SearchMenu extends React.Component {
   constructor(props) {
@@ -29,15 +28,21 @@ export class SearchMenu extends React.Component {
     this.state = {
       userInput: '',
       suggestions: [],
+      highlightedIndex: null,
     };
   }
+
   componentDidUpdate(prevProps, prevState) {
     const { userInput } = this.state;
+    const { searchTypeaheadEnabled } = this.props;
 
+    // if userInput has changed, fetch suggestions for the typeahead experience
     const inputChanged = prevState.userInput !== userInput;
-    if (inputChanged) {
+    if (inputChanged && searchTypeaheadEnabled) {
       this.getSuggestions();
     }
+
+    // event logging for phased typeahead rollout
     if (
       !prevProps.searchTypeaheadEnabled &&
       this.props.searchTypeaheadEnabled
@@ -49,9 +54,23 @@ export class SearchMenu extends React.Component {
     }
   }
 
-  async getSuggestions() {
+  isUserInputValid = () => {
     const { userInput } = this.state;
 
+    // check to make sure user input isn't empty
+    const isCorrectLength =
+      userInput && userInput.replace(/\s/g, '').length > 0;
+    if (!isCorrectLength) {
+      return false;
+    }
+    // this will likely expand in the future
+    return true;
+  };
+
+  getSuggestions = async () => {
+    const { userInput } = this.state;
+
+    // end early / clear suggestions if user input is too short
     if (userInput?.length <= 2) {
       if (this.state.suggestions.length > 0) {
         this.setState({ suggestions: [] });
@@ -59,7 +78,11 @@ export class SearchMenu extends React.Component {
 
       return;
     }
+
+    // encode user input for query to suggestions url
     const encodedInput = encodeURIComponent(userInput);
+
+    // fetch suggestions
     try {
       const response = await fetch(
         `${searchGovSuggestionEndpoint}?=&name=va&q=${encodedInput}`,
@@ -67,57 +90,99 @@ export class SearchMenu extends React.Component {
 
       const suggestions = await response.json();
       this.setState({ suggestions });
+
+      // if we fail to fetch suggestions
     } catch (error) {
       Sentry.captureException(error);
     }
-  }
+  };
 
   handleInputChange = event => {
     this.setState({ userInput: event.target.value });
   };
 
-  handleKeyUp = event => {
-    if (
-      (event.which || event.keyCode) === ENTER_KEY &&
-      document.getElementById('query') === document.activeElement
-    ) {
-      this.handleSearchEvent();
+  // function to control state changes within the downshift component
+  handelDownshiftStateChange = (changes, state) => {
+    // when a user presses the escape key, clear suggestions and close the dropdown
+    if (changes.type === Downshift.stateChangeTypes.keyDownEscape) {
+      this.setState({
+        highlightedIndex: null,
+        suggestions: [],
+      });
       return;
     }
-    if ((event.which || event.keyCode) === ESCAPE_KEY) {
-      this.props.clickHandler();
+    // when a user presses the enter key, exit early to prevent out highlighted suggestion being cleared
+    if (changes.type === Downshift.stateChangeTypes.keyDownEnter) {
+      return;
+    }
+
+    // keep track of the index of the highlighted suggestion so we can use it to fire off a search / log events
+    this.setState({ highlightedIndex: state.highlightedIndex });
+  };
+
+  // function to handle searches kicked off by key presses
+  handleKeyUp = event => {
+    const { highlightedIndex, suggestions } = this.state;
+
+    // kick off a search when an enter key is pressed
+    if ((event.which || event.keyCode) === ENTER_KEY) {
+      // if our highlighted index is null, search using the userInput (pass in undefined)
+      // otherwise pass in our chosen suggestion
+      const query =
+        highlightedIndex !== null ? suggestions[highlightedIndex] : undefined;
+      this.handleSearchEvent(query);
     }
   };
 
+  // handle event logging and fire off a search query
   handleSearchEvent = suggestion => {
+    const { suggestions, userInput } = this.state;
+    const { isUserInputValid } = this;
+
+    // if the user tries to search with an empty input, escape early
+    if (!isUserInputValid) {
+      return;
+    }
+
+    // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
       event: 'view_search_results',
       'search-page-path': document.location.pathname,
-      'search-query': this.state.userInput,
+      'search-query': userInput,
       'search-results-total-count': undefined,
       'search-results-total-pages': undefined,
       'search-selection': 'All VA.gov',
       'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
       'type-ahead-option-keyword-selected': suggestion,
       'type-ahead-option-position': suggestion
-        ? this.state.suggestions.indexOf(suggestion) + 1
+        ? suggestions.indexOf(suggestion) + 1
         : undefined,
-      'type-ahead-options-list': this.state.suggestions,
+      'type-ahead-options-list': suggestions,
     });
 
-    const query = suggestion || this.state.userInput;
+    // unifier to let the same function be used if we are searching from a userInput or a suggestion
+    const query = suggestion || userInput;
 
+    // create a search url
     const searchUrl = replaceWithStagingDomain(
       `https://www.va.gov/search/?query=${encodeURIComponent(query)}`,
     );
 
+    // relocate to search results, preserving history
     window.location.assign(searchUrl);
   };
 
   makeForm = () => {
-    const validUserInput =
-      this.state.userInput &&
-      this.state.userInput.replace(/\s/g, '').length > 0;
+    const { suggestions, userInput } = this.state;
+    const { searchTypeaheadEnabled } = this.props;
+    const {
+      getSuggestions,
+      handelDownshiftStateChange,
+      handleInputChange,
+      handleSearchEvent,
+      handleKeyUp,
+      isUserInputValid,
+    } = this;
 
     const highlightedSuggestion =
       'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full';
@@ -125,13 +190,14 @@ export class SearchMenu extends React.Component {
     const regularSuggestion =
       'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full';
 
-    if (!this.props.searchTypeaheadEnabled) {
+    // default search experience
+    if (!searchTypeaheadEnabled) {
       return (
         <form
           acceptCharset="UTF-8"
           onSubmit={event => {
             event.preventDefault();
-            this.handleSearchEvent();
+            handleSearchEvent();
           }}
         >
           <label htmlFor="query" className="usa-sr-only">
@@ -146,11 +212,11 @@ export class SearchMenu extends React.Component {
               id="query"
               name="query"
               type="text"
-              onChange={this.handleInputChange}
+              onChange={handleInputChange}
             />
             <button
               type="submit"
-              disabled={!validUserInput}
+              disabled={!isUserInputValid}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
@@ -161,13 +227,14 @@ export class SearchMenu extends React.Component {
       );
     }
 
+    // typeahead search experience
     return (
       <Downshift
-        inputValue={this.state.userInput}
-        onSelect={item => this.handleSearchEvent(item)}
+        inputValue={userInput}
+        isOpen={suggestions.length > 0}
         itemToString={item => item}
-        onKeyUp={this.handleKeyUp}
-        isOpen={this.state.suggestions.length > 0}
+        onStateChange={handelDownshiftStateChange}
+        onSelect={suggestion => handleSearchEvent(suggestion)}
       >
         {({
           getInputProps,
@@ -190,19 +257,21 @@ export class SearchMenu extends React.Component {
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1  vads-u-width--full"
                 name="query"
                 aria-controls={isOpen ? 'suggestions-list' : undefined}
+                onFocus={getSuggestions}
+                onKeyUp={handleKeyUp}
                 {...getInputProps({
                   type: 'text',
-                  onChange: this.handleInputChange,
+                  onChange: handleInputChange,
                   'aria-labelledby': 'site-search-label',
                   id: 'query',
-                  onKeyUp: this.handleKeyUp,
                 })}
               />
               <button
                 type="submit"
-                disabled={!validUserInput}
+                disabled={!isUserInputValid}
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
-                onClick={() => this.handleSearchEvent()}
+                onClick={() => handleSearchEvent()}
+                onFocus={() => this.setState({ suggestions: [] })}
               >
                 <IconSearch color="#fff" />
                 <span className="usa-sr-only">Search</span>
@@ -215,10 +284,10 @@ export class SearchMenu extends React.Component {
                 role="listbox"
                 aria-label="suggestions-list"
               >
-                {this.state.suggestions?.map((suggestion, index) => {
+                {suggestions?.map((suggestion, index) => {
                   const formattedSuggestion = suggestion.replace(
-                    this.state.userInput,
-                    `<strong>${escape(this.state.userInput)}</strong>`,
+                    userInput,
+                    `<strong>${escape(userInput)}</strong>`,
                   );
                   return (
                     <li
@@ -233,6 +302,7 @@ export class SearchMenu extends React.Component {
                           : regularSuggestion
                       }
                       {...getItemProps({ item: suggestion })}
+                      // this line is used to show the suggestion with the user's input in BOLD
                       // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{
                         __html: formattedSuggestion,
@@ -249,8 +319,11 @@ export class SearchMenu extends React.Component {
   };
 
   render() {
+    const { makeForm } = this;
+    const { cssClass, clickHandler, isOpen } = this.props;
+
     const buttonClasses = classNames(
-      this.props.cssClass,
+      cssClass,
       'va-btn-withicon',
       'va-dropdown-trigger',
     );
@@ -261,14 +334,14 @@ export class SearchMenu extends React.Component {
       <DropDownPanel
         onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
         buttonText="Search"
-        clickHandler={this.props.clickHandler}
+        clickHandler={clickHandler}
         dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
         cssClass={buttonClasses}
         id="search"
         icon={icon}
-        isOpen={this.props.isOpen}
+        isOpen={isOpen}
       >
-        {this.makeForm()}
+        {makeForm()}
       </DropDownPanel>
     );
   }
