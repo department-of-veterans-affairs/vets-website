@@ -197,7 +197,6 @@ function createPaginatedArticleListings({
           });
 
           const page = {
-            private: true, // @todo remove this to enable indexing
             articleTypesByEntityBundle,
             contents: Buffer.from(''),
             path: pageOfArticles.uri,
@@ -324,15 +323,6 @@ function createSearchResults(files) {
   files['resources/search/articles.json'] = {
     contents: Buffer.from(JSON.stringify(articleSearchData)),
   };
-}
-
-// @todo remove this to enable indexing
-function excludeFromSiteMap(files) {
-  const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
-
-  allArticles.forEach(article => {
-    article.private = true;
-  });
 }
 
 function createResourcesAndSupportWebsiteSection() {
