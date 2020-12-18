@@ -72,7 +72,7 @@ export default class DateWidget extends React.Component {
   }
 
   render() {
-    const { id, options = {} } = this.props;
+    const { id, disabled, options = {} } = this.props;
     const { month, day, year } = this.state.value;
     let daysForSelectedMonth;
 
@@ -90,6 +90,7 @@ export default class DateWidget extends React.Component {
             name={`${id}Month`}
             id={`${id}Month`}
             value={month}
+            disabled={disabled}
             onChange={event => this.handleChange('month', event.target.value)}
           >
             <option value="" />
@@ -109,6 +110,7 @@ export default class DateWidget extends React.Component {
               name={`${id}Day`}
               id={`${id}Day`}
               value={day}
+              disabled={disabled}
               onChange={event => this.handleChange('day', event.target.value)}
             >
               <option value="" />
@@ -130,6 +132,7 @@ export default class DateWidget extends React.Component {
             autoComplete={options.autocomplete}
             name={`${id}Year`}
             id={`${id}Year`}
+            disabled={disabled}
             max="3000"
             min="1900"
             pattern="[0-9]{4}"
