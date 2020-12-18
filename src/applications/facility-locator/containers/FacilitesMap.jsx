@@ -585,6 +585,24 @@ const FacilitiesMap = props => {
     [props.results, map],
   );
 
+  if (
+    props.results &&
+    props.results.length === 0 &&
+    map &&
+    props.currentQuery.searchCoords
+  ) {
+    const { searchCoords } = props.currentQuery;
+    const locationBounds = new mapboxgl.LngLatBounds();
+    const markerElement = buildMarker('currentPos');
+    new mapboxgl.Marker(markerElement)
+      .setLngLat([searchCoords.lng, searchCoords.lat])
+      .addTo(map);
+    locationBounds.extend(
+      new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
+    );
+    map.fitBounds(locationBounds, { maxZoom: 12 });
+  }
+
   return (
     <>
       <div>
