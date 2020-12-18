@@ -18,6 +18,11 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
+  // we are separating the first paragraph due to each paragraph having unique styling
+  const veteranFirstParagraph = veteranSignatureContent[0];
+  const veteranWithoutFirstParagraph = primaryCaregiverContent.slice(1);
+  const primaryFirstParagraph = primaryCaregiverContent[0];
+  const primaryWithoutFirstParagraph = primaryCaregiverContent.slice(1);
 
   const [signatures, setSignatures] = useState({
     [veteranLabel]: false,
@@ -81,18 +86,18 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
 
   const SecondaryCaregiverCopy = ({ label }) => {
     const header = title => `${title} Statement of Truth`;
+    const firstParagraph = secondaryCaregiverContent[0];
+    const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
+
     return (
       <div>
         <h3 className="vads-u-margin-top--4">{header(label)}</h3>
 
-        {secondaryCaregiverContent.map((secondaryContent, idx) => (
-          <p key={`label-${idx}`}>{secondaryContent}</p>
-        ))}
+        <p className="vads-u-margin-y--4">{firstParagraph}</p>
 
-        <p className="vads-u-margin-y--4">
-          I certify that I am at least 18 years of age.
-        </p>
-
+        {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
+          return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
+        })}
         <PrivacyPolicy />
       </div>
     );
@@ -121,9 +126,14 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       >
         <h3>Veteran&apos;s statement of truth</h3>
 
-        {veteranSignatureContent.map((veteranContent, idx) => (
-          <p key={`veteran-signature-${idx}`}>{veteranContent}</p>
-        ))}
+        <p>{veteranFirstParagraph}</p>
+
+        {/* currently this array is empty due to it only having one string
+            checking for empty array then mapping it for future compatibility and consistency */}
+        {veteranWithoutFirstParagraph &&
+          veteranWithoutFirstParagraph.map((veteranContent, idx) => (
+            <p key={`veteran-signature-${idx}`}>{veteranContent}</p>
+          ))}
 
         <PrivacyPolicy />
       </SignatureCheckbox>
@@ -141,13 +151,11 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
             Primary Family Caregiver applicant&apos;s statement of truth
           </h3>
 
-          {primaryCaregiverContent.map((primaryContent, idx) => (
-            <p key={`veteran-signature-${idx}`}>{primaryContent}</p>
-          ))}
+          <p className="vads-u-margin-y--4">{primaryFirstParagraph}</p>
 
-          <p className="vads-u-margin-y--4">
-            I certify that I am at least 18 years of age.
-          </p>
+          {primaryWithoutFirstParagraph.map((primaryContent, idx) => (
+            <p key={`primary-signature-${idx}`}>{primaryContent}</p>
+          ))}
 
           <PrivacyPolicy />
         </SignatureCheckbox>
