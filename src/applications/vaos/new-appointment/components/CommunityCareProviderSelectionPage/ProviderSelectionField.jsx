@@ -250,7 +250,7 @@ function ProviderSelectionField({
                     </button>
                   </p>
                 )}
-                <p role="status">
+                <p role="status" aria-live="polite" aria-atomic="true">
                   Displaying 1 to {currentlyShownProvidersList.length} of{' '}
                   {communityCareProviderList.length} providers
                 </p>
@@ -317,8 +317,6 @@ function ProviderSelectionField({
             {providersListLength < communityCareProviderList.length && (
               <>
                 <button
-                  aria-live="polite"
-                  aria-atomic="true"
                   type="button"
                   className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
                   onClick={() => {
