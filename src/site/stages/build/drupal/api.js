@@ -167,7 +167,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       }
     },
 
-    getAllPages(onlyPublishedContent = true) {
+    getAllPages(onlyPublishedContent = false) {
       return this.query({
         query: getQuery(queries.GET_ALL_PAGES),
         variables: {
@@ -177,7 +177,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       });
     },
 
-    getNonNodeContent(onlyPublishedContent = true) {
+    getNonNodeContent(onlyPublishedContent = false) {
       say('Querying for non-node content');
       return this.query({
         query: getQuery(queries.GET_ALL_PAGES, { useTomeSync: true }),
