@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
@@ -115,16 +117,27 @@ class SearchApp extends React.Component {
         'nav-path': `Recommended Results -> ${strippedTitle}`,
       });
     }
+
+    const bestBetPosition = index + 1;
+    const normalResultPosition =
+      index + (this.props.search?.recommendedResults?.length || 0) + 1;
+    const searchResultPosition = bestBet
+      ? bestBetPosition
+      : normalResultPosition;
+
     recordEvent({
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
       'search-query': this.state.userInput,
-      'search-results-position': index + 1,
+      'search-results-pagination-current-page': this.props.search?.currentPage,
+      'search-results-position': searchResultPosition,
       'search-results-total-count': this.props.search?.totalEntries,
       'search-results-total-pages': Math.ceil(
-        this.props.search?.results?.length / 10,
+        this.props.search?.totalEntries / 10,
       ),
       'search-selection': 'All VA.gov',
+      'search-results-top-recommendation': bestBet,
+      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
     });
   };
 
@@ -187,8 +200,8 @@ class SearchApp extends React.Component {
             Our top recommendations for you
           </h4>
           <ul className="results-list">
-            {recommendedResults.map(r =>
-              this.renderWebResult(r, 'description', true),
+            {recommendedResults.map((result, index) =>
+              this.renderWebResult(result, 'description', true, index),
             )}
           </ul>
           <hr />
@@ -399,10 +412,12 @@ class SearchApp extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { search } = state;
-  return { search };
-}
+const mapStateToProps = state => ({
+  search: state.search,
+  searchTypeaheadEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  ],
+});
 
 const mapDispatchToProps = {
   fetchSearchResults,
