@@ -209,10 +209,10 @@ const EligibleIssuesWidget = props => {
     </>
   );
   return inReviewMode ? (
-    <div className={showError ? 'usa-input-error vads-u-margin-top--0' : ''}>
+    <>
       {showError && <ContestedIssuesAlert />}
       {content}
-    </div>
+    </>
   ) : (
     <div className={showError ? 'usa-input-error vads-u-margin-top--0' : ''}>
       {showError && <ContestedIssuesAlert />}
