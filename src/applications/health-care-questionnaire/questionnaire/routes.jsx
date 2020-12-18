@@ -16,7 +16,7 @@ const route = {
         replace(`/introduction?id=${id}`);
       } else {
         // replace('/error');
-        replace(`/introduction`);
+        replace(`/health-care/health-questionnaires/questionnaires`);
       }
     },
   },
