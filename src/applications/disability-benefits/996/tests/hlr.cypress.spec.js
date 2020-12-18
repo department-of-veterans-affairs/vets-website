@@ -8,6 +8,7 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
 import { CONTESTABLE_ISSUES_API } from '../constants';
+import mockUser from './fixtures/mocks/user.json';
 
 const testConfig = createTestConfig(
   {
@@ -38,7 +39,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       window.sessionStorage.removeItem(WIZARD_STATUS);
 
-      cy.login();
+      cy.login(mockUser);
 
       cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
 
@@ -62,7 +63,7 @@ const testConfig = createTestConfig(
     },
 
     // disable all tests until HLR is in production
-    skip: true,
+    // skip: true,
   },
   manifest,
   formConfig,
