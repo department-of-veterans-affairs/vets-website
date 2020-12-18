@@ -6,6 +6,7 @@ const SESSION_STORAGE_KEYS = Object.freeze({
 
 const getCurrentAppointmentId = window => {
   const { CURRENT_HEALTH_QUESTIONNAIRE } = SESSION_STORAGE_KEYS;
+  const { sessionStorage } = window;
   // check url
   const urlId = getAppointmentIdFromUrl(window);
 
@@ -26,7 +27,8 @@ const getCurrentAppointmentId = window => {
   }
 };
 
-const setCurrentAppointmentId = id => {
+const setCurrentAppointmentId = (window, id) => {
+  const { sessionStorage } = window;
   const { CURRENT_HEALTH_QUESTIONNAIRE } = SESSION_STORAGE_KEYS;
   // store in session
   const data = {

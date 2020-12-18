@@ -25,7 +25,7 @@ const QuestionnaireWrapper = ({
       '/health-care/health-questionnaires/questionnaires',
     );
   } else {
-    setCurrentAppointmentId(appointmentId);
+    setCurrentAppointmentId(window, appointmentId);
   }
 
   if (isLoadingFeatureFlags) {
