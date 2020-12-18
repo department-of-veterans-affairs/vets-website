@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -24,14 +25,27 @@ export default function FacilitiesRadioWidget({
     selectedIndex >= INITIAL_FACILITY_DISPLAY_COUNT,
   );
 
+  // currently shown facility list
   const displayedOptions = displayAll
     ? enumOptions
     : enumOptions.slice(0, INITIAL_FACILITY_DISPLAY_COUNT);
-
+  // remaining facilities count
   const hiddenCount =
     enumOptions.length > INITIAL_FACILITY_DISPLAY_COUNT
       ? enumOptions.length - INITIAL_FACILITY_DISPLAY_COUNT
       : 0;
+  useEffect(
+    () => {
+      if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
+        scrollAndFocus(
+          `#${
+            enumOptions[INITIAL_FACILITY_DISPLAY_COUNT].label.id
+          }_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`,
+        );
+      }
+    },
+    [displayedOptions.length, displayAll],
+  );
 
   return (
     <div>
@@ -47,19 +61,20 @@ export default function FacilitiesRadioWidget({
         ) {
           distance = legacyVAR?.distanceFromCurrentLocation;
         }
+        const facilityPosition = i + 1;
 
         return (
           <div className="form-radio-buttons" key={option.value}>
             <input
               type="radio"
               checked={checked}
-              id={`${id}_${i}`}
+              id={`${id}_${facilityPosition}`}
               name={`${id}`}
               value={option.value}
               onChange={_ => onChange(option.value)}
               disabled={loadingEligibility}
             />
-            <label htmlFor={`${id}_${i}`}>
+            <label htmlFor={`${id}_${facilityPosition}`}>
               <span className="vads-u-display--block vads-u-font-weight--bold">
                 {name}
               </span>
@@ -81,8 +96,11 @@ export default function FacilitiesRadioWidget({
           <button
             type="button"
             className="additional-info-button va-button-link vads-u-display--block"
-            onClick={() => setDisplayAll(!displayAll)}
+            onClick={() => {
+              setDisplayAll(!displayAll);
+            }}
           >
+            <span className="sr-only">show</span>
             <span className="va-button-link">
               {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
             </span>

@@ -193,6 +193,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     // Should show 6th facility
     expect(screen.baseElement).to.contain.text('Fake facility name 6');
+    expect(document.activeElement.id).to.equal('var984_6');
 
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
