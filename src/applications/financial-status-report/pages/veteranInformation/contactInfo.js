@@ -42,7 +42,18 @@ export const uiSchema = {
       ...emailUI('Re-enter email address'),
       'ui:options': {
         classNames: 'input-size-7',
+        hideOnReview: true,
       },
+      'ui:validations': [
+        {
+          validator: (errors, fieldData, formData) => {
+            const { primaryEmail, confirmationEmail } = formData.contactInfo;
+            if (primaryEmail !== confirmationEmail) {
+              errors.addError('Email does not match');
+            }
+          },
+        },
+      ],
     },
   },
 };
