@@ -7,8 +7,8 @@ import { WIZARD_STATUS } from 'applications/static-pages/wizard';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
-import { CONTESTABLE_ISSUES_API } from '../constants';
 import mockUser from './fixtures/mocks/user.json';
+import { CONTESTABLE_ISSUES_API } from '../constants';
 
 const testConfig = createTestConfig(
   {
@@ -61,9 +61,6 @@ const testConfig = createTestConfig(
         cy.route('GET', '/v0/in_progress_forms/20-0996', testData);
       });
     },
-
-    // disable all tests until HLR is in production
-    // skip: true,
   },
   manifest,
   formConfig,
