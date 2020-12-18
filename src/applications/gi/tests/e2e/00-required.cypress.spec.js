@@ -13,15 +13,12 @@ const institutionAttributes = institutionProfile.data.attributes;
 describe('Institution', () => {
   beforeEach(() => {
     initApplicationMock();
-    cy.visit('/gi-bill-comparison-tool').injectAxe();
-    cy.axeCheck();
+    cy.visit('/gi-bill-comparison-tool');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Default institution profile flow with giBillChapter chapter 33', () => {
     // Landing Page
-
-    cy.axeCheck();
-
     cy.get('.keyword-search input[type="text"]').type(
       institutionAttributes.name,
     );

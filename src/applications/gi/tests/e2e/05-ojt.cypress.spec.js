@@ -15,8 +15,8 @@ describe('OJT institution', () => {
     initApplicationMock(ojtProfile, ojtSearchResults);
 
     // Landing page
-    cy.visit('/gi-bill-comparison-tool').injectAxe();
-    cy.axeCheck();
+    cy.visit('/gi-bill-comparison-tool');
+    cy.injectAxeThenAxeCheck();
     cy.get('input[name*="category"][value="employer"]').check();
     cy.get('.keyword-search input[type="text"]').type(searchTerm);
     cy.get('#search-button').click();
@@ -35,6 +35,8 @@ describe('OJT institution', () => {
     cy.get(`#search-result-${facilityCode} a`)
       .first()
       .click();
+
+    cy.injectAxe(); // added
 
     // Profile page
     const eybSections = {

@@ -5,7 +5,7 @@ import {
   checkSectionAccordion,
   checkProfileHousingRate,
   breadCrumb,
-  enrolledOld,
+  // enrolledOld,
 } from './gi-helpers';
 import { formatCurrency, formatNumber } from '../../utils/helpers';
 
@@ -15,15 +15,15 @@ const ojtProfile = require('../data/ojt-profile.json');
 
 describe('DEA benefit', () => {
   const ojtFacilityCode = deaSearchResults.data[0].attributes.facility_code;
-  const facilityCode = deaSearchResults.data[1].attributes.facility_code;
+  // const facilityCode = deaSearchResults.data[1].attributes.facility_code;
 
   beforeEach(() => {
     cy.route('GET', `/v0/gi/institutions/${ojtFacilityCode}`, ojtProfile).as(
       'ojtProfile',
     );
     initApplicationMock(institutionProfile, deaSearchResults);
-    cy.visit('/gi-bill-comparison-tool').injectAxe();
-    cy.axeCheck();
+    cy.visit('/gi-bill-comparison-tool');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('path is valid without errors', () => {
@@ -34,9 +34,11 @@ describe('DEA benefit', () => {
     cy.get('#giBillChapter').select('35');
     cy.get('.keyword-search input[type="text"]').type(searchTerm);
     cy.get('#search-button').click();
+    cy.injectAxeThenAxeCheck();
 
     // Search page
     cy.wait('@defaultSearch');
+    cy.injectAxeThenAxeCheck();
     cy.url().should('include', `/search?category=school&name=${searchTerm}`);
 
     // verify search results and housing rates
@@ -87,6 +89,8 @@ describe('DEA benefit', () => {
       .invoke('val')
       .should('eq', '35');
 
+    cy.injectAxe();
+
     checkSectionAccordion(false, 'yourMilitaryDetails', eybSections);
 
     checkSectionAccordion(true, 'learningFormat', eybSections);
@@ -108,45 +112,46 @@ describe('DEA benefit', () => {
     // Search again
     cy.get('#search-button').click();
 
-    // Search page
-    cy.wait('@defaultSearch');
-    cy.url().should('include', `/search?category=school&name=${searchTerm}`);
+    // // Search page
+    // cy.wait('@defaultSearch');
+    // cy.url().should('include', `/search?category=school&name=${searchTerm}`);
 
-    cy.get(`#search-result-${facilityCode} a`)
-      .first()
-      .scrollIntoView();
+    // cy.get(`#search-result-${facilityCode} a`)
+    //   .first()
+    //   .scrollIntoView();
 
-    // Select the second search result
-    cy.get(`#search-result-${facilityCode} a`)
-      .first()
-      .should('be.visible')
-      .click({ force: true });
+    // // Select the second search result
+    // cy.get(`#search-result-${facilityCode} a`)
+    //   .first()
+    //   .should('be.visible')
+    //   .click({ force: true });
 
-    // Profile page
-    cy.wait(`@profile${facilityCode}`);
-    cy.url().should('include', `/profile/${facilityCode}`);
-    cy.get('.profile-page').should('be.visible');
+    // // Profile page
+    // cy.wait(`@profile${facilityCode}`);
+    // cy.injectAxe(); // added
+    // cy.url().should('include', `/profile/${facilityCode}`);
+    // cy.get('.profile-page').should('be.visible');
 
-    // Verify enrollment options set housing correctly
-    checkSectionAccordion(true, 'schoolCostsAndCalendar');
-    const enrolledOldRates = [
-      { rate: calculatorConstants.DEARATEFULLTIME, option: 'full' },
-      {
-        rate: calculatorConstants.DEARATETHREEQUARTERS,
-        option: 'three quarters',
-      },
-      { rate: calculatorConstants.DEARATEONEHALF, option: 'half' },
-      {
-        rate: 300,
-        option: 'less than half',
-      },
-      {
-        rate: 300,
-        option: 'quarter',
-      },
-    ];
-    enrolledOldRates.forEach(({ rate, option }) => {
-      enrolledOld(option, rate);
-    });
+    // // Verify enrollment options set housing correctly
+    // checkSectionAccordion(true, 'schoolCostsAndCalendar');
+    // const enrolledOldRates = [
+    //   { rate: calculatorConstants.DEARATEFULLTIME, option: 'full' },
+    //   {
+    //     rate: calculatorConstants.DEARATETHREEQUARTERS,
+    //     option: 'three quarters',
+    //   },
+    //   { rate: calculatorConstants.DEARATEONEHALF, option: 'half' },
+    //   {
+    //     rate: 300,
+    //     option: 'less than half',
+    //   },
+    //   {
+    //     rate: 300,
+    //     option: 'quarter',
+    //   },
+    // ];
+    // enrolledOldRates.forEach(({ rate, option }) => {
+    //   enrolledOld(option, rate);
+    // });
   });
 });
