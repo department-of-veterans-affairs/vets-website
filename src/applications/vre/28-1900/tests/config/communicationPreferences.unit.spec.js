@@ -24,7 +24,7 @@ describe('Chapter 31 communication preferences', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7);
     form.unmount();
   });
   it('should not submit with unfilled fields', () => {

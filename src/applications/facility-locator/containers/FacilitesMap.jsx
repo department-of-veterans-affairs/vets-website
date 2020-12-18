@@ -239,6 +239,7 @@ const FacilitiesMap = props => {
 
     if (searchAreaControlId.style.display === 'none') {
       searchAreaControlId.style.display = 'block';
+      setFocus('#search-area-control');
     }
 
     if (searchAreaControlId && !searchAreaSet) {
@@ -255,6 +256,9 @@ const FacilitiesMap = props => {
       center: [MapboxInit.centerInit.lng, MapboxInit.centerInit.lat],
       zoom: MapboxInit.zoomInit,
     });
+
+    const mapContainerElement = document.getElementById('mapbox-gl-container');
+    if (mapContainerElement) mapContainerElement.setAttribute('tabindex', 0);
 
     const searchAreaControl = new SearchAreaControl(isMobile);
     mapInit.addControl(searchAreaControl);

@@ -153,7 +153,7 @@ export class IntroductionPage extends React.Component {
       );
     }
 
-    // check is user has address
+    // check if user has address
     if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
       return (
         <article className="schemaform-intro">

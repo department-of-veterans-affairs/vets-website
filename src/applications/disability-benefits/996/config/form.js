@@ -96,11 +96,11 @@ const formConfig = {
       },
     },
     contestedIssues: {
-      title: 'Contested issues',
+      title: 'Issues eligible for review',
       pages: {
         contestedIssues: {
           title: ' ',
-          path: 'contested-issues',
+          path: 'eligible-issues',
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
           // initialData,

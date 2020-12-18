@@ -22,88 +22,157 @@ import 'classlist-polyfill'; // DOM element classList support.
  * 6. Now you have the full list and you can format them into import statements with some
  *   regex work
  */
-import 'core-js/modules/es6.typed.array-buffer'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.typed.int8-array'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.typed.uint8-array'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.typed.uint8-clamped-array'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.typed.int16-array'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.typed.uint16-array'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.typed.int32-array'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.typed.uint32-array'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.typed.float32-array'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.typed.float64-array'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.map'; // {"edge":"14","ie":"11","ios":"9"}
-import 'core-js/modules/es6.set'; // {"edge":"14","ie":"11","ios":"9"}
-import 'core-js/modules/es6.weak-map'; // {"edge":"14","ie":"11"}
-import 'core-js/modules/es6.weak-set'; // {"edge":"14","ie":"11"}
-import 'core-js/modules/es6.reflect.apply'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.construct'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.define-property'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.delete-property'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.get'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.get-own-property-descriptor'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.get-prototype-of'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.has'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.is-extensible'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.own-keys'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.prevent-extensions'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.set'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.reflect.set-prototype-of'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.promise'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es6.symbol'; // {"edge":"14","ie":"11","ios":"9"}
-import 'core-js/modules/es6.object.freeze'; // {"ie":"11"}
-import 'core-js/modules/es6.object.seal'; // {"ie":"11"}
-import 'core-js/modules/es6.object.prevent-extensions'; // {"ie":"11"}
-import 'core-js/modules/es6.object.is-frozen'; // {"ie":"11"}
-import 'core-js/modules/es6.object.is-sealed'; // {"ie":"11"}
-import 'core-js/modules/es6.object.is-extensible'; // {"ie":"11"}
-import 'core-js/modules/es6.object.get-own-property-descriptor'; // {"ie":"11"}
-import 'core-js/modules/es6.object.get-prototype-of'; // {"ie":"11"}
-import 'core-js/modules/es6.object.keys'; // {"ie":"11"}
-import 'core-js/modules/es6.object.get-own-property-names'; // {"ie":"11"}
-import 'core-js/modules/es6.object.assign'; // {"ie":"11"}
-import 'core-js/modules/es6.object.is'; // {"ie":"11"}
-import 'core-js/modules/es6.string.raw'; // {"ie":"11"}
-import 'core-js/modules/es6.string.from-code-point'; // {"ie":"11"}
-import 'core-js/modules/es6.string.code-point-at'; // {"ie":"11"}
-import 'core-js/modules/es6.string.repeat'; // {"ie":"11"}
-import 'core-js/modules/es6.string.starts-with'; // {"ie":"11"}
-import 'core-js/modules/es6.string.ends-with'; // {"ie":"11"}
-import 'core-js/modules/es6.string.includes'; // {"ie":"11"}
-import 'core-js/modules/es6.array.from'; // {"edge":"14","ie":"11","ios":"9"}
-import 'core-js/modules/es6.array.of'; // {"ie":"11"}
-import 'core-js/modules/es6.array.copy-within'; // {"ie":"11"}
-import 'core-js/modules/es6.array.find'; // {"ie":"11"}
-import 'core-js/modules/es6.array.find-index'; // {"ie":"11"}
-import 'core-js/modules/es6.array.fill'; // {"ie":"11"}
-import 'core-js/modules/es6.array.iterator'; // {"ie":"11"}
-import 'core-js/modules/es6.number.is-finite'; // {"ie":"11"}
-import 'core-js/modules/es6.number.is-integer'; // {"ie":"11"}
-import 'core-js/modules/es6.number.is-safe-integer'; // {"ie":"11"}
-import 'core-js/modules/es6.number.is-nan'; // {"ie":"11"}
-import 'core-js/modules/es6.number.epsilon'; // {"ie":"11"}
-import 'core-js/modules/es6.number.min-safe-integer'; // {"ie":"11"}
-import 'core-js/modules/es6.number.max-safe-integer'; // {"ie":"11"}
-import 'core-js/modules/es6.math.acosh'; // {"ie":"11"}
-import 'core-js/modules/es6.math.asinh'; // {"ie":"11"}
-import 'core-js/modules/es6.math.atanh'; // {"ie":"11"}
-import 'core-js/modules/es6.math.cbrt'; // {"ie":"11"}
-import 'core-js/modules/es6.math.clz32'; // {"ie":"11"}
-import 'core-js/modules/es6.math.cosh'; // {"ie":"11"}
-import 'core-js/modules/es6.math.expm1'; // {"ie":"11"}
-import 'core-js/modules/es6.math.fround'; // {"ie":"11"}
-import 'core-js/modules/es6.math.hypot'; // {"ie":"11"}
-import 'core-js/modules/es6.math.imul'; // {"ie":"11"}
-import 'core-js/modules/es6.math.log1p'; // {"ie":"11"}
-import 'core-js/modules/es6.math.log10'; // {"ie":"11"}
-import 'core-js/modules/es6.math.log2'; // {"ie":"11"}
-import 'core-js/modules/es6.math.sign'; // {"ie":"11"}
-import 'core-js/modules/es6.math.sinh'; // {"ie":"11"}
-import 'core-js/modules/es6.math.tanh'; // {"ie":"11"}
-import 'core-js/modules/es6.math.trunc'; // {"ie":"11"}
-import 'core-js/modules/es7.array.includes'; // {"ie":"11","ios":"9"}
-import 'core-js/modules/es7.object.values'; // {"ie":"11","ios":"9","safari":"10"}
-import 'core-js/modules/es7.object.entries'; // {"ie":"11","ios":"9","safari":"10"}
-import 'core-js/modules/es7.object.get-own-property-descriptors'; // {"edge":"14","ie":"11","ios":"9","safari":"10"}
-import 'core-js/modules/es7.string.pad-start'; // {"edge":"14","ie":"11","ios":"9"}
-import 'core-js/modules/es7.string.pad-end'; // {"edge":"14","ie":"11","ios":"9"}
+import 'core-js/modules/es.symbol'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.symbol.has-instance'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.symbol.is-concat-spreadable'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.symbol.iterator'; // { "ie":"11" }
+import 'core-js/modules/es.symbol.species'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.symbol.to-primitive'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.symbol.to-string-tag'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.symbol.unscopables'; // { "ie":"11" }
+import 'core-js/modules/es.array.concat'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.array.copy-within'; // { "ie":"11" }
+import 'core-js/modules/es.array.every'; // { "edge":"14", "ie":"11" }
+import 'core-js/modules/es.array.fill'; // { "ie":"11" }
+import 'core-js/modules/es.array.filter'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.array.find'; // { "ie":"11" }
+import 'core-js/modules/es.array.find-index'; // { "ie":"11" }
+import 'core-js/modules/es.array.for-each'; // { "edge":"14", "ie":"11" }
+import 'core-js/modules/es.array.from'; // { "edge":"14", "ie":"11" }
+import 'core-js/modules/es.array.includes'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.array.index-of'; // { "edge":"14", "ie":"11", "ios":"9", "safari":"10" }
+import 'core-js/modules/es.array.iterator'; // {"ie":"11"}
+import 'core-js/modules/es.array.join'; // { "ie":"11" }
+import 'core-js/modules/es.array.last-index-of'; // { "ie":"11", "ios":"9", "safari":"10" }
+import 'core-js/modules/es.array.map'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.array.of'; // { "ie":"11" }
+import 'core-js/modules/es.array.reduce'; // { "edge":"14", "ie":"11" }
+import 'core-js/modules/es.array.reduce-right'; // { "edge":"14", "ie":"11" }
+import 'core-js/modules/es.array.slice'; // { "edge":"14", "ie":"11", "ios":"9", "safari":"10" }
+import 'core-js/modules/es.array.some'; // { "edge":"14", "ie":"11" }
+import 'core-js/modules/es.array.species'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.array.splice'; // { "edge":"14", "ie":"11", "ios":"9", "safari":"10" }
+import 'core-js/modules/es.date.to-json'; // { "ios":"9" }
+import 'core-js/modules/es.date.to-primitive'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.function.has-instance'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.function.name'; // { "ie":"11" }
+import 'core-js/modules/es.json.to-string-tag'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.map'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.math.acosh'; // { "ie":"11" }
+import 'core-js/modules/es.math.asinh'; // { "ie":"11" }
+import 'core-js/modules/es.math.atanh'; // { "ie":"11" }
+import 'core-js/modules/es.math.cbrt'; // { "ie":"11" }
+import 'core-js/modules/es.math.clz32'; // { "ie":"11" }
+import 'core-js/modules/es.math.cosh'; // { "ie":"11" }
+import 'core-js/modules/es.math.expm1'; // { "ie":"11" }
+import 'core-js/modules/es.math.fround'; // { "ie":"11" }
+import 'core-js/modules/es.math.hypot'; // {"ie":"11"}
+import 'core-js/modules/es.math.imul'; // { "ie":"11" }
+import 'core-js/modules/es.math.log10'; // { "ie":"11" }
+import 'core-js/modules/es.math.log1p'; // { "ie":"11" }
+import 'core-js/modules/es.math.log2'; // { "ie":"11" }
+import 'core-js/modules/es.math.sign'; // { "ie":"11" }
+import 'core-js/modules/es.math.sinh'; // { "ie":"11" }
+import 'core-js/modules/es.math.tanh'; // { "ie":"11" }
+import 'core-js/modules/es.math.to-string-tag'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.math.trunc'; // { "ie":"11" }
+import 'core-js/modules/es.number.constructor'; // { "ie":"11" }
+import 'core-js/modules/es.number.epsilon'; // { "ie":"11" }
+import 'core-js/modules/es.number.is-finite'; // { "ie":"11" }
+import 'core-js/modules/es.number.is-integer'; // { "ie":"11" }
+import 'core-js/modules/es.number.is-nan'; // { "ie":"11" }
+import 'core-js/modules/es.number.is-safe-integer'; // { "ie":"11" }
+import 'core-js/modules/es.number.max-safe-integer'; // { "ie":"11" }
+import 'core-js/modules/es.number.min-safe-integer'; // { "ie":"11" }
+import 'core-js/modules/es.number.parse-float'; // { "ie":"11", "ios":"9", "safari":"10" }
+import 'core-js/modules/es.number.parse-int'; // { "ie":"11" }
+import 'core-js/modules/es.object.assign'; // {"ie":"11"}
+import 'core-js/modules/es.object.entries'; // { "ie":"11", "ios":"9", "safari":"10" }
+import 'core-js/modules/es.object.freeze'; // { "ie":"11" }
+import 'core-js/modules/es.object.get-own-property-descriptor'; // { "ie":"11" }
+import 'core-js/modules/es.object.get-own-property-descriptors'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.object.get-own-property-names'; // { "ie":"11" }
+import 'core-js/modules/es.object.get-prototype-of'; // { "ie":"11" }
+import 'core-js/modules/es.object.is'; // { "ie":"11" }
+import 'core-js/modules/es.object.is-extensible'; // { "ie":"11" }
+import 'core-js/modules/es.object.is-frozen'; // { "ie":"11" }
+import 'core-js/modules/es.object.is-sealed'; // { "ie":"11" }
+import 'core-js/modules/es.object.keys'; // { "ie":"11" }
+import 'core-js/modules/es.object.prevent-extensions'; // { "ie":"11" }
+import 'core-js/modules/es.object.seal'; // { "ie":"11" }
+import 'core-js/modules/es.object.to-string'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.object.values'; // { "ie":"11", "ios":"9", "safari":"10" }
+import 'core-js/modules/es.promise'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.reflect.apply'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.construct'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.define-property'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.delete-property'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.get'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.get-own-property-descriptor'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.get-prototype-of'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.has'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.is-extensible'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.own-keys'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.prevent-extensions'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.reflect.set'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.reflect.set-prototype-of'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.regexp.exec'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.regexp.sticky'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.set'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.string.code-point-at'; // { "ie":"11" }
+import 'core-js/modules/es.string.ends-with'; // {"ie":"11"}
+import 'core-js/modules/es.string.from-code-point'; // { "ie":"11" }
+import 'core-js/modules/es.string.includes'; // {"ie":"11"}
+import 'core-js/modules/es.string.iterator'; // { "ie":"11" }
+import 'core-js/modules/es.string.pad-end'; // { "edge":"14", "ie":"11", "ios":"9", "safari":"10" }
+import 'core-js/modules/es.string.pad-start'; // { "edge":"14", "ie":"11", "ios":"9", "safari":"10" }
+import 'core-js/modules/es.string.raw'; // { "ie":"11" }
+import 'core-js/modules/es.string.repeat'; // { "ie":"11" }
+import 'core-js/modules/es.string.anchor'; // { "ie":"11" }
+import 'core-js/modules/es.string.big'; // { "ie":"11" }
+import 'core-js/modules/es.string.blink'; // { "ie":"11" }
+import 'core-js/modules/es.string.bold'; // { "ie":"11" }
+import 'core-js/modules/es.string.fixed'; // { "ie":"11" }
+import 'core-js/modules/es.string.fontcolor'; // { "ie":"11" }
+import 'core-js/modules/es.string.fontsize'; // { "ie":"11" }
+import 'core-js/modules/es.string.italics'; // { "ie":"11" }
+import 'core-js/modules/es.string.link'; // { "ie":"11" }
+import 'core-js/modules/es.string.small'; // { "ie":"11" }
+import 'core-js/modules/es.string.starts-with'; // {"ie":"11"}
+import 'core-js/modules/es.string.strike'; // { "ie":"11" }
+import 'core-js/modules/es.string.sub'; // { "ie":"11" }
+import 'core-js/modules/es.string.sup'; // { "ie":"11" }
+import 'core-js/modules/es.typed-array.copy-within'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.every'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.fill'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.filter'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.find'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.find-index'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.float32-array'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.typed-array.float64-array'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.typed-array.for-each'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.includes'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.index-of'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.int16-array'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.typed-array.int32-array'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.typed-array.int8-array'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.typed-array.iterator'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.join'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.last-index-of'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.map'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.reduce'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.reduce-right'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.reverse'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.set'; // { "ie":"11" }
+import 'core-js/modules/es.typed-array.slice'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.some'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.sort'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.subarray'; // { "ie":"11" }
+import 'core-js/modules/es.typed-array.to-string'; // { "ie":"11", "ios":"9" }
+import 'core-js/modules/es.typed-array.uint16-array'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.typed-array.uint32-array'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.typed-array.uint8-array'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.typed-array.uint8-clamped-array'; // {"ie":"11","ios":"9"}
+import 'core-js/modules/es.weak-map'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/es.weak-set'; // { "edge":"14", "ie":"11", "ios":"9" }
+import 'core-js/modules/web.dom-collections.for-each'; // { "edge":"14", "ie":"11", "ios":"9" }

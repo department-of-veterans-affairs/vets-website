@@ -5,10 +5,13 @@ const transform = entity => ({
     entityType: 'taxonomy_term',
     entityBundle: 'topics',
     name: getDrupalValue(entity.name),
+    entityUrl: {
+      path: entity.path[0].alias,
+    },
   },
 });
 
 module.exports = {
-  filter: ['name'],
+  filter: ['name', 'path'],
   transform,
 };
