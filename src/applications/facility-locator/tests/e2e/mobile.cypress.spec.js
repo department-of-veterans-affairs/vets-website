@@ -39,6 +39,8 @@ describe('Mobile', () => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
     });
+    cy.visit('/find-locations');
+    cy.injectAxe();
   });
 
   it('should render in mobile layouts and tabs actions work', () => {
@@ -52,8 +54,6 @@ describe('Mobile', () => {
         viewportPreset,
       } = viewportData;
 
-      cy.visit('/find-locations');
-      cy.injectAxe();
       cy.viewportPreset(viewportPreset);
       cy.log(`Viewport list: ${list}`);
       cy.log(`Viewport rank: ${rank}`);
@@ -66,9 +66,6 @@ describe('Mobile', () => {
   });
 
   it('should render the appropriate elements at each breakpoint', () => {
-    cy.visit('/find-locations');
-    cy.injectAxe();
-
     // desktop - large
     cy.viewport(1008, 1000);
     cy.axeCheck();
