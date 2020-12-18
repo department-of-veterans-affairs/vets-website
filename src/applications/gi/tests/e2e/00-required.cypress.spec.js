@@ -23,7 +23,7 @@ describe('Institution', () => {
       institutionAttributes.name,
     );
     cy.get('#search-button').click();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
 
     // Search Page
     verifySearchResults(searchResults);
@@ -42,6 +42,7 @@ describe('Institution', () => {
 
     // Profile page
     cy.wait(`@profile${facilityCode}`);
+    cy.injectAxeThenAxeCheck();
     cy.url().should('include', `/profile/${facilityCode}`);
     cy.get('.profile-page').should('be.visible');
 
