@@ -1,19 +1,24 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
-  PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 const GetFormHelp = () => (
   <>
     <p className="help-talk">
-      If you have questions or need help filling out this form, please call us
-      at <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday through
-      Friday, 8:00 a.m. to 9:00 p.m. ET.
+      If you have questions or need help filling out this form, please call our{' '}
+      <span aria-label="My. VA. 4 1 1.">MYVA411</span> main information line at{' '}
+      <Telephone contact={CONTACTS.HELP_DESK} /> and select 0. We’re here{' '}
+      <abbr title="24 hours a day, 7 days a week">24/7</abbr>.
     </p>
     <p className="u-vads-margin-bottom--0">
       If you have hearing loss, call TTY:{' '}
-      <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />.
+      <Telephone
+        contact={CONTACTS['711']}
+        pattern={'###'}
+        ariaLabel={'7 1 1.'}
+      />
+      .
     </p>
   </>
 );
