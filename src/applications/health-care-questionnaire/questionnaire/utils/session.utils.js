@@ -5,6 +5,7 @@ const SESSION_STORAGE_KEYS = Object.freeze({
 });
 
 const getCurrentAppointmentId = window => {
+  if (!window) return null;
   const { CURRENT_HEALTH_QUESTIONNAIRE } = SESSION_STORAGE_KEYS;
   const { sessionStorage } = window;
   // check url
