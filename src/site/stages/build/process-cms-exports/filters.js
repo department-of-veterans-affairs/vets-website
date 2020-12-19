@@ -6,10 +6,15 @@ const {
 } = require('./helpers');
 const { omit } = require('lodash/fp');
 
+const requireContext =
+  typeof __webpack_require__ === 'function' // eslint-disable-line camelcase
+    ? require.context('node-loader!./transformers', false, /\.js$/)
+    : null;
+
 // Dynamically read in all the filters
 // They must be named after the content model type (E.g. node-page.js)
 const filtersDir = path.join(__dirname, 'transformers');
-const filters = getAllImportsFrom(filtersDir, 'filter');
+const filters = getAllImportsFrom(filtersDir, 'filter', requireContext);
 
 /**
  * A list of properties to ignore.
