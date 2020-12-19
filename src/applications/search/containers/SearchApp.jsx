@@ -102,6 +102,21 @@ class SearchApp extends React.Component {
     if (queryChanged) {
       this.setState({ currentResultsQuery: userInput, page: 1 });
     }
+
+    recordEvent({
+      event: 'view_search_results',
+      'search-page-path': document.location.pathname,
+      'search-query': userInput,
+      'search-results-total-count': this.props.search?.totalEntries,
+      'search-results-total-pages': Math.ceil(
+        this.props.search?.totalEntries / 10,
+      ),
+      'search-selection': 'All VA.gov',
+      'search-typeahead-enabled': undefined,
+      'type-ahead-option-keyword-selected': undefined,
+      'type-ahead-option-position': undefined,
+      'type-ahead-options-list': undefined,
+    });
   };
 
   handleInputChange = event => {
