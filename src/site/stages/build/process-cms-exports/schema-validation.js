@@ -10,10 +10,15 @@ const rawSchemasDir = path.join(__dirname, 'schemas', 'input');
 const transformedSchemasDir = path.join(__dirname, 'schemas', 'output');
 
 const validateEntityFactory = (schemasDir, schemaType) => {
+  const requireContext =
+    typeof __webpack_require__ === 'function' // eslint-disable-line camelcase
+      ? require.context(`./schemas/${schemaType}`, false, /\.js$/)
+      : null;
+
   /**
    * { page: { <schema> }, ... }
    */
-  const schemas = getAllImportsFrom(schemasDir);
+  const schemas = getAllImportsFrom(schemasDir, null, requireContext);
 
   const missingSchemas = new Set();
 

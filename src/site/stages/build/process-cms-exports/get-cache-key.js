@@ -3,8 +3,17 @@ const assert = require('assert');
 
 const { getContentModelType, getAllImportsFrom } = require('./helpers');
 
+const requireContext =
+  typeof __webpack_require__ === 'function' // eslint-disable-line camelcase
+    ? require.context('./transformers', false, /\.js$/)
+    : null;
+
 const transformersDir = path.join(__dirname, 'transformers');
-const cacheKeyFunctions = getAllImportsFrom(transformersDir, 'getCacheKey');
+const cacheKeyFunctions = getAllImportsFrom(
+  transformersDir,
+  'getCacheKey',
+  requireContext,
+);
 
 const defaultCacheKeyFunction = entity => entity.uuid;
 

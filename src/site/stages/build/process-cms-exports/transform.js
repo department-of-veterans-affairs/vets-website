@@ -3,10 +3,19 @@ const path = require('path');
 const { mapKeys, camelCase } = require('lodash');
 const { getContentModelType, getAllImportsFrom } = require('./helpers');
 
+const requireContext =
+  typeof __webpack_require__ === 'function' // eslint-disable-line camelcase
+    ? require.context('./transformers', false, /\.js$/)
+    : null;
+
 // Dynamically read in all the transformers
 // They must be named after the content model type (E.g. node-page.js)
 const transformersDir = path.join(__dirname, 'transformers');
-const transformers = getAllImportsFrom(transformersDir, 'transform');
+const transformers = getAllImportsFrom(
+  transformersDir,
+  'transform',
+  requireContext,
+);
 const missingTransformers = new Set();
 
 /**

@@ -90,11 +90,8 @@ module.exports = {
   getAllImportsFrom(dir, prop, requireContext) {
     /* eslint-disable no-console */
     if (requireContext) {
-      console.log('webpack!');
-      console.log(requireContext.keys());
       return requireContext.keys().reduce((exported, key) => {
         const contentModelType = path.parse(key).name;
-        console.log(contentModelType);
         return {
           ...exported,
           [contentModelType]: prop
