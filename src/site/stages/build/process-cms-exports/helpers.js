@@ -87,23 +87,7 @@ module.exports = {
    *                          used.
    * @return {Object} - The dict of filename -> exported prop mappings
    */
-  getAllImportsFrom(dir, prop, requireContext) {
-    /* eslint-disable no-console */
-    if (requireContext) {
-      console.log('webpack!');
-      console.log(requireContext.keys());
-      return requireContext.keys().reduce((exported, key) => {
-        const contentModelType = path.parse(key).name;
-        console.log(contentModelType);
-        return {
-          ...exported,
-          [contentModelType]: prop
-            ? requireContext(key)[prop]
-            : requireContext(key),
-        };
-      });
-    }
-
+  getAllImportsFrom(dir, prop) {
     return fs
       .readdirSync(dir)
       .filter(name => name.endsWith('.js'))
