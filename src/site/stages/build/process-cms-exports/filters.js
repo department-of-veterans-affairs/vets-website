@@ -8,7 +8,7 @@ const { omit } = require('lodash/fp');
 
 const requireContext =
   typeof __webpack_require__ === 'function' // eslint-disable-line camelcase
-    ? require.context('./transformers', false, /\.js$/)
+    ? require.context('node-loader!./transformers', false, /\.js$/)
     : null;
 
 // Dynamically read in all the filters
