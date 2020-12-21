@@ -9,7 +9,10 @@ import DirectDepositV1 from './DirectDeposit';
 import DirectDepositV2 from './DirectDepositV2';
 
 const DirectDepositWrapper = ({ showVersion2 }) => {
-  return <>{showVersion2 ? <DirectDepositV2 /> : <DirectDepositV1 />}</>;
+  if (showVersion2) {
+    return <DirectDepositV2 />;
+  }
+  return <DirectDepositV1 />;
 };
 const mapStateToProps = state => ({
   showVersion2: showDirectDepositV2(state),
