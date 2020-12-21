@@ -125,7 +125,7 @@ class SearchApp extends React.Component {
     });
   };
 
-  onSearchResultClick = (bestBet, strippedTitle, index) => () => {
+  onSearchResultClick = (bestBet, strippedTitle, index, url) => () => {
     if (bestBet) {
       recordEvent({
         event: 'nav-searchresults',
@@ -144,6 +144,8 @@ class SearchApp extends React.Component {
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
       'search-query': this.state.userInput,
+      'search-result-chosen-page-url': url,
+      'search-result-chosen-title': strippedTitle,
       'search-results-pagination-current-page': this.props.search?.currentPage,
       'search-results-position': searchResultPosition,
       'search-results-total-count': this.props.search?.totalEntries,
@@ -293,7 +295,12 @@ class SearchApp extends React.Component {
         <a
           className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
           href={replaceWithStagingDomain(result.url)}
-          onClick={this.onSearchResultClick(isBestBet, strippedTitle, index)}
+          onClick={this.onSearchResultClick(
+            isBestBet,
+            strippedTitle,
+            index,
+            result.url,
+          )}
         >
           <h5
             dangerouslySetInnerHTML={{
