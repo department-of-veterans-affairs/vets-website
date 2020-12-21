@@ -13,4 +13,15 @@ const addAppointmentIdToFormId = (appointmentId, formId) => {
   return formId.includes(appointmentId) ? formId : `${formId}-${appointmentId}`;
 };
 
-export { getAppointmentIdFromUrl, addAppointmentIdToFormId };
+const onFormEnter = id => {
+  return (nextState, replace) => {
+    if (id) {
+      replace(`/introduction?id=${id}`);
+    } else {
+      // replace('/error');
+      replace(`/health-care/health-questionnaires/questionnaires`);
+    }
+  };
+};
+
+export { getAppointmentIdFromUrl, addAppointmentIdToFormId, onFormEnter };

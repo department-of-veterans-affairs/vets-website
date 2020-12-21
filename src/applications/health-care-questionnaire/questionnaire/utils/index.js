@@ -3,7 +3,11 @@ import {
   getAppointTypeFromAppointment,
 } from './appointment.utils';
 
-import { getAppointmentIdFromUrl, addAppointmentIdToFormId } from './url.utils';
+import {
+  getAppointmentIdFromUrl,
+  addAppointmentIdToFormId,
+  onFormEnter,
+} from './url.utils';
 
 import {
   getCurrentAppointmentId,
@@ -15,6 +19,7 @@ export {
   getAppointTypeFromAppointment,
   getAppointmentIdFromUrl,
   addAppointmentIdToFormId,
+  onFormEnter,
   getCurrentAppointmentId,
   setCurrentAppointmentId,
 };
