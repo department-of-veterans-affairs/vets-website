@@ -9,7 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 import * as actions from '../../redux/actions';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../../utils/constants';
-import { vaosPastAppts } from '../../../redux/selectors';
+import { selectFeaturePastAppointments } from '../../../redux/selectors';
 import {
   selectPastAppointments,
   selectExpressCareAvailability,
@@ -214,7 +214,7 @@ function mapStateToProps(state) {
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
-    showPastAppointments: vaosPastAppts(state),
+    showPastAppointments: selectFeaturePastAppointments(state),
     expressCare: selectExpressCareAvailability(state),
   };
 }
