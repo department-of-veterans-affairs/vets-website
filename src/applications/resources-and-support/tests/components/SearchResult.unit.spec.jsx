@@ -3,7 +3,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 // Relative imports.
-import SearchResultList from '../../components/SearchResultList';
+import { SearchResult } from '../../components/SearchResult';
 
 const results = [
   {
@@ -61,13 +61,14 @@ const results = [
   },
 ];
 
-describe('SearchResultList', () => {
+describe('SearchResult', () => {
   it('renders without crashing', () => {
     const wrapper = shallow(
-      <SearchResultList
+      <SearchResult
+        article={results[0]}
         page={1}
+        position={1}
         query="term"
-        results={results}
         totalResults={results.length}
       />,
     );
