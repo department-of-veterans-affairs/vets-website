@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
-
+import { findFormsMomentDateFormat } from '../constants';
 import FormTitle from './FormTitle';
 
 // Helper to derive the download link props.
@@ -26,13 +26,15 @@ const deriveLinkPropsFromFormURL = url => {
   return linkProps;
 };
 
-const deriveLatestIssue = (d1, d2) => {
-  // TODO: write a unit test.
+export const deriveLatestIssue = (d1, d2) => {
   if (!d1 && !d2) return 'N/A';
+  if (!d1) return moment(d2).format(findFormsMomentDateFormat); // null scenarios
+  if (!d2) return moment(d1).format(findFormsMomentDateFormat);
 
-  if (moment(d1).isAfter(d2)) return moment(d1).format('MM-DD-YYYY');
+  if (moment(d1).isAfter(d2))
+    return moment(d1).format(findFormsMomentDateFormat);
 
-  return moment(d2).format('MM-DD-YYYY');
+  return moment(d2).format(findFormsMomentDateFormat);
 };
 
 const SearchResult = ({ form }) => {
