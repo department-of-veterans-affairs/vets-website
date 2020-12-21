@@ -5,7 +5,7 @@ export const OfficeForReviewAlert = (
   <AlertBox
     status="info"
     headline="We’ll try to grant your request"
-    className="vads-u-margin-left--3 vads-u-margin-top--0 vads-u-font-weight--normal"
+    className="vads-u-margin-top--0 vads-u-font-weight--normal"
     content={
       <p>
         If we can’t fulfill your request, we’ll let you know at the time we make
@@ -22,7 +22,7 @@ export const OfficeForReviewTitle = (
 );
 
 export const OfficeForReviewDescription = (
-  <p className="vads-u-margin-left--3">
+  <p>
     You can request to have the same office conduct your Higher-Level Review. We
     might not be able to grant your request, however. Either way, a new reviewer
     will look at your case and consider it separately from your original
