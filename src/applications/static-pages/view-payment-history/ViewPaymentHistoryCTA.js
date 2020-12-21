@@ -56,7 +56,7 @@ const ViewPaymentHistoryCTA = props => {
     );
     headline = 'Please sign in to view your VA payment history';
 
-    alertType = ALERT_TYPE.SUCCESS;
+    alertType = ALERT_TYPE.CONTINUE;
   }
   return (
     <div>
