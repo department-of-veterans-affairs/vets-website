@@ -23,6 +23,6 @@ module.exports = {
       },
     ],
     'axe-check-required': 1,
-    'cypress-viewport-deprecated': 2,
+    'cypress-viewport-deprecated': 1,
   },
 };
