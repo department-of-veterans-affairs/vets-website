@@ -57,7 +57,7 @@ class CopyMailingAddress extends React.Component {
       const clearedHomeAddress = mapValues(mailingAddress, () => null);
 
       // We need the id to remain the same to prevent POST calls
-      clearedHomeAddress.id = residentialAddress.id || null;
+      clearedHomeAddress.id = residentialAddress?.id || null;
       clearedHomeAddress.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
 
       copyMailingAddress(clearedHomeAddress);
