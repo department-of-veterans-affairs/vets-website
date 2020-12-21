@@ -1,6 +1,5 @@
 // Node modules.
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 // Relative imports.
@@ -74,5 +73,6 @@ describe('SearchResultList', () => {
     );
 
     expect(wrapper).to.exist;
+    wrapper.unmount();
   });
 });
