@@ -2,10 +2,11 @@ import ContactInfoDescription from '../components/ContactInformation';
 
 const contactInfo = {
   uiSchema: {
-    'ui:title': 'Contact Information',
+    'ui:title': ' ',
     'ui:description': ContactInfoDescription,
     'ui:options': {
       hideOnReview: true,
+      forceDivWrapper: true,
     },
   },
 

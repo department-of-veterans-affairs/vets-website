@@ -30,6 +30,7 @@ export default function RemoveProviderModal({ onClose, provider, address }) {
         className="usa-button-secondary"
         type="button"
         onClick={() => onClose(false)}
+        aria-label="Cancel removing the selected provider"
       >
         Cancel
       </button>
