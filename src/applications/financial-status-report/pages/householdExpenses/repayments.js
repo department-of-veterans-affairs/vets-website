@@ -1,30 +1,63 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import _ from 'lodash/fp';
+
+const repaymentOptions = [
+  'Yes, I have installment contracts or other debts.',
+  "No, I don't have installment contracts or other debts.",
+];
 
 export const uiSchema = {
-  'ui:title': 'Your installment contracts and other repayments',
-  'ui:description':
-    'Enter all debts you’re required to pay in regular monthly installments separately below. These debts include payments for car, television, washing machine, dealers, banks, finance companies, doctor bills, hospital bills, and repayment of borrowed money.',
+  'ui:title': 'Your installment contracts and other debts',
   repayments: {
+    hasRepayments: {
+      'ui:title':
+        'Do you pay monthly for any installment contracts or other debts, such as recurring payments for purchases or loan repayment plans?',
+      'ui:required': () => true,
+      'ui:widget': 'radio',
+    },
     repaymentRecords: {
       'ui:field': ItemLoop,
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
+        hideTitle: true,
         itemName: 'Add installment or other debt',
+        expandUnder: 'hasRepayments',
+        expandUnderCondition:
+          'Yes, I have installment contracts or other debts.',
       },
       items: {
         debtPurpose: {
           'ui:title': 'Purpose of debt',
           'ui:required': () => true,
+          'ui:options': {
+            widgetClassNames: 'input-size-7',
+          },
         },
         creditorName: {
           'ui:title': 'Name of creditor',
+          'ui:options': {
+            widgetClassNames: 'input-size-7',
+          },
         },
-        unpaidBalance: currencyUI('Unpaid balance'),
-        monthlyPaymentAmount: currencyUI('Monthly payment amount'),
+        originalDebtAmount: _.merge(currencyUI('Original debt amount'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-4',
+          },
+        }),
+        unpaidBalance: _.merge(currencyUI('Unpaid balance'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-4',
+          },
+        }),
+        monthlyPaymentAmount: _.merge(currencyUI('Monthly payment amount'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-4',
+          },
+        }),
       },
     },
   },
@@ -35,6 +68,10 @@ export const schema = {
     repayments: {
       type: 'object',
       properties: {
+        hasRepayments: {
+          type: 'string',
+          enum: repaymentOptions,
+        },
         repaymentRecords: {
           type: 'array',
           items: {
@@ -45,6 +82,9 @@ export const schema = {
               },
               creditorName: {
                 type: 'string',
+              },
+              originalDebtAmount: {
+                type: 'number',
               },
               unpaidBalance: {
                 type: 'number',
