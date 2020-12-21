@@ -5,7 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { showDirectDepositV2 } from '../../selectors';
-import DirectDepositV1 from './DirectDeposit';
+import DirectDepositV1 from './DirectDepositV1';
 import DirectDepositV2 from './DirectDepositV2';
 
 const DirectDepositWrapper = ({ showVersion2 }) => {

@@ -11,7 +11,7 @@ import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
-import BankInfoCNP from './BankInfoCNPv2';
+import BankInfoCNPv2 from './BankInfoCNPv2';
 
 const DirectDeposit = () => {
   // const [showSaveSucceededAlert, setShowSaveSucceededAlert] = React.useState(
@@ -76,7 +76,7 @@ const DirectDeposit = () => {
         )}
         dependencies={[externalServices.evss]}
       >
-        <BankInfoCNP />
+        <BankInfoCNPv2 />
       </DowntimeNotification>
       <PaymentHistory />
       <FraudVictimAlert />

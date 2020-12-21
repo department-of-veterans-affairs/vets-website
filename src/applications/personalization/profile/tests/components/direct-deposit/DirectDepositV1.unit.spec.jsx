@@ -8,10 +8,10 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import DirectDeposit from '@@profile/components/direct-deposit/DirectDeposit';
+import DirectDepositV1 from '@@profile/components/direct-deposit/DirectDepositV1';
 import BankInfoCNP from '@@profile/components/direct-deposit/BankInfoCNP';
 
-describe('DirectDeposit', () => {
+describe('DirectDeposit version 1', () => {
   let wrapper;
   let directDeposit;
   let fakeStore = {};
@@ -62,7 +62,7 @@ describe('DirectDeposit', () => {
     wrapper = mount(
       <Provider store={fakeStore}>
         <MemoryRouter>
-          <DirectDeposit />
+          <DirectDepositV1 />
         </MemoryRouter>
       </Provider>,
     );
