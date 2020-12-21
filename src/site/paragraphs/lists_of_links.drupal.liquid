@@ -1,7 +1,7 @@
 <!-- Section header -->
-<h2>{{ entity.fieldSectionHeader }}</h2>
+<h2 data-template="paragraphs/lists_of_links">{{ entity.fieldSectionHeader }}</h2>
 
-<div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-flex-wrap--wrap">
+<div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-flex-wrap--wrap" data-template="paragraphs/lists_of_links">
   {% for vaParagraph in entity.fieldVaParagraphs %}
     {% assign hasEvenIndex = forloop.index | modulo: 2 %}
     <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-l-col--5{% if hasEvenIndex %} medium-screen:vads-u-margin-right--8{% endif %}">
