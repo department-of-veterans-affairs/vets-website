@@ -3,11 +3,6 @@ import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import _ from 'lodash/fp';
 
-const repaymentOptions = [
-  'Yes, I have installment contracts or other debts.',
-  "No, I don't have installment contracts or other debts.",
-];
-
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
   repayments: {
@@ -23,7 +18,6 @@ export const uiSchema = {
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
-        hideTitle: true,
         itemName: 'Add installment or other debt',
         expandUnder: 'hasRepayments',
         expandUnderCondition:
@@ -32,10 +26,12 @@ export const uiSchema = {
       items: {
         debtPurpose: {
           'ui:title': 'Purpose of debt',
-          'ui:required': () => true,
           'ui:options': {
             widgetClassNames: 'input-size-7',
           },
+          'ui:required': formData =>
+            formData.repayments.hasRepayments ===
+            'Yes, I have installment contracts or other debts.',
         },
         creditorName: {
           'ui:title': 'Name of creditor',
@@ -57,7 +53,19 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'input-size-4',
           },
+          'ui:required': () => true,
         }),
+        debtWithinThreeMonths: {
+          'ui:title':
+            'Did this installment or debt happen within the past 3 months?',
+          'ui:widget': 'radio',
+          'ui:required': () => true,
+        },
+        pastDueDebt: {
+          'ui:title': 'Are you past due on this installment or debt?',
+          'ui:widget': 'radio',
+          'ui:required': () => true,
+        },
       },
     },
   },
@@ -70,7 +78,10 @@ export const schema = {
       properties: {
         hasRepayments: {
           type: 'string',
-          enum: repaymentOptions,
+          enum: [
+            'Yes, I have installment contracts or other debts.',
+            "No, I don't have installment contracts or other debts.",
+          ],
         },
         repaymentRecords: {
           type: 'array',
@@ -91,6 +102,20 @@ export const schema = {
               },
               monthlyPaymentAmount: {
                 type: 'number',
+              },
+              debtWithinThreeMonths: {
+                type: 'string',
+                enum: [
+                  'Yes, it’s less than 3 months old.',
+                  'No, it’s older than 3 months old.',
+                ],
+              },
+              pastDueDebt: {
+                type: 'string',
+                enum: [
+                  'Yes, I have payments past due.',
+                  'No, I don’t have payments past due.',
+                ],
               },
             },
           },
