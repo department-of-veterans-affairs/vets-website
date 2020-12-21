@@ -155,7 +155,7 @@ const formConfig = {
             }),
             veteranAddress: address.uiSchema("Sponsor's address"),
             serviceBranch: {
-              'ui:title': "Sponsor's branch of Service",
+              'ui:title': "Sponsor's branch of service",
             },
           },
           schema: {
