@@ -41,7 +41,7 @@ describe('Mobile', () => {
     });
   });
 
-  it('should render in mobile layouts and tabs actions work', () => {
+  it.skip('should render in mobile layouts and tabs actions work', () => {
     cy.visit('/find-locations');
     cy.injectAxe();
 
