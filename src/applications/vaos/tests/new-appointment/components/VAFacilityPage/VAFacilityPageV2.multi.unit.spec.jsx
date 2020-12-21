@@ -456,7 +456,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     ).to.exist;
   });
 
-  it('should show not supported message when direct is supported and not eligible, and requests are not supported', async () => {
+  it.skip('should show not supported message when direct is supported and not eligible, and requests are not supported', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
     mockDirectBookingEligibilityCriteria(
       parentSiteIds,
