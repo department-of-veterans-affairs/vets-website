@@ -21,9 +21,10 @@ const QuestionnaireWrapper = ({
 
   if (!appointmentId) {
     // if no url and no session, trigger redirect.
-    return window.location.replace(
+    window.location.replace(
       '/health-care/health-questionnaires/questionnaires',
     );
+    return <></>;
   } else {
     setCurrentAppointmentId(window, appointmentId);
   }
