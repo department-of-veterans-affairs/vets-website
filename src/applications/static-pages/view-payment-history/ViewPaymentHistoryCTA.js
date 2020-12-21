@@ -50,7 +50,7 @@ const ViewPaymentHistoryCTA = props => {
           type="button"
           className="usa-button-primary va-button-primary"
         >
-          Go to view payments
+          Sign in or create an account
         </a>
       </>
     );
