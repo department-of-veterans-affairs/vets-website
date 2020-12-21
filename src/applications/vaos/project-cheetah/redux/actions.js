@@ -7,6 +7,9 @@ export const FORM_PAGE_CHANGE_STARTED =
 export const FORM_PAGE_CHANGE_COMPLETED =
   'projectCheetah/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_RESET = 'projectCheetah/FORM_RESET';
+export const FORM_SUBMIT = 'projectCheetah/FORM_SUBMIT';
+export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
+export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {

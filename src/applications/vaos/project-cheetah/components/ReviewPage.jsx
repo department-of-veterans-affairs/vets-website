@@ -23,9 +23,7 @@ function ReviewPage({
     <div>
       <h1>{pageTitle}</h1>
       <FormButtons
-        backBeforeText=""
-        backButtonText="Cancel"
-        nextButtonText="Continue with request"
+        nextButtonText="Submit"
         pageChangeInProgress={pageChangeInProgress}
         onBack={() => {
           routeToPreviousAppointmentPage(history, pageKey);

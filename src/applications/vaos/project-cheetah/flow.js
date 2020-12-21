@@ -1,4 +1,7 @@
 export default {
+  home: {
+    url: '/',
+  },
   info: {
     url: '/new-project-cheetah-booking',
     next: 'selectDate1',
