@@ -24,7 +24,7 @@ export const cnpDirectDepositAccountInformation = state =>
   cnpDirectDepositBankInfo(cnpDirectDepositInformation(state));
 
 export const eduDirectDepositAccountInformation = state =>
-  eduDirectDepositInformation(state).paymentAccount;
+  eduDirectDepositInformation(state)?.paymentAccount;
 
 export const cnpDirectDepositIsSetUp = state =>
   isSignedUpForCNPDirectDeposit(cnpDirectDepositInformation(state));
