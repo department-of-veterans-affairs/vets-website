@@ -13,8 +13,6 @@ import {
   FORM_SUBMIT,
 } from './actions';
 
-import { STARTED_NEW_EXPRESS_CARE_FLOW } from '../../redux/sitewide';
-
 import { FETCH_STATUS } from '../../utils/constants';
 
 const initialState = {
@@ -42,13 +40,8 @@ function setupFormData(data, schema, uiSchema) {
   );
 }
 
-export default function expressCareReducer(state = initialState, action) {
+export default function projectCheetahReducer(state = initialState, action) {
   switch (action.type) {
-    case STARTED_NEW_EXPRESS_CARE_FLOW: {
-      return {
-        ...initialState,
-      };
-    }
     case FORM_PAGE_OPENED: {
       const newBooking = state.newBooking;
       const { data, schema } = setupFormData(

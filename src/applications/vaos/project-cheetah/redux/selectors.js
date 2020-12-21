@@ -1,20 +1,20 @@
-export function selectExpressCare(state) {
-  return state.expressCare;
+export function selectProjectCheetah(state) {
+  return state.projectCheetah;
 }
 
-export function selectExpressCareNewRequest(state) {
-  return selectExpressCare(state).newRequest;
+export function selectProjectCheetahNewBooking(state) {
+  return selectProjectCheetah(state).newBooking;
 }
 
-export function selectExpressCareFormData(state) {
-  return selectExpressCareNewRequest(state).data;
+export function selectProjectCheetahFormData(state) {
+  return selectProjectCheetahNewBooking(state).data;
 }
 
-export function getExpressCareFormPageInfo(state, pageKey) {
-  const newRequest = selectExpressCareNewRequest(state);
+export function getProjectCheetahFormPageInfo(state, pageKey) {
+  const newBooking = selectProjectCheetahNewBooking(state);
   return {
-    schema: newRequest.pages[pageKey],
-    data: newRequest.data,
-    pageChangeInProgress: newRequest.pageChangeInProgress,
+    schema: newBooking.pages[pageKey],
+    data: newBooking.data,
+    pageChangeInProgress: newBooking.pageChangeInProgress,
   };
 }
