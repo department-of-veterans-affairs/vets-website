@@ -69,7 +69,7 @@ class ConfirmationPage extends React.Component {
                 <div className="row form-progress-buttons">
                   <div className="small-6 usa-width-one-half medium-6 columns">
                     <a href={url1990}>
-                      <button className="usa-button-primary vads-u-width--100">
+                      <button className="usa-button-primary vettec-1990-button">
                         Continue to VA Form 22-1990
                       </button>
                     </a>
