@@ -31,7 +31,7 @@ function formatDescription(description) {
   return chunked.join('\r\n\t');
 }
 
-export function generateICS(
+function generateICS(
   summary,
   description,
   location,
