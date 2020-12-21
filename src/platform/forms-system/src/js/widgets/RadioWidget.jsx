@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ExpandingGroup from '../components/ExpandingGroup';
+import { focusElement } from '../utilities/ui';
 
 export default function RadioWidget({
   options,
@@ -10,12 +11,20 @@ export default function RadioWidget({
   id,
 }) {
   const { enumOptions, labels = {}, nestedContent = {} } = options;
+  const focusedElement = document?.activeElement?.id;
 
   // nested content could be a component or just jsx/text
   let content = nestedContent[value];
   if (typeof content === 'function') {
     const NestedContent = content;
     content = <NestedContent />;
+  }
+
+  if (focusedElement) {
+    // focus is intermittently lost
+    setTimeout(() => {
+      focusElement(`#${focusedElement}`);
+    });
   }
 
   return (
