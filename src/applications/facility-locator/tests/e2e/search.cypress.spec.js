@@ -28,6 +28,44 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('#service-type-dropdown').should('not.have', 'disabled');
 });
 
+Cypress.Commands.add('verifySearchArea', () => {
+  // Zoom in
+  [...Array(15)].forEach(_ =>
+    cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true }),
+  );
+
+  // Verify search are button present
+  cy.get('#search-area-control').should('exist');
+
+  // Zoom out
+  [...Array(15)].forEach(_ =>
+    cy.get('.mapboxgl-ctrl-zoom-out').click({ waitForAnimations: true }),
+  );
+
+  // Verify search are button not.be.visible
+  cy.get('#search-area-control').should('not.be.visible');
+
+  // Zoom in again
+  [...Array(15)].forEach(_ =>
+    cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true }),
+  );
+
+  // Verify search are button be.visible and click
+  cy.get('#search-area-control').should('be.visible');
+  cy.get('#search-area-control').click();
+
+  // Move from area
+  cy.get('.mapboxgl-canvas').swipe(
+    [[310, 300], [310, 320], [310, 340], [310, 360], [310, 380]],
+    [[50, 300], [50, 320], [50, 340], [50, 360], [50, 380]],
+  );
+  cy.get('#mapbox-gl-container').click({ waitForAnimations: true });
+
+  // Verify search are button be.visible and click
+  cy.get('#search-area-control').should('be.visible');
+  cy.get('#search-area-control').click();
+});
+
 describe('Facility search', () => {
   before(() => {
     cy.syncFixtures({
@@ -214,6 +252,7 @@ describe('Facility search', () => {
 
     cy.get('.facility-result h3').contains('CVS');
     cy.get('.va-pagination').should('not.exist');
+    cy.verifySearchArea();
   });
 
   it('should recover search from an error response state - invalid input location', () => {

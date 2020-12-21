@@ -41,23 +41,22 @@ const ViewPaymentHistoryCTA = props => {
     alertContent = (
       <>
         <p>
-          You will need to be signed in with your{' '}
-          <strong>DS Logon, My HealtheVet,</strong> or <strong>ID.me</strong>{' '}
-          account. If you don’t have any of those accounts, you can create one.
+          Try signing in with your <strong>DS Logon, My HealtheVet,</strong> or{' '}
+          <strong>ID.me</strong> account. If you don’t have any of those
+          accounts, you can create one now.
         </p>
         <a
           href="/va-payment-history/payments/"
           type="button"
           className="usa-button-primary va-button-primary"
         >
-          Go to view payments
+          Sign in or create an account
         </a>
       </>
     );
+    headline = 'Please sign in to view your VA payment history';
 
-    headline = 'View your VA payment history';
-
-    alertType = ALERT_TYPE.SUCCESS;
+    alertType = ALERT_TYPE.CONTINUE;
   }
   return (
     <div>

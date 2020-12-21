@@ -40,7 +40,7 @@ const selectFeatureFlatFacilityPage = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
 const selectFeatureFlatFacilityPageSacramento = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPageSacramento;
-export const vaOnlineSchedulingCheetah = state =>
+export const selectFeatureProjectCheetah = state =>
   toggleValues(state).vaOnlineSchedulingCheetah;
 export const selectUseFlatFacilityPage = state =>
   selectFeatureFlatFacilityPage(state) &&

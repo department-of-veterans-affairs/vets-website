@@ -163,12 +163,11 @@ class ViewPaymentsLists extends Component {
             {paymentsReturnedTable}
             <h3>What if I find a check that I reported missing?</h3>
             <p className="vads-u-margin-bottom--3">
-              If you reported a check missing and found it later, you must
-              return the original check to the U.S. Department of the Treasury
-              and wait to receive your replacement check. If you endorse both
-              the original and replacement check, you'll get a double payment.
-              If this happens, VA Debt Management Center will contact you about
-              collection.
+              If you find a missing check, you must return it to the U.S.
+              Department of the Treasury and wait to receive your replacement
+              check. If you endorse both the original and replacement check,
+              you'll get a double payment. If this happens, VA Debt Management
+              Center will contact you about collection.
             </p>
           </>
         );
