@@ -26,6 +26,7 @@ class ContactInformationEditView extends Component {
       value: PropTypes.object,
       validations: PropTypes.object,
     }),
+    uiSchema: PropTypes.object,
     formSchema: PropTypes.object,
     hasValidationError: PropTypes.func,
     isEmpty: PropTypes.bool.isRequired,
@@ -45,7 +46,7 @@ class ContactInformationEditView extends Component {
     this.props.onChangeFormDataAndSchemas(
       this.props.getInitialFormValues(),
       this.props.formSchema,
-      this.props.field.uiSchema,
+      this.props.uiSchema,
     );
   }
 
