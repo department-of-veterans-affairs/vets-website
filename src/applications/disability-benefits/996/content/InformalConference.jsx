@@ -4,15 +4,16 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 export const InformalConferenceDescription = (
   <>
     <p>
-      An informal conference is a phone call between you or your accredited
-      representative (claims agent, attorney, or Veterans Service Organization)
-      and the reviewer to discuss why you think the decision should be changed
-      and identify factual errors.
+      You or your accredited representative (claims agent, attorney, or Veterans
+      Service Organization) can request an informal conference with the reviewer
+      assigned to your Higher-Level Review. During this conference you or your
+      representative will have the chance to discuss why you think the decision
+      should be changed and identify factual errors.
     </p>
     <p className="vads-u-margin-bottom--3">
       If you request an informal conference, the reviewer will call you or your
-      representative. You can request only one informal conference for each
-      Higher-Level Review request.
+      representative. You can request only one informal conference for your
+      Higher-Level Review.
     </p>
   </>
 );
@@ -71,13 +72,10 @@ export const AttemptsInfoAlert = ({ isRep }) => {
   return (
     <AlertBox
       status="info"
-      headline={`We’ll make two attempts to call ${
-        isRep ? 'your representative' : 'you'
-      }`}
-      content={`If no one answers, we’ll leave a voice mail and a number for
-       ${contact} to return the call. If we aren’t able to leave a voice mail or
-       get in touch with ${contact} after two attempts, we’ll proceed with the
-       Higher-Level Review.`}
+      headline={`We’ll call ${isRep ? 'your representative' : 'you'} 2 times`}
+      content={`Each time we call, we’ll leave a voice mail and a number for
+      ${contact} to return the call. If we aren’t able to get in touch with
+      ${contact} after 2 attempts, we’ll proceed with the Higher-Level Review.`}
     />
   );
 };
