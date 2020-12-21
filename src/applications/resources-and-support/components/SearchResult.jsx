@@ -21,11 +21,11 @@ const articleTypes = {
 
 export const SearchResult = ({
   article,
+  page,
   position,
   query,
-  totalResults,
-  page,
   searchTypeaheadEnabled,
+  totalResults,
 }) => {
   const onSearchResultClick = () => {
     // Track search result click.
@@ -37,10 +37,10 @@ export const SearchResult = ({
       'search-result-chosen-title': article.title,
       'search-results-pagination-current-page': page,
       'search-results-position': position,
+      'search-results-top-recommendation': undefined,
       'search-results-total-count': totalResults,
       'search-results-total-pages': Math.ceil(totalResults / 10),
       'search-selection': 'Resources and support',
-      'search-results-top-recommendation': undefined,
       'search-typeahead-enabled': searchTypeaheadEnabled,
     });
   };
@@ -68,10 +68,10 @@ export const SearchResult = ({
 
 SearchResult.propTypes = {
   article: Article,
+  page: PropTypes.number,
   position: PropTypes.number.isRequired,
   query: PropTypes.string,
   totalResults: PropTypes.number,
-  page: PropTypes.number,
 };
 
 const mapStateToProps = store => ({
