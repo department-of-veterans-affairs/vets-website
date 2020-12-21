@@ -232,7 +232,10 @@ const FacilitiesMap = props => {
       'search-area-control-container',
     );
 
-    if (calculateSearchArea() > MAX_SEARCH_AREA) {
+    if (
+      calculateSearchArea() > MAX_SEARCH_AREA ||
+      !props.currentQuery.isValid
+    ) {
       searchAreaControlId.style.display = 'none';
       return;
     }
@@ -246,6 +249,27 @@ const FacilitiesMap = props => {
       searchAreaControlId.addEventListener('click', handleSearchArea, false);
       searchAreaSet = true;
     }
+  };
+
+  const setMapEventHandlers = myMap => {
+    myMap.on('dragend', () => {
+      activateSearchAreaControl();
+      recordPanEvent(myMap.getCenter(), props.currentQuery);
+    });
+    myMap.on('zoomend', () => {
+      const zoomNotFromSearch =
+        document.activeElement.id !== 'search-results-title';
+      // eslint-disable-next-line no-console
+      console.log(
+        'in zoomend, document.activeElement is',
+        document.activeElement,
+      );
+      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
+        activateSearchAreaControl();
+        recordZoomEvent(currentZoom, parseInt(myMap.getZoom(), 10));
+      }
+      currentZoom = parseInt(myMap.getZoom(), 10);
+    });
   };
 
   const setupMap = (setMapInit, mapContainerInit) => {
@@ -277,26 +301,6 @@ const FacilitiesMap = props => {
 
     return mapInit;
   };
-
-  /**
-   * Map is ready and there is results in the store
-   * For example coming back from a detail page
-   */
-  if (props.results.length > 0 && map) {
-    map.on('dragend', () => {
-      activateSearchAreaControl();
-      recordPanEvent(map.getCenter(), props.currentQuery);
-    });
-    map.on('zoomend', () => {
-      const zoomNotFromSearch =
-        document.activeElement.id !== 'search-results-title';
-      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
-        activateSearchAreaControl();
-        recordZoomEvent(currentZoom, parseInt(map.getZoom(), 10));
-      }
-      currentZoom = parseInt(map.getZoom(), 10);
-    });
-  }
 
   /**
    * Setup map on resize
@@ -538,9 +542,11 @@ const FacilitiesMap = props => {
 
       if (!map) {
         setupMap(setMap, 'mapbox-gl-container');
+      } else {
+        setMapEventHandlers(map);
       }
     },
-    [map],
+    [map, props.currentQuery],
   );
 
   // Handle search when query changes

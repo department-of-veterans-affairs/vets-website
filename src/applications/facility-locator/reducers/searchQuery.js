@@ -33,6 +33,9 @@ const INITIAL_STATE = {
 };
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
+  let newState = {};
+  let needServiceType = false;
+
   switch (action.type) {
     case SEARCH_STARTED:
       return {
@@ -87,11 +90,21 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         searchBoundsInProgress: false,
       };
     case SEARCH_QUERY_UPDATED:
-      return {
+      // TODO - add unit tests!
+      newState = {
         ...state,
         ...action.payload,
         error: false,
       };
+
+      needServiceType = newState.facilityType === 'provider';
+
+      newState.isValid =
+        newState.searchString?.length > 0 &&
+        newState.facilityType?.length > 0 &&
+        (needServiceType ? newState.serviceType?.length > 0 : true);
+
+      return newState;
     case GEOCODE_STARTED:
       return {
         ...state,
