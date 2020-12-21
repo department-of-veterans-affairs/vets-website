@@ -38,7 +38,6 @@ class ContactInformationEditView extends Component {
     type: PropTypes.string.isRequired,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
-    uiSchema: PropTypes.object,
     useSchemaForm: PropTypes.bool,
   };
 
@@ -46,7 +45,7 @@ class ContactInformationEditView extends Component {
     this.props.onChangeFormDataAndSchemas(
       this.props.getInitialFormValues(),
       this.props.formSchema,
-      this.props.uiSchema,
+      this.props.field.uiSchema,
     );
   }
 
