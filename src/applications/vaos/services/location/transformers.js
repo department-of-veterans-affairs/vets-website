@@ -325,8 +325,8 @@ export function transformCommunityProviders(providers) {
       },
       name: provider.name,
       position: {
-        longitude: provider.lat,
-        latitude: provider.long,
+        longitude: provider.long,
+        latitude: provider.lat,
       },
       telecom: [
         {
