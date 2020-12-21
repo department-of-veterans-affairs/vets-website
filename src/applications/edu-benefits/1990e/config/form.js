@@ -150,12 +150,12 @@ const formConfig = {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
               vaFileNumber: {
-                'ui:title': "Sponsor's VA number",
+                'ui:title': "Sponsor's VA file number",
               },
             }),
             veteranAddress: address.uiSchema("Sponsor's address"),
             serviceBranch: {
-              'ui:title': "Sponsor's Branch of Service",
+              'ui:title': "Sponsor's branch of Service",
             },
           },
           schema: {
