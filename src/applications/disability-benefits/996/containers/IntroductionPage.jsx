@@ -24,6 +24,7 @@ import {
 } from '../actions';
 import { higherLevelReviewFeature, scrollToTop } from '../helpers';
 import {
+  BASE_URL,
   SAVED_CLAIM_TYPE,
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
@@ -201,16 +202,19 @@ export class IntroductionPage extends React.Component {
               </h2>
               <p className="vads-u-margin-top--2">
                 if you don’t think this is the right form for you,{' '}
-                <button
+                <a
+                  href={BASE_URL}
                   className="va-button-link"
-                  onClick={() => {
+                  onClick={event => {
+                    // prevent reload, but allow opening a new tab
+                    event.preventDefault();
                     this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                     this.setPageFocus();
                     recordEvent({ event: 'howToWizard-start-over' });
                   }}
                 >
                   go back and answer questions again
-                </button>
+                </a>
                 .
               </p>
               <ol>
