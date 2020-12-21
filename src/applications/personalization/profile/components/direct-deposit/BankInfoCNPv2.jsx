@@ -34,7 +34,7 @@ import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
-export const DirectDepositCNP = ({
+export const BankInfoCNP = ({
   isLOA3,
   isDirectDepositSetUp,
   is2faEnabled,
@@ -141,7 +141,9 @@ export const DirectDepositCNP = ({
       </dl>
       <button
         className={classes.editButton}
-        aria-label={'Edit your direct deposit bank information'}
+        aria-label={
+          'Edit your direct deposit for disability compensation and pension benefits bank information'
+        }
         ref={editBankInfoButton}
         onClick={() => {
           recordEvent({
@@ -319,7 +321,7 @@ export const DirectDepositCNP = ({
   }
 };
 
-DirectDepositCNP.propTypes = {
+BankInfoCNP.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   is2faEnabled: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
@@ -356,4 +358,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DirectDepositCNP);
+)(BankInfoCNP);
