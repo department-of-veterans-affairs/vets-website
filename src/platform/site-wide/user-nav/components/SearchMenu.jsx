@@ -103,6 +103,7 @@ export class SearchMenu extends React.Component {
 
   // function to control state changes within the downshift component
   handelDownshiftStateChange = (changes, state) => {
+    // this logic here prevents the enter key from triggering too many search events
     if (
       changes.type !== Downshift.stateChangeTypes.keyDownEnter &&
       changes.selectedItem

@@ -20,18 +20,18 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
         if (analyticsMetaInfo) {
           recordEvent({
             event: 'view_search_results',
-            'search-page-path': analyticsMetaInfo.path,
-            'search-query': analyticsMetaInfo.userInput,
+            'search-page-path': analyticsMetaInfo?.path,
+            'search-query': analyticsMetaInfo?.userInput,
             'search-results-total-count':
               response?.meta?.pagination?.totalEntries,
             'search-results-total-pages':
               response?.meta?.pagination?.totalPages,
             'search-selection': 'All VA.gov',
-            'search-typeahead-enabled': analyticsMetaInfo.typeaheadEnabled,
+            'search-typeahead-enabled': analyticsMetaInfo?.typeaheadEnabled,
             'type-ahead-option-keyword-selected':
-              analyticsMetaInfo.keywordSelected,
-            'type-ahead-option-position': analyticsMetaInfo.keywordPosition,
-            'type-ahead-options-list': analyticsMetaInfo.suggestionsList,
+              analyticsMetaInfo?.keywordSelected,
+            'type-ahead-option-position': analyticsMetaInfo?.keywordPosition,
+            'type-ahead-options-list': analyticsMetaInfo?.suggestionsList,
           });
         }
         dispatch({
