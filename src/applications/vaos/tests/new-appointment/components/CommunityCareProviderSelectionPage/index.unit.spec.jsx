@@ -148,7 +148,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
     );
     expect(await screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24009342.6 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
     );
 
     userEvent.click(screen.getByText(/Continue/i));
@@ -207,20 +207,21 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       await screen.getByRole('button', { name: /choose provider/i }),
     );
     expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
+    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Change Provider
     userEvent.click(
       await screen.findByRole('button', { name: /change provider/i }),
     );
-    userEvent.click(await screen.findByText(/LYONS, KRISTYN/i));
+    userEvent.click(await screen.findByText(/OH, JANICE/i));
     userEvent.click(
       await screen.findByRole('button', { name: /choose provider/i }),
     );
 
     expect(screen.baseElement).to.contain.text(
-      'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
     );
 
     // Cancel Selection (not clearing of a selected provider)
@@ -231,7 +232,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       .exist;
     userEvent.click(await screen.findByRole('button', { name: /cancel/i }));
     expect(screen.baseElement).to.contain.text(
-      'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
     );
   });
 
@@ -254,8 +255,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       await screen.getByRole('button', { name: /choose provider/i }),
     );
     expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
+    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Remove Provider Cancel
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
@@ -266,8 +268,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
     userEvent.click(await screen.findByRole('button', { name: /Cancel/i }));
     expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
+    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Remove Provider
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
@@ -279,7 +282,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.findByRole('button', { name: /Yes, remove provider/i }),
     );
-    expect(await screen.getByRole('button', { name: /Choose a provider/i }));
+    expect(await screen.findByRole('button', { name: /Choose a provider/i }));
   });
 
   it('should display an error when choose a provider clicked and provider fetch error', async () => {

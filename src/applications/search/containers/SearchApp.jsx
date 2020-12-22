@@ -58,7 +58,14 @@ class SearchApp extends React.Component {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
     if (userInput) {
-      this.props.fetchSearchResults(userInput, page);
+      this.props.fetchSearchResults(userInput, page, {
+        path: document.location.pathname,
+        userInput,
+        typeaheadEnabled: undefined,
+        keywordSelected: undefined,
+        keywordPosition: undefined,
+        suggestionsList: undefined,
+      });
     }
   }
 
@@ -96,27 +103,19 @@ class SearchApp extends React.Component {
     });
 
     // Fetch new results
-    this.props.fetchSearchResults(userInput, nextPage);
+    this.props.fetchSearchResults(userInput, nextPage, {
+      path: document.location.pathname,
+      userInput,
+      typeaheadEnabled: undefined,
+      keywordSelected: undefined,
+      keywordPosition: undefined,
+      suggestionsList: undefined,
+    });
 
     // Update query is necessary
     if (queryChanged) {
       this.setState({ currentResultsQuery: userInput, page: 1 });
     }
-
-    recordEvent({
-      event: 'view_search_results',
-      'search-page-path': document.location.pathname,
-      'search-query': userInput,
-      'search-results-total-count': this.props.search?.totalEntries,
-      'search-results-total-pages': Math.ceil(
-        this.props.search?.totalEntries / 10,
-      ),
-      'search-selection': 'All VA.gov',
-      'search-typeahead-enabled': undefined,
-      'type-ahead-option-keyword-selected': undefined,
-      'type-ahead-option-position': undefined,
-      'type-ahead-options-list': undefined,
-    });
   };
 
   handleInputChange = event => {
@@ -125,11 +124,11 @@ class SearchApp extends React.Component {
     });
   };
 
-  onSearchResultClick = (bestBet, strippedTitle, index) => () => {
+  onSearchResultClick = ({ bestBet, title, index, url }) => () => {
     if (bestBet) {
       recordEvent({
         event: 'nav-searchresults',
-        'nav-path': `Recommended Results -> ${strippedTitle}`,
+        'nav-path': `Recommended Results -> ${title}`,
       });
     }
 
@@ -144,6 +143,8 @@ class SearchApp extends React.Component {
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
       'search-query': this.state.userInput,
+      'search-result-chosen-page-url': url,
+      'search-result-chosen-title': title,
       'search-results-pagination-current-page': this.props.search?.currentPage,
       'search-results-position': searchResultPosition,
       'search-results-total-count': this.props.search?.totalEntries,
@@ -293,7 +294,12 @@ class SearchApp extends React.Component {
         <a
           className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
           href={replaceWithStagingDomain(result.url)}
-          onClick={this.onSearchResultClick(isBestBet, strippedTitle, index)}
+          onClick={this.onSearchResultClick({
+            bestBet: isBestBet,
+            title: strippedTitle,
+            index,
+            url: result.url,
+          })}
         >
           <h5
             dangerouslySetInnerHTML={{

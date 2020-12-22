@@ -7,7 +7,11 @@ import { GA_PREFIX } from '../../../utils/constants';
 
 const UNSUPPORTED_FACILITY_RANGE = 100;
 
-export default function FacilitiesNotShown({ facilities, sortMethod }) {
+export default function FacilitiesNotShown({
+  facilities,
+  sortMethod,
+  typeOfCareId,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(
     () => {
@@ -28,8 +32,8 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
 
   const nearbyUnsupportedFacilities = facilities?.filter(
     facility =>
-      !facility.legacyVAR.directSchedulingSupported &&
-      !facility.legacyVAR.requestSupported &&
+      !facility.legacyVAR.directSchedulingSupported[typeOfCareId] &&
+      !facility.legacyVAR.requestSupported[typeOfCareId] &&
       facility.legacyVAR[sortMethod] < UNSUPPORTED_FACILITY_RANGE,
   );
 

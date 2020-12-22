@@ -10,7 +10,7 @@ import { resetFetch } from 'platform/testing/unit/helpers';
 import * as mocks from '@@profile/msw-mocks';
 import { renderWithProfileReducers } from '@@profile/tests/unit-test-helpers';
 
-import DirectDepositCNP from '@@profile/components/direct-deposit/DirectDepositCNP';
+import BankInfoCNP from '@@profile/components/direct-deposit/BankInfoCNP';
 
 const paymentAccount = {
   accountType: 'Checking',
@@ -100,7 +100,7 @@ describe('DirectDepositCNP', () => {
 
   const ui = (
     <MemoryRouter>
-      <DirectDepositCNP />
+      <BankInfoCNP />
     </MemoryRouter>
   );
 

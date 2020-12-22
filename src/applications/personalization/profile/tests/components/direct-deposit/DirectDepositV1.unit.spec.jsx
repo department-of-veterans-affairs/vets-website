@@ -8,10 +8,10 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import DirectDeposit from '@@profile/components/direct-deposit/DirectDeposit';
-import DirectDepositCNP from '@@profile/components/direct-deposit/DirectDepositCNP';
+import DirectDepositV1 from '@@profile/components/direct-deposit/DirectDepositV1';
+import BankInfoCNP from '@@profile/components/direct-deposit/BankInfoCNP';
 
-describe('DirectDeposit', () => {
+describe('DirectDeposit version 1', () => {
   let wrapper;
   let directDeposit;
   let fakeStore = {};
@@ -62,7 +62,7 @@ describe('DirectDeposit', () => {
     wrapper = mount(
       <Provider store={fakeStore}>
         <MemoryRouter>
-          <DirectDeposit />
+          <DirectDepositV1 />
         </MemoryRouter>
       </Provider>,
     );
@@ -88,7 +88,7 @@ describe('DirectDeposit', () => {
     it('should wrap a DirectDepositContent component', () => {
       const secondChild = directDeposit.childAt(1);
       const downtimeNotificationChild = secondChild.childAt(0).childAt(0);
-      expect(downtimeNotificationChild.type()).to.equal(DirectDepositCNP);
+      expect(downtimeNotificationChild.type()).to.equal(BankInfoCNP);
     });
   });
 });

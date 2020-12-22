@@ -1,17 +1,15 @@
+// Node modules.
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import { expect } from 'chai';
+import { fireEvent } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/react';
-
-import { resetFetch } from 'platform/testing/unit/helpers';
-
-import mockData from './articles.json';
-
+// Relative imports.
 import ResourcesAndSupportSearchApp from '../../components/ResourcesAndSupportSearchApp';
-import { expect } from 'chai';
+import mockData from './articles.json';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { resetFetch } from 'platform/testing/unit/helpers';
 
 describe('ResourcesAndSupportSearchApp', () => {
   let server = null;
