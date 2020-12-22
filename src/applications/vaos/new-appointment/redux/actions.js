@@ -399,7 +399,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         // Fetch facilities that support this type of care
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
-            typeOfCareId,
             siteIds,
             directSchedulingEnabled,
           });
@@ -424,8 +423,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         // fetch eligbility data immediately
         const supportedFacilities = typeOfCareFacilities?.filter(
           facility =>
-            facility.legacyVAR.directSchedulingSupported ||
-            facility.legacyVAR.requestSupported,
+            facility.legacyVAR.directSchedulingSupported[typeOfCareId] ||
+            facility.legacyVAR.requestSupported[typeOfCareId],
         );
         const eligibilityDataNeeded =
           !!facilityId || supportedFacilities?.length === 1;
