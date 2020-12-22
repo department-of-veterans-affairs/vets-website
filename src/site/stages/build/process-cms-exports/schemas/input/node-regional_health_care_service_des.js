@@ -8,7 +8,10 @@ module.exports = {
       $ref: 'EntityReferenceArray',
     },
     field_local_health_care_service_: {
-      $ref: 'EntityReferenceArray',
+      type: 'array',
+      items: {
+        oneOf: [{ $ref: 'EntityReference' }, { type: 'array', maxItems: 0 }],
+      },
     },
   },
   required: [
