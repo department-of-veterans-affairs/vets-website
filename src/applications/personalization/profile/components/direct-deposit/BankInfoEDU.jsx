@@ -166,7 +166,7 @@ export const DirectDepositEDU = ({
       <p className="vads-u-margin-top--0">
         Our records show that you‘re not receiving education benefit payments.
         If you think this is an error, please call us at{' '}
-        <Telephone contact={CONTACTS.HELP_DESK} />.
+        <Telephone contact={CONTACTS.VA_BENEFITS} />.
       </p>
       <p className="vads-u-margin-bottom--0">
         <a>Find out if you‘re eligible for VA education benefits</a>
