@@ -7,18 +7,14 @@ const transform = entity => ({
     processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
   },
   fieldServiceNameAndDescripti: entity.fieldServiceNameAndDescripti[0],
-  fieldLocalHealthCareService: entity.fieldLocalHealthCareService
-    ? entity.fieldLocalHealthCareService.map(i => ({
-        entity: {
-          entityUrl: i.entityUrl,
-          entityId: i.entityId,
-          title: i?.entity?.title ? i.entity.title : null,
-          fieldFacilityLocation: i?.entity?.fieldFacilityLocation
-            ? i.entity.fieldFacilityLocation
-            : null,
-        },
-      }))
-    : null,
+  fieldLocalHealthCareService: entity.fieldLocalHealthCareService?.map(i => ({
+    entity: {
+      entityUrl: i.entityUrl,
+      entityId: i.entityId,
+      title: i?.entity?.title,
+      fieldFacilityLocation: i?.entity?.fieldFacilityLocation,
+    },
+  })),
 });
 module.exports = {
   filter: [
