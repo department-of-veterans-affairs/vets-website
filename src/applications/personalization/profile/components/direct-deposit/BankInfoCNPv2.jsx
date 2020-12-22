@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -22,6 +25,7 @@ import {
 } from '@@profile/actions/paymentInformation';
 import {
   cnpDirectDepositAccountInformation,
+  cnpDirectDepositAddressIsSetUp,
   cnpDirectDepositInformation,
   cnpDirectDepositIsSetUp,
   cnpDirectDepositUiState as directDepositUiStateSelector,
@@ -34,9 +38,10 @@ import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
-export const DirectDepositCNP = ({
+export const BankInfoCNP = ({
   isLOA3,
   isDirectDepositSetUp,
+  isEligibleToSetUpDirectDeposit,
   is2faEnabled,
   directDepositAccountInfo,
   directDepositUiState,
@@ -141,7 +146,9 @@ export const DirectDepositCNP = ({
       </dl>
       <button
         className={classes.editButton}
-        aria-label={'Edit your direct deposit bank information'}
+        aria-label={
+          'Edit your direct deposit for disability compensation and pension benefits bank information'
+        }
         ref={editBankInfoButton}
         onClick={() => {
           recordEvent({
@@ -173,6 +180,35 @@ export const DirectDepositCNP = ({
     >
       Please add your bank information
     </button>
+  );
+
+  // When not eligible for DD for CNP
+  const notEligibleContent = (
+    <>
+      <p className="vads-u-margin-top--0">
+        Our records show that you‘re not receiving disability compensation or
+        pension payments. If you think this is an error, please call us at{' '}
+        <Telephone contact={CONTACTS.VA_BENEFITS} />.
+      </p>
+      <p>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.va.gov/disability/eligibility/"
+        >
+          Find out if you‘re eligible for VA disability benefits
+        </a>
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.va.gov/pension/eligibility/"
+        >
+          Find out if you‘re eligible for VA pension benefits
+        </a>
+      </p>
+    </>
   );
 
   // When editing/setting up direct deposit, we'll show a form that accepts bank
@@ -218,7 +254,10 @@ export const DirectDepositCNP = ({
     if (isDirectDepositSetUp) {
       return bankInfoContent;
     }
-    return notSetUpContent;
+    if (isEligibleToSetUpDirectDeposit) {
+      return notSetUpContent;
+    }
+    return notEligibleContent;
   };
 
   const directDepositData = [
@@ -319,7 +358,7 @@ export const DirectDepositCNP = ({
   }
 };
 
-DirectDepositCNP.propTypes = {
+BankInfoCNP.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   is2faEnabled: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
@@ -329,6 +368,7 @@ DirectDepositCNP.propTypes = {
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
+  isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
@@ -343,6 +383,7 @@ export const mapStateToProps = state => ({
   directDepositAccountInfo: cnpDirectDepositAccountInformation(state),
   directDepositInfo: cnpDirectDepositInformation(state),
   isDirectDepositSetUp: cnpDirectDepositIsSetUp(state),
+  isEligibleToSetUpDirectDeposit: cnpDirectDepositAddressIsSetUp(state),
   directDepositUiState: directDepositUiStateSelector(state),
   is2faEnabled: isMultifactorEnabled(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
@@ -356,4 +397,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DirectDepositCNP);
+)(BankInfoCNP);

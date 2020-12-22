@@ -1,6 +1,10 @@
 {% assign timezone = "ET" %}
 {% assign defaultTZ = "America/New_York" %}
 
+{% if fieldDatetimeRangeTimezone.timezone != empty %}
+    {% assign timezone = fieldDatetimeRangeTimezone.timezone |  timezoneAbbrev: fieldDatetimeRangeTimezone.value %}
+{% endif %}
+
 {% if fieldDatetimeRangeTimezone.value != empty %}
     {% assign start_date_no_time = fieldDatetimeRangeTimezone.value | dateFromUnix: 'dddd, MMM D', fieldDatetimeRangeTimezone.timezone %}
     {% assign start_time = fieldDatetimeRangeTimezone.value | dateFromUnix: "h:mm A", fieldDatetimeRangeTimezone.timezone %}

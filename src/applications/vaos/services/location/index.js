@@ -113,7 +113,6 @@ export async function getLocation({ facilityId }) {
 }
 
 export async function getLocationsByTypeOfCareAndSiteIds({
-  typeOfCareId,
   siteIds,
   directSchedulingEnabled,
 }) {
@@ -149,35 +148,11 @@ export async function getLocationsByTypeOfCareAndSiteIds({
         facilityIds: uniqueIds,
       });
 
-      const requestSupportedFacilityIds =
-        criteria[0]
-          ?.filter(facility =>
-            facility?.requestSettings?.some(
-              setting =>
-                setting.id === typeOfCareId && !!setting.patientHistoryRequired,
-            ),
-          )
-          ?.map(facility => facility.id) || [];
-
-      const directSupportedFacilityIds = directSchedulingEnabled
-        ? criteria[1]
-            ?.filter(facility =>
-              facility?.coreSettings?.some(
-                setting =>
-                  setting.id === typeOfCareId &&
-                  !!setting.patientHistoryRequired,
-              ),
-            )
-            ?.map(facility => facility.id) || []
-        : [];
-
-      // Update the retrieved locations with requestSupported and
-      // directSchedulingSupported, as well as replace IDs for dev/staging
       locations = locations?.map(location =>
         setSupportedSchedulingMethods({
           location,
-          requestSupportedFacilityIds,
-          directSupportedFacilityIds,
+          requestFacilities: criteria[0] || [],
+          directFacilities: directSchedulingEnabled ? criteria[1] || [] : [],
         }),
       );
     }
