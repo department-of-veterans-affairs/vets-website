@@ -169,7 +169,13 @@ export const DirectDepositEDU = ({
         <Telephone contact={CONTACTS.VA_BENEFITS} />.
       </p>
       <p className="vads-u-margin-bottom--0">
-        <a>Find out if you‘re eligible for VA education benefits</a>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.va.gov/education/eligibility/"
+        >
+          Find out if you‘re eligible for VA education benefits
+        </a>
       </p>
     </>
   );
