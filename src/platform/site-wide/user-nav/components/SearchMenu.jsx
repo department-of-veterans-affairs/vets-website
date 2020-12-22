@@ -103,6 +103,14 @@ export class SearchMenu extends React.Component {
 
   // function to control state changes within the downshift component
   handelDownshiftStateChange = (changes, state) => {
+    if (
+      changes.type !== Downshift.stateChangeTypes.keyDownEnter &&
+      changes.selectedItem
+    ) {
+      this.handleSearchEvent(changes.selectedItem);
+      return;
+    }
+
     // when a user presses the escape key, clear suggestions and close the dropdown
     if (changes.type === Downshift.stateChangeTypes.keyDownEscape) {
       this.setState({
@@ -234,7 +242,6 @@ export class SearchMenu extends React.Component {
         isOpen={suggestions.length > 0}
         itemToString={item => item}
         onStateChange={handelDownshiftStateChange}
-        onSelect={suggestion => handleSearchEvent(suggestion)}
       >
         {({
           getInputProps,
@@ -301,7 +308,9 @@ export class SearchMenu extends React.Component {
                           ? highlightedSuggestion
                           : regularSuggestion
                       }
-                      {...getItemProps({ item: suggestion })}
+                      {...getItemProps({
+                        item: suggestion,
+                      })}
                       // this line is used to show the suggestion with the user's input in BOLD
                       // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{
