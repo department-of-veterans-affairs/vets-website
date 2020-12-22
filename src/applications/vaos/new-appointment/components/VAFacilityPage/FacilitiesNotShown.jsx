@@ -77,8 +77,7 @@ export default function FacilitiesNotShown({
         {trigger}
         <div className="additional-info-content">
           <p id="vaos-unsupported-label">
-            Some facilities don’t offer online scheduling. You can call them
-            directly to schedule your appointment.
+            The facilities below don’t offer online scheduling for this care.
           </p>
           <ul
             className="usa-unstyled-list"
@@ -105,7 +104,10 @@ export default function FacilitiesNotShown({
               </li>
             ))}
           </ul>
+          <strong>What you can do</strong>
           <p className="vads-u-margin-top--4">
+            Call the facility directly to schedule your appointment,{' '}
+            <strong>or </strong>
             <a
               href="/find-locations"
               target="_blank"
@@ -116,8 +118,9 @@ export default function FacilitiesNotShown({
                 })
               }
             >
-              Or, find a different VA location
+              search for a different VA location
             </a>
+            .
           </p>
         </div>
       </ExpandingGroup>
