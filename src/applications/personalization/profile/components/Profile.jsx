@@ -250,7 +250,7 @@ const mapStateToProps = state => {
   const shouldFetchCNPDirectDepositInformation =
     isEvssAvailable && is2faEnabled;
   const shouldFetchEDUDirectDepositInformation =
-    showDirectDepositV2(state) && is2faEnabled;
+    !!showDirectDepositV2(state) && is2faEnabled;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
