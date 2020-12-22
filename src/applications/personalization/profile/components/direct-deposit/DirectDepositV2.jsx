@@ -12,6 +12,7 @@ import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
 import BankInfoCNPv2 from './BankInfoCNPv2';
+import BankInfoEDU from './BankInfoEDU';
 
 const DirectDeposit = () => {
   // const [showSaveSucceededAlert, setShowSaveSucceededAlert] = React.useState(
@@ -78,6 +79,7 @@ const DirectDeposit = () => {
       >
         <BankInfoCNPv2 />
       </DowntimeNotification>
+      <BankInfoEDU />
       <PaymentHistory />
       <FraudVictimAlert />
     </>
