@@ -11,8 +11,11 @@ const transform = entity => ({
     ? entity.fieldLocalHealthCareService.map(i => ({
         entity: {
           entityUrl: i.entityUrl,
-          title: i.title,
-          fieldFacilityLocation: i.fieldFacilityLocation,
+          entityId: i.entityId,
+          title: i?.entity?.title ? i.entity.title : null,
+          fieldFacilityLocation: i?.entity?.fieldFacilityLocation
+            ? i.entity.fieldFacilityLocation
+            : null,
         },
       }))
     : null,
