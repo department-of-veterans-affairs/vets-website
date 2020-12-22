@@ -160,8 +160,8 @@ export const DirectDepositEDU = ({
     </div>
   );
 
-  // When direct deposit is not set up
-  const notSetUpContent = (
+  // When not eligible for DD for EDU
+  const notEligibleContent = (
     <>
       <p className="vads-u-margin-top--0">
         Our records show that you‘re not receiving education benefit payments.
@@ -223,7 +223,7 @@ export const DirectDepositEDU = ({
     if (isDirectDepositSetUp) {
       return bankInfoContent;
     }
-    return notSetUpContent;
+    return notEligibleContent;
   };
 
   const directDepositData = [
