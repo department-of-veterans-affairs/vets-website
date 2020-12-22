@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+import { getAppointmentTimeFromAppointment } from '../../utils';
+
 const ExpiresAt = props => {
   const { onChange, appointment } = props;
-  const time = appointment.attributes.vdsAppointments[0].appointmentTime;
+  const time = getAppointmentTimeFromAppointment(appointment);
   const currentValue = time;
   const [diff, setDiff] = useState(60);
   useEffect(
@@ -25,11 +27,8 @@ const ExpiresAt = props => {
     },
     [diff, onChange],
   );
-  return (
-    <div data-testid="expires-at">
-      expires at: {currentValue} in {diff} days
-    </div>
-  );
+
+  return <></>;
 };
 
 const mapStateToProps = state => ({

@@ -75,6 +75,7 @@ const formConfig = {
             },
             daysTillExpires: {
               'ui:field': ExpiresAt.field,
+              'ui:title': ' ',
             },
           },
           schema: {
@@ -85,7 +86,7 @@ const formConfig = {
                 properties: {},
               },
               daysTillExpires: {
-                type: 'string',
+                type: 'number',
               },
             },
           },
