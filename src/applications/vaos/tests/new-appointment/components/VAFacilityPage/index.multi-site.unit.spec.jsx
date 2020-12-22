@@ -413,7 +413,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
             authoritativeName: 'Bozeman VA medical center',
             rootStationCode: '984',
             parentStationCode: '984',
-            directSchedulingSupported: { 984: true },
+            directSchedulingSupported: true,
           },
         },
       ],

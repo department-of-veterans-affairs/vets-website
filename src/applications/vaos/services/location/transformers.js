@@ -280,7 +280,6 @@ export function setSupportedSchedulingMethods({
   if (facilityRequestSettings) {
     facilityRequestSettings.forEach(typeOfCare => {
       requestSupported[typeOfCare.id] = !!typeOfCare.patientHistoryRequired;
-      return requestSupported;
     });
   }
 
@@ -289,7 +288,6 @@ export function setSupportedSchedulingMethods({
       directSchedulingSupported[
         typeOfCare.id
       ] = !!typeOfCare.patientHistoryRequired;
-      return directSchedulingSupported;
     });
   }
 
