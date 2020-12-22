@@ -29,9 +29,7 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'input-size-7',
           },
-          'ui:required': formData =>
-            formData.repayments.hasRepayments ===
-            'Yes, I have installment contracts or other debts.',
+          'ui:required': () => true,
         },
         creditorName: {
           'ui:title': 'Name of creditor',
@@ -87,6 +85,12 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
+            required: [
+              'debtPurpose',
+              'monthlyPaymentAmount',
+              'debtWithinThreeMonths',
+              'pastDueDebt',
+            ],
             properties: {
               debtPurpose: {
                 type: 'string',
