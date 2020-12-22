@@ -22,7 +22,7 @@ const VeteranInformationDisplay = props => {
     () => {
       // only updates teh SIP data if there is no existing vet information.
       if (Object.keys(data.veteranInfo || {}).length === 0) {
-        setFormData({ veteranInfo });
+        setFormData(veteranInfo);
       }
     },
     [setFormData, veteranInfo, data],
