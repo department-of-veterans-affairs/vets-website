@@ -1,3 +1,6 @@
+import moment from 'moment';
+import { selectProfile } from 'platform/user/selectors';
+
 export function selectProjectCheetah(state) {
   return state.projectCheetah;
 }
@@ -17,4 +20,8 @@ export function getProjectCheetahFormPageInfo(state, pageKey) {
     data: newBooking.data,
     pageChangeInProgress: newBooking.pageChangeInProgress,
   };
+}
+
+export function selectAllowProjectCheetahBookings(state) {
+  return moment().diff(moment(selectProfile(state).dob), 'years') >= 65;
 }
