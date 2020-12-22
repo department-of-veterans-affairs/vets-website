@@ -9,7 +9,18 @@ module.exports = {
       $ref: 'output/taxonomy_term-health_care_service_taxonomy',
     },
     fieldLocalHealthCareService: {
-      $ref: 'output/node-health_care_local_health_service',
+      type: 'array',
+      items: {
+        entity: {
+          title: { type: 'string' },
+          fieldFacilityLocation: {
+            entity: {
+              title: { type: 'string' },
+              fieldNicknameForThisFacility: { type: 'string' },
+            },
+          },
+        },
+      },
     },
   },
   required: [

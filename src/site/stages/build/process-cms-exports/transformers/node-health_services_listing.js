@@ -40,33 +40,7 @@ const transform = (entity, { ancestors }) => ({
                       reverseField.entityBundle ===
                       'regional_health_care_service_des',
                   )
-                : // .map(r => ({
-                  //   fieldBody: r.fieldBody,
-                  //   fieldLocalHealthCareService: {
-                  //     entity: {
-                  //       fieldFacilityLocation: {
-                  //         entity: {
-                  //           entityUrl: {
-                  //             path:
-                  //               r.fieldLocalHealthCareService.entity
-                  //                 .fieldFacilityLocation.entityUrl?.path,
-                  //           },
-
-                  //           fieldNicknameForThisFacility:
-                  //             r.fieldLocalHealthCareService.entity
-                  //               .fieldFacilityLocation
-                  //               .fieldNicknameForThisFacility,
-                  //           title:
-                  //             r.fieldLocalHealthCareService.entity
-                  //               .fieldFacilityLocation.title,
-                  //         },
-                  //       },
-                  //     },
-                  //   },
-                  //   fieldServiceNameAndDescripti:
-                  //     r.fieldServiceNameAndDescripti,
-                  // }))
-                  [],
+                : [],
             },
           },
         }
