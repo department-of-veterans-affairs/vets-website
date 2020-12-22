@@ -24,7 +24,7 @@ export const uiSchema = {
           'Yes, I have installment contracts or other debts.',
       },
       items: {
-        debtPurpose: {
+        debtType: {
           'ui:title': 'Purpose of debt',
           'ui:options': {
             widgetClassNames: 'input-size-7',
@@ -86,13 +86,13 @@ export const schema = {
           items: {
             type: 'object',
             required: [
-              'debtPurpose',
+              'debtType',
               'monthlyPaymentAmount',
               'debtWithinThreeMonths',
               'pastDueDebt',
             ],
             properties: {
-              debtPurpose: {
+              debtType: {
                 type: 'string',
               },
               creditorName: {

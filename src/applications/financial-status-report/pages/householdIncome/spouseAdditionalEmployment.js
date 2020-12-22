@@ -23,6 +23,9 @@ export const uiSchema = {
       items: {
         employmentType: {
           'ui:title': 'Type of employment',
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
         },
         employmentStart: {
           'ui:title': 'Employment start date',
@@ -58,6 +61,7 @@ export const schema = {
             properties: {
               employmentType: {
                 type: 'string',
+                enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
               },
               employmentStart: {
                 type: 'string',

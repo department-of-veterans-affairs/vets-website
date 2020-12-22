@@ -30,6 +30,7 @@
     margin-top: 30px;
   }
   .item-loop {
+    margin-bottom: 20px;
     padding: 0 25px 15px 25px;
     background-color: #f1f1f1;
     .schemaform-field-container {
@@ -57,6 +58,12 @@
       background: #fff;
     }
   }
+  .edit-item-container {
+    margin: 5px 0;
+    .usa-button-secondary {
+      background: #fff;
+    }
+  }
   .add-item-container {
     display: flex;
     flex-direction: column;
@@ -68,6 +75,12 @@
         color: #0071bb;
         margin-right: 5px;
       }
+    }
+  }
+  .card-details-view {
+    padding: 10px 30px;
+    .card-title {
+      margin: 15px 0;
     }
   }
 }
