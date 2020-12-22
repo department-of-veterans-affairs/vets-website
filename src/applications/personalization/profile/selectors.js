@@ -35,8 +35,20 @@ export const eduDirectDepositIsSetUp = state =>
 export const cnpDirectDepositLoadError = state =>
   cnpDirectDepositInformation(state)?.error;
 
-export const eduDirectDepositLoadError = state =>
-  eduDirectDepositInformation(state)?.error;
+// If the error is a 403 error, we will treat it like a no-data state, not an
+// error.
+export const eduDirectDepositLoadError = state => {
+  const error = eduDirectDepositInformation(state)?.error;
+  if (error?.errors instanceof Array) {
+    error.errors = error.errors.filter(err => {
+      return err.code !== '403';
+    });
+    if (!error.errors.length) {
+      return undefined;
+    }
+  }
+  return error;
+};
 
 export const cnpDirectDepositAddressInformation = state =>
   cnpDirectDepositInformation(state)?.responses?.[0]?.paymentAddress;
