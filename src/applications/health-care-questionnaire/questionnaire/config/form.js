@@ -72,11 +72,16 @@ const formConfig = {
           uiSchema: {
             veteranInfo: {
               'ui:field': VeteranInfoPage.field,
-              'ui:title': ' ',
+              'ui:options': {
+                hideLabelText: true,
+              },
             },
             daysTillExpires: {
               'ui:field': ExpiresAt.field,
-              'ui:title': ' ',
+              'ui:options': {
+                hideLabelText: true,
+                hideOnReview: true,
+              },
             },
           },
           schema: {
