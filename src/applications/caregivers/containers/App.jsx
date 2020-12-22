@@ -22,10 +22,6 @@ const App = ({ loading, isFormAvailable, location, children }) => {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {/* TODO: remove after prod testing */}
-      <MetaTags>
-        <meta name="robots" content="noindex" />
-      </MetaTags>
       {children}
     </RoutedSavableApp>
   );
