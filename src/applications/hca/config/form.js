@@ -78,6 +78,11 @@ import {
 } from '../validation';
 
 import manifest from '../manifest.json';
+import { veteranAddressOG } from './features/withoutVeteranMailing';
+import {
+  veteranAddress,
+  veteranMailingAddress,
+} from './features/withVeteranMailing';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
@@ -151,6 +156,12 @@ const {
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
+
+// TODO: need to replace with flipper data
+const flip = true;
+
+const addressPage = flip ? veteranAddress : veteranAddressOG;
+const mailingAddressPage = flip ? veteranMailingAddress : {};
 
 const attachmentsSchema = {
   type: 'array',
@@ -387,123 +398,8 @@ const formConfig = {
             },
           },
         },
-        veteranAddress: {
-          path: 'veteran-information/veteran-address',
-          title: 'Permanent address',
-          initialData: {},
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Permanent address', true), {
-              street: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid street. Must be at least 1 character.',
-                },
-              },
-              city: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid city. Must be at least 1 character.',
-                },
-              },
-            }),
-            'view:doesPermanentAddressMatchMailing': {
-              'ui:title':
-                'Is your home address the same as your mailing address?',
-              'ui:widget': 'yesNo',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
-                properties: {
-                  street: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street2: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street3: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  city: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                },
-              }),
-              'view:doesPermanentAddressMatchMailing': {
-                type: 'boolean',
-              },
-            },
-          },
-        },
-        /*  TODO: need to look into auto-fill for this field 
-            depending on how data comes back form profile... might need to do a deep address match
-            if profile has diff addresses for permanent && mailing are diff perform auto-fill && check yes/no
-            if they are the same || mailing does not exist leave yes/no and mailing blank
-        */
-        mailingAddress: {
-          path: 'veteran-information/mailing-address',
-          title: 'Mailing address',
-          initialData: {},
-          depends: formData =>
-            !formData['view:doesPermanentAddressMatchMailing'],
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            veteranMailingAddress: _.merge(
-              addressUI('Permanent address', true),
-              {
-                street: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid street. Must be at least 1 character.',
-                  },
-                },
-                city: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid city. Must be at least 1 character.',
-                  },
-                },
-              },
-            ),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              veteranMailingAddress: _.merge(
-                addressSchema(fullSchemaHca, true),
-                {
-                  properties: {
-                    street: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    street2: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    street3: {
-                      type: 'string',
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    city: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                  },
-                },
-              ),
-            },
-          },
-        },
+        ...addressPage,
+        ...mailingAddressPage,
         contactInformation: {
           path: 'veteran-information/contact-information',
           title: 'Contact information',
