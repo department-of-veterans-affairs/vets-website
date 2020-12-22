@@ -10,7 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
@@ -231,9 +231,7 @@ module.exports = env => {
             },
             warnings: false,
           },
-          // cache: true,
           parallel: 3,
-          sourceMap: true,
         }),
       ],
       splitChunks: {
@@ -255,7 +253,7 @@ module.exports = env => {
       }),
 
       new MiniCssExtractPlugin({
-        moduleFilename: chunk => {
+        filename: chunk => {
           const { name } = chunk;
           const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
 
@@ -279,7 +277,7 @@ module.exports = env => {
 
   if (!buildOptions.watch) {
     baseConfig.plugins.push(
-      new ManifestPlugin({
+      new WebpackManifestPlugin({
         fileName: 'file-manifest.json',
       }),
     );
@@ -423,7 +421,7 @@ module.exports = env => {
     baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
     baseConfig.mode = 'production';
   } else {
-    baseConfig.devtool = '#eval-source-map';
+    baseConfig.devtool = 'eval-source-map';
 
     // The eval-source-map devtool doesn't seem to work for CSS, so we
     // add a separate plugin for CSS source maps.

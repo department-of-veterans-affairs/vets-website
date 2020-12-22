@@ -11,7 +11,7 @@ buildtype="localhost"
 args="$*"
 
 # Prepend env. to all args so they get passed to the Webpack config
-webpackArgs=$(echo -n "${args}" | sed -E 's/--([^ =]+)/--env.\1/g')
+webpackArgs=$(echo "${args}" | sed -E 's/--([^ =]+)/--env.\1/g')
 
 # Get options
 for o in "$@"; do
