@@ -11,6 +11,7 @@ import {
   genBBoxFromAddress,
   genSearchAreaFromCenter,
   updateSearchQuery,
+  mapMoved,
 } from '../actions';
 import {
   facilitiesPpmsSuppressCommunityCare,
@@ -47,6 +48,8 @@ import recordEvent from 'platform/monitoring/record-event';
 
 let currentZoom = 3;
 let searchAreaSet = false;
+
+const mapboxGlContainer = 'mapbox-gl-container';
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
@@ -228,13 +231,18 @@ const FacilitiesMap = props => {
   };
 
   const activateSearchAreaControl = () => {
+    if (!map) {
+      return;
+    }
+
     const searchAreaControlId = document.getElementById(
       'search-area-control-container',
     );
 
     if (
       calculateSearchArea() > MAX_SEARCH_AREA ||
-      !props.currentQuery.isValid
+      !props.currentQuery.isValid ||
+      !props.currentQuery.mapMoved
     ) {
       searchAreaControlId.style.display = 'none';
       return;
@@ -251,38 +259,35 @@ const FacilitiesMap = props => {
     }
   };
 
-  const setMapEventHandlers = myMap => {
-    myMap.on('dragend', () => {
-      activateSearchAreaControl();
-      recordPanEvent(myMap.getCenter(), props.currentQuery);
+  const setMapEventHandlers = () => {
+    map.on('dragend', () => {
+      props.mapMoved();
+      recordPanEvent(map.getCenter(), props.currentQuery);
     });
-    myMap.on('zoomend', () => {
-      const zoomNotFromSearch =
-        document.activeElement.id !== 'search-results-title';
-      // eslint-disable-next-line no-console
-      console.log(
-        'in zoomend, document.activeElement is',
-        document.activeElement,
-      );
-      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
-        activateSearchAreaControl();
-        recordZoomEvent(currentZoom, parseInt(myMap.getZoom(), 10));
+    map.on('zoomend', () => {
+      // Note: DO NOT call props.mapMoved() here
+      // because zoomend is triggered by fitBounds.
+
+      // TODO Move zoom level check into activateSearchAreaControl?
+      if (currentZoom && parseInt(currentZoom, 10) > 3) {
+        recordZoomEvent(currentZoom, parseInt(map.getZoom(), 10));
       }
-      currentZoom = parseInt(myMap.getZoom(), 10);
+      // TODO: why do we need currentZoom?
+      currentZoom = parseInt(map.getZoom(), 10);
     });
   };
 
-  const setupMap = (setMapInit, mapContainerInit) => {
+  const setupMap = () => {
     mapboxgl.accessToken = mapboxToken;
     const mapInit = new mapboxgl.Map({
-      container: mapContainerInit,
+      container: mapboxGlContainer,
       style: 'mapbox://styles/mapbox/outdoors-v11',
       center: [MapboxInit.centerInit.lng, MapboxInit.centerInit.lat],
       zoom: MapboxInit.zoomInit,
     });
 
-    const mapContainerElement = document.getElementById('mapbox-gl-container');
-    if (mapContainerElement) mapContainerElement.setAttribute('tabindex', 0);
+    const mapContainerElement = document.getElementById(mapboxGlContainer);
+    mapContainerElement.setAttribute('tabindex', 0);
 
     const searchAreaControl = new SearchAreaControl(isMobile);
     mapInit.addControl(searchAreaControl);
@@ -295,7 +300,12 @@ const FacilitiesMap = props => {
     );
     setSearchAreaPosition();
     mapInit.on('load', () => {
-      setMapInit(mapInit);
+      document.querySelectorAll('.mapboxgl-ctrl > button').forEach(button =>
+        button.addEventListener('click', () => {
+          props.mapMoved();
+        }),
+      );
+
       mapInit.resize();
     });
 
@@ -307,7 +317,7 @@ const FacilitiesMap = props => {
    */
   const setMapResize = () => {
     setTimeout(function() {
-      setupMap(setMap, 'mapbox-gl-container');
+      setMap(setupMap());
     }, 10);
   };
 
@@ -393,10 +403,9 @@ const FacilitiesMap = props => {
   };
 
   const renderDesktopView = () => {
-    // Reset the map after resize event
     if (
       map &&
-      (!window.document.getElementById('mapbox-gl-container') ||
+      (!window.document.getElementById(mapboxGlContainer) ||
         window.document.getElementsByClassName('desktop-map-container')
           .length === 0)
     ) {
@@ -451,6 +460,7 @@ const FacilitiesMap = props => {
     );
   };
 
+  // TODO - move to helper
   const genLocationFromCoords = position => {
     mbxClient
       .reverseGeocode({
@@ -476,6 +486,24 @@ const FacilitiesMap = props => {
       })
       .catch(error => error);
   };
+
+  useEffect(
+    () => {
+      if (map) {
+        activateSearchAreaControl();
+      }
+    },
+    [props.currentQuery],
+  );
+
+  useEffect(
+    () => {
+      if (map) {
+        setMapEventHandlers();
+      }
+    },
+    [map],
+  );
 
   useEffect(
     () => {
@@ -507,6 +535,8 @@ const FacilitiesMap = props => {
   );
 
   useEffect(() => {
+    setMap(setupMap());
+
     const setMobile = () => {
       setIsMobile(window.innerWidth <= 481);
     };
@@ -531,23 +561,7 @@ const FacilitiesMap = props => {
       window.removeEventListener('click', handleSearchArea);
       searchAreaSet = false;
     };
-  }, []);
-
-  useEffect(
-    () => {
-      // Container exists
-      if (!window.document.getElementById('mapbox-gl-container')) {
-        return;
-      }
-
-      if (!map) {
-        setupMap(setMap, 'mapbox-gl-container');
-      } else {
-        setMapEventHandlers(map);
-      }
-    },
-    [map, props.currentQuery],
-  );
+  }, []); // <-- empty array means 'run once'
 
   // Handle search when query changes
   useEffect(
@@ -655,6 +669,7 @@ const mapDispatchToProps = {
   genSearchAreaFromCenter,
   searchWithBounds,
   clearSearchResults,
+  mapMoved,
 };
 export default connect(
   mapStateToProps,
