@@ -5,4 +5,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 export const getFindFormsAppState = state => state.findVAFormsReducer;
 
 export const mvpEnhancements = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.showFindFormsMVPEnhancement];
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.showFindFormsResultsLinkToFormDetailPages
+  ];
