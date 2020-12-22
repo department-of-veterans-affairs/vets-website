@@ -8,6 +8,7 @@ import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
 import ReasonForVisitDescription from '../components/reason-for-visit-description';
 import GetHelp from '../components/get-help';
+import ExpiresAt from '../components/expires-at';
 
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -72,6 +73,9 @@ const formConfig = {
             veteranInfo: {
               'ui:description': VeteranInfoPage.field,
             },
+            daysTillExpires: {
+              'ui:field': ExpiresAt.field,
+            },
           },
           schema: {
             type: 'object',
@@ -79,6 +83,9 @@ const formConfig = {
               veteranInfo: {
                 type: 'object',
                 properties: {},
+              },
+              daysTillExpires: {
+                type: 'string',
               },
             },
           },
