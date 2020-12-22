@@ -107,7 +107,7 @@ export default function FacilitiesNotShown({
           <h3 className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--1">
             What you can do
           </h3>
-          <p className="vads-u-margin-top--4">
+          <p className="vads-u-margin-top--0">
             Call the facility directly to schedule your appointment,{' '}
             <strong>or </strong>
             <a
