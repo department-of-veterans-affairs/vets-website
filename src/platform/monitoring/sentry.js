@@ -19,7 +19,6 @@ if (trackErrors) {
       // https://github.com/getsentry/sentry/issues/5267
       /Blocked a frame with origin/,
     ],
-    attachStacktrace: true,
   });
   Sentry.setTag('source', 'unknown');
   Sentry.configureScope(scope => {

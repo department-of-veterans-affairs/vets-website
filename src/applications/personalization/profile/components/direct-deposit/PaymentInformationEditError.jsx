@@ -82,47 +82,31 @@ function GenericError() {
 // Since we don't know what the error message looks like when there's a problem
 // with the user's home address, we'll use a single error message for any and
 // all address-related errors
-function UpdateAddressError({ closeModal }) {
+function UpdateAddressError() {
   return (
     <p>
       We’re sorry. We couldn’t update your direct deposit bank information
       because your mailing address is missing or invalid. Please go back to{' '}
-      <a
-        href="/profile/#contact-information"
-        onClick={() => {
-          closeModal();
-        }}
-      >
-        your profile
-      </a>{' '}
-      and fill in this required information.
+      <a href="/profile/personal-information">your profile</a> and fill in this
+      required information.
     </p>
   );
 }
 
-function UpdatePhoneNumberError({ closeModal, phoneNumberType = 'home' }) {
+function UpdatePhoneNumberError({ phoneNumberType = 'home' }) {
   return (
     <p>
       We’re sorry. We couldn’t update your direct deposit bank information
       because your {phoneNumberType} phone number is missing or invalid. Please
-      go back to{' '}
-      <a
-        href="/profile/#contact-information"
-        onClick={() => {
-          closeModal();
-        }}
-      >
-        your profile
-      </a>{' '}
-      and fill in this required information.
+      go back to <a href="/profile/personal-information">your profile</a> and
+      fill in this required information.
     </p>
   );
 }
 
-export default function PaymentInformationEditModalError({
+export default function PaymentInformationEditError({
   responseError,
   className,
-  closeModal = () => {},
 }) {
   let content = <GenericError error={responseError} />;
   let headline = 'We couldn’t update your bank information';
@@ -141,21 +125,11 @@ export default function PaymentInformationEditModalError({
     } else if (hasInvalidRoutingNumberError(errors)) {
       content = <InvalidRoutingNumber />;
     } else if (hasInvalidAddressError(errors)) {
-      content = <UpdateAddressError closeModal={closeModal} />;
+      content = <UpdateAddressError />;
     } else if (hasInvalidHomePhoneNumberError(errors)) {
-      content = (
-        <UpdatePhoneNumberError
-          closeModal={closeModal}
-          phoneNumberType="home"
-        />
-      );
+      content = <UpdatePhoneNumberError phoneNumberType="home" />;
     } else if (hasInvalidWorkPhoneNumberError(errors)) {
-      content = (
-        <UpdatePhoneNumberError
-          closeModal={closeModal}
-          phoneNumberType="work"
-        />
-      );
+      content = <UpdatePhoneNumberError phoneNumberType="work" />;
     }
   }
 
