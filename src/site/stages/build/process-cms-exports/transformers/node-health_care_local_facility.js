@@ -53,9 +53,9 @@ const transform = (entity, { ancestors }) => ({
   },
   fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  // fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
-  //   ? entity.fieldLocalHealthCareService.filter(n => Object.keys(n).length)
-  //   : null,
+  fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
+    ? entity.fieldLocalHealthCareService.filter(n => Object.keys(n).length)
+    : null,
   fieldLocationServices: entity.fieldLocationServices.length
     ? entity.fieldLocationServices
     : null,
@@ -97,7 +97,7 @@ module.exports = {
     'field_facility_hours',
     'field_facility_locator_api_id',
     'field_intro_text',
-    // 'field_local_health_care_service_',
+    'field_local_health_care_service_',
     'field_location_services',
     'field_main_location',
     'field_media',
