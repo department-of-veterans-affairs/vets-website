@@ -162,16 +162,16 @@ export const DirectDepositEDU = ({
 
   // When direct deposit is not set up
   const notSetUpContent = (
-    <div>
-      <p>
+    <>
+      <p className="vads-u-margin-top--0">
         Our records show that you‘re not receiving education benefit payments.
         If you think this is an error, please call us at{' '}
         <Telephone contact={CONTACTS.HELP_DESK} />.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         <a>Find out if you‘re eligible for VA education benefits</a>
       </p>
-    </div>
+    </>
   );
 
   // When editing bank info, we'll show a form that accepts bank account
