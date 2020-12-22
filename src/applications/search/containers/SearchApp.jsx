@@ -125,11 +125,11 @@ class SearchApp extends React.Component {
     });
   };
 
-  onSearchResultClick = (bestBet, strippedTitle, index) => () => {
+  onSearchResultClick = ({ bestBet, title, index, url }) => () => {
     if (bestBet) {
       recordEvent({
         event: 'nav-searchresults',
-        'nav-path': `Recommended Results -> ${strippedTitle}`,
+        'nav-path': `Recommended Results -> ${title}`,
       });
     }
 
@@ -144,6 +144,8 @@ class SearchApp extends React.Component {
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
       'search-query': this.state.userInput,
+      'search-result-chosen-page-url': url,
+      'search-result-chosen-title': title,
       'search-results-pagination-current-page': this.props.search?.currentPage,
       'search-results-position': searchResultPosition,
       'search-results-total-count': this.props.search?.totalEntries,
@@ -293,7 +295,12 @@ class SearchApp extends React.Component {
         <a
           className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
           href={replaceWithStagingDomain(result.url)}
-          onClick={this.onSearchResultClick(isBestBet, strippedTitle, index)}
+          onClick={this.onSearchResultClick({
+            bestBet: isBestBet,
+            title: strippedTitle,
+            index,
+            url: result.url,
+          })}
         >
           <h5
             dangerouslySetInnerHTML={{

@@ -46,14 +46,18 @@ class CopyMailingAddress extends React.Component {
   };
 
   onChange = () => {
-    const { copyMailingAddress, mailingAddress } = this.props;
+    const {
+      copyMailingAddress,
+      mailingAddress,
+      residentialAddress,
+    } = this.props;
 
     // If mailing + home addresses are the same, clear the home address
     if (this.areHomeMailingAddressesEqual()) {
       const clearedHomeAddress = mapValues(mailingAddress, () => null);
 
       // We need the id to remain the same to prevent POST calls
-      clearedHomeAddress.id = mailingAddress.id || null;
+      clearedHomeAddress.id = residentialAddress?.id || null;
       clearedHomeAddress.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
 
       copyMailingAddress(clearedHomeAddress);

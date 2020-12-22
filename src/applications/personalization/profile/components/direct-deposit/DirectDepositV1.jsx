@@ -8,8 +8,8 @@ import { focusElement } from 'platform/utilities/ui';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 
 import FraudVictimAlert from './FraudVictimAlert';
-import DirectDepositCNP from './DirectDepositCNP';
-import DirectDepositEDU from './DirectDepositEDU';
+import BankInfoCNP from './BankInfoCNP';
+import DirectDepositEDU from './DirectDepositEDUEbenefits';
 
 const DirectDeposit = () => {
   useEffect(() => {
@@ -33,7 +33,7 @@ const DirectDeposit = () => {
         )}
         dependencies={[externalServices.evss]}
       >
-        <DirectDepositCNP />
+        <BankInfoCNP />
       </DowntimeNotification>
       <FraudVictimAlert />
       <DirectDepositEDU />
