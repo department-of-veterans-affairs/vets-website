@@ -1,5 +1,6 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
@@ -26,7 +27,7 @@ const deriveLinkPropsFromFormURL = url => {
   return linkProps;
 };
 
-const SearchResult = ({ form }) => {
+const SearchResult = ({ form, showFindFormsResultsLinkToFormDetailPages }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -55,7 +56,14 @@ const SearchResult = ({ form }) => {
 
   return (
     <>
-      <FormTitle id={id} formUrl={formDetailsUrl} title={title} />
+      <FormTitle
+        id={id}
+        formUrl={formDetailsUrl}
+        title={title}
+        showFindFormsResultsLinkToFormDetailPages={
+          showFindFormsResultsLinkToFormDetailPages
+        }
+      />
 
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
@@ -94,6 +102,7 @@ const SearchResult = ({ form }) => {
 
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
+  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
 };
 
 export default SearchResult;

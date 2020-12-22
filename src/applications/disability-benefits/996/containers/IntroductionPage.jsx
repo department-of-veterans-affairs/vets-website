@@ -192,8 +192,8 @@ export class IntroductionPage extends React.Component {
             </h2>
             <p>
               The senior reviewer will only review the evidence you already
-              provided. If you have new and relevant evidence, you can file{' '}
-              <a href={SUPPLEMENTAL_CLAIM_URL}>a Supplemental Claim</a>.
+              provided. If you have new and relevant evidence, you can{' '}
+              <a href={SUPPLEMENTAL_CLAIM_URL}>file a Supplemental Claim</a>.
             </p>
             <div className="process schemaform-process">
               <h2 className="vads-u-font-size--h3">

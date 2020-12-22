@@ -100,7 +100,7 @@ const testApiError = (errCode = '500') => {
 };
 
 // Disabling until view-payments is ready for production
-describe.skip('View payment history', () => {
+describe('View payment history', () => {
   beforeEach(() => {
     disableFTUXModals();
     cy.login(mockUser);

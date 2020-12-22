@@ -122,6 +122,7 @@ const ResourcesAndSupportSearchApp = () => {
               query={query}
               results={currentPageOfResults}
               totalResults={results.length}
+              page={page}
             />
             <Pagination
               maxPageListLength={RESULTS_PER_PAGE}

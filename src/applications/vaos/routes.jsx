@@ -52,6 +52,17 @@ export default function createRoutesWithStore(store) {
                 .catch(handleLoadError),
             )}
           />
+          <Route
+            path="/new-project-cheetah-booking"
+            component={asyncLoader(() =>
+              import(/* webpackChunkName: "project-cheetah" */ './project-cheetah')
+                .then(({ NewBooking, reducer }) => {
+                  store.injectReducer('projectCheetah', reducer);
+                  return NewBooking;
+                })
+                .catch(handleLoadError),
+            )}
+          />
           <Route path="/" component={AppointmentsPage} />
         </Switch>
       </VAOSApp>
