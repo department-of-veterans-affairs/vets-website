@@ -1,8 +1,12 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { rootUrl as hearingAidSuppliesFormUrl } from 'applications/disability-benefits/2346/manifest.json';
-import { rootUrl as viewDependentsAppUrl } from 'applications/personalization/view-dependents/manifest.json';
-import { rootUrl as form686FormUrl } from 'applications/disability-benefits/686c-674/manifest.json';
+import form2346Manifest from 'applications/disability-benefits/2346/manifest.json';
+import viewDependentsManifest from 'applications/personalization/view-dependents/manifest.json';
+import form686Manifest from 'applications/disability-benefits/686c-674/manifest.json';
+
+const hearingAidSuppliesFormUrl = form2346Manifest.rootUrl;
+const viewDependentsAppUrl = viewDependentsManifest.rootUrl;
+const form686FormUrl = form686Manifest.rootUrl;
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when

@@ -5,12 +5,7 @@
 
 import React from 'react';
 import get from 'platform/utilities/data/get';
-import {
-  countries,
-  states50AndDC,
-  militaryCities,
-  militaryStates,
-} from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 /**
  * PATTERNS
@@ -155,8 +150,8 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
           countryUI['ui:disabled'] = false;
           return {
             type: 'string',
-            enum: countries.map(country => country.value),
-            enumNames: countries.map(country => country.label),
+            enum: constants.countries.map(country => country.value),
+            enumNames: constants.countries.map(country => country.label),
           };
         },
       },
@@ -201,8 +196,8 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
-              enum: militaryCities.map(city => city.value),
-              enumNames: militaryCities.map(city => city.label),
+              enum: constants.militaryCities.map(city => city.value),
+              enumNames: constants.militaryCities.map(city => city.label),
             };
           }
           return {
@@ -244,15 +239,15 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
             return {
               type: 'string',
               title: 'State',
-              enum: militaryStates.map(state => state.value),
-              enumNames: militaryStates.map(state => state.label),
+              enum: constants.militaryStates.map(state => state.value),
+              enumNames: constants.militaryStates.map(state => state.label),
             };
           } else if (!isMilitary && country === 'USA') {
             return {
               type: 'string',
               title: 'State',
-              enum: states50AndDC.map(state => state.value),
-              enumNames: states50AndDC.map(state => state.label),
+              enum: constants.states50AndDC.map(state => state.value),
+              enumNames: constants.states50AndDC.map(state => state.label),
             };
           } else {
             return {

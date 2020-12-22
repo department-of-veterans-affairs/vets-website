@@ -1,4 +1,4 @@
-import { pciuStates as PCIU_STATES } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 import disabilityLabels from './content/disabilityLabels';
 
@@ -25,7 +25,7 @@ export const RESERVE_GUARD_TYPES = {
   reserve: 'Reserve',
 };
 
-export { PCIU_STATES };
+export const PCIU_STATES = constants.pciuStates;
 
 export const STATE_LABELS = PCIU_STATES.map(state => state.label);
 export const STATE_VALUES = PCIU_STATES.map(state => state.value);

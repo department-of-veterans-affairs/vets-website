@@ -25,11 +25,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
-import {
-  countries,
-  states50AndDC,
-  militaryCities,
-} from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 /**
  * CONSTANTS:
@@ -148,8 +144,8 @@ export const addressUISchema = (
             countryUI['ui:disabled'] = false;
             return {
               type: 'string',
-              enum: countries.map(country => country.value),
-              enumNames: countries.map(country => country.label),
+              enum: constants.countries.map(country => country.value),
+              enumNames: constants.countries.map(country => country.label),
             };
           },
         },
@@ -188,8 +184,8 @@ export const addressUISchema = (
               return {
                 type: 'string',
                 title: 'APO/FPO/DPO',
-                enum: militaryCities.map(city => city.value),
-                enumNames: militaryCities.map(city => city.label),
+                enum: constants.militaryCities.map(city => city.value),
+                enumNames: constants.militaryCities.map(city => city.label),
               };
             }
             return {
@@ -255,8 +251,8 @@ export const addressUISchema = (
               };
             }
             return {
-              enum: states50AndDC.map(state => state.value),
-              enumNames: states50AndDC.map(state => state.label),
+              enum: constants.states50AndDC.map(state => state.value),
+              enumNames: constants.states50AndDC.map(state => state.label),
             };
           },
         },

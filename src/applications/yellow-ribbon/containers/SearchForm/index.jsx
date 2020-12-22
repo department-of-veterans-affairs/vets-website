@@ -7,7 +7,7 @@ import map from 'lodash/map';
 import { connect } from 'react-redux';
 // Relative imports.
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import { states as STATES } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
 
@@ -163,7 +163,7 @@ export class SearchForm extends Component {
             value={state}
           >
             <option value="">- Select -</option>
-            {map(STATES.USA, provincialState => (
+            {map(constants.states.USA, provincialState => (
               <option
                 key={provincialState?.value}
                 value={provincialState?.value}

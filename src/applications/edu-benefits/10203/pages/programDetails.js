@@ -1,6 +1,6 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import { countries } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import environment from 'platform/utilities/environment';
 
 import {
@@ -80,8 +80,8 @@ export const schema = {
     schoolCountry: {
       default: 'USA',
       type: 'string',
-      enum: countries.map(country => country.value),
-      enumNames: countries.map(country => country.label),
+      enum: constants.countries.map(country => country.value),
+      enumNames: constants.countries.map(country => country.label),
     },
     'view:field': {
       type: 'object',

@@ -3,7 +3,9 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import { rootUrl as covidVaccineFormUrl } from 'applications/coronavirus-vaccination/manifest.json';
+import manifest from 'applications/coronavirus-vaccination/manifest.json';
+
+const covidVaccineFormUrl = manifest.rootUrl;
 
 export default function OnState() {
   return (

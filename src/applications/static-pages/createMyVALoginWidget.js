@@ -1,5 +1,5 @@
 import { isLoggedIn } from 'platform/user/selectors';
-import { rootUrl } from 'applications/personalization/dashboard/manifest.json';
+import manifest from 'applications/personalization/dashboard/manifest.json';
 
 export default function createMyVALoginWidget(store) {
   const root = document.getElementById('myva-login');
@@ -7,7 +7,7 @@ export default function createMyVALoginWidget(store) {
   const homePageStoreListener = () => {
     if (root && isLoggedIn(store.getState())) {
       root.innerHTML =
-        `<a href="${rootUrl}" class="homepage-button">` +
+        `<a href="${manifest.rootUrl}" class="homepage-button">` +
         '<div class="icon-wrapper">' +
         '<i class="fas fa-user-circle homepage-button-icon"></i>' +
         '</div>' +

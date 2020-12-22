@@ -1,5 +1,7 @@
 import React from 'react';
-import { rootUrl as caregiverFormUrl } from 'applications/caregivers/manifest.json';
+import manifest from 'applications/caregivers/manifest.json';
+
+const caregiverFormUrl = manifest.rootUrl;
 
 export default function OnState() {
   return (

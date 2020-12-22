@@ -7,7 +7,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import { rootUrl as chapter36Url } from 'applications/vre/28-8832/manifest.json';
+import manifest from 'applications/vre/28-8832/manifest.json';
+
+const chapter36Url = manifest.rootUrl;
 
 const EDUCATION_CAREER_COUNSELING_PATH = 'education-and-career-counseling';
 

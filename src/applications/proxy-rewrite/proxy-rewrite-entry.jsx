@@ -20,7 +20,7 @@ import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import redirectIfNecessary from './redirects';
 import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
-import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
+import proxyWhiteList from './proxy-rewrite-whitelist.json';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -169,7 +169,9 @@ function getProxyRewriteCookieValue(
   return parseCookie(cookies).proxyRewrite;
 }
 
-function getMatchedWhitelistItem(whitelist = proxyRewriteWhitelist) {
+function getMatchedWhitelistItem(
+  whitelist = proxyWhiteList.proxyRewriteWhitelist,
+) {
   const { hostname, pathname } = window.location;
 
   return whitelist.find(

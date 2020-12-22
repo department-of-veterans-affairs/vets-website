@@ -1,10 +1,10 @@
 import { MILITARY_STATES } from 'applications/letters/utils/constants';
 
-import { states } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import countries from './countries.json';
 
 export const ADDRESS_FORM_VALUES = {
-  STATES: states.USA.map(state => state.value),
+  STATES: constants.states.USA.map(state => state.value),
   COUNTRIES: countries.map(country => country.countryName),
   COUNTRY_ISO3_CODES: countries.map(country => country.countryCodeISO3),
   MILITARY_STATES,

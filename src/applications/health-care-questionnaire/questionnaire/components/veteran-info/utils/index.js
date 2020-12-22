@@ -1,9 +1,9 @@
 import React from 'react';
-import { states50AndDC } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import AddressView from '../AddressView';
 
 const stateCodeToFullState = stateCode => {
-  return states50AndDC.filter(f => f.value === stateCode)[0]?.label;
+  return constants.states50AndDC.filter(f => f.value === stateCode)[0]?.label;
 };
 
 const addressToDisplay = (label, address) => {

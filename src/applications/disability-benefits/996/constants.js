@@ -1,4 +1,4 @@
-import { benefitTypes } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 // *** URLS ***
 export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
@@ -69,7 +69,7 @@ const supportedBenefitTypes = [
   // 'nca',
 ];
 
-export const SUPPORTED_BENEFIT_TYPES = benefitTypes.map(type => ({
+export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
