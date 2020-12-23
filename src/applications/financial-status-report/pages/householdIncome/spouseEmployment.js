@@ -70,8 +70,15 @@ export const uiSchema = {
           items: {
             spouseDeductionType: {
               'ui:title': 'Type of payroll deduction',
+              'ui:options': {
+                widgetClassNames: 'input-size-3',
+              },
             },
-            spouseDeductionAmount: currencyUI('Deduction amount'),
+            spouseDeductionAmount: _.merge(currencyUI('Deduction amount'), {
+              'ui:options': {
+                widgetClassNames: 'input-size-1',
+              },
+            }),
           },
         },
       },

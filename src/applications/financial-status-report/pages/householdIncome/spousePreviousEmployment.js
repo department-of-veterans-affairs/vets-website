@@ -30,14 +30,20 @@ export const uiSchema = {
         spouseEmploymentStart: {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
+          'ui:required': formData =>
+            formData.employment.spousePreviousEmployment,
         },
         spouseEmploymentEnd: {
           'ui:title': 'Employment end date',
           'ui:widget': 'date',
-          'ui:required': () => true,
+          'ui:required': formData =>
+            formData.employment.spousePreviousEmployment,
         },
         spouseEmployerName: {
           'ui:title': 'Employer name',
+          'ui:options': {
+            widgetClassNames: 'input-size-6',
+          },
         },
       },
     },
@@ -57,6 +63,7 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
+            required: ['spouseEmploymentStart', 'spouseEmploymentEnd'],
             properties: {
               spouseEmploymentType: {
                 type: 'string',

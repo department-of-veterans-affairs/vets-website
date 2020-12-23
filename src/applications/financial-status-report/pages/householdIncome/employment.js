@@ -1,6 +1,7 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your employment history',
@@ -71,8 +72,15 @@ export const uiSchema = {
           items: {
             deductionType: {
               'ui:title': 'Type of payroll deduction',
+              'ui:options': {
+                widgetClassNames: 'input-size-3',
+              },
             },
-            deductionAmount: currencyUI('Deduction amount'),
+            deductionAmount: _.merge(currencyUI('Deduction amount'), {
+              'ui:options': {
+                widgetClassNames: 'input-size-1',
+              },
+            }),
           },
         },
       },

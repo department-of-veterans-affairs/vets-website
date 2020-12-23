@@ -30,7 +30,6 @@
     margin-top: 30px;
   }
   .item-loop {
-    // margin-bottom: 20px; // other-assests showing addtl margin
     padding: 5px 20px 20px;
     background-color: #f1f1f1;
     .schemaform-field-container {
@@ -40,15 +39,10 @@
         width: 100%;
       }
       fieldset.schemaform-field-template {
-        margin-top: 0;
+        margin-top: 5px;
       }
-      .schemaform-field-template {
-        label {
-          margin-top: 0;
-        }
-        legend {
-          padding-bottom: 10px;
-        }
+      .schemaform-label {
+        margin-top: 0;
       }
     }
     .usa-button-secondary {
@@ -84,14 +78,14 @@
 
 // date-widget
 .usa-date-of-birth {
-  padding-top: 15px;
+  padding: 10px 0;
 }
 
 .input-size-1 {
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
-    margin: 0 10px 20px 0;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -99,7 +93,7 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
-    margin: 0 10px 20px 0;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -107,7 +101,7 @@
   @include media($medium-screen) {
     width: 192px;
     max-width: 192px;
-    margin: 0 10px 20px 0;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -115,7 +109,7 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
-    margin: 0 10px 20px 0;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -123,7 +117,7 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
-    margin: 0 10px 20px 0;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -131,7 +125,7 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
-    margin: 0 10px 20px 0;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -139,6 +133,6 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
-    margin: 0 10px 20px 0;
+    margin: 5px 10px 20px 0;
   }
 }
