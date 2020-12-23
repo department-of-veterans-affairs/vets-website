@@ -30,7 +30,7 @@ export const uiSchema = {
         employmentStart: {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
-          'ui:required': () => true,
+          // 'ui:required': (formData) => formData.,
         },
         employmentEnd: {
           'ui:title': 'Employment end date',

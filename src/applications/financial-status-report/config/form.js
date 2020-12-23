@@ -18,7 +18,7 @@ import {
   spouseEmployment,
   spouseSocialSecurity,
   spouseBenefits,
-  spouseAdditionalEmployment,
+  spousePreviousEmployment,
   dependents,
   monetary,
   realEstate,
@@ -132,16 +132,16 @@ const formConfig = {
           schema: spouseInformation.schema,
         },
         spouseEmployment: {
-          path: 'spouse-employment',
-          title: 'Spouse employment',
+          path: 'spouse-current-employment',
+          title: 'Spouse current employment',
           uiSchema: spouseEmployment.uiSchema,
           schema: spouseEmployment.schema,
         },
-        spouseAdditionalEmployment: {
-          path: 'spouse-additional-employment',
-          title: 'Spouse additional employment',
-          uiSchema: spouseAdditionalEmployment.uiSchema,
-          schema: spouseAdditionalEmployment.schema,
+        spousePreviousEmployment: {
+          path: 'spouse-previous-employment',
+          title: 'Spouse previous employment',
+          uiSchema: spousePreviousEmployment.uiSchema,
+          schema: spousePreviousEmployment.schema,
         },
         spouseBenefits: {
           path: 'spouse-benefits',

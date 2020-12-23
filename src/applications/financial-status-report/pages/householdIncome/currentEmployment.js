@@ -52,7 +52,7 @@ export const uiSchema = {
         grossMonthlyIncome: {
           ...currencyUI('Gross monthly income'),
           'ui:options': {
-            classNames: 'input-size-1',
+            classNames: 'input-size-5',
           },
           'ui:required': formData =>
             formData.employmentHistory?.isEmployed?.currentlyEmployed === true,

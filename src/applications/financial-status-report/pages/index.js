@@ -8,7 +8,7 @@ import * as additionalIncome from './householdIncome/additionalIncome';
 import * as spouseAdditionalIncome from './householdIncome/spouseAdditionalIncome';
 import * as spouseEmployment from './householdIncome/spouseEmployment';
 import * as spouseBenefits from './householdIncome/spouseBenefits';
-import * as spouseAdditionalEmployment from './householdIncome/spouseAdditionalEmployment';
+import * as spousePreviousEmployment from './householdIncome/spousePreviousEmployment';
 import * as dependents from './householdIncome/dependents';
 import * as monetary from './householdAssets/monetary';
 import * as realEstate from './householdAssets/realEstate';
@@ -38,7 +38,7 @@ export {
   spouseInformation,
   spouseEmployment,
   spouseBenefits,
-  spouseAdditionalEmployment,
+  spousePreviousEmployment,
   spouseSocialSecurity,
   dependents,
   monetary,
