@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import DowntimeNotification, {
   externalServices,
@@ -79,9 +81,9 @@ const DirectDeposit = () => {
       >
         <BankInfoCNPv2 />
       </DowntimeNotification>
+      <FraudVictimAlert status={ALERT_TYPE.INFO} />
       <BankInfoEDU />
       <PaymentHistory />
-      <FraudVictimAlert />
     </>
   );
 };
