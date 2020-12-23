@@ -83,7 +83,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState }) => {
         >
           {!!recentlySavedBankInfo && (
             <AlertBox
-              status="success"
+              status={ALERT_TYPE.SUCCESS}
               backgroundOnly
               className="vads-u-margin-top--0 vads-u-margin-bottom--2"
               scrollOnShow
