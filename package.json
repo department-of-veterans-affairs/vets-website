@@ -357,6 +357,7 @@
     "**/node-forge": "^0.10.0",
     "cypress": "^4.8.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
-    "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
+    "nightwatch/**/lodash.defaultsdeep": "^4.6.1",
+    "punycode": "1.4.1"
   }
 }
