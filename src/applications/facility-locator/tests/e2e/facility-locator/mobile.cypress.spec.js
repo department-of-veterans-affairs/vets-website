@@ -37,11 +37,11 @@ Cypress.Commands.add('checkSearch', () => {
 describe('Mobile', () => {
   before(() => {
     cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
+      constants: path.join(__dirname, '..', '..', '..', 'constants'),
     });
   });
 
-  it.skip('should render in mobile layouts and tabs actions work', () => {
+  it('should render in mobile layouts and tabs actions work', () => {
     cy.visit('/find-locations');
     cy.injectAxe();
 

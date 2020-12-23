@@ -235,26 +235,30 @@ const FacilitiesMap = props => {
       return;
     }
 
-    const searchAreaControlId = document.getElementById(
+    const searchAreaControl = document.getElementById(
       'search-area-control-container',
     );
+
+    if (!searchAreaControl) {
+      return;
+    }
 
     if (
       calculateSearchArea() > MAX_SEARCH_AREA ||
       !props.currentQuery.isValid ||
       !props.currentQuery.mapMoved
     ) {
-      searchAreaControlId.style.display = 'none';
+      searchAreaControl.style.display = 'none';
       return;
     }
 
-    if (searchAreaControlId.style.display === 'none') {
-      searchAreaControlId.style.display = 'block';
+    if (searchAreaControl.style.display === 'none') {
+      searchAreaControl.style.display = 'block';
       setFocus('#search-area-control');
     }
 
-    if (searchAreaControlId && !searchAreaSet) {
-      searchAreaControlId.addEventListener('click', handleSearchArea, false);
+    if (searchAreaControl && !searchAreaSet) {
+      searchAreaControl.addEventListener('click', handleSearchArea, false);
       searchAreaSet = true;
     }
   };
@@ -278,6 +282,13 @@ const FacilitiesMap = props => {
   };
 
   const setupMap = () => {
+    const mapContainerElement = document.getElementById(mapboxGlContainer);
+    if (!mapContainerElement) {
+      return null;
+    }
+
+    mapContainerElement.setAttribute('tabindex', 0);
+
     mapboxgl.accessToken = mapboxToken;
     const mapInit = new mapboxgl.Map({
       container: mapboxGlContainer,
@@ -285,9 +296,6 @@ const FacilitiesMap = props => {
       center: [MapboxInit.centerInit.lng, MapboxInit.centerInit.lat],
       zoom: MapboxInit.zoomInit,
     });
-
-    const mapContainerElement = document.getElementById(mapboxGlContainer);
-    mapContainerElement.setAttribute('tabindex', 0);
 
     const searchAreaControl = new SearchAreaControl(isMobile);
     mapInit.addControl(searchAreaControl);
