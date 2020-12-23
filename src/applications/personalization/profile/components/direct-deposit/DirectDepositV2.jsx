@@ -33,6 +33,12 @@ const DirectDeposit = ({ cnpUiState, eduUiState }) => {
   const wasSavingEDUBankInfo = usePrevious(eduUiState.isSaving);
   const eduSaveError = eduUiState.responseError;
 
+  const removeBankInfoUpdatedAlert = () => {
+    setTimeout(() => {
+      setRecentlySavedBankInfo('');
+    }, 6000);
+  };
+
   React.useEffect(() => {
     focusElement('[data-focus-target]');
     document.title = `Direct Deposit | Veterans Affairs`;
@@ -43,9 +49,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState }) => {
     () => {
       if (wasSavingCNPBankInfo && !isSavingCNPBankInfo && !cnpSaveError) {
         setRecentlySavedBankInfo('compensation and pension benefits');
-        setTimeout(() => {
-          setRecentlySavedBankInfo('');
-        }, 6000);
+        removeBankInfoUpdatedAlert();
       }
     },
     [wasSavingCNPBankInfo, isSavingCNPBankInfo, cnpSaveError],
@@ -56,9 +60,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState }) => {
     () => {
       if (wasSavingEDUBankInfo && !isSavingEDUBankInfo && !eduSaveError) {
         setRecentlySavedBankInfo('education benefits');
-        setTimeout(() => {
-          setRecentlySavedBankInfo('');
-        }, 6000);
+        removeBankInfoUpdatedAlert();
       }
     },
     [wasSavingEDUBankInfo, isSavingEDUBankInfo, eduSaveError],

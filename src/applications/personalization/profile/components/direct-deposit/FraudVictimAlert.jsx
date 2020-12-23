@@ -7,7 +7,7 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-const FraudVictimAlert = ({ status = ALERT_TYPE.CONTIUNE }) => (
+const FraudVictimAlert = ({ status = ALERT_TYPE.CONTINUE }) => (
   <AlertBox
     className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
     backgroundOnly
