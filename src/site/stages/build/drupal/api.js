@@ -11,7 +11,8 @@ const { queries, getQuery } = require('./queries');
 
 const syswidecas = require('syswide-cas');
 
-// Skip unnecessary requires when building content cache function.
+// Using a global variable from the Webpack config, skip unnecessary requires
+// for CMS transformers code when building the content cache function.
 // eslint-disable-next-line no-undef
 const CONTENT_CACHE_FUNCTION = __CONTENT_CACHE_FUNCTION__;
 
