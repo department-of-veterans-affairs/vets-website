@@ -4,8 +4,11 @@ const webpack = require('webpack');
 const root = path.resolve(__dirname, '..');
 
 module.exports = {
-  entry: path.join(root, 'script', 'get-content.js'),
-  output: { path: path.join(root, 'build', 'content-cache') },
+  entry: path.join(root, 'src', 'platform', 'lambdas', 'content-cache.js'),
+  output: {
+    path: path.join(root, 'build', 'content-cache'),
+    filename: 'index.js',
+  },
   target: 'node',
   node: { __dirname: true },
   plugins: [
