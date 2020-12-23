@@ -103,6 +103,13 @@ const FacilitiesMap = props => {
     browserHistory.push(queryStringObj);
   };
 
+  const addMapMarker = searchCoords => {
+    const markerElement = buildMarker('currentPos');
+    new mapboxgl.Marker(markerElement)
+      .setLngLat([searchCoords.lng, searchCoords.lat])
+      .addTo(map);
+  };
+
   const renderMarkers = locations => {
     if (locations.length === 0) return;
     const currentLocation = props.currentQuery.position;
@@ -141,10 +148,7 @@ const FacilitiesMap = props => {
 
     if (props.currentQuery.searchCoords) {
       const { searchCoords } = props.currentQuery;
-      const markerElement = buildMarker('currentPos');
-      new mapboxgl.Marker(markerElement)
-        .setLngLat([searchCoords.lng, searchCoords.lat])
-        .addTo(map);
+      addMapMarker(searchCoords);
       locationBounds.extend(
         new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
       );
@@ -153,10 +157,7 @@ const FacilitiesMap = props => {
 
     if (props.currentQuery.searchArea) {
       const { locationCoords } = props.currentQuery.searchArea;
-      const markerElement = buildMarker('currentPos');
-      new mapboxgl.Marker(markerElement)
-        .setLngLat([locationCoords.lng, locationCoords.lat])
-        .addTo(map);
+      addMapMarker(locationCoords);
       locationBounds.extend(
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
@@ -624,10 +625,7 @@ const FacilitiesMap = props => {
       ) {
         const { searchCoords } = props.currentQuery;
         const locationBounds = new mapboxgl.LngLatBounds();
-        const markerElement = buildMarker('currentPos');
-        new mapboxgl.Marker(markerElement)
-          .setLngLat([searchCoords.lng, searchCoords.lat])
-          .addTo(map);
+        addMapMarker(searchCoords);
         locationBounds.extend(
           new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
         );
