@@ -36,6 +36,7 @@
     .schemaform-field-container {
       display: flex;
       flex-wrap: wrap;
+      margin: 20px 0;
       .schemaform-block-header {
         width: 100%;
       }
@@ -43,9 +44,6 @@
         margin-top: 0;
       }
       .schemaform-field-template {
-        margin: 0 20px 10px 0;
-        padding-right: 20px;
-        width: 100%;
         label {
           margin-top: 0;
         }
@@ -94,6 +92,7 @@
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
+    margin-right: 10px;
   }
 }
 
@@ -101,6 +100,7 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
+    margin-right: 10px;
   }
 }
 
@@ -108,6 +108,7 @@
   @include media($medium-screen) {
     width: 192px;
     max-width: 192px;
+    margin-right: 10px;
   }
 }
 
@@ -115,6 +116,7 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
+    margin-right: 10px;
   }
 }
 
@@ -122,6 +124,7 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
+    margin-right: 10px;
   }
 }
 
@@ -129,6 +132,7 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
+    margin-right: 10px;
   }
 }
 
@@ -136,5 +140,6 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
+    margin-right: 10px;
   }
 }
