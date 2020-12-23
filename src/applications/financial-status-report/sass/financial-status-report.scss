@@ -30,13 +30,12 @@
     margin-top: 30px;
   }
   .item-loop {
-    margin-bottom: 20px;
-    padding: 0 25px 15px 25px;
+    // margin-bottom: 20px; // other-assests showing addtl margin
+    padding: 5px 20px 20px;
     background-color: #f1f1f1;
     .schemaform-field-container {
       display: flex;
       flex-wrap: wrap;
-      margin: 20px 0;
       .schemaform-block-header {
         width: 100%;
       }
@@ -92,7 +91,7 @@
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
-    margin-right: 10px;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -100,7 +99,7 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
-    margin-right: 10px;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -108,7 +107,7 @@
   @include media($medium-screen) {
     width: 192px;
     max-width: 192px;
-    margin-right: 10px;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -116,7 +115,7 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
-    margin-right: 10px;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -124,7 +123,7 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
-    margin-right: 10px;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -132,7 +131,7 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
-    margin-right: 10px;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -140,6 +139,6 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
-    margin-right: 10px;
+    margin: 0 10px 20px 0;
   }
 }
