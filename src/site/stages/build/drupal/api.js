@@ -11,11 +11,17 @@ const { queries, getQuery } = require('./queries');
 
 const syswidecas = require('syswide-cas');
 
-const {
-  readAllNodeNames,
-  readEntity,
-} = require('../process-cms-exports/helpers');
-const entityTreeFactory = require('../process-cms-exports');
+// Skip unnecessary requires when building content cache function.
+// eslint-disable-next-line no-undef
+const CONTENT_CACHE_FUNCTION = __CONTENT_CACHE_FUNCTION__;
+
+const { readAllNodeNames, readEntity } = CONTENT_CACHE_FUNCTION
+  ? {}
+  : require('../process-cms-exports/helpers');
+
+const entityTreeFactory = CONTENT_CACHE_FUNCTION
+  ? () => {}
+  : require('../process-cms-exports');
 
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
