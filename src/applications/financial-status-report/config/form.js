@@ -7,7 +7,7 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import {
   availableDebts,
-  currentEmployment,
+  employment,
   previousEmployment,
   benefits,
   socialSecurity,
@@ -95,11 +95,11 @@ const formConfig = {
     householdIncomeChapter: {
       title: 'Household income',
       pages: {
-        currentEmployment: {
-          path: 'current-employment',
-          title: 'Current employment',
-          uiSchema: currentEmployment.uiSchema,
-          schema: currentEmployment.schema,
+        employment: {
+          path: 'employment',
+          title: 'Employment',
+          uiSchema: employment.uiSchema,
+          schema: employment.schema,
         },
         previousEmployment: {
           path: 'previous-employment',
@@ -132,8 +132,8 @@ const formConfig = {
           schema: spouseInformation.schema,
         },
         spouseEmployment: {
-          path: 'spouse-current-employment',
-          title: 'Spouse current employment',
+          path: 'spouse-employment',
+          title: 'Spouse employment',
           uiSchema: spouseEmployment.uiSchema,
           schema: spouseEmployment.schema,
         },

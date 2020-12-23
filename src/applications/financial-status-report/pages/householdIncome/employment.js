@@ -4,7 +4,7 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your employment history',
-  employmentHistory: {
+  employment: {
     hasBeenEmployed: {
       'ui:title': 'Have you been employed within the past two years?',
       'ui:widget': 'yesNo',
@@ -17,8 +17,7 @@ export const uiSchema = {
       currentlyEmployed: {
         'ui:title': 'Are you currently employed?',
         'ui:widget': 'yesNo',
-        'ui:required': formData =>
-          formData.employmentHistory.hasBeenEmployed === true,
+        'ui:required': formData => formData.employment.hasBeenEmployed === true,
       },
       isCurrentlyEmployed: {
         'ui:description':
@@ -32,7 +31,7 @@ export const uiSchema = {
             widgetClassNames: 'input-size-3',
           },
           'ui:required': formData =>
-            formData.employmentHistory?.isEmployed?.currentlyEmployed === true,
+            formData.employment?.isEmployed?.currentlyEmployed === true,
         },
         employmentStart: {
           'ui:title': 'Employment start date',
@@ -41,7 +40,7 @@ export const uiSchema = {
             widgetClassNames: 'employment-start-date',
           },
           'ui:required': formData =>
-            formData.employmentHistory?.isEmployed?.currentlyEmployed === true,
+            formData.employment?.isEmployed?.currentlyEmployed === true,
         },
         employerName: {
           'ui:title': 'Employer name',
@@ -55,7 +54,7 @@ export const uiSchema = {
             classNames: 'input-size-5',
           },
           'ui:required': formData =>
-            formData.employmentHistory?.isEmployed?.currentlyEmployed === true,
+            formData.employment?.isEmployed?.currentlyEmployed === true,
         },
         payrollDeductions: {
           'ui:field': ItemLoop,
@@ -84,7 +83,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    employmentHistory: {
+    employment: {
       type: 'object',
       properties: {
         hasBeenEmployed: {

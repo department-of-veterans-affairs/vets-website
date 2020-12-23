@@ -11,40 +11,40 @@ export const uiSchema = {
       widgetClassNames: 'input-size-3',
     },
   },
-  employmentHistory: {
-    hasBeenEmployed: {
+  employment: {
+    spouseHasBeenEmployed: {
       'ui:title': 'Has your spouse been employed within the past two years?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    isEmployed: {
+    spouseIsEmployed: {
       'ui:options': {
-        expandUnder: 'hasBeenEmployed',
+        expandUnder: 'spouseHasBeenEmployed',
       },
-      currentlyEmployed: {
+      spouseCurrentlyEmployed: {
         'ui:title': 'Is your spouse currently employed?',
         'ui:widget': 'yesNo',
-        'ui:required': formData => formData.employmentHistory.hasBeenEmployed,
+        'ui:required': formData => formData.employment.spouseHasBeenEmployed,
       },
-      isCurrentlyEmployed: {
+      isSpouseCurrentlyEmployed: {
         'ui:options': {
-          expandUnder: 'currentlyEmployed',
+          expandUnder: 'spouseCurrentlyEmployed',
         },
         'ui:description':
           'Please provide information about your spouse’s current employment.',
-        employmentType: {
+        spouseEmploymentType: {
           'ui:title': 'Type of employment',
           'ui:options': {
             widgetClassNames: 'input-size-3',
           },
         },
-        employmentStart: {
+        spouseEmploymentStart: {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
           'ui:required': formData =>
-            formData.employmentHistory.isEmployed.currentlyEmployed,
+            formData.employment.spouseIsEmployed?.spouseCurrentlyEmployed,
         },
-        employerName: {
+        spouseEmployerName: {
           'ui:title': 'Employer name',
           'ui:options': {
             widgetClassNames: 'input-size-6',
@@ -54,8 +54,6 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'input-size-2',
           },
-          'ui:required': formData =>
-            formData.employmentHistory.isEmployed.currentlyEmployed,
         }),
         spousePayrollDeductions: {
           'ui:field': ItemLoop,
@@ -70,7 +68,7 @@ export const uiSchema = {
             itemName: 'Add a payroll deduction',
           },
           items: {
-            deductionType: {
+            spouseDeductionType: {
               'ui:title': 'Type of payroll deduction',
             },
             spouseDeductionAmount: currencyUI('Deduction amount'),
@@ -87,29 +85,29 @@ export const schema = {
     spouseName: {
       type: 'string',
     },
-    employmentHistory: {
+    employment: {
       type: 'object',
       properties: {
-        hasBeenEmployed: {
+        spouseHasBeenEmployed: {
           type: 'boolean',
         },
-        isEmployed: {
+        spouseIsEmployed: {
           type: 'object',
           properties: {
-            currentlyEmployed: {
+            spouseCurrentlyEmployed: {
               type: 'boolean',
             },
-            isCurrentlyEmployed: {
+            isSpouseCurrentlyEmployed: {
               type: 'object',
               properties: {
-                employmentType: {
+                spouseEmploymentType: {
                   type: 'string',
                   enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
                 },
-                employmentStart: {
+                spouseEmploymentStart: {
                   type: 'string',
                 },
-                employerName: {
+                spouseEmployerName: {
                   type: 'string',
                 },
                 spouseIncome: {
@@ -120,7 +118,7 @@ export const schema = {
                   items: {
                     type: 'object',
                     properties: {
-                      deductionType: {
+                      spouseDeductionType: {
                         type: 'string',
                       },
                       spouseDeductionAmount: {

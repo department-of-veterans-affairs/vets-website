@@ -1,13 +1,13 @@
 import * as availableDebts from './veteranInformation/availableDebts';
-import * as currentEmployment from './householdIncome/currentEmployment';
+import * as employment from './householdIncome/employment';
 import * as previousEmployment from './householdIncome/previousEmployment';
 import * as benefits from './householdIncome/benefits';
 import * as socialSecurity from './householdIncome/socialSecurity';
 import * as veteranInfo from './veteranInformation/veteranInfo';
 import * as additionalIncome from './householdIncome/additionalIncome';
 import * as spouseAdditionalIncome from './householdIncome/spouseAdditionalIncome';
-import * as spouseEmployment from './householdIncome/spouseEmployment';
 import * as spouseBenefits from './householdIncome/spouseBenefits';
+import * as spouseEmployment from './householdIncome/spouseEmployment';
 import * as spousePreviousEmployment from './householdIncome/spousePreviousEmployment';
 import * as dependents from './householdIncome/dependents';
 import * as monetary from './householdAssets/monetary';
@@ -28,7 +28,7 @@ import * as contactInfo from './veteranInformation/contactInfo';
 
 export {
   availableDebts,
-  currentEmployment,
+  employment,
   previousEmployment,
   benefits,
   socialSecurity,
@@ -36,8 +36,8 @@ export {
   spouseAdditionalIncome,
   veteranInfo,
   spouseInformation,
-  spouseEmployment,
   spouseBenefits,
+  spouseEmployment,
   spousePreviousEmployment,
   spouseSocialSecurity,
   dependents,
