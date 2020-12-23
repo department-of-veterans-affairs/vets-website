@@ -3,8 +3,9 @@ export const FETCH_SEARCH_RESULTS_SUCCESS = 'FETCH_SEARCH_RESULTS_SUCCESS';
 export const FETCH_SEARCH_RESULTS_FAILURE = 'FETCH_SEARCH_RESULTS_FAILURE';
 
 import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
 
-export function fetchSearchResults(query, page) {
+export function fetchSearchResults(query, page, analyticsMetaInfo) {
   return dispatch => {
     dispatch({ type: FETCH_SEARCH_RESULTS, query });
 
@@ -15,13 +16,30 @@ export function fetchSearchResults(query, page) {
     }
 
     return apiRequest(queryString)
-      .then(response =>
+      .then(response => {
+        if (analyticsMetaInfo) {
+          recordEvent({
+            event: 'view_search_results',
+            'search-page-path': analyticsMetaInfo?.path,
+            'search-query': analyticsMetaInfo?.userInput,
+            'search-results-total-count':
+              response?.meta?.pagination?.totalEntries,
+            'search-results-total-pages':
+              response?.meta?.pagination?.totalPages,
+            'search-selection': 'All VA.gov',
+            'search-typeahead-enabled': analyticsMetaInfo?.typeaheadEnabled,
+            'type-ahead-option-keyword-selected':
+              analyticsMetaInfo?.keywordSelected,
+            'type-ahead-option-position': analyticsMetaInfo?.keywordPosition,
+            'type-ahead-options-list': analyticsMetaInfo?.suggestionsList,
+          });
+        }
         dispatch({
           type: FETCH_SEARCH_RESULTS_SUCCESS,
           results: response.data.attributes.body,
           meta: response.meta,
-        }),
-      )
+        });
+      })
       .catch(error =>
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,

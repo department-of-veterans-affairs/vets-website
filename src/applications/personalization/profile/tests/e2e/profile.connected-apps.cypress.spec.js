@@ -1,3 +1,4 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.json';
@@ -80,10 +81,7 @@ function disconnectApps(mobile = false) {
 
 describe('Connected applications', () => {
   beforeEach(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      JSON.stringify(['single-sign-on-intro']),
-    );
+    disableFTUXModals();
     cy.login(mockUser);
     // login() calls cy.server() so we can now mock routes
   });

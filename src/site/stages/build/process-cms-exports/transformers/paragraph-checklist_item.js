@@ -3,9 +3,11 @@ const transform = entity => ({
   entity: {
     entityType: 'paragraph',
     entityBundle: 'checklist_item',
-    fieldSectionIntro: entity.fieldSectionIntro,
-    fieldSectionHeader: entity.fieldSectionHeader,
-    fieldChecklistItems: entity.fieldChecklistItems,
+    fieldSectionIntro: entity.fieldSectionIntro?.[0]?.value || null,
+    fieldSectionHeader: entity.fieldSectionHeader?.[0]?.value || null,
+    fieldChecklistItems: entity.fieldChecklistItems.map(
+      checklistItem => checklistItem.value,
+    ),
   },
 });
 

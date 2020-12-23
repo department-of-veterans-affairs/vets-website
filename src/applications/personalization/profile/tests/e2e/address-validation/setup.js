@@ -1,16 +1,14 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 import { createUserResponse } from './user';
 import { createAddressValidationResponse } from './addressValidation';
 
-import mockUser from 'applications/personalization/profile/tests/fixtures/users/user-36.json';
-import receivedTransaction from 'applications/personalization/profile/tests/fixtures/transactions/received-transaction.json';
-import finishedTransaction from 'applications/personalization/profile/tests/fixtures/transactions/finished-transaction.json';
+import mockUser from '~/applications/personalization/profile/tests/fixtures/users/user-36.json';
+import receivedTransaction from '~/applications/personalization/profile/tests/fixtures/transactions/received-transaction.json';
+import finishedTransaction from '~/applications/personalization/profile/tests/fixtures/transactions/finished-transaction.json';
 
 export const setUp = type => {
-  window.localStorage.setItem(
-    'DISMISSED_ANNOUNCEMENTS',
-    JSON.stringify(['single-sign-on-intro']),
-  );
+  disableFTUXModals();
 
   cy.login(mockUser);
   cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);

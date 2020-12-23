@@ -15,220 +15,126 @@
   padding-right: 2px;
 }
 
-.item-loop {
-  padding: 0 25px 15px 25px;
-  background-color: #f1f1f1;
-  .schemaform-field-container {
-    display: flex;
-    flex-wrap: wrap;
-    .schemaform-block-header {
-      width: 100%;
-    }
-    .schemaform-field-template {
-      margin: 0 15px 15px 0;
-      min-width: 215px;
-      label {
-        margin-top: 0;
-      }
-    }
-  }
-  .usa-button-secondary {
-    background: #fff;
-  }
-}
-
 .schemaform-subtitle {
   width: 100%;
   margin-top: 10px;
 }
 
-.schemaform-block {
+#root__title {
+  height: 35px;
+}
+
+.item-loop-container {
   margin-top: 10px;
-}
-
-// employment history
-.employment-history-title {
-  margin: 20px 0;
-}
-
-.employment-record-review {
-  display: flex;
-  flex-direction: column;
-  width: 575px;
-  background-color: #f1f1f1;
-  padding: 10px 30px 20px;
-  margin-bottom: 25px;
-  .review-content {
-    margin: 10px 0;
+  .item-loop-header legend {
+    margin-top: 30px;
   }
-  .btn-edit {
-    max-width: fit-content;
-    background-color: #fff;
-  }
-}
-
-.employment-history-container {
-  display: flex;
-  flex-direction: column;
-  background-color: #f1f1f1;
-  padding: 10px 30px 20px;
-
-  .deduction-label {
-    margin-top: 10px;
-  }
-  .input-employment-type {
-    width: 200px;
-  }
-  .input-employment-start {
-    margin-right: 25px;
-    .schemaform-label {
-      margin-bottom: 15px;
-    }
-  }
-  .input-employer-name {
-    width: 278px;
-  }
-  .input-monthly-income {
-    width: 152px;
-  }
-  .input-payroll-deduction {
-    width: 152px;
-  }
-
-  .monthly-net-income {
-    margin-top: 20px;
-  }
-
-  .add-item-link,
-  .remove-link {
-    font-size: 16px;
-    color: #004795;
-    line-height: 24px;
-    text-decoration: underline;
-    margin-bottom: 7px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .btn-save {
-    margin-top: 20px;
-    max-width: fit-content;
-  }
-
-  .add-item-link-section {
-    margin-top: 25px;
-    .plus-icon {
-      color: #0071bb;
-      margin-right: 5px;
-    }
-  }
-}
-
-.add-item-container {
-  display: flex;
-  flex-direction: column;
-  background-color: #f1f1f1;
-  padding: 20px 30px 20px;
-  margin-top: 20px;
-  .add-item-link-section {
-    .plus-icon {
-      color: #0071bb;
-      margin-right: 5px;
-    }
-  }
-}
-
-// list-loop component
-.list-loop-container {
-  display: flex;
-  flex-direction: column;
-  background-color: $color-gray-lightest;
-  padding: 10px 30px 20px;
-  .list-loop-item-list {
-    display: flex;
-    justify-content: left;
-    align-items: flex-end;
-    margin-bottom: 30px;
-    .list-loop-item-label {
-      margin-bottom: 15px;
-    }
-    .list-loop-item-1 {
-      width: 275px;
-    }
-    .list-loop-item-2 {
-      width: 150px;
-    }
-    .list-loop-edit {
-      width: 40px;
-    }
-  }
-  .title-section {
+  .item-loop {
     margin-bottom: 20px;
-    .title {
-      width: 200px;
-      height: 15px;
-      font-family: Bitter;
-      font-size: 17px;
-      color: $color-gray-dark;
-      line-height: 22px;
-    }
-    .sub-title {
-      height: 16px;
-      font-size: 16px;
-      color: $color-gray-dark;
-      line-height: 24px;
-    }
-  }
-  .list-input-section {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    .input-section-container {
-      padding: 0;
-      margin: 0;
-      .input-row {
-        list-style: none;
-        margin-bottom: 20px;
-        .input-container {
-          display: flex;
-          align-items: flex-end;
-          margin-bottom: 20px;
+    padding: 0 25px 15px 25px;
+    background-color: #f1f1f1;
+    .schemaform-field-container {
+      display: flex;
+      flex-wrap: wrap;
+      .schemaform-block-header {
+        width: 100%;
+      }
+      fieldset.schemaform-field-template {
+        margin-top: 0;
+      }
+      .schemaform-field-template {
+        margin: 0 20px 10px 0;
+        padding-right: 20px;
+        width: 100%;
+        label {
+          margin-top: 0;
         }
-        .input-placeholder {
-          margin-bottom: 10px;
-        }
-        .input-custom {
-          margin-right: 25px;
-          .schemaform-label {
-            margin: 0;
-          }
-        }
-        .input-1 {
-          width: 250px;
-        }
-        .input-2 {
-          width: 125px;
-        }
-        .input-3 {
-          width: 125px;
+        legend {
+          padding-bottom: 10px;
         }
       }
     }
-  }
-  .add-item-link-section {
-    .plus-icon {
-      color: $color-blue;
-      margin-right: 5px;
+    .usa-button-secondary {
+      background: #fff;
     }
   }
-  .add-item-link,
-  .remove-link {
-    font-size: 16px;
-    color: $color-link-default;
-    line-height: 24px;
-    text-decoration: underline;
-    margin-bottom: 7px;
+  .edit-item-container {
+    margin: 5px 0;
+    .usa-button-secondary {
+      background: #fff;
+    }
   }
-  .btn-save {
-    max-width: fit-content;
+  .add-item-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #f1f1f1;
+    padding: 20px 30px 20px;
+    margin-top: 20px;
+    .add-item-link-section {
+      .plus-icon {
+        color: #0071bb;
+        margin-right: 5px;
+      }
+    }
+  }
+  .card-details-view {
+    padding: 10px 30px;
+    .card-title {
+      margin: 15px 0;
+    }
+  }
+}
+
+// date-widget
+.usa-date-of-birth {
+  padding-top: 15px;
+}
+
+.input-size-1 {
+  @include media($medium-screen) {
+    width: 152px;
+    max-width: 152px;
+  }
+}
+
+.input-size-2 {
+  @include media($medium-screen) {
+    width: 173px;
+    max-width: 173px;
+  }
+}
+
+.input-size-3 {
+  @include media($medium-screen) {
+    width: 192px;
+    max-width: 192px;
+  }
+}
+
+.input-size-4 {
+  @include media($medium-screen) {
+    width: 215px;
+    max-width: 215px;
+  }
+}
+
+.input-size-5 {
+  @include media($medium-screen) {
+    width: 262px;
+    max-width: 262px;
+  }
+}
+
+.input-size-6 {
+  @include media($medium-screen) {
+    width: 283px;
+    max-width: 283px;
+  }
+}
+
+.input-size-7 {
+  @include media($medium-screen) {
+    width: 332px;
+    max-width: 332px;
   }
 }

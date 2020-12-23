@@ -1,4 +1,4 @@
-<h3>Contact information</h3>
+<h3 data-template="paragraphs/service_location">Contact information</h3>
 {% for singleLocation in locations %}
   {% assign single = singleLocation.entity %}
   {% include "src/site/components/service_address.drupal.liquid" %}
@@ -11,7 +11,7 @@
   {% endcomment %}
 
   {% if single.fieldHours != "1" %}
-    <h5>Hours</h5>
+    <h5 data-template="paragraphs/service_location">Hours</h5>
   {% endif %}
 
   {% case single.fieldHours %}
@@ -27,18 +27,19 @@
 
 
   {% if single.fieldAdditionalHoursInfo %}
-    <p>{{ single.fieldAdditionalHoursInfo }}</p>
+    <p data-template="paragraphs/service_location">{{ single.fieldAdditionalHoursInfo }}</p>
   {% endif %}
 
   {% include "src/site/components/phone.drupal.liquid" with numbers = single.fieldPhone %}
 
   {% if single.fieldEmailContacts %}
     {% for email in single.fieldEmailContacts %}
-      <p class="vads-u-margin-y--1">
+      <p class="vads-u-margin-y--1" data-template="paragraphs/service_location">
       {% if email.entity.fieldEmailLabel %}
         <h5>{{ email.entity.fieldEmailLabel }}: </h5>
       {% endif %}
       <a aria-label="{{ email.entity.fieldEmailAddress }}"
+         data-template="paragraphs/service_location"
          href="{{ email.entity.fieldEmailAddress }}">{{ email.entity.fieldEmailAddress }}
       </a>
     {% endfor %}
@@ -46,8 +47,8 @@
 {% endfor %}
 
 {% if locationEntity.fieldReferralRequired or locationEntity.fieldWalkInsAccepted or locationEntity.fieldOnlineSchedulingAvailabl %}
-  <h4>Appointments</h4>
-  <p class="vads-u-margin--0">Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your
+  <h4 data-template="paragraphs/service_location">Appointments</h4>
+  <p class="vads-u-margin--0" data-template="paragraphs/service_location">Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your
      primary care provider first.
   </p>
 
@@ -59,7 +60,7 @@
   {% assign appointmentPhoneExtension = locationEntity.fieldPhoneNumbersParagraph.0.entity.fieldPhoneExtension %}
 
   {% if appointmentPhoneNumber %}
-    <div class="phone-numbers">
+    <div class="phone-numbers" data-template="paragraphs/service_location">
       <h5>Phone</h5>
       <a class="vads-u-margin-bottom--1" aria-label="{{ appointmentPhoneNumber | accessibleNumber }}"
          href="tel:{{ appointmentPhoneNumber }}{% if appointmentPhoneExtension %}p{{ appointmentPhoneExtension }}{% endif %}">
@@ -72,14 +73,14 @@
   {% endif %}
 
   {% if locationEntity.fieldReferralRequired %}
-    <p class="vads-u-margin-bottom--0">
+    <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
       <strong>Referral required?</strong>
       {% if locationEntity.fieldReferralRequired == '1' %}Yes{% else %}No{% endif %}
     </p>
   {% endif %}
 
   {% if locationEntity.fieldWalkInsAccepted %}
-    <p class="vads-u-margin-bottom--0">
+    <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
       <strong>Walk-ins accepted?</strong>
       {% if locationEntity.fieldWalkInsAccepted == '1' %}Yes{% else %}No{% endif %}
     </p>
@@ -89,6 +90,7 @@
     <a class="usa-button vads-u-margin-bottom--1"
        data-entity-substitution="canonical"
        data-entity-type="node"
+       data-template="paragraphs/service_location"
        href="/health-care/schedule-view-va-appointments"
        title="Schedule and view VA appointments online">
       Schedule an appointment online

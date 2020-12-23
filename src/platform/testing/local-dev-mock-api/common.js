@@ -76,6 +76,7 @@ const responses = {
         { name: 'vaOnlineSchedulingExpressCareNew', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingProviderSelection', value: true },
+        { name: 'vaOnlineSchedulingCheetah', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },

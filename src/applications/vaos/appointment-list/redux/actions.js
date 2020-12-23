@@ -8,7 +8,10 @@ import {
   EXPRESS_CARE,
 } from '../../utils/constants';
 import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
-import { selectSystemIds, vaosExpressCare } from '../../redux/selectors';
+import {
+  selectSystemIds,
+  selectFeatureExpressCare,
+} from '../../redux/selectors';
 
 import {
   getCancelReasons,
@@ -184,7 +187,7 @@ export function fetchFutureAppointments() {
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
             });
 
-            if (vaosExpressCare(getState())) {
+            if (selectFeatureExpressCare(getState())) {
               recordItemsRetrieved(
                 'express_care',
                 requests.filter(appt => appt.vaos.isExpressCare).length,

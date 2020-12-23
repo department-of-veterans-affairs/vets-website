@@ -4,7 +4,7 @@ module.exports = {
   type: 'object',
   properties: {
     changed: { type: 'number' },
-    entityBundle: { type: 'string', enum: ['media_list_videos'] },
+    entityBundle: { type: 'string', enum: ['support_resources_detail_page'] },
     entityMetatags: { $ref: 'MetaTags' },
     entityPublished: { type: 'boolean' },
     entityType: { type: 'string', enum: ['node'] },
@@ -57,15 +57,9 @@ module.exports = {
       type: 'array',
       items: { $ref: 'output/paragraph-link_teaser' },
     },
-    fieldTableOfContentsBoolean: {
-      type: 'boolean',
-    },
     fieldTags: {
       $ref: 'output/paragraph-audience_topics',
     },
-    // Needed for filtering reverse fields in other transformers
-    status: { $ref: 'GenericNestedBoolean' },
-    title: { type: 'string' },
   },
   required: [
     'changed',
@@ -74,12 +68,6 @@ module.exports = {
     'entityPublished',
     'entityType',
     'fieldContentBlock',
-    'fieldDescription',
     'fieldIntroTextLimitedHtml',
-    'fieldMetaTitle',
-    'fieldProduct',
-    'fieldTableOfContentsBoolean',
-    'status',
-    'title',
   ],
 };

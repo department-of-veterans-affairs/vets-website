@@ -7,12 +7,7 @@ import appendQuery from 'append-query';
 import { focusElement } from 'platform/utilities/ui';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import {
-  ConfirmationPageTitle,
-  ConfirmationPageSummary,
-  ConfirmationGuidance,
-  ConfirmationReturnHome,
-} from '../../components/ConfirmationPage';
+import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -29,77 +24,65 @@ const url1990 = appendQuery(
 );
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
-  }
-
   render() {
     const form = this.props.form;
-    const { formId, submission } = form;
+    const { submission, formId } = form;
 
-    const response = submission.response ? submission.response.attributes : {};
-    const name = form.data.applicantFullName;
     const appliedForVaEducationBenefits = _.get(
       form.data,
       'appliedForVaEducationBenefits',
       true,
     );
+
     return (
-      <div>
-        <ConfirmationPageTitle formId={formId} />
-        <AlertBox
-          isVisible={!appliedForVaEducationBenefits}
-          status="warning"
-          headline="Don’t forget to apply for VA education benefits"
-          content={
-            <span>
-              Now that you've submitted your application for VET TEC, you’ll
-              need to complete an Application for VA Education Benefits (VA Form
-              22-1990). Click the button on the bottom of this page to go to
-              that application.
-            </span>
-          }
-        />
-        <ConfirmationPageSummary
-          formId={formId}
-          response={response}
-          submission={submission}
-          name={name}
-        />
-        {!appliedForVaEducationBenefits && (
-          <div className={'apply-for-1990'}>
-            <p>
-              <strong>{'Note: '}</strong>
-              We’ll also need you to complete the Application for VA Education
-              Benefits (VA Form 22-1990) to determine your eligibility for VET
-              TEC. We recommend you do that now.
-            </p>
-            <div className="row form-progress-buttons">
-              <div className="small-6 usa-width-one-half medium-6 columns">
-                <a href={url1990}>
-                  <button className="usa-button-primary">
-                    Continue to VA Form 22-1990
-                  </button>
-                </a>
+      <ConfirmationPageContent
+        afterTitleContent={
+          <AlertBox
+            isVisible={!appliedForVaEducationBenefits}
+            status="warning"
+            headline="Don’t forget to apply for VA education benefits"
+            content={
+              <span>
+                Now that you've submitted your application for VET TEC, you’ll
+                need to complete an Application for VA Education Benefits (VA
+                Form 22-1990). Click the button on the bottom of this page to go
+                to that application.
+              </span>
+            }
+          />
+        }
+        additionalGuidance={
+          <div>
+            {!appliedForVaEducationBenefits && (
+              <div className={'apply-for-1990'}>
+                <p>
+                  <strong>{'Note: '}</strong>
+                  We’ll also need you to complete the Application for VA
+                  Education Benefits (VA Form 22-1990) to determine your
+                  eligibility for VET TEC. We recommend you do that now.
+                </p>
+                <div className="row form-progress-buttons">
+                  <div className="small-6 usa-width-one-half medium-6 columns">
+                    <a href={url1990}>
+                      <button className="usa-button-primary vettec-1990-button">
+                        Continue to VA Form 22-1990
+                      </button>
+                    </a>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
-        )}
-        <ConfirmationGuidance />
-        <ConfirmationReturnHome />
-      </div>
+        }
+        formId={formId}
+        submission={submission}
+        name={form.data.veteranFullName}
+      />
     );
   }
 }

@@ -34,8 +34,8 @@ const SearchResultMessage = ({
             <strong>or</strong>
           </li>
           <li>
-            <strong>Service type</strong> (like “primary care”), and select the
-            option that best meets your needs
+            <strong>Service type</strong> (like “chiropractor or optometrist”),
+            and select the option that best meets your needs
           </li>
         </ul>
         Then click <strong>Search</strong>.
