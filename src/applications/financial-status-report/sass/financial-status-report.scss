@@ -30,6 +30,7 @@
     margin-top: 30px;
   }
   .item-loop {
+    margin-bottom: 20px;
     padding: 0 25px 15px 25px;
     background-color: #f1f1f1;
     .schemaform-field-container {
@@ -42,13 +43,23 @@
         margin-top: 0;
       }
       .schemaform-field-template {
-        padding: 0 20px 10px 0;
+        margin: 0 20px 10px 0;
+        padding-right: 20px;
         width: 100%;
         label {
           margin-top: 0;
         }
+        legend {
+          padding-bottom: 10px;
+        }
       }
     }
+    .usa-button-secondary {
+      background: #fff;
+    }
+  }
+  .edit-item-container {
+    margin: 5px 0;
     .usa-button-secondary {
       background: #fff;
     }
@@ -64,6 +75,12 @@
         color: #0071bb;
         margin-right: 5px;
       }
+    }
+  }
+  .card-details-view {
+    padding: 10px 30px;
+    .card-title {
+      margin: 15px 0;
     }
   }
 }

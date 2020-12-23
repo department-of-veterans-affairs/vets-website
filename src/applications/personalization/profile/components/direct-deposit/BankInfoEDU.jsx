@@ -32,7 +32,7 @@ import {
 
 import BankInfoForm from './BankInfoForm';
 
-import PaymentInformationEditError from './PaymentInformationEditModalError';
+import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';

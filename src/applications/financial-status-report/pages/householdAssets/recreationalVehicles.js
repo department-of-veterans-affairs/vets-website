@@ -25,7 +25,7 @@ export const uiSchema = {
         'ui:title': 'Type of vehicle',
         'ui:required': () => true,
       },
-      recreationalVehicleValue: currencyUI('Estimated value'),
+      recreationalVehicleAmount: currencyUI('Estimated value'),
     },
   },
 };
@@ -44,7 +44,7 @@ export const schema = {
           recreationalVehicleType: {
             type: 'string',
           },
-          recreationalVehicleValue: {
+          recreationalVehicleAmount: {
             type: 'number',
           },
         },
