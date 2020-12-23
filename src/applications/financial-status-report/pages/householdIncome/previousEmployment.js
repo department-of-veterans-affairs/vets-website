@@ -64,6 +64,11 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
+            required: [
+              'previousEmploymentType',
+              'previousEmploymentStart',
+              'previousEmploymentEnd',
+            ],
             properties: {
               previousEmploymentType: {
                 type: 'string',
