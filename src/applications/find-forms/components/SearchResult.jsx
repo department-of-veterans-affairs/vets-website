@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
-import { findFormsMomentDateFormat } from '../constants';
+import { FORM_MOMENT_DATE_FORMAT } from '../constants';
 import FormTitle from './FormTitle';
 
 // Helper to derive the download link props.
@@ -29,13 +29,12 @@ const deriveLinkPropsFromFormURL = url => {
 
 export const deriveLatestIssue = (d1, d2) => {
   if (!d1 && !d2) return 'N/A';
-  if (!d1) return moment(d2).format(findFormsMomentDateFormat); // null scenarios
-  if (!d2) return moment(d1).format(findFormsMomentDateFormat);
+  if (!d1) return moment(d2).format(FORM_MOMENT_DATE_FORMAT); // null scenarios
+  if (!d2) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
 
-  if (moment(d1).isAfter(d2))
-    return moment(d1).format(findFormsMomentDateFormat);
+  if (moment(d1).isAfter(d2)) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
 
-  return moment(d2).format(findFormsMomentDateFormat);
+  return moment(d2).format(FORM_MOMENT_DATE_FORMAT);
 };
 
 const SearchResult = ({ form, showFindFormsResultsLinkToFormDetailPages }) => {

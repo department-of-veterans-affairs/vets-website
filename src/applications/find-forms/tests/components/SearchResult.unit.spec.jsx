@@ -5,7 +5,7 @@ import { mount, shallow } from 'enzyme';
 import moment from 'moment';
 // Relative imports.
 import SearchResult, { deriveLatestIssue } from '../../components/SearchResult';
-import { findFormsMomentDateFormat } from '../../constants';
+import { FORM_MOMENT_DATE_FORMAT } from '../../constants';
 import FormTitle from '../../components/FormTitle';
 
 describe('Find VA Forms <SearchResult />', () => {
@@ -77,22 +77,16 @@ describe('Find VA Forms <SearchResult />', () => {
     const emptyStringDate = '';
 
     const latestDate1 = deriveLatestIssue(date1, date2);
-    expect(latestDate1).to.equal(
-      moment(date2).format(findFormsMomentDateFormat),
-    );
+    expect(latestDate1).to.equal(moment(date2).format(FORM_MOMENT_DATE_FORMAT));
 
     const latestDate2 = deriveLatestIssue(date1, nullDate);
-    expect(latestDate2).to.equal(
-      moment(date1).format(findFormsMomentDateFormat),
-    );
+    expect(latestDate2).to.equal(moment(date1).format(FORM_MOMENT_DATE_FORMAT));
 
     const latestDate3 = deriveLatestIssue(emptyStringDate, nullDate);
     expect(latestDate3).to.equal('N/A');
 
     const latestDate4 = deriveLatestIssue(emptyStringDate, date2);
-    expect(latestDate4).to.equal(
-      moment(date2).format(findFormsMomentDateFormat),
-    );
+    expect(latestDate4).to.equal(moment(date2).format(FORM_MOMENT_DATE_FORMAT));
 
     tree.unmount();
   });
