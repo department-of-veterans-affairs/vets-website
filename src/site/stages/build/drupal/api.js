@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const tar = require('tar-fs');
 const moment = require('moment');
-const fetch = require('node-fetch');
+const fetch = require('node-fetch').default;
 const chalk = require('chalk');
 const SocksProxyAgent = require('socks-proxy-agent');
 
