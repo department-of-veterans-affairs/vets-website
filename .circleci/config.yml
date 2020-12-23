@@ -70,7 +70,7 @@ jobs:
       - run: yarn webpack --config config/webpack.content-cache.js --mode production
       - run: mkdir -p ./tmp
       - run: zip -j ./tmp/function.zip build/content-cache/index.js
-      - run: aws s3 sync ./tmp/function.zip s3://vetsgov-website-builds-s3-upload/content-cache/master/function.zip --acl public-read
+      - run: aws s3 cp ./tmp/function.zip s3://vetsgov-website-builds-s3-upload/content-cache/master/function.zip --acl public-read
 
   contract-test:
     executor: circleci-node
