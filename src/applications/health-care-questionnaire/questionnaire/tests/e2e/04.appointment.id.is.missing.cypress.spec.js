@@ -1,7 +1,7 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import basicUser from './fixtures/users/user-basic.js';
 
-describe('health care questionnaire -- landing page --', () => {
+describe('health care questionnaire -- appointment id is required --', () => {
   beforeEach(() => {
     cy.fixture(
       '../../src/applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
@@ -9,16 +9,12 @@ describe('health care questionnaire -- landing page --', () => {
       cy.route('GET', '/v0/feature_toggles*', features);
       cy.login(basicUser);
       disableFTUXModals();
-      cy.visit(
-        '/health-care/health-questionnaires/questionnaires/answer-questions/introduction?id=12345&skip',
-      );
     });
   });
-  it('accessibility', () => {
-    cy.get('.schemaform-title>h1').contains(
-      'Answer primary care questionnaire',
+  it('should redirect without id in url ', () => {
+    cy.visit(
+      '/health-care/health-questionnaires/questionnaires/answer-questions/introduction',
     );
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.get('h1').contains('Your health questionnaires');
   });
 });

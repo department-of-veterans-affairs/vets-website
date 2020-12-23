@@ -164,7 +164,7 @@ export const DirectDepositEDU = ({
   const notEligibleContent = (
     <>
       <p className="vads-u-margin-top--0">
-        Our records show that you‘re not receiving education benefit payments.
+        Our records show that you’re not receiving education benefit payments.
         If you think this is an error, please call us at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} />.
       </p>
@@ -174,7 +174,7 @@ export const DirectDepositEDU = ({
           rel="noopener noreferrer"
           href="https://www.va.gov/education/eligibility/"
         >
-          Find out if you‘re eligible for VA education benefits
+          Find out if you’re eligible for VA education benefits
         </a>
       </p>
     </>
@@ -330,7 +330,7 @@ DirectDepositEDU.propTypes = {
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
-    financialInstitutionName: PropTypes.string,
+    financialInstitutionName: PropTypes.string.isRequired,
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
