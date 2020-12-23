@@ -510,7 +510,7 @@ const FacilitiesMap = props => {
         setMapEventHandlers();
       }
     },
-    [map],
+    [map, props.currentQuery.searchCoords],
   );
 
   useEffect(

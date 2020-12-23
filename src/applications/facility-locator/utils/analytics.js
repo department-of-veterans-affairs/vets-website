@@ -156,6 +156,7 @@ export const recordPanEvent = (mapCenter, currentQuery) => {
           'fl-map-miles-moved': distanceMoved,
         }),
         recordEvent({
+          // TODO - Why are we recording this?
           'fl-map-miles-moved': undefined,
         }),
       );

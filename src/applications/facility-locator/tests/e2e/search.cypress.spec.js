@@ -31,7 +31,7 @@ Cypress.Commands.add('verifyOptions', () => {
 describe('Facility search', () => {
   before(() => {
     cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', '..', 'constants'),
+      constants: path.join(__dirname, '..', '..', 'constants'),
     });
   });
 
