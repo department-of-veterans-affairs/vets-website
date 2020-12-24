@@ -268,7 +268,10 @@ module.exports = env => {
         },
       }),
 
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
 
       new WebpackBar(),
     ],
@@ -418,7 +421,7 @@ module.exports = env => {
       }),
     );
 
-    baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
+    baseConfig.optimization.moduleIds = 'deterministic';
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = 'eval-source-map';
