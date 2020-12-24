@@ -17,8 +17,25 @@ function toggleLanguage(e) {
   }
 }
 function setUpi18() {
+  const i18LinkWrapper = document.getElementById('i18-link-wrapper');
+  if (!i18LinkWrapper) return;
+
+  const validUrls = [
+    // remove the preview node from this array when ready to merge
+    'nodeId=3014',
+    'coronavirus-veteran-frequently-asked-questions',
+    'covid-19-vaccine',
+    'coronavirus-research',
+  ];
+
+  const isTranslatable = validUrls.some(url =>
+    window.location.href.includes(url),
+  );
+  if (!isTranslatable) {
+    i18LinkWrapper.style.display = 'none';
+  }
+
   const i18link = document.querySelector('a.i18-toggle');
-  if (!i18link) return;
   i18link.innerText = i18Content.es.linkTitle;
   i18link.dataset.lang = 'en';
   i18link.addEventListener('click', toggleLanguage);
