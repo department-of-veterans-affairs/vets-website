@@ -270,7 +270,7 @@ export const financialDisclosureText = (
       <a
         target="_blank"
         rel="noopener noreferrer"
-        href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp"
+        href="https://www.va.gov/healthbenefits/apps/explorer/AnnualIncomeLimits/HealthBenefits"
       >
         Learn more
       </a>{' '}

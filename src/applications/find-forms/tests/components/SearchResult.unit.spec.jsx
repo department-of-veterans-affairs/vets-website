@@ -1,9 +1,11 @@
 // Dependencies.
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
+import moment from 'moment';
 // Relative imports.
-import SearchResult from '../../components/SearchResult';
+import SearchResult, { deriveLatestIssue } from '../../components/SearchResult';
+import { FORM_MOMENT_DATE_FORMAT } from '../../constants';
 import FormTitle from '../../components/FormTitle';
 
 describe('Find VA Forms <SearchResult />', () => {
@@ -64,6 +66,28 @@ describe('Find VA Forms <SearchResult />', () => {
   it('should have a button', () => {
     const tree = mount(<SearchResult form={form} />);
     expect(tree.exists('.usa-button')).to.equal(true);
+    tree.unmount();
+  });
+
+  it('should discern latest date', () => {
+    const tree = shallow(<SearchResult form={form} />);
+    const date1 = '205-01-01';
+    const date2 = '2020-01-01';
+    const nullDate = null;
+    const emptyStringDate = '';
+
+    const latestDate1 = deriveLatestIssue(date1, date2);
+    expect(latestDate1).to.equal(moment(date2).format(FORM_MOMENT_DATE_FORMAT));
+
+    const latestDate2 = deriveLatestIssue(date1, nullDate);
+    expect(latestDate2).to.equal(moment(date1).format(FORM_MOMENT_DATE_FORMAT));
+
+    const latestDate3 = deriveLatestIssue(emptyStringDate, nullDate);
+    expect(latestDate3).to.equal('N/A');
+
+    const latestDate4 = deriveLatestIssue(emptyStringDate, date2);
+    expect(latestDate4).to.equal(moment(date2).format(FORM_MOMENT_DATE_FORMAT));
+
     tree.unmount();
   });
 });

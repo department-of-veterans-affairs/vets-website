@@ -37,10 +37,10 @@ const educationBenefitsData = [
   },
 ];
 
-function DirectDepositEDU() {
+function DirectDepositEDUeBenefits() {
   return (
     <ProfileInfoTable title="Education benefits" data={educationBenefitsData} />
   );
 }
 
-export default DirectDepositEDU;
+export default DirectDepositEDUeBenefits;

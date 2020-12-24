@@ -1,7 +1,7 @@
 <!-- Section header -->
-<h2>{{ entity.fieldSectionHeader }}</h2>
+<h2 data-template="paragraphs/lists_of_links">{{ entity.fieldSectionHeader }}</h2>
 
-<div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-flex-wrap--wrap">
+<div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-flex-wrap--wrap" data-template="paragraphs/lists_of_links">
   {% for vaParagraph in entity.fieldVaParagraphs %}
     {% assign hasEvenIndex = forloop.index | modulo: 2 %}
     <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-l-col--5{% if hasEvenIndex %} medium-screen:vads-u-margin-right--8{% endif %}">
@@ -19,11 +19,13 @@
         {% endfor %}
 
         <!-- See more articles link -->
-        <li class="vads-u-padding-y--1">
-          <a class="vads-u-text-decoration--none" href="{{ vaParagraph.entity.fieldLink.url.path }}" rel="noreferrer noopener">
-            {{ vaParagraph.entity.fieldLink.title }} <i class="fa fa-chevron-right vads-u-padding-left--0p5 vads-u-font-size--sm" aria-hidden="true" role="presentation"></i>
-          </a>
-        </li>
+        {% if vaParagraph.entity.fieldLink.url.path %}
+          <li class="vads-u-padding-y--1">
+            <a class="vads-u-text-decoration--none" href="{{ vaParagraph.entity.fieldLink.url.path }}" rel="noreferrer noopener">
+              {{ vaParagraph.entity.fieldLink.title }} <i class="fa fa-chevron-right vads-u-padding-left--0p5 vads-u-font-size--sm" aria-hidden="true" role="presentation"></i>
+            </a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   {% endfor %}

@@ -7,9 +7,9 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import {
-  vaosCancel,
-  vaosRequests,
-  vaosPastAppts,
+  selectFeatureCancel,
+  selectFeatureRequests,
+  selectFeaturePastAppointments,
   selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
 import {
@@ -190,9 +190,9 @@ function mapStateToProps(state) {
     futureStatus: selectFutureStatus(state),
     future: selectFutureAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showCancelButton: vaosCancel(state),
-    showPastAppointments: vaosPastAppts(state),
-    showScheduleButton: vaosRequests(state),
+    showCancelButton: selectFeatureCancel(state),
+    showPastAppointments: selectFeaturePastAppointments(state),
+    showScheduleButton: selectFeatureRequests(state),
     expressCare: selectExpressCareAvailability(state),
   };
 }

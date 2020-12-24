@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from '~/platform/monitoring/record-event';
-import EbenefitsLink from '~/platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { mfa } from '~/platform/user/authentication/utilities';
 
@@ -25,6 +25,7 @@ import {
 } from '@@profile/actions/paymentInformation';
 import {
   cnpDirectDepositAccountInformation,
+  cnpDirectDepositAddressIsSetUp,
   cnpDirectDepositInformation,
   cnpDirectDepositIsSetUp,
   cnpDirectDepositUiState as directDepositUiStateSelector,
@@ -32,14 +33,15 @@ import {
 
 import BankInfoForm from './BankInfoForm';
 
-import PaymentInformationEditError from './PaymentInformationEditModalError';
+import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
-export const DirectDepositCNP = ({
+export const BankInfoCNP = ({
   isLOA3,
   isDirectDepositSetUp,
+  isEligibleToSetUpDirectDeposit,
   is2faEnabled,
   directDepositAccountInfo,
   directDepositUiState,
@@ -48,13 +50,10 @@ export const DirectDepositCNP = ({
 }) => {
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
-  const [showSaveSucceededAlert, setShowSaveSucceededAlert] = useState(false);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
-  const wasSavingBankInfo = usePrevious(directDepositUiState.isSaving);
 
   const isEditingBankInfo = directDepositUiState.isEditing;
-  const isSavingBankInfo = directDepositUiState.isSaving;
   const saveError = directDepositUiState.responseError;
 
   const { accountNumber, accountType, routingNumber } = formData;
@@ -87,19 +86,6 @@ export const DirectDepositCNP = ({
       window.onbeforeunload = undefined;
     },
     [isEmptyForm],
-  );
-
-  // show the user a success alert after their bank info has saved
-  useEffect(
-    () => {
-      if (wasSavingBankInfo && !isSavingBankInfo && !saveError) {
-        setShowSaveSucceededAlert(true);
-        setTimeout(() => {
-          setShowSaveSucceededAlert(false);
-        }, 6000);
-      }
-    },
-    [wasSavingBankInfo, isSavingBankInfo, saveError],
   );
 
   const saveBankInfo = () => {
@@ -160,7 +146,9 @@ export const DirectDepositCNP = ({
       </dl>
       <button
         className={classes.editButton}
-        aria-label={'Edit your direct deposit bank information'}
+        aria-label={
+          'Edit your direct deposit for disability compensation and pension benefits bank information'
+        }
         ref={editBankInfoButton}
         onClick={() => {
           recordEvent({
@@ -192,6 +180,35 @@ export const DirectDepositCNP = ({
     >
       Please add your bank information
     </button>
+  );
+
+  // When not eligible for DD for CNP
+  const notEligibleContent = (
+    <>
+      <p className="vads-u-margin-top--0">
+        Our records show that you‘re not receiving disability compensation or
+        pension payments. If you think this is an error, please call us at{' '}
+        <Telephone contact={CONTACTS.VA_BENEFITS} />.
+      </p>
+      <p>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.va.gov/disability/eligibility/"
+        >
+          Find out if you‘re eligible for VA disability benefits
+        </a>
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.va.gov/pension/eligibility/"
+        >
+          Find out if you‘re eligible for VA pension benefits
+        </a>
+      </p>
+    </>
   );
 
   // When editing/setting up direct deposit, we'll show a form that accepts bank
@@ -237,30 +254,20 @@ export const DirectDepositCNP = ({
     if (isDirectDepositSetUp) {
       return bankInfoContent;
     }
-    return notSetUpContent;
+    if (isEligibleToSetUpDirectDeposit) {
+      return notSetUpContent;
+    }
+    return notEligibleContent;
   };
 
-  const directDepositData = () => {
-    const data = [
-      // top row of the table can show multiple states so we set its value with
-      // the getBankInfo() helper
-      {
-        title: 'Account',
-        value: getBankInfo(),
-      },
-    ];
-    if (isDirectDepositSetUp) {
-      data.push({
-        title: 'Payment history',
-        value: (
-          <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
-            View your payment history
-          </EbenefitsLink>
-        ),
-      });
-    }
-    return data;
-  };
+  const directDepositData = [
+    // the table can show multiple states so we set its value with the
+    // getBankInfo() helper
+    {
+      title: 'Account',
+      value: getBankInfo(),
+    },
+  ];
 
   const mfaHandler = isAuthenticatedWithSSO => {
     recordEvent({ event: 'multifactor-link-clicked' });
@@ -341,37 +348,17 @@ export const DirectDepositCNP = ({
           message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
           when={!isEmptyForm}
         />
-        <div id="success" role="alert" aria-atomic="true">
-          <ReactCSSTransitionGroup
-            transitionName="form-expanding-group-inner"
-            transitionAppear
-            transitionAppearTimeout={500}
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-          >
-            {showSaveSucceededAlert && (
-              <AlertBox
-                status="success"
-                backgroundOnly
-                className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-                scrollOnShow
-              >
-                We’ve updated your bank account information for your{' '}
-                <strong>compensation and pension benefits</strong>
-              </AlertBox>
-            )}
-          </ReactCSSTransitionGroup>
-        </div>
         <ProfileInfoTable
+          className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
           title="Disability compensation and pension benefits"
-          data={directDepositData()}
+          data={directDepositData}
         />
       </>
     );
   }
 };
 
-DirectDepositCNP.propTypes = {
+BankInfoCNP.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   is2faEnabled: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
@@ -381,6 +368,7 @@ DirectDepositCNP.propTypes = {
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
+  isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
@@ -395,6 +383,7 @@ export const mapStateToProps = state => ({
   directDepositAccountInfo: cnpDirectDepositAccountInformation(state),
   directDepositInfo: cnpDirectDepositInformation(state),
   isDirectDepositSetUp: cnpDirectDepositIsSetUp(state),
+  isEligibleToSetUpDirectDeposit: cnpDirectDepositAddressIsSetUp(state),
   directDepositUiState: directDepositUiStateSelector(state),
   is2faEnabled: isMultifactorEnabled(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
@@ -408,4 +397,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DirectDepositCNP);
+)(BankInfoCNP);
