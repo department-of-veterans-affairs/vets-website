@@ -5,12 +5,11 @@
 // https://stackoverflow.com/questions/62225698/read-i18n-from-different-json-files-react-i18nnext
 import i18Content from './i18Content.json';
 
-const parseSpanishChildLinks = targetLang => {
+const convertChildLinksToTargetLang = targetLang => {
   const linkSelectors = ['[title="Volunteer for coronavirus research at VA"]'];
   linkSelectors.forEach(selector => {
     const element = document.querySelector(selector);
     if (!element) return;
-    // TODO: refactor these ifs
     if (!element.href.includes('-esp') && targetLang === 'es') {
       const espUrl = element.href.concat('-esp');
       element.href = espUrl;
@@ -21,24 +20,27 @@ const parseSpanishChildLinks = targetLang => {
     }
   });
 };
+
 const setLanguageToSpanish = e => {
   const targetLang = 'es';
   (e.target || e).dataset.lang = targetLang;
   (e.target || e).innerText = i18Content.en.linkTitle;
-  parseSpanishChildLinks(targetLang);
+  convertChildLinksToTargetLang(targetLang);
 };
+
 const setLanguageToEnglish = e => {
   const targetLang = 'en';
   (e.target || e).dataset.lang = targetLang;
   (e.target || e).innerText = i18Content.es.linkTitle;
-  parseSpanishChildLinks(targetLang);
+  convertChildLinksToTargetLang(targetLang);
 };
+
 // when the user selects a different language
 const toggleLanguage = e => {
   // when the prev language was en and we are now in spanish
   if (e.target.dataset.lang === 'en') {
     // go to the spanish node
-    // history.pushState({}, null, 'preview?nodeId=3015');
+    history.pushState({}, null, 'preview?nodeId=3014');
     // not sure if need to reload the page
     // window.location.reload();
     setLanguageToSpanish(e);
@@ -82,6 +84,7 @@ const setLanguageAndParseChildLinks = () => {
   }
   i18link.addEventListener('click', toggleLanguage);
 };
+
 window.addEventListener('popstate', setLanguageAndParseChildLinks);
 export default () =>
   document.addEventListener('DOMContentLoaded', setLanguageAndParseChildLinks);
