@@ -5,7 +5,10 @@
 // https://stackoverflow.com/questions/62225698/read-i18n-from-different-json-files-react-i18nnext
 import i18Content from './i18Content.json';
 
-function toggleLanguage(e) {
+const toggleLanguage = e => {
+  // we need logic here to add the "esp" suffix to the url, or remove it
+  // history.pushState({}, null, 'preview?nodeId=3015');
+  // window.location.reload();
   if (e.target.dataset.lang === 'en') {
     // this would be replaced by an api call
     e.target.dataset.lang = 'es';
@@ -15,8 +18,9 @@ function toggleLanguage(e) {
     e.target.dataset.lang = 'en';
     e.target.innerText = i18Content.es.linkTitle;
   }
-}
-function setUpi18() {
+};
+
+const setUpi18 = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
 
@@ -39,6 +43,6 @@ function setUpi18() {
   i18link.innerText = i18Content.es.linkTitle;
   i18link.dataset.lang = 'en';
   i18link.addEventListener('click', toggleLanguage);
-}
+};
 
 export default () => document.addEventListener('DOMContentLoaded', setUpi18);
