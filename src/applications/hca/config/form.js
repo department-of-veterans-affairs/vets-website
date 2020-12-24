@@ -1,7 +1,6 @@
 import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
@@ -29,6 +28,8 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import DowntimeMessage from '../components/DowntimeMessage';
 import ErrorText from '../components/ErrorText';
 import FormFooter from '../components/FormFooter';
@@ -157,11 +158,13 @@ const {
 
 const stateLabels = createUSAStateLabels(states);
 
-// TODO: need to replace with flipper data
-const flip = true;
+// TODO: where can I find state?
+const hasMultipleAddress = state => {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.multipleAddress1010ez];
+};
 
-const addressPage = flip ? veteranAddress : veteranAddressOG;
-const mailingAddressPage = flip ? veteranMailingAddress : {};
+const addressPage = hasMultipleAddress ? veteranAddress : veteranAddressOG;
+const mailingAddressPage = hasMultipleAddress ? veteranMailingAddress : {};
 
 const attachmentsSchema = {
   type: 'array',
@@ -243,6 +246,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
+
   defaultDefinitions: {
     date,
     provider,
