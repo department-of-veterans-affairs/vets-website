@@ -21,6 +21,7 @@ const setLanguageToSpanish = e => {
   const targetLang = 'es';
   (e.target || e).dataset.lang = targetLang;
   (e.target || e).innerText = i18Content.en.linkTitle;
+  // remove the -esp suffix from the link
   (e.target || e).href = i18Content.en.href;
   convertChildLinksToTargetLang(targetLang);
 };
@@ -29,6 +30,7 @@ const setLanguageToEnglish = e => {
   const targetLang = 'en';
   (e.target || e).dataset.lang = targetLang;
   (e.target || e).innerText = i18Content.es.linkTitle;
+  // add the -esp suffix from the link
   (e.target || e).href = i18Content.es.href;
   convertChildLinksToTargetLang(targetLang);
 };
@@ -39,7 +41,7 @@ const toggleLanguage = e => {
   // when the prev language was en and we are now in spanish
   if (e.target.dataset.lang === 'en') {
     // go to the spanish node
-    history.pushState({}, null, 'preview?nodeId=3014');
+    // history.pushState({}, null, 'preview?nodeId=3014');
     // not sure if need to reload the page
     // window.location.reload();
     setLanguageToSpanish(e);
