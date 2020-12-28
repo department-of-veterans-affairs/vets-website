@@ -28,8 +28,6 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import DowntimeMessage from '../components/DowntimeMessage';
 import ErrorText from '../components/ErrorText';
 import FormFooter from '../components/FormFooter';
@@ -79,11 +77,6 @@ import {
 } from '../validation';
 
 import manifest from '../manifest.json';
-import { veteranAddressOG } from './features/withoutVeteranMailing';
-import {
-  veteranAddress,
-  veteranMailingAddress,
-} from './features/withVeteranMailing';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
@@ -157,14 +150,6 @@ const {
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
-
-// TODO: where can I find state?
-const hasMultipleAddress = state => {
-  return toggleValues(state)[FEATURE_FLAG_NAMES.multipleAddress1010ez];
-};
-
-const addressPage = hasMultipleAddress ? veteranAddress : veteranAddressOG;
-const mailingAddressPage = hasMultipleAddress ? veteranMailingAddress : {};
 
 const attachmentsSchema = {
   type: 'array',
@@ -402,8 +387,122 @@ const formConfig = {
             },
           },
         },
-        ...addressPage,
-        ...mailingAddressPage,
+        veteranAddress: {
+          path: 'veteran-information/veteran-address',
+          title: 'Permanent address',
+          initialData: {},
+          uiSchema: {
+            'ui:description': PrefillMessage,
+            veteranAddress: _.merge(addressUI('Permanent address', true), {
+              street: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid street. Must be at least 1 character.',
+                },
+              },
+              city: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid city. Must be at least 1 character.',
+                },
+              },
+            }),
+            'view:doesPermanentAddressMatchMailing': {
+              'ui:title':
+                'Is your home address the same as your mailing address?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                hideIf: formData => !formData.hasMultipleAddress,
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
+                properties: {
+                  street: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street2: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street3: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  city: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                },
+              }),
+              'view:doesPermanentAddressMatchMailing': {
+                type: 'boolean',
+              },
+            },
+          },
+        },
+        mailingAddress: {
+          path: 'veteran-information/mailing-address',
+          title: 'Mailing address',
+          initialData: {},
+          depends: formData =>
+            formData.hasMultipleAddress &&
+            !formData['view:doesPermanentAddressMatchMailing'],
+          uiSchema: {
+            'ui:description': PrefillMessage,
+            veteranMailingAddress: _.merge(
+              addressUI('Permanent address', true),
+              {
+                street: {
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please provide a valid street. Must be at least 1 character.',
+                  },
+                },
+                city: {
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please provide a valid city. Must be at least 1 character.',
+                  },
+                },
+              },
+            ),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranMailingAddress: _.merge(
+                addressSchema(fullSchemaHca, true),
+                {
+                  properties: {
+                    street: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    street2: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    street3: {
+                      type: 'string',
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    city: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                  },
+                },
+              ),
+            },
+          },
+        },
         contactInformation: {
           path: 'veteran-information/contact-information',
           title: 'Contact information',

@@ -17,5 +17,4 @@ startApp({
   reducer,
   routes,
   entryName: manifest.entryName,
-  hasMailingAddress: true,
 });
