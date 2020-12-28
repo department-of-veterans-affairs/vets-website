@@ -8,11 +8,9 @@ const loadAppointment = async () => {
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve => {
       setTimeout(() => {
-        import(/* webpackChunkName: "appointment-data" */ './appointment-data.json').then(
-          module => {
-            resolve(module.default);
-          },
-        );
+        import('./appointment-data.json').then(module => {
+          resolve(module.default);
+        });
       }, 0);
     });
   } else {
