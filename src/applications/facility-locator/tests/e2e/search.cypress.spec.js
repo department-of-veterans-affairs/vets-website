@@ -72,55 +72,57 @@ describe('Facility search', () => {
     cy.get('#other-tools').should('exist');
   });
 
-  it.skip('should render breadcrumbs ', () => {
+  it('should render breadcrumbs ', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('VA health');
-    cy.get('#facility-search').click();
-
-    cy.injectAxe();
-    cy.axeCheck();
-
-    cy.get('.facility-result a').should('exist');
-    cy.route(
-      'GET',
-      '/v1/facilities/va/vha_674BY',
-      'fx:constants/mock-facility-v1',
-    ).as('fetchFacility');
-
-    cy.findByText(/austin va clinic/i, { selector: 'a' })
-      .first()
+    cy.get('#facility-search')
       .click()
       .then(() => {
+        cy.injectAxe();
         cy.axeCheck();
 
-        cy.get('.all-details').should('exist');
+        cy.get('.facility-result a').should('exist');
+        cy.route(
+          'GET',
+          '/v1/facilities/va/vha_674BY',
+          'fx:constants/mock-facility-v1',
+        ).as('fetchFacility');
 
-        cy.get('a[aria-current="page"').should('exist');
+        cy.findByText(/austin va clinic/i, { selector: 'a' })
+          .first()
+          .click()
+          .then(() => {
+            cy.axeCheck();
 
-        cy.get(
-          '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
-        ).should('exist');
+            cy.get('.all-details', { timeout: 10000 }).should('exist');
 
-        cy.get(
-          '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
-        ).contains('Facility Details');
+            cy.get('a[aria-current="page"').should('exist');
 
-        cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click();
+            cy.get(
+              '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
+            ).should('exist');
 
-        // Mobile View
-        cy.viewport(375, 667);
+            cy.get(
+              '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
+            ).contains('Facility Details');
 
-        cy.get('.va-nav-breadcrumbs-list').should('exist');
+            cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click();
 
-        cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))')
-          .should('have.css', 'display')
-          .and('match', /none/);
+            // Mobile View
+            cy.viewport(375, 667);
 
-        cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').contains(
-          'Home',
-        );
+            cy.get('.va-nav-breadcrumbs-list').should('exist');
+
+            cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))')
+              .should('have.css', 'display')
+              .and('match', /none/);
+
+            cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').contains(
+              'Home',
+            );
+          });
       });
   });
 
