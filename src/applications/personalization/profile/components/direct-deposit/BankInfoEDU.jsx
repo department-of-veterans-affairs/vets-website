@@ -20,15 +20,14 @@ import {
 } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
-  editCNPPaymentInformationToggled,
-  saveCNPPaymentInformation as savePaymentInformationAction,
+  editEDUPaymentInformationToggled,
+  saveEDUPaymentInformation as savePaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
 import {
-  cnpDirectDepositAccountInformation,
-  cnpDirectDepositAddressIsSetUp,
-  cnpDirectDepositInformation,
-  cnpDirectDepositIsSetUp,
-  cnpDirectDepositUiState as directDepositUiStateSelector,
+  eduDirectDepositAccountInformation,
+  eduDirectDepositInformation,
+  eduDirectDepositIsSetUp,
+  eduDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
 
 import BankInfoForm from './BankInfoForm';
@@ -38,10 +37,9 @@ import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
-export const BankInfoCNP = ({
+export const DirectDepositEDU = ({
   isLOA3,
   isDirectDepositSetUp,
-  isEligibleToSetUpDirectDeposit,
   is2faEnabled,
   directDepositAccountInfo,
   directDepositUiState,
@@ -89,14 +87,12 @@ export const BankInfoCNP = ({
   );
 
   const saveBankInfo = () => {
-    // NOTE: You can trigger a save error by sending undefined values in the payload
     const payload = {
-      financialInstitutionName: 'Hidden form field',
       financialInstitutionRoutingNumber: formData.routingNumber,
       accountNumber: formData.accountNumber,
       accountType: formData.accountType,
     };
-    saveBankInformation(payload, isDirectDepositSetUp);
+    saveBankInformation(payload);
   };
 
   const bankInfoClasses = prefixUtilityClasses(
@@ -133,7 +129,7 @@ export const BankInfoCNP = ({
     toggleEditState();
   };
 
-  // When direct deposit is already set up we will show the current bank info
+  // When direct deposit is set up we will show the current bank info
   const bankInfoContent = (
     <div className={classes.bankInfo}>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
@@ -147,14 +143,14 @@ export const BankInfoCNP = ({
       <button
         className={classes.editButton}
         aria-label={
-          'Edit your direct deposit for disability compensation and pension benefits bank information'
+          'Edit your direct deposit for education benefits bank information'
         }
         ref={editBankInfoButton}
         onClick={() => {
           recordEvent({
             event: 'profile-navigation',
             'profile-action': 'edit-link',
-            'profile-section': 'direct-deposit-information',
+            'profile-section': 'edu-direct-deposit-information',
           });
           toggleEditState();
         }}
@@ -164,55 +160,28 @@ export const BankInfoCNP = ({
     </div>
   );
 
-  // When direct deposit is not set up, we will show
-  const notSetUpContent = (
-    <button
-      className="va-button-link"
-      ref={editBankInfoButton}
-      onClick={() => {
-        recordEvent({
-          event: 'profile-navigation',
-          'profile-action': 'add-link',
-          'profile-section': 'direct-deposit-information',
-        });
-        toggleEditState();
-      }}
-    >
-      Please add your bank information
-    </button>
-  );
-
-  // When not eligible for DD for CNP
+  // When not eligible for DD for EDU
   const notEligibleContent = (
     <>
       <p className="vads-u-margin-top--0">
-        Our records show that you‘re not receiving disability compensation or
-        pension payments. If you think this is an error, please call us at{' '}
+        Our records show that you’re not receiving education benefit payments.
+        If you think this is an error, please call us at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} />.
-      </p>
-      <p>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.va.gov/disability/eligibility/"
-        >
-          Find out if you‘re eligible for VA disability benefits
-        </a>
       </p>
       <p className="vads-u-margin-bottom--0">
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.va.gov/pension/eligibility/"
+          href="https://www.va.gov/education/eligibility/"
         >
-          Find out if you‘re eligible for VA pension benefits
+          Find out if you’re eligible for VA education benefits
         </a>
       </p>
     </>
   );
 
-  // When editing/setting up direct deposit, we'll show a form that accepts bank
-  // account information
+  // When editing bank info, we'll show a form that accepts bank account
+  // information
   const editingBankInfoContent = (
     <>
       <div id="errors" role="alert" aria-atomic="true">
@@ -253,9 +222,6 @@ export const BankInfoCNP = ({
     }
     if (isDirectDepositSetUp) {
       return bankInfoContent;
-    }
-    if (isEligibleToSetUpDirectDeposit) {
-      return notSetUpContent;
     }
     return notEligibleContent;
   };
@@ -350,7 +316,7 @@ export const BankInfoCNP = ({
         />
         <ProfileInfoTable
           className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-          title="Disability compensation and pension benefits"
+          title="Education benefits"
           data={directDepositData}
         />
       </>
@@ -358,17 +324,16 @@ export const BankInfoCNP = ({
   }
 };
 
-BankInfoCNP.propTypes = {
+DirectDepositEDU.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   is2faEnabled: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
-    financialInstitutionName: PropTypes.string,
+    financialInstitutionName: PropTypes.string.isRequired,
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
-  isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
@@ -380,10 +345,9 @@ BankInfoCNP.propTypes = {
 
 export const mapStateToProps = state => ({
   isLOA3: isLOA3Selector(state),
-  directDepositAccountInfo: cnpDirectDepositAccountInformation(state),
-  directDepositInfo: cnpDirectDepositInformation(state),
-  isDirectDepositSetUp: cnpDirectDepositIsSetUp(state),
-  isEligibleToSetUpDirectDeposit: cnpDirectDepositAddressIsSetUp(state),
+  directDepositAccountInfo: eduDirectDepositAccountInformation(state),
+  directDepositInfo: eduDirectDepositInformation(state),
+  isDirectDepositSetUp: eduDirectDepositIsSetUp(state),
   directDepositUiState: directDepositUiStateSelector(state),
   is2faEnabled: isMultifactorEnabled(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
@@ -391,10 +355,10 @@ export const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   saveBankInformation: savePaymentInformationAction,
-  toggleEditState: editCNPPaymentInformationToggled,
+  toggleEditState: editEDUPaymentInformationToggled,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BankInfoCNP);
+)(DirectDepositEDU);

@@ -215,6 +215,7 @@ describe('mapStateToProps', () => {
       'isInMVI',
       'isLOA3',
       'shouldFetchCNPDirectDepositInformation',
+      'shouldFetchEDUDirectDepositInformation',
       'shouldShowDirectDeposit',
       'isDowntimeWarningDismissed',
     ];

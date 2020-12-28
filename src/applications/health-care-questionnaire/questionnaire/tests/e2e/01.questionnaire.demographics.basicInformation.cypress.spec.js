@@ -8,7 +8,7 @@ describe('health care questionnaire -- demographics -- basic information', () =>
       cy.route('GET', '/v0/feature_toggles*', features);
       cy.login(basicUser);
       cy.visit(
-        '/health-care/health-questionnaires/questionnaires/answer-questions/demographics?skip',
+        '/health-care/health-questionnaires/questionnaires/answer-questions/demographics?id=12345&skip',
       );
     });
   });

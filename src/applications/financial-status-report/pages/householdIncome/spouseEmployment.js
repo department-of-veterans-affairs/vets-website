@@ -1,11 +1,14 @@
 import ItemLoop from '../../components/ItemLoop';
-import CardDetailsView from '../../components/CardDetailsView';
+import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
   spouseName: {
-    'ui:title': "What is your spouse's name",
+    'ui:title': "What is your spouse's name?",
+    'ui:options': {
+      widgetClassNames: 'input-size-3',
+    },
   },
   employmentHistory: {
     hasBeenEmployed: {
@@ -29,6 +32,9 @@ export const uiSchema = {
           'Please provide information about your spouse’s current employment.',
         employmentType: {
           'ui:title': 'Type of employment',
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
         },
         employmentStart: {
           'ui:title': 'Employment start date',
@@ -44,7 +50,8 @@ export const uiSchema = {
           'ui:description':
             'You can find your payroll deductions in a recent paycheck.',
           'ui:options': {
-            viewField: CardDetailsView,
+            viewType: 'table',
+            viewField: TableDetailsView,
             doNotScroll: true,
             showSave: true,
             itemName: 'Add a payroll deduction',
@@ -84,6 +91,7 @@ export const schema = {
               properties: {
                 employmentType: {
                   type: 'string',
+                  enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
                 },
                 employmentStart: {
                   type: 'string',

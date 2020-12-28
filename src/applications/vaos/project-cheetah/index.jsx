@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 import {
-  selectFeatureToggleLoading,
-  selectFeatureProjectCheetah,
-} from '../redux/selectors';
+  Switch,
+  Route,
+  useRouteMatch,
+  Link,
+  useHistory,
+} from 'react-router-dom';
+import { selectAllowProjectCheetahBookings } from './redux/selectors';
 import projectCheetahReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import InfoPage from './components/InfoPage';
@@ -12,19 +15,43 @@ import SelectDate1Page from './components/SelectDate1Page';
 import SelectDate2Page from './components/SelectDate2Page';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import FullWidthLayout from '../components/FullWidthLayout';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { selectFeatureProjectCheetah } from '../redux/selectors';
 
-export function NewBookingSection({ allowBookings }) {
+export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
   const match = useRouteMatch();
   const history = useHistory();
 
   useEffect(
     () => {
-      if (!allowBookings) {
+      if (!featureProjectCheetah) {
         history.push('/');
       }
     },
-    [allowBookings, history],
+    [featureProjectCheetah, history],
   );
+
+  if (!allowBookings) {
+    return (
+      <FullWidthLayout>
+        <Breadcrumbs>
+          <Link to="new-project-cheetah-booking">Project Cheetah Booking</Link>
+        </Breadcrumbs>
+        <AlertBox
+          headline="Please contact your VA facility"
+          status="warning"
+          className="vads-u-margin-top--0p5 vads-u-margin-bottom--4"
+          isVisible
+        >
+          You should contact your doctor or the{' '}
+          <a href="/find-locations">nearest VA facility</a> if you have
+          questions about project cheetah.
+        </AlertBox>
+      </FullWidthLayout>
+    );
+  }
 
   return (
     <FormLayout>
@@ -52,8 +79,8 @@ export function NewBookingSection({ allowBookings }) {
 
 function mapStateToProps(state) {
   return {
-    allowBookings:
-      !selectFeatureToggleLoading(state) && selectFeatureProjectCheetah(state),
+    featureProjectCheetah: selectFeatureProjectCheetah(state),
+    allowBookings: selectAllowProjectCheetahBookings(state),
   };
 }
 
