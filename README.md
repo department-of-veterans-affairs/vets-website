@@ -6,6 +6,7 @@ This is the front end repository for VA.gov. It contains application code and te
 
 There are several repositories that contain the code and content used to build VA.gov. If you're looking to get started running VA.gov locally, you should read the [Getting Started](https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/getting-started) documentation.
 
+
 ## Common commands
 
 Once you have the site set up locally, these are some common commands you might find useful:
