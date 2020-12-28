@@ -1,5 +1,6 @@
 {
   "data": {
+    "hasMultipleAddress": true,
     "isEssentialAcaCoverage": true,
     "view:preferredFacility": {
       "view:facilityState": "AL",
