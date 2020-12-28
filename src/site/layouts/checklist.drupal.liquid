@@ -52,6 +52,11 @@
                 <h2 class="vads-u-font-size--h3">{{ checklistSection.entity.fieldSectionHeader }}</h2>
               {% endif %}
 
+              <!-- Checklist section intro -->
+              {% if checklistSection.entity.fieldSectionIntro %}
+                <p>{{ checklistSection.entity.fieldSectionIntro }}</p>
+              {% endif %}
+
               <!-- Checklist items -->
               <ul class="usa-unstyled-list">
                 {% assign checklistItemIndex = 0 %}
