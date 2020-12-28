@@ -8,7 +8,7 @@ import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 describe('VAOS direct schedule flow', () => {
   beforeEach(() => {});
 
-  it('should submit form', () => {
+  it.skip('should submit form', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -79,7 +79,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.confirmationPageTest(additionalInfo);
   });
 
-  it('should submit form with an eye care type of care', () => {
+  it.skip('should submit form with an eye care type of care', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -146,7 +146,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.confirmationPageTest(additionalInfo);
   });
 
-  it('should submit form with a sleep care type of care', () => {
+  it.skip('should submit form with a sleep care type of care', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
