@@ -8,11 +8,14 @@ import {
 
 const StartForm = () => {
   useEffect(() => {
+    recordEvent({
+      event: 'howToWizard-cta-displayed',
+    });
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
   });
   const handleClick = () => {
     recordEvent({
-      event: `cta-primary-button-click`,
+      event: 'cta-primary-button-click',
     });
   };
   return (
