@@ -35,7 +35,7 @@ describe('OJT institution', () => {
     // Click first result
     cy.get(`#search-result-${facilityCode} a`)
       .first()
-      .click();
+      .click({ waitForAnimations: true });
 
     // Profile page
     cy.injectAxeThenAxeCheck();
