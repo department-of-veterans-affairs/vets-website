@@ -119,7 +119,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
   it('should submit with valid data', async () => {
     const maxMonth = moment()
       .add(395, 'days')
-      .format('MM');
+      .format('M');
     const maxDay = moment()
       .add(395, 'days')
       .format('DD')

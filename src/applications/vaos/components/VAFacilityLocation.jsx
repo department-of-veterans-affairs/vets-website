@@ -41,11 +41,11 @@ export default function VAFacilityLocation({
   }
 
   return (
-    <dl className="vads-u-margin--0">
-      <dt className="vads-u-font-weight--bold">
+    <>
+      <h4 className="vaos-appts__block-label">
         {clinicName || facilityName || facility?.name}
-      </dt>
-      <dd>{content}</dd>
-    </dl>
+      </h4>
+      <div>{content}</div>
+    </>
   );
 }

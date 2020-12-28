@@ -2,7 +2,7 @@ import {
   enrollmentStatusNotEnrolled,
   makeUserObject,
   mockLocalStorage,
-  userPreferencesEmpty,
+  getUserPreferencesEmpty,
 } from './dashboard-e2e-helpers';
 
 describe('MyVA Dashboard', () => {
@@ -19,7 +19,7 @@ describe('MyVA Dashboard', () => {
       });
       cy.login(mockUser);
       // login() calls cy.server() so we can now mock routes
-      cy.route('GET', '/v0/user/preferences', userPreferencesEmpty);
+      cy.route('GET', '/v0/user/preferences', getUserPreferencesEmpty);
       cy.route(
         'GET',
         '/v0/health_care_applications/enrollment_status',

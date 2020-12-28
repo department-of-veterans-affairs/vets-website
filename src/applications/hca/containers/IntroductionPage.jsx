@@ -57,7 +57,7 @@ const VerificationRequiredAlert = () => (
         </p>
         <ul>
           <li>
-            <a href="/sign-in-faq/#verifying-your-identity">
+            <a href="/resources/verifying-your-identity-on-vagov/">
               Read our identity verification FAQs
             </a>
           </li>

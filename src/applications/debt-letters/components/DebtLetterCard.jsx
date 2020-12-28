@@ -23,6 +23,7 @@ const DebtLetterCard = props => {
   const additionalInfo = renderAdditionalInfo(
     debt.diaryCode,
     mostRecentHistory.date,
+    debt.benefitType,
   );
 
   return (
@@ -37,13 +38,14 @@ const DebtLetterCard = props => {
         <strong>Amount owed: </strong>
         {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
       </p>
-      <p
-        className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"
-        data-testid="diary-codes-status"
-      >
-        <strong>Status: </strong>
-        {debt.diaryCodeDescription}
-      </p>
+      {additionalInfo.status && (
+        <div
+          className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"
+          data-testid="diary-codes-status"
+        >
+          {additionalInfo.status}
+        </div>
+      )}
       {additionalInfo && (
         <div
           className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"

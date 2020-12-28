@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { mapRawUserDataToState } from '../../../profile/utilities';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { mapRawUserDataToState } from '~/platform/user/profile/utilities';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 
 /* eslint-disable camelcase */
 function createDefaultData() {
@@ -115,6 +115,27 @@ describe('Profile utilities', () => {
       expect(mappedData.vapContactInfo).to.deep.equal(
         data.attributes.vet360_contact_information,
       );
+    });
+
+    it('should handle upstream VET360/VA Profile server errors', () => {
+      const data = createDefaultData();
+      data.attributes.vet360_contact_information = null;
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: [
+            {
+              externalService: 'Vet360',
+              startTime: '2020-11-19T17:32:54Z',
+              endTime: null,
+              description:
+                'VET360_502, 502, Bad Gateway, Received an an invalid response from the upstream server',
+              status: 502,
+            },
+          ],
+        },
+      });
+      expect(mappedData.vapContactInfo.status).to.equal('SERVER_ERROR');
     });
 
     it('should map the facilities if they are set', () => {

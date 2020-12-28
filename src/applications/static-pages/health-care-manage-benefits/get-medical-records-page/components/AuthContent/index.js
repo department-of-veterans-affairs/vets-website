@@ -300,7 +300,8 @@ const AuthContent = ({ cernerFacilities, otherFacilities }) => (
       <a href="/vaforms/medical/pdf/10-10163-fill.pdf">
         VA Form 10-10163 (PDF)
       </a>{' '}
-      and return it to your VA facility's ROI office, or submit it online though{' '}
+      and return it to your VA facility's ROI office, or submit it online
+      through{' '}
       <a
         rel="noreferrrer noopener"
         href="https://www.myhealth.va.gov/mhv-portal-web/home"

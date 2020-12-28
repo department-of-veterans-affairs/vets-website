@@ -34,8 +34,8 @@ const SearchResultMessage = ({
             <strong>or</strong>
           </li>
           <li>
-            <strong>Service type</strong> (like “primary care”), and select the
-            option that best meets your needs
+            <strong>Service type</strong> (like “chiropractor or optometrist”),
+            and select the option that best meets your needs
           </li>
         </ul>
         Then click <strong>Search</strong>.
@@ -45,8 +45,8 @@ const SearchResultMessage = ({
 
   return (
     <div className="search-result-title">
-      Please enter a location (street, city, state or postal code) and click
-      search above to find facilities.
+      Please enter a location (street, city, state, or postal code) and facility
+      type, then click search above to find facilities.
     </div>
   );
 };

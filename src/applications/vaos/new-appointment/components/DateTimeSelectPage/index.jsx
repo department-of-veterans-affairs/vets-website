@@ -7,7 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import * as actions from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
-import { getDateTimeSelect } from '../../../utils/selectors';
+import { getDateTimeSelect } from '../../redux/selectors';
 import CalendarWidget from '../calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
@@ -82,8 +82,8 @@ function goBack({ routeToPreviousAppointmentPage, history }) {
   return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ data, setValidationError }) {
-  if (userSelectedSlot(data)) {
+function validate({ calendarData, setValidationError }) {
+  if (userSelectedSlot(calendarData)) {
     setValidationError(null);
   } else {
     setValidationError(missingDateError);
@@ -184,7 +184,6 @@ export function DateTimeSelectPage({
         </p>
       )}
       <CalendarWidget
-        monthsToShowAtOnce={2}
         maxSelections={1}
         availableDates={availableDates}
         currentlySelectedDate={currentlySelectedDate}

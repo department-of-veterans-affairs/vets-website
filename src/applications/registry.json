@@ -716,6 +716,21 @@
     }
   },
   {
+    "appName": "CT Redesign Sandbox",
+    "entryName": "gi-sandbox",
+    "rootUrl": "/gi-bill-comparison-tool-sandbox",
+    "template": {
+      "vagovprod": false,
+      "title": "CT Redesign Sandbox",
+      "display_title": "CT Redesign Sandbox",
+      "description": "Sandbox for testing the CT redesign features so that the original Comparison Tool codebase is not filled with throw away code",
+      "layout": "page-react.html",
+      "collection": "education",
+      "spoke": "More resources",
+      "order": 1
+    }
+  },
+  {
     "appName": "Search",
     "entryName": "search",
     "rootUrl": "/search",
@@ -789,10 +804,14 @@
     "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
     "template": {
       "title": "Personalized Career Planning and Guidance Chapter 36 Form 28-8832",
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
+        {
+          "path": "careers-employment",
+          "name": "Careers and employment"
+        },
         {
           "path": "careers-employment/education-and-career-counseling/",
           "name": "Career planning and guidance"
@@ -810,17 +829,13 @@
     "rootUrl": "/va-payment-history/payments",
     "template": {
       "includeBreadcrumbs": true,
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "title": "View Payments",
       "breadcrumbs_override": [
         {
-          "path": "va-payment-history/",
-          "name": "View your VA payment history"
-        },
-        {
           "path": "va-payment-history/payments",
-          "name": "Your VA payments"
+          "name": "View VA payment history"
         }
       ]
     }
@@ -855,9 +870,9 @@
     }
   },
   {
-    "appName": "Healthcare Questionnaire",
+    "appName": "Health care Questionnaire",
     "entryName": "questionnaire",
-    "rootUrl": "/healthcare/questionnaire",
+    "rootUrl": "/health-care/health-questionnaires/questionnaires/answer-questions",
     "template": {
       "vagovprod": true,
       "layout": "page-react.html",
@@ -893,7 +908,6 @@
       "title:": "Search results",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
-      "private": true,
       "breadcrumbs_override": [
         {
           "path": "resources/",
@@ -909,16 +923,60 @@
   {
     "appName": "Questionnaire List",
     "entryName": "questionnaire-list",
-    "rootUrl": "/healthcare/list",
+    "rootUrl": "/health-care/health-questionnaires/questionnaires",
     "template": {
       "vagovprod": true,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "health-care/",
+          "name": "Health care"
+        },
+        {
+          "path": "health-care/health-questionnaires/questionnaires",
+          "name": "Your health questionnaires"
+        }
+      ]
     }
   },
   {
     "appName": "My Messages",
     "entryName": "messages",
     "rootUrl": "/my-messages",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "coronavirus-vaccination",
+    "entryName": "coronavirus-vaccination",
+    "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
+    "template": {
+      "title": "COVID-19 vaccines — Stay informed and help us prepare",
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "health-care/",
+          "name": "Health care"
+        },
+        {
+          "path": "health-care/covid-19-vaccine/",
+          "name": "COVID-19 vaccines"
+        },
+        {
+          "path": "health-care/covid-19-vaccine/stay-informed",
+          "name": "Stay informed and help us prepare"
+        }
+      ]
+    }
+  },
+  {
+    "appName": "View your representative",
+    "entryName": "view-representative",
+    "rootUrl": "/view-change-representative/view",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"

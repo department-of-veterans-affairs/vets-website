@@ -25,3 +25,9 @@ ul.claim-list {
     margin-bottom: 0;
   }
 }
+
+.help-footer-box {
+  @include media($medium-large-screen) {
+    padding-top: 3.0rem;
+  }
+}

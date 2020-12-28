@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
+import { ConfirmationPageContent } from '../../../components/ConfirmationPageContent';
 
 const form = {
   submission: {
@@ -22,31 +23,8 @@ const form = {
 describe('<ConfirmationPage>', () => {
   it('should render', () => {
     const tree = shallow(<ConfirmationPage form={form} />);
-
-    expect(tree.find('.confirmation-page-title').text()).to.equal(
-      "We've received your application.",
-    );
-    expect(
-      tree
-        .find('span')
-        .at(2)
-        .text()
-        .trim(),
-    ).to.equal('for Jane Doe');
-    expect(
-      tree
-        .find('p')
-        .at(0)
-        .text(),
-    ).to.contain(
-      'We usually process claims within 30 days.We may contact you if we need more information or documents.',
-    );
-    expect(
-      tree
-        .find('.confirmation-guidance-message')
-        .at(0)
-        .text(),
-    ).to.contain('We usually decide on applications within 30 days.');
+    expect(tree).to.not.be.undefined;
+    expect(tree.find(ConfirmationPageContent)).to.not.be.undefined;
 
     tree.unmount();
   });

@@ -92,7 +92,11 @@ function setupJSDom() {
 
   global.Blob = window.Blob;
   window.dataLayer = [];
-  window.matchMedia = () => ({ matches: false });
+  window.matchMedia = () => ({
+    matches: false,
+    addListener: f => f,
+    removeListener: f => f,
+  });
   window.scrollTo = () => {};
 
   window.VetsGov = {

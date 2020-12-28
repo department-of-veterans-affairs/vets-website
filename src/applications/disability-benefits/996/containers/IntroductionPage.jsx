@@ -1,27 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
+import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { isEmptyAddress } from 'platform/forms/address/helpers';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
+import { FIELD_NAMES } from '@@vap-svc/constants';
+
 import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
-
 import { higherLevelReviewFeature, scrollToTop } from '../helpers';
+import {
+  SAVED_CLAIM_TYPE,
+  SUPPLEMENTAL_CLAIM_URL,
+  FACILITY_LOCATOR_URL,
+  GET_HELP_REVIEW_REQUEST_URL,
+} from '../constants';
 import {
   noContestableIssuesFound,
   showContestableIssueError,
   showWorkInProgress,
+  showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
 import WizardContainer from '../wizard/WizardContainer';
 import {
@@ -29,7 +41,6 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import { SAVED_CLAIM_TYPE } from '../constants';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -121,9 +132,12 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { allowHlr } = this.props;
+    const { allowHlr, user, hasEmptyAddress } = this.props;
     const callToActionContent = this.getCallToActionContent();
     const showWizard = allowHlr && this.state.status !== WIZARD_STATUS_COMPLETE;
+
+    // Change page title once wizard has closed to provide a Veteran using a
+    // screenreader some indication that the content has changed
     const pageTitle = `Request a Higher-Level Review${
       showWizard ? '' : ' with VA Form 20-0996'
     }`;
@@ -134,7 +148,18 @@ export class IntroductionPage extends React.Component {
         <article className="schemaform-intro">
           <FormTitle title={pageTitle} />
           <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
-          <p>{showWorkInProgress}</p>
+          {showWorkInProgress}
+        </article>
+      );
+    }
+
+    // check if user has address
+    if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
+      return (
+        <article className="schemaform-intro">
+          <FormTitle title={pageTitle} />
+          <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
+          {showHasEmptyAddress}
         </article>
       );
     }
@@ -167,11 +192,8 @@ export class IntroductionPage extends React.Component {
             </h2>
             <p>
               The senior reviewer will only review the evidence you already
-              provided. If you have new and relevant evidence, you can file{' '}
-              <a href="/decision-reviews/supplemental-claim/">
-                a Supplemental Claim
-              </a>
-              .
+              provided. If you have new and relevant evidence, you can{' '}
+              <a href={SUPPLEMENTAL_CLAIM_URL}>file a Supplemental Claim</a>.
             </p>
             <div className="process schemaform-process">
               <h2 className="vads-u-font-size--h3">
@@ -184,6 +206,7 @@ export class IntroductionPage extends React.Component {
                   onClick={() => {
                     this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                     this.setPageFocus();
+                    recordEvent({ event: 'howToWizard-start-over' });
                   }}
                 >
                   go back and answer questions again
@@ -211,7 +234,7 @@ export class IntroductionPage extends React.Component {
                     representative. To find the nearest regional office, please
                     call <Telephone contact={CONTACTS.VA_BENEFITS} />
                     {' or '}
-                    <a href="/find-locations">
+                    <a href={FACILITY_LOCATOR_URL}>
                       visit our facility locator tool
                     </a>
                     .
@@ -220,7 +243,7 @@ export class IntroductionPage extends React.Component {
                     A Veterans Service Organization or VA-accredited attorney or
                     agent can also help you request a decision review.
                   </p>
-                  <a href="/decision-reviews/get-help-with-review-request">
+                  <a href={GET_HELP_REVIEW_REQUEST_URL}>
                     Get help requesting a decision review
                   </a>
                   .
@@ -274,6 +297,9 @@ function mapStateToProps(state) {
     user,
     contestableIssues,
     allowHlr: higherLevelReviewFeature(state),
+    hasEmptyAddress: isEmptyAddress(
+      selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
+    ),
   };
 }
 

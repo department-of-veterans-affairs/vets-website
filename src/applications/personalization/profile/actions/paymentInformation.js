@@ -1,31 +1,49 @@
 import {
-  createDirectDepositAnalyticsDataObject,
+  createCNPDirectDepositAnalyticsDataObject,
   getData,
-  isEligibleForDirectDeposit,
-  isSignedUpForDirectDeposit,
+  isEligibleForCNPDirectDeposit,
+  isSignedUpForCNPDirectDeposit,
+  isSignedUpForEDUDirectDeposit,
 } from '../util';
 import recordAnalyticsEvent from 'platform/monitoring/record-event';
 
-export const PAYMENT_INFORMATION_FETCH_STARTED =
-  'FETCH_PAYMENT_INFORMATION_STARTED';
-export const PAYMENT_INFORMATION_FETCH_SUCCEEDED =
-  'FETCH_PAYMENT_INFORMATION_SUCCESS';
-export const PAYMENT_INFORMATION_FETCH_FAILED =
-  'FETCH_PAYMENT_INFORMATION_FAILED';
+export const CNP_PAYMENT_INFORMATION_FETCH_STARTED =
+  'CNP_PAYMENT_INFORMATION_FETCH_STARTED';
+export const CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED =
+  'CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED';
+export const CNP_PAYMENT_INFORMATION_FETCH_FAILED =
+  'CNP_PAYMENT_INFORMATION_FETCH_FAILED';
 
-export const PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED =
-  'PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED';
+export const CNP_PAYMENT_INFORMATION_EDIT_TOGGLED =
+  'CNP_PAYMENT_INFORMATION_EDIT_TOGGLED';
 
-export const PAYMENT_INFORMATION_SAVE_STARTED =
-  'PAYMENT_INFORMATION_SAVE_STARTED';
-export const PAYMENT_INFORMATION_SAVE_SUCCEEDED =
-  'PAYMENT_INFORMATION_SAVE_SUCCEEDED';
-export const PAYMENT_INFORMATION_SAVE_FAILED =
-  'PAYMENT_INFORMATION_SAVE_FAILED';
+export const CNP_PAYMENT_INFORMATION_SAVE_STARTED =
+  'CNP_PAYMENT_INFORMATION_SAVE_STARTED';
+export const CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED =
+  'CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED';
+export const CNP_PAYMENT_INFORMATION_SAVE_FAILED =
+  'CNP_PAYMENT_INFORMATION_SAVE_FAILED';
 
-export function fetchPaymentInformation(recordEvent = recordAnalyticsEvent) {
+export const EDU_PAYMENT_INFORMATION_FETCH_STARTED =
+  'EDU_PAYMENT_INFORMATION_FETCH_STARTED';
+export const EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED =
+  'EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED';
+export const EDU_PAYMENT_INFORMATION_FETCH_FAILED =
+  'EDU_PAYMENT_INFORMATION_FETCH_FAILED';
+
+export const EDU_PAYMENT_INFORMATION_EDIT_TOGGLED =
+  'EDU_PAYMENT_INFORMATION_EDIT_TOGGLED';
+
+export const EDU_PAYMENT_INFORMATION_SAVE_STARTED =
+  'EDU_PAYMENT_INFORMATION_SAVE_STARTED';
+export const EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED =
+  'EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED';
+export const EDU_PAYMENT_INFORMATION_SAVE_FAILED =
+  'EDU_PAYMENT_INFORMATION_SAVE_FAILED';
+
+export function fetchCNPPaymentInformation(recordEvent = recordAnalyticsEvent) {
   return async dispatch => {
-    dispatch({ type: PAYMENT_INFORMATION_FETCH_STARTED });
+    dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
 
     recordEvent({ event: 'profile-get-direct-deposit-started' });
     const response = await getData('/ppiu/payment_information');
@@ -46,7 +64,7 @@ export function fetchPaymentInformation(recordEvent = recordAnalyticsEvent) {
     if (response.error) {
       recordEvent({ event: 'profile-get-direct-deposit-failed' });
       dispatch({
-        type: PAYMENT_INFORMATION_FETCH_FAILED,
+        type: CNP_PAYMENT_INFORMATION_FETCH_FAILED,
         response,
       });
     } else {
@@ -58,19 +76,21 @@ export function fetchPaymentInformation(recordEvent = recordAnalyticsEvent) {
         // we'll check to see if they either have a payment address _or_ are
         // already signed up for direct deposit here:
         'direct-deposit-setup-eligible':
-          isEligibleForDirectDeposit(response) ||
-          isSignedUpForDirectDeposit(response),
-        'direct-deposit-setup-complete': isSignedUpForDirectDeposit(response),
+          isEligibleForCNPDirectDeposit(response) ||
+          isSignedUpForCNPDirectDeposit(response),
+        'direct-deposit-setup-complete': isSignedUpForCNPDirectDeposit(
+          response,
+        ),
       });
       dispatch({
-        type: PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+        type: CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
         response,
       });
     }
   };
 }
 
-export function savePaymentInformation(
+export function saveCNPPaymentInformation(
   fields,
   isEnrollingInDirectDeposit = false,
   recordEvent = recordAnalyticsEvent,
@@ -93,7 +113,7 @@ export function savePaymentInformation(
       mode: 'cors',
     };
 
-    dispatch({ type: PAYMENT_INFORMATION_SAVE_STARTED });
+    dispatch({ type: CNP_PAYMENT_INFORMATION_SAVE_STARTED });
 
     const response = await getData(
       '/ppiu/payment_information',
@@ -127,13 +147,13 @@ export function savePaymentInformation(
 
     if (response.error || response.errors) {
       const errors = response?.error?.errors || [];
-      const analyticsData = createDirectDepositAnalyticsDataObject(
+      const analyticsData = createCNPDirectDepositAnalyticsDataObject(
         errors,
         isEnrollingInDirectDeposit,
       );
       recordEvent(analyticsData);
       dispatch({
-        type: PAYMENT_INFORMATION_SAVE_FAILED,
+        type: CNP_PAYMENT_INFORMATION_SAVE_FAILED,
         response,
       });
     } else {
@@ -142,13 +162,104 @@ export function savePaymentInformation(
         'profile-section': 'direct-deposit-information',
       });
       dispatch({
-        type: PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+        type: CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
         response,
       });
     }
   };
 }
 
-export function editModalToggled() {
-  return { type: PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED };
+export function editCNPPaymentInformationToggled() {
+  return { type: CNP_PAYMENT_INFORMATION_EDIT_TOGGLED };
+}
+
+export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
+  return async dispatch => {
+    dispatch({ type: EDU_PAYMENT_INFORMATION_FETCH_STARTED });
+
+    recordEvent({ event: 'profile-get-edu-direct-deposit-started' });
+    const response = await getData('/profile/ch33_bank_accounts');
+
+    if (response.error) {
+      recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
+      dispatch({
+        type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
+        response,
+      });
+    } else {
+      recordEvent({
+        event: 'profile-get-edu-direct-deposit-retrieved',
+        // NOTE: the GET profile/ch33_bank_accounts/ is not able to tell us if a
+        // user is eligible to set up DD for EDU, so we are only reporting if
+        // they are currently enrolled in DD for EDU or not
+        'direct-deposit-setup-complete': isSignedUpForEDUDirectDeposit(
+          response,
+        ),
+      });
+      dispatch({
+        type: EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+        response: {
+          paymentAccount: response,
+        },
+      });
+    }
+  };
+}
+
+export function saveEDUPaymentInformation(
+  fields,
+  recordEvent = recordAnalyticsEvent,
+) {
+  return async dispatch => {
+    let gaClientId;
+    try {
+      // eslint-disable-next-line no-undef
+      gaClientId = ga.getAll()[0].get('clientId');
+    } catch (e) {
+      // don't want to break submitting because of a weird GA issue
+    }
+    const apiRequestOptions = {
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...fields,
+        gaClientId,
+      }),
+      method: 'PUT',
+      mode: 'cors',
+    };
+
+    dispatch({ type: EDU_PAYMENT_INFORMATION_SAVE_STARTED });
+
+    const response = await getData(
+      '/profile/ch33_bank_accounts',
+      apiRequestOptions,
+    );
+
+    if (response.error || response.errors) {
+      recordEvent({
+        event: 'profile-edit-failure',
+        'profile-action': 'save-failure',
+        'profile-section': 'edu-direct-deposit-information',
+      });
+      dispatch({
+        type: EDU_PAYMENT_INFORMATION_SAVE_FAILED,
+        response,
+      });
+    } else {
+      recordEvent({
+        event: 'profile-transaction',
+        'profile-section': 'edu-direct-deposit-information',
+      });
+      dispatch({
+        type: EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+        response: {
+          paymentAccount: response,
+        },
+      });
+    }
+  };
+}
+
+export function editEDUPaymentInformationToggled() {
+  return { type: EDU_PAYMENT_INFORMATION_EDIT_TOGGLED };
 }

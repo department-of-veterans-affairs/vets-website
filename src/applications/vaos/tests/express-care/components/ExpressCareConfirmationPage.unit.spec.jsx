@@ -156,7 +156,7 @@ describe('VAOS integration: Express Care form submission', () => {
     screen = renderWithStoreAndRouter(<ExpressCareConfirmationPage />, {
       store,
     });
-    expect(screen.baseElement).to.contain.text('Next step');
+    expect(await screen.findByText(/Next step/)).to.exist;
     expect(screen.baseElement).to.contain('.fa-exclamation-triangle');
     expect(screen.baseElement).to.contain(
       '.vads-u-border-color--warning-message',

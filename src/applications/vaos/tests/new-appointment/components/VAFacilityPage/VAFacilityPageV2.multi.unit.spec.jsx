@@ -1,4 +1,5 @@
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
@@ -15,6 +16,7 @@ import {
   createTestStore,
   setTypeOfCare,
   renderWithStoreAndRouter,
+  setTypeOfEyeCare,
 } from '../../../mocks/setup';
 import {
   mockEligibilityFetches,
@@ -191,6 +193,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     // Should show 6th facility
     expect(screen.baseElement).to.contain.text('Fake facility name 6');
+    expect(document.activeElement.id).to.equal('var984_6');
 
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
@@ -437,7 +440,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
   it('should show unsupported facilities alert with facility locator tool link', async () => {
     mockParentSites(['983', '984'], [parentSite983, parentSite984]);
     mockDirectBookingEligibilityCriteria(parentSiteIds, []);
-    mockRequestEligibilityCriteria(parentSiteIds, [requestFacilities]);
+    mockRequestEligibilityCriteria(parentSiteIds, []);
 
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
@@ -644,5 +647,334 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(screen.getByRole('alertdialog')).to.be.ok;
   });
 
-  // TODO: should use correct eligibility info after a split type of care is changed
+  it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, [
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: '323',
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983GC',
+        typeOfCareId: '323',
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984GC',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockRequestEligibilityCriteria(parentSiteIds, [
+      getRequestEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: '323',
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '983GC',
+        typeOfCareId: '323',
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '984',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '984GC',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockFacilitiesFetch('vha_442,vha_442GC,vha_552,vha_552GC', [
+      {
+        id: '983',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '983',
+          name: 'Facility that is enabled',
+        },
+      },
+      {
+        id: '983GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '983GC',
+          name: 'Facility that is also enabled',
+        },
+      },
+      {
+        id: '984',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '984',
+          name: 'Facility that is disabled',
+          lat: 39.1362562,
+          // tweaked longitude to be around 80 miles away
+          long: -83.1804804,
+          address: {
+            physical: {
+              city: 'Bozeman',
+              state: 'MT',
+            },
+          },
+          phone: {
+            main: '5555555555x1234',
+          },
+        },
+      },
+      {
+        id: '984GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '984GC',
+          name: 'Facility that is over 100 miles away and disabled',
+          lat: 39.1362562,
+          // tweaked longitude to be over 100 miles away
+          long: -82.1804804,
+        },
+      },
+    ]);
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vapContactInfo: {
+            residentialAddress: {
+              latitude: 39.1362562,
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+    expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be.ok;
+    expect(screen.queryByText(/Facility that is disabled/i)).not.to.be.ok;
+    const additionalInfoButton = screen.getByText(
+      /Why isn.t my facility listed/i,
+    );
+    userEvent.click(additionalInfoButton);
+    expect(await screen.findByText(/Facility that is disabled/i)).to.be.ok;
+    expect(screen.getByText(/Bozeman, MT/i)).to.be.ok;
+    expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
+    expect(screen.getByText(/555-555-5555, ext\. 1234/i)).to.be.ok;
+    expect(
+      screen.queryByText(/Facility that is over 100 miles away and disabled/i),
+    ).not.to.be.ok;
+    expect(
+      screen.getByRole('link', { name: /different VA location/i }),
+    ).to.have.attribute('href', '/find-locations');
+  });
+
+  it('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, [
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: '323',
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983GC',
+        typeOfCareId: '323',
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984GC',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockRequestEligibilityCriteria(parentSiteIds, [
+      getRequestEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: '323',
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '983GC',
+        typeOfCareId: '323',
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '984',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '984GC',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockFacilitiesFetch('vha_442,vha_442GC,vha_552,vha_552GC', [
+      {
+        id: '983',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '983',
+          name: 'Facility that is enabled',
+        },
+      },
+      {
+        id: '983GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '983GC',
+          name: 'Facility that is also enabled',
+        },
+      },
+      {
+        id: '984',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '984',
+          name: 'Disabled facility near residential address',
+          lat: 39.1362562,
+          long: -83.1804804,
+        },
+      },
+      {
+        id: '984GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '984GC',
+          name: 'Disabled facility near current location',
+          lat: 53.2734,
+          long: -7.77832031,
+        },
+      },
+    ]);
+    mockGetCurrentPosition();
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vapContactInfo: {
+            residentialAddress: {
+              latitude: 39.1362562,
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+    expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be.ok;
+    let additionalInfoButton = screen.getByText(
+      /Why isn.t my facility listed/i,
+    );
+    userEvent.click(additionalInfoButton);
+    expect(
+      await screen.findByText(/Disabled facility near residential address/i),
+    ).to.be.ok;
+    expect(screen.queryByText(/Disabled facility near current location/i)).not
+      .to.be.ok;
+
+    userEvent.click(screen.getByText(/use your current location/i));
+    expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be.ok;
+
+    additionalInfoButton = screen.getByText(/Why isn.t my facility listed/i);
+    userEvent.click(additionalInfoButton);
+    expect(await screen.findByText(/Disabled facility near current location/i))
+      .to.be.ok;
+    expect(screen.queryByText(/Disabled facility near residential address/i))
+      .not.to.be.ok;
+  });
+
+  it('should display correct facilities after changing type of care', async () => {
+    const facilityIdsForTwoTypesOfCare = ['983', '983GC', '983QA', '984'];
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(
+      parentSiteIds,
+      facilityIdsForTwoTypesOfCare.map(id => {
+        return {
+          id,
+          attributes: {
+            ...directFacilityAttributes,
+            id,
+            coreSettings: [
+              {
+                ...directFacilityAttributes.coreSettings[0],
+                id: '323',
+              },
+            ],
+          },
+        };
+      }),
+    );
+    mockRequestEligibilityCriteria(
+      parentSiteIds,
+      facilityIdsForTwoTypesOfCare.map(id => {
+        const requestSettings = [
+          {
+            ...requestFacilityAttributes.requestSettings[0],
+            id: '323',
+          },
+        ];
+
+        // turn on optometry for a couple facilities
+        if (['984', '983QA'].includes(id)) {
+          requestSettings.push({
+            ...requestFacilityAttributes.requestSettings[0],
+            id: '408',
+          });
+        }
+
+        return {
+          id,
+          attributes: {
+            ...requestFacilityAttributes,
+            id,
+            requestSettings,
+          },
+        };
+      }),
+    );
+    const vhaIdentifiers = facilityIdsForTwoTypesOfCare.map(
+      id => `vha_${id.replace('983', '442').replace('984', '552')}`,
+    );
+    mockFacilitiesFetch(
+      vhaIdentifiers.join(','),
+      facilities.filter(facility => vhaIdentifiers.includes(facility.id)),
+    );
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+
+    let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+    expect(await screen.findAllByRole('radio')).to.have.length(4);
+
+    await cleanup();
+
+    await setTypeOfCare(store, /eye care/i);
+    await setTypeOfEyeCare(store, /optometry/i);
+
+    screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    expect(await screen.findAllByRole('radio')).to.have.length(2);
+  });
 });

@@ -32,11 +32,11 @@ describe('VAOS integration: past appointments', () => {
   it('should show select date range dropdown', async () => {
     mockPastAppointmentInfo({ va: [] });
 
-    const { queryByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
+    const { findByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
-    expect(queryByText(/Past 3 months/i)).to.exist;
+    expect(await findByText(/Past 3 months/i)).to.exist;
   });
 
   it('should update range on dropdown change', async () => {
@@ -125,6 +125,7 @@ describe('VAOS integration: past appointments', () => {
     expect(baseElement).not.to.contain.text('Bring face mask');
     expect(queryByText(/add to calendar/i)).not.to.exist;
     expect(queryByText(/cancel appointment/i)).not.to.exist;
+    expect(baseElement.querySelector('h4')).to.be.ok;
   });
 
   it('should show appointment with facility details', async () => {
@@ -183,6 +184,7 @@ describe('VAOS integration: past appointments', () => {
     expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
     expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
     expect(baseElement).to.contain.text('307-778-7550');
+    expect(baseElement.querySelector('h4')).to.be.ok;
   });
 
   it('should show comment for self-scheduled appointments', async () => {

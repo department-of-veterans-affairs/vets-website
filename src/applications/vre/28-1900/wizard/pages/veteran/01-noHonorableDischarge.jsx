@@ -1,22 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { veteranPathPageNames } from '../pageList';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_INELIGIBLE,
-} from 'applications/vre/28-1900/constants';
+import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 
 const NoHonorableDischarge = () => {
-  useEffect(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
-  });
+  recordNotificationEvent('ineligibility - received a dishonorable discharge');
   return (
-    <div className="feature">
+    <div className="feature vads-u-background-color--gray-lightest">
       <p>
         To apply for VR&E benefits, you must have received{' '}
         <strong>an other than</strong> dishonorable discharge.
       </p>
-      <a href="/discharge-upgrade-instructions/">
-        How to Apply for a Discharge Upgrade
+      <a
+        onClick={e => fireLinkClickEvent(e)}
+        href="/discharge-upgrade-instructions/"
+      >
+        Learn more about how to apply for a discharge upgrade
       </a>
     </div>
   );

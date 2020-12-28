@@ -56,13 +56,13 @@ export class SearchResult extends Component {
 
           <div className="vads-u-flex--1 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--2">
             {/* App Name */}
-            <h3
-              className="vads-u-margin--0 vads-u-margin-bottom--0p5"
+            <h2
+              className="vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-font-size--h3"
               data-e2e-id="result-title"
               id={item?.id}
             >
               {item?.name}
-            </h3>
+            </h2>
 
             {/* Category and Platform */}
             <p className="vads-u-margin--0">
@@ -74,6 +74,7 @@ export class SearchResult extends Component {
 
           {/* App URL */}
           <a
+            aria-label={`Find app ${item.name}`}
             className="usa-button usa-button-secondary vads-u-width--auto"
             href={item?.app_url}
             onClick={e =>
@@ -89,7 +90,8 @@ export class SearchResult extends Component {
         {/* Toggle More Info */}
         <div className="learn-more">
           <button
-            className="va-button-link vads-u-text-decoration--none vads-u-margin-top--1p5"
+            aria-expanded={show}
+            className="va-button-link vads-u-text-decoration--none vads-u-margin-top--1p5 vads-u-display--block"
             onClick={() => {
               setShow(!show, item);
             }}
@@ -102,51 +104,54 @@ export class SearchResult extends Component {
           </button>
         </div>
         {show && (
-          <>
-            <hr />
+          <div>
+            <hr aria-hidden="true" />
 
             {/* Description */}
             {item?.description && (
               <>
-                <h4>About this app:</h4>
+                <h3 className="vads-u-font-size--h4">About this app:</h3>
                 <p className="vads-u-margin-bottom--0">{item?.description}</p>
               </>
             )}
 
             {/* Legal Links */}
             <a
-              className="vads-u-margin-top--2"
+              className="vads-u-margin-top--3 vads-u-display--block"
               href={item?.privacy_url}
               rel="noopener noreferrer"
               target="_blank"
             >
-              View the privacy policy
+              {`View the ${item.name} privacy policy`}
             </a>
             <a
-              className="vads-u-margin-top--1"
+              className="vads-u-margin-top--1 vads-u-display--block"
               href={item?.tos_url}
               rel="noopener noreferrer"
               target="_blank"
             >
-              View terms of service
+              {`View the ${item.name} terms of service`}
             </a>
             <a
-              className="vads-u-margin-top--1"
+              className="vads-u-margin-top--1  vads-u-margin-bottom--1 vads-u-display--block"
               href={`mailto:api@va.gov?subject=Report ${item?.name} to VA`}
               rel="noopener noreferrer"
               target="_blank"
             >
-              Report this app to VA
+              {`Report ${item.name} to VA`}
             </a>
 
             {/* Permissions */}
             {!isEmpty(scopes) && (
               <>
-                <h4>
+                <h3 className="vads-u-font-size--h4">
                   {item?.name} may request access to your VA information,
                   including:
-                </h4>
-                <ol className="vads-u-margin--0 vads-u-margin-top--1 vads-u-padding-left--2p5">
+                </h3>
+                <ul
+                  aria-label={`${item.name} - potential data requests`}
+                  className="vads-u-margin--0 vads-u-margin-top--2 vads-u-padding-left--2p5"
+                >
                   {reduce(
                     item?.service_categories,
                     (allPermissions, scope) => {
@@ -162,10 +167,10 @@ export class SearchResult extends Component {
                     },
                     [],
                   )}
-                </ol>
+                </ul>
               </>
             )}
-          </>
+          </div>
         )}
       </li>
     );

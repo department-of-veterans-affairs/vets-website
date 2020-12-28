@@ -7,7 +7,7 @@ import * as actions from '../redux/actions';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import FormButtons from '../../components/FormButtons';
 import CalendarWidget from './calendar/CalendarWidget';
-import { getFormPageInfo } from '../../utils/selectors';
+import { getFormPageInfo } from '../redux/selectors';
 import { CALENDAR_INDICATOR_TYPES } from '../../utils/constants';
 
 const pageKey = 'requestDateTime';
@@ -25,10 +25,12 @@ export function getOptionsByDate() {
     {
       value: 'AM',
       label: 'AM',
+      secondaryLabel: 'Before noon',
     },
     {
       value: 'PM',
       label: 'PM',
+      secondaryLabel: 'Noon or later',
     },
   ];
 }
@@ -122,7 +124,6 @@ export function DateTimeRequestPage({
         schedule the best time for your appointment.
       </p>
       <CalendarWidget
-        monthsToShowAtOnce={2}
         multiSelect
         maxSelections={maxSelections}
         onChange={newData => {

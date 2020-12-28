@@ -12,10 +12,10 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
-  vaosApplication,
+  selectFeatureApplication,
   selectFeatureToggleLoading,
   selectUseFlatFacilityPage,
-} from '../../utils/selectors';
+} from '../../redux/selectors';
 import NoRegistrationMessage from './NoRegistrationMessage';
 import AppUnavailable from './AppUnavailable';
 import DowntimeMessage from './DowntimeMessage';
@@ -77,7 +77,7 @@ function VAOSApp({
 function mapStateToProps(state) {
   return {
     user: selectUser(state),
-    showApplication: vaosApplication(state),
+    showApplication: selectFeatureApplication(state),
     loadingFeatureToggles: selectFeatureToggleLoading(state),
     sites: selectPatientFacilities(state),
     useFlatFacilityPage: selectUseFlatFacilityPage(state),

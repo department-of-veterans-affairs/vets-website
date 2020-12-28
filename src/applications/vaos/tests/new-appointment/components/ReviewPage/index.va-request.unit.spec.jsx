@@ -174,15 +174,16 @@ describe('VAOS <ReviewPage> VA request', () => {
   });
 
   it('should submit successfully', async () => {
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
-      store,
-    });
-
     mockRequestSubmit('va', {
       id: 'fake_id',
     });
     mockPreferences(null);
     mockMessagesFetch('fake_id', {});
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
     await screen.findByText(/requesting a primary care appointment/i);
 
     userEvent.click(screen.getByText(/Request appointment/i));
@@ -209,6 +210,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-number-of-preferred-providers': 0,
+      'vaos-community-care-preferred-language': undefined,
       flow: 'va-request',
     });
     expect(dataLayer[2]).to.deep.equal({
@@ -235,10 +237,6 @@ describe('VAOS <ReviewPage> VA request', () => {
   });
 
   it('should show error message on failure', async () => {
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
-      store,
-    });
-
     mockFacilityFetch('vha_442', {
       id: 'vha_442',
       attributes: {
@@ -266,6 +264,11 @@ describe('VAOS <ReviewPage> VA request', () => {
         errors: [{}],
       },
     );
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
     await screen.findByText(/requesting a primary care appointment/i);
 
     userEvent.click(screen.getByText(/Request appointment/i));

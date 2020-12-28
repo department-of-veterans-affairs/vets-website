@@ -88,7 +88,13 @@ const facilityDataParsed = transformFacilities(
     ...item.attributes,
     id: item.id,
   })),
-);
+).map(location => ({
+  ...location,
+  legacyVAR: {
+    directSchedulingSupported: { 323: true, 504: true },
+    requestSupported: { 323: true, 504: true },
+  },
+}));
 
 describe('VAOS reducer: newAppointment', () => {
   it('should set the new schema', () => {

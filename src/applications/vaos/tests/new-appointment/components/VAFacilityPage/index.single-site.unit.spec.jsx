@@ -101,16 +101,15 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
+    await screen.findByText(
+      /appointments are available at the following locations/i,
+    );
+
     expect(global.document.title).to.equal(
       'Choose a VA location for your appointment | Veterans Affairs',
     );
     expect(screen.baseElement).to.contain.text(
       'Choose a VA location for your appointment',
-    );
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
-
-    await screen.findByText(
-      /appointments are available at the following locations/i,
     );
     expect(screen.baseElement).to.contain.text(
       'Bozeman VA medical center (Bozeman, MT)',
@@ -175,7 +174,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
-    expect(baseElement).to.contain.text('Finding your VA facility');
     await findByText(/we found one VA location for you/i);
 
     expect(baseElement).to.contain.text('Belgrade VA clinic');
@@ -248,7 +246,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
     await screen.findByText(/we found one VA location for you/i);
 
     expect(screen.baseElement).to.contain.text(
@@ -366,7 +363,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
     await screen.findByText(
       /There are no primary care appointments at this location/,
     );
@@ -725,7 +721,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       },
     );
 
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
     await waitFor(() =>
       expect(screen.getByText(/Continue/)).not.to.have.attribute('disabled'),
     );
@@ -784,7 +779,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       },
     );
 
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
     await waitFor(() =>
       expect(screen.getByText(/Continue/)).not.to.have.attribute('disabled'),
     );

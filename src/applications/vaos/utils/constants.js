@@ -65,7 +65,7 @@ export const TYPES_OF_CARE = [
     group: 'primary',
     ccId: 'CCPRMYRTNE',
     cceType: 'PrimaryCare',
-    specialties: ['208D00000X', '207R00000X', '261QP2300X'],
+    specialties: ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
   },
   {
     id: '160',
@@ -106,7 +106,7 @@ export const TYPES_OF_CARE = [
     group: 'specialty',
     ccId: 'CCNUTRN',
     cceType: 'Nutrition',
-    specialties: ['133N00000X', '136A00000X', '132700000X'],
+    specialties: ['133N00000X', '136A00000X', '132700000X', '133V00000X'],
   },
   {
     id: PODIATRY_ID,

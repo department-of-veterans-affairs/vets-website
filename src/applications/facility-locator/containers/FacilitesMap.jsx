@@ -23,13 +23,19 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
+
+import mapboxClient from '../components/MapboxClient';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+
+const mbxClient = mbxGeo(mapboxClient);
+
 import {
   setFocus,
   buildMarker,
   resetMapElements,
   setSearchAreaPosition,
 } from '../utils/helpers';
-import { MapboxInit, MARKER_LETTERS } from '../constants';
+import { MapboxInit, MARKER_LETTERS, MAX_SEARCH_AREA } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -140,6 +146,7 @@ const FacilitiesMap = props => {
       locationBounds.extend(
         new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
       );
+      map.fitBounds(locationBounds, { padding: 20 });
     }
 
     if (props.currentQuery.searchArea) {
@@ -152,8 +159,9 @@ const FacilitiesMap = props => {
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
     }
-
-    map.fitBounds(locationBounds, { padding: 20 });
+    if (searchResultTitleRef.current) {
+      setFocus(searchResultTitleRef.current);
+    }
   };
 
   const handleSearch = async () => {
@@ -172,33 +180,73 @@ const FacilitiesMap = props => {
     setIsSearching(true);
   };
 
+  const calculateSearchArea = () => {
+    const currentBounds = map.getBounds();
+    const { _ne, _sw } = currentBounds;
+    return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
+  };
+
   const handleSearchArea = () => {
     resetMapElements();
     const { currentQuery } = props;
     currentZoom = null;
     const center = map.getCenter().wrap();
-
+    const bounds = map.getBounds();
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': currentQuery.facilityType,
       'fl-search-svc-type': currentQuery.serviceType,
     });
+    const currentMapBoundsDistance = calculateSearchArea();
 
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
+      currentMapBoundsDistance,
+      currentBounds: [
+        bounds._sw.lng,
+        bounds._sw.lat,
+        bounds._ne.lng,
+        bounds._ne.lat,
+      ],
     });
   };
 
   const handlePageSelect = page => {
     resetMapElements();
     const { currentQuery } = props;
+    const coords = currentQuery.position;
+    const radius = currentQuery.radius;
+    const center = [coords.latitude, coords.longitude];
     props.searchWithBounds({
       bounds: currentQuery.bounds,
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
       page,
+      center,
+      radius,
     });
+  };
+
+  const activateSearchAreaControl = () => {
+    const searchAreaControlId = document.getElementById(
+      'search-area-control-container',
+    );
+
+    if (calculateSearchArea() > MAX_SEARCH_AREA) {
+      searchAreaControlId.style.display = 'none';
+      return;
+    }
+
+    if (searchAreaControlId.style.display === 'none') {
+      searchAreaControlId.style.display = 'block';
+      setFocus('#search-area-control');
+    }
+
+    if (searchAreaControlId && !searchAreaSet) {
+      searchAreaControlId.addEventListener('click', handleSearchArea, false);
+      searchAreaSet = true;
+    }
   };
 
   const setupMap = (setMapInit, mapContainerInit) => {
@@ -210,9 +258,18 @@ const FacilitiesMap = props => {
       zoom: MapboxInit.zoomInit,
     });
 
+    const mapContainerElement = document.getElementById('mapbox-gl-container');
+    if (mapContainerElement) mapContainerElement.setAttribute('tabindex', 0);
+
     const searchAreaControl = new SearchAreaControl(isMobile);
     mapInit.addControl(searchAreaControl);
-    mapInit.addControl(new mapboxgl.NavigationControl(), 'top-left');
+    mapInit.addControl(
+      new mapboxgl.NavigationControl({
+        // Hide rotation control.
+        showCompass: false,
+      }),
+      'top-left',
+    );
     mapInit.addControl(
       new MapboxAccessibility({
         accessibleLabelProperty: 'name',
@@ -225,14 +282,6 @@ const FacilitiesMap = props => {
       mapInit.resize();
     });
 
-    mapInit.on('zoomend', () => {
-      const zoomNotFromSearch =
-        document.activeElement.id !== 'search-results-title';
-      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
-        recordZoomEvent(currentZoom, parseInt(mapInit.getZoom(), 10));
-      }
-      currentZoom = parseInt(mapInit.getZoom(), 10);
-    });
     return mapInit;
   };
 
@@ -241,22 +290,18 @@ const FacilitiesMap = props => {
    * For example coming back from a detail page
    */
   if (props.results.length > 0 && map) {
-    // Set dragend to track map-moved ga event
     map.on('dragend', () => {
-      const searchAreaControlId = document.getElementById(
-        'search-area-control-container',
-      );
-
-      if (searchAreaControlId.style.display === 'none') {
-        searchAreaControlId.style.display = 'block';
-      }
-
-      if (searchAreaControlId && !searchAreaSet) {
-        searchAreaControlId.addEventListener('click', handleSearchArea, false);
-        searchAreaSet = true;
-      }
-
+      activateSearchAreaControl();
       recordPanEvent(map.getCenter(), props.currentQuery);
+    });
+    map.on('zoomend', () => {
+      const zoomNotFromSearch =
+        document.activeElement.id !== 'search-results-title';
+      if (currentZoom && parseInt(currentZoom, 10) > 3 && zoomNotFromSearch) {
+        activateSearchAreaControl();
+        recordZoomEvent(currentZoom, parseInt(map.getZoom(), 10));
+      }
+      currentZoom = parseInt(map.getZoom(), 10);
     });
   }
 
@@ -409,14 +454,39 @@ const FacilitiesMap = props => {
     );
   };
 
+  const genLocationFromCoords = position => {
+    mbxClient
+      .reverseGeocode({
+        query: [position.longitude, position.latitude],
+        types: ['address'],
+      })
+      .send()
+      .then(({ body: { features } }) => {
+        const placeName = features[0].place_name;
+        const zipCode =
+          features[0].context.find(v => v.id.includes('postcode')).text || '';
+
+        props.updateSearchQuery({
+          searchString: placeName,
+          context: zipCode,
+          position,
+        });
+
+        updateUrlParams({
+          address: placeName,
+          context: zipCode,
+        });
+      })
+      .catch(error => error);
+  };
+
   useEffect(
     () => {
-      const {
-        searchArea,
-        position,
-        context,
-        searchString,
-      } = props.currentQuery;
+      const { currentQuery } = props;
+      const { searchArea, position, context, searchString } = currentQuery;
+      const coords = currentQuery.position;
+      const radius = currentQuery.radius;
+      const center = [coords.latitude, coords.longitude];
       // Search current area
       if (searchArea) {
         updateUrlParams({
@@ -431,6 +501,8 @@ const FacilitiesMap = props => {
           facilityType: props.currentQuery.facilityType,
           serviceType: props.currentQuery.serviceType,
           page: props.currentQuery.currentPage,
+          center,
+          radius,
         });
       }
     },
@@ -443,6 +515,17 @@ const FacilitiesMap = props => {
     };
 
     searchWithUrl();
+
+    // TODO - improve the geolocation feature with a more react approach
+    // https://github.com/department-of-veterans-affairs/vets-website/pull/14963
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(currentPosition => {
+        const input = document.getElementById('street-city-state-zip');
+        if (input && !input.value) {
+          genLocationFromCoords(currentPosition.coords);
+        }
+      });
+    }
 
     const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);
@@ -478,7 +561,11 @@ const FacilitiesMap = props => {
           context: props.currentQuery.context,
           address: props.currentQuery.searchString,
         });
-        const resultsPage = props.currentQuery.currentPage;
+        const { currentQuery } = props;
+        const coords = currentQuery.position;
+        const radius = currentQuery.radius;
+        const center = [coords.latitude, coords.longitude];
+        const resultsPage = currentQuery.currentPage;
 
         if (!props.searchBoundsInProgress) {
           props.searchWithBounds({
@@ -486,11 +573,10 @@ const FacilitiesMap = props => {
             facilityType: props.currentQuery.facilityType,
             serviceType: props.currentQuery.serviceType,
             page: resultsPage,
+            center,
+            radius,
           });
           setIsSearching(false);
-        }
-        if (searchResultTitleRef.current) {
-          setFocus(searchResultTitleRef.current);
         }
       }
     },

@@ -5,11 +5,11 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import {
-  vaosCancel,
-  vaosRequests,
-  selectExpressCareRequests,
+  selectFeatureCancel,
+  selectFeatureRequests,
   selectIsCernerOnlyPatient,
-} from '../../utils/selectors';
+} from '../../redux/selectors';
+import { selectExpressCareRequests } from '../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../utils/constants';
 import ExpressCareCard from './cards/express-care/ExpressCareCard';
 import NoAppointments from './NoAppointments';
@@ -97,8 +97,8 @@ function mapStateToProps(state) {
   return {
     expressCareRequests: selectExpressCareRequests(state),
     status: state.appointments.pendingStatus,
-    showCancelButton: vaosCancel(state),
-    showScheduleButton: vaosRequests(state),
+    showCancelButton: selectFeatureCancel(state),
+    showScheduleButton: selectFeatureRequests(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
 }

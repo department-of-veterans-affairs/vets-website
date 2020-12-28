@@ -4,12 +4,12 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 export const OfficeForReviewAlert = (
   <AlertBox
     status="info"
-    headline="We will try to fulfill your request"
+    headline="We’ll try to grant your request"
     className="vads-u-margin-left--3 vads-u-margin-top--0 vads-u-font-weight--normal"
     content={
       <p>
-        If we cannot fulfill your request, we will notify you at the time the
-        Higher-Level Review decision is made.
+        If we can’t fulfill your request, we’ll let you know at the time we make
+        a decision on your Higher-Level Review.
       </p>
     }
   />
@@ -17,15 +17,15 @@ export const OfficeForReviewAlert = (
 
 export const OfficeForReviewTitle = (
   <strong className="normal-weight-in-review">
-    If available, I would like the same office to conduct this review.
+    I’d like the same office to do this review.
   </strong>
 );
 
 export const OfficeForReviewDescription = (
   <p className="vads-u-margin-left--3">
-    You have the right to request the same office conduct the review. VA may be
-    unable to grant this request. In either scenario, your case will be looked
-    at by a different individual and considered separately from your original
+    You can request to have the same office conduct your Higher-Level Review. We
+    might not be able to grant your request, however. Either way, a new reviewer
+    will look at your case and consider it separately from your original
     decision.
   </p>
 );

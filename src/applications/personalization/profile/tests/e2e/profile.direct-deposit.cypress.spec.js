@@ -1,3 +1,4 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockUserNotInEVSS from '../fixtures/users/user-non-vet.json';
@@ -40,10 +41,7 @@ describe('Direct Deposit', () => {
   }
 
   beforeEach(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      JSON.stringify(['single-sign-on-intro']),
-    );
+    disableFTUXModals();
     cy.login();
   });
   it('should be blocked if the user is not in EVSS', () => {
@@ -98,7 +96,7 @@ describe('Direct Deposit', () => {
 
     confirmDirectDepositIsBlocked();
 
-    cy.findByText(/we can’t load all of your information/i).should('exist');
+    cy.findByTestId('not-all-data-available-error').should('exist');
     cy.findByText(/something went wrong/i).should('exist');
   });
 });

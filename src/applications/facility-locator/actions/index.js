@@ -23,6 +23,7 @@ import {
 } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import { distBetween } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -113,6 +114,8 @@ export const fetchLocations = async (
   serviceType,
   page,
   dispatch,
+  center,
+  radius,
 ) => {
   try {
     const data = await LocatorApi.searchWithBounds(
@@ -121,6 +124,8 @@ export const fetchLocations = async (
       locationType,
       serviceType,
       page,
+      center,
+      radius,
     );
     // Record event as soon as API return results
     if (data.errors) {
@@ -145,6 +150,8 @@ export const searchWithBounds = ({
   facilityType,
   serviceType,
   page = 1,
+  center,
+  radius,
 }) => {
   const needsAddress = [
     LocationType.CC_PROVIDER,
@@ -179,10 +186,21 @@ export const searchWithBounds = ({
           serviceType,
           page,
           dispatch,
+          center,
+          radius,
         );
       });
     } else {
-      fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
+      fetchLocations(
+        null,
+        bounds,
+        facilityType,
+        serviceType,
+        page,
+        dispatch,
+        center,
+        radius,
+      );
     }
   };
 };
@@ -258,10 +276,19 @@ export const genBBoxFromAddress = query => {
             Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
           ];
         }
+
+        const radius = distBetween(
+          features[0].bbox[1],
+          features[0].bbox[0],
+          features[0].bbox[3],
+          features[0].bbox[2],
+        );
+
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
+            radius,
             context: zipCode,
             id: Date.now(),
             inProgress: true,
@@ -296,66 +323,63 @@ export const genBBoxFromAddress = query => {
  * from the coordinates center of the map
  */
 export const genSearchAreaFromCenter = query => {
-  const { lat, lng } = query;
+  const { lat, lng, currentMapBoundsDistance, currentBounds } = query;
   return dispatch => {
-    const types = TypeList;
-    mbxClient
-      .reverseGeocode({
-        countries: CountriesList,
-        types,
-        query: [lng, lat],
-      })
-      .send()
-      .then(({ body: { features } }) => {
-        const coordinates = features[0].center;
-        const zip =
-          features[0].context.find(v => v.id.includes('postcode')) || {};
-        const location = zip.text || features[0].place_name;
-        const featureBox = features[0].box;
+    if (currentMapBoundsDistance > 500) {
+      dispatch({ type: GEOCODE_FAILED });
+      dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+    } else {
+      const types = TypeList;
+      mbxClient
+        .reverseGeocode({
+          countries: CountriesList,
+          types,
+          query: [lng, lat],
+        })
+        .send()
+        .then(({ body: { features } }) => {
+          const zip =
+            features[0].context.find(v => v.id.includes('postcode')) || {};
+          const location = zip.text || features[0].place_name;
 
-        const sw = coordinates[0] - BOUNDING_RADIUS;
-        const se = coordinates[1] - BOUNDING_RADIUS;
-        const nw = coordinates[0] + BOUNDING_RADIUS;
-        const ne = coordinates[1] + BOUNDING_RADIUS;
-        let minBounds = [sw, se, nw, ne];
-        if (featureBox) {
-          minBounds = [
-            Math.min(featureBox[0], sw),
-            Math.min(featureBox[1], se),
-            Math.max(featureBox[2], nw),
-            Math.max(featureBox[3], ne),
-          ];
-        }
+          const radius = distBetween(
+            currentBounds[1],
+            currentBounds[0],
+            currentBounds[3],
+            currentBounds[2],
+          );
 
-        dispatch({
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            searchString: location,
-            context: location,
-            searchArea: {
-              locationString: location,
-              locationCoords: {
-                lng,
-                lat,
+          dispatch({
+            type: SEARCH_QUERY_UPDATED,
+            payload: {
+              radius,
+              searchString: location,
+              context: location,
+              searchArea: {
+                locationString: location,
+                locationCoords: {
+                  lng,
+                  lat,
+                },
+              },
+              mapBoxQuery: {
+                placeName: features[0].place_name,
+                placeType: features[0].place_type[0],
+              },
+              searchCoords: null,
+              bounds: currentBounds,
+              position: {
+                latitude: lat,
+                longitude: lng,
               },
             },
-            mapBoxQuery: {
-              placeName: features[0].place_name,
-              placeType: features[0].place_type[0],
-            },
-            searchCoords: null,
-            bounds: minBounds,
-            position: {
-              latitude: lat,
-              longitude: lng,
-            },
-          },
+          });
+        })
+        .catch(_ => {
+          dispatch({ type: GEOCODE_FAILED });
+          dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
         });
-      })
-      .catch(_ => {
-        dispatch({ type: GEOCODE_FAILED });
-        dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
-      });
+    }
   };
 };
 

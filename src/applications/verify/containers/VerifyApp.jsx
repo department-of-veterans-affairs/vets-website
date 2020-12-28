@@ -75,7 +75,10 @@ export class VerifyApp extends React.Component {
                   We'll need to verify your identity so that you can securely
                   access and manage your benefits.
                   <br />
-                  <a href="/sign-in-faq/#why-verify" target="_blank">
+                  <a
+                    href="/resources/privacy-and-security-on-vagov/#why-do-i-need-to-verify-my-ide"
+                    target="_blank"
+                  >
                     Why does VA.gov verify identity?
                   </a>
                 </p>
@@ -99,7 +102,7 @@ export class VerifyApp extends React.Component {
                 <h4>Having trouble verifying your identity?</h4>
                 <p>
                   <a href="/resources/signing-in-to-vagov/" target="_blank">
-                    Get answers to Frequently Asked Questions
+                    Get answers to frequently asked questions
                   </a>
                 </p>
                 <p>

@@ -1,7 +1,6 @@
 const queries = {
   GET_ALL_PAGES: './graphql/GetAllPages.graphql',
   GET_LATEST_PAGE_BY_ID: './graphql/GetLatestPageById.graphql',
-  GET_HEALTH_SYSTEM_NAVS: './graphql/sideNavMenus.graphql',
 };
 
 function getQuery(query, { useTomeSync } = {}) {

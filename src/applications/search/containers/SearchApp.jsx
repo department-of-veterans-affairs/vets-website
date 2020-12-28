@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
@@ -56,7 +58,14 @@ class SearchApp extends React.Component {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
     if (userInput) {
-      this.props.fetchSearchResults(userInput, page);
+      this.props.fetchSearchResults(userInput, page, {
+        path: document.location.pathname,
+        userInput,
+        typeaheadEnabled: undefined,
+        keywordSelected: undefined,
+        keywordPosition: undefined,
+        suggestionsList: undefined,
+      });
     }
   }
 
@@ -94,7 +103,14 @@ class SearchApp extends React.Component {
     });
 
     // Fetch new results
-    this.props.fetchSearchResults(userInput, nextPage);
+    this.props.fetchSearchResults(userInput, nextPage, {
+      path: document.location.pathname,
+      userInput,
+      typeaheadEnabled: undefined,
+      keywordSelected: undefined,
+      keywordPosition: undefined,
+      suggestionsList: undefined,
+    });
 
     // Update query is necessary
     if (queryChanged) {
@@ -105,6 +121,39 @@ class SearchApp extends React.Component {
   handleInputChange = event => {
     this.setState({
       userInput: event.target.value,
+    });
+  };
+
+  onSearchResultClick = ({ bestBet, title, index, url }) => () => {
+    if (bestBet) {
+      recordEvent({
+        event: 'nav-searchresults',
+        'nav-path': `Recommended Results -> ${title}`,
+      });
+    }
+
+    const bestBetPosition = index + 1;
+    const normalResultPosition =
+      index + (this.props.search?.recommendedResults?.length || 0) + 1;
+    const searchResultPosition = bestBet
+      ? bestBetPosition
+      : normalResultPosition;
+
+    recordEvent({
+      event: 'onsite-search-results-click',
+      'search-page-path': document.location.pathname,
+      'search-query': this.state.userInput,
+      'search-result-chosen-page-url': url,
+      'search-result-chosen-title': title,
+      'search-results-pagination-current-page': this.props.search?.currentPage,
+      'search-results-position': searchResultPosition,
+      'search-results-total-count': this.props.search?.totalEntries,
+      'search-results-total-pages': Math.ceil(
+        this.props.search?.totalEntries / 10,
+      ),
+      'search-selection': 'All VA.gov',
+      'search-results-top-recommendation': bestBet,
+      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
     });
   };
 
@@ -167,8 +216,8 @@ class SearchApp extends React.Component {
             Our top recommendations for you
           </h4>
           <ul className="results-list">
-            {recommendedResults.map(r =>
-              this.renderWebResult(r, 'description', true),
+            {recommendedResults.map((result, index) =>
+              this.renderWebResult(result, 'description', true, index),
             )}
           </ul>
           <hr />
@@ -223,7 +272,9 @@ class SearchApp extends React.Component {
     if (results && results.length > 0) {
       return (
         <ul className="results-list">
-          {results.map(r => this.renderWebResult(r))}
+          {results.map((result, index) =>
+            this.renderWebResult(result, undefined, undefined, index),
+          )}
         </ul>
       );
     }
@@ -236,22 +287,19 @@ class SearchApp extends React.Component {
   }
 
   /* eslint-disable react/no-danger */
-  renderWebResult(result, snippetKey = 'snippet', isBestBet = false) {
+  renderWebResult(result, snippetKey = 'snippet', isBestBet = false, index) {
     const strippedTitle = formatResponseString(result.title, true);
     return (
       <li key={result.url} className="result-item">
         <a
           className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
           href={replaceWithStagingDomain(result.url)}
-          onClick={
-            isBestBet
-              ? () =>
-                  recordEvent({
-                    event: 'nav-searchresults',
-                    'nav-path': `Recommended Results -> ${strippedTitle}`,
-                  })
-              : null
-          }
+          onClick={this.onSearchResultClick({
+            bestBet: isBestBet,
+            title: strippedTitle,
+            index,
+            url: result.url,
+          })}
         >
           <h5
             dangerouslySetInnerHTML={{
@@ -385,10 +433,12 @@ class SearchApp extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { search } = state;
-  return { search };
-}
+const mapStateToProps = state => ({
+  search: state.search,
+  searchTypeaheadEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  ],
+});
 
 const mapDispatchToProps = {
   fetchSearchResults,

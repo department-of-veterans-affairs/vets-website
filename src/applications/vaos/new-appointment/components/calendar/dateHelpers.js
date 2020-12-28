@@ -18,7 +18,3 @@ export function isDateOptionPairInSelectedArray(
   }
   return false;
 }
-
-export function removeDateFromSelectedArray(date, selectedArray) {
-  return selectedArray.filter(d => d.date !== date);
-}

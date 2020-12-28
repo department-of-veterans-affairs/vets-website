@@ -66,9 +66,9 @@ describe('index reducer', () => {
     expect(state.militaryInformation.errors).to.eql(['error']);
   });
 
-  it('fetches paymentInformation', () => {
+  it('fetches cnpPaymentInformation', () => {
     const fetchAction = {
-      type: paymentInfoActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+      type: paymentInfoActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
       response: {
         something: 'something',
       },
@@ -76,33 +76,33 @@ describe('index reducer', () => {
 
     const state = vaProfile(undefined, fetchAction);
 
-    expect(state.paymentInformation).to.be.deep.equal(
+    expect(state.cnpPaymentInformation).to.be.deep.equal(
       fetchAction.response,
       'paymentInformation is initialized',
     );
   });
 
-  it('opens the paymentInformation-edit modal', () => {
-    const modalOpenAction = {
-      type: paymentInfoActions.PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED,
+  it('toggles the cnpPaymentInformation edit view', () => {
+    const editToggledAction = {
+      type: paymentInfoActions.CNP_PAYMENT_INFORMATION_EDIT_TOGGLED,
     };
 
-    const state = vaProfile(undefined, modalOpenAction);
+    const state = vaProfile(undefined, editToggledAction);
 
-    expect(state.paymentInformationUiState.isEditing).to.be.true;
+    expect(state.cnpPaymentInformationUiState.isEditing).to.be.true;
   });
 
-  it('saves paymentInformation', () => {
+  it('saves cnpPaymentInformation', () => {
     const saveAction = {
-      type: paymentInfoActions.PAYMENT_INFORMATION_SAVE_STARTED,
+      type: paymentInfoActions.CNP_PAYMENT_INFORMATION_SAVE_STARTED,
     };
 
     let state = vaProfile(undefined, saveAction);
 
-    expect(state.paymentInformationUiState.isSaving).to.be.true;
+    expect(state.cnpPaymentInformationUiState.isSaving).to.be.true;
 
     const savedAction = {
-      type: paymentInfoActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+      type: paymentInfoActions.CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
       response: {
         somethingElse: 'somethingElse',
       },
@@ -110,9 +110,77 @@ describe('index reducer', () => {
 
     state = vaProfile(state, savedAction);
 
-    expect(state.paymentInformation).to.be.deep.equal(
+    expect(state.cnpPaymentInformation).to.be.deep.equal(
       savedAction.response,
       'paymentInformation is updated',
+    );
+  });
+
+  it('fetches eduPaymentInformation', () => {
+    const action = {
+      type: paymentInfoActions.EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+      response: {
+        something: 'something',
+      },
+    };
+
+    const state = vaProfile(undefined, action);
+
+    expect(state.eduPaymentInformation).to.be.deep.equal(action.response);
+  });
+
+  it('toggles the eduPaymentInformation edit view', () => {
+    const action = {
+      type: paymentInfoActions.EDU_PAYMENT_INFORMATION_EDIT_TOGGLED,
+    };
+
+    const state = vaProfile(undefined, action);
+
+    expect(state.eduPaymentInformationUiState.isEditing).to.be.true;
+  });
+
+  it('saves eduPaymentInformation', () => {
+    const saveStartedAction = {
+      type: paymentInfoActions.EDU_PAYMENT_INFORMATION_SAVE_STARTED,
+    };
+
+    let state = vaProfile(undefined, saveStartedAction);
+
+    expect(state.eduPaymentInformationUiState.isSaving).to.be.true;
+
+    const saveCompletedAction = {
+      type: paymentInfoActions.EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+      response: {
+        somethingElse: 'somethingElse',
+      },
+    };
+
+    state = vaProfile(state, saveCompletedAction);
+
+    expect(state.eduPaymentInformationUiState.isSaving).to.be.false;
+  });
+
+  it('handles eduPayment save failures', () => {
+    const saveStartedAction = {
+      type: paymentInfoActions.EDU_PAYMENT_INFORMATION_SAVE_STARTED,
+    };
+
+    let state = vaProfile(undefined, saveStartedAction);
+
+    expect(state.eduPaymentInformationUiState.isSaving).to.be.true;
+
+    const saveFailedAction = {
+      type: paymentInfoActions.EDU_PAYMENT_INFORMATION_SAVE_FAILED,
+      response: {
+        error: 'error',
+      },
+    };
+
+    state = vaProfile(state, saveFailedAction);
+
+    expect(state.eduPaymentInformationUiState.isSaving).to.be.false;
+    expect(state.eduPaymentInformationUiState.responseError).to.deep.equal(
+      saveFailedAction.response,
     );
   });
 });

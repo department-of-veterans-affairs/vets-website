@@ -110,7 +110,9 @@ module.exports = function registerFilters() {
     return moment
       .unix(dt)
       .tz(timezone)
-      .format(format);
+      .format(format)
+      .replace(/AM/g, 'a.m.')
+      .replace(/PM/g, 'p.m.');
   };
 
   liquid.filters.unixFromDate = data => new Date(data).getTime();
@@ -163,6 +165,10 @@ module.exports = function registerFilters() {
     }
 
     return data;
+  };
+  //  liquid slice filter only works on strings
+  liquid.filters.sliceArrayFromStart = (arr, startIndex) => {
+    return _.slice(arr, startIndex);
   };
 
   liquid.filters.breakTerms = data => {
@@ -443,12 +449,19 @@ module.exports = function registerFilters() {
     breadcrumbs,
     string,
     currentPath,
+    replaceLastItem = false,
   ) => {
     const last = {
       url: { path: currentPath, routed: true },
       text: string,
     };
-    breadcrumbs.push(last);
+
+    if (replaceLastItem) {
+      // replace last item in breadcrumbs with "last"
+      breadcrumbs.splice(breadcrumbs.length - 1, 1, last);
+    } else {
+      breadcrumbs.push(last);
+    }
 
     return breadcrumbs;
   };
