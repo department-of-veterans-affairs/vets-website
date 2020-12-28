@@ -108,11 +108,12 @@ describe('DEA benefit', () => {
     breadCrumb('/gi-bill-comparison-tool/');
 
     // Search again
+    cy.get('.keyword-search input[type="text"]').type(searchTerm);
     cy.get('#search-button').click();
 
     // Search page
     cy.wait('@defaultSearch');
-    cy.url().should('include', `/search?category=school&name=${searchTerm}`); // SOMETIMES ERRORS WHEN MULTIPLE TESTS ARE RUN IN HEADLESS MODE
+    cy.url().should('include', `/search?category=school&name=${searchTerm}`);
 
     cy.get(`#search-result-${facilityCode} a`)
       .first()
