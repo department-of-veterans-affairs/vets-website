@@ -21,6 +21,7 @@ import {
   selectFeatureExpressCare,
   selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
+  selectFeatureProjectCheetah,
 } from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -34,6 +35,8 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
+import { NewBooking } from '../../../project-cheetah';
+import ScheduleNewProjectCheetah from '../../../project-cheetah/components/ScheduleNewProjectCheetah';
 
 const pageTitle = 'VA appointments';
 
@@ -53,6 +56,7 @@ function AppointmentsPage({
   showExpressCare,
   showPastAppointments,
   showScheduleButton,
+  showCheetahScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
 }) {
@@ -102,6 +106,7 @@ function AppointmentsPage({
     <Switch>
       <Route component={PastAppointmentsList} path="/past" />
       <Route component={ExpressCareList} path="/express-care" />
+      <Route component={NewBooking} path="/new-project-cheetah-booking" />
       <Route path="/" component={FutureAppointmentsList} />
     </Switch>
   );
@@ -131,6 +136,18 @@ function AppointmentsPage({
           }}
         />
       )}
+
+      {showCheetahScheduleButton && (
+        <ScheduleNewProjectCheetah
+          startNewAppointmentFlow={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
+            });
+            startNewAppointmentFlow();
+          }}
+        />
+      )}
+
       {!expressCare.enabled && (
         <>
           {showPastAppointments && <TabNav />}
@@ -197,6 +214,7 @@ function mapStateToProps(state) {
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
     showExpressCare: selectFeatureExpressCare(state),
+    showCheetahScheduleButton: selectFeatureProjectCheetah(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     expressCare: selectExpressCareAvailability(state),
