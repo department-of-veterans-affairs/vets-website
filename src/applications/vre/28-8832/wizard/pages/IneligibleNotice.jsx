@@ -11,12 +11,14 @@ const IneligibleNotice = () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
     recordEvent({
       event: `howToWizard-notice-displayed`,
-      'reason-for-notice': 'ineligibility - not a service member or veteran',
+      'reason-for-alert': 'ineligibility - not a service member or veteran',
     });
   });
   const handleClick = () => {
     recordEvent({
       event: `howToWizard-alert-link-click`,
+      'howToWizard-alert-link-click-label':
+        'Learn more about VA career planning and guidance',
     });
   };
   return (
