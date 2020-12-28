@@ -632,7 +632,7 @@ const FacilitiesMap = props => {
         map.fitBounds(locationBounds, { maxZoom: 12 });
       }
     },
-    [props.currentQuery.searchCoords],
+    [props.currentQuery.searchCoords, props.results],
   );
 
   return (
