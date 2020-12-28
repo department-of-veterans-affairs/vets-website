@@ -1,4 +1,29 @@
+/* eslint-disable camelcase */
 const { getDrupalValue, getWysiwygString } = require('./helpers');
+
+const getFieldFacilityLocationObject = ({
+  title,
+  entityUrl,
+  fieldNicknameForThisFacility,
+  field_nickname_for_this_facility,
+}) =>
+  typeof title === 'object'
+    ? {
+        entity: {
+          title: getDrupalValue(title),
+          entityUrl,
+          fieldNicknameForThisFacility: getDrupalValue(
+            field_nickname_for_this_facility,
+          ),
+        },
+      }
+    : {
+        entity: {
+          title,
+          entityUrl,
+          fieldNicknameForThisFacility,
+        },
+      };
 
 const transform = entity => ({
   entity: {
@@ -34,14 +59,9 @@ const transform = entity => ({
         },
       }),
     ),
-    fieldFacilityLocation: {
-      entity: {
-        entityUrl: entity.fieldFacilityLocation[0].entityUrl,
-        fieldNicknameForThisFacility:
-          entity.fieldFacilityLocation[0].fieldNicknameForThisFacility,
-        title: entity.fieldFacilityLocation[0].title,
-      },
-    },
+    fieldFacilityLocation: entity.fieldFacilityLocation[0]
+      ? getFieldFacilityLocationObject(entity.fieldFacilityLocation[0])
+      : null,
   },
 });
 module.exports = {
