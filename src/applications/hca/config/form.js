@@ -411,9 +411,9 @@ const formConfig = {
               'ui:title':
                 'Is your home address the same as your mailing address?',
               'ui:widget': 'yesNo',
-              'ui:required': formData => formData.hasMultipleAddress,
+              'ui:required': formData => formData['view:hasMultipleAddress'],
               'ui:options': {
-                hideIf: formData => !formData.hasMultipleAddress,
+                hideIf: formData => !formData['view:hasMultipleAddress'],
               },
             },
           },
@@ -452,7 +452,7 @@ const formConfig = {
           title: 'Mailing address',
           initialData: {},
           depends: formData =>
-            formData.hasMultipleAddress &&
+            formData['view:hasMultipleAddress'] &&
             !formData['view:doesPermanentAddressMatchMailing'],
           uiSchema: {
             'ui:description': PrefillMessage,

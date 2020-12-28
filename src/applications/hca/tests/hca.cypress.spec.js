@@ -13,7 +13,7 @@ const testConfig = createTestConfig(
   {
     _13647Exception: true,
     dataPrefix: 'data',
-    dataSets: ['minimal-test', 'maximal-test', 'foreign-address-test'],
+    dataSets: ['maximal-test', 'minimal-test', 'foreign-address-test'],
     fixtures: { data: path.join(__dirname, 'schema') },
 
     pageHooks: {

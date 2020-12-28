@@ -21,7 +21,7 @@ const HealthCareEntry = ({
       if (hasMultipleAddress !== undefined) {
         setFormData({
           ...formData,
-          hasMultipleAddress,
+          'view:hasMultipleAddress': hasMultipleAddress,
         });
       }
     },
