@@ -1,8 +1,4 @@
 /* eslint-disable no-console */
-// this can be easily replaced with an API call. this follows the pattern of i18 here:
-// https://react.i18next.com/getting-started
-// namely using a json file to store content in differnt languages
-// https://stackoverflow.com/questions/62225698/read-i18n-from-different-json-files-react-i18nnext
 import i18Content from './i18Content.json';
 
 const convertChildLinksToTargetLang = targetLang => {
@@ -25,6 +21,7 @@ const setLanguageToSpanish = e => {
   const targetLang = 'es';
   (e.target || e).dataset.lang = targetLang;
   (e.target || e).innerText = i18Content.en.linkTitle;
+  (e.target || e).href = i18Content.en.href;
   convertChildLinksToTargetLang(targetLang);
 };
 
@@ -32,11 +29,13 @@ const setLanguageToEnglish = e => {
   const targetLang = 'en';
   (e.target || e).dataset.lang = targetLang;
   (e.target || e).innerText = i18Content.es.linkTitle;
+  (e.target || e).href = i18Content.es.href;
   convertChildLinksToTargetLang(targetLang);
 };
 
 // when the user selects a different language
 const toggleLanguage = e => {
+  // TODO: set/unset href to spanish link.
   // when the prev language was en and we are now in spanish
   if (e.target.dataset.lang === 'en') {
     // go to the spanish node

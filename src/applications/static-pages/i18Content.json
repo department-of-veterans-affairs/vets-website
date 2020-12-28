@@ -1,4 +1,4 @@
 {
-  "en": { "linkTitle": "Read this page in English" },
-  "es": { "linkTitle": "Leer esta pagina en espanol" }
+  "en": { "linkTitle": "Read this page in English", "href": "blah" },
+  "es": { "linkTitle": "Leer esta pagina en espanol", "href": "spanish link" }
 }
