@@ -41,6 +41,16 @@ describe('Mobile', () => {
     });
   });
 
+  beforeEach(() => {
+    cy.route('GET', '/v0/maintenance_windows', []);
+    cy.route(
+      'GET',
+      '/v1/facilities/va?*',
+      'fx:constants/mock-facility-data-v1',
+    ).as('searchFacilities');
+    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
+  });
+
   it('should render in mobile layouts and tabs actions work', () => {
     cy.visit('/find-locations');
     cy.injectAxe();
