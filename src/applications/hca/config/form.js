@@ -411,6 +411,7 @@ const formConfig = {
               'ui:title':
                 'Is your home address the same as your mailing address?',
               'ui:widget': 'yesNo',
+              'ui:required': formData => formData.hasMultipleAddress,
               'ui:options': {
                 hideIf: formData => !formData.hasMultipleAddress,
               },
