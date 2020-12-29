@@ -35,24 +35,6 @@ const setLanguageToEnglish = e => {
   convertChildLinksToTargetLang(targetLang);
 };
 
-// when the user selects a different language
-const toggleLanguage = e => {
-  // TODO: set/unset href to spanish link.
-  // when the prev language was en and we are now in spanish
-  if (e.target.dataset.lang === 'en') {
-    // go to the spanish node
-    // history.pushState({}, null, 'preview?nodeId=3014');
-    // not sure if need to reload the page
-    // window.location.reload();
-    setLanguageToSpanish(e);
-  } else {
-    // go to the english node
-    // history.pushState({}, null, 'preview?nodeId=3015');
-    // window.location.reload();
-    setLanguageToEnglish(e);
-  }
-};
-
 const setLanguageAndParseChildLinks = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
@@ -83,7 +65,6 @@ const setLanguageAndParseChildLinks = () => {
     i18link.dataset.lang = 'es';
     setLanguageToSpanish(i18link);
   }
-  i18link.addEventListener('click', toggleLanguage);
 };
 
 window.addEventListener('popstate', setLanguageAndParseChildLinks);
