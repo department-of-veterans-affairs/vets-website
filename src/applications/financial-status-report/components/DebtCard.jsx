@@ -38,7 +38,7 @@ class DebtCard extends Component {
     });
     const isChecked = this.props.fsrDebts.includes(debtCardHeading);
     return (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 debt-card">
         <h3 className="vads-u-font-size--h4 vads-u-margin--0">
           {debtCardHeading}
         </h3>
