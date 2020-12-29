@@ -6,13 +6,15 @@ const VRECounselorNotification = () => {
   useEffect(() => {
     recordEvent({
       event: `howToWizard-alert-displayed`,
-      'reason-for-notice': 'ineligibility - eligible for chapter 31',
+      'reason-for-alert': 'ineligibility - eligible for chapter 31',
     });
   });
 
   const handleClick = () => {
     recordEvent({
       event: `howToWizard-alert-link-click`,
+      'howToWizard-alert-link-click-label':
+        'Contact a Vocational Rehabilitation Counselor',
     });
   };
   return (

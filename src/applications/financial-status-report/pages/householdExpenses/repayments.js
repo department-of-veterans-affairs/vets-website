@@ -39,17 +39,17 @@ export const uiSchema = {
         },
         originalDebtAmount: _.merge(currencyUI('Original debt amount'), {
           'ui:options': {
-            widgetClassNames: 'input-size-4',
+            widgetClassNames: 'input-size-5',
           },
         }),
         unpaidBalance: _.merge(currencyUI('Unpaid balance'), {
           'ui:options': {
-            widgetClassNames: 'input-size-4',
+            widgetClassNames: 'input-size-5',
           },
         }),
         monthlyPaymentAmount: _.merge(currencyUI('Monthly payment amount'), {
           'ui:options': {
-            widgetClassNames: 'input-size-4',
+            widgetClassNames: 'input-size-5',
           },
           'ui:required': () => true,
         }),
