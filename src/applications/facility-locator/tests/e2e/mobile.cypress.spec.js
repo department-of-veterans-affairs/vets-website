@@ -6,7 +6,7 @@ Cypress.Commands.add('checkSearch', () => {
   // Search
   cy.get('#street-city-state-zip', { timeout: 10000 })
     .should('not.be.disabled')
-    .type('Austin, TX');
+    .type('Austin, TX', { force: true });
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
 
