@@ -55,7 +55,7 @@ export const uiSchema = {
       startInEdit: false,
     },
 
-    livesOnMilitaryBase: {
+    livesOutsideUS: {
       'ui:title':
         'I live on a United States military base outside of the United States',
     },
@@ -81,7 +81,7 @@ export const uiSchema = {
         updateSchema: (formData, schema, uiSchemaCountry) => {
           const uiSchemaDisabled = uiSchemaCountry;
 
-          if (formData.mailingAddress.livesOnMilitaryBase) {
+          if (formData.mailingAddress.livesOutsideUS) {
             const formDataMailingAddress = formData.mailingAddress;
             formDataMailingAddress.country = 'United States';
             uiSchemaDisabled['ui:disabled'] = true;
@@ -120,7 +120,7 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'input-size-7',
         replaceSchema: formData => {
-          if (formData.mailingAddress.livesOnMilitaryBase === true) {
+          if (formData.mailingAddress.livesOutsideUS) {
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
@@ -146,10 +146,10 @@ export const uiSchema = {
       'ui:title': 'State',
       'ui:options': {
         classNames: 'input-size-7',
-        hideIf: formData => formData.mailingAddress.livesOnMilitaryBase,
+        hideIf: formData => formData.mailingAddress.livesOutsideUS,
         updateSchema: formData => {
           if (
-            formData.mailingAddress.livesOnMilitaryBase ||
+            formData.mailingAddress.livesOutsideUS ||
             MILITARY_CITY_CODES.includes(formData.mailingAddress.city)
           ) {
             return {
@@ -163,9 +163,7 @@ export const uiSchema = {
           };
         },
       },
-      'ui:required': formData =>
-        formData.mailingAddress.livesOnMilitaryBase ||
-        formData.mailingAddress.country === 'United States',
+      'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
       'ui:validations': [
         {
           options: { addressPath: 'mailingAddress' },
@@ -180,16 +178,14 @@ export const uiSchema = {
     zipCode: {
       'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
-      'ui:required': formData =>
-        formData.mailingAddress.livesOnMilitaryBase ||
-        formData.mailingAddress.country === 'United States',
+      'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
           'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
       'ui:options': {
-        hideIf: formData => formData.mailingAddress.livesOnMilitaryBase,
+        hideIf: formData => formData.mailingAddress.livesOutsideUS,
         classNames: 'input-size-2',
       },
     },
@@ -236,7 +232,7 @@ export const schema = {
       type: 'object',
       required: ['country', 'city', 'addressLine1'],
       properties: {
-        livesOnMilitaryBase: {
+        livesOutsideUS: {
           type: 'boolean',
         },
         livesOnMilitaryBaseInfo: {
