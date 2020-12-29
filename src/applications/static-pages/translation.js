@@ -17,18 +17,7 @@ const convertChildLinksToTargetLang = targetLang => {
   });
 };
 
-const setLanguageToSpanish = e => {
-  const currentLang = 'es';
-  const targetLang = 'en';
-  (e.target || e).dataset.lang = currentLang;
-  (e.target || e).innerText = i18Content[targetLang].linkTitle;
-  (e.target || e).href = i18Content[targetLang].langToggleLink;
-  convertChildLinksToTargetLang(targetLang);
-};
-
-const setLanguageToEnglish = e => {
-  const currentLang = 'en';
-  const targetLang = 'es';
+const setLang = (e, currentLang, targetLang) => {
   (e.target || e).dataset.lang = currentLang;
   (e.target || e).innerText = i18Content[targetLang].linkTitle;
   (e.target || e).href = i18Content[targetLang].langToggleLink;
@@ -57,9 +46,9 @@ const setLanguageAndParseChildLinks = () => {
   const i18link = document.querySelector('a.i18-toggle');
 
   if (!isSpanish) {
-    setLanguageToEnglish(i18link);
+    setLang(i18link, 'en', 'es');
   } else {
-    setLanguageToSpanish(i18link);
+    setLang(i18link, 'es', 'en');
   }
 };
 
