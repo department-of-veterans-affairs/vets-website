@@ -1,7 +1,8 @@
 import environment from 'platform/utilities/environment';
 import compact from 'lodash/compact';
-import { LocationType, FacilityType } from './constants';
+import { LocationType, FacilityType, MIN_RADIUS } from './constants';
 import manifest from './manifest.json';
+import { distBetween } from './utils/facilityDistance';
 
 // Base URL to be used in API requests.
 export const api = {
@@ -194,4 +195,17 @@ export const facilityTypesOptions = {
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',
+};
+
+export const radiusFromBoundingBox = fbox => {
+  let radius = distBetween(
+    fbox[0].bbox[1],
+    fbox[0].bbox[0],
+    fbox[0].bbox[3],
+    fbox[0].bbox[2],
+  );
+
+  if (radius < MIN_RADIUS) radius = MIN_RADIUS;
+
+  return radius;
 };

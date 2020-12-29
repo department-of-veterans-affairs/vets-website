@@ -24,6 +24,7 @@ import {
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween } from '../utils/facilityDistance';
+import { radiusFromBoundingBox } from '../config';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -277,12 +278,7 @@ export const genBBoxFromAddress = query => {
           ];
         }
 
-        const radius = distBetween(
-          features[0].bbox[1],
-          features[0].bbox[0],
-          features[0].bbox[3],
-          features[0].bbox[2],
-        );
+        const radius = radiusFromBoundingBox(features);
 
         dispatch({
           type: SEARCH_QUERY_UPDATED,
