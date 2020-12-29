@@ -24,6 +24,7 @@ export class SearchResults extends Component {
     page: PropTypes.number.isRequired,
     query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
+    allFormsTombstone: PropTypes.bool.isRequired,
     startIndex: PropTypes.number.isRequired,
     showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
     // From mapDispatchToProps.
@@ -63,6 +64,7 @@ export class SearchResults extends Component {
       page,
       query,
       results,
+      allFormsTombstone,
       showFindFormsResultsLinkToFormDetailPages,
       startIndex,
     } = this.props;
@@ -87,6 +89,19 @@ export class SearchResults extends Component {
     if (!results) {
       return null;
     }
+
+    // Show UX friendly message if all forms are tombstone/ deleted in the results returned.
+    if (allFormsTombstone)
+      return (
+        <h2
+          className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
+    vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-forms-focus
+        >
+          The form you're looking for has been retired or is no longer valid,
+          and has been removed from the VA forms database.
+        </h2>
+      );
 
     // Show no results found message.
     if (!results.length) {
@@ -169,6 +184,7 @@ const mapStateToProps = state => ({
   page: getFindFormsAppState(state).page,
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
+  allFormsTombstone: getFindFormsAppState(state).allFormsTombstone,
   startIndex: getFindFormsAppState(state).startIndex,
   showFindFormsResultsLinkToFormDetailPages: mvpEnhancements(state),
 });
