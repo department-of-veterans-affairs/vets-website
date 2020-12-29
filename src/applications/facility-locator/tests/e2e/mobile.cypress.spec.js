@@ -51,7 +51,7 @@ describe('Mobile', () => {
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
-  it('should render in mobile layouts and tabs actions work', () => {
+  it.skip('should render in mobile layouts and tabs actions work', () => {
     cy.visit('/find-locations');
     cy.injectAxe();
 
