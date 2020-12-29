@@ -1,46 +1,56 @@
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
+  spouseHasBenefits: {
+    'ui:title': 'Does your spouse currently receive VA benefits?',
+    'ui:widget': 'yesNo',
+    'ui:required': () => true,
+  },
   spouseBenefits: {
-    hasBenefits: {
-      'ui:title': 'Does your spouse currently receive VA benefits?',
-      'ui:widget': 'yesNo',
-      'ui:required': () => true,
+    'ui:options': {
+      expandUnder: 'spouseHasBenefits',
     },
-    benefitType: {
-      'ui:options': {
-        expandUnder: 'hasBenefits',
-      },
-      compBenefits: currencyUI(
+    compBenefits: _.merge(
+      currencyUI(
         'What is the monthly amount your spouse receives for compensation and pension benefits?',
       ),
-      eduBenefits: currencyUI(
+      {
+        'ui:options': {
+          widgetClassNames: 'input-size-4',
+        },
+        'ui:required': formData => formData.spouseHasBenefits,
+      },
+    ),
+    eduBenefits: _.merge(
+      currencyUI(
         'What is the monthly amount your spouse receives for education benefits?',
       ),
-    },
+      {
+        'ui:options': {
+          widgetClassNames: 'input-size-4',
+        },
+        'ui:required': formData => formData.spouseHasBenefits,
+      },
+    ),
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
+    spouseHasBenefits: {
+      type: 'boolean',
+    },
     spouseBenefits: {
       type: 'object',
       properties: {
-        hasBenefits: {
-          type: 'boolean',
+        compBenefits: {
+          type: 'number',
         },
-        benefitType: {
-          type: 'object',
-          properties: {
-            compBenefits: {
-              type: 'number',
-            },
-            eduBenefits: {
-              type: 'number',
-            },
-          },
+        eduBenefits: {
+          type: 'number',
         },
       },
     },
