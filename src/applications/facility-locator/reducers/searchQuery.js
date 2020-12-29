@@ -100,7 +100,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         searchBoundsInProgress: false,
       };
     case SEARCH_QUERY_UPDATED:
-      // TODO - add unit tests!
       newState = {
         ...state,
         ...action.payload,

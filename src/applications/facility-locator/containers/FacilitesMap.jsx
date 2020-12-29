@@ -46,7 +46,7 @@ import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../utils/SearchAreaControl';
 import recordEvent from 'platform/monitoring/record-event';
 
-let currentZoom = 3;
+let lastZoom = 3;
 let searchAreaSet = false;
 
 const mapboxGlContainer = 'mapbox-gl-container';
@@ -170,7 +170,7 @@ const FacilitiesMap = props => {
   const handleSearch = async () => {
     resetMapElements();
     const { currentQuery } = props;
-    currentZoom = null;
+    lastZoom = null;
 
     updateUrlParams({
       address: currentQuery.searchString,
@@ -192,7 +192,7 @@ const FacilitiesMap = props => {
   const handleSearchArea = () => {
     resetMapElements();
     const { currentQuery } = props;
-    currentZoom = null;
+    lastZoom = null;
     const center = map.getCenter().wrap();
     const bounds = map.getBounds();
     recordEvent({
@@ -273,12 +273,13 @@ const FacilitiesMap = props => {
       // Note: DO NOT call props.mapMoved() here
       // because zoomend is triggered by fitBounds.
 
-      // TODO Move zoom level check into activateSearchAreaControl?
-      if (currentZoom && parseInt(currentZoom, 10) > 3) {
-        recordZoomEvent(currentZoom, parseInt(map.getZoom(), 10));
+      const currentZoom = parseInt(map.getZoom(), 10);
+
+      if (lastZoom && parseInt(lastZoom, 10) > 3) {
+        recordZoomEvent(lastZoom, currentZoom);
       }
-      // TODO: why do we need currentZoom?
-      currentZoom = parseInt(map.getZoom(), 10);
+
+      lastZoom = currentZoom;
     });
   };
 
@@ -469,7 +470,6 @@ const FacilitiesMap = props => {
     );
   };
 
-  // TODO - move to helper
   const genLocationFromCoords = position => {
     mbxClient
       .reverseGeocode({
