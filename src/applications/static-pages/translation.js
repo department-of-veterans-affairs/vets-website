@@ -18,20 +18,20 @@ const convertChildLinksToTargetLang = targetLang => {
 };
 
 const setLanguageToSpanish = e => {
-  const targetLang = 'es';
-  (e.target || e).dataset.lang = targetLang;
-  (e.target || e).innerText = i18Content.en.linkTitle;
-  // remove the -esp suffix from the link
-  (e.target || e).href = i18Content.en.href;
+  const currentLang = 'es';
+  const targetLang = 'en';
+  (e.target || e).dataset.lang = currentLang;
+  (e.target || e).innerText = i18Content[targetLang].linkTitle;
+  (e.target || e).href = i18Content[targetLang].langToggleLink;
   convertChildLinksToTargetLang(targetLang);
 };
 
 const setLanguageToEnglish = e => {
-  const targetLang = 'en';
-  (e.target || e).dataset.lang = targetLang;
-  (e.target || e).innerText = i18Content.es.linkTitle;
-  // add the -esp suffix from the link
-  (e.target || e).href = i18Content.es.href;
+  const currentLang = 'en';
+  const targetLang = 'es';
+  (e.target || e).dataset.lang = currentLang;
+  (e.target || e).innerText = i18Content[targetLang].linkTitle;
+  (e.target || e).href = i18Content[targetLang].langToggleLink;
   convertChildLinksToTargetLang(targetLang);
 };
 
@@ -57,12 +57,8 @@ const setLanguageAndParseChildLinks = () => {
   const i18link = document.querySelector('a.i18-toggle');
 
   if (!isSpanish) {
-    i18link.innerText = i18Content.es.linkTitle;
-    i18link.dataset.lang = 'en';
     setLanguageToEnglish(i18link);
   } else {
-    i18link.innerText = i18Content.en.linkTitle;
-    i18link.dataset.lang = 'es';
     setLanguageToSpanish(i18link);
   }
 };

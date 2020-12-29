@@ -1,4 +1,4 @@
 {
-  "en": { "linkTitle": "Read this page in English", "href": "coronavirus-veteran-frequently-asked-questions" },
-  "es": { "linkTitle": "Leer esta página en español", "href": "coronavirus-veteran-frequently-asked-questions-esp" }
+  "en": { "linkTitle": "Read this page in English", "langToggleLink": "coronavirus-veteran-frequently-asked-questions" },
+  "es": { "linkTitle": "Leer esta página en español", "langToggleLink": "coronavirus-veteran-frequently-asked-questions-esp" }
 }
