@@ -29,7 +29,6 @@ export const uiSchema = {
     classNames: 'contact-info',
   },
   mailingAddress: {
-    'ui:title': 'Edit mailing address',
     'ui:subtitle': (
       <>
         <p>
@@ -39,7 +38,10 @@ export const uiSchema = {
         <p>
           To update your address for all of your VA accounts, you’ll need to go
           to your profile page.{' '}
-          <a href="https://va.gov/profile">
+          <a
+            className="vads-u-text-decoration--none"
+            href="https://va.gov/profile"
+          >
             View the address that's on file in your profile.
           </a>
         </p>
@@ -47,12 +49,11 @@ export const uiSchema = {
     ),
 
     // TODO: startInEdit
-    // - find a way to render ContactInfoCard on mount
-    // - onClick edit mailing address should open ReviewCardField
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: ContactInfoCard,
       startInEdit: false,
+      editTitle: 'Edit mailing address',
     },
 
     livesOutsideUS: {
