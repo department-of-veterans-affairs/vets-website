@@ -4,7 +4,9 @@ Cypress.Commands.add('checkSearch', () => {
   cy.axeCheck();
 
   // Search
-  cy.get('#street-city-state-zip').type('Austin, TX');
+  cy.get('#street-city-state-zip', { timeout: 10000 })
+    .should('not.be.disabled')
+    .type('Austin, TX');
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
 
@@ -51,7 +53,7 @@ describe('Mobile', () => {
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
-  it.skip('should render in mobile layouts and tabs actions work', () => {
+  it('should render in mobile layouts and tabs actions work', () => {
     cy.visit('/find-locations');
     cy.injectAxe();
 
