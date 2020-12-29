@@ -23,8 +23,7 @@ import {
 } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import { distBetween } from '../utils/facilityDistance';
-import { radiusFromBoundingBox } from '../config';
+import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
