@@ -7,10 +7,9 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 const countryEnum = fullSchema.definitions.country.enum;
 
 import {
-  USA,
   MILITARY_STATE_LABELS,
-  MILITARY_STATE_VALUES,
-  MILITARY_CITIES,
+  MILITARY_STATE_CODES,
+  MILITARY_CITY_CODES,
   STATE_LABELS,
   STATE_VALUES,
 } from '../../constants';
@@ -46,16 +45,13 @@ export const uiSchema = {
       </>
     ),
 
-    // TODO: find a way to toggle these 2 ui fields
-
-    // 'ui:field': ContactInfoCard,
-    // 'ui:options': {
-    //   viewComponent: ReviewCardField,
-    // },
-
+    // TODO: startInEdit
+    // - find a way to render ContactInfoCard on mount
+    // - onClick edit mailing address should open ReviewCardField
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: ContactInfoCard,
+      startInEdit: false,
     },
 
     livesOnMilitaryBase: {
@@ -86,11 +82,11 @@ export const uiSchema = {
 
           if (formData.mailingAddress.livesOnMilitaryBase) {
             const formDataMailingAddress = formData.mailingAddress;
-            formDataMailingAddress.country = USA;
+            formDataMailingAddress.country = 'USA';
             uiSchemaDisabled['ui:disabled'] = true;
 
             return {
-              enum: [USA],
+              enum: ['USA'],
             };
           }
           uiSchemaDisabled['ui:disabled'] = false;
@@ -127,7 +123,7 @@ export const uiSchema = {
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
-              enum: MILITARY_CITIES,
+              enum: MILITARY_CITY_CODES,
             };
           }
           return {
@@ -153,10 +149,10 @@ export const uiSchema = {
         updateSchema: formData => {
           if (
             formData.mailingAddress.livesOnMilitaryBase ||
-            MILITARY_CITIES.includes(formData.mailingAddress.city)
+            MILITARY_CITY_CODES.includes(formData.mailingAddress.city)
           ) {
             return {
-              enum: MILITARY_STATE_VALUES,
+              enum: MILITARY_STATE_CODES,
               enumNames: MILITARY_STATE_LABELS,
             };
           }
@@ -168,7 +164,7 @@ export const uiSchema = {
       },
       'ui:required': formData =>
         formData.mailingAddress.livesOnMilitaryBase ||
-        formData.mailingAddress.country === USA,
+        formData.mailingAddress.country === 'USA',
       'ui:validations': [
         {
           options: { addressPath: 'mailingAddress' },
@@ -185,7 +181,7 @@ export const uiSchema = {
       'ui:validations': [validateZIP],
       'ui:required': formData =>
         formData.mailingAddress.livesOnMilitaryBase ||
-        formData.mailingAddress.country === USA,
+        formData.mailingAddress.country === 'USA',
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
