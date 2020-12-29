@@ -74,7 +74,7 @@
   background-color: $color-gray-lightest;
   border: 1px solid $color-gray-medium;
   border-radius: 5px;
-  padding: 12px;
+  padding: 5px;
   margin: 0;
 
   &:hover {
@@ -102,7 +102,7 @@
 }
 
 .vaos-calendar__nav h2 {
-  min-width: 245px;
+  white-space: nowrap;
 }
 
 .vaos-calendar__nav-links-button {
