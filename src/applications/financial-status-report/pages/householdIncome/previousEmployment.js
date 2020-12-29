@@ -3,7 +3,7 @@ import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your employment history',
-  previousEmploymentHistory: {
+  employment: {
     hasPreviousEmployment: {
       'ui:title': 'Have you had additional jobs in the past two years?',
       'ui:widget': 'yesNo',
@@ -23,17 +23,29 @@ export const uiSchema = {
       items: {
         previousEmploymentType: {
           'ui:title': 'Type of employment',
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
+          'ui:required': formData =>
+            formData.employment.hasPreviousEmployment === true,
         },
         previousEmploymentStart: {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
+          'ui:required': formData =>
+            formData.employment.hasPreviousEmployment === true,
         },
         previousEmploymentEnd: {
           'ui:title': 'Employment end date',
           'ui:widget': 'date',
+          'ui:required': formData =>
+            formData.employment.hasPreviousEmployment === true,
         },
         previousEmployerName: {
           'ui:title': 'Employer name',
+          'ui:options': {
+            widgetClassNames: 'input-size-6',
+          },
         },
       },
     },
@@ -42,7 +54,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    previousEmploymentHistory: {
+    employment: {
       type: 'object',
       properties: {
         hasPreviousEmployment: {
@@ -52,10 +64,15 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
+            required: [
+              'previousEmploymentType',
+              'previousEmploymentStart',
+              'previousEmploymentEnd',
+            ],
             properties: {
               previousEmploymentType: {
                 type: 'string',
-                enum: ['Full-time', 'Part-time', 'Seasonal'],
+                enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
               },
               previousEmploymentStart: {
                 type: 'string',

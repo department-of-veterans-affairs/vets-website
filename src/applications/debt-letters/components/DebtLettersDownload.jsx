@@ -65,7 +65,7 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
         {!isVBMSError &&
           debtLinks.length > 0 && (
             <>
-              <h3 className="vads-u-margin-bottom--0">Your debt letters</h3>
+              <h2 className="vads-u-margin-bottom--0">Your debt letters</h2>
               <DebtLettersTable debtLinks={debtLinks} />
               <MobileTableView debtLinks={debtLinks} />
             </>

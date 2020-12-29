@@ -38,8 +38,8 @@ export class ConfirmationPage extends React.Component {
         </h2>
         <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Personalized Career planning and guidance application{' '}
-            <span className="additional">(Form 28-8832)</span>
+            Personalized Career Planning and Guidance application{' '}
+            <span className="additional">(VA Form 28-8832)</span>
           </h3>
           {name.first &&
             name.last && (
@@ -69,11 +69,6 @@ export class ConfirmationPage extends React.Component {
           If you're eligible for career planning and guidance benefits, we'll
           invite you to an orientation session at your nearest VA regional
           office.
-        </p>
-        <h3>How long will it take VA to process my application?</h3>
-        <p>
-          We usually decide on applications within 1 week. If we need you to
-          provide more information or documents, we’ll contact you by mail.
         </p>
         <p>
           If we haven’t contacted you within a week after you submitted your

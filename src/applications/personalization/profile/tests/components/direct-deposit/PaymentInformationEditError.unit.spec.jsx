@@ -2,9 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import PaymentInformationEditModalError from '@@profile/components/direct-deposit/PaymentInformationEditModalError';
+import PaymentInformationEditError from '@@profile/components/direct-deposit/PaymentInformationEditError';
 
-describe('<PaymentInformationEditModalError />', () => {
+describe('<PaymentInformationEditError />', () => {
   const checksumError = {
     errors: [
       {
@@ -206,9 +206,7 @@ describe('<PaymentInformationEditModalError />', () => {
 
   it('renders', () => {
     const wrapper = shallow(
-      <PaymentInformationEditModalError
-        responseError={{ error: genericError }}
-      />,
+      <PaymentInformationEditError responseError={{ error: genericError }} />,
     );
     expect(wrapper.html()).to.not.be.empty;
     wrapper.unmount();
@@ -216,9 +214,7 @@ describe('<PaymentInformationEditModalError />', () => {
 
   it('renders the default error when it gets an unrecognized error message', () => {
     const wrapper = shallow(
-      <PaymentInformationEditModalError
-        responseError={{ error: genericError }}
-      />,
+      <PaymentInformationEditError responseError={{ error: genericError }} />,
     );
     expect(wrapper.html()).to.contain(
       'We’re sorry. We couldn’t update your payment information. Please try again later.',
@@ -228,9 +224,7 @@ describe('<PaymentInformationEditModalError />', () => {
 
   it('renders the invalid routing number error', () => {
     let wrapper = shallow(
-      <PaymentInformationEditModalError
-        responseError={{ error: checksumError }}
-      />,
+      <PaymentInformationEditError responseError={{ error: checksumError }} />,
     );
     expect(wrapper.html()).to.contain(
       'We couldn’t find a bank linked to this routing number. Please check your bank’s 9-digit routing number and enter it again.',
@@ -238,7 +232,7 @@ describe('<PaymentInformationEditModalError />', () => {
     wrapper.unmount();
 
     wrapper = shallow(
-      <PaymentInformationEditModalError
+      <PaymentInformationEditError
         responseError={{ error: invalidRoutingNumberError }}
       />,
     );
@@ -250,7 +244,7 @@ describe('<PaymentInformationEditModalError />', () => {
 
   it('renders the flagged/locked account error', () => {
     let wrapper = shallow(
-      <PaymentInformationEditModalError
+      <PaymentInformationEditError
         responseError={{ error: accountFlaggedError }}
       />,
     );
@@ -260,7 +254,7 @@ describe('<PaymentInformationEditModalError />', () => {
     wrapper.unmount();
 
     wrapper = shallow(
-      <PaymentInformationEditModalError
+      <PaymentInformationEditError
         responseError={{ error: restrictionIndicatorsPresentError }}
       />,
     );
@@ -272,7 +266,7 @@ describe('<PaymentInformationEditModalError />', () => {
 
   it('renders the flagged routing number error', () => {
     const wrapper = shallow(
-      <PaymentInformationEditModalError
+      <PaymentInformationEditError
         responseError={{ error: routingNumberFlaggedError }}
       />,
     );
@@ -284,41 +278,41 @@ describe('<PaymentInformationEditModalError />', () => {
 
   it('renders an error message prompting the user to update their address', () => {
     const wrapper = shallow(
-      <PaymentInformationEditModalError
+      <PaymentInformationEditError
         responseError={{ error: badAddressError }}
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid. Please go back to <a href="/profile/personal-information">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });
 
   it('renders the bad phone number error messages', () => {
     let wrapper = shallow(
-      <PaymentInformationEditModalError
+      <PaymentInformationEditError
         responseError={{ error: badWorkPhoneNumberError }}
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your work phone number is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your work phone number is missing or invalid. Please go back to <a href="/profile/personal-information">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
 
     wrapper = shallow(
-      <PaymentInformationEditModalError
+      <PaymentInformationEditError
         responseError={{ error: badHomeAreaCodeError }}
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your home phone number is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your home phone number is missing or invalid. Please go back to <a href="/profile/personal-information">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });
 
   it('renders the default error when an upstream error occurs', () => {
     const wrapper = shallow(
-      <PaymentInformationEditModalError responseError={upstreamError} />,
+      <PaymentInformationEditError responseError={upstreamError} />,
     );
     expect(wrapper.html()).to.contain(
       'We’re sorry. We couldn’t update your payment information. Please try again later.',
