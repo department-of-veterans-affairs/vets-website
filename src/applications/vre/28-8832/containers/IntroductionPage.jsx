@@ -8,6 +8,7 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { getEligiblePages } from 'platform/forms-system/src/js/routing';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   CHAPTER_31_ROOT_URL,
   WIZARD_STATUS,
@@ -104,6 +105,9 @@ class IntroductionPage extends React.Component {
             <a
               href={`${PCPG_ROOT_URL}/introduction`}
               onClick={() => {
+                recordEvent({
+                  event: 'howToWizard-start-over',
+                });
                 sessionStorage.removeItem(WIZARD_STATUS);
               }}
             >

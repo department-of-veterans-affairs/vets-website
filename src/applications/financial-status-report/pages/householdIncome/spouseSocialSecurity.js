@@ -1,4 +1,5 @@
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -13,8 +14,17 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'hasSocialSecurity',
       },
-      socialSecurityAmount: currencyUI(
-        'How much does your spouse receive for Social Security each month?',
+      socialSecurityAmount: _.merge(
+        currencyUI(
+          'How much does your spouse receive for Social Security each month?',
+        ),
+        {
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
+          'ui:required': formData =>
+            formData.spouseSocialSecurity.hasSocialSecurity,
+        },
       ),
     },
   },

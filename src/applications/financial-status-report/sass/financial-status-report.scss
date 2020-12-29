@@ -30,7 +30,7 @@
     margin-top: 30px;
   }
   .item-loop {
-    padding: 0 25px 15px 25px;
+    padding: 5px 20px 20px;
     background-color: #f1f1f1;
     .schemaform-field-container {
       display: flex;
@@ -39,16 +39,18 @@
         width: 100%;
       }
       fieldset.schemaform-field-template {
+        margin-top: 5px;
+      }
+      .schemaform-label {
         margin-top: 0;
       }
-      .schemaform-field-template {
-        padding: 0 20px 10px 0;
-        width: 100%;
-        label {
-          margin-top: 0;
-        }
-      }
     }
+    .usa-button-secondary {
+      background: #fff;
+    }
+  }
+  .edit-item-container {
+    margin: 5px 0;
     .usa-button-secondary {
       background: #fff;
     }
@@ -66,17 +68,24 @@
       }
     }
   }
+  .card-details-view {
+    padding: 10px 30px;
+    .card-title {
+      margin: 15px 0;
+    }
+  }
 }
 
 // date-widget
 .usa-date-of-birth {
-  padding-top: 15px;
+  padding: 10px 0;
 }
 
 .input-size-1 {
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -84,6 +93,7 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -91,6 +101,7 @@
   @include media($medium-screen) {
     width: 192px;
     max-width: 192px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -98,6 +109,7 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -105,6 +117,7 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -112,6 +125,7 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -119,5 +133,6 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
+    margin: 5px 10px 20px 0;
   }
 }

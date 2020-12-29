@@ -13,6 +13,7 @@ import {
   GEOCODE_STARTED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
+  MAP_MOVED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
 import {
@@ -39,6 +40,10 @@ export const updateSearchQuery = query => ({
 
 export const clearSearchResults = () => ({
   type: CLEAR_SEARCH_RESULTS,
+});
+
+export const mapMoved = () => ({
+  type: MAP_MOVED,
 });
 
 /**

@@ -21,6 +21,10 @@ export const uiSchema = {
     items: {
       dependentAge: {
         'ui:title': 'Dependent’s age',
+        'ui:options': {
+          widgetClassNames: 'input-size-3',
+        },
+        'ui:required': formData => formData.dependents,
       },
     },
   },
@@ -36,6 +40,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        required: ['dependentAge'],
         properties: {
           dependentAge: {
             type: 'string',
