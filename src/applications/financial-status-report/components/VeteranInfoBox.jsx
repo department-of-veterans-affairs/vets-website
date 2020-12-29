@@ -27,7 +27,7 @@ const VeteranInfoBox = ({
           <p className="vads-u-margin--1px">
             Last 4 of Social Security number: {ssnLastFour}
           </p>
-          <p className="vads-u-margin--1px">File number: {vaFileNumber}</p>
+          <p className="vads-u-margin--1px">VA File number: {vaFileNumber}</p>
           <p className="vads-u-margin--1px">
             Date of birth: {moment(dateOfBirth).format('DD/MM/YYYY')}
           </p>

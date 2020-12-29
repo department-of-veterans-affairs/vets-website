@@ -7,7 +7,7 @@ const ApplyLaterNotification = () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     recordEvent({
       event: `howToWizard-alert-displayed`,
-      'reason-for-notice': 'chose not to apply now',
+      'reason-for-alert': 'chose not to apply now',
     });
   });
 
