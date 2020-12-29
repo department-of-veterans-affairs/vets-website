@@ -25,7 +25,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_career_counseling_claims`,
-  trackingPrefix: '28-8832-planning-and-career-guidance-',
+  trackingPrefix: 'careers-employment-28-8832--',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
