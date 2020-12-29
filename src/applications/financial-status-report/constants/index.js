@@ -1,7 +1,9 @@
-import { pciuStates as PCIU_STATES } from 'vets-json-schema/dist/constants.json';
+import { pciuStates, countries } from 'vets-json-schema/dist/constants.json';
 
-export const STATE_LABELS = PCIU_STATES.map(state => state.label);
-export const STATE_VALUES = PCIU_STATES.map(state => state.value);
+export const COUNTRY_CODES = countries.map(country => country.label);
+
+export const STATE_LABELS = pciuStates.map(state => state.label);
+export const STATE_VALUES = pciuStates.map(state => state.value);
 
 export const MILITARY_CITY_CODES = ['APO', 'DPO', 'FPO'];
 export const MILITARY_STATE_CODES = ['AA', 'AE', 'AP'];

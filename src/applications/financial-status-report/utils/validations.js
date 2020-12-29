@@ -1,5 +1,5 @@
 import _ from 'platform/utilities/data';
-import { MILITARY_CITY_CODES, MILITARY_STATE_CODES } from './constants';
+import { MILITARY_CITY_CODES, MILITARY_STATE_CODES } from '../constants';
 
 export const pathWithIndex = (path, index) => path.replace(':index', index);
 

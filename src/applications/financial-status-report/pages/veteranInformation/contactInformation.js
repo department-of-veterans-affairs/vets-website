@@ -2,11 +2,9 @@ import React from 'react';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import ContactInfoCard from '../../components/ContactInfoCard';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-
-const countryEnum = fullSchema.definitions.country.enum;
 
 import {
+  COUNTRY_CODES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_CODES,
   MILITARY_CITY_CODES,
@@ -18,7 +16,7 @@ import {
   validateMilitaryCity,
   validateMilitaryState,
   validateZIP,
-} from '../../validations';
+} from '../../utils/validations';
 
 export const uiSchema = {
   'ui:title': 'Contact information',
@@ -82,16 +80,16 @@ export const uiSchema = {
 
           if (formData.mailingAddress.livesOnMilitaryBase) {
             const formDataMailingAddress = formData.mailingAddress;
-            formDataMailingAddress.country = 'USA';
+            formDataMailingAddress.country = 'United States';
             uiSchemaDisabled['ui:disabled'] = true;
 
             return {
-              enum: ['USA'],
+              enum: ['United States'],
             };
           }
           uiSchemaDisabled['ui:disabled'] = false;
           return {
-            enum: countryEnum,
+            enum: COUNTRY_CODES,
           };
         },
       },
@@ -164,7 +162,7 @@ export const uiSchema = {
       },
       'ui:required': formData =>
         formData.mailingAddress.livesOnMilitaryBase ||
-        formData.mailingAddress.country === 'USA',
+        formData.mailingAddress.country === 'United States',
       'ui:validations': [
         {
           options: { addressPath: 'mailingAddress' },
@@ -181,7 +179,7 @@ export const uiSchema = {
       'ui:validations': [validateZIP],
       'ui:required': formData =>
         formData.mailingAddress.livesOnMilitaryBase ||
-        formData.mailingAddress.country === 'USA',
+        formData.mailingAddress.country === 'United States',
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
