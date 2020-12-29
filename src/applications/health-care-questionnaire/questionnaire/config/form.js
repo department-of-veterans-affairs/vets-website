@@ -14,6 +14,7 @@ import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
+import { submitForm, transformForSubmit } from './submitForm';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -22,12 +23,9 @@ const formConfig = {
   trackingPrefix: 'health-care-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  submit: form => {
-    // just for MVP until we have an API set up
-    return new Promise((resolve, _reject) => {
-      resolve(form.data);
-    });
-  },
+  submit: submitForm,
+  transformForSubmit,
+  errorText: 'it brrrroke....NEED CONTENT',
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     resumeOnly: true,
