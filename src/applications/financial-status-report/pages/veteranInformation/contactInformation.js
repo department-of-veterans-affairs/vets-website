@@ -2,8 +2,11 @@ import React from 'react';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import ContactInfoCard from '../../components/ContactInfoCard';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import {
+  SCHEMA_DEFINITIONS,
   COUNTRY_CODES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_CODES,
@@ -191,9 +194,38 @@ export const uiSchema = {
       },
     },
   },
-  'view:contactInfoDescription': {
+  contactInfo: {
     'ui:description':
       "We'll contact you about your request with the phone number and email address below.",
+    phoneNumber: {
+      ...phoneUI('Phone number'),
+      'ui:options': {
+        classNames: 'input-size-7',
+      },
+    },
+    primaryEmail: {
+      ...emailUI('Email address'),
+      'ui:options': {
+        classNames: 'input-size-7',
+      },
+    },
+    confirmationEmail: {
+      ...emailUI('Re-enter email address'),
+      'ui:options': {
+        classNames: 'input-size-7',
+        hideOnReview: true,
+      },
+      'ui:validations': [
+        {
+          validator: (errors, fieldData, formData) => {
+            const { primaryEmail, confirmationEmail } = formData.contactInfo;
+            if (primaryEmail !== confirmationEmail) {
+              errors.addError('Email does not match');
+            }
+          },
+        },
+      ],
+    },
   },
 };
 
@@ -214,33 +246,22 @@ export const schema = {
         country: {
           type: 'string',
         },
-        addressLine1: {
-          type: 'string',
-          maxLength: 20,
-          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
-        },
-        addressLine2: {
-          type: 'string',
-          maxLength: 20,
-          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
-        },
-        city: {
-          type: 'string',
-          maxLength: 30,
-          pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
-        },
+        addressLine1: SCHEMA_DEFINITIONS.address,
+        addressLine2: SCHEMA_DEFINITIONS.address,
+        city: SCHEMA_DEFINITIONS.city,
         state: {
           type: 'string',
         },
-        zipCode: {
-          type: 'string',
-          pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
-        },
+        zipCode: SCHEMA_DEFINITIONS.zipCode,
       },
     },
-    'view:contactInfoDescription': {
+    contactInfo: {
       type: 'object',
-      properties: {},
+      properties: {
+        phoneNumber: SCHEMA_DEFINITIONS.phone,
+        primaryEmail: SCHEMA_DEFINITIONS.email,
+        confirmationEmail: SCHEMA_DEFINITIONS.email,
+      },
     },
   },
 };
