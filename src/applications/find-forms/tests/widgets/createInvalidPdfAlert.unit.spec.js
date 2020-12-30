@@ -69,7 +69,7 @@ describe('createInvalidPdfAlert', () => {
   });
 
   it('does not show an alert banner for valid forms', async () => {
-    const link2 = {
+    const link = {
       click: sinon.stub(),
       removeEventListener: sinon.stub(),
       href: 'https://www.va.gov/vaforms/medical/pdf/10-10EZ-fillable.pdf',
@@ -79,15 +79,15 @@ describe('createInvalidPdfAlert', () => {
       remove: sinon.stub(),
     };
 
-    const event2 = {
-      target: link2,
+    const event = {
+      target: link,
       preventDefault: sinon.stub(),
     };
 
-    await onDownloadLinkClick(event2);
+    await onDownloadLinkClick(event);
 
-    expect(link2.remove.called).to.be.false;
-    expect(link2.removeEventListener.called).to.be.true;
-    expect(link2.click.called).to.be.true;
+    expect(link.remove.called).to.be.false;
+    expect(link.removeEventListener.called).to.be.true;
+    expect(link.click.called).to.be.true;
   });
 });
