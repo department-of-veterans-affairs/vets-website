@@ -1,13 +1,14 @@
+// Node modules.
 import PropTypes from 'prop-types';
-import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
-
-import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
-import { hasSession } from 'platform/user/profile/utilities';
+import React, { Component } from 'react';
+// Relative imports.
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
+import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
+import recordEvent from 'platform/monitoring/record-event';
+import { hasSession } from 'platform/user/profile/utilities';
 
-class SearchHelpSignIn extends React.Component {
+class SearchHelpSignIn extends Component {
   handleSignInSignUp = e => {
     e.preventDefault();
     this.props.onSignInSignUp();
@@ -53,9 +54,9 @@ class SearchHelpSignIn extends React.Component {
         )}
         {isSubdomain && (
           <a
-            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
             className="usa-button sign-in-link"
             href={`https://www.va.gov/my-va`}
+            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           >
             Sign in
           </a>
@@ -68,12 +69,13 @@ class SearchHelpSignIn extends React.Component {
     return (
       <div className="profile-nav">
         <SearchMenu
-          isOpen={this.props.isMenuOpen.search}
           clickHandler={this.handleSearchMenuClick}
+          isOpen={this.props.isMenuOpen.search}
         />
         <a
           className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-top--0p5 vads-u-padding-x--1"
           href="tel:+18006982411"
+          onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           style={{ fontWeight: '600' }}
         >
           Contact us
