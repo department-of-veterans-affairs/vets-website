@@ -17,6 +17,9 @@ import i18Content from './i18Content.json';
 // };
 
 const setLang = (e, currentLang, targetLang) => {
+  // accessibility
+  const contentDiv = document.getElementById('content');
+  contentDiv.lang = currentLang;
   (e.target || e).dataset.lang = currentLang;
   (e.target || e).innerText = i18Content[targetLang].linkTitle;
   (e.target || e).href = i18Content[targetLang].langToggleLink;
