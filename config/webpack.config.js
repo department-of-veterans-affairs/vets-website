@@ -408,7 +408,7 @@ module.exports = env => {
       }),
     );
 
-    // Open the browser to either --env.openTo or one of the root URLs of the
+    // Open the browser to either --env openTo or one of the root URLs of the
     // apps we're scaffolding
     baseConfig.devServer.open = true;
     baseConfig.devServer.openPage =

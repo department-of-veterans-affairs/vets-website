@@ -10,8 +10,8 @@ buildtype="localhost"
 # Save the arguments to this script for later; they get drained in the following for loop
 args="$*"
 
-# Prepend env. to all args so they get passed to the Webpack config
-webpackArgs=$(echo "${args}" | sed -E 's/--([^ =]+)/--env.\1/g')
+# Prepend "--env" to all args so they get passed to the Webpack config
+webpackArgs=$(echo "${args}" | sed -E 's/--([^ =]+)/--env \1/g')
 
 # Get options
 for o in "$@"; do

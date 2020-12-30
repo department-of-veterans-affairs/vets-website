@@ -11,14 +11,14 @@
     "build:content": "node --max-old-space-size=8192 script/build-content.js",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js",
-    "build:webpack:prod": "NODE_ENV=production yarn build:webpack --env.buildtype vagovprod",
-    "build:webpack:staging": "yarn build:webpack --env.buildtype vagovstaging",
-    "build:webpack:dev": "yarn build:webpack --env.buildtype vagovdev",
-    "build:webpack:local": "yarn build:webpack --env.buildtype localhost",
+    "build:webpack:prod": "NODE_ENV=production yarn build:webpack --env buildtype=vagovprod",
+    "build:webpack:staging": "yarn build:webpack --env buildtype=vagovstaging",
+    "build:webpack:dev": "yarn build:webpack --env buildtype=vagovdev",
+    "build:webpack:local": "yarn build:webpack --env buildtype=localhost",
     "cms:compare": "./script/cms/compare.sh",
     "cms:diff": "./script/cms/diff.sh",
     "cms:find-node": "./script/cms/find_node.sh",
-    "debug:webpack:prod": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env.buildtype vagovprod",
+    "debug:webpack:prod": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env buildtype=vagovprod",
     "cy:open": "cypress open --config-file config/cypress.json",
     "cy:run": "cypress run --config-file config/cypress.json",
     "cy:test:circle": "./script/run-cypress-tests-circle.sh",
@@ -85,7 +85,7 @@
     "watch:content": "node --max-old-space-size=8192 script/build-content.js --watch",
     "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build-content.js --watch --local-css-sourcemaps",
     "watch:review": "node ./script/run-review-instance-api.js",
-    "watch:static": "concurrently -n metalsmith,webpack \"npm:watch:content\" \"npm run watch -- --env.entry=static-pages --progress=false\""
+    "watch:static": "concurrently -n metalsmith,webpack \"npm:watch:content\" \"npm run watch -- --env entry=static-pages --progress=false\""
   },
   "repository": {
     "type": "git",

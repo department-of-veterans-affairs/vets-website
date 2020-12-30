@@ -219,7 +219,7 @@ jobs:
             - ~/.cache/Cypress
       - run:
           name: Build apps
-          command: yarn build:webpack --env.buildtype vagovprod --env.scaffold
+          command: yarn build:webpack --env buildtype=vagovprod --env scaffold
           no_output_timeout: 15m
       - persist_to_workspace:
           root: ~/
