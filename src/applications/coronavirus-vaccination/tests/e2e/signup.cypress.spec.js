@@ -71,6 +71,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       );
       cy.get('#root_vaccineInterest_0').check();
 
+      cy.axeCheck();
       cy.route('POST', '**/covid_vaccine/v0/registration', {
         status: 200,
       }).as('response');
