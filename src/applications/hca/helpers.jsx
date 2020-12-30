@@ -88,8 +88,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
     }
   }
 
-  console.log('submitData', JSON.stringify(newData, null, 2));
-
   return {
     metadata,
     formData: newData,
