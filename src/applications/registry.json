@@ -957,6 +957,7 @@
       "title": "COVID-19 vaccines — Stay informed and help us prepare",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
+      "description": "We’re working to get COVID-19 vaccines to Veterans as quickly and safely as possible based on CDC guidelines and available supply. Stay informed and help us prepare.",
       "breadcrumbs_override": [
         {
           "path": "health-care/",
