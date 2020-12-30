@@ -1,12 +1,14 @@
 import path from 'path';
 
+const city = 'Austin, TX';
+
 Cypress.Commands.add('checkSearch', () => {
   cy.axeCheck();
 
   // Search
-  cy.get('#street-city-state-zip', { timeout: 10000 })
-    .should('not.be.disabled')
-    .type('Austin, TX', { force: true });
+  [...city].forEach(char => {
+    cy.get('#street-city-state-zip').type(char);
+  });
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
 
@@ -41,16 +43,8 @@ describe('Mobile', () => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
     });
-  });
-
-  beforeEach(() => {
-    cy.route('GET', '/v0/maintenance_windows', []);
-    cy.route(
-      'GET',
-      '/v1/facilities/va?*',
-      'fx:constants/mock-facility-data-v1',
-    ).as('searchFacilities');
-    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
+    cy.visit('/find-locations');
+    cy.injectAxe();
   });
 
   it('should render in mobile layouts and tabs actions work', () => {
@@ -75,9 +69,6 @@ describe('Mobile', () => {
   });
 
   it('should render the appropriate elements at each breakpoint', () => {
-    cy.visit('/find-locations');
-    cy.injectAxe();
-
     // desktop - large
     cy.viewport(1008, 1000);
     cy.axeCheck();
@@ -91,7 +82,7 @@ describe('Mobile', () => {
     cy.viewport(1007, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(899, 2);
+      expect($element.width()).closeTo(907, 2);
     });
     cy.get('.desktop-map-container').should('exist');
     cy.get('.react-tabs').should('not.exist');
@@ -100,7 +91,7 @@ describe('Mobile', () => {
     cy.viewport(768, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(660, 2);
+      expect($element.width()).closeTo(675, 2);
     });
     cy.get('.desktop-map-container').should('exist');
     cy.get('.react-tabs').should('not.exist');
@@ -109,7 +100,7 @@ describe('Mobile', () => {
     cy.viewport(481, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(397, 2);
+      expect($element.width()).closeTo(412, 2);
     });
     cy.get('.desktop-map-container').should('not.exist');
     cy.get('.react-tabs').should('exist');
