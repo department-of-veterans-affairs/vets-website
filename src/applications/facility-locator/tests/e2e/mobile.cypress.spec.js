@@ -7,7 +7,9 @@ Cypress.Commands.add('checkSearch', () => {
 
   // Search
   [...city].forEach(char => {
-    cy.get('#street-city-state-zip').type(char);
+    cy.get('#street-city-state-zip')
+      .should('not.be.disabled')
+      .type(char);
   });
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
