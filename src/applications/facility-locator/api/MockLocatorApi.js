@@ -6,7 +6,7 @@ import providerServices from '../constants/mock-provider-services.json';
 import facilityDataJson from '../constants/mock-facility-data.json';
 import providersDataJson from '../constants/mock-facility-data-v1.json';
 import urgentCareData from '../constants/mock-urgent-care-mashup-data.json';
-import { urgentCareServices } from '../config';
+import { urgentCareServices, healthServices } from '../config';
 import { CLINIC_URGENTCARE_SERVICE } from '../constants';
 
 // Immitate network delay
@@ -101,6 +101,13 @@ class MockLocatorApi {
                 loc.attributes.facilityType ===
                 testVAFacilityTypes[locationType],
             );
+          }
+
+          if (
+            locationType === 'health' &&
+            serviceType === Object.keys(healthServices)[5]
+          ) {
+            locationsData = [providersDataJson.data[1]];
           }
 
           locations.data = locationsData;
