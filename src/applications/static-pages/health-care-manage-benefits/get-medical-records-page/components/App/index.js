@@ -37,6 +37,7 @@ export const App = ({
 
 App.propTypes = {
   // From mapStateToProps.
+  authenticatedWithSSOe: PropTypes.bool,
   facilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,

@@ -413,6 +413,7 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
   cernerfacilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
