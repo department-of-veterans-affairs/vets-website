@@ -23,7 +23,9 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('.facility-result').should('exist');
 
   // Switch tab map
-  cy.get('#react-tabs-2').click();
+  cy.get('#react-tabs-2')
+    .should('not.be.disabled')
+    .click({ waitForAnimations: true, force: true });
 
   // Ensure map is visible
   cy.get('#mapbox-gl-container').should('be.visible');
