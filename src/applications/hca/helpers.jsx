@@ -88,6 +88,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     }
   }
 
+  console.log('submitData', JSON.stringify(newData, null, 2));
+
   return {
     metadata,
     formData: newData,
@@ -125,6 +127,7 @@ export function transform(formConfig, form) {
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
   const hasMultipleAddress = form.data['view:hasMultipleAddress'];
+  const addressesMatch = form.data['view:doesPermanentAddressMatchMailing'];
 
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
@@ -137,7 +140,7 @@ export function transform(formConfig, form) {
   }
 
   // duplicate address before submit if they are the same
-  if (hasMultipleAddress) {
+  if (hasMultipleAddress && addressesMatch) {
     withoutViewFields.veteranMailingAddress = withoutViewFields.veteranAddress;
   }
 
