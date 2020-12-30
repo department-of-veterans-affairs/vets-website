@@ -10,7 +10,7 @@ import {
   isValidFileType,
   setFocus,
   FILE_TYPES,
-} from '../components/utils/fileValidation';
+} from '../utils/fileValidation';
 
 const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
   const acceptedFileTypes = FILE_TYPES.map(type => `${type}`).join(', ');
