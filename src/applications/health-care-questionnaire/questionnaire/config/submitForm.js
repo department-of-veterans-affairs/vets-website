@@ -18,7 +18,13 @@ const createAnAnswer = valueString => ({ valueString });
 const transformForSubmit = (_formConfig, form) => {
   // console.log({ formConfig, form });
   const { questionnaireId, appointmentId } = form.data['hidden:fields'];
-  const { reasonForVisitDescription, lifeEvents, questions } = form.data;
+  const {
+    reasonForVisit,
+    reasonForVisitDescription,
+    lifeEvents,
+    questions,
+  } = form.data;
+  const additionalQuestions = questions || [];
   return {
     appointmentId,
     questionnaireId,
@@ -26,7 +32,7 @@ const transformForSubmit = (_formConfig, form) => {
       {
         linkId: '01',
         text: 'What is the reason for this appointment?',
-        answer: [createAnAnswer('Some reason to visit')],
+        answer: [createAnAnswer(reasonForVisit)],
       },
       {
         linkId: '02',
@@ -45,7 +51,7 @@ const transformForSubmit = (_formConfig, form) => {
         text:
           'Do you have other questions you want to ask your provider? Please enter them below with your most important question listed first.',
         answer: [
-          ...questions
+          ...additionalQuestions
             .filter(answer => answer.additionalQuestions)
             .map(answer => createAnAnswer(answer.additionalQuestions)),
         ],

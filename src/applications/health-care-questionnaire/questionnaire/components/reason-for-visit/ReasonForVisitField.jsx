@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getBookingNoteFromAppointment } from '../../utils';
 
-const ReasonForVisitField = ({ appointment }) => {
+const ReasonForVisitField = ({ appointment, onChange }) => {
   const bookingNote = getBookingNoteFromAppointment(appointment);
+  useEffect(
+    () => {
+      if (bookingNote?.reasonForVisit) {
+        onChange(bookingNote?.reasonForVisit);
+      }
+    },
+    [onChange, bookingNote],
+  );
   if (bookingNote?.reasonForVisit) {
     return (
       <section data-testid="reason-for-visit">
