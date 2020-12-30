@@ -123,6 +123,8 @@ export function transform(formConfig, form) {
     form,
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
+  const areAddressesTheSame = form.data['view:hasMultipleAddress'];
+  const hasMultipleAddress = form.data['view:hasMultipleAddress'];
 
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
@@ -132,6 +134,16 @@ export function transform(formConfig, form) {
   // convert `attachmentId` values to a `dd214` boolean
   if (withoutViewFields.attachments) {
     withoutViewFields = transformAttachments(withoutViewFields);
+  }
+
+  // duplicate address before submit if they are the same
+  if (hasMultipleAddress && areAddressesTheSame) {
+    withoutViewFields.veteranMailingAddress = withoutViewFields.veteranAddress;
+  }
+
+  // if feature flip is off remove second address
+  if (!hasMultipleAddress) {
+    delete withoutViewFields.veteranMailingAddress;
   }
 
   const formData =

@@ -231,7 +231,6 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-
   defaultDefinitions: {
     date,
     provider,
