@@ -1,6 +1,6 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
-const submitForm = (form, formConfig) => {
+const submit = (form, formConfig) => {
   const body = JSON.stringify(formConfig.transformForSubmit(formConfig, form));
 
   const eventData = {};
@@ -14,6 +14,7 @@ const submitForm = (form, formConfig) => {
 };
 
 const transformForSubmit = (_formConfig, _form) => {
+  // console.log({ formConfig, form });
   return {
     appointmentId: 'ABC-123-from-state',
     questionnaireId: 'XYZ-123-from-state',
@@ -61,4 +62,4 @@ const transformForSubmit = (_formConfig, _form) => {
   };
 };
 
-export { submitForm, transformForSubmit };
+export { submit, transformForSubmit };
