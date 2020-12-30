@@ -9,6 +9,7 @@ import ReasonForVisit from '../components/reason-for-visit';
 import ReasonForVisitDescription from '../components/reason-for-visit-description';
 import GetHelp from '../components/get-help';
 import ExpiresAt from '../components/expires-at';
+import HiddenFields from '../components/hidden-fields';
 
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -104,6 +105,13 @@ const formConfig = {
           path: 'reason-for-visit',
           title: 'Prepare for Your Appointment',
           uiSchema: {
+            'hidden:fields': {
+              'ui:field': HiddenFields.fields,
+              'ui:options': {
+                hideLabelText: true,
+                hideOnReview: true,
+              },
+            },
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
               'ui:title': ' ',
@@ -151,6 +159,14 @@ const formConfig = {
             type: 'object',
             required: ['reasonForVisitDescription'],
             properties: {
+              'hidden:fields': {
+                type: 'object',
+                properties: {
+                  appointmentId: { type: 'string' },
+                  questionnaireId: { type: 'string' },
+                },
+              },
+
               reasonForVisit: {
                 type: 'string',
               },
